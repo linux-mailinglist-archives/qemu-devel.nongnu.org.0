@@ -2,88 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D35696F5AB7
+	by mail.lfdr.de (Postfix) with ESMTPS id D60236F5AB8
 	for <lists+qemu-devel@lfdr.de>; Wed,  3 May 2023 17:12:16 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1puE7t-0006gj-S6; Wed, 03 May 2023 11:10:41 -0400
+	id 1puE8l-0007CD-59; Wed, 03 May 2023 11:11:35 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1puE7r-0006fC-A2
- for qemu-devel@nongnu.org; Wed, 03 May 2023 11:10:39 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1puE7b-0004GD-Bt
- for qemu-devel@nongnu.org; Wed, 03 May 2023 11:10:38 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1683126622;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=l+seuuDcwXGP9E4dAMeUcmrbjbZK9Sq/rTzFADY5C34=;
- b=gGWOp18R9hkNttny/0jz2AmFKK2Sy+qgzWs6d5qcsF+vEQCyymAgSkrE/sRuAFE3OgkbFD
- Ksm1zmuRAnBxL2Y4iKcMxcfD/FB0M/1ZCVec5ZB9+Px9tuaefjShbE0O9NF7d4m/LOGxot
- jnE0lzvmvUFEALVInx0tev0p/YkQhrU=
-Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
- [209.85.219.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-547-TCCIzhq2Omao9c4zWFmiYw-1; Wed, 03 May 2023 11:10:19 -0400
-X-MC-Unique: TCCIzhq2Omao9c4zWFmiYw-1
-Received: by mail-qv1-f69.google.com with SMTP id
- 6a1803df08f44-61b6f717b6eso2097566d6.0
- for <qemu-devel@nongnu.org>; Wed, 03 May 2023 08:10:19 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
+ id 1puE8g-00076O-Vt
+ for qemu-devel@nongnu.org; Wed, 03 May 2023 11:11:32 -0400
+Received: from mail-pf1-x432.google.com ([2607:f8b0:4864:20::432])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
+ id 1puE8f-00050A-6u
+ for qemu-devel@nongnu.org; Wed, 03 May 2023 11:11:30 -0400
+Received: by mail-pf1-x432.google.com with SMTP id
+ d2e1a72fcca58-63b5c830d5eso3743335b3a.2
+ for <qemu-devel@nongnu.org>; Wed, 03 May 2023 08:11:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=daynix-com.20221208.gappssmtp.com; s=20221208; t=1683126686; x=1685718686;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=IK4RKn772XuE9DmFRHuIR+81zYQN8HAkbugsJ5Rn9fo=;
+ b=qhEDbEk94MP7KohNZ0JLhBbbDFYjcFI7ZNeB7Rcuv20tP+6eW5NVgPhbKOFd+kpg3U
+ 6Xiv65DHa6oJr0yi1C+zMKpcZ8Ega/aorV1MbCvhbjdrdiCauOFCmvhuykYcxvtAJLFn
+ R3BHPC18f7sX1PR+St2VGw9M3dl6Lf6CcsaekKo/4wDLOjjrbNPdYGNh8m62YwivYos4
+ igaao/ykY2oSdZHCOkp3JcZUrOMhnEzEIZWK3BV+d+VbackywT2SaTNApPDrkMBDjNk7
+ mVWEBKlYuyhM+2WPpMQQaSw8y4kpVv2ckJFsF5q2BsVZTJiNt3kOkgjNWhFD67aThjK8
+ tK/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683126619; x=1685718619;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=l+seuuDcwXGP9E4dAMeUcmrbjbZK9Sq/rTzFADY5C34=;
- b=f/sll4Y+tSlilpjfXRCfZOWnFc4do2ZHvpDku7MtZEs8btaC7JrMQ5Y33+UhSSAuTt
- XZWozYDc5AF5A53ACgfJ6FS70Xud3seX2YywpkJM4Aii/ODJXkj992zJwgNGgz+T5MAp
- zf/8Rntfo/v05SEsaR+Z5WuSWonyZQQmwY23HleqfjgwCZ84SzNlkIasEqFEkLLO1056
- zhoysi8cz9pSI3SWsfr53o8ahkC8XSMB4gLsCi2cPBQXAkzDBSECnVY6qEO4Inql6YtI
- RBq8mf9zZwlyUI7h/U8z12Ppw4VtcEyhgSpaquNXA/xxQ+H43dv8Mc5HfT+Fvfnu3WwG
- O0yg==
-X-Gm-Message-State: AC+VfDxFsWO5nvtKVPQyS+rdAqfkDqrlSs2llC9TDvrlQ88BqGIEtqW+
- FEDarjjkE2AjzZTkQHTsqJTE6Na8M4+eYvcGsSwNfKcZFpJGulcC1vhaJIjFnqJYCVLzfHxLieD
- K7gOtCTjaLlaCuCU=
-X-Received: by 2002:a05:6214:4104:b0:5ad:cd4b:3765 with SMTP id
- kc4-20020a056214410400b005adcd4b3765mr9257917qvb.1.1683126618821; 
- Wed, 03 May 2023 08:10:18 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ7THjRx30NT/Pdj6ikyL5bXxt3Ysh1hG9VDdzL2SCZSqvZR0lIG08HG7YVWQ248mq9tWnPXRw==
-X-Received: by 2002:a05:6214:4104:b0:5ad:cd4b:3765 with SMTP id
- kc4-20020a056214410400b005adcd4b3765mr9257894qvb.1.1683126618558; 
- Wed, 03 May 2023 08:10:18 -0700 (PDT)
-Received: from x1n (bras-base-aurron9127w-grc-40-70-52-229-124.dsl.bell.ca.
- [70.52.229.124]) by smtp.gmail.com with ESMTPSA id
- z34-20020a05620a262200b0074ca7c33b79sm10770648qko.23.2023.05.03.08.10.16
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 03 May 2023 08:10:17 -0700 (PDT)
-Date: Wed, 3 May 2023 11:10:16 -0400
-From: Peter Xu <peterx@redhat.com>
-To: Leonardo Bras <leobras@redhat.com>
-Cc: Eduardo Habkost <eduardo@habkost.net>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Yanan Wang <wangyanan55@huawei.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org
-Subject: Re: [PATCH v1 1/1] hw/pci: Disable PCI_ERR_UNCOR_MASK register for
- machine type < 8.0
-Message-ID: <ZFJ5WLQRo656hqz9@x1n>
-References: <20230503002701.854329-1-leobras@redhat.com>
+ d=1e100.net; s=20221208; t=1683126686; x=1685718686;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=IK4RKn772XuE9DmFRHuIR+81zYQN8HAkbugsJ5Rn9fo=;
+ b=VD6im53oEHKWinQtj7sVS6RSdQXAsb9/VDvavF9nrS97h2Hs0VejHUpWa0rqWfRmiS
+ IzgzpoGxGpEwME3zOkNbk4tZSF1R1wwUUeSz+DLNk8C9WanUf011O7ZsrRbo+0Xjg3ku
+ Y+wyl/4Jhd/0w+kMc2sAc+IUWgKplogfcG/BdRWy6cV8Mmf1bhtamQ7aW5g5rXkHxcqy
+ WoMk+xy5uCgyTEZXTcrCgx4Bf5GknCJkvk1aZNdCEes2dcfxuDTnkUn1MeO1eoIaI+3L
+ YmLDoJu5RGW9Y+vdXS08BVbeAxAG2szKFxmn+dROIoDBDPCuwTmj+Iw336IFKhgXe+sO
+ zDMQ==
+X-Gm-Message-State: AC+VfDxHGasooMWmJVDCRG5hOTmx+Tc3J37oPeyZ4j/hM8mpo2sjw0kv
+ vBhkIUPQibTujLWEqrSFasS3ng==
+X-Google-Smtp-Source: ACHHUZ7l/IHUc5FgrYWGque1+fvAjzmhKBOQ7VgHMozktCGGKAl92uhzDZphNPl4UT8g4WGpH1iBWg==
+X-Received: by 2002:a05:6a21:1185:b0:f0:1ae9:f221 with SMTP id
+ oj5-20020a056a21118500b000f01ae9f221mr23019670pzb.12.1683126686540; 
+ Wed, 03 May 2023 08:11:26 -0700 (PDT)
+Received: from ?IPV6:2400:4050:a840:1e00:4457:c267:5e09:481b?
+ ([2400:4050:a840:1e00:4457:c267:5e09:481b])
+ by smtp.gmail.com with ESMTPSA id
+ k128-20020a632486000000b00502ecc282e2sm20660920pgk.5.2023.05.03.08.11.24
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 03 May 2023 08:11:26 -0700 (PDT)
+Message-ID: <918fad48-4c0e-f68b-7144-9ef7822cd218@daynix.com>
+Date: Thu, 4 May 2023 00:11:23 +0900
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20230503002701.854329-1-leobras@redhat.com>
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -22
-X-Spam_score: -2.3
-X-Spam_bar: --
-X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.161,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH v3 1/2] igb: RX descriptors handling cleanup
+To: Sriram Yagnaraman <sriram.yagnaraman@est.tech>,
+ "Tomasz Dzieciol/VIM Integration (NC) /SRPOL/Engineer/Samsung Electronics"
+ <t.dzieciol@partner.samsung.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Cc: "jasowang@redhat.com" <jasowang@redhat.com>,
+ "k.kwiecien@samsung.com" <k.kwiecien@samsung.com>,
+ "m.sochacki@samsung.com" <m.sochacki@samsung.com>
+References: <20230427104743.9072-1-t.dzieciol@partner.samsung.com>
+ <CGME20230427104750eucas1p1158eee5a37c71cacaea021a7abbd6ace@eucas1p1.samsung.com>
+ <20230427104743.9072-2-t.dzieciol@partner.samsung.com>
+ <DBBP189MB14338337B5EE87A7280E553795699@DBBP189MB1433.EURP189.PROD.OUTLOOK.COM>
+ <000001d97cfe$800e79b0$802b6d10$@partner.samsung.com>
+ <DBBP189MB1433AA631D3115FFE5D449E7956C9@DBBP189MB1433.EURP189.PROD.OUTLOOK.COM>
+Content-Language: en-US
+From: Akihiko Odaki <akihiko.odaki@daynix.com>
+In-Reply-To: <DBBP189MB1433AA631D3115FFE5D449E7956C9@DBBP189MB1433.EURP189.PROD.OUTLOOK.COM>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: none client-ip=2607:f8b0:4864:20::432;
+ envelope-from=akihiko.odaki@daynix.com; helo=mail-pf1-x432.google.com
+X-Spam_score_int: -61
+X-Spam_score: -6.2
+X-Spam_bar: ------
+X-Spam_report: (-6.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, NICE_REPLY_A=-4.28, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -100,33 +105,32 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, May 02, 2023 at 09:27:02PM -0300, Leonardo Bras wrote:
-> Since it's implementation on v8.0.0-rc0, having the PCI_ERR_UNCOR_MASK
-> set for machine types < 8.0 will cause migration to fail if the target
-> QEMU version is < 8.0.0 :
+On 2023/05/03 16:46, Sriram Yagnaraman wrote:
 > 
-> qemu-system-x86_64: get_pci_config_device: Bad config data: i=0x10a read: 40 device: 0 cmask: ff wmask: 0 w1cmask:0
-> qemu-system-x86_64: Failed to load PCIDevice:config
-> qemu-system-x86_64: Failed to load e1000e:parent_obj
-> qemu-system-x86_64: error while loading state for instance 0x0 of device '0000:00:02.0/e1000e'
-> qemu-system-x86_64: load of migration failed: Invalid argument
 > 
-> The above test migrated a 7.2 machine type from QEMU master to QEMU 7.2.0,
-> with this cmdline:
+>> -----Original Message-----
+>> From: Tomasz Dzieciol/VIM Integration (NC) /SRPOL/Engineer/Samsung
+>> Electronics <t.dzieciol@partner.samsung.com>
+>> Sent: Tuesday, 2 May 2023 16:01
+>> To: Sriram Yagnaraman <sriram.yagnaraman@est.tech>; qemu-
+>> devel@nongnu.org; akihiko.odaki@daynix.com
+>> Cc: jasowang@redhat.com; k.kwiecien@samsung.com;
+>> m.sochacki@samsung.com
+>> Subject: RE: [PATCH v3 1/2] igb: RX descriptors handling cleanup
+>>
+>> Not Linux/DPDK/FreeBSD for IGB.
+>>
+>> Change here adds additional condition (RXCSUM.IPPCSE set) to enable putting
+>> IP ID into descriptor, besides clearing RXCSUM.PCSD (required according to
+>> Intel 82576 datasheet) that was not present in the e1000e code.
+>>
 > 
-> ./qemu-system-x86_64 -M pc-q35-7.2 [-incoming XXX]
-> 
-> In order to fix this, property x-pcie-err-unc-mask was introduced to
-> control when PCI_ERR_UNCOR_MASK is enabled. This property is enabled by
-> default, but is disabled if machine type <= 7.2.
-> 
-> Fixes: 010746ae1d ("hw/pci/aer: Implement PCI_ERR_UNCOR_MASK register")
-> Suggested-by: Michael S. Tsirkin <mst@redhat.com>
-> Signed-off-by: Leonardo Bras <leobras@redhat.com>
+> Yes, we can't even use ethtool to set this field.
+> My suggestion is to not add/maintain code that we cannot test. I leave it up to Akhikho to decide if we really need to implement IPPCSE.
+> The default value of RXCSUM.IPPCSE is unset, so we could as well ignore this field until there is a user who sets this.
 
-Reviewed-by: Peter Xu <peterx@redhat.com>
-
--- 
-Peter Xu
-
+In general I won't reject a patch to implement a feature not used by a 
+known guest, but I don't recommend that. It just doesn't make sense to 
+spend time to write code that can turn out so buggy that it is unusable 
+in practice, which is often the case with untested code.
 
