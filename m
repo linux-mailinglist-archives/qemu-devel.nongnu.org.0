@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6EA686F5464
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 May 2023 11:17:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 10BAA6F5432
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 May 2023 11:14:24 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pu8Xn-0004Gf-Aw; Wed, 03 May 2023 05:13:03 -0400
+	id 1pu8YS-0005mi-IU; Wed, 03 May 2023 05:13:44 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pu8Xl-0004C5-0b
- for qemu-devel@nongnu.org; Wed, 03 May 2023 05:13:01 -0400
-Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c])
+ id 1pu8Xq-0004P9-GE
+ for qemu-devel@nongnu.org; Wed, 03 May 2023 05:13:09 -0400
+Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pu8Xb-0005sN-CU
- for qemu-devel@nongnu.org; Wed, 03 May 2023 05:13:00 -0400
-Received: by mail-wm1-x32c.google.com with SMTP id
- 5b1f17b1804b1-3f1950f5676so50266105e9.3
- for <qemu-devel@nongnu.org>; Wed, 03 May 2023 02:12:50 -0700 (PDT)
+ id 1pu8Xc-0005ts-N3
+ for qemu-devel@nongnu.org; Wed, 03 May 2023 05:13:06 -0400
+Received: by mail-wm1-x32e.google.com with SMTP id
+ 5b1f17b1804b1-3f18335a870so30084295e9.0
+ for <qemu-devel@nongnu.org>; Wed, 03 May 2023 02:12:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1683105168; x=1685697168;
+ d=linaro.org; s=google; t=1683105170; x=1685697170;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=7PFj4eIUaihGsJoKv8B5FRcn5X+Xksm/i/JPGpiTgTM=;
- b=IcbLT8YcJbi98CWXU4bx8gvJM91v67dSWmRDefk4A8vRO7iWvzqWMOD3wX9TOLfmA8
- Wbu4mBG3s7LiRNRyuWGHT/rQ9hzQDqFPOsuab+nRPSOm/UJgaiBKPCtY7FEtrNFI2chn
- UxeVfpFK4cLh7HcWLyqFM3+owKLtr+D/3/J1EmfEhFLxS2RMPTtnikgxw0VaofYj8WR6
- HvlHLudKJ2mIqwDSxs2fRoif+sguePdCL17RXgVhjUU7vOC5kd7U5RkrSO43k0MgB7D6
- djdVRsKdkD9hyh7zyvTMB3vBujn7X0bOWfbMjvxujs9E4Zt1FOKFfVsn0qGFyKDRwkwg
- c7lQ==
+ bh=CJIZUc7aZgGYP7XQ7psrxYa21EZeauWd7EvhUiQOMlw=;
+ b=vsKdKy5I0o9FKkKWelXTt0Go0g2AQwlndClyC9sL5bhPHbLoYzOnlqxOmFEUxtVoXr
+ +mrnbhwz4oxoVqh2SyfetPD7oiv7wRZxLFT/n1qFIL6Ag+QnIuunnVxsN9GLSEE346fM
+ yYfBPudmyoArPOYB4OGXnDpqDJgMYVsftqXp1JO9NT85CUOgRtZSqmpjHq38BQKNj+wv
+ SS+7ba4s/xpPq4g9sFAC3L4i1JzOpJ4AZvyGIygZUjIdeOkS9I+hJWiXWUwWUPWzByY2
+ 1rARsDUQeLer3oLiZ35Iabee+acrl0t931g+4y+HQMp6l+44+YK4nid94K4TM3NOoN1G
+ b+cA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683105168; x=1685697168;
+ d=1e100.net; s=20221208; t=1683105170; x=1685697170;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=7PFj4eIUaihGsJoKv8B5FRcn5X+Xksm/i/JPGpiTgTM=;
- b=ZCVFya5YeI0C5jwA6pJ5qcvdMHRF9bz2so2UEVAC7oAWJ7zi2GfphXYx+fbNze1cQB
- OQ2sfqrRQ8wKHxSrMKcFZEvtDrzDXBM8Grejaqx8YuZ2Be3sojbgkEjW9dCe67YvT80u
- NixExaITONtQzmYwIzbaOJ/722ONCehIoRL5pMBM7Fth/3/LJOSAZTdnF4hB026p7Ujn
- zGy5c8wLyffmBQrkzd63NIFyXihsjMQKe6XHha8KjMqk+o2FqbMNMv1w+khtZyf2/ZlK
- aVvIGcUN1TbpQFmPgZxFm0fvkvAC83NinJGwTsNmsChP1jssTrBgsU7zb53EUakLkux7
- HdMQ==
-X-Gm-Message-State: AC+VfDwICF4TxCdZPWu5sMTLxRRGjYhjRxRzsY1BLtTXwHEVYchgVQlu
- ZlYyhXrCyZ2gZeRSBBk2Fg90xA==
-X-Google-Smtp-Source: ACHHUZ7uVwohLnzqlqa4SpFlwU5DA7ToSWqhe12+o2njYfZaqXcGYJ3baG+WPcA1nXk06MZVH3o0qQ==
-X-Received: by 2002:adf:e64b:0:b0:306:4569:34a0 with SMTP id
- b11-20020adfe64b000000b00306456934a0mr491835wrn.69.1683105168698; 
- Wed, 03 May 2023 02:12:48 -0700 (PDT)
+ bh=CJIZUc7aZgGYP7XQ7psrxYa21EZeauWd7EvhUiQOMlw=;
+ b=ImXmWOVhA2b9h4B5A2IDk8yeIIDoYLmluUjkx5E8BZdTTILXn7ytI3OD89SYtH2ajf
+ GdiEgrlGRrj/PcHxE4ipY2VbsUC7OmkzQsX0a3KAe7uh0dyLvjJaaf4Qq2Z3/KcBCGfk
+ Zof8ck+ybw9WE0EcxBGdUgZ6wY9IIExDDwABCmpYxwpagrGr2kZ2ukPmmGby+627GeVi
+ Makd8LBwIPUO25r8E558nNtJsUqxI2tes44X8C0OvqNddprISiNE/9CRfrk2DBmdkher
+ yYbkDnqfsskBLH9CgN8Ycu9GsTeob25hQQlcGBx2T0XRwNA96bUqFsoHhBwjWH8aHxiv
+ 2z6w==
+X-Gm-Message-State: AC+VfDypg9tQ6H3x/QEtCVtFFEG6IoleNVAaU6dsyh1dBinmyMvYT+WS
+ ps+OblgVYYvCwPWNU/SqiGNnnw==
+X-Google-Smtp-Source: ACHHUZ7WPJqUBgTpc/tmzlw4wmNyIXrGFmAl+jFslV6qJKlBCaphuIUUlmUkHgK30XoO415piWyn2A==
+X-Received: by 2002:a05:600c:2209:b0:3f1:94fe:65e2 with SMTP id
+ z9-20020a05600c220900b003f194fe65e2mr13719832wml.33.1683105170694; 
+ Wed, 03 May 2023 02:12:50 -0700 (PDT)
 Received: from zen.linaroharston ([85.9.250.243])
  by smtp.gmail.com with ESMTPSA id
- y11-20020adfe6cb000000b002f81b4227cesm33420949wrm.19.2023.05.03.02.12.46
+ z19-20020a7bc7d3000000b003edef091b17sm1252787wmk.37.2023.05.03.02.12.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 03 May 2023 02:12:47 -0700 (PDT)
+ Wed, 03 May 2023 02:12:48 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 12D7B1FFBA;
+ by zen.linaroharston (Postfix) with ESMTP id 2AB021FFC4;
  Wed,  3 May 2023 10:12:46 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
@@ -89,19 +89,18 @@ Cc: Laurent Vivier <lvivier@redhat.com>,
  Markus Armbruster <armbru@redhat.com>, Song Gao <gaosong@loongson.cn>,
  Joel Stanley <joel@jms.id.au>,
  =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Fabiano Rosas <farosas@suse.de>
-Subject: [PATCH 10/22] hw/arm: Select VGA_PCI for sbsa-ref machine
-Date: Wed,  3 May 2023 10:12:32 +0100
-Message-Id: <20230503091244.1450613-11-alex.bennee@linaro.org>
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+Subject: [PATCH 11/22] hw/alpha: make E1000_PCI a hard dependency for clipper
+Date: Wed,  3 May 2023 10:12:33 +0100
+Message-Id: <20230503091244.1450613-12-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230503091244.1450613-1-alex.bennee@linaro.org>
 References: <20230503091244.1450613-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -124,31 +123,28 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Fabiano Rosas <farosas@suse.de>
+We can't just imply it as the board will fail to create otherwise.
+This shows up as a "make check" failure with a
+--without-default-devices build.
 
-The sbsa-ref machine explicitly creates a VGA PCI device, so make sure
-vga-pci.c is included in the build.
-
-Signed-off-by: Fabiano Rosas <farosas@suse.de>
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20230208192654.8854-11-farosas@suse.de>
 ---
- hw/arm/Kconfig | 1 +
- 1 file changed, 1 insertion(+)
+ hw/alpha/Kconfig | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
-index 06f58d1a6f..9e6e7ababe 100644
---- a/hw/arm/Kconfig
-+++ b/hw/arm/Kconfig
-@@ -254,6 +254,7 @@ config SBSA_REF
-     select WDT_SBSA
-     select ARM_GICV3_TCG
-     select E1000E_PCI_EXPRESS
-+    select VGA_PCI
- 
- config SABRELITE
+diff --git a/hw/alpha/Kconfig b/hw/alpha/Kconfig
+index 9af650c94e..4db7f84e9e 100644
+--- a/hw/alpha/Kconfig
++++ b/hw/alpha/Kconfig
+@@ -2,7 +2,7 @@ config DP264
      bool
+     imply PCI_DEVICES
+     imply TEST_DEVICES
+-    imply E1000_PCI
++    select E1000_PCI
+     select I82378
+     select IDE_CMD646
+     select MC146818RTC
 -- 
 2.39.2
 
