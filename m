@@ -2,66 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A2386F6044
+	by mail.lfdr.de (Postfix) with ESMTPS id 586CF6F6043
 	for <lists+qemu-devel@lfdr.de>; Wed,  3 May 2023 22:41:07 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1puJGY-0007gA-Nt; Wed, 03 May 2023 16:39:58 -0400
+	id 1puJGZ-0007gJ-Am; Wed, 03 May 2023 16:39:59 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farosas@suse.de>) id 1puJGV-0007fZ-T7
- for qemu-devel@nongnu.org; Wed, 03 May 2023 16:39:55 -0400
-Received: from smtp-out1.suse.de ([195.135.220.28])
+ (Exim 4.90_1) (envelope-from <farosas@suse.de>) id 1puJGX-0007fi-Hn
+ for qemu-devel@nongnu.org; Wed, 03 May 2023 16:39:57 -0400
+Received: from smtp-out2.suse.de ([2001:67c:2178:6::1d])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <farosas@suse.de>) id 1puJGU-0005sB-5i
- for qemu-devel@nongnu.org; Wed, 03 May 2023 16:39:55 -0400
+ (Exim 4.90_1) (envelope-from <farosas@suse.de>) id 1puJGV-0005sW-Ub
+ for qemu-devel@nongnu.org; Wed, 03 May 2023 16:39:57 -0400
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 2719022CC8;
- Wed,  3 May 2023 20:39:52 +0000 (UTC)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 66928206E3;
+ Wed,  3 May 2023 20:39:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1683146392; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1683146394; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=CW5N2sb6QQGge4NAB+23cfup6DYQS1lI0L5825RZaGw=;
- b=NL4pSfPRi7MkPAjitmiKdggsA3SjmV89HZnapxiosHYvvjN9GTCgK1HbgddrT+07A+iHFP
- ygIxEYtcBU1dZIFXaJfTZ0JNBC+kqeAOrptOt36X5EDd9lpLJNaBWlJ3GNKB2YuFiFvd9z
- hcGPe2zoR+fcqxQVCbbx7ChKoBBQFj4=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=MTUxCHqiQybvi1dONKBH/ejbHi2JtFT3ch8bE8x75TE=;
+ b=FzkmsQ4hU5o4+HBbO9IzufQJJOZ9thXO7weWBWlSFrpA1uTZxYiX4+C+sVcUtHW0YRlGOh
+ dbSVctKt8pUZ752Yge1sYx1nFXi8pmh52rclQhi0wvcZWlIv+X6mAtoAWlL3gsa7e0TKHr
+ /h1FJSd0L2RlgsbpKKEaOXv/CJ/wL3c=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1683146392;
+ s=susede2_ed25519; t=1683146394;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=CW5N2sb6QQGge4NAB+23cfup6DYQS1lI0L5825RZaGw=;
- b=63L1mASd0yxgUgVqQ5ukeBbw+EGGli3WizfjBWpePgGrttkfmFhjMGdxLedti9VCbXhBml
- 2D1O++H5gZuACTAg==
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=MTUxCHqiQybvi1dONKBH/ejbHi2JtFT3ch8bE8x75TE=;
+ b=yNpB4UjSU5b3kbvfMQdGsoP7S81wgQugfLpPVok4bxsBD8tOA1WbM5eb5h0xieMytZ2bKn
+ ylcXxktt+KnsklCw==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 59FF913584;
- Wed,  3 May 2023 20:39:50 +0000 (UTC)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 9A48613584;
+ Wed,  3 May 2023 20:39:52 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id eebKB5bGUmRofAAAMHmgww
- (envelope-from <farosas@suse.de>); Wed, 03 May 2023 20:39:50 +0000
+ by imap2.suse-dmz.suse.de with ESMTPSA id SPVUGJjGUmRofAAAMHmgww
+ (envelope-from <farosas@suse.de>); Wed, 03 May 2023 20:39:52 +0000
 From: Fabiano Rosas <farosas@suse.de>
 To: qemu-devel@nongnu.org
 Cc: =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>,
  =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
  Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>
-Subject: [PATCH v4 0/2] docs: Speedup docs build
-Date: Wed,  3 May 2023 17:39:45 -0300
-Message-Id: <20230503203947.3417-1-farosas@suse.de>
+Subject: [PATCH v4 1/2] meson: Pass -j option to sphinx
+Date: Wed,  3 May 2023 17:39:46 -0300
+Message-Id: <20230503203947.3417-2-farosas@suse.de>
 X-Mailer: git-send-email 2.35.3
+In-Reply-To: <20230503203947.3417-1-farosas@suse.de>
+References: <20230503203947.3417-1-farosas@suse.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=195.135.220.28; envelope-from=farosas@suse.de;
- helo=smtp-out1.suse.de
+Received-SPF: pass client-ip=2001:67c:2178:6::1d; envelope-from=farosas@suse.de;
+ helo=smtp-out2.suse.de
 X-Spam_score_int: -43
 X-Spam_score: -4.4
 X-Spam_bar: ----
@@ -84,136 +88,91 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-We currently have two documentation targets to build:
-- 'man' for the man pages;
-- 'html' for the web page.
+Save a bit of build time by passing the number of jobs option to
+sphinx.
 
-There are two bottlenecks in the process:
+We cannot use  the -j option from make because  meson does not support
+setting build time parameters for custom targets. Use nproc instead or
+the equivalent sphinx option "-j  auto", if that is available (version
+>=1.7.0).
 
-1) sphinx runs with a single process;
-2) the two targets are serialized.
+Also make sure our plugins support parallelism and report it properly
+to sphinx. Particularly, implement the merge_domaindata method in
+DBusDomain that is used to merge in data from other subprocesses.
 
-For (1), we can just add the "-j auto" to sphinx_build and that should
-bring some speed gains.
-
-For (2) it's a little trickier because the reason the builds are
-serialized is that Sphinx keeps track of changed files, but we still
-need a way to tell meson whether a target needs to re-execute, so we
-added dependency tracking and timestamp checking for (only) the 'html'
-build via the depfile.py extension. Since the sources for both builds
-are the same, we made the 'man' build dependent on 'html' so that it
-would rebuild when needed.
-
-So patch 1 adds the -j option to Sphinx and patch 2 adds depfile
-support to the 'man' build. We can now run the two in parallel (ninja
-will take care of that).
-
-On my 16 core machine,
-the -j change saves about 20s
-the depfile change saves about 10s
-
-===
-On master:
- $ ../configure --enable-docs ...
- $ time make -j$(nproc) html man
-   GIT     ui/keycodemapdb meson tests/fp/berkeley-testfloat-3 tests/fp/berkeley-softfloat-3 dtc
- /usr/bin/ninja  build.ninja && touch build.ninja.stamp
- ninja: no work to do.
- /usr/bin/python3 -B .../qemu/meson/meson.py introspect --targets --tests --benchmarks | /usr/bin/python3 -B scripts/mtest2make.py > Makefile.mtest
-   GIT     ui/keycodemapdb meson tests/fp/berkeley-testfloat-3 tests/fp/berkeley-softfloat-3 dtc
- [1/2] Generating docs/QEMU manual with a custom command
- [2/2] Generating docs/QEMU man pages with a custom command
- make: Nothing to be done for 'man'.
-
- real    0m50.155s
- user    0m49.759s
- sys     0m0.761s
-
- $ mv docs ../saved-docs
-
-This series:
- $ ../configure --enable-docs ...
- $ time make -j$(nproc) html man
-   GIT     ui/keycodemapdb meson tests/fp/berkeley-testfloat-3 tests/fp/berkeley-softfloat-3 dtc
- /usr/bin/ninja  build.ninja && touch build.ninja.stamp
- ninja: no work to do.
- /usr/bin/python3 -B .../qemu/meson/meson.py introspect --targets --tests --benchmarks | /usr/bin/python3 -B scripts/mtest2make.py > Makefile.mtest
-   GIT     ui/keycodemapdb meson tests/fp/berkeley-testfloat-3 tests/fp/berkeley-softfloat-3 dtc
- [1/2] Generating docs/QEMU man pages with a custom command
- [2/2] Generating docs/QEMU manual with a custom command
- make: Nothing to be done for 'man'.
-
- real    0m21.708s
- user    1m12.317s
- sys     0m2.056s
-
-Diff sanity check:
- $ diff -rq docs/ ../saved-docs/
- Only in ../saved-docs/: docs.d      # now manual.dep
- Only in ../saved-docs/: docs.stamp  # now manual.stamp
- Only in docs/: man.dep
- Only in docs/: man.p
- Only in docs/: man.stamp
- Only in docs/: manual.dep
- Only in docs/: manual.stamp
- Files docs/manual.p/about/build-platforms.doctree and ../saved-docs/manual.p/about/build-platforms.doctree differ
- ...  # sphinx cache files, a bunch of these^
-
-Rebuilding (here I show that a man file and an html file are
-unchanged, change their source .rst and rebuild each target):
-
- $ ninja -d explain html
- ninja: no work to do.
- $ ninja -d explain man
- ninja: no work to do.
- $ man -l docs/qemu.1 | grep foobar
- $ grep foobar docs/manual/system/i386/pc.html
- $ vi ../docs/system/target-i386-desc.rst.inc    #add the 'foobar' string
-
- $ ninja -d explain man
- ninja explain: restat of output docs/man.stamp older than most recent input docs/system/target-i386-desc.rst.inc (1683122999140339620 vs 1683123032492362281)
- ninja explain: docs/man.stamp is dirty
- ninja explain: docs/qemu-block-drivers.7 is dirty
- ninja explain: docs/qemu-cpu-models.7 is dirty
- ninja explain: docs/qemu-ga-ref.7 is dirty
- ninja explain: docs/qemu-ga.8 is dirty
- ninja explain: docs/qemu-img.1 is dirty
- ninja explain: docs/qemu-nbd.8 is dirty
- ninja explain: docs/qemu-pr-helper.8 is dirty
- ninja explain: docs/qemu-qmp-ref.7 is dirty
- ninja explain: docs/qemu-storage-daemon-qmp-ref.7 is dirty
- ninja explain: docs/qemu-storage-daemon.1 is dirty
- ninja explain: docs/qemu-trace-stap.1 is dirty
- ninja explain: docs/qemu.1 is dirty
- ninja explain: docs/virtfs-proxy-helper.1 is dirty
- [1/1] Generating docs/QEMU man pages with a custom command
-
- $ man -l docs/qemu.1 | grep foobar
-        The QEMU PC System emulator simulates the following foobar peripherals:
- $ grep foobar docs/manual/system/i386/pc.html  #html files unchanged
-
- $ ninja -d explain html
- ninja explain: restat of output docs/manual.stamp older than most recent input docs/system/target-i386-desc.rst.inc (1683122995876337403 vs 1683123032492362281)
- ninja explain: docs/manual.stamp is dirty
- [1/1] Generating docs/QEMU manual with a custom command
-
- $ man -l docs/qemu.1 | grep foobar
-        The QEMU PC System emulator simulates the following foobar peripherals:
- $ grep foobar docs/manual/system/i386/pc.html
- <p>The QEMU PC System emulator simulates the following foobar peripherals:</p>
-
-===
-
-Fabiano Rosas (2):
-  meson: Pass -j option to sphinx
-  meson: Deserialize the man pages and html builds
-
- docs/meson.build           | 48 +++++++++++++++++++++++++-------------
+Tested-by: Daniel P. Berrangé <berrange@redhat.com>
+Signed-off-by: Fabiano Rosas <farosas@suse.de>
+---
+ docs/meson.build           | 12 ++++++++++++
  docs/sphinx/dbusdomain.py  |  4 ++++
- docs/sphinx/fakedbusdoc.py |  5 ++++
- docs/sphinx/qmp_lexer.py   |  5 ++++
- 4 files changed, 46 insertions(+), 16 deletions(-)
+ docs/sphinx/fakedbusdoc.py |  5 +++++
+ docs/sphinx/qmp_lexer.py   |  5 +++++
+ 4 files changed, 26 insertions(+)
 
+diff --git a/docs/meson.build b/docs/meson.build
+index f220800e3e..6d0986579e 100644
+--- a/docs/meson.build
++++ b/docs/meson.build
+@@ -10,6 +10,18 @@ if sphinx_build.found()
+     SPHINX_ARGS += [ '-W', '-Dkerneldoc_werror=1' ]
+   endif
+ 
++  sphinx_version = run_command(SPHINX_ARGS + ['--version'],
++                               check: true).stdout().split()[1]
++  if sphinx_version.version_compare('>=1.7.0')
++    SPHINX_ARGS += ['-j', 'auto']
++  else
++    nproc = find_program('nproc')
++    if nproc.found()
++      jobs = run_command(nproc, check: true).stdout()
++      SPHINX_ARGS += ['-j', jobs]
++    endif
++  endif
++
+   # This is a bit awkward but works: create a trivial document and
+   # try to run it with our configuration file (which enforces a
+   # version requirement). This will fail if sphinx-build is too old.
+diff --git a/docs/sphinx/dbusdomain.py b/docs/sphinx/dbusdomain.py
+index 2ea95af623..9872fd5bf6 100644
+--- a/docs/sphinx/dbusdomain.py
++++ b/docs/sphinx/dbusdomain.py
+@@ -400,6 +400,10 @@ def get_objects(self) -> Iterator[Tuple[str, str, str, str, str, int]]:
+         for refname, obj in self.objects.items():
+             yield (refname, refname, obj.objtype, obj.docname, obj.node_id, 1)
+ 
++    def merge_domaindata(self, docnames, otherdata):
++        for name, obj in otherdata['objects'].items():
++            if obj.docname in docnames:
++                self.data['objects'][name] = obj
+ 
+ def setup(app):
+     app.add_domain(DBusDomain)
+diff --git a/docs/sphinx/fakedbusdoc.py b/docs/sphinx/fakedbusdoc.py
+index d2c5079046..2d2e6ef640 100644
+--- a/docs/sphinx/fakedbusdoc.py
++++ b/docs/sphinx/fakedbusdoc.py
+@@ -23,3 +23,8 @@ def run(self):
+ def setup(app: Sphinx) -> Dict[str, Any]:
+     """Register a fake dbus-doc directive with Sphinx"""
+     app.add_directive("dbus-doc", FakeDBusDocDirective)
++
++    return dict(
++        parallel_read_safe = True,
++        parallel_write_safe = True
++    )
+diff --git a/docs/sphinx/qmp_lexer.py b/docs/sphinx/qmp_lexer.py
+index f7e4c0e198..a59de8a079 100644
+--- a/docs/sphinx/qmp_lexer.py
++++ b/docs/sphinx/qmp_lexer.py
+@@ -41,3 +41,8 @@ def setup(sphinx):
+         sphinx.add_lexer('QMP', QMPExampleLexer)
+     except errors.VersionRequirementError:
+         sphinx.add_lexer('QMP', QMPExampleLexer())
++
++    return dict(
++        parallel_read_safe = True,
++        parallel_write_safe = True
++    )
 -- 
 2.35.3
 
