@@ -2,58 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36E306F5309
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 May 2023 10:21:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 458096F5314
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 May 2023 10:22:33 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pu7ja-0001NJ-CW; Wed, 03 May 2023 04:21:10 -0400
+	id 1pu7kq-0004V7-Jr; Wed, 03 May 2023 04:22:28 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <aesteve@redhat.com>)
- id 1pu7jV-0001Jq-R3
- for qemu-devel@nongnu.org; Wed, 03 May 2023 04:21:05 -0400
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1pu7kp-0004Ui-7a
+ for qemu-devel@nongnu.org; Wed, 03 May 2023 04:22:27 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <aesteve@redhat.com>)
- id 1pu7jR-0002vW-QB
- for qemu-devel@nongnu.org; Wed, 03 May 2023 04:21:04 -0400
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1pu7kn-0004u8-KD
+ for qemu-devel@nongnu.org; Wed, 03 May 2023 04:22:26 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1683102061;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=xuMH/RMynG6FpyWFgp2ZHBxCJ+V8YIpW/nshAl60QIw=;
- b=V+9DZb67whooRaXeoRs/2TBVG5D7qYBK0oyRe0r10dhWxLsgjYSbeI6g4i6ezzNWwYKUfA
- EsQbavbjx/D8ZAXCBcIFp7NSzRBvBTkN2Jsd1U26AptfzTt02F8lvf/cFnD1yJIKo+vOmk
- IkpSz5r+uM2lClZ23Ae1r8jwWOm5+A4=
+ s=mimecast20190719; t=1683102145;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=RJ1EzGhTXMCZTtjxdPKmqPj+OPN74UnqwXzbeJizcwc=;
+ b=NFA8R2lHjsd76Lri1WfDTJlyXKQWc+Lj2dP5OlejbaKsWCd+9LbX8WGnWlFM8rn29b7tt6
+ pHBNsCtuxt5n82GqwxYdbCu4vAMX1vdvrCwu0MawS2ihGC240zNpAtgmROh8B+cqaLjdVg
+ Js9iN4tk4lPQt42FQ9lpR5TdrYCdPjU=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-43-MbYz9V2mMPWSnJ1Qb7N9xA-1; Wed, 03 May 2023 04:19:24 -0400
-X-MC-Unique: MbYz9V2mMPWSnJ1Qb7N9xA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
- [10.11.54.8])
+ us-mta-658-dRb2Ss3vOSqWH4ri22JiNQ-1; Wed, 03 May 2023 04:22:21 -0400
+X-MC-Unique: dRb2Ss3vOSqWH4ri22JiNQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.7])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 741601C09500
- for <qemu-devel@nongnu.org>; Wed,  3 May 2023 08:19:24 +0000 (UTC)
-Received: from localhost.localdomain (unknown [10.45.225.118])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 83107C15BAE;
- Wed,  3 May 2023 08:19:23 +0000 (UTC)
-From: Albert Esteve <aesteve@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: "Michael S. Tsirkin" <mst@redhat.com>, Albert Esteve <aesteve@redhat.com>
-Subject: [PATCH 4/4] libvhost-user: add write_msg cb to dev struct
-Date: Wed,  3 May 2023 10:19:11 +0200
-Message-Id: <20230503081911.119168-5-aesteve@redhat.com>
-In-Reply-To: <20230503081911.119168-1-aesteve@redhat.com>
-References: <20230503081911.119168-1-aesteve@redhat.com>
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 810452999B25;
+ Wed,  3 May 2023 08:22:21 +0000 (UTC)
+Received: from redhat.com (unknown [10.42.28.37])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 71E1E1410F29;
+ Wed,  3 May 2023 08:22:20 +0000 (UTC)
+Date: Wed, 3 May 2023 09:22:18 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Andrew Melnychenko <andrew@daynix.com>
+Cc: jasowang@redhat.com, mst@redhat.com, armbru@redhat.com,
+ eblake@redhat.com, qemu-devel@nongnu.org,
+ yuri.benditovich@daynix.com, yan@daynix.com
+Subject: Re: [PATCH 0/5] eBPF RSS through QMP support.
+Message-ID: <ZFIZupZseawPZEVI@redhat.com>
+References: <20230501072101.22890-1-andrew@daynix.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=aesteve@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20230501072101.22890-1-andrew@daynix.com>
+User-Agent: Mutt/2.2.9 (2022-11-12)
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -22
 X-Spam_score: -2.3
@@ -74,76 +77,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Add vu_write_msg_cb type as a member of the VuDev
-struct.
+On Mon, May 01, 2023 at 10:20:56AM +0300, Andrew Melnychenko wrote:
+> This series of patches provides the ability to retrieve eBPF program
+> through qmp, so management application may load bpf blob with proper capabilities.
+> Now, virtio-net devices can accept eBPF programs and maps through properties
+> as external file descriptors. Access to the eBPF map is direct through mmap()
+> call, so it should not require additional capabilities to bpf* calls.
+> eBPF file descriptors can be passed to QEMU from parent process or by unix
+> socket with sendfd() qmp command.
+> 
+> Possible solution for libvirt may look like this: https://github.com/daynix/libvirt/tree/RSS_eBPF (WIP)
 
-In order to interact with the virtio-dmabuf
-API, vhost-user backends have available a special
-message type that can be sent to the frontend
-in Qemu, in order to add, lookup, or remove
-entries.
+Is that complete enough to be running guests ? If so, have you
+successfully tested with a QEMU running under qemu:///system
+as the qemu:qemu user, to prove it works without any extra
+capabilities being needed ?
 
-To send these messages and avoid code replication,
-backends will need the write_msg method to be exposed
-to them, similarly to how the read_msg is for
-receiving messages.
-
-Signed-off-by: Albert Esteve <aesteve@redhat.com>
----
- subprojects/libvhost-user/libvhost-user.c |  1 +
- subprojects/libvhost-user/libvhost-user.h | 16 ++++++++++++++++
- 2 files changed, 17 insertions(+)
-
-diff --git a/subprojects/libvhost-user/libvhost-user.c b/subprojects/libvhost-user/libvhost-user.c
-index 6b4b721225..c50b353915 100644
---- a/subprojects/libvhost-user/libvhost-user.c
-+++ b/subprojects/libvhost-user/libvhost-user.c
-@@ -2115,6 +2115,7 @@ vu_init(VuDev *dev,
-     dev->sock = socket;
-     dev->panic = panic;
-     dev->read_msg = read_msg ? read_msg : vu_message_read_default;
-+    dev->write_msg = vu_message_write;
-     dev->set_watch = set_watch;
-     dev->remove_watch = remove_watch;
-     dev->iface = iface;
-diff --git a/subprojects/libvhost-user/libvhost-user.h b/subprojects/libvhost-user/libvhost-user.h
-index 784db65f7c..f5d7162886 100644
---- a/subprojects/libvhost-user/libvhost-user.h
-+++ b/subprojects/libvhost-user/libvhost-user.h
-@@ -242,6 +242,7 @@ typedef void (*vu_set_features_cb) (VuDev *dev, uint64_t features);
- typedef int (*vu_process_msg_cb) (VuDev *dev, VhostUserMsg *vmsg,
-                                   int *do_reply);
- typedef bool (*vu_read_msg_cb) (VuDev *dev, int sock, VhostUserMsg *vmsg);
-+typedef bool (*vu_write_msg_cb) (VuDev *dev, int sock, VhostUserMsg *vmsg);
- typedef void (*vu_queue_set_started_cb) (VuDev *dev, int qidx, bool started);
- typedef bool (*vu_queue_is_processed_in_order_cb) (VuDev *dev, int qidx);
- typedef int (*vu_get_config_cb) (VuDev *dev, uint8_t *config, uint32_t len);
-@@ -429,6 +430,21 @@ struct VuDev {
-      */
-     vu_read_msg_cb read_msg;
- 
-+    /*
-+     * @write_msg: custom method to write vhost-user message
-+     *
-+     * Write data to vhost_user socket fd from the passed
-+     * VhostUserMsg *vmsg struct.
-+     *
-+     * For the details, please refer to vu_message_write in libvhost-user.c
-+     * which will be used by default when calling vu_unit.
-+     * No custom method is allowed.
-+     *
-+     * Returns: true if vhost-user message successfully sent, false otherwise.
-+     *
-+     */
-+    vu_write_msg_cb write_msg;
-+
-     /*
-      * @set_watch: add or update the given fd to the watch set,
-      * call cb when condition is met.
+With regards,
+Daniel
 -- 
-2.40.0
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
