@@ -2,61 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1DBCE6F5BA2
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 May 2023 17:57:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE4526F5BB4
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 May 2023 18:04:02 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1puEr3-0002IG-QO; Wed, 03 May 2023 11:57:21 -0400
+	id 1puEv8-0004rQ-Sa; Wed, 03 May 2023 12:01:34 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1puEqz-0002HV-L0
- for qemu-devel@nongnu.org; Wed, 03 May 2023 11:57:17 -0400
+ id 1puEuj-0004h2-JF
+ for qemu-devel@nongnu.org; Wed, 03 May 2023 12:01:10 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1puEqx-0008FD-Hb
- for qemu-devel@nongnu.org; Wed, 03 May 2023 11:57:17 -0400
+ id 1puEug-0002Mo-9u
+ for qemu-devel@nongnu.org; Wed, 03 May 2023 12:01:09 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1683129434;
+ s=mimecast20190719; t=1683129665;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=BlvNWUBCTcsV19lwFHnEqxaCSL8V/sRCwj0UZmGrn7U=;
- b=h3EhYWJzHJ4SGiZPNJm2fp2OpoBixokHeDzIArPtKHRWvn/lOie8wKtPfObzoojAtJsjGn
- xz3Qc2z9L7WUhPoTVBqtys57aW55MTU+PCxP8i/7t2qbdyp5678adrPn0GtxOb6mzKvzz2
- BhlnrfQ7hlxKlZBA4ih07CndEdIkDsA=
+ bh=UahQoPoQXJVF2UKfrCc72o8u6UvsnklGKPkLLGNR78I=;
+ b=D4HYTmZqB9hJopB4Z+BboF1rbdSQnK0OY/2EKQeWGantcgt4W5ligzjsl50Q1pf62dwAdj
+ WlIANI0bL0hK5cA+xBn7lXRZlXdBmCfiRe88tN7VsVIaDZLx/Hb/GCDRT1y/ukHws+QnCO
+ aE2n4ua9ZZwpaGPM0kG8SpMUOM8Hyz0=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-327-CocsVVPTOjyv1RH-RENSfg-1; Wed, 03 May 2023 11:57:12 -0400
-X-MC-Unique: CocsVVPTOjyv1RH-RENSfg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
- [10.11.54.3])
+ us-mta-659-asv2CEx5PK6v-Kx6geOoqA-1; Wed, 03 May 2023 12:01:03 -0400
+X-MC-Unique: asv2CEx5PK6v-Kx6geOoqA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.8])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 82A2E811E7C;
- Wed,  3 May 2023 15:57:12 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E91D588B77F;
+ Wed,  3 May 2023 16:01:02 +0000 (UTC)
 Received: from localhost (unknown [10.39.193.0])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 04E171121331;
- Wed,  3 May 2023 15:57:11 +0000 (UTC)
-Date: Wed, 3 May 2023 11:57:10 -0400
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 64108C15BAD;
+ Wed,  3 May 2023 16:01:02 +0000 (UTC)
+Date: Wed, 3 May 2023 12:01:00 -0400
 From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Eric Blake <eblake@redhat.com>
-Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org,
- Hanna Reitz <hreitz@redhat.com>,
- Xie Yongji <xieyongji@bytedance.com>, Kevin Wolf <kwolf@redhat.com>
-Subject: Re: [PATCH] block/export: call blk_set_dev_ops(blk, NULL, NULL)
-Message-ID: <20230503155710.GA10587@fedora>
-References: <20230502211119.720647-1-stefanha@redhat.com>
- <wsbxzv6mqjsujdacnb42ma7tzmqu26cz7f7sybxu7g6wwieona@k2eclhiu2mhl>
+To: Kevin Wolf <kwolf@redhat.com>
+Cc: qemu-block@nongnu.org, qemu-devel@nongnu.org
+Subject: Re: [PATCH] block: Fix use after free in blockdev_mark_auto_del()
+Message-ID: <20230503160100.GB10587@fedora>
+References: <20230503140142.474404-1-kwolf@redhat.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="9FPCNUHUaxHkqDFC"
+ protocol="application/pgp-signature"; boundary="pf5RqCcbxBHvJlbp"
 Content-Disposition: inline
-In-Reply-To: <wsbxzv6mqjsujdacnb42ma7tzmqu26cz7f7sybxu7g6wwieona@k2eclhiu2mhl>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
+In-Reply-To: <20230503140142.474404-1-kwolf@redhat.com>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -22
@@ -82,55 +79,44 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 
---9FPCNUHUaxHkqDFC
+--pf5RqCcbxBHvJlbp
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, May 03, 2023 at 10:43:16AM -0500, Eric Blake wrote:
-> On Tue, May 02, 2023 at 05:11:19PM -0400, Stefan Hajnoczi wrote:
-> > Most export types install BlockDeviceOps pointers. It is easy to forget
-> > to remove them because that happens automatically via the "drive" qdev
-> > property in hw/ but not block/export/.
-> >=20
-> > Put blk_set_dev_ops(blk, NULL, NULL) calls in the core export.c code so
-> > the export types don't need to remember.
-> >=20
-> > This fixes the nbd and vhost-user-blk export types.
-> >=20
-> > Fixes: fd6afc501a01 ("nbd/server: Use drained block ops to quiesce the =
-server")
-> > Fixes: ca858a5fe94c ("vhost-user-blk-server: notify client about disk r=
-esize")
-> > Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-> > ---
-> >  block/export/export.c    | 2 ++
-> >  block/export/vduse-blk.c | 1 -
-> >  2 files changed, 2 insertions(+), 1 deletion(-)
+On Wed, May 03, 2023 at 04:01:42PM +0200, Kevin Wolf wrote:
+> job_cancel_locked() drops the job list lock temporarily and it may call
+> aio_poll(). We must assume that the list has changed after this call.
+> Also, with unlucky timing, it can end up freeing the job during
+> job_completed_txn_abort_locked(), making the job pointer invalid, too.
 >=20
-> Reviewed-by: Eric Blake <eblake@redhat.com>
+> For both reasons, we can't just continue at block_job_next_locked(job).
+> Instead, start at the head of the list again after job_cancel_locked()
+> and skip those jobs that we already cancelled (or that are completing
+> anyway).
 >=20
-> I'm happy to add this through my NBD queue.
+> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+> ---
+>  blockdev.c | 18 ++++++++++++++----
+>  1 file changed, 14 insertions(+), 4 deletions(-)
 
-Sure, go ahead!
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 
-Stefan
-
---9FPCNUHUaxHkqDFC
+--pf5RqCcbxBHvJlbp
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmRShFUACgkQnKSrs4Gr
-c8id0Af+NJuX/PrAh67DdcCKrTKjFqaJFFXkiV0PBtf27nCqtuPPt1wdyBOUeSHD
-6F4H5lyU9TZYUx7KZNQaOsxY0HPRhsO+LtibhryIk61I+sJoKEYT5cKWxmCjqVx8
-ZE7oDdsofIkaOST4byyWFAeCSKFlL5By+nbyPvRgmMqgEze3gVRYm5mpw+VFKWNZ
-D8KtkTbvOfPVlyniajUbfw53rLYiOzWnw5Rp9hK9oJGz0H+5CJ834j/Rk7HWcFsC
-aDm6vGPCZ0rdqKYyS8gp6pSLCyHhSezhgVgPk0u0uqVbwOWbY4QPWniWsPOo/KqW
-YpuAW9sGJJXRH7p6pBHUCAqKuQUpXg==
-=ztat
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmRShTwACgkQnKSrs4Gr
+c8gYCAf/VJBQlyUa8RkLnfJPMplOUgczkejL+xTxmNTtykmMThx2W4MM/L8Dc42y
+nffXcH6DPzNtW1XTC6+SFVReqn7N94ZD2ptjwoeFeUiSwx8dYnqQrWlXfKeC0KEW
+ZpqBCIqRnZKfg4lOVv5crX8rOL1LQI2PENUsOoaV7YBJzkDv/p3GlarudfBUeaTu
+IQ9za9RpjZg+xm/H8huhqnfrm13xsL1SXcmpSnWF/JCEcrDP5cag67xLuLMLQaRZ
+pSmwMM69plcDpqXdueXxfIQPKigNlq+/NPCB8GGmSTnPjqHvXYQL3guMRCUb3Swg
+7g023lfPoua0Vlk1b92EgU8t0hnpGQ==
+=gL6M
 -----END PGP SIGNATURE-----
 
---9FPCNUHUaxHkqDFC--
+--pf5RqCcbxBHvJlbp--
 
 
