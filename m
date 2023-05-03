@@ -2,111 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 050DD6F51CF
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 May 2023 09:36:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BCB026F5214
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 May 2023 09:44:13 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pu6rU-0005Dh-BP; Wed, 03 May 2023 03:25:16 -0400
+	id 1pu72H-0006dt-BQ; Wed, 03 May 2023 03:36:25 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
- id 1pu6qb-0003Yg-2K; Wed, 03 May 2023 03:24:26 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
- id 1pu6qY-0001rC-LO; Wed, 03 May 2023 03:24:20 -0400
-Received: from pps.filterd (m0356516.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 3437I96i031923; Wed, 3 May 2023 07:24:09 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=ORQzgs7VffDlfBwvqaIQN7cT69Er1nRmzOzEAIKO8Uo=;
- b=tgMBxIa++zT7cZw3vo9dw1i5k3M5pke7Zxd5TLTVt1W2wPmFS1o303GiZz3kseAS1zmT
- 1MhN4yWsHPqlrWwsl/UNt0IoFQsUe5ZRGZckbQ+EggvCRed3JXgLH+3ARAeAWqeMJvw7
- n9V/Md9gUCFJrGaokAi79DoDC6Onj7/eUNUH5ErINOZEhSpk8NXW4hsYJ1Q4UCLzZEcn
- be8/ZC/W9fJfAcXfj9H0SRdRnyRv8P8qBv6fiIaimkCQYSTfSYr+DV0Smplkdl55FhSt
- CBM+Nm9FKVOb/ILa2tLF9bUcpDEiF2gxU0lNSj9XA9YU3wciF8TXmrkqIAVit6kUQuVi ow== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3qbj9k1by4-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 03 May 2023 07:24:09 +0000
-Received: from m0356516.ppops.net (m0356516.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 3437IQat032553;
- Wed, 3 May 2023 07:24:07 GMT
-Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.99])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3qbj9k1bx2-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 03 May 2023 07:24:07 +0000
-Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
- by ppma04ams.nl.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 342NQ8Fc004096;
- Wed, 3 May 2023 07:24:05 GMT
-Received: from smtprelay06.fra02v.mail.ibm.com ([9.218.2.230])
- by ppma04ams.nl.ibm.com (PPS) with ESMTPS id 3q8tv6t1du-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 03 May 2023 07:24:04 +0000
-Received: from smtpav03.fra02v.mail.ibm.com (smtpav03.fra02v.mail.ibm.com
- [10.20.54.102])
- by smtprelay06.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 3437Nx9B47972894
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 3 May 2023 07:23:59 GMT
-Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 5D9E52004E;
- Wed,  3 May 2023 07:23:59 +0000 (GMT)
-Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id D95C120043;
- Wed,  3 May 2023 07:23:58 +0000 (GMT)
-Received: from [9.152.222.242] (unknown [9.152.222.242])
- by smtpav03.fra02v.mail.ibm.com (Postfix) with ESMTPS;
- Wed,  3 May 2023 07:23:58 +0000 (GMT)
-Message-ID: <ba23107e-1854-63ba-66f2-5b84c5bc8c59@linux.ibm.com>
-Date: Wed, 3 May 2023 09:23:58 +0200
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pu72C-0006Xl-8f
+ for qemu-devel@nongnu.org; Wed, 03 May 2023 03:36:20 -0400
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pu72A-0000TU-7P
+ for qemu-devel@nongnu.org; Wed, 03 May 2023 03:36:19 -0400
+Received: by mail-wr1-x42c.google.com with SMTP id
+ ffacd0b85a97d-2f3fe12de15so2912698f8f.3
+ for <qemu-devel@nongnu.org>; Wed, 03 May 2023 00:36:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1683099375; x=1685691375;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=ScsK2kBKzhIRL5m8hbykOcR58W42FCSty2YTazqIrTU=;
+ b=mrChas5ZddmR55A+jH+8582PnaTQurBfesp9Ozt0coGE8ZC9/k7bWpqqZOOySNcN7n
+ tk9ro4VetivzQtPPGd+uSYCqI1pWBlm5FD1mS8AhTmWWquKJ20uSiuBaYlurls23lywr
+ 07sqQJ6/5nfmH0e/19gyItJj9yQXDqy3yX07aYW7M4/GRWD5cp9+NFywEdWphIQ2dLUO
+ NEi21LmAUtXqwHrwhjPgMrpCGOfsaVcexuOnvFWmYF2cRljy8Ds4SagslJ0RKG795BW9
+ UmqqPwDKcLP8lvQmnfgpRT5BwUirspK3Jo73efA9oQ9huY/RDYTh+vvXt+Q+p0kTfBcn
+ BHmg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1683099375; x=1685691375;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=ScsK2kBKzhIRL5m8hbykOcR58W42FCSty2YTazqIrTU=;
+ b=eWEWzzObsgdUJ4J4/cDh/4cGUjlTGsK/pGPC24FIbc72jVHcYdiBrazdcNQTc4Mfpx
+ Varm99wsV/DV8eaV4k4lXLedpo42FohKhDZuU/boeWMT9uk4RigTshtuZw178OP6RQZw
+ ETDhdXSrbCNJzYsT6tT1nGJvx4OB1zI4dS2nxTfsrXAQOb1smq2WnjJR6eFsPAIUXjGL
+ qyErDscx40FI6k5GGd4HlzGAYd3jDBHLmwSgUcD9kfLc+rdzrq3Dtd/RFgnYwhxN87Kn
+ oDHfp/YBKl80umtJTqB11D/6Zzv7/e9+pQcec+t+MHjfolc6mHF4TDbpK7os8sB6bNUk
+ 3tfQ==
+X-Gm-Message-State: AC+VfDxwSnsEQO2H1fDDpUVqWQg5mbpD2uQfRWqJ6YvJjdofJgnvF3X1
+ ail0iSpmxtNCSAUkqDIW2PLaGA==
+X-Google-Smtp-Source: ACHHUZ5u7GLD6VdqLOghvaGpv9qM0P2SRCh2OBAHVHPe/7UrPPivhZHo/wTY1ZMoqqf+SKZccDIxDA==
+X-Received: by 2002:a5d:5186:0:b0:306:2b5f:8d0a with SMTP id
+ k6-20020a5d5186000000b003062b5f8d0amr7225595wrv.56.1683099375547; 
+ Wed, 03 May 2023 00:36:15 -0700 (PDT)
+Received: from ?IPV6:2a02:c7c:74db:8d00:c01d:9d74:b630:9087?
+ ([2a02:c7c:74db:8d00:c01d:9d74:b630:9087])
+ by smtp.gmail.com with ESMTPSA id
+ e2-20020a056000120200b00306281cfa59sm9492602wrx.47.2023.05.03.00.36.15
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 03 May 2023 00:36:15 -0700 (PDT)
+Message-ID: <baea6704-7a22-6934-54f3-76ff4c0fc298@linaro.org>
+Date: Wed, 3 May 2023 08:36:13 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH v20 01/21] s390x/cpu topology: add s390 specifics to CPU
- topology
+ Thunderbird/102.10.0
+Subject: Re: [PATCH 2/3] target/openrisc: Set PC to cpu state on FPU exception
 Content-Language: en-US
-To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>, qemu-s390x@nongnu.org
-Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
- richard.henderson@linaro.org, david@redhat.com, thuth@redhat.com,
- cohuck@redhat.com, mst@redhat.com, pbonzini@redhat.com,
- kvm@vger.kernel.org, ehabkost@redhat.com, marcel.apfelbaum@gmail.com,
- eblake@redhat.com, armbru@redhat.com, seiden@linux.ibm.com,
- nrb@linux.ibm.com, nsg@linux.ibm.com, frankja@linux.ibm.com,
- berrange@redhat.com
-References: <20230425161456.21031-1-pmorel@linux.ibm.com>
- <20230425161456.21031-2-pmorel@linux.ibm.com>
- <0e575143-573f-9363-d8dc-103bb819d15b@kaod.org>
- <00455f95-b2e2-2e3d-aeb4-e806418f1f46@kaod.org>
-From: Pierre Morel <pmorel@linux.ibm.com>
-In-Reply-To: <00455f95-b2e2-2e3d-aeb4-e806418f1f46@kaod.org>
+To: Stafford Horne <shorne@gmail.com>, QEMU Development <qemu-devel@nongnu.org>
+Cc: Linux OpenRISC <linux-openrisc@vger.kernel.org>
+References: <20230502185731.3543420-1-shorne@gmail.com>
+ <20230502185731.3543420-3-shorne@gmail.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20230502185731.3543420-3-shorne@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: fXr9A_zYC8Qvq_DY9KrMAPpeiBEEyvNh
-X-Proofpoint-GUID: UagnDCtDzm24M2VDJW-PQuyfKx27uB2q
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-05-03_04,2023-04-27_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0
- priorityscore=1501 adultscore=0 mlxscore=0 mlxlogscore=999 malwarescore=0
- spamscore=0 clxscore=1015 suspectscore=0 phishscore=0 impostorscore=0
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2303200000 definitions=main-2305030057
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=pmorel@linux.ibm.com;
- helo=mx0b-001b2d01.pphosted.com
-X-Spam_score_int: -33
-X-Spam_score: -3.4
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x42c.google.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
 X-Spam_bar: ---
-X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.422,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.422,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -123,54 +96,18 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On 5/2/23 19:57, Stafford Horne wrote:
+> @@ -55,6 +56,9 @@ void HELPER(update_fpcsr)(CPUOpenRISCState *env)
+>           if (tmp) {
+>               env->fpcsr |= tmp;
+>               if (env->fpcsr & FPCSR_FPEE) {
+> +                CPUState *cs = env_cpu(env);
+> +
+> +                cpu_restore_state(cs, GETPC());
+>                   helper_exception(env, EXCP_FPE);
 
-On 5/2/23 15:48, Cédric Le Goater wrote:
-> On 5/2/23 14:05, Cédric Le Goater wrote:
->> On 4/25/23 18:14, Pierre Morel wrote:
->>> S390 adds two new SMP levels, drawers and books to the CPU
->>> topology.
->>> The S390 CPU have specific topology features like dedication
->>> and entitlement to give to the guest indications on the host
->>> vCPUs scheduling and help the guest take the best decisions
->>> on the scheduling of threads on the vCPUs.
->>>
->>> Let us provide the SMP properties with books and drawers levels
->>> and S390 CPU with dedication and entitlement,
->>
->> I think CpuS390Entitlement should be introduced in a separate patch and
->> only under target/s390x/cpu.c. It is machine specific and doesn't belong
->> to the machine common definitions.
->>
->> 'books' and 'drawers' could also be considered z-specific but High End
->> POWER systems (16s) have similar topology concepts, at least for 
->> drawers :
->> a group of 4 sockets. So let's keep it that way.
->>
->>
->> This problably means you will have to rework the get/set property 
->> handlers
->> with strcmp() or simply copy the generated lookup struct :
->>
->> const QEnumLookup CpuS390Entitlement_lookup = {
->>      .array = (const char *const[]) {
->>          [S390_CPU_ENTITLEMENT_AUTO] = "auto",
->>          [S390_CPU_ENTITLEMENT_LOW] = "low",
->>          [S390_CPU_ENTITLEMENT_MEDIUM] = "medium",
->>          [S390_CPU_ENTITLEMENT_HIGH] = "high",
->>      },
->>      .size = S390_CPU_ENTITLEMENT__MAX
->> };
->>
->> It should be fine.
->
-> The enum is required by the set-cpu-topology QMP command in patch 8.
-> Forget my comment, it would require too much changes in your series
-> to introduce CPU Entitlement independently.
->
-> C.
->
-OK, thanks,
+Better to mirror do_range().
 
-Pierre
+r~
 
 
