@@ -2,104 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A34AE6F5E00
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 May 2023 20:34:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4749D6F5E57
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 May 2023 20:43:24 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1puHHl-0007Yj-UW; Wed, 03 May 2023 14:33:05 -0400
+	id 1puHQR-000526-EU; Wed, 03 May 2023 14:42:03 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1puHHj-0007XX-TH
- for qemu-devel@nongnu.org; Wed, 03 May 2023 14:33:03 -0400
-Received: from mail-ed1-x52a.google.com ([2a00:1450:4864:20::52a])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1puHHi-0000g3-0U
- for qemu-devel@nongnu.org; Wed, 03 May 2023 14:33:03 -0400
-Received: by mail-ed1-x52a.google.com with SMTP id
- 4fb4d7f45d1cf-50bd37ca954so9744680a12.0
- for <qemu-devel@nongnu.org>; Wed, 03 May 2023 11:33:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1683138780; x=1685730780;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=7HPnytuNr2tTl/GqvQTToDLhcLLgMbXFPrdQg6Ojybw=;
- b=MFLbub58dPc9NKR90AB/sEh2260o1RKuuap6Ha3xOjiRynr8xn97i3mAFNhjFaZTFu
- ld4lhG7WettebZ2LBvk4y1qO2kd+PefOfjUgqKD+FeOPgZ3aZIYgOHVQmkkr1p4OHfK/
- A0UF5Yr618w9HPaNiS/SRnWcT7jRrCA9/spWB7rB9DMwTvE2De14dOMT/q0jkR9EmEQo
- H5z3sDEo0ERqWnRkyIXBFdzaNzsfpzpmSvLZ48pN1dftUAzqCQdrLftJlPfB0Qyql800
- +5lR5DcGyEZmaZXi/XzrwR1BlBi8G1UfIGaa4b5PX+KBYRE7zONiOjZIj+PrLU/7Yg3l
- avCQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683138780; x=1685730780;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=7HPnytuNr2tTl/GqvQTToDLhcLLgMbXFPrdQg6Ojybw=;
- b=X31pZX7fpQ347UZf13SeWWhkef5qUevy5TTG7KwFFfMIETB5rYs8uraHIMwWH9u2Lb
- qlFTpwnQUyaLTJUB9SrBaWoYocI76y3ofGZGn4ytkPTTqgQE2C+DKSiedpKdcsRNKaPG
- zR9W1I6KBxIoN3R4udrGvjfFKZ/ZXqvHFK8QmBs88mWj0+YvTRg5wE4JqIpl+A/qCHn5
- nIJhqbceO/8A99OLFkBfAM02UGBvJOgnFB0pqewadHcQkrJzuAq9ayah3hhDSZ1S/9vf
- e/Um2/F7179dro+riA2SlgpaFtRbk3snPqOi7cvwM+X0/SOOygTt/8RTZCfAPMyowBJ9
- 0mNw==
-X-Gm-Message-State: AC+VfDzvg3CLmUb9pUB//2guATut0I8ymEOEx1KR4ngPlVsVrLoYO8xw
- rsVrwFH9vRu2Z1y1RmMDOxaVP3VDlXVeTVKGKui6QQ==
-X-Google-Smtp-Source: ACHHUZ5s7h/c5A0PtXntSGXjorpj0baJSPHTvsdXxqvcb457iHeabpO+RRkLPMuBaCTKEdcnCz9wP2v7SHw34UIEduM=
-X-Received: by 2002:aa7:d343:0:b0:504:8a2b:b3c7 with SMTP id
- m3-20020aa7d343000000b005048a2bb3c7mr2695328edr.11.1683138780347; Wed, 03 May
- 2023 11:33:00 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1puHQN-00050G-Q2
+ for qemu-devel@nongnu.org; Wed, 03 May 2023 14:41:59 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1puHQG-0006J5-3E
+ for qemu-devel@nongnu.org; Wed, 03 May 2023 14:41:54 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1683139309;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=HGwBTmhAGLFUs8/gSh5byBD/NyygIe8IoUUXhjWyahM=;
+ b=OV7KqbP4w9e3RxHn3994hwpBjtxgjq1U3FQr2Wt2KOJxuhUMrPdeID3FBbL1eG7iomAbcS
+ up3JMRRctxD5F9d0ltP4YT1fZCyICzXK4+ecsKzYWaZFw90w4AY50MV6FxqqZ2LMjv9HNx
+ j5QiDwFEhcywySydyoKJlEGckExwuMk=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-633-y9a5wautMQiQqPg1HU_rKw-1; Wed, 03 May 2023 14:41:47 -0400
+X-MC-Unique: y9a5wautMQiQqPg1HU_rKw-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B7490802C1A
+ for <qemu-devel@nongnu.org>; Wed,  3 May 2023 18:41:46 +0000 (UTC)
+Received: from t480s.redhat.com (unknown [10.39.192.162])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6BE7A40BC798;
+ Wed,  3 May 2023 18:41:45 +0000 (UTC)
+From: David Hildenbrand <david@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: David Hildenbrand <david@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>
+Subject: [PATCH v1] vhost-user: Remove acpi-specific memslot limit
+Date: Wed,  3 May 2023 20:41:44 +0200
+Message-Id: <20230503184144.808478-1-david@redhat.com>
 MIME-Version: 1.0
-References: <20230503091244.1450613-1-alex.bennee@linaro.org>
- <20230503091244.1450613-6-alex.bennee@linaro.org>
- <531a2eab-f0e6-46a5-c021-c82746c1ae38@redhat.com>
- <87y1m5s9yl.fsf@linaro.org> <5fb214d8-4a54-f896-f23f-fe9e646e4b2d@redhat.com>
-In-Reply-To: <5fb214d8-4a54-f896-f23f-fe9e646e4b2d@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Wed, 3 May 2023 19:32:45 +0100
-Message-ID: <CAFEAcA-Cfz8CkNeTQodoSitocBmm4ddk25Dq8x=5FiiGvaS34Q@mail.gmail.com>
-Subject: Re: [PATCH 05/22] hw/arm: Select VIRTIO_NET for virt machine
-To: Paolo Bonzini <pbonzini@redhat.com>
-Cc: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
- qemu-devel@nongnu.org, Laurent Vivier <lvivier@redhat.com>, 
- Artyom Tarasenko <atar4qemu@gmail.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>, 
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Thomas Huth <thuth@redhat.com>, 
- Leif Lindholm <quic_llindhol@quicinc.com>, Gerd Hoffmann <kraxel@redhat.com>, 
- Helge Deller <deller@gmx.de>, Xiaojuan Yang <yangxiaojuan@loongson.cn>, 
- Stefan Hajnoczi <stefanha@redhat.com>, Cleber Rosa <crosa@redhat.com>, 
- Eduardo Habkost <eduardo@habkost.net>, Juan Quintela <quintela@redhat.com>,
- John Snow <jsnow@redhat.com>, Yoshinori Sato <ysato@users.sourceforge.jp>,
- =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>, 
- Ilya Leoshkevich <iii@linux.ibm.com>,
- Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>, 
- Andrew Jeffery <andrew@aj.id.au>, qemu-s390x@nongnu.org, 
- Richard Henderson <richard.henderson@linaro.org>, qemu-arm@nongnu.org, 
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Beraldo Leal <bleal@redhat.com>, Max Filippov <jcmvbkbc@gmail.com>,
- =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>, 
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Jiaxun Yang <jiaxun.yang@flygoat.com>, 
- Radoslaw Biernacki <rad@semihalf.com>, Aurelien Jarno <aurelien@aurel32.net>, 
- David Hildenbrand <david@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Song Gao <gaosong@loongson.cn>, Joel Stanley <joel@jms.id.au>,
- =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
- Fabiano Rosas <farosas@suse.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::52a;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52a.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=david@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -22
+X-Spam_score: -2.3
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.161,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -115,28 +74,56 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, 3 May 2023 at 18:06, Paolo Bonzini <pbonzini@redhat.com> wrote:
->
-> On 5/3/23 17:35, Alex Benn=C3=A9e wrote:
-> >> You should select a device only if you cannot even start
-> >> the machine without --nodefaults.
-> >
-> > Which is the case here right? We could skip tests that explicitly
-> > instantiate a device but these are tests failing with default devices
-> > the machine tries to instantiate.
->
-> I'm sorry, I meant "select" directives are needed if you cannot even
-> start the machine *with* --nodefaults.
->
-> Devices that are added *without* --nodefaults should use "imply"
-> directives instead, as is already the case.
+Let's just support 512 memslots on x86-64 and aarch64 as well. The maximum
+number of ACPI slots (256) is no longer completely expressive ever since
+we supported virtio-based memory devices. Further, we're completely
+ignoring other memslots used outside of memory device context, such as
+memslots used for boot memory.
 
-Do we really want to build a QEMU that then barfs unless
-you pass -nodefaults, though ? That doesn't seem very useful.
-Something somewhere ought to be saying "if you want the
-virt board then you almost certainly want these". Or
-alternatively we should fall back to "don't create a
-network device we don't have", maybe ?
+Note that the vhost memslot limit in the kernel is usually configured to
+be 509. With this change, we prepare vhost-user on the QEMU side to be
+closer to that limit, to eventually support ~512 memslots in most vhost
+implementations and have less "surprises" when cold/hotplugging vhost
+devices while also consuming more memslots than we're currently used to
+by memory devices (e.g., once virtio-mem starts using multiple memslots).
 
--- PMM
+Note that most vhost-user implementations only support a small number of
+memslots so far, which we can hopefully improve in the near future.
+
+We'll leave the PPC special-case as is for now.
+
+Cc: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Igor Mammedov <imammedo@redhat.com>
+Cc: Stefan Hajnoczi <stefanha@redhat.com>
+Signed-off-by: David Hildenbrand <david@redhat.com>
+---
+ hw/virtio/vhost-user.c | 12 +-----------
+ 1 file changed, 1 insertion(+), 11 deletions(-)
+
+diff --git a/hw/virtio/vhost-user.c b/hw/virtio/vhost-user.c
+index e5285df4ba..378bd44718 100644
+--- a/hw/virtio/vhost-user.c
++++ b/hw/virtio/vhost-user.c
+@@ -42,17 +42,7 @@
+ #define VHOST_USER_F_PROTOCOL_FEATURES 30
+ #define VHOST_USER_BACKEND_MAX_FDS     8
+ 
+-/*
+- * Set maximum number of RAM slots supported to
+- * the maximum number supported by the target
+- * hardware plaform.
+- */
+-#if defined(TARGET_X86) || defined(TARGET_X86_64) || \
+-    defined(TARGET_ARM) || defined(TARGET_AARCH64)
+-#include "hw/acpi/acpi.h"
+-#define VHOST_USER_MAX_RAM_SLOTS ACPI_MAX_RAM_SLOTS
+-
+-#elif defined(TARGET_PPC) || defined(TARGET_PPC64)
++#if defined(TARGET_PPC) || defined(TARGET_PPC64)
+ #include "hw/ppc/spapr.h"
+ #define VHOST_USER_MAX_RAM_SLOTS SPAPR_MAX_RAM_SLOTS
+ 
+-- 
+2.40.0
+
 
