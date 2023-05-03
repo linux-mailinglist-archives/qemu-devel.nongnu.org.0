@@ -2,65 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F1116F5BA8
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 May 2023 17:58:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F4B76F591B
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 May 2023 15:33:23 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1puEr7-0002K3-Pl; Wed, 03 May 2023 11:57:25 -0400
+	id 1puCaE-0001IA-4c; Wed, 03 May 2023 09:31:50 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1puEr4-0002J1-3D
- for qemu-devel@nongnu.org; Wed, 03 May 2023 11:57:22 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1puCYN-0006kX-U1
+ for qemu-devel@nongnu.org; Wed, 03 May 2023 09:29:55 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1puEr2-0008GX-21
- for qemu-devel@nongnu.org; Wed, 03 May 2023 11:57:21 -0400
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1puCY8-0004Gl-O5
+ for qemu-devel@nongnu.org; Wed, 03 May 2023 09:29:54 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1683129439;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ s=mimecast20190719; t=1683120579;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=giv0uZgctcnYPXVX7VOIByB56BQzst+q/C1VpfVPRVA=;
- b=ZNPfP+R+YIMrPvAiCucQUCUYDiyx+q3p5WofhnLhZOdL2RDrTS0l6Lyasag9QjGpqC7BL2
- H68D7ENN+HEKLoWOSTGmSIW9ns2QZZyjMKbZutMXc5I+7mOH9mqSCrLdfDk/32griJL7Gs
- zda44NBow0XELlwqWzrPidjuV2DvyaI=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-625-L1JBkpoWP5aMKL1e2cFZQg-1; Wed, 03 May 2023 11:57:15 -0400
-X-MC-Unique: L1JBkpoWP5aMKL1e2cFZQg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4B144A0F385;
- Wed,  3 May 2023 15:57:15 +0000 (UTC)
-Received: from localhost (unknown [10.39.193.0])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A434C4020961;
- Wed,  3 May 2023 15:57:14 +0000 (UTC)
-Date: Wed, 3 May 2023 09:26:18 -0400
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Stefano Garzarella <sgarzare@redhat.com>
-Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org,
- Hanna Reitz <hreitz@redhat.com>, jjongsma@redhat.com,
- Kevin Wolf <kwolf@redhat.com>, Eric Blake <eblake@redhat.com>,
- Markus Armbruster <armbru@redhat.com>
-Subject: Re: [PATCH] block/blkio: add 'fd' option to virtio-blk-vhost-vdpa
- driver
-Message-ID: <20230503132618.GD757667@fedora>
-References: <20230502145050.224615-1-sgarzare@redhat.com>
- <20230502190232.GB535070@fedora>
- <2dhjygwf76syej7espfdecxcoawborvm2qqx66bz3g6ljdvg53@xo3d64wtbdeu>
+ bh=jMyufwcr7qO+WHneVDbEBpe6MTZ+dr/EGsvEJnJL3nI=;
+ b=h+7j9R6IulWJluRC88hfbwL4m3W6pvdqgMTGDwlOGyR7L9Sarm35f/qhz+qMUuBpLNIz/Y
+ wZjrZzHEANCtH9622ywKYK3D3t2RxSIHs/LUVWUogxE7AvKR18y76FkDL6zFLXXRvYqY9j
+ J2ViUreNkGN2G/0f0w/u+Xl1g78lxyY=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-142-55YmrM1POKG8IuEQ9t6tBA-1; Wed, 03 May 2023 09:29:38 -0400
+X-MC-Unique: 55YmrM1POKG8IuEQ9t6tBA-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ ffacd0b85a97d-2ff4bc7a6a3so3146076f8f.3
+ for <qemu-devel@nongnu.org>; Wed, 03 May 2023 06:29:37 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1683120576; x=1685712576;
+ h=content-transfer-encoding:mime-version:message-id:date:reply-to
+ :user-agent:references:in-reply-to:subject:cc:to:from
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=jMyufwcr7qO+WHneVDbEBpe6MTZ+dr/EGsvEJnJL3nI=;
+ b=eV42gPB5ylIvJ5xQuKNnPUO2A4s1IKUQMiasayme9QEzvVDRdtKyXQJd71R9saOCcM
+ 5383py+STF7S0JNRsvGiuYk7gUPqDyxoNlUOgbWY1Y8gVHOykiUmJ9P5eBavxlF0T8CY
+ uTsKSHr9a0wtkSkccOvoPdAuur4oUzlZt6kQyKZwCdK7r+9iv87dBRQWzScpFraJdtRs
+ IIIOrbm7Eim0+4pautgPsSsU6l77ofClrcHGbOoPBxVvF0exHRwh5pB2UwhupoV6zM4p
+ jPNwhUwv5WnHg/DAziwcSXQxNtAOtmG4gftcxwcrvU8HYUX4W2WROjwJPuLR4CQKQQvB
+ bzXw==
+X-Gm-Message-State: AC+VfDwLCQaCTLjr1fbPXHyIBPfr4bdEuqyh1yKxjYbjR79xZUm6e0Q3
+ JNnOyv2WW+5KNTGQMS51EeO/iqQqZs2jZo5D/TqyK/5mnmUwoGxyH269IWMK7QXVW1VffqG2ouA
+ luDgTU14Acjy0dDE=
+X-Received: by 2002:adf:ee45:0:b0:306:302a:3f66 with SMTP id
+ w5-20020adfee45000000b00306302a3f66mr34614wro.69.1683120576485; 
+ Wed, 03 May 2023 06:29:36 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ4h1rzc2G+xsl/92L0/k6S5mbMFIG1HZ6ZiO4I1VW4PeJhz+Hvkw3hsrs5Uw/r3ydVAa3hbQQ==
+X-Received: by 2002:adf:ee45:0:b0:306:302a:3f66 with SMTP id
+ w5-20020adfee45000000b00306302a3f66mr34594wro.69.1683120576111; 
+ Wed, 03 May 2023 06:29:36 -0700 (PDT)
+Received: from redhat.com (static-92-120-85-188.ipcom.comunitel.net.
+ [188.85.120.92]) by smtp.gmail.com with ESMTPSA id
+ k5-20020adff5c5000000b002f103ca90cdsm33748615wrp.101.2023.05.03.06.29.35
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 03 May 2023 06:29:35 -0700 (PDT)
+From: Juan Quintela <quintela@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ qemu-devel@nongnu.org,  Leonardo Bras <leobras@redhat.com>,  Thomas Huth
+ <thuth@redhat.com>,  Laurent Vivier <lvivier@redhat.com>,  Paolo Bonzini
+ <pbonzini@redhat.com>,  Peter Xu <peterx@redhat.com>,  Lukas Straub
+ <lukasstraub2@web.de>,  "Daniel P. Berrange" <berrange@redhat.com>
+Subject: Re: [PULL 00/21] Migration 20230428 patches
+In-Reply-To: <CAFEAcA-gu1Xxp49wOdtpif-C04fFd3nFrC+qNa8NizmPq9HGLQ@mail.gmail.com>
+ (Peter Maydell's message of "Wed, 3 May 2023 13:57:55 +0100")
+References: <20230428191203.39520-1-quintela@redhat.com>
+ <5f76c54c-b300-8597-1b4e-fd29b3603d35@linaro.org>
+ <87jzxrt3u7.fsf@secure.mitica>
+ <CAFEAcA_G734ap+L-YfLt5Pd65VXFm2xcx_SFwD_ke8B7pcQGbQ@mail.gmail.com>
+ <87lei5sriq.fsf@secure.mitica>
+ <CAFEAcA-gu1Xxp49wOdtpif-C04fFd3nFrC+qNa8NizmPq9HGLQ@mail.gmail.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
+Date: Wed, 03 May 2023 15:29:34 +0200
+Message-ID: <87ttwtr1a9.fsf@secure.mitica>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="11bBJhi2+JI8u9EZ"
-Content-Disposition: inline
-In-Reply-To: <2dhjygwf76syej7espfdecxcoawborvm2qqx66bz3g6ljdvg53@xo3d64wtbdeu>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -22
 X-Spam_score: -2.3
@@ -81,179 +107,139 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+Peter Maydell <peter.maydell@linaro.org> wrote:
+> On Wed, 3 May 2023 at 10:17, Juan Quintela <quintela@redhat.com> wrote:
+>>
+>> Peter Maydell <peter.maydell@linaro.org> wrote:
+>> > On Tue, 2 May 2023 at 11:39, Juan Quintela <quintela@redhat.com> wrote:
+>> >> Richard, once that we are here, one of the problem that we are having=
+ is
+>> >> that the test is exiting with an abort, so we have no clue what is
+>> >> happening.  Is there a way to get a backtrace, or at least the number
+>> >
+>> > This has been consistently an issue with the migration tests.
+>> > As the owner of the tests, if they are not providing you with
+>> > the level of detail that you need to diagnose failures, I
+>> > think that is something that is in your court to address:
+>> > the CI system is always going to only be able to provide
+>> > you with what your tests are outputting to the logs.
+>>
+>> Right now I would be happy just to see what test it is failing at.
+>>
+>> I am doing something wrong, or from the links that I see on richard
+>> email, I am not able to reach anywhere where I can see the full logs.
+>>
+>> > For the specific case of backtraces from assertion failures,
+>> > I think Dan was looking at whether we could put something
+>> > together for that. It won't help with segfaults and the like, though.
+>>
+>> I am waiting for that O:-)
+>>
+>> > You should be able to at least get the number of the subtest out of
+>> > the logs (either directly in the logs of the job, or else
+>> > from the more detailed log file that gets stored as a
+>> > job artefact in most cases).
+>>
+>> Also note that the test is stopping in an abort, with no diagnostic
+>> message that I can see.  But I don't see where the abort cames from:
+>
+> So, as an example I took the check-system-opensuse log:
+> https://gitlab.com/qemu-project/qemu/-/jobs/4201998342
+>
+> Use your browser's "search in web page" to look for "SIGABRT":
+> it'll show you the two errors (as well as the summary at
+> the bottom of the page which just says the tests aborted).
+> Here's one:
+>
+> 5/351 qemu:qtest+qtest-x86_64 / qtest-x86_64/migration-test ERROR
+> 246.12s killed by signal 6 SIGABRT
+>>>> QTEST_QEMU_BINARY=3D./qemu-system-x86_64 QTEST_QEMU_IMG=3D./qemu-img
+>>> MALLOC_PERTURB_=3D48
+>>> QTEST_QEMU_STORAGE_DAEMON_BINARY=3D./storage-daemon/qemu-storage-daemon
+>>> G_TEST_DBUS_DAEMON=3D/builds/qemu-project/qemu/tests/dbus-vmstate-daemo=
+n.sh
+>>> /builds/qemu-project/qemu/build/tests/qtest/migration-test --tap -k
+> =E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=
+=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=
+=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=
+=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=
+=E2=80=95=E2=80=95=E2=80=95=E2=80=95 =E2=9C=80 =E2=80=95=E2=80=95=E2=80=95=
+=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=
+=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=
+=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=
+=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=
+=80=95
+> stderr:
+> Could not access KVM kernel module: No such file or directory
+> Could not access KVM kernel module: No such file or directory
+> Could not access KVM kernel module: No such file or directory
+> Could not access KVM kernel module: No such file or directory
+> Could not access KVM kernel module: No such file or directory
+> Could not access KVM kernel module: No such file or directory
+> Could not access KVM kernel module: No such file or directory
+> Could not access KVM kernel module: No such file or directory
+> Could not access KVM kernel module: No such file or directory
+> Could not access KVM kernel module: No such file or directory
+> **
+> ERROR:../tests/qtest/migration-helpers.c:205:wait_for_migration_status:
+> assertion failed: (g_test_timer_elapsed() <
+> MIGRATION_STATUS_WAIT_TIMEOUT)
+> (test program exited with status code -6)
+> =E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=
+=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=
+=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=
+=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=
+=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=
+=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=
+=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=
+=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=
+=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=
+=95=E2=80=95=E2=80=95=E2=80=95
+> =E2=96=B6 6/351 ERROR:../tests/qtest/migration-helpers.c:205:wait_for_mig=
+ration_status:
+> assertion failed: (g_test_timer_elapsed() <
+> MIGRATION_STATUS_WAIT_TIMEOUT) ERROR
+> 6/351 qemu:qtest+qtest-aarch64 / qtest-aarch64/migration-test ERROR
+> 221.18s killed by signal 6 SIGABRT
+>
+> Looks like it failed on a timeout in the test code.
 
---11bBJhi2+JI8u9EZ
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Thanks.
 
-On Wed, May 03, 2023 at 11:15:56AM +0200, Stefano Garzarella wrote:
-> On Tue, May 02, 2023 at 03:02:32PM -0400, Stefan Hajnoczi wrote:
-> > On Tue, May 02, 2023 at 04:50:50PM +0200, Stefano Garzarella wrote:
-> > > The virtio-blk-vhost-vdpa driver in libblkio 1.3.0 supports the new
-> > > 'fd' property. Let's expose this to the user, so the management layer
-> > > can pass the file descriptor of an already opened vhost-vdpa character
-> > > device. This is useful especially when the device can only be accessed
-> > > with certain privileges.
-> > >=20
-> > > Signed-off-by: Stefano Garzarella <sgarzare@redhat.com>
-> > > ---
-> > >=20
-> > > Notes:
-> > >     As an alternative we could support passing `/dev/fdset/N` via 'pa=
-th',
-> > >     always opening the path with qemu_open() and passing the fd to the
-> > >     libblkio driver.
-> > >     I preferred to add a new parameter though, because the code is
-> > >     simpler without changing how path works (alternatively we should =
-check
-> > >     first if fd is supported by the driver or not).
-> > >=20
-> > >     What do you think?
-> >=20
-> > I think the approach in this patch is fine.
-> >=20
-> > >=20
-> > >     Thanks,
-> > >     Stefano
-> > >=20
-> > >  qapi/block-core.json |  6 +++++-
-> > >  block/blkio.c        | 45 ++++++++++++++++++++++++++++++++++++++++++=
-+-
-> > >  2 files changed, 49 insertions(+), 2 deletions(-)
-> > >=20
-> > > diff --git a/qapi/block-core.json b/qapi/block-core.json
-> > > index b57978957f..9f70777d49 100644
-> > > --- a/qapi/block-core.json
-> > > +++ b/qapi/block-core.json
-> > > @@ -3841,10 +3841,14 @@
-> > >  #
-> > >  # @path: path to the vhost-vdpa character device.
-> > >  #
-> > > +# @fd: file descriptor of an already opened vhost-vdpa character dev=
-ice.
-> > > +#      (Since 8.1)
-> > > +#
-> > >  # Since: 7.2
-> > >  ##
-> > >  { 'struct': 'BlockdevOptionsVirtioBlkVhostVdpa',
-> > > -  'data': { 'path': 'str' },
-> > > +  'data': { '*path': 'str',
-> > > +            '*fd': 'str' },
-> > >    'if': 'CONFIG_BLKIO' }
-> > >=20
-> > >  ##
-> > > diff --git a/block/blkio.c b/block/blkio.c
-> > > index 0cdc99a729..98394b5745 100644
-> > > --- a/block/blkio.c
-> > > +++ b/block/blkio.c
-> > > @@ -694,6 +694,49 @@ static int blkio_virtio_blk_common_open(BlockDri=
-verState *bs,
-> > >      return 0;
-> > >  }
-> > >=20
-> > > +static int blkio_virtio_blk_vhost_vdpa_open(BlockDriverState *bs,
-> > > +        QDict *options, int flags, Error **errp)
-> > > +{
-> > > +    const char *path =3D qdict_get_try_str(options, "path");
-> > > +    const char *fd_str =3D qdict_get_try_str(options, "fd");
-> > > +    BDRVBlkioState *s =3D bs->opaque;
-> > > +    int ret;
-> > > +
-> > > +    if (path && fd_str) {
-> > > +        error_setg(errp, "'path' and 'fd' options are mutually exclu=
-sive");
-> > > +        return -EINVAL;
-> > > +    }
-> > > +
-> > > +    if (!path && !fd_str) {
-> > > +        error_setg(errp, "none of 'path' or 'fd' options was specifi=
-ed");
-> > > +        return -EINVAL;
-> > > +    }
-> > > +
-> > > +    if (path) {
-> > > +        ret =3D blkio_set_str(s->blkio, "path", path);
-> > > +        qdict_del(options, "path");
-> > > +        if (ret < 0) {
-> > > +            error_setg_errno(errp, -ret, "failed to set path: %s",
-> > > +                             blkio_get_error_msg());
-> > > +            return ret;
-> > > +        }
-> > > +    } else {
-> > > +        ret =3D blkio_set_str(s->blkio, "fd", fd_str);
-> >=20
-> > monitor_fd_param() is used by vhost-net, vhost-vsock, vhost-scsi, etc.
-> >=20
-> > I think QEMU should parse the fd string and resolve it to a file
-> > descriptor so the fd passing syntax matches the other vhost devices.
->=20
-> Okay, but I have a linker issue if I use monitor_fd_param().
-> IIUC because blkio is built as a module, so what about adding
-> qemu_fd_param() in libqemuutil?
+> I think there ought to be artefacts from the job which have a
+> copy of the full log, but I can't find them: not sure if this
+> is just because the gitlab UI is terrible, or if they really
+> didn't get generated.
 
-Modules can access any extern function in QEMU so I don't think there is
-a fundamental limitation there.
+So now we are between a rock and a hard place.
 
-Maybe it's related to the dependencies between the blkio module and
-monitor/ code. monitor_get_fd_param() is in softmmu_ss, which block
-drivers don't directly depend on AFAICT.
+We have slowed down the bandwidth for migration test because on non
+loaded machines, migration was too fast to need more than one pass.
 
->=20
-> I mean something like this:
->=20
-> diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h
-> index 9eff0be95b..87360c983a 100644
-> --- a/include/qemu/osdep.h
-> +++ b/include/qemu/osdep.h
-> @@ -568,6 +568,7 @@ int qemu_lock_fd(int fd, int64_t start, int64_t len, =
-bool exclusive);
->  int qemu_unlock_fd(int fd, int64_t start, int64_t len);
->  int qemu_lock_fd_test(int fd, int64_t start, int64_t len, bool exclusive=
-);
->  bool qemu_has_ofd_lock(void);
-> +int qemu_fd_param(const char *fdname, Error **errp);
->  #endif
->=20
->  #if defined(__HAIKU__) && defined(__i386__)
-> diff --git a/util/osdep.c b/util/osdep.c
-> index e996c4744a..ed0832810b 100644
-> --- a/util/osdep.c
-> +++ b/util/osdep.c
-> @@ -234,6 +234,11 @@ bool qemu_has_ofd_lock(void)
->  #endif
->  }
->=20
-> +int qemu_fd_param(const char *fdname, Error **errp)
-> +{
-> +    return monitor_fd_param(monitor_cur(), fdname, errp);
-> +}
+And we slowed it so much than now we hit the timer that was set at 120
+seconds.
 
-I'm not sure. If it works with modules enabled/disabled,
-qemu-io/qemu-img/etc, and qemu-user then I guess this solution is okay.
+So .....
 
-Sorry I don't know the answer!
+It is going to be interesting.
 
-Stefan
+BTW, what procesor speed do that aarch64 machines have? Or are they so
+loaded that they are efectively trashing?
 
---11bBJhi2+JI8u9EZ
-Content-Type: application/pgp-signature; name="signature.asc"
+2minutes for a pass looks a bit too much.
 
------BEGIN PGP SIGNATURE-----
+Will give a try to get this test done changing when we detect that we
+don't move to the completion stage.
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmRSYPoACgkQnKSrs4Gr
-c8gE7wf9HRgiuzv0YTF5qC3p+p+a9LL5PtKdexAgmSjEoCFZeDtLYbpqblUfwN69
-SISA0z6wbT5HndCaGuixy/Dm98RmJpoDWz2pVnoUgY5t+sscdxgAuX/ZIyhR8veC
-zQLI9e2EMeO3q9Nd3CotuaQ3eUil8NG6XJnNwfcWV/g9LEQUOYpYVysrmdkn/ZsP
-pA6dlUHJx2kXVmF1ONxQMNcs/1DZLwe0UHvQIT2b4YrjdxyGvoVgL33PywSYNKw0
-zY3pxEpLQcGgfk5ub9pPr0QB0amvwXbppUXBR5Qk8Vfs3bf6TwJLmWogyPRPt6Ij
-4YSeVZTLH+vdShPVX6riCY22o9nAWQ==
-=1kCd
------END PGP SIGNATURE-----
+Thanks for the explanation on where to find the data.  The other issue
+is that whan I really want is to know what test failed.  I can't see a
+way to get that info.  According to Daniel answer, we don't upload that
+files for tests that fail.
 
---11bBJhi2+JI8u9EZ--
+Later, Juan.
 
 
