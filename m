@@ -2,109 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6DA716F5389
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 May 2023 10:45:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 497586F53D5
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 May 2023 10:58:00 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pu85e-0004Er-Pd; Wed, 03 May 2023 04:43:58 -0400
+	id 1pu8IJ-0000uG-N6; Wed, 03 May 2023 04:57:03 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
- id 1pu85c-0004Do-JN; Wed, 03 May 2023 04:43:56 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
- id 1pu85Y-0006nq-5L; Wed, 03 May 2023 04:43:56 -0400
-Received: from pps.filterd (m0353728.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 3438gJkv021182; Wed, 3 May 2023 08:43:47 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=sodRUcKamTTAvjrmh3X2hAUlgHQ86ZN4e7vziBUP6co=;
- b=Uv3LKnaSfaBaKrcJe3OZcRR1/QLCYte3LhgsSF0SWQlQHOi9Br6btt3Q2L6mlqxwmnlo
- IkfPnzt57TYgSy40IUajRjhU3RuDUcHkpMrlPef4yxq1TR+/MPsXJspB1v64S3EmWi5F
- 3lKkheUWVqoJC8GT/WHi/xMXclzIK8/RMie1lPH2uwC/zv6CQSgR7l0aiis3wzzsWjQl
- opk/JBBN0x5bz/k8AVuVi27nBgJv4uGlooATvsZS/cnXHmckw9aQRZGFnKpnqgZgHirA
- KyPUhWTeIE7oBKf0AvPBALxoEefE9QMw/q06owDeyKAnzneGJtLn/lk5vyO0xLRUpbOJ 8w== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3qbmb281jy-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 03 May 2023 08:43:47 +0000
-Received: from m0353728.ppops.net (m0353728.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 3438hkZE029999;
- Wed, 3 May 2023 08:43:46 GMT
-Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.98])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3qbmb281hu-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 03 May 2023 08:43:46 +0000
-Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
- by ppma03ams.nl.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 34348kij021540;
- Wed, 3 May 2023 08:43:44 GMT
-Received: from smtprelay02.fra02v.mail.ibm.com ([9.218.2.226])
- by ppma03ams.nl.ibm.com (PPS) with ESMTPS id 3q8tv6t2v5-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 03 May 2023 08:43:44 +0000
-Received: from smtpav07.fra02v.mail.ibm.com (smtpav07.fra02v.mail.ibm.com
- [10.20.54.106])
- by smtprelay02.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 3438hcYH1704508
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 3 May 2023 08:43:38 GMT
-Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 67FBC2004B;
- Wed,  3 May 2023 08:43:38 +0000 (GMT)
-Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 7730620040;
- Wed,  3 May 2023 08:43:37 +0000 (GMT)
-Received: from [9.152.222.242] (unknown [9.152.222.242])
- by smtpav07.fra02v.mail.ibm.com (Postfix) with ESMTPS;
- Wed,  3 May 2023 08:43:37 +0000 (GMT)
-Message-ID: <d1949e44-a4c1-4f7a-6a81-c909ecb610fa@linux.ibm.com>
-Date: Wed, 3 May 2023 10:43:37 +0200
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pu8IH-0000sK-RI
+ for qemu-devel@nongnu.org; Wed, 03 May 2023 04:57:01 -0400
+Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pu8IG-0006bS-5Q
+ for qemu-devel@nongnu.org; Wed, 03 May 2023 04:57:01 -0400
+Received: by mail-wm1-x332.google.com with SMTP id
+ 5b1f17b1804b1-3f19afc4fbfso48537505e9.2
+ for <qemu-devel@nongnu.org>; Wed, 03 May 2023 01:56:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1683104218; x=1685696218;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=DpeHG+3rjQwGt8Lp2GDMDOi+0/Jce+Ihwa90rb/ksYU=;
+ b=QAQBg3peF3Aa/g4Xrj7ZzoHm0f1g4Mpt4M0lRApLh74tK4VhlKShE8ZLTDdKGM3zcw
+ 4vS3EWzNjtVdv853qZWE4TQgfKvT969XwXUlg0e5YxNHGNrttRYGqwc7q8g5uPkMQcVa
+ HoFoqGQ6h2m92oyxVbTt8fVHs1hFvrj8g9vwaqJba6fvgLcU1otTRD4lPtPbmsJ1XPqD
+ DJOT7zhKmD5Veki19tPnL25ktUBBfpO6pGH6u5R75l4P7K/W72ZNC3xSXVq9cTI34doA
+ 0N6hN6xuXCTSs818XFFzbv/iwyQC8LNt8Le+iy3KGxnIRK/enoAQMipChtWI1UOdeuys
+ 0L5w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1683104218; x=1685696218;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=DpeHG+3rjQwGt8Lp2GDMDOi+0/Jce+Ihwa90rb/ksYU=;
+ b=RP5QRqHswdcb4RoZlO8sWFINB11eol1E1Qc6E2sg/qiR6WL2+hiui4gSEi6Ioj+A9J
+ SvHP+/UM53FpMaxg0wwflPLi5M/xb4yjDFtDMZILVy2Yk/8P4zFkExJglmq3m74iBIBQ
+ kN1SUTBI9x77lISwKhQ2mkFmY1Ar3m9+7NoUYHA5HLctCQ9GbKxMxsTwqzkZ5xs3Njfy
+ 5RW+E1sJtAMpztDb20M5LgKaElSoex1axoOZw7SNVOgIg4innM8wC9qTQUllzoXDtBDT
+ +3PRl/ABtPy7DQEgBDtwNzRuXcD1yn/YLjTOWdBwxihn0CFNvAF8O3w5kFACfHphf9Es
+ 3X0Q==
+X-Gm-Message-State: AC+VfDzXGgam8vgX+htaEZqfnG3b7CF+R9gmd8pGJhahgIH5uezGhjHn
+ WdSC7M7CqstzB4BQcufMdLZ6cNBGUIGQ+i7XxUMnyQ==
+X-Google-Smtp-Source: ACHHUZ6R52ElYT0LaOe6am1aBgo4l6ZcUuMFZIf6wPROb1omClfTj/I6fF1HMaiRNGdvvVXiKmIL0A==
+X-Received: by 2002:a1c:7710:0:b0:3f3:2b37:dd34 with SMTP id
+ t16-20020a1c7710000000b003f32b37dd34mr10150947wmi.9.1683104218217; 
+ Wed, 03 May 2023 01:56:58 -0700 (PDT)
+Received: from stoup.Home ([2a02:c7c:74db:8d00:c01d:9d74:b630:9087])
+ by smtp.gmail.com with ESMTPSA id
+ f26-20020a7bcd1a000000b003ef5f77901dsm1191307wmj.45.2023.05.03.01.56.57
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 03 May 2023 01:56:57 -0700 (PDT)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Cc: dbarboza@ventanamicro.com
+Subject: [PATCH 00/11] tcg/riscv: Support for Zba, Zbb, Zicond extensions
+Date: Wed,  3 May 2023 09:56:46 +0100
+Message-Id: <20230503085657.1814850-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH v20 03/21] target/s390x/cpu topology: handle STSI(15) and
- build the SYSIB
-Content-Language: en-US
-To: Nina Schoetterl-Glausch <nsg@linux.ibm.com>, qemu-s390x@nongnu.org
-Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
- richard.henderson@linaro.org, david@redhat.com, thuth@redhat.com,
- cohuck@redhat.com, mst@redhat.com, pbonzini@redhat.com,
- kvm@vger.kernel.org, ehabkost@redhat.com, marcel.apfelbaum@gmail.com,
- eblake@redhat.com, armbru@redhat.com, seiden@linux.ibm.com,
- nrb@linux.ibm.com, frankja@linux.ibm.com, berrange@redhat.com, clg@kaod.org
-References: <20230425161456.21031-1-pmorel@linux.ibm.com>
- <20230425161456.21031-4-pmorel@linux.ibm.com>
- <5f4fa29eaec7269350403b2d1b2b051e6aa59a39.camel@linux.ibm.com>
-From: Pierre Morel <pmorel@linux.ibm.com>
-In-Reply-To: <5f4fa29eaec7269350403b2d1b2b051e6aa59a39.camel@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: Gxw9oRuJi7ozInr5AeY7QPZUUbUe9wgl
-X-Proofpoint-GUID: -EpxY8oB395xfNvaHTwpOEI8ObvDDyUG
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-05-03_04,2023-04-27_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 spamscore=0
- mlxscore=0 priorityscore=1501 impostorscore=0 mlxlogscore=999
- lowpriorityscore=0 malwarescore=0 suspectscore=0 clxscore=1015
- phishscore=0 bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2303200000 definitions=main-2305030070
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=pmorel@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -33
-X-Spam_score: -3.4
-X-Spam_bar: ---
-X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.422,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::332;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x332.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -121,125 +88,44 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+Based-on: 20230503070656.1746170-1-richard.henderson@linaro.org
+("[PATCH v4 00/57] tcg: Improve atomicity support")
 
-On 5/2/23 19:22, Nina Schoetterl-Glausch wrote:
-> On Tue, 2023-04-25 at 18:14 +0200, Pierre Morel wrote:
->> On interception of STSI(15.1.x) the System Information Block
->> (SYSIB) is built from the list of pre-ordered topology entries.
->>
->> Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
->> ---
->>   MAINTAINERS                     |   1 +
->>   include/hw/s390x/cpu-topology.h |  24 +++
->>   include/hw/s390x/sclp.h         |   1 +
->>   target/s390x/cpu.h              |  72 ++++++++
->>   hw/s390x/cpu-topology.c         |  13 +-
->>   target/s390x/kvm/cpu_topology.c | 308 ++++++++++++++++++++++++++++++++
->>   target/s390x/kvm/kvm.c          |   5 +-
->>   target/s390x/kvm/meson.build    |   3 +-
->>   8 files changed, 424 insertions(+), 3 deletions(-)
->>   create mode 100644 target/s390x/kvm/cpu_topology.c
->>
->> diff --git a/MAINTAINERS b/MAINTAINERS
->> index bb7b34d0d8..de9052f753 100644
->> --- a/MAINTAINERS
->> +++ b/MAINTAINERS
->> @@ -1659,6 +1659,7 @@ M: Pierre Morel <pmorel@linux.ibm.com>
->>   S: Supported
->>   F: include/hw/s390x/cpu-topology.h
->>   F: hw/s390x/cpu-topology.c
->> +F: target/s390x/kvm/cpu_topology.c
->>   
->>   X86 Machines
->>   ------------
->> diff --git a/include/hw/s390x/cpu-topology.h b/include/hw/s390x/cpu-topology.h
->> index af36f634e0..87bfeb631e 100644
->> --- a/include/hw/s390x/cpu-topology.h
->> +++ b/include/hw/s390x/cpu-topology.h
->> @@ -15,9 +15,33 @@
->>
-> [...]
->
->> +typedef struct S390TopologyEntry {
->> +    QTAILQ_ENTRY(S390TopologyEntry) next;
->> +    s390_topology_id id;
->> +    uint64_t mask;
->> +} S390TopologyEntry;
->> +
->>   typedef struct S390Topology {
->>       uint8_t *cores_per_socket;
->> +    QTAILQ_HEAD(, S390TopologyEntry) list;
-> Since you recompute the list on every STSI, you no longer need this in here.
-> You can create it in insert_stsi_15_1_x.
+I've been vaguely following the __hw_probe syscall progress
+in the upstream kernel.  The initial version only handled
+bog standard F+D and C extensions, which everything expects
+to be present anyway, which was disappointing.  But at least
+the basis is there for proper extensions.
 
-Sure but why should we do that?
-
-It does not change functionality or performance and I do not find it 
-makes the code clearer.
-On the other hand it changes the implementation and the initialization 
-of the list with the sentinel becomes tricky.
+In the meantime, probe via sigill.  Tested with qemu-on-qemu.
+I understand the Ventana core has all of these, if you'd be
+so kind as to test.
 
 
->>       CpuTopology *smp;
->> +    bool vertical_polarization;
->>   } S390Topology;
-> [...]
->
->> +/*
->> + * Macro to check that the size of data after increment
->> + * will not get bigger than the size of the SysIB.
->> + */
->> +#define SYSIB_GUARD(data, x) do {       \
->> +        data += x;                      \
->> +        if (data  > sizeof(SysIB)) {    \
->                      ^ two spaces
-
-right, thanks
+r~
 
 
->
->> +            return 0;                   \
->> +        }                               \
->> +    } while (0)
->> +
-> [...]
->
->> +/**
->> + * s390_topology_from_cpu:
->> + * @cpu: The S390CPU
->> + *
->> + * Initialize the topology id from the CPU environment.
->> + */
->> +static s390_topology_id s390_topology_from_cpu(S390CPU *cpu)
->> +{
->> +    s390_topology_id topology_id = {0};
->> +
->> +    topology_id.drawer = cpu->env.drawer_id;
->> +    topology_id.book = cpu->env.book_id;
->> +    topology_id.socket = cpu->env.socket_id;
->> +    topology_id.origin = cpu->env.core_id / 64;
->> +    topology_id.type = S390_TOPOLOGY_CPU_IFL;
->> +    topology_id.dedicated = cpu->env.dedicated;
->> +
->> +    if (s390_topology.vertical_polarization) {
->> +        /*
->> +         * Vertical polarization with dedicated CPU implies
->> +         * vertical high entitlement.
->> +         */
-> This has already been adjusted or rejected when the entitlement was set.
->
->> +        if (topology_id.dedicated) {
->> +            topology_id.entitlement = S390_CPU_ENTITLEMENT_HIGH;
->> +        } else {
->> +            topology_id.entitlement = cpu->env.entitlement;
-> You only need this assignment.
+Richard Henderson (11):
+  disas/riscv: Decode czero.{eqz,nez}
+  tcg/riscv: Probe for Zba, Zbb, Zicond extensions
+  tcg/riscv: Support ANDN, ORN, XNOR from Zbb
+  tcg/riscv: Support ADD.UW, SEXT.B, SEXT.H, ZEXT.H from Zba+Zbb
+  tcg/riscv: Use ADD.UW for guest address generation
+  tcg/riscv: Support rotates from Zbb
+  tcg/riscv: Support REV8 from Zbb
+  tcg/riscv: Support CPOP from Zbb
+  tcg/riscv: Improve setcond expansion
+  tcg/riscv: Implement movcond
+  tcg/riscv: Support CTZ, CLZ from Zbb
 
+ tcg/riscv/tcg-target-con-set.h |   3 +
+ tcg/riscv/tcg-target-con-str.h |   1 +
+ tcg/riscv/tcg-target.h         |  48 +--
+ disas/riscv.c                  |   8 +-
+ tcg/riscv/tcg-target.c.inc     | 612 +++++++++++++++++++++++++++++----
+ 5 files changed, 587 insertions(+), 85 deletions(-)
 
-Right, thanks
-
-
-Regards,
-
-Pierre
+-- 
+2.34.1
 
 
