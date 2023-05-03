@@ -2,81 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 560BD6F4F6D
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 May 2023 06:21:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4EACD6F500B
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 May 2023 08:24:33 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pu3xv-0005oT-J6; Wed, 03 May 2023 00:19:43 -0400
+	id 1pu5sm-0000s7-Lm; Wed, 03 May 2023 02:22:32 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pizhenwei@bytedance.com>)
- id 1pu3xt-0005o7-9q
- for qemu-devel@nongnu.org; Wed, 03 May 2023 00:19:41 -0400
-Received: from mail-pl1-x632.google.com ([2607:f8b0:4864:20::632])
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pu5sj-0000rt-Mo
+ for qemu-devel@nongnu.org; Wed, 03 May 2023 02:22:29 -0400
+Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <pizhenwei@bytedance.com>)
- id 1pu3xq-0000fp-BV
- for qemu-devel@nongnu.org; Wed, 03 May 2023 00:19:41 -0400
-Received: by mail-pl1-x632.google.com with SMTP id
- d9443c01a7336-1aad55244b7so33743685ad.2
- for <qemu-devel@nongnu.org>; Tue, 02 May 2023 21:19:31 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pu5si-0005Pg-0V
+ for qemu-devel@nongnu.org; Wed, 03 May 2023 02:22:29 -0400
+Received: by mail-wr1-x42e.google.com with SMTP id
+ ffacd0b85a97d-2fc3f1d6f8cso2853811f8f.3
+ for <qemu-devel@nongnu.org>; Tue, 02 May 2023 23:22:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bytedance.com; s=google; t=1683087570; x=1685679570;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
+ d=linaro.org; s=google; t=1683094946; x=1685686946;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=3dOlDvBpuyPDzkMiyIZ5idrcuVoeDsx9DFK4aVoH63A=;
- b=ZQ2cS4sXI87oBXKYl8S1XtRyPsHSR37TgZvLjmD6aDGiRKNCHieb6kWMRgr4AzoeFT
- lxlcuxdrty0ZYQHiMPch+9NBYIhxBnKEaIoh6DBmyl7mGn7Du/ZrW9Gge12ZZp614RuF
- Xii1JuOaxGbpez2OEsmQGESsdRF4P0Mb/KotxoR3LNDzXNRO/v6UvLQufDDX1nHoV4Az
- b11MnwVc70GZjJgR/w3sIuC9SUGmEHsRhl0L6wBbm1GlThqhIMboMXjU9uaLPBjxovPt
- ZqTGsO+w+cbNLTIYj7rh8w7qlJiacC5qjgS+emtbGauD//3adA5zr2982WBBb6vXT16j
- 8/xg==
+ bh=URVvd6LZkHtxztE8g0C8uujiBA12o3uEcBI+tRbKwIY=;
+ b=HfADeA4Cotj+FkkvsK1OIGGVbNc+9gNdoGznpOL2zY7guFQETLuLPykVhzqxknojGG
+ +o2SQYsePV59rozQgiWYDaqR3UcyJQmyFX8jt6h5xQCXRbkF/GrR1pntnRff9vRTXSwU
+ iWY2A1usDvOpi9wC2G7yNhtSyXADakRblVHe5ZU3uaKLUoWD9PnT9ZnElom321S4CPJh
+ 0Xbb9/63admqUw4REGeWVcIrgGwTVd6Jg0Ofcefg08umkvICV3VEoNMAo04POz1MO4y9
+ JLid3Isn8UJwT/KzoouMcktg8LZoVUmEM8KNAYH6BGeRDK9/XXxKe1qNqSwX5BAH3yQd
+ Y35w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683087570; x=1685679570;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
+ d=1e100.net; s=20221208; t=1683094946; x=1685686946;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=3dOlDvBpuyPDzkMiyIZ5idrcuVoeDsx9DFK4aVoH63A=;
- b=mAHRQsLEQFrjXkYVUKRCVug33copd1VArgdnGZL4i9mVhSH+E7+JWHgXRmjfrv8NzV
- zk/BiMatIYBg++SWZF6/E04VOINmRzYWwZ+e9a/uPMFQ6SwoWQjfrF+udB5R/iBLZkhv
- ZERN01zK4hW+mzvf0AV/lSd8mdQTSocrOlJUN5rsr8KWVfo00rrGeiSDiaBlhDWY/W3q
- SWibaKFiXXt8/wgsIZa/US+a+nrAJ1zd44h7rcsfo89zo0a52IZjSs1jhdBdycGw+DrX
- Wy+XjeL69t165gU6IuqNcEfojZMnzP1vV9sNZKJL3VmSukUj4ZyZHtyzyNJDrqLwMetz
- blyw==
-X-Gm-Message-State: AC+VfDx+vQTERqwghj14ZO/dOe/SGpwS7zdq+eOxepPPFSifN6rF/JBg
- 0UaNoeh4Voxp5uYbVeTpvFmCzg==
-X-Google-Smtp-Source: ACHHUZ5VBtSRvUbs/LCmw22AAc4yr7xF++T05+47Go5Wr1WVn59jCeUSB+AW9sroWTV2Mci9C0L/sw==
-X-Received: by 2002:a17:903:182:b0:1a8:11d3:6b93 with SMTP id
- z2-20020a170903018200b001a811d36b93mr853057plg.66.1683087570377; 
- Tue, 02 May 2023 21:19:30 -0700 (PDT)
-Received: from [10.255.178.60] ([139.177.225.225])
+ bh=URVvd6LZkHtxztE8g0C8uujiBA12o3uEcBI+tRbKwIY=;
+ b=Ez2NtJr6O5eti+wB6ThQ8lXh9pP6iKPXW5ANMs+DBEcNKh1C59luhMz2FkXJI+3KJo
+ HuuQqdmxmw3LbnAqUBlo0Q6fRWEjM5HpI8Law21v34a6dAzOo/lf5XWD73JU4o1KvLj0
+ uDIw0ocTOvBmGouO26dtbjqvqdIHmnOpxDOtmvJum2J6YjXZwLObQ8lkmuepxxu5D7qH
+ 49iGiKomj1Z4PR88LUPITAqqoNLkQJFxfISZILpJTG7TnxOpVY9t9Eoqmx2Yrhwl3KE3
+ xYcWcypUlP7fspV3Dcmkjrq3YhhYdB0wwiSVD8j9bxmF2VR7NzG5dnI+xIQbry2nkqwZ
+ Buxw==
+X-Gm-Message-State: AC+VfDxZ1dIeEijB7AD2UhEMg1xNHfx7xi0LJZVcDWBavP8YhkP9X1h6
+ 4gg/yKQkTJx6vqETrXejne4WCQ==
+X-Google-Smtp-Source: ACHHUZ5O6gAZXLMAlS3k1qLFGo4ahPMocavK5zggVezCtd3vD0bUxF7NCwl4tQcQ3yu4P9ENosihxA==
+X-Received: by 2002:a5d:6dca:0:b0:306:29b6:b389 with SMTP id
+ d10-20020a5d6dca000000b0030629b6b389mr6906507wrz.64.1683094945971; 
+ Tue, 02 May 2023 23:22:25 -0700 (PDT)
+Received: from ?IPV6:2a02:c7c:74db:8d00:c01d:9d74:b630:9087?
+ ([2a02:c7c:74db:8d00:c01d:9d74:b630:9087])
  by smtp.gmail.com with ESMTPSA id
- v19-20020a170902e8d300b001ab05835a64sm2751155plg.290.2023.05.02.21.19.26
+ y4-20020adffa44000000b002f013fb708fsm33188926wrr.4.2023.05.02.23.22.25
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 02 May 2023 21:19:29 -0700 (PDT)
-Message-ID: <d32401b2-c05c-b716-78ac-780b85d426ff@bytedance.com>
-Date: Wed, 3 May 2023 12:19:24 +0800
+ Tue, 02 May 2023 23:22:25 -0700 (PDT)
+Message-ID: <20e8f2ee-5612-251f-62b2-20ab75345d59@linaro.org>
+Date: Wed, 3 May 2023 07:22:22 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.10.0
-Subject: Re: Re: [PULL 11/73] cryptodev: Support query-stats QMP command
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: qemu-devel@nongnu.org, =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?=
- <berrange@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- "Gonglei (Arei)" <arei.gonglei@huawei.com>, Eric Blake <eblake@redhat.com>,
- Markus Armbruster <armbru@redhat.com>
-References: <cover.1678237635.git.mst@redhat.com>
- <f2b901098e14ad1aaffab82464917b8679499cc5.1678237635.git.mst@redhat.com>
- <CAFEAcA-ZKc1Q_rTH4XGNH+wu0cfJ5G2RPpEV=x0pitHNUnbe2w@mail.gmail.com>
+Subject: Re: [PATCH RFC v2 7/9] target/loongarch: Implement
+ kvm_arch_handle_exit
 Content-Language: en-US
-From: zhenwei pi <pizhenwei@bytedance.com>
-In-Reply-To: <CAFEAcA-ZKc1Q_rTH4XGNH+wu0cfJ5G2RPpEV=x0pitHNUnbe2w@mail.gmail.com>
+To: Tianrui Zhao <zhaotianrui@loongson.cn>, qemu-devel@nongnu.org
+Cc: kvm@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>,
+ gaosong@loongson.cn, "Michael S . Tsirkin" <mst@redhat.com>,
+ Cornelia Huck <cohuck@redhat.com>, maobibo@loongson.cn, philmd@linaro.org,
+ peter.maydell@linaro.org
+References: <20230427072645.3368102-1-zhaotianrui@loongson.cn>
+ <20230427072645.3368102-8-zhaotianrui@loongson.cn>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20230427072645.3368102-8-zhaotianrui@loongson.cn>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::632;
- envelope-from=pizhenwei@bytedance.com; helo=mail-pl1-x632.google.com
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x42e.google.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
 X-Spam_bar: ---
@@ -99,48 +100,19 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On 4/27/23 08:26, Tianrui Zhao wrote:
+> Implement kvm_arch_handle_exit for loongarch. In this
+> function, the KVM_EXIT_LOONGARCH_IOCSR is handled,
+> we read or write the iocsr address space by the addr,
+> length and is_write argument in kvm_run.
+> 
+> Signed-off-by: Tianrui Zhao<zhaotianrui@loongson.cn>
+> ---
+>   target/loongarch/kvm.c        | 24 +++++++++++++++++++++++-
+>   target/loongarch/trace-events |  1 +
+>   2 files changed, 24 insertions(+), 1 deletion(-)
 
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-On 5/3/23 01:03, Peter Maydell wrote:
-> On Wed, 8 Mar 2023 at 01:11, Michael S. Tsirkin <mst@redhat.com> wrote:
->>
->> From: zhenwei pi <pizhenwei@bytedance.com>
->>
->> Now we can use "query-stats" QMP command to query statistics of
->> crypto devices. (Originally this was designed to show statistics
->> by '{"execute": "query-cryptodev"}'. Daniel Berrangé suggested that
->> querying configuration info by "query-cryptodev", and querying
->> runtime performance info by "query-stats". This makes sense!)
-> 
-> Hi; Coverity points out (CID 1508074) that this change
-> introduces a memory leak:
-> 
->> +static int cryptodev_backend_stats_query(Object *obj, void *data)
->> +{
-> 
->> +    entry = g_new0(StatsResult, 1);
->> +    entry->provider = STATS_PROVIDER_CRYPTODEV;
->> +    entry->qom_path = g_strdup(object_get_canonical_path(obj));
-> 
-> object_get_canonical_path() already returns allocated memory
-> that the caller should free with g_free(), so we should not
-> g_strdup() it (which then leaks that memory).
-> 
->> +    entry->stats = stats_list;
->> +    QAPI_LIST_PREPEND(*stats_results, entry);
->> +
->> +    return 0;
->> +}
-> 
-> Would somebody like to send a patch?
-> 
-> thanks
-> -- PMM
-
-Hi,
-
-Thanks for pointing out this, I'll fix this later.
-
--- 
-zhenwei pi
+r~
 
