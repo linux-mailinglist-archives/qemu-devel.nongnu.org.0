@@ -2,78 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C5826F557E
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 May 2023 11:59:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 72B6F6F5589
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 May 2023 12:02:17 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pu9Gm-0000Jk-Bu; Wed, 03 May 2023 05:59:32 -0400
+	id 1pu9J2-0001em-4u; Wed, 03 May 2023 06:01:52 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pu9Gk-0000J1-Jm
- for qemu-devel@nongnu.org; Wed, 03 May 2023 05:59:30 -0400
-Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e])
+ id 1pu9Ix-0001di-RZ
+ for qemu-devel@nongnu.org; Wed, 03 May 2023 06:01:48 -0400
+Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pu9Gi-0005Gb-VD
- for qemu-devel@nongnu.org; Wed, 03 May 2023 05:59:30 -0400
-Received: by mail-wm1-x32e.google.com with SMTP id
- 5b1f17b1804b1-3f19a80a330so30881845e9.2
- for <qemu-devel@nongnu.org>; Wed, 03 May 2023 02:59:28 -0700 (PDT)
+ id 1pu9Iw-0005ym-83
+ for qemu-devel@nongnu.org; Wed, 03 May 2023 06:01:47 -0400
+Received: by mail-wm1-x330.google.com with SMTP id
+ 5b1f17b1804b1-3f315712406so17111055e9.0
+ for <qemu-devel@nongnu.org>; Wed, 03 May 2023 03:01:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1683107967; x=1685699967;
+ d=linaro.org; s=google; t=1683108104; x=1685700104;
  h=content-transfer-encoding:in-reply-to:from:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=igf4zwPCPJarr0KLrzkiuupJdmLtcrvRBVl6Qse8SPE=;
- b=lTkJJLQLyZHgNWwigifJy7LwNnSqrw/0uvRRycjw2wbuFMNz38H1N88CalF1q1Is2s
- YcTKJEb8WYOXk6k6BnG1pwDSTcICnmdwqasRAMtuhTtmaMjVzxgbAbEQO6Z2canq0S89
- 5Cuus4Ah74WJaSVL07FActKREBLLUPz0tC0g8cI6+Kpl8tDQN2DdIjjaAIPZd8Ad+B0W
- rzXRwYjDgMr2KAELXmK6EhZonw2eIaLS47/0L/qjs0QJUjvMPGe/CpOeJq5WDr8kwItH
- Zmd1Eixs8a0n0x+TX63QXKNr8G7JXZLbHSWoqjXSKN31RzlcplxGxsbewGF/gJShFkB/
- ggkQ==
+ bh=NzKgsbLuZQiMlOx8mPCVWkD93l5Zfc511giepGKKsTM=;
+ b=XEWqc4ALPHALQUgshNmBY5A0MYmNcmewb/k3JGrCyboAaUmcNeqP/xDEKvdZHBt9Ly
+ H+PjNs2qCN5/+pJ5EULCkyZ/3g9/zLOgZzG902zOZKLYln7E4ZK9GUCvPoGDNLBWSPJN
+ iLmzQbAu2jmpSLkboZLQbLo5eqF3wlBr6v+crmOBQ6iZc0UQ6BKeRCnallPFGLCStVZg
+ NT7Z6drpGaqM6nedPa64Xprlyow4hnswGmqiNPiJ6r2174xC08qbCbOr3nHd9rPFzauh
+ KRqoiTo42KzTWD/WSWn5d5MgHPwlbeELkcR+YV1+SeqQb4ULPJc0x/+9NHOYGwbr1ccA
+ G2Lg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683107967; x=1685699967;
+ d=1e100.net; s=20221208; t=1683108104; x=1685700104;
  h=content-transfer-encoding:in-reply-to:from:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=igf4zwPCPJarr0KLrzkiuupJdmLtcrvRBVl6Qse8SPE=;
- b=SEeT6+CX7yWlrleerEfkO4hhCo9iwcs9M4yNnrqQMUzHLadUU5sYVD6ZbjHkO7rLqu
- v4j3/okHRJWoU1VXXyqejWtqIuwk+X/11/+sYU7r7Tdn9yl52irRwr5eSQRC4vFqXLXG
- CvKJfWy9V9Cz9jRCcdebK0PSb1HT4bbe8nDkvntXdGELpkO3yHZa5Tycy0w1ADgOZtgy
- fawPBj9ef6t5VTIK3BkVQVB4yZFchSywpxjT288NB5/EbBWfO4q6y2+UFcu+8/S9wia7
- Nm7QvNzyI3ui6mNZM0tzGmeJDyjefaBL1UlRf0Gpb+rP+mAYxT3JOWqb1s7SbXS4EoHa
- t+jg==
-X-Gm-Message-State: AC+VfDzTSdafjoLVga97tbNl7rLGb/DLCO/MkBDX9zi+SBvX90gOPlYe
- McTEXGUVVRVAp5JOAUMCY0v1Hi0ucPtWt73WASgNVA==
-X-Google-Smtp-Source: ACHHUZ7oM3M/vzX2zova2p6h/yaz7w2nLr1IsFewSmrHesRjLB1vMTjPCmRHUCVaivClNh4hPr3a3Q==
-X-Received: by 2002:a05:600c:ac8:b0:3f1:819d:d050 with SMTP id
- c8-20020a05600c0ac800b003f1819dd050mr13526510wmr.37.1683107966973; 
- Wed, 03 May 2023 02:59:26 -0700 (PDT)
+ bh=NzKgsbLuZQiMlOx8mPCVWkD93l5Zfc511giepGKKsTM=;
+ b=gVZzgi++y68LGGaB9NrNmizrFWImR41WQMvPacqNWcX4UzAs/gOFF8w8079DiVMwNE
+ G9YqWxnrQdhCRIl2ZmFeK/YC6JaQg6DsFKGa8uQygQJXC6NPvg+IABRoe0gw23eNZWq6
+ 37sozRdTD3tA5GiEaqezaExeV4pZdTJDBKHEC517ovlKk74bMnGeuuzZTdmmEPQYPypr
+ LQ4uCfvuItd1tSDIxWCiIj1tqiKoVJOsYjfiJZVU0XR77yeMWwZLgg/KCTHm2JS1iUNL
+ 0LZqstShLYEVeKJynrUiIQtnZ55+TFPs1Ms1/rG3N0iAnGTrQHnKCGlQ5hcXVkZh5Jgx
+ 1fkQ==
+X-Gm-Message-State: AC+VfDzf3j20jFS2BKK2L6Dc7RGbKpxEvgP/6rNM94Z+S+yqboUIW/nz
+ RE/sMh/cgnEAFuvYr2fbYq2r1Ur4gTloZkBza4CDQw==
+X-Google-Smtp-Source: ACHHUZ7Y40L9N1u6ZWDWiCzGWpjwFE7fDcOflCvh3U8tJNSHPoPdztzAG3FNlMaHCV4SCnrx5I25Ew==
+X-Received: by 2002:a5d:6a82:0:b0:306:2f91:a1a9 with SMTP id
+ s2-20020a5d6a82000000b003062f91a1a9mr992918wru.16.1683108104507; 
+ Wed, 03 May 2023 03:01:44 -0700 (PDT)
 Received: from ?IPV6:2a02:c7c:74db:8d00:c01d:9d74:b630:9087?
  ([2a02:c7c:74db:8d00:c01d:9d74:b630:9087])
  by smtp.gmail.com with ESMTPSA id
- h15-20020a05600c314f00b003f1978bbcd6sm44674348wmo.3.2023.05.03.02.59.26
+ j18-20020a5d4492000000b0030632833e74sm5875600wrq.11.2023.05.03.03.01.43
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 03 May 2023 02:59:26 -0700 (PDT)
-Message-ID: <d0fa3739-5baf-37dc-299b-8a7023f13fea@linaro.org>
-Date: Wed, 3 May 2023 10:59:25 +0100
+ Wed, 03 May 2023 03:01:44 -0700 (PDT)
+Message-ID: <cbb81951-3e4f-c286-e632-d41777d89ad7@linaro.org>
+Date: Wed, 3 May 2023 11:01:42 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.10.0
-Subject: Re: [PATCH v2 07/10] trace: remove control-vcpu.h
+Subject: Re: [PATCH v2 08/10] tcg: remove the final vestiges of dstate
 Content-Language: en-US
 To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
  qemu-devel@nongnu.org
 References: <20230503091756.1453057-1-alex.bennee@linaro.org>
- <20230503091756.1453057-8-alex.bennee@linaro.org>
+ <20230503091756.1453057-9-alex.bennee@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20230503091756.1453057-8-alex.bennee@linaro.org>
+In-Reply-To: <20230503091756.1453057-9-alex.bennee@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
- envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x32e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::330;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x330.google.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
 X-Spam_bar: ---
@@ -97,19 +97,21 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On 5/3/23 10:17, Alex Bennée wrote:
-> Now we no longer have vcpu controlled trace events we can excise the
-> code that allows us to query its status.
+> Now we no longer have dynamic state affecting things we can remove the
+> additional fields in cpu.h and simplify the TB hash calculation.
 > 
-> Message-Id:<20230420150009.1675181-8-alex.bennee@linaro.org>
-> Reviewed-by: Philippe Mathieu-Daudé<philmd@linaro.org>
+> Resolves:https://gitlab.com/qemu-project/qemu/-/issues/1358
+> Message-Id:<20230420150009.1675181-9-alex.bennee@linaro.org>
 > Reviewed-by: Stefan Hajnoczi<stefanha@redhat.com>
 > Signed-off-by: Alex Bennée<alex.bennee@linaro.org>
 > ---
->   trace/control-vcpu.h          | 47 -----------------------------------
->   trace/qmp.c                   |  2 +-
->   scripts/tracetool/format/h.py |  5 +---
->   3 files changed, 2 insertions(+), 52 deletions(-)
->   delete mode 100644 trace/control-vcpu.h
+>   accel/tcg/tb-hash.h       | 6 +++---
+>   include/exec/exec-all.h   | 3 ---
+>   include/hw/core/cpu.h     | 5 -----
+>   accel/tcg/cpu-exec.c      | 7 +------
+>   accel/tcg/tb-maint.c      | 5 ++---
+>   accel/tcg/translate-all.c | 6 ------
+>   6 files changed, 6 insertions(+), 26 deletions(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
