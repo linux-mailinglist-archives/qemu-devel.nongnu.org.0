@@ -2,66 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5ABD16F600A
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F8806F600B
 	for <lists+qemu-devel@lfdr.de>; Wed,  3 May 2023 22:27:11 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1puJ2c-00023U-TL; Wed, 03 May 2023 16:25:34 -0400
+	id 1puJ3j-0002Um-Em; Wed, 03 May 2023 16:26:43 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1puJ2T-000236-Ug; Wed, 03 May 2023 16:25:25 -0400
+ id 1puJ3d-0002St-Vg
+ for qemu-devel@nongnu.org; Wed, 03 May 2023 16:26:37 -0400
 Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1puJ2N-0006p0-JD; Wed, 03 May 2023 16:25:25 -0400
+ id 1puJ3b-00077H-Q3
+ for qemu-devel@nongnu.org; Wed, 03 May 2023 16:26:37 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=ilande.co.uk; s=20220518; h=Subject:Content-Transfer-Encoding:Content-Type:
  In-Reply-To:From:References:Cc:To:MIME-Version:Date:Message-ID:Sender:
  Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
  :Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
  List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=LmVqgpBKmM5IgYh25UNe68RCXdBO7jP51/WrLSIGdtI=; b=V92QGf5xj2l6gCPlN07h5WS8nq
- IBPcIa0g9twx5pZv5Bn3IjANWp9u/g3nUAoukXHZpBUbzeh9HVCBkpgLqJk+pTNS3/6jMIqXSaz+Z
- hcnP92PLwHUxOPB7oRRGvy44xvcePvI+rC01PXmZUFfiTCKFWBATGc2afRuBTVn3TulN/Kw9sz9aU
- VLy5fr6bt9pBE8PF662Z/pLjxl8g88wKe03nyoHPDi2o55rPK+d9he3ZexJAs686ZFVp+NfLoZ6hd
- puVnR9l3klOAXvjGWOrhfXRP0CqiO/nL4Msuv6tK0Edl1UDPyZAB04cVWSDNOGEcnftKFnE2ipdhN
- R7kcJKMjaSdVmQhkgWQdWUAOVu7RpDqcGmH7KP/4HaoSJ3xE4sEOLxmekz2/Y3v7W+U5/+ZEvV/aC
- D1UAaARDAsRBbiwiYFNS2GMLOz90fAPMx11fJv+lbAAqQoJpPlfpZVJ1m4VYl5OoXS3+6iN7qmSx/
- NMnD1ofACSi/R1rR8pysNcO9vildkKzFJLU609XLfG1xsLUszWJ15PnkTv9fy8BF8+LsAsTqih2in
- ejQaSZK3RYzDn78ipWWJFd/iVOpNb5hNG7mRx3qtPPgv9/EoySO2ps8LWAYieyden98b2oM7QQxTj
- KSQCUypDYMbxLr79cYtveNGyyHZi/+PyP49QIC44c=;
+ bh=8awLk6FZLctn2N/khgXH0IgzjatxwzETZQIQbQDxUYk=; b=zcQ4Y3ijPEBc4NnOwJoSjyTxqT
+ azdpwYCpFwxZfL4cfZh63utYdxwIexyzF329KrlI+9SUWD7E+vE9IjTnyl1k+ItcHJ6QaBBGt1w6y
+ ajKjw0h8d3lfw31ILVxtBqR7i3b83DzgYwMm55fFVcMqS4nEv4Qdw1EQNqdw/VhldiPFSve3XFQ1a
+ OdY7Ny5M6Br9/d8UD889ZsncNr9hx4KoUtZpCSBI/QrwgHr8mZyYo7ZA4iNeOmNe3/k5lPYtyj8jJ
+ ZkYd8/9mTjDKIv4HdizodMYpDQ9MuF9sFEteb5wkBU0vds2dEh5WjozyZlKbzma55r8RjXDpKyCmw
+ UHdcRQ4+19h3im2h0BB3y5LiiOL6LqbDgCsvur1YL/Wm5yVPYgjEr2clKPozUKpqoARKG34UOFtF0
+ MleHT3BpAFU7KlOBCSdwfn2InS5W+4fVDreLmrKi7y24jkqm0W1bRb0oPfNZMK1By1mRYfSlYR8pt
+ 07pSEra1DUiVkZmwxYj7vu4cZOqfztwi3oLfX46yWi9NqElK0j8Eu09cTeQz2jyARdCGn5EpijCk8
+ b/AuduedK0vVx7aasZAb3/jYiFkTu2v9R2X8v14wm81XpHt2IEXA4y7P7HRWcFQXjz8nziOL8eLxU
+ eZCpmjyhqcttPbP83UYlFOuqE/JLnk7qIqO6taGPs=;
 Received: from [2a00:23c4:8bac:6900:b726:cf58:4c12:f013]
  by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1puJ1J-000400-IW; Wed, 03 May 2023 21:24:17 +0100
-Message-ID: <ac6798b3-29e2-8d7f-2d4f-faf457ef5a8a@ilande.co.uk>
-Date: Wed, 3 May 2023 21:25:07 +0100
+ id 1puJ2c-00041A-GI; Wed, 03 May 2023 21:25:38 +0100
+Message-ID: <8412e54a-f6a8-d259-6413-b31b0a6eae47@ilande.co.uk>
+Date: Wed, 3 May 2023 21:26:27 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.10.0
 Content-Language: en-US
-To: BALATON Zoltan <balaton@eik.bme.hu>
-Cc: Bernhard Beschow <shentey@gmail.com>, qemu-devel@nongnu.org,
- qemu-block@nongnu.org, Jiaxun Yang <jiaxun.yang@flygoat.com>,
- John Snow <jsnow@redhat.com>, Huacai Chen <chenhuacai@kernel.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- qemu-ppc@nongnu.org
-References: <20230422150728.176512-1-shentey@gmail.com>
- <20230422150728.176512-12-shentey@gmail.com>
- <b4b8c651-3874-a919-1221-d09b3842e3c8@ilande.co.uk>
- <2BE97CCD-7EB4-4F02-B504-194C7B40A900@gmail.com>
- <df0667fa-ce41-65c0-46e3-1fa1b7ebe8fe@eik.bme.hu>
- <adf8695c-3369-e646-000a-5ef15a9112ac@ilande.co.uk>
- <529b3414-fcfb-b102-e152-6dc4722d13a5@eik.bme.hu>
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+Cc: philmd@linaro.org, jiaxun.yang@flygoat.com, crwulff@gmail.com,
+ marex@denx.de, ysato@users.sourceforge.jp
+References: <20230502160846.1289975-1-richard.henderson@linaro.org>
+ <20230502160846.1289975-14-richard.henderson@linaro.org>
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-In-Reply-To: <529b3414-fcfb-b102-e152-6dc4722d13a5@eik.bme.hu>
+In-Reply-To: <20230502160846.1289975-14-richard.henderson@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-SA-Exim-Connect-IP: 2a00:23c4:8bac:6900:b726:cf58:4c12:f013
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [PATCH 11/13] hw/ide/sii3112: Reuse PCIIDEState::{cmd,data}_ops
+Subject: Re: [PATCH 13/16] target/sparc: Use MO_ALIGN where required
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
 Received-SPF: pass client-ip=2001:41c9:1:41f::167;
@@ -88,201 +82,299 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 27/04/2023 13:55, BALATON Zoltan wrote:
+On 02/05/2023 17:08, Richard Henderson wrote:
 
-> On Thu, 27 Apr 2023, Mark Cave-Ayland wrote:
->> On 27/04/2023 00:24, BALATON Zoltan wrote:
->>> On Wed, 26 Apr 2023, Bernhard Beschow wrote:
->>>> Am 26. April 2023 11:41:54 UTC schrieb Mark Cave-Ayland 
->>>> <mark.cave-ayland@ilande.co.uk>:
->>>>> On 22/04/2023 16:07, Bernhard Beschow wrote:
->>>>>
->>>>>> Allows to unexport pci_ide_{cmd,data}_le_ops and models TYPE_SII3112_PCI as a
->>>>>> standard-compliant PCI IDE device.
->>>>>>
->>>>>> Signed-off-by: Bernhard Beschow <shentey@gmail.com>
->>>>>> ---
->>>>>>   include/hw/ide/pci.h |  2 --
->>>>>>   hw/ide/pci.c         |  4 ++--
->>>>>>   hw/ide/sii3112.c     | 50 ++++++++++++++++----------------------------
->>>>>>   3 files changed, 20 insertions(+), 36 deletions(-)
->>>>>>
->>>>>> diff --git a/include/hw/ide/pci.h b/include/hw/ide/pci.h
->>>>>> index 5025df5b82..dbb4b13161 100644
->>>>>> --- a/include/hw/ide/pci.h
->>>>>> +++ b/include/hw/ide/pci.h
->>>>>> @@ -62,6 +62,4 @@ void bmdma_cmd_writeb(BMDMAState *bm, uint32_t val);
->>>>>>   extern MemoryRegionOps bmdma_addr_ioport_ops;
->>>>>>   void pci_ide_create_devs(PCIDevice *dev);
->>>>>>   -extern const MemoryRegionOps pci_ide_cmd_le_ops;
->>>>>> -extern const MemoryRegionOps pci_ide_data_le_ops;
->>>>>>   #endif
->>>>>> diff --git a/hw/ide/pci.c b/hw/ide/pci.c
->>>>>> index b2fcc00a64..97ccc75aa6 100644
->>>>>> --- a/hw/ide/pci.c
->>>>>> +++ b/hw/ide/pci.c
->>>>>> @@ -60,7 +60,7 @@ static void pci_ide_ctrl_write(void *opaque, hwaddr addr,
->>>>>>       ide_ctrl_write(bus, addr + 2, data);
->>>>>>   }
->>>>>>   -const MemoryRegionOps pci_ide_cmd_le_ops = {
->>>>>> +static const MemoryRegionOps pci_ide_cmd_le_ops = {
->>>>>>       .read = pci_ide_status_read,
->>>>>>       .write = pci_ide_ctrl_write,
->>>>>>       .endianness = DEVICE_LITTLE_ENDIAN,
->>>>>> @@ -98,7 +98,7 @@ static void pci_ide_data_write(void *opaque, hwaddr addr,
->>>>>>       }
->>>>>>   }
->>>>>>   -const MemoryRegionOps pci_ide_data_le_ops = {
->>>>>> +static const MemoryRegionOps pci_ide_data_le_ops = {
->>>>>>       .read = pci_ide_data_read,
->>>>>>       .write = pci_ide_data_write,
->>>>>>       .endianness = DEVICE_LITTLE_ENDIAN,
->>>>>> diff --git a/hw/ide/sii3112.c b/hw/ide/sii3112.c
->>>>>> index 0af897a9ef..9cf920369f 100644
->>>>>> --- a/hw/ide/sii3112.c
->>>>>> +++ b/hw/ide/sii3112.c
->>>>>> @@ -88,21 +88,9 @@ static uint64_t sii3112_reg_read(void *opaque, hwaddr addr,
->>>>>>           val |= (d->regs[1].confstat & (1UL << 11) ? (1 << 4) : 0);
->>>>>>           val |= (uint32_t)d->i.bmdma[1].status << 16;
->>>>>>           break;
->>>>>> -    case 0x80 ... 0x87:
->>>>>> -        val = pci_ide_data_le_ops.read(&d->i.bus[0], addr - 0x80, size);
->>>>>> -        break;
->>>>>> -    case 0x8a:
->>>>>> -        val = pci_ide_cmd_le_ops.read(&d->i.bus[0], 2, size);
->>>>>> -        break;
->>>>>>       case 0xa0:
->>>>>>           val = d->regs[0].confstat;
->>>>>>           break;
->>>>>> -    case 0xc0 ... 0xc7:
->>>>>> -        val = pci_ide_data_le_ops.read(&d->i.bus[1], addr - 0xc0, size);
->>>>>> -        break;
->>>>>> -    case 0xca:
->>>>>> -        val = pci_ide_cmd_le_ops.read(&d->i.bus[1], 2, size);
->>>>>> -        break;
->>>>>>       case 0xe0:
->>>>>>           val = d->regs[1].confstat;
->>>>>>           break;
->>>>>> @@ -171,18 +159,6 @@ static void sii3112_reg_write(void *opaque, hwaddr addr,
->>>>>>       case 0x0c ... 0x0f:
->>>>>>           bmdma_addr_ioport_ops.write(&d->i.bmdma[1], addr - 12, val, size);
->>>>>>           break;
->>>>>> -    case 0x80 ... 0x87:
->>>>>> -        pci_ide_data_le_ops.write(&d->i.bus[0], addr - 0x80, val, size);
->>>>>> -        break;
->>>>>> -    case 0x8a:
->>>>>> -        pci_ide_cmd_le_ops.write(&d->i.bus[0], 2, val, size);
->>>>>> -        break;
->>>>>> -    case 0xc0 ... 0xc7:
->>>>>> -        pci_ide_data_le_ops.write(&d->i.bus[1], addr - 0xc0, val, size);
->>>>>> -        break;
->>>>>> -    case 0xca:
->>>>>> -        pci_ide_cmd_le_ops.write(&d->i.bus[1], 2, val, size);
->>>>>> -        break;
->>>>>>       case 0x100:
->>>>>>           d->regs[0].scontrol = val & 0xfff;
->>>>>>           if (val & 1) {
->>>>>> @@ -259,6 +235,11 @@ static void sii3112_pci_realize(PCIDevice *dev, Error **errp)
->>>>>>       pci_config_set_interrupt_pin(dev->config, 1);
->>>>>>       pci_set_byte(dev->config + PCI_CACHE_LINE_SIZE, 8);
->>>>>>   +    pci_register_bar(dev, 0, PCI_BASE_ADDRESS_SPACE_IO, &s->data_ops[0]);
->>>>>> +    pci_register_bar(dev, 1, PCI_BASE_ADDRESS_SPACE_IO, &s->cmd_ops[0]);
->>>>>> +    pci_register_bar(dev, 2, PCI_BASE_ADDRESS_SPACE_IO, &s->data_ops[1]);
->>>>>> +    pci_register_bar(dev, 3, PCI_BASE_ADDRESS_SPACE_IO, &s->cmd_ops[1]);
->>>>>> +
->>>>>>       /* BAR5 is in PCI memory space */
->>>>>>       memory_region_init_io(&d->mmio, OBJECT(d), &sii3112_reg_ops, d,
->>>>>>                            "sii3112.bar5", 0x200);
->>>>>> @@ -266,17 +247,22 @@ static void sii3112_pci_realize(PCIDevice *dev, Error 
->>>>>> **errp)
->>>>>>         /* BAR0-BAR4 are PCI I/O space aliases into BAR5 */
->>>>>>       mr = g_new(MemoryRegion, 1);
->>>>>> -    memory_region_init_alias(mr, OBJECT(d), "sii3112.bar0", &d->mmio, 0x80, 8);
->>>>>> -    pci_register_bar(dev, 0, PCI_BASE_ADDRESS_SPACE_IO, mr);
->>>>>> +    memory_region_init_alias(mr, OBJECT(d), "sii3112.bar0", &s->data_ops[0], 0,
->>>>>> +                             memory_region_size(&s->data_ops[0]));
->>>>>> +    memory_region_add_subregion_overlap(&d->mmio, 0x80, mr, 1);
->>>>>>       mr = g_new(MemoryRegion, 1);
->>>>>> -    memory_region_init_alias(mr, OBJECT(d), "sii3112.bar1", &d->mmio, 0x88, 4);
->>>>>> -    pci_register_bar(dev, 1, PCI_BASE_ADDRESS_SPACE_IO, mr);
->>>>>> +    memory_region_init_alias(mr, OBJECT(d), "sii3112.bar1", &s->cmd_ops[0], 0,
->>>>>> +                             memory_region_size(&s->cmd_ops[0]));
->>>>>> +    memory_region_add_subregion_overlap(&d->mmio, 0x88, mr, 1);
->>>>>>       mr = g_new(MemoryRegion, 1);
->>>>>> -    memory_region_init_alias(mr, OBJECT(d), "sii3112.bar2", &d->mmio, 0xc0, 8);
->>>>>> -    pci_register_bar(dev, 2, PCI_BASE_ADDRESS_SPACE_IO, mr);
->>>>>> +    memory_region_init_alias(mr, OBJECT(d), "sii3112.bar2", &s->data_ops[1], 0,
->>>>>> +                             memory_region_size(&s->data_ops[1]));
->>>>>> +    memory_region_add_subregion_overlap(&d->mmio, 0xc0, mr, 1);
->>>>>>       mr = g_new(MemoryRegion, 1);
->>>>>> -    memory_region_init_alias(mr, OBJECT(d), "sii3112.bar3", &d->mmio, 0xc8, 4);
->>>>>> -    pci_register_bar(dev, 3, PCI_BASE_ADDRESS_SPACE_IO, mr);
->>>>>> +    memory_region_init_alias(mr, OBJECT(d), "sii3112.bar3", &s->cmd_ops[1], 0,
->>>>>> +                             memory_region_size(&s->cmd_ops[1]));
->>>>>> +    memory_region_add_subregion_overlap(&d->mmio, 0xc8, mr, 1);
->>>>>> +
->>>>>>       mr = g_new(MemoryRegion, 1);
->>>>>>       memory_region_init_alias(mr, OBJECT(d), "sii3112.bar4", &d->mmio, 0, 16);
->>>>>>       pci_register_bar(dev, 4, PCI_BASE_ADDRESS_SPACE_IO, mr);
->>>>>
->>>>> So if I read this right, this is now switching the aliases over on BAR5 to allow 
->>>>> re-use of the common IDE/BMDMA BARs in PCIIDEState? If that's correct then I 
->>>>> think the commit message needs a bit more detail, otherwise:
->>>>
->>>> That's correct. Besides improving the commit message I'll additonally split this 
->>>> patch into two to show what's going on.
->>>>
->>>> Furthermore, I'd init the memory regions in sii3112's init method rather than in 
->>>> realize(). This will be more consistent with the other PCI IDE device models and 
->>>> with the other memory regions.
->>>
->>> Why is an init method meeded? If it's not needed why add it? Just keep it simple. 
->>> My view on these methods is that usually only a realize method is needed which is 
->>> the normal constructor of the object, but sometimes we need some properties or 
->>> something else to be available that can configure the object before realising 
->>> which is when an init method is needed. Sometimes QEMU creates an object then 
->>> destroys it without realising (I think e.g. when using help to query device 
->>> properties) so then memory regions would be created and destroyed pointlessly. So 
->>> unless there's a good reason to have an init method I'd leave this device without 
->>> one to keep it simple. That other devices have an init method does not explain why 
->>> this one should have one. Maybe those devices need it for some properties or they 
->>> are just old code and not properly QOM'ified.
->>
->> From memory one of the QOM developer guides recommends that all initialisation 
->> should be placed in .instance_init, except for objects that depend on properties 
->> which are set after .instance_init but before .realize().
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>   target/sparc/translate.c | 66 +++++++++++++++++++++-------------------
+>   1 file changed, 34 insertions(+), 32 deletions(-)
 > 
-> Any pointer to that doc? I've tried to find it but I couldn't. The docs/devel/qom.rst 
-> does not say anything about this, The older collection of docs here: 
-> https://habkost.net/posts/2016/11/incomplete-list-of-qemu-apis.html
-> also does not have anything useful either, those mostly talk about properties 
-> instead. The header include/hw/qdev-core.h has some info but it only says that 
-> "Trivial field initializations should go into #TypeInfo.instance_init. Operations 
-> depending on @props static properties should go into @realize." So I don't see a 
-> clear guide on what should go where unless something is needed before the device is 
-> realized.
+> diff --git a/target/sparc/translate.c b/target/sparc/translate.c
+> index bc71e44e66..414e014b11 100644
+> --- a/target/sparc/translate.c
+> +++ b/target/sparc/translate.c
+> @@ -1899,7 +1899,7 @@ static void gen_swap(DisasContext *dc, TCGv dst, TCGv src,
+>                        TCGv addr, int mmu_idx, MemOp memop)
+>   {
+>       gen_address_mask(dc, addr);
+> -    tcg_gen_atomic_xchg_tl(dst, addr, src, mmu_idx, memop);
+> +    tcg_gen_atomic_xchg_tl(dst, addr, src, mmu_idx, memop | MO_ALIGN);
+>   }
+>   
+>   static void gen_ldstub(DisasContext *dc, TCGv dst, TCGv addr, int mmu_idx)
+> @@ -2155,12 +2155,12 @@ static void gen_ld_asi(DisasContext *dc, TCGv dst, TCGv addr,
+>           break;
+>       case GET_ASI_DIRECT:
+>           gen_address_mask(dc, addr);
+> -        tcg_gen_qemu_ld_tl(dst, addr, da.mem_idx, da.memop);
+> +        tcg_gen_qemu_ld_tl(dst, addr, da.mem_idx, da.memop | MO_ALIGN);
+>           break;
+>       default:
+>           {
+>               TCGv_i32 r_asi = tcg_constant_i32(da.asi);
+> -            TCGv_i32 r_mop = tcg_constant_i32(memop);
+> +            TCGv_i32 r_mop = tcg_constant_i32(memop | MO_ALIGN);
+>   
+>               save_state(dc);
+>   #ifdef TARGET_SPARC64
+> @@ -2201,7 +2201,7 @@ static void gen_st_asi(DisasContext *dc, TCGv src, TCGv addr,
+>           /* fall through */
+>       case GET_ASI_DIRECT:
+>           gen_address_mask(dc, addr);
+> -        tcg_gen_qemu_st_tl(src, addr, da.mem_idx, da.memop);
+> +        tcg_gen_qemu_st_tl(src, addr, da.mem_idx, da.memop | MO_ALIGN);
+>           break;
+>   #if !defined(TARGET_SPARC64) && !defined(CONFIG_USER_ONLY)
+>       case GET_ASI_BCOPY:
+> @@ -2233,7 +2233,7 @@ static void gen_st_asi(DisasContext *dc, TCGv src, TCGv addr,
+>       default:
+>           {
+>               TCGv_i32 r_asi = tcg_constant_i32(da.asi);
+> -            TCGv_i32 r_mop = tcg_constant_i32(memop & MO_SIZE);
+> +            TCGv_i32 r_mop = tcg_constant_i32(memop | MO_ALIGN);
+>   
+>               save_state(dc);
+>   #ifdef TARGET_SPARC64
+> @@ -2283,7 +2283,7 @@ static void gen_cas_asi(DisasContext *dc, TCGv addr, TCGv cmpv,
+>       case GET_ASI_DIRECT:
+>           oldv = tcg_temp_new();
+>           tcg_gen_atomic_cmpxchg_tl(oldv, addr, cmpv, gen_load_gpr(dc, rd),
+> -                                  da.mem_idx, da.memop);
+> +                                  da.mem_idx, da.memop | MO_ALIGN);
+>           gen_store_gpr(dc, rd, oldv);
+>           break;
+>       default:
+> @@ -2347,7 +2347,7 @@ static void gen_ldf_asi(DisasContext *dc, TCGv addr,
+>           switch (size) {
+>           case 4:
+>               d32 = gen_dest_fpr_F(dc);
+> -            tcg_gen_qemu_ld_i32(d32, addr, da.mem_idx, da.memop);
+> +            tcg_gen_qemu_ld_i32(d32, addr, da.mem_idx, da.memop | MO_ALIGN);
+>               gen_store_fpr_F(dc, rd, d32);
+>               break;
+>           case 8:
+> @@ -2397,7 +2397,8 @@ static void gen_ldf_asi(DisasContext *dc, TCGv addr,
+>           /* Valid for lddfa only.  */
+>           if (size == 8) {
+>               gen_address_mask(dc, addr);
+> -            tcg_gen_qemu_ld_i64(cpu_fpr[rd / 2], addr, da.mem_idx, da.memop);
+> +            tcg_gen_qemu_ld_i64(cpu_fpr[rd / 2], addr, da.mem_idx,
+> +                                da.memop | MO_ALIGN);
+>           } else {
+>               gen_exception(dc, TT_ILL_INSN);
+>           }
+> @@ -2406,7 +2407,7 @@ static void gen_ldf_asi(DisasContext *dc, TCGv addr,
+>       default:
+>           {
+>               TCGv_i32 r_asi = tcg_constant_i32(da.asi);
+> -            TCGv_i32 r_mop = tcg_constant_i32(da.memop);
+> +            TCGv_i32 r_mop = tcg_constant_i32(da.memop | MO_ALIGN);
+>   
+>               save_state(dc);
+>               /* According to the table in the UA2011 manual, the only
+> @@ -2454,7 +2455,7 @@ static void gen_stf_asi(DisasContext *dc, TCGv addr,
+>           switch (size) {
+>           case 4:
+>               d32 = gen_load_fpr_F(dc, rd);
+> -            tcg_gen_qemu_st_i32(d32, addr, da.mem_idx, da.memop);
+> +            tcg_gen_qemu_st_i32(d32, addr, da.mem_idx, da.memop | MO_ALIGN);
+>               break;
+>           case 8:
+>               tcg_gen_qemu_st_i64(cpu_fpr[rd / 2], addr, da.mem_idx,
+> @@ -2506,7 +2507,8 @@ static void gen_stf_asi(DisasContext *dc, TCGv addr,
+>           /* Valid for stdfa only.  */
+>           if (size == 8) {
+>               gen_address_mask(dc, addr);
+> -            tcg_gen_qemu_st_i64(cpu_fpr[rd / 2], addr, da.mem_idx, da.memop);
+> +            tcg_gen_qemu_st_i64(cpu_fpr[rd / 2], addr, da.mem_idx,
+> +                                da.memop | MO_ALIGN);
+>           } else {
+>               gen_exception(dc, TT_ILL_INSN);
+>           }
+> @@ -2543,7 +2545,7 @@ static void gen_ldda_asi(DisasContext *dc, TCGv addr, int insn, int rd)
+>               TCGv_i64 tmp = tcg_temp_new_i64();
+>   
+>               gen_address_mask(dc, addr);
+> -            tcg_gen_qemu_ld_i64(tmp, addr, da.mem_idx, da.memop);
+> +            tcg_gen_qemu_ld_i64(tmp, addr, da.mem_idx, da.memop | MO_ALIGN);
+>   
+>               /* Note that LE ldda acts as if each 32-bit register
+>                  result is byte swapped.  Having just performed one
+> @@ -2613,7 +2615,7 @@ static void gen_stda_asi(DisasContext *dc, TCGv hi, TCGv addr,
+>                   tcg_gen_concat32_i64(t64, hi, lo);
+>               }
+>               gen_address_mask(dc, addr);
+> -            tcg_gen_qemu_st_i64(t64, addr, da.mem_idx, da.memop);
+> +            tcg_gen_qemu_st_i64(t64, addr, da.mem_idx, da.memop | MO_ALIGN);
+>           }
+>           break;
+>   
+> @@ -2651,7 +2653,7 @@ static void gen_casx_asi(DisasContext *dc, TCGv addr, TCGv cmpv,
+>       case GET_ASI_DIRECT:
+>           oldv = tcg_temp_new();
+>           tcg_gen_atomic_cmpxchg_tl(oldv, addr, cmpv, gen_load_gpr(dc, rd),
+> -                                  da.mem_idx, da.memop);
+> +                                  da.mem_idx, da.memop | MO_ALIGN);
+>           gen_store_gpr(dc, rd, oldv);
+>           break;
+>       default:
+> @@ -2678,7 +2680,7 @@ static void gen_ldda_asi(DisasContext *dc, TCGv addr, int insn, int rd)
+>           return;
+>       case GET_ASI_DIRECT:
+>           gen_address_mask(dc, addr);
+> -        tcg_gen_qemu_ld_i64(t64, addr, da.mem_idx, da.memop);
+> +        tcg_gen_qemu_ld_i64(t64, addr, da.mem_idx, da.memop | MO_ALIGN);
+>           break;
+>       default:
+>           {
+> @@ -2710,7 +2712,7 @@ static void gen_stda_asi(DisasContext *dc, TCGv hi, TCGv addr,
+>           break;
+>       case GET_ASI_DIRECT:
+>           gen_address_mask(dc, addr);
+> -        tcg_gen_qemu_st_i64(t64, addr, da.mem_idx, da.memop);
+> +        tcg_gen_qemu_st_i64(t64, addr, da.mem_idx, da.memop | MO_ALIGN);
+>           break;
+>       case GET_ASI_BFILL:
+>           /* Store 32 bytes of T64 to ADDR.  */
+> @@ -5180,7 +5182,7 @@ static void disas_sparc_insn(DisasContext * dc, unsigned int insn)
+>                   case 0x0:       /* ld, V9 lduw, load unsigned word */
+>                       gen_address_mask(dc, cpu_addr);
+>                       tcg_gen_qemu_ld_tl(cpu_val, cpu_addr,
+> -                                       dc->mem_idx, MO_TEUL);
+> +                                       dc->mem_idx, MO_TEUL | MO_ALIGN);
+>                       break;
+>                   case 0x1:       /* ldub, load unsigned byte */
+>                       gen_address_mask(dc, cpu_addr);
+> @@ -5190,7 +5192,7 @@ static void disas_sparc_insn(DisasContext * dc, unsigned int insn)
+>                   case 0x2:       /* lduh, load unsigned halfword */
+>                       gen_address_mask(dc, cpu_addr);
+>                       tcg_gen_qemu_ld_tl(cpu_val, cpu_addr,
+> -                                       dc->mem_idx, MO_TEUW);
+> +                                       dc->mem_idx, MO_TEUW | MO_ALIGN);
+>                       break;
+>                   case 0x3:       /* ldd, load double word */
+>                       if (rd & 1)
+> @@ -5201,7 +5203,7 @@ static void disas_sparc_insn(DisasContext * dc, unsigned int insn)
+>                           gen_address_mask(dc, cpu_addr);
+>                           t64 = tcg_temp_new_i64();
+>                           tcg_gen_qemu_ld_i64(t64, cpu_addr,
+> -                                            dc->mem_idx, MO_TEUQ);
+> +                                            dc->mem_idx, MO_TEUQ | MO_ALIGN);
+>                           tcg_gen_trunc_i64_tl(cpu_val, t64);
+>                           tcg_gen_ext32u_tl(cpu_val, cpu_val);
+>                           gen_store_gpr(dc, rd + 1, cpu_val);
+> @@ -5217,7 +5219,7 @@ static void disas_sparc_insn(DisasContext * dc, unsigned int insn)
+>                   case 0xa:       /* ldsh, load signed halfword */
+>                       gen_address_mask(dc, cpu_addr);
+>                       tcg_gen_qemu_ld_tl(cpu_val, cpu_addr,
+> -                                       dc->mem_idx, MO_TESW);
+> +                                       dc->mem_idx, MO_TESW | MO_ALIGN);
+>                       break;
+>                   case 0xd:       /* ldstub */
+>                       gen_ldstub(dc, cpu_val, cpu_addr, dc->mem_idx);
+> @@ -5272,12 +5274,12 @@ static void disas_sparc_insn(DisasContext * dc, unsigned int insn)
+>                   case 0x08: /* V9 ldsw */
+>                       gen_address_mask(dc, cpu_addr);
+>                       tcg_gen_qemu_ld_tl(cpu_val, cpu_addr,
+> -                                       dc->mem_idx, MO_TESL);
+> +                                       dc->mem_idx, MO_TESL | MO_ALIGN);
+>                       break;
+>                   case 0x0b: /* V9 ldx */
+>                       gen_address_mask(dc, cpu_addr);
+>                       tcg_gen_qemu_ld_tl(cpu_val, cpu_addr,
+> -                                       dc->mem_idx, MO_TEUQ);
+> +                                       dc->mem_idx, MO_TEUQ | MO_ALIGN);
+>                       break;
+>                   case 0x18: /* V9 ldswa */
+>                       gen_ld_asi(dc, cpu_val, cpu_addr, insn, MO_TESL);
+> @@ -5328,7 +5330,7 @@ static void disas_sparc_insn(DisasContext * dc, unsigned int insn)
+>                       gen_address_mask(dc, cpu_addr);
+>                       cpu_dst_32 = gen_dest_fpr_F(dc);
+>                       tcg_gen_qemu_ld_i32(cpu_dst_32, cpu_addr,
+> -                                        dc->mem_idx, MO_TEUL);
+> +                                        dc->mem_idx, MO_TEUL | MO_ALIGN);
+>                       gen_store_fpr_F(dc, rd, cpu_dst_32);
+>                       break;
+>                   case 0x21:      /* ldfsr, V9 ldxfsr */
+> @@ -5337,14 +5339,14 @@ static void disas_sparc_insn(DisasContext * dc, unsigned int insn)
+>                       if (rd == 1) {
+>                           TCGv_i64 t64 = tcg_temp_new_i64();
+>                           tcg_gen_qemu_ld_i64(t64, cpu_addr,
+> -                                            dc->mem_idx, MO_TEUQ);
+> +                                            dc->mem_idx, MO_TEUQ | MO_ALIGN);
+>                           gen_helper_ldxfsr(cpu_fsr, cpu_env, cpu_fsr, t64);
+>                           break;
+>                       }
+>   #endif
+>                       cpu_dst_32 = tcg_temp_new_i32();
+>                       tcg_gen_qemu_ld_i32(cpu_dst_32, cpu_addr,
+> -                                        dc->mem_idx, MO_TEUL);
+> +                                        dc->mem_idx, MO_TEUL | MO_ALIGN);
+>                       gen_helper_ldfsr(cpu_fsr, cpu_env, cpu_fsr, cpu_dst_32);
+>                       break;
+>                   case 0x22:      /* ldqf, load quad fpreg */
+> @@ -5377,7 +5379,7 @@ static void disas_sparc_insn(DisasContext * dc, unsigned int insn)
+>                   case 0x4: /* st, store word */
+>                       gen_address_mask(dc, cpu_addr);
+>                       tcg_gen_qemu_st_tl(cpu_val, cpu_addr,
+> -                                       dc->mem_idx, MO_TEUL);
+> +                                       dc->mem_idx, MO_TEUL | MO_ALIGN);
+>                       break;
+>                   case 0x5: /* stb, store byte */
+>                       gen_address_mask(dc, cpu_addr);
+> @@ -5386,7 +5388,7 @@ static void disas_sparc_insn(DisasContext * dc, unsigned int insn)
+>                   case 0x6: /* sth, store halfword */
+>                       gen_address_mask(dc, cpu_addr);
+>                       tcg_gen_qemu_st_tl(cpu_val, cpu_addr,
+> -                                       dc->mem_idx, MO_TEUW);
+> +                                       dc->mem_idx, MO_TEUW | MO_ALIGN);
+>                       break;
+>                   case 0x7: /* std, store double word */
+>                       if (rd & 1)
+> @@ -5400,7 +5402,7 @@ static void disas_sparc_insn(DisasContext * dc, unsigned int insn)
+>                           t64 = tcg_temp_new_i64();
+>                           tcg_gen_concat_tl_i64(t64, lo, cpu_val);
+>                           tcg_gen_qemu_st_i64(t64, cpu_addr,
+> -                                            dc->mem_idx, MO_TEUQ);
+> +                                            dc->mem_idx, MO_TEUQ | MO_ALIGN);
+>                       }
+>                       break;
+>   #if !defined(CONFIG_USER_ONLY) || defined(TARGET_SPARC64)
+> @@ -5424,7 +5426,7 @@ static void disas_sparc_insn(DisasContext * dc, unsigned int insn)
+>                   case 0x0e: /* V9 stx */
+>                       gen_address_mask(dc, cpu_addr);
+>                       tcg_gen_qemu_st_tl(cpu_val, cpu_addr,
+> -                                       dc->mem_idx, MO_TEUQ);
+> +                                       dc->mem_idx, MO_TEUQ | MO_ALIGN);
+>                       break;
+>                   case 0x1e: /* V9 stxa */
+>                       gen_st_asi(dc, cpu_val, cpu_addr, insn, MO_TEUQ);
+> @@ -5442,7 +5444,7 @@ static void disas_sparc_insn(DisasContext * dc, unsigned int insn)
+>                       gen_address_mask(dc, cpu_addr);
+>                       cpu_src1_32 = gen_load_fpr_F(dc, rd);
+>                       tcg_gen_qemu_st_i32(cpu_src1_32, cpu_addr,
+> -                                        dc->mem_idx, MO_TEUL);
+> +                                        dc->mem_idx, MO_TEUL | MO_ALIGN);
+>                       break;
+>                   case 0x25: /* stfsr, V9 stxfsr */
+>                       {
+> @@ -5450,12 +5452,12 @@ static void disas_sparc_insn(DisasContext * dc, unsigned int insn)
+>                           gen_address_mask(dc, cpu_addr);
+>                           if (rd == 1) {
+>                               tcg_gen_qemu_st_tl(cpu_fsr, cpu_addr,
+> -                                               dc->mem_idx, MO_TEUQ);
+> +                                               dc->mem_idx, MO_TEUQ | MO_ALIGN);
+>                               break;
+>                           }
+>   #endif
+>                           tcg_gen_qemu_st_tl(cpu_fsr, cpu_addr,
+> -                                           dc->mem_idx, MO_TEUL);
+> +                                           dc->mem_idx, MO_TEUL | MO_ALIGN);
+>                       }
+>                       break;
+>                   case 0x26:
 
-I found a reference to this in Anthony's original documentation at 
-https://lists.nongnu.org/archive/html/qemu-devel/2012-08/msg02271.html (see the 
-section "Using Instance Initialization").
-
->> Certainly there is some flexibility around this for legacy code, however quite a 
->> few reviewers have picked up on previous series I have posted when I have forgotten 
->> to move something from .realize() to .instance_init() when allowed after refactoring.
-> 
-> I don't mind if things are done in init or realize as long as we have only one of 
-> these unless we really need both. Having object init split into two functions for no 
-> good reason just makes it mode confusing so I'd like to keep it at a single place for 
-> simlicity. Between init and realize the latter seems to be more appropriate for 
-> creating the things that are only needed when the object is really created and init 
-> is for those that may be needed when the object is not fully up yet, e.g. for 
-> introspection or working with connected objects. But for simple devices like sii3112 
-> having more than a realize method probably does not make much sense. If you have 
-> examples of those reviews you refer to maybe that explains this more. I just want to 
-> avoid unneded complexity.
-
-Note that the concept of realisation only exists for devices i.e. things derived from 
-TYPE_DEVICE as opposed to things derived from TYPE_OBJECT.
+Acked-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 
 
 ATB,
