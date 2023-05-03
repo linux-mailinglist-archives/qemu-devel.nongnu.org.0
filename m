@@ -2,56 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EAB9D6F5828
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 May 2023 14:48:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D32456F5863
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 May 2023 14:58:37 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1puBta-0004qv-2H; Wed, 03 May 2023 08:47:46 -0400
+	id 1puC2s-0004Lo-2m; Wed, 03 May 2023 08:57:22 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <anjo@rev.ng>) id 1puBtX-0004pJ-NJ
- for qemu-devel@nongnu.org; Wed, 03 May 2023 08:47:43 -0400
-Received: from rev.ng ([5.9.113.41])
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1puC2q-0004FT-Ba
+ for qemu-devel@nongnu.org; Wed, 03 May 2023 08:57:20 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <anjo@rev.ng>) id 1puBtW-0007h2-7U
- for qemu-devel@nongnu.org; Wed, 03 May 2023 08:47:43 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=rev.ng;
- s=dkim; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:
- Cc:To:Subject:Reply-To:MIME-Version:Date:Message-ID:Sender:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=KThSaaBYBH3WuZPIzrHt9is6iXFfEoBvV/ZemBHisEw=; b=KaQk8sEQ7QP9LBr7R3xZvpPlY1
- MrhaK04lJDIRZiMMbAhZKXtX7/8zos4DE2aDskfL9WiZCqxcQxPVh4JGOLBdWNqwXg5c2uZazbTnt
- 0TI3Z39mDhextoWrDgGVFgMSKH3UQfSuNb8A9HfOMK3yKTxrynSXSxRGn58zpRpY5gfk=;
-Message-ID: <79d50ec5-a332-5902-dec0-e57541b4b014@rev.ng>
-Date: Wed, 3 May 2023 14:47:34 +0200
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1puC2l-0004gn-3c
+ for qemu-devel@nongnu.org; Wed, 03 May 2023 08:57:17 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1683118633;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=AQ9q6v6cSzR8U8QnXMAQmXnuNZvV2e670qL7um+9BZ4=;
+ b=UL5S8dbbG/6u++++GkutodH1Lmn45q+CX3qr+W3pIarWZpJHBAYKerIQ/6hrV30QeiUeqN
+ DhHKTFNb6N8w3uSoofS63AVpg2HcFrontweESAHlhWIhy8xod6xJAUOly6BCoKDr0CNqcl
+ IpovRfh+Y4QCKN+J/kddzlxgO+BdqBc=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-147-4QWj4eUBMAKTBh8sS6rz_A-1; Wed, 03 May 2023 08:57:10 -0400
+X-MC-Unique: 4QWj4eUBMAKTBh8sS6rz_A-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.9])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4E54829ABA1E;
+ Wed,  3 May 2023 12:57:10 +0000 (UTC)
+Received: from redhat.com (unknown [10.42.28.37])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B96B8492C13;
+ Wed,  3 May 2023 12:57:08 +0000 (UTC)
+Date: Wed, 3 May 2023 13:57:06 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Juan Quintela <quintela@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ qemu-devel@nongnu.org, Leonardo Bras <leobras@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Peter Xu <peterx@redhat.com>,
+ Lukas Straub <lukasstraub2@web.de>
+Subject: Re: [PULL 00/21] Migration 20230428 patches
+Message-ID: <ZFJaIglNQIKOCsep@redhat.com>
+References: <20230428191203.39520-1-quintela@redhat.com>
+ <5f76c54c-b300-8597-1b4e-fd29b3603d35@linaro.org>
+ <87jzxrt3u7.fsf@secure.mitica>
+ <CAFEAcA_G734ap+L-YfLt5Pd65VXFm2xcx_SFwD_ke8B7pcQGbQ@mail.gmail.com>
+ <87lei5sriq.fsf@secure.mitica>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.0
-Subject: Re: [PATCH 3/9] target/Hexagon: Finish conversion to
- tcg_gen_qemu_{ld,st}_*
-Content-Language: en-US
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-Cc: mrolnik@gmail.com, edgar.iglesias@gmail.com, tsimpson@quicinc.com,
- ale@rev.ng, laurent@vivier.eu, philmd@linaro.org, jiaxun.yang@flygoat.com,
- david@redhat.com, iii@linux.ibm.com, thuth@redhat.com,
- mark.cave-ayland@ilande.co.uk, atar4qemu@gmail.com, jcmvbkbc@gmail.com
-References: <20230502135741.1158035-1-richard.henderson@linaro.org>
- <20230502135741.1158035-4-richard.henderson@linaro.org>
-Organization: rev.ng
-In-Reply-To: <20230502135741.1158035-4-richard.henderson@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=5.9.113.41; envelope-from=anjo@rev.ng; helo=rev.ng
-X-Spam_score_int: -63
-X-Spam_score: -6.4
-X-Spam_bar: ------
-X-Spam_report: (-6.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-4.28,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <87lei5sriq.fsf@secure.mitica>
+User-Agent: Mutt/2.2.9 (2022-11-12)
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -22
+X-Spam_score: -2.3
+X-Spam_bar: --
+X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.161,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -64,24 +84,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-to:  anjo@rev.ng
-X-ACL-Warn: ,  Anton Johansson <anjo@rev.ng>
-From:  Anton Johansson via <qemu-devel@nongnu.org>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On Wed, May 03, 2023 at 11:17:33AM +0200, Juan Quintela wrote:
+> Peter Maydell <peter.maydell@linaro.org> wrote:
+> > On Tue, 2 May 2023 at 11:39, Juan Quintela <quintela@redhat.com> wrote:
+> >> Richard, once that we are here, one of the problem that we are having is
+> >> that the test is exiting with an abort, so we have no clue what is
+> >> happening.  Is there a way to get a backtrace, or at least the number
+> >
+> > This has been consistently an issue with the migration tests.
+> > As the owner of the tests, if they are not providing you with
+> > the level of detail that you need to diagnose failures, I
+> > think that is something that is in your court to address:
+> > the CI system is always going to only be able to provide
+> > you with what your tests are outputting to the logs.
+> 
+> Right now I would be happy just to see what test it is failing at.
+> 
+> I am doing something wrong, or from the links that I see on richard
+> email, I am not able to reach anywhere where I can see the full logs.
+> 
+> > For the specific case of backtraces from assertion failures,
+> > I think Dan was looking at whether we could put something
+> > together for that. It won't help with segfaults and the like, though.
+> 
+> I am waiting for that O:-)
 
-On 5/2/23 15:57, Richard Henderson wrote:
-> Convert away from the old interface with the implicit
-> MemOp argument.  Importantly, this removes some incorrect
-> casts generated by idef-parser's gen_load().
->
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->   target/hexagon/macros.h                     | 14 ++++-----
->   target/hexagon/genptr.c                     |  8 +++---
->   target/hexagon/idef-parser/parser-helpers.c | 28 +++++++++---------
->   target/hexagon/translate.c                  | 32 ++++++++++-----------
->   4 files changed, 40 insertions(+), 42 deletions(-)
-Reviewed-by: Anton Johansson <anjo@rev.ng>
+I did have a play, but didn't get anything satisfactory working.
+I could only capture a trace from a single thread and the hard
+problems that really want traces usually involve multiple threads.
+There's really no good substitute for an OS level crash collector
+like systemd-coredump or abrtd :-( This is really worth an RFE
+to GitLab as a possible enhancement to their shared runners.
+
+> > You should be able to at least get the number of the subtest out of
+> > the logs (either directly in the logs of the job, or else
+> > from the more detailed log file that gets stored as a
+> > job artefact in most cases).
+> 
+> Also note that the test is stopping in an abort, with no diagnostic
+> message that I can see.  But I don't see where the abort cames from:
+
+Any g_assert  failure will result in an abort, so there are many
+possibilities.
+
+We should be uploading the testlog.txt from meson test to show what
+one asserts, but I've just discovered we're lacking 'when: always'
+on our 'artifacts' declarations. So the artifacts are only uploaded
+when the job succeeds, which the least useful scenario for our test
+logs !
+
+With regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+
 
