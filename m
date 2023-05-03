@@ -2,81 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D34426F5206
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 May 2023 09:42:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EA20B6F520E
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 May 2023 09:43:18 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pu6wu-0008Ie-Pk; Wed, 03 May 2023 03:30:52 -0400
+	id 1pu6x6-0000QR-Id; Wed, 03 May 2023 03:31:04 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pu6wi-0007lJ-RX
- for qemu-devel@nongnu.org; Wed, 03 May 2023 03:30:44 -0400
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434])
+ id 1pu6wi-0007lH-Lt
+ for qemu-devel@nongnu.org; Wed, 03 May 2023 03:30:45 -0400
+Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pu6we-00071W-3r
- for qemu-devel@nongnu.org; Wed, 03 May 2023 03:30:40 -0400
-Received: by mail-wr1-x434.google.com with SMTP id
- ffacd0b85a97d-3023a56048bso4438877f8f.3
+ id 1pu6we-00071y-D2
+ for qemu-devel@nongnu.org; Wed, 03 May 2023 03:30:39 -0400
+Received: by mail-wm1-x335.google.com with SMTP id
+ 5b1f17b1804b1-3f178da21b5so31003745e9.3
  for <qemu-devel@nongnu.org>; Wed, 03 May 2023 00:30:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1683099034; x=1685691034;
+ d=linaro.org; s=google; t=1683099035; x=1685691035;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=2NJv9OOJTdlX++M0pyUMomvcf+tdOdIff0jFcTgQSmI=;
- b=PMfo1BfOr6M/UEEksrRIxXTs2fW/SJc+NN9yWTJAGblk+FlIk7IBD+IkLWIxsJWOyd
- S+U7GyvEloKvtCqDxyi5+eYA6pvRvnPfGbdqhIWcF69kl+yOi/oxpTByU1khEpq4n1e6
- LSXT4e0TVY0prJXJERLQPkrksdmxi1YAi9bUQBHZhKwmaojydduy/K0t0hrL2+unLv2g
- OeUF5K57iNYjmYxT1222SZHvk8wDCwwCuWTUeJBYnsfdJFyV3fmdLhx6w0lUap9bNWw4
- wO3rtEDzxeRXlxMjoYxOqkhCvEMVlzvJOCVs+gEqXIZFreFxoZvJJNgrLJHUczIquz3c
- tNzQ==
+ bh=eCVemSFgAo7tVkLV/FNbfI0DKmiBw4oAjQq+qI19gpU=;
+ b=uTazvgvKbXfRygFd63kbXV0Qqcxg1bE/N8Pb6mbILlfIGJ50CEnSWHxUM1tTFwXVrI
+ mzZI16rlkB4KztSVT5LwGD7a1oVhqKOhXjAV1DktA6V76WDylHgK00WneTMnb59hIsHy
+ WfbzO4lCp3R8zt+p/lq8LKCLZ9kjZipDfYanlIciMQHtpeNDC2Ziv6McvOE54l9d7Twn
+ CrOf1wqAfQ+yNJvKSpENRNj661x3K8oVTwimuyDvYx6Qase7BNP0qH3ZNf02+siLmvQa
+ KdXq/9LUbbAxmGsuvSCU13U2YC70Kbun3Lb0tZSPcSh4A0EKw6xaHtuId4WIokwALu7v
+ sjnA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683099034; x=1685691034;
+ d=1e100.net; s=20221208; t=1683099035; x=1685691035;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=2NJv9OOJTdlX++M0pyUMomvcf+tdOdIff0jFcTgQSmI=;
- b=WuWbP7vO6OY/jVTV2mrUQuh0kQ2VI+FtI/TiPglgWm3mms/VONRDWOFEaVY2Hnz35h
- r3dWNeluTBa5ZEBct3ksl70yZT0ptUCUtpezC3k4DECKRW8LMu823WdceoK1OHIkrlqQ
- po+SrqbhKCYwYO9L2nznfKJn5rmBtan0BJ9ib6NEJfH2QJqH1zJ4lVWApkATvgRpQvAU
- ms9lzcJ19SnAtURzIKc4j0p/9dxp3SWBuFNI6saGXFa0VLs8OfqjjJcR/N+MgLhvSlIG
- ljRR52qiNgB9ieMyveb7lRSRyPbAdg0T1TB46U8axUUUFimAWmj4KsouNntinhtbhYX8
- UDGQ==
-X-Gm-Message-State: AC+VfDyxhnG3OzRHTxFFFvMUYb5/u9pKs90Hk8zCY9fA332msQxM0AiM
- 261e+628T3m9sqBX3o091qv5FLOxnQMZKxJP6vaPaA==
-X-Google-Smtp-Source: ACHHUZ77Pr4vc+1aNWmYiONFjutEYyW5LoFJYLrbJbC8VP2onl/XkcVVs6dNS/RB8EM2cbVxhERGiw==
-X-Received: by 2002:a05:6000:1145:b0:306:2cf5:79dc with SMTP id
- d5-20020a056000114500b003062cf579dcmr6012766wrx.35.1683099034279; 
+ bh=eCVemSFgAo7tVkLV/FNbfI0DKmiBw4oAjQq+qI19gpU=;
+ b=Ws4UXOAlRKCS5vsXx7vs/F5l1Z3VLhFWLnl4skSAr2rvY+Ns2YurpN8+963JeYQuq0
+ mdEcbWR0zAGn8HECqFaOUtCyIyXYVSDrOaw2817I+jgyVbih1XxRmfqhLgbjGFU8YP5J
+ 2u/H+QcNB040bJOc+z4S5vklNVzNtNuSq9/jEEsoD0km/VS/Xlda9UkLvNh7gpLmLc1d
+ 5z9di03EquO35NJgYMXhc+APKeS2Fe12h2dhnjfqFzMSJnniJHdDx7ork6UxNWtg6LAh
+ bK3lUqCWrPuTKvtSJ2DL6TSr9zVbfUQK9nlMLGpS7Z4TSgfVjg2dTKySgbgjyN2G2dH7
+ V2HA==
+X-Gm-Message-State: AC+VfDwxCc4BKWL+HPPiNeIqoDRN8XB5z7rZdC4hMEX0coPFrSAvFqG1
+ HxZm+GbxDFXXakxr8N/NEVqR8c3JaTUwb/MjKtGVtg==
+X-Google-Smtp-Source: ACHHUZ5D2WElrtqxsF0Yf4Bd0dXK8rBAJXnd10o72C7tdlLN2drL7o5VqfY2gNMz/eleXySM1NKNAA==
+X-Received: by 2002:a5d:6642:0:b0:306:44ea:4fba with SMTP id
+ f2-20020a5d6642000000b0030644ea4fbamr386185wrw.31.1683099034988; 
  Wed, 03 May 2023 00:30:34 -0700 (PDT)
 Received: from stoup.Home ([2a02:c7c:74db:8d00:c01d:9d74:b630:9087])
  by smtp.gmail.com with ESMTPSA id
- f24-20020a1cc918000000b003f0ad8d1c69sm982896wmb.25.2023.05.03.00.30.33
+ f24-20020a1cc918000000b003f0ad8d1c69sm982896wmb.25.2023.05.03.00.30.34
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 03 May 2023 00:30:33 -0700 (PDT)
+ Wed, 03 May 2023 00:30:34 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: ale@rev.ng, philmd@linaro.org, marcel.apfelbaum@gmail.com,
  wangyanan55@huawei.com, anjo@rev.ng
-Subject: [PATCH 81/84] tcg: Split out exec/user/guest-base.h
-Date: Wed,  3 May 2023 08:23:28 +0100
-Message-Id: <20230503072331.1747057-82-richard.henderson@linaro.org>
+Subject: [PATCH 82/84] disas: Remove target-specific headers
+Date: Wed,  3 May 2023 08:23:29 +0100
+Message-Id: <20230503072331.1747057-83-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230503072331.1747057-1-richard.henderson@linaro.org>
 References: <20230503072331.1747057-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x434.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::335;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x335.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01,
- T_SPF_TEMPERROR=0.01 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,66 +92,52 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-TCG will need this declaration, without all of the other
-bits that come with cpu-all.h.
-
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- include/exec/cpu-all.h         |  5 +----
- include/exec/user/guest-base.h | 12 ++++++++++++
- tcg/tcg.c                      |  3 +++
- 3 files changed, 16 insertions(+), 4 deletions(-)
- create mode 100644 include/exec/user/guest-base.h
+ include/disas/disas.h | 6 ------
+ disas/disas.c         | 3 ++-
+ 2 files changed, 2 insertions(+), 7 deletions(-)
 
-diff --git a/include/exec/cpu-all.h b/include/exec/cpu-all.h
-index 95b9947e20..09bf4c0cc6 100644
---- a/include/exec/cpu-all.h
-+++ b/include/exec/cpu-all.h
-@@ -84,11 +84,8 @@
+diff --git a/include/disas/disas.h b/include/disas/disas.h
+index 6c394e0b09..176775eff7 100644
+--- a/include/disas/disas.h
++++ b/include/disas/disas.h
+@@ -1,11 +1,6 @@
+ #ifndef QEMU_DISAS_H
+ #define QEMU_DISAS_H
  
- #if defined(CONFIG_USER_ONLY)
- #include "exec/user/abitypes.h"
-+#include "exec/user/guest-base.h"
+-#include "exec/hwaddr.h"
+-
+-#ifdef NEED_CPU_H
+-#include "cpu.h"
+-
+ /* Disassemble this for me please... (debugging). */
+ void disas(FILE *out, const void *code, size_t size);
+ void target_disas(FILE *out, CPUState *cpu, uint64_t code, size_t size);
+@@ -17,7 +12,6 @@ char *plugin_disas(CPUState *cpu, uint64_t addr, size_t size);
  
--/* On some host systems the guest address space is reserved on the host.
-- * This allows the guest address space to be offset to a convenient location.
-- */
--extern uintptr_t guest_base;
- extern bool have_guest_base;
+ /* Look up symbol for debugging purpose.  Returns "" if unknown. */
+ const char *lookup_symbol(uint64_t orig_addr);
+-#endif
  
- /*
-diff --git a/include/exec/user/guest-base.h b/include/exec/user/guest-base.h
-new file mode 100644
-index 0000000000..afe2ab7fbb
---- /dev/null
-+++ b/include/exec/user/guest-base.h
-@@ -0,0 +1,12 @@
-+/* SPDX-License-Identifier: LGPL-2.1-or-later */
-+/*
-+ * Declaration of guest_base.
-+ *  Copyright (c) 2003 Fabrice Bellard
-+ */
-+
-+#ifndef EXEC_USER_GUEST_BASE_H
-+#define EXEC_USER_GUEST_BASE_H
-+
-+extern uintptr_t guest_base;
-+
-+#endif
-diff --git a/tcg/tcg.c b/tcg/tcg.c
-index 8314b912f7..460ec66490 100644
---- a/tcg/tcg.c
-+++ b/tcg/tcg.c
-@@ -57,6 +57,9 @@
- #include "tcg/tcg-temp-internal.h"
- #include "tcg-internal.h"
- #include "accel/tcg/perf.h"
-+#ifdef CONFIG_USER_ONLY
-+#include "exec/user/guest-base.h"
-+#endif
+ struct syminfo;
+ struct elf32_sym;
+diff --git a/disas/disas.c b/disas/disas.c
+index f5e95043cf..a709831e8d 100644
+--- a/disas/disas.c
++++ b/disas/disas.c
+@@ -3,9 +3,10 @@
+ #include "disas/dis-asm.h"
+ #include "elf.h"
+ #include "qemu/qemu-print.h"
+-
+ #include "disas/disas.h"
+ #include "disas/capstone.h"
++#include "hw/core/cpu.h"
++#include "exec/memory.h"
  
- /* Forward declarations for functions declared in tcg-target.c.inc and
-    used here. */
+ typedef struct CPUDebug {
+     struct disassemble_info info;
 -- 
 2.34.1
 
