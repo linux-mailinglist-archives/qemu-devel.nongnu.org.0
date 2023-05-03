@@ -2,78 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47A746F5A8D
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 May 2023 17:01:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F07E96F5B2E
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 May 2023 17:31:48 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1puDzL-0003tv-41; Wed, 03 May 2023 11:01:51 -0400
+	id 1puES0-0003ex-TY; Wed, 03 May 2023 11:31:28 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <palmer@dabbelt.com>)
- id 1puDzB-0003nR-1x
- for qemu-devel@nongnu.org; Wed, 03 May 2023 11:01:41 -0400
-Received: from mail-pl1-x636.google.com ([2607:f8b0:4864:20::636])
+ (Exim 4.90_1) (envelope-from <mat.krawczuk@gmail.com>)
+ id 1puE6k-0006Ol-NF
+ for qemu-devel@nongnu.org; Wed, 03 May 2023 11:09:30 -0400
+Received: from mail-ed1-x532.google.com ([2a00:1450:4864:20::532])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <palmer@dabbelt.com>)
- id 1puDz9-0006ar-8I
- for qemu-devel@nongnu.org; Wed, 03 May 2023 11:01:40 -0400
-Received: by mail-pl1-x636.google.com with SMTP id
- d9443c01a7336-1aaea43def7so31118085ad.2
- for <qemu-devel@nongnu.org>; Wed, 03 May 2023 08:01:38 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <mat.krawczuk@gmail.com>)
+ id 1puE6i-0003u0-KP
+ for qemu-devel@nongnu.org; Wed, 03 May 2023 11:09:30 -0400
+Received: by mail-ed1-x532.google.com with SMTP id
+ 4fb4d7f45d1cf-50bdd7b229cso3038534a12.0
+ for <qemu-devel@nongnu.org>; Wed, 03 May 2023 08:09:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=dabbelt-com.20221208.gappssmtp.com; s=20221208; t=1683126097; x=1685718097; 
- h=content-transfer-encoding:mime-version:message-id:to:from:cc
- :in-reply-to:subject:date:from:to:cc:subject:date:message-id
- :reply-to; bh=TBzTsPmmOJPxxHzi51LocCCc+3Mj5lgyiM4aBXyIoPc=;
- b=J4zbo3vD+26WpSY/Y32Seo1V+LdhPBBGpEE5Nwk6QtbbvefrOKV2dUzymiac0ne1Bs
- CTUBJas8lr70ipXLnv/6l+f2zsgKjvo8/UshhHyib5QpooPvde4ydecM/59bXVvxVdZ3
- ObXabNhtz0+KQFyqhJzje/312TWQQat9msTMZ0ntcbel4mNg6APrnzs9KZRl/9K7e56w
- MGRwT8N6dVratGBejs67vmJKSRPEfZJarN+A1mZxj4AC7k2s7IU09JJMSCWYcocbWVlc
- PlY2RF++JdN8gExD/QiA2eS6FbSO+ZM7QQOCtG7Dg/wxZl2iU7Eq3hTQsLo0lmSqNeti
- KHHQ==
+ d=gmail.com; s=20221208; t=1683126566; x=1685718566;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=ESD1pdr0aHVgZrZeFAqnfUGdATwcUO4ugikd+JVvhoA=;
+ b=BWuWPng0LkJjAKoQvi/dB+Y2IXuOov2XJSBbz3R1xUxgXAgs96i+LY8HaPxvX4oXzA
+ lXM7r3Iv6xMvZMqPInHM8FMcmNVEovY7ex+86p1rTHVjXYa/lyQsr0eKnyWkD0mpc92Y
+ /33F/fjy+gxUCePAQ2bnFRY4QvO30ObVmNWJiQn/SEzsZ6SeGqfAV0hBO+GIudZUBFOM
+ LkFvgJLEbN+xGyNqj+vtPTPDNPKujMMs9x4nBFHUKSrhhOprZJuLZV8ZOn/0C6A+G5mR
+ awwSthwh6wzhRAyOHEvcyYGgGp8CKvfaOqUL5FjhwM3eA67ItaEKYeMzIEHRosZbANJJ
+ Anew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683126097; x=1685718097;
- h=content-transfer-encoding:mime-version:message-id:to:from:cc
- :in-reply-to:subject:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=TBzTsPmmOJPxxHzi51LocCCc+3Mj5lgyiM4aBXyIoPc=;
- b=PXeRXhy46Zz2STBgmS4ELxO2SLRej+B9w9lcCwINd7BhqjmVjInhf0B308IzH0IM22
- /VNF6pO5xQmgwoy6Am6OQCH0eF3g3YFlHbeQF8GTGSaRpEV2S1dhS4QwPC/sRqilbaCN
- 7ED3NcQthyTGZ8+QxqZJ85DHWP+OBr3UT8bxY+jvFB2TfGYQeCgbaK9GaQEBxCIn7fCp
- uR8adhu+RdizIyaSlC1FvUoPA9zOtUv8x0qyX1fSsqDPr6cErFBjTm5kNr7UTUhwQqt3
- Sk9VJFiSgP9z/vFcSUIlyhMRVK8NAhZoNj3X+5lgW1q5XuwDhtrcgEsrrrgSrgFY74nM
- ZPJw==
-X-Gm-Message-State: AC+VfDylXya+rdrHyEjrdAx1D38UMHP51383cFN4NW3wMeyGux+8A0HK
- 0x9n7kyp49SpgMCZazOfd+NfBg==
-X-Google-Smtp-Source: ACHHUZ4GQQYfjI+Kwz6oivxZ7ZI4laKll8dpD7foTOy9qRy7emQYYKEyOMOV4fS9zkDhRL7txRwrOQ==
-X-Received: by 2002:a17:902:b40f:b0:19e:839e:49d8 with SMTP id
- x15-20020a170902b40f00b0019e839e49d8mr283437plr.59.1683126096130; 
- Wed, 03 May 2023 08:01:36 -0700 (PDT)
-Received: from localhost ([135.180.227.0]) by smtp.gmail.com with ESMTPSA id
- s18-20020a170902ea1200b001a4edbabad3sm6836585plg.230.2023.05.03.08.01.35
+ d=1e100.net; s=20221208; t=1683126566; x=1685718566;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=ESD1pdr0aHVgZrZeFAqnfUGdATwcUO4ugikd+JVvhoA=;
+ b=lsJcLQnadEbypI3IgBtxXD7vpRLTGPUYGtY4S+yAkkRwoZK4vhz96ELHnpIfFxqp16
+ eWnG0aMrRskM75P9mtKLVG96eNdeo3FKeKzK0EIj68EF26RHK2CssnVr9/0ZphorNDNL
+ HAgrevd1h9qjaNj2v8mMKIOU2z8q8Y+GIEZWwHiy224ut98HnAmzcZagsA3I2TTHGgRD
+ e+7Knxrwu3JsTGvKirLhEhfgS8IqBUGFUWq1R4n+5DWTbpodXZzVb6p5i5w6+n9rSS+O
+ lkBSzwoe4/Yr3FWoC6LODyL+iXeTgAfPU5XPHTqAmw4zYTXjU+yQLWw+p6YdJcxBlC+X
+ r6Kg==
+X-Gm-Message-State: AC+VfDy4I5F314YNC/XakAuLbmOXYFv86guc1iBTWajTyT5ldZrw8Awy
+ dXhr30tts+oSWCm3f/cao10=
+X-Google-Smtp-Source: ACHHUZ4d6pQtgPOnkrdYmLewDbGO7OORqWFgbVaAc4t6wvk7r5UnsOH4lgn0ralKZK/mjqnClmj90w==
+X-Received: by 2002:aa7:d501:0:b0:50b:c982:51fc with SMTP id
+ y1-20020aa7d501000000b0050bc98251fcmr6734857edq.36.1683126566308; 
+ Wed, 03 May 2023 08:09:26 -0700 (PDT)
+Received: from localhost.localdomain
+ (088156139023.dynamic-2-waw-k-2-3-0.vectranet.pl. [88.156.139.23])
+ by smtp.gmail.com with ESMTPSA id
+ n20-20020a056402515400b00509d1c6dcefsm809872edd.13.2023.05.03.08.09.25
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 03 May 2023 08:01:35 -0700 (PDT)
-Date: Wed, 03 May 2023 08:01:35 -0700 (PDT)
-X-Google-Original-Date: Wed, 03 May 2023 08:01:33 PDT (-0700)
-Subject: Re: [PATCH v2] linux-user: Add /proc/cpuinfo handler for RISC-V
-In-Reply-To: <mvmv8h93bme.fsf@suse.de>
-CC: laurent@vivier.eu, qemu-devel@nongnu.org
-From: Palmer Dabbelt <palmer@dabbelt.com>
-To: schwab@suse.de
-Message-ID: <mhng-e7adacc2-fc20-4dd6-912a-3dcb8c659ccf@palmer-ri-x1c9>
-Mime-Version: 1.0 (MHng)
-Content-Type: text/plain; charset=utf-8; format=flowed
+ Wed, 03 May 2023 08:09:25 -0700 (PDT)
+From: Mateusz Krawczuk <mat.krawczuk@gmail.com>
+To: 
+Cc: Mateusz Krawczuk <mat.krawczuk@gmail.com>, John Snow <jsnow@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ qemu-devel@nongnu.org (open list:All patches CC here)
+Subject: [PATCH] Add information how to fix common build error on Windows in
+ symlink-install-tree
+Date: Wed,  3 May 2023 17:08:55 +0200
+Message-Id: <20230503150855.1182-1-mat.krawczuk@gmail.com>
+X-Mailer: git-send-email 2.40.1.windows.1
+MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::636;
- envelope-from=palmer@dabbelt.com; helo=mail-pl1-x636.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::532;
+ envelope-from=mat.krawczuk@gmail.com; helo=mail-ed1-x532.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Wed, 03 May 2023 11:31:26 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,110 +97,43 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, 03 May 2023 04:20:09 PDT (-0700), schwab@suse.de wrote:
-> Signed-off-by: Andreas Schwab <schwab@suse.de>
-> ---
-> v2: dynmically compute the isa string
->
->  linux-user/syscall.c | 55 ++++++++++++++++++++++++++++++++++++++++++--
->  1 file changed, 53 insertions(+), 2 deletions(-)
->
-> diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-> index 69f740ff98..6df138c8b6 100644
-> --- a/linux-user/syscall.c
-> +++ b/linux-user/syscall.c
-> @@ -8231,7 +8231,8 @@ void target_exception_dump(CPUArchState *env, const char *fmt, int code)
->  }
->
->  #if HOST_BIG_ENDIAN != TARGET_BIG_ENDIAN || \
-> -    defined(TARGET_SPARC) || defined(TARGET_M68K) || defined(TARGET_HPPA)
-> +    defined(TARGET_SPARC) || defined(TARGET_M68K) || defined(TARGET_HPPA) || \
-> +    defined(TARGET_RISCV)
->  static int is_proc(const char *filename, const char *entry)
->  {
->      return strcmp(filename, entry) == 0;
-> @@ -8309,6 +8310,56 @@ static int open_cpuinfo(CPUArchState *cpu_env, int fd)
->  }
->  #endif
->
-> +#if defined(TARGET_RISCV)
-> +static int open_cpuinfo(CPUArchState *cpu_env, int fd)
-> +{
-> +    int i, num_cpus;
-> +    char isa[32];
-> +
-> +#if defined(TARGET_RISCV32)
-> +    strcpy (isa, "rv32");
-> +#endif
-> +#if defined(TARGET_RISCV64)
-> +    strcpy (isa, "rv64");
-> +#endif
-> +    i = strlen (isa);
-> +    if (riscv_has_ext (cpu_env, RVI))
-> +        isa[i++] = 'i';
-> +    if (riscv_has_ext (cpu_env, RVE))
-> +        isa[i++] = 'e';
-> +    if (riscv_has_ext (cpu_env, RVM))
-> +        isa[i++] = 'm';
-> +    if (riscv_has_ext (cpu_env, RVA))
-> +        isa[i++] = 'a';
-> +    if (riscv_has_ext (cpu_env, RVF))
-> +        isa[i++] = 'f';
-> +    if (riscv_has_ext (cpu_env, RVD))
-> +        isa[i++] = 'd';
-> +    if (riscv_has_ext (cpu_env, RVV))
-> +        isa[i++] = 'v';
-> +    if (riscv_has_ext (cpu_env, RVC))
-> +        isa[i++] = 'c';
+By default, Windows doesn't allow to create soft links for user account and only administrator is allowed to do this. To fix this problem you have to raise your permissions or enable Developer Mode, which available since Windows 10. Additional explanation when build fails will allow developer to fix the problem on his computer faster.
 
-Oddly enough, pretty much the only "must" in the ISA string rules is the 
-ordering of extensions and it's C before V
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1386
+Signed-off-by: Mateusz Krawczuk <mat.krawczuk@gmail.com>
+---
+ scripts/symlink-install-tree.py | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-    \caption{Standard ISA extension names.  The table also defines the
-      canonical order in which extension names must appear in the name
-      string, with top-to-bottom in table indicating first-to-last in the
-      name string, e.g., RV32IMACV is legal, whereas RV32IMAVC is not.}
+diff --git a/scripts/symlink-install-tree.py b/scripts/symlink-install-tree.py
+index 67cb86dd52..bb3a2d708c 100644
+--- a/scripts/symlink-install-tree.py
++++ b/scripts/symlink-install-tree.py
+@@ -7,12 +7,14 @@
+ import subprocess
+ import sys
+ 
++
+ def destdir_join(d1: str, d2: str) -> str:
+     if not d1:
+         return d2
+     # c:\destdir + c:\prefix must produce c:\destdir\prefix
+     return str(PurePath(d1, *PurePath(d2).parts[1:]))
+ 
++
+ introspect = os.environ.get('MESONINTROSPECT')
+ out = subprocess.run([*introspect.split(' '), '--installed'],
+                      stdout=subprocess.PIPE, check=True).stdout
+@@ -28,5 +30,8 @@ def destdir_join(d1: str, d2: str) -> str:
+         os.symlink(source, bundle_dest)
+     except BaseException as e:
+         if not isinstance(e, OSError) or e.errno != errno.EEXIST:
++            if os.name == 'nt':
++                print('\nPlease enable Developer Mode to support soft link '
++                      'without Administrator permission\n')
+             print(f'error making symbolic link {dest}', file=sys.stderr)
+             raise e
+-- 
+2.40.1.windows.1
 
-I guess that assumes figure captions are normative?  I'm not sure we get 
-into that level of detail, though.
-
-> +    isa[i] = 0;
-> +
-> +    num_cpus = sysconf(_SC_NPROCESSORS_ONLN);
-> +    for (i = 0; i < num_cpus; i++) {
-> +        dprintf(fd, "processor\t: %d\n", i);
-> +        dprintf(fd, "hart\t\t: %d\n", i);
-> +        dprintf(fd, "isa\t\t: %s\n", isa);
-> +#if defined(TARGET_RISCV32)
-> +        dprintf(fd, "mmu\t\t: sv32\n");
-> +#endif
-> +#if defined(TARGET_RISCV64)
-> +        dprintf(fd, "mmu\t\t: sv57\n");
-> +#endif
-> +        dprintf(fd, "mvendorid\t: 0x0\n");
-> +        dprintf(fd, "marchid\t\t: 0x0\n");
-> +        dprintf(fd, "mimpid\t\t: 0x0\n\n");
-> +    }
-> +    return 0;
-> +}
-> +#endif
-> +
->  #if defined(TARGET_M68K)
->  static int open_hardware(CPUArchState *cpu_env, int fd)
->  {
-> @@ -8333,7 +8384,7 @@ static int do_openat(CPUArchState *cpu_env, int dirfd, const char *pathname, int
->  #if HOST_BIG_ENDIAN != TARGET_BIG_ENDIAN
->          { "/proc/net/route", open_net_route, is_proc },
->  #endif
-> -#if defined(TARGET_SPARC) || defined(TARGET_HPPA)
-> +#if defined(TARGET_SPARC) || defined(TARGET_HPPA) || defined(TARGET_RISCV)
->          { "/proc/cpuinfo", open_cpuinfo, is_proc },
->  #endif
->  #if defined(TARGET_M68K)
-
-Aside from that,
-
-Reviewed-by: Palmer Dabbelt <palmer@rivosinc.com>
-
-Thanks!
 
