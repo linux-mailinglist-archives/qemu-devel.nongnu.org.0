@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7AE446F51FF
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 May 2023 09:41:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 659516F5163
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 May 2023 09:28:21 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pu6rh-00064B-2k; Wed, 03 May 2023 03:25:29 -0400
+	id 1pu6rY-0005sf-1C; Wed, 03 May 2023 03:25:20 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pu6qM-0002yp-1Z
- for qemu-devel@nongnu.org; Wed, 03 May 2023 03:24:06 -0400
-Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329])
+ id 1pu6qK-0002ZI-7u
+ for qemu-devel@nongnu.org; Wed, 03 May 2023 03:24:05 -0400
+Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pu6qI-0001mR-Ds
- for qemu-devel@nongnu.org; Wed, 03 May 2023 03:24:05 -0400
-Received: by mail-wm1-x329.google.com with SMTP id
- 5b1f17b1804b1-3f193ca059bso29150045e9.3
+ id 1pu6qH-0001mV-Po
+ for qemu-devel@nongnu.org; Wed, 03 May 2023 03:24:03 -0400
+Received: by mail-wm1-x32f.google.com with SMTP id
+ 5b1f17b1804b1-3f1950f5676so49117095e9.3
  for <qemu-devel@nongnu.org>; Wed, 03 May 2023 00:24:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=linaro.org; s=google; t=1683098640; x=1685690640;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=AI+IxDJLeDO5jUI5/lgC640eUH0gaL32tMe2tKV/5Uo=;
- b=mDqB8L2ocNxKwN+dpRS4d1OWXkcIGYvIualo/QRb7prYgkpi8e+VRVfVppojQdZy+C
- to4GYnlRpoXDmph48p2NdKkRX3PCnKLS+qy8/vYYvQjymiker+r6y9icppHRnDIK0Se2
- Mop1vtSihyvx0uocKv0YM41zZOOSUR9zFITv3PO7OK8X7pfmgAbI/tgKaa9NRwRaVWJr
- FUfQwd1Kdf3pEJTRC6z897/yJHFgLFXjcsHo7inQ+n8fpHt2c8MlUnGTFnuw3Mud1lbm
- d0LL3S0CSpNxuHMjc5qrISnwl/aFXiFYCousWhjbor5oIesSwcWyPEj+lBbxk+b4CYuZ
- emNw==
+ bh=ltltnSmlPnCka61roKfkDJCxGmwdYrh10AhkBoJXCRA=;
+ b=AQmyeMVASsPxLF0x3c/9B168MqSQ6dXEKQr6MfusQjLVFEjZAi9dt3j93p8ayBuj0F
+ X/d3CQkGDaXhKBu5FDM8sBLlXz5pDbC1BudasPOMqKanXPEugZj1eVzhkwkfc1tlHfXc
+ xY9yh5zVzJSPlE3nzDLIhSHdyDHHp2bSSa5LEjeq+wehqlYE9RbeqTQo99uuZSEycm+e
+ rMbLbZNja4c1qQi9MABasT8cld8jWFZEkiupgSgZ7M1EpJusX+sX65XmuG/QwD3g+cuN
+ 6MgR5eIT4QGZLTNO84glmg94XJKH9Ea6u2bqXzm4UnBEKiu9XBYtBeWOpppdF1PYZCMp
+ H5fA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20221208; t=1683098640; x=1685690640;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=AI+IxDJLeDO5jUI5/lgC640eUH0gaL32tMe2tKV/5Uo=;
- b=OYBFE6w93Eii0g7ZpStLB4jnTBLbWHCEf/SCybBNvwa8/pOszo4gRV0wC3+/P3gwVW
- aYjp+9nHKhzrh3DNfIpWUDdwp4RgYiEpHzIVskEyv/+StSqGM0ILG8yQDDkv1Iwfcjs4
- qniQ98c+qCM42uege6Yk1NGCzunMMX3nSvrkIzGo8UUGzQme/3199vaH/evK9UPjJds1
- slHADCSEbzOB/g0qn1k0KydRtRdWvBwaZol6JfHkLKEzqhCTk3Syhkf6oXTndQ1VoDyG
- Bo0LkbcY0ScWzOPwvFuPsu82dveU0Y48Sj/Y8xKbhB6gN7DHWSTllCYfeZvPis9uiaRA
- VtNg==
-X-Gm-Message-State: AC+VfDwQ7lry4agzXS1Te+47upMYBIHhgKP2nuDi6t2fjqdTHtoSebFU
- XQh88TaqoqvfLyip7A+ZX/+X1U391P08iQ6A7E99Nw==
-X-Google-Smtp-Source: ACHHUZ5f7I+JVixy96Aqst4WxGYHHTMLK9ft3dabLGe2eZh+oFjI8X5cI5BMiXk7596kRKynJK8EYw==
-X-Received: by 2002:a7b:ce8b:0:b0:3f1:7fc0:4dbc with SMTP id
- q11-20020a7bce8b000000b003f17fc04dbcmr14380810wmj.38.1683098639867; 
- Wed, 03 May 2023 00:23:59 -0700 (PDT)
+ bh=ltltnSmlPnCka61roKfkDJCxGmwdYrh10AhkBoJXCRA=;
+ b=WATM+0dVqZE1CTgJKnKQ3wQu5rW6Vo1de9dhVHacfJfRVvu4nb63I6srBfg+4yEOlv
+ lf4DA+giqv9UOsNu4U1KcU9PI0ii4N3NGPckQMSlY6vaHIgBB0r2scjrvXXxtakI3qBY
+ 0yCksD7MqfQq6hR0yz+bwHwN0KoCUoad0vFpBezTrWlIYl86rqGs/15JGke2vUeatRAA
+ TSJn+V0rm3DBIbNkYj/ww6nBdYwW/5tBpWx/ZzYAwQyxXvueiZ5HvWiFng7ZhFaPtuMX
+ 8w1EMm1jucjkrvAzEn++vMyyIIzpT+6J40xNuHixqloCKQ8UB0y0hDc4sHzEaNwXydvj
+ hyjg==
+X-Gm-Message-State: AC+VfDyMRc8XFl2aiHRn3rnyAr1yzBpODm+MXYBbbotm5KT4MXniogdh
+ Fini+9JJ71TJdTjjy5tfj1nuoWiGBy+i9tLk0n41CQ==
+X-Google-Smtp-Source: ACHHUZ6ktS6fZlkghDlraPqoYXdYi2q3l9pv/MTCubqiBLjV41NcWbFU9+/l4yP58F1vL0JGFspjMw==
+X-Received: by 2002:a7b:cc1a:0:b0:3f1:969f:c9d0 with SMTP id
+ f26-20020a7bcc1a000000b003f1969fc9d0mr13715241wmh.4.1683098640437; 
+ Wed, 03 May 2023 00:24:00 -0700 (PDT)
 Received: from stoup.Home ([2a02:c7c:74db:8d00:c01d:9d74:b630:9087])
  by smtp.gmail.com with ESMTPSA id
  b14-20020a05600010ce00b0030627f58325sm9586745wrx.25.2023.05.03.00.23.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 03 May 2023 00:23:59 -0700 (PDT)
+ Wed, 03 May 2023 00:24:00 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: ale@rev.ng, philmd@linaro.org, marcel.apfelbaum@gmail.com,
  wangyanan55@huawei.com, anjo@rev.ng
-Subject: [PATCH 35/84] tcg: Remove TCG_TARGET_TLB_DISPLACEMENT_BITS
-Date: Wed,  3 May 2023 08:22:42 +0100
-Message-Id: <20230503072331.1747057-36-richard.henderson@linaro.org>
+Subject: [PATCH 36/84] tcg: Split out tcg/debug-assert.h
+Date: Wed,  3 May 2023 08:22:43 +0100
+Message-Id: <20230503072331.1747057-37-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230503072331.1747057-1-richard.henderson@linaro.org>
 References: <20230503072331.1747057-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::329;
- envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x329.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x32f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -92,130 +92,63 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The last use was removed by e77c89fb086a.
-
-Fixes: e77c89fb086a ("cputlb: Remove static tlb sizing")
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tcg/aarch64/tcg-target.h | 1 -
- tcg/arm/tcg-target.h     | 1 -
- tcg/i386/tcg-target.h    | 1 -
- tcg/mips/tcg-target.h    | 1 -
- tcg/ppc/tcg-target.h     | 1 -
- tcg/riscv/tcg-target.h   | 1 -
- tcg/s390x/tcg-target.h   | 1 -
- tcg/sparc64/tcg-target.h | 1 -
- tcg/tci/tcg-target.h     | 1 -
- 9 files changed, 9 deletions(-)
+ include/tcg/debug-assert.h | 17 +++++++++++++++++
+ include/tcg/tcg.h          |  9 +--------
+ 2 files changed, 18 insertions(+), 8 deletions(-)
+ create mode 100644 include/tcg/debug-assert.h
 
-diff --git a/tcg/aarch64/tcg-target.h b/tcg/aarch64/tcg-target.h
-index fa6af9746f..3f562be6d9 100644
---- a/tcg/aarch64/tcg-target.h
-+++ b/tcg/aarch64/tcg-target.h
-@@ -14,7 +14,6 @@
- #define AARCH64_TCG_TARGET_H
+diff --git a/include/tcg/debug-assert.h b/include/tcg/debug-assert.h
+new file mode 100644
+index 0000000000..596765a3d2
+--- /dev/null
++++ b/include/tcg/debug-assert.h
+@@ -0,0 +1,17 @@
++/* SPDX-License-Identifier: MIT */
++/*
++ * Define tcg_debug_assert
++ * Copyright (c) 2008 Fabrice Bellard
++ */
++
++#ifndef TCG_DEBUG_ASSERT_H
++#define TCG_DEBUG_ASSERT_H
++
++#if defined CONFIG_DEBUG_TCG || defined QEMU_STATIC_ANALYSIS
++# define tcg_debug_assert(X) do { assert(X); } while (0)
++#else
++# define tcg_debug_assert(X) \
++    do { if (!(X)) { __builtin_unreachable(); } } while (0)
++#endif
++
++#endif
+diff --git a/include/tcg/tcg.h b/include/tcg/tcg.h
+index 60d4923de3..57ea0b7d1d 100644
+--- a/include/tcg/tcg.h
++++ b/include/tcg/tcg.h
+@@ -34,6 +34,7 @@
+ #include "tcg/tcg-mo.h"
+ #include "tcg-target.h"
+ #include "tcg/tcg-cond.h"
++#include "tcg/debug-assert.h"
  
- #define TCG_TARGET_INSN_UNIT_SIZE  4
--#define TCG_TARGET_TLB_DISPLACEMENT_BITS 24
- #define MAX_CODE_GEN_BUFFER_SIZE  ((size_t)-1)
- 
- typedef enum {
-diff --git a/tcg/arm/tcg-target.h b/tcg/arm/tcg-target.h
-index 65efc538f4..c649db72a6 100644
---- a/tcg/arm/tcg-target.h
-+++ b/tcg/arm/tcg-target.h
-@@ -31,7 +31,6 @@ extern int arm_arch;
- #define use_armv7_instructions  (__ARM_ARCH >= 7 || arm_arch >= 7)
- 
- #define TCG_TARGET_INSN_UNIT_SIZE 4
--#define TCG_TARGET_TLB_DISPLACEMENT_BITS 16
- #define MAX_CODE_GEN_BUFFER_SIZE  UINT32_MAX
- 
- typedef enum {
-diff --git a/tcg/i386/tcg-target.h b/tcg/i386/tcg-target.h
-index 7ebd6e5135..9b2ac34015 100644
---- a/tcg/i386/tcg-target.h
-+++ b/tcg/i386/tcg-target.h
-@@ -26,7 +26,6 @@
- #define I386_TCG_TARGET_H
- 
- #define TCG_TARGET_INSN_UNIT_SIZE  1
--#define TCG_TARGET_TLB_DISPLACEMENT_BITS 31
- 
- #ifdef __x86_64__
- # define TCG_TARGET_REG_BITS  64
-diff --git a/tcg/mips/tcg-target.h b/tcg/mips/tcg-target.h
-index 7277a117ef..e52cdf0e89 100644
---- a/tcg/mips/tcg-target.h
-+++ b/tcg/mips/tcg-target.h
-@@ -36,7 +36,6 @@
+ /* XXX: make safe guess about sizes */
+ #define MAX_OP_PER_INSTR 266
+@@ -222,14 +223,6 @@ typedef uint64_t tcg_insn_unit;
+ /* The port better have done this.  */
  #endif
  
- #define TCG_TARGET_INSN_UNIT_SIZE 4
--#define TCG_TARGET_TLB_DISPLACEMENT_BITS 16
- #define TCG_TARGET_NB_REGS 32
- 
- #define MAX_CODE_GEN_BUFFER_SIZE  ((size_t)-1)
-diff --git a/tcg/ppc/tcg-target.h b/tcg/ppc/tcg-target.h
-index 204b70f86a..40f20b0c1a 100644
---- a/tcg/ppc/tcg-target.h
-+++ b/tcg/ppc/tcg-target.h
-@@ -34,7 +34,6 @@
- 
- #define TCG_TARGET_NB_REGS 64
- #define TCG_TARGET_INSN_UNIT_SIZE 4
--#define TCG_TARGET_TLB_DISPLACEMENT_BITS 16
- 
- typedef enum {
-     TCG_REG_R0,  TCG_REG_R1,  TCG_REG_R2,  TCG_REG_R3,
-diff --git a/tcg/riscv/tcg-target.h b/tcg/riscv/tcg-target.h
-index 494c986b49..ffb3d9b5b4 100644
---- a/tcg/riscv/tcg-target.h
-+++ b/tcg/riscv/tcg-target.h
-@@ -35,7 +35,6 @@
- #define TCG_TARGET_REG_BITS 64
- 
- #define TCG_TARGET_INSN_UNIT_SIZE 4
--#define TCG_TARGET_TLB_DISPLACEMENT_BITS 20
- #define TCG_TARGET_NB_REGS 32
- #define MAX_CODE_GEN_BUFFER_SIZE  ((size_t)-1)
- 
-diff --git a/tcg/s390x/tcg-target.h b/tcg/s390x/tcg-target.h
-index ec96952172..9a405003b9 100644
---- a/tcg/s390x/tcg-target.h
-+++ b/tcg/s390x/tcg-target.h
-@@ -26,7 +26,6 @@
- #define S390_TCG_TARGET_H
- 
- #define TCG_TARGET_INSN_UNIT_SIZE 2
--#define TCG_TARGET_TLB_DISPLACEMENT_BITS 19
- 
- /* We have a +- 4GB range on the branches; leave some slop.  */
- #define MAX_CODE_GEN_BUFFER_SIZE  (3 * GiB)
-diff --git a/tcg/sparc64/tcg-target.h b/tcg/sparc64/tcg-target.h
-index 31c5537379..d454278811 100644
---- a/tcg/sparc64/tcg-target.h
-+++ b/tcg/sparc64/tcg-target.h
-@@ -26,7 +26,6 @@
- #define SPARC_TCG_TARGET_H
- 
- #define TCG_TARGET_INSN_UNIT_SIZE 4
--#define TCG_TARGET_TLB_DISPLACEMENT_BITS 32
- #define TCG_TARGET_NB_REGS 32
- #define MAX_CODE_GEN_BUFFER_SIZE  (2 * GiB)
- 
-diff --git a/tcg/tci/tcg-target.h b/tcg/tci/tcg-target.h
-index 28dc6d5cfc..60a6ed65ce 100644
---- a/tcg/tci/tcg-target.h
-+++ b/tcg/tci/tcg-target.h
-@@ -42,7 +42,6 @@
- 
- #define TCG_TARGET_INTERPRETER 1
- #define TCG_TARGET_INSN_UNIT_SIZE 4
--#define TCG_TARGET_TLB_DISPLACEMENT_BITS 32
- #define MAX_CODE_GEN_BUFFER_SIZE  ((size_t)-1)
- 
- #if UINTPTR_MAX == UINT32_MAX
+-
+-#if defined CONFIG_DEBUG_TCG || defined QEMU_STATIC_ANALYSIS
+-# define tcg_debug_assert(X) do { assert(X); } while (0)
+-#else
+-# define tcg_debug_assert(X) \
+-    do { if (!(X)) { __builtin_unreachable(); } } while (0)
+-#endif
+-
+ typedef struct TCGRelocation TCGRelocation;
+ struct TCGRelocation {
+     QSIMPLEQ_ENTRY(TCGRelocation) next;
 -- 
 2.34.1
 
