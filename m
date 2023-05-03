@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED9636F51CE
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 May 2023 09:36:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FA956F5179
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 May 2023 09:29:09 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pu6qp-0003ZU-PE; Wed, 03 May 2023 03:24:36 -0400
+	id 1pu6qM-0002kL-Ar; Wed, 03 May 2023 03:24:06 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pu6q7-0001rI-LG
+ id 1pu6q7-0001r7-Jv
  for qemu-devel@nongnu.org; Wed, 03 May 2023 03:23:51 -0400
 Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pu6q3-0001gi-NS
+ id 1pu6q4-0001h0-GK
  for qemu-devel@nongnu.org; Wed, 03 May 2023 03:23:51 -0400
 Received: by mail-wr1-x42d.google.com with SMTP id
- ffacd0b85a97d-2fde2879eabso4443745f8f.1
+ ffacd0b85a97d-2f95231618aso2902290f8f.1
  for <qemu-devel@nongnu.org>; Wed, 03 May 2023 00:23:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1683098626; x=1685690626;
+ d=linaro.org; s=google; t=1683098627; x=1685690627;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=WJUr3MpSUvDxAIUv8x4KwNivrhfc+1BZ8xFfdPjBnMg=;
- b=MAFcxVg6ALEUm08AYET6qb2MN/gXeQYzolwJejTURW83cES1UNSxleE3Htoaikpufc
- CAb24GLa7jeok5m3jEeLRrkdicAoSl8SLB/KRtrkuPKv3ZwzE3Qh4Y8+aA4U4MgYEpx0
- JE8Jj+orGjf31BuXCJ4g1C6vpTxaDUJW75cuyfut+0zzkPDc9Axenu+H3Xhum3WvgAOv
- H4WlV+2vRBur1s4o15c1g0foHiwdLsdAOLVOKZVbO1GAXWJ/FRN1oV6j/Ak0GOQz5R1i
- lD5tDa5aVQWsSbaAOTSDn8C/QWCFpIzRzbun3spiNDUGWgTNIxr1K4dj4+J5y5y/R28p
- K5vg==
+ bh=Kb1ot9YMe16Zml8R39ZnIEaXK/c3V3zq72HecaTnr0w=;
+ b=CCoGQml1Eathb+lR7CDNJUqQhdnO4ij0MwAf8lKq1ikJZ1mGsPt5Kx7pMwlmreJ4nJ
+ Em/464CQKY8TU4aNVmBcEVfZr7fg5J+GJyds6n2TMH5XP2DMQuOp4Y+avV48xe8as/C2
+ kLeFMa1cL9s8OnpvQqE8KzGdKivnle2NccwZpvSdeGgMtd1d64ySewEYsAsSRPjvqq4Y
+ 5qZA9uumDDdC6Rk8xQcx/uJultQUpRSRid4uwzejifcAt2foxrPqBhjOV6jEmyaE3GVl
+ /I31dBiknhJ49TWE6n9CCRWJ535lyH6eGFqQEWVNzZ3sinqNmZdkfS68cAHH3NULp4cA
+ iVNw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683098626; x=1685690626;
+ d=1e100.net; s=20221208; t=1683098627; x=1685690627;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=WJUr3MpSUvDxAIUv8x4KwNivrhfc+1BZ8xFfdPjBnMg=;
- b=FiH5fzrDTYh7cyy4vB5GCYkz2a5z9A1Z1tyGIwKpkWKN1t3+EdJ99zPHImdrEWYZIu
- X2ilx0sR7mf4PMIo792k9z3wSKmS8X93pN/R363uCdYmfrFw0SV2JzrmwWjwLGLX3jzf
- jB05jNg6c/IAKmgaMIdhiLYaq8SEttuMN42K4YLBRoVZQg1MOiJRbUb3fmLT5i6Vp363
- Hvv7o7NbIJAbM432G3QiJIBiKyKQx2ouLh2PZfT2DJrTz526VU/wqEhtkGojMRfQ2VS2
- pxU32pQMGVUhk3Hin+3q7IdwpAxMNnNEYQbnm+8vQLmx3GXv28nyL0qpSK92Dl+CPBzK
- bG7g==
-X-Gm-Message-State: AC+VfDx1JOa4gSQan5iQMLO5JdQuhvkjDaUwPBcllw7MU2+FJClVz0Ts
- xQWVh7/9lFSyZuNXACLESe+8aWpdF/8TBAyA46YpVQ==
-X-Google-Smtp-Source: ACHHUZ7uggrH6D1PpfC1b6wxn1kMaueL3hkoooAIaDYkU6QC7IQBxLb9s3eJZJhzR9li1qDCGTLzoQ==
-X-Received: by 2002:a5d:6a45:0:b0:2fe:fd61:6426 with SMTP id
- t5-20020a5d6a45000000b002fefd616426mr13460813wrw.11.1683098626185; 
+ bh=Kb1ot9YMe16Zml8R39ZnIEaXK/c3V3zq72HecaTnr0w=;
+ b=k+k5qYO4jnbCE9rfOfHQfIjzix/I/LW91+JhV2G4xG5mspagZwV27Prw+OkLPiFrsY
+ EZm4vSA8Xg/IwCI6SC/TLT1lvJVLbw+VHf65sAPQ+pHxkN4RguXqtqBZBb7luSQdtRJE
+ VxsBswtL8GptwakPY0XcYAaI7MdPbO1UBkWOVjmWxaxt07N1Bkhux5jmpLjQUaPzOCKu
+ Vp2K0m5CQOPKXGK+RKoD80s9kVto5fuAzXreXlgaLw49+5wjYc9ADsaToDhn/jesa9N3
+ RxA+/ZxrDV+ER3YZFJ3Gfzo2ZOpDtY5UcBDn4mRvYJ6hUnnOVDIRMyNla1716kwiWeaK
+ E0Yw==
+X-Gm-Message-State: AC+VfDxqK2QWKSCDSOpSAR52WRSnZ/uavN85KESpz3aNoDSlIxtZS0Nf
+ XPvOkz2L7Gg/8lIzIqdutV2D2vls4v2qGCZ8rdhdYw==
+X-Google-Smtp-Source: ACHHUZ7KorngxBvubO3cGWfLI7lLvrZo5JcnY1ySS9O1LOiotLaYutJARxVC3VwboEmvW1pfo9q/4Q==
+X-Received: by 2002:a5d:56c6:0:b0:2ee:da1c:381a with SMTP id
+ m6-20020a5d56c6000000b002eeda1c381amr12993079wrw.69.1683098626740; 
  Wed, 03 May 2023 00:23:46 -0700 (PDT)
 Received: from stoup.Home ([2a02:c7c:74db:8d00:c01d:9d74:b630:9087])
  by smtp.gmail.com with ESMTPSA id
- b14-20020a05600010ce00b0030627f58325sm9586745wrx.25.2023.05.03.00.23.45
+ b14-20020a05600010ce00b0030627f58325sm9586745wrx.25.2023.05.03.00.23.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 03 May 2023 00:23:45 -0700 (PDT)
+ Wed, 03 May 2023 00:23:46 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: ale@rev.ng, philmd@linaro.org, marcel.apfelbaum@gmail.com,
  wangyanan55@huawei.com, anjo@rev.ng
-Subject: [PATCH 15/84] tcg/tci: Elimnate TARGET_LONG_BITS, target_ulong
-Date: Wed,  3 May 2023 08:22:22 +0100
-Message-Id: <20230503072331.1747057-16-richard.henderson@linaro.org>
+Subject: [PATCH 16/84] tcg/i386: Always enable TCG_TARGET_HAS_extr[lh]_i64_i32
+Date: Wed,  3 May 2023 08:22:23 +0100
+Message-Id: <20230503072331.1747057-17-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230503072331.1747057-1-richard.henderson@linaro.org>
 References: <20230503072331.1747057-1-richard.henderson@linaro.org>
@@ -92,198 +92,31 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-We now have the address size as part of the opcode, so
-we no longer need to test TARGET_LONG_BITS.  We can use
-uint64_t for target_ulong, as passed into load/store helpers.
+Keep all 32-bit values zero extended in the register, not solely when
+addresses are 32 bits.  This eliminates a dependency on TARGET_LONG_BITS.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tcg/tci.c                | 61 +++++++++++++++++++++++++---------------
- tcg/tci/tcg-target.c.inc | 15 +++++-----
- 2 files changed, 46 insertions(+), 30 deletions(-)
+ tcg/i386/tcg-target.h | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/tcg/tci.c b/tcg/tci.c
-index 742c791726..bab4397bc5 100644
---- a/tcg/tci.c
-+++ b/tcg/tci.c
-@@ -286,7 +286,7 @@ static bool tci_compare64(uint64_t u0, uint64_t u1, TCGCond condition)
-     return result;
- }
+diff --git a/tcg/i386/tcg-target.h b/tcg/i386/tcg-target.h
+index 7f69997e30..7ebd6e5135 100644
+--- a/tcg/i386/tcg-target.h
++++ b/tcg/i386/tcg-target.h
+@@ -154,9 +154,9 @@ extern bool have_atomic16;
+ #define TCG_TARGET_HAS_mulsh_i32        0
  
--static uint64_t tci_qemu_ld(CPUArchState *env, target_ulong taddr,
-+static uint64_t tci_qemu_ld(CPUArchState *env, uint64_t taddr,
-                             MemOpIdx oi, const void *tb_ptr)
- {
-     MemOp mop = get_memop(oi);
-@@ -312,7 +312,7 @@ static uint64_t tci_qemu_ld(CPUArchState *env, target_ulong taddr,
-     }
- }
- 
--static void tci_qemu_st(CPUArchState *env, target_ulong taddr, uint64_t val,
-+static void tci_qemu_st(CPUArchState *env, uint64_t taddr, uint64_t val,
-                         MemOpIdx oi, const void *tb_ptr)
- {
-     MemOp mop = get_memop(oi);
-@@ -372,10 +372,9 @@ uintptr_t QEMU_DISABLE_CFI tcg_qemu_tb_exec(CPUArchState *env,
-         TCGReg r0, r1, r2, r3, r4, r5;
-         tcg_target_ulong t1;
-         TCGCond condition;
--        target_ulong taddr;
-         uint8_t pos, len;
-         uint32_t tmp32;
--        uint64_t tmp64;
-+        uint64_t tmp64, taddr;
-         uint64_t T1, T2;
-         MemOpIdx oi;
-         int32_t ofs;
-@@ -923,31 +922,40 @@ uintptr_t QEMU_DISABLE_CFI tcg_qemu_tb_exec(CPUArchState *env,
-             break;
- 
-         case INDEX_op_qemu_ld_a32_i32:
-+            tci_args_rrm(insn, &r0, &r1, &oi);
-+            taddr = (uint32_t)regs[r1];
-+            goto do_ld_i32;
-         case INDEX_op_qemu_ld_a64_i32:
--            if (TARGET_LONG_BITS <= TCG_TARGET_REG_BITS) {
-+            if (TCG_TARGET_REG_BITS == 64) {
-                 tci_args_rrm(insn, &r0, &r1, &oi);
-                 taddr = regs[r1];
-             } else {
-                 tci_args_rrrm(insn, &r0, &r1, &r2, &oi);
-                 taddr = tci_uint64(regs[r2], regs[r1]);
-             }
--            tmp32 = tci_qemu_ld(env, taddr, oi, tb_ptr);
--            regs[r0] = tmp32;
-+        do_ld_i32:
-+            regs[r0] = tci_qemu_ld(env, taddr, oi, tb_ptr);
-             break;
- 
-         case INDEX_op_qemu_ld_a32_i64:
-+            if (TCG_TARGET_REG_BITS == 64) {
-+                tci_args_rrm(insn, &r0, &r1, &oi);
-+                taddr = (uint32_t)regs[r1];
-+            } else {
-+                tci_args_rrrm(insn, &r0, &r1, &r2, &oi);
-+                taddr = (uint32_t)regs[r2];
-+            }
-+            goto do_ld_i64;
-         case INDEX_op_qemu_ld_a64_i64:
-             if (TCG_TARGET_REG_BITS == 64) {
-                 tci_args_rrm(insn, &r0, &r1, &oi);
-                 taddr = regs[r1];
--            } else if (TARGET_LONG_BITS <= TCG_TARGET_REG_BITS) {
--                tci_args_rrrm(insn, &r0, &r1, &r2, &oi);
--                taddr = regs[r2];
-             } else {
-                 tci_args_rrrrr(insn, &r0, &r1, &r2, &r3, &r4);
-                 taddr = tci_uint64(regs[r3], regs[r2]);
-                 oi = regs[r4];
-             }
-+        do_ld_i64:
-             tmp64 = tci_qemu_ld(env, taddr, oi, tb_ptr);
-             if (TCG_TARGET_REG_BITS == 32) {
-                 tci_write_reg64(regs, r1, r0, tmp64);
-@@ -957,35 +965,44 @@ uintptr_t QEMU_DISABLE_CFI tcg_qemu_tb_exec(CPUArchState *env,
-             break;
- 
-         case INDEX_op_qemu_st_a32_i32:
-+            tci_args_rrm(insn, &r0, &r1, &oi);
-+            taddr = (uint32_t)regs[r1];
-+            goto do_st_i32;
-         case INDEX_op_qemu_st_a64_i32:
--            if (TARGET_LONG_BITS <= TCG_TARGET_REG_BITS) {
-+            if (TCG_TARGET_REG_BITS == 64) {
-                 tci_args_rrm(insn, &r0, &r1, &oi);
-                 taddr = regs[r1];
-             } else {
-                 tci_args_rrrm(insn, &r0, &r1, &r2, &oi);
-                 taddr = tci_uint64(regs[r2], regs[r1]);
-             }
--            tmp32 = regs[r0];
--            tci_qemu_st(env, taddr, tmp32, oi, tb_ptr);
-+        do_st_i32:
-+            tci_qemu_st(env, taddr, regs[r0], oi, tb_ptr);
-             break;
- 
-         case INDEX_op_qemu_st_a32_i64:
-+            if (TCG_TARGET_REG_BITS == 64) {
-+                tci_args_rrm(insn, &r0, &r1, &oi);
-+                tmp64 = regs[r0];
-+                taddr = (uint32_t)regs[r1];
-+            } else {
-+                tci_args_rrrm(insn, &r0, &r1, &r2, &oi);
-+                tmp64 = tci_uint64(regs[r1], regs[r0]);
-+                taddr = (uint32_t)regs[r2];
-+            }
-+            goto do_st_i64;
-         case INDEX_op_qemu_st_a64_i64:
-             if (TCG_TARGET_REG_BITS == 64) {
-                 tci_args_rrm(insn, &r0, &r1, &oi);
--                taddr = regs[r1];
-                 tmp64 = regs[r0];
-+                taddr = regs[r1];
-             } else {
--                if (TARGET_LONG_BITS <= TCG_TARGET_REG_BITS) {
--                    tci_args_rrrm(insn, &r0, &r1, &r2, &oi);
--                    taddr = regs[r2];
--                } else {
--                    tci_args_rrrrr(insn, &r0, &r1, &r2, &r3, &r4);
--                    taddr = tci_uint64(regs[r3], regs[r2]);
--                    oi = regs[r4];
--                }
-+                tci_args_rrrrr(insn, &r0, &r1, &r2, &r3, &r4);
-                 tmp64 = tci_uint64(regs[r1], regs[r0]);
-+                taddr = tci_uint64(regs[r3], regs[r2]);
-+                oi = regs[r4];
-             }
-+        do_st_i64:
-             tci_qemu_st(env, taddr, tmp64, oi, tb_ptr);
-             break;
- 
-diff --git a/tcg/tci/tcg-target.c.inc b/tcg/tci/tcg-target.c.inc
-index b9d1f492b3..e8072ca1bd 100644
---- a/tcg/tci/tcg-target.c.inc
-+++ b/tcg/tci/tcg-target.c.inc
-@@ -243,7 +243,7 @@ static bool patch_reloc(tcg_insn_unit *code_ptr, int type,
-     return false;
- }
- 
--static void stack_bounds_check(TCGReg base, target_long offset)
-+static void stack_bounds_check(TCGReg base, intptr_t offset)
- {
-     if (base == TCG_REG_CALL_STACK) {
-         tcg_debug_assert(offset >= 0);
-@@ -851,24 +851,23 @@ static void tcg_out_op(TCGContext *s, TCGOpcode opc,
-         break;
- 
-     case INDEX_op_qemu_ld_a32_i32:
--    case INDEX_op_qemu_ld_a64_i32:
-     case INDEX_op_qemu_st_a32_i32:
-+        tcg_out_op_rrm(s, opc, args[0], args[1], args[2]);
-+        break;
-+    case INDEX_op_qemu_ld_a64_i32:
-     case INDEX_op_qemu_st_a64_i32:
--        if (TARGET_LONG_BITS <= TCG_TARGET_REG_BITS) {
-+    case INDEX_op_qemu_ld_a32_i64:
-+    case INDEX_op_qemu_st_a32_i64:
-+        if (TCG_TARGET_REG_BITS == 64) {
-             tcg_out_op_rrm(s, opc, args[0], args[1], args[2]);
-         } else {
-             tcg_out_op_rrrm(s, opc, args[0], args[1], args[2], args[3]);
-         }
-         break;
--
--    case INDEX_op_qemu_ld_a32_i64:
-     case INDEX_op_qemu_ld_a64_i64:
--    case INDEX_op_qemu_st_a32_i64:
-     case INDEX_op_qemu_st_a64_i64:
-         if (TCG_TARGET_REG_BITS == 64) {
-             tcg_out_op_rrm(s, opc, args[0], args[1], args[2]);
--        } else if (TARGET_LONG_BITS <= TCG_TARGET_REG_BITS) {
--            tcg_out_op_rrrm(s, opc, args[0], args[1], args[2], args[3]);
-         } else {
-             tcg_out_movi(s, TCG_TYPE_I32, TCG_REG_TMP, args[4]);
-             tcg_out_op_rrrrr(s, opc, args[0], args[1],
+ #if TCG_TARGET_REG_BITS == 64
+-/* Keep target addresses zero-extended in a register.  */
+-#define TCG_TARGET_HAS_extrl_i64_i32    (TARGET_LONG_BITS == 32)
+-#define TCG_TARGET_HAS_extrh_i64_i32    (TARGET_LONG_BITS == 32)
++/* Keep 32-bit values zero-extended in a register.  */
++#define TCG_TARGET_HAS_extrl_i64_i32    1
++#define TCG_TARGET_HAS_extrh_i64_i32    1
+ #define TCG_TARGET_HAS_div2_i64         1
+ #define TCG_TARGET_HAS_rot_i64          1
+ #define TCG_TARGET_HAS_ext8s_i64        1
 -- 
 2.34.1
 
