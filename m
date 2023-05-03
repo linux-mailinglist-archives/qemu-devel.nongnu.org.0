@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 517876F5C1D
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 May 2023 18:35:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 686966F5C30
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 May 2023 18:38:38 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1puFRE-0002eP-Cp; Wed, 03 May 2023 12:34:44 -0400
+	id 1puFUD-0002Eg-Mu; Wed, 03 May 2023 12:37:49 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsun@junsun.net>) id 1puFRB-0002XB-SG
- for qemu-devel@nongnu.org; Wed, 03 May 2023 12:34:41 -0400
-Received: from mail-oa1-x35.google.com ([2001:4860:4864:20::35])
+ (Exim 4.90_1) (envelope-from <jsun@junsun.net>) id 1puFU7-0001ms-F2
+ for qemu-devel@nongnu.org; Wed, 03 May 2023 12:37:43 -0400
+Received: from mail-oi1-x22a.google.com ([2607:f8b0:4864:20::22a])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <jsun@junsun.net>) id 1puFR9-0003De-KU
- for qemu-devel@nongnu.org; Wed, 03 May 2023 12:34:41 -0400
-Received: by mail-oa1-x35.google.com with SMTP id
- 586e51a60fabf-187df75c901so2079644fac.1
- for <qemu-devel@nongnu.org>; Wed, 03 May 2023 09:34:39 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <jsun@junsun.net>) id 1puFU5-00043j-Qq
+ for qemu-devel@nongnu.org; Wed, 03 May 2023 12:37:43 -0400
+Received: by mail-oi1-x22a.google.com with SMTP id
+ 5614622812f47-38ef6217221so3167046b6e.3
+ for <qemu-devel@nongnu.org>; Wed, 03 May 2023 09:37:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=junsun-net.20221208.gappssmtp.com; s=20221208; t=1683131678; x=1685723678;
+ d=junsun-net.20221208.gappssmtp.com; s=20221208; t=1683131860; x=1685723860;
  h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
  :date:message-id:reply-to;
- bh=Uf/++BxaFhRoEEFiAqjquO8aOcqpvaohfOMbUbp1cNY=;
- b=VZxmBSGlVUeNIkzfC8aMOBx5V5mxlgTi+AUx27eoXs8CoSjuQVN+SV0SbWTBTkRXLA
- +9prqK+2P3KXiu9N1d/6XTNf4HX7TagMngL4sdsFqenX5vrbJh+Sy1wIT+ZM3ilige1Q
- V2v+q9rwx5UMfAH6MZ3veODjxVUZ5TNhEARmsuTFUtjWvhE4NGqtQbaO1SLUbEPZ58Jq
- k+3XVfGjLAyuPgDMfMpa5DerdQzUybuZVWWT/mJSlIgzvslMUnDhxd5q++Hn2FQmQm50
- dgBYHN11VWjy6vN9sBKTnZJGOxL2gx0L5ML7jCtrcoSFHH1Mnz9OAl5K0MsyVnONJesB
- jMEQ==
+ bh=oBsg9XjdSZ42Gt2w9motxI9YvhFUccWY6ii0NkEQeDA=;
+ b=X3VxPqtkaTyMPORp2yyY6iRBNgQ4dLKBuaH2hRzD7Bz4p5vPgvsamoU9ZjW++0hu0l
+ BJGptPu823aXcm4QlTmZZ4JkNOEiOaMIMnBe0M7eopCf5sR8FIHxkM+TEGEvHr75uhQm
+ RrG1vb3mP0RuwMCHwuk9gTdrFQxH5uN9eBPay+5CJSSEGbO7uLTXcH07eY5jGvcnVDyG
+ 5/9UT+jSaEeDqqiKOk29YoppwDvymOoQP8pk4vyFOcdLgxcvQPvNYZrnCbXu267NV23f
+ 420zPJK2tlnHq2SzCQIRISaedQQHHA9baEju7eUqmBhiS7gMA+wOTmH8U/ZCiiNznhLB
+ ck8Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683131678; x=1685723678;
+ d=1e100.net; s=20221208; t=1683131860; x=1685723860;
  h=to:subject:message-id:date:from:mime-version:x-gm-message-state
  :from:to:cc:subject:date:message-id:reply-to;
- bh=Uf/++BxaFhRoEEFiAqjquO8aOcqpvaohfOMbUbp1cNY=;
- b=hCunvDEIpHaL0Xmw6E4AqgE+ztoBYICOvmtCRlpb5jnoJVDFjMRZQQ2iC6hT2ApNZ2
- 6/zvtNm7/RSp8SbUTGf7DnAdCWjOEjadESL0Uk/PiTFYwai8GdxlxYRMJFVnkLrA8nSY
- rPVJXJXBE9Hw9jHg+hAVyi3O0FEvg3wJWbV5Py0jTKII9eT3qAeQn7BK5YnIHx8vWox+
- JGGy5eA3m9KVxfCoLdm+Tqda/7uCAvAsm823m74hQ3y68mk0GXAusGHKlrI92s62KTGi
- 5F6s0GMX3rsLEhONxhwe6FIxkXR42foA6bNhNNmgd9ADjc/NlWN4d72dFgXe8lpZMGAI
- kOzw==
-X-Gm-Message-State: AC+VfDw1kDfkG+vYm+x7ugjqfh2QcWa8C1E4BN+t4+UgSDIcsI8hJQAa
- GM07TxwpYvZqYQok7swnUMI47rLjqNmcmKnxH5oDfADFu48BL2zgQHE=
-X-Google-Smtp-Source: ACHHUZ478tuDcaaO1tgtavrs4wbIEKA17jQgemuFTdOEPJQVBNl0TcZK7/Fxi8AYQKG3Akr7l6hZ4aIOLWFVhgG8d4w=
-X-Received: by 2002:a05:6808:1382:b0:384:4e2d:81e9 with SMTP id
- c2-20020a056808138200b003844e2d81e9mr345015oiw.34.1683131677717; Wed, 03 May
- 2023 09:34:37 -0700 (PDT)
+ bh=oBsg9XjdSZ42Gt2w9motxI9YvhFUccWY6ii0NkEQeDA=;
+ b=fj/iH07ifPXj2jC9AnGt3xkmxzUeJ866sO0ZjTW98q1Mi49EjVFM2sMFinf6yOZ2jD
+ xA33o3QlvrdLwl4P76kDTn51xk1yNNkd+jvI0WI9slx7sEDOkzyw3sYl2Iytw5JG47dI
+ NMsjJpNu9ScgRo7pBwMT6ZvfwsLg/uzf67iXwoTsZHneU4k9c5qxH1JqhBn0W26pfowh
+ 3JB/MgJeYUncD4hymqhEZ5t1fMBXhW4dGMJIujjB2f6Qzv8lIiCgD6R6Sl36+3jD1d9L
+ CE1ozXGUidL/ZzgRsYm5OQ4oPCeA5aUbt7/f//XI4QpYQ5IXgksz3N6BcYcnpSGkym9z
+ 7C3A==
+X-Gm-Message-State: AC+VfDwhsleJRXF9UJ/gLxANl7neqGIVfSwZoKjzc8YFbMSwBRwino7f
+ ywOUECOvm+ssQK5o4XDMU8jESEqnJ7LHxvkDTrJX+iESi/JYBECoIpA=
+X-Google-Smtp-Source: ACHHUZ6dSVKZr+cpbO3XHb9OKEnk3ndHyNLYecrujdSVN45EtjmjpGulhW2v/43F8+QLN28SwdqO9tAHpqEFpa06sUM=
+X-Received: by 2002:a05:6808:150a:b0:38e:b92:dbc3 with SMTP id
+ u10-20020a056808150a00b0038e0b92dbc3mr387253oiw.49.1683131860197; Wed, 03 May
+ 2023 09:37:40 -0700 (PDT)
 MIME-Version: 1.0
 From: Jun Sun <jsun@junsun.net>
-Date: Wed, 3 May 2023 09:34:26 -0700
-Message-ID: <CAP5Nno6LjKpvwmvFXoAo3bNpCSkVJTKe+ENxjGf8kt4ENAEMyg@mail.gmail.com>
-Subject: [PATCH risu] --group option to allow all instructions in the
- specified groups.
+Date: Wed, 3 May 2023 09:37:29 -0700
+Message-ID: <CAP5Nno4UuN4JfU4uGqVmR8P84v9Cuc4xgYeec=Z1retUcNfbCQ@mail.gmail.com>
+Subject: [PATCH risu] Add "--not-group" option to exclude groups of
+ instructions.
 To: qemu-devel@nongnu.org
-Content-Type: multipart/alternative; boundary="000000000000c2d02605facca1f7"
-Received-SPF: none client-ip=2001:4860:4864:20::35;
- envelope-from=jsun@junsun.net; helo=mail-oa1-x35.google.com
+Content-Type: multipart/alternative; boundary="000000000000a3363905faccacd3"
+Received-SPF: none client-ip=2607:f8b0:4864:20::22a;
+ envelope-from=jsun@junsun.net; helo=mail-oi1-x22a.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -79,183 +79,130 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
---000000000000c2d02605facca1f7
+--000000000000a3363905faccacd3
 Content-Type: text/plain; charset="UTF-8"
 
-Current semantic is a little strange when multiple --group options are
-specified.
-In this case,  only instructions in *all* these groups (i.e., intersection)
-are used for
-generation, which is not very useful at all.  This patch changes the
-semantic to
-include all instructions in these groups (i.e., union) for sequence
-generation.
+This mirrors the "--not-pattern" option and gives complete control over
+group-based
+instruction selection rules.
 
 Signed-off-by: Jun Sun <jsun@junsun.net>
 ---
- risugen                | 4 ++--
- risugen_arm.pm         | 1 +
- risugen_loongarch64.pm | 1 +
- risugen_m68k.pm        | 1 +
- risugen_ppc64.pm       | 1 +
- 5 files changed, 6 insertions(+), 2 deletions(-)
+ risugen | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
 diff --git a/risugen b/risugen
-index 360112f..f88c22a 100755
+index f88c22a..f441f06 100755
 --- a/risugen
 +++ b/risugen
-@@ -264,7 +264,7 @@ sub select_insn_keys ()
-     if (@groups) {
-         @insn_keys = grep {
-             defined($insn_details{$_}->{groups}) &&
--                scalar @groups ==
-get_intersection([$insn_details{$_}->{groups}, \@groups])
-+                0 != scalar(get_intersection([$insn_details{$_}->{groups},
-\@groups]))
-         } @insn_keys
+@@ -39,6 +39,7 @@ my $arch = "";
+ my @insn_groups;
+
+ my @groups = ();                # include groups
++my @not_groups = ();            # exclude groups
+ my @pattern_re = ();            # include pattern
+ my @not_pattern_re = ();        # exclude pattern
+
+@@ -272,6 +273,12 @@ sub select_insn_keys ()
+         my $re = '\b((' . join(')|(',@pattern_re) . '))\b';
+         @insn_keys = grep /$re/, @insn_keys;
      }
-     # Get a list of the insn keys which are permitted by the re patterns
-@@ -297,7 +297,7 @@ Valid options:
-     --fpscr n    : set initial FPSCR (arm) or FPCR (aarch64) value
-(default is 0)
-     --condprob p : [ARM only] make instructions conditional with
-probability p
-                    (default is 0, ie all instructions are always executed)
--    --group name[,name..]: only use instructions in all defined groups
-+    --group name[,name..]: only use instructions in the specified groups
-     --pattern re[,re...] : only use instructions matching regular
-expression
-                    Each re must match a full word (that is, we match on
++    if (@not_groups) {
++        @insn_keys = grep {
++            defined($insn_details{$_}->{groups}) &&
++                0 == scalar(get_intersection([$insn_details{$_}->{groups},
+\@not_groups]))
++        } @insn_keys
++    }
+     # exclude any specifics
+     if (@not_pattern_re) {
+         my $re = '\b((' . join(')|(',@not_pattern_re) . '))\b';
+@@ -303,6 +310,7 @@ Valid options:
                     the perl regex '\\b((re)|(re))\\b'). This means that
-diff --git a/risugen_arm.pm b/risugen_arm.pm
-index 2dc144d..dc08ec0 100644
---- a/risugen_arm.pm
-+++ b/risugen_arm.pm
-@@ -1112,6 +1112,7 @@ sub write_test_code($$$$$$$$$)
-     }
+                    'VMULL' will match 'VMULL A1' and 'VMULL A2' but not
+                    'VMULL_scalar A1'. This is generally what you wanted.
++    --not-group name[,name..]: exclude instructions in the specified groups
+     --not-pattern re[,re...] : exclude patterns matching regular
+expression.
+                    These REs are applied after the matching pattern which
+                    is useful if you want to exclude a specific instruction
+from
+@@ -331,6 +339,7 @@ sub main()
+                 "randseed=i" => \$randseed,
+                 "fpscr=o" => \$fpscr,
+                 "group=s" => \@groups,
++                "not-group=s" => \@not_groups,
+                 "pattern=s" => \@pattern_re,
+                 "not-pattern=s" => \@not_pattern_re,
+                 "condprob=f" => sub {
+@@ -347,6 +356,7 @@ sub main()
+     @pattern_re = split(/,/,join(',',@pattern_re));
+     @not_pattern_re = split(/,/,join(',',@not_pattern_re));
+     @groups = split(/,/,join(',',@groups));
++    @not_groups = split(/,/,join(',',@not_groups));
 
-     print "Generating code using patterns: @keys...\n";
-+    print "Total insn patterns : " . $#keys . "\n";
-     progress_start(78, $numinsns);
-
-     if ($fp_enabled) {
-diff --git a/risugen_loongarch64.pm b/risugen_loongarch64.pm
-index 3b1b4f9..f2a6fe7 100644
---- a/risugen_loongarch64.pm
-+++ b/risugen_loongarch64.pm
-@@ -482,6 +482,7 @@ sub write_test_code($)
-     }
-
-     print "Generating code using patterns: @keys...\n";
-+    print "Total insn patterns : " . $#keys . "\n";
-     progress_start(78, $numinsns);
-
-     if ($fp_enabled) {
-diff --git a/risugen_m68k.pm b/risugen_m68k.pm
-index 85fc3da..76af84b 100644
---- a/risugen_m68k.pm
-+++ b/risugen_m68k.pm
-@@ -181,6 +181,7 @@ sub write_test_code($)
-     }
-
-     print "Generating code using patterns: @keys...\n";
-+    print "Total insn patterns : " . $#keys . "\n";
-     progress_start(78, $numinsns);
-
-     if (grep { defined($insn_details{$_}->{blocks}->{"memory"}) } @keys) {
-diff --git a/risugen_ppc64.pm b/risugen_ppc64.pm
-index 4bc2d62..e6d0456 100644
---- a/risugen_ppc64.pm
-+++ b/risugen_ppc64.pm
-@@ -392,6 +392,7 @@ sub write_test_code($)
-     }
-
-     print "Generating code using patterns: @keys...\n";
-+    print "Total insn patterns : " . $#keys . "\n";
-     progress_start(78, $numinsns);
-
-     if (grep { defined($insn_details{$_}->{blocks}->{"memory"}) } @keys) {
+     if ($#ARGV != 1) {
+         usage();
 -- 
 2.34.1
 
---000000000000c2d02605facca1f7
+--000000000000a3363905faccacd3
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><br>Current=C2=A0semantic is a little strange when multipl=
-e --group=C2=A0options are specified.<br>In this case,=C2=A0 only instructi=
-ons in *all* these groups (i.e., intersection) are used for<br>generation, =
-which is not very useful at all.=C2=A0 This patch changes the semantic to=
-=C2=A0<div>include all instructions in these groups (i.e., union) for seque=
-nce generation.<br><br>Signed-off-by: Jun Sun &lt;<a href=3D"mailto:jsun@ju=
-nsun.net">jsun@junsun.net</a>&gt;<br>---<br>=C2=A0risugen =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 4 ++--<br>=C2=A0<a href=3D"http://r=
-isugen_arm.pm">risugen_arm.pm</a> =C2=A0 =C2=A0 =C2=A0 =C2=A0 | 1 +<br>=C2=
-=A0<a href=3D"http://risugen_loongarch64.pm">risugen_loongarch64.pm</a> | 1=
- +<br>=C2=A0<a href=3D"http://risugen_m68k.pm">risugen_m68k.pm</a> =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0| 1 +<br>=C2=A0<a href=3D"http://risugen_ppc64.pm">risu=
-gen_ppc64.pm</a> =C2=A0 =C2=A0 =C2=A0 | 1 +<br>=C2=A05 files changed, 6 ins=
-ertions(+), 2 deletions(-)<br><br>diff --git a/risugen b/risugen<br>index 3=
-60112f..f88c22a 100755<br>--- a/risugen<br>+++ b/risugen<br>@@ -264,7 +264,=
-7 @@ sub select_insn_keys ()<br>=C2=A0 =C2=A0 =C2=A0if (@groups) {<br>=C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0@insn_keys =3D grep {<br>=C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0defined($insn_details{$_}-&gt;{groups}) &amp=
-;&amp;<br>- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0scalar @=
-groups =3D=3D get_intersection([$insn_details{$_}-&gt;{groups}, \@groups])<=
-br>+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A00 !=3D scalar(g=
-et_intersection([$insn_details{$_}-&gt;{groups}, \@groups]))<br>=C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0} @insn_keys<br>=C2=A0 =C2=A0 =C2=A0}<br>=C2=A0 =C2=
-=A0 =C2=A0# Get a list of the insn keys which are permitted by the re patte=
-rns<br>@@ -297,7 +297,7 @@ Valid options:<br>=C2=A0 =C2=A0 =C2=A0--fpscr n =
-=C2=A0 =C2=A0: set initial FPSCR (arm) or FPCR (aarch64) value (default is =
-0)<br>=C2=A0 =C2=A0 =C2=A0--condprob p : [ARM only] make instructions condi=
-tional with probability p<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 (default is 0, ie all instructions are always exec=
-uted)<br>- =C2=A0 =C2=A0--group name[,name..]: only use instructions in all=
- defined groups<br>+ =C2=A0 =C2=A0--group name[,name..]: only use instructi=
-ons in the specified groups<br>=C2=A0 =C2=A0 =C2=A0--pattern re[,re...] : o=
-nly use instructions matching regular expression<br>=C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 Each re must match a full =
-word (that is, we match on<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 the perl regex &#39;\\b((re)|(re))\\b&#39;). This =
-means that<br>diff --git a/<a href=3D"http://risugen_arm.pm">risugen_arm.pm=
-</a> b/<a href=3D"http://risugen_arm.pm">risugen_arm.pm</a><br>index 2dc144=
-d..dc08ec0 100644<br>--- a/<a href=3D"http://risugen_arm.pm">risugen_arm.pm=
-</a><br>+++ b/<a href=3D"http://risugen_arm.pm">risugen_arm.pm</a><br>@@ -1=
-112,6 +1112,7 @@ sub write_test_code($$$$$$$$$)<br>=C2=A0 =C2=A0 =C2=A0}<br=
->=C2=A0<br>=C2=A0 =C2=A0 =C2=A0print &quot;Generating code using patterns: =
-@keys...\n&quot;;<br>+ =C2=A0 =C2=A0print &quot;Total insn patterns : &quot=
-; . $#keys . &quot;\n&quot;;<br>=C2=A0 =C2=A0 =C2=A0progress_start(78, $num=
-insns);<br>=C2=A0<br>=C2=A0 =C2=A0 =C2=A0if ($fp_enabled) {<br>diff --git a=
-/<a href=3D"http://risugen_loongarch64.pm">risugen_loongarch64.pm</a> b/<a =
-href=3D"http://risugen_loongarch64.pm">risugen_loongarch64.pm</a><br>index =
-3b1b4f9..f2a6fe7 100644<br>--- a/<a href=3D"http://risugen_loongarch64.pm">=
-risugen_loongarch64.pm</a><br>+++ b/<a href=3D"http://risugen_loongarch64.p=
-m">risugen_loongarch64.pm</a><br>@@ -482,6 +482,7 @@ sub write_test_code($)=
-<br>=C2=A0 =C2=A0 =C2=A0}<br>=C2=A0<br>=C2=A0 =C2=A0 =C2=A0print &quot;Gene=
-rating code using patterns: @keys...\n&quot;;<br>+ =C2=A0 =C2=A0print &quot=
-;Total insn patterns : &quot; . $#keys . &quot;\n&quot;;<br>=C2=A0 =C2=A0 =
-=C2=A0progress_start(78, $numinsns);<br>=C2=A0<br>=C2=A0 =C2=A0 =C2=A0if ($=
-fp_enabled) {<br>diff --git a/<a href=3D"http://risugen_m68k.pm">risugen_m6=
-8k.pm</a> b/<a href=3D"http://risugen_m68k.pm">risugen_m68k.pm</a><br>index=
- 85fc3da..76af84b 100644<br>--- a/<a href=3D"http://risugen_m68k.pm">risuge=
-n_m68k.pm</a><br>+++ b/<a href=3D"http://risugen_m68k.pm">risugen_m68k.pm</=
-a><br>@@ -181,6 +181,7 @@ sub write_test_code($)<br>=C2=A0 =C2=A0 =C2=A0}<b=
-r>=C2=A0<br>=C2=A0 =C2=A0 =C2=A0print &quot;Generating code using patterns:=
- @keys...\n&quot;;<br>+ =C2=A0 =C2=A0print &quot;Total insn patterns : &quo=
-t; . $#keys . &quot;\n&quot;;<br>=C2=A0 =C2=A0 =C2=A0progress_start(78, $nu=
-minsns);<br>=C2=A0<br>=C2=A0 =C2=A0 =C2=A0if (grep { defined($insn_details{=
-$_}-&gt;{blocks}-&gt;{&quot;memory&quot;}) } @keys) {<br>diff --git a/<a hr=
-ef=3D"http://risugen_ppc64.pm">risugen_ppc64.pm</a> b/<a href=3D"http://ris=
-ugen_ppc64.pm">risugen_ppc64.pm</a><br>index 4bc2d62..e6d0456 100644<br>---=
- a/<a href=3D"http://risugen_ppc64.pm">risugen_ppc64.pm</a><br>+++ b/<a hre=
-f=3D"http://risugen_ppc64.pm">risugen_ppc64.pm</a><br>@@ -392,6 +392,7 @@ s=
-ub write_test_code($)<br>=C2=A0 =C2=A0 =C2=A0}<br>=C2=A0<br>=C2=A0 =C2=A0 =
-=C2=A0print &quot;Generating code using patterns: @keys...\n&quot;;<br>+ =
-=C2=A0 =C2=A0print &quot;Total insn patterns : &quot; . $#keys . &quot;\n&q=
-uot;;<br>=C2=A0 =C2=A0 =C2=A0progress_start(78, $numinsns);<br>=C2=A0<br>=
-=C2=A0 =C2=A0 =C2=A0if (grep { defined($insn_details{$_}-&gt;{blocks}-&gt;{=
-&quot;memory&quot;}) } @keys) {<br>-- <br>2.34.1<br><br></div></div>
+<div dir=3D"ltr">This mirrors the=C2=A0&quot;--not-pattern&quot; option and=
+ gives complete control over group-based<div>instruction selection rules.<b=
+r><br>Signed-off-by: Jun Sun &lt;<a href=3D"mailto:jsun@junsun.net">jsun@ju=
+nsun.net</a>&gt;<br>---<br>=C2=A0risugen | 10 ++++++++++<br>=C2=A01 file ch=
+anged, 10 insertions(+)<br><br>diff --git a/risugen b/risugen<br>index f88c=
+22a..f441f06 100755<br>--- a/risugen<br>+++ b/risugen<br>@@ -39,6 +39,7 @@ =
+my $arch =3D &quot;&quot;;<br>=C2=A0my @insn_groups;<br>=C2=A0<br>=C2=A0my =
+@groups =3D (); =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0# in=
+clude groups<br>+my @not_groups =3D (); =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0# exclude groups<br>=C2=A0my @pattern_re =3D (); =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0# include pattern<br>=C2=A0my @not_pattern_re =3D (); =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0# exclude pattern<br>=C2=A0<br>@@ -272,6 +273,12=
+ @@ sub select_insn_keys ()<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0my $re =3D=
+ &#39;\b((&#39; . join(&#39;)|(&#39;,@pattern_re) . &#39;))\b&#39;;<br>=C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0@insn_keys =3D grep /$re/, @insn_keys;<br>=
+=C2=A0 =C2=A0 =C2=A0}<br>+ =C2=A0 =C2=A0if (@not_groups) {<br>+ =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0@insn_keys =3D grep {<br>+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0defined($insn_details{$_}-&gt;{groups}) &amp;&amp;<br>+ =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A00 =3D=3D scalar(get_interse=
+ction([$insn_details{$_}-&gt;{groups}, \@not_groups]))<br>+ =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0} @insn_keys<br>+ =C2=A0 =C2=A0}<br>=C2=A0 =C2=A0 =C2=A0# excl=
+ude any specifics<br>=C2=A0 =C2=A0 =C2=A0if (@not_pattern_re) {<br>=C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0my $re =3D &#39;\b((&#39; . join(&#39;)|(&#39;,@=
+not_pattern_re) . &#39;))\b&#39;;<br>@@ -303,6 +310,7 @@ Valid options:<br>=
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 the p=
+erl regex &#39;\\b((re)|(re))\\b&#39;). This means that<br>=C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &#39;VMULL&#39; wil=
+l match &#39;VMULL A1&#39; and &#39;VMULL A2&#39; but not<br>=C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &#39;VMULL_scalar A=
+1&#39;. This is generally what you wanted.<br>+ =C2=A0 =C2=A0--not-group na=
+me[,name..]: exclude instructions in the specified groups<br>=C2=A0 =C2=A0 =
+=C2=A0--not-pattern re[,re...] : exclude patterns matching regular expressi=
+on.<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 These REs are applied after the matching pattern which<br>=C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 is useful if you w=
+ant to exclude a specific instruction from<br>@@ -331,6 +339,7 @@ sub main(=
+)<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;ra=
+ndseed=3Di&quot; =3D&gt; \$randseed,<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;fpscr=3Do&quot; =3D&gt; \$fpscr,<br>=C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;group=3Ds&quo=
+t; =3D&gt; \@groups,<br>+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0&quot;not-group=3Ds&quot; =3D&gt; \@not_groups,<br>=C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;pattern=3Ds&quot; =3D&gt=
+; \@pattern_re,<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0&quot;not-pattern=3Ds&quot; =3D&gt; \@not_pattern_re,<br>=C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;condprob=3Df&quot=
+; =3D&gt; sub {<br>@@ -347,6 +356,7 @@ sub main()<br>=C2=A0 =C2=A0 =C2=A0@p=
+attern_re =3D split(/,/,join(&#39;,&#39;,@pattern_re));<br>=C2=A0 =C2=A0 =
+=C2=A0@not_pattern_re =3D split(/,/,join(&#39;,&#39;,@not_pattern_re));<br>=
+=C2=A0 =C2=A0 =C2=A0@groups =3D split(/,/,join(&#39;,&#39;,@groups));<br>+ =
+=C2=A0 =C2=A0@not_groups =3D split(/,/,join(&#39;,&#39;,@not_groups));<br>=
+=C2=A0<br>=C2=A0 =C2=A0 =C2=A0if ($#ARGV !=3D 1) {<br>=C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0usage();<br>-- <br>2.34.1<br><br></div></div>
 
---000000000000c2d02605facca1f7--
+--000000000000a3363905faccacd3--
 
