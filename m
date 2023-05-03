@@ -2,78 +2,107 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04C826F5429
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A9676F542A
 	for <lists+qemu-devel@lfdr.de>; Wed,  3 May 2023 11:13:45 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pu8X3-0002Ia-9R; Wed, 03 May 2023 05:12:17 -0400
+	id 1pu8Xh-0003oE-0f; Wed, 03 May 2023 05:12:57 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shorne@gmail.com>) id 1pu8X1-0002Gc-S3
- for qemu-devel@nongnu.org; Wed, 03 May 2023 05:12:15 -0400
-Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c])
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1pu8Xa-0003S2-HZ
+ for qemu-devel@nongnu.org; Wed, 03 May 2023 05:12:50 -0400
+Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <shorne@gmail.com>) id 1pu8X0-0005lw-Bq
- for qemu-devel@nongnu.org; Wed, 03 May 2023 05:12:15 -0400
-Received: by mail-wm1-x32c.google.com with SMTP id
- 5b1f17b1804b1-3f315712406so15368395e9.0
- for <qemu-devel@nongnu.org>; Wed, 03 May 2023 02:12:13 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1pu8XY-0005r1-HL
+ for qemu-devel@nongnu.org; Wed, 03 May 2023 05:12:50 -0400
+Received: by mail-wm1-x333.google.com with SMTP id
+ 5b1f17b1804b1-3f4000ec74aso1082905e9.3
+ for <qemu-devel@nongnu.org>; Wed, 03 May 2023 02:12:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1683105132; x=1685697132;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=/zod5xsswpVBR7hlKEzwTqzhAu9kilTeSo6vjGfoZzY=;
- b=fl3+0HTDclChX9Eoz4UASBvCMsATTbetGEowrH/weZ1bDHTMayoXkdjPDhUGyAS4ke
- 12DrV+kTixHFmWaEElgDO8rQqcfacOi8lPYKQNOklhO7iYa6vI/Vth5YSpjrL5Cxh540
- lwMBXm7o4A3QvMfGN1mL/DqJW7lw9xCSdHgpdXnotShWRWOw94HMhvGPPKE4l3MmrEkN
- 3ZSh5OtOxwDtz3wD4HAocDuJPZdgC9wz8raJawwZmgXxu2ea/el8as7ktCUn64bkYLpv
- egBn3ML+2xI+xkPEnGZK9OIoEPXC5wkxvwvtSDDW+94uCRJUfGfU1tzqbJ2+k+AH2W/B
- xAsA==
+ d=linaro.org; s=google; t=1683105166; x=1685697166;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=ayRTBxcZEO0ny3cCH5agurxRa36BAwioQy1x/Qczotk=;
+ b=WOCDPI7G4rKd8vedKcXKOmrGkTjPpqANaNLh4nxj1hcvNV3oVq8U6iBYHscrsJTesK
+ Xh/eYLbidVduQm6nCOjfhO7c/TPHwwJZQ5FFd+JfLMK5+0cJPnssZc8ZkIY9BrJNX0G4
+ kcwYUPXBBPqP7N/SL4BenYf8g7xDrwA3ovQqs6mes2RSJI4HnOmx8NWRZU7uLKTkkeu9
+ T0LtLItObNxApa4EugO8jf12evRpgXIjopbZ5MDtDIrqpEU0pbSnnuvo4nkpkeKoJpYP
+ J3BnzJWBuFoK3zxxlehtnye6vpKAtW4UkSHhnJXifvBasQ0Low0rXE0pKWaolvszNvmR
+ 7R7g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683105132; x=1685697132;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=/zod5xsswpVBR7hlKEzwTqzhAu9kilTeSo6vjGfoZzY=;
- b=W2+vGllDaArogsmmkh9zFZ4nevB3PwbOg96ff4TlGdn+fLjBjOY0KKc0ZrIeGafah3
- w2yFBbjI4/Iwez7k88BxmTtAlWW/ldhNLZDBcCBPyrFCI6bbYvBbr526T64H3a75KGKk
- rMZT4YjAN0+RPID7Qer3pZ7uBcbIxIrlLYV10MderprZ2b40Dtn4R/xLLNC40iLyadFL
- bpbGCqyjC/DNyJvbbRj4c4NchPg/ogSFLMnkXqXIY/8a0vYcbl5wE0WmsS8PaMbFkWO0
- aFxngFmJbp7iJycUyuIjrJUzwwi3dQLY90pMWPZ0/GgGqFGuZRSxOCDNpuBHrPYtTWUc
- FMKg==
-X-Gm-Message-State: AC+VfDzeXEXbVA89byozypHlaWlQYMR4kgs8mhqzcdWeP7kNcXulT0dj
- K5W5zAlpJW9nQFVR7dBRalg=
-X-Google-Smtp-Source: ACHHUZ7kWoco+FaWmgUXPr0oeiUX9ydgEiurzrvHGnGrKsx0JQOfPK27JvaMG+qFbQYk6+dUhLlByA==
-X-Received: by 2002:adf:f8cc:0:b0:306:2639:a1a2 with SMTP id
- f12-20020adff8cc000000b003062639a1a2mr1036581wrq.31.1683105132475; 
- Wed, 03 May 2023 02:12:12 -0700 (PDT)
-Received: from localhost (cpc1-brnt4-2-0-cust862.4-2.cable.virginm.net.
- [86.9.131.95]) by smtp.gmail.com with ESMTPSA id
- l18-20020a05600c4f1200b003f07ef4e3e0sm53270511wmq.0.2023.05.03.02.12.11
+ d=1e100.net; s=20221208; t=1683105166; x=1685697166;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=ayRTBxcZEO0ny3cCH5agurxRa36BAwioQy1x/Qczotk=;
+ b=MkFROoWSpf40QlbQdwr645u3gLR9qkxhWbjyAKtlJ35Xs9WuATasI4TCrUGOUtT/+m
+ heUQVHCJ74tJuDPjPwfejQdfHPS0JpXpEWfmCgCzfE8q6nPaHPylgseEXJa+V5XEhQa/
+ cgWFWMVueXcurPvVF0mSguY1wpQIE+5o8X5opYloe22YI6yF8O3hVMNyGqSEGrqw6fBg
+ l/xL6FSF62iNLw+hq0TRwBIcklC7O7QrpmZBWuoHwyOVqls85tg5xmVQXd+mmAWBwW44
+ kr9nD7Po4w69CS3eHRyMqiLPoFLh06IoqoILiWv7v9qXRhUmS4t8qzRFIUD6mNmSN5y3
+ aqcA==
+X-Gm-Message-State: AC+VfDz9aUaHe3pEIfreASlXOCKMnwR2wEJD0WI0uOIcsCRO/AkXUjeQ
+ m4wE9HobsNZAYqk1P8vmnnY6Dw==
+X-Google-Smtp-Source: ACHHUZ7j8KMEoGka+f3gdXXKxNQ3gpwAU3wII39470xP0Db7mniinpCqgnk+gWNdyrt++/rS4x1nsw==
+X-Received: by 2002:a1c:7916:0:b0:3f1:952c:3c70 with SMTP id
+ l22-20020a1c7916000000b003f1952c3c70mr13732471wme.40.1683105165990; 
+ Wed, 03 May 2023 02:12:45 -0700 (PDT)
+Received: from zen.linaroharston ([85.9.250.243])
+ by smtp.gmail.com with ESMTPSA id
+ z10-20020a05600c220a00b003f17122587bsm1257673wml.36.2023.05.03.02.12.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 03 May 2023 02:12:12 -0700 (PDT)
-Date: Wed, 3 May 2023 10:12:11 +0100
-From: Stafford Horne <shorne@gmail.com>
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: QEMU Development <qemu-devel@nongnu.org>,
- Linux OpenRISC <linux-openrisc@vger.kernel.org>
-Subject: Re: [PATCH 2/3] target/openrisc: Set PC to cpu state on FPU exception
-Message-ID: <ZFIla2Jlaa5gCr6o@antec>
-References: <20230502185731.3543420-1-shorne@gmail.com>
- <20230502185731.3543420-3-shorne@gmail.com>
- <baea6704-7a22-6934-54f3-76ff4c0fc298@linaro.org>
+ Wed, 03 May 2023 02:12:45 -0700 (PDT)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 0B7E31FFBA;
+ Wed,  3 May 2023 10:12:45 +0100 (BST)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+Cc: Laurent Vivier <lvivier@redhat.com>,
+ Artyom Tarasenko <atar4qemu@gmail.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, Leif Lindholm <quic_llindhol@quicinc.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Helge Deller <deller@gmx.de>, Xiaojuan Yang <yangxiaojuan@loongson.cn>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Cleber Rosa <crosa@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Eduardo Habkost <eduardo@habkost.net>, Juan Quintela <quintela@redhat.com>,
+ John Snow <jsnow@redhat.com>, Yoshinori Sato <ysato@users.sourceforge.jp>,
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
+ Ilya Leoshkevich <iii@linux.ibm.com>,
+ Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>,
+ Andrew Jeffery <andrew@aj.id.au>, qemu-s390x@nongnu.org,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-arm@nongnu.org,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Beraldo Leal <bleal@redhat.com>, Max Filippov <jcmvbkbc@gmail.com>,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Jiaxun Yang <jiaxun.yang@flygoat.com>,
+ Radoslaw Biernacki <rad@semihalf.com>,
+ Aurelien Jarno <aurelien@aurel32.net>,
+ David Hildenbrand <david@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, Song Gao <gaosong@loongson.cn>,
+ Joel Stanley <joel@jms.id.au>,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+Subject: [PATCH 00/22] testing/next: cirrus, docker, docs, ci, configs, gitlab
+Date: Wed,  3 May 2023 10:12:22 +0100
+Message-Id: <20230503091244.1450613-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <baea6704-7a22-6934-54f3-76ff4c0fc298@linaro.org>
-Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
- envelope-from=shorne@gmail.com; helo=mail-wm1-x32c.google.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::333;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x333.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -91,18 +120,65 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, May 03, 2023 at 08:36:13AM +0100, Richard Henderson wrote:
-> On 5/2/23 19:57, Stafford Horne wrote:
-> > @@ -55,6 +56,9 @@ void HELPER(update_fpcsr)(CPUOpenRISCState *env)
-> >           if (tmp) {
-> >               env->fpcsr |= tmp;
-> >               if (env->fpcsr & FPCSR_FPEE) {
-> > +                CPUState *cs = env_cpu(env);
-> > +
-> > +                cpu_restore_state(cs, GETPC());
-> >                   helper_exception(env, EXCP_FPE);
-> 
-> Better to mirror do_range().
+This started as trying to un-wedge the FreeBSD 13 failure by running a
+restricted build but then led down a rabbit hole of getting the
+--without-default-devices build to pass. Fabiano had already been down
+some of this road with ARM so I've nabbed his patches here but feel
+free to cherry-pick into the arch tree if needed.
 
-OK.
+There are also patches to clean up the ansible configuration (driven
+via lcitool) and prepare for upgrading the s390x runner to ubuntu
+22.04.
+
+Please review.
+
+Alex Bennée (16):
+  gitlab/cirrus: reduce scope of the FreeBSD testing matrix
+  tests/docker: bump the xtensa base to debian:11-slim
+  docs: document breakpoint and watchpoint support
+  scripts/ci: add gitlab-runner to kvm group
+  hw/alpha: make E1000_PCI a hard dependency for clipper
+  hw/hppa: add TULIP as a dependency for HPPA_B160L
+  hw/sparc: add a TCX dependency for SUN4M machines
+  hw/loongarch: add VIRTIO as a dependency for LOONGARCH_VIRT
+  hw/sh4: make RTL8139 a hard dependency for RD2
+  hw/mips: add VIRTIO and USB dependencies for LOONGSON3V
+  hw/xtensa: add VIRTIO as dependencies for XTENSA_VIRT
+  scripts/ci: clean-up the 20.04/22.04 confusion in ansible
+  gitlab: add ubuntu-22.04-aarch64-without-defaults
+  gitlab: enable minimal device profoile for aarch64 --disable-tcg
+  tests/avocado: use http for mipsdistros.mips.com
+  tests/qtest: skip bcm2835-test if no raspi3b model
+
+Fabiano Rosas (6):
+  hw/arm: Select VIRTIO_NET for virt machine
+  hw/arm: Select VIRTIO_BLK for virt machine
+  hw/arm: Select XLNX_USB_SUBSYS for xlnx-zcu102 machine
+  hw/arm: Select GICV3_TCG for sbsa-ref machine
+  hw/arm: Select e1000e for sbsa-ref machine
+  hw/arm: Select VGA_PCI for sbsa-ref machine
+
+ docs/system/gdb.rst                           |  22 ++++
+ tests/qtest/bcm2835-dma-test.c                |  11 +-
+ .gitlab-ci.d/cirrus.yml                       |   1 +
+ .../custom-runners/ubuntu-22.04-aarch32.yml   |   2 +-
+ .../custom-runners/ubuntu-22.04-aarch64.yml   |  28 ++++-
+ hw/alpha/Kconfig                              |   2 +-
+ hw/arm/Kconfig                                |   7 ++
+ hw/hppa/Kconfig                               |   1 +
+ hw/loongarch/Kconfig                          |   2 +
+ hw/mips/Kconfig                               |   3 +
+ hw/sh4/Kconfig                                |   2 +-
+ hw/sparc/Kconfig                              |   1 +
+ hw/usb/Kconfig                                |   1 -
+ hw/xtensa/Kconfig                             |   2 +
+ scripts/ci/setup/build-environment.yml        | 111 ++++++++++++------
+ scripts/ci/setup/gitlab-runner.yml            |   1 +
+ tests/avocado/replay_kernel.py                |   6 +-
+ .../dockerfiles/debian-xtensa-cross.docker    |   2 +-
+ 18 files changed, 154 insertions(+), 51 deletions(-)
+
+-- 
+2.39.2
+
 
