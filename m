@@ -2,83 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A38816F50D5
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 May 2023 09:11:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A7DB86F5149
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 May 2023 09:25:50 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pu6VE-0008SD-Il; Wed, 03 May 2023 03:02:19 -0400
+	id 1pu6VA-00087q-Cj; Wed, 03 May 2023 03:02:12 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pu6UO-0006Hl-KC
+ id 1pu6UQ-0006Hu-2v
  for qemu-devel@nongnu.org; Wed, 03 May 2023 03:01:27 -0400
-Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431])
+Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pu6UC-0003DH-3u
- for qemu-devel@nongnu.org; Wed, 03 May 2023 03:01:24 -0400
-Received: by mail-wr1-x431.google.com with SMTP id
- ffacd0b85a97d-3063b5f32aaso855130f8f.2
+ id 1pu6UC-0003Da-Jo
+ for qemu-devel@nongnu.org; Wed, 03 May 2023 03:01:25 -0400
+Received: by mail-wm1-x333.google.com with SMTP id
+ 5b1f17b1804b1-3f4000ec71dso35345e9.2
  for <qemu-devel@nongnu.org>; Wed, 03 May 2023 00:01:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1683097269; x=1685689269;
+ d=linaro.org; s=google; t=1683097270; x=1685689270;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=3fy0vmCrTrGncYxmSNiskWJCsJlGLSETPcKSq6VV7UU=;
- b=IS7A/Ip7RvcI+Z4JlTn8WJLzDB8hjw5wKc7iazR4nwKVKRs5qePmUwnXUkgQZH70W4
- nMiQptVLxtQ+uUv5PKBKorC9MRvKNBkkZqlmtz2c3RTAyfUFVtcJPGssNaUZD2fGQ3Cf
- BTNNj6Rt/Q9ELQVERE2nCCaMS32WjOTbKXJ4LzjGkvuDs0oS1lLxb+8/N2p+Y4vZ1W5H
- 9QSbQOISXearExRsVNY+zKBeHjprdcmwww7sHP9DLpi4X8oxv1n0d7zyb/2vBiOwkDIk
- /R09SPCV/f7n06NxQmnynembpHL9lXD5gv6GAISITD1x47DD6xk2S12/zsE+K2SSwiPk
- 5eCQ==
+ bh=O4O2YAeN9cb5anbyImPMVEQOY1pM7UmSuOPh7iKYeY4=;
+ b=rmHQ/Lc8SBsyqNr+x4FGgFYmaqoh631aZjTGxKoqX+FLErpESznVcWWH9pjP85ixeI
+ 4Y6Egsopn7GJOBiTP38Ct3UTIGcSezs0ub1efkEZ5eWJGTOo75vhZL5IJtwh1DzLia3o
+ xY0BrRBtbVYYBfkiZdBxTwxkotoj34ONDx8XVAmm0VEGM5Ehmalk/sZQ/KSJvJWw3hAN
+ eMTlni+qXTqgx83UxQ4cDTBaHjfUuKVktNDw2wK++cWi/KwWFN7mvQCzVj4dLBx8GxLA
+ pXl24Qn8wNO7bFBwYm1uPQEuibKObbC0D5OaWlicGYN8FfsTFo8/OmYT94InBTPhkLmX
+ LoMQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683097269; x=1685689269;
+ d=1e100.net; s=20221208; t=1683097270; x=1685689270;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=3fy0vmCrTrGncYxmSNiskWJCsJlGLSETPcKSq6VV7UU=;
- b=eyZP/lUyMCgmZYhTi6idaQbKIlKlzEKkzZ5mbjOE3CN3lwX05OPMb5u7288GeakrGP
- Sj+y9/7gszlQUGd4eGCpxmM24dh34ggSiQ3joLaANolWB05IMj4wmOFskGhsZYnXgG7p
- xXNV/oYwMXIZkK+0zn4qkxG9b17eA+LLjuY32A3uWXIbHQKbsaFMLR18W7ApnXn1EPqx
- AeRSQaP5LovsFtnlbima23kWXeLxGIgKb/R+AE4yIVxdAgg0iyTZjbLTc1w4cNmvqMDr
- DdGhOYazb4kAqTeZIPkkVbzT/qAOPUYC05Zfjv4/UxE8svw6HT/WqVZZE2/gD6XOEs0P
- ktyQ==
-X-Gm-Message-State: AC+VfDw4dJTK9atkVNx6leoUO7RQUyIrwsLWhsGbFoADF4COhypwUxIz
- xeuhsgFsqE4OtWObcIe1GmY7kTzdEDvb9nHD6jPyLQ==
-X-Google-Smtp-Source: ACHHUZ4LLK2D9LkpQI1o+8MzCDGxWKGUnAKFFHMkU5j+lCKOdj9iBsT4EZ1ZHsOEv3+b+PNNhtDDZA==
-X-Received: by 2002:a05:6000:10a:b0:2ef:baa1:f3fc with SMTP id
- o10-20020a056000010a00b002efbaa1f3fcmr12032057wrx.19.1683097268700; 
- Wed, 03 May 2023 00:01:08 -0700 (PDT)
+ bh=O4O2YAeN9cb5anbyImPMVEQOY1pM7UmSuOPh7iKYeY4=;
+ b=W+E5iyFDfy88oUhfiB2VRz5YG6xT3OCPpnc0Wi5d2L6Ivv/BGypy4ygZ/g8BYw8hks
+ aNzQwY/Gi+hJ2LIuHvFePgIKZlPpiKjUerPWf4ECEPNy0/1R36EBLmflIWfs+CShQNLr
+ W8t64vNLL75tPQBKpqyrMqJyQbQNdXzsF0qdQJ3VAD/1F9on8l8PSey4CQo93wC8hUyW
+ RASqHTMIsmnqAi8gkQI699kDMOHjs/XIy5B3HyIBNdsstizpTKeaQzdmvqaPo2WaXBoO
+ cXAnYLn9v30zvKXI6L+nipf/bWoxfCnA6md8vmPp/8dQSG5xWiVGnEpaeIvteQ3dDEkG
+ DXlA==
+X-Gm-Message-State: AC+VfDyjHeyWUvTcrlzZY1LAEktd+9wu0IqLjajKBC4rWB45vdtOyeq+
+ S/dHFZlBGMqtCTohzfkNT9UygvGjda8rOgRkoorAJw==
+X-Google-Smtp-Source: ACHHUZ75blxGj6EToHGxb5LMmzIUKTRKQOamU5ft41snZQBZsNz4Dadz3NxrY1SKArhqdsoHwAzXcQ==
+X-Received: by 2002:a1c:740f:0:b0:3f2:5641:3d4 with SMTP id
+ p15-20020a1c740f000000b003f2564103d4mr13090886wmc.33.1683097269831; 
+ Wed, 03 May 2023 00:01:09 -0700 (PDT)
 Received: from stoup.Home ([2a02:c7c:74db:8d00:c01d:9d74:b630:9087])
  by smtp.gmail.com with ESMTPSA id
- l2-20020a1ced02000000b003f19b3d89e9sm905035wmh.33.2023.05.03.00.01.08
+ l2-20020a1ced02000000b003f19b3d89e9sm905035wmh.33.2023.05.03.00.01.09
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 03 May 2023 00:01:08 -0700 (PDT)
+ Wed, 03 May 2023 00:01:09 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: git@xen0n.name, philmd@linaro.org, qemu-arm@nongnu.org,
- qemu-riscv@nongnu.org, qemu-s390x@nongnu.org,
- Daniel Henrique Barboza <danielhb413@gmail.com>
-Subject: [PATCH v4 50/54] tcg/ppc: Remove unused constraints A, B, C, D
-Date: Wed,  3 May 2023 07:57:25 +0100
-Message-Id: <20230503065729.1745843-51-richard.henderson@linaro.org>
+ qemu-riscv@nongnu.org, qemu-s390x@nongnu.org
+Subject: [PATCH v4 51/54] tcg/ppc: Remove unused constraint J
+Date: Wed,  3 May 2023 07:57:26 +0100
+Message-Id: <20230503065729.1745843-52-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230503065729.1745843-1-richard.henderson@linaro.org>
 References: <20230503065729.1745843-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::431;
- envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x431.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::333;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x333.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,31 +92,48 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-These constraints have not been used for quite some time.
+Never used since its introduction.
 
-Fixes: 77b73de67632 ("Use rem/div[u]_i32 drop div[u]2_i32")
-Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Fixes: 3d582c6179c ("tcg-ppc64: Rearrange integer constant constraints")
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tcg/ppc/tcg-target-con-str.h | 4 ----
- 1 file changed, 4 deletions(-)
+ tcg/ppc/tcg-target-con-str.h | 1 -
+ tcg/ppc/tcg-target.c.inc     | 3 ---
+ 2 files changed, 4 deletions(-)
 
 diff --git a/tcg/ppc/tcg-target-con-str.h b/tcg/ppc/tcg-target-con-str.h
-index f3bf030bc3..9dcbc3df50 100644
+index 9dcbc3df50..094613cbcb 100644
 --- a/tcg/ppc/tcg-target-con-str.h
 +++ b/tcg/ppc/tcg-target-con-str.h
-@@ -10,10 +10,6 @@
+@@ -16,7 +16,6 @@ REGS('v', ALL_VECTOR_REGS)
+  * CONST(letter, TCG_CT_CONST_* bit set)
   */
- REGS('r', ALL_GENERAL_REGS)
- REGS('v', ALL_VECTOR_REGS)
--REGS('A', 1u << TCG_REG_R3)
--REGS('B', 1u << TCG_REG_R4)
--REGS('C', 1u << TCG_REG_R5)
--REGS('D', 1u << TCG_REG_R6)
+ CONST('I', TCG_CT_CONST_S16)
+-CONST('J', TCG_CT_CONST_U16)
+ CONST('M', TCG_CT_CONST_MONE)
+ CONST('T', TCG_CT_CONST_S32)
+ CONST('U', TCG_CT_CONST_U32)
+diff --git a/tcg/ppc/tcg-target.c.inc b/tcg/ppc/tcg-target.c.inc
+index 5a4ec0470a..0a14c3e997 100644
+--- a/tcg/ppc/tcg-target.c.inc
++++ b/tcg/ppc/tcg-target.c.inc
+@@ -83,7 +83,6 @@
+ #define SZR  (TCG_TARGET_REG_BITS / 8)
  
- /*
-  * Define constraint letters for constants:
+ #define TCG_CT_CONST_S16  0x100
+-#define TCG_CT_CONST_U16  0x200
+ #define TCG_CT_CONST_S32  0x400
+ #define TCG_CT_CONST_U32  0x800
+ #define TCG_CT_CONST_ZERO 0x1000
+@@ -270,8 +269,6 @@ static bool tcg_target_const_match(int64_t val, TCGType type, int ct)
+ 
+     if ((ct & TCG_CT_CONST_S16) && val == (int16_t)val) {
+         return 1;
+-    } else if ((ct & TCG_CT_CONST_U16) && val == (uint16_t)val) {
+-        return 1;
+     } else if ((ct & TCG_CT_CONST_S32) && val == (int32_t)val) {
+         return 1;
+     } else if ((ct & TCG_CT_CONST_U32) && val == (uint32_t)val) {
 -- 
 2.34.1
 
