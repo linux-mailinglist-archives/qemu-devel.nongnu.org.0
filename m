@@ -2,97 +2,120 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93EBA6F5CE6
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 May 2023 19:18:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 413AE6F5CE7
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 May 2023 19:19:41 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1puG76-00029z-KE; Wed, 03 May 2023 13:18:00 -0400
+	id 1puG8K-0003W7-R4; Wed, 03 May 2023 13:19:16 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1puG73-00029B-P7
- for qemu-devel@nongnu.org; Wed, 03 May 2023 13:17:58 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1puG8F-0003Re-66
+ for qemu-devel@nongnu.org; Wed, 03 May 2023 13:19:11 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1puG72-0003l9-6Q
- for qemu-devel@nongnu.org; Wed, 03 May 2023 13:17:57 -0400
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1puG83-0003tN-U0
+ for qemu-devel@nongnu.org; Wed, 03 May 2023 13:19:01 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1683134275;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=Dg+/CDUzPAOlfiW1nv1hmM+5DwIuK/sUUb1WwIGkdag=;
- b=NHt+U+UfsbMJUvr99Y/4PTn8cx00J5ysTj/9ywbwlTBRQDsIky4PtHhz1ou+XvwKniz4Jo
- x/itfRqtdP4gKz6sR0yTa4I/RCaChobODfoP5A0Fv71OFmVWaYA8EnxU63sBezkMM806E7
- 69e+3F6i1qQxrizvkvh2u3LGcpFAoTI=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ s=mimecast20190719; t=1683134339;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=fphXzwhs7pSTOqa+5xPNLSnrwd39TLSdaiyQVlcItcA=;
+ b=MtUnEn+xrBg2qxRvuh7HI/6FjvoFyJ2Gt0WVRoiljcVlkEwcYFs6CfrZ4mtYKWyqqqxieJ
+ hH8O4fRDLB3pMEl80BC7JxltGQIKhCTTV3lkTrD8J0TeI1q2tCPozZGuyJqiuA/7FRbF4v
+ 61ydJDBjVMWFOU5oyvksMLroFUN+Ew8=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-187-cjD70NRaPxmafOmc1gFzbQ-1; Wed, 03 May 2023 13:17:53 -0400
-X-MC-Unique: cjD70NRaPxmafOmc1gFzbQ-1
-Received: by mail-wr1-f69.google.com with SMTP id
- ffacd0b85a97d-3063089cff4so2177266f8f.0
- for <qemu-devel@nongnu.org>; Wed, 03 May 2023 10:17:53 -0700 (PDT)
+ us-mta-128-4OppeQ92NrOoNEuD6kEPxA-1; Wed, 03 May 2023 13:18:58 -0400
+X-MC-Unique: 4OppeQ92NrOoNEuD6kEPxA-1
+Received: by mail-ed1-f70.google.com with SMTP id
+ 4fb4d7f45d1cf-50bcbb5724aso3075767a12.1
+ for <qemu-devel@nongnu.org>; Wed, 03 May 2023 10:18:57 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683134273; x=1685726273;
- h=mime-version:message-id:date:reply-to:user-agent:references
- :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=Dg+/CDUzPAOlfiW1nv1hmM+5DwIuK/sUUb1WwIGkdag=;
- b=gtI6ykOIkXcYMNuvx5afFqDlDkuErVOZOb7nvKub3IE3TlO6e74uxKGQeKFvNy5q3g
- J4jHNVqSx9LtHYKJkPTOgn09I0lTMS5ldAhJ0dGeAo9IQZN792TCxYsuh3UDL/Q/yML5
- mIKhor7Q0fmL3JJmp8v68UwI6ytGQcEq7VZbYvNNaXrVS149kJg1+qUVLCx3dv+s13dJ
- lP9Yxf2RdHaKGDpiLs7MNURGdaKexLcWYEWmI3stqRCTHgbA34eOGBJnrxhPfJgp+bEd
- zkt3NV1O7ahuchZ4pUPGSAJv7CoEUTVLHbl5bc4gArC6oMkFQFiE8XLUaBFYikmGhpdV
- IEbg==
-X-Gm-Message-State: AC+VfDx4U0B9D7e9lQqOSr6Rz6xVdwaP9HK+88HrW7pELLXXK+i6fxCH
- 24t48nCIAxqOFPRwmbDtldF8pVxQq+XWMLxr6arF8gi+wUZxgQ9lsy8uARKtY0Hcof7zwSzvc52
- ISAhWzGV2kczKoFo=
-X-Received: by 2002:a5d:5942:0:b0:304:8147:f0ba with SMTP id
- e2-20020a5d5942000000b003048147f0bamr633157wri.3.1683134272863; 
- Wed, 03 May 2023 10:17:52 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ52d+7ikKUqLTowtxActL+MyAVu5+DJMJ9sgfta4VQr6M2rXN+bsc0pBvOJU8LGHbq6+BOxPw==
-X-Received: by 2002:a5d:5942:0:b0:304:8147:f0ba with SMTP id
- e2-20020a5d5942000000b003048147f0bamr633143wri.3.1683134272518; 
- Wed, 03 May 2023 10:17:52 -0700 (PDT)
-Received: from redhat.com ([188.85.120.92]) by smtp.gmail.com with ESMTPSA id
- q6-20020a5d5746000000b003063db8f45bsm3220095wrw.23.2023.05.03.10.17.51
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 03 May 2023 10:17:51 -0700 (PDT)
-From: Juan Quintela <quintela@redhat.com>
-To: Kevin Wolf <kwolf@redhat.com>
-Cc: qemu-devel@nongnu.org,  qemu-block@nongnu.org,  Marcel Apfelbaum
- <marcel.apfelbaum@gmail.com>,  Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?=
- <philmd@linaro.org>,
- Eric Blake <eblake@redhat.com>,  Peter Xu <peterx@redhat.com>,  John Snow
- <jsnow@redhat.com>,  Yanan Wang <wangyanan55@huawei.com>,  Stefan Hajnoczi
- <stefanha@redhat.com>,  Leonardo Bras <leobras@redhat.com>,  Fam Zheng
- <fam@euphon.net>,  Eduardo Habkost <eduardo@habkost.net>,  Vladimir
- Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-Subject: Re: [PULL 11/18] migration: Create migrate_block_bitmap_mapping()
- function
-In-Reply-To: <ZFKVosOaCSZwizzb@redhat.com> (Kevin Wolf's message of "Wed, 3
- May 2023 19:10:58 +0200")
-References: <20230427152234.25400-1-quintela@redhat.com>
- <20230427152234.25400-12-quintela@redhat.com>
- <ZFJw1lSMcQ5sqZBD@redhat.com> <87jzxpqxdz.fsf@secure.mitica>
- <ZFKVosOaCSZwizzb@redhat.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
-Date: Wed, 03 May 2023 19:17:46 +0200
-Message-ID: <877ctpqqpx.fsf@secure.mitica>
+ d=1e100.net; s=20221208; t=1683134337; x=1685726337;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=fphXzwhs7pSTOqa+5xPNLSnrwd39TLSdaiyQVlcItcA=;
+ b=df/hUhh4hb8D1/caInrod4Y+YGbZTvIKkdnOtNrAE5NJxq2werESenLss1/iu9acvG
+ MKEnzC8TBS95y1w2sC0MBMaBDxtGFGKI1TczNqSR5m/mMnm+d8vrSFNO/GmImz+07duu
+ Izv8ZO4jri8T85N9dtHAue+GVbrACa59oJi1ejLlqDuD/zr5T9dZeg/bny3Y0cA/2piQ
+ xlP3LFobmvukZ6VjUJD6oF9a3YRf4eWPoZgFYa0JpL8rana/VwLU+uu6JjrvmBx19VCt
+ 22eqdqu+pFYDwZHZZpms11cdt2Tn8J6JH8dci0+vbL5I14o5vG0S+3EC3Le6BZ/jLi6k
+ /ZIQ==
+X-Gm-Message-State: AC+VfDzP+/NEKp/MZV3CEaxmbMLb5KcUos0YWNo7YEpvhP4EGPZwtpmA
+ RIMLqDa6B66gMYr9O0Z+eOUFDfdAqY+oLaYYtFDGh0DqL++YlmXCyWioQL4EKc25oRbSTuC6Z2S
+ 8sy+YKKz1IT6dxvU=
+X-Received: by 2002:aa7:c743:0:b0:50b:ca1b:adeb with SMTP id
+ c3-20020aa7c743000000b0050bca1badebmr7618357eds.0.1683134336963; 
+ Wed, 03 May 2023 10:18:56 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ4aNyKSamB5tkSHgFMRzngoR5UWpfpVeiNyPg2dHnKXrYl6HlQfwPptQdygUXp95cMJuUU+UQ==
+X-Received: by 2002:aa7:c743:0:b0:50b:ca1b:adeb with SMTP id
+ c3-20020aa7c743000000b0050bca1badebmr7618307eds.0.1683134336640; 
+ Wed, 03 May 2023 10:18:56 -0700 (PDT)
+Received: from ?IPV6:2001:b07:6468:f312:9af8:e5f5:7516:fa89?
+ ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
+ by smtp.googlemail.com with ESMTPSA id
+ i10-20020a05640200ca00b0050bd9d3ddf3sm897974edu.42.2023.05.03.10.18.54
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 03 May 2023 10:18:56 -0700 (PDT)
+Message-ID: <0f247f08-c025-9574-940b-668d1203a73b@redhat.com>
+Date: Wed, 3 May 2023 19:18:53 +0200
 MIME-Version: 1.0
-Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.1
+Subject: Re: [PATCH 14/22] hw/loongarch: add VIRTIO as a dependency for
+ LOONGARCH_VIRT
+Content-Language: en-US
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
+Cc: Laurent Vivier <lvivier@redhat.com>,
+ Artyom Tarasenko <atar4qemu@gmail.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, Leif Lindholm <quic_llindhol@quicinc.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Helge Deller <deller@gmx.de>,
+ Xiaojuan Yang <yangxiaojuan@loongson.cn>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Cleber Rosa <crosa@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Eduardo Habkost <eduardo@habkost.net>, Juan Quintela <quintela@redhat.com>,
+ John Snow <jsnow@redhat.com>, Yoshinori Sato <ysato@users.sourceforge.jp>,
+ =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
+ Ilya Leoshkevich <iii@linux.ibm.com>,
+ Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>, Andrew Jeffery
+ <andrew@aj.id.au>, qemu-s390x@nongnu.org,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-arm@nongnu.org,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Beraldo Leal <bleal@redhat.com>, Max Filippov <jcmvbkbc@gmail.com>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Jiaxun Yang <jiaxun.yang@flygoat.com>, Radoslaw Biernacki
+ <rad@semihalf.com>, Aurelien Jarno <aurelien@aurel32.net>,
+ David Hildenbrand <david@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ Song Gao <gaosong@loongson.cn>, Joel Stanley <joel@jms.id.au>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+References: <20230503091244.1450613-1-alex.bennee@linaro.org>
+ <20230503091244.1450613-15-alex.bennee@linaro.org>
+From: Paolo Bonzini <pbonzini@redhat.com>
+In-Reply-To: <20230503091244.1450613-15-alex.bennee@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -22
-X-Spam_score: -2.3
-X-Spam_bar: --
-X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.161,
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.161,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-4.28, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -105,52 +128,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Kevin Wolf <kwolf@redhat.com> wrote:
-> Am 03.05.2023 um 16:53 hat Juan Quintela geschrieben:
->> Kevin Wolf <kwolf@redhat.com> wrote:
->> > Am 27.04.2023 um 17:22 hat Juan Quintela geschrieben:
->> >> Notice that we changed the test of ->has_block_bitmap_mapping
->> >> for the test that block_bitmap_mapping is not NULL.
->> >> 
->> >> Signed-off-by: Juan Quintela <quintela@redhat.com>
->> >> Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
->> >> 
->> >> ---
->> >> 
->> >> Make it return const (vladimir)
->> >
->> > (I don't think this part was actually meant for the commit message)
->> >
->> > This commit broke qemu-iotests 300 on master. Please have a look.
->> >
->> > Kevin
->> 
->> grrr
->> 
->> selfNack
->> 
->> Just wondering, make check don't run this?
->> 
->> I run "make check" before I sent the pull request.
->
-> "make check" only runs a subset of iotests because it would take too
-> long otherwise (especially in the context of CI - it wasn't me who made
-> this decision). It comes at the cost that sometimes we catch problems
-> only after merging the patch to git master when a block developer first
-> runs the full set of tests.
+On 5/3/23 11:12, Alex Bennée wrote:
+> These are needed for board creation so fail under "make check" with a
+> --without-default-devices build.
+> 
+> Signed-off-by: Alex Bennée<alex.bennee@linaro.org>
 
-Ahhh.
+Also not needed:
 
-> So I wouldn't blame your testing, it's just something that happens, and
-> when it happens we need to look after it.
+bus: main-system-bus
+   type System
+   dev: platform-bus-device, id "platform-bus-device"
+   dev: acpi-ged, id ""
+   dev: ls7a_rtc, id ""
+   dev: unimplemented-device, id ""
+   dev: serial-mm, id ""
+   dev: gpex-pcihost, id ""
+     bus: pcie.0
+       type PCIE
+       dev: gpex-root, id ""
+   dev: loongarch_pch_msi, id ""
+   dev: loongarch_pch_pic, id ""
+   dev: loongarch.extioi, id ""
+   dev: loongarch_ipi, id ""
+   dev: fw_cfg_mem, id ""
 
-Thanks.  I have sent another email.  Found why it is failing.  But I am
-not sure what is wrong the test of the change in the code.
 
-Later, Juan.
+Paolo
 
 
