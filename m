@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76C166F5434
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 May 2023 11:14:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A7016F5439
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 May 2023 11:14:57 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pu8Y6-0004uN-UY; Wed, 03 May 2023 05:13:22 -0400
+	id 1pu8YS-0005n2-Il; Wed, 03 May 2023 05:13:44 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pu8Xq-0004PB-Ik
- for qemu-devel@nongnu.org; Wed, 03 May 2023 05:13:09 -0400
-Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433])
+ id 1pu8Xv-0004XT-SX
+ for qemu-devel@nongnu.org; Wed, 03 May 2023 05:13:13 -0400
+Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pu8Xc-0005r6-Lj
- for qemu-devel@nongnu.org; Wed, 03 May 2023 05:13:05 -0400
-Received: by mail-wr1-x433.google.com with SMTP id
- ffacd0b85a97d-3023a56048bso4552151f8f.3
- for <qemu-devel@nongnu.org>; Wed, 03 May 2023 02:12:52 -0700 (PDT)
+ id 1pu8Xg-0005vL-2g
+ for qemu-devel@nongnu.org; Wed, 03 May 2023 05:13:11 -0400
+Received: by mail-wm1-x32f.google.com with SMTP id
+ 5b1f17b1804b1-3f315735514so14868445e9.1
+ for <qemu-devel@nongnu.org>; Wed, 03 May 2023 02:12:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=linaro.org; s=google; t=1683105172; x=1685697172;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=+tg4pt8n5fSPZ9UQaNU7BUQLCBKZxcUMpPKPM60oNss=;
- b=h/U+EGdEkYRU2u+IeFdeylMEOTImzp2OzyiB0BIpzVrGv1tlxJIa8hXN8QQaSUHfcO
- pEP5EQtTNf+wEfkTBpD6oRU4d2MWU/4QxAwJdtB5SKjkB5d1AtFRjxLl8nI6MI6aEY62
- Sl0JpnFfsOWFT9MUMapej3EJUNw7VUOQiBMlzzYod2gmldfCRtOvwsR+R1/CDDZaxnXi
- IqvUZCtEjzZCgoElEx+mCb3gmrXQf7QGFD29MYYy9M2qrVJSeYcZXm57GVzd+OTHcyj1
- OY+x7uiG9R0Bjs6H4MC5XwBWP/rYOJOpFGJ1sEr3iY+bpJse31MldM4hb/dJHXtv5vNI
- l0/g==
+ bh=fYDvZUsIhInwPW03MTF99p4xI8+tuKyXF0ZctjY31L8=;
+ b=y4SSf7p63s9532XEFNleJupIoV5LUj01mCVEMuXZ3llnpjq2HwnWqOC2AkjV641W3z
+ Rpbzf9tO9cjxTCtVbfd6ddLzDOX7nSulkbqCRDOiLPhy2++ILBCjk2jDKhdYX22PVec2
+ WCJQxgt5KrwXci8gQ1IbPmjBhMzq41BfM3DAXgUDuSesX9j9slRQQmkdEWWH0FWe7c3+
+ tuMndrUdiJdxU74roEyr8o2rMaLPdtla+DnH39/bnRfWEyeg1bYi8mtqI+QskjLtw8DA
+ LNwgHwqxYFMVRcjna9zYMtfjpqRnCRpzV7jzMmnSqWiIrzouUHso9VC8K2kiizfk1A+2
+ A/4A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20221208; t=1683105172; x=1685697172;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=+tg4pt8n5fSPZ9UQaNU7BUQLCBKZxcUMpPKPM60oNss=;
- b=QU9qTkXLEI4zPHZ4yqK7uKwTzAx3KVODUTvGGT+ZsBD5CJ0ODMxWCBXBsvnezVkfBk
- zwi/edg+O9ARZ6kKV456JuSg0M2NOj7Hp3cm2GCJB49N/Nn0tPSv6LA5Lt5NoQtPjg8+
- 3pSqNB4pw9aySNPT90Sn9sqSx9RImWmWaLs14mpL+gq671np70kL8jnqCyXi/PSLeUK6
- dmKjQwJYXm7LwRNXqk/lUfpCHIPqAJZn9Jo+36jtk/8AmI5dNrHH7BsdN2/KG0eb7Qbt
- EdaHvmzD0yxs4FMgw2b0shOzLWwhgdI32ZSbORCz/3Os41XGU5Z9qz39nLqKNN+jgJww
- VxmA==
-X-Gm-Message-State: AC+VfDx02GktqiDYQjiBxdH4ZFqQIP98El/TkBcHC1dqkhTCWKar2DA7
- /eI2k15/AWnCMrD/yCS14dYHBQ==
-X-Google-Smtp-Source: ACHHUZ459blYaiFLD/+knEVYLGPWgPJC+vJ+pXu0oCQSVG04oe+GWPg2QCYUmsfycAoImTJyeEirnQ==
-X-Received: by 2002:a5d:61ca:0:b0:306:2dd6:95d3 with SMTP id
- q10-20020a5d61ca000000b003062dd695d3mr6623630wrv.22.1683105171720; 
- Wed, 03 May 2023 02:12:51 -0700 (PDT)
+ bh=fYDvZUsIhInwPW03MTF99p4xI8+tuKyXF0ZctjY31L8=;
+ b=H99m+vLgOUhhixmicN09HHbJ8hvaU0mLlfhmxjBZAsjs26lksp0yDyctuW6ePUbMrt
+ PpRRGaakpSd50cJrj2AzcDaal+4oXt0qWNEvRdP6O71r7BNyrSuEK/wual+An97pr91v
+ 3q2rhZ8vv83wzquyzF7InA9vEPOkNfTfX/tudTXksGKM2fY/uhdLxTJEP45sm5PaaBL+
+ Z/sB+5TncQXOdbW4VIO08ZZWgvUcKKqy5THKAd5MPVHgCu0ZL1DPtIZgDyN2qDqJUz2C
+ G1njQ2fcY1LFetdY8QJGuJjHNXq5bKyTj7U/ihi5blSog5HJQsBayTgBdRQLhHnKCXEN
+ BsLw==
+X-Gm-Message-State: AC+VfDwLFcSM8/HaT2df5kJQHeOr2kinYAjElWOVMGjiXFNKl02n1lgQ
+ mbSs35AZpZwDk6/zOzgjrTvgCg==
+X-Google-Smtp-Source: ACHHUZ4MbCjwD59cWoL+xfch0ykU93xg/EDMczlmW1vzO81S8ejDzXJO64noR/7fnaZilolSlAM7DQ==
+X-Received: by 2002:a05:600c:6024:b0:3f1:89de:7e51 with SMTP id
+ az36-20020a05600c602400b003f189de7e51mr984876wmb.12.1683105172731; 
+ Wed, 03 May 2023 02:12:52 -0700 (PDT)
 Received: from zen.linaroharston ([85.9.250.243])
  by smtp.gmail.com with ESMTPSA id
- h4-20020a5d6884000000b003062d815fa6sm7630796wru.85.2023.05.03.02.12.47
+ l9-20020a1c7909000000b003f193d7c6b7sm1223276wme.41.2023.05.03.02.12.48
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 03 May 2023 02:12:49 -0700 (PDT)
+ Wed, 03 May 2023 02:12:50 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 732BE1FFC6;
+ by zen.linaroharston (Postfix) with ESMTP id 8A8B21FFBC;
  Wed,  3 May 2023 10:12:46 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
@@ -90,18 +90,17 @@ Cc: Laurent Vivier <lvivier@redhat.com>,
  Joel Stanley <joel@jms.id.au>,
  =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PATCH 14/22] hw/loongarch: add VIRTIO as a dependency for
- LOONGARCH_VIRT
-Date: Wed,  3 May 2023 10:12:36 +0100
-Message-Id: <20230503091244.1450613-15-alex.bennee@linaro.org>
+Subject: [PATCH 15/22] hw/sh4: make RTL8139 a hard dependency for RD2
+Date: Wed,  3 May 2023 10:12:37 +0100
+Message-Id: <20230503091244.1450613-16-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230503091244.1450613-1-alex.bennee@linaro.org>
 References: <20230503091244.1450613-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::433;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x433.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -124,24 +123,28 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-These are needed for board creation so fail under "make check" with a
+We can't just imply it as the board will fail to create otherwise.
+This shows up as a "make check" failure with a
 --without-default-devices build.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- hw/loongarch/Kconfig | 2 ++
- 1 file changed, 2 insertions(+)
+ hw/sh4/Kconfig | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/loongarch/Kconfig b/hw/loongarch/Kconfig
-index eb112af990..74d8449100 100644
---- a/hw/loongarch/Kconfig
-+++ b/hw/loongarch/Kconfig
-@@ -21,3 +21,5 @@ config LOONGARCH_VIRT
-     select FW_CFG_DMA
-     select DIMM
-     select PFLASH_CFI01
-+    select VIRTIO_PCI
-+    select VIRTIO_NET
+diff --git a/hw/sh4/Kconfig b/hw/sh4/Kconfig
+index ab733a3f76..03f3469ae1 100644
+--- a/hw/sh4/Kconfig
++++ b/hw/sh4/Kconfig
+@@ -2,7 +2,7 @@ config R2D
+     bool
+     imply PCI_DEVICES
+     imply TEST_DEVICES
+-    imply RTL8139_PCI
++    select RTL8139_PCI
+     select I82378 if TEST_DEVICES
+     select IDE_MMIO
+     select PFLASH_CFI02
 -- 
 2.39.2
 
