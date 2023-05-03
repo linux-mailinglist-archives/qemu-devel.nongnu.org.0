@@ -2,77 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB20C6F51FC
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 May 2023 09:41:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F7B46F513F
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 May 2023 09:24:10 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pu6pS-0008KL-Fm; Wed, 03 May 2023 03:23:10 -0400
+	id 1pu6p7-0007An-NK; Wed, 03 May 2023 03:22:53 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pu6p1-0006vK-9y
- for qemu-devel@nongnu.org; Wed, 03 May 2023 03:22:43 -0400
-Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335])
+ id 1pu6oz-0006qY-A5
+ for qemu-devel@nongnu.org; Wed, 03 May 2023 03:22:41 -0400
+Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pu6ow-0007JI-Co
- for qemu-devel@nongnu.org; Wed, 03 May 2023 03:22:42 -0400
-Received: by mail-wm1-x335.google.com with SMTP id
- 5b1f17b1804b1-3f19afc4fbfso47555145e9.2
+ id 1pu6ov-0007H9-8p
+ for qemu-devel@nongnu.org; Wed, 03 May 2023 03:22:40 -0400
+Received: by mail-wm1-x330.google.com with SMTP id
+ 5b1f17b1804b1-3f37a36b713so7183555e9.1
  for <qemu-devel@nongnu.org>; Wed, 03 May 2023 00:22:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=linaro.org; s=google; t=1683098555; x=1685690555;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=Hv/l59D9/l35x4T8g8G++KyGPDKdt+S8r4eHYGHsDds=;
- b=sf1J73H90MDz2ZWxg9lijB96cF2U3crrijjP3ziSQZQAK/ig3x/nPts3oNo7w+zowS
- YV8kdzmID4FN9h/nem13zpvtyflRaxIiQ5+UlzlXTeASeFc0FHpXR3kBn+A+pGfpOzt6
- TBvKnZaUaJDQHNzKGAVLhGSf82jD4w0bDxKI7ndifEZJKo0mX37F7TqWwkrEtY9V2YU4
- +lLqohklnoj8XbG6Xior5MfIMf7UKQX0BKZBUKknUrJHDFAFlZVb2UI61hGjncSsCvTq
- hRVn+TlvReJzyhNcnEd6jVv7062ajWQXBIIsotHf7QONCml0b4GHA1v0wtNCBOjJXWr9
- W8EQ==
+ bh=z8sjCuLtJ7QtevNycg+bE9LkfywEsd1zAt00dn10Z1Q=;
+ b=i1TjvEcuSH2oBVpZrBEXvMW98jPx5mcvRWAuGJUdKuGerDROvxrVDtmFQI3iGbSQcc
+ 3WWKN0XoTVqNxWwP/9yq/Uh1A9iXuCSiPvTxU4yRz6IHsqcHcsYRD813g2Ib2IJgPBBm
+ hWQv3DaKPFahPq5JmGUW848IS34FjF/LuDPRyul9Civ63ufP6RrE4v1th9Pn1aoY/Yk1
+ roVQG69vk/0Ij3qO2PiPXtOGDVyv0+dIIz+Bm0kOvAtoI5Ak719Gd8Sc1hppoEQwlyTH
+ bzBK8KMOEqUHuXJAu8YqHM6eaJ6rtZSq8tu5iqhEEOk0A8UjkxRUh5ZY60K/+/OBe4M8
+ tMoQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20221208; t=1683098555; x=1685690555;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=Hv/l59D9/l35x4T8g8G++KyGPDKdt+S8r4eHYGHsDds=;
- b=Q2lKvdH/YYOI44TnszZlCqKTRclGUzw3oHpP6obMhJlX+0P/NOPO/TLvb0Oa5VLaq5
- Dz6BNtnXP2rl3PTtlqI1cSdT5D/JT0d12xwRXropTOd85azZ1ZXRHkENoLtUITjPFmw4
- luJJUQb5H2HFDxWjcvlDiVRXY3VA7fdyKSQND0KfKtsVxzI39m3PhxWMsXWvVJ+vmIgr
- S+nRcvjA8ao6oKYUxg1J7v4IYbI7kY4FdHEI8pfcoLV0csvA775CeD0dz0FRbrAfKYlL
- 00po9pWD6lbJ6wH+Z0zHyVHb3VBfPgodpHFEgTF8fjhVJtll99nQRK1mCyd8KODbkj3I
- DGXA==
-X-Gm-Message-State: AC+VfDxwtVowaN3eQRY09dI4VqD6vhnMCer/XrwW9sF/LIsNWfeY+m5l
- S+vPXMAYPlhlySuTWoWJo+gQR2GPJ81Y7ctiqnlfpA==
-X-Google-Smtp-Source: ACHHUZ67gwzbFQ63MeXrZ25MG1Y5NPXNolxfOOWJG0BVvQ3m3ij1Bvpd4bllIqu+RbEpSQ/UG9GUug==
-X-Received: by 2002:a7b:cd18:0:b0:3f1:9525:7bb6 with SMTP id
- f24-20020a7bcd18000000b003f195257bb6mr13614382wmj.5.1683098554796; 
- Wed, 03 May 2023 00:22:34 -0700 (PDT)
+ bh=z8sjCuLtJ7QtevNycg+bE9LkfywEsd1zAt00dn10Z1Q=;
+ b=JvMtdDWPvSy3ZXdDCrNxedygBbSQU2AH0JByY1Qwp+IWaaa/tX1q6kJ/ssMQEQPjq/
+ hEadJw+CWZrGjsnKqAATY+DVPzHtnPH1S2It9YmHwDm/BMHslTN4ZDByYGt7RKIlsuGH
+ jxOTVPaEzj/cSmq9J1YuhyU92xaIVrJBpFbvQrMMjoIf1TDtSZNJkazZwRoAKD0L4sT3
+ w+aErwM22JmwRCFZy4UcRLyIVWNEAw74T1Jh0WuKteZ45eN5C0sAMoDumYo5I9P9xXRj
+ ELI0tom3sD5DMcXqqqEkrsxTuskIY/yEHi8rz4uhLS1CmvQl3E3PMe5xozKYZc+VHXb4
+ BZUw==
+X-Gm-Message-State: AC+VfDxjfZJzUimWn07qGUmmUM0P5kEogsbBMYsYbyPGcwnjxvqmwSGp
+ 4RVBgA7CzYXCmjQy++yWKpk73bj0xMkqVsdaRo43nw==
+X-Google-Smtp-Source: ACHHUZ45RG5SS7GukrKvBL2KC81XXGLiqvGkaEt70L+2JTpo94YBhVlH0G27P0pympy3Z/R7I6c58g==
+X-Received: by 2002:a7b:cbcb:0:b0:3ee:19b4:a2e6 with SMTP id
+ n11-20020a7bcbcb000000b003ee19b4a2e6mr14557114wmi.19.1683098555442; 
+ Wed, 03 May 2023 00:22:35 -0700 (PDT)
 Received: from stoup.Home ([2a02:c7c:74db:8d00:c01d:9d74:b630:9087])
  by smtp.gmail.com with ESMTPSA id
  t4-20020a7bc3c4000000b003f1745c7df3sm962789wmj.23.2023.05.03.00.22.34
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 03 May 2023 00:22:34 -0700 (PDT)
+ Wed, 03 May 2023 00:22:35 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: ale@rev.ng, philmd@linaro.org, marcel.apfelbaum@gmail.com,
- wangyanan55@huawei.com, anjo@rev.ng,
- Alistair Francis <alistair.francis@wdc.com>,
- Weiwei Li <liweiwei@iscas.ac.cn>,
- Daniel Henrique Barboza <dbarboza@ventanamicro.com>
-Subject: [PULL v2 09/12] accel/tcg: Add cpu_ld*_code_mmu
-Date: Wed,  3 May 2023 08:21:02 +0100
-Message-Id: <20230503072221.1746802-18-richard.henderson@linaro.org>
+ wangyanan55@huawei.com, anjo@rev.ng
+Subject: [PATCH 09/84] tcg: Reduce copies for plugin_gen_mem_callbacks
+Date: Wed,  3 May 2023 08:21:03 +0100
+Message-Id: <20230503072221.1746802-19-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230503072221.1746802-1-richard.henderson@linaro.org>
 References: <20230503072221.1746802-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::335;
- envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x335.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::330;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x330.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -95,167 +92,158 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-At least RISC-V has the need to be able to perform a read
-using execute permissions, outside of translation.
-Add helpers to facilitate this.
+We only need to make copies for loads, when the destination
+overlaps the address.  For now, only eliminate the copy for
+stores and 128-bit loads.
+
+Rename plugin_prep_mem_callbacks to plugin_maybe_preserve_addr,
+returning NULL if no copy is made.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Acked-by: Alistair Francis <alistair.francis@wdc.com>
-Reviewed-by: Weiwei Li <liweiwei@iscas.ac.cn>
-Tested-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
-Message-Id: <20230325105429.1142530-9-richard.henderson@linaro.org>
-Message-Id: <20230412114333.118895-9-richard.henderson@linaro.org>
 ---
- include/exec/cpu_ldst.h |  9 +++++++
- accel/tcg/cputlb.c      | 48 ++++++++++++++++++++++++++++++++++
- accel/tcg/user-exec.c   | 58 +++++++++++++++++++++++++++++++++++++++++
- 3 files changed, 115 insertions(+)
+ tcg/tcg-op-ldst.c | 38 ++++++++++++++++++++------------------
+ 1 file changed, 20 insertions(+), 18 deletions(-)
 
-diff --git a/include/exec/cpu_ldst.h b/include/exec/cpu_ldst.h
-index 09b55cc0ee..c141f0394f 100644
---- a/include/exec/cpu_ldst.h
-+++ b/include/exec/cpu_ldst.h
-@@ -445,6 +445,15 @@ static inline CPUTLBEntry *tlb_entry(CPUArchState *env, uintptr_t mmu_idx,
- # define cpu_stq_mmu          cpu_stq_le_mmu
+diff --git a/tcg/tcg-op-ldst.c b/tcg/tcg-op-ldst.c
+index 17fe35b93c..cbd85f793c 100644
+--- a/tcg/tcg-op-ldst.c
++++ b/tcg/tcg-op-ldst.c
+@@ -114,7 +114,8 @@ static void tcg_gen_req_mo(TCGBar type)
+     }
+ }
+ 
+-static inline TCGv plugin_prep_mem_callbacks(TCGv vaddr)
++/* Only required for loads, where value might overlap addr. */
++static TCGv plugin_maybe_preserve_addr(TCGv vaddr)
+ {
+ #ifdef CONFIG_PLUGIN
+     if (tcg_ctx->plugin_insn != NULL) {
+@@ -124,17 +125,20 @@ static inline TCGv plugin_prep_mem_callbacks(TCGv vaddr)
+         return temp;
+     }
  #endif
- 
-+uint8_t cpu_ldb_code_mmu(CPUArchState *env, abi_ptr addr,
-+                         MemOpIdx oi, uintptr_t ra);
-+uint16_t cpu_ldw_code_mmu(CPUArchState *env, abi_ptr addr,
-+                          MemOpIdx oi, uintptr_t ra);
-+uint32_t cpu_ldl_code_mmu(CPUArchState *env, abi_ptr addr,
-+                          MemOpIdx oi, uintptr_t ra);
-+uint64_t cpu_ldq_code_mmu(CPUArchState *env, abi_ptr addr,
-+                          MemOpIdx oi, uintptr_t ra);
-+
- uint32_t cpu_ldub_code(CPUArchState *env, abi_ptr addr);
- uint32_t cpu_lduw_code(CPUArchState *env, abi_ptr addr);
- uint32_t cpu_ldl_code(CPUArchState *env, abi_ptr addr);
-diff --git a/accel/tcg/cputlb.c b/accel/tcg/cputlb.c
-index efa0cb67c9..c8bd642d0e 100644
---- a/accel/tcg/cputlb.c
-+++ b/accel/tcg/cputlb.c
-@@ -2773,3 +2773,51 @@ uint64_t cpu_ldq_code(CPUArchState *env, abi_ptr addr)
-     MemOpIdx oi = make_memop_idx(MO_TEUQ, cpu_mmu_index(env, true));
-     return full_ldq_code(env, addr, oi, 0);
- }
-+
-+uint8_t cpu_ldb_code_mmu(CPUArchState *env, abi_ptr addr,
-+                         MemOpIdx oi, uintptr_t retaddr)
-+{
-+    return full_ldub_code(env, addr, oi, retaddr);
-+}
-+
-+uint16_t cpu_ldw_code_mmu(CPUArchState *env, abi_ptr addr,
-+                          MemOpIdx oi, uintptr_t retaddr)
-+{
-+    MemOp mop = get_memop(oi);
-+    int idx = get_mmuidx(oi);
-+    uint16_t ret;
-+
-+    ret = full_lduw_code(env, addr, make_memop_idx(MO_TEUW, idx), retaddr);
-+    if ((mop & MO_BSWAP) != MO_TE) {
-+        ret = bswap16(ret);
-+    }
-+    return ret;
-+}
-+
-+uint32_t cpu_ldl_code_mmu(CPUArchState *env, abi_ptr addr,
-+                          MemOpIdx oi, uintptr_t retaddr)
-+{
-+    MemOp mop = get_memop(oi);
-+    int idx = get_mmuidx(oi);
-+    uint32_t ret;
-+
-+    ret = full_ldl_code(env, addr, make_memop_idx(MO_TEUL, idx), retaddr);
-+    if ((mop & MO_BSWAP) != MO_TE) {
-+        ret = bswap32(ret);
-+    }
-+    return ret;
-+}
-+
-+uint64_t cpu_ldq_code_mmu(CPUArchState *env, abi_ptr addr,
-+                          MemOpIdx oi, uintptr_t retaddr)
-+{
-+    MemOp mop = get_memop(oi);
-+    int idx = get_mmuidx(oi);
-+    uint64_t ret;
-+
-+    ret = full_ldq_code(env, addr, make_memop_idx(MO_TEUQ, idx), retaddr);
-+    if ((mop & MO_BSWAP) != MO_TE) {
-+        ret = bswap64(ret);
-+    }
-+    return ret;
-+}
-diff --git a/accel/tcg/user-exec.c b/accel/tcg/user-exec.c
-index a7e0c3e2f4..fc597a010d 100644
---- a/accel/tcg/user-exec.c
-+++ b/accel/tcg/user-exec.c
-@@ -1219,6 +1219,64 @@ uint64_t cpu_ldq_code(CPUArchState *env, abi_ptr ptr)
-     return ret;
+-    return vaddr;
++    return NULL;
  }
  
-+uint8_t cpu_ldb_code_mmu(CPUArchState *env, abi_ptr addr,
-+                         MemOpIdx oi, uintptr_t ra)
-+{
-+    void *haddr;
-+    uint8_t ret;
-+
-+    haddr = cpu_mmu_lookup(env, addr, oi, ra, MMU_INST_FETCH);
-+    ret = ldub_p(haddr);
-+    clear_helper_retaddr();
-+    return ret;
-+}
-+
-+uint16_t cpu_ldw_code_mmu(CPUArchState *env, abi_ptr addr,
-+                          MemOpIdx oi, uintptr_t ra)
-+{
-+    void *haddr;
-+    uint16_t ret;
-+
-+    haddr = cpu_mmu_lookup(env, addr, oi, ra, MMU_INST_FETCH);
-+    ret = lduw_p(haddr);
-+    clear_helper_retaddr();
-+    if (get_memop(oi) & MO_BSWAP) {
-+        ret = bswap16(ret);
-+    }
-+    return ret;
-+}
-+
-+uint32_t cpu_ldl_code_mmu(CPUArchState *env, abi_ptr addr,
-+                          MemOpIdx oi, uintptr_t ra)
-+{
-+    void *haddr;
-+    uint32_t ret;
-+
-+    haddr = cpu_mmu_lookup(env, addr, oi, ra, MMU_INST_FETCH);
-+    ret = ldl_p(haddr);
-+    clear_helper_retaddr();
-+    if (get_memop(oi) & MO_BSWAP) {
-+        ret = bswap32(ret);
-+    }
-+    return ret;
-+}
-+
-+uint64_t cpu_ldq_code_mmu(CPUArchState *env, abi_ptr addr,
-+                          MemOpIdx oi, uintptr_t ra)
-+{
-+    void *haddr;
-+    uint64_t ret;
-+
-+    validate_memop(oi, MO_BEUQ);
-+    haddr = cpu_mmu_lookup(env, addr, oi, ra, MMU_DATA_LOAD);
-+    ret = ldq_p(haddr);
-+    clear_helper_retaddr();
-+    if (get_memop(oi) & MO_BSWAP) {
-+        ret = bswap64(ret);
-+    }
-+    return ret;
-+}
-+
- #include "ldst_common.c.inc"
+-static void plugin_gen_mem_callbacks(TCGv vaddr, MemOpIdx oi,
+-                                     enum qemu_plugin_mem_rw rw)
++static void
++plugin_gen_mem_callbacks(TCGv copy_addr, TCGv orig_addr, MemOpIdx oi,
++                         enum qemu_plugin_mem_rw rw)
+ {
+ #ifdef CONFIG_PLUGIN
+     if (tcg_ctx->plugin_insn != NULL) {
+         qemu_plugin_meminfo_t info = make_plugin_meminfo(oi, rw);
+-        plugin_gen_empty_mem_callback(vaddr, info);
+-        tcg_temp_free(vaddr);
++        plugin_gen_empty_mem_callback(copy_addr ? : orig_addr, info);
++        if (copy_addr) {
++            tcg_temp_free(copy_addr);
++        }
+     }
+ #endif
+ }
+@@ -143,6 +147,7 @@ void tcg_gen_qemu_ld_i32(TCGv_i32 val, TCGv addr, TCGArg idx, MemOp memop)
+ {
+     MemOp orig_memop;
+     MemOpIdx oi;
++    TCGv copy_addr;
  
- /*
+     tcg_gen_req_mo(TCG_MO_LD_LD | TCG_MO_ST_LD);
+     memop = tcg_canonicalize_memop(memop, 0, 0);
+@@ -157,9 +162,9 @@ void tcg_gen_qemu_ld_i32(TCGv_i32 val, TCGv addr, TCGArg idx, MemOp memop)
+         }
+     }
+ 
+-    addr = plugin_prep_mem_callbacks(addr);
++    copy_addr = plugin_maybe_preserve_addr(addr);
+     gen_ldst_i32(INDEX_op_qemu_ld_i32, val, addr, memop, idx);
+-    plugin_gen_mem_callbacks(addr, oi, QEMU_PLUGIN_MEM_R);
++    plugin_gen_mem_callbacks(copy_addr, addr, oi, QEMU_PLUGIN_MEM_R);
+ 
+     if ((orig_memop ^ memop) & MO_BSWAP) {
+         switch (orig_memop & MO_SIZE) {
+@@ -202,13 +207,12 @@ void tcg_gen_qemu_st_i32(TCGv_i32 val, TCGv addr, TCGArg idx, MemOp memop)
+         memop &= ~MO_BSWAP;
+     }
+ 
+-    addr = plugin_prep_mem_callbacks(addr);
+     if (TCG_TARGET_HAS_qemu_st8_i32 && (memop & MO_SIZE) == MO_8) {
+         gen_ldst_i32(INDEX_op_qemu_st8_i32, val, addr, memop, idx);
+     } else {
+         gen_ldst_i32(INDEX_op_qemu_st_i32, val, addr, memop, idx);
+     }
+-    plugin_gen_mem_callbacks(addr, oi, QEMU_PLUGIN_MEM_W);
++    plugin_gen_mem_callbacks(NULL, addr, oi, QEMU_PLUGIN_MEM_W);
+ 
+     if (swap) {
+         tcg_temp_free_i32(swap);
+@@ -219,6 +223,7 @@ void tcg_gen_qemu_ld_i64(TCGv_i64 val, TCGv addr, TCGArg idx, MemOp memop)
+ {
+     MemOp orig_memop;
+     MemOpIdx oi;
++    TCGv copy_addr;
+ 
+     if (TCG_TARGET_REG_BITS == 32 && (memop & MO_SIZE) < MO_64) {
+         tcg_gen_qemu_ld_i32(TCGV_LOW(val), addr, idx, memop);
+@@ -243,9 +248,9 @@ void tcg_gen_qemu_ld_i64(TCGv_i64 val, TCGv addr, TCGArg idx, MemOp memop)
+         }
+     }
+ 
+-    addr = plugin_prep_mem_callbacks(addr);
++    copy_addr = plugin_maybe_preserve_addr(addr);
+     gen_ldst_i64(INDEX_op_qemu_ld_i64, val, addr, memop, idx);
+-    plugin_gen_mem_callbacks(addr, oi, QEMU_PLUGIN_MEM_R);
++    plugin_gen_mem_callbacks(copy_addr, addr, oi, QEMU_PLUGIN_MEM_R);
+ 
+     if ((orig_memop ^ memop) & MO_BSWAP) {
+         int flags = (orig_memop & MO_SIGN
+@@ -300,9 +305,8 @@ void tcg_gen_qemu_st_i64(TCGv_i64 val, TCGv addr, TCGArg idx, MemOp memop)
+         memop &= ~MO_BSWAP;
+     }
+ 
+-    addr = plugin_prep_mem_callbacks(addr);
+     gen_ldst_i64(INDEX_op_qemu_st_i64, val, addr, memop, idx);
+-    plugin_gen_mem_callbacks(addr, oi, QEMU_PLUGIN_MEM_W);
++    plugin_gen_mem_callbacks(NULL, addr, oi, QEMU_PLUGIN_MEM_W);
+ 
+     if (swap) {
+         tcg_temp_free_i64(swap);
+@@ -430,7 +434,6 @@ void tcg_gen_qemu_ld_i128(TCGv_i128 val, TCGv addr, TCGArg idx, MemOp memop)
+     tcg_debug_assert((memop & MO_SIGN) == 0);
+ 
+     tcg_gen_req_mo(TCG_MO_LD_LD | TCG_MO_ST_LD);
+-    addr = plugin_prep_mem_callbacks(addr);
+ 
+     /* TODO: For now, force 32-bit hosts to use the helper. */
+     if (TCG_TARGET_HAS_qemu_ldst_i128 && TCG_TARGET_REG_BITS == 64) {
+@@ -501,7 +504,7 @@ void tcg_gen_qemu_ld_i128(TCGv_i128 val, TCGv addr, TCGArg idx, MemOp memop)
+         maybe_free_addr64(a64);
+     }
+ 
+-    plugin_gen_mem_callbacks(addr, oi, QEMU_PLUGIN_MEM_R);
++    plugin_gen_mem_callbacks(NULL, addr, oi, QEMU_PLUGIN_MEM_R);
+ }
+ 
+ void tcg_gen_qemu_st_i128(TCGv_i128 val, TCGv addr, TCGArg idx, MemOp memop)
+@@ -512,7 +515,6 @@ void tcg_gen_qemu_st_i128(TCGv_i128 val, TCGv addr, TCGArg idx, MemOp memop)
+     tcg_debug_assert((memop & MO_SIGN) == 0);
+ 
+     tcg_gen_req_mo(TCG_MO_ST_LD | TCG_MO_ST_ST);
+-    addr = plugin_prep_mem_callbacks(addr);
+ 
+     /* TODO: For now, force 32-bit hosts to use the helper. */
+ 
+@@ -583,7 +585,7 @@ void tcg_gen_qemu_st_i128(TCGv_i128 val, TCGv addr, TCGArg idx, MemOp memop)
+         maybe_free_addr64(a64);
+     }
+ 
+-    plugin_gen_mem_callbacks(addr, oi, QEMU_PLUGIN_MEM_W);
++    plugin_gen_mem_callbacks(NULL, addr, oi, QEMU_PLUGIN_MEM_W);
+ }
+ 
+ static void tcg_gen_ext_i32(TCGv_i32 ret, TCGv_i32 val, MemOp opc)
 -- 
 2.34.1
 
