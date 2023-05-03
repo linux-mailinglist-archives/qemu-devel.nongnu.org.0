@@ -2,85 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2195C6F558D
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 May 2023 12:05:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E18936F558E
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 May 2023 12:05:57 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pu9M5-00049o-0o; Wed, 03 May 2023 06:05:01 -0400
+	id 1pu9MY-0004c2-Pd; Wed, 03 May 2023 06:05:30 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pu9M3-00049S-5T
- for qemu-devel@nongnu.org; Wed, 03 May 2023 06:04:59 -0400
-Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pu9M1-0006lD-LX
- for qemu-devel@nongnu.org; Wed, 03 May 2023 06:04:58 -0400
-Received: by mail-wr1-x42f.google.com with SMTP id
- ffacd0b85a97d-3063433fa66so1667824f8f.3
- for <qemu-devel@nongnu.org>; Wed, 03 May 2023 03:04:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1683108296; x=1685700296;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=JYNzn2Q4a7cKG35Lhc6n2fy+obWz9OuZwFxbqQtBscQ=;
- b=PuviWjia5EctAVyoAvadjOqTF4RqUq73SBYZJvOxF+3enEao+xnV6EULYlJeAf0BGh
- /7YyrwfyUCx2gAzM65oDkCqL9JNjoGE4L4bGYpAEd5/4ErItUA44oHAeWMNLIzXwghXG
- FH4FH6FM3FLRhwOEgt40RfooCO198sjs3voNXi45F5KigjTGobkElNXH9+qxLuEFtBNj
- KDRMvdR08KK0HY/WhD3u0UtQ+WbsAFdWwuXupuA8QH2yWMjM1i2TJfQtqcwRKI6wrRyc
- 1Cg1pPsfY8B/YhDxFFF5d79uv0ehJ5YQKkmtoyKuk97xwlDpye1TdQRGxLhg+yaDym9h
- D4xQ==
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pu9MW-0004a9-4q
+ for qemu-devel@nongnu.org; Wed, 03 May 2023 06:05:28 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pu9MT-00076O-UI
+ for qemu-devel@nongnu.org; Wed, 03 May 2023 06:05:27 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1683108324;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Jx+qkOLF9KklW5g/oYuqLEae8BEO8TXr60yK+eN4+ic=;
+ b=MLjb1Ccj1wg8WjAGkyNswjr/v6vjWe5U3e6tuC9J5PUkgQFCLx3CWPrxlo1tg5xgoS5kB6
+ bXDkwRsC2Hh1F4iEhYnZegFdTjUIOIHmjxzETniGxucas0aZf7vIQr5gd+sYMDTURlpKZS
+ 1te/kyN5/eoOx6nt+HBnnYO0SdZqoM0=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-533-2_T-pPZWMZ-y__O578Dc1A-1; Wed, 03 May 2023 06:05:14 -0400
+X-MC-Unique: 2_T-pPZWMZ-y__O578Dc1A-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ 5b1f17b1804b1-3f3157128b4so11280975e9.0
+ for <qemu-devel@nongnu.org>; Wed, 03 May 2023 03:05:13 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683108296; x=1685700296;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
+ d=1e100.net; s=20221208; t=1683108313; x=1685700313;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=JYNzn2Q4a7cKG35Lhc6n2fy+obWz9OuZwFxbqQtBscQ=;
- b=T7A4K2TDVZ2x4+fkfeEbbL/JiyaZpEeVPAc29ctvCoIQPVpDQtMRBSMUb5zWR6FvhT
- bSq0DNJO7vbtrxTfsmuU+Dd618Loffv8o1EuPSzRqSkVtDBzAZHiRcGBvzW/7PbavXyr
- 1+uQL/fl62MZP4pscYZaZPMMyDKmHEMZNraEmVmxxiLzc+unpFk/JTvtlan0kHZl8vEx
- hnq1Cd4Qwou5TqeUKLI+rudxmUCVkSZHhxbpF0XzGRKdhImBaTF6aT5UCkK2p9UTUZBt
- 15/xG9JQ5Y2P/GmJ7WHnLYISJmdY/TgOFvwbnnzRikNX7LSUzl49gOWNUmMrrnFuRaPk
- avaQ==
-X-Gm-Message-State: AC+VfDzzfkIge6SY+okxgD4euyrTv+FEQ2PkZGniXa/+VK56g87Nrc6Z
- kkddNFd27AYdWFI1P5wgmmdWfg==
-X-Google-Smtp-Source: ACHHUZ6ipctsA9GhUFyTOWFiRlNB0dPCaMMOFndTVDiE9y8hgMpFnL1jijEJP7lFgEs2C3lBvGgOHQ==
-X-Received: by 2002:a05:6000:11c5:b0:2f5:83a8:a9a9 with SMTP id
- i5-20020a05600011c500b002f583a8a9a9mr13575087wrx.16.1683108295846; 
- Wed, 03 May 2023 03:04:55 -0700 (PDT)
-Received: from ?IPV6:2a02:c7c:74db:8d00:c01d:9d74:b630:9087?
- ([2a02:c7c:74db:8d00:c01d:9d74:b630:9087])
- by smtp.gmail.com with ESMTPSA id
- e8-20020adfdbc8000000b003047d5b8817sm24303901wrj.80.2023.05.03.03.04.55
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 03 May 2023 03:04:55 -0700 (PDT)
-Message-ID: <e39f6040-17f6-a0a1-1f28-b923c5f2dfcc@linaro.org>
-Date: Wed, 3 May 2023 11:04:53 +0100
+ bh=Jx+qkOLF9KklW5g/oYuqLEae8BEO8TXr60yK+eN4+ic=;
+ b=QJq7foekSU0rd6ogspWtMmTd9TJtFgfcroiUl1j+/dS6zuMzpivJYS+XDL+KYZe54m
+ IInAXhvoUUh3mJf2eprlDD2IaToXh/JGE2sqm6H66WZKR1+xEnPmwOcZlWvB2K/4ZEK+
+ qxv5zZsKPnbnYNvLrW/QiGxQlpWjYPZ/ZJY+1hB36nsv/uhpFOAHHQa8UIrOgFVkUK+u
+ iSQcx9pJ2uWh5iF8HrzP7Nz53jM/nyxehenq/mIu9AzXMv0pVKe3dYg/LvnenorYcEXY
+ I1c0Ngg+6QiucitTH19riivvpsN/wI9Rp7vBhBzTFEFmxKchwmW4iUR+9fqrm8/+Sugy
+ 7faA==
+X-Gm-Message-State: AC+VfDwJ3hF6r+RD776GnWH+532hYDYbHHFwhaQcB6EWhXEuBojC/7Ok
+ WRtdvPgG27WsN0cF4Gp5i1Rr61OUOH4aaS9YCqh5upav7prKaBqaFdUCgi1S6g8AsCetyujtke8
+ asM22oFO9pf+nwoQ=
+X-Received: by 2002:a05:600c:1c82:b0:3f3:fe24:609c with SMTP id
+ k2-20020a05600c1c8200b003f3fe24609cmr694390wms.11.1683108312783; 
+ Wed, 03 May 2023 03:05:12 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ4c+6NPq7pXdUJriLEZD/qAYhfygdSb7vnrFKVytUR9qutq762+uWzzSI/c35XrJhXizM63mA==
+X-Received: by 2002:a05:600c:1c82:b0:3f3:fe24:609c with SMTP id
+ k2-20020a05600c1c8200b003f3fe24609cmr694366wms.11.1683108312350; 
+ Wed, 03 May 2023 03:05:12 -0700 (PDT)
+Received: from redhat.com ([31.187.78.112]) by smtp.gmail.com with ESMTPSA id
+ f1-20020a1cc901000000b003f25b40fc24sm1427549wmb.6.2023.05.03.03.05.09
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 03 May 2023 03:05:11 -0700 (PDT)
+Date: Wed, 3 May 2023 06:05:06 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+Cc: David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org,
+ marcel.apfelbaum@gmail.com, philmd@linaro.org, peterx@redhat.com,
+ pbonzini@redhat.com, den-plotnikov@yandex-team.ru,
+ lersek@redhat.com, kraxel@redhat.com
+Subject: Re: [PATCH v2 3/3] pci: ROM preallocation for incoming migration
+Message-ID: <20230503060231-mutt-send-email-mst@kernel.org>
+References: <20230425161434.173022-1-vsementsov@yandex-team.ru>
+ <20230425161434.173022-4-vsementsov@yandex-team.ru>
+ <c9ee303b-0de4-7c44-c5f7-b723df9825af@redhat.com>
+ <fe20f078-53fe-1e60-b30f-c3611aa7e7dd@yandex-team.ru>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH v2 09/10] hw/9pfs: use qemu_xxhash4
-Content-Language: en-US
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
-References: <20230503091756.1453057-1-alex.bennee@linaro.org>
- <20230503091756.1453057-10-alex.bennee@linaro.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20230503091756.1453057-10-alex.bennee@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
- envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x42f.google.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.422,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+In-Reply-To: <fe20f078-53fe-1e60-b30f-c3611aa7e7dd@yandex-team.ru>
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -22
+X-Spam_score: -2.3
+X-Spam_bar: --
+X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.171,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,19 +102,208 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 5/3/23 10:17, Alex Benn√©e wrote:
-> No need to pass zeros as we have helpers that do that for us.
+On Wed, May 03, 2023 at 12:50:09PM +0300, Vladimir Sementsov-Ogievskiy wrote:
+> On 03.05.23 12:20, David Hildenbrand wrote:
+> > On 25.04.23 18:14, Vladimir Sementsov-Ogievskiy wrote:
+> > > On incoming migration we have the following sequence to load option
+> > > ROM:
+> > > 
+> > > 1. On device realize we do normal load ROM from the file
+> > > 
+> > > 2. Than, on incoming migration we rewrite ROM from the incoming RAM
+> > > ††† block. If sizes mismatch we fail.
+> > > 
+> > > This is not ideal when we migrate to updated distribution: we have to
+> > > keep old ROM files in new distribution and be careful around romfile
+> > > property to load correct ROM file. Which is loaded actually just to
+> > > allocate the ROM with correct length.
+> > > 
+> > > Note, that romsize property doesn't really help: if we try to specify
+> > > it when default romfile is larger, it fails with something like:
+> > > 
+> > > romfile "efi-virtio.rom" (160768 bytes) is too large for ROM size 65536
+> > > 
+> > > Let's just ignore ROM file when romsize is specified and we are in
+> > > incoming migration state. In other words, we need only to preallocate
+> > > ROM of specified size, local ROM file is unrelated.
+> > > 
+> > > This way:
+> > > 
+> > > If romsize was specified on source, we just use same commandline as on
+> > > source, and migration will work independently of local ROM files on
+> > > target.
+> > > 
+> > > If romsize was not specified on source (and we have mismatching local
+> > > ROM file on target host), we have to specify romsize on target to match
+> > > source romsize. romfile parameter may be kept same as on source or may
+> > > be dropped, the file is not loaded anyway.
+> > > 
+> > > As a bonus we avoid extra reading from ROM file on target.
+> > > 
+> > > Note: when we don't have romsize parameter on source command line and
+> > > need it for target, it may be calculated as aligned up to power of two
+> > > size of ROM file on source (if we know, which file is it) or,
+> > > alternatively it may be retrieved from source QEMU by QMP qom-get
+> > > command, like
+> > > 
+> > > †† { "execute": "qom-get",
+> > > †††† "arguments": {
+> > > †††††† "path": "/machine/peripheral/CARD_ID/virtio-net-pci.rom[0]",
+> > > †††††† "property": "size" } }
+> > > 
+> > > Suggested-by: Michael S. Tsirkin <mst@redhat.com>
+> > > Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+> > > ---
+> > > † hw/pci/pci.c | 77 ++++++++++++++++++++++++++++++----------------------
+> > > † 1 file changed, 45 insertions(+), 32 deletions(-)
+> > > 
+> > > diff --git a/hw/pci/pci.c b/hw/pci/pci.c
+> > > index a442f8fce1..e2cab622e4 100644
+> > > --- a/hw/pci/pci.c
+> > > +++ b/hw/pci/pci.c
+> > > @@ -36,6 +36,7 @@
+> > > † #include "migration/vmstate.h"
+> > > † #include "net/net.h"
+> > > † #include "sysemu/numa.h"
+> > > +#include "sysemu/runstate.h"
+> > > † #include "sysemu/sysemu.h"
+> > > † #include "hw/loader.h"
+> > > † #include "qemu/error-report.h"
+> > > @@ -2293,10 +2294,16 @@ static void pci_add_option_rom(PCIDevice *pdev, bool is_default_rom,
+> > > † {
+> > > ††††† int64_t size;
+> > > ††††† g_autofree char *path = NULL;
+> > > -††† void *ptr;
+> > > ††††† char name[32];
+> > > ††††† const VMStateDescription *vmsd;
+> > > +††† /*
+> > > +†††† * In case of incoming migration ROM will come with migration stream, no
+> > > +†††† * reason to load the file.† Neither we want to fail if local ROM file
+> > > +†††† * mismatches with specified romsize.
+> > > +†††† */
+> > > +††† bool load_file = !runstate_check(RUN_STATE_INMIGRATE);
+> > > +
+> > > ††††† if (!pdev->romfile) {
+> > > ††††††††† return;
+> > > ††††† }
+> > > @@ -2329,32 +2336,35 @@ static void pci_add_option_rom(PCIDevice *pdev, bool is_default_rom,
+> > > ††††††††† return;
+> > > ††††† }
+> > > -††† path = qemu_find_file(QEMU_FILE_TYPE_BIOS, pdev->romfile);
+> > > -††† if (path == NULL) {
+> > > -††††††† path = g_strdup(pdev->romfile);
+> > > -††† }
+> > > +††† if (load_file || pdev->romsize == -1) {
+> > > +††††††† path = qemu_find_file(QEMU_FILE_TYPE_BIOS, pdev->romfile);
+> > > +††††††† if (path == NULL) {
+> > > +††††††††††† path = g_strdup(pdev->romfile);
+> > > +††††††† }
+> > > -††† size = get_image_size(path);
+> > > -††† if (size < 0) {
+> > > -††††††† error_setg(errp, "failed to find romfile \"%s\"", pdev->romfile);
+> > > -††††††† return;
+> > > -††† } else if (size == 0) {
+> > > -††††††† error_setg(errp, "romfile \"%s\" is empty", pdev->romfile);
+> > > -††††††† return;
+> > > -††† } else if (size > 2 * GiB) {
+> > > -††††††† error_setg(errp, "romfile \"%s\" too large (size cannot exceed 2 GiB)",
+> > > -†††††††††††††††††† pdev->romfile);
+> > > -††††††† return;
+> > > -††† }
+> > > -††† if (pdev->romsize != -1) {
+> > > -††††††† if (size > pdev->romsize) {
+> > > -††††††††††† error_setg(errp, "romfile \"%s\" (%u bytes) "
+> > > -†††††††††††††††††††††† "is too large for ROM size %u",
+> > > -†††††††††††††††††††††† pdev->romfile, (uint32_t)size, pdev->romsize);
+> > > +††††††† size = get_image_size(path);
+> > > +††††††† if (size < 0) {
+> > > +††††††††††† error_setg(errp, "failed to find romfile \"%s\"", pdev->romfile);
+> > > +††††††††††† return;
+> > > +††††††† } else if (size == 0) {
+> > > +††††††††††† error_setg(errp, "romfile \"%s\" is empty", pdev->romfile);
+> > > +††††††††††† return;
+> > > +††††††† } else if (size > 2 * GiB) {
+> > > +††††††††††† error_setg(errp,
+> > > +†††††††††††††††††††††† "romfile \"%s\" too large (size cannot exceed 2 GiB)",
+> > > +†††††††††††††††††††††† pdev->romfile);
+> > > ††††††††††††† return;
+> > > ††††††††† }
+> > > -††† } else {
+> > > -††††††† pdev->romsize = pow2ceil(size);
+> > > +††††††† if (pdev->romsize != -1) {
+> > > +††††††††††† if (size > pdev->romsize) {
+> > > +††††††††††††††† error_setg(errp, "romfile \"%s\" (%u bytes) "
+> > > +†††††††††††††††††††††††††† "is too large for ROM size %u",
+> > > +†††††††††††††††††††††††††† pdev->romfile, (uint32_t)size, pdev->romsize);
+> > > +††††††††††††††† return;
+> > > +††††††††††† }
+> > > +††††††† } else {
+> > > +††††††††††† pdev->romsize = pow2ceil(size);
+> > > +††††††† }
+> > > ††††† }
+> > > ††††† vmsd = qdev_get_vmsd(DEVICE(pdev));
+> > > @@ -2365,15 +2375,18 @@ static void pci_add_option_rom(PCIDevice *pdev, bool is_default_rom,
+> > > ††††† memory_region_init_rom(&pdev->rom, OBJECT(pdev), name, pdev->romsize,
+> > > †††††††††††††††††††††††††††† &error_fatal);
+> > > -††† ptr = memory_region_get_ram_ptr(&pdev->rom);
+> > > -††† if (load_image_size(path, ptr, size) < 0) {
+> > > -††††††† error_setg(errp, "failed to load romfile \"%s\"", pdev->romfile);
+> > > -††††††† return;
+> > > -††† }
+> > > +††† if (load_file) {
+> > > +††††††† void *ptr = memory_region_get_ram_ptr(&pdev->rom);
+> > > -††† if (is_default_rom) {
+> > > -††††††† /* Only the default rom images will be patched (if needed). */
+> > > -††††††† pci_patch_ids(pdev, ptr, size);
+> > > +††††††† if (load_image_size(path, ptr, size) < 0) {
+> > > +††††††††††† error_setg(errp, "failed to load romfile \"%s\"", pdev->romfile);
+> > > +††††††††††† return;
+> > > +††††††† }
+> > > +
+> > > +††††††† if (is_default_rom) {
+> > > +††††††††††† /* Only the default rom images will be patched (if needed). */
+> > > +††††††††††† pci_patch_ids(pdev, ptr, size);
+> > > +††††††† }
+> > > ††††† }
+> > > ††††† pci_register_bar(pdev, PCI_ROM_SLOT, 0, &pdev->rom);
+> > 
+> > 
+> > So, we'll now never load the file on the migration destination. But if "pdev->romsize == -1", we'll use the size of the file to size the region -- but not load it.
+> > 
+> > 
+> > While that should work (because the ROM content will be migrated), at least I would find this easier to digest if we would have
+> > 
+> > bool use_file = !runstate_check(RUN_STATE_INMIGRATE) ||
+> >  ††††††† pdev->romsize == -1;
+> > 
+> > if (use_file) {
+> >  ††††path = qemu_find_file(QEMU_FILE_TYPE_BIOS, pdev->romfile);
+> >  ††††...
+> > }
+> > ...
+> > memory_region_init_rom(&pdev->rom, OBJECT(pdev), name, pdev->romsize ...
+> > ...
+> > if (use_file) {
+> >  ††††ptr = memory_region_get_ram_ptr(&pdev->rom);
+> >  ††††if (load_image_size(path, ptr, size) < 0) {
+> >  ††††††† ...
+> >  ††††}
+> > }
+> > 
+> > 
+> > If something about the file is weird (such that reading the size would work but loading would fail), it would fail consistently. Sure, we would load once more, but who really cares about that.
+> > 
+> > I wonder, though, if we then also want to handle the "pdev->romfile" checks differently, when we're not going to use the file at all ... would maybe make it more consistent. If we're not using the file, then ignore if no file is given/available ... because we don't need it. The romsize is sufficient in that case on the migration destination.
+> > 
 > 
-> Message-Id:<20230420150009.1675181-10-alex.bennee@linaro.org>
-> Reviewed-by: Philippe Mathieu-Daud√©<philmd@linaro.org>
-> Reviewed-by: Christian Schoenebeck<qemu_oss@crudebyte.com>
-> Reviewed-by: Stefan Hajnoczi<stefanha@redhat.com>
-> Signed-off-by: Alex Benn√©e<alex.bennee@linaro.org>
-> ---
->   hw/9pfs/9p.c | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
+> Maybe, we should just deprecate unspecified romsize? And make it necessary in future?
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+That would be quite annoying. The whole problem arises because
+downstream decided to override QEMU provided ROM
+on the command line. Users that don't do this,
+are ok and I do not want to make things harder for them.
 
-r~
+-- 
+MST
+
 
