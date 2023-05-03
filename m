@@ -2,53 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 938E96F5ECA
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 May 2023 21:03:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 10E456F5ECB
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 May 2023 21:03:31 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1puHkO-0001of-Uj; Wed, 03 May 2023 15:02:40 -0400
+	id 1puHkP-0001qr-Pi; Wed, 03 May 2023 15:02:41 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1puHkN-0001oP-FT
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1puHkN-0001oQ-IM
  for qemu-devel@nongnu.org; Wed, 03 May 2023 15:02:39 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1puHkL-0004vf-Oz
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1puHkL-0004vi-Oh
  for qemu-devel@nongnu.org; Wed, 03 May 2023 15:02:39 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1683140556;
+ s=mimecast20190719; t=1683140557;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=oTIXvl+pcgGms2Dbj53GITxljD2N0lm+5O3U/HDBNl0=;
- b=eHHydgGZZAQssWRna73spRcJdrrCBCYUksNefIl3vN2+DKiKMe4u3/oN8nofb0/MtzMyPJ
- h9sBFTlKM4FlFrPCOtRnMyeS9dSUvTP1s91rKPjqYc0YNJqegnc+d07CuImGyS/rqs2PVc
- pTuXAnevPV/KMfVGy1K5CbdR8o2Wl4M=
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=5drMnwCth7rxuSJPqx4SwAVCfRpz8mWFhYUcdoOB1m0=;
+ b=LZ4suq0HC5DNb2Ydj65x+v64f9v+AFCJ6aVQe6zo14sNT+6/yRfQ5mDToSRZsBD91SIQju
+ rkHhlzPsJpn3GJe5TM7y7ObUmT1/vsMXqIU6H3w8M212iqhHkqXI6Hv8ryuqjja6F2gR44
+ ePzqjBoxAatTrh0PPAinj9GE+phYkL4=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-589-RrSFxhnWMqScVHCl-S2dgg-1; Wed, 03 May 2023 15:02:35 -0400
-X-MC-Unique: RrSFxhnWMqScVHCl-S2dgg-1
+ us-mta-608-vioEeJxUOiix2AsVZgyjqQ-1; Wed, 03 May 2023 15:02:35 -0400
+X-MC-Unique: vioEeJxUOiix2AsVZgyjqQ-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
  [10.11.54.7])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B27F287B2A9
- for <qemu-devel@nongnu.org>; Wed,  3 May 2023 19:02:34 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 301FB811E7B
+ for <qemu-devel@nongnu.org>; Wed,  3 May 2023 19:02:35 +0000 (UTC)
 Received: from green.redhat.com (unknown [10.2.16.118])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7DBA71410F2B
- for <qemu-devel@nongnu.org>; Wed,  3 May 2023 19:02:34 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id DE67B1410F2A;
+ Wed,  3 May 2023 19:02:34 +0000 (UTC)
 From: Eric Blake <eblake@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 0/2] NBD pull request for 2023-05-03
-Date: Wed,  3 May 2023 14:02:30 -0500
-Message-Id: <20230503190232.362022-1-eblake@redhat.com>
+Cc: =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>
+Subject: [PULL 1/2] systemd: Also clear LISTEN_FDNAMES during systemd socket
+ activation
+Date: Wed,  3 May 2023 14:02:31 -0500
+Message-Id: <20230503190232.362022-2-eblake@redhat.com>
+In-Reply-To: <20230503190232.362022-1-eblake@redhat.com>
+References: <20230503190232.362022-1-eblake@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=eblake@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eblake@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -22
 X-Spam_score: -2.3
@@ -72,37 +77,52 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The following changes since commit 044f8cf70a2fdf3b9e4c4d849c66e7855d2c446a:
+Some time after systemd documented LISTEN_PID and LISTEN_FDS for
+socket activation, they later added LISTEN_FDNAMES; now documented at:
+https://www.freedesktop.org/software/systemd/man/sd_listen_fds.html
 
-  Merge tag 'migration-20230428-pull-request' of https://gitlab.com/juan.quintela/qemu into staging (2023-05-03 10:29:30 +0100)
+In particular, look at the implementation of sd_listen_fds_with_names():
+https://github.com/systemd/systemd/blob/main/src/libsystemd/sd-daemon/sd-daemon.c
 
-are available in the Git repository at:
+If we ever pass LISTEN_PID=xxx and LISTEN_FDS=n to a child process,
+but leave LISTEN_FDNAMES=... unchanged as inherited from our parent
+process, then our child process using sd_listen_fds_with_names() might
+see a mismatch in the number of names (unexpected -EINVAL failure), or
+even if the number of names matches the values of those names may be
+unexpected (with even less predictable results).
 
-  https://repo.or.cz/qemu/ericb.git tags/pull-nbd-2023-05-03
+Usually, this is not an issue - the point of LISTEN_PID is to tell
+systemd socket activation to ignore all other LISTEN_* if they were
+not directed to this particular pid.  But if we end up consuming a
+socket directed to this qemu process, and later decide to spawn a
+child process that also needs systemd socket activation, we must
+ensure we are not leaking any stale systemd variables through to that
+child.  The easiest way to do this is to wipe ALL LISTEN_* variables
+at the time we consume a socket, even if we do not yet care about a
+LISTEN_FDNAMES passed in from the parent process.
 
-for you to fetch changes up to de79b52604e43fdeba6cee4f5af600b62169f2d2:
+See also https://lists.freedesktop.org/archives/systemd-devel/2023-March/048920.html
 
-  block/export: call blk_set_dev_ops(blk, NULL, NULL) (2023-05-03 14:00:08 -0500)
+Thanks: Laszlo Ersek <lersek@redhat.com>
+Signed-off-by: Eric Blake <eblake@redhat.com>
+Message-Id: <20230324153349.1123774-1-eblake@redhat.com>
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+---
+ util/systemd.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-----------------------------------------------------------------
-nbd patches for 2023-05-03
+diff --git a/util/systemd.c b/util/systemd.c
+index 5bcac9b4016..ced518f771b 100644
+--- a/util/systemd.c
++++ b/util/systemd.c
+@@ -51,6 +51,7 @@ unsigned int check_socket_activation(void)
+     /* So these are not passed to any child processes we might start. */
+     unsetenv("LISTEN_FDS");
+     unsetenv("LISTEN_PID");
++    unsetenv("LISTEN_FDNAMES");
 
-- Eric Blake: clear LISTEN_FDNAMES when consuming systemd sockets
-- Stefan Hajnoczi: clear export BlockDeviceOps in central location
-
-----------------------------------------------------------------
-Eric Blake (1):
-      systemd: Also clear LISTEN_FDNAMES during systemd socket activation
-
-Stefan Hajnoczi (1):
-      block/export: call blk_set_dev_ops(blk, NULL, NULL)
-
- block/export/export.c    | 2 ++
- block/export/vduse-blk.c | 1 -
- util/systemd.c           | 1 +
- 3 files changed, 3 insertions(+), 1 deletion(-)
-
-base-commit: 044f8cf70a2fdf3b9e4c4d849c66e7855d2c446a
+     /* So the file descriptors don't leak into child processes. */
+     for (i = 0; i < nr_fds; ++i) {
 -- 
 2.40.1
 
