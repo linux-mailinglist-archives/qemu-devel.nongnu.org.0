@@ -2,87 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4EB96F5D0F
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 May 2023 19:32:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D33B16F5D98
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 May 2023 20:12:08 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1puGJw-00040o-4y; Wed, 03 May 2023 13:31:16 -0400
+	id 1puGwJ-0006Oh-GO; Wed, 03 May 2023 14:10:55 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1puGJo-0003xr-Rm
- for qemu-devel@nongnu.org; Wed, 03 May 2023 13:31:11 -0400
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1puGwB-0006Jn-A6
+ for qemu-devel@nongnu.org; Wed, 03 May 2023 14:10:47 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1puGJk-0000HQ-0y
- for qemu-devel@nongnu.org; Wed, 03 May 2023 13:31:08 -0400
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1puGw9-0006o5-MM
+ for qemu-devel@nongnu.org; Wed, 03 May 2023 14:10:47 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1683135063;
+ s=mimecast20190719; t=1683137444;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding;
- bh=8YnTf91+PgVR4BiV135cJMJDv3ew5X0T/xr60TRguBc=;
- b=ZkF/Ab2Brl84K9PT5ZzvUNM/+xiW4mAx59XbwwCVa2uXAF48iME9aAZCXy8QbUff+zcFty
- zg14IaI7bUUM7knN4r4Vjgj7CD7m05MdCBim6zSs1DmvweTTHIgxDL8AEHGRy6qpV9ry2P
- KVq+Gn0bcVI0RXf6rpHbHi9axl7tJQQ=
-Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
- [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-562-ypZIJutxN8q9t9MtR5GyDw-1; Wed, 03 May 2023 13:31:01 -0400
-X-MC-Unique: ypZIJutxN8q9t9MtR5GyDw-1
-Received: by mail-ej1-f70.google.com with SMTP id
- a640c23a62f3a-94f29909e11so490036266b.2
- for <qemu-devel@nongnu.org>; Wed, 03 May 2023 10:31:01 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683135060; x=1685727060;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=8YnTf91+PgVR4BiV135cJMJDv3ew5X0T/xr60TRguBc=;
- b=kTW+ua3HuPjc5xT+GbpBYSvwm855JrN07c3tbykbci/uMUVFI+C08JeRMCC5TRpji8
- itbHRtjmH8KScBSJ/N4PJa6h5w5EXt17p40BkE1Q7jcoZjp602/iE5TQqCbNI6+hyS+o
- 2nQd3h42hsbm0DpfZ1TmbshL55PqvCi2os0TJlDMI/lfrnBzmgxPR22IEvptqcZPQk4a
- dVCKVZmEBe0+ut6xvjldQIBgHkFpOaBwf7au/T8ZTAd8ver6paP+G+TVCC9MSHHslkEz
- N0TR+Pccex6Yv3OhAwlZRp6YsWFDJfEuzQWJCqOo/PFMWiezABAXNkGXi9g3bPe+cNdj
- OqMg==
-X-Gm-Message-State: AC+VfDwXngClWQyO1hGlfM4peZmpVN5/ilOjlznDhYZQ+cskslEnptgM
- gOLdvww7PPcFbrbSGW1ZxcaclJ9DFVhoKjHV+b5HH+Zzea6kgky13kQRZVraPxuFVpUxXonCYxG
- jUoo02gYyt/5246sbsy8DByMcwmLujS9ynerC1vIF48lsYbX273PjWWiDYh8YmwMe57ul+dd/NE
- 0=
-X-Received: by 2002:a17:907:60ce:b0:94a:67a9:6052 with SMTP id
- hv14-20020a17090760ce00b0094a67a96052mr4144979ejc.67.1683135060279; 
- Wed, 03 May 2023 10:31:00 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ4Bh+EDkfZeO1CEvVshE0hl3cxkFWRzQxBzQeDF8GQ8chkQlr81hDYoceb80Q4ji/htz0PaXA==
-X-Received: by 2002:a17:907:60ce:b0:94a:67a9:6052 with SMTP id
- hv14-20020a17090760ce00b0094a67a96052mr4144954ejc.67.1683135059904; 
- Wed, 03 May 2023 10:30:59 -0700 (PDT)
-Received: from [192.168.10.118] ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
- by smtp.gmail.com with ESMTPSA id
- jy4-20020a170907762400b00961164a4a73sm6759816ejc.223.2023.05.03.10.30.59
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 03 May 2023 10:30:59 -0700 (PDT)
-From: Paolo Bonzini <pbonzini@redhat.com>
+ bh=JfDaEI3U4n5PTwuH6j3FWMNWpf0PoVFrz/Xr2ZTFfY4=;
+ b=Kg8LtXNcInGkSvJZhGC9MXK1DAbHopZ8eZhHu5gkc4s5ND072DnpTveQd51UFAk492MCmq
+ OZRhTWkj/rcAbFGnwhjA/7vdVqHYBd8momPNEf+l2lA9rgXkFqMIn04UY7cWzTo77aGRRa
+ bsb38GUX+aBRddx49nkk/PzoImyCrMc=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-522-cJjbQP0MOAGUQOsksizUcg-1; Wed, 03 May 2023 14:10:40 -0400
+X-MC-Unique: cJjbQP0MOAGUQOsksizUcg-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.10])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5C30D3C10C68;
+ Wed,  3 May 2023 18:10:39 +0000 (UTC)
+Received: from secure.mitica (unknown [10.39.193.236])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 50674492B00;
+ Wed,  3 May 2023 18:10:37 +0000 (UTC)
+From: Juan Quintela <quintela@redhat.com>
 To: qemu-devel@nongnu.org
-Cc: alex.bennee@linaro.org,
-	farosas@suse.de
-Subject: [PATCH] docs: clarify --without-default-devices
-Date: Wed,  3 May 2023 19:30:58 +0200
-Message-Id: <20230503173058.156613-1-pbonzini@redhat.com>
-X-Mailer: git-send-email 2.40.0
+Cc: Stefan Hajnoczi <stefanha@redhat.com>, Peter Xu <peterx@redhat.com>,
+ qemu-block@nongnu.org, Leonardo Bras <leobras@redhat.com>,
+ Juan Quintela <quintela@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
+ Fam Zheng <fam@euphon.net>, Eric Blake <eblake@redhat.com>,
+ John Snow <jsnow@redhat.com>, Kevin Wolf <kwolf@redhat.com>
+Subject: [PATCH] migration: Fix block_bitmap_mapping migration
+Date: Wed,  3 May 2023 20:10:36 +0200
+Message-Id: <20230503181036.14890-1-quintela@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Spam_score_int: -22
+X-Spam_score: -2.3
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.161,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -98,44 +80,94 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
---without-default-devices is a specialized option that should only be used
-when configs/devices/ is changed manually.
+It is valid that params->has_block_bitmap_mapping is true and
+params->block_bitmap_mapping is NULL.  So we can't use the trick of
+having a single function.
 
-Explain the model towards which we should tend, with respect to failures
-to start guests and to run "make check".
+Move to two functions one for each value and the tests are fixed.
 
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+Fixes: b804b35b1c8a0edfd127ac20819c234be55ac7fc
+       migration: Create migrate_block_bitmap_mapping() function
+
+Reported-by: Kevin Wolf <kwolf@redhat.com>
+Signed-off-by: Juan Quintela <quintela@redhat.com>
 ---
- docs/devel/kconfig.rst | 16 +++++++++++++---
- 1 file changed, 13 insertions(+), 3 deletions(-)
+ migration/block-dirty-bitmap.c | 14 +++++---------
+ migration/options.c            |  7 +++++++
+ migration/options.h            |  2 ++
+ 3 files changed, 14 insertions(+), 9 deletions(-)
 
-diff --git a/docs/devel/kconfig.rst b/docs/devel/kconfig.rst
-index a68fbc142efc..01984ae9fa9c 100644
---- a/docs/devel/kconfig.rst
-+++ b/docs/devel/kconfig.rst
-@@ -281,9 +281,19 @@ want to change some lines in the first group, for example like this::
-    CONFIG_PCI_DEVICES=y
-    #CONFIG_TEST_DEVICES=n
+diff --git a/migration/block-dirty-bitmap.c b/migration/block-dirty-bitmap.c
+index 6624f39bc6..20f36e6bd8 100644
+--- a/migration/block-dirty-bitmap.c
++++ b/migration/block-dirty-bitmap.c
+@@ -606,11 +606,9 @@ static int init_dirty_bitmap_migration(DBMSaveState *s)
+     GHashTable *handled_by_blk = g_hash_table_new(NULL, NULL);
+     BlockBackend *blk;
+     GHashTable *alias_map = NULL;
+-    const BitmapMigrationNodeAliasList *block_bitmap_mapping =
+-        migrate_block_bitmap_mapping();
  
--and/or pick a subset of the devices in those device groups.  Right now
--there is no single place that lists all the optional devices for
--``CONFIG_PCI_DEVICES`` and ``CONFIG_TEST_DEVICES``.  In the future,
-+and/or pick a subset of the devices in those device groups.  Without
-+further modifications to ``configs/devices/``, a system emulator built
-+without default devices might not do much more than start an empty
-+machine, and even then only if ``--nodefaults`` is specified on the
-+command line.  Starting a VM *without* ``--nodefaults`` is allowed to
-+fail, but should never abort.  Failures in ``make check`` with
-+``--without-default-devices`` are considered bugs in the test code:
-+the tests should either use ``--nodefaults``, and should be skipped
-+if a necessary device is not present in the build.  Such failures
-+should not be worked around with ``select`` directives.
+-    if (block_bitmap_mapping) {
+-        alias_map = construct_alias_map(block_bitmap_mapping, true,
++    if (migrate_has_block_bitmap_mapping()) {
++        alias_map = construct_alias_map(migrate_block_bitmap_mapping(), true,
+                                         &error_abort);
+     }
+ 
+@@ -1159,8 +1157,6 @@ static int dirty_bitmap_load_header(QEMUFile *f, DBMLoadState *s,
+ static int dirty_bitmap_load(QEMUFile *f, void *opaque, int version_id)
+ {
+     GHashTable *alias_map = NULL;
+-    const BitmapMigrationNodeAliasList *block_bitmap_mapping =
+-        migrate_block_bitmap_mapping();
+     DBMLoadState *s = &((DBMState *)opaque)->load;
+     int ret = 0;
+ 
+@@ -1172,9 +1168,9 @@ static int dirty_bitmap_load(QEMUFile *f, void *opaque, int version_id)
+         return -EINVAL;
+     }
+ 
+-    if (block_bitmap_mapping) {
+-        alias_map = construct_alias_map(block_bitmap_mapping,
+-                                        false, &error_abort);
++    if (migrate_has_block_bitmap_mapping()) {
++        alias_map = construct_alias_map(migrate_block_bitmap_mapping(), false,
++                                        &error_abort);
+     }
+ 
+     do {
+diff --git a/migration/options.c b/migration/options.c
+index 53b7fc5d5d..7395787960 100644
+--- a/migration/options.c
++++ b/migration/options.c
+@@ -626,6 +626,13 @@ const BitmapMigrationNodeAliasList *migrate_block_bitmap_mapping(void)
+     return s->parameters.block_bitmap_mapping;
+ }
+ 
++bool migrate_has_block_bitmap_mapping(void)
++{
++    MigrationState *s = migrate_get_current();
 +
-+Right now there is no single place that lists all the optional devices
-+for ``CONFIG_PCI_DEVICES`` and ``CONFIG_TEST_DEVICES``.  In the future,
- we expect that ``.mak`` files will be automatically generated, so that
- they will include all these symbols and some help text on what they do.
++    return s->parameters.has_block_bitmap_mapping;
++}
++
+ bool migrate_block_incremental(void)
+ {
+     MigrationState *s = migrate_get_current();
+diff --git a/migration/options.h b/migration/options.h
+index 3c322867cd..09841d6a63 100644
+--- a/migration/options.h
++++ b/migration/options.h
+@@ -71,6 +71,8 @@ bool migrate_cap_set(int cap, bool value, Error **errp);
+ /* parameters */
  
+ const BitmapMigrationNodeAliasList *migrate_block_bitmap_mapping(void);
++bool migrate_has_block_bitmap_mapping(void);
++
+ bool migrate_block_incremental(void);
+ uint32_t migrate_checkpoint_delay(void);
+ int migrate_compress_level(void);
 -- 
 2.40.0
 
