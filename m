@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C0096F58FC
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 May 2023 15:23:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 553666F5902
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 May 2023 15:24:05 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1puCO4-0005TL-In; Wed, 03 May 2023 09:19:16 -0400
+	id 1puCO5-0005Th-TD; Wed, 03 May 2023 09:19:17 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1puCNo-0005P6-2z
+ id 1puCNp-0005P7-4q
  for qemu-devel@nongnu.org; Wed, 03 May 2023 09:19:01 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1puCNm-0006kn-N6
- for qemu-devel@nongnu.org; Wed, 03 May 2023 09:18:59 -0400
+ id 1puCNn-0006l4-NN
+ for qemu-devel@nongnu.org; Wed, 03 May 2023 09:19:00 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1683119938;
+ s=mimecast20190719; t=1683119939;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Y1iUzXgl7Kpiayyw0jRzYGaGGHnXFr89XRU4iycxopk=;
- b=TUktmXx9lqHLotAaGJxu5glRcOAcCoKm/1EXWSIO+utF6FAqv+VTWES+gPydJLE2jlHOco
- 6Gvh1CatxcyDw/v5FNTnTitaaoyJHBISGFdezi+9hbQL4UpkHl3/kX/UaeLTJJszcptjYR
- clKdNBiQ/VuRo7FsRA6kmL1bxM/Hdoc=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=vFVSz2sLMTWKc6+hkxmZlMqk9lYsjx+Z706drG9kI7I=;
+ b=OtzYBPZGUlDpjMhmfcTOvLiCO0oOBepPGOOMp4yDVla5WrrEy0Hd1yhplBUh5tDOyU4X05
+ /LPbkj5hbyxkA7Pn9DMWSNgZ/a1P09n5/40Ue1C1fSbxx1pMO81GbXguL5jN1D+xFzfg3p
+ P0mh+0Bj2F12LCwRr9ALx+IvmU+dy18=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-130-b_tAtNXWMqOEhPEi_Wea8w-1; Wed, 03 May 2023 09:18:56 -0400
-X-MC-Unique: b_tAtNXWMqOEhPEi_Wea8w-1
+ us-mta-41-jf-jaid7Nmm4oHcDdEcJGQ-1; Wed, 03 May 2023 09:18:57 -0400
+X-MC-Unique: jf-jaid7Nmm4oHcDdEcJGQ-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
  [10.11.54.8])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 866411C0A584
- for <qemu-devel@nongnu.org>; Wed,  3 May 2023 13:18:56 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 91767109DCE5
+ for <qemu-devel@nongnu.org>; Wed,  3 May 2023 13:18:57 +0000 (UTC)
 Received: from secure.mitica (unknown [10.39.193.236])
- by smtp.corp.redhat.com (Postfix) with ESMTP id BDBF2C15BAD;
- Wed,  3 May 2023 13:18:55 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C9EE0C15BAE;
+ Wed,  3 May 2023 13:18:56 +0000 (UTC)
 From: Juan Quintela <quintela@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Peter Xu <peterx@redhat.com>, Juan Quintela <quintela@redhat.com>,
  Leonardo Bras <leobras@redhat.com>
-Subject: [PATCH v2 07/16] migration/rdma: It makes no sense to recive that
- flag without RDMA
-Date: Wed,  3 May 2023 15:18:38 +0200
-Message-Id: <20230503131847.11603-8-quintela@redhat.com>
+Subject: [PATCH v2 08/16] migration: Make RAM_SAVE_FLAG_HOOK a normal case
+ entry
+Date: Wed,  3 May 2023 15:18:39 +0200
+Message-Id: <20230503131847.11603-9-quintela@redhat.com>
 In-Reply-To: <20230503131847.11603-1-quintela@redhat.com>
 References: <20230503131847.11603-1-quintela@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -22
 X-Spam_score: -2.3
@@ -79,33 +79,44 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-This could only happen if the source send
-RAM_SAVE_FLAG_HOOK (i.e. rdma) and destination don't have CONFIG_RDMA.
+Fixes this commit, clearly a bad merge after a rebase or similar, it
+should have been its own case since that point.
+
+commit 5b0e9dd46fbda5152566a4a26fd96bc0d0452bf7
+Author: Peter Lieven <pl@kamp.de>
+Date:   Tue Jun 24 11:32:36 2014 +0200
+
+    migration: catch unknown flag combinations in ram_load
 
 Signed-off-by: Juan Quintela <quintela@redhat.com>
 ---
- migration/qemu-file.c | 8 --------
- 1 file changed, 8 deletions(-)
+ migration/ram.c | 12 +++++-------
+ 1 file changed, 5 insertions(+), 7 deletions(-)
 
-diff --git a/migration/qemu-file.c b/migration/qemu-file.c
-index 9b5e14a2ef..014db96984 100644
---- a/migration/qemu-file.c
-+++ b/migration/qemu-file.c
-@@ -322,14 +322,6 @@ void ram_control_load_hook(QEMUFile *f, uint64_t flags, void *data)
-         if (ret < 0) {
-             qemu_file_set_error(f, ret);
+diff --git a/migration/ram.c b/migration/ram.c
+index a5109a0f77..67ba2d7f7e 100644
+--- a/migration/ram.c
++++ b/migration/ram.c
+@@ -4466,14 +4466,12 @@ static int ram_load_precopy(QEMUFile *f)
+                 multifd_recv_sync_main();
+             }
+             break;
++        case RAM_SAVE_FLAG_HOOK:
++            ram_control_load_hook(f, RAM_CONTROL_HOOK, NULL);
++            break;
+         default:
+-            if (flags & RAM_SAVE_FLAG_HOOK) {
+-                ram_control_load_hook(f, RAM_CONTROL_HOOK, NULL);
+-            } else {
+-                error_report("Unknown combination of migration flags: 0x%x",
+-                             flags);
+-                ret = -EINVAL;
+-            }
++            error_report("Unknown combination of migration flags: 0x%x", flags);
++            ret = -EINVAL;
          }
--    } else {
--        /*
--         * Hook is a hook specifically requested by the source sending a flag
--         * that expects there to be a hook on the destination.
--         */
--        if (flags == RAM_CONTROL_HOOK) {
--            qemu_file_set_error(f, -EINVAL);
--        }
-     }
- }
- 
+         if (!ret) {
+             ret = qemu_file_get_error(f);
 -- 
 2.40.0
 
