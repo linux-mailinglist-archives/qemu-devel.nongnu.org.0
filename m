@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 454AF6F51D7
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 May 2023 09:38:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A57F6F51AE
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 May 2023 09:34:14 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pu6te-0004uC-RE; Wed, 03 May 2023 03:27:30 -0400
+	id 1pu6tc-0004pe-Bv; Wed, 03 May 2023 03:27:28 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pu6tS-0004Ox-Q1
- for qemu-devel@nongnu.org; Wed, 03 May 2023 03:27:18 -0400
-Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334])
+ id 1pu6tS-0004PS-UV
+ for qemu-devel@nongnu.org; Wed, 03 May 2023 03:27:19 -0400
+Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pu6tO-0005dy-5T
- for qemu-devel@nongnu.org; Wed, 03 May 2023 03:27:16 -0400
-Received: by mail-wm1-x334.google.com with SMTP id
- 5b1f17b1804b1-3f1763ee8f8so31046935e9.1
- for <qemu-devel@nongnu.org>; Wed, 03 May 2023 00:27:13 -0700 (PDT)
+ id 1pu6tO-0005eF-RP
+ for qemu-devel@nongnu.org; Wed, 03 May 2023 03:27:17 -0400
+Received: by mail-wm1-x336.google.com with SMTP id
+ 5b1f17b1804b1-3f3331f928cso29342785e9.2
+ for <qemu-devel@nongnu.org>; Wed, 03 May 2023 00:27:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1683098832; x=1685690832;
+ d=linaro.org; s=google; t=1683098833; x=1685690833;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=+z2hKn4diH8tIbH+Wd7F+QLB6VsqZEE8U9fAOfDDWtA=;
- b=cjY0yuuHHvdZwA/BbFOXf69cBvPqyskxhm5e+MEs5N9TZdNZgwmPcc8BjGAIIf1qLJ
- zPU0b8mapj2PV32D3I/74rVjHgLSYflE7rmMaAxrXjvRsPfVROVi/yK4JAPKz6/yRcXe
- 4068vDLQC3+2AKL9OSPxzkpYKOheFDVbIOT4zyT9+besqFdcYn6BbvP77C8TG4+u+T76
- PKTxunBqw/Mj9xKTJgEVSrOgtmWtgwbyUZcJF7yH3rPed4FKF0DnbD66EeLdCBGEZThD
- TtLQJ0XlRBGYmTlL2F4Yyl373RyDzSzalQbFUajD2ArQMggoSKafBb8llWktyKa8w1DL
- j1Ww==
+ bh=zPmQihUOG2WUtommGP4u99F34Yfjg3bS3LzJJL8W++U=;
+ b=E2Yin60+7YpD8j8JsWGsjb9cPqUbNKG2EzX/HmTxeG19kaU/3DOhV0HakmNP8SToXd
+ 12l+yirIrKYVJnwoh46KlJqpKEfSGQ7EDYEzk2jOYgKAkLxGoKCEMhXZAPnWAitBdAdV
+ 3W09e4R2xpWMocKk2LIszUMnzL8vyOae7N0nQczP5ZIrXMF7Fv+ecyFlgySGehOohL7V
+ WjEJpjhTLRiQvoj1x0/5Xxsf4PBTJxn+G8N4Qm9gBTldiaU8hhd40m+PMR6ZUVsDf9X6
+ 4U9g79UA37Qag/Ik//CKrwoZfZsgH2uFrNtSRG2NLWgAAW35ECOy03b8WnYtxo8rtI6F
+ t2CA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683098832; x=1685690832;
+ d=1e100.net; s=20221208; t=1683098833; x=1685690833;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=+z2hKn4diH8tIbH+Wd7F+QLB6VsqZEE8U9fAOfDDWtA=;
- b=jPvL99YTPDRIbw/uA3iifyd62v2+QzVDy2jzfenLG8YbzjzBepXIuGNCQpIY5s7c8J
- +HKZmn8bHzlJ6XmxwMtyT8Ywj4PvE+mOqx8xXSGYvOo3UVGi29509BrFkzxX7gL0QH2Z
- 8ki8Sz9Fp5zGo0jTr1Ux60mgA7FPZJQReQtEUyHxbxsjYyL93rJRHd1Lt8QMY8b55pHY
- VY71YSCu+aSVqst7ZWLeeWEu1q+j6Y5mjGz6g1vA1GJPKxQGLYafCxWm5IV0thuwM8gB
- zoCdCqbQV0hW8Ve7MrG1zBU3P0JcktyKpiI5koLWz4++edoVlg4+hK72SP16spuqpdsG
- meZg==
-X-Gm-Message-State: AC+VfDzbusVsacK9Q2AKzYl6mcTfdAfGgdBvuoln7X9zJJh5I5ol78W2
- KnKppgNn4TwV/Wb7OmjZbI1dra0bnGR9EJCjGgHnCA==
-X-Google-Smtp-Source: ACHHUZ75j02amoemRFUgWbJicOgxo7SdmrokO6NjLL09M+VUEdM0ioKNSU3XFqamkGLGAx8tXlvyBA==
-X-Received: by 2002:adf:dc0f:0:b0:2e4:eebe:aee3 with SMTP id
- t15-20020adfdc0f000000b002e4eebeaee3mr13767527wri.60.1683098832591; 
- Wed, 03 May 2023 00:27:12 -0700 (PDT)
+ bh=zPmQihUOG2WUtommGP4u99F34Yfjg3bS3LzJJL8W++U=;
+ b=DFzDQvxQ+WffATNYF4KzgmWQK33nFgyr+uJuyh9NaDzp2CJktTuQKTdVIlntU1fvSh
+ SMdsOKzUUXaCkxdoyNm0MaOrCXPOVC8l9jyx82xXz0PcnIV5KNRH8E4tF/KGQ/WDGTZr
+ Sd8s+Mtg0HSmcx5dbk4I1yMLlhP4nKPo+SOSSRDUX9YC0Xv9pt9TH0eUEteVSusXAbh/
+ HKFrAnUnDLxcmmgGJncSVVor4CC6uHt85vzJn8htzFNWXHdn2ZQP0FbeO2AQ+9YL08jG
+ hZttwiRZUqnzNkOgkY5vg4mW1yJRuT6+KT7NZ2EdMMj5j69xg7F9i3S6Dyo/UH0S/bXu
+ Fveg==
+X-Gm-Message-State: AC+VfDzf6wB58tYAARsVaVPPVOvjKfe9IS8srvnlr6sW4uA+bat6K12R
+ gXoFGIISit6aQj2es5TfjuZhxCdHzumLM0fuFA4S+Q==
+X-Google-Smtp-Source: ACHHUZ5IWqJD5iqwyRTsn0f2DpRIHsiuZaqiBDtwKcRIYomJ/iBcGmGpMEQjjQttPgh7YmQ2LzkebA==
+X-Received: by 2002:a7b:c408:0:b0:3f1:75b6:8c7 with SMTP id
+ k8-20020a7bc408000000b003f175b608c7mr13367632wmi.37.1683098833267; 
+ Wed, 03 May 2023 00:27:13 -0700 (PDT)
 Received: from stoup.Home ([2a02:c7c:74db:8d00:c01d:9d74:b630:9087])
  by smtp.gmail.com with ESMTPSA id
  t4-20020a7bc3c4000000b003f1745c7df3sm974315wmj.23.2023.05.03.00.27.12
@@ -60,16 +60,16 @@ From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: ale@rev.ng, philmd@linaro.org, marcel.apfelbaum@gmail.com,
  wangyanan55@huawei.com, anjo@rev.ng
-Subject: [PATCH 53/84] tcg: Split helper-proto.h
-Date: Wed,  3 May 2023 08:23:00 +0100
-Message-Id: <20230503072331.1747057-54-richard.henderson@linaro.org>
+Subject: [PATCH 54/84] tcg: Add insn_start_words to TCGContext
+Date: Wed,  3 May 2023 08:23:01 +0100
+Message-Id: <20230503072331.1747057-55-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230503072331.1747057-1-richard.henderson@linaro.org>
 References: <20230503072331.1747057-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::334;
- envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x334.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::336;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x336.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -92,304 +92,312 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Create helper-proto-common.h without the target specific portion.
-Use that in tcg-op-common.h.  Include helper-proto.h in target/arm
-and target/hexagon before helper-info.c.inc; all other targets are
-already correct in this regard.
+This will enable replacement of TARGET_INSN_START_WORDS in tcg.c.
+Split out "tcg/insn-start-words.h" and use it in target/.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- include/exec/helper-proto-common.h | 17 +++++++
- include/exec/helper-proto.h        | 72 ++++--------------------------
- include/tcg/tcg-op-common.h        |  2 +-
- accel/tcg/cputlb.c                 |  3 +-
- accel/tcg/plugin-gen.c             |  2 +-
- accel/tcg/tcg-runtime-gvec.c       |  2 +-
- accel/tcg/tcg-runtime.c            |  2 +-
- target/arm/tcg/translate.c         |  1 +
- target/hexagon/translate.c         |  1 +
- include/exec/helper-proto.h.inc    | 67 +++++++++++++++++++++++++++
- 10 files changed, 99 insertions(+), 70 deletions(-)
- create mode 100644 include/exec/helper-proto-common.h
- create mode 100644 include/exec/helper-proto.h.inc
+ include/tcg/insn-start-words.h | 17 +++++++++++++++++
+ include/tcg/tcg-op.h           |  8 ++++----
+ include/tcg/tcg-opc.h          |  6 +++---
+ include/tcg/tcg.h              |  9 ++-------
+ accel/tcg/perf.c               |  8 ++++++--
+ accel/tcg/translate-all.c      | 13 ++++++++-----
+ target/i386/helper.c           |  2 +-
+ target/openrisc/sys_helper.c   |  2 +-
+ tcg/tcg.c                      | 16 +++++++++++-----
+ 9 files changed, 53 insertions(+), 28 deletions(-)
+ create mode 100644 include/tcg/insn-start-words.h
 
-diff --git a/include/exec/helper-proto-common.h b/include/exec/helper-proto-common.h
+diff --git a/include/tcg/insn-start-words.h b/include/tcg/insn-start-words.h
 new file mode 100644
-index 0000000000..666778473e
+index 0000000000..50c18bd326
 --- /dev/null
-+++ b/include/exec/helper-proto-common.h
++++ b/include/tcg/insn-start-words.h
 @@ -0,0 +1,17 @@
++/* SPDX-License-Identifier: MIT */
 +/*
-+ * Helper file for declaring TCG helper functions.
-+ * This one expands prototypes for the helper functions.
++ * Define TARGET_INSN_START_WORDS
++ * Copyright (c) 2008 Fabrice Bellard
 + */
 +
-+#ifndef HELPER_PROTO_COMMON_H
-+#define HELPER_PROTO_COMMON_H
++#ifndef TARGET_INSN_START_WORDS
 +
-+#define HELPER_H "accel/tcg/tcg-runtime.h"
-+#include "exec/helper-proto.h.inc"
-+#undef  HELPER_H
++#include "cpu.h"
 +
-+#define HELPER_H "accel/tcg/plugin-helpers.h"
-+#include "exec/helper-proto.h.inc"
-+#undef  HELPER_H
++#ifndef TARGET_INSN_START_EXTRA_WORDS
++# define TARGET_INSN_START_WORDS 1
++#else
++# define TARGET_INSN_START_WORDS (1 + TARGET_INSN_START_EXTRA_WORDS)
++#endif
 +
-+#endif /* HELPER_PROTO_COMMON_H */
-diff --git a/include/exec/helper-proto.h b/include/exec/helper-proto.h
-index 7a3f04b58c..aac684dbbf 100644
---- a/include/exec/helper-proto.h
-+++ b/include/exec/helper-proto.h
-@@ -1,71 +1,15 @@
--/* Helper file for declaring TCG helper functions.
--   This one expands prototypes for the helper functions.  */
-+/*
-+ * Helper file for declaring TCG helper functions.
-+ * This one expands prototypes for the helper functions.
-+ */
- 
- #ifndef HELPER_PROTO_H
- #define HELPER_PROTO_H
- 
--#include "exec/helper-head.h"
-+#include "exec/helper-proto-common.h"
- 
--/*
-- * Work around an issue with --enable-lto, in which GCC's ipa-split pass
-- * decides to split out the noreturn code paths that raise an exception,
-- * taking the __builtin_return_address() along into the new function,
-- * where it no longer computes a value that returns to TCG generated code.
-- * Despite the name, the noinline attribute affects splitter, so this
-- * prevents the optimization in question.  Given that helpers should not
-- * otherwise be called directly, this should have any other visible effect.
-- *
-- * See https://gitlab.com/qemu-project/qemu/-/issues/1454
-- */
--#define DEF_HELPER_ATTR  __attribute__((noinline))
--
--#define DEF_HELPER_FLAGS_0(name, flags, ret) \
--dh_ctype(ret) HELPER(name) (void) DEF_HELPER_ATTR;
--
--#define DEF_HELPER_FLAGS_1(name, flags, ret, t1) \
--dh_ctype(ret) HELPER(name) (dh_ctype(t1)) DEF_HELPER_ATTR;
--
--#define DEF_HELPER_FLAGS_2(name, flags, ret, t1, t2) \
--dh_ctype(ret) HELPER(name) (dh_ctype(t1), dh_ctype(t2)) DEF_HELPER_ATTR;
--
--#define DEF_HELPER_FLAGS_3(name, flags, ret, t1, t2, t3) \
--dh_ctype(ret) HELPER(name) (dh_ctype(t1), dh_ctype(t2), \
--                            dh_ctype(t3)) DEF_HELPER_ATTR;
--
--#define DEF_HELPER_FLAGS_4(name, flags, ret, t1, t2, t3, t4) \
--dh_ctype(ret) HELPER(name) (dh_ctype(t1), dh_ctype(t2), dh_ctype(t3), \
--                            dh_ctype(t4)) DEF_HELPER_ATTR;
--
--#define DEF_HELPER_FLAGS_5(name, flags, ret, t1, t2, t3, t4, t5) \
--dh_ctype(ret) HELPER(name) (dh_ctype(t1), dh_ctype(t2), dh_ctype(t3), \
--                            dh_ctype(t4), dh_ctype(t5)) DEF_HELPER_ATTR;
--
--#define DEF_HELPER_FLAGS_6(name, flags, ret, t1, t2, t3, t4, t5, t6) \
--dh_ctype(ret) HELPER(name) (dh_ctype(t1), dh_ctype(t2), dh_ctype(t3), \
--                            dh_ctype(t4), dh_ctype(t5), \
--                            dh_ctype(t6)) DEF_HELPER_ATTR;
--
--#define DEF_HELPER_FLAGS_7(name, flags, ret, t1, t2, t3, t4, t5, t6, t7) \
--dh_ctype(ret) HELPER(name) (dh_ctype(t1), dh_ctype(t2), dh_ctype(t3), \
--                            dh_ctype(t4), dh_ctype(t5), dh_ctype(t6), \
--                            dh_ctype(t7)) DEF_HELPER_ATTR;
--
--#define IN_HELPER_PROTO
--
--#include "helper.h"
--#include "accel/tcg/tcg-runtime.h"
--#include "accel/tcg/plugin-helpers.h"
--
--#undef IN_HELPER_PROTO
--
--#undef DEF_HELPER_FLAGS_0
--#undef DEF_HELPER_FLAGS_1
--#undef DEF_HELPER_FLAGS_2
--#undef DEF_HELPER_FLAGS_3
--#undef DEF_HELPER_FLAGS_4
--#undef DEF_HELPER_FLAGS_5
--#undef DEF_HELPER_FLAGS_6
--#undef DEF_HELPER_FLAGS_7
--#undef DEF_HELPER_ATTR
-+#define HELPER_H "helper.h"
-+#include "exec/helper-proto.h.inc"
-+#undef  HELPER_H
- 
- #endif /* HELPER_PROTO_H */
-diff --git a/include/tcg/tcg-op-common.h b/include/tcg/tcg-op-common.h
-index f6f05469c5..be382bbf77 100644
---- a/include/tcg/tcg-op-common.h
-+++ b/include/tcg/tcg-op-common.h
-@@ -9,7 +9,7 @@
- #define TCG_TCG_OP_COMMON_H
- 
- #include "tcg/tcg.h"
--#include "exec/helper-proto.h"
-+#include "exec/helper-proto-common.h"
- #include "exec/helper-gen-common.h"
- 
- /* Basic output routines.  Not for general consumption.  */
-diff --git a/accel/tcg/cputlb.c b/accel/tcg/cputlb.c
-index 7d3cd877ff..207da51772 100644
---- a/accel/tcg/cputlb.c
-+++ b/accel/tcg/cputlb.c
-@@ -29,7 +29,7 @@
- #include "tcg/tcg.h"
- #include "qemu/error-report.h"
- #include "exec/log.h"
--#include "exec/helper-proto.h"
-+#include "exec/helper-proto-common.h"
- #include "qemu/atomic.h"
- #include "qemu/atomic128.h"
- #include "exec/translate-all.h"
-@@ -41,7 +41,6 @@
++#endif /* TARGET_INSN_START_WORDS */
+diff --git a/include/tcg/tcg-op.h b/include/tcg/tcg-op.h
+index 47f1dce816..d63683c47b 100644
+--- a/include/tcg/tcg-op.h
++++ b/include/tcg/tcg-op.h
+@@ -22,20 +22,20 @@
+ # error
  #endif
- #include "tcg/tcg-ldst.h"
- #include "tcg/oversized-guest.h"
--#include "exec/helper-proto.h"
  
- /* DEBUG defines, enable DEBUG_TLB_LOG to log to the CPU_LOG_MMU target */
- /* #define DEBUG_TLB */
-diff --git a/accel/tcg/plugin-gen.c b/accel/tcg/plugin-gen.c
-index 802aa459bc..36dc1ea39c 100644
---- a/accel/tcg/plugin-gen.c
-+++ b/accel/tcg/plugin-gen.c
-@@ -49,7 +49,7 @@
- #include "exec/exec-all.h"
- #include "exec/plugin-gen.h"
- #include "exec/translator.h"
--#include "exec/helper-proto.h"
-+#include "exec/helper-proto-common.h"
+-#if TARGET_INSN_START_WORDS == 1
++#ifndef TARGET_INSN_START_EXTRA_WORDS
+ static inline void tcg_gen_insn_start(target_ulong pc)
+ {
+     TCGOp *op = tcg_emit_op(INDEX_op_insn_start, 64 / TCG_TARGET_REG_BITS);
+     tcg_set_insn_start_param(op, 0, pc);
+ }
+-#elif TARGET_INSN_START_WORDS == 2
++#elif TARGET_INSN_START_EXTRA_WORDS == 1
+ static inline void tcg_gen_insn_start(target_ulong pc, target_ulong a1)
+ {
+     TCGOp *op = tcg_emit_op(INDEX_op_insn_start, 2 * 64 / TCG_TARGET_REG_BITS);
+     tcg_set_insn_start_param(op, 0, pc);
+     tcg_set_insn_start_param(op, 1, a1);
+ }
+-#elif TARGET_INSN_START_WORDS == 3
++#elif TARGET_INSN_START_EXTRA_WORDS == 2
+ static inline void tcg_gen_insn_start(target_ulong pc, target_ulong a1,
+                                       target_ulong a2)
+ {
+@@ -45,7 +45,7 @@ static inline void tcg_gen_insn_start(target_ulong pc, target_ulong a1,
+     tcg_set_insn_start_param(op, 2, a2);
+ }
+ #else
+-# error "Unhandled number of operands to insn_start"
++#error Unhandled TARGET_INSN_START_EXTRA_WORDS value
+ #endif
  
- #define HELPER_H  "accel/tcg/plugin-helpers.h"
- #include "exec/helper-info.c.inc"
-diff --git a/accel/tcg/tcg-runtime-gvec.c b/accel/tcg/tcg-runtime-gvec.c
-index 97399493d5..6c99f952ca 100644
---- a/accel/tcg/tcg-runtime-gvec.c
-+++ b/accel/tcg/tcg-runtime-gvec.c
-@@ -20,7 +20,7 @@
- #include "qemu/osdep.h"
- #include "qemu/host-utils.h"
- #include "cpu.h"
--#include "exec/helper-proto.h"
-+#include "exec/helper-proto-common.h"
- #include "tcg/tcg-gvec-desc.h"
+ #if TARGET_LONG_BITS == 32
+diff --git a/include/tcg/tcg-opc.h b/include/tcg/tcg-opc.h
+index 21594c1590..acfa5ba753 100644
+--- a/include/tcg/tcg-opc.h
++++ b/include/tcg/tcg-opc.h
+@@ -188,9 +188,9 @@ DEF(mulsh_i64, 1, 2, 0, IMPL64 | IMPL(TCG_TARGET_HAS_mulsh_i64))
  
+ #define DATA64_ARGS  (TCG_TARGET_REG_BITS == 64 ? 1 : 2)
  
-diff --git a/accel/tcg/tcg-runtime.c b/accel/tcg/tcg-runtime.c
-index 14b59a36e5..9fa539ad3d 100644
---- a/accel/tcg/tcg-runtime.c
-+++ b/accel/tcg/tcg-runtime.c
-@@ -24,7 +24,7 @@
- #include "qemu/osdep.h"
- #include "qemu/host-utils.h"
- #include "cpu.h"
--#include "exec/helper-proto.h"
-+#include "exec/helper-proto-common.h"
- #include "exec/cpu_ldst.h"
- #include "exec/exec-all.h"
- #include "disas/disas.h"
-diff --git a/target/arm/tcg/translate.c b/target/arm/tcg/translate.c
-index ce50531dff..379f266256 100644
---- a/target/arm/tcg/translate.c
-+++ b/target/arm/tcg/translate.c
-@@ -35,6 +35,7 @@
- #include "translate.h"
- #include "translate-a32.h"
- #include "exec/gen-icount.h"
-+#include "exec/helper-proto.h"
+-/* QEMU specific */
+-DEF(insn_start, 0, 0, DATA64_ARGS * TARGET_INSN_START_WORDS,
+-    TCG_OPF_NOT_PRESENT)
++/* There are tcg_ctx->insn_start_words here, not just one. */
++DEF(insn_start, 0, 0, DATA64_ARGS, TCG_OPF_NOT_PRESENT)
++
+ DEF(exit_tb, 0, 0, 1, TCG_OPF_BB_EXIT | TCG_OPF_BB_END)
+ DEF(goto_tb, 0, 0, 1, TCG_OPF_BB_EXIT | TCG_OPF_BB_END)
+ DEF(goto_ptr, 0, 1, 0, TCG_OPF_BB_EXIT | TCG_OPF_BB_END)
+diff --git a/include/tcg/tcg.h b/include/tcg/tcg.h
+index 567cf8d7ea..97f13d937d 100644
+--- a/include/tcg/tcg.h
++++ b/include/tcg/tcg.h
+@@ -173,12 +173,6 @@ typedef uint64_t TCGRegSet;
+ #define TCG_TARGET_HAS_v256             0
+ #endif
  
- #define HELPER_H "helper.h"
- #include "exec/helper-info.c.inc"
-diff --git a/target/hexagon/translate.c b/target/hexagon/translate.c
-index c1eff55c9e..8fb5c38a4e 100644
---- a/target/hexagon/translate.c
-+++ b/target/hexagon/translate.c
-@@ -21,6 +21,7 @@
- #include "tcg/tcg-op.h"
- #include "tcg/tcg-op-gvec.h"
- #include "exec/helper-gen.h"
-+#include "exec/helper-proto.h"
- #include "exec/cpu_ldst.h"
- #include "exec/log.h"
+-#ifndef TARGET_INSN_START_EXTRA_WORDS
+-# define TARGET_INSN_START_WORDS 1
+-#else
+-# define TARGET_INSN_START_WORDS (1 + TARGET_INSN_START_EXTRA_WORDS)
+-#endif
+-
+ typedef enum TCGOpcode {
+ #define DEF(name, oargs, iargs, cargs, flags) INDEX_op_ ## name,
+ #include "tcg/tcg-opc.h"
+@@ -526,6 +520,7 @@ struct TCGContext {
+     uint8_t page_bits;
+     uint8_t tlb_dyn_max_bits;
+ #endif
++    uint8_t insn_start_words;
+ 
+     TCGRegSet reserved_regs;
+     intptr_t current_frame_offset;
+@@ -597,7 +592,7 @@ struct TCGContext {
+     TCGTemp *reg_to_temp[TCG_TARGET_NB_REGS];
+ 
+     uint16_t gen_insn_end_off[TCG_MAX_INSNS];
+-    uint64_t gen_insn_data[TCG_MAX_INSNS][TARGET_INSN_START_WORDS];
++    uint64_t *gen_insn_data;
+ 
+     /* Exit to translator on overflow. */
+     sigjmp_buf jmp_trans;
+diff --git a/accel/tcg/perf.c b/accel/tcg/perf.c
+index 65e35ea3b9..f5a1eda39f 100644
+--- a/accel/tcg/perf.c
++++ b/accel/tcg/perf.c
+@@ -311,7 +311,8 @@ void perf_report_code(uint64_t guest_pc, TranslationBlock *tb,
+                       const void *start)
+ {
+     struct debuginfo_query *q;
+-    size_t insn;
++    size_t insn, start_words;
++    uint64_t *gen_insn_data;
+ 
+     if (!perfmap && !jitdump) {
+         return;
+@@ -325,9 +326,12 @@ void perf_report_code(uint64_t guest_pc, TranslationBlock *tb,
+     debuginfo_lock();
+ 
+     /* Query debuginfo for each guest instruction. */
++    gen_insn_data = tcg_ctx->gen_insn_data;
++    start_words = tcg_ctx->insn_start_words;
++
+     for (insn = 0; insn < tb->icount; insn++) {
+         /* FIXME: This replicates the restore_state_to_opc() logic. */
+-        q[insn].address = tcg_ctx->gen_insn_data[insn][0];
++        q[insn].address = gen_insn_data[insn * start_words + 0];
+         if (tb_cflags(tb) & CF_PCREL) {
+             q[insn].address |= (guest_pc & TARGET_PAGE_MASK);
+         } else {
+diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
+index be38d4aad8..03ebe58099 100644
+--- a/accel/tcg/translate-all.c
++++ b/accel/tcg/translate-all.c
+@@ -64,6 +64,7 @@
+ #include "tb-context.h"
  #include "internal.h"
-diff --git a/include/exec/helper-proto.h.inc b/include/exec/helper-proto.h.inc
-new file mode 100644
-index 0000000000..f6f0cfcacd
---- /dev/null
-+++ b/include/exec/helper-proto.h.inc
-@@ -0,0 +1,67 @@
-+/*
-+ * Helper file for declaring TCG helper functions.
-+ * This one expands prototypes for the helper functions.
-+ * Define HELPER_H for the header file to be expanded.
-+ */
+ #include "perf.h"
++#include "tcg/insn-start-words.h"
+ 
+ /* Make sure all possible CPU event bits fit in tb->trace_vcpu_dstate */
+ QEMU_BUILD_BUG_ON(CPU_TRACE_DSTATE_MAX_EVENTS >
+@@ -132,19 +133,20 @@ static int64_t decode_sleb128(const uint8_t **pp)
+ static int encode_search(TranslationBlock *tb, uint8_t *block)
+ {
+     uint8_t *highwater = tcg_ctx->code_gen_highwater;
++    uint64_t *insn_data = tcg_ctx->gen_insn_data;
+     uint8_t *p = block;
+     int i, j, n;
+ 
+     for (i = 0, n = tb->icount; i < n; ++i) {
+         uint64_t prev;
+ 
+-        for (j = 0; j < TARGET_INSN_START_WORDS; ++j) {
++        for (j = 0; j < TARGET_INSN_START_WORDS; ++j, ++insn_data) {
+             if (i == 0) {
+                 prev = (!(tb_cflags(tb) & CF_PCREL) && j == 0 ? tb->pc : 0);
+             } else {
+-                prev = tcg_ctx->gen_insn_data[i - 1][j];
++                prev = insn_data[-TARGET_INSN_START_WORDS];
+             }
+-            p = encode_sleb128(p, tcg_ctx->gen_insn_data[i][j] - prev);
++            p = encode_sleb128(p, *insn_data - prev);
+         }
+         prev = (i == 0 ? 0 : tcg_ctx->gen_insn_end_off[i - 1]);
+         p = encode_sleb128(p, tcg_ctx->gen_insn_end_off[i] - prev);
+@@ -364,6 +366,7 @@ TranslationBlock *tb_gen_code(CPUState *cpu,
+     tcg_ctx->tlb_fast_offset =
+         (int)offsetof(ArchCPU, neg.tlb.f) - (int)offsetof(ArchCPU, env);
+ #endif
++    tcg_ctx->insn_start_words = TARGET_INSN_START_WORDS;
+ 
+  tb_overflow:
+ 
+@@ -458,7 +461,7 @@ TranslationBlock *tb_gen_code(CPUState *cpu,
+             fprintf(logfile, "OUT: [size=%d]\n", gen_code_size);
+             fprintf(logfile,
+                     "  -- guest addr 0x%016" PRIx64 " + tb prologue\n",
+-                    tcg_ctx->gen_insn_data[insn][0]);
++                    tcg_ctx->gen_insn_data[insn * TARGET_INSN_START_WORDS]);
+             chunk_start = tcg_ctx->gen_insn_end_off[insn];
+             disas(logfile, tb->tc.ptr, chunk_start);
+ 
+@@ -471,7 +474,7 @@ TranslationBlock *tb_gen_code(CPUState *cpu,
+                 size_t chunk_end = tcg_ctx->gen_insn_end_off[insn];
+                 if (chunk_end > chunk_start) {
+                     fprintf(logfile, "  -- guest addr 0x%016" PRIx64 "\n",
+-                            tcg_ctx->gen_insn_data[insn][0]);
++                            tcg_ctx->gen_insn_data[insn * TARGET_INSN_START_WORDS]);
+                     disas(logfile, tb->tc.ptr + chunk_start,
+                           chunk_end - chunk_start);
+                     chunk_start = chunk_end;
+diff --git a/target/i386/helper.c b/target/i386/helper.c
+index 682d10d98a..36bf2107e7 100644
+--- a/target/i386/helper.c
++++ b/target/i386/helper.c
+@@ -29,7 +29,7 @@
+ #endif
+ #include "qemu/log.h"
+ #ifdef CONFIG_TCG
+-#include "tcg/tcg.h"
++#include "tcg/insn-start-words.h"
+ #endif
+ 
+ void cpu_sync_avx_hflag(CPUX86State *env)
+diff --git a/target/openrisc/sys_helper.c b/target/openrisc/sys_helper.c
+index 17598689d7..beb5d37f17 100644
+--- a/target/openrisc/sys_helper.c
++++ b/target/openrisc/sys_helper.c
+@@ -26,7 +26,7 @@
+ #ifndef CONFIG_USER_ONLY
+ #include "hw/boards.h"
+ #endif
+-#include "tcg/tcg.h"
++#include "tcg/insn-start-words.h"
+ 
+ #define TO_SPR(group, number) (((group) << 11) + (number))
+ 
+diff --git a/tcg/tcg.c b/tcg/tcg.c
+index 1c88c3ab54..53540e4237 100644
+--- a/tcg/tcg.c
++++ b/tcg/tcg.c
+@@ -1406,6 +1406,8 @@ void tcg_func_start(TCGContext *s)
+     tcg_debug_assert(s->tlb_fast_offset < 0);
+     tcg_debug_assert(s->tlb_fast_offset >= MIN_TLB_MASK_TABLE_OFS);
+ #endif
 +
-+#include "exec/helper-head.h"
++    tcg_debug_assert(s->insn_start_words > 0);
+ }
+ 
+ static TCGTemp *tcg_temp_alloc(TCGContext *s)
+@@ -2339,7 +2341,7 @@ static void tcg_dump_ops(TCGContext *s, FILE *f, bool have_prefs)
+             nb_oargs = 0;
+             col += ne_fprintf(f, "\n ----");
+ 
+-            for (i = 0; i < TARGET_INSN_START_WORDS; ++i) {
++            for (i = 0, k = s->insn_start_words; i < k; ++i) {
+                 col += ne_fprintf(f, " %016" PRIx64,
+                                   tcg_get_insn_start_param(op, i));
+             }
+@@ -5887,7 +5889,7 @@ int tcg_gen_code(TCGContext *s, TranslationBlock *tb, uint64_t pc_start)
+ #ifdef CONFIG_PROFILER
+     TCGProfile *prof = &s->prof;
+ #endif
+-    int i, num_insns;
++    int i, start_words, num_insns;
+     TCGOp *op;
+ 
+ #ifdef CONFIG_PROFILER
+@@ -6017,6 +6019,10 @@ int tcg_gen_code(TCGContext *s, TranslationBlock *tb, uint64_t pc_start)
+     s->pool_labels = NULL;
+ #endif
+ 
++    start_words = s->insn_start_words;
++    s->gen_insn_data =
++        tcg_malloc(sizeof(uint64_t) * s->gen_tb->icount * start_words);
 +
-+/*
-+ * Work around an issue with --enable-lto, in which GCC's ipa-split pass
-+ * decides to split out the noreturn code paths that raise an exception,
-+ * taking the __builtin_return_address() along into the new function,
-+ * where it no longer computes a value that returns to TCG generated code.
-+ * Despite the name, the noinline attribute affects splitter, so this
-+ * prevents the optimization in question.  Given that helpers should not
-+ * otherwise be called directly, this should have any other visible effect.
-+ *
-+ * See https://gitlab.com/qemu-project/qemu/-/issues/1454
-+ */
-+#define DEF_HELPER_ATTR  __attribute__((noinline))
-+
-+#define DEF_HELPER_FLAGS_0(name, flags, ret) \
-+dh_ctype(ret) HELPER(name) (void) DEF_HELPER_ATTR;
-+
-+#define DEF_HELPER_FLAGS_1(name, flags, ret, t1) \
-+dh_ctype(ret) HELPER(name) (dh_ctype(t1)) DEF_HELPER_ATTR;
-+
-+#define DEF_HELPER_FLAGS_2(name, flags, ret, t1, t2) \
-+dh_ctype(ret) HELPER(name) (dh_ctype(t1), dh_ctype(t2)) DEF_HELPER_ATTR;
-+
-+#define DEF_HELPER_FLAGS_3(name, flags, ret, t1, t2, t3) \
-+dh_ctype(ret) HELPER(name) (dh_ctype(t1), dh_ctype(t2), \
-+                            dh_ctype(t3)) DEF_HELPER_ATTR;
-+
-+#define DEF_HELPER_FLAGS_4(name, flags, ret, t1, t2, t3, t4) \
-+dh_ctype(ret) HELPER(name) (dh_ctype(t1), dh_ctype(t2), dh_ctype(t3), \
-+                            dh_ctype(t4)) DEF_HELPER_ATTR;
-+
-+#define DEF_HELPER_FLAGS_5(name, flags, ret, t1, t2, t3, t4, t5) \
-+dh_ctype(ret) HELPER(name) (dh_ctype(t1), dh_ctype(t2), dh_ctype(t3), \
-+                            dh_ctype(t4), dh_ctype(t5)) DEF_HELPER_ATTR;
-+
-+#define DEF_HELPER_FLAGS_6(name, flags, ret, t1, t2, t3, t4, t5, t6) \
-+dh_ctype(ret) HELPER(name) (dh_ctype(t1), dh_ctype(t2), dh_ctype(t3), \
-+                            dh_ctype(t4), dh_ctype(t5), \
-+                            dh_ctype(t6)) DEF_HELPER_ATTR;
-+
-+#define DEF_HELPER_FLAGS_7(name, flags, ret, t1, t2, t3, t4, t5, t6, t7) \
-+dh_ctype(ret) HELPER(name) (dh_ctype(t1), dh_ctype(t2), dh_ctype(t3), \
-+                            dh_ctype(t4), dh_ctype(t5), dh_ctype(t6), \
-+                            dh_ctype(t7)) DEF_HELPER_ATTR;
-+
-+#define IN_HELPER_PROTO
-+
-+#include HELPER_H
-+
-+#undef IN_HELPER_PROTO
-+
-+#undef DEF_HELPER_FLAGS_0
-+#undef DEF_HELPER_FLAGS_1
-+#undef DEF_HELPER_FLAGS_2
-+#undef DEF_HELPER_FLAGS_3
-+#undef DEF_HELPER_FLAGS_4
-+#undef DEF_HELPER_FLAGS_5
-+#undef DEF_HELPER_FLAGS_6
-+#undef DEF_HELPER_FLAGS_7
-+#undef DEF_HELPER_ATTR
+     num_insns = -1;
+     QTAILQ_FOREACH(op, &s->ops, link) {
+         TCGOpcode opc = op->opc;
+@@ -6042,8 +6048,8 @@ int tcg_gen_code(TCGContext *s, TranslationBlock *tb, uint64_t pc_start)
+                 assert(s->gen_insn_end_off[num_insns] == off);
+             }
+             num_insns++;
+-            for (i = 0; i < TARGET_INSN_START_WORDS; ++i) {
+-                s->gen_insn_data[num_insns][i] =
++            for (i = 0; i < start_words; ++i) {
++                s->gen_insn_data[num_insns * start_words + i] =
+                     tcg_get_insn_start_param(op, i);
+             }
+             break;
+@@ -6089,7 +6095,7 @@ int tcg_gen_code(TCGContext *s, TranslationBlock *tb, uint64_t pc_start)
+             return -2;
+         }
+     }
+-    tcg_debug_assert(num_insns >= 0);
++    tcg_debug_assert(num_insns + 1 == s->gen_tb->icount);
+     s->gen_insn_end_off[num_insns] = tcg_current_code_size(s);
+ 
+     /* Generate TB finalization at the end of block */
 -- 
 2.34.1
 
