@@ -2,86 +2,116 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 651776F562A
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 May 2023 12:28:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1819C6F562E
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 May 2023 12:29:12 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pu9ir-0005B4-E7; Wed, 03 May 2023 06:28:33 -0400
+	id 1pu9jN-0006qv-78; Wed, 03 May 2023 06:29:05 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pu9io-0004xi-TK
- for qemu-devel@nongnu.org; Wed, 03 May 2023 06:28:30 -0400
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pu9in-0003uO-9w
- for qemu-devel@nongnu.org; Wed, 03 May 2023 06:28:30 -0400
-Received: by mail-wr1-x432.google.com with SMTP id
- ffacd0b85a97d-30626f4d74aso2761198f8f.0
- for <qemu-devel@nongnu.org>; Wed, 03 May 2023 03:28:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1683109708; x=1685701708;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=Pb9ZuHVwIb5dS4B+4BgihKKNSZkQ9AbZJqo4HMGcw/s=;
- b=vhGsVqG3v1C0f97x8+FXwc0dstDibv+bMOs64vpUzVK2CgVhAGANJMe1eN56+ROMfI
- mKc8EuTX5qndI8xKHrR/G2ZN4v4kHYwyaucgCGzbf9xpQ5hhI3Bra1VUOKkd3T4USX1R
- oGHC7kM6p9tcDxjYFkXX54aiMXiQv9fLkk3/4lWOj/oThL0q3mMlgouXVmChRJgMuU0/
- kaQ5zeaGFjVGSZEXmK554kFxc91ATmguNNO+B80pq/wPJOR7a5TiZlwwMdJ0omhx1S94
- i6j+cIJrg5Az2W6hsgsl0QwPmoLxoVmRfCXAdumSqDANl6Qxr4fxaKrT2Tu3jP3tSo8A
- EbWA==
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1pu9jK-0006ki-VV
+ for qemu-devel@nongnu.org; Wed, 03 May 2023 06:29:02 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1pu9jI-00048n-Eh
+ for qemu-devel@nongnu.org; Wed, 03 May 2023 06:29:02 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1683109739;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=TnPEnJrLHD8ltr2au6DXyolN9++eGsBREQwaNEUt+/M=;
+ b=BqAH8L7t+VE/HhkpH+JfocUzCkfxMs14U9Ppm3vCXK/aJMom1XwdElffJ2v5LLy8yLNJtW
+ 79bY4VsCLinBLS2D0JawhhJS0UwmO7Ujw4aTkO+/W/Vegfi7NnOtGqyYFeRFJUBFbbZ4lp
+ cy6RZkD4gwE3s7/75A3SYuWgpNPdMEY=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-607-89gLkao-MqWbc6N1dW2PfA-1; Wed, 03 May 2023 06:28:58 -0400
+X-MC-Unique: 89gLkao-MqWbc6N1dW2PfA-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ 5b1f17b1804b1-3f168827701so17994425e9.0
+ for <qemu-devel@nongnu.org>; Wed, 03 May 2023 03:28:58 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683109708; x=1685701708;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
+ d=1e100.net; s=20221208; t=1683109737; x=1685701737;
+ h=content-transfer-encoding:mime-version:message-id:date:reply-to
+ :user-agent:references:in-reply-to:subject:cc:to:from
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Pb9ZuHVwIb5dS4B+4BgihKKNSZkQ9AbZJqo4HMGcw/s=;
- b=e4g158acBsTo5Ft0goyRLXBl4aewfOtJvxlIX73unt/3Ls4AuJ+VL3MGKHnQV4AnjG
- uQC+yVTyHh2JXfSA7SflC7IJt1hW/1WqPZ2jTZZIP1g9m/snndBtHVPTZj0xRtZtk3Ut
- Cj7Ff2p9lmK4bEs+MkX9mlNc7BRTsqx7dgstWK611pYiggjOd7/o/brSDIO85k1lVnpd
- ooPpisqtRNhHYfBWiphCcSVmKWGN9UfRDOKByjmR9Ptj3nwAOokMV+0IFNp0/jloBgtL
- nc6/M2oyyxoHVYTdSk5kxDxEiaI/MfYgbpMKfsPi6zP7ygo4H0AzzWZ57sMU4LYUEY0S
- feTA==
-X-Gm-Message-State: AC+VfDxyUN3N6NrKcv7TF2qlQMSxvNcCXFJ2oiRewH8J+BfEhhIsVPmh
- UweSq/hBNUHzR3+OUjgP+bofMw==
-X-Google-Smtp-Source: ACHHUZ6M8zigwLKuVstRngPlOjboISlAMH1xblecdp3W729DG2WaKpbtpG6aa39R5KvIGVJ1CUN/UA==
-X-Received: by 2002:a5d:4e44:0:b0:306:3912:a7f0 with SMTP id
- r4-20020a5d4e44000000b003063912a7f0mr3776408wrt.50.1683109707916; 
- Wed, 03 May 2023 03:28:27 -0700 (PDT)
-Received: from ?IPV6:2a02:c7c:74db:8d00:c01d:9d74:b630:9087?
- ([2a02:c7c:74db:8d00:c01d:9d74:b630:9087])
- by smtp.gmail.com with ESMTPSA id
- l26-20020a7bc45a000000b003f09cda253esm1449412wmi.34.2023.05.03.03.28.27
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 03 May 2023 03:28:27 -0700 (PDT)
-Message-ID: <fcc126aa-e805-3396-aaaa-7d499237dc27@linaro.org>
-Date: Wed, 3 May 2023 11:28:26 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH 17/22] hw/xtensa: add VIRTIO as dependencies for
- XTENSA_VIRT
-Content-Language: en-US
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
+ bh=TnPEnJrLHD8ltr2au6DXyolN9++eGsBREQwaNEUt+/M=;
+ b=GAaA73pOerVMotM3/6IJfOGFOIiUxFGsEc8xszBlruLYk24BbMsE/dd2Zwmlj/BbGR
+ h67t/hUP3nOQCmG6kNlx/P9sGhwbDITYB6Xle+4A2AvdUMLacbEc/nBvUrbrScotHUHL
+ mKUSUt1zHhUfr3lNXoUpaHmqQR2mIkDQDtYHIi4/i/yceVNilgetXvm0IvTH1x8eP07R
+ xsNZbCczukNwOxko3v5nMv3vw3LK5oCGrXIW6h83/1qSkTw2wjEmwAxgsdxC1tiDHFWL
+ 2FRKLFN8iln6Rf6kl0vJnfw6F4o/nog+0WcmPOywMMMKPdOMOfT3hAAJQhIYVi1V9A2Y
+ ltIQ==
+X-Gm-Message-State: AC+VfDzY7NlrAZO+xLButTfWcBG5JoSyuASljF1FcLvKhBRV/vEIB8Cs
+ cmKp9fVZN/ZdaV1SoEH4FHKlWm8MKsv4Nu9IOPBAFLpce4+YflWTWsf+9mTBHl4gMtCQACWM1M8
+ obbIZGpyM62mPNOH9Y6SxXhoH9F0E
+X-Received: by 2002:a05:6000:124b:b0:306:31b7:abe4 with SMTP id
+ j11-20020a056000124b00b0030631b7abe4mr6030875wrx.14.1683109736872; 
+ Wed, 03 May 2023 03:28:56 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ4PYKyHaRaZXnhassASBWJMX6tT+7w9id+V8r6B704JQGO+8t6obhTbSSa7wK7ejL6KW/OExA==
+X-Received: by 2002:a05:6000:124b:b0:306:31b7:abe4 with SMTP id
+ j11-20020a056000124b00b0030631b7abe4mr6030851wrx.14.1683109736581; 
+ Wed, 03 May 2023 03:28:56 -0700 (PDT)
+Received: from redhat.com (static-92-120-85-188.ipcom.comunitel.net.
+ [188.85.120.92]) by smtp.gmail.com with ESMTPSA id
+ e6-20020a5d4e86000000b003063d83a168sm2294491wru.26.2023.05.03.03.28.55
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 03 May 2023 03:28:56 -0700 (PDT)
+From: Juan Quintela <quintela@redhat.com>
+To: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: qemu-devel@nongnu.org,  Laurent Vivier <lvivier@redhat.com>,  Artyom
+ Tarasenko <atar4qemu@gmail.com>,  "Edgar E. Iglesias"
+ <edgar.iglesias@gmail.com>,  Wainer dos Santos Moschetta
+ <wainersm@redhat.com>,  Thomas Huth <thuth@redhat.com>,  Leif Lindholm
+ <quic_llindhol@quicinc.com>,  Paolo Bonzini <pbonzini@redhat.com>,  Gerd
+ Hoffmann <kraxel@redhat.com>,  Helge Deller <deller@gmx.de>,  Xiaojuan
+ Yang <yangxiaojuan@loongson.cn>,  Stefan Hajnoczi <stefanha@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>,  Peter Maydell
+ <peter.maydell@linaro.org>,  Eduardo Habkost <eduardo@habkost.net>,  John
+ Snow <jsnow@redhat.com>,  Yoshinori Sato <ysato@users.sourceforge.jp>,
+ =?utf-8?Q?C=C3=A9dric?= Le Goater <clg@kaod.org>,  Ilya Leoshkevich
+ <iii@linux.ibm.com>,
+ Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>,  Andrew Jeffery
+ <andrew@aj.id.au>,  qemu-s390x@nongnu.org,  Richard Henderson
+ <richard.henderson@linaro.org>,  qemu-arm@nongnu.org,  Bastian Koppelmann
+ <kbastian@mail.uni-paderborn.de>,  Beraldo Leal <bleal@redhat.com>,  Max
+ Filippov <jcmvbkbc@gmail.com>,  =?utf-8?Q?Marc-Andr=C3=A9?= Lureau
+ <marcandre.lureau@redhat.com>,  Mark Cave-Ayland
+ <mark.cave-ayland@ilande.co.uk>,  Jiaxun Yang <jiaxun.yang@flygoat.com>,
+ Radoslaw Biernacki <rad@semihalf.com>,  Aurelien Jarno
+ <aurelien@aurel32.net>,  David Hildenbrand <david@redhat.com>,  Markus
+ Armbruster <armbru@redhat.com>,  Song Gao <gaosong@loongson.cn>,  Joel
+ Stanley <joel@jms.id.au>,  Daniel P. =?utf-8?Q?Berrang=C3=A9?=
+ <berrange@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+Subject: Re: [PATCH 02/22] tests/docker: bump the xtensa base to debian:11-slim
+In-Reply-To: <20230503091244.1450613-3-alex.bennee@linaro.org> ("Alex
+ =?utf-8?Q?Benn=C3=A9e=22's?= message of "Wed, 3 May 2023 10:12:24 +0100")
 References: <20230503091244.1450613-1-alex.bennee@linaro.org>
- <20230503091244.1450613-18-alex.bennee@linaro.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20230503091244.1450613-18-alex.bennee@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x432.google.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.422,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ <20230503091244.1450613-3-alex.bennee@linaro.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
+Date: Wed, 03 May 2023 12:28:55 +0200
+Message-ID: <87cz3hso7s.fsf@secure.mitica>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -22
+X-Spam_score: -2.3
+X-Spam_bar: --
+X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.171,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,33 +124,18 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 5/3/23 10:12, Alex Bennée wrote:
-> These are needed for board creation so fail under "make check" with a
-> --without-default-devices build.
-> 
-> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-> ---
->   hw/xtensa/Kconfig | 2 ++
->   1 file changed, 2 insertions(+)
-> 
-> diff --git a/hw/xtensa/Kconfig b/hw/xtensa/Kconfig
-> index 0740657ea5..a54a9d395e 100644
-> --- a/hw/xtensa/Kconfig
-> +++ b/hw/xtensa/Kconfig
-> @@ -6,6 +6,8 @@ config XTENSA_VIRT
->       select XTENSA_SIM
->       select PCI_EXPRESS_GENERIC_BRIDGE
->       select PCI_DEVICES
-> +    select VIRTIO_PCI
-> +    select VIRTIO_NET
->   
->   config XTENSA_XTFPGA
->       bool
+Alex Benn=C3=A9e <alex.bennee@linaro.org> wrote:
+> Stretch is going out of support so things like security updates will
+> fail. As the toolchain itself is binary it hopefully won't mind the
+> underlying OS being updated.
+>
+> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+> Reported-by: Richard Henderson <richard.henderson@linaro.org>
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Juan Quintela <quintela@redhat.com>
 
-r~
 
