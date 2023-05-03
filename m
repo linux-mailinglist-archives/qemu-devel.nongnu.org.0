@@ -2,81 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7A706F50E6
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 May 2023 09:13:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C9C6C6F5203
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 May 2023 09:42:16 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pu6bk-0004dN-7T; Wed, 03 May 2023 03:09:00 -0400
+	id 1pu6dh-0003XP-3Q; Wed, 03 May 2023 03:11:01 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pu6as-0008TZ-LC
- for qemu-devel@nongnu.org; Wed, 03 May 2023 03:08:10 -0400
-Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335])
+ id 1pu6dI-0002jT-7c
+ for qemu-devel@nongnu.org; Wed, 03 May 2023 03:10:40 -0400
+Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pu6aH-0005re-Br
- for qemu-devel@nongnu.org; Wed, 03 May 2023 03:08:06 -0400
-Received: by mail-wm1-x335.google.com with SMTP id
- 5b1f17b1804b1-3f192c23fffso29497485e9.3
- for <qemu-devel@nongnu.org>; Wed, 03 May 2023 00:07:28 -0700 (PDT)
+ id 1pu6dC-00071M-6V
+ for qemu-devel@nongnu.org; Wed, 03 May 2023 03:10:33 -0400
+Received: by mail-wm1-x332.google.com with SMTP id
+ 5b1f17b1804b1-3f19ab99540so46284955e9.2
+ for <qemu-devel@nongnu.org>; Wed, 03 May 2023 00:10:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1683097647; x=1685689647;
+ d=linaro.org; s=google; t=1683097828; x=1685689828;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=MmKM8rjtmKZde67WpB0XICl6ZGDTJWgOM1OCctjceu0=;
- b=EL6STVPJiUSqzELjRYBDD6+uAVvIt23+Z7I11Gs8XARTyUru2JB8MBXM96Q+4HM2Od
- VxDXkrXYxnWUhlZcyW8VHpYcnVmf+y3U0vsM0vNl0c4zczAy3WZ8J+3/G0niZSSF/3XY
- 1S9bSkbA0xgL9ukvDP8gs9ha5nIsn+46NUFElTk9FAVI2HuV/+jcwVjYarpYnVc4H/Z+
- NKdqtO6bpIkhlLiYwL4s/YTsLBqAQ03MnL4sMZyPCFFAbwINacqB2CuamiX7lqDuFagx
- UJJpnejI/1ztJr8O5LeWUzk7eI7edBKODtJVbgZTiUUCnB5Hx5RMj+TVMmtdXl3wj4so
- N8vg==
+ bh=7tjn+bhFEykcOOu8pztGK+c3m4ZRnhhBjNTo+m7c7SU=;
+ b=z3bBjk4FKXtC9lrujsWFIA2f+Qv06gN6s4Pzovyw0tpiHvZVdcUIQKDz2ehpTpdTLS
+ F5CWAVCP/3YWgPW2k0CGsHkAPbQh0LnOmiJrKmEj5hwizkK3/xIjFJvMdEJY4oVPS3nP
+ +66YoxHw9AAMOILkABUBRpd80xKGeDT/m11XTOTDqPuEV3L1UZsifkc6I85JyaDD3FOv
+ 28QuLsOJTE8gqbDtBZ2HOXU6uPHvBiFMrZxaNBzB5XWJ/Hoh4csA8r7b/9yvjSSn9iyR
+ uj52vMYRbi54gjtKQJA6ini096B11BreFThsQpcy8wq+VXP0+1YH3LcdJv+1EcqF75MO
+ VAOQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683097647; x=1685689647;
+ d=1e100.net; s=20221208; t=1683097828; x=1685689828;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=MmKM8rjtmKZde67WpB0XICl6ZGDTJWgOM1OCctjceu0=;
- b=bc7J2DWYleP5CEJAkM1AyokJLjfvfeBFi+eERTGp5fQCzR5B1MuzssefioliBWb4FL
- wsS+lK/tY/6yUXbC5s2/43h9cZCMxE+is3tMSVlTz78gMisX8wkLWvPBHrYMdUMRcXBq
- SJ5xwN/FdMWTpoFwF/DM/d/68VxdyvN/pXUt/n5ynvhL+rkgmOn+BArSkxtkQo0eP9Vj
- B1SghkrI91YIhXcE/KkOjrjBxO9GJjCby72v8kEQRD/sMVkIyqRJnwdAWQnsFUrOTvbt
- j/GtITIk7Sm4sOpi5GkIKoKymGb8jrFCJJ9yCQo047IlzZvzAX9w8WwiVM1PvBe0pk0O
- G4dA==
-X-Gm-Message-State: AC+VfDw/0tqLldnMCxUb4uWm/b2VngrB4gPCebCrN5zxTClpbTnOohMX
- 7v/8w7bMa8IcyqK0AQ8kQnJMH/utgZhNXrO13qAJWQ==
-X-Google-Smtp-Source: ACHHUZ6k033h92ArDFP2NCEXxbrtCbQoAVCIp45xj+kipjc0JrCVErHef/m0TRHuOe0AKktI01BVfQ==
-X-Received: by 2002:a7b:c4c1:0:b0:3f0:5519:9049 with SMTP id
- g1-20020a7bc4c1000000b003f055199049mr15033804wmk.8.1683097646818; 
- Wed, 03 May 2023 00:07:26 -0700 (PDT)
+ bh=7tjn+bhFEykcOOu8pztGK+c3m4ZRnhhBjNTo+m7c7SU=;
+ b=JvH6wr5TVpRqvAZz6p89ZUr4mA1W/SeuZpgr20ioAb55izHgItgi66TKwOY2xvn7C3
+ VqMP9ttDpeUZXCiJnkBONHxnSv99lMaX3eilBlpCVd3bh0w108otmgMem3J46RCX0U7F
+ yQIoPIhSPDFWo6MHXBD9EGZQLOYTjvQ8XhCsMdTsSjxPyDQBECongutt2uWYw+ej2JMW
+ 6E+hJK6bdPdhHUJudxsp76nMJOffd5Mu70O6NKHSKkb9rSr6pfMocqemKq3CCKBrDYaE
+ 9qv3Xpk1uFHIJBYtaZZBhWa3xbVAOw5AKZy3w04Vp6HeAUShzBB1g4jhM0vxoLM+VB5B
+ UrfA==
+X-Gm-Message-State: AC+VfDwccK8ZcVFKEI9viDEHa4aBSd9WRzhn1pPvZJVrMNge+bWtEpth
+ p7Oxei9pkJuVA384UKvYLyLmILGdCjbVQvDp9rk5Jg==
+X-Google-Smtp-Source: ACHHUZ6Qcvt02JbaMIw+UD/Wk6Rma9EaInQ6hYTkIJ/Qq8sBZ0pZ52tIcb9WGRJdzRhaASFr/zmS3A==
+X-Received: by 2002:a05:600c:281:b0:3f0:9fef:1028 with SMTP id
+ 1-20020a05600c028100b003f09fef1028mr13653182wmk.17.1683097828039; 
+ Wed, 03 May 2023 00:10:28 -0700 (PDT)
 Received: from stoup.Home ([2a02:c7c:74db:8d00:c01d:9d74:b630:9087])
  by smtp.gmail.com with ESMTPSA id
- q3-20020a1cf303000000b003f3157988f8sm921184wmq.26.2023.05.03.00.07.26
+ v9-20020a05600c444900b003f173be2ccfsm54223673wmn.2.2023.05.03.00.10.27
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 03 May 2023 00:07:26 -0700 (PDT)
+ Wed, 03 May 2023 00:10:27 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: git@xen0n.name, gaosong@loongson.cn, philmd@linaro.org,
  qemu-arm@nongnu.org, qemu-riscv@nongnu.org, qemu-s390x@nongnu.org
-Subject: [PATCH v4 39/57] tcg: Introduce tcg_target_has_memory_bswap
-Date: Wed,  3 May 2023 08:06:38 +0100
-Message-Id: <20230503070656.1746170-40-richard.henderson@linaro.org>
+Subject: [PATCH v4 40/57] tcg: Add INDEX_op_qemu_{ld,st}_i128
+Date: Wed,  3 May 2023 08:06:39 +0100
+Message-Id: <20230503070656.1746170-41-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230503070656.1746170-1-richard.henderson@linaro.org>
 References: <20230503070656.1746170-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::335;
- envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x335.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::332;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x332.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,390 +93,331 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Replace the unparameterized TCG_TARGET_HAS_MEMORY_BSWAP macro
-with a function with a memop argument.
+Add opcodes for backend support for 128-bit memory operations.
 
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tcg/aarch64/tcg-target.h         |  1 -
- tcg/arm/tcg-target.h             |  1 -
- tcg/i386/tcg-target.h            |  3 ---
- tcg/loongarch64/tcg-target.h     |  2 --
- tcg/mips/tcg-target.h            |  2 --
- tcg/ppc/tcg-target.h             |  1 -
- tcg/riscv/tcg-target.h           |  2 --
- tcg/s390x/tcg-target.h           |  2 --
- tcg/sparc64/tcg-target.h         |  1 -
- tcg/tcg-internal.h               |  2 ++
- tcg/tci/tcg-target.h             |  2 --
- tcg/tcg-op.c                     | 20 +++++++++++---------
- tcg/aarch64/tcg-target.c.inc     |  5 +++++
- tcg/arm/tcg-target.c.inc         |  5 +++++
- tcg/i386/tcg-target.c.inc        |  5 +++++
- tcg/loongarch64/tcg-target.c.inc |  5 +++++
- tcg/mips/tcg-target.c.inc        |  5 +++++
- tcg/ppc/tcg-target.c.inc         |  5 +++++
- tcg/riscv/tcg-target.c.inc       |  5 +++++
- tcg/s390x/tcg-target.c.inc       |  5 +++++
- tcg/sparc64/tcg-target.c.inc     |  5 +++++
- tcg/tci/tcg-target.c.inc         |  5 +++++
- 22 files changed, 63 insertions(+), 26 deletions(-)
+ include/tcg/tcg-opc.h        |  8 +++++
+ tcg/aarch64/tcg-target.h     |  2 ++
+ tcg/arm/tcg-target.h         |  2 ++
+ tcg/i386/tcg-target.h        |  2 ++
+ tcg/loongarch64/tcg-target.h |  1 +
+ tcg/mips/tcg-target.h        |  2 ++
+ tcg/ppc/tcg-target.h         |  2 ++
+ tcg/riscv/tcg-target.h       |  2 ++
+ tcg/s390x/tcg-target.h       |  2 ++
+ tcg/sparc64/tcg-target.h     |  2 ++
+ tcg/tci/tcg-target.h         |  2 ++
+ tcg/tcg-op.c                 | 69 ++++++++++++++++++++++++++++++++----
+ tcg/tcg.c                    |  4 +++
+ docs/devel/tcg-ops.rst       | 11 +++---
+ 14 files changed, 101 insertions(+), 10 deletions(-)
 
+diff --git a/include/tcg/tcg-opc.h b/include/tcg/tcg-opc.h
+index dd444734d9..94cf7c5d6a 100644
+--- a/include/tcg/tcg-opc.h
++++ b/include/tcg/tcg-opc.h
+@@ -213,6 +213,14 @@ DEF(qemu_st8_i32, 0, TLADDR_ARGS + 1, 1,
+     TCG_OPF_CALL_CLOBBER | TCG_OPF_SIDE_EFFECTS |
+     IMPL(TCG_TARGET_HAS_qemu_st8_i32))
+ 
++/* Only for 64-bit hosts at the moment. */
++DEF(qemu_ld_i128, 2, 1, 1,
++    TCG_OPF_CALL_CLOBBER | TCG_OPF_SIDE_EFFECTS | TCG_OPF_64BIT |
++    IMPL(TCG_TARGET_HAS_qemu_ldst_i128))
++DEF(qemu_st_i128, 0, 3, 1,
++    TCG_OPF_CALL_CLOBBER | TCG_OPF_SIDE_EFFECTS | TCG_OPF_64BIT |
++    IMPL(TCG_TARGET_HAS_qemu_ldst_i128))
++
+ /* Host vector support.  */
+ 
+ #define IMPLVEC  TCG_OPF_VECTOR | IMPL(TCG_TARGET_MAYBE_vec)
 diff --git a/tcg/aarch64/tcg-target.h b/tcg/aarch64/tcg-target.h
-index 3c0b0d312d..378e01d9d8 100644
+index 378e01d9d8..74ee2ed255 100644
 --- a/tcg/aarch64/tcg-target.h
 +++ b/tcg/aarch64/tcg-target.h
-@@ -154,7 +154,6 @@ extern bool have_lse2;
- #define TCG_TARGET_HAS_cmpsel_vec       0
+@@ -129,6 +129,8 @@ extern bool have_lse2;
+ #define TCG_TARGET_HAS_muluh_i64        1
+ #define TCG_TARGET_HAS_mulsh_i64        1
  
- #define TCG_TARGET_DEFAULT_MO (0)
--#define TCG_TARGET_HAS_MEMORY_BSWAP     0
- #define TCG_TARGET_NEED_LDST_LABELS
- #define TCG_TARGET_NEED_POOL_LABELS
- 
++#define TCG_TARGET_HAS_qemu_ldst_i128   0
++
+ #define TCG_TARGET_HAS_v64              1
+ #define TCG_TARGET_HAS_v128             1
+ #define TCG_TARGET_HAS_v256             0
 diff --git a/tcg/arm/tcg-target.h b/tcg/arm/tcg-target.h
-index def2a189e6..4c2d3332d5 100644
+index 4c2d3332d5..65efc538f4 100644
 --- a/tcg/arm/tcg-target.h
 +++ b/tcg/arm/tcg-target.h
-@@ -150,7 +150,6 @@ extern bool use_neon_instructions;
- #define TCG_TARGET_HAS_cmpsel_vec       0
+@@ -125,6 +125,8 @@ extern bool use_neon_instructions;
+ #define TCG_TARGET_HAS_rem_i32          0
+ #define TCG_TARGET_HAS_qemu_st8_i32     0
  
- #define TCG_TARGET_DEFAULT_MO (0)
--#define TCG_TARGET_HAS_MEMORY_BSWAP     0
- #define TCG_TARGET_NEED_LDST_LABELS
- #define TCG_TARGET_NEED_POOL_LABELS
- 
++#define TCG_TARGET_HAS_qemu_ldst_i128   0
++
+ #define TCG_TARGET_HAS_v64              use_neon_instructions
+ #define TCG_TARGET_HAS_v128             use_neon_instructions
+ #define TCG_TARGET_HAS_v256             0
 diff --git a/tcg/i386/tcg-target.h b/tcg/i386/tcg-target.h
-index 0421776cb8..8fe6958abd 100644
+index 8fe6958abd..943af6775e 100644
 --- a/tcg/i386/tcg-target.h
 +++ b/tcg/i386/tcg-target.h
-@@ -240,9 +240,6 @@ extern bool have_atomic16;
- #include "tcg/tcg-mo.h"
+@@ -194,6 +194,8 @@ extern bool have_atomic16;
+ #define TCG_TARGET_HAS_qemu_st8_i32     1
+ #endif
  
- #define TCG_TARGET_DEFAULT_MO (TCG_MO_ALL & ~TCG_MO_ST_LD)
--
--#define TCG_TARGET_HAS_MEMORY_BSWAP  have_movbe
--
- #define TCG_TARGET_NEED_LDST_LABELS
- #define TCG_TARGET_NEED_POOL_LABELS
- 
++#define TCG_TARGET_HAS_qemu_ldst_i128   0
++
+ /* We do not support older SSE systems, only beginning with AVX1.  */
+ #define TCG_TARGET_HAS_v64              have_avx1
+ #define TCG_TARGET_HAS_v128             have_avx1
 diff --git a/tcg/loongarch64/tcg-target.h b/tcg/loongarch64/tcg-target.h
-index 17b8193aa5..75c3d80ed2 100644
+index 75c3d80ed2..482901ac15 100644
 --- a/tcg/loongarch64/tcg-target.h
 +++ b/tcg/loongarch64/tcg-target.h
-@@ -173,6 +173,4 @@ typedef enum {
- 
- #define TCG_TARGET_NEED_LDST_LABELS
- 
--#define TCG_TARGET_HAS_MEMORY_BSWAP 0
--
- #endif /* LOONGARCH_TCG_TARGET_H */
-diff --git a/tcg/mips/tcg-target.h b/tcg/mips/tcg-target.h
-index 42bd7fff01..47088af9cb 100644
---- a/tcg/mips/tcg-target.h
-+++ b/tcg/mips/tcg-target.h
-@@ -205,8 +205,6 @@ extern bool use_mips32r2_instructions;
- #endif
- 
- #define TCG_TARGET_DEFAULT_MO           0
--#define TCG_TARGET_HAS_MEMORY_BSWAP     0
--
- #define TCG_TARGET_NEED_LDST_LABELS
- 
- #endif
-diff --git a/tcg/ppc/tcg-target.h b/tcg/ppc/tcg-target.h
-index af81c5a57f..d55f0266bb 100644
---- a/tcg/ppc/tcg-target.h
-+++ b/tcg/ppc/tcg-target.h
-@@ -179,7 +179,6 @@ extern bool have_vsx;
- #define TCG_TARGET_HAS_cmpsel_vec       0
+@@ -168,6 +168,7 @@ typedef enum {
+ #define TCG_TARGET_HAS_muls2_i64        0
+ #define TCG_TARGET_HAS_muluh_i64        1
+ #define TCG_TARGET_HAS_mulsh_i64        1
++#define TCG_TARGET_HAS_qemu_ldst_i128   0
  
  #define TCG_TARGET_DEFAULT_MO (0)
--#define TCG_TARGET_HAS_MEMORY_BSWAP     1
- #define TCG_TARGET_NEED_LDST_LABELS
- #define TCG_TARGET_NEED_POOL_LABELS
  
+diff --git a/tcg/mips/tcg-target.h b/tcg/mips/tcg-target.h
+index 47088af9cb..7277a117ef 100644
+--- a/tcg/mips/tcg-target.h
++++ b/tcg/mips/tcg-target.h
+@@ -204,6 +204,8 @@ extern bool use_mips32r2_instructions;
+ #define TCG_TARGET_HAS_ext16u_i64       0 /* andi rt, rs, 0xffff */
+ #endif
+ 
++#define TCG_TARGET_HAS_qemu_ldst_i128   0
++
+ #define TCG_TARGET_DEFAULT_MO           0
+ #define TCG_TARGET_NEED_LDST_LABELS
+ 
+diff --git a/tcg/ppc/tcg-target.h b/tcg/ppc/tcg-target.h
+index d55f0266bb..0914380bd7 100644
+--- a/tcg/ppc/tcg-target.h
++++ b/tcg/ppc/tcg-target.h
+@@ -149,6 +149,8 @@ extern bool have_vsx;
+ #define TCG_TARGET_HAS_mulsh_i64        1
+ #endif
+ 
++#define TCG_TARGET_HAS_qemu_ldst_i128   0
++
+ /*
+  * While technically Altivec could support V64, it has no 64-bit store
+  * instruction and substituting two 32-bit stores makes the generated
 diff --git a/tcg/riscv/tcg-target.h b/tcg/riscv/tcg-target.h
-index dddf2486c1..dece3b3c27 100644
+index dece3b3c27..494c986b49 100644
 --- a/tcg/riscv/tcg-target.h
 +++ b/tcg/riscv/tcg-target.h
-@@ -168,6 +168,4 @@ typedef enum {
- #define TCG_TARGET_NEED_LDST_LABELS
- #define TCG_TARGET_NEED_POOL_LABELS
+@@ -163,6 +163,8 @@ typedef enum {
+ #define TCG_TARGET_HAS_muluh_i64        1
+ #define TCG_TARGET_HAS_mulsh_i64        1
  
--#define TCG_TARGET_HAS_MEMORY_BSWAP 0
--
- #endif
++#define TCG_TARGET_HAS_qemu_ldst_i128   0
++
+ #define TCG_TARGET_DEFAULT_MO (0)
+ 
+ #define TCG_TARGET_NEED_LDST_LABELS
 diff --git a/tcg/s390x/tcg-target.h b/tcg/s390x/tcg-target.h
-index a05b473117..fe05680124 100644
+index fe05680124..170007bea5 100644
 --- a/tcg/s390x/tcg-target.h
 +++ b/tcg/s390x/tcg-target.h
-@@ -172,8 +172,6 @@ extern uint64_t s390_facilities[3];
- #define TCG_TARGET_CALL_ARG_I128        TCG_CALL_ARG_BY_REF
- #define TCG_TARGET_CALL_RET_I128        TCG_CALL_RET_BY_REF
+@@ -140,6 +140,8 @@ extern uint64_t s390_facilities[3];
+ #define TCG_TARGET_HAS_muluh_i64      0
+ #define TCG_TARGET_HAS_mulsh_i64      0
  
--#define TCG_TARGET_HAS_MEMORY_BSWAP   1
--
- #define TCG_TARGET_DEFAULT_MO (TCG_MO_ALL & ~TCG_MO_ST_LD)
- #define TCG_TARGET_NEED_LDST_LABELS
- #define TCG_TARGET_NEED_POOL_LABELS
++#define TCG_TARGET_HAS_qemu_ldst_i128 0
++
+ #define TCG_TARGET_HAS_v64            HAVE_FACILITY(VECTOR)
+ #define TCG_TARGET_HAS_v128           HAVE_FACILITY(VECTOR)
+ #define TCG_TARGET_HAS_v256           0
 diff --git a/tcg/sparc64/tcg-target.h b/tcg/sparc64/tcg-target.h
-index 7434cc99d4..f6cd86975a 100644
+index f6cd86975a..31c5537379 100644
 --- a/tcg/sparc64/tcg-target.h
 +++ b/tcg/sparc64/tcg-target.h
-@@ -154,7 +154,6 @@ extern bool use_vis3_instructions;
+@@ -151,6 +151,8 @@ extern bool use_vis3_instructions;
+ #define TCG_TARGET_HAS_muluh_i64        use_vis3_instructions
+ #define TCG_TARGET_HAS_mulsh_i64        0
+ 
++#define TCG_TARGET_HAS_qemu_ldst_i128   0
++
  #define TCG_AREG0 TCG_REG_I0
  
  #define TCG_TARGET_DEFAULT_MO (0)
--#define TCG_TARGET_HAS_MEMORY_BSWAP     1
- #define TCG_TARGET_NEED_LDST_LABELS
- #define TCG_TARGET_NEED_POOL_LABELS
- 
-diff --git a/tcg/tcg-internal.h b/tcg/tcg-internal.h
-index 0f1ba01a9a..67b698bd5c 100644
---- a/tcg/tcg-internal.h
-+++ b/tcg/tcg-internal.h
-@@ -126,4 +126,6 @@ static inline TCGv_i64 TCGV128_HIGH(TCGv_i128 t)
-     return temp_tcgv_i64(tcgv_i128_temp(t) + o);
- }
- 
-+bool tcg_target_has_memory_bswap(MemOp memop);
-+
- #endif /* TCG_INTERNAL_H */
 diff --git a/tcg/tci/tcg-target.h b/tcg/tci/tcg-target.h
-index 7140a76a73..364012e4d2 100644
+index 364012e4d2..28dc6d5cfc 100644
 --- a/tcg/tci/tcg-target.h
 +++ b/tcg/tci/tcg-target.h
-@@ -176,6 +176,4 @@ typedef enum {
-    We prefer consistency across hosts on this.  */
- #define TCG_TARGET_DEFAULT_MO  (0)
+@@ -127,6 +127,8 @@
+ #define TCG_TARGET_HAS_mulu2_i32        1
+ #endif /* TCG_TARGET_REG_BITS == 64 */
  
--#define TCG_TARGET_HAS_MEMORY_BSWAP     1
--
- #endif /* TCG_TARGET_H */
++#define TCG_TARGET_HAS_qemu_ldst_i128   0
++
+ /* Number of registers available. */
+ #define TCG_TARGET_NB_REGS 16
+ 
 diff --git a/tcg/tcg-op.c b/tcg/tcg-op.c
-index 9101d334b6..85f22458c9 100644
+index 85f22458c9..06d3181fd0 100644
 --- a/tcg/tcg-op.c
 +++ b/tcg/tcg-op.c
-@@ -2959,7 +2959,7 @@ void tcg_gen_qemu_ld_i32(TCGv_i32 val, TCGv addr, TCGArg idx, MemOp memop)
-     oi = make_memop_idx(memop, idx);
+@@ -3216,7 +3216,7 @@ static void canonicalize_memop_i128_as_i64(MemOp ret[2], MemOp orig)
  
-     orig_memop = memop;
--    if (!TCG_TARGET_HAS_MEMORY_BSWAP && (memop & MO_BSWAP)) {
-+    if ((memop & MO_BSWAP) && !tcg_target_has_memory_bswap(memop)) {
-         memop &= ~MO_BSWAP;
-         /* The bswap primitive benefits from zero-extended input.  */
-         if ((memop & MO_SSIZE) == MO_SW) {
-@@ -2996,7 +2996,7 @@ void tcg_gen_qemu_st_i32(TCGv_i32 val, TCGv addr, TCGArg idx, MemOp memop)
-     memop = tcg_canonicalize_memop(memop, 0, 1);
-     oi = make_memop_idx(memop, idx);
- 
--    if (!TCG_TARGET_HAS_MEMORY_BSWAP && (memop & MO_BSWAP)) {
-+    if ((memop & MO_BSWAP) && !tcg_target_has_memory_bswap(memop)) {
-         swap = tcg_temp_ebb_new_i32();
-         switch (memop & MO_SIZE) {
-         case MO_16:
-@@ -3045,7 +3045,7 @@ void tcg_gen_qemu_ld_i64(TCGv_i64 val, TCGv addr, TCGArg idx, MemOp memop)
-     oi = make_memop_idx(memop, idx);
- 
-     orig_memop = memop;
--    if (!TCG_TARGET_HAS_MEMORY_BSWAP && (memop & MO_BSWAP)) {
-+    if ((memop & MO_BSWAP) && !tcg_target_has_memory_bswap(memop)) {
-         memop &= ~MO_BSWAP;
-         /* The bswap primitive benefits from zero-extended input.  */
-         if ((memop & MO_SIGN) && (memop & MO_SIZE) < MO_64) {
-@@ -3091,7 +3091,7 @@ void tcg_gen_qemu_st_i64(TCGv_i64 val, TCGv addr, TCGArg idx, MemOp memop)
-     memop = tcg_canonicalize_memop(memop, 1, 1);
-     oi = make_memop_idx(memop, idx);
- 
--    if (!TCG_TARGET_HAS_MEMORY_BSWAP && (memop & MO_BSWAP)) {
-+    if ((memop & MO_BSWAP) && !tcg_target_has_memory_bswap(memop)) {
-         swap = tcg_temp_ebb_new_i64();
-         switch (memop & MO_SIZE) {
-         case MO_16:
-@@ -3168,11 +3168,6 @@ static void canonicalize_memop_i128_as_i64(MemOp ret[2], MemOp orig)
-     tcg_debug_assert((orig & MO_SIZE) == MO_128);
-     tcg_debug_assert((orig & MO_SIGN) == 0);
- 
--    /* Use a memory ordering implemented by the host. */
--    if (!TCG_TARGET_HAS_MEMORY_BSWAP && (orig & MO_BSWAP)) {
--        mop_1 &= ~MO_BSWAP;
--    }
--
-     /* Reduce the size to 64-bit. */
-     mop_1 = (mop_1 & ~MO_SIZE) | MO_64;
- 
-@@ -3202,6 +3197,13 @@ static void canonicalize_memop_i128_as_i64(MemOp ret[2], MemOp orig)
-     default:
-         g_assert_not_reached();
-     }
-+
-+    /* Use a memory ordering implemented by the host. */
-+    if ((orig & MO_BSWAP) && !tcg_target_has_memory_bswap(mop_1)) {
-+        mop_1 &= ~MO_BSWAP;
-+        mop_2 &= ~MO_BSWAP;
-+    }
-+
-     ret[0] = mop_1;
-     ret[1] = mop_2;
- }
-diff --git a/tcg/aarch64/tcg-target.c.inc b/tcg/aarch64/tcg-target.c.inc
-index 09c9ecad0f..8e5f3d3688 100644
---- a/tcg/aarch64/tcg-target.c.inc
-+++ b/tcg/aarch64/tcg-target.c.inc
-@@ -1595,6 +1595,11 @@ typedef struct {
-     TCGType index_ext;
- } HostAddress;
- 
-+bool tcg_target_has_memory_bswap(MemOp memop)
-+{
-+    return false;
-+}
-+
- static const TCGLdstHelperParam ldst_helper_param = {
-     .ntmp = 1, .tmp = { TCG_REG_TMP }
- };
-diff --git a/tcg/arm/tcg-target.c.inc b/tcg/arm/tcg-target.c.inc
-index eb0542f32e..e5aed03247 100644
---- a/tcg/arm/tcg-target.c.inc
-+++ b/tcg/arm/tcg-target.c.inc
-@@ -1325,6 +1325,11 @@ typedef struct {
-     bool index_scratch;
- } HostAddress;
- 
-+bool tcg_target_has_memory_bswap(MemOp memop)
-+{
-+    return false;
-+}
-+
- static TCGReg ldst_ra_gen(TCGContext *s, const TCGLabelQemuLdst *l, int arg)
+ void tcg_gen_qemu_ld_i128(TCGv_i128 val, TCGv addr, TCGArg idx, MemOp memop)
  {
-     /* We arrive at the slow path via "BLNE", so R14 contains l->raddr. */
-diff --git a/tcg/i386/tcg-target.c.inc b/tcg/i386/tcg-target.c.inc
-index e78d4d4aa7..7c72bf6684 100644
---- a/tcg/i386/tcg-target.c.inc
-+++ b/tcg/i386/tcg-target.c.inc
-@@ -1776,6 +1776,11 @@ typedef struct {
-     int seg;
- } HostAddress;
+-    MemOpIdx oi = make_memop_idx(memop, idx);
++    const MemOpIdx oi = make_memop_idx(memop, idx);
  
-+bool tcg_target_has_memory_bswap(MemOp memop)
-+{
-+    return have_movbe;
-+}
-+
- /*
-  * Because i686 has no register parameters and because x86_64 has xchg
-  * to handle addr/data register overlap, we have placed all input arguments
-diff --git a/tcg/loongarch64/tcg-target.c.inc b/tcg/loongarch64/tcg-target.c.inc
-index 20cb21b264..62bf823084 100644
---- a/tcg/loongarch64/tcg-target.c.inc
-+++ b/tcg/loongarch64/tcg-target.c.inc
-@@ -828,6 +828,11 @@ typedef struct {
-     TCGReg index;
- } HostAddress;
+     tcg_debug_assert((memop & MO_SIZE) == MO_128);
+     tcg_debug_assert((memop & MO_SIGN) == 0);
+@@ -3224,9 +3224,36 @@ void tcg_gen_qemu_ld_i128(TCGv_i128 val, TCGv addr, TCGArg idx, MemOp memop)
+     tcg_gen_req_mo(TCG_MO_LD_LD | TCG_MO_ST_LD);
+     addr = plugin_prep_mem_callbacks(addr);
  
-+bool tcg_target_has_memory_bswap(MemOp memop)
-+{
-+    return false;
-+}
-+
- /*
-  * For softmmu, perform the TLB load and compare.
-  * For useronly, perform any required alignment tests.
-diff --git a/tcg/mips/tcg-target.c.inc b/tcg/mips/tcg-target.c.inc
-index fa0f334e8d..cd0254a0d7 100644
---- a/tcg/mips/tcg-target.c.inc
-+++ b/tcg/mips/tcg-target.c.inc
-@@ -1141,6 +1141,11 @@ typedef struct {
-     MemOp align;
- } HostAddress;
+-    /* TODO: allow the tcg backend to see the whole operation. */
++    /* TODO: For now, force 32-bit hosts to use the helper. */
++    if (TCG_TARGET_HAS_qemu_ldst_i128 && TCG_TARGET_REG_BITS == 64) {
++        TCGv_i64 lo, hi;
++        TCGArg addr_arg;
++        MemOpIdx adj_oi;
++        bool need_bswap = false;
  
-+bool tcg_target_has_memory_bswap(MemOp memop)
-+{
-+    return false;
-+}
+-    if (use_two_i64_for_i128(memop)) {
++        if ((memop & MO_BSWAP) && !tcg_target_has_memory_bswap(memop)) {
++            lo = TCGV128_HIGH(val);
++            hi = TCGV128_LOW(val);
++            adj_oi = make_memop_idx(memop & ~MO_BSWAP, idx);
++            need_bswap = true;
++        } else {
++            lo = TCGV128_LOW(val);
++            hi = TCGV128_HIGH(val);
++            adj_oi = oi;
++        }
 +
- /*
-  * For softmmu, perform the TLB load and compare.
-  * For useronly, perform any required alignment tests.
-diff --git a/tcg/ppc/tcg-target.c.inc b/tcg/ppc/tcg-target.c.inc
-index 733f67c7a5..f0a4118bbb 100644
---- a/tcg/ppc/tcg-target.c.inc
-+++ b/tcg/ppc/tcg-target.c.inc
-@@ -2017,6 +2017,11 @@ typedef struct {
-     TCGReg index;
- } HostAddress;
++#if TARGET_LONG_BITS == 32
++        addr_arg = tcgv_i32_arg(addr);
++#else
++        addr_arg = tcgv_i64_arg(addr);
++#endif
++        tcg_gen_op4ii_i64(INDEX_op_qemu_ld_i128, lo, hi, addr_arg, adj_oi);
++
++        if (need_bswap) {
++            tcg_gen_bswap64_i64(lo, lo);
++            tcg_gen_bswap64_i64(hi, hi);
++        }
++    } else if (use_two_i64_for_i128(memop)) {
+         MemOp mop[2];
+         TCGv addr_p8;
+         TCGv_i64 x, y;
+@@ -3269,7 +3296,7 @@ void tcg_gen_qemu_ld_i128(TCGv_i128 val, TCGv addr, TCGArg idx, MemOp memop)
  
-+bool tcg_target_has_memory_bswap(MemOp memop)
-+{
-+    return true;
-+}
-+
- /*
-  * For softmmu, perform the TLB load and compare.
-  * For useronly, perform any required alignment tests.
-diff --git a/tcg/riscv/tcg-target.c.inc b/tcg/riscv/tcg-target.c.inc
-index 415e6c6e15..37870c89fc 100644
---- a/tcg/riscv/tcg-target.c.inc
-+++ b/tcg/riscv/tcg-target.c.inc
-@@ -853,6 +853,11 @@ static void tcg_out_goto(TCGContext *s, const tcg_insn_unit *target)
-     tcg_debug_assert(ok);
- }
- 
-+bool tcg_target_has_memory_bswap(MemOp memop)
-+{
-+    return false;
-+}
-+
- /* We have three temps, we might as well expose them. */
- static const TCGLdstHelperParam ldst_helper_param = {
-     .ntmp = 3, .tmp = { TCG_REG_TMP0, TCG_REG_TMP1, TCG_REG_TMP2 }
-diff --git a/tcg/s390x/tcg-target.c.inc b/tcg/s390x/tcg-target.c.inc
-index de8aed5f77..22f0206b5a 100644
---- a/tcg/s390x/tcg-target.c.inc
-+++ b/tcg/s390x/tcg-target.c.inc
-@@ -1574,6 +1574,11 @@ typedef struct {
-     int disp;
- } HostAddress;
- 
-+bool tcg_target_has_memory_bswap(MemOp memop)
-+{
-+    return true;
-+}
-+
- static void tcg_out_qemu_ld_direct(TCGContext *s, MemOp opc, TCGReg data,
-                                    HostAddress h)
+ void tcg_gen_qemu_st_i128(TCGv_i128 val, TCGv addr, TCGArg idx, MemOp memop)
  {
-diff --git a/tcg/sparc64/tcg-target.c.inc b/tcg/sparc64/tcg-target.c.inc
-index 0237188d65..bb23038529 100644
---- a/tcg/sparc64/tcg-target.c.inc
-+++ b/tcg/sparc64/tcg-target.c.inc
-@@ -1011,6 +1011,11 @@ typedef struct {
-     TCGReg index;
- } HostAddress;
+-    MemOpIdx oi = make_memop_idx(memop, idx);
++    const MemOpIdx oi = make_memop_idx(memop, idx);
  
-+bool tcg_target_has_memory_bswap(MemOp memop)
-+{
-+    return true;
-+}
+     tcg_debug_assert((memop & MO_SIZE) == MO_128);
+     tcg_debug_assert((memop & MO_SIGN) == 0);
+@@ -3277,9 +3304,39 @@ void tcg_gen_qemu_st_i128(TCGv_i128 val, TCGv addr, TCGArg idx, MemOp memop)
+     tcg_gen_req_mo(TCG_MO_ST_LD | TCG_MO_ST_ST);
+     addr = plugin_prep_mem_callbacks(addr);
+ 
+-    /* TODO: allow the tcg backend to see the whole operation. */
++    /* TODO: For now, force 32-bit hosts to use the helper. */
+ 
+-    if (use_two_i64_for_i128(memop)) {
++    if (TCG_TARGET_HAS_qemu_ldst_i128 && TCG_TARGET_REG_BITS == 64) {
++        TCGv_i64 lo, hi;
++        TCGArg addr_arg;
++        MemOpIdx adj_oi;
++        bool need_bswap = false;
 +
- /*
-  * For softmmu, perform the TLB load and compare.
-  * For useronly, perform any required alignment tests.
-diff --git a/tcg/tci/tcg-target.c.inc b/tcg/tci/tcg-target.c.inc
-index e31640d109..89f693050c 100644
---- a/tcg/tci/tcg-target.c.inc
-+++ b/tcg/tci/tcg-target.c.inc
-@@ -964,3 +964,8 @@ static void tcg_target_init(TCGContext *s)
- static inline void tcg_target_qemu_prologue(TCGContext *s)
- {
- }
++        if ((memop & MO_BSWAP) && !tcg_target_has_memory_bswap(memop)) {
++            lo = tcg_temp_new_i64();
++            hi = tcg_temp_new_i64();
++            tcg_gen_bswap64_i64(lo, TCGV128_HIGH(val));
++            tcg_gen_bswap64_i64(hi, TCGV128_LOW(val));
++            adj_oi = make_memop_idx(memop & ~MO_BSWAP, idx);
++            need_bswap = true;
++        } else {
++            lo = TCGV128_LOW(val);
++            hi = TCGV128_HIGH(val);
++            adj_oi = oi;
++        }
 +
-+bool tcg_target_has_memory_bswap(MemOp memop)
-+{
-+    return true;
-+}
++#if TARGET_LONG_BITS == 32
++        addr_arg = tcgv_i32_arg(addr);
++#else
++        addr_arg = tcgv_i64_arg(addr);
++#endif
++        tcg_gen_op4ii_i64(INDEX_op_qemu_st_i128, lo, hi, addr_arg, adj_oi);
++
++        if (need_bswap) {
++            tcg_temp_free_i64(lo);
++            tcg_temp_free_i64(hi);
++        }
++    } else if (use_two_i64_for_i128(memop)) {
+         MemOp mop[2];
+         TCGv addr_p8;
+         TCGv_i64 x, y;
+diff --git a/tcg/tcg.c b/tcg/tcg.c
+index cb5ca9b612..b0e30a55ca 100644
+--- a/tcg/tcg.c
++++ b/tcg/tcg.c
+@@ -1718,6 +1718,10 @@ bool tcg_op_supported(TCGOpcode op)
+     case INDEX_op_qemu_st8_i32:
+         return TCG_TARGET_HAS_qemu_st8_i32;
+ 
++    case INDEX_op_qemu_ld_i128:
++    case INDEX_op_qemu_st_i128:
++        return TCG_TARGET_HAS_qemu_ldst_i128;
++
+     case INDEX_op_mov_i32:
+     case INDEX_op_setcond_i32:
+     case INDEX_op_brcond_i32:
+diff --git a/docs/devel/tcg-ops.rst b/docs/devel/tcg-ops.rst
+index f3f451b77f..6a166c5665 100644
+--- a/docs/devel/tcg-ops.rst
++++ b/docs/devel/tcg-ops.rst
+@@ -672,19 +672,20 @@ QEMU specific operations
+        | This operation is optional. If the TCG backend does not implement the
+          goto_ptr opcode, emitting this op is equivalent to emitting exit_tb(0).
+ 
+-   * - qemu_ld_i32/i64 *t0*, *t1*, *flags*, *memidx*
++   * - qemu_ld_i32/i64/i128 *t0*, *t1*, *flags*, *memidx*
+ 
+-       qemu_st_i32/i64 *t0*, *t1*, *flags*, *memidx*
++       qemu_st_i32/i64/i128 *t0*, *t1*, *flags*, *memidx*
+ 
+        qemu_st8_i32 *t0*, *t1*, *flags*, *memidx*
+ 
+      - | Load data at the guest address *t1* into *t0*, or store data in *t0* at guest
+-         address *t1*.  The _i32/_i64 size applies to the size of the input/output
++         address *t1*.  The _i32/_i64/_i128 size applies to the size of the input/output
+          register *t0* only.  The address *t1* is always sized according to the guest,
+          and the width of the memory operation is controlled by *flags*.
+        |
+        | Both *t0* and *t1* may be split into little-endian ordered pairs of registers
+-         if dealing with 64-bit quantities on a 32-bit host.
++         if dealing with 64-bit quantities on a 32-bit host, or 128-bit quantities on
++         a 64-bit host.
+        |
+        | The *memidx* selects the qemu tlb index to use (e.g. user or kernel access).
+          The flags are the MemOp bits, selecting the sign, width, and endianness
+@@ -693,6 +694,8 @@ QEMU specific operations
+        | For a 32-bit host, qemu_ld/st_i64 is guaranteed to only be used with a
+          64-bit memory access specified in *flags*.
+        |
++       | For qemu_ld/st_i128, these are only supported for a 64-bit host.
++       |
+        | For i386, qemu_st8_i32 is exactly like qemu_st_i32, except the size of
+          the memory operation is known to be 8-bit.  This allows the backend to
+          provide a different set of register constraints.
 -- 
 2.34.1
 
