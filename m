@@ -2,69 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D9086F5F43
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FE466F5F40
 	for <lists+qemu-devel@lfdr.de>; Wed,  3 May 2023 21:40:08 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1puIJQ-0004Ia-37; Wed, 03 May 2023 15:38:52 -0400
+	id 1puIJQ-0004Ke-IS; Wed, 03 May 2023 15:38:52 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <farosas@suse.de>)
- id 1puIJJ-00044X-9l; Wed, 03 May 2023 15:38:46 -0400
-Received: from smtp-out1.suse.de ([2001:67c:2178:6::1c])
+ id 1puIJN-0004CS-4a; Wed, 03 May 2023 15:38:49 -0400
+Received: from smtp-out2.suse.de ([195.135.220.29])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <farosas@suse.de>)
- id 1puIJH-0007gm-S2; Wed, 03 May 2023 15:38:45 -0400
+ id 1puIJL-0007xd-3Z; Wed, 03 May 2023 15:38:48 -0400
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 7350E22C23;
- Wed,  3 May 2023 19:38:42 +0000 (UTC)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 86F5F206A5;
+ Wed,  3 May 2023 19:38:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1683142722; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1683142725; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ehEY6N7BVI4T/u6lbUad4g753KQ1tp1Ylfn20vttUXw=;
- b=CYrfLNVvvyY+XUlCvRUtEoQtfEHYPrUn7MYUmvxmf3ZFK86nHUm4faBjlVAVIMQ5nS3f4L
- j9nk4o4QOWpgHD17hNexqW5HFxrtezaGwJuHd9Nw8vw95GRmQMu++66q7yUXrG8TOE3QaA
- gKSfvQ4/oJUOJXGwm69nPzzdfZwpZP8=
+ bh=60RJNHL0Z614KMy2kOVdvDC6twMO69e3mE8TdhIdKiI=;
+ b=oI58QeEXBCAZiFCrxGgHkG/PtBScFpWRcbHVEWze4YGeFNJJzb+StbsJtn/UXiff/cHC3U
+ IXPSQmgxz2fuP3ffnpg1yFIM2fGE6ovkFclfOYcq2e7u25d65OCJVXo0T8NCI4MszYHgNK
+ heiroXEz/XbDs5i2E7a/NF/ZCtj3n2E=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1683142722;
+ s=susede2_ed25519; t=1683142725;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ehEY6N7BVI4T/u6lbUad4g753KQ1tp1Ylfn20vttUXw=;
- b=bu5Jxa+1TxMhLfd6Cfg0n3wIVJHKByvTaRpWmVzxBNONteU30K2bK8CLf1FA8KTTT4o4D2
- 35fRFgLRV3zi6PCQ==
+ bh=60RJNHL0Z614KMy2kOVdvDC6twMO69e3mE8TdhIdKiI=;
+ b=rhp2pB1k7o0j22jQwIS3w15Gif+QMYc8+UFTldl35tVzpRSNR2m0jIMuc+hDMHicKHIL1M
+ lUcHutZpYzsK3sBA==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id A9C991331F;
- Wed,  3 May 2023 19:38:40 +0000 (UTC)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id DFC871331F;
+ Wed,  3 May 2023 19:38:42 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id 6BpjHEC4UmTNYQAAMHmgww
- (envelope-from <farosas@suse.de>); Wed, 03 May 2023 19:38:40 +0000
+ by imap2.suse-dmz.suse.de with ESMTPSA id +IewKUK4UmTNYQAAMHmgww
+ (envelope-from <farosas@suse.de>); Wed, 03 May 2023 19:38:42 +0000
 From: Fabiano Rosas <farosas@suse.de>
 To: qemu-devel@nongnu.org
 Cc: qemu-arm@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: [PATCH 2/3] target/arm: Add CONFIG_ARM_V7M back to default.mak
-Date: Wed,  3 May 2023 16:38:32 -0300
-Message-Id: <20230503193833.29047-3-farosas@suse.de>
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ John Snow <jsnow@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+Subject: [PATCH 3/3] tests/qtest: Don't run cdrom tests if no accelerator is
+ present
+Date: Wed,  3 May 2023 16:38:33 -0300
+Message-Id: <20230503193833.29047-4-farosas@suse.de>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20230503193833.29047-1-farosas@suse.de>
 References: <20230503193833.29047-1-farosas@suse.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2001:67c:2178:6::1c; envelope-from=farosas@suse.de;
- helo=smtp-out1.suse.de
+Received-SPF: pass client-ip=195.135.220.29; envelope-from=farosas@suse.de;
+ helo=smtp-out2.suse.de
 X-Spam_score_int: -43
 X-Spam_score: -4.4
 X-Spam_bar: ----
@@ -87,35 +90,32 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-We cannot allow this config to be disabled at the moment as not all of
-the relevant code is protected by it.
+On a build configured with: --disable-tcg --enable-xen it is possible
+to produce a QEMU binary with no TCG nor KVM support. Skip the test if
+that's the case.
 
-Commit 29d9efca16 ("arm/Kconfig: Do not build TCG-only boards on a
-KVM-only build") moved the CONFIGs of several boards to Kconfig, so it
-is now possible that nothing selects ARM_V7M (e.g. when doing a
---without-default-devices build).
-
-Return the CONFIG_ARM_V7M entry to default.mak while we don't enable
-the compilation without it. Note that this goes against the intention
-of commit cd43648a44 ("hw/arm: move CONFIG_V7M out of
-default-devices"), but at this point this is the smallest change we
-can do.
-
-Fixes: 29d9efca16 ("arm/Kconfig: Do not build TCG-only boards on a KVM-only build")
+Fixes: 0c1ae3ff9d ("tests/qtest: Fix tests when no KVM or TCG are present")
 Signed-off-by: Fabiano Rosas <farosas@suse.de>
 ---
- configs/devices/arm-softmmu/default.mak | 1 +
- 1 file changed, 1 insertion(+)
+ tests/qtest/cdrom-test.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/configs/devices/arm-softmmu/default.mak b/configs/devices/arm-softmmu/default.mak
-index 647fbce88d..0c2b24d6bb 100644
---- a/configs/devices/arm-softmmu/default.mak
-+++ b/configs/devices/arm-softmmu/default.mak
-@@ -4,3 +4,4 @@
- # CONFIG_TEST_DEVICES=n
+diff --git a/tests/qtest/cdrom-test.c b/tests/qtest/cdrom-test.c
+index 26a2400181..09655e6ff0 100644
+--- a/tests/qtest/cdrom-test.c
++++ b/tests/qtest/cdrom-test.c
+@@ -205,6 +205,11 @@ int main(int argc, char **argv)
  
- CONFIG_ARM_VIRT=y
-+CONFIG_ARM_V7M=y
+     g_test_init(&argc, &argv, NULL);
+ 
++    if (!qtest_has_accel("tcg") && !qtest_has_accel("kvm")) {
++        g_test_skip("No KVM or TCG accelerator available");
++        return 0;
++    }
++
+     if (exec_genisoimg(genisocheck)) {
+         /* genisoimage not available - so can't run tests */
+         return g_test_run();
 -- 
 2.35.3
 
