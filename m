@@ -2,63 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2DE586F5F41
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D9086F5F43
 	for <lists+qemu-devel@lfdr.de>; Wed,  3 May 2023 21:40:08 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1puIJO-0004Co-Nl; Wed, 03 May 2023 15:38:50 -0400
+	id 1puIJQ-0004Ia-37; Wed, 03 May 2023 15:38:52 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <farosas@suse.de>)
- id 1puIJH-0003zz-SJ; Wed, 03 May 2023 15:38:44 -0400
+ id 1puIJJ-00044X-9l; Wed, 03 May 2023 15:38:46 -0400
 Received: from smtp-out1.suse.de ([2001:67c:2178:6::1c])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <farosas@suse.de>)
- id 1puIJF-0007XY-SX; Wed, 03 May 2023 15:38:43 -0400
+ id 1puIJH-0007gm-S2; Wed, 03 May 2023 15:38:45 -0400
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 3C89B22A6A;
- Wed,  3 May 2023 19:38:40 +0000 (UTC)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 7350E22C23;
+ Wed,  3 May 2023 19:38:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1683142720; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1683142722; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=FMkR8ROiTDRblwmZyLlgCGzvw8AEIUBQf4MAED6t31Q=;
- b=OtG/eHpDZnJSHx+Y5rszzGe7ePRjsPKFsTuhyJ+mYW5ljg7ZnAZX98FDyxnD8ujE/JI4LJ
- T983HlAtbx/xk8f5/Nn0JAixEOBrBtGgJAgO3XGjrs7RrraqkxXhv2PsowmRkL8pSjWgL/
- lp0hyUx9ZQC9VyJGlIXY6XRSzQAQAak=
+ bh=ehEY6N7BVI4T/u6lbUad4g753KQ1tp1Ylfn20vttUXw=;
+ b=CYrfLNVvvyY+XUlCvRUtEoQtfEHYPrUn7MYUmvxmf3ZFK86nHUm4faBjlVAVIMQ5nS3f4L
+ j9nk4o4QOWpgHD17hNexqW5HFxrtezaGwJuHd9Nw8vw95GRmQMu++66q7yUXrG8TOE3QaA
+ gKSfvQ4/oJUOJXGwm69nPzzdfZwpZP8=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1683142720;
+ s=susede2_ed25519; t=1683142722;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=FMkR8ROiTDRblwmZyLlgCGzvw8AEIUBQf4MAED6t31Q=;
- b=CuWj5nnWlkzrhIMNUcQovQHlLhe9HMy1GdRtwkmmD1AxPp8W/8zB0mQ98jEREEHO1AZDH3
- 1kcMbc1/wMdcMFAg==
+ bh=ehEY6N7BVI4T/u6lbUad4g753KQ1tp1Ylfn20vttUXw=;
+ b=bu5Jxa+1TxMhLfd6Cfg0n3wIVJHKByvTaRpWmVzxBNONteU30K2bK8CLf1FA8KTTT4o4D2
+ 35fRFgLRV3zi6PCQ==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 728EA1331F;
- Wed,  3 May 2023 19:38:38 +0000 (UTC)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id A9C991331F;
+ Wed,  3 May 2023 19:38:40 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id GMauDj64UmTNYQAAMHmgww
- (envelope-from <farosas@suse.de>); Wed, 03 May 2023 19:38:38 +0000
+ by imap2.suse-dmz.suse.de with ESMTPSA id 6BpjHEC4UmTNYQAAMHmgww
+ (envelope-from <farosas@suse.de>); Wed, 03 May 2023 19:38:40 +0000
 From: Fabiano Rosas <farosas@suse.de>
 To: qemu-devel@nongnu.org
 Cc: qemu-arm@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  Richard Henderson <richard.henderson@linaro.org>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: [PATCH 1/3] target/arm: Use CONFIG_SEMIHOSTING instead of TCG for
- semihosting
-Date: Wed,  3 May 2023 16:38:31 -0300
-Message-Id: <20230503193833.29047-2-farosas@suse.de>
+Subject: [PATCH 2/3] target/arm: Add CONFIG_ARM_V7M back to default.mak
+Date: Wed,  3 May 2023 16:38:32 -0300
+Message-Id: <20230503193833.29047-3-farosas@suse.de>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20230503193833.29047-1-farosas@suse.de>
 References: <20230503193833.29047-1-farosas@suse.de>
@@ -88,51 +87,35 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-When building --without-default-devices, the semihosting code will not
-be available, so check the proper config.
+We cannot allow this config to be disabled at the moment as not all of
+the relevant code is protected by it.
+
+Commit 29d9efca16 ("arm/Kconfig: Do not build TCG-only boards on a
+KVM-only build") moved the CONFIGs of several boards to Kconfig, so it
+is now possible that nothing selects ARM_V7M (e.g. when doing a
+--without-default-devices build).
+
+Return the CONFIG_ARM_V7M entry to default.mak while we don't enable
+the compilation without it. Note that this goes against the intention
+of commit cd43648a44 ("hw/arm: move CONFIG_V7M out of
+default-devices"), but at this point this is the smallest change we
+can do.
 
 Fixes: 29d9efca16 ("arm/Kconfig: Do not build TCG-only boards on a KVM-only build")
 Signed-off-by: Fabiano Rosas <farosas@suse.de>
 ---
- target/arm/helper.c       | 4 ++--
- target/arm/tcg/m_helper.c | 2 +-
- 2 files changed, 3 insertions(+), 3 deletions(-)
+ configs/devices/arm-softmmu/default.mak | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/target/arm/helper.c b/target/arm/helper.c
-index 2297626bfb..24bb7efb34 100644
---- a/target/arm/helper.c
-+++ b/target/arm/helper.c
-@@ -10972,7 +10972,7 @@ static void arm_cpu_do_interrupt_aarch64(CPUState *cs)
-  * We only see semihosting exceptions in TCG only as they are not
-  * trapped to the hypervisor in KVM.
-  */
--#ifdef CONFIG_TCG
-+#ifdef CONFIG_SEMIHOSTING
- static void tcg_handle_semihosting(CPUState *cs)
- {
-     ARMCPU *cpu = ARM_CPU(cs);
-@@ -11033,7 +11033,7 @@ void arm_cpu_do_interrupt(CPUState *cs)
-      * that caused the exception, not the target exception level, so
-      * must be handled here.
-      */
--#ifdef CONFIG_TCG
-+#ifdef CONFIG_SEMIHOSTING
-     if (cs->exception_index == EXCP_SEMIHOST) {
-         tcg_handle_semihosting(cs);
-         return;
-diff --git a/target/arm/tcg/m_helper.c b/target/arm/tcg/m_helper.c
-index 9758f225d6..4261f1bb1e 100644
---- a/target/arm/tcg/m_helper.c
-+++ b/target/arm/tcg/m_helper.c
-@@ -2345,7 +2345,7 @@ void arm_v7m_cpu_do_interrupt(CPUState *cs)
-         qemu_log_mask(CPU_LOG_INT,
-                       "...handling as semihosting call 0x%x\n",
-                       env->regs[0]);
--#ifdef CONFIG_TCG
-+#ifdef CONFIG_SEMIHOSTING
-         do_common_semihosting(cs);
- #else
-         g_assert_not_reached();
+diff --git a/configs/devices/arm-softmmu/default.mak b/configs/devices/arm-softmmu/default.mak
+index 647fbce88d..0c2b24d6bb 100644
+--- a/configs/devices/arm-softmmu/default.mak
++++ b/configs/devices/arm-softmmu/default.mak
+@@ -4,3 +4,4 @@
+ # CONFIG_TEST_DEVICES=n
+ 
+ CONFIG_ARM_VIRT=y
++CONFIG_ARM_V7M=y
 -- 
 2.35.3
 
