@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2BE376F511C
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 May 2023 09:20:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EA1446F5128
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 May 2023 09:21:07 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pu6do-0004Ny-Ih; Wed, 03 May 2023 03:11:08 -0400
+	id 1pu6do-0004O5-Gp; Wed, 03 May 2023 03:11:08 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pu6dP-0002vg-7P
+ id 1pu6dN-0002tj-Rd
  for qemu-devel@nongnu.org; Wed, 03 May 2023 03:10:46 -0400
 Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pu6dI-00073z-6P
- for qemu-devel@nongnu.org; Wed, 03 May 2023 03:10:42 -0400
+ id 1pu6dI-00074P-63
+ for qemu-devel@nongnu.org; Wed, 03 May 2023 03:10:41 -0400
 Received: by mail-wm1-x332.google.com with SMTP id
- 5b1f17b1804b1-3f1cfed93e2so47445575e9.3
- for <qemu-devel@nongnu.org>; Wed, 03 May 2023 00:10:33 -0700 (PDT)
+ 5b1f17b1804b1-3f178da21afso31657765e9.1
+ for <qemu-devel@nongnu.org>; Wed, 03 May 2023 00:10:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1683097832; x=1685689832;
+ d=linaro.org; s=google; t=1683097833; x=1685689833;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=VhQ4va+L9W76HQPa92crHAm/u67MMsKKHsaZ1OacYxI=;
- b=YfptR6pqg1Vnv0yQUAJz8GXu0u9C5ZCRaGoqgRok2t9NXbAF3kw1MsI8r3SZYdp+py
- Y8FdFW6U81nJnORVVXzt9vtDJw2X0ujdKHvgpuFc4Ng1kP5lFFfiW4fRJi5tzv1fUR48
- RljohxYQ/KiOfi9FP/o5Jrx/SBLlxSUJBg59TAwHPuDJzikfeEQ/aG5yFWaCvHsfl8Fj
- kaDfx23Z6erdRu6WlBKZEQ00w7SMk+LjzTIR2Ljq14siaaVUqwuT6HyGHbw2UhkhUzX2
- 1OuDXyBvzWf1pvM/pP8PLZFEx5TLVoLiRljiF2cGh/B+DuijPyq+D6xTnTSd72ymJADB
- bZYA==
+ bh=naApWSmi65k1gRAeLMa4iVYTmTT0eNi8LAPHTVnKRRQ=;
+ b=Cozna/z3vEy8KdOLgrqsl6EX/BGC2ZOsrTPy5wQbRqmzfmFMhPU9A6Hm76MtVqWzk6
+ otQ7+GCxa12CDoihSNRlfQcd2iYEFVMEXQ6+bDDgBLUFCwzEBgEHLDWfIzIPYKvp0GJK
+ fYmpDzX7A5gg6FifOmEkPpV0AystCG1rYeBNXb05oMz8Rlq6oaFIj0V38AeevM8jQ6Z9
+ jV8o3pT10/5hpUnyhHe4Gqe1g8M9v7YqN+ZMPgLSP1NoyiNk8DmHBPdEmZJo6Ihr/sKL
+ jRVu/lPSSpyIt1kvBQYbywITtiyC8bTNnafO85nKfdi4DYcr1p6f88xdPQc7RMq41CJu
+ iuiA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683097832; x=1685689832;
+ d=1e100.net; s=20221208; t=1683097833; x=1685689833;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=VhQ4va+L9W76HQPa92crHAm/u67MMsKKHsaZ1OacYxI=;
- b=HlrzqRZuLHbS+UrmMaE2+qGEJrm3/acMnQd7jfAgQ2/Hvy1Z56wdd3qlqYgHh/xT19
- NlDqm2S1e/zQ/S1S7t1LIU7AkcZRR4/+lnZhINFBN/8adpsWPi2Sz0kdauyYI6+yA2Uo
- W0g+5gH8+49B5LEFL3plP54g8CN7R7hX616H/HnozR38NhFh22IlpBFmsJhxsDmE2dst
- FQ84vnibpXmbsRMZwIQRPMBb4tCCog2Cse3JYN5ZErqHn+B2shYzZiHJIhQa8S22TK1s
- nSr1+VZvh53D+uBM3Oo3qRqIqoy/SlUcZpxP5w/DF6gS7LN9ulGssb6UIaZvgvIFHlNv
- w1eA==
-X-Gm-Message-State: AC+VfDwYWHW8oFMAvDeXVyai2j/H+6ZO4v/qfuB32/JVBp/dBZXhMj3L
- wWmyafoyvA741rrUH7WM0f6cSGZsl4rBInYG6LJ6ag==
-X-Google-Smtp-Source: ACHHUZ5qNJU2BSEfePKltRoqUnOM2g+JcKHFrL3UVx+lyra9ws4XAwr6tf+26SSzb6SduEnXRtEu7A==
-X-Received: by 2002:a7b:c047:0:b0:3f1:979f:a734 with SMTP id
- u7-20020a7bc047000000b003f1979fa734mr13807508wmc.11.1683097832611; 
- Wed, 03 May 2023 00:10:32 -0700 (PDT)
+ bh=naApWSmi65k1gRAeLMa4iVYTmTT0eNi8LAPHTVnKRRQ=;
+ b=Rm/sTPI2VLg4zn9dcP5yweE3UHVsSWGFfnlUmHzAWoR0aOLTJYk171BfQl/fCGX7GJ
+ OQLKtZ6gMP+7s9Hm0Ov8oP86ChANx/J6xGCSND++cj7PSt8FuEnaIBU+ixknP2d846yo
+ 3+jDfk4zvQwgANeK8kXt3Ca+bEW+/4O6iRT/yqO/Pb5t/wjFu5ObFrzUPuKClAVlGnga
+ j9NP8Jg5e/jGetAQAmlOEfOCqsGvtgpiPRUQeyTj71FkKkvKjkiC+K8ohFLvN8z8GFhj
+ oY9zCjIQkD49f9O6SycVeMl44ikSorj0qheHhYQNxFdnRPNGqsuwtUILAWJt6/MxnEfS
+ 8yiw==
+X-Gm-Message-State: AC+VfDx0pj3yNfvH4DMmblZmGff5dWzQs/WEeWL08vlYo6qt4El5JSRG
+ C9oYLSWp4RAWU+4cXyOR+2K8s63MioHoeIKoCyfm2g==
+X-Google-Smtp-Source: ACHHUZ5AS0Uyzk70wzHW+mZP6uSMg4jh9IG9Ppk0bQywQS5prc/YiD5lyrJGHHSfqm1r3B5GUF4TOw==
+X-Received: by 2002:a5d:4a0f:0:b0:304:6d32:d589 with SMTP id
+ m15-20020a5d4a0f000000b003046d32d589mr14614726wrq.18.1683097833345; 
+ Wed, 03 May 2023 00:10:33 -0700 (PDT)
 Received: from stoup.Home ([2a02:c7c:74db:8d00:c01d:9d74:b630:9087])
  by smtp.gmail.com with ESMTPSA id
  v9-20020a05600c444900b003f173be2ccfsm54223673wmn.2.2023.05.03.00.10.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 03 May 2023 00:10:32 -0700 (PDT)
+ Wed, 03 May 2023 00:10:33 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: git@xen0n.name, gaosong@loongson.cn, philmd@linaro.org,
  qemu-arm@nongnu.org, qemu-riscv@nongnu.org, qemu-s390x@nongnu.org
-Subject: [PATCH v4 46/57] tcg/loongarch64: Use atom_and_align_for_opc
-Date: Wed,  3 May 2023 08:06:45 +0100
-Message-Id: <20230503070656.1746170-47-richard.henderson@linaro.org>
+Subject: [PATCH v4 47/57] tcg/mips: Use atom_and_align_for_opc
+Date: Wed,  3 May 2023 08:06:46 +0100
+Message-Id: <20230503070656.1746170-48-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230503070656.1746170-1-richard.henderson@linaro.org>
 References: <20230503070656.1746170-1-richard.henderson@linaro.org>
@@ -94,35 +94,48 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tcg/loongarch64/tcg-target.c.inc | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+ tcg/mips/tcg-target.c.inc | 11 ++++++++---
+ 1 file changed, 8 insertions(+), 3 deletions(-)
 
-diff --git a/tcg/loongarch64/tcg-target.c.inc b/tcg/loongarch64/tcg-target.c.inc
-index 62bf823084..43341524f2 100644
---- a/tcg/loongarch64/tcg-target.c.inc
-+++ b/tcg/loongarch64/tcg-target.c.inc
-@@ -826,6 +826,8 @@ static bool tcg_out_qemu_st_slow_path(TCGContext *s, TCGLabelQemuLdst *l)
+diff --git a/tcg/mips/tcg-target.c.inc b/tcg/mips/tcg-target.c.inc
+index cd0254a0d7..43a8ffac17 100644
+--- a/tcg/mips/tcg-target.c.inc
++++ b/tcg/mips/tcg-target.c.inc
+@@ -1139,6 +1139,7 @@ static bool tcg_out_qemu_st_slow_path(TCGContext *s, TCGLabelQemuLdst *l)
  typedef struct {
      TCGReg base;
-     TCGReg index;
-+    MemOp align;
+     MemOp align;
 +    MemOp atom;
  } HostAddress;
  
  bool tcg_target_has_memory_bswap(MemOp memop)
-@@ -845,7 +847,11 @@ static TCGLabelQemuLdst *prepare_host_addr(TCGContext *s, HostAddress *h,
+@@ -1158,11 +1159,16 @@ static TCGLabelQemuLdst *prepare_host_addr(TCGContext *s, HostAddress *h,
  {
      TCGLabelQemuLdst *ldst = NULL;
      MemOp opc = get_memop(oi);
 -    unsigned a_bits = get_alignment_bits(opc);
 +    MemOp a_bits, atom_u;
-+
+     unsigned s_bits = opc & MO_SIZE;
+-    unsigned a_mask = (1 << a_bits) - 1;
++    unsigned a_mask;
+     TCGReg base;
+ 
 +    a_bits = atom_and_align_for_opc(s, &h->atom, &atom_u, opc,
 +                                    MO_ATOM_IFALIGN, false);
 +    h->align = a_bits;
- 
++    a_mask = (1 << a_bits) - 1;
++
  #ifdef CONFIG_SOFTMMU
-     unsigned s_bits = opc & MO_SIZE;
+     unsigned s_mask = (1 << s_bits) - 1;
+     int mem_index = get_mmuidx(oi);
+@@ -1281,7 +1287,6 @@ static TCGLabelQemuLdst *prepare_host_addr(TCGContext *s, HostAddress *h,
+ #endif
+ 
+     h->base = base;
+-    h->align = a_bits;
+     return ldst;
+ }
+ 
 -- 
 2.34.1
 
