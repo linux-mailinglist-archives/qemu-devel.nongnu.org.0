@@ -2,87 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F07E96F5B2E
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 May 2023 17:31:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D35696F5AB7
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 May 2023 17:12:16 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1puES0-0003ex-TY; Wed, 03 May 2023 11:31:28 -0400
+	id 1puE7t-0006gj-S6; Wed, 03 May 2023 11:10:41 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mat.krawczuk@gmail.com>)
- id 1puE6k-0006Ol-NF
- for qemu-devel@nongnu.org; Wed, 03 May 2023 11:09:30 -0400
-Received: from mail-ed1-x532.google.com ([2a00:1450:4864:20::532])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <mat.krawczuk@gmail.com>)
- id 1puE6i-0003u0-KP
- for qemu-devel@nongnu.org; Wed, 03 May 2023 11:09:30 -0400
-Received: by mail-ed1-x532.google.com with SMTP id
- 4fb4d7f45d1cf-50bdd7b229cso3038534a12.0
- for <qemu-devel@nongnu.org>; Wed, 03 May 2023 08:09:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1683126566; x=1685718566;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=ESD1pdr0aHVgZrZeFAqnfUGdATwcUO4ugikd+JVvhoA=;
- b=BWuWPng0LkJjAKoQvi/dB+Y2IXuOov2XJSBbz3R1xUxgXAgs96i+LY8HaPxvX4oXzA
- lXM7r3Iv6xMvZMqPInHM8FMcmNVEovY7ex+86p1rTHVjXYa/lyQsr0eKnyWkD0mpc92Y
- /33F/fjy+gxUCePAQ2bnFRY4QvO30ObVmNWJiQn/SEzsZ6SeGqfAV0hBO+GIudZUBFOM
- LkFvgJLEbN+xGyNqj+vtPTPDNPKujMMs9x4nBFHUKSrhhOprZJuLZV8ZOn/0C6A+G5mR
- awwSthwh6wzhRAyOHEvcyYGgGp8CKvfaOqUL5FjhwM3eA67ItaEKYeMzIEHRosZbANJJ
- Anew==
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1puE7r-0006fC-A2
+ for qemu-devel@nongnu.org; Wed, 03 May 2023 11:10:39 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1puE7b-0004GD-Bt
+ for qemu-devel@nongnu.org; Wed, 03 May 2023 11:10:38 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1683126622;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=l+seuuDcwXGP9E4dAMeUcmrbjbZK9Sq/rTzFADY5C34=;
+ b=gGWOp18R9hkNttny/0jz2AmFKK2Sy+qgzWs6d5qcsF+vEQCyymAgSkrE/sRuAFE3OgkbFD
+ Ksm1zmuRAnBxL2Y4iKcMxcfD/FB0M/1ZCVec5ZB9+Px9tuaefjShbE0O9NF7d4m/LOGxot
+ jnE0lzvmvUFEALVInx0tev0p/YkQhrU=
+Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
+ [209.85.219.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-547-TCCIzhq2Omao9c4zWFmiYw-1; Wed, 03 May 2023 11:10:19 -0400
+X-MC-Unique: TCCIzhq2Omao9c4zWFmiYw-1
+Received: by mail-qv1-f69.google.com with SMTP id
+ 6a1803df08f44-61b6f717b6eso2097566d6.0
+ for <qemu-devel@nongnu.org>; Wed, 03 May 2023 08:10:19 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683126566; x=1685718566;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=ESD1pdr0aHVgZrZeFAqnfUGdATwcUO4ugikd+JVvhoA=;
- b=lsJcLQnadEbypI3IgBtxXD7vpRLTGPUYGtY4S+yAkkRwoZK4vhz96ELHnpIfFxqp16
- eWnG0aMrRskM75P9mtKLVG96eNdeo3FKeKzK0EIj68EF26RHK2CssnVr9/0ZphorNDNL
- HAgrevd1h9qjaNj2v8mMKIOU2z8q8Y+GIEZWwHiy224ut98HnAmzcZagsA3I2TTHGgRD
- e+7Knxrwu3JsTGvKirLhEhfgS8IqBUGFUWq1R4n+5DWTbpodXZzVb6p5i5w6+n9rSS+O
- lkBSzwoe4/Yr3FWoC6LODyL+iXeTgAfPU5XPHTqAmw4zYTXjU+yQLWw+p6YdJcxBlC+X
- r6Kg==
-X-Gm-Message-State: AC+VfDy4I5F314YNC/XakAuLbmOXYFv86guc1iBTWajTyT5ldZrw8Awy
- dXhr30tts+oSWCm3f/cao10=
-X-Google-Smtp-Source: ACHHUZ4d6pQtgPOnkrdYmLewDbGO7OORqWFgbVaAc4t6wvk7r5UnsOH4lgn0ralKZK/mjqnClmj90w==
-X-Received: by 2002:aa7:d501:0:b0:50b:c982:51fc with SMTP id
- y1-20020aa7d501000000b0050bc98251fcmr6734857edq.36.1683126566308; 
- Wed, 03 May 2023 08:09:26 -0700 (PDT)
-Received: from localhost.localdomain
- (088156139023.dynamic-2-waw-k-2-3-0.vectranet.pl. [88.156.139.23])
- by smtp.gmail.com with ESMTPSA id
- n20-20020a056402515400b00509d1c6dcefsm809872edd.13.2023.05.03.08.09.25
+ d=1e100.net; s=20221208; t=1683126619; x=1685718619;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=l+seuuDcwXGP9E4dAMeUcmrbjbZK9Sq/rTzFADY5C34=;
+ b=f/sll4Y+tSlilpjfXRCfZOWnFc4do2ZHvpDku7MtZEs8btaC7JrMQ5Y33+UhSSAuTt
+ XZWozYDc5AF5A53ACgfJ6FS70Xud3seX2YywpkJM4Aii/ODJXkj992zJwgNGgz+T5MAp
+ zf/8Rntfo/v05SEsaR+Z5WuSWonyZQQmwY23HleqfjgwCZ84SzNlkIasEqFEkLLO1056
+ zhoysi8cz9pSI3SWsfr53o8ahkC8XSMB4gLsCi2cPBQXAkzDBSECnVY6qEO4Inql6YtI
+ RBq8mf9zZwlyUI7h/U8z12Ppw4VtcEyhgSpaquNXA/xxQ+H43dv8Mc5HfT+Fvfnu3WwG
+ O0yg==
+X-Gm-Message-State: AC+VfDxFsWO5nvtKVPQyS+rdAqfkDqrlSs2llC9TDvrlQ88BqGIEtqW+
+ FEDarjjkE2AjzZTkQHTsqJTE6Na8M4+eYvcGsSwNfKcZFpJGulcC1vhaJIjFnqJYCVLzfHxLieD
+ K7gOtCTjaLlaCuCU=
+X-Received: by 2002:a05:6214:4104:b0:5ad:cd4b:3765 with SMTP id
+ kc4-20020a056214410400b005adcd4b3765mr9257917qvb.1.1683126618821; 
+ Wed, 03 May 2023 08:10:18 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ7THjRx30NT/Pdj6ikyL5bXxt3Ysh1hG9VDdzL2SCZSqvZR0lIG08HG7YVWQ248mq9tWnPXRw==
+X-Received: by 2002:a05:6214:4104:b0:5ad:cd4b:3765 with SMTP id
+ kc4-20020a056214410400b005adcd4b3765mr9257894qvb.1.1683126618558; 
+ Wed, 03 May 2023 08:10:18 -0700 (PDT)
+Received: from x1n (bras-base-aurron9127w-grc-40-70-52-229-124.dsl.bell.ca.
+ [70.52.229.124]) by smtp.gmail.com with ESMTPSA id
+ z34-20020a05620a262200b0074ca7c33b79sm10770648qko.23.2023.05.03.08.10.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 03 May 2023 08:09:25 -0700 (PDT)
-From: Mateusz Krawczuk <mat.krawczuk@gmail.com>
-To: 
-Cc: Mateusz Krawczuk <mat.krawczuk@gmail.com>, John Snow <jsnow@redhat.com>,
- Cleber Rosa <crosa@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Thomas Huth <thuth@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- qemu-devel@nongnu.org (open list:All patches CC here)
-Subject: [PATCH] Add information how to fix common build error on Windows in
- symlink-install-tree
-Date: Wed,  3 May 2023 17:08:55 +0200
-Message-Id: <20230503150855.1182-1-mat.krawczuk@gmail.com>
-X-Mailer: git-send-email 2.40.1.windows.1
+ Wed, 03 May 2023 08:10:17 -0700 (PDT)
+Date: Wed, 3 May 2023 11:10:16 -0400
+From: Peter Xu <peterx@redhat.com>
+To: Leonardo Bras <leobras@redhat.com>
+Cc: Eduardo Habkost <eduardo@habkost.net>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Yanan Wang <wangyanan55@huawei.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org
+Subject: Re: [PATCH v1 1/1] hw/pci: Disable PCI_ERR_UNCOR_MASK register for
+ machine type < 8.0
+Message-ID: <ZFJ5WLQRo656hqz9@x1n>
+References: <20230503002701.854329-1-leobras@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::532;
- envelope-from=mat.krawczuk@gmail.com; helo=mail-ed1-x532.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20230503002701.854329-1-leobras@redhat.com>
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -22
+X-Spam_score: -2.3
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.161,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Wed, 03 May 2023 11:31:26 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,43 +100,33 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-By default, Windows doesn't allow to create soft links for user account and only administrator is allowed to do this. To fix this problem you have to raise your permissions or enable Developer Mode, which available since Windows 10. Additional explanation when build fails will allow developer to fix the problem on his computer faster.
+On Tue, May 02, 2023 at 09:27:02PM -0300, Leonardo Bras wrote:
+> Since it's implementation on v8.0.0-rc0, having the PCI_ERR_UNCOR_MASK
+> set for machine types < 8.0 will cause migration to fail if the target
+> QEMU version is < 8.0.0 :
+> 
+> qemu-system-x86_64: get_pci_config_device: Bad config data: i=0x10a read: 40 device: 0 cmask: ff wmask: 0 w1cmask:0
+> qemu-system-x86_64: Failed to load PCIDevice:config
+> qemu-system-x86_64: Failed to load e1000e:parent_obj
+> qemu-system-x86_64: error while loading state for instance 0x0 of device '0000:00:02.0/e1000e'
+> qemu-system-x86_64: load of migration failed: Invalid argument
+> 
+> The above test migrated a 7.2 machine type from QEMU master to QEMU 7.2.0,
+> with this cmdline:
+> 
+> ./qemu-system-x86_64 -M pc-q35-7.2 [-incoming XXX]
+> 
+> In order to fix this, property x-pcie-err-unc-mask was introduced to
+> control when PCI_ERR_UNCOR_MASK is enabled. This property is enabled by
+> default, but is disabled if machine type <= 7.2.
+> 
+> Fixes: 010746ae1d ("hw/pci/aer: Implement PCI_ERR_UNCOR_MASK register")
+> Suggested-by: Michael S. Tsirkin <mst@redhat.com>
+> Signed-off-by: Leonardo Bras <leobras@redhat.com>
 
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1386
-Signed-off-by: Mateusz Krawczuk <mat.krawczuk@gmail.com>
----
- scripts/symlink-install-tree.py | 5 +++++
- 1 file changed, 5 insertions(+)
+Reviewed-by: Peter Xu <peterx@redhat.com>
 
-diff --git a/scripts/symlink-install-tree.py b/scripts/symlink-install-tree.py
-index 67cb86dd52..bb3a2d708c 100644
---- a/scripts/symlink-install-tree.py
-+++ b/scripts/symlink-install-tree.py
-@@ -7,12 +7,14 @@
- import subprocess
- import sys
- 
-+
- def destdir_join(d1: str, d2: str) -> str:
-     if not d1:
-         return d2
-     # c:\destdir + c:\prefix must produce c:\destdir\prefix
-     return str(PurePath(d1, *PurePath(d2).parts[1:]))
- 
-+
- introspect = os.environ.get('MESONINTROSPECT')
- out = subprocess.run([*introspect.split(' '), '--installed'],
-                      stdout=subprocess.PIPE, check=True).stdout
-@@ -28,5 +30,8 @@ def destdir_join(d1: str, d2: str) -> str:
-         os.symlink(source, bundle_dest)
-     except BaseException as e:
-         if not isinstance(e, OSError) or e.errno != errno.EEXIST:
-+            if os.name == 'nt':
-+                print('\nPlease enable Developer Mode to support soft link '
-+                      'without Administrator permission\n')
-             print(f'error making symbolic link {dest}', file=sys.stderr)
-             raise e
 -- 
-2.40.1.windows.1
+Peter Xu
 
 
