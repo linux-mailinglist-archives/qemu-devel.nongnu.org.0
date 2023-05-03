@@ -2,79 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15C4E6F55DF
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 May 2023 12:19:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC8236F55E0
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 May 2023 12:19:34 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pu9Zc-0007qu-JW; Wed, 03 May 2023 06:19:00 -0400
+	id 1pu9a0-0008Mm-8l; Wed, 03 May 2023 06:19:24 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pu9ZW-0007pw-7z
- for qemu-devel@nongnu.org; Wed, 03 May 2023 06:18:54 -0400
-Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435])
+ id 1pu9Zy-0008MC-Bi
+ for qemu-devel@nongnu.org; Wed, 03 May 2023 06:19:22 -0400
+Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pu9ZR-0006mu-7T
- for qemu-devel@nongnu.org; Wed, 03 May 2023 06:18:54 -0400
-Received: by mail-wr1-x435.google.com with SMTP id
- ffacd0b85a97d-3062678861fso2796523f8f.0
- for <qemu-devel@nongnu.org>; Wed, 03 May 2023 03:18:48 -0700 (PDT)
+ id 1pu9Zw-0006sb-Rj
+ for qemu-devel@nongnu.org; Wed, 03 May 2023 06:19:22 -0400
+Received: by mail-wm1-x32a.google.com with SMTP id
+ 5b1f17b1804b1-3f192c23fffso31051025e9.3
+ for <qemu-devel@nongnu.org>; Wed, 03 May 2023 03:19:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1683109127; x=1685701127;
+ d=linaro.org; s=google; t=1683109159; x=1685701159;
  h=content-transfer-encoding:in-reply-to:from:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=YGif+5kZ/7Gigjs3fEk5APcFitt0lEemN12bmDkVK48=;
- b=rQIVRbGoOFL0KFtEfqGT/IOhnYyc/qVyp0tg1ZFZplIs/cr2EQRIKV/9RX+C4XKE9Y
- P/+L4irSD94t/whBN4IF7L5Fa4TU7vec9EFf6aqsfTKpZ3uzep1jWMbXBWndXKh2obKL
- FMjqFwsU7UGcZNwvUw4nrbkAil3Yl8m0uu1tubZL2C9VtB1NdP1ddz0QrQobdcZ1DPvT
- 5ZBzA78EMXfkL8kxDIEa5A8oRgLLC6xzN+jPb3tTEzCZZngQKxOXA5SAz6EGGy0iZb8X
- 4HNUm3vrvGUtW8a1336drRs7bGRvU2idH3zE6QJYZiw72fnryaBNszrOBbOlTkYLOkW6
- MrcA==
+ bh=EPR55VHfjXvKEf6PgZxA+DsiAewgsyYybyCrK6XTDoE=;
+ b=vIXjyvbGhP1pw9e4kM1ZpM936HjqEf6CzD+wLFQCJ5ZWF6vN6MjY/IK/BcYWDRB3Mc
+ /Yt1oH3sflBO/e8cIXjBO323BXqfUGII/xYfAi/22XxJqnDtlE002PGwxtF3yJt19swn
+ B9qndh2o7tCTotI4u0NxWpRAwsdK1j30rRZ1CoKI/pXzSFhuufMgU2U6Q/RYhwdmZ6LE
+ 6c96yQZWGyKMxFZcbqqs61mEKaN+otqqHuSq1+VsBh6SrspSLLA/ukoAfwPYIvBC8ogc
+ AjiM7RXDYw7qt/iR+3xp6zRraE2Mzs9Isu0yT03lNwmZOKbIrfwZ6CSA0skdNW7dJi3b
+ O+uw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683109127; x=1685701127;
+ d=1e100.net; s=20221208; t=1683109159; x=1685701159;
  h=content-transfer-encoding:in-reply-to:from:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=YGif+5kZ/7Gigjs3fEk5APcFitt0lEemN12bmDkVK48=;
- b=D5ReYm7MgxPbQISnpsrUGgiD+Mnd5kpirPwYB1TFbfEBOO+R/OjxD+gTIVY1cSx2v0
- kHYpPeW3+/NwjErHGOqxf7yaxM7d1KlqMmBreJxKch4lJFKEOT4mLdNBM7Lc8loLFOaR
- IsOnftgAAzQrLaSBZ9YVOqu5YHffvtdM2JF/1f0rpPqJAMNESzpH0TL6Pe0JxnfklQGm
- 6TpVCe+UN02vj1em8JMajAsUE7UrICEYO/ki/SJJKysO3uocS/pnlMUjeboVsG/UOBM6
- 1LzD2r+HlrNk3uHjH+plM/YX38eBwomJ+s7/OogA0fUOyILN21q4kQWGUAHjAfXs2h5p
- Sqrw==
-X-Gm-Message-State: AC+VfDwQ6iKW+0b/hKOBLis45Ajvhhbw2a0nrWItzM9fsunb/Haypj6C
- UmxFCUVM5wEmHQe8Wx8tnzY2u6SdO82s6Hd/ixW0ow==
-X-Google-Smtp-Source: ACHHUZ4w3txolEc1PN4x3zCKj8V5pGN16htTjjCNb13fBlHhEC0oyx9+7wRK0aC+vm8ZPgoesugUaw==
-X-Received: by 2002:a5d:4a50:0:b0:2fe:c8b5:b5d5 with SMTP id
- v16-20020a5d4a50000000b002fec8b5b5d5mr13461417wrs.2.1683109126960; 
- Wed, 03 May 2023 03:18:46 -0700 (PDT)
+ bh=EPR55VHfjXvKEf6PgZxA+DsiAewgsyYybyCrK6XTDoE=;
+ b=dhSmjErvVk0cHmHoX10TBTrf5cS0rsp75rWh0rwuw7PE7sLnKfKvYSVkMwR/Ul6FTk
+ aSZea9soPfYDJ5v6lFkQZRkfoth8snWJDrrfGzNsOVrLqQkg8Gwkfw0ZUjs4Rb7aFqbz
+ WwebkwtsrZFimxqrdG5M0gVrwVxaljuyOJ7cjO8+1XQKc7J95Zfs2nvDG9YlXmrgii2W
+ nRcqsWujKp/E7TM0wI+nuHm9dIW9w6ZYDhprPb/wyXzZh9qb9Og0/HJgoMgrx5Py3m+4
+ Z33M0w1sdhuLrZqkEEyBd6s+I5uwFlOrAWPeZaGIWcwsWPW3XOL/WQOLf4Sa2ptMNpDz
+ c7jg==
+X-Gm-Message-State: AC+VfDyk7d/+n+YtY1Wnv9dSMXYygG42AaWkv/zKvZnoygYFFPaRk782
+ Zwj3sJYehqbrvGtrU7t/aVftVw==
+X-Google-Smtp-Source: ACHHUZ4rdh1QmSIo+knyph72AiTi2/ay2chXpIfs8OTTyXcnt1T9sDypMxAMlOvZCSph9tusjea7xA==
+X-Received: by 2002:a1c:7417:0:b0:3f1:8ff5:b773 with SMTP id
+ p23-20020a1c7417000000b003f18ff5b773mr14162861wmc.6.1683109159306; 
+ Wed, 03 May 2023 03:19:19 -0700 (PDT)
 Received: from ?IPV6:2a02:c7c:74db:8d00:c01d:9d74:b630:9087?
  ([2a02:c7c:74db:8d00:c01d:9d74:b630:9087])
  by smtp.gmail.com with ESMTPSA id
- h16-20020a5d5490000000b00304b5b2f5ffsm15120665wrv.53.2023.05.03.03.18.46
+ f24-20020a1cc918000000b003f0ad8d1c69sm1431341wmb.25.2023.05.03.03.19.18
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 03 May 2023 03:18:46 -0700 (PDT)
-Message-ID: <216de6bd-63bf-2260-7ebf-7a90a3ffc0c1@linaro.org>
-Date: Wed, 3 May 2023 11:18:44 +0100
+ Wed, 03 May 2023 03:19:18 -0700 (PDT)
+Message-ID: <f662fdf6-38bb-2c11-a9f8-cd2b4144c782@linaro.org>
+Date: Wed, 3 May 2023 11:19:17 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.10.0
-Subject: Re: [PATCH 07/22] hw/arm: Select XLNX_USB_SUBSYS for xlnx-zcu102
- machine
+Subject: Re: [PATCH 08/22] hw/arm: Select GICV3_TCG for sbsa-ref machine
 Content-Language: en-US
 To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
+ qemu-devel <qemu-devel@nongnu.org>
 References: <20230503091244.1450613-1-alex.bennee@linaro.org>
- <20230503091244.1450613-8-alex.bennee@linaro.org>
+ <20230503091244.1450613-9-alex.bennee@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20230503091244.1450613-8-alex.bennee@linaro.org>
+In-Reply-To: <20230503091244.1450613-9-alex.bennee@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::435;
- envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x435.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x32a.google.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
 X-Spam_bar: ---
@@ -100,22 +99,16 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 On 5/3/23 10:12, Alex Bennée wrote:
 > From: Fabiano Rosas<farosas@suse.de>
 > 
-> This machine hardcodes initialization of the USB device, so select the
-> corresponding Kconfig. It is not enough to have it as "default y if
-> XLNX_VERSAL" at usb/Kconfig because building --without-default-devices
-> disables the default selection resulting in:
-> 
-> $ ./qemu-system-aarch64 -M xlnx-zcu102
-> qemu-system-aarch64: missing object type 'usb_dwc3'
-> Aborted (core dumped)
+> This machine hardcodes the creation of the interrupt controller, so
+> make sure the dependency is explicitly described in the Kconfig.
 > 
 > Signed-off-by: Fabiano Rosas<farosas@suse.de>
+> Reviewed-by: Peter Maydell<peter.maydell@linaro.org>
 > Signed-off-by: Alex Bennée<alex.bennee@linaro.org>
-> Message-Id:<20230208192654.8854-8-farosas@suse.de>
+> Message-Id:<20230208192654.8854-9-farosas@suse.de>
 > ---
 >   hw/arm/Kconfig | 1 +
->   hw/usb/Kconfig | 1 -
->   2 files changed, 1 insertion(+), 1 deletion(-)
+>   1 file changed, 1 insertion(+)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
