@@ -2,95 +2,118 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35C7C6F5470
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 May 2023 11:18:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 685F76F5478
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 May 2023 11:19:10 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pu8ci-0003Mk-RI; Wed, 03 May 2023 05:18:08 -0400
+	id 1pu8dM-0005f3-1t; Wed, 03 May 2023 05:18:48 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pu8ce-00032d-Qt
- for qemu-devel@nongnu.org; Wed, 03 May 2023 05:18:04 -0400
-Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pu8cd-0000Mg-0w
- for qemu-devel@nongnu.org; Wed, 03 May 2023 05:18:04 -0400
-Received: by mail-wm1-x335.google.com with SMTP id
- 5b1f17b1804b1-3f315735514so15053895e9.1
- for <qemu-devel@nongnu.org>; Wed, 03 May 2023 02:18:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1683105481; x=1685697481;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=WC01IUajOQVovgGje8S9D1xVOHkvVNHazKK2bsSkbgs=;
- b=WoBm1tBuYVLcFWmyFf/X/fgLa1BvNKPO5dsct1X4vwwZVr6MtR0miW3BSOdVoA01vE
- A4txyu0OM+RXD+POmUPjcntelipDxCPkAHVGBU6ZceSsESK8r80xuk2nJi5/pfz7wE4z
- vL/8WKJyPvBOeI0Ag9R4quQWC9crw/YlFtTNb/ZQFJvkwsv35YNLuB+6+g+j1DQn/man
- M13rhJs9C3Rxj9uumKnZNoDOVfzUMuKZQegQCvFyfGYWSqQsDuFlxRAggmtKTyiQpJOV
- Am73SV9Zu+1V86DlCdmfk9sg4ZZkxcw0eSijywEMEUqlVogs9r9LLNLmZdiqWdeb8xuC
- cCcA==
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pu8cy-0005Ex-6H
+ for qemu-devel@nongnu.org; Wed, 03 May 2023 05:18:24 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pu8cv-0000XM-VG
+ for qemu-devel@nongnu.org; Wed, 03 May 2023 05:18:23 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1683105501;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=JIjDyuhTWku71Kk+hAMJGF/L0dw8BvkhgAvVF7z8FvA=;
+ b=Bgt+OqXHW+Q78SftKi9qmnD6Pv9pUfSkbcG1/y+HHcjEgN6j5KqMjutJL9HAETWQTlOdRl
+ fgO/62hVa8yNbW4dcu2WRv0QVuhudp6YPhq+HiXaCeThPQHHk2YlMgC6nYiP6Mm98fHCt/
+ 8LPxem7oVfGGEZ29FkBNrTq/frF5jfE=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-644-_6sVjfpfP-Wq2YLtlSikbQ-1; Wed, 03 May 2023 05:18:20 -0400
+X-MC-Unique: _6sVjfpfP-Wq2YLtlSikbQ-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ 5b1f17b1804b1-3f336ecf58cso13123355e9.1
+ for <qemu-devel@nongnu.org>; Wed, 03 May 2023 02:18:20 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683105481; x=1685697481;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=WC01IUajOQVovgGje8S9D1xVOHkvVNHazKK2bsSkbgs=;
- b=ZBVm5QXapqjwNhyATBUKFsXXlIFMsJLgBut9uCq6AuurbthZs8nQS76QJKJRkTpxeC
- z/rwFelrLOfLOLN+bV7HS/3HeH0Y433Bcj38k67+q6y3QDEfadTpi8cISphE+hQFeu+g
- BEhmK7wdYC0Mt1q3lEUJYXotef/Xwc0aRtXlX1uk0N5ngIcOaaDVm/Q2cz1lOHW0XVvt
- ecQYAOWsdYnTabRHYUyp2iQA1JAtyAmMa9LCCYfAN+nx6AKaaaQUBXNH1CiRyqAfN63N
- flF09QqSpuMHq9iNs8y/Q65+VPEGsfATneMSqKMfgbBPjUqFQ28us/k8gxC9QRXG8j77
- POlQ==
-X-Gm-Message-State: AC+VfDyHTU3VVvNy3CTwv0msAbY7p57nfIucdcB/g/+6rBhQLD5UsUsZ
- kEAABKyuMaNYQd/whSf/nzWjsw==
-X-Google-Smtp-Source: ACHHUZ6FGT/G7Up6Z4aE0dr/nD/yfuGFPxfueb4qq75dtT+UyR8uSZUPaxxD2hHjkIxTLPMCdpn52A==
-X-Received: by 2002:a05:600c:1c21:b0:3f1:7371:86bb with SMTP id
- j33-20020a05600c1c2100b003f1737186bbmr846903wms.20.1683105481532; 
- Wed, 03 May 2023 02:18:01 -0700 (PDT)
-Received: from zen.linaroharston ([85.9.250.243])
+ d=1e100.net; s=20221208; t=1683105499; x=1685697499;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=JIjDyuhTWku71Kk+hAMJGF/L0dw8BvkhgAvVF7z8FvA=;
+ b=htDnNa1f6mNgmFClLel+A9Ha1RmGo9Fy4lechyG3ZgWXKI6btcFJBce0x4LYmQPTTh
+ g78ngZ4karSa4rbH9pTuETH2NN5OYoKvupGuH3G8T75UBFRx6gR2p/UmNPA9x3TqVsTE
+ bwUOvqKlv5bgfYTzRmVOFnYIyh/BfjIRBD4Hshr+ce+Ll880Fi0Zbr07ei4hJnyQFXcz
+ 2mjE6T6SnCQEHiRlqyUdVUd5dTmS0KbLW6qtWxmC9YRjwX5AsZ57zSpBL/kbxJLEvLI2
+ kUyDGULxRFxGEKqSQ4YjTIex8Z5qXUhg0++9m6Zu6lGx4qaHal4h1a+pT3O+NFNuH//z
+ 84Nw==
+X-Gm-Message-State: AC+VfDybZ+c08PpqMxMtvGyhmsiCcrbtxhxSW4DIt9gSAebjwVHB0PCG
+ 91xfm9HzD3iHgpH8tNzivF2HGhIx6mb8X5IN2r/Gp42hM72xMp91EnNVjszrnpiGe2h8MvYFsqC
+ 6WqxRjE1F2OmUOwA=
+X-Received: by 2002:a1c:cc13:0:b0:3f3:468c:a783 with SMTP id
+ h19-20020a1ccc13000000b003f3468ca783mr3385224wmb.8.1683105499161; 
+ Wed, 03 May 2023 02:18:19 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ6lrqPyY0T6z8z94NsOET83t4pqJ4EDtvdBPNq+EhhQ+kxdYhQol1dqYCnOqf8goA4KP7DPqg==
+X-Received: by 2002:a1c:cc13:0:b0:3f3:468c:a783 with SMTP id
+ h19-20020a1ccc13000000b003f3468ca783mr3385178wmb.8.1683105498811; 
+ Wed, 03 May 2023 02:18:18 -0700 (PDT)
+Received: from [10.33.192.225] (nat-pool-str-t.redhat.com. [149.14.88.106])
  by smtp.gmail.com with ESMTPSA id
- t4-20020a7bc3c4000000b003f1745c7df3sm1271469wmj.23.2023.05.03.02.17.58
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 03 May 2023 02:17:59 -0700 (PDT)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 2E8391FFC6;
- Wed,  3 May 2023 10:17:58 +0100 (BST)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org,
-	Stefan Hajnoczi <stefanha@redhat.com>
-Cc: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Kyle Evans <kevans@freebsd.org>, Paolo Bonzini <pbonzini@redhat.com>,
- Riku Voipio <riku.voipio@iki.fi>, Yanan Wang <wangyanan55@huawei.com>,
- Eduardo Habkost <eduardo@habkost.net>, Greg Kurz <groug@kaod.org>,
- Warner Losh <imp@bsdimp.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Christian Schoenebeck <qemu_oss@crudebyte.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Eric Blake <eblake@redhat.com>, Michael Roth <michael.roth@amd.com>,
- Markus Armbruster <armbru@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: [PATCH v2 10/10] xxhash: remove qemu_xxhash7
-Date: Wed,  3 May 2023 10:17:56 +0100
-Message-Id: <20230503091756.1453057-11-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230503091756.1453057-1-alex.bennee@linaro.org>
-References: <20230503091756.1453057-1-alex.bennee@linaro.org>
+ o19-20020a1c7513000000b003f31cb7a203sm1289347wmc.14.2023.05.03.02.18.16
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 03 May 2023 02:18:18 -0700 (PDT)
+Message-ID: <93477153-dc6e-4e37-5ff4-f771551b5ac9@redhat.com>
+Date: Wed, 3 May 2023 11:18:16 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH 01/22] gitlab/cirrus: reduce scope of the FreeBSD testing
+ matrix
+Content-Language: en-US
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
+Cc: Laurent Vivier <lvivier@redhat.com>,
+ Artyom Tarasenko <atar4qemu@gmail.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Leif Lindholm <quic_llindhol@quicinc.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Helge Deller <deller@gmx.de>, Xiaojuan Yang <yangxiaojuan@loongson.cn>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Cleber Rosa <crosa@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Eduardo Habkost <eduardo@habkost.net>, Juan Quintela <quintela@redhat.com>,
+ John Snow <jsnow@redhat.com>, Yoshinori Sato <ysato@users.sourceforge.jp>,
+ =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
+ Ilya Leoshkevich <iii@linux.ibm.com>,
+ Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>, Andrew Jeffery
+ <andrew@aj.id.au>, qemu-s390x@nongnu.org,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-arm@nongnu.org,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Beraldo Leal <bleal@redhat.com>, Max Filippov <jcmvbkbc@gmail.com>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Jiaxun Yang <jiaxun.yang@flygoat.com>, Radoslaw Biernacki
+ <rad@semihalf.com>, Aurelien Jarno <aurelien@aurel32.net>,
+ David Hildenbrand <david@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ Song Gao <gaosong@loongson.cn>, Joel Stanley <joel@jms.id.au>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ Ed Maste <emaste@freebsd.org>, Li-Wen Hsu <lwhsu@freebsd.org>
+References: <20230503091244.1450613-1-alex.bennee@linaro.org>
+ <20230503091244.1450613-2-alex.bennee@linaro.org>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <20230503091244.1450613-2-alex.bennee@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::335;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x335.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -36
+X-Spam_score: -3.7
+X-Spam_bar: ---
+X-Spam_report: (-3.7 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.171,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-1.422, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -106,69 +129,23 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Now we no longer have users for qemu_xxhash7 we can drop an additional
-multiply and rol and make qemu_xxhash6 the implementation. Adjust the
-smaller hash functions accordingly.
+On 03/05/2023 11.12, Alex Bennée wrote:
+> While the Cirrus build machines are quite beefy it looks like we are
+> still hitting timeouts. Lets reduce the testing matrix like we do for
+> the other BSDs to see if this brings us under the line. This is
+> however a pretty restricted set and I'm sure there are stalls
+> happening on FreeBSD which should be addresses.
 
-Message-Id: <20230420150009.1675181-11-alex.bennee@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
----
- include/qemu/xxhash.h | 17 ++++-------------
- 1 file changed, 4 insertions(+), 13 deletions(-)
+My fix/workaround for the hanging FreeBSD job has been merged yesterday:
 
-diff --git a/include/qemu/xxhash.h b/include/qemu/xxhash.h
-index c2dcccadbf..bab7d4ca09 100644
---- a/include/qemu/xxhash.h
-+++ b/include/qemu/xxhash.h
-@@ -49,7 +49,7 @@
-  * contiguous in memory.
-  */
- static inline uint32_t
--qemu_xxhash7(uint64_t ab, uint64_t cd, uint32_t e, uint32_t f, uint32_t g)
-+qemu_xxhash6(uint64_t ab, uint64_t cd, uint32_t e, uint32_t f)
- {
-     uint32_t v1 = QEMU_XXHASH_SEED + PRIME32_1 + PRIME32_2;
-     uint32_t v2 = QEMU_XXHASH_SEED + PRIME32_2;
-@@ -86,9 +86,6 @@ qemu_xxhash7(uint64_t ab, uint64_t cd, uint32_t e, uint32_t f, uint32_t g)
-     h32 += f * PRIME32_3;
-     h32  = rol32(h32, 17) * PRIME32_4;
- 
--    h32 += g * PRIME32_3;
--    h32  = rol32(h32, 17) * PRIME32_4;
--
-     h32 ^= h32 >> 15;
-     h32 *= PRIME32_2;
-     h32 ^= h32 >> 13;
-@@ -100,23 +97,17 @@ qemu_xxhash7(uint64_t ab, uint64_t cd, uint32_t e, uint32_t f, uint32_t g)
- 
- static inline uint32_t qemu_xxhash2(uint64_t ab)
- {
--    return qemu_xxhash7(ab, 0, 0, 0, 0);
-+    return qemu_xxhash6(ab, 0, 0, 0);
- }
- 
- static inline uint32_t qemu_xxhash4(uint64_t ab, uint64_t cd)
- {
--    return qemu_xxhash7(ab, cd, 0, 0, 0);
-+    return qemu_xxhash6(ab, cd, 0, 0);
- }
- 
- static inline uint32_t qemu_xxhash5(uint64_t ab, uint64_t cd, uint32_t e)
- {
--    return qemu_xxhash7(ab, cd, e, 0, 0);
--}
--
--static inline uint32_t qemu_xxhash6(uint64_t ab, uint64_t cd, uint32_t e,
--                                    uint32_t f)
--{
--    return qemu_xxhash7(ab, cd, e, f, 0);
-+    return qemu_xxhash6(ab, cd, e, 0);
- }
- 
- /*
--- 
-2.39.2
+  https://gitlab.com/qemu-project/qemu/-/commit/01013d2c10a07bb49d
+
+It seems like the test now finishes again in 23 minutes:
+
+  https://cirrus-ci.com/task/5409701572116480
+
+... so I hope you can drop this patch here now from your queue.
+
+  Thomas
 
 
