@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE74E6F512A
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 May 2023 09:21:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D0FBE6F511F
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 May 2023 09:20:12 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pu6bA-0000zt-ML; Wed, 03 May 2023 03:08:24 -0400
+	id 1pu6bA-0000yF-5J; Wed, 03 May 2023 03:08:24 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pu6aW-00070o-2D
+ id 1pu6aW-00070U-1t
  for qemu-devel@nongnu.org; Wed, 03 May 2023 03:07:44 -0400
-Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e])
+Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pu6a4-0005jz-Kg
+ id 1pu6a4-0005ka-L0
  for qemu-devel@nongnu.org; Wed, 03 May 2023 03:07:43 -0400
-Received: by mail-wm1-x32e.google.com with SMTP id
- 5b1f17b1804b1-3f1728c2a57so47624925e9.0
- for <qemu-devel@nongnu.org>; Wed, 03 May 2023 00:07:15 -0700 (PDT)
+Received: by mail-wm1-x336.google.com with SMTP id
+ 5b1f17b1804b1-3f19afc4f60so29573105e9.1
+ for <qemu-devel@nongnu.org>; Wed, 03 May 2023 00:07:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1683097634; x=1685689634;
+ d=linaro.org; s=google; t=1683097635; x=1685689635;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=5j/yMASWGStjwMM59Hf05R5CdVFVYJotd2cRr9oH9m0=;
- b=CaQjqtpSDch0Exsm8wEG8Gdb9dWKcyj8xeVd9MEC/vB96p6Hd23o/LlGHSzGg2acZy
- zilBP52CFOe2LQ8GsjwqHWUEFjfwQfI6WP/mPrdzq4tubr7u4OyCA9aHwy+f0Q9wA7lN
- BCyPRZtKgAMUiRIRJ4CbSjHsLASEeW2M5eeR+4CGNvHPXJypFN2RL1Oq19sVS+3+ni/i
- edGh7iugrEyZ1u4MUr4O7b8MtFUz09VfK3xhVzBnMlp0PYOA4ocGJ++W4k9dgumZFHtK
- NGaagHS/dgtuOTeWYwouQVgSsku7qxBe7ZPcTOZyJth6wVMe6crRYTLipdWRap7GoAmm
- b1Mg==
+ bh=RwxIOwfcK07f8Ih0O3BZ3uVtj/nizIzXDkTDJdsGEMk=;
+ b=Ar9PbvoXEisP7CprGBEplweyw1ndLyo4wA/3DQ2mgQuwfkD1lZo81FDOV9V6KSKf2/
+ U+lNP943moxxmCET4sjKRGpFPz9dzbq7AIq1kWYIs4Tyb5/+oFGmL7ISYyUo+ReEogu4
+ ZVZpUiIfEsF+7YjicK0mLD+egTz1YHpuZnkgHt2oxmTqwwguhZK6lzXPiC8HN50uu5UG
+ b16JUmwmzlApGmhpEpxHNMsgmC+zCkz8/AL4nqee8S+CwFL8mP/mzDDRRFS/dJWeZWJj
+ 2rjB1k1PxqCiXPC4yRhhNbIFCJyAsua2JnyD28/uNfxXEMyzD5kSERz6Ofal8b6yNZMY
+ h5wQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683097634; x=1685689634;
+ d=1e100.net; s=20221208; t=1683097635; x=1685689635;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=5j/yMASWGStjwMM59Hf05R5CdVFVYJotd2cRr9oH9m0=;
- b=U/ktTdWsIOokA9CYjvepy+hNV7IhZvvC+bC2i6ANfkgHrO06MJ2Gv7NN9YU94+onsU
- CtV14kW+9nfih27dKPlyXMx5zAE81HgkaK9EDsCqKYL9HuYDD3424HAkWFD+mXVE9Xbn
- TuVI9Q8Qx/JciDMRwjeh4wlFeEe5wB3tqWWbLhlHk0eOh6GAwvyoFQlNfBLP7izwVz73
- Vzhg4Y/HhcfqBrisvplrQBvGeSnBFquFO1UVfL3A5L8vDaOVgSDnQU3Hmi4DdDT0DPga
- SUxXye+XWNzGjUrdWJScauE2gtQQHbym8tphimw4r3rdozLA+XTe7a03eTdvKhU6Cqd2
- q3kA==
-X-Gm-Message-State: AC+VfDzCMGjE6+jiYfcdyhEl3NM/BW4P6+pIx3MzTnzlbNtK6yK5RI/4
- Byz49XZNAZl+w1XU6I4pslAi4C8OEk1PZKcnflwn9w==
-X-Google-Smtp-Source: ACHHUZ69uQOvna65AymTXFLBokzAO38IvjYKIWrOzUru7z0tEfVVT90zf/Ie89bNseq4JpyC1tM+4w==
-X-Received: by 2002:a1c:7912:0:b0:3f0:41b3:9256 with SMTP id
- l18-20020a1c7912000000b003f041b39256mr13784978wme.10.1683097634480; 
- Wed, 03 May 2023 00:07:14 -0700 (PDT)
+ bh=RwxIOwfcK07f8Ih0O3BZ3uVtj/nizIzXDkTDJdsGEMk=;
+ b=fFxNfjwHECO9hsWGjjs8PzHsKUUwrkeODlnI04i1FV9k9ASPSwYEbv7iUtjaqc7R40
+ 5rpO6gc13fY2hlsn7eiKOh+E2ahyBoOee/hVAzUoUaANwJaTqyppHrJnUzthLulROMQi
+ fDo5QkXf+9r0uuPjGTojE4lP/0Zcv0eMXqSr6VIaHYXwQ4qz7afUcBth7kAlI4LbgyOA
+ lPCLolftcw69X9enA3vVGH7pPEFDZWHJZsEIQP6zAJb1aPLN9R6RG+8i7ARa89CtCz7/
+ GGKmMtYNoHTUqmEnvx5VjIJTE/yS4aGkxNuVOb+vr2jxCAc94V+OJmRwzaYdNZ+oJH4X
+ B6Aw==
+X-Gm-Message-State: AC+VfDzH4BGmbVQb+j7qUXrc8M/+mi4N/x67d0Z0S1daLSANzfFpZj9+
+ d09UWj6AdJgtgHyn2ace86Pez2pdGLHWNIUxNYsZKQ==
+X-Google-Smtp-Source: ACHHUZ7wx+6Xg13pDBP8W4dKjoUORk1R6GZy0Vau4wmwxJAZJ/nfBkrh3X0iHJBCGl6BdRuq0JqJew==
+X-Received: by 2002:a5d:452b:0:b0:2fe:6b1e:3818 with SMTP id
+ j11-20020a5d452b000000b002fe6b1e3818mr13618694wra.51.1683097635211; 
+ Wed, 03 May 2023 00:07:15 -0700 (PDT)
 Received: from stoup.Home ([2a02:c7c:74db:8d00:c01d:9d74:b630:9087])
  by smtp.gmail.com with ESMTPSA id
- q3-20020a1cf303000000b003f3157988f8sm921184wmq.26.2023.05.03.00.07.13
+ q3-20020a1cf303000000b003f3157988f8sm921184wmq.26.2023.05.03.00.07.14
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Wed, 03 May 2023 00:07:14 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: git@xen0n.name, gaosong@loongson.cn, philmd@linaro.org,
  qemu-arm@nongnu.org, qemu-riscv@nongnu.org, qemu-s390x@nongnu.org
-Subject: [PATCH v4 22/57] tcg/aarch64: Use full load/store helpers in
- user-only mode
-Date: Wed,  3 May 2023 08:06:21 +0100
-Message-Id: <20230503070656.1746170-23-richard.henderson@linaro.org>
+Subject: [PATCH v4 23/57] tcg/ppc: Use full load/store helpers in user-only
+ mode
+Date: Wed,  3 May 2023 08:06:22 +0100
+Message-Id: <20230503070656.1746170-24-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230503070656.1746170-1-richard.henderson@linaro.org>
 References: <20230503070656.1746170-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
- envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x32e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::336;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x336.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -99,46 +99,55 @@ while not immediately raising an alignment exception.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tcg/aarch64/tcg-target.c.inc | 35 -----------------------------------
- 1 file changed, 35 deletions(-)
+ tcg/ppc/tcg-target.c.inc | 44 ----------------------------------------
+ 1 file changed, 44 deletions(-)
 
-diff --git a/tcg/aarch64/tcg-target.c.inc b/tcg/aarch64/tcg-target.c.inc
-index 43acb4fbcb..09c9ecad0f 100644
---- a/tcg/aarch64/tcg-target.c.inc
-+++ b/tcg/aarch64/tcg-target.c.inc
-@@ -1595,7 +1595,6 @@ typedef struct {
-     TCGType index_ext;
- } HostAddress;
- 
--#ifdef CONFIG_SOFTMMU
- static const TCGLdstHelperParam ldst_helper_param = {
-     .ntmp = 1, .tmp = { TCG_REG_TMP }
+diff --git a/tcg/ppc/tcg-target.c.inc b/tcg/ppc/tcg-target.c.inc
+index 0963156a78..733f67c7a5 100644
+--- a/tcg/ppc/tcg-target.c.inc
++++ b/tcg/ppc/tcg-target.c.inc
+@@ -1962,7 +1962,6 @@ static const uint32_t qemu_stx_opc[(MO_SIZE + MO_BSWAP) + 1] = {
+     [MO_BSWAP | MO_UQ] = STDBRX,
  };
-@@ -1628,40 +1627,6 @@ static bool tcg_out_qemu_st_slow_path(TCGContext *s, TCGLabelQemuLdst *lb)
-     tcg_out_goto(s, lb->raddr);
+ 
+-#if defined (CONFIG_SOFTMMU)
+ static TCGReg ldst_ra_gen(TCGContext *s, const TCGLabelQemuLdst *l, int arg)
+ {
+     if (arg < 0) {
+@@ -2012,49 +2011,6 @@ static bool tcg_out_qemu_st_slow_path(TCGContext *s, TCGLabelQemuLdst *lb)
+     tcg_out_b(s, 0, lb->raddr);
      return true;
  }
 -#else
--static void tcg_out_adr(TCGContext *s, TCGReg rd, const void *target)
--{
--    ptrdiff_t offset = tcg_pcrel_diff(s, target);
--    tcg_debug_assert(offset == sextract64(offset, 0, 21));
--    tcg_out_insn(s, 3406, ADR, rd, offset);
--}
--
 -static bool tcg_out_fail_alignment(TCGContext *s, TCGLabelQemuLdst *l)
 -{
--    if (!reloc_pc19(l->label_ptr[0], tcg_splitwx_to_rx(s->code_ptr))) {
+-    if (!reloc_pc14(l->label_ptr[0], tcg_splitwx_to_rx(s->code_ptr))) {
 -        return false;
 -    }
 -
--    tcg_out_mov(s, TCG_TYPE_TL, TCG_REG_X1, l->addrlo_reg);
--    tcg_out_mov(s, TCG_TYPE_PTR, TCG_REG_X0, TCG_AREG0);
+-    if (TCG_TARGET_REG_BITS < TARGET_LONG_BITS) {
+-        TCGReg arg = TCG_REG_R4;
+-
+-        arg |= (TCG_TARGET_CALL_ARG_I64 == TCG_CALL_ARG_EVEN);
+-        if (l->addrlo_reg != arg) {
+-            tcg_out_mov(s, TCG_TYPE_I32, arg, l->addrhi_reg);
+-            tcg_out_mov(s, TCG_TYPE_I32, arg + 1, l->addrlo_reg);
+-        } else if (l->addrhi_reg != arg + 1) {
+-            tcg_out_mov(s, TCG_TYPE_I32, arg + 1, l->addrlo_reg);
+-            tcg_out_mov(s, TCG_TYPE_I32, arg, l->addrhi_reg);
+-        } else {
+-            tcg_out_mov(s, TCG_TYPE_I32, TCG_REG_R0, arg);
+-            tcg_out_mov(s, TCG_TYPE_I32, arg, arg + 1);
+-            tcg_out_mov(s, TCG_TYPE_I32, arg + 1, TCG_REG_R0);
+-        }
+-    } else {
+-        tcg_out_mov(s, TCG_TYPE_TL, TCG_REG_R4, l->addrlo_reg);
+-    }
+-    tcg_out_mov(s, TCG_TYPE_TL, TCG_REG_R3, TCG_AREG0);
 -
 -    /* "Tail call" to the helper, with the return address back inline. */
--    tcg_out_adr(s, TCG_REG_LR, l->raddr);
--    tcg_out_goto_long(s, (const void *)(l->is_ld ? helper_unaligned_ld
--                                        : helper_unaligned_st));
+-    tcg_out_call_int(s, 0, (const void *)(l->is_ld ? helper_unaligned_ld
+-                                          : helper_unaligned_st));
 -    return true;
 -}
 -
@@ -151,10 +160,10 @@ index 43acb4fbcb..09c9ecad0f 100644
 -{
 -    return tcg_out_fail_alignment(s, l);
 -}
--#endif /* CONFIG_SOFTMMU */
+-#endif /* SOFTMMU */
  
- /*
-  * For softmmu, perform the TLB load and compare.
+ typedef struct {
+     TCGReg base;
 -- 
 2.34.1
 
