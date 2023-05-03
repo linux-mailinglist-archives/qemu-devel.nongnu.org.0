@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E0526F4E34
+	by mail.lfdr.de (Postfix) with ESMTPS id A649E6F4E36
 	for <lists+qemu-devel@lfdr.de>; Wed,  3 May 2023 02:41:38 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pu0XY-0001Qm-FG; Tue, 02 May 2023 20:40:16 -0400
+	id 1pu0Xc-0001RD-3K; Tue, 02 May 2023 20:40:20 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <npiggin@gmail.com>)
- id 1pu0XV-0001Px-Pv; Tue, 02 May 2023 20:40:13 -0400
-Received: from mail-pf1-x430.google.com ([2607:f8b0:4864:20::430])
+ id 1pu0XZ-0001Qp-Br; Tue, 02 May 2023 20:40:17 -0400
+Received: from mail-pf1-x42f.google.com ([2607:f8b0:4864:20::42f])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <npiggin@gmail.com>)
- id 1pu0XS-0006qq-V3; Tue, 02 May 2023 20:40:12 -0400
-Received: by mail-pf1-x430.google.com with SMTP id
- d2e1a72fcca58-64115e652eeso1205336b3a.0; 
- Tue, 02 May 2023 17:40:09 -0700 (PDT)
+ id 1pu0XV-0006rm-TO; Tue, 02 May 2023 20:40:16 -0400
+Received: by mail-pf1-x42f.google.com with SMTP id
+ d2e1a72fcca58-63b70f0b320so5111634b3a.1; 
+ Tue, 02 May 2023 17:40:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1683074408; x=1685666408;
+ d=gmail.com; s=20221208; t=1683074411; x=1685666411;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=WOuhY3YPJJR0IGEC1BhBx91yO8bKpC7oEQwLePGz9J8=;
- b=sHV/63RsPEAkvTJEmEJjT/BFwFmyuLcP7qn4AQTc/6VNYIrTb7Zzk6MR7WxbdxDxSs
- +oR08cbMGEjGimebdwN4A1x14EA0JNd+RAl2lOn4lsOkIhkb5YBwDqaRAs3csHk7uAfX
- V+p/CWRJ69tmnETg/dZSfdTChMsPX/sJ/BqDdYsYzuiGLuebudUl0rnPtasCkmHM3CAm
- nrf/FH5JZ/sV4SzfhwWC3v0DXsCiwq8OvjGFNytVnJPaX50QccjkVXqYk6ta3MnIclDa
- tkVJJpmdKHyeCLBtTKXNyfSHQN3g0mYQh4ZH6cLHOaKQmLvsNRPQ3hupyfrOTNYL+xjA
- +NaA==
+ bh=J+N4uJmmAeCawXEvswruqVixPwsAF2D12g8eyp3la1Q=;
+ b=dtiCjqlSDqHrPJD50XCqCz5bK7C5Cz6PpbCxbDlsMDJAJqX6wHZsRQX9Wju2F0Ksea
+ d41AlJFUoZBti/G/26/sAvAKyyYQ6q57ABjQsq0bxDTkFHoFjVWKAmbGHyJlBk6AmLqA
+ oCPVwGadS6dyUMqJbnVwubna2RHgGNgOq/oVAZkTTBJGDGriZ6m8hhaeeDzu86QZqEUb
+ hca6rQ5/QJAvz3j1T1rOkbVq0F0TxyUs21thOhykOcVjfb4SJ3KZpStF1nHlBPd/4dX6
+ 0rZ6I6RkdT0vSwGUEfcjYT3fKRm4s1Y7uxmhgElgNEsETGm8iucmECAlx3ajw/bcJoa4
+ YyKA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683074408; x=1685666408;
+ d=1e100.net; s=20221208; t=1683074411; x=1685666411;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=WOuhY3YPJJR0IGEC1BhBx91yO8bKpC7oEQwLePGz9J8=;
- b=IrsPBtZ+9W4+FIVAzXYcaH0h5mYx8/btbrmLWokqzxCYW+mTKtZ2bycMILZrWofbVh
- i0IQxogQZZ5FrChxvllQ3db5tmE7y7czsmPSB4r9JBHo+iwWgrDg6JTwrac30FLlBNjt
- L06q35JELgizjiKhwt3XF+mLmQcx4QWoX3o0+GIVTLXPQAW+x2jKkuCrPZLb86chV2SD
- Gj5soXoRvCoDllimb0voCDNx0PPq0aJFb8VWXtORlbO/KsJTV3nwfNBVQZmA91t0C32n
- LMGXYO3o3u0HZhYv6XHPbw1v3zELGybhCIpSj+zoATTBRUDJW5WAQrAO0bmjsOVkhwsW
- SxsA==
-X-Gm-Message-State: AC+VfDz99jdYHPm+E0e7AA6+6/1luY33xRLcnoxDkCIjq5/7UzEcpTne
- DXM8Ct52NtU7Sh2K6MxRuDMqEtPgLKgK1A==
-X-Google-Smtp-Source: ACHHUZ6Z5Rv/HnFeA/9MxmzS7l/NnM+Q2FE2kxByHssqiQmJlVm1iyjROgyKbPMl/QP2itk7zZJxWg==
-X-Received: by 2002:a05:6a20:7f99:b0:f3:8fc6:6579 with SMTP id
- d25-20020a056a207f9900b000f38fc66579mr448648pzj.10.1683074408158; 
- Tue, 02 May 2023 17:40:08 -0700 (PDT)
+ bh=J+N4uJmmAeCawXEvswruqVixPwsAF2D12g8eyp3la1Q=;
+ b=TBwCrsHRkLSrITZli6SbEgEbU5ZiYBZN7NCcFR8WWvkQttL8bMDa4foVtfAVacN2Qw
+ LWNTGrt+1TwCtePHzaBrhczGxLZt46tx1FeYjW/KRflwIm0+TkVDFTn4eAiaTy7HUN7y
+ TpKrogk8NYn4fVWq8r4s448BxYTOtzhsrlTAN0KGUo0novxaFAFSnbA37RzmyQ53nIDd
+ eSp1d2CMhK5KUVbol176rspD0RMzi2CVYruHneHroNYBoxGzI6V95z3EVBHlGAJUNEvM
+ ucVN5wDQxGgLNlEqr3GytMKLk1A/wKx8xQomMINLLpJRgPRDo3EroQq1/F/oAyTQcEMr
+ owVw==
+X-Gm-Message-State: AC+VfDzcJjBgMzrlcgSLpwdrBA9uYHaBPWuNlAdqe1Btsj4VhX9bIqjf
+ KjmmRd+3fp2wiooja3+wUPqG0mMrnq1LvA==
+X-Google-Smtp-Source: ACHHUZ472dLXGm0Zr8zpIgnvh0apfEXpjM7QazP1TfcGjC9sGeAJOTHAkvEffDjcfXzhwbqNeNho+Q==
+X-Received: by 2002:a05:6a20:42a0:b0:f2:64f8:b214 with SMTP id
+ o32-20020a056a2042a000b000f264f8b214mr26510978pzj.13.1683074411345; 
+ Tue, 02 May 2023 17:40:11 -0700 (PDT)
 Received: from wheely.local0.net (118-208-214-188.tpgi.com.au.
  [118.208.214.188]) by smtp.gmail.com with ESMTPSA id
- e13-20020a63db0d000000b0050f7208b4bcsm19332338pgg.89.2023.05.02.17.40.05
+ e13-20020a63db0d000000b0050f7208b4bcsm19332338pgg.89.2023.05.02.17.40.08
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 02 May 2023 17:40:07 -0700 (PDT)
+ Tue, 02 May 2023 17:40:10 -0700 (PDT)
 From: Nicholas Piggin <npiggin@gmail.com>
 To: qemu-ppc@nongnu.org
 Cc: Nicholas Piggin <npiggin@gmail.com>, qemu-devel@nongnu.org,
  Harsh Prateek Bora <harsh@linux.vnet.ibm.com>
-Subject: [RFC PATCH 2/4] spapr: Add a nested state struct
-Date: Wed,  3 May 2023 10:39:52 +1000
-Message-Id: <20230503003954.128188-3-npiggin@gmail.com>
+Subject: [RFC PATCH 3/4] spapr: load and store l2 state with helper functions
+Date: Wed,  3 May 2023 10:39:53 +1000
+Message-Id: <20230503003954.128188-4-npiggin@gmail.com>
 X-Mailer: git-send-email 2.40.1
 In-Reply-To: <20230503003954.128188-1-npiggin@gmail.com>
 References: <20230503003954.128188-1-npiggin@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::430;
- envelope-from=npiggin@gmail.com; helo=mail-pf1-x430.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42f;
+ envelope-from=npiggin@gmail.com; helo=mail-pf1-x42f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,265 +90,302 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Rather than use a copy of CPUPPCState to store the host state while
-the environment has been switched to the L2, use a new struct for
-this purpose.
-
-Have helper functions to save and load this host state.
+Arguably this is just shuffling around register accesses, but one nice
+thing it does is allow the exit to save away the L2 state then switch
+the environment to the L1 before copying L2 data back to the L1, which
+logically flows more naturally and simplifies the error paths.
 
 Signed-off-by: Nicholas Piggin <npiggin@gmail.com>
 ---
- hw/ppc/spapr_hcall.c            | 164 ++++++++++++++++++++++++--------
- include/hw/ppc/spapr_cpu_core.h |   5 +-
- 2 files changed, 129 insertions(+), 40 deletions(-)
+ hw/ppc/spapr_hcall.c | 178 +++++++++++++++++++++----------------------
+ 1 file changed, 85 insertions(+), 93 deletions(-)
 
 diff --git a/hw/ppc/spapr_hcall.c b/hw/ppc/spapr_hcall.c
-index be225adaf6..6679150ac7 100644
+index 6679150ac7..783a06ba98 100644
 --- a/hw/ppc/spapr_hcall.c
 +++ b/hw/ppc/spapr_hcall.c
-@@ -1544,6 +1544,126 @@ static target_ulong h_copy_tofrom_guest(PowerPCCPU *cpu,
-     return H_FUNCTION;
- }
- 
-+struct nested_ppc_state {
-+    uint64_t gpr[32];
-+    uint64_t lr;
-+    uint64_t ctr;
-+    uint64_t cfar;
-+    uint64_t msr;
-+    uint64_t nip;
-+    uint32_t cr;
-+
-+    uint64_t xer;
-+
-+    uint64_t lpcr;
-+    uint64_t lpidr;
-+    uint64_t pidr;
-+    uint64_t pcr;
-+    uint64_t dpdes;
-+    uint64_t hfscr;
-+    uint64_t srr0;
-+    uint64_t srr1;
-+    uint64_t sprg0;
-+    uint64_t sprg1;
-+    uint64_t sprg2;
-+    uint64_t sprg3;
-+    uint64_t ppr;
-+
-+    int64_t tb_offset;
-+};
-+
-+static void nested_save_state(struct nested_ppc_state *save, PowerPCCPU *cpu)
-+{
-+    CPUPPCState *env = &cpu->env;
-+    uint32_t cr;
-+    int i;
-+
-+    memcpy(save->gpr, env->gpr, sizeof(save->gpr));
-+
-+    save->lr = env->lr;
-+    save->ctr = env->ctr;
-+    save->cfar = env->cfar;
-+    save->msr = env->msr;
-+    save->nip = env->nip;
-+
-+    cr = 0;
-+    for (i = 0; i < 8; i++) {
-+        cr |= (env->crf[i] & 15) << (4 * (7 - i));
-+    }
-+    save->cr = cr;
-+
-+    save->xer = cpu_read_xer(env);
-+
-+    save->lpcr = env->spr[SPR_LPCR];
-+    save->lpidr = env->spr[SPR_LPIDR];
-+    save->pcr = env->spr[SPR_PCR];
-+    save->dpdes = env->spr[SPR_DPDES];
-+    save->hfscr = env->spr[SPR_HFSCR];
-+    save->srr0 = env->spr[SPR_SRR0];
-+    save->srr1 = env->spr[SPR_SRR1];
-+    save->sprg0 = env->spr[SPR_SPRG0];
-+    save->sprg1 = env->spr[SPR_SPRG1];
-+    save->sprg2 = env->spr[SPR_SPRG2];
-+    save->sprg3 = env->spr[SPR_SPRG3];
-+    save->pidr = env->spr[SPR_BOOKS_PID];
-+    save->ppr = env->spr[SPR_PPR];
-+
-+    save->tb_offset = env->tb_env->tb_offset;
-+}
-+
-+static void nested_load_state(PowerPCCPU *cpu, struct nested_ppc_state *load)
-+{
-+    CPUState *cs = CPU(cpu);
-+    CPUPPCState *env = &cpu->env;
-+    uint32_t cr;
-+    int i;
-+
-+    memcpy(env->gpr, load->gpr, sizeof(env->gpr));
-+
-+    env->lr = load->lr;
-+    env->ctr = load->ctr;
-+    env->cfar = load->cfar;
-+    env->msr = load->msr;
-+    env->nip = load->nip;
-+
-+    cr = load->cr;
-+    for (i = 7; i >= 0; i--) {
-+        env->crf[i] = cr & 15;
-+        cr >>= 4;
-+    }
-+
-+    cpu_write_xer(env, load->xer);
-+
-+    env->spr[SPR_LPCR] = load->lpcr;
-+    env->spr[SPR_LPIDR] = load->lpidr;
-+    env->spr[SPR_PCR] = load->pcr;
-+    env->spr[SPR_DPDES] = load->dpdes;
-+    env->spr[SPR_HFSCR] = load->hfscr;
-+    env->spr[SPR_SRR0] = load->srr0;
-+    env->spr[SPR_SRR1] = load->srr1;
-+    env->spr[SPR_SPRG0] = load->sprg0;
-+    env->spr[SPR_SPRG1] = load->sprg1;
-+    env->spr[SPR_SPRG2] = load->sprg2;
-+    env->spr[SPR_SPRG3] = load->sprg3;
-+    env->spr[SPR_BOOKS_PID] = load->pidr;
-+    env->spr[SPR_PPR] = load->ppr;
-+
-+    env->tb_env->tb_offset = load->tb_offset;
-+
-+    /*
-+     * MSR updated, compute hflags and possible interrupts.
-+     */
-+    hreg_compute_hflags(env);
-+    ppc_maybe_interrupt(env);
-+
-+    /*
-+     * Nested HV does not tag TLB entries between L1 and L2, so must
-+     * flush on transition.
-+     */
-+    tlb_flush(cs);
-+    env->reserve_addr = -1; /* Reset the reservation */
-+}
-+
- /*
-  * When this handler returns, the environment is switched to the L2 guest
-  * and TCG begins running that. spapr_exit_nested() performs the switch from
-@@ -1593,12 +1713,14 @@ static target_ulong h_enter_nested(PowerPCCPU *cpu,
-         return H_PARAMETER;
-     }
- 
--    spapr_cpu->nested_host_state = g_try_new(CPUPPCState, 1);
-+    spapr_cpu->nested_host_state = g_try_new(struct nested_ppc_state, 1);
-     if (!spapr_cpu->nested_host_state) {
-         return H_NO_MEM;
-     }
- 
--    memcpy(spapr_cpu->nested_host_state, env, sizeof(CPUPPCState));
-+    assert(env->spr[SPR_LPIDR] == 0);
-+    assert(env->spr[SPR_DPDES] == 0);
-+    nested_save_state(spapr_cpu->nested_host_state, cpu);
- 
-     len = sizeof(*regs);
-     regs = address_space_map(CPU(cpu)->as, regs_ptr, &len, false,
-@@ -1644,7 +1766,6 @@ static target_ulong h_enter_nested(PowerPCCPU *cpu,
-     env->spr[SPR_DPDES] = hv_state.dpdes;
-     env->spr[SPR_HFSCR] = hv_state.hfscr;
-     hdec = hv_state.hdec_expiry - now;
--    spapr_cpu->nested_tb_offset = hv_state.tb_offset;
-     /* TCG does not implement DAWR*, CIABR, PURR, SPURR, IC, VTB, HEIR SPRs*/
-     env->spr[SPR_SRR0] = hv_state.srr0;
-     env->spr[SPR_SRR1] = hv_state.srr1;
-@@ -1670,7 +1791,7 @@ static target_ulong h_enter_nested(PowerPCCPU *cpu,
-      * and it's not obviously worth a new data structure to do it.
-      */
- 
--    env->tb_env->tb_offset += spapr_cpu->nested_tb_offset;
-+    env->tb_env->tb_offset += hv_state.tb_offset;
-     spapr_cpu->in_nested = true;
- 
-     hreg_compute_hflags(env);
-@@ -1689,7 +1810,6 @@ static target_ulong h_enter_nested(PowerPCCPU *cpu,
- 
- void spapr_exit_nested(PowerPCCPU *cpu, int excp)
+@@ -1675,9 +1675,9 @@ static target_ulong h_enter_nested(PowerPCCPU *cpu,
+                                    target_ulong *args)
  {
+     PowerPCCPUClass *pcc = POWERPC_CPU_GET_CLASS(cpu);
 -    CPUState *cs = CPU(cpu);
      CPUPPCState *env = &cpu->env;
      SpaprCpuState *spapr_cpu = spapr_cpu_state(cpu);
-     target_ulong r3_return = env->excp_vectors[excp]; /* hcall return value */
-@@ -1778,34 +1898,8 @@ void spapr_exit_nested(PowerPCCPU *cpu, int excp)
-     address_space_unmap(CPU(cpu)->as, regs, len, len, true);
++    struct nested_ppc_state l2_state;
+     target_ulong hv_ptr = args[0];
+     target_ulong regs_ptr = args[1];
+     target_ulong hdec, now = cpu_ppc_load_tbl(env);
+@@ -1686,8 +1686,6 @@ static target_ulong h_enter_nested(PowerPCCPU *cpu,
+     struct kvmppc_hv_guest_state hv_state;
+     struct kvmppc_pt_regs *regs;
+     hwaddr len;
+-    uint64_t cr;
+-    int i;
  
- out_restore_l1:
--    memcpy(env->gpr, spapr_cpu->nested_host_state->gpr, sizeof(env->gpr));
--    env->lr = spapr_cpu->nested_host_state->lr;
--    env->ctr = spapr_cpu->nested_host_state->ctr;
--    memcpy(env->crf, spapr_cpu->nested_host_state->crf, sizeof(env->crf));
--    env->cfar = spapr_cpu->nested_host_state->cfar;
--    env->xer = spapr_cpu->nested_host_state->xer;
--    env->so = spapr_cpu->nested_host_state->so;
--    env->ca = spapr_cpu->nested_host_state->ca;
--    env->ov = spapr_cpu->nested_host_state->ov;
--    env->ov32 = spapr_cpu->nested_host_state->ov32;
--    env->ca32 = spapr_cpu->nested_host_state->ca32;
--    env->msr = spapr_cpu->nested_host_state->msr;
--    env->nip = spapr_cpu->nested_host_state->nip;
+     if (spapr->nested_ptcr == 0) {
+         return H_NOT_AVAILABLE;
+@@ -1713,6 +1711,10 @@ static target_ulong h_enter_nested(PowerPCCPU *cpu,
+         return H_PARAMETER;
+     }
+ 
++    if (hv_state.lpid == 0) {
++        return H_PARAMETER;
++    }
++
+     spapr_cpu->nested_host_state = g_try_new(struct nested_ppc_state, 1);
+     if (!spapr_cpu->nested_host_state) {
+         return H_NO_MEM;
+@@ -1731,51 +1733,49 @@ static target_ulong h_enter_nested(PowerPCCPU *cpu,
+         return H_P2;
+     }
+ 
+-    len = sizeof(env->gpr);
++    len = sizeof(l2_state.gpr);
+     assert(len == sizeof(regs->gpr));
+-    memcpy(env->gpr, regs->gpr, len);
++    memcpy(l2_state.gpr, regs->gpr, len);
+ 
+-    env->lr = regs->link;
+-    env->ctr = regs->ctr;
+-    cpu_write_xer(env, regs->xer);
 -
-     assert(env->spr[SPR_LPIDR] != 0);
--    env->spr[SPR_LPCR] = spapr_cpu->nested_host_state->spr[SPR_LPCR];
--    env->spr[SPR_LPIDR] = spapr_cpu->nested_host_state->spr[SPR_LPIDR];
--    env->spr[SPR_PCR] = spapr_cpu->nested_host_state->spr[SPR_PCR];
--    env->spr[SPR_DPDES] = 0;
--    env->spr[SPR_HFSCR] = spapr_cpu->nested_host_state->spr[SPR_HFSCR];
--    env->spr[SPR_SRR0] = spapr_cpu->nested_host_state->spr[SPR_SRR0];
--    env->spr[SPR_SRR1] = spapr_cpu->nested_host_state->spr[SPR_SRR1];
--    env->spr[SPR_SPRG0] = spapr_cpu->nested_host_state->spr[SPR_SPRG0];
--    env->spr[SPR_SPRG1] = spapr_cpu->nested_host_state->spr[SPR_SPRG1];
--    env->spr[SPR_SPRG2] = spapr_cpu->nested_host_state->spr[SPR_SPRG2];
--    env->spr[SPR_SPRG3] = spapr_cpu->nested_host_state->spr[SPR_SPRG3];
--    env->spr[SPR_BOOKS_PID] = spapr_cpu->nested_host_state->spr[SPR_BOOKS_PID];
--    env->spr[SPR_PPR] = spapr_cpu->nested_host_state->spr[SPR_PPR];
-+    nested_load_state(cpu, spapr_cpu->nested_host_state);
+-    cr = regs->ccr;
+-    for (i = 7; i >= 0; i--) {
+-        env->crf[i] = cr & 15;
+-        cr >>= 4;
+-    }
+-
+-    env->msr = regs->msr;
+-    env->nip = regs->nip;
++    l2_state.lr = regs->link;
++    l2_state.ctr = regs->ctr;
++    l2_state.xer = regs->xer;
++    l2_state.cr = regs->ccr;
++    l2_state.msr = regs->msr;
++    l2_state.nip = regs->nip;
  
-     /*
-      * Return the interrupt vector address from H_ENTER_NESTED to the L1
-@@ -1813,14 +1907,8 @@ out_restore_l1:
+     address_space_unmap(CPU(cpu)->as, regs, len, len, false);
+ 
+-    env->cfar = hv_state.cfar;
+-
+-    assert(env->spr[SPR_LPIDR] == 0);
+-    env->spr[SPR_LPIDR] = hv_state.lpid;
++    l2_state.cfar = hv_state.cfar;
++    l2_state.lpidr = hv_state.lpid;
+ 
+     lpcr_mask = LPCR_DPFD | LPCR_ILE | LPCR_AIL | LPCR_LD | LPCR_MER;
+     lpcr = (env->spr[SPR_LPCR] & ~lpcr_mask) | (hv_state.lpcr & lpcr_mask);
+     lpcr |= LPCR_HR | LPCR_UPRT | LPCR_GTSE | LPCR_HVICE | LPCR_HDICE;
+     lpcr &= ~LPCR_LPES0;
+-    env->spr[SPR_LPCR] = lpcr & pcc->lpcr_mask;
++    l2_state.lpcr = lpcr & pcc->lpcr_mask;
+ 
+-    env->spr[SPR_PCR] = hv_state.pcr;
++    l2_state.pcr = hv_state.pcr;
+     /* hv_state.amor is not used */
+-    env->spr[SPR_DPDES] = hv_state.dpdes;
+-    env->spr[SPR_HFSCR] = hv_state.hfscr;
+-    hdec = hv_state.hdec_expiry - now;
++    l2_state.dpdes = hv_state.dpdes;
++    l2_state.hfscr = hv_state.hfscr;
+     /* TCG does not implement DAWR*, CIABR, PURR, SPURR, IC, VTB, HEIR SPRs*/
+-    env->spr[SPR_SRR0] = hv_state.srr0;
+-    env->spr[SPR_SRR1] = hv_state.srr1;
+-    env->spr[SPR_SPRG0] = hv_state.sprg[0];
+-    env->spr[SPR_SPRG1] = hv_state.sprg[1];
+-    env->spr[SPR_SPRG2] = hv_state.sprg[2];
+-    env->spr[SPR_SPRG3] = hv_state.sprg[3];
+-    env->spr[SPR_BOOKS_PID] = hv_state.pidr;
+-    env->spr[SPR_PPR] = hv_state.ppr;
++    l2_state.srr0 = hv_state.srr0;
++    l2_state.srr1 = hv_state.srr1;
++    l2_state.sprg0 = hv_state.sprg[0];
++    l2_state.sprg1 = hv_state.sprg[1];
++    l2_state.sprg2 = hv_state.sprg[2];
++    l2_state.sprg3 = hv_state.sprg[3];
++    l2_state.pidr = hv_state.pidr;
++    l2_state.ppr = hv_state.ppr;
++    l2_state.tb_offset = env->tb_env->tb_offset + hv_state.tb_offset;
+ 
++    /*
++     * Switch to the nested guest environment and start the "hdec" timer.
++     */
++    nested_load_state(cpu, &l2_state);
++
++    hdec = hv_state.hdec_expiry - now;
+     cpu_ppc_hdecr_init(env);
+     cpu_ppc_store_hdecr(env, hdec);
+ 
+@@ -1791,14 +1791,8 @@ static target_ulong h_enter_nested(PowerPCCPU *cpu,
+      * and it's not obviously worth a new data structure to do it.
       */
-     env->gpr[3] = r3_return;
  
--    env->tb_env->tb_offset -= spapr_cpu->nested_tb_offset;
-     spapr_cpu->in_nested = false;
+-    env->tb_env->tb_offset += hv_state.tb_offset;
+     spapr_cpu->in_nested = true;
  
 -    hreg_compute_hflags(env);
 -    ppc_maybe_interrupt(env);
 -    tlb_flush(cs);
 -    env->reserve_addr = -1; /* Reset the reservation */
 -
-     g_free(spapr_cpu->nested_host_state);
-     spapr_cpu->nested_host_state = NULL;
- }
-diff --git a/include/hw/ppc/spapr_cpu_core.h b/include/hw/ppc/spapr_cpu_core.h
-index b560514560..69a52e39b8 100644
---- a/include/hw/ppc/spapr_cpu_core.h
-+++ b/include/hw/ppc/spapr_cpu_core.h
-@@ -41,6 +41,8 @@ void spapr_cpu_set_entry_state(PowerPCCPU *cpu, target_ulong nip,
-                                target_ulong r1, target_ulong r3,
-                                target_ulong r4);
+     /*
+      * The spapr hcall helper sets env->gpr[3] to the return value, but at
+      * this point the L1 is not returning from the hcall but rather we
+@@ -1812,51 +1806,69 @@ void spapr_exit_nested(PowerPCCPU *cpu, int excp)
+ {
+     CPUPPCState *env = &cpu->env;
+     SpaprCpuState *spapr_cpu = spapr_cpu_state(cpu);
+-    target_ulong r3_return = env->excp_vectors[excp]; /* hcall return value */
++    struct nested_ppc_state l2_state;
+     target_ulong hv_ptr = spapr_cpu->nested_host_state->gpr[4];
+     target_ulong regs_ptr = spapr_cpu->nested_host_state->gpr[5];
++    target_ulong hsrr0, hsrr1, hdar, asdr, hdsisr;
+     struct kvmppc_hv_guest_state *hvstate;
+     struct kvmppc_pt_regs *regs;
+     hwaddr len;
+-    uint64_t cr;
+-    int i;
  
-+struct nested_ppc_state;
+     assert(spapr_cpu->in_nested);
+ 
++    nested_save_state(&l2_state, cpu);
++    hsrr0 = env->spr[SPR_HSRR0];
++    hsrr1 = env->spr[SPR_HSRR1];
++    hdar = env->spr[SPR_HDAR];
++    hdsisr = env->spr[SPR_HDSISR];
++    asdr = env->spr[SPR_ASDR];
 +
- typedef struct SpaprCpuState {
-     uint64_t vpa_addr;
-     uint64_t slb_shadow_addr, slb_shadow_size;
-@@ -51,8 +53,7 @@ typedef struct SpaprCpuState {
++    /*
++     * Switch back to the host environment (including for any error).
++     */
++    assert(env->spr[SPR_LPIDR] != 0);
++    nested_load_state(cpu, spapr_cpu->nested_host_state);
++    env->gpr[3] = env->excp_vectors[excp]; /* hcall return value */
++
+     cpu_ppc_hdecr_exit(env);
  
-     /* Fields for nested-HV support */
-     bool in_nested; /* true while the L2 is executing */
--    CPUPPCState *nested_host_state; /* holds the L1 state while L2 executes */
--    int64_t nested_tb_offset; /* L1->L2 TB offset */
-+    struct nested_ppc_state *nested_host_state; /* holds the L1 state while L2 executes */
- } SpaprCpuState;
++    spapr_cpu->in_nested = false;
++
++    g_free(spapr_cpu->nested_host_state);
++    spapr_cpu->nested_host_state = NULL;
++
+     len = sizeof(*hvstate);
+     hvstate = address_space_map(CPU(cpu)->as, hv_ptr, &len, true,
+                                 MEMTXATTRS_UNSPECIFIED);
+     if (len != sizeof(*hvstate)) {
+         address_space_unmap(CPU(cpu)->as, hvstate, len, 0, true);
+-        r3_return = H_PARAMETER;
+-        goto out_restore_l1;
++        env->gpr[3] = H_PARAMETER;
++	return;
+     }
  
- static inline SpaprCpuState *spapr_cpu_state(PowerPCCPU *cpu)
+-    hvstate->cfar = env->cfar;
+-    hvstate->lpcr = env->spr[SPR_LPCR];
+-    hvstate->pcr = env->spr[SPR_PCR];
+-    hvstate->dpdes = env->spr[SPR_DPDES];
+-    hvstate->hfscr = env->spr[SPR_HFSCR];
++    hvstate->cfar = l2_state.cfar;
++    hvstate->lpcr = l2_state.lpcr;
++    hvstate->pcr = l2_state.pcr;
++    hvstate->dpdes = l2_state.dpdes;
++    hvstate->hfscr = l2_state.hfscr;
+ 
+     if (excp == POWERPC_EXCP_HDSI) {
+-        hvstate->hdar = env->spr[SPR_HDAR];
+-        hvstate->hdsisr = env->spr[SPR_HDSISR];
+-        hvstate->asdr = env->spr[SPR_ASDR];
++        hvstate->hdar = hdar;
++        hvstate->hdsisr = hdsisr;
++        hvstate->asdr = asdr;
+     } else if (excp == POWERPC_EXCP_HISI) {
+-        hvstate->asdr = env->spr[SPR_ASDR];
++        hvstate->asdr = asdr;
+     }
+ 
+     /* HEIR should be implemented for HV mode and saved here. */
+-    hvstate->srr0 = env->spr[SPR_SRR0];
+-    hvstate->srr1 = env->spr[SPR_SRR1];
+-    hvstate->sprg[0] = env->spr[SPR_SPRG0];
+-    hvstate->sprg[1] = env->spr[SPR_SPRG1];
+-    hvstate->sprg[2] = env->spr[SPR_SPRG2];
+-    hvstate->sprg[3] = env->spr[SPR_SPRG3];
+-    hvstate->pidr = env->spr[SPR_BOOKS_PID];
+-    hvstate->ppr = env->spr[SPR_PPR];
++    hvstate->srr0 = l2_state.srr0;
++    hvstate->srr1 = l2_state.srr1;
++    hvstate->sprg[0] = l2_state.sprg0;
++    hvstate->sprg[1] = l2_state.sprg1;
++    hvstate->sprg[2] = l2_state.sprg2;
++    hvstate->sprg[3] = l2_state.sprg3;
++    hvstate->pidr = l2_state.pidr;
++    hvstate->ppr = l2_state.ppr;
+ 
+     /* Is it okay to specify write length larger than actual data written? */
+     address_space_unmap(CPU(cpu)->as, hvstate, len, len, true);
+@@ -1866,51 +1878,31 @@ void spapr_exit_nested(PowerPCCPU *cpu, int excp)
+                                 MEMTXATTRS_UNSPECIFIED);
+     if (!regs || len != sizeof(*regs)) {
+         address_space_unmap(CPU(cpu)->as, regs, len, 0, true);
+-        r3_return = H_P2;
+-        goto out_restore_l1;
++        env->gpr[3] = H_P2;
++	return;
+     }
+ 
+     len = sizeof(env->gpr);
+     assert(len == sizeof(regs->gpr));
+-    memcpy(regs->gpr, env->gpr, len);
++    memcpy(regs->gpr, l2_state.gpr, len);
+ 
+-    regs->link = env->lr;
+-    regs->ctr = env->ctr;
+-    regs->xer = cpu_read_xer(env);
+-
+-    cr = 0;
+-    for (i = 0; i < 8; i++) {
+-        cr |= (env->crf[i] & 15) << (4 * (7 - i));
+-    }
+-    regs->ccr = cr;
++    regs->link = l2_state.lr;
++    regs->ctr = l2_state.ctr;
++    regs->xer = l2_state.xer;
++    regs->ccr = l2_state.cr;
+ 
+     if (excp == POWERPC_EXCP_MCHECK ||
+         excp == POWERPC_EXCP_RESET ||
+         excp == POWERPC_EXCP_SYSCALL) {
+-        regs->nip = env->spr[SPR_SRR0];
+-        regs->msr = env->spr[SPR_SRR1] & env->msr_mask;
++        regs->nip = l2_state.srr0;
++        regs->msr = l2_state.srr1 & env->msr_mask;
+     } else {
+-        regs->nip = env->spr[SPR_HSRR0];
+-        regs->msr = env->spr[SPR_HSRR1] & env->msr_mask;
++        regs->nip = hsrr0;
++        regs->msr = hsrr1 & env->msr_mask;
+     }
+ 
+     /* Is it okay to specify write length larger than actual data written? */
+     address_space_unmap(CPU(cpu)->as, regs, len, len, true);
+-
+-out_restore_l1:
+-    assert(env->spr[SPR_LPIDR] != 0);
+-    nested_load_state(cpu, spapr_cpu->nested_host_state);
+-
+-    /*
+-     * Return the interrupt vector address from H_ENTER_NESTED to the L1
+-     * (or error code).
+-     */
+-    env->gpr[3] = r3_return;
+-
+-    spapr_cpu->in_nested = false;
+-
+-    g_free(spapr_cpu->nested_host_state);
+-    spapr_cpu->nested_host_state = NULL;
+ }
+ 
+ static void hypercall_register_nested(void)
 -- 
 2.40.1
 
