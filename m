@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CEB56F5476
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 May 2023 11:19:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 35C7C6F5470
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 May 2023 11:18:26 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pu8ck-0003WC-KZ; Wed, 03 May 2023 05:18:10 -0400
+	id 1pu8ci-0003Mk-RI; Wed, 03 May 2023 05:18:08 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pu8cf-00036O-Gt
- for qemu-devel@nongnu.org; Wed, 03 May 2023 05:18:05 -0400
-Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b])
+ id 1pu8ce-00032d-Qt
+ for qemu-devel@nongnu.org; Wed, 03 May 2023 05:18:04 -0400
+Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pu8cd-0000Mi-8f
- for qemu-devel@nongnu.org; Wed, 03 May 2023 05:18:05 -0400
-Received: by mail-wr1-x42b.google.com with SMTP id
- ffacd0b85a97d-306342d7668so1633000f8f.1
+ id 1pu8cd-0000Mg-0w
+ for qemu-devel@nongnu.org; Wed, 03 May 2023 05:18:04 -0400
+Received: by mail-wm1-x335.google.com with SMTP id
+ 5b1f17b1804b1-3f315735514so15053895e9.1
  for <qemu-devel@nongnu.org>; Wed, 03 May 2023 02:18:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=linaro.org; s=google; t=1683105481; x=1685697481;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=SIbkDONpT/MgcuDaFYNVS9jJaHe0Is7g3tjeak7dyjM=;
- b=oWZGqr1qhY1le/QYRV8tnYVx096uuF1L+dwFN2sbLHc1JoBFG1PyyfhX51xmUGgQ2i
- r3gW5jPAafMAagG9a6OBzDeQ8+3sKE8XCCG+wIwDcqPfWdhFecRAErJBUbYMYfNgtHxL
- 1A3auNvHvpkF7ewqegIuWijsYjIpGSuMcKnW6QS5HZkScgGuWnEVxT+hYm/seAT+XosB
- VXBdkRQQy+ocL5ghGfjMBtPEFNet7nELftQJaVboC7kz+0QuHdVcr9EXpUvS1yymwfjX
- 9IEUwIlg9uo4rzS2S2P4+zHLbvnJTTiC0ownfqZpLYEQTH1623FTUl2Zwji11yTUiuy8
- CP+g==
+ bh=WC01IUajOQVovgGje8S9D1xVOHkvVNHazKK2bsSkbgs=;
+ b=WoBm1tBuYVLcFWmyFf/X/fgLa1BvNKPO5dsct1X4vwwZVr6MtR0miW3BSOdVoA01vE
+ A4txyu0OM+RXD+POmUPjcntelipDxCPkAHVGBU6ZceSsESK8r80xuk2nJi5/pfz7wE4z
+ vL/8WKJyPvBOeI0Ag9R4quQWC9crw/YlFtTNb/ZQFJvkwsv35YNLuB+6+g+j1DQn/man
+ M13rhJs9C3Rxj9uumKnZNoDOVfzUMuKZQegQCvFyfGYWSqQsDuFlxRAggmtKTyiQpJOV
+ Am73SV9Zu+1V86DlCdmfk9sg4ZZkxcw0eSijywEMEUqlVogs9r9LLNLmZdiqWdeb8xuC
+ cCcA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20221208; t=1683105481; x=1685697481;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=SIbkDONpT/MgcuDaFYNVS9jJaHe0Is7g3tjeak7dyjM=;
- b=JRLHdgemfoY2u6oFlGPaQNGXmV46e7h/eAtEAaP0A/HOEq4JKIovlHWOP+E2MjHe11
- J4FSgVf0u93TbOWhmWWZtjMiKq9WHmQ7cXGS2PoLT+koGg0mGW+WIMZfjSvS3bu8D35j
- YIBQuUDcMZLuOaXLBkomzDDhKvNHPZSXJLEKXD+StvD82M24OGQ1JtVXhPVPc9JpKMaR
- PGB0VG/FW/oYOVGojxyLlQf3H8+fM9iWce5tKrBT0vAjUqzxBRDssStG2Rmk0rl6PZIu
- eCdzeM6ZRsVOXb/uW/y+E8YMIgm+g1TsPZ+KW7SvtRMFZF7iBHtCXcOh+Czc9pSvlOOK
- dq8Q==
-X-Gm-Message-State: AC+VfDyONZGOfonbyZbnlZHK/CWh+ZeQcYqnO8EkQFqtUPrSpCXkbt7U
- UaC1w/CNfYztFLWCEuUEo333kQ==
-X-Google-Smtp-Source: ACHHUZ7m5lvEPfRj81aharqBjGfjPJ0nPoEuLrs9IAs3bt0+C6nxKg7Z37+9P+pfm8pfWHZrXMPceA==
-X-Received: by 2002:a5d:4b50:0:b0:2fb:703d:1915 with SMTP id
- w16-20020a5d4b50000000b002fb703d1915mr14053322wrs.43.1683105481712; 
+ bh=WC01IUajOQVovgGje8S9D1xVOHkvVNHazKK2bsSkbgs=;
+ b=ZBVm5QXapqjwNhyATBUKFsXXlIFMsJLgBut9uCq6AuurbthZs8nQS76QJKJRkTpxeC
+ z/rwFelrLOfLOLN+bV7HS/3HeH0Y433Bcj38k67+q6y3QDEfadTpi8cISphE+hQFeu+g
+ BEhmK7wdYC0Mt1q3lEUJYXotef/Xwc0aRtXlX1uk0N5ngIcOaaDVm/Q2cz1lOHW0XVvt
+ ecQYAOWsdYnTabRHYUyp2iQA1JAtyAmMa9LCCYfAN+nx6AKaaaQUBXNH1CiRyqAfN63N
+ flF09QqSpuMHq9iNs8y/Q65+VPEGsfATneMSqKMfgbBPjUqFQ28us/k8gxC9QRXG8j77
+ POlQ==
+X-Gm-Message-State: AC+VfDyHTU3VVvNy3CTwv0msAbY7p57nfIucdcB/g/+6rBhQLD5UsUsZ
+ kEAABKyuMaNYQd/whSf/nzWjsw==
+X-Google-Smtp-Source: ACHHUZ6FGT/G7Up6Z4aE0dr/nD/yfuGFPxfueb4qq75dtT+UyR8uSZUPaxxD2hHjkIxTLPMCdpn52A==
+X-Received: by 2002:a05:600c:1c21:b0:3f1:7371:86bb with SMTP id
+ j33-20020a05600c1c2100b003f1737186bbmr846903wms.20.1683105481532; 
  Wed, 03 May 2023 02:18:01 -0700 (PDT)
 Received: from zen.linaroharston ([85.9.250.243])
  by smtp.gmail.com with ESMTPSA id
- d15-20020adfe84f000000b002fb60c7995esm33539437wrn.8.2023.05.03.02.17.58
+ t4-20020a7bc3c4000000b003f1745c7df3sm1271469wmj.23.2023.05.03.02.17.58
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Wed, 03 May 2023 02:17:59 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 1850A1FFC5;
+ by zen.linaroharston (Postfix) with ESMTP id 2E8391FFC6;
  Wed,  3 May 2023 10:17:58 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org,
@@ -73,17 +73,17 @@ Cc: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
  Eric Blake <eblake@redhat.com>, Michael Roth <michael.roth@amd.com>,
  Markus Armbruster <armbru@redhat.com>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: [PATCH v2 09/10] hw/9pfs: use qemu_xxhash4
-Date: Wed,  3 May 2023 10:17:55 +0100
-Message-Id: <20230503091756.1453057-10-alex.bennee@linaro.org>
+Subject: [PATCH v2 10/10] xxhash: remove qemu_xxhash7
+Date: Wed,  3 May 2023 10:17:56 +0100
+Message-Id: <20230503091756.1453057-11-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230503091756.1453057-1-alex.bennee@linaro.org>
 References: <20230503091756.1453057-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::335;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x335.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -106,36 +106,68 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-No need to pass zeros as we have helpers that do that for us.
+Now we no longer have users for qemu_xxhash7 we can drop an additional
+multiply and rol and make qemu_xxhash6 the implementation. Adjust the
+smaller hash functions accordingly.
 
-Message-Id: <20230420150009.1675181-10-alex.bennee@linaro.org>
+Message-Id: <20230420150009.1675181-11-alex.bennee@linaro.org>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-Reviewed-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
 Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- hw/9pfs/9p.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ include/qemu/xxhash.h | 17 ++++-------------
+ 1 file changed, 4 insertions(+), 13 deletions(-)
 
-diff --git a/hw/9pfs/9p.c b/hw/9pfs/9p.c
-index 9621ec1341..9bf502c45f 100644
---- a/hw/9pfs/9p.c
-+++ b/hw/9pfs/9p.c
-@@ -741,12 +741,12 @@ static VariLenAffix affixForIndex(uint64_t index)
- /* creative abuse of tb_hash_func7, which is based on xxhash */
- static uint32_t qpp_hash(QppEntry e)
+diff --git a/include/qemu/xxhash.h b/include/qemu/xxhash.h
+index c2dcccadbf..bab7d4ca09 100644
+--- a/include/qemu/xxhash.h
++++ b/include/qemu/xxhash.h
+@@ -49,7 +49,7 @@
+  * contiguous in memory.
+  */
+ static inline uint32_t
+-qemu_xxhash7(uint64_t ab, uint64_t cd, uint32_t e, uint32_t f, uint32_t g)
++qemu_xxhash6(uint64_t ab, uint64_t cd, uint32_t e, uint32_t f)
  {
--    return qemu_xxhash7(e.ino_prefix, e.dev, 0, 0, 0);
-+    return qemu_xxhash4(e.ino_prefix, e.dev);
+     uint32_t v1 = QEMU_XXHASH_SEED + PRIME32_1 + PRIME32_2;
+     uint32_t v2 = QEMU_XXHASH_SEED + PRIME32_2;
+@@ -86,9 +86,6 @@ qemu_xxhash7(uint64_t ab, uint64_t cd, uint32_t e, uint32_t f, uint32_t g)
+     h32 += f * PRIME32_3;
+     h32  = rol32(h32, 17) * PRIME32_4;
+ 
+-    h32 += g * PRIME32_3;
+-    h32  = rol32(h32, 17) * PRIME32_4;
+-
+     h32 ^= h32 >> 15;
+     h32 *= PRIME32_2;
+     h32 ^= h32 >> 13;
+@@ -100,23 +97,17 @@ qemu_xxhash7(uint64_t ab, uint64_t cd, uint32_t e, uint32_t f, uint32_t g)
+ 
+ static inline uint32_t qemu_xxhash2(uint64_t ab)
+ {
+-    return qemu_xxhash7(ab, 0, 0, 0, 0);
++    return qemu_xxhash6(ab, 0, 0, 0);
  }
  
- static uint32_t qpf_hash(QpfEntry e)
+ static inline uint32_t qemu_xxhash4(uint64_t ab, uint64_t cd)
  {
--    return qemu_xxhash7(e.ino, e.dev, 0, 0, 0);
-+    return qemu_xxhash4(e.ino, e.dev);
+-    return qemu_xxhash7(ab, cd, 0, 0, 0);
++    return qemu_xxhash6(ab, cd, 0, 0);
  }
  
- static bool qpd_cmp_func(const void *obj, const void *userp)
+ static inline uint32_t qemu_xxhash5(uint64_t ab, uint64_t cd, uint32_t e)
+ {
+-    return qemu_xxhash7(ab, cd, e, 0, 0);
+-}
+-
+-static inline uint32_t qemu_xxhash6(uint64_t ab, uint64_t cd, uint32_t e,
+-                                    uint32_t f)
+-{
+-    return qemu_xxhash7(ab, cd, e, f, 0);
++    return qemu_xxhash6(ab, cd, e, 0);
+ }
+ 
+ /*
 -- 
 2.39.2
 
