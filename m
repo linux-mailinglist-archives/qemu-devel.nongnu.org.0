@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D3766F5431
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 May 2023 11:14:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6EA686F5464
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 May 2023 11:17:36 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pu8Xt-0004Lq-4E; Wed, 03 May 2023 05:13:09 -0400
+	id 1pu8Xn-0004Gf-Aw; Wed, 03 May 2023 05:13:03 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pu8Xi-0003y7-Sb
- for qemu-devel@nongnu.org; Wed, 03 May 2023 05:12:58 -0400
-Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435])
+ id 1pu8Xl-0004C5-0b
+ for qemu-devel@nongnu.org; Wed, 03 May 2023 05:13:01 -0400
+Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pu8Xa-0005sb-Ns
- for qemu-devel@nongnu.org; Wed, 03 May 2023 05:12:58 -0400
-Received: by mail-wr1-x435.google.com with SMTP id
- ffacd0b85a97d-3063b5f32aaso962158f8f.2
+ id 1pu8Xb-0005sN-CU
+ for qemu-devel@nongnu.org; Wed, 03 May 2023 05:13:00 -0400
+Received: by mail-wm1-x32c.google.com with SMTP id
+ 5b1f17b1804b1-3f1950f5676so50266105e9.3
  for <qemu-devel@nongnu.org>; Wed, 03 May 2023 02:12:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1683105169; x=1685697169;
+ d=linaro.org; s=google; t=1683105168; x=1685697168;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=gNZ/uWitPeUdIzpuXwGXxDiu8TSIyO3xAfFThAT3wzs=;
- b=eaLrUg2qULDdR4tRYzKOkEwG604KmvX8TmzWP5VpSsgtSigwrjM3VuE5DXADXRZC7G
- QqG0jczdfzwNrPnOQH23FWDlrVJIGxQZ3IJpcDzBEbKd3Aq2NHbIy4WTLU8365Z2eUIC
- 0lo9yIAPklCfqklSRlKpuV0R1c89rBBswvx6POidQxi6uDQZQgV4VHtBeBVSZKcVjb7U
- TJhF/eIFi1A3iuKe2qPwyfcpaC4J4TwLHpwW2jQXHkHuYhoV5asU0elUa+Yb1S925fXu
- CfJJmt8CFsMkXYQOAFE3qpvffOAHLuEc3Po8qAmnKaIxuVHMBLqKoJJfjJ7qjf8uAEF9
- shKw==
+ bh=7PFj4eIUaihGsJoKv8B5FRcn5X+Xksm/i/JPGpiTgTM=;
+ b=IcbLT8YcJbi98CWXU4bx8gvJM91v67dSWmRDefk4A8vRO7iWvzqWMOD3wX9TOLfmA8
+ Wbu4mBG3s7LiRNRyuWGHT/rQ9hzQDqFPOsuab+nRPSOm/UJgaiBKPCtY7FEtrNFI2chn
+ UxeVfpFK4cLh7HcWLyqFM3+owKLtr+D/3/J1EmfEhFLxS2RMPTtnikgxw0VaofYj8WR6
+ HvlHLudKJ2mIqwDSxs2fRoif+sguePdCL17RXgVhjUU7vOC5kd7U5RkrSO43k0MgB7D6
+ djdVRsKdkD9hyh7zyvTMB3vBujn7X0bOWfbMjvxujs9E4Zt1FOKFfVsn0qGFyKDRwkwg
+ c7lQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683105169; x=1685697169;
+ d=1e100.net; s=20221208; t=1683105168; x=1685697168;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=gNZ/uWitPeUdIzpuXwGXxDiu8TSIyO3xAfFThAT3wzs=;
- b=aDTROhvYero3RkBTi3dqAccKlo5xC1XgVplt1wOG2jNdhPOTf/srrerO6ExKzaFrNA
- NAs19IdjlSTg06UwvJDV1HI5Nt7jdebDO3SZlmx2QRcCTW0oQA5cnhPBlzr6KO2sXC6h
- Y+GT5VCViBde3cZPTIeffAJk015jiBv8W4w7ZrzJ+wkcX6sfdRG4La/fyQIJoHFQI0Pi
- 6QLhuq9W578aFpJSNAiMVP/E5DM4LjadJfauAQjjFCckL7f3a/nlCS1iNcHriIAs5ZG9
- ILwpahwfRfO/An913oZipzy/QcxxvWasoRkuSm+5L5tBZ/RfuOZ3URtkHMERGbBD63W2
- 4Wsg==
-X-Gm-Message-State: AC+VfDwXZwHLlaIB3pzx7f05MjZwzaIEvmlttwrkNUuNFkUmsxTXZLGI
- eWVCvHm3MCmkL6hNLXNW6qhRZA==
-X-Google-Smtp-Source: ACHHUZ4u/qY9N26yl98lWh97ejEjsi4/NUi8fRdIFK6a0sHRyggAYb+wcRPgkPef0grq55tjDf6owA==
-X-Received: by 2002:a5d:6983:0:b0:306:2e62:8d2f with SMTP id
- g3-20020a5d6983000000b003062e628d2fmr6450762wru.54.1683105169079; 
- Wed, 03 May 2023 02:12:49 -0700 (PDT)
+ bh=7PFj4eIUaihGsJoKv8B5FRcn5X+Xksm/i/JPGpiTgTM=;
+ b=ZCVFya5YeI0C5jwA6pJ5qcvdMHRF9bz2so2UEVAC7oAWJ7zi2GfphXYx+fbNze1cQB
+ OQ2sfqrRQ8wKHxSrMKcFZEvtDrzDXBM8Grejaqx8YuZ2Be3sojbgkEjW9dCe67YvT80u
+ NixExaITONtQzmYwIzbaOJ/722ONCehIoRL5pMBM7Fth/3/LJOSAZTdnF4hB026p7Ujn
+ zGy5c8wLyffmBQrkzd63NIFyXihsjMQKe6XHha8KjMqk+o2FqbMNMv1w+khtZyf2/ZlK
+ aVvIGcUN1TbpQFmPgZxFm0fvkvAC83NinJGwTsNmsChP1jssTrBgsU7zb53EUakLkux7
+ HdMQ==
+X-Gm-Message-State: AC+VfDwICF4TxCdZPWu5sMTLxRRGjYhjRxRzsY1BLtTXwHEVYchgVQlu
+ ZlYyhXrCyZ2gZeRSBBk2Fg90xA==
+X-Google-Smtp-Source: ACHHUZ7uVwohLnzqlqa4SpFlwU5DA7ToSWqhe12+o2njYfZaqXcGYJ3baG+WPcA1nXk06MZVH3o0qQ==
+X-Received: by 2002:adf:e64b:0:b0:306:4569:34a0 with SMTP id
+ b11-20020adfe64b000000b00306456934a0mr491835wrn.69.1683105168698; 
+ Wed, 03 May 2023 02:12:48 -0700 (PDT)
 Received: from zen.linaroharston ([85.9.250.243])
  by smtp.gmail.com with ESMTPSA id
- e8-20020adfdbc8000000b003047d5b8817sm24164971wrj.80.2023.05.03.02.12.46
+ y11-20020adfe6cb000000b002f81b4227cesm33420949wrm.19.2023.05.03.02.12.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Wed, 03 May 2023 02:12:47 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id EB2071FFC3;
- Wed,  3 May 2023 10:12:45 +0100 (BST)
+ by zen.linaroharston (Postfix) with ESMTP id 12D7B1FFBA;
+ Wed,  3 May 2023 10:12:46 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: Laurent Vivier <lvivier@redhat.com>,
@@ -91,24 +91,24 @@ Cc: Laurent Vivier <lvivier@redhat.com>,
  =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  Fabiano Rosas <farosas@suse.de>
-Subject: [PATCH 09/22] hw/arm: Select e1000e for sbsa-ref machine
-Date: Wed,  3 May 2023 10:12:31 +0100
-Message-Id: <20230503091244.1450613-10-alex.bennee@linaro.org>
+Subject: [PATCH 10/22] hw/arm: Select VGA_PCI for sbsa-ref machine
+Date: Wed,  3 May 2023 10:12:32 +0100
+Message-Id: <20230503091244.1450613-11-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230503091244.1450613-1-alex.bennee@linaro.org>
 References: <20230503091244.1450613-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::435;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x435.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -126,26 +126,26 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Fabiano Rosas <farosas@suse.de>
 
-This machine explicitly selects the e1000e network adapter if no other
-option was given in the command line. Make sure e1000e is present in
-the build.
+The sbsa-ref machine explicitly creates a VGA PCI device, so make sure
+vga-pci.c is included in the build.
 
 Signed-off-by: Fabiano Rosas <farosas@suse.de>
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20230208192654.8854-10-farosas@suse.de>
+Message-Id: <20230208192654.8854-11-farosas@suse.de>
 ---
  hw/arm/Kconfig | 1 +
  1 file changed, 1 insertion(+)
 
 diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
-index 0cce0b8d5b..06f58d1a6f 100644
+index 06f58d1a6f..9e6e7ababe 100644
 --- a/hw/arm/Kconfig
 +++ b/hw/arm/Kconfig
-@@ -253,6 +253,7 @@ config SBSA_REF
-     select USB_EHCI_SYSBUS
+@@ -254,6 +254,7 @@ config SBSA_REF
      select WDT_SBSA
      select ARM_GICV3_TCG
-+    select E1000E_PCI_EXPRESS
+     select E1000E_PCI_EXPRESS
++    select VGA_PCI
  
  config SABRELITE
      bool
