@@ -2,86 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ECC886F5979
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 May 2023 16:01:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 57C146F597B
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 May 2023 16:02:14 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1puD2j-0001pE-C8; Wed, 03 May 2023 10:01:17 -0400
+	id 1puD3I-0002cF-FI; Wed, 03 May 2023 10:01:52 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1puD2i-0001oW-19
- for qemu-devel@nongnu.org; Wed, 03 May 2023 10:01:16 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1puD3G-0002at-Hk
+ for qemu-devel@nongnu.org; Wed, 03 May 2023 10:01:50 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1puD2g-00036b-Ik
- for qemu-devel@nongnu.org; Wed, 03 May 2023 10:01:15 -0400
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1puD3F-0003Xs-4d
+ for qemu-devel@nongnu.org; Wed, 03 May 2023 10:01:50 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1683122474;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=OXZrPtXZXhEbL3yxkvFIiyM+LYhHP6wzbyEDthuCYOQ=;
- b=LLywQ7dhfn9aDXBvXdJYySqiJyMnFhk6Pn+ja9i+nMJI33fxhQXrIwsk29ThOI0+SAiXsS
- pCSE8hC09UVUIwMuz/lyqEXlk3jmJQ77svcq20q7voG7M/N9xyhYU+72oHV8AJX3faSI9d
- aKtEvGbodjVTpo1BR6bddFC1lqhEbgs=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-392-Yhn7FHVOPS-R5bzHZaLhrw-1; Wed, 03 May 2023 10:01:12 -0400
-X-MC-Unique: Yhn7FHVOPS-R5bzHZaLhrw-1
-Received: by mail-wm1-f69.google.com with SMTP id
- 5b1f17b1804b1-3f16f50aeb5so17788745e9.3
- for <qemu-devel@nongnu.org>; Wed, 03 May 2023 07:01:11 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683122470; x=1685714470;
- h=content-transfer-encoding:mime-version:message-id:date:reply-to
- :user-agent:references:in-reply-to:subject:cc:to:from
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=OXZrPtXZXhEbL3yxkvFIiyM+LYhHP6wzbyEDthuCYOQ=;
- b=Fd3Gk/XCxkY9rzqaHfXWFUwbUI9P/3cJf62rgiyabzIIxoa+M4toJnmByp28i/vBaK
- L9QsWYgQ+ZJBS2GNYUFdGbB8Fl2xdNCXw5Xox7Xy1HmNf9Waz/7eud/m1iNA5ceAO/L3
- MIpt6k8Sa11PQqOf80eL17Tni645tZdS5o0sCPjnlIT5+vXJSrABNLVTF//kQaqRTczc
- EjtMOItGMIQF20o/pT1zBAGudihwWyQ8x+O92zWcNTU+L2BhAWWuHjVBTm5ARgjrirQI
- 7yQGS3LGUYi2iHIgz55i7w5acEiaoSq21oYFwF9jaQ8lGA5o0794QZXZ9jjd9mYREOg7
- zqmA==
-X-Gm-Message-State: AC+VfDyGKiuZvvaOy6+ou6FmQgVaEOuhYnSzilWS1QyUSZcuozuwnviL
- UY1f8XGpFuQPGpERSK5U41/7STl+mI/C2yEMhIAH56+atDuKctb+NK3hAcG9j1X4GSpYR9ZtCM0
- FdYbHl30WrxIJaaQ=
-X-Received: by 2002:adf:cd90:0:b0:306:37a2:6e56 with SMTP id
- q16-20020adfcd90000000b0030637a26e56mr183258wrj.5.1683122470601; 
- Wed, 03 May 2023 07:01:10 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ5TiTXnJ/KuruRp1cDt07emEaomUZyeytThgn0N7hCrZ5TXGBZJHruhJEPEgeYr+48JJ6gHMg==
-X-Received: by 2002:adf:cd90:0:b0:306:37a2:6e56 with SMTP id
- q16-20020adfcd90000000b0030637a26e56mr183236wrj.5.1683122470321; 
- Wed, 03 May 2023 07:01:10 -0700 (PDT)
-Received: from redhat.com (static-92-120-85-188.ipcom.comunitel.net.
- [188.85.120.92]) by smtp.gmail.com with ESMTPSA id
- p17-20020a056000019100b002fda1b12a0bsm34080123wrx.2.2023.05.03.07.01.09
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 03 May 2023 07:01:09 -0700 (PDT)
-From: Juan Quintela <quintela@redhat.com>
-To: Daniel P. =?utf-8?Q?Berrang=C3=A9?= <berrange@redhat.com>
-Cc: qemu-devel@nongnu.org,  Peter Xu <peterx@redhat.com>,  Leonardo Bras
- <leobras@redhat.com>
-Subject: Re: [PATCH v2 01/16] migration: Create migrate_rdma()
-In-Reply-To: <ZFJi0/K2BXhYkh75@redhat.com> ("Daniel P. =?utf-8?Q?Berrang?=
- =?utf-8?Q?=C3=A9=22's?= message of
- "Wed, 3 May 2023 14:34:11 +0100")
-References: <20230503131847.11603-1-quintela@redhat.com>
- <20230503131847.11603-2-quintela@redhat.com>
- <ZFJi0/K2BXhYkh75@redhat.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
-Date: Wed, 03 May 2023 16:01:08 +0200
-Message-ID: <87o7n1qztn.fsf@secure.mitica>
+ s=mimecast20190719; t=1683122508;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=6NhsBJr2pi062KXhnbLfmOoLQAj3luaAICcAXzD8gwg=;
+ b=H/3TngdLfs7oFzZJd/iFlPoEPl9PKDlN7/hQwm4Xiob6gY1a/wuuOBu6958Eh4bFGDBbTA
+ dqY8VJmdNdtfXRpGKkUJn3XMTW3TeltDLwyhmX6t6BiDHaBFgOjpx0S1H3y+8/4jyh8ceP
+ 3uGc+l34LPJxgWWhRI5h/XA0f23nm8M=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-323-T_Rpr7niNyeKGKUYHI4PmQ-1; Wed, 03 May 2023 10:01:45 -0400
+X-MC-Unique: T_Rpr7niNyeKGKUYHI4PmQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.7])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 34A7B85D540;
+ Wed,  3 May 2023 14:01:45 +0000 (UTC)
+Received: from merkur.str.redhat.com (dhcp-192-205.str.redhat.com
+ [10.33.192.205])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7EAF51410F29;
+ Wed,  3 May 2023 14:01:44 +0000 (UTC)
+From: Kevin Wolf <kwolf@redhat.com>
+To: qemu-block@nongnu.org
+Cc: kwolf@redhat.com,
+	stefanha@redhat.com,
+	qemu-devel@nongnu.org
+Subject: [PATCH] block: Fix use after free in blockdev_mark_auto_del()
+Date: Wed,  3 May 2023 16:01:42 +0200
+Message-Id: <20230503140142.474404-1-kwolf@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=kwolf@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -22
 X-Spam_score: -2.3
@@ -89,7 +59,8 @@ X-Spam_bar: --
 X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.161,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -102,30 +73,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Daniel P. Berrang=C3=A9 <berrange@redhat.com> wrote:
-> On Wed, May 03, 2023 at 03:18:32PM +0200, Juan Quintela wrote:
->> Helper to say if we are doing a migration over rdma.
->
-> Is the "MigrationState" allocated freshly for every incoming
-> or outgoing migration ?  If it is reused, then something
-> needs to set 's->rdma_migration =3D false' in non-RDMA code
-> paths.
+job_cancel_locked() drops the job list lock temporarily and it may call
+aio_poll(). We must assume that the list has changed after this call.
+Also, with unlucky timing, it can end up freeing the job during
+job_completed_txn_abort_locked(), making the job pointer invalid, too.
 
-for (i =3D 0; i < 1000; i++)
-    printf("never trust memory, check the code.\n");
+For both reasons, we can't just continue at block_job_next_locked(job).
+Instead, start at the head of the list again after job_cancel_locked()
+and skip those jobs that we already cancelled (or that are completing
+anyway).
 
-You are right, the function that we call is:
-migrate_init()
+Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+---
+ blockdev.c | 18 ++++++++++++++----
+ 1 file changed, 14 insertions(+), 4 deletions(-)
 
-but we clear each statistic by hand, not a memset().
-
-And now I have to review that we are not missing any other field to
-reset.
-
-Thanks, Juan.
+diff --git a/blockdev.c b/blockdev.c
+index d7b5c18f0a..2c1752a403 100644
+--- a/blockdev.c
++++ b/blockdev.c
+@@ -153,12 +153,22 @@ void blockdev_mark_auto_del(BlockBackend *blk)
+ 
+     JOB_LOCK_GUARD();
+ 
+-    for (job = block_job_next_locked(NULL); job;
+-         job = block_job_next_locked(job)) {
+-        if (block_job_has_bdrv(job, blk_bs(blk))) {
++    do {
++        job = block_job_next_locked(NULL);
++        while (job && (job->job.cancelled ||
++                       job->job.deferred_to_main_loop ||
++                       !block_job_has_bdrv(job, blk_bs(blk))))
++        {
++            job = block_job_next_locked(job);
++        }
++        if (job) {
++            /*
++             * This drops the job lock temporarily and polls, so we need to
++             * restart processing the list from the start after this.
++             */
+             job_cancel_locked(&job->job, false);
+         }
+-    }
++    } while (job);
+ 
+     dinfo->auto_del = 1;
+ }
+-- 
+2.40.1
 
 
