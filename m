@@ -2,95 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B79B46F4F5C
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 May 2023 06:10:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 560BD6F4F6D
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 May 2023 06:21:06 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pu3nh-0003lI-PB; Wed, 03 May 2023 00:09:09 -0400
+	id 1pu3xv-0005oT-J6; Wed, 03 May 2023 00:19:43 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pu3nf-0003l9-HI
- for qemu-devel@nongnu.org; Wed, 03 May 2023 00:09:07 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pu3nc-0004Zk-LG
- for qemu-devel@nongnu.org; Wed, 03 May 2023 00:09:06 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1683086943;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Vxtat5E1cmWDKn9E8KGMqHg01f2qTA63YmplyYX0+W0=;
- b=UUdIZ1z7cSoenH8/2b8F01z9nus8nbtCP3s2/1FZp1LNn/zb5fStL3bJgptCyBQdUP85iC
- nZqKt5ctAm0VVpKIqg9X78odoo/vkFlGgCs3QjFAcCyTVHTglC6RaDwfSwEcPmcp7WEs4e
- L0M/6TXYcN0aegqMT/3MR7Inm1Y+x8w=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-137-6zqUKa38PIy6A5yKEguqUQ-1; Wed, 03 May 2023 00:09:01 -0400
-X-MC-Unique: 6zqUKa38PIy6A5yKEguqUQ-1
-Received: by mail-wr1-f70.google.com with SMTP id
- ffacd0b85a97d-301110f1756so1376598f8f.0
- for <qemu-devel@nongnu.org>; Tue, 02 May 2023 21:09:00 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <pizhenwei@bytedance.com>)
+ id 1pu3xt-0005o7-9q
+ for qemu-devel@nongnu.org; Wed, 03 May 2023 00:19:41 -0400
+Received: from mail-pl1-x632.google.com ([2607:f8b0:4864:20::632])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <pizhenwei@bytedance.com>)
+ id 1pu3xq-0000fp-BV
+ for qemu-devel@nongnu.org; Wed, 03 May 2023 00:19:41 -0400
+Received: by mail-pl1-x632.google.com with SMTP id
+ d9443c01a7336-1aad55244b7so33743685ad.2
+ for <qemu-devel@nongnu.org>; Tue, 02 May 2023 21:19:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bytedance.com; s=google; t=1683087570; x=1685679570;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=3dOlDvBpuyPDzkMiyIZ5idrcuVoeDsx9DFK4aVoH63A=;
+ b=ZQ2cS4sXI87oBXKYl8S1XtRyPsHSR37TgZvLjmD6aDGiRKNCHieb6kWMRgr4AzoeFT
+ lxlcuxdrty0ZYQHiMPch+9NBYIhxBnKEaIoh6DBmyl7mGn7Du/ZrW9Gge12ZZp614RuF
+ Xii1JuOaxGbpez2OEsmQGESsdRF4P0Mb/KotxoR3LNDzXNRO/v6UvLQufDDX1nHoV4Az
+ b11MnwVc70GZjJgR/w3sIuC9SUGmEHsRhl0L6wBbm1GlThqhIMboMXjU9uaLPBjxovPt
+ ZqTGsO+w+cbNLTIYj7rh8w7qlJiacC5qjgS+emtbGauD//3adA5zr2982WBBb6vXT16j
+ 8/xg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683086940; x=1685678940;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
+ d=1e100.net; s=20221208; t=1683087570; x=1685679570;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Vxtat5E1cmWDKn9E8KGMqHg01f2qTA63YmplyYX0+W0=;
- b=AJwz+n/WxNeht7CCOgUjgzabfP8e3XTJFf+9heu8CUXuqsRILejV20sf+3x6jyPPVA
- ZY3Ok8pIfvRPOizYeLNwEfdwHT4j9ZdxCisb/PG+0C9iHu7DsED18GIpjNd94pNBfQ1p
- MCTRytFQPvPijGue5KK3mdoN8XFmZ1TsWvywe70gPdJeM0wDDunvuLk0qNk7mKPr07KJ
- rjqTpdHP0fuyw6nv0I0dP/LZw5D4cml8f/c6hL1yeR6yhbfCJ4rAieuTDZGTbsb/j2ys
- brYUqnSdsC9oHJO29Hxb4+UvedeYZd8aLVANgR0J/0O63uRdjt+QYTNosZ9DzjjvmQiT
- gTBA==
-X-Gm-Message-State: AC+VfDwq+I50Vw4z0yohkt3Ow97S90JjiWJ3cApxkaAsAhXqhApNEmKq
- S6C4KV5sRxzJLxPtdIb06GF6fTHAdNhlKSI9H2s8ThesBjqzCc1HGYW/jncDc4e4+L+o41Voa8P
- UFw7VhxA5MZoRffA=
-X-Received: by 2002:a05:6000:10a:b0:2ef:baa1:f3fc with SMTP id
- o10-20020a056000010a00b002efbaa1f3fcmr11790566wrx.19.1683086940046; 
- Tue, 02 May 2023 21:09:00 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ7Oi9nn84A+FGVFtCakPjd0amcWoaaxMCmtYRuPCE3f2wMKSQk3iAif7FCuOMy085AtwcviYw==
-X-Received: by 2002:a05:6000:10a:b0:2ef:baa1:f3fc with SMTP id
- o10-20020a056000010a00b002efbaa1f3fcmr11790554wrx.19.1683086939646; 
- Tue, 02 May 2023 21:08:59 -0700 (PDT)
-Received: from redhat.com ([2.52.10.43]) by smtp.gmail.com with ESMTPSA id
- p1-20020a05600c204100b003f0a6a1f969sm504254wmg.46.2023.05.02.21.08.57
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 02 May 2023 21:08:58 -0700 (PDT)
-Date: Wed, 3 May 2023 00:08:55 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Leonardo =?iso-8859-1?Q?Br=E1s?= <leobras@redhat.com>
-Cc: quintela@redhat.com, Peter Xu <peterx@redhat.com>,
- qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
- Jonathan Cameron <Jonathan.Cameron@huawei.com>,
- Dave Jiang <dave.jiang@intel.com>, Fan Ni <fan.ni@samsung.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Leonardo Bras Soares Passos <lsoaresp@redhat.com>
-Subject: Re: [PULL 61/73] hw/pci/aer: Implement PCI_ERR_UNCOR_MASK register
-Message-ID: <20230503000825-mutt-send-email-mst@kernel.org>
-References: <cover.1678237635.git.mst@redhat.com>
- <010746ae1db7f52700cb2e2c46eb94f299cfa0d2.1678237635.git.mst@redhat.com>
- <ZEhzaWpNM+NvZCUw@x1n>
- <20230426021019-mutt-send-email-mst@kernel.org>
- <875y9jglfr.fsf@secure.mitica>
- <109bc1e721e009894bf4b1529fe1904afce1e13e.camel@redhat.com>
+ bh=3dOlDvBpuyPDzkMiyIZ5idrcuVoeDsx9DFK4aVoH63A=;
+ b=mAHRQsLEQFrjXkYVUKRCVug33copd1VArgdnGZL4i9mVhSH+E7+JWHgXRmjfrv8NzV
+ zk/BiMatIYBg++SWZF6/E04VOINmRzYWwZ+e9a/uPMFQ6SwoWQjfrF+udB5R/iBLZkhv
+ ZERN01zK4hW+mzvf0AV/lSd8mdQTSocrOlJUN5rsr8KWVfo00rrGeiSDiaBlhDWY/W3q
+ SWibaKFiXXt8/wgsIZa/US+a+nrAJ1zd44h7rcsfo89zo0a52IZjSs1jhdBdycGw+DrX
+ Wy+XjeL69t165gU6IuqNcEfojZMnzP1vV9sNZKJL3VmSukUj4ZyZHtyzyNJDrqLwMetz
+ blyw==
+X-Gm-Message-State: AC+VfDx+vQTERqwghj14ZO/dOe/SGpwS7zdq+eOxepPPFSifN6rF/JBg
+ 0UaNoeh4Voxp5uYbVeTpvFmCzg==
+X-Google-Smtp-Source: ACHHUZ5VBtSRvUbs/LCmw22AAc4yr7xF++T05+47Go5Wr1WVn59jCeUSB+AW9sroWTV2Mci9C0L/sw==
+X-Received: by 2002:a17:903:182:b0:1a8:11d3:6b93 with SMTP id
+ z2-20020a170903018200b001a811d36b93mr853057plg.66.1683087570377; 
+ Tue, 02 May 2023 21:19:30 -0700 (PDT)
+Received: from [10.255.178.60] ([139.177.225.225])
+ by smtp.gmail.com with ESMTPSA id
+ v19-20020a170902e8d300b001ab05835a64sm2751155plg.290.2023.05.02.21.19.26
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 02 May 2023 21:19:29 -0700 (PDT)
+Message-ID: <d32401b2-c05c-b716-78ac-780b85d426ff@bytedance.com>
+Date: Wed, 3 May 2023 12:19:24 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: Re: [PULL 11/73] cryptodev: Support query-stats QMP command
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: qemu-devel@nongnu.org, =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?=
+ <berrange@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ "Gonglei (Arei)" <arei.gonglei@huawei.com>, Eric Blake <eblake@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>
+References: <cover.1678237635.git.mst@redhat.com>
+ <f2b901098e14ad1aaffab82464917b8679499cc5.1678237635.git.mst@redhat.com>
+ <CAFEAcA-ZKc1Q_rTH4XGNH+wu0cfJ5G2RPpEV=x0pitHNUnbe2w@mail.gmail.com>
+Content-Language: en-US
+From: zhenwei pi <pizhenwei@bytedance.com>
+In-Reply-To: <CAFEAcA-ZKc1Q_rTH4XGNH+wu0cfJ5G2RPpEV=x0pitHNUnbe2w@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <109bc1e721e009894bf4b1529fe1904afce1e13e.camel@redhat.com>
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -22
-X-Spam_score: -2.3
-X-Spam_bar: --
-X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.171,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2607:f8b0:4864:20::632;
+ envelope-from=pizhenwei@bytedance.com; helo=mail-pl1-x632.google.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.422,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -106,80 +99,48 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, May 02, 2023 at 09:32:34PM -0300, Leonardo Brás wrote:
-> Hello Michael, Juan, Peter,
-> 
-> On Wed, 2023-04-26 at 09:19 +0200, Juan Quintela wrote:
-> > "Michael S. Tsirkin" <mst@redhat.com> wrote:
-> > > On Tue, Apr 25, 2023 at 08:42:17PM -0400, Peter Xu wrote:
-> > > > Hi, Michael, Jonathan,
-> > > > 
-> > > > On Tue, Mar 07, 2023 at 08:13:53PM -0500, Michael S. Tsirkin wrote:
-> > > > This breaks the simplest migration from QEMU 8.0->7.2 binaries on all
-> > > > machine types I think as long as the cap is present, e.g. the default
-> > > > e1000e provided by the default q35 machine can already hit it with all
-> > > > default cmdline:
-> > > > 
-> > > >   ./qemu-system-x86_64 -M pc-q35-7.2 [-incoming XXX]
-> > > > 
-> > > > 7.2 binary will have empty wmask for PCI_ERR_UNCOR_MASK, meanwhile I think
-> > > > it can also see a non-zero value, then the migration will fail at:
-> > > > 
-> > > > vmstate_load 0000:00:02.0/e1000e, e1000e                                                   
-> > > > qemu-7.2: get_pci_config_device: Bad config data: i=0x10a read: 40 device: 0 cmask: ff wmask: 0 w1cmask:0
-> > > > qemu-7.2: Failed to load PCIDevice:config   
-> > > > qemu-7.2: Failed to load e1000e:parent_obj                                                
-> > > > qemu-7.2: error while loading state for instance 0x0 of device '0000:00:02.0/e1000e'      
-> > > > qemu-7.2: load of migration failed: Invalid argument
-> > > > 
-> > > > We probably at least want to have the default value to be still zero, and
-> > > > we'd need to make sure it'll not be modified by the guest, iiuc.
-> > > > 
-> > > > Below oneliner works for me and makes the migration work again:
-> > > > 
-> > > > ===8<===
-> > > > diff --git a/hw/pci/pcie_aer.c b/hw/pci/pcie_aer.c
-> > > > index 103667c368..563a37b79c 100644
-> > > > --- a/hw/pci/pcie_aer.c
-> > > > +++ b/hw/pci/pcie_aer.c
-> > > > @@ -113,7 +113,7 @@ int pcie_aer_init(PCIDevice *dev, uint8_t cap_ver, uint16_t offset,
-> > > >      pci_set_long(dev->w1cmask + offset + PCI_ERR_UNCOR_STATUS,
-> > > >                   PCI_ERR_UNC_SUPPORTED);
-> > > >      pci_set_long(dev->config + offset + PCI_ERR_UNCOR_MASK,
-> > > > -                 PCI_ERR_UNC_MASK_DEFAULT);
-> > > > +                 0/*PCI_ERR_UNC_MASK_DEFAULT*/);
-> > > >      pci_set_long(dev->wmask + offset + PCI_ERR_UNCOR_MASK,
-> > > >                   PCI_ERR_UNC_SUPPORTED);
-> > > > ===8<===
-> > > > 
-> > > > Anyone could have a look on a solid solution from PCI side?
-> > > > 
-> > > > Copy Juan and Leonardo.
-> > > > 
-> > > > Thanks,
-> > > 
-> > > My bad, I forgot about this 🤦.
-> > > So we need a property and tweak it with compat machinery depending on
-> > > machine type. Jonathan, can you work on this pls?
-> > > Or I can revert for now to relieve the time pressure,
-> > > redo the patch at your leasure.
-> > 
-> > I agree with Michael here, the best option is adding a new property.
-> > 
-> > Later, Juan.
-> > 
-> 
-> I sent a patch implementing the suggested fix:
-> https://lore.kernel.org/qemu-devel/20230503002701.854329-1-leobras@redhat.com/T/#u
-> 
-> Please let me know of anything to improve.
-> 
-> Best regards,
-> Leo
 
-Weird, didn't get it for some reason. Pulled it from lore now, thanks!
+
+On 5/3/23 01:03, Peter Maydell wrote:
+> On Wed, 8 Mar 2023 at 01:11, Michael S. Tsirkin <mst@redhat.com> wrote:
+>>
+>> From: zhenwei pi <pizhenwei@bytedance.com>
+>>
+>> Now we can use "query-stats" QMP command to query statistics of
+>> crypto devices. (Originally this was designed to show statistics
+>> by '{"execute": "query-cryptodev"}'. Daniel Berrangé suggested that
+>> querying configuration info by "query-cryptodev", and querying
+>> runtime performance info by "query-stats". This makes sense!)
+> 
+> Hi; Coverity points out (CID 1508074) that this change
+> introduces a memory leak:
+> 
+>> +static int cryptodev_backend_stats_query(Object *obj, void *data)
+>> +{
+> 
+>> +    entry = g_new0(StatsResult, 1);
+>> +    entry->provider = STATS_PROVIDER_CRYPTODEV;
+>> +    entry->qom_path = g_strdup(object_get_canonical_path(obj));
+> 
+> object_get_canonical_path() already returns allocated memory
+> that the caller should free with g_free(), so we should not
+> g_strdup() it (which then leaks that memory).
+> 
+>> +    entry->stats = stats_list;
+>> +    QAPI_LIST_PREPEND(*stats_results, entry);
+>> +
+>> +    return 0;
+>> +}
+> 
+> Would somebody like to send a patch?
+> 
+> thanks
+> -- PMM
+
+Hi,
+
+Thanks for pointing out this, I'll fix this later.
 
 -- 
-MST
-
+zhenwei pi
 
