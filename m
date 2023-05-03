@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5DB116F5161
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 May 2023 09:27:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EDF146F51E7
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 May 2023 09:39:37 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pu6pH-0007hK-Tq; Wed, 03 May 2023 03:22:59 -0400
+	id 1pu6pD-0007VK-Vy; Wed, 03 May 2023 03:22:56 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pu6p6-0007DB-C5
- for qemu-devel@nongnu.org; Wed, 03 May 2023 03:22:48 -0400
-Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335])
+ id 1pu6ow-0006pc-Qr
+ for qemu-devel@nongnu.org; Wed, 03 May 2023 03:22:40 -0400
+Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pu6oq-0007Hj-G0
- for qemu-devel@nongnu.org; Wed, 03 May 2023 03:22:48 -0400
-Received: by mail-wm1-x335.google.com with SMTP id
- 5b1f17b1804b1-3f178da21b5so30951315e9.3
- for <qemu-devel@nongnu.org>; Wed, 03 May 2023 00:22:28 -0700 (PDT)
+ id 1pu6oq-0007Ho-Kc
+ for qemu-devel@nongnu.org; Wed, 03 May 2023 03:22:36 -0400
+Received: by mail-wm1-x32f.google.com with SMTP id
+ 5b1f17b1804b1-3f3331f928cso29309595e9.2
+ for <qemu-devel@nongnu.org>; Wed, 03 May 2023 00:22:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1683098547; x=1685690547;
+ d=linaro.org; s=google; t=1683098548; x=1685690548;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=m4s47C7gmYdUlM0SIov8ZnFiPUvDgmGeRG+O+etXAiw=;
- b=baj3BlHyCYlalJ3tmqFUQsxnHZHAvOXovCgIeBQQggrkmdAx6bQUOEV4vf5CirPrE8
- tQKygFA1KZ0DW3AhgCCD+JFbBIHDf8jMYAev4lYZDBL2qir13pLjuyDMwOmiNpuCAuy6
- k/ZhjEwYHsSTGdlmI6cHfmDZV3bCCnKIKXMc90WGzM3s7Oi5XDiHS/W76GKUYUCzB2o4
- 3FQVnz5gNk2Fco7B7teoRZH5M4Op/dD3I6I+LPrghEqLBnPuNVptludZ256l81JH/klP
- UaxR0A9mpBDFvzmcRa4CxtmsTz7F+q6Sm8RT8KBNlwb3xGEOsGhtDLsqaOpxGJ/pDzG5
- tk4w==
+ bh=v864RASdJk2+TV6BcRdJw1gHj5yuuHp35GCtp67gBJY=;
+ b=ZaQMttBQfCk37A48HiPlmmDiJolbFbydtIfHrE0KtJxCEjgDezXhG4ouMXMqzUCiNB
+ LimzWqLDlqQDMIOFgROX+HOrjT4FNmPAm1/hx5GsmY1DssXzZEYU/AIifrrMgQXK66wp
+ mCEAiZ+z5tjb/JwDDgVfhFLmPEyoVWXmOkoLj5NRK5EaDAW9yadHSG0MGhacoWhzgTfw
+ S+APY96DRwsExPM1HtVoKgR2DTJpOzlnNO7eVOEs2xhSnoDHTkl47QOCVwA5KTWeWgA4
+ XJVWR3qQyd5vfGizoeMC/dUZUVzREYMxfYU9dek4+qYWx8YdYe20ve7x9f/YTBr9pnzr
+ axDw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683098547; x=1685690547;
+ d=1e100.net; s=20221208; t=1683098548; x=1685690548;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=m4s47C7gmYdUlM0SIov8ZnFiPUvDgmGeRG+O+etXAiw=;
- b=BxplTqOJ/GByq04autr9YrfH+UDjsZLSAPgvCefTFf1Gg3O6gell5SexXqU6oMNnl3
- dBeweYOvGV4qsECwnjGZBQeXNl2IZq7CPgfgX4YD5IquMBuVcnS6UqVjupTWv+SXR31k
- +MifGea/VNi1yIuvyTwPXETxrkZb6UQgyiic0h1LCdTLRHNi0sTE8F5E81Hs0JDI+3b5
- Xag/4LQbIx/lSdSODAIn02WqAgChZQxHgSa+3AvnHWHmu/utYuSe06DzWhY0msa9ras9
- IyLpQ9sdALYogucX7DPjtRcCSXgKjgJOzURyf/qWdpOuWhcA9IaNhGZ0smDQhpQ2+ORM
- alQQ==
-X-Gm-Message-State: AC+VfDz9LcDkcR0+BmhPMmoQHlpyTKsKkFCJ1flM0jiJQuwX2/fklxbN
- UKrsRbETCTXIXVM4GrrdaSWgfohUTN4rnQ8aD8oZIA==
-X-Google-Smtp-Source: ACHHUZ4cX8TdMHbT99Whw8IrRy/FdqwdcuKi6Cr1tWq+0cOqlSRAHVVVk4Pc6VWsGI3fNjNVxBbQ/Q==
-X-Received: by 2002:a1c:4b12:0:b0:3f0:b1c9:25d4 with SMTP id
- y18-20020a1c4b12000000b003f0b1c925d4mr13487253wma.21.1683098547575; 
- Wed, 03 May 2023 00:22:27 -0700 (PDT)
+ bh=v864RASdJk2+TV6BcRdJw1gHj5yuuHp35GCtp67gBJY=;
+ b=SNZYO+P/BogT6qOAMICpatkAr7jhHzOKriZ5dL8r/yinC4wP4dbw4Cu/3YH++4IcTh
+ EOrwTMFMDh4B5JEP9uKy0cOdYnGZ67nvRCB1w3SG2rafdkjchWWDP09aXkBsdk20tEkA
+ TIM67fM4n8z40KkKbezRTOjVAyujZS/oxY91QTvNoRSGM5tS4k0tFHclDiLpd4BaUFB9
+ +J/cIjOOZ4AA1m0Lfwk2AZ+JRMKZ80sIMdh6JMHNJsKCAg2vkMDl2Y5Nqsoy0TnHBpuA
+ ZJIFCtRPmLpony7jqjxfdk2wNVscLIntrqi8lICNNExvxNpyYV4Uy8TJzaG+ufgyUX7C
+ bIgw==
+X-Gm-Message-State: AC+VfDxUTE0WSc6lXxk+xD1cRVsW75R/FHRFgn/+oGbWEjoNfVP27Pnb
+ BOjLFFvHsCTpC7cgHcwplujPe/sAM1PKdIiUpRutng==
+X-Google-Smtp-Source: ACHHUZ4b011uyJsyK9UrTdEr+IBpWpYkuqNJMZQVYOjCfBseHr0BvnRcQmUVgMadcG1Dj0xT/QnH8g==
+X-Received: by 2002:a05:600c:22c9:b0:3f1:745c:7de2 with SMTP id
+ 9-20020a05600c22c900b003f1745c7de2mr13965236wmg.5.1683098548263; 
+ Wed, 03 May 2023 00:22:28 -0700 (PDT)
 Received: from stoup.Home ([2a02:c7c:74db:8d00:c01d:9d74:b630:9087])
  by smtp.gmail.com with ESMTPSA id
  t4-20020a7bc3c4000000b003f1745c7df3sm962789wmj.23.2023.05.03.00.22.27
@@ -59,19 +59,17 @@ Received: from stoup.Home ([2a02:c7c:74db:8d00:c01d:9d74:b630:9087])
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: ale@rev.ng, philmd@linaro.org, marcel.apfelbaum@gmail.com,
- wangyanan55@huawei.com, anjo@rev.ng,
- Kiran Ostrolenk <kiran.ostrolenk@codethink.co.uk>
-Subject: [PULL v2 04/12] qemu/host-utils.h: Add clz and ctz functions for
- lower-bit integers
-Date: Wed,  3 May 2023 08:20:52 +0100
-Message-Id: <20230503072221.1746802-8-richard.henderson@linaro.org>
+ wangyanan55@huawei.com, anjo@rev.ng
+Subject: [PATCH 04/84] tcg: Widen helper_{ld,st}_i128 addresses to uint64_t
+Date: Wed,  3 May 2023 08:20:53 +0100
+Message-Id: <20230503072221.1746802-9-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230503072221.1746802-1-richard.henderson@linaro.org>
 References: <20230503072221.1746802-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::335;
- envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x335.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x32f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -94,91 +92,128 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Kiran Ostrolenk <kiran.ostrolenk@codethink.co.uk>
+Always pass the target address as uint64_t.
 
-This is for use in the RISC-V vclz and vctz instructions (implemented in
-proceeding commit).
-
-Signed-off-by: Kiran Ostrolenk <kiran.ostrolenk@codethink.co.uk>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20230428144757.57530-11-lawrence.hunter@codethink.co.uk>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- include/qemu/host-utils.h | 54 +++++++++++++++++++++++++++++++++++++++
- 1 file changed, 54 insertions(+)
+ accel/tcg/tcg-runtime.h |  4 ++--
+ accel/tcg/cputlb.c      |  5 ++---
+ accel/tcg/user-exec.c   |  5 ++---
+ tcg/tcg-op-ldst.c       | 26 ++++++++++++++++++++++++--
+ 4 files changed, 30 insertions(+), 10 deletions(-)
 
-diff --git a/include/qemu/host-utils.h b/include/qemu/host-utils.h
-index 3ce62bf4a5..d3b4dce6a9 100644
---- a/include/qemu/host-utils.h
-+++ b/include/qemu/host-utils.h
-@@ -107,6 +107,36 @@ static inline uint64_t muldiv64(uint64_t a, uint32_t b, uint32_t c)
+diff --git a/accel/tcg/tcg-runtime.h b/accel/tcg/tcg-runtime.h
+index d9adc646c1..0e6c5f55fd 100644
+--- a/accel/tcg/tcg-runtime.h
++++ b/accel/tcg/tcg-runtime.h
+@@ -39,8 +39,8 @@ DEF_HELPER_FLAGS_1(exit_atomic, TCG_CALL_NO_WG, noreturn, env)
+ DEF_HELPER_FLAGS_3(memset, TCG_CALL_NO_RWG, ptr, ptr, int, ptr)
+ #endif /* IN_HELPER_PROTO */
+ 
+-DEF_HELPER_FLAGS_3(ld_i128, TCG_CALL_NO_WG, i128, env, tl, i32)
+-DEF_HELPER_FLAGS_4(st_i128, TCG_CALL_NO_WG, void, env, tl, i128, i32)
++DEF_HELPER_FLAGS_3(ld_i128, TCG_CALL_NO_WG, i128, env, i64, i32)
++DEF_HELPER_FLAGS_4(st_i128, TCG_CALL_NO_WG, void, env, i64, i128, i32)
+ 
+ DEF_HELPER_FLAGS_5(atomic_cmpxchgb, TCG_CALL_NO_WG,
+                    i32, env, tl, i32, i32, i32)
+diff --git a/accel/tcg/cputlb.c b/accel/tcg/cputlb.c
+index b594401267..e494404a0d 100644
+--- a/accel/tcg/cputlb.c
++++ b/accel/tcg/cputlb.c
+@@ -2541,7 +2541,7 @@ Int128 helper_ld16_mmu(CPUArchState *env, uint64_t addr,
+     return do_ld16_mmu(env, addr, oi, retaddr);
  }
+ 
+-Int128 helper_ld_i128(CPUArchState *env, target_ulong addr, uint32_t oi)
++Int128 helper_ld_i128(CPUArchState *env, uint64_t addr, uint32_t oi)
+ {
+     return helper_ld16_mmu(env, addr, oi, GETPC());
+ }
+@@ -3006,8 +3006,7 @@ void helper_st16_mmu(CPUArchState *env, uint64_t addr, Int128 val,
+     do_st16_mmu(env, addr, val, oi, retaddr);
+ }
+ 
+-void helper_st_i128(CPUArchState *env, target_ulong addr, Int128 val,
+-                    MemOpIdx oi)
++void helper_st_i128(CPUArchState *env, uint64_t addr, Int128 val, MemOpIdx oi)
+ {
+     helper_st16_mmu(env, addr, val, oi, GETPC());
+ }
+diff --git a/accel/tcg/user-exec.c b/accel/tcg/user-exec.c
+index 9a7afb6f78..36ad8284a5 100644
+--- a/accel/tcg/user-exec.c
++++ b/accel/tcg/user-exec.c
+@@ -1136,7 +1136,7 @@ Int128 helper_ld16_mmu(CPUArchState *env, uint64_t addr,
+     return ret;
+ }
+ 
+-Int128 helper_ld_i128(CPUArchState *env, target_ulong addr, MemOpIdx oi)
++Int128 helper_ld_i128(CPUArchState *env, uint64_t addr, MemOpIdx oi)
+ {
+     return helper_ld16_mmu(env, addr, oi, GETPC());
+ }
+@@ -1343,8 +1343,7 @@ void helper_st16_mmu(CPUArchState *env, uint64_t addr, Int128 val,
+     do_st16_he_mmu(env, addr, val, mop, ra);
+ }
+ 
+-void helper_st_i128(CPUArchState *env, target_ulong addr,
+-                    Int128 val, MemOpIdx oi)
++void helper_st_i128(CPUArchState *env, uint64_t addr, Int128 val, MemOpIdx oi)
+ {
+     helper_st16_mmu(env, addr, val, oi, GETPC());
+ }
+diff --git a/tcg/tcg-op-ldst.c b/tcg/tcg-op-ldst.c
+index a3beede2f4..0010afb1a1 100644
+--- a/tcg/tcg-op-ldst.c
++++ b/tcg/tcg-op-ldst.c
+@@ -404,6 +404,24 @@ static void canonicalize_memop_i128_as_i64(MemOp ret[2], MemOp orig)
+ #define tcg_temp_ebb_new  tcg_temp_ebb_new_i32
  #endif
  
-+/**
-+ * clz8 - count leading zeros in a 8-bit value.
-+ * @val: The value to search
-+ *
-+ * Returns 8 if the value is zero.  Note that the GCC builtin is
-+ * undefined if the value is zero.
-+ *
-+ * Note that the GCC builtin will upcast its argument to an `unsigned int`
-+ * so this function subtracts off the number of prepended zeroes.
-+ */
-+static inline int clz8(uint8_t val)
++static TCGv_i64 maybe_extend_addr64(TCGv addr)
 +{
-+    return val ? __builtin_clz(val) - 24 : 8;
++#if TARGET_LONG_BITS == 32
++    TCGv_i64 a64 = tcg_temp_ebb_new_i64();
++    tcg_gen_extu_i32_i64(a64, addr);
++    return a64;
++#else
++    return addr;
++#endif
 +}
 +
-+/**
-+ * clz16 - count leading zeros in a 16-bit value.
-+ * @val: The value to search
-+ *
-+ * Returns 16 if the value is zero.  Note that the GCC builtin is
-+ * undefined if the value is zero.
-+ *
-+ * Note that the GCC builtin will upcast its argument to an `unsigned int`
-+ * so this function subtracts off the number of prepended zeroes.
-+ */
-+static inline int clz16(uint16_t val)
++static void maybe_free_addr64(TCGv_i64 a64)
 +{
-+    return val ? __builtin_clz(val) - 16 : 16;
++#if TARGET_LONG_BITS == 32
++    tcg_temp_free_i64(a64);
++#endif
 +}
 +
- /**
-  * clz32 - count leading zeros in a 32-bit value.
-  * @val: The value to search
-@@ -153,6 +183,30 @@ static inline int clo64(uint64_t val)
-     return clz64(~val);
- }
+ void tcg_gen_qemu_ld_i128(TCGv_i128 val, TCGv addr, TCGArg idx, MemOp memop)
+ {
+     const MemOpIdx oi = make_memop_idx(memop, idx);
+@@ -478,7 +496,9 @@ void tcg_gen_qemu_ld_i128(TCGv_i128 val, TCGv addr, TCGArg idx, MemOp memop)
+             tcg_gen_bswap64_i64(y, y);
+         }
+     } else {
+-        gen_helper_ld_i128(val, cpu_env, addr, tcg_constant_i32(oi));
++        TCGv_i64 a64 = maybe_extend_addr64(addr);
++        gen_helper_ld_i128(val, cpu_env, a64, tcg_constant_i32(oi));
++        maybe_free_addr64(a64);
+     }
  
-+/**
-+ * ctz8 - count trailing zeros in a 8-bit value.
-+ * @val: The value to search
-+ *
-+ * Returns 8 if the value is zero.  Note that the GCC builtin is
-+ * undefined if the value is zero.
-+ */
-+static inline int ctz8(uint8_t val)
-+{
-+    return val ? __builtin_ctz(val) : 8;
-+}
-+
-+/**
-+ * ctz16 - count trailing zeros in a 16-bit value.
-+ * @val: The value to search
-+ *
-+ * Returns 16 if the value is zero.  Note that the GCC builtin is
-+ * undefined if the value is zero.
-+ */
-+static inline int ctz16(uint16_t val)
-+{
-+    return val ? __builtin_ctz(val) : 16;
-+}
-+
- /**
-  * ctz32 - count trailing zeros in a 32-bit value.
-  * @val: The value to search
+     plugin_gen_mem_callbacks(addr, oi, QEMU_PLUGIN_MEM_R);
+@@ -558,7 +578,9 @@ void tcg_gen_qemu_st_i128(TCGv_i128 val, TCGv addr, TCGArg idx, MemOp memop)
+         }
+         tcg_temp_free(addr_p8);
+     } else {
+-        gen_helper_st_i128(cpu_env, addr, val, tcg_constant_i32(oi));
++        TCGv_i64 a64 = maybe_extend_addr64(addr);
++        gen_helper_st_i128(cpu_env, a64, val, tcg_constant_i32(oi));
++        maybe_free_addr64(a64);
+     }
+ 
+     plugin_gen_mem_callbacks(addr, oi, QEMU_PLUGIN_MEM_W);
 -- 
 2.34.1
 
