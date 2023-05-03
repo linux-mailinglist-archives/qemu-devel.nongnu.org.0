@@ -2,72 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 509A76F5153
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 May 2023 09:26:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CBC156F517E
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 May 2023 09:29:29 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pu6q2-00016j-56; Wed, 03 May 2023 03:23:46 -0400
+	id 1pu6q6-0001IC-4S; Wed, 03 May 2023 03:23:50 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pu6pv-0000zW-4x
- for qemu-devel@nongnu.org; Wed, 03 May 2023 03:23:42 -0400
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432])
+ id 1pu6pz-00014P-DB
+ for qemu-devel@nongnu.org; Wed, 03 May 2023 03:23:43 -0400
+Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pu6ps-0001Nf-JV
- for qemu-devel@nongnu.org; Wed, 03 May 2023 03:23:38 -0400
-Received: by mail-wr1-x432.google.com with SMTP id
- ffacd0b85a97d-2f40b891420so4592060f8f.0
- for <qemu-devel@nongnu.org>; Wed, 03 May 2023 00:23:36 -0700 (PDT)
+ id 1pu6pu-0001Rd-8h
+ for qemu-devel@nongnu.org; Wed, 03 May 2023 03:23:42 -0400
+Received: by mail-wr1-x434.google.com with SMTP id
+ ffacd0b85a97d-3062d764455so2214221f8f.3
+ for <qemu-devel@nongnu.org>; Wed, 03 May 2023 00:23:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1683098615; x=1685690615;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=2s1wakyxvtnmdANdaVf1g367gGiqC5iSkTJ0auZJcgo=;
- b=NptcD7N4gzGuvVDR8ZNSUyQWu3q/CYH9jwOqJdNg3JD5eO0lC/QddBIlEpLI+mGKMo
- ntVRZaZBwSND5xja8mq1mASrvEUGkYQXy2wpGP7A4XGJolD9qcVMohCsuZ2ZRqObSX8l
- G4LxeQc8vMoO7rwhpl2zSizOsIAj0ujcXGeWBqRrUPZqAn/nEwqLF7V0glahFRXAZuCD
- Y+H+ZViDsKwCfQhC8AKQ0lNzzCWaO2Uv6pHYB8miYAxROy8x4FG4KrSFzqhy1BNtWgEM
- yX7erJhBivz2qQPyg14FsCuFdT36w5Eby3oFJ4OkvNb8EwT340cE2AIK2kiW2emMui4w
- ckFw==
+ d=linaro.org; s=google; t=1683098616; x=1685690616;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=IIUDyNpFEtAcRsGwdLhIs4NILshU/dnOeolXsp9s4DA=;
+ b=R1p327+LQVkNyGENoQQ/shVN98BAfpZpLGA8s5FcVu72IpMsDuE+5dxh1DEBGfE4ka
+ E7PGK6KcUfmKFJxZBbLvxVZ+SeLYZtV8mF4f/RPDq63Ip1hVdUzh3mm12wEh1OUKfdG5
+ ohmP0uuauh6joIdrA79haVUl0DXIlKTrKEGANkuLuWM3Bnt9HOvQRgW2rxMYAJjIYNo3
+ nmGyDcymc/FDceK5X6terRLC/G0E9z9CxSC65RwriL6MsFRoX8xDwHRHr3/s6YzUATd+
+ w0+HVFIXp8fNvzwJm/r9YohIrbQFLA6EnPnbyklkxi55bdVN7bFJTZdS4/kbB+3HcosB
+ bl2A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683098615; x=1685690615;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=2s1wakyxvtnmdANdaVf1g367gGiqC5iSkTJ0auZJcgo=;
- b=grE6gmLLeWtG+QIR/HaCnp26TZ5zHjaIKEIYwNRs5FQrl0K/CH5klyEu5vYEsLOStp
- j2Hr3Tkd26eGlNnwyk6x/D268da0JnufM8jtvNQLTa4muRsq3AOMfcOUrdz1Fx3cyVWa
- ckOnvZRfweBjfauQpgRtdp797m7lpJDBH3OzvqKFNIJt1zD4Qo2+o4LQV+TG+HRrDiYf
- 8/eSSlrMvcHEiG0w52zZv4dXldkpa96X/gCmzJ2h5ALfIqN5lomzYa3Bu/wBDsi91KkX
- Llv28pWA9h019Z859lozRDCEtkGoFopm7mw5qTd1gLsayLidXTm3521Z7iXu/YuGnsoZ
- yyiw==
-X-Gm-Message-State: AC+VfDwiB4XmzVlmNguvGpLsKS0wCVB6JXMoYyNTDGnnhC1mTSdAVB0o
- TRZaLn6r2BsS7drMhLlUn625v753TsZzKF3Z1K4qwg==
-X-Google-Smtp-Source: ACHHUZ6f5foJsll+WQBMtD8v7suohaQWtwwIimOOABYml7oW76/rLboSzdnEX8lbqxDeJr5tZHrzaQ==
-X-Received: by 2002:adf:ef84:0:b0:2fb:5296:cd19 with SMTP id
- d4-20020adfef84000000b002fb5296cd19mr13713997wro.53.1683098614809; 
- Wed, 03 May 2023 00:23:34 -0700 (PDT)
+ d=1e100.net; s=20221208; t=1683098616; x=1685690616;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=IIUDyNpFEtAcRsGwdLhIs4NILshU/dnOeolXsp9s4DA=;
+ b=NJ15w44aivTmEt4Mttd60BUTXJnAdp70+fyx63VkJNQ6sSvxiXGep+wE/p1kctJaFx
+ vR2eRgdK0bHlHjpmX5GLme8K8ykDldBxIxgOfxq6ddKbxLZ0kaWcsgMeeokmMPCpnQ7W
+ c3Htrk8UJjdsQ7N7PwYfV97cX0YF6yIQDk3wCM2iEPBnhLJQ8Qcj4bqytqL9A5LqHOCe
+ DY9UKZC1u4mBlMR32erF4HavJpIldIW4CSn+qh+/SxG6qSBqyHVIUhMthyZ+miWk6CyB
+ XiCgsUcSZkE95FLoV8di2tySBZERoMyIw5Z7IiscWkMsSCQDma1OAD4Nw9sKQTPdB69l
+ o/pA==
+X-Gm-Message-State: AC+VfDy9owftEZlzqqvAbbRRCXlHKU46dGx9cO3iY/aCnFMqz5NbKdXl
+ n7pxHfeNsMfCmepIXm3tazyBlrhMJLecL7Qd1j5EFg==
+X-Google-Smtp-Source: ACHHUZ7fgGgUxKHDun/nIaaiMCaiVyXpTS+MMl6Q3uODQCugQBIaoddIrOKm3+Tf/f1BWapo2EbqEg==
+X-Received: by 2002:adf:ef06:0:b0:304:8149:239b with SMTP id
+ e6-20020adfef06000000b003048149239bmr12347169wro.50.1683098616072; 
+ Wed, 03 May 2023 00:23:36 -0700 (PDT)
 Received: from stoup.Home ([2a02:c7c:74db:8d00:c01d:9d74:b630:9087])
  by smtp.gmail.com with ESMTPSA id
- b14-20020a05600010ce00b0030627f58325sm9586745wrx.25.2023.05.03.00.23.33
+ b14-20020a05600010ce00b0030627f58325sm9586745wrx.25.2023.05.03.00.23.35
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 03 May 2023 00:23:34 -0700 (PDT)
+ Wed, 03 May 2023 00:23:35 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: ale@rev.ng, philmd@linaro.org, marcel.apfelbaum@gmail.com,
  wangyanan55@huawei.com, anjo@rev.ng
-Subject: [RESEND PATCH 00/84] tcg: Build once for system, once for user
-Date: Wed,  3 May 2023 08:22:07 +0100
-Message-Id: <20230503072331.1747057-1-richard.henderson@linaro.org>
+Subject: [PATCH 01/84] tcg: Split out memory ops to tcg-op-ldst.c
+Date: Wed,  3 May 2023 08:22:08 +0100
+Message-Id: <20230503072331.1747057-2-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20230503072331.1747057-1-richard.henderson@linaro.org>
+References: <20230503072331.1747057-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x432.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::434;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x434.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,284 +92,2049 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Based-on: 20230503070656.1746170-1-richard.henderson@linaro.org
-("[PATCH v4 00/57] tcg: Improve atomicity support")
-
-and also
-
-Based-on: 20230502160846.1289975-1-richard.henderson@linaro.org
-("[PATCH 00/16] tcg: Remove TARGET_ALIGNED_ONLY")
-
-The goal here is only tcg/, leaving accel/tcg/ for future work.
-
-
-r~
-
-
-Richard Henderson (84):
-  tcg: Split out memory ops to tcg-op-ldst.c
-  tcg: Widen gen_insn_data to uint64_t
-  accel/tcg: Widen tcg-ldst.h addresses to uint64_t
-  tcg: Widen helper_{ld,st}_i128 addresses to uint64_t
-  tcg: Widen helper_atomic_* addresses to uint64_t
-  tcg: Widen tcg_gen_code pc_start argument to uint64_t
-  accel/tcg: Merge gen_mem_wrapped with plugin_gen_empty_mem_callback
-  accel/tcg: Merge do_gen_mem_cb into caller
-  tcg: Reduce copies for plugin_gen_mem_callbacks
-  accel/tcg: Widen plugin_gen_empty_mem_callback to i64
-  tcg: Add addr_type to TCGContext
-  tcg: Remove TCGv from tcg_gen_qemu_{ld,st}_*
-  tcg: Remove TCGv from tcg_gen_atomic_*
-  tcg: Split INDEX_op_qemu_{ld,st}* for guest address size
-  tcg/tci: Elimnate TARGET_LONG_BITS, target_ulong
-  tcg/i386: Always enable TCG_TARGET_HAS_extr[lh]_i64_i32
-  tcg/i386: Conditionalize tcg_out_extu_i32_i64
-  tcg/i386: Adjust type of tlb_mask
-  tcg/i386: Remove TARGET_LONG_BITS, TCG_TYPE_TL
-  tcg/arm: Remove TARGET_LONG_BITS
-  tcg/aarch64: Remove USE_GUEST_BASE
-  tcg/aarch64: Remove TARGET_LONG_BITS, TCG_TYPE_TL
-  tcg/loongarch64: Remove TARGET_LONG_BITS, TCG_TYPE_TL
-  tcg/mips: Remove TARGET_LONG_BITS, TCG_TYPE_TL
-  tcg/ppc: Remove TARGET_LONG_BITS, TCG_TYPE_TL
-  tcg/riscv: Remove TARGET_LONG_BITS, TCG_TYPE_TL
-  tcg/s390x: Remove TARGET_LONG_BITS, TCG_TYPE_TL
-  tcg/sparc64: Remove TARGET_LONG_BITS, TCG_TYPE_TL
-  tcg: Remove TARGET_LONG_BITS, TCG_TYPE_TL
-  tcg: Move TCG_TYPE_TL from tcg.h to tcg-op.h
-  tcg: Add page_bits and page_mask to TCGContext
-  tcg: Add tlb_dyn_max_bits to TCGContext
-  tcg: Widen CPUTLBEntry comparators to 64-bits
-  tcg: Add tlb_fast_offset to TCGContext
-  tcg: Remove TCG_TARGET_TLB_DISPLACEMENT_BITS
-  tcg: Split out tcg/debug-assert.h
-  *: Add missing includes of qemu/error-report.h
-  *: Add missing includes of tcg/debug-assert.h
-  *: Add missing includes of tcg/tcg.h
-  tcg: Split out tcg-target-reg-bits.h
-  target/arm: Fix test of TCG_OVERSIZED_GUEST
-  tcg: Split out tcg/oversized-guest.h
-  tcg: Move TCGv, dup_const_tl definitions to tcg-op.h
-  tcg: Split tcg/tcg-op-common.h from tcg/tcg-op.h
-  target/arm: Include helper-gen.h in translator.h
-  target/hexagon: Include helper-gen.h where needed
-  tcg: Remove outdated comments in helper-head.h
-  tcg: Move TCGHelperInfo and dependencies to tcg/helper-info.h
-  tcg: Pass TCGHelperInfo to tcg_gen_callN
-  tcg: Move temp_idx and tcgv_i32_temp debug out of line
-  tcg: Split tcg_gen_callN
-  tcg: Split helper-gen.h
-  tcg: Split helper-proto.h
-  tcg: Add insn_start_words to TCGContext
-  tcg: Add guest_mo to TCGContext
-  tcg: Move TLB_FLAGS_MASK check out of get_alignment_bits
-  tcg: Split tcg/tcg-op-gvec.h
-  tcg: Remove NO_CPU_IO_DEFS
-  exec-all: Widen tb_page_addr_t for user-only
-  exec-all: Widen TranslationBlock pc and cs_base to 64-bits
-  tcg: Remove DEBUG_DISAS
-  tcg: Remove USE_TCG_OPTIMIZATIONS
-  tcg: Spit out exec/translation-block.h
-  include/exec: Remove CODE_GEN_AVG_BLOCK_SIZE
-  accel/tcg: Move most of gen-icount.h into translator.c
-  accel/tcg: Introduce translator_io_start
-  accel/tcg: Move translator_fake_ldb out of line
-  target/arm: Tidy helpers for translation
-  target/mips: Tidy helpers for translation
-  *: Add missing includes of exec/translation-block.h
-  *: Add missing includes of exec/exec-all.h
-  accel/tcg: Tidy includes for translator.[ch]
-  tcg: Define IN_TCG
-  tcg: Fix PAGE/PROT confusion
-  tcg: Move env defines out of NEED_CPU_H in helper-head.h
-  tcg: Remove target-specific headers from tcg.[ch]
-  plugins: Move plugin_insn_append to translator.c
-  plugins: Drop unused headers from exec/plugin-gen.h
-  disas: Move disas.c to disas/
-  disas: Remove target_ulong from the interface
-  tcg: Split out exec/user/guest-base.h
-  disas: Remove target-specific headers
-  exec/poison: Do not poison CONFIG_SOFTMMU
-  tcg: Build once for system and once for user-only
-
- accel/tcg/tcg-runtime.h                       |   50 +-
- include/disas/disas.h                         |   23 +-
- include/exec/cpu-all.h                        |    8 +-
- include/exec/cpu-defs.h                       |   50 +-
- include/exec/cpu_ldst.h                       |   22 +-
- include/exec/exec-all.h                       |  148 +-
- include/exec/gen-icount.h                     |   83 --
- include/exec/helper-gen-common.h              |   17 +
- include/exec/helper-gen.h                     |   96 +-
- include/exec/helper-head.h                    |   24 +-
- include/exec/helper-proto-common.h            |   17 +
- include/exec/helper-proto.h                   |   72 +-
- include/exec/helper-tcg.h                     |   75 -
- include/exec/plugin-gen.h                     |   28 +-
- include/exec/poison.h                         |    1 -
- include/exec/tlb-common.h                     |   56 +
- include/exec/translation-block.h              |  152 ++
- include/exec/translator.h                     |   24 +-
- include/exec/user/guest-base.h                |   12 +
- include/qemu/typedefs.h                       |    1 +
- include/tcg/debug-assert.h                    |   17 +
- include/tcg/helper-info.h                     |   64 +
- include/tcg/insn-start-words.h                |   17 +
- include/tcg/oversized-guest.h                 |   23 +
- include/tcg/tcg-ldst.h                        |   26 +-
- include/tcg/tcg-op-common.h                   |  996 +++++++++++++
- include/tcg/tcg-op-gvec-common.h              |  426 ++++++
- include/tcg/tcg-op-gvec.h                     |  444 +-----
- include/tcg/tcg-op.h                          | 1118 ++-------------
- include/tcg/tcg-opc.h                         |   41 +-
- include/tcg/tcg.h                             |  153 +-
- target/arm/tcg/translate.h                    |    5 +
- target/mips/tcg/translate.h                   |    5 +-
- target/ppc/cpu.h                              |    2 -
- target/sparc/cpu.h                            |    2 -
- tcg/aarch64/tcg-target-reg-bits.h             |   12 +
- tcg/aarch64/tcg-target.h                      |    1 -
- tcg/arm/tcg-target-reg-bits.h                 |   12 +
- tcg/arm/tcg-target.h                          |    1 -
- tcg/i386/tcg-target-reg-bits.h                |   16 +
- tcg/i386/tcg-target.h                         |    9 +-
- tcg/loongarch64/tcg-target-reg-bits.h         |   21 +
- tcg/loongarch64/tcg-target.h                  |   11 -
- tcg/mips/tcg-target-reg-bits.h                |   18 +
- tcg/mips/tcg-target.h                         |    9 -
- tcg/ppc/tcg-target-reg-bits.h                 |   16 +
- tcg/ppc/tcg-target.h                          |    6 -
- tcg/riscv/tcg-target-reg-bits.h               |   19 +
- tcg/riscv/tcg-target.h                        |   10 -
- tcg/s390x/tcg-target-reg-bits.h               |   17 +
- tcg/s390x/tcg-target.h                        |    1 -
- tcg/sparc64/tcg-target-reg-bits.h             |   12 +
- tcg/sparc64/tcg-target.h                      |    1 -
- tcg/tcg-internal.h                            |   47 +-
- tcg/tci/tcg-target-reg-bits.h                 |   18 +
- tcg/tci/tcg-target.h                          |    9 -
- accel/tcg/cpu-exec.c                          |    4 +-
- accel/tcg/cputlb.c                            |   43 +-
- accel/tcg/monitor.c                           |    1 +
- accel/tcg/perf.c                              |    8 +-
- accel/tcg/plugin-gen.c                        |   74 +-
- accel/tcg/tcg-accel-ops-mttcg.c               |    2 +-
- accel/tcg/tcg-accel-ops-rr.c                  |    2 +-
- accel/tcg/tcg-all.c                           |    1 +
- accel/tcg/tcg-runtime-gvec.c                  |    2 +-
- accel/tcg/tcg-runtime.c                       |    6 +-
- accel/tcg/translate-all.c                     |   58 +-
- accel/tcg/translator.c                        |  142 +-
- accel/tcg/user-exec.c                         |   31 +-
- disas.c => disas/disas.c                      |   22 +-
- linux-user/elfload.c                          |    5 +-
- target/alpha/translate.c                      |   18 +-
- target/arm/ptw.c                              |    8 +-
- target/arm/tcg/translate-a64.c                |   38 +-
- target/arm/tcg/translate-m-nocp.c             |    2 -
- target/arm/tcg/translate-mve.c                |    4 -
- target/arm/tcg/translate-neon.c               |    4 -
- target/arm/tcg/translate-sme.c                |    7 -
- target/arm/tcg/translate-sve.c                |   11 -
- target/arm/tcg/translate-vfp.c                |    7 +-
- target/arm/tcg/translate.c                    |   41 +-
- target/avr/cpu.c                              |    1 +
- target/avr/helper.c                           |    1 +
- target/avr/translate.c                        |    6 +-
- target/cris/translate.c                       |    8 +-
- target/hexagon/genptr.c                       |    1 +
- target/hexagon/translate.c                    |    7 +
- target/hppa/translate.c                       |   10 +-
- target/i386/helper.c                          |    3 +
- target/i386/tcg/translate.c                   |   57 +-
- target/loongarch/translate.c                  |    6 +-
- target/m68k/translate.c                       |    5 +-
- target/microblaze/translate.c                 |    6 +-
- target/mips/tcg/msa_translate.c               |    3 -
- target/mips/tcg/mxu_translate.c               |    2 -
- target/mips/tcg/octeon_translate.c            |    4 +-
- target/mips/tcg/rel6_translate.c              |    2 -
- target/mips/tcg/translate.c                   |   53 +-
- target/mips/tcg/translate_addr_const.c        |    1 -
- target/mips/tcg/tx79_translate.c              |    4 +-
- target/mips/tcg/vr54xx_translate.c            |    3 -
- target/nios2/translate.c                      |    6 +-
- target/openrisc/sys_helper.c                  |    1 +
- target/openrisc/translate.c                   |   13 +-
- target/ppc/translate.c                        |   17 +-
- target/riscv/cpu_helper.c                     |    1 +
- target/riscv/translate.c                      |    6 +-
- target/rx/cpu.c                               |    1 +
- target/rx/op_helper.c                         |    1 +
- target/rx/translate.c                         |    7 +-
- target/s390x/tcg/translate.c                  |   10 +-
- target/sh4/translate.c                        |    8 +-
- target/sparc/translate.c                      |   80 +-
- target/tricore/cpu.c                          |    1 +
- target/tricore/translate.c                    |    7 +-
- target/xtensa/translate.c                     |   31 +-
- tcg/optimize.c                                |   21 +-
- tcg/region.c                                  |   22 +-
- tcg/tcg-common.c                              |    2 +
- tcg/tcg-op-gvec.c                             |    6 +-
- tcg/tcg-op-ldst.c                             | 1259 +++++++++++++++++
- tcg/tcg-op-vec.c                              |    4 +-
- tcg/tcg-op.c                                  |  991 +------------
- tcg/tcg.c                                     |  359 +++--
- tcg/tci.c                                     |   96 +-
- MAINTAINERS                                   |    1 -
- accel/tcg/atomic_common.c.inc                 |   14 +-
- disas/meson.build                             |    4 +-
- include/exec/helper-gen.h.inc                 |  101 ++
- include/exec/helper-info.c.inc                |   95 ++
- include/exec/helper-proto.h.inc               |   67 +
- meson.build                                   |    3 -
- scripts/make-config-poison.sh                 |    5 +-
- target/hexagon/idef-parser/idef-parser.y      |    3 +-
- target/loongarch/insn_trans/trans_extra.c.inc |    4 +-
- .../insn_trans/trans_privileged.c.inc         |    4 +-
- target/riscv/insn_trans/trans_rvi.c.inc       |   24 +-
- tcg/aarch64/tcg-target.c.inc                  |   80 +-
- tcg/arm/tcg-target.c.inc                      |  115 +-
- tcg/i386/tcg-target.c.inc                     |  120 +-
- tcg/loongarch64/tcg-target.c.inc              |   45 +-
- tcg/meson.build                               |   31 +-
- tcg/mips/tcg-target.c.inc                     |  112 +-
- tcg/ppc/tcg-target.c.inc                      |  151 +-
- tcg/riscv/tcg-target.c.inc                    |   47 +-
- tcg/s390x/tcg-target.c.inc                    |   62 +-
- tcg/sparc64/tcg-target.c.inc                  |   48 +-
- tcg/tci/tcg-target.c.inc                      |   53 +-
- 148 files changed, 5143 insertions(+), 4284 deletions(-)
- delete mode 100644 include/exec/gen-icount.h
- create mode 100644 include/exec/helper-gen-common.h
- create mode 100644 include/exec/helper-proto-common.h
- delete mode 100644 include/exec/helper-tcg.h
- create mode 100644 include/exec/tlb-common.h
- create mode 100644 include/exec/translation-block.h
- create mode 100644 include/exec/user/guest-base.h
- create mode 100644 include/tcg/debug-assert.h
- create mode 100644 include/tcg/helper-info.h
- create mode 100644 include/tcg/insn-start-words.h
- create mode 100644 include/tcg/oversized-guest.h
- create mode 100644 include/tcg/tcg-op-common.h
- create mode 100644 include/tcg/tcg-op-gvec-common.h
- create mode 100644 tcg/aarch64/tcg-target-reg-bits.h
- create mode 100644 tcg/arm/tcg-target-reg-bits.h
- create mode 100644 tcg/i386/tcg-target-reg-bits.h
- create mode 100644 tcg/loongarch64/tcg-target-reg-bits.h
- create mode 100644 tcg/mips/tcg-target-reg-bits.h
- create mode 100644 tcg/ppc/tcg-target-reg-bits.h
- create mode 100644 tcg/riscv/tcg-target-reg-bits.h
- create mode 100644 tcg/s390x/tcg-target-reg-bits.h
- create mode 100644 tcg/sparc64/tcg-target-reg-bits.h
- create mode 100644 tcg/tci/tcg-target-reg-bits.h
- rename disas.c => disas/disas.c (95%)
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ tcg/tcg-op-ldst.c | 1017 +++++++++++++++++++++++++++++++++++++++++++++
+ tcg/tcg-op.c      |  985 -------------------------------------------
+ tcg/meson.build   |    1 +
+ 3 files changed, 1018 insertions(+), 985 deletions(-)
  create mode 100644 tcg/tcg-op-ldst.c
- create mode 100644 include/exec/helper-gen.h.inc
- create mode 100644 include/exec/helper-info.c.inc
- create mode 100644 include/exec/helper-proto.h.inc
 
+diff --git a/tcg/tcg-op-ldst.c b/tcg/tcg-op-ldst.c
+new file mode 100644
+index 0000000000..a3beede2f4
+--- /dev/null
++++ b/tcg/tcg-op-ldst.c
+@@ -0,0 +1,1017 @@
++/*
++ * Tiny Code Generator for QEMU
++ *
++ * Copyright (c) 2008 Fabrice Bellard
++ *
++ * Permission is hereby granted, free of charge, to any person obtaining a copy
++ * of this software and associated documentation files (the "Software"), to deal
++ * in the Software without restriction, including without limitation the rights
++ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
++ * copies of the Software, and to permit persons to whom the Software is
++ * furnished to do so, subject to the following conditions:
++ *
++ * The above copyright notice and this permission notice shall be included in
++ * all copies or substantial portions of the Software.
++ *
++ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
++ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
++ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
++ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
++ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
++ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
++ * THE SOFTWARE.
++ */
++
++#include "qemu/osdep.h"
++#include "exec/exec-all.h"
++#include "tcg/tcg.h"
++#include "tcg/tcg-temp-internal.h"
++#include "tcg/tcg-op.h"
++#include "tcg/tcg-mo.h"
++#include "exec/plugin-gen.h"
++#include "tcg-internal.h"
++
++
++static inline MemOp tcg_canonicalize_memop(MemOp op, bool is64, bool st)
++{
++    /* Trigger the asserts within as early as possible.  */
++    unsigned a_bits = get_alignment_bits(op);
++
++    /* Prefer MO_ALIGN+MO_XX over MO_ALIGN_XX+MO_XX */
++    if (a_bits == (op & MO_SIZE)) {
++        op = (op & ~MO_AMASK) | MO_ALIGN;
++    }
++
++    switch (op & MO_SIZE) {
++    case MO_8:
++        op &= ~MO_BSWAP;
++        break;
++    case MO_16:
++        break;
++    case MO_32:
++        if (!is64) {
++            op &= ~MO_SIGN;
++        }
++        break;
++    case MO_64:
++        if (is64) {
++            op &= ~MO_SIGN;
++            break;
++        }
++        /* fall through */
++    default:
++        g_assert_not_reached();
++    }
++    if (st) {
++        op &= ~MO_SIGN;
++    }
++    return op;
++}
++
++static void gen_ldst_i32(TCGOpcode opc, TCGv_i32 val, TCGv addr,
++                         MemOp memop, TCGArg idx)
++{
++    MemOpIdx oi = make_memop_idx(memop, idx);
++#if TARGET_LONG_BITS == 32
++    tcg_gen_op3i_i32(opc, val, addr, oi);
++#else
++    if (TCG_TARGET_REG_BITS == 32) {
++        tcg_gen_op4i_i32(opc, val, TCGV_LOW(addr), TCGV_HIGH(addr), oi);
++    } else {
++        tcg_gen_op3(opc, tcgv_i32_arg(val), tcgv_i64_arg(addr), oi);
++    }
++#endif
++}
++
++static void gen_ldst_i64(TCGOpcode opc, TCGv_i64 val, TCGv addr,
++                         MemOp memop, TCGArg idx)
++{
++    MemOpIdx oi = make_memop_idx(memop, idx);
++#if TARGET_LONG_BITS == 32
++    if (TCG_TARGET_REG_BITS == 32) {
++        tcg_gen_op4i_i32(opc, TCGV_LOW(val), TCGV_HIGH(val), addr, oi);
++    } else {
++        tcg_gen_op3(opc, tcgv_i64_arg(val), tcgv_i32_arg(addr), oi);
++    }
++#else
++    if (TCG_TARGET_REG_BITS == 32) {
++        tcg_gen_op5i_i32(opc, TCGV_LOW(val), TCGV_HIGH(val),
++                         TCGV_LOW(addr), TCGV_HIGH(addr), oi);
++    } else {
++        tcg_gen_op3i_i64(opc, val, addr, oi);
++    }
++#endif
++}
++
++static void tcg_gen_req_mo(TCGBar type)
++{
++#ifdef TCG_GUEST_DEFAULT_MO
++    type &= TCG_GUEST_DEFAULT_MO;
++#endif
++    type &= ~TCG_TARGET_DEFAULT_MO;
++    if (type) {
++        tcg_gen_mb(type | TCG_BAR_SC);
++    }
++}
++
++static inline TCGv plugin_prep_mem_callbacks(TCGv vaddr)
++{
++#ifdef CONFIG_PLUGIN
++    if (tcg_ctx->plugin_insn != NULL) {
++        /* Save a copy of the vaddr for use after a load.  */
++        TCGv temp = tcg_temp_new();
++        tcg_gen_mov_tl(temp, vaddr);
++        return temp;
++    }
++#endif
++    return vaddr;
++}
++
++static void plugin_gen_mem_callbacks(TCGv vaddr, MemOpIdx oi,
++                                     enum qemu_plugin_mem_rw rw)
++{
++#ifdef CONFIG_PLUGIN
++    if (tcg_ctx->plugin_insn != NULL) {
++        qemu_plugin_meminfo_t info = make_plugin_meminfo(oi, rw);
++        plugin_gen_empty_mem_callback(vaddr, info);
++        tcg_temp_free(vaddr);
++    }
++#endif
++}
++
++void tcg_gen_qemu_ld_i32(TCGv_i32 val, TCGv addr, TCGArg idx, MemOp memop)
++{
++    MemOp orig_memop;
++    MemOpIdx oi;
++
++    tcg_gen_req_mo(TCG_MO_LD_LD | TCG_MO_ST_LD);
++    memop = tcg_canonicalize_memop(memop, 0, 0);
++    oi = make_memop_idx(memop, idx);
++
++    orig_memop = memop;
++    if ((memop & MO_BSWAP) && !tcg_target_has_memory_bswap(memop)) {
++        memop &= ~MO_BSWAP;
++        /* The bswap primitive benefits from zero-extended input.  */
++        if ((memop & MO_SSIZE) == MO_SW) {
++            memop &= ~MO_SIGN;
++        }
++    }
++
++    addr = plugin_prep_mem_callbacks(addr);
++    gen_ldst_i32(INDEX_op_qemu_ld_i32, val, addr, memop, idx);
++    plugin_gen_mem_callbacks(addr, oi, QEMU_PLUGIN_MEM_R);
++
++    if ((orig_memop ^ memop) & MO_BSWAP) {
++        switch (orig_memop & MO_SIZE) {
++        case MO_16:
++            tcg_gen_bswap16_i32(val, val, (orig_memop & MO_SIGN
++                                           ? TCG_BSWAP_IZ | TCG_BSWAP_OS
++                                           : TCG_BSWAP_IZ | TCG_BSWAP_OZ));
++            break;
++        case MO_32:
++            tcg_gen_bswap32_i32(val, val);
++            break;
++        default:
++            g_assert_not_reached();
++        }
++    }
++}
++
++void tcg_gen_qemu_st_i32(TCGv_i32 val, TCGv addr, TCGArg idx, MemOp memop)
++{
++    TCGv_i32 swap = NULL;
++    MemOpIdx oi;
++
++    tcg_gen_req_mo(TCG_MO_LD_ST | TCG_MO_ST_ST);
++    memop = tcg_canonicalize_memop(memop, 0, 1);
++    oi = make_memop_idx(memop, idx);
++
++    if ((memop & MO_BSWAP) && !tcg_target_has_memory_bswap(memop)) {
++        swap = tcg_temp_ebb_new_i32();
++        switch (memop & MO_SIZE) {
++        case MO_16:
++            tcg_gen_bswap16_i32(swap, val, 0);
++            break;
++        case MO_32:
++            tcg_gen_bswap32_i32(swap, val);
++            break;
++        default:
++            g_assert_not_reached();
++        }
++        val = swap;
++        memop &= ~MO_BSWAP;
++    }
++
++    addr = plugin_prep_mem_callbacks(addr);
++    if (TCG_TARGET_HAS_qemu_st8_i32 && (memop & MO_SIZE) == MO_8) {
++        gen_ldst_i32(INDEX_op_qemu_st8_i32, val, addr, memop, idx);
++    } else {
++        gen_ldst_i32(INDEX_op_qemu_st_i32, val, addr, memop, idx);
++    }
++    plugin_gen_mem_callbacks(addr, oi, QEMU_PLUGIN_MEM_W);
++
++    if (swap) {
++        tcg_temp_free_i32(swap);
++    }
++}
++
++void tcg_gen_qemu_ld_i64(TCGv_i64 val, TCGv addr, TCGArg idx, MemOp memop)
++{
++    MemOp orig_memop;
++    MemOpIdx oi;
++
++    if (TCG_TARGET_REG_BITS == 32 && (memop & MO_SIZE) < MO_64) {
++        tcg_gen_qemu_ld_i32(TCGV_LOW(val), addr, idx, memop);
++        if (memop & MO_SIGN) {
++            tcg_gen_sari_i32(TCGV_HIGH(val), TCGV_LOW(val), 31);
++        } else {
++            tcg_gen_movi_i32(TCGV_HIGH(val), 0);
++        }
++        return;
++    }
++
++    tcg_gen_req_mo(TCG_MO_LD_LD | TCG_MO_ST_LD);
++    memop = tcg_canonicalize_memop(memop, 1, 0);
++    oi = make_memop_idx(memop, idx);
++
++    orig_memop = memop;
++    if ((memop & MO_BSWAP) && !tcg_target_has_memory_bswap(memop)) {
++        memop &= ~MO_BSWAP;
++        /* The bswap primitive benefits from zero-extended input.  */
++        if ((memop & MO_SIGN) && (memop & MO_SIZE) < MO_64) {
++            memop &= ~MO_SIGN;
++        }
++    }
++
++    addr = plugin_prep_mem_callbacks(addr);
++    gen_ldst_i64(INDEX_op_qemu_ld_i64, val, addr, memop, idx);
++    plugin_gen_mem_callbacks(addr, oi, QEMU_PLUGIN_MEM_R);
++
++    if ((orig_memop ^ memop) & MO_BSWAP) {
++        int flags = (orig_memop & MO_SIGN
++                     ? TCG_BSWAP_IZ | TCG_BSWAP_OS
++                     : TCG_BSWAP_IZ | TCG_BSWAP_OZ);
++        switch (orig_memop & MO_SIZE) {
++        case MO_16:
++            tcg_gen_bswap16_i64(val, val, flags);
++            break;
++        case MO_32:
++            tcg_gen_bswap32_i64(val, val, flags);
++            break;
++        case MO_64:
++            tcg_gen_bswap64_i64(val, val);
++            break;
++        default:
++            g_assert_not_reached();
++        }
++    }
++}
++
++void tcg_gen_qemu_st_i64(TCGv_i64 val, TCGv addr, TCGArg idx, MemOp memop)
++{
++    TCGv_i64 swap = NULL;
++    MemOpIdx oi;
++
++    if (TCG_TARGET_REG_BITS == 32 && (memop & MO_SIZE) < MO_64) {
++        tcg_gen_qemu_st_i32(TCGV_LOW(val), addr, idx, memop);
++        return;
++    }
++
++    tcg_gen_req_mo(TCG_MO_LD_ST | TCG_MO_ST_ST);
++    memop = tcg_canonicalize_memop(memop, 1, 1);
++    oi = make_memop_idx(memop, idx);
++
++    if ((memop & MO_BSWAP) && !tcg_target_has_memory_bswap(memop)) {
++        swap = tcg_temp_ebb_new_i64();
++        switch (memop & MO_SIZE) {
++        case MO_16:
++            tcg_gen_bswap16_i64(swap, val, 0);
++            break;
++        case MO_32:
++            tcg_gen_bswap32_i64(swap, val, 0);
++            break;
++        case MO_64:
++            tcg_gen_bswap64_i64(swap, val);
++            break;
++        default:
++            g_assert_not_reached();
++        }
++        val = swap;
++        memop &= ~MO_BSWAP;
++    }
++
++    addr = plugin_prep_mem_callbacks(addr);
++    gen_ldst_i64(INDEX_op_qemu_st_i64, val, addr, memop, idx);
++    plugin_gen_mem_callbacks(addr, oi, QEMU_PLUGIN_MEM_W);
++
++    if (swap) {
++        tcg_temp_free_i64(swap);
++    }
++}
++
++/*
++ * Return true if @mop, without knowledge of the pointer alignment,
++ * does not require 16-byte atomicity, and it would be adventagous
++ * to avoid a call to a helper function.
++ */
++static bool use_two_i64_for_i128(MemOp mop)
++{
++#ifdef CONFIG_SOFTMMU
++    /* Two softmmu tlb lookups is larger than one function call. */
++    return false;
++#else
++    /*
++     * For user-only, two 64-bit operations may well be smaller than a call.
++     * Determine if that would be legal for the requested atomicity.
++     */
++    MemOp atom = mop & MO_ATOM_MASK;
++    MemOp atmax = mop & MO_ATMAX_MASK;
++
++    /* In a serialized context, no atomicity is required. */
++    if (!(tcg_ctx->gen_tb->cflags & CF_PARALLEL)) {
++        return true;
++    }
++
++    if (atmax == MO_ATMAX_SIZE) {
++        atmax = mop & MO_SIZE;
++    } else {
++        atmax >>= MO_ATMAX_SHIFT;
++    }
++    switch (atom) {
++    case MO_ATOM_NONE:
++        return true;
++    case MO_ATOM_IFALIGN:
++    case MO_ATOM_SUBALIGN:
++        return atmax < MO_128;
++    case MO_ATOM_WITHIN16:
++        return atmax == MO_8;
++    default:
++        g_assert_not_reached();
++    }
++#endif
++}
++
++static void canonicalize_memop_i128_as_i64(MemOp ret[2], MemOp orig)
++{
++    MemOp mop_1 = orig, mop_2;
++
++    tcg_debug_assert((orig & MO_SIZE) == MO_128);
++    tcg_debug_assert((orig & MO_SIGN) == 0);
++
++    /* Reduce the size to 64-bit. */
++    mop_1 = (mop_1 & ~MO_SIZE) | MO_64;
++
++    /* Retain the alignment constraints of the original. */
++    switch (orig & MO_AMASK) {
++    case MO_UNALN:
++    case MO_ALIGN_2:
++    case MO_ALIGN_4:
++        mop_2 = mop_1;
++        break;
++    case MO_ALIGN_8:
++        /* Prefer MO_ALIGN+MO_64 to MO_ALIGN_8+MO_64. */
++        mop_1 = (mop_1 & ~MO_AMASK) | MO_ALIGN;
++        mop_2 = mop_1;
++        break;
++    case MO_ALIGN:
++        /* Second has 8-byte alignment; first has 16-byte alignment. */
++        mop_2 = mop_1;
++        mop_1 = (mop_1 & ~MO_AMASK) | MO_ALIGN_16;
++        break;
++    case MO_ALIGN_16:
++    case MO_ALIGN_32:
++    case MO_ALIGN_64:
++        /* Second has 8-byte alignment; first retains original. */
++        mop_2 = (mop_1 & ~MO_AMASK) | MO_ALIGN;
++        break;
++    default:
++        g_assert_not_reached();
++    }
++
++    /* Use a memory ordering implemented by the host. */
++    if ((orig & MO_BSWAP) && !tcg_target_has_memory_bswap(mop_1)) {
++        mop_1 &= ~MO_BSWAP;
++        mop_2 &= ~MO_BSWAP;
++    }
++
++    ret[0] = mop_1;
++    ret[1] = mop_2;
++}
++
++#if TARGET_LONG_BITS == 64
++#define tcg_temp_ebb_new  tcg_temp_ebb_new_i64
++#else
++#define tcg_temp_ebb_new  tcg_temp_ebb_new_i32
++#endif
++
++void tcg_gen_qemu_ld_i128(TCGv_i128 val, TCGv addr, TCGArg idx, MemOp memop)
++{
++    const MemOpIdx oi = make_memop_idx(memop, idx);
++
++    tcg_debug_assert((memop & MO_SIZE) == MO_128);
++    tcg_debug_assert((memop & MO_SIGN) == 0);
++
++    tcg_gen_req_mo(TCG_MO_LD_LD | TCG_MO_ST_LD);
++    addr = plugin_prep_mem_callbacks(addr);
++
++    /* TODO: For now, force 32-bit hosts to use the helper. */
++    if (TCG_TARGET_HAS_qemu_ldst_i128 && TCG_TARGET_REG_BITS == 64) {
++        TCGv_i64 lo, hi;
++        TCGArg addr_arg;
++        MemOpIdx adj_oi;
++        bool need_bswap = false;
++
++        if ((memop & MO_BSWAP) && !tcg_target_has_memory_bswap(memop)) {
++            lo = TCGV128_HIGH(val);
++            hi = TCGV128_LOW(val);
++            adj_oi = make_memop_idx(memop & ~MO_BSWAP, idx);
++            need_bswap = true;
++        } else {
++            lo = TCGV128_LOW(val);
++            hi = TCGV128_HIGH(val);
++            adj_oi = oi;
++        }
++
++#if TARGET_LONG_BITS == 32
++        addr_arg = tcgv_i32_arg(addr);
++#else
++        addr_arg = tcgv_i64_arg(addr);
++#endif
++        tcg_gen_op4ii_i64(INDEX_op_qemu_ld_i128, lo, hi, addr_arg, adj_oi);
++
++        if (need_bswap) {
++            tcg_gen_bswap64_i64(lo, lo);
++            tcg_gen_bswap64_i64(hi, hi);
++        }
++    } else if (use_two_i64_for_i128(memop)) {
++        MemOp mop[2];
++        TCGv addr_p8;
++        TCGv_i64 x, y;
++
++        canonicalize_memop_i128_as_i64(mop, memop);
++
++        /*
++         * Since there are no global TCGv_i128, there is no visible state
++         * changed if the second load faults.  Load directly into the two
++         * subwords.
++         */
++        if ((memop & MO_BSWAP) == MO_LE) {
++            x = TCGV128_LOW(val);
++            y = TCGV128_HIGH(val);
++        } else {
++            x = TCGV128_HIGH(val);
++            y = TCGV128_LOW(val);
++        }
++
++        gen_ldst_i64(INDEX_op_qemu_ld_i64, x, addr, mop[0], idx);
++
++        if ((mop[0] ^ memop) & MO_BSWAP) {
++            tcg_gen_bswap64_i64(x, x);
++        }
++
++        addr_p8 = tcg_temp_ebb_new();
++        tcg_gen_addi_tl(addr_p8, addr, 8);
++        gen_ldst_i64(INDEX_op_qemu_ld_i64, y, addr_p8, mop[1], idx);
++        tcg_temp_free(addr_p8);
++
++        if ((mop[0] ^ memop) & MO_BSWAP) {
++            tcg_gen_bswap64_i64(y, y);
++        }
++    } else {
++        gen_helper_ld_i128(val, cpu_env, addr, tcg_constant_i32(oi));
++    }
++
++    plugin_gen_mem_callbacks(addr, oi, QEMU_PLUGIN_MEM_R);
++}
++
++void tcg_gen_qemu_st_i128(TCGv_i128 val, TCGv addr, TCGArg idx, MemOp memop)
++{
++    const MemOpIdx oi = make_memop_idx(memop, idx);
++
++    tcg_debug_assert((memop & MO_SIZE) == MO_128);
++    tcg_debug_assert((memop & MO_SIGN) == 0);
++
++    tcg_gen_req_mo(TCG_MO_ST_LD | TCG_MO_ST_ST);
++    addr = plugin_prep_mem_callbacks(addr);
++
++    /* TODO: For now, force 32-bit hosts to use the helper. */
++
++    if (TCG_TARGET_HAS_qemu_ldst_i128 && TCG_TARGET_REG_BITS == 64) {
++        TCGv_i64 lo, hi;
++        TCGArg addr_arg;
++        MemOpIdx adj_oi;
++        bool need_bswap = false;
++
++        if ((memop & MO_BSWAP) && !tcg_target_has_memory_bswap(memop)) {
++            lo = tcg_temp_new_i64();
++            hi = tcg_temp_new_i64();
++            tcg_gen_bswap64_i64(lo, TCGV128_HIGH(val));
++            tcg_gen_bswap64_i64(hi, TCGV128_LOW(val));
++            adj_oi = make_memop_idx(memop & ~MO_BSWAP, idx);
++            need_bswap = true;
++        } else {
++            lo = TCGV128_LOW(val);
++            hi = TCGV128_HIGH(val);
++            adj_oi = oi;
++        }
++
++#if TARGET_LONG_BITS == 32
++        addr_arg = tcgv_i32_arg(addr);
++#else
++        addr_arg = tcgv_i64_arg(addr);
++#endif
++        tcg_gen_op4ii_i64(INDEX_op_qemu_st_i128, lo, hi, addr_arg, adj_oi);
++
++        if (need_bswap) {
++            tcg_temp_free_i64(lo);
++            tcg_temp_free_i64(hi);
++        }
++    } else if (use_two_i64_for_i128(memop)) {
++        MemOp mop[2];
++        TCGv addr_p8;
++        TCGv_i64 x, y;
++
++        canonicalize_memop_i128_as_i64(mop, memop);
++
++        if ((memop & MO_BSWAP) == MO_LE) {
++            x = TCGV128_LOW(val);
++            y = TCGV128_HIGH(val);
++        } else {
++            x = TCGV128_HIGH(val);
++            y = TCGV128_LOW(val);
++        }
++
++        addr_p8 = tcg_temp_ebb_new();
++        if ((mop[0] ^ memop) & MO_BSWAP) {
++            TCGv_i64 t = tcg_temp_ebb_new_i64();
++
++            tcg_gen_bswap64_i64(t, x);
++            gen_ldst_i64(INDEX_op_qemu_st_i64, t, addr, mop[0], idx);
++            tcg_gen_bswap64_i64(t, y);
++            tcg_gen_addi_tl(addr_p8, addr, 8);
++            gen_ldst_i64(INDEX_op_qemu_st_i64, t, addr_p8, mop[1], idx);
++            tcg_temp_free_i64(t);
++        } else {
++            gen_ldst_i64(INDEX_op_qemu_st_i64, x, addr, mop[0], idx);
++            tcg_gen_addi_tl(addr_p8, addr, 8);
++            gen_ldst_i64(INDEX_op_qemu_st_i64, y, addr_p8, mop[1], idx);
++        }
++        tcg_temp_free(addr_p8);
++    } else {
++        gen_helper_st_i128(cpu_env, addr, val, tcg_constant_i32(oi));
++    }
++
++    plugin_gen_mem_callbacks(addr, oi, QEMU_PLUGIN_MEM_W);
++}
++
++static void tcg_gen_ext_i32(TCGv_i32 ret, TCGv_i32 val, MemOp opc)
++{
++    switch (opc & MO_SSIZE) {
++    case MO_SB:
++        tcg_gen_ext8s_i32(ret, val);
++        break;
++    case MO_UB:
++        tcg_gen_ext8u_i32(ret, val);
++        break;
++    case MO_SW:
++        tcg_gen_ext16s_i32(ret, val);
++        break;
++    case MO_UW:
++        tcg_gen_ext16u_i32(ret, val);
++        break;
++    default:
++        tcg_gen_mov_i32(ret, val);
++        break;
++    }
++}
++
++static void tcg_gen_ext_i64(TCGv_i64 ret, TCGv_i64 val, MemOp opc)
++{
++    switch (opc & MO_SSIZE) {
++    case MO_SB:
++        tcg_gen_ext8s_i64(ret, val);
++        break;
++    case MO_UB:
++        tcg_gen_ext8u_i64(ret, val);
++        break;
++    case MO_SW:
++        tcg_gen_ext16s_i64(ret, val);
++        break;
++    case MO_UW:
++        tcg_gen_ext16u_i64(ret, val);
++        break;
++    case MO_SL:
++        tcg_gen_ext32s_i64(ret, val);
++        break;
++    case MO_UL:
++        tcg_gen_ext32u_i64(ret, val);
++        break;
++    default:
++        tcg_gen_mov_i64(ret, val);
++        break;
++    }
++}
++
++typedef void (*gen_atomic_cx_i32)(TCGv_i32, TCGv_env, TCGv,
++                                  TCGv_i32, TCGv_i32, TCGv_i32);
++typedef void (*gen_atomic_cx_i64)(TCGv_i64, TCGv_env, TCGv,
++                                  TCGv_i64, TCGv_i64, TCGv_i32);
++typedef void (*gen_atomic_cx_i128)(TCGv_i128, TCGv_env, TCGv,
++                                   TCGv_i128, TCGv_i128, TCGv_i32);
++typedef void (*gen_atomic_op_i32)(TCGv_i32, TCGv_env, TCGv,
++                                  TCGv_i32, TCGv_i32);
++typedef void (*gen_atomic_op_i64)(TCGv_i64, TCGv_env, TCGv,
++                                  TCGv_i64, TCGv_i32);
++
++#ifdef CONFIG_ATOMIC64
++# define WITH_ATOMIC64(X) X,
++#else
++# define WITH_ATOMIC64(X)
++#endif
++#ifdef CONFIG_CMPXCHG128
++# define WITH_ATOMIC128(X) X,
++#else
++# define WITH_ATOMIC128(X)
++#endif
++
++static void * const table_cmpxchg[(MO_SIZE | MO_BSWAP) + 1] = {
++    [MO_8] = gen_helper_atomic_cmpxchgb,
++    [MO_16 | MO_LE] = gen_helper_atomic_cmpxchgw_le,
++    [MO_16 | MO_BE] = gen_helper_atomic_cmpxchgw_be,
++    [MO_32 | MO_LE] = gen_helper_atomic_cmpxchgl_le,
++    [MO_32 | MO_BE] = gen_helper_atomic_cmpxchgl_be,
++    WITH_ATOMIC64([MO_64 | MO_LE] = gen_helper_atomic_cmpxchgq_le)
++    WITH_ATOMIC64([MO_64 | MO_BE] = gen_helper_atomic_cmpxchgq_be)
++    WITH_ATOMIC128([MO_128 | MO_LE] = gen_helper_atomic_cmpxchgo_le)
++    WITH_ATOMIC128([MO_128 | MO_BE] = gen_helper_atomic_cmpxchgo_be)
++};
++
++void tcg_gen_nonatomic_cmpxchg_i32(TCGv_i32 retv, TCGv addr, TCGv_i32 cmpv,
++                                   TCGv_i32 newv, TCGArg idx, MemOp memop)
++{
++    TCGv_i32 t1 = tcg_temp_ebb_new_i32();
++    TCGv_i32 t2 = tcg_temp_ebb_new_i32();
++
++    tcg_gen_ext_i32(t2, cmpv, memop & MO_SIZE);
++
++    tcg_gen_qemu_ld_i32(t1, addr, idx, memop & ~MO_SIGN);
++    tcg_gen_movcond_i32(TCG_COND_EQ, t2, t1, t2, newv, t1);
++    tcg_gen_qemu_st_i32(t2, addr, idx, memop);
++    tcg_temp_free_i32(t2);
++
++    if (memop & MO_SIGN) {
++        tcg_gen_ext_i32(retv, t1, memop);
++    } else {
++        tcg_gen_mov_i32(retv, t1);
++    }
++    tcg_temp_free_i32(t1);
++}
++
++void tcg_gen_atomic_cmpxchg_i32(TCGv_i32 retv, TCGv addr, TCGv_i32 cmpv,
++                                TCGv_i32 newv, TCGArg idx, MemOp memop)
++{
++    gen_atomic_cx_i32 gen;
++    MemOpIdx oi;
++
++    if (!(tcg_ctx->gen_tb->cflags & CF_PARALLEL)) {
++        tcg_gen_nonatomic_cmpxchg_i32(retv, addr, cmpv, newv, idx, memop);
++        return;
++    }
++
++    memop = tcg_canonicalize_memop(memop, 0, 0);
++    gen = table_cmpxchg[memop & (MO_SIZE | MO_BSWAP)];
++    tcg_debug_assert(gen != NULL);
++
++    oi = make_memop_idx(memop & ~MO_SIGN, idx);
++    gen(retv, cpu_env, addr, cmpv, newv, tcg_constant_i32(oi));
++
++    if (memop & MO_SIGN) {
++        tcg_gen_ext_i32(retv, retv, memop);
++    }
++}
++
++void tcg_gen_nonatomic_cmpxchg_i64(TCGv_i64 retv, TCGv addr, TCGv_i64 cmpv,
++                                   TCGv_i64 newv, TCGArg idx, MemOp memop)
++{
++    TCGv_i64 t1, t2;
++
++    if (TCG_TARGET_REG_BITS == 32 && (memop & MO_SIZE) < MO_64) {
++        tcg_gen_nonatomic_cmpxchg_i32(TCGV_LOW(retv), addr, TCGV_LOW(cmpv),
++                                      TCGV_LOW(newv), idx, memop);
++        if (memop & MO_SIGN) {
++            tcg_gen_sari_i32(TCGV_HIGH(retv), TCGV_LOW(retv), 31);
++        } else {
++            tcg_gen_movi_i32(TCGV_HIGH(retv), 0);
++        }
++        return;
++    }
++
++    t1 = tcg_temp_ebb_new_i64();
++    t2 = tcg_temp_ebb_new_i64();
++
++    tcg_gen_ext_i64(t2, cmpv, memop & MO_SIZE);
++
++    tcg_gen_qemu_ld_i64(t1, addr, idx, memop & ~MO_SIGN);
++    tcg_gen_movcond_i64(TCG_COND_EQ, t2, t1, t2, newv, t1);
++    tcg_gen_qemu_st_i64(t2, addr, idx, memop);
++    tcg_temp_free_i64(t2);
++
++    if (memop & MO_SIGN) {
++        tcg_gen_ext_i64(retv, t1, memop);
++    } else {
++        tcg_gen_mov_i64(retv, t1);
++    }
++    tcg_temp_free_i64(t1);
++}
++
++void tcg_gen_atomic_cmpxchg_i64(TCGv_i64 retv, TCGv addr, TCGv_i64 cmpv,
++                                TCGv_i64 newv, TCGArg idx, MemOp memop)
++{
++    if (!(tcg_ctx->gen_tb->cflags & CF_PARALLEL)) {
++        tcg_gen_nonatomic_cmpxchg_i64(retv, addr, cmpv, newv, idx, memop);
++        return;
++    }
++
++    if ((memop & MO_SIZE) == MO_64) {
++        gen_atomic_cx_i64 gen;
++
++        memop = tcg_canonicalize_memop(memop, 1, 0);
++        gen = table_cmpxchg[memop & (MO_SIZE | MO_BSWAP)];
++        if (gen) {
++            MemOpIdx oi = make_memop_idx(memop, idx);
++            gen(retv, cpu_env, addr, cmpv, newv, tcg_constant_i32(oi));
++            return;
++        }
++
++        gen_helper_exit_atomic(cpu_env);
++
++        /*
++         * Produce a result for a well-formed opcode stream.  This satisfies
++         * liveness for set before used, which happens before this dead code
++         * is removed.
++         */
++        tcg_gen_movi_i64(retv, 0);
++        return;
++    }
++
++    if (TCG_TARGET_REG_BITS == 32) {
++        tcg_gen_atomic_cmpxchg_i32(TCGV_LOW(retv), addr, TCGV_LOW(cmpv),
++                                   TCGV_LOW(newv), idx, memop);
++        if (memop & MO_SIGN) {
++            tcg_gen_sari_i32(TCGV_HIGH(retv), TCGV_LOW(retv), 31);
++        } else {
++            tcg_gen_movi_i32(TCGV_HIGH(retv), 0);
++        }
++    } else {
++        TCGv_i32 c32 = tcg_temp_ebb_new_i32();
++        TCGv_i32 n32 = tcg_temp_ebb_new_i32();
++        TCGv_i32 r32 = tcg_temp_ebb_new_i32();
++
++        tcg_gen_extrl_i64_i32(c32, cmpv);
++        tcg_gen_extrl_i64_i32(n32, newv);
++        tcg_gen_atomic_cmpxchg_i32(r32, addr, c32, n32, idx, memop & ~MO_SIGN);
++        tcg_temp_free_i32(c32);
++        tcg_temp_free_i32(n32);
++
++        tcg_gen_extu_i32_i64(retv, r32);
++        tcg_temp_free_i32(r32);
++
++        if (memop & MO_SIGN) {
++            tcg_gen_ext_i64(retv, retv, memop);
++        }
++    }
++}
++
++void tcg_gen_nonatomic_cmpxchg_i128(TCGv_i128 retv, TCGv addr, TCGv_i128 cmpv,
++                                    TCGv_i128 newv, TCGArg idx, MemOp memop)
++{
++    if (TCG_TARGET_REG_BITS == 32) {
++        /* Inline expansion below is simply too large for 32-bit hosts. */
++        gen_atomic_cx_i128 gen = ((memop & MO_BSWAP) == MO_LE
++                                  ? gen_helper_nonatomic_cmpxchgo_le
++                                  : gen_helper_nonatomic_cmpxchgo_be);
++        MemOpIdx oi = make_memop_idx(memop, idx);
++
++        tcg_debug_assert((memop & MO_SIZE) == MO_128);
++        tcg_debug_assert((memop & MO_SIGN) == 0);
++
++        gen(retv, cpu_env, addr, cmpv, newv, tcg_constant_i32(oi));
++    } else {
++        TCGv_i128 oldv = tcg_temp_ebb_new_i128();
++        TCGv_i128 tmpv = tcg_temp_ebb_new_i128();
++        TCGv_i64 t0 = tcg_temp_ebb_new_i64();
++        TCGv_i64 t1 = tcg_temp_ebb_new_i64();
++        TCGv_i64 z = tcg_constant_i64(0);
++
++        tcg_gen_qemu_ld_i128(oldv, addr, idx, memop);
++
++        /* Compare i128 */
++        tcg_gen_xor_i64(t0, TCGV128_LOW(oldv), TCGV128_LOW(cmpv));
++        tcg_gen_xor_i64(t1, TCGV128_HIGH(oldv), TCGV128_HIGH(cmpv));
++        tcg_gen_or_i64(t0, t0, t1);
++
++        /* tmpv = equal ? newv : oldv */
++        tcg_gen_movcond_i64(TCG_COND_EQ, TCGV128_LOW(tmpv), t0, z,
++                            TCGV128_LOW(newv), TCGV128_LOW(oldv));
++        tcg_gen_movcond_i64(TCG_COND_EQ, TCGV128_HIGH(tmpv), t0, z,
++                            TCGV128_HIGH(newv), TCGV128_HIGH(oldv));
++
++        /* Unconditional writeback. */
++        tcg_gen_qemu_st_i128(tmpv, addr, idx, memop);
++        tcg_gen_mov_i128(retv, oldv);
++
++        tcg_temp_free_i64(t0);
++        tcg_temp_free_i64(t1);
++        tcg_temp_free_i128(tmpv);
++        tcg_temp_free_i128(oldv);
++    }
++}
++
++void tcg_gen_atomic_cmpxchg_i128(TCGv_i128 retv, TCGv addr, TCGv_i128 cmpv,
++                                 TCGv_i128 newv, TCGArg idx, MemOp memop)
++{
++    gen_atomic_cx_i128 gen;
++
++    if (!(tcg_ctx->gen_tb->cflags & CF_PARALLEL)) {
++        tcg_gen_nonatomic_cmpxchg_i128(retv, addr, cmpv, newv, idx, memop);
++        return;
++    }
++
++    tcg_debug_assert((memop & MO_SIZE) == MO_128);
++    tcg_debug_assert((memop & MO_SIGN) == 0);
++    gen = table_cmpxchg[memop & (MO_SIZE | MO_BSWAP)];
++
++    if (gen) {
++        MemOpIdx oi = make_memop_idx(memop, idx);
++        gen(retv, cpu_env, addr, cmpv, newv, tcg_constant_i32(oi));
++        return;
++    }
++
++    gen_helper_exit_atomic(cpu_env);
++
++    /*
++     * Produce a result for a well-formed opcode stream.  This satisfies
++     * liveness for set before used, which happens before this dead code
++     * is removed.
++     */
++    tcg_gen_movi_i64(TCGV128_LOW(retv), 0);
++    tcg_gen_movi_i64(TCGV128_HIGH(retv), 0);
++}
++
++static void do_nonatomic_op_i32(TCGv_i32 ret, TCGv addr, TCGv_i32 val,
++                                TCGArg idx, MemOp memop, bool new_val,
++                                void (*gen)(TCGv_i32, TCGv_i32, TCGv_i32))
++{
++    TCGv_i32 t1 = tcg_temp_ebb_new_i32();
++    TCGv_i32 t2 = tcg_temp_ebb_new_i32();
++
++    memop = tcg_canonicalize_memop(memop, 0, 0);
++
++    tcg_gen_qemu_ld_i32(t1, addr, idx, memop);
++    tcg_gen_ext_i32(t2, val, memop);
++    gen(t2, t1, t2);
++    tcg_gen_qemu_st_i32(t2, addr, idx, memop);
++
++    tcg_gen_ext_i32(ret, (new_val ? t2 : t1), memop);
++    tcg_temp_free_i32(t1);
++    tcg_temp_free_i32(t2);
++}
++
++static void do_atomic_op_i32(TCGv_i32 ret, TCGv addr, TCGv_i32 val,
++                             TCGArg idx, MemOp memop, void * const table[])
++{
++    gen_atomic_op_i32 gen;
++    MemOpIdx oi;
++
++    memop = tcg_canonicalize_memop(memop, 0, 0);
++
++    gen = table[memop & (MO_SIZE | MO_BSWAP)];
++    tcg_debug_assert(gen != NULL);
++
++    oi = make_memop_idx(memop & ~MO_SIGN, idx);
++    gen(ret, cpu_env, addr, val, tcg_constant_i32(oi));
++
++    if (memop & MO_SIGN) {
++        tcg_gen_ext_i32(ret, ret, memop);
++    }
++}
++
++static void do_nonatomic_op_i64(TCGv_i64 ret, TCGv addr, TCGv_i64 val,
++                                TCGArg idx, MemOp memop, bool new_val,
++                                void (*gen)(TCGv_i64, TCGv_i64, TCGv_i64))
++{
++    TCGv_i64 t1 = tcg_temp_ebb_new_i64();
++    TCGv_i64 t2 = tcg_temp_ebb_new_i64();
++
++    memop = tcg_canonicalize_memop(memop, 1, 0);
++
++    tcg_gen_qemu_ld_i64(t1, addr, idx, memop);
++    tcg_gen_ext_i64(t2, val, memop);
++    gen(t2, t1, t2);
++    tcg_gen_qemu_st_i64(t2, addr, idx, memop);
++
++    tcg_gen_ext_i64(ret, (new_val ? t2 : t1), memop);
++    tcg_temp_free_i64(t1);
++    tcg_temp_free_i64(t2);
++}
++
++static void do_atomic_op_i64(TCGv_i64 ret, TCGv addr, TCGv_i64 val,
++                             TCGArg idx, MemOp memop, void * const table[])
++{
++    memop = tcg_canonicalize_memop(memop, 1, 0);
++
++    if ((memop & MO_SIZE) == MO_64) {
++#ifdef CONFIG_ATOMIC64
++        gen_atomic_op_i64 gen;
++        MemOpIdx oi;
++
++        gen = table[memop & (MO_SIZE | MO_BSWAP)];
++        tcg_debug_assert(gen != NULL);
++
++        oi = make_memop_idx(memop & ~MO_SIGN, idx);
++        gen(ret, cpu_env, addr, val, tcg_constant_i32(oi));
++#else
++        gen_helper_exit_atomic(cpu_env);
++        /* Produce a result, so that we have a well-formed opcode stream
++           with respect to uses of the result in the (dead) code following.  */
++        tcg_gen_movi_i64(ret, 0);
++#endif /* CONFIG_ATOMIC64 */
++    } else {
++        TCGv_i32 v32 = tcg_temp_ebb_new_i32();
++        TCGv_i32 r32 = tcg_temp_ebb_new_i32();
++
++        tcg_gen_extrl_i64_i32(v32, val);
++        do_atomic_op_i32(r32, addr, v32, idx, memop & ~MO_SIGN, table);
++        tcg_temp_free_i32(v32);
++
++        tcg_gen_extu_i32_i64(ret, r32);
++        tcg_temp_free_i32(r32);
++
++        if (memop & MO_SIGN) {
++            tcg_gen_ext_i64(ret, ret, memop);
++        }
++    }
++}
++
++#define GEN_ATOMIC_HELPER(NAME, OP, NEW)                                \
++static void * const table_##NAME[(MO_SIZE | MO_BSWAP) + 1] = {          \
++    [MO_8] = gen_helper_atomic_##NAME##b,                               \
++    [MO_16 | MO_LE] = gen_helper_atomic_##NAME##w_le,                   \
++    [MO_16 | MO_BE] = gen_helper_atomic_##NAME##w_be,                   \
++    [MO_32 | MO_LE] = gen_helper_atomic_##NAME##l_le,                   \
++    [MO_32 | MO_BE] = gen_helper_atomic_##NAME##l_be,                   \
++    WITH_ATOMIC64([MO_64 | MO_LE] = gen_helper_atomic_##NAME##q_le)     \
++    WITH_ATOMIC64([MO_64 | MO_BE] = gen_helper_atomic_##NAME##q_be)     \
++};                                                                      \
++void tcg_gen_atomic_##NAME##_i32                                        \
++    (TCGv_i32 ret, TCGv addr, TCGv_i32 val, TCGArg idx, MemOp memop)    \
++{                                                                       \
++    if (tcg_ctx->gen_tb->cflags & CF_PARALLEL) {                        \
++        do_atomic_op_i32(ret, addr, val, idx, memop, table_##NAME);     \
++    } else {                                                            \
++        do_nonatomic_op_i32(ret, addr, val, idx, memop, NEW,            \
++                            tcg_gen_##OP##_i32);                        \
++    }                                                                   \
++}                                                                       \
++void tcg_gen_atomic_##NAME##_i64                                        \
++    (TCGv_i64 ret, TCGv addr, TCGv_i64 val, TCGArg idx, MemOp memop)    \
++{                                                                       \
++    if (tcg_ctx->gen_tb->cflags & CF_PARALLEL) {                        \
++        do_atomic_op_i64(ret, addr, val, idx, memop, table_##NAME);     \
++    } else {                                                            \
++        do_nonatomic_op_i64(ret, addr, val, idx, memop, NEW,            \
++                            tcg_gen_##OP##_i64);                        \
++    }                                                                   \
++}
++
++GEN_ATOMIC_HELPER(fetch_add, add, 0)
++GEN_ATOMIC_HELPER(fetch_and, and, 0)
++GEN_ATOMIC_HELPER(fetch_or, or, 0)
++GEN_ATOMIC_HELPER(fetch_xor, xor, 0)
++GEN_ATOMIC_HELPER(fetch_smin, smin, 0)
++GEN_ATOMIC_HELPER(fetch_umin, umin, 0)
++GEN_ATOMIC_HELPER(fetch_smax, smax, 0)
++GEN_ATOMIC_HELPER(fetch_umax, umax, 0)
++
++GEN_ATOMIC_HELPER(add_fetch, add, 1)
++GEN_ATOMIC_HELPER(and_fetch, and, 1)
++GEN_ATOMIC_HELPER(or_fetch, or, 1)
++GEN_ATOMIC_HELPER(xor_fetch, xor, 1)
++GEN_ATOMIC_HELPER(smin_fetch, smin, 1)
++GEN_ATOMIC_HELPER(umin_fetch, umin, 1)
++GEN_ATOMIC_HELPER(smax_fetch, smax, 1)
++GEN_ATOMIC_HELPER(umax_fetch, umax, 1)
++
++static void tcg_gen_mov2_i32(TCGv_i32 r, TCGv_i32 a, TCGv_i32 b)
++{
++    tcg_gen_mov_i32(r, b);
++}
++
++static void tcg_gen_mov2_i64(TCGv_i64 r, TCGv_i64 a, TCGv_i64 b)
++{
++    tcg_gen_mov_i64(r, b);
++}
++
++GEN_ATOMIC_HELPER(xchg, mov2, 0)
++
++#undef GEN_ATOMIC_HELPER
+diff --git a/tcg/tcg-op.c b/tcg/tcg-op.c
+index 06d3181fd0..edbd1c61d7 100644
+--- a/tcg/tcg-op.c
++++ b/tcg/tcg-op.c
+@@ -27,7 +27,6 @@
+ #include "tcg/tcg.h"
+ #include "tcg/tcg-temp-internal.h"
+ #include "tcg/tcg-op.h"
+-#include "tcg/tcg-mo.h"
+ #include "exec/plugin-gen.h"
+ #include "tcg-internal.h"
+ 
+@@ -2841,987 +2840,3 @@ void tcg_gen_lookup_and_goto_ptr(void)
+     tcg_gen_op1i(INDEX_op_goto_ptr, tcgv_ptr_arg(ptr));
+     tcg_temp_free_ptr(ptr);
+ }
+-
+-static inline MemOp tcg_canonicalize_memop(MemOp op, bool is64, bool st)
+-{
+-    /* Trigger the asserts within as early as possible.  */
+-    unsigned a_bits = get_alignment_bits(op);
+-
+-    /* Prefer MO_ALIGN+MO_XX over MO_ALIGN_XX+MO_XX */
+-    if (a_bits == (op & MO_SIZE)) {
+-        op = (op & ~MO_AMASK) | MO_ALIGN;
+-    }
+-
+-    switch (op & MO_SIZE) {
+-    case MO_8:
+-        op &= ~MO_BSWAP;
+-        break;
+-    case MO_16:
+-        break;
+-    case MO_32:
+-        if (!is64) {
+-            op &= ~MO_SIGN;
+-        }
+-        break;
+-    case MO_64:
+-        if (is64) {
+-            op &= ~MO_SIGN;
+-            break;
+-        }
+-        /* fall through */
+-    default:
+-        g_assert_not_reached();
+-    }
+-    if (st) {
+-        op &= ~MO_SIGN;
+-    }
+-    return op;
+-}
+-
+-static void gen_ldst_i32(TCGOpcode opc, TCGv_i32 val, TCGv addr,
+-                         MemOp memop, TCGArg idx)
+-{
+-    MemOpIdx oi = make_memop_idx(memop, idx);
+-#if TARGET_LONG_BITS == 32
+-    tcg_gen_op3i_i32(opc, val, addr, oi);
+-#else
+-    if (TCG_TARGET_REG_BITS == 32) {
+-        tcg_gen_op4i_i32(opc, val, TCGV_LOW(addr), TCGV_HIGH(addr), oi);
+-    } else {
+-        tcg_gen_op3(opc, tcgv_i32_arg(val), tcgv_i64_arg(addr), oi);
+-    }
+-#endif
+-}
+-
+-static void gen_ldst_i64(TCGOpcode opc, TCGv_i64 val, TCGv addr,
+-                         MemOp memop, TCGArg idx)
+-{
+-    MemOpIdx oi = make_memop_idx(memop, idx);
+-#if TARGET_LONG_BITS == 32
+-    if (TCG_TARGET_REG_BITS == 32) {
+-        tcg_gen_op4i_i32(opc, TCGV_LOW(val), TCGV_HIGH(val), addr, oi);
+-    } else {
+-        tcg_gen_op3(opc, tcgv_i64_arg(val), tcgv_i32_arg(addr), oi);
+-    }
+-#else
+-    if (TCG_TARGET_REG_BITS == 32) {
+-        tcg_gen_op5i_i32(opc, TCGV_LOW(val), TCGV_HIGH(val),
+-                         TCGV_LOW(addr), TCGV_HIGH(addr), oi);
+-    } else {
+-        tcg_gen_op3i_i64(opc, val, addr, oi);
+-    }
+-#endif
+-}
+-
+-static void tcg_gen_req_mo(TCGBar type)
+-{
+-#ifdef TCG_GUEST_DEFAULT_MO
+-    type &= TCG_GUEST_DEFAULT_MO;
+-#endif
+-    type &= ~TCG_TARGET_DEFAULT_MO;
+-    if (type) {
+-        tcg_gen_mb(type | TCG_BAR_SC);
+-    }
+-}
+-
+-static inline TCGv plugin_prep_mem_callbacks(TCGv vaddr)
+-{
+-#ifdef CONFIG_PLUGIN
+-    if (tcg_ctx->plugin_insn != NULL) {
+-        /* Save a copy of the vaddr for use after a load.  */
+-        TCGv temp = tcg_temp_new();
+-        tcg_gen_mov_tl(temp, vaddr);
+-        return temp;
+-    }
+-#endif
+-    return vaddr;
+-}
+-
+-static void plugin_gen_mem_callbacks(TCGv vaddr, MemOpIdx oi,
+-                                     enum qemu_plugin_mem_rw rw)
+-{
+-#ifdef CONFIG_PLUGIN
+-    if (tcg_ctx->plugin_insn != NULL) {
+-        qemu_plugin_meminfo_t info = make_plugin_meminfo(oi, rw);
+-        plugin_gen_empty_mem_callback(vaddr, info);
+-        tcg_temp_free(vaddr);
+-    }
+-#endif
+-}
+-
+-void tcg_gen_qemu_ld_i32(TCGv_i32 val, TCGv addr, TCGArg idx, MemOp memop)
+-{
+-    MemOp orig_memop;
+-    MemOpIdx oi;
+-
+-    tcg_gen_req_mo(TCG_MO_LD_LD | TCG_MO_ST_LD);
+-    memop = tcg_canonicalize_memop(memop, 0, 0);
+-    oi = make_memop_idx(memop, idx);
+-
+-    orig_memop = memop;
+-    if ((memop & MO_BSWAP) && !tcg_target_has_memory_bswap(memop)) {
+-        memop &= ~MO_BSWAP;
+-        /* The bswap primitive benefits from zero-extended input.  */
+-        if ((memop & MO_SSIZE) == MO_SW) {
+-            memop &= ~MO_SIGN;
+-        }
+-    }
+-
+-    addr = plugin_prep_mem_callbacks(addr);
+-    gen_ldst_i32(INDEX_op_qemu_ld_i32, val, addr, memop, idx);
+-    plugin_gen_mem_callbacks(addr, oi, QEMU_PLUGIN_MEM_R);
+-
+-    if ((orig_memop ^ memop) & MO_BSWAP) {
+-        switch (orig_memop & MO_SIZE) {
+-        case MO_16:
+-            tcg_gen_bswap16_i32(val, val, (orig_memop & MO_SIGN
+-                                           ? TCG_BSWAP_IZ | TCG_BSWAP_OS
+-                                           : TCG_BSWAP_IZ | TCG_BSWAP_OZ));
+-            break;
+-        case MO_32:
+-            tcg_gen_bswap32_i32(val, val);
+-            break;
+-        default:
+-            g_assert_not_reached();
+-        }
+-    }
+-}
+-
+-void tcg_gen_qemu_st_i32(TCGv_i32 val, TCGv addr, TCGArg idx, MemOp memop)
+-{
+-    TCGv_i32 swap = NULL;
+-    MemOpIdx oi;
+-
+-    tcg_gen_req_mo(TCG_MO_LD_ST | TCG_MO_ST_ST);
+-    memop = tcg_canonicalize_memop(memop, 0, 1);
+-    oi = make_memop_idx(memop, idx);
+-
+-    if ((memop & MO_BSWAP) && !tcg_target_has_memory_bswap(memop)) {
+-        swap = tcg_temp_ebb_new_i32();
+-        switch (memop & MO_SIZE) {
+-        case MO_16:
+-            tcg_gen_bswap16_i32(swap, val, 0);
+-            break;
+-        case MO_32:
+-            tcg_gen_bswap32_i32(swap, val);
+-            break;
+-        default:
+-            g_assert_not_reached();
+-        }
+-        val = swap;
+-        memop &= ~MO_BSWAP;
+-    }
+-
+-    addr = plugin_prep_mem_callbacks(addr);
+-    if (TCG_TARGET_HAS_qemu_st8_i32 && (memop & MO_SIZE) == MO_8) {
+-        gen_ldst_i32(INDEX_op_qemu_st8_i32, val, addr, memop, idx);
+-    } else {
+-        gen_ldst_i32(INDEX_op_qemu_st_i32, val, addr, memop, idx);
+-    }
+-    plugin_gen_mem_callbacks(addr, oi, QEMU_PLUGIN_MEM_W);
+-
+-    if (swap) {
+-        tcg_temp_free_i32(swap);
+-    }
+-}
+-
+-void tcg_gen_qemu_ld_i64(TCGv_i64 val, TCGv addr, TCGArg idx, MemOp memop)
+-{
+-    MemOp orig_memop;
+-    MemOpIdx oi;
+-
+-    if (TCG_TARGET_REG_BITS == 32 && (memop & MO_SIZE) < MO_64) {
+-        tcg_gen_qemu_ld_i32(TCGV_LOW(val), addr, idx, memop);
+-        if (memop & MO_SIGN) {
+-            tcg_gen_sari_i32(TCGV_HIGH(val), TCGV_LOW(val), 31);
+-        } else {
+-            tcg_gen_movi_i32(TCGV_HIGH(val), 0);
+-        }
+-        return;
+-    }
+-
+-    tcg_gen_req_mo(TCG_MO_LD_LD | TCG_MO_ST_LD);
+-    memop = tcg_canonicalize_memop(memop, 1, 0);
+-    oi = make_memop_idx(memop, idx);
+-
+-    orig_memop = memop;
+-    if ((memop & MO_BSWAP) && !tcg_target_has_memory_bswap(memop)) {
+-        memop &= ~MO_BSWAP;
+-        /* The bswap primitive benefits from zero-extended input.  */
+-        if ((memop & MO_SIGN) && (memop & MO_SIZE) < MO_64) {
+-            memop &= ~MO_SIGN;
+-        }
+-    }
+-
+-    addr = plugin_prep_mem_callbacks(addr);
+-    gen_ldst_i64(INDEX_op_qemu_ld_i64, val, addr, memop, idx);
+-    plugin_gen_mem_callbacks(addr, oi, QEMU_PLUGIN_MEM_R);
+-
+-    if ((orig_memop ^ memop) & MO_BSWAP) {
+-        int flags = (orig_memop & MO_SIGN
+-                     ? TCG_BSWAP_IZ | TCG_BSWAP_OS
+-                     : TCG_BSWAP_IZ | TCG_BSWAP_OZ);
+-        switch (orig_memop & MO_SIZE) {
+-        case MO_16:
+-            tcg_gen_bswap16_i64(val, val, flags);
+-            break;
+-        case MO_32:
+-            tcg_gen_bswap32_i64(val, val, flags);
+-            break;
+-        case MO_64:
+-            tcg_gen_bswap64_i64(val, val);
+-            break;
+-        default:
+-            g_assert_not_reached();
+-        }
+-    }
+-}
+-
+-void tcg_gen_qemu_st_i64(TCGv_i64 val, TCGv addr, TCGArg idx, MemOp memop)
+-{
+-    TCGv_i64 swap = NULL;
+-    MemOpIdx oi;
+-
+-    if (TCG_TARGET_REG_BITS == 32 && (memop & MO_SIZE) < MO_64) {
+-        tcg_gen_qemu_st_i32(TCGV_LOW(val), addr, idx, memop);
+-        return;
+-    }
+-
+-    tcg_gen_req_mo(TCG_MO_LD_ST | TCG_MO_ST_ST);
+-    memop = tcg_canonicalize_memop(memop, 1, 1);
+-    oi = make_memop_idx(memop, idx);
+-
+-    if ((memop & MO_BSWAP) && !tcg_target_has_memory_bswap(memop)) {
+-        swap = tcg_temp_ebb_new_i64();
+-        switch (memop & MO_SIZE) {
+-        case MO_16:
+-            tcg_gen_bswap16_i64(swap, val, 0);
+-            break;
+-        case MO_32:
+-            tcg_gen_bswap32_i64(swap, val, 0);
+-            break;
+-        case MO_64:
+-            tcg_gen_bswap64_i64(swap, val);
+-            break;
+-        default:
+-            g_assert_not_reached();
+-        }
+-        val = swap;
+-        memop &= ~MO_BSWAP;
+-    }
+-
+-    addr = plugin_prep_mem_callbacks(addr);
+-    gen_ldst_i64(INDEX_op_qemu_st_i64, val, addr, memop, idx);
+-    plugin_gen_mem_callbacks(addr, oi, QEMU_PLUGIN_MEM_W);
+-
+-    if (swap) {
+-        tcg_temp_free_i64(swap);
+-    }
+-}
+-
+-/*
+- * Return true if @mop, without knowledge of the pointer alignment,
+- * does not require 16-byte atomicity, and it would be adventagous
+- * to avoid a call to a helper function.
+- */
+-static bool use_two_i64_for_i128(MemOp mop)
+-{
+-#ifdef CONFIG_SOFTMMU
+-    /* Two softmmu tlb lookups is larger than one function call. */
+-    return false;
+-#else
+-    /*
+-     * For user-only, two 64-bit operations may well be smaller than a call.
+-     * Determine if that would be legal for the requested atomicity.
+-     */
+-    MemOp atom = mop & MO_ATOM_MASK;
+-    MemOp atmax = mop & MO_ATMAX_MASK;
+-
+-    /* In a serialized context, no atomicity is required. */
+-    if (!(tcg_ctx->gen_tb->cflags & CF_PARALLEL)) {
+-        return true;
+-    }
+-
+-    if (atmax == MO_ATMAX_SIZE) {
+-        atmax = mop & MO_SIZE;
+-    } else {
+-        atmax >>= MO_ATMAX_SHIFT;
+-    }
+-    switch (atom) {
+-    case MO_ATOM_NONE:
+-        return true;
+-    case MO_ATOM_IFALIGN:
+-    case MO_ATOM_SUBALIGN:
+-        return atmax < MO_128;
+-    case MO_ATOM_WITHIN16:
+-        return atmax == MO_8;
+-    default:
+-        g_assert_not_reached();
+-    }
+-#endif
+-}
+-
+-static void canonicalize_memop_i128_as_i64(MemOp ret[2], MemOp orig)
+-{
+-    MemOp mop_1 = orig, mop_2;
+-
+-    tcg_debug_assert((orig & MO_SIZE) == MO_128);
+-    tcg_debug_assert((orig & MO_SIGN) == 0);
+-
+-    /* Reduce the size to 64-bit. */
+-    mop_1 = (mop_1 & ~MO_SIZE) | MO_64;
+-
+-    /* Retain the alignment constraints of the original. */
+-    switch (orig & MO_AMASK) {
+-    case MO_UNALN:
+-    case MO_ALIGN_2:
+-    case MO_ALIGN_4:
+-        mop_2 = mop_1;
+-        break;
+-    case MO_ALIGN_8:
+-        /* Prefer MO_ALIGN+MO_64 to MO_ALIGN_8+MO_64. */
+-        mop_1 = (mop_1 & ~MO_AMASK) | MO_ALIGN;
+-        mop_2 = mop_1;
+-        break;
+-    case MO_ALIGN:
+-        /* Second has 8-byte alignment; first has 16-byte alignment. */
+-        mop_2 = mop_1;
+-        mop_1 = (mop_1 & ~MO_AMASK) | MO_ALIGN_16;
+-        break;
+-    case MO_ALIGN_16:
+-    case MO_ALIGN_32:
+-    case MO_ALIGN_64:
+-        /* Second has 8-byte alignment; first retains original. */
+-        mop_2 = (mop_1 & ~MO_AMASK) | MO_ALIGN;
+-        break;
+-    default:
+-        g_assert_not_reached();
+-    }
+-
+-    /* Use a memory ordering implemented by the host. */
+-    if ((orig & MO_BSWAP) && !tcg_target_has_memory_bswap(mop_1)) {
+-        mop_1 &= ~MO_BSWAP;
+-        mop_2 &= ~MO_BSWAP;
+-    }
+-
+-    ret[0] = mop_1;
+-    ret[1] = mop_2;
+-}
+-
+-#if TARGET_LONG_BITS == 64
+-#define tcg_temp_ebb_new  tcg_temp_ebb_new_i64
+-#else
+-#define tcg_temp_ebb_new  tcg_temp_ebb_new_i32
+-#endif
+-
+-void tcg_gen_qemu_ld_i128(TCGv_i128 val, TCGv addr, TCGArg idx, MemOp memop)
+-{
+-    const MemOpIdx oi = make_memop_idx(memop, idx);
+-
+-    tcg_debug_assert((memop & MO_SIZE) == MO_128);
+-    tcg_debug_assert((memop & MO_SIGN) == 0);
+-
+-    tcg_gen_req_mo(TCG_MO_LD_LD | TCG_MO_ST_LD);
+-    addr = plugin_prep_mem_callbacks(addr);
+-
+-    /* TODO: For now, force 32-bit hosts to use the helper. */
+-    if (TCG_TARGET_HAS_qemu_ldst_i128 && TCG_TARGET_REG_BITS == 64) {
+-        TCGv_i64 lo, hi;
+-        TCGArg addr_arg;
+-        MemOpIdx adj_oi;
+-        bool need_bswap = false;
+-
+-        if ((memop & MO_BSWAP) && !tcg_target_has_memory_bswap(memop)) {
+-            lo = TCGV128_HIGH(val);
+-            hi = TCGV128_LOW(val);
+-            adj_oi = make_memop_idx(memop & ~MO_BSWAP, idx);
+-            need_bswap = true;
+-        } else {
+-            lo = TCGV128_LOW(val);
+-            hi = TCGV128_HIGH(val);
+-            adj_oi = oi;
+-        }
+-
+-#if TARGET_LONG_BITS == 32
+-        addr_arg = tcgv_i32_arg(addr);
+-#else
+-        addr_arg = tcgv_i64_arg(addr);
+-#endif
+-        tcg_gen_op4ii_i64(INDEX_op_qemu_ld_i128, lo, hi, addr_arg, adj_oi);
+-
+-        if (need_bswap) {
+-            tcg_gen_bswap64_i64(lo, lo);
+-            tcg_gen_bswap64_i64(hi, hi);
+-        }
+-    } else if (use_two_i64_for_i128(memop)) {
+-        MemOp mop[2];
+-        TCGv addr_p8;
+-        TCGv_i64 x, y;
+-
+-        canonicalize_memop_i128_as_i64(mop, memop);
+-
+-        /*
+-         * Since there are no global TCGv_i128, there is no visible state
+-         * changed if the second load faults.  Load directly into the two
+-         * subwords.
+-         */
+-        if ((memop & MO_BSWAP) == MO_LE) {
+-            x = TCGV128_LOW(val);
+-            y = TCGV128_HIGH(val);
+-        } else {
+-            x = TCGV128_HIGH(val);
+-            y = TCGV128_LOW(val);
+-        }
+-
+-        gen_ldst_i64(INDEX_op_qemu_ld_i64, x, addr, mop[0], idx);
+-
+-        if ((mop[0] ^ memop) & MO_BSWAP) {
+-            tcg_gen_bswap64_i64(x, x);
+-        }
+-
+-        addr_p8 = tcg_temp_ebb_new();
+-        tcg_gen_addi_tl(addr_p8, addr, 8);
+-        gen_ldst_i64(INDEX_op_qemu_ld_i64, y, addr_p8, mop[1], idx);
+-        tcg_temp_free(addr_p8);
+-
+-        if ((mop[0] ^ memop) & MO_BSWAP) {
+-            tcg_gen_bswap64_i64(y, y);
+-        }
+-    } else {
+-        gen_helper_ld_i128(val, cpu_env, addr, tcg_constant_i32(oi));
+-    }
+-
+-    plugin_gen_mem_callbacks(addr, oi, QEMU_PLUGIN_MEM_R);
+-}
+-
+-void tcg_gen_qemu_st_i128(TCGv_i128 val, TCGv addr, TCGArg idx, MemOp memop)
+-{
+-    const MemOpIdx oi = make_memop_idx(memop, idx);
+-
+-    tcg_debug_assert((memop & MO_SIZE) == MO_128);
+-    tcg_debug_assert((memop & MO_SIGN) == 0);
+-
+-    tcg_gen_req_mo(TCG_MO_ST_LD | TCG_MO_ST_ST);
+-    addr = plugin_prep_mem_callbacks(addr);
+-
+-    /* TODO: For now, force 32-bit hosts to use the helper. */
+-
+-    if (TCG_TARGET_HAS_qemu_ldst_i128 && TCG_TARGET_REG_BITS == 64) {
+-        TCGv_i64 lo, hi;
+-        TCGArg addr_arg;
+-        MemOpIdx adj_oi;
+-        bool need_bswap = false;
+-
+-        if ((memop & MO_BSWAP) && !tcg_target_has_memory_bswap(memop)) {
+-            lo = tcg_temp_new_i64();
+-            hi = tcg_temp_new_i64();
+-            tcg_gen_bswap64_i64(lo, TCGV128_HIGH(val));
+-            tcg_gen_bswap64_i64(hi, TCGV128_LOW(val));
+-            adj_oi = make_memop_idx(memop & ~MO_BSWAP, idx);
+-            need_bswap = true;
+-        } else {
+-            lo = TCGV128_LOW(val);
+-            hi = TCGV128_HIGH(val);
+-            adj_oi = oi;
+-        }
+-
+-#if TARGET_LONG_BITS == 32
+-        addr_arg = tcgv_i32_arg(addr);
+-#else
+-        addr_arg = tcgv_i64_arg(addr);
+-#endif
+-        tcg_gen_op4ii_i64(INDEX_op_qemu_st_i128, lo, hi, addr_arg, adj_oi);
+-
+-        if (need_bswap) {
+-            tcg_temp_free_i64(lo);
+-            tcg_temp_free_i64(hi);
+-        }
+-    } else if (use_two_i64_for_i128(memop)) {
+-        MemOp mop[2];
+-        TCGv addr_p8;
+-        TCGv_i64 x, y;
+-
+-        canonicalize_memop_i128_as_i64(mop, memop);
+-
+-        if ((memop & MO_BSWAP) == MO_LE) {
+-            x = TCGV128_LOW(val);
+-            y = TCGV128_HIGH(val);
+-        } else {
+-            x = TCGV128_HIGH(val);
+-            y = TCGV128_LOW(val);
+-        }
+-
+-        addr_p8 = tcg_temp_ebb_new();
+-        if ((mop[0] ^ memop) & MO_BSWAP) {
+-            TCGv_i64 t = tcg_temp_ebb_new_i64();
+-
+-            tcg_gen_bswap64_i64(t, x);
+-            gen_ldst_i64(INDEX_op_qemu_st_i64, t, addr, mop[0], idx);
+-            tcg_gen_bswap64_i64(t, y);
+-            tcg_gen_addi_tl(addr_p8, addr, 8);
+-            gen_ldst_i64(INDEX_op_qemu_st_i64, t, addr_p8, mop[1], idx);
+-            tcg_temp_free_i64(t);
+-        } else {
+-            gen_ldst_i64(INDEX_op_qemu_st_i64, x, addr, mop[0], idx);
+-            tcg_gen_addi_tl(addr_p8, addr, 8);
+-            gen_ldst_i64(INDEX_op_qemu_st_i64, y, addr_p8, mop[1], idx);
+-        }
+-        tcg_temp_free(addr_p8);
+-    } else {
+-        gen_helper_st_i128(cpu_env, addr, val, tcg_constant_i32(oi));
+-    }
+-
+-    plugin_gen_mem_callbacks(addr, oi, QEMU_PLUGIN_MEM_W);
+-}
+-
+-static void tcg_gen_ext_i32(TCGv_i32 ret, TCGv_i32 val, MemOp opc)
+-{
+-    switch (opc & MO_SSIZE) {
+-    case MO_SB:
+-        tcg_gen_ext8s_i32(ret, val);
+-        break;
+-    case MO_UB:
+-        tcg_gen_ext8u_i32(ret, val);
+-        break;
+-    case MO_SW:
+-        tcg_gen_ext16s_i32(ret, val);
+-        break;
+-    case MO_UW:
+-        tcg_gen_ext16u_i32(ret, val);
+-        break;
+-    default:
+-        tcg_gen_mov_i32(ret, val);
+-        break;
+-    }
+-}
+-
+-static void tcg_gen_ext_i64(TCGv_i64 ret, TCGv_i64 val, MemOp opc)
+-{
+-    switch (opc & MO_SSIZE) {
+-    case MO_SB:
+-        tcg_gen_ext8s_i64(ret, val);
+-        break;
+-    case MO_UB:
+-        tcg_gen_ext8u_i64(ret, val);
+-        break;
+-    case MO_SW:
+-        tcg_gen_ext16s_i64(ret, val);
+-        break;
+-    case MO_UW:
+-        tcg_gen_ext16u_i64(ret, val);
+-        break;
+-    case MO_SL:
+-        tcg_gen_ext32s_i64(ret, val);
+-        break;
+-    case MO_UL:
+-        tcg_gen_ext32u_i64(ret, val);
+-        break;
+-    default:
+-        tcg_gen_mov_i64(ret, val);
+-        break;
+-    }
+-}
+-
+-typedef void (*gen_atomic_cx_i32)(TCGv_i32, TCGv_env, TCGv,
+-                                  TCGv_i32, TCGv_i32, TCGv_i32);
+-typedef void (*gen_atomic_cx_i64)(TCGv_i64, TCGv_env, TCGv,
+-                                  TCGv_i64, TCGv_i64, TCGv_i32);
+-typedef void (*gen_atomic_cx_i128)(TCGv_i128, TCGv_env, TCGv,
+-                                   TCGv_i128, TCGv_i128, TCGv_i32);
+-typedef void (*gen_atomic_op_i32)(TCGv_i32, TCGv_env, TCGv,
+-                                  TCGv_i32, TCGv_i32);
+-typedef void (*gen_atomic_op_i64)(TCGv_i64, TCGv_env, TCGv,
+-                                  TCGv_i64, TCGv_i32);
+-
+-#ifdef CONFIG_ATOMIC64
+-# define WITH_ATOMIC64(X) X,
+-#else
+-# define WITH_ATOMIC64(X)
+-#endif
+-#ifdef CONFIG_CMPXCHG128
+-# define WITH_ATOMIC128(X) X,
+-#else
+-# define WITH_ATOMIC128(X)
+-#endif
+-
+-static void * const table_cmpxchg[(MO_SIZE | MO_BSWAP) + 1] = {
+-    [MO_8] = gen_helper_atomic_cmpxchgb,
+-    [MO_16 | MO_LE] = gen_helper_atomic_cmpxchgw_le,
+-    [MO_16 | MO_BE] = gen_helper_atomic_cmpxchgw_be,
+-    [MO_32 | MO_LE] = gen_helper_atomic_cmpxchgl_le,
+-    [MO_32 | MO_BE] = gen_helper_atomic_cmpxchgl_be,
+-    WITH_ATOMIC64([MO_64 | MO_LE] = gen_helper_atomic_cmpxchgq_le)
+-    WITH_ATOMIC64([MO_64 | MO_BE] = gen_helper_atomic_cmpxchgq_be)
+-    WITH_ATOMIC128([MO_128 | MO_LE] = gen_helper_atomic_cmpxchgo_le)
+-    WITH_ATOMIC128([MO_128 | MO_BE] = gen_helper_atomic_cmpxchgo_be)
+-};
+-
+-void tcg_gen_nonatomic_cmpxchg_i32(TCGv_i32 retv, TCGv addr, TCGv_i32 cmpv,
+-                                   TCGv_i32 newv, TCGArg idx, MemOp memop)
+-{
+-    TCGv_i32 t1 = tcg_temp_ebb_new_i32();
+-    TCGv_i32 t2 = tcg_temp_ebb_new_i32();
+-
+-    tcg_gen_ext_i32(t2, cmpv, memop & MO_SIZE);
+-
+-    tcg_gen_qemu_ld_i32(t1, addr, idx, memop & ~MO_SIGN);
+-    tcg_gen_movcond_i32(TCG_COND_EQ, t2, t1, t2, newv, t1);
+-    tcg_gen_qemu_st_i32(t2, addr, idx, memop);
+-    tcg_temp_free_i32(t2);
+-
+-    if (memop & MO_SIGN) {
+-        tcg_gen_ext_i32(retv, t1, memop);
+-    } else {
+-        tcg_gen_mov_i32(retv, t1);
+-    }
+-    tcg_temp_free_i32(t1);
+-}
+-
+-void tcg_gen_atomic_cmpxchg_i32(TCGv_i32 retv, TCGv addr, TCGv_i32 cmpv,
+-                                TCGv_i32 newv, TCGArg idx, MemOp memop)
+-{
+-    gen_atomic_cx_i32 gen;
+-    MemOpIdx oi;
+-
+-    if (!(tcg_ctx->gen_tb->cflags & CF_PARALLEL)) {
+-        tcg_gen_nonatomic_cmpxchg_i32(retv, addr, cmpv, newv, idx, memop);
+-        return;
+-    }
+-
+-    memop = tcg_canonicalize_memop(memop, 0, 0);
+-    gen = table_cmpxchg[memop & (MO_SIZE | MO_BSWAP)];
+-    tcg_debug_assert(gen != NULL);
+-
+-    oi = make_memop_idx(memop & ~MO_SIGN, idx);
+-    gen(retv, cpu_env, addr, cmpv, newv, tcg_constant_i32(oi));
+-
+-    if (memop & MO_SIGN) {
+-        tcg_gen_ext_i32(retv, retv, memop);
+-    }
+-}
+-
+-void tcg_gen_nonatomic_cmpxchg_i64(TCGv_i64 retv, TCGv addr, TCGv_i64 cmpv,
+-                                   TCGv_i64 newv, TCGArg idx, MemOp memop)
+-{
+-    TCGv_i64 t1, t2;
+-
+-    if (TCG_TARGET_REG_BITS == 32 && (memop & MO_SIZE) < MO_64) {
+-        tcg_gen_nonatomic_cmpxchg_i32(TCGV_LOW(retv), addr, TCGV_LOW(cmpv),
+-                                      TCGV_LOW(newv), idx, memop);
+-        if (memop & MO_SIGN) {
+-            tcg_gen_sari_i32(TCGV_HIGH(retv), TCGV_LOW(retv), 31);
+-        } else {
+-            tcg_gen_movi_i32(TCGV_HIGH(retv), 0);
+-        }
+-        return;
+-    }
+-
+-    t1 = tcg_temp_ebb_new_i64();
+-    t2 = tcg_temp_ebb_new_i64();
+-
+-    tcg_gen_ext_i64(t2, cmpv, memop & MO_SIZE);
+-
+-    tcg_gen_qemu_ld_i64(t1, addr, idx, memop & ~MO_SIGN);
+-    tcg_gen_movcond_i64(TCG_COND_EQ, t2, t1, t2, newv, t1);
+-    tcg_gen_qemu_st_i64(t2, addr, idx, memop);
+-    tcg_temp_free_i64(t2);
+-
+-    if (memop & MO_SIGN) {
+-        tcg_gen_ext_i64(retv, t1, memop);
+-    } else {
+-        tcg_gen_mov_i64(retv, t1);
+-    }
+-    tcg_temp_free_i64(t1);
+-}
+-
+-void tcg_gen_atomic_cmpxchg_i64(TCGv_i64 retv, TCGv addr, TCGv_i64 cmpv,
+-                                TCGv_i64 newv, TCGArg idx, MemOp memop)
+-{
+-    if (!(tcg_ctx->gen_tb->cflags & CF_PARALLEL)) {
+-        tcg_gen_nonatomic_cmpxchg_i64(retv, addr, cmpv, newv, idx, memop);
+-        return;
+-    }
+-
+-    if ((memop & MO_SIZE) == MO_64) {
+-        gen_atomic_cx_i64 gen;
+-
+-        memop = tcg_canonicalize_memop(memop, 1, 0);
+-        gen = table_cmpxchg[memop & (MO_SIZE | MO_BSWAP)];
+-        if (gen) {
+-            MemOpIdx oi = make_memop_idx(memop, idx);
+-            gen(retv, cpu_env, addr, cmpv, newv, tcg_constant_i32(oi));
+-            return;
+-        }
+-
+-        gen_helper_exit_atomic(cpu_env);
+-
+-        /*
+-         * Produce a result for a well-formed opcode stream.  This satisfies
+-         * liveness for set before used, which happens before this dead code
+-         * is removed.
+-         */
+-        tcg_gen_movi_i64(retv, 0);
+-        return;
+-    }
+-
+-    if (TCG_TARGET_REG_BITS == 32) {
+-        tcg_gen_atomic_cmpxchg_i32(TCGV_LOW(retv), addr, TCGV_LOW(cmpv),
+-                                   TCGV_LOW(newv), idx, memop);
+-        if (memop & MO_SIGN) {
+-            tcg_gen_sari_i32(TCGV_HIGH(retv), TCGV_LOW(retv), 31);
+-        } else {
+-            tcg_gen_movi_i32(TCGV_HIGH(retv), 0);
+-        }
+-    } else {
+-        TCGv_i32 c32 = tcg_temp_ebb_new_i32();
+-        TCGv_i32 n32 = tcg_temp_ebb_new_i32();
+-        TCGv_i32 r32 = tcg_temp_ebb_new_i32();
+-
+-        tcg_gen_extrl_i64_i32(c32, cmpv);
+-        tcg_gen_extrl_i64_i32(n32, newv);
+-        tcg_gen_atomic_cmpxchg_i32(r32, addr, c32, n32, idx, memop & ~MO_SIGN);
+-        tcg_temp_free_i32(c32);
+-        tcg_temp_free_i32(n32);
+-
+-        tcg_gen_extu_i32_i64(retv, r32);
+-        tcg_temp_free_i32(r32);
+-
+-        if (memop & MO_SIGN) {
+-            tcg_gen_ext_i64(retv, retv, memop);
+-        }
+-    }
+-}
+-
+-void tcg_gen_nonatomic_cmpxchg_i128(TCGv_i128 retv, TCGv addr, TCGv_i128 cmpv,
+-                                    TCGv_i128 newv, TCGArg idx, MemOp memop)
+-{
+-    if (TCG_TARGET_REG_BITS == 32) {
+-        /* Inline expansion below is simply too large for 32-bit hosts. */
+-        gen_atomic_cx_i128 gen = ((memop & MO_BSWAP) == MO_LE
+-                                  ? gen_helper_nonatomic_cmpxchgo_le 
+-                                  : gen_helper_nonatomic_cmpxchgo_be);
+-        MemOpIdx oi = make_memop_idx(memop, idx);
+-
+-        tcg_debug_assert((memop & MO_SIZE) == MO_128);
+-        tcg_debug_assert((memop & MO_SIGN) == 0);
+-
+-        gen(retv, cpu_env, addr, cmpv, newv, tcg_constant_i32(oi));
+-    } else {
+-        TCGv_i128 oldv = tcg_temp_ebb_new_i128();
+-        TCGv_i128 tmpv = tcg_temp_ebb_new_i128();
+-        TCGv_i64 t0 = tcg_temp_ebb_new_i64();
+-        TCGv_i64 t1 = tcg_temp_ebb_new_i64();
+-        TCGv_i64 z = tcg_constant_i64(0);
+-
+-        tcg_gen_qemu_ld_i128(oldv, addr, idx, memop);
+-
+-        /* Compare i128 */
+-        tcg_gen_xor_i64(t0, TCGV128_LOW(oldv), TCGV128_LOW(cmpv));
+-        tcg_gen_xor_i64(t1, TCGV128_HIGH(oldv), TCGV128_HIGH(cmpv));
+-        tcg_gen_or_i64(t0, t0, t1);
+-
+-        /* tmpv = equal ? newv : oldv */
+-        tcg_gen_movcond_i64(TCG_COND_EQ, TCGV128_LOW(tmpv), t0, z,
+-                            TCGV128_LOW(newv), TCGV128_LOW(oldv));
+-        tcg_gen_movcond_i64(TCG_COND_EQ, TCGV128_HIGH(tmpv), t0, z,
+-                            TCGV128_HIGH(newv), TCGV128_HIGH(oldv));
+-
+-        /* Unconditional writeback. */
+-        tcg_gen_qemu_st_i128(tmpv, addr, idx, memop);
+-        tcg_gen_mov_i128(retv, oldv);
+-
+-        tcg_temp_free_i64(t0);
+-        tcg_temp_free_i64(t1);
+-        tcg_temp_free_i128(tmpv);
+-        tcg_temp_free_i128(oldv);
+-    }
+-}
+-
+-void tcg_gen_atomic_cmpxchg_i128(TCGv_i128 retv, TCGv addr, TCGv_i128 cmpv,
+-                                 TCGv_i128 newv, TCGArg idx, MemOp memop)
+-{
+-    gen_atomic_cx_i128 gen;
+-
+-    if (!(tcg_ctx->gen_tb->cflags & CF_PARALLEL)) {
+-        tcg_gen_nonatomic_cmpxchg_i128(retv, addr, cmpv, newv, idx, memop);
+-        return;
+-    }
+-
+-    tcg_debug_assert((memop & MO_SIZE) == MO_128);
+-    tcg_debug_assert((memop & MO_SIGN) == 0);
+-    gen = table_cmpxchg[memop & (MO_SIZE | MO_BSWAP)];
+-
+-    if (gen) {
+-        MemOpIdx oi = make_memop_idx(memop, idx);
+-        gen(retv, cpu_env, addr, cmpv, newv, tcg_constant_i32(oi));
+-        return;
+-    }
+-
+-    gen_helper_exit_atomic(cpu_env);
+-
+-    /*
+-     * Produce a result for a well-formed opcode stream.  This satisfies
+-     * liveness for set before used, which happens before this dead code
+-     * is removed.
+-     */
+-    tcg_gen_movi_i64(TCGV128_LOW(retv), 0);
+-    tcg_gen_movi_i64(TCGV128_HIGH(retv), 0);
+-}
+-
+-static void do_nonatomic_op_i32(TCGv_i32 ret, TCGv addr, TCGv_i32 val,
+-                                TCGArg idx, MemOp memop, bool new_val,
+-                                void (*gen)(TCGv_i32, TCGv_i32, TCGv_i32))
+-{
+-    TCGv_i32 t1 = tcg_temp_ebb_new_i32();
+-    TCGv_i32 t2 = tcg_temp_ebb_new_i32();
+-
+-    memop = tcg_canonicalize_memop(memop, 0, 0);
+-
+-    tcg_gen_qemu_ld_i32(t1, addr, idx, memop);
+-    tcg_gen_ext_i32(t2, val, memop);
+-    gen(t2, t1, t2);
+-    tcg_gen_qemu_st_i32(t2, addr, idx, memop);
+-
+-    tcg_gen_ext_i32(ret, (new_val ? t2 : t1), memop);
+-    tcg_temp_free_i32(t1);
+-    tcg_temp_free_i32(t2);
+-}
+-
+-static void do_atomic_op_i32(TCGv_i32 ret, TCGv addr, TCGv_i32 val,
+-                             TCGArg idx, MemOp memop, void * const table[])
+-{
+-    gen_atomic_op_i32 gen;
+-    MemOpIdx oi;
+-
+-    memop = tcg_canonicalize_memop(memop, 0, 0);
+-
+-    gen = table[memop & (MO_SIZE | MO_BSWAP)];
+-    tcg_debug_assert(gen != NULL);
+-
+-    oi = make_memop_idx(memop & ~MO_SIGN, idx);
+-    gen(ret, cpu_env, addr, val, tcg_constant_i32(oi));
+-
+-    if (memop & MO_SIGN) {
+-        tcg_gen_ext_i32(ret, ret, memop);
+-    }
+-}
+-
+-static void do_nonatomic_op_i64(TCGv_i64 ret, TCGv addr, TCGv_i64 val,
+-                                TCGArg idx, MemOp memop, bool new_val,
+-                                void (*gen)(TCGv_i64, TCGv_i64, TCGv_i64))
+-{
+-    TCGv_i64 t1 = tcg_temp_ebb_new_i64();
+-    TCGv_i64 t2 = tcg_temp_ebb_new_i64();
+-
+-    memop = tcg_canonicalize_memop(memop, 1, 0);
+-
+-    tcg_gen_qemu_ld_i64(t1, addr, idx, memop);
+-    tcg_gen_ext_i64(t2, val, memop);
+-    gen(t2, t1, t2);
+-    tcg_gen_qemu_st_i64(t2, addr, idx, memop);
+-
+-    tcg_gen_ext_i64(ret, (new_val ? t2 : t1), memop);
+-    tcg_temp_free_i64(t1);
+-    tcg_temp_free_i64(t2);
+-}
+-
+-static void do_atomic_op_i64(TCGv_i64 ret, TCGv addr, TCGv_i64 val,
+-                             TCGArg idx, MemOp memop, void * const table[])
+-{
+-    memop = tcg_canonicalize_memop(memop, 1, 0);
+-
+-    if ((memop & MO_SIZE) == MO_64) {
+-#ifdef CONFIG_ATOMIC64
+-        gen_atomic_op_i64 gen;
+-        MemOpIdx oi;
+-
+-        gen = table[memop & (MO_SIZE | MO_BSWAP)];
+-        tcg_debug_assert(gen != NULL);
+-
+-        oi = make_memop_idx(memop & ~MO_SIGN, idx);
+-        gen(ret, cpu_env, addr, val, tcg_constant_i32(oi));
+-#else
+-        gen_helper_exit_atomic(cpu_env);
+-        /* Produce a result, so that we have a well-formed opcode stream
+-           with respect to uses of the result in the (dead) code following.  */
+-        tcg_gen_movi_i64(ret, 0);
+-#endif /* CONFIG_ATOMIC64 */
+-    } else {
+-        TCGv_i32 v32 = tcg_temp_ebb_new_i32();
+-        TCGv_i32 r32 = tcg_temp_ebb_new_i32();
+-
+-        tcg_gen_extrl_i64_i32(v32, val);
+-        do_atomic_op_i32(r32, addr, v32, idx, memop & ~MO_SIGN, table);
+-        tcg_temp_free_i32(v32);
+-
+-        tcg_gen_extu_i32_i64(ret, r32);
+-        tcg_temp_free_i32(r32);
+-
+-        if (memop & MO_SIGN) {
+-            tcg_gen_ext_i64(ret, ret, memop);
+-        }
+-    }
+-}
+-
+-#define GEN_ATOMIC_HELPER(NAME, OP, NEW)                                \
+-static void * const table_##NAME[(MO_SIZE | MO_BSWAP) + 1] = {          \
+-    [MO_8] = gen_helper_atomic_##NAME##b,                               \
+-    [MO_16 | MO_LE] = gen_helper_atomic_##NAME##w_le,                   \
+-    [MO_16 | MO_BE] = gen_helper_atomic_##NAME##w_be,                   \
+-    [MO_32 | MO_LE] = gen_helper_atomic_##NAME##l_le,                   \
+-    [MO_32 | MO_BE] = gen_helper_atomic_##NAME##l_be,                   \
+-    WITH_ATOMIC64([MO_64 | MO_LE] = gen_helper_atomic_##NAME##q_le)     \
+-    WITH_ATOMIC64([MO_64 | MO_BE] = gen_helper_atomic_##NAME##q_be)     \
+-};                                                                      \
+-void tcg_gen_atomic_##NAME##_i32                                        \
+-    (TCGv_i32 ret, TCGv addr, TCGv_i32 val, TCGArg idx, MemOp memop)    \
+-{                                                                       \
+-    if (tcg_ctx->gen_tb->cflags & CF_PARALLEL) {                        \
+-        do_atomic_op_i32(ret, addr, val, idx, memop, table_##NAME);     \
+-    } else {                                                            \
+-        do_nonatomic_op_i32(ret, addr, val, idx, memop, NEW,            \
+-                            tcg_gen_##OP##_i32);                        \
+-    }                                                                   \
+-}                                                                       \
+-void tcg_gen_atomic_##NAME##_i64                                        \
+-    (TCGv_i64 ret, TCGv addr, TCGv_i64 val, TCGArg idx, MemOp memop)    \
+-{                                                                       \
+-    if (tcg_ctx->gen_tb->cflags & CF_PARALLEL) {                        \
+-        do_atomic_op_i64(ret, addr, val, idx, memop, table_##NAME);     \
+-    } else {                                                            \
+-        do_nonatomic_op_i64(ret, addr, val, idx, memop, NEW,            \
+-                            tcg_gen_##OP##_i64);                        \
+-    }                                                                   \
+-}
+-
+-GEN_ATOMIC_HELPER(fetch_add, add, 0)
+-GEN_ATOMIC_HELPER(fetch_and, and, 0)
+-GEN_ATOMIC_HELPER(fetch_or, or, 0)
+-GEN_ATOMIC_HELPER(fetch_xor, xor, 0)
+-GEN_ATOMIC_HELPER(fetch_smin, smin, 0)
+-GEN_ATOMIC_HELPER(fetch_umin, umin, 0)
+-GEN_ATOMIC_HELPER(fetch_smax, smax, 0)
+-GEN_ATOMIC_HELPER(fetch_umax, umax, 0)
+-
+-GEN_ATOMIC_HELPER(add_fetch, add, 1)
+-GEN_ATOMIC_HELPER(and_fetch, and, 1)
+-GEN_ATOMIC_HELPER(or_fetch, or, 1)
+-GEN_ATOMIC_HELPER(xor_fetch, xor, 1)
+-GEN_ATOMIC_HELPER(smin_fetch, smin, 1)
+-GEN_ATOMIC_HELPER(umin_fetch, umin, 1)
+-GEN_ATOMIC_HELPER(smax_fetch, smax, 1)
+-GEN_ATOMIC_HELPER(umax_fetch, umax, 1)
+-
+-static void tcg_gen_mov2_i32(TCGv_i32 r, TCGv_i32 a, TCGv_i32 b)
+-{
+-    tcg_gen_mov_i32(r, b);
+-}
+-
+-static void tcg_gen_mov2_i64(TCGv_i64 r, TCGv_i64 a, TCGv_i64 b)
+-{
+-    tcg_gen_mov_i64(r, b);
+-}
+-
+-GEN_ATOMIC_HELPER(xchg, mov2, 0)
+-
+-#undef GEN_ATOMIC_HELPER
+diff --git a/tcg/meson.build b/tcg/meson.build
+index c4c63b19d4..f56c465f4d 100644
+--- a/tcg/meson.build
++++ b/tcg/meson.build
+@@ -6,6 +6,7 @@ tcg_ss.add(files(
+   'tcg.c',
+   'tcg-common.c',
+   'tcg-op.c',
++  'tcg-op-ldst.c',
+   'tcg-op-gvec.c',
+   'tcg-op-vec.c',
+ ))
 -- 
 2.34.1
 
