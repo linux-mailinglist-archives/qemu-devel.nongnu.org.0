@@ -2,53 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F40806F54AA
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 May 2023 11:27:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E36E06F54A8
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 May 2023 11:27:23 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pu8kc-0004ez-RU; Wed, 03 May 2023 05:26:18 -0400
+	id 1pu8kc-0004en-Ml; Wed, 03 May 2023 05:26:18 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pu8kW-0004eC-Kn
+ id 1pu8kW-0004eD-LL
  for qemu-devel@nongnu.org; Wed, 03 May 2023 05:26:14 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pu8kU-0001sR-7G
+ id 1pu8kV-0001x1-8Z
  for qemu-devel@nongnu.org; Wed, 03 May 2023 05:26:12 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1683105969;
+ s=mimecast20190719; t=1683105970;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=I3GYmEajnHEf5B+puGaCvTVJf4PPm9qVnFKcB69xf7w=;
- b=RTOzTyZJpU1Dy8Tw/N0qcN407oyBC8qM5e0/1lXCMJ1uWviCnkGViVtYHRcrPNB82FTkAx
- ITm09cmv1ASFVN6KNjpBebxJ3qJ2Y3eWo7aN01qwEFTYO8Z4z/p3bR35cHa9JeE06VGDEg
- 24g7as/4ODbctiiZ5t7YQKS+WV2qGJM=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=x//nluauCeOMTwlVk/MtZbhxlX1fdBq+vgsF2NUk3W0=;
+ b=ia/AMNnmdIVAji2UGE/dzv1BhCnvr61bBt9pbAuTyEgENKt0UWt3ChRt6AaPNNCgm4Boe6
+ sLXLKwzXUw8HaVdQJi/Xv/OXkUwrfMOc0hm8EeqrXwoZh5sggsDr96hQnK/yRQA0sTbdzi
+ SXsR0GX4V8lydWbyFSGyEmled6my/ZA=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-423-Qs5IqsXCNw2eiPTxtfan7g-1; Wed, 03 May 2023 05:26:08 -0400
-X-MC-Unique: Qs5IqsXCNw2eiPTxtfan7g-1
+ us-mta-617-VH1rqG6tMoe49ZaDVryRkg-1; Wed, 03 May 2023 05:26:09 -0400
+X-MC-Unique: VH1rqG6tMoe49ZaDVryRkg-1
 Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
  [10.11.54.10])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E2CAA1C0432D
- for <qemu-devel@nongnu.org>; Wed,  3 May 2023 09:26:07 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1C70287B2A1;
+ Wed,  3 May 2023 09:26:09 +0000 (UTC)
 Received: from secure.mitica (unknown [10.39.193.236])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 216DD492B00;
- Wed,  3 May 2023 09:26:06 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2F824492C3E;
+ Wed,  3 May 2023 09:26:08 +0000 (UTC)
 From: Juan Quintela <quintela@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Peter Xu <peterx@redhat.com>, Juan Quintela <quintela@redhat.com>,
- Leonardo Bras <leobras@redhat.com>
-Subject: [PULL 0/8] Migration 20230428 patches
-Date: Wed,  3 May 2023 11:25:58 +0200
-Message-Id: <20230503092606.9415-1-quintela@redhat.com>
-Content-Type: text/plain; charset="utf-8"
+ Leonardo Bras <leobras@redhat.com>, Lukas Straub <lukasstraub2@web.de>
+Subject: [PULL 1/8] multifd: We already account for this packet on the multifd
+ thread
+Date: Wed,  3 May 2023 11:25:59 +0200
+Message-Id: <20230503092606.9415-2-quintela@redhat.com>
+In-Reply-To: <20230503092606.9415-1-quintela@redhat.com>
+References: <20230503092606.9415-1-quintela@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
@@ -76,57 +79,27 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The following changes since commit 4ebc33f3f3b656ebf62112daca6aa0f8019b4891:
+Signed-off-by: Juan Quintela <quintela@redhat.com>
+Reviewed-by: Lukas Straub <lukasstraub2@web.de>
+---
+ migration/multifd.c | 3 ---
+ 1 file changed, 3 deletions(-)
 
-  Merge tag 'pull-tcg-20230502-2' of https://gitlab.com/rth7680/qemu into staging (2023-05-02 21:18:45 +0100)
-
-are available in the Git repository at:
-
-  https://gitlab.com/juan.quintela/qemu.git tags/migration-20230428-pull-request
-
-for you to fetch changes up to 0deb7e9b6cfdb39d89a629e705d6176c511fa83e:
-
-  migration: Drop unused parameter for migration_tls_client_create() (2023-05-03 11:24:20 +0200)
-
-----------------------------------------------------------------
-Migraiton Pull request (20230428 take 2)
-
-Hi
-
-Dropped the compression cleanups to see if we find what is going on.
-
-Please apply.
-
-Later, Juan.
-
-----------------------------------------------------------------
-
-Juan Quintela (8):
-  multifd: We already account for this packet on the multifd thread
-  migration: Move ram_stats to its own file migration-stats.[ch]
-  migration: Rename ram_counters to mig_stats
-  migration: Rename RAMStats to MigrationAtomicStats
-  migration/rdma: Split the zero page case from acct_update_position
-  migration/rdma: Unfold last user of acct_update_position()
-  migration: Drop unused parameter for migration_tls_get_creds()
-  migration: Drop unused parameter for migration_tls_client_create()
-
- migration/meson.build       |  1 +
- migration/migration-stats.c | 17 +++++++++++
- migration/migration-stats.h | 41 +++++++++++++++++++++++++
- migration/migration.c       | 33 ++++++++++----------
- migration/multifd.c         | 12 ++++----
- migration/postcopy-ram.c    |  2 +-
- migration/ram.c             | 60 ++++++++++++++-----------------------
- migration/ram.h             | 24 ---------------
- migration/rdma.c            |  9 ++++--
- migration/savevm.c          |  3 +-
- migration/tls.c             | 15 ++++------
- migration/tls.h             |  3 +-
- 12 files changed, 120 insertions(+), 100 deletions(-)
- create mode 100644 migration/migration-stats.c
- create mode 100644 migration/migration-stats.h
-
+diff --git a/migration/multifd.c b/migration/multifd.c
+index 6a59c03dd2..6053012ad9 100644
+--- a/migration/multifd.c
++++ b/migration/multifd.c
+@@ -626,10 +626,7 @@ int multifd_send_sync_main(QEMUFile *f)
+         p->packet_num = multifd_send_state->packet_num++;
+         p->flags |= MULTIFD_FLAG_SYNC;
+         p->pending_job++;
+-        qemu_file_acct_rate_limit(f, p->packet_len);
+         qemu_mutex_unlock(&p->mutex);
+-        stat64_add(&ram_counters.transferred, p->packet_len);
+-        stat64_add(&ram_counters.multifd_bytes, p->packet_len);
+         qemu_sem_post(&p->sem);
+     }
+     for (i = 0; i < migrate_multifd_channels(); i++) {
 -- 
 2.40.0
 
