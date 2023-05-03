@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 647CD6F5CF9
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 May 2023 19:22:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B245E6F5CFF
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 May 2023 19:22:54 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1puGBG-0007k2-44; Wed, 03 May 2023 13:22:18 -0400
+	id 1puGBn-0000uu-2H; Wed, 03 May 2023 13:22:51 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1puGB1-0007UK-Vo
- for qemu-devel@nongnu.org; Wed, 03 May 2023 13:22:05 -0400
+ id 1puGBh-0000eV-8Y
+ for qemu-devel@nongnu.org; Wed, 03 May 2023 13:22:45 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1puGAz-0004XF-Hk
- for qemu-devel@nongnu.org; Wed, 03 May 2023 13:22:03 -0400
+ id 1puGBf-0004jQ-Or
+ for qemu-devel@nongnu.org; Wed, 03 May 2023 13:22:44 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1683134520;
+ s=mimecast20190719; t=1683134563;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=s66Bb5ELOpK+MSwQW0k0s761R0QO/f/gLY8F728xksA=;
- b=NecwCBk5kFLaBkSEldxVxDs4ee9q76ibkEa3hZd1hqWQYmMZsIZbhClCByRTyzG3KjkDTM
- JrmHhrkwtLXA9cHktgmdZZwb0kq2CQpOrxJU19ohNZsIRnANqjrLs4ijsN/59BgVBP1SBz
- qTiH6WSPVfNs1LfA3or3qXmVVbrykrA=
+ bh=Hs1yjJSCdyJm4DTRmtArWRYOwu9w0s2fIa5hcOdg6M8=;
+ b=K2f+24sd6t5ieeWe6njRoG+RJ+KBQw0lsylUKgezX4Q9jxJvBDfrjd/fIxxCm4LrJkWDYa
+ At/0TwNWXvHer5cRIRH7bwVU3UDK7n4IvWiyzvc0mdiQaLYFLU1BUwxXm1cP+HinT4DYsO
+ oi20cmsYyCQwQO/txCt4YpLZDkCtXAU=
 Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
  [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-318-ljObMQOqMO6i-EKJgbt6rA-1; Wed, 03 May 2023 13:21:59 -0400
-X-MC-Unique: ljObMQOqMO6i-EKJgbt6rA-1
+ us-mta-374-Peh2QeKiP9yoN2JzW2wXZw-1; Wed, 03 May 2023 13:22:42 -0400
+X-MC-Unique: Peh2QeKiP9yoN2JzW2wXZw-1
 Received: by mail-ej1-f71.google.com with SMTP id
- a640c23a62f3a-94f271ebbc2so663301566b.2
- for <qemu-devel@nongnu.org>; Wed, 03 May 2023 10:21:59 -0700 (PDT)
+ a640c23a62f3a-94f5a1fa123so666988966b.0
+ for <qemu-devel@nongnu.org>; Wed, 03 May 2023 10:22:41 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683134517; x=1685726517;
+ d=1e100.net; s=20221208; t=1683134561; x=1685726561;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=s66Bb5ELOpK+MSwQW0k0s761R0QO/f/gLY8F728xksA=;
- b=R3R5R0mqD+hMO62cs1RLtkTvRp8mvwm5d+8eLFpKesMuwed04B+Pia0v2fthJDxXWF
- R+y9sCytWbdiER2HmO30sSHp+in5uWiMDm/kxyI5lLDanpIRfyPBUbeWWKAAIRBNgOfh
- kqAwEw8VDJzCkU7s08ZSSmY9YR+q0oAk7TlcsRnQQ66Yewxd+tsGwex/kYuif2h5pQO2
- 6H3s1mkoK+2TgQmrAhz31+tpHc2iwhgCNHBvPmA2g/Yz1+9ZOwcMbcp8XGm8Tz5mOFiN
- /vYeH5xBrTpbb0WoVM3M4Fdtvm3zOUnnI2LLXjAmnvmQdElN0vsyfxbXvG1mOxTFc63m
- h89Q==
-X-Gm-Message-State: AC+VfDyM5Fonh23oI5WjG7xW/flHJiIJUNheDHKQeRWOaT2zpKkFxwfx
- dXzyhiyM7uut2bedI3id9UN8yCWY1efHzSuuDzzeQsvcpK4HDLyt1MePlvi9mzxmcziJxPLn6X/
- QLpiRBGhaQ8xhbxaz92AEgro=
-X-Received: by 2002:a17:906:c155:b0:94a:5d16:a280 with SMTP id
- dp21-20020a170906c15500b0094a5d16a280mr4002227ejc.9.1683134517438; 
- Wed, 03 May 2023 10:21:57 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ4JJz6UAv9eVVafrFrnuJwApyBWDvVLGserdRUB3V6PYYPfs02G+nrdlnVlZFsGqKLaJ2jSBA==
-X-Received: by 2002:a17:906:c155:b0:94a:5d16:a280 with SMTP id
- dp21-20020a170906c15500b0094a5d16a280mr4002209ejc.9.1683134517040; 
- Wed, 03 May 2023 10:21:57 -0700 (PDT)
+ bh=Hs1yjJSCdyJm4DTRmtArWRYOwu9w0s2fIa5hcOdg6M8=;
+ b=BAfYIrAdPH8b8W927YXY0F/gd2/EvbXdqESk9MnMWUQ4R94uTMe6CDsfUAoXtH583k
+ exzoc4aD6baiIfBMzeIZBmiqIEjyRRO3Knihlsap24OpbAJ9zrqIZWbu8O9ksFwOOU0c
+ GWgk7CvHYa7W8kTRi2EH2moR8PU6RZ7kiOLGqy0www1XblCNGbwTvyxl/tQQMVyGlgXp
+ ru2sZOMyBI+c/Zeaz5Yz+ZL0V2pQFZNxuSovZo2ru3L3dNXbxuY8anZ6nMTJXcl2vhfb
+ VVGIc2a8v6xWxQZrvJS8lsqBI5Q8ssniVRZjjnwu/wMccOouvslIMeosVFwCbr8vQEpG
+ zMBg==
+X-Gm-Message-State: AC+VfDw226IiJ/eRO8fstZSaxRZP7q4PQxcPV8/KFSDBg6Phq8NbX9q3
+ w1P8SwvITuQqompe0pxI3qOMj3ewYT0jrtGs1SzcCF0BAuj1+GKbjQd6jW3K9pMuNBLV58UDb0d
+ dXHn6EDt8LaI3hgs=
+X-Received: by 2002:a17:907:3684:b0:94e:547b:6301 with SMTP id
+ bi4-20020a170907368400b0094e547b6301mr3715770ejc.8.1683134560941; 
+ Wed, 03 May 2023 10:22:40 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ7MgLzhxGD/2TJB6Vc5oysftZ2vWL3pmrJ/ID00m38whoQahY54gx2y6hGqOuC5TBmJGsqYng==
+X-Received: by 2002:a17:907:3684:b0:94e:547b:6301 with SMTP id
+ bi4-20020a170907368400b0094e547b6301mr3715731ejc.8.1683134560532; 
+ Wed, 03 May 2023 10:22:40 -0700 (PDT)
 Received: from ?IPV6:2001:b07:6468:f312:9af8:e5f5:7516:fa89?
  ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
  by smtp.googlemail.com with ESMTPSA id
- q19-20020a1709060f9300b0094f1fe1696bsm17577296ejj.216.2023.05.03.10.21.55
+ oq27-20020a170906cc9b00b0094f410225c7sm17415001ejb.169.2023.05.03.10.22.38
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 03 May 2023 10:21:56 -0700 (PDT)
-Message-ID: <c6e7be44-eb95-56d8-c716-3983233a27b9@redhat.com>
-Date: Wed, 3 May 2023 19:21:54 +0200
+ Wed, 03 May 2023 10:22:40 -0700 (PDT)
+Message-ID: <436a1596-fc40-0ee3-0505-c7f12ded8275@redhat.com>
+Date: Wed, 3 May 2023 19:22:38 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.9.1
-Subject: Re: [PATCH 06/22] hw/arm: Select VIRTIO_BLK for virt machine
+Subject: Re: [PATCH 08/22] hw/arm: Select GICV3_TCG for sbsa-ref machine
 Content-Language: en-US
 To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
  qemu-devel@nongnu.org
@@ -101,9 +101,9 @@ Cc: Laurent Vivier <lvivier@redhat.com>,
  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
  Fabiano Rosas <farosas@suse.de>
 References: <20230503091244.1450613-1-alex.bennee@linaro.org>
- <20230503091244.1450613-7-alex.bennee@linaro.org>
+ <20230503091244.1450613-9-alex.bennee@linaro.org>
 From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <20230503091244.1450613-7-alex.bennee@linaro.org>
+In-Reply-To: <20230503091244.1450613-9-alex.bennee@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
@@ -134,21 +134,49 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 On 5/3/23 11:12, Alex Bennée wrote:
 > From: Fabiano Rosas<farosas@suse.de>
 > 
-> The virt machine has IF_VIRTIO as block_default_type, which causes the
-> generic code to try to create a virtio-blk-pci device pair at
-> configure_blockdev()/qemu_create_cli_devices().
-> 
-> Select VIRTIO_BLK and VIRTIO_PCI from CONFIG_ARM_VIRT to avoid errors
-> when PCI_DEVICES=n (due to e.g. --without-default-devices):
-> 
-> $ ./qemu-system-aarch64 -M virt -accel tcg -cpu max -nodefaults -cdrom foo.qcow2
-> qemu-system-aarch64: -cdrom foo.qcow2: 'virtio-blk' (alias
-> 'virtio-blk-pci') is not a valid device model name
+> This machine hardcodes the creation of the interrupt controller, so
+> make sure the dependency is explicitly described in the Kconfig.
 
-This is also not needed.  It doesn't matter what's the default - it's 
-possible to create a machine without block devices at all, therefore 
-VIRTIO_BLK should not be selected.
+gicv3_init_cpuif is used unconditionally by arm_gic_realize in 
+hw/intc/arm_gicv3.c, so right now the separation between GICV3 and 
+GICV3_TCG is useless.
+
+That said, using "default y" is wrong.  The correct definition in 
+hw/intc/Kconfig for these should be:
+
+config ARM_GIC
+     bool
+     select MSI_NONBROKEN
+     select ARM_GICV3_TCG # if TCG
+     select ARM_GIC_KVM if KVM
+
+config ARM_GICV3_TCG
+     bool
+
+config ARM_GIC_KVM
+     bool
+
+(where the "if TCG" is incorrect right now as explained above).
 
 Paolo
+
+> Signed-off-by: Fabiano Rosas<farosas@suse.de>
+> Reviewed-by: Peter Maydell<peter.maydell@linaro.org>
+> Signed-off-by: Alex Bennée<alex.bennee@linaro.org>
+> Message-Id:<20230208192654.8854-9-farosas@suse.de>
+> ---
+>   hw/arm/Kconfig | 1 +
+>   1 file changed, 1 insertion(+)
+> 
+> diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
+> index cec7898bb7..0cce0b8d5b 100644
+> --- a/hw/arm/Kconfig
+> +++ b/hw/arm/Kconfig
+> @@ -252,6 +252,7 @@ config SBSA_REF
+>       select PL061 # GPIO
+>       select USB_EHCI_SYSBUS
+>       select WDT_SBSA
+> +    select ARM_GICV3_TCG
+>   
 
 
