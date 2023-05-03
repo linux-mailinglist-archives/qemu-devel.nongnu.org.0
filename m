@@ -2,62 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 813EB6F616C
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 May 2023 00:45:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 179436F618C
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 May 2023 00:53:28 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1puLCb-0005u6-Fs; Wed, 03 May 2023 18:44:01 -0400
+	id 1puLKP-0001g3-BG; Wed, 03 May 2023 18:52:05 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1puLCZ-0005ts-Ng
- for qemu-devel@nongnu.org; Wed, 03 May 2023 18:43:59 -0400
-Received: from forwardcorp1c.mail.yandex.net ([178.154.239.200])
+ id 1puLKF-0001fo-AN
+ for qemu-devel@nongnu.org; Wed, 03 May 2023 18:51:55 -0400
+Received: from forwardcorp1b.mail.yandex.net ([178.154.239.136])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1puLCW-0006JB-1c
- for qemu-devel@nongnu.org; Wed, 03 May 2023 18:43:59 -0400
-Received: from mail-nwsmtp-smtp-corp-main-62.myt.yp-c.yandex.net
- (mail-nwsmtp-smtp-corp-main-62.myt.yp-c.yandex.net
- [IPv6:2a02:6b8:c00:2582:0:640:9a17:0])
- by forwardcorp1c.mail.yandex.net (Yandex) with ESMTP id 68F355F6B8;
- Thu,  4 May 2023 01:43:46 +0300 (MSK)
+ id 1puLKB-0008D9-Lt
+ for qemu-devel@nongnu.org; Wed, 03 May 2023 18:51:54 -0400
+Received: from mail-nwsmtp-smtp-corp-main-26.myt.yp-c.yandex.net
+ (mail-nwsmtp-smtp-corp-main-26.myt.yp-c.yandex.net
+ [IPv6:2a02:6b8:c12:3f18:0:640:6450:0])
+ by forwardcorp1b.mail.yandex.net (Yandex) with ESMTP id 599DD60BF3;
+ Thu,  4 May 2023 01:51:43 +0300 (MSK)
 Received: from [IPV6:2a02:6b8:b081:b43b::1:1a] (unknown
  [2a02:6b8:b081:b43b::1:1a])
- by mail-nwsmtp-smtp-corp-main-62.myt.yp-c.yandex.net (smtpcorp/Yandex) with
- ESMTPSA id ihXFKd0MbCg0-OG2LfNdL; Thu, 04 May 2023 01:43:45 +0300
+ by mail-nwsmtp-smtp-corp-main-26.myt.yp-c.yandex.net (smtpcorp/Yandex) with
+ ESMTPSA id fpXTR60OhSw0-lZRU7GTs; Thu, 04 May 2023 01:51:42 +0300
 X-Yandex-Fwd: 1
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
  s=default; 
- t=1683153825; bh=BxwxVClw1MqAJ0dk1GC8jfCN5o7UdzQloywxfgaCXyw=;
+ t=1683154302; bh=0mb0AJZk8K69AZ1pTLQq2wM2V1CUX2+cknmxlCCGefo=;
  h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
- b=FVb4DzXN8hyTcm1vZ/MC+zXfMJduQ/01NgoxcgQrP4IXLRScYtbMsCmBLgueACriK
- WY5+H6YJjXmDFNASA1KmkYmX5ZtQu4V2TfnFel+E/+KRn2+wfe9yvZMY9XtACCh4Z6
- BKbKNG5MR7ubAQVZDQ3310K+a5Tq/ZjBDhn9qN9U=
-Authentication-Results: mail-nwsmtp-smtp-corp-main-62.myt.yp-c.yandex.net;
+ b=d6WVfDPewALqVPtep70ay4DFyGSiKzBQzXW7aUD5IZzKhAoovK0mcy56ccfBCMccT
+ jJvN7uujIFcYdEC1Ty2cClJhmPUlwwiKNd8eS5xHHjBNcrRPHaXZX4qxE6EsDIKtQz
+ yRvd7boS0Gu6jJi7AjW/9NEHFLTHW17g7+CYgmVI=
+Authentication-Results: mail-nwsmtp-smtp-corp-main-26.myt.yp-c.yandex.net;
  dkim=pass header.i=@yandex-team.ru
-Message-ID: <650b62d2-a28f-338d-6d36-4cd2d268aae3@yandex-team.ru>
-Date: Thu, 4 May 2023 01:43:44 +0300
+Message-ID: <68dbd97f-df39-9521-5a8e-7d013f1d81c1@yandex-team.ru>
+Date: Thu, 4 May 2023 01:51:41 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.9.0
-Subject: Re: [PATCH v4 03/10] build: move COLO under CONFIG_REPLICATION
+Subject: Re: [PATCH v4 07/10] migration: split migration_incoming_co
 Content-Language: en-US
 To: Peter Xu <peterx@redhat.com>
 Cc: qemu-devel@nongnu.org, lukasstraub2@web.de, quintela@redhat.com,
- chen.zhang@intel.com, "Dr . David Alan Gilbert" <dave@treblig.org>,
- Hailiang Zhang <zhanghailiang@xfusion.com>,
- Leonardo Bras <leobras@redhat.com>, Eric Blake <eblake@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+ chen.zhang@intel.com, Hailiang Zhang <zhanghailiang@xfusion.com>,
+ Leonardo Bras <leobras@redhat.com>
 References: <20230428194928.1426370-1-vsementsov@yandex-team.ru>
- <20230428194928.1426370-4-vsementsov@yandex-team.ru> <ZFE9Vb6iMcGCzkM3@x1n>
+ <20230428194928.1426370-8-vsementsov@yandex-team.ru> <ZFF3DJ9BpFAYEVGV@x1n>
 From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-In-Reply-To: <ZFE9Vb6iMcGCzkM3@x1n>
+In-Reply-To: <ZFF3DJ9BpFAYEVGV@x1n>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=178.154.239.200;
- envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1c.mail.yandex.net
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=178.154.239.136;
+ envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1b.mail.yandex.net
 X-Spam_score_int: -63
 X-Spam_score: -6.4
 X-Spam_bar: ------
@@ -80,36 +78,54 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 02.05.23 19:41, Peter Xu wrote:
->>   ##
->>   # @query-colo-status:
->> @@ -1674,7 +1676,8 @@
->>   # Since: 3.1
->>   ##
->>   { 'command': 'query-colo-status',
->> -  'returns': 'COLOStatus' }
->> +  'returns': 'COLOStatus',
->> +  'if': 'CONFIG_REPLICATION' }
-> I still see a bunch of other colo related definitions around in the qapi
-> schema, e.g. COLOExitReason.  Is it intended to leave them as is?
+On 02.05.23 23:48, Peter Xu wrote:
+> On Fri, Apr 28, 2023 at 10:49:25PM +0300, Vladimir Sementsov-Ogievskiy wrote:
+>> Originally, migration_incoming_co was introduced by
+>> 25d0c16f625feb3b6
+>>     "migration: Switch to COLO process after finishing loadvm"
+>> to be able to enter from COLO code to one specific yield point, added
+>> by 25d0c16f625feb3b6.
+>>
+>> Later in 923709896b1b0
+>>   "migration: poll the cm event for destination qemu"
+>> we reused this variable to wake the migration incoming coroutine from
+>> RDMA code.
+>>
+>> That was doubtful idea. Entering coroutines is a very fragile thing:
+>> you should be absolutely sure which yield point you are going to enter.
+>>
+>> I don't know how much is it safe to enter during qemu_loadvm_state()
+>> which I think what RDMA want to do. But for sure RDMA shouldn't enter
+>> the special COLO-related yield-point. As well, COLO code doesn't want
+>> to enter during qemu_loadvm_state(), it want to enter it's own specific
+>> yield-point.
+>>
+>> As well, when in 8e48ac95865ac97d
+>>   "COLO: Add block replication into colo process" we added
+>> bdrv_invalidate_cache_all() call (now it's called activate_all())
+>> it became possible to enter the migration incoming coroutine during
+>> that call which is wrong too.
+>>
+>> So, let't make these things separate and disjoint: loadvm_co for RDMA,
+>> non-NULL during qemu_loadvm_state(), and colo_incoming_co for COLO,
+>> non-NULL only around specific yield.
+>>
+>> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+>> ---
+>>   migration/colo.c      | 4 ++--
+>>   migration/migration.c | 8 ++++++--
+>>   migration/migration.h | 9 ++++++++-
+>>   3 files changed, 16 insertions(+), 5 deletions(-)
+> 
+> The idea looks right to me, but I really know mostly nothing on coroutines
+> and also rdma+colo..
+> 
+> Is the other ref in rdma.c (rdma_cm_poll_handler()) still missing?
 > 
 
-Removing them will make us to add more and more ifdefs in the code.
+Oops right.. I was building with rdma disabled. Will fix.
 
-We decided to keep x-colo capability.
-One more enum field is colo migration status - not worse than x-colo enum field, and is not possible with replication disabled
-
-The others (like COLOExitReason) are just structure definitions - not a public API, so no reason to care about.
-
-The exclustion is COLOStatus, we have to handle it. If not compilation fails:
-
-qapi/qapi-commands-migration.c:821:13: error: ‘qmp_marshal_output_COLOStatus’ defined but not used [-Werror=unused-function]
-   821 | static void qmp_marshal_output_COLOStatus(COLOStatus *ret_in,
-       |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-cc1: all warnings being treated as errors
-
-
-- COLOStatus becomes unused with replication disabled, as it is used only in migration/colo.c
+Thanks a lot for reviewing!
 
 -- 
 Best regards,
