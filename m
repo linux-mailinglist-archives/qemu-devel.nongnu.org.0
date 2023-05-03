@@ -2,91 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F4B76F591B
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 May 2023 15:33:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 54BF26F591D
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 May 2023 15:35:09 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1puCaE-0001IA-4c; Wed, 03 May 2023 09:31:50 -0400
+	id 1puCch-0004B7-MD; Wed, 03 May 2023 09:34:23 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1puCYN-0006kX-U1
- for qemu-devel@nongnu.org; Wed, 03 May 2023 09:29:55 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1puCcf-0004Ao-BB
+ for qemu-devel@nongnu.org; Wed, 03 May 2023 09:34:21 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1puCY8-0004Gl-O5
- for qemu-devel@nongnu.org; Wed, 03 May 2023 09:29:54 -0400
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1puCcd-0008SE-D0
+ for qemu-devel@nongnu.org; Wed, 03 May 2023 09:34:20 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1683120579;
+ s=mimecast20190719; t=1683120858;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=jMyufwcr7qO+WHneVDbEBpe6MTZ+dr/EGsvEJnJL3nI=;
- b=h+7j9R6IulWJluRC88hfbwL4m3W6pvdqgMTGDwlOGyR7L9Sarm35f/qhz+qMUuBpLNIz/Y
- wZjrZzHEANCtH9622ywKYK3D3t2RxSIHs/LUVWUogxE7AvKR18y76FkDL6zFLXXRvYqY9j
- J2ViUreNkGN2G/0f0w/u+Xl1g78lxyY=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-142-55YmrM1POKG8IuEQ9t6tBA-1; Wed, 03 May 2023 09:29:38 -0400
-X-MC-Unique: 55YmrM1POKG8IuEQ9t6tBA-1
-Received: by mail-wr1-f70.google.com with SMTP id
- ffacd0b85a97d-2ff4bc7a6a3so3146076f8f.3
- for <qemu-devel@nongnu.org>; Wed, 03 May 2023 06:29:37 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683120576; x=1685712576;
- h=content-transfer-encoding:mime-version:message-id:date:reply-to
- :user-agent:references:in-reply-to:subject:cc:to:from
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=jMyufwcr7qO+WHneVDbEBpe6MTZ+dr/EGsvEJnJL3nI=;
- b=eV42gPB5ylIvJ5xQuKNnPUO2A4s1IKUQMiasayme9QEzvVDRdtKyXQJd71R9saOCcM
- 5383py+STF7S0JNRsvGiuYk7gUPqDyxoNlUOgbWY1Y8gVHOykiUmJ9P5eBavxlF0T8CY
- uTsKSHr9a0wtkSkccOvoPdAuur4oUzlZt6kQyKZwCdK7r+9iv87dBRQWzScpFraJdtRs
- IIIOrbm7Eim0+4pautgPsSsU6l77ofClrcHGbOoPBxVvF0exHRwh5pB2UwhupoV6zM4p
- jPNwhUwv5WnHg/DAziwcSXQxNtAOtmG4gftcxwcrvU8HYUX4W2WROjwJPuLR4CQKQQvB
- bzXw==
-X-Gm-Message-State: AC+VfDwLCQaCTLjr1fbPXHyIBPfr4bdEuqyh1yKxjYbjR79xZUm6e0Q3
- JNnOyv2WW+5KNTGQMS51EeO/iqQqZs2jZo5D/TqyK/5mnmUwoGxyH269IWMK7QXVW1VffqG2ouA
- luDgTU14Acjy0dDE=
-X-Received: by 2002:adf:ee45:0:b0:306:302a:3f66 with SMTP id
- w5-20020adfee45000000b00306302a3f66mr34614wro.69.1683120576485; 
- Wed, 03 May 2023 06:29:36 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ4h1rzc2G+xsl/92L0/k6S5mbMFIG1HZ6ZiO4I1VW4PeJhz+Hvkw3hsrs5Uw/r3ydVAa3hbQQ==
-X-Received: by 2002:adf:ee45:0:b0:306:302a:3f66 with SMTP id
- w5-20020adfee45000000b00306302a3f66mr34594wro.69.1683120576111; 
- Wed, 03 May 2023 06:29:36 -0700 (PDT)
-Received: from redhat.com (static-92-120-85-188.ipcom.comunitel.net.
- [188.85.120.92]) by smtp.gmail.com with ESMTPSA id
- k5-20020adff5c5000000b002f103ca90cdsm33748615wrp.101.2023.05.03.06.29.35
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 03 May 2023 06:29:35 -0700 (PDT)
-From: Juan Quintela <quintela@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- qemu-devel@nongnu.org,  Leonardo Bras <leobras@redhat.com>,  Thomas Huth
- <thuth@redhat.com>,  Laurent Vivier <lvivier@redhat.com>,  Paolo Bonzini
- <pbonzini@redhat.com>,  Peter Xu <peterx@redhat.com>,  Lukas Straub
- <lukasstraub2@web.de>,  "Daniel P. Berrange" <berrange@redhat.com>
-Subject: Re: [PULL 00/21] Migration 20230428 patches
-In-Reply-To: <CAFEAcA-gu1Xxp49wOdtpif-C04fFd3nFrC+qNa8NizmPq9HGLQ@mail.gmail.com>
- (Peter Maydell's message of "Wed, 3 May 2023 13:57:55 +0100")
-References: <20230428191203.39520-1-quintela@redhat.com>
- <5f76c54c-b300-8597-1b4e-fd29b3603d35@linaro.org>
- <87jzxrt3u7.fsf@secure.mitica>
- <CAFEAcA_G734ap+L-YfLt5Pd65VXFm2xcx_SFwD_ke8B7pcQGbQ@mail.gmail.com>
- <87lei5sriq.fsf@secure.mitica>
- <CAFEAcA-gu1Xxp49wOdtpif-C04fFd3nFrC+qNa8NizmPq9HGLQ@mail.gmail.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
-Date: Wed, 03 May 2023 15:29:34 +0200
-Message-ID: <87ttwtr1a9.fsf@secure.mitica>
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=LErarw/44jaSkG/LRbhsrxUTpuAHvO/1U21cLWueBcs=;
+ b=gH6bshm3OVyV68mWsPGYHtv7pqk8wR3jPFAYeHUXxkQVn5iP7ofGtPCTdBcVQyIag1bwTf
+ G4kgbwYFZsX0SzrqKF1lxF1QGRt36MvN9vEansBsX8D63I4592TV/3BvMfifNaHnTn78OF
+ 26bi7ac57mGtQGhdK1UZAodjZBNFrsY=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-55-Va8S2CP-PcSOP8oIIYtfjg-1; Wed, 03 May 2023 09:34:16 -0400
+X-MC-Unique: Va8S2CP-PcSOP8oIIYtfjg-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.6])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8C2E4884349
+ for <qemu-devel@nongnu.org>; Wed,  3 May 2023 13:34:16 +0000 (UTC)
+Received: from redhat.com (unknown [10.42.28.37])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 18A8C2166B29;
+ Wed,  3 May 2023 13:34:14 +0000 (UTC)
+Date: Wed, 3 May 2023 14:34:11 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Juan Quintela <quintela@redhat.com>
+Cc: qemu-devel@nongnu.org, Peter Xu <peterx@redhat.com>,
+ Leonardo Bras <leobras@redhat.com>
+Subject: Re: [PATCH v2 01/16] migration: Create migrate_rdma()
+Message-ID: <ZFJi0/K2BXhYkh75@redhat.com>
+References: <20230503131847.11603-1-quintela@redhat.com>
+ <20230503131847.11603-2-quintela@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
+Content-Disposition: inline
+In-Reply-To: <20230503131847.11603-2-quintela@redhat.com>
+User-Agent: Mutt/2.2.9 (2022-11-12)
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -22
 X-Spam_score: -2.3
@@ -107,139 +77,105 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: quintela@redhat.com
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Peter Maydell <peter.maydell@linaro.org> wrote:
-> On Wed, 3 May 2023 at 10:17, Juan Quintela <quintela@redhat.com> wrote:
->>
->> Peter Maydell <peter.maydell@linaro.org> wrote:
->> > On Tue, 2 May 2023 at 11:39, Juan Quintela <quintela@redhat.com> wrote:
->> >> Richard, once that we are here, one of the problem that we are having=
- is
->> >> that the test is exiting with an abort, so we have no clue what is
->> >> happening.  Is there a way to get a backtrace, or at least the number
->> >
->> > This has been consistently an issue with the migration tests.
->> > As the owner of the tests, if they are not providing you with
->> > the level of detail that you need to diagnose failures, I
->> > think that is something that is in your court to address:
->> > the CI system is always going to only be able to provide
->> > you with what your tests are outputting to the logs.
->>
->> Right now I would be happy just to see what test it is failing at.
->>
->> I am doing something wrong, or from the links that I see on richard
->> email, I am not able to reach anywhere where I can see the full logs.
->>
->> > For the specific case of backtraces from assertion failures,
->> > I think Dan was looking at whether we could put something
->> > together for that. It won't help with segfaults and the like, though.
->>
->> I am waiting for that O:-)
->>
->> > You should be able to at least get the number of the subtest out of
->> > the logs (either directly in the logs of the job, or else
->> > from the more detailed log file that gets stored as a
->> > job artefact in most cases).
->>
->> Also note that the test is stopping in an abort, with no diagnostic
->> message that I can see.  But I don't see where the abort cames from:
->
-> So, as an example I took the check-system-opensuse log:
-> https://gitlab.com/qemu-project/qemu/-/jobs/4201998342
->
-> Use your browser's "search in web page" to look for "SIGABRT":
-> it'll show you the two errors (as well as the summary at
-> the bottom of the page which just says the tests aborted).
-> Here's one:
->
-> 5/351 qemu:qtest+qtest-x86_64 / qtest-x86_64/migration-test ERROR
-> 246.12s killed by signal 6 SIGABRT
->>>> QTEST_QEMU_BINARY=3D./qemu-system-x86_64 QTEST_QEMU_IMG=3D./qemu-img
->>> MALLOC_PERTURB_=3D48
->>> QTEST_QEMU_STORAGE_DAEMON_BINARY=3D./storage-daemon/qemu-storage-daemon
->>> G_TEST_DBUS_DAEMON=3D/builds/qemu-project/qemu/tests/dbus-vmstate-daemo=
-n.sh
->>> /builds/qemu-project/qemu/build/tests/qtest/migration-test --tap -k
-> =E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=
-=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=
-=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=
-=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=
-=E2=80=95=E2=80=95=E2=80=95=E2=80=95 =E2=9C=80 =E2=80=95=E2=80=95=E2=80=95=
-=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=
-=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=
-=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=
-=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=
-=80=95
-> stderr:
-> Could not access KVM kernel module: No such file or directory
-> Could not access KVM kernel module: No such file or directory
-> Could not access KVM kernel module: No such file or directory
-> Could not access KVM kernel module: No such file or directory
-> Could not access KVM kernel module: No such file or directory
-> Could not access KVM kernel module: No such file or directory
-> Could not access KVM kernel module: No such file or directory
-> Could not access KVM kernel module: No such file or directory
-> Could not access KVM kernel module: No such file or directory
-> Could not access KVM kernel module: No such file or directory
-> **
-> ERROR:../tests/qtest/migration-helpers.c:205:wait_for_migration_status:
-> assertion failed: (g_test_timer_elapsed() <
-> MIGRATION_STATUS_WAIT_TIMEOUT)
-> (test program exited with status code -6)
-> =E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=
-=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=
-=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=
-=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=
-=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=
-=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=
-=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=
-=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=
-=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=
-=95=E2=80=95=E2=80=95=E2=80=95
-> =E2=96=B6 6/351 ERROR:../tests/qtest/migration-helpers.c:205:wait_for_mig=
-ration_status:
-> assertion failed: (g_test_timer_elapsed() <
-> MIGRATION_STATUS_WAIT_TIMEOUT) ERROR
-> 6/351 qemu:qtest+qtest-aarch64 / qtest-aarch64/migration-test ERROR
-> 221.18s killed by signal 6 SIGABRT
->
-> Looks like it failed on a timeout in the test code.
+On Wed, May 03, 2023 at 03:18:32PM +0200, Juan Quintela wrote:
+> Helper to say if we are doing a migration over rdma.
+> 
+> Signed-off-by: Juan Quintela <quintela@redhat.com>
+> ---
+>  migration/migration.h | 3 +++
+>  migration/options.c   | 7 +++++++
+>  migration/options.h   | 1 +
+>  migration/rdma.c      | 4 +++-
+>  4 files changed, 14 insertions(+), 1 deletion(-)
+> 
+> diff --git a/migration/migration.h b/migration/migration.h
+> index 3a918514e7..47fe116167 100644
+> --- a/migration/migration.h
+> +++ b/migration/migration.h
+> @@ -432,6 +432,9 @@ struct MigrationState {
+>  
+>      /* QEMU_VM_VMDESCRIPTION content filled for all non-iterable devices. */
+>      JSONWriter *vmdesc;
+> +
+> +    /* Is this a rdma migration */
+> +    bool rdma_migration;
+>  };
+>  
+>  void migrate_set_state(int *state, int old_state, int new_state);
+> diff --git a/migration/options.c b/migration/options.c
+> index 53b7fc5d5d..39843f9325 100644
+> --- a/migration/options.c
+> +++ b/migration/options.c
+> @@ -349,6 +349,13 @@ bool migrate_postcopy(void)
+>      return migrate_postcopy_ram() || migrate_dirty_bitmaps();
+>  }
+>  
+> +bool migrate_rdma(void)
+> +{
+> +    MigrationState *s = migrate_get_current();
+> +
+> +    return s->rdma_migration;
+> +}
+> +
+>  bool migrate_tls(void)
+>  {
+>      MigrationState *s = migrate_get_current();
+> diff --git a/migration/options.h b/migration/options.h
+> index 3c322867cd..3c555e28c7 100644
+> --- a/migration/options.h
+> +++ b/migration/options.h
+> @@ -61,6 +61,7 @@ bool migrate_zero_copy_send(void);
+>  
+>  bool migrate_multifd_flush_after_each_section(void);
+>  bool migrate_postcopy(void);
+> +bool migrate_rdma(void);
+>  bool migrate_tls(void);
+>  
+>  /* capabilities helpers */
+> diff --git a/migration/rdma.c b/migration/rdma.c
+> index 7e747b2595..b026e98519 100644
+> --- a/migration/rdma.c
+> +++ b/migration/rdma.c
+> @@ -4119,6 +4119,7 @@ void rdma_start_incoming_migration(const char *host_port, Error **errp)
+>      int ret;
+>      RDMAContext *rdma;
+>      Error *local_err = NULL;
+> +    MigrationState *s = migrate_get_current();
+>  
+>      trace_rdma_start_incoming_migration();
+>  
+> @@ -4149,7 +4150,7 @@ void rdma_start_incoming_migration(const char *host_port, Error **errp)
+>      }
+>  
+>      trace_rdma_start_incoming_migration_after_rdma_listen();
+> -
+> +    s->rdma_migration = true;
+>      qemu_set_fd_handler(rdma->channel->fd, rdma_accept_incoming_migration,
+>                          NULL, (void *)(intptr_t)rdma);
+>      return;
+> @@ -4225,6 +4226,7 @@ void rdma_start_outgoing_migration(void *opaque,
+>  
+>      trace_rdma_start_outgoing_migration_after_rdma_connect();
+>  
+> +    s->rdma_migration = true;
+>      s->to_dst_file = qemu_fopen_rdma(rdma, "wb");
+>      migrate_fd_connect(s, NULL);
+>      return;
 
-Thanks.
+Is the "MigrationState" allocated freshly for every incoming
+or outgoing migration ?  If it is reused, then something
+needs to set 's->rdma_migration = false' in non-RDMA code
+paths.
 
-> I think there ought to be artefacts from the job which have a
-> copy of the full log, but I can't find them: not sure if this
-> is just because the gitlab UI is terrible, or if they really
-> didn't get generated.
-
-So now we are between a rock and a hard place.
-
-We have slowed down the bandwidth for migration test because on non
-loaded machines, migration was too fast to need more than one pass.
-
-And we slowed it so much than now we hit the timer that was set at 120
-seconds.
-
-So .....
-
-It is going to be interesting.
-
-BTW, what procesor speed do that aarch64 machines have? Or are they so
-loaded that they are efectively trashing?
-
-2minutes for a pass looks a bit too much.
-
-Will give a try to get this test done changing when we detect that we
-don't move to the completion stage.
-
-Thanks for the explanation on where to find the data.  The other issue
-is that whan I really want is to know what test failed.  I can't see a
-way to get that info.  According to Daniel answer, we don't upload that
-files for tests that fail.
-
-Later, Juan.
+With regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
