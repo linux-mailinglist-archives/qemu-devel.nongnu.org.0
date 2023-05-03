@@ -2,60 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2A5C6F54F3
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 May 2023 11:41:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 663A36F54F7
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 May 2023 11:42:01 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pu8zD-0003Qp-7x; Wed, 03 May 2023 05:41:23 -0400
+	id 1pu8zf-00049u-5e; Wed, 03 May 2023 05:41:51 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
- id 1pu8zB-0003Q9-CP
- for qemu-devel@nongnu.org; Wed, 03 May 2023 05:41:21 -0400
-Received: from mout.kundenserver.de ([212.227.126.134])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
- id 1pu8z8-0001TC-2z
- for qemu-devel@nongnu.org; Wed, 03 May 2023 05:41:21 -0400
-Received: from lenovo-t14s.redhat.com ([82.142.8.70]) by
- mrelayeu.kundenserver.de (mreue012 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1Mm9NA-1qcFE83IA4-00i9rA; Wed, 03 May 2023 11:41:12 +0200
-From: Laurent Vivier <lvivier@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: Thomas Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: [PATCH] net: stream: test reconnect option with an unix socket
-Date: Wed,  3 May 2023 11:41:09 +0200
-Message-Id: <20230503094109.1198248-1-lvivier@redhat.com>
-X-Mailer: git-send-email 2.39.2
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pu8zd-00046M-5D
+ for qemu-devel@nongnu.org; Wed, 03 May 2023 05:41:49 -0400
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pu8zZ-0001Xn-WC
+ for qemu-devel@nongnu.org; Wed, 03 May 2023 05:41:48 -0400
+Received: by mail-wr1-x429.google.com with SMTP id
+ ffacd0b85a97d-3062c1e7df8so2438602f8f.1
+ for <qemu-devel@nongnu.org>; Wed, 03 May 2023 02:41:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1683106904; x=1685698904;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=LD8VPjBC6l2J6jT7ZzyVMmo6WvrSa+0PI6lS90rhdYE=;
+ b=mmZLrRZsEhjObtZgFAmX85ub/0rYacAXOVU5pEUxAb5mFxsgljOg8ZmoalAI/y8l9+
+ huLuksxLAMOCvDLCDg8QHbPWoZ9nU5biVXAxTkn3VzMvDfaiCexEvt263LC5zC6hcblB
+ 0Eo/JmunGc0Pt8iQbXG2Gp+/OKvWAC7qF9P/sRTelafA1JuBxzHy8ymjNSRNyjapg0Uw
+ 3xVqfm0UAyZWOKcXQ0lfsHJvnSUDS7mzEcW/Q2bJRgwuH2g2X6x3qUiAvyN2eZ4Y9VhA
+ gnYXdyRAQXfxX+GG/z1yVXkQl31T5YnGm1x0db+nE00P5kFMpFot2NsnxGL4IycTTgbK
+ X8uQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1683106904; x=1685698904;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=LD8VPjBC6l2J6jT7ZzyVMmo6WvrSa+0PI6lS90rhdYE=;
+ b=PTpkNt49O5hpVaDXhDOkhblNrjJBtTLJawksPEutve2/+Ksw0dGHGHXVP5fczalNxT
+ /4Nsb25LS/F1z9Q+ywOdsYCzXkgmRcqbDiac/Dj8z1OoF3cbq75R3Vzmuf8AozhWQ8ZV
+ SKcK9s4N4rcAHruEKvc6h4CNpcYdfNAQVv+tjgBuJtAVat5qbb2Grfg++5uWj3hdnWTx
+ wZr3RyA8RGbHgqf+YHZecY43niti9yjMfOvfOCLiMnbm4eFpjqnut2mGZe5P4fJHNbId
+ mHGZ9syh+Mphg9vb9dhxmPqv0gy7bUEPtdOstYbCQTl1kBxa9pZMgUtlpAvjoFM71Ss1
+ Lglw==
+X-Gm-Message-State: AC+VfDwSfJnoXHk0jdG+0aakte/PPREyOBTHvzMzGrlixQeBa2n7aFrF
+ 6SvJr6cpE2Vbbc7/oXhDkrJ1Jg==
+X-Google-Smtp-Source: ACHHUZ7tydu1EZtUtlbkH1J+u7bN4Cl+E1yysEQ5GyDJYhaZifMQVEhTvWLhYCl3Pzey8Xs/SLl6sQ==
+X-Received: by 2002:adf:f686:0:b0:306:370e:6b13 with SMTP id
+ v6-20020adff686000000b00306370e6b13mr2929447wrp.13.1683106904518; 
+ Wed, 03 May 2023 02:41:44 -0700 (PDT)
+Received: from ?IPV6:2a02:c7c:74db:8d00:c01d:9d74:b630:9087?
+ ([2a02:c7c:74db:8d00:c01d:9d74:b630:9087])
+ by smtp.gmail.com with ESMTPSA id
+ a6-20020adffac6000000b00306415ac69asm1398319wrs.15.2023.05.03.02.41.44
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 03 May 2023 02:41:44 -0700 (PDT)
+Message-ID: <e3fabb1d-7bf6-f251-9649-5a813b409200@linaro.org>
+Date: Wed, 3 May 2023 10:41:42 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:k5Gh3kG8GsZ2zk7zVFG9iLX9WXX4hbOgmUDVk7c3WmWr2ea/hdA
- iZxfWbVH/H0WW+hII40WnmDZrCMoFtmnR2SrESvEL2eIVHlLBKfdR9xztwvLrOBlu7WPiI4
- qTljy9Ee0IzJeVr05s+Jm827waGqjtfOnribtDKdVPlIWtirWdkhhlAAnz1ee3qmhX1LP6m
- Rn8hcP/tyQL8Jmn2KCKZA==
-UI-OutboundReport: notjunk:1;M01:P0:cCgdSlU9GMI=;0Akc5qOmvwfsILpGUlljpg6YfdI
- SsXRLnBaUeC1QDEhTizWmLH9geLFEifLry5oiRG/By43aeHtwLMdNfrpCBmO6xnHMhAqd6sbM
- Ox8m1FMyL4ExQ3Or5PR5oJQjPPsDoTRaV/MrCn3uPXR9XT1YNkPoCYlD3K33GImRaTbh9X3fl
- Sw1mg0jzmAexvXGu65BiUPGIV4zjcEDHGZdK+HHRfF1K8nCAauL5vrsKL7EdcSFro2A1STkyj
- 0roJDj1bi51aGSq2py6FBbkV2HWGP4a1CiSS39Vx9c7pboUP4otFVBffhnKJ760khkNQ9Hj2P
- 1MzjtRZ90nyYBmfuaZuXsdTJECIU5Ze6AALj2vfhOjlueQSMyFh1oORND+u8k2Io+xRceBB/5
- gTT3puYLaW02P0QmYapA6ZyndUsYQKUEbRg1CccSxoX0RT+HnokkHPI+nTzs/FlrRJUaEMHd5
- EX8pvflZxE3oxi1bWOzyRNChi3HI+SJhTLK9nN4XVlttX6SRiTl7TkFRadUBfL1Xc1a7iedsW
- qb3Fub6oF+xZ1sQ6EjDEIfPAjG2m8lp9wokq4sBIVXNmaLMxkh+7N7kY3gD222taLPt8bS9OS
- c8wn8feUdWiLOqA9vroIipWaK5QwZmTNkCxazafZDv1q+ApciYzHcst7A/SAfXVnd7RQ5TnZP
- 3khYBiTYYcIHspqeBlZ1fV8gSjdPwEW0G/RGHygaMg==
-Received-SPF: permerror client-ip=212.227.126.134;
- envelope-from=lvivier@redhat.com; helo=mout.kundenserver.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_FAIL=0.001, SPF_HELO_NONE=0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH 3/3] target/openrisc: Setup FPU for detecting tininess
+ before rounding
+Content-Language: en-US
+To: Stafford Horne <shorne@gmail.com>
+Cc: QEMU Development <qemu-devel@nongnu.org>,
+ Linux OpenRISC <linux-openrisc@vger.kernel.org>
+References: <20230502185731.3543420-1-shorne@gmail.com>
+ <20230502185731.3543420-4-shorne@gmail.com>
+ <933ff5d8-3875-34ac-9bc4-ed06f74efad7@linaro.org> <ZFIl6db3isktCOk8@antec>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <ZFIl6db3isktCOk8@antec>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x429.google.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.422,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -71,109 +99,24 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-We can have failure with the inet type test because the port address
-is not allocated atomically and can be taken by another test between its
-selection and the start of QEMU. To avoid that, use an unix socket with
-a path that is unique
+On 5/3/23 10:14, Stafford Horne wrote:
+>>> +    set_default_nan_mode(1, &cpu->env.fp_status);
+>>> +    set_float_detect_tininess(float_tininess_before_rounding,
+>>> +                              &cpu->env.fp_status);
+>>
+>> You don't mention the nan change in the commit message.
+> 
+> Right, and I am not sure I need it.  Let me remove it and run tests again.  I
+> was just adding it as a few other architectures did who set
+> float_tininess_before_rounding.
 
-Signed-off-by: Laurent Vivier <lvivier@redhat.com>
----
- tests/qtest/netdev-socket.c | 39 +++++++++++++++++--------------------
- 1 file changed, 18 insertions(+), 21 deletions(-)
+What that does is *not* propagate NaN payloads from (some) input to the output.  This is 
+certainly true of RISC-V, which specifies this in their architecture manual.  OpenRISC 
+does not specify any NaN behaviour at all.
 
-diff --git a/tests/qtest/netdev-socket.c b/tests/qtest/netdev-socket.c
-index 9cf1b0698eba..097abc0230b9 100644
---- a/tests/qtest/netdev-socket.c
-+++ b/tests/qtest/netdev-socket.c
-@@ -189,28 +189,26 @@ static void wait_stream_disconnected(QTestState *qts, const char *id)
-     qobject_unref(resp);
- }
- 
--static void test_stream_inet_reconnect(void)
-+static void test_stream_unix_reconnect(void)
- {
-     QTestState *qts0, *qts1;
--    int port;
-     SocketAddress *addr;
-+    gchar *path;
- 
--    port = inet_get_free_port(false);
-+    path = g_strconcat(tmpdir, "/stream_unix_reconnect", NULL);
-     qts0 = qtest_initf("-nodefaults -M none "
--                       "-netdev stream,id=st0,server=true,addr.type=inet,"
--                       "addr.ipv4=on,addr.ipv6=off,"
--                       "addr.host=127.0.0.1,addr.port=%d", port);
-+                       "-netdev stream,id=st0,server=true,addr.type=unix,"
-+                       "addr.path=%s", path);
- 
-     EXPECT_STATE(qts0, "st0: index=0,type=stream,\r\n", 0);
- 
-     qts1 = qtest_initf("-nodefaults -M none "
--                       "-netdev stream,server=false,id=st0,addr.type=inet,"
--                       "addr.ipv4=on,addr.ipv6=off,reconnect=1,"
--                       "addr.host=127.0.0.1,addr.port=%d", port);
-+                       "-netdev stream,server=false,id=st0,addr.type=unix,"
-+                       "addr.path=%s,reconnect=1", path);
- 
-     wait_stream_connected(qts0, "st0", &addr);
--    g_assert_cmpint(addr->type, ==, SOCKET_ADDRESS_TYPE_INET);
--    g_assert_cmpstr(addr->u.inet.host, ==, "127.0.0.1");
-+    g_assert_cmpint(addr->type, ==, SOCKET_ADDRESS_TYPE_UNIX);
-+    g_assert_cmpstr(addr->u.q_unix.path, ==, path);
-     qapi_free_SocketAddress(addr);
- 
-     /* kill server */
-@@ -221,24 +219,23 @@ static void test_stream_inet_reconnect(void)
- 
-     /* restart server */
-     qts0 = qtest_initf("-nodefaults -M none "
--                       "-netdev stream,id=st0,server=true,addr.type=inet,"
--                       "addr.ipv4=on,addr.ipv6=off,"
--                       "addr.host=127.0.0.1,addr.port=%d", port);
-+                       "-netdev stream,id=st0,server=true,addr.type=unix,"
-+                       "addr.path=%s", path);
- 
-     /* wait connection events*/
-     wait_stream_connected(qts0, "st0", &addr);
--    g_assert_cmpint(addr->type, ==, SOCKET_ADDRESS_TYPE_INET);
--    g_assert_cmpstr(addr->u.inet.host, ==, "127.0.0.1");
-+    g_assert_cmpint(addr->type, ==, SOCKET_ADDRESS_TYPE_UNIX);
-+    g_assert_cmpstr(addr->u.q_unix.path, ==, path);
-     qapi_free_SocketAddress(addr);
- 
-     wait_stream_connected(qts1, "st0", &addr);
--    g_assert_cmpint(addr->type, ==, SOCKET_ADDRESS_TYPE_INET);
--    g_assert_cmpstr(addr->u.inet.host, ==, "127.0.0.1");
--    g_assert_cmpint(atoi(addr->u.inet.port), ==, port);
-+    g_assert_cmpint(addr->type, ==, SOCKET_ADDRESS_TYPE_UNIX);
-+    g_assert_cmpstr(addr->u.q_unix.path, ==, path);
-     qapi_free_SocketAddress(addr);
- 
-     qtest_quit(qts1);
-     qtest_quit(qts0);
-+    g_free(path);
- }
- 
- static void test_stream_inet_ipv6(void)
-@@ -517,8 +514,6 @@ int main(int argc, char **argv)
- #ifndef _WIN32
-         qtest_add_func("/netdev/dgram/mcast", test_dgram_mcast);
- #endif
--        qtest_add_func("/netdev/stream/inet/reconnect",
--                       test_stream_inet_reconnect);
-     }
-     if (has_ipv6) {
-         qtest_add_func("/netdev/stream/inet/ipv6", test_stream_inet_ipv6);
-@@ -530,6 +525,8 @@ int main(int argc, char **argv)
-         qtest_add_func("/netdev/dgram/unix", test_dgram_unix);
- #endif
-         qtest_add_func("/netdev/stream/unix", test_stream_unix);
-+        qtest_add_func("/netdev/stream/unix/reconnect",
-+                       test_stream_unix_reconnect);
- #ifdef CONFIG_LINUX
-         qtest_add_func("/netdev/stream/unix/abstract",
-                        test_stream_unix_abstract);
--- 
-2.39.2
+It's not a bad choice, really, and it almost certainly simplifies the design of the FPU, 
+as you can do NaN propagation and silencing in one step.
 
+
+r~
 
