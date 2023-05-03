@@ -2,81 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 392596F519F
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 May 2023 09:32:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 252F66F5208
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 May 2023 09:42:23 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pu6rF-0004Qs-AJ; Wed, 03 May 2023 03:25:01 -0400
+	id 1pu6rM-00050g-FY; Wed, 03 May 2023 03:25:08 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pu6qL-0002wc-Py
- for qemu-devel@nongnu.org; Wed, 03 May 2023 03:24:05 -0400
-Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429])
+ id 1pu6qZ-0003Ya-4I
+ for qemu-devel@nongnu.org; Wed, 03 May 2023 03:24:26 -0400
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pu6qI-0001ki-LY
- for qemu-devel@nongnu.org; Wed, 03 May 2023 03:24:05 -0400
-Received: by mail-wr1-x429.google.com with SMTP id
- ffacd0b85a97d-3062c1e7df8so2315149f8f.1
- for <qemu-devel@nongnu.org>; Wed, 03 May 2023 00:24:02 -0700 (PDT)
+ id 1pu6qK-0001n9-0B
+ for qemu-devel@nongnu.org; Wed, 03 May 2023 03:24:18 -0400
+Received: by mail-wr1-x42c.google.com with SMTP id
+ ffacd0b85a97d-3063b5f32aaso870342f8f.2
+ for <qemu-devel@nongnu.org>; Wed, 03 May 2023 00:24:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=linaro.org; s=google; t=1683098642; x=1685690642;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=FMynriKgHY7/a7Zeekt4jsXQMXu8INdJVu2wztuImV0=;
- b=Als4ASNY5Sb69VM6a9i+l45M0rlLow4ok7mKgMkc1PfmuQdCdduK92uW+AyTYRIKyo
- E9s3cmgAaQXvxE2hIZAYr/GBJbY/BQBOfDtwvftvgjf5ePPOKqegtECvjleDnUgHz+i3
- 0VbqadMOv+8u79z6sLcTgaNmCff1gd/yShDpoqOYCb+svRyRL/cbDyThkvWlO8+HR6Uy
- ZKtiHRpibZUQqpsldHdbDpIwTXQSQFS6cx9Y8kexKJwmN+JPQy+e4sgs4oLceifXgKVi
- +p2/oW8glgJyseJ7OFA1r2yZo5IJf4sSNMyNKgjrggs8vuSIBfzRKqSP/iGaidJn/iO8
- Cf9A==
+ bh=mPpDHaGu2W783WXEJBOafms8AwwjAB3ql2IEU0+tgxU=;
+ b=ssMVmUFsams5GEc7M2a4Is/yHsAuEALlVcngkXt/E/B55jl/osgHIM67jHoPix8tzK
+ UzKSCRFk+iD8uRW5vHukXuXCsS5DOJLKhf0MKue2P8n+z+FmDGK4EW2MrA6Dvg16lwi8
+ PerVbdyZtCpWBtDhv1RZ3TZ6r2UP1Bi2+ql4mknCL1+AM1IN0F20NFb7LX+gUO0lH0hZ
+ u4cNoknt78ib0IT7t2fCjrtGhmaAZE86H1lWmUHzCqiHO/bZT/TrEqTSPOm75Aj0N1wF
+ OVj7NjYpQukRJW7ylbTaxVaDnYVWZhL5+yhog9/2XQtxjE6iKb0GlrHiiC5kSP5zfqF7
+ 6mGQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20221208; t=1683098642; x=1685690642;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=FMynriKgHY7/a7Zeekt4jsXQMXu8INdJVu2wztuImV0=;
- b=fd/bmX+8gZmpk8mr6+eiWatCU5EaTUFXx6IkHn0EmYnoRbzK4yehW55IbG/7dEtccC
- KNV4gc/l4mG2vjFkNVw3GikL/wu4ppiDQbOnrrM5mU4IrLx0FhNmzF2OKX0cdQGiSTb/
- tSvFk5kPNV8oQqf+A/39J67fdNTvzGzqsZ4j69jVXsmAkmaSlku1xJ+0ZeKBWmAsjLAn
- QQKhS8LjeQDlAcjaaJaq1i7Pd1HkQ+4iYdwaoAKwT2tETo1Ar+FOnxxvLA8HqMMtIWBZ
- fzRpZDrYrLYUnJ54bRMCTm4ID7ZecMHnu0TcICj/P6ui3SbpOXFeJMst71GKt55OW5b3
- 8m/w==
-X-Gm-Message-State: AC+VfDwo0Dpf5AxzkNjrozBkPG5LabyFpHNi6C6We6KjETf39eqOpWEW
- kynXjGhkkePYwAgh7ZN4lBa9xEPKG3gsVb+z4BFcPw==
-X-Google-Smtp-Source: ACHHUZ6h+BAWpMczV4l7ZXEba4lzCqAcH6ctrzeBf178JNj9QBBHHePaJkYFM9uG3ogDJ52E5BYRBA==
-X-Received: by 2002:a5d:4536:0:b0:2f9:4fe9:74de with SMTP id
- j22-20020a5d4536000000b002f94fe974demr14595525wra.16.1683098641736; 
- Wed, 03 May 2023 00:24:01 -0700 (PDT)
+ bh=mPpDHaGu2W783WXEJBOafms8AwwjAB3ql2IEU0+tgxU=;
+ b=UKC73LEdNvmuQ7J0mnxr6qY62WB+mNxTa7jgdgtWVtDj0KE8azGXliKNzwPN4hnR15
+ qjM8e52n7s96UPMrjTrileonNSq2k4bu9CFHbwRuA8LJN0pd/2GJ3rzKkj19/5MpR1UK
+ Zg2mrZ8OifFaOMXuLJt8w+QuGug4d4hQXf4bauzmsQAHJJd7/Q0IOA1XnwnSV/SPN+6Q
+ A6uJoEFcAnzycXo3fOcGZBMclIVlsifkQmjs1ptowYxwRZDPjp24I1FjyzthsAJt4XDD
+ leDrI3AOs0yM3/yTuO/MAe0urLvYiH6bQqqkVqaq5VbgtXa/xYDJ9QeqrVL8ZBV9hDCR
+ 1oJw==
+X-Gm-Message-State: AC+VfDx/My4z422A94FQeewBqN8t3vm3GjA9qfgLLqeCSEnLK+uE6/ND
+ Oe03smS1K7HUVpZMwh8QueUqnt25cIxXX/P2PQXejg==
+X-Google-Smtp-Source: ACHHUZ4xSm/Qq75/2ZHPYVFmUlriHnov3WhtNyEBuHnB3jCyIzCOo9Y8Ztx2i430GqEWSLoENmTbyQ==
+X-Received: by 2002:adf:ef91:0:b0:306:36ea:8368 with SMTP id
+ d17-20020adfef91000000b0030636ea8368mr3338509wro.44.1683098642464; 
+ Wed, 03 May 2023 00:24:02 -0700 (PDT)
 Received: from stoup.Home ([2a02:c7c:74db:8d00:c01d:9d74:b630:9087])
  by smtp.gmail.com with ESMTPSA id
  b14-20020a05600010ce00b0030627f58325sm9586745wrx.25.2023.05.03.00.24.01
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 03 May 2023 00:24:01 -0700 (PDT)
+ Wed, 03 May 2023 00:24:02 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: ale@rev.ng, philmd@linaro.org, marcel.apfelbaum@gmail.com,
  wangyanan55@huawei.com, anjo@rev.ng
-Subject: [PATCH 38/84] *: Add missing includes of tcg/debug-assert.h
-Date: Wed,  3 May 2023 08:22:45 +0100
-Message-Id: <20230503072331.1747057-39-richard.henderson@linaro.org>
+Subject: [PATCH 39/84] *: Add missing includes of tcg/tcg.h
+Date: Wed,  3 May 2023 08:22:46 +0100
+Message-Id: <20230503072331.1747057-40-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230503072331.1747057-1-richard.henderson@linaro.org>
 References: <20230503072331.1747057-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::429;
- envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x429.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x42c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01,
+ T_SPF_HELO_TEMPERROR=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,65 +92,82 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-This had been pulled in from tcg/tcg.h, via exec/cpu_ldst.h,
-via exec/exec-all.h, but the include of tcg.h will be removed.
+This had been pulled in from exec/cpu_ldst.h, via exec/exec-all.h,
+but the include of tcg.h will be removed.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/avr/cpu.c      | 1 +
- target/rx/cpu.c       | 1 +
- target/rx/op_helper.c | 1 +
- target/tricore/cpu.c  | 1 +
- 4 files changed, 4 insertions(+)
+ accel/tcg/monitor.c             | 1 +
+ accel/tcg/tcg-accel-ops-mttcg.c | 2 +-
+ accel/tcg/tcg-accel-ops-rr.c    | 2 +-
+ target/i386/helper.c            | 3 +++
+ target/openrisc/sys_helper.c    | 1 +
+ 5 files changed, 7 insertions(+), 2 deletions(-)
 
-diff --git a/target/avr/cpu.c b/target/avr/cpu.c
-index a24c23c247..8f741f258c 100644
---- a/target/avr/cpu.c
-+++ b/target/avr/cpu.c
-@@ -24,6 +24,7 @@
+diff --git a/accel/tcg/monitor.c b/accel/tcg/monitor.c
+index 92fce580f1..f171bc6f5e 100644
+--- a/accel/tcg/monitor.c
++++ b/accel/tcg/monitor.c
+@@ -15,6 +15,7 @@
+ #include "sysemu/cpus.h"
+ #include "sysemu/cpu-timers.h"
+ #include "sysemu/tcg.h"
++#include "tcg/tcg.h"
+ #include "internal.h"
+ 
+ 
+diff --git a/accel/tcg/tcg-accel-ops-mttcg.c b/accel/tcg/tcg-accel-ops-mttcg.c
+index d50239e0e2..5d72c9b1bd 100644
+--- a/accel/tcg/tcg-accel-ops-mttcg.c
++++ b/accel/tcg/tcg-accel-ops-mttcg.c
+@@ -32,7 +32,7 @@
+ #include "qemu/guest-random.h"
  #include "exec/exec-all.h"
- #include "cpu.h"
- #include "disas/dis-asm.h"
-+#include "tcg/debug-assert.h"
+ #include "hw/boards.h"
+-
++#include "tcg/tcg.h"
+ #include "tcg-accel-ops.h"
+ #include "tcg-accel-ops-mttcg.h"
  
- static void avr_cpu_set_pc(CPUState *cs, vaddr value)
- {
-diff --git a/target/rx/cpu.c b/target/rx/cpu.c
-index 67452e310c..157e57da0f 100644
---- a/target/rx/cpu.c
-+++ b/target/rx/cpu.c
-@@ -24,6 +24,7 @@
+diff --git a/accel/tcg/tcg-accel-ops-rr.c b/accel/tcg/tcg-accel-ops-rr.c
+index 290833a37f..07c5630847 100644
+--- a/accel/tcg/tcg-accel-ops-rr.c
++++ b/accel/tcg/tcg-accel-ops-rr.c
+@@ -31,7 +31,7 @@
+ #include "qemu/notify.h"
+ #include "qemu/guest-random.h"
  #include "exec/exec-all.h"
- #include "hw/loader.h"
- #include "fpu/softfloat.h"
-+#include "tcg/debug-assert.h"
+-
++#include "tcg/tcg.h"
+ #include "tcg-accel-ops.h"
+ #include "tcg-accel-ops-rr.h"
+ #include "tcg-accel-ops-icount.h"
+diff --git a/target/i386/helper.c b/target/i386/helper.c
+index 8857444819..682d10d98a 100644
+--- a/target/i386/helper.c
++++ b/target/i386/helper.c
+@@ -28,6 +28,9 @@
+ #include "monitor/monitor.h"
+ #endif
+ #include "qemu/log.h"
++#ifdef CONFIG_TCG
++#include "tcg/tcg.h"
++#endif
  
- static void rx_cpu_set_pc(CPUState *cs, vaddr value)
+ void cpu_sync_avx_hflag(CPUX86State *env)
  {
-diff --git a/target/rx/op_helper.c b/target/rx/op_helper.c
-index acce650185..dc0092ca99 100644
---- a/target/rx/op_helper.c
-+++ b/target/rx/op_helper.c
-@@ -23,6 +23,7 @@
- #include "exec/helper-proto.h"
- #include "exec/cpu_ldst.h"
- #include "fpu/softfloat.h"
-+#include "tcg/debug-assert.h"
+diff --git a/target/openrisc/sys_helper.c b/target/openrisc/sys_helper.c
+index ec145960e3..17598689d7 100644
+--- a/target/openrisc/sys_helper.c
++++ b/target/openrisc/sys_helper.c
+@@ -26,6 +26,7 @@
+ #ifndef CONFIG_USER_ONLY
+ #include "hw/boards.h"
+ #endif
++#include "tcg/tcg.h"
  
- static inline G_NORETURN
- void raise_exception(CPURXState *env, int index,
-diff --git a/target/tricore/cpu.c b/target/tricore/cpu.c
-index d0a9272961..7fa113fed2 100644
---- a/target/tricore/cpu.c
-+++ b/target/tricore/cpu.c
-@@ -22,6 +22,7 @@
- #include "cpu.h"
- #include "exec/exec-all.h"
- #include "qemu/error-report.h"
-+#include "tcg/debug-assert.h"
+ #define TO_SPR(group, number) (((group) << 11) + (number))
  
- static inline void set_feature(CPUTriCoreState *env, int feature)
- {
 -- 
 2.34.1
 
