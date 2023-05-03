@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 427E36F5433
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 May 2023 11:14:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 76C166F5434
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 May 2023 11:14:30 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pu8Y9-0005Hb-FY; Wed, 03 May 2023 05:13:25 -0400
+	id 1pu8Y6-0004uN-UY; Wed, 03 May 2023 05:13:22 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pu8Xo-0004Nf-6p
- for qemu-devel@nongnu.org; Wed, 03 May 2023 05:13:07 -0400
-Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c])
+ id 1pu8Xq-0004PB-Ik
+ for qemu-devel@nongnu.org; Wed, 03 May 2023 05:13:09 -0400
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pu8Xc-0005lw-Hh
- for qemu-devel@nongnu.org; Wed, 03 May 2023 05:13:03 -0400
-Received: by mail-wm1-x32c.google.com with SMTP id
- 5b1f17b1804b1-3f315712406so15392565e9.0
- for <qemu-devel@nongnu.org>; Wed, 03 May 2023 02:12:51 -0700 (PDT)
+ id 1pu8Xc-0005r6-Lj
+ for qemu-devel@nongnu.org; Wed, 03 May 2023 05:13:05 -0400
+Received: by mail-wr1-x433.google.com with SMTP id
+ ffacd0b85a97d-3023a56048bso4552151f8f.3
+ for <qemu-devel@nongnu.org>; Wed, 03 May 2023 02:12:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1683105171; x=1685697171;
+ d=linaro.org; s=google; t=1683105172; x=1685697172;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=UssL+Xd37S4dKZ++H+2Hj+q6XSQOYdxd4wKYV/4po58=;
- b=kOrDR1WKZsjUwMQigT9FwIqQZtq/DO04u52VZ5xI26FLIgM2g6bVPW0z6jJzcWyC4l
- o++tL50jTGlSAo5qhzStE1hhYkm7M2urfrnZ1zAiNuTh0zOHP0ow2+O2PMBrzLZ35qHB
- EoSB7f3eRNq6juO+RUgrL/xM09WY/fkkFNsAg9PapMCQsR1qMHHzCKRgUPt5Bn2KxD7p
- lPVhHl8LmJztahqOfJ8ue7cTeFRxEs4S+i2oebH02VgC1HzUHYn4kYMTwOGsyAn/W3Er
- NM+IqJn86QfsiYffsZX9bZ0qedf7POipvvUmvuBYCj5Nqi1ydQc7ZOOwlUeO84MkCvwx
- zI0Q==
+ bh=+tg4pt8n5fSPZ9UQaNU7BUQLCBKZxcUMpPKPM60oNss=;
+ b=h/U+EGdEkYRU2u+IeFdeylMEOTImzp2OzyiB0BIpzVrGv1tlxJIa8hXN8QQaSUHfcO
+ pEP5EQtTNf+wEfkTBpD6oRU4d2MWU/4QxAwJdtB5SKjkB5d1AtFRjxLl8nI6MI6aEY62
+ Sl0JpnFfsOWFT9MUMapej3EJUNw7VUOQiBMlzzYod2gmldfCRtOvwsR+R1/CDDZaxnXi
+ IqvUZCtEjzZCgoElEx+mCb3gmrXQf7QGFD29MYYy9M2qrVJSeYcZXm57GVzd+OTHcyj1
+ OY+x7uiG9R0Bjs6H4MC5XwBWP/rYOJOpFGJ1sEr3iY+bpJse31MldM4hb/dJHXtv5vNI
+ l0/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683105171; x=1685697171;
+ d=1e100.net; s=20221208; t=1683105172; x=1685697172;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=UssL+Xd37S4dKZ++H+2Hj+q6XSQOYdxd4wKYV/4po58=;
- b=XVmJhlZ+uGGdWYl9I3ybP7v/RM6embQfrkbNDI+0B6oHvZE7ACtxoRpDpeVJ7ddacq
- 671yGGr4ac3i6MXn5B72E1zmVDkDsRv3ww1A2gaA61MrSLU7SCSYDbzUTAfHf073LXRN
- 93hXo4LcVDNy8m15IwLJywfB7SSHVbpl8m7eHXu8zwvtAnum63zREsQmmcjN8miSGCKO
- ejA242dQbhQzz52GSYjz0X7vjRbvZcL/NgpEZQhAStGcjNwx2PA2Fik2HfYy69M7ntll
- P081VdyN7n9UiRUDO+Mi7m+TGeaRvP3G9zzT3/ko5TCP+vfnRn5kP4cvujZBYgg2kmu6
- GxOg==
-X-Gm-Message-State: AC+VfDy7N+u68rI1B1k8GyEuw+ZFyZmn1QC444gOVm5/SZD1rIxRbuxv
- 3B5YSHcL0Eagm6QgIFj88rREVQ==
-X-Google-Smtp-Source: ACHHUZ7ZEtQY6wUqhu7NqNgSn/z0o89mpK3mt6Q5CyeGvS/tyxSm+JdmyN2P9dsmEaD7v8g4QTfA4g==
-X-Received: by 2002:a05:600c:1c82:b0:3f3:fe24:609c with SMTP id
- k2-20020a05600c1c8200b003f3fe24609cmr581780wms.11.1683105171523; 
+ bh=+tg4pt8n5fSPZ9UQaNU7BUQLCBKZxcUMpPKPM60oNss=;
+ b=QU9qTkXLEI4zPHZ4yqK7uKwTzAx3KVODUTvGGT+ZsBD5CJ0ODMxWCBXBsvnezVkfBk
+ zwi/edg+O9ARZ6kKV456JuSg0M2NOj7Hp3cm2GCJB49N/Nn0tPSv6LA5Lt5NoQtPjg8+
+ 3pSqNB4pw9aySNPT90Sn9sqSx9RImWmWaLs14mpL+gq671np70kL8jnqCyXi/PSLeUK6
+ dmKjQwJYXm7LwRNXqk/lUfpCHIPqAJZn9Jo+36jtk/8AmI5dNrHH7BsdN2/KG0eb7Qbt
+ EdaHvmzD0yxs4FMgw2b0shOzLWwhgdI32ZSbORCz/3Os41XGU5Z9qz39nLqKNN+jgJww
+ VxmA==
+X-Gm-Message-State: AC+VfDx02GktqiDYQjiBxdH4ZFqQIP98El/TkBcHC1dqkhTCWKar2DA7
+ /eI2k15/AWnCMrD/yCS14dYHBQ==
+X-Google-Smtp-Source: ACHHUZ459blYaiFLD/+knEVYLGPWgPJC+vJ+pXu0oCQSVG04oe+GWPg2QCYUmsfycAoImTJyeEirnQ==
+X-Received: by 2002:a5d:61ca:0:b0:306:2dd6:95d3 with SMTP id
+ q10-20020a5d61ca000000b003062dd695d3mr6623630wrv.22.1683105171720; 
  Wed, 03 May 2023 02:12:51 -0700 (PDT)
 Received: from zen.linaroharston ([85.9.250.243])
  by smtp.gmail.com with ESMTPSA id
- g10-20020a7bc4ca000000b003f046ad52efsm1249169wmk.31.2023.05.03.02.12.47
+ h4-20020a5d6884000000b003062d815fa6sm7630796wru.85.2023.05.03.02.12.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Wed, 03 May 2023 02:12:49 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 5B4DF1FFBB;
+ by zen.linaroharston (Postfix) with ESMTP id 732BE1FFC6;
  Wed,  3 May 2023 10:12:46 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
@@ -90,24 +90,25 @@ Cc: Laurent Vivier <lvivier@redhat.com>,
  Joel Stanley <joel@jms.id.au>,
  =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PATCH 13/22] hw/sparc: add a TCX dependency for SUN4M machines
-Date: Wed,  3 May 2023 10:12:35 +0100
-Message-Id: <20230503091244.1450613-14-alex.bennee@linaro.org>
+Subject: [PATCH 14/22] hw/loongarch: add VIRTIO as a dependency for
+ LOONGARCH_VIRT
+Date: Wed,  3 May 2023 10:12:36 +0100
+Message-Id: <20230503091244.1450613-15-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230503091244.1450613-1-alex.bennee@linaro.org>
 References: <20230503091244.1450613-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::433;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x433.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -123,27 +124,24 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-This is the fallback VGA devices needed for board creation so will
-otherwise fail under "make check" with a --without-default-devices
-build.
+These are needed for board creation so fail under "make check" with a
+--without-default-devices build.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- hw/sparc/Kconfig | 1 +
- 1 file changed, 1 insertion(+)
+ hw/loongarch/Kconfig | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/hw/sparc/Kconfig b/hw/sparc/Kconfig
-index 79d58beb7a..721b37a9ca 100644
---- a/hw/sparc/Kconfig
-+++ b/hw/sparc/Kconfig
-@@ -15,6 +15,7 @@ config SUN4M
-     select STP2000
-     select CHRP_NVRAM
-     select OR_IRQ
-+    select TCX
- 
- config LEON3
-     bool
+diff --git a/hw/loongarch/Kconfig b/hw/loongarch/Kconfig
+index eb112af990..74d8449100 100644
+--- a/hw/loongarch/Kconfig
++++ b/hw/loongarch/Kconfig
+@@ -21,3 +21,5 @@ config LOONGARCH_VIRT
+     select FW_CFG_DMA
+     select DIMM
+     select PFLASH_CFI01
++    select VIRTIO_PCI
++    select VIRTIO_NET
 -- 
 2.39.2
 
