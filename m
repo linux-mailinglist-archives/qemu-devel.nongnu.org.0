@@ -2,116 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1819C6F562E
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 May 2023 12:29:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5FF4B6F562F
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 May 2023 12:29:47 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pu9jN-0006qv-78; Wed, 03 May 2023 06:29:05 -0400
+	id 1pu9jm-0007nj-KW; Wed, 03 May 2023 06:29:30 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pu9jK-0006ki-VV
- for qemu-devel@nongnu.org; Wed, 03 May 2023 06:29:02 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1pu9jj-0007fw-41
+ for qemu-devel@nongnu.org; Wed, 03 May 2023 06:29:27 -0400
+Received: from frasgout.his.huawei.com ([185.176.79.56])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pu9jI-00048n-Eh
- for qemu-devel@nongnu.org; Wed, 03 May 2023 06:29:02 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1683109739;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=TnPEnJrLHD8ltr2au6DXyolN9++eGsBREQwaNEUt+/M=;
- b=BqAH8L7t+VE/HhkpH+JfocUzCkfxMs14U9Ppm3vCXK/aJMom1XwdElffJ2v5LLy8yLNJtW
- 79bY4VsCLinBLS2D0JawhhJS0UwmO7Ujw4aTkO+/W/Vegfi7NnOtGqyYFeRFJUBFbbZ4lp
- cy6RZkD4gwE3s7/75A3SYuWgpNPdMEY=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-607-89gLkao-MqWbc6N1dW2PfA-1; Wed, 03 May 2023 06:28:58 -0400
-X-MC-Unique: 89gLkao-MqWbc6N1dW2PfA-1
-Received: by mail-wm1-f72.google.com with SMTP id
- 5b1f17b1804b1-3f168827701so17994425e9.0
- for <qemu-devel@nongnu.org>; Wed, 03 May 2023 03:28:58 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683109737; x=1685701737;
- h=content-transfer-encoding:mime-version:message-id:date:reply-to
- :user-agent:references:in-reply-to:subject:cc:to:from
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=TnPEnJrLHD8ltr2au6DXyolN9++eGsBREQwaNEUt+/M=;
- b=GAaA73pOerVMotM3/6IJfOGFOIiUxFGsEc8xszBlruLYk24BbMsE/dd2Zwmlj/BbGR
- h67t/hUP3nOQCmG6kNlx/P9sGhwbDITYB6Xle+4A2AvdUMLacbEc/nBvUrbrScotHUHL
- mKUSUt1zHhUfr3lNXoUpaHmqQR2mIkDQDtYHIi4/i/yceVNilgetXvm0IvTH1x8eP07R
- xsNZbCczukNwOxko3v5nMv3vw3LK5oCGrXIW6h83/1qSkTw2wjEmwAxgsdxC1tiDHFWL
- 2FRKLFN8iln6Rf6kl0vJnfw6F4o/nog+0WcmPOywMMMKPdOMOfT3hAAJQhIYVi1V9A2Y
- ltIQ==
-X-Gm-Message-State: AC+VfDzY7NlrAZO+xLButTfWcBG5JoSyuASljF1FcLvKhBRV/vEIB8Cs
- cmKp9fVZN/ZdaV1SoEH4FHKlWm8MKsv4Nu9IOPBAFLpce4+YflWTWsf+9mTBHl4gMtCQACWM1M8
- obbIZGpyM62mPNOH9Y6SxXhoH9F0E
-X-Received: by 2002:a05:6000:124b:b0:306:31b7:abe4 with SMTP id
- j11-20020a056000124b00b0030631b7abe4mr6030875wrx.14.1683109736872; 
- Wed, 03 May 2023 03:28:56 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ4PYKyHaRaZXnhassASBWJMX6tT+7w9id+V8r6B704JQGO+8t6obhTbSSa7wK7ejL6KW/OExA==
-X-Received: by 2002:a05:6000:124b:b0:306:31b7:abe4 with SMTP id
- j11-20020a056000124b00b0030631b7abe4mr6030851wrx.14.1683109736581; 
- Wed, 03 May 2023 03:28:56 -0700 (PDT)
-Received: from redhat.com (static-92-120-85-188.ipcom.comunitel.net.
- [188.85.120.92]) by smtp.gmail.com with ESMTPSA id
- e6-20020a5d4e86000000b003063d83a168sm2294491wru.26.2023.05.03.03.28.55
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 03 May 2023 03:28:56 -0700 (PDT)
-From: Juan Quintela <quintela@redhat.com>
-To: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-Cc: qemu-devel@nongnu.org,  Laurent Vivier <lvivier@redhat.com>,  Artyom
- Tarasenko <atar4qemu@gmail.com>,  "Edgar E. Iglesias"
- <edgar.iglesias@gmail.com>,  Wainer dos Santos Moschetta
- <wainersm@redhat.com>,  Thomas Huth <thuth@redhat.com>,  Leif Lindholm
- <quic_llindhol@quicinc.com>,  Paolo Bonzini <pbonzini@redhat.com>,  Gerd
- Hoffmann <kraxel@redhat.com>,  Helge Deller <deller@gmx.de>,  Xiaojuan
- Yang <yangxiaojuan@loongson.cn>,  Stefan Hajnoczi <stefanha@redhat.com>,
- Cleber Rosa <crosa@redhat.com>,  Peter Maydell
- <peter.maydell@linaro.org>,  Eduardo Habkost <eduardo@habkost.net>,  John
- Snow <jsnow@redhat.com>,  Yoshinori Sato <ysato@users.sourceforge.jp>,
- =?utf-8?Q?C=C3=A9dric?= Le Goater <clg@kaod.org>,  Ilya Leoshkevich
- <iii@linux.ibm.com>,
- Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>,  Andrew Jeffery
- <andrew@aj.id.au>,  qemu-s390x@nongnu.org,  Richard Henderson
- <richard.henderson@linaro.org>,  qemu-arm@nongnu.org,  Bastian Koppelmann
- <kbastian@mail.uni-paderborn.de>,  Beraldo Leal <bleal@redhat.com>,  Max
- Filippov <jcmvbkbc@gmail.com>,  =?utf-8?Q?Marc-Andr=C3=A9?= Lureau
- <marcandre.lureau@redhat.com>,  Mark Cave-Ayland
- <mark.cave-ayland@ilande.co.uk>,  Jiaxun Yang <jiaxun.yang@flygoat.com>,
- Radoslaw Biernacki <rad@semihalf.com>,  Aurelien Jarno
- <aurelien@aurel32.net>,  David Hildenbrand <david@redhat.com>,  Markus
- Armbruster <armbru@redhat.com>,  Song Gao <gaosong@loongson.cn>,  Joel
- Stanley <joel@jms.id.au>,  Daniel P. =?utf-8?Q?Berrang=C3=A9?=
- <berrange@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: Re: [PATCH 02/22] tests/docker: bump the xtensa base to debian:11-slim
-In-Reply-To: <20230503091244.1450613-3-alex.bennee@linaro.org> ("Alex
- =?utf-8?Q?Benn=C3=A9e=22's?= message of "Wed, 3 May 2023 10:12:24 +0100")
-References: <20230503091244.1450613-1-alex.bennee@linaro.org>
- <20230503091244.1450613-3-alex.bennee@linaro.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
-Date: Wed, 03 May 2023 12:28:55 +0200
-Message-ID: <87cz3hso7s.fsf@secure.mitica>
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1pu9jf-0004Ib-WD
+ for qemu-devel@nongnu.org; Wed, 03 May 2023 06:29:26 -0400
+Received: from lhrpeml500005.china.huawei.com (unknown [172.18.147.201])
+ by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4QBClL3yGhz6J6w1;
+ Wed,  3 May 2023 18:25:50 +0800 (CST)
+Received: from localhost (10.202.227.76) by lhrpeml500005.china.huawei.com
+ (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.23; Wed, 3 May
+ 2023 11:29:20 +0100
+Date: Wed, 3 May 2023 11:29:19 +0100
+To: Dave Jiang <dave.jiang@intel.com>
+CC: <qemu-devel@nongnu.org>, <imammedo@redhat.com>, <ira.weiny@intel.com>,
+ <mst@redhat.com>, <bwidawsk@kernel.org>
+Subject: Re: [RFC PATCH 1/3] hw/acpi: Add support for Generic Port Affinity
+ Structure to SRAT
+Message-ID: <20230503112919.0000319a@Huawei.com>
+In-Reply-To: <168185650287.899932.7842807135894727711.stgit@djiang5-mobl3>
+References: <168185633821.899932.322047053764766056.stgit@djiang5-mobl3>
+ <168185650287.899932.7842807135894727711.stgit@djiang5-mobl3>
+Organization: Huawei Technologies Research and Development (UK) Ltd.
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-w64-mingw32)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -22
-X-Spam_score: -2.3
-X-Spam_bar: --
-X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.171,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.202.227.76]
+X-ClientProxiedBy: lhrpeml100005.china.huawei.com (7.191.160.25) To
+ lhrpeml500005.china.huawei.com (7.191.163.240)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=185.176.79.56;
+ envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -124,18 +64,228 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: quintela@redhat.com
+Reply-to:  Jonathan Cameron <Jonathan.Cameron@Huawei.com>
+From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Alex Benn=C3=A9e <alex.bennee@linaro.org> wrote:
-> Stretch is going out of support so things like security updates will
-> fail. As the toolchain itself is binary it hopefully won't mind the
-> underlying OS being updated.
->
-> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-> Reported-by: Richard Henderson <richard.henderson@linaro.org>
+On Tue, 18 Apr 2023 15:21:42 -0700
+Dave Jiang <dave.jiang@intel.com> wrote:
 
-Reviewed-by: Juan Quintela <quintela@redhat.com>
+> The Generic Port Affinity Structure is added for the System Resource
+> Affinity Table in ACPI r6.4. It provides information on the proximity
+> domain that's associated with a device handle. This information in
+> combination with HMAT can be used by the CXL driver to calculate the
+> bandwidth and latency information between the CPU and the CXL Host Bridge
+> (HB).
+> 
+> Add a list to account for the ACPI0016 (CXL HB ACPI devices) being
+> created. Create GAPS entries equivalent to the number of HB devices
+> constructed by qemu using the list and inject the relevant device handle.
+> 
+> The proximity domain will be set to 0 for simplicity to enable Linux kernel
+> side debugging and usage of the new SRAT sub-tables.
+> 
+> Signed-off-by: Dave Jiang <dave.jiang@intel.com>
+
+Hi Dave,
+
+Some general comments inline.
+
+> ---
+>  hw/acpi/aml-build.c         |   21 +++++++++++++++++++++
+>  hw/i386/acpi-build.c        |   27 +++++++++++++++++++++++++++
+>  include/hw/acpi/aml-build.h |   27 +++++++++++++++++++++++++++
+>  3 files changed, 75 insertions(+)
+> 
+> diff --git a/hw/acpi/aml-build.c b/hw/acpi/aml-build.c
+> index ea331a20d131..949759efc0a7 100644
+> --- a/hw/acpi/aml-build.c
+> +++ b/hw/acpi/aml-build.c
+> @@ -1938,6 +1938,27 @@ void build_srat_memory(GArray *table_data, uint64_t base,
+>      build_append_int_noprefix(table_data, 0, 8); /* Reserved */
+>  }
+>  
+> +/*
+> + * ACPI spec, Revision 6.5
+> + * 5.2.16.7 Generic Port Affinity Structure
+> + */
+> +void build_srat_generic_port_affinity(GArray *table_data, uint8_t htype,
+> +                                      int node, ACPIDeviceHandle *handle,
+> +                                      GenericAffinityFlags flags)
+> +{
+> +    build_append_int_noprefix(table_data, 6, 1);     /* Type */
+> +    build_append_int_noprefix(table_data, 32, 1);    /* Length */
+> +    build_append_int_noprefix(table_data, 0, 1);     /* Reserved */
+> +    build_append_int_noprefix(table_data, htype, 1); /* Device Handle Type */
+> +    build_append_int_noprefix(table_data, node, 4);  /* Proximity Domain */
+> +    build_append_int_noprefix(table_data, handle->raw[0],
+> +                              8); /* Device Handle part 1 */
+> +    build_append_int_noprefix(table_data, handle->raw[1],
+> +                              8);                    /* Device Handle part 2 */
+> +    build_append_int_noprefix(table_data, flags, 4); /* Flags */
+> +    build_append_int_noprefix(table_data, 0, 4);     /* Reserved */
+> +}
+> +
+>  /*
+>   * ACPI spec 5.2.17 System Locality Distance Information Table
+>   * (Revision 2.0 or later)
+> diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
+> index d449e5b76f30..0d9e610af12b 100644
+> --- a/hw/i386/acpi-build.c
+> +++ b/hw/i386/acpi-build.c
+> @@ -132,6 +132,13 @@ const struct AcpiGenericAddress x86_nvdimm_acpi_dsmio = {
+>      .bit_width = NVDIMM_ACPI_IO_LEN << 3
+>  };
+>  
+> +typedef struct CxlHBDev {
+> +    uint32_t uid;
+> +    QSLIST_ENTRY(CxlHBDev) entry;
+> +} CxlHBDev;
+> +
+> +static QSLIST_HEAD(, CxlHBDev) cxl_hb_list_head;
+> +
+>  static void init_common_fadt_data(MachineState *ms, Object *o,
+>                                    AcpiFadtData *data)
+>  {
+> @@ -1507,8 +1514,13 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
+>              aml_append(dev, aml_name_decl("_UID", aml_int(bus_num)));
+>              aml_append(dev, aml_name_decl("_BBN", aml_int(bus_num)));
+>              if (pci_bus_is_cxl(bus)) {
+> +                CxlHBDev *hb_entry;
+>                  struct Aml *pkg = aml_package(2);
+>  
+> +                hb_entry = g_malloc0(sizeof(*hb_entry));
+> +                hb_entry->uid = bus_num;
+> +                QSLIST_INSERT_HEAD(&cxl_hb_list_head, hb_entry, entry);
+
+Who cleans this up?  Need to deal with the no numa nodes case where SRAT isn't
+built, but otherwise I think you can clean it up immediately after that.
+
+
+> +
+>                  aml_append(dev, aml_name_decl("_HID", aml_string("ACPI0016")));
+>                  aml_append(pkg, aml_eisaid("PNP0A08"));
+>                  aml_append(pkg, aml_eisaid("PNP0A03"));
+> @@ -1866,6 +1878,7 @@ static void
+>  build_srat(GArray *table_data, BIOSLinker *linker, MachineState *machine)
+>  {
+>      int i;
+> +    CxlHBDev *hb_entry;
+>      int numa_mem_start, slots;
+>      uint64_t mem_len, mem_base, next_base;
+>      MachineClass *mc = MACHINE_GET_CLASS(machine);
+> @@ -1973,6 +1986,18 @@ build_srat(GArray *table_data, BIOSLinker *linker, MachineState *machine)
+>  
+>      sgx_epc_build_srat(table_data);
+>  
+> +    QSLIST_FOREACH(hb_entry, &cxl_hb_list_head, entry)
+> +    {
+
+Bracket on previous line looks to be standard in this file.  I'm too lazy
+to check for the QEMU coding style guideline on this ;)
+
+> +        ACPIDeviceHandle handle = {
+> +            .hid = "ACPI0016",
+> +            .uid = hb_entry->uid,
+> +        };
+> +        uint32_t flags = GEN_AFFINITY_ENABLED;
+> +
+> +        build_srat_generic_port_affinity(table_data, 0, nb_numa_nodes,
+Comment needed on why that nb_numa_nodes value. 
+
+No obvious reason all Generic Ports should be in the same node?  In general
+I'd say they shouldn't be.  Typically on different sockets etc.
+
+> +                                         &handle, flags);
+> +    }
+> +
+>      /*
+>       * TODO: this part is not in ACPI spec and current linux kernel boots fine
+>       * without these entries. But I recall there were issues the last time I
+> @@ -2728,6 +2753,8 @@ void acpi_setup(void)
+>          return;
+>      }
+>  
+> +    QSLIST_INIT(&cxl_hb_list_head);
+> +
+>      build_state = g_malloc0(sizeof *build_state);
+>  
+>      acpi_build_tables_init(&tables);
+> diff --git a/include/hw/acpi/aml-build.h b/include/hw/acpi/aml-build.h
+> index d1fb08514bfa..32a4f574abaa 100644
+> --- a/include/hw/acpi/aml-build.h
+> +++ b/include/hw/acpi/aml-build.h
+> @@ -204,6 +204,10 @@ typedef enum {
+>      AML_PULL_NONE = 3,
+>  } AmlPinConfig;
+>  
+> +/*
+> + * ACPI 6.5: Table 5-68 Flags - Generic Initiator/Port Affinity Structure
+> + * Flags field definition
+Nope. Comment on the wrong enum.  This looks to be the 5-59 one
+
+
+> + */
+>  typedef enum {
+>      MEM_AFFINITY_NOFLAGS      = 0,
+>      MEM_AFFINITY_ENABLED      = (1 << 0),
+> @@ -211,6 +215,25 @@ typedef enum {
+>      MEM_AFFINITY_NON_VOLATILE = (1 << 2),
+>  } MemoryAffinityFlags;
+>  
+> +/*
+> + * ACPI 6.5: Table 5-65 Device Handle - ACPI
+> + * Device Handle definition
+> + */
+> +typedef union ACPIDeviceHandle {
+> +    struct {
+> +        uint8_t hid[8];
+> +        uint32_t uid;
+> +        uint32_t reserved;
+> +    };
+> +    uint64_t raw[2];
+
+Does the PCI version of this also make sense here?  Defining it might make it
+more obvious why this needs to be handled as a union.
+There are a bunch of complexities with the PCI form, though not sure the affect
+the RP cases we care about here.  They may be an issue if someone has
+an embedded switch so we are actually pointing to a DSP here. (is that allowed?)
+
+I'd gotten it into my head that this would point to the RP, but actually it's
+the host bridge (via the e.g. in the ACPI spec)  SO ACPI ID is only option for
+this.  I'd love to follow up with Generic Initiators, but can solve that at the time.
+
+
+> +} ACPIDeviceHandle;
+> +
+
+Above comment belongs down here.
+
+> +typedef enum {
+> +    GEN_AFFINITY_NOFLAGS = 0,
+> +    GEN_AFFINITY_ENABLED = (1 << 0),
+> +    GEN_AFFINITY_ARCH_TRANS = (2 << 0),
+
+Odd way to define this.  (1 << 1)?
+ 
+> +} GenericAffinityFlags;
+> +
+>  typedef
+>  struct AcpiBuildTables {
+>      GArray *table_data;
+> @@ -486,6 +509,10 @@ Aml *build_crs(PCIHostState *host, CrsRangeSet *range_set, uint32_t io_offset,
+>  void build_srat_memory(GArray *table_data, uint64_t base,
+>                         uint64_t len, int node, MemoryAffinityFlags flags);
+>  
+> +void build_srat_generic_port_affinity(GArray *table_data, uint8_t htype,
+> +                                      int node, ACPIDeviceHandle *handle,
+> +                                      GenericAffinityFlags flags);
+> +
+>  void build_slit(GArray *table_data, BIOSLinker *linker, MachineState *ms,
+>                  const char *oem_id, const char *oem_table_id);
+>  
+> 
+> 
 
 
