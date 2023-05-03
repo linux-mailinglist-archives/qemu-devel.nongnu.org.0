@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10D9F6F546D
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 May 2023 11:18:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 538076F5471
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 May 2023 11:18:43 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pu8ch-0003De-HG; Wed, 03 May 2023 05:18:07 -0400
+	id 1pu8cf-0002y2-5H; Wed, 03 May 2023 05:18:05 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pu8cd-0002qm-C8
+ id 1pu8cd-0002o3-2m
  for qemu-devel@nongnu.org; Wed, 03 May 2023 05:18:03 -0400
-Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335])
+Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pu8ca-0000Lm-S5
- for qemu-devel@nongnu.org; Wed, 03 May 2023 05:18:03 -0400
-Received: by mail-wm1-x335.google.com with SMTP id
- 5b1f17b1804b1-3f19a80a330so30534255e9.2
+ id 1pu8ca-0000Lq-RL
+ for qemu-devel@nongnu.org; Wed, 03 May 2023 05:18:02 -0400
+Received: by mail-wr1-x435.google.com with SMTP id
+ ffacd0b85a97d-3063afa2372so1369071f8f.0
  for <qemu-devel@nongnu.org>; Wed, 03 May 2023 02:18:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=linaro.org; s=google; t=1683105479; x=1685697479;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=v/HuE8TvNTmsubCnSEhnzE79hC0IxWns0KAnAFa0T8o=;
- b=TbgIynk5A0rOnqyPo/BBrxvj4nyhLW774LA7Y7Z1NO8e5hOetfa2y2zuAoq46oKznO
- jBdBfEA4c3ut5QoDw6o7vJZ/vnUxe49z0OoGZHUtbqkya3yz7bPslzP3JktyQ9mc9QQf
- VyyiKUljDfTslzWvl0xG+VWB4sTmN4qxz+1InAqQy5xah55/LJI8H2fV643n4zKrJpCO
- 1s6QK+5AhX9c0LmlsQaNUZYMedipjBIfPYsCVLa6WU8M0Bco8VEPlcFXRaU574cl/lKQ
- wdor8ha6Hkm2mghMK7jDtpsHPvfdVxP10JsTvCI8Gvac9mOjyj/oH7gE7vWvI68i11lJ
- kUHA==
+ bh=Z+2ARsKrUE4IDGgBP183cB95dxoDFN2S1gyD75E2rZs=;
+ b=jhj03op2h/snNh+exJmyTrSNN4Npp7WpHimKm9BFMp3XNtK6tMD9gpceZt4RDFnEAm
+ NbWnzFZtVeL1cbyGGsZoK6ZDyNXNQsjV9EdCYfUXepMdz7yEmI2IlzIyMiJ9dzYyf/LT
+ DBFo4yNfmQ+o3kl8zOF3jXPt6bzVtEnlI31yAgyyfyd6UIaTme1Zp9fYZLfdAgLJS88v
+ cytUh+9gq3yJJblyiqd9vdX34vIo8qWGCWdwhPBnY9EtTVeiPwHIscFAKjJpq19BDCUX
+ 6RijgNXUGfu4NO0Kzf+DsOcblISL5Ujg734MOBpUcChI7SqIOEm4knVgNmHyDPkGUset
+ ylhg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20221208; t=1683105479; x=1685697479;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=v/HuE8TvNTmsubCnSEhnzE79hC0IxWns0KAnAFa0T8o=;
- b=QKTnZIPVbsk24J9V1gkSau8qXutqrMX1Bl4zL25UHvTlRPW6sPSCuaRLzcNXJUSjys
- l3rspa4IOndk6D3rP72NnbwV+N2I3SziaEzWFil4PbXPOGROjZJIIkyKwodkswsukXNZ
- rQHmDaS/c0mmnzaqvBrPMipXI0l11Pz2nx/E4wC+NK2LUBlgHGL482f39RvjvqZtew9c
- FjDT6wtAT+q3kaK9Y8nr681DCCxB7hyxrXggrxVRUH1FvbCCJgrnRJ7OsZbqJ3lFvSDo
- p3OOE1pi4sHLdEnneOceHbKfde2gnAAy371G+qwktQZQhk5fPIywIb3dULtj9OL+BUJ8
- STQw==
-X-Gm-Message-State: AC+VfDzYGSxkHMe3xIHEHV5vlvtdIgu2bfyfJ+wd8kAJXyJMLRjnXTvm
- oFoQKRMDe8GNCET5O09FWVzsBw==
-X-Google-Smtp-Source: ACHHUZ7vynt1pT5gyorCPgXZmQeBtAs7q3o9zJxojCwS5+/rEWwNcB9hu+buDvsr07Xy5QXIjExPrg==
-X-Received: by 2002:a05:600c:2318:b0:3f1:72ec:400d with SMTP id
- 24-20020a05600c231800b003f172ec400dmr13534176wmo.33.1683105479081; 
+ bh=Z+2ARsKrUE4IDGgBP183cB95dxoDFN2S1gyD75E2rZs=;
+ b=AEFhcm1ljk1JHjD+9Sb7aJjnvdHZbO4wdcGONFfj+ltsRFhIRpqnIsC7WOg3fOPwjb
+ mdUNOMTkNLauAXf+SuVjr/XQ8c8VjxShd80YwmC7EqB2w1L2cHDFhmALRxX5gpsX98lR
+ EihrbC3Vfes2MqsDLbPxgxv5AM/ti8gH0HLtJj0UElCtM643daVU8W/o5GDG1bNPc1cQ
+ GKvqh2vq1deM1jhKE4PpasQNzJrFTmx6KVVx99vmG/liCLFy7XRCoLig1Las65y9tX72
+ wEpa1jy1MH7SdLa8PpC1AhqzCDw/0QR/sAn7jGFIdcikd/5SWewobRKEFbVseH4YVlS2
+ o+QA==
+X-Gm-Message-State: AC+VfDxyLBfY7BVQwnLTr7QcEbmRbXTjVVvwkDHzO9nkQm8e/f0wLEv7
+ p2DL4XjZUPyF8QugTlqQl5zWcw==
+X-Google-Smtp-Source: ACHHUZ5LPs6TN3ZgFRbFM8Ldm/1TJaEF4FNxQ3W0YmVBqGW4exErAOj1PAoR7HhFWrV7F9ASkCfXfQ==
+X-Received: by 2002:a5d:6a83:0:b0:2f3:e981:f183 with SMTP id
+ s3-20020a5d6a83000000b002f3e981f183mr15789311wru.10.1683105479379; 
  Wed, 03 May 2023 02:17:59 -0700 (PDT)
 Received: from zen.linaroharston ([85.9.250.243])
  by smtp.gmail.com with ESMTPSA id
- d19-20020a1c7313000000b003f17b91c3adsm1279404wmb.28.2023.05.03.02.17.57
+ r3-20020adfda43000000b003047ae72b14sm24929980wrl.82.2023.05.03.02.17.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 03 May 2023 02:17:57 -0700 (PDT)
+ Wed, 03 May 2023 02:17:58 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 5A0991FFC0;
+ by zen.linaroharston (Postfix) with ESMTP id 70C1D1FFC1;
  Wed,  3 May 2023 10:17:57 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org,
@@ -73,17 +73,18 @@ Cc: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
  Eric Blake <eblake@redhat.com>, Michael Roth <michael.roth@amd.com>,
  Markus Armbruster <armbru@redhat.com>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: [PATCH v2 03/10] trace: remove vcpu_id from the TraceEvent structure
-Date: Wed,  3 May 2023 10:17:49 +0100
-Message-Id: <20230503091756.1453057-4-alex.bennee@linaro.org>
+Subject: [PATCH v2 04/10] scripts/qapi: document the tool that generated the
+ file
+Date: Wed,  3 May 2023 10:17:50 +0100
+Message-Id: <20230503091756.1453057-5-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230503091756.1453057-1-alex.bennee@linaro.org>
 References: <20230503091756.1453057-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::335;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x335.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x435.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -106,127 +107,36 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-This does involve temporarily stubbing out some helper functions
-before we excise the rest of the code.
+This makes it a little easier for developers to find where things
+where being generated.
 
-Message-Id: <20230420150009.1675181-4-alex.bennee@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- trace/control-internal.h      |  4 ++--
- trace/event-internal.h        |  2 --
- trace/control.c               | 10 ----------
- scripts/tracetool/format/c.py |  6 ------
- scripts/tracetool/format/h.py | 11 +----------
- 5 files changed, 3 insertions(+), 30 deletions(-)
+ scripts/qapi/gen.py | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/trace/control-internal.h b/trace/control-internal.h
-index 8b2b50a7cf..0178121720 100644
---- a/trace/control-internal.h
-+++ b/trace/control-internal.h
-@@ -27,12 +27,12 @@ static inline uint32_t trace_event_get_id(TraceEvent *ev)
+diff --git a/scripts/qapi/gen.py b/scripts/qapi/gen.py
+index 8f8f784f4a..e724507e1a 100644
+--- a/scripts/qapi/gen.py
++++ b/scripts/qapi/gen.py
+@@ -162,7 +162,7 @@ def __init__(self, fname: str, blurb: str, pydoc: str):
  
- static inline uint32_t trace_event_get_vcpu_id(TraceEvent *ev)
- {
--    return ev->vcpu_id;
-+    return 0;
- }
+     def _top(self) -> str:
+         return mcgen('''
+-/* AUTOMATICALLY GENERATED, DO NOT MODIFY */
++/* AUTOMATICALLY GENERATED by QAPIGenC, DO NOT MODIFY */
  
- static inline bool trace_event_is_vcpu(TraceEvent *ev)
- {
--    return ev->vcpu_id != TRACE_VCPU_EVENT_NONE;
-+    return false;
- }
+ /*
+ %(blurb)s
+@@ -195,7 +195,7 @@ def _bottom(self) -> str:
  
- static inline const char * trace_event_get_name(TraceEvent *ev)
-diff --git a/trace/event-internal.h b/trace/event-internal.h
-index f63500b37e..0c24e01b52 100644
---- a/trace/event-internal.h
-+++ b/trace/event-internal.h
-@@ -19,7 +19,6 @@
- /**
-  * TraceEvent:
-  * @id: Unique event identifier.
-- * @vcpu_id: Unique per-vCPU event identifier.
-  * @name: Event name.
-  * @sstate: Static tracing state.
-  * @dstate: Dynamic tracing state
-@@ -33,7 +32,6 @@
-  */
- typedef struct TraceEvent {
-     uint32_t id;
--    uint32_t vcpu_id;
-     const char * name;
-     const bool sstate;
-     uint16_t *dstate;
-diff --git a/trace/control.c b/trace/control.c
-index d24af91004..5dfb609954 100644
---- a/trace/control.c
-+++ b/trace/control.c
-@@ -68,16 +68,6 @@ void trace_event_register_group(TraceEvent **events)
-     size_t i;
-     for (i = 0; events[i] != NULL; i++) {
-         events[i]->id = next_id++;
--        if (events[i]->vcpu_id == TRACE_VCPU_EVENT_NONE) {
--            continue;
--        }
--
--        if (likely(next_vcpu_id < CPU_TRACE_DSTATE_MAX_EVENTS)) {
--            events[i]->vcpu_id = next_vcpu_id++;
--        } else {
--            warn_report("too many vcpu trace events; dropping '%s'",
--                        events[i]->name);
--        }
-     }
-     event_groups = g_renew(TraceEventGroup, event_groups, nevent_groups + 1);
-     event_groups[nevent_groups].events = events;
-diff --git a/scripts/tracetool/format/c.py b/scripts/tracetool/format/c.py
-index c390c1844a..69edf0d588 100644
---- a/scripts/tracetool/format/c.py
-+++ b/scripts/tracetool/format/c.py
-@@ -32,19 +32,13 @@ def generate(events, backend, group):
-         out('uint16_t %s;' % e.api(e.QEMU_DSTATE))
+ class QAPIGenTrace(QAPIGen):
+     def _top(self) -> str:
+-        return super()._top() + '# AUTOMATICALLY GENERATED, DO NOT MODIFY\n\n'
++        return super()._top() + '# AUTOMATICALLY GENERATED by QAPIGenTrace, DO NOT MODIFY\n\n'
  
-     for e in events:
--        if "vcpu" in e.properties:
--            vcpu_id = 0
--        else:
--            vcpu_id = "TRACE_VCPU_EVENT_NONE"
-         out('TraceEvent %(event)s = {',
-             '    .id = 0,',
--            '    .vcpu_id = %(vcpu_id)s,',
-             '    .name = \"%(name)s\",',
-             '    .sstate = %(sstate)s,',
-             '    .dstate = &%(dstate)s ',
-             '};',
-             event = e.api(e.QEMU_EVENT),
--            vcpu_id = vcpu_id,
-             name = e.name,
-             sstate = "TRACE_%s_ENABLED" % e.name.upper(),
-             dstate = e.api(e.QEMU_DSTATE))
-diff --git a/scripts/tracetool/format/h.py b/scripts/tracetool/format/h.py
-index e94f0be7da..285d7b03a9 100644
---- a/scripts/tracetool/format/h.py
-+++ b/scripts/tracetool/format/h.py
-@@ -74,16 +74,7 @@ def generate(events, backend, group):
  
-         out('}')
- 
--        # tracer wrapper with checks (per-vCPU tracing)
--        if "vcpu" in e.properties:
--            trace_cpu = next(iter(e.args))[1]
--            cond = "trace_event_get_vcpu_state(%(cpu)s,"\
--                   " TRACE_%(id)s)"\
--                   % dict(
--                       cpu=trace_cpu,
--                       id=e.name.upper())
--        else:
--            cond = "true"
-+        cond = "true"
- 
-         out('',
-             'static inline void %(api)s(%(args)s)',
+ @contextmanager
 -- 
 2.39.2
 
