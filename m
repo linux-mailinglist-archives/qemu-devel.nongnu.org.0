@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A7016F5439
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 May 2023 11:14:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 80AFB6F5490
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 May 2023 11:23:23 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pu8YS-0005n2-Il; Wed, 03 May 2023 05:13:44 -0400
+	id 1pu8hJ-0000q7-Ap; Wed, 03 May 2023 05:22:53 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pu8Xv-0004XT-SX
- for qemu-devel@nongnu.org; Wed, 03 May 2023 05:13:13 -0400
-Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f])
+ id 1pu8h4-0000Im-Kp
+ for qemu-devel@nongnu.org; Wed, 03 May 2023 05:22:38 -0400
+Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pu8Xg-0005vL-2g
- for qemu-devel@nongnu.org; Wed, 03 May 2023 05:13:11 -0400
-Received: by mail-wm1-x32f.google.com with SMTP id
- 5b1f17b1804b1-3f315735514so14868445e9.1
- for <qemu-devel@nongnu.org>; Wed, 03 May 2023 02:12:53 -0700 (PDT)
+ id 1pu8h0-00065Y-QL
+ for qemu-devel@nongnu.org; Wed, 03 May 2023 05:22:37 -0400
+Received: by mail-wm1-x334.google.com with SMTP id
+ 5b1f17b1804b1-3f182d745deso47699895e9.0
+ for <qemu-devel@nongnu.org>; Wed, 03 May 2023 02:22:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1683105172; x=1685697172;
+ d=linaro.org; s=google; t=1683105753; x=1685697753;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=fYDvZUsIhInwPW03MTF99p4xI8+tuKyXF0ZctjY31L8=;
- b=y4SSf7p63s9532XEFNleJupIoV5LUj01mCVEMuXZ3llnpjq2HwnWqOC2AkjV641W3z
- Rpbzf9tO9cjxTCtVbfd6ddLzDOX7nSulkbqCRDOiLPhy2++ILBCjk2jDKhdYX22PVec2
- WCJQxgt5KrwXci8gQ1IbPmjBhMzq41BfM3DAXgUDuSesX9j9slRQQmkdEWWH0FWe7c3+
- tuMndrUdiJdxU74roEyr8o2rMaLPdtla+DnH39/bnRfWEyeg1bYi8mtqI+QskjLtw8DA
- LNwgHwqxYFMVRcjna9zYMtfjpqRnCRpzV7jzMmnSqWiIrzouUHso9VC8K2kiizfk1A+2
- A/4A==
+ bh=yWRDmm4fTQGdVDGEVeXWjAX3jawozx4yERCbR87qEzg=;
+ b=ddaiVAnqjv5xatOGEvKXpOWM8IThcWUAUr8vUkycCzJQuDeCeONQIBIDTPWCIkH/1V
+ d+QFRXZmX6KXVJB+j3uOBlsm4sOOGRzFYxbqHWMdgtM9p2Du70Mlh77AA9q1kYANblME
+ J5cVz1Tku/phZMYYgk8p7phD4HupbJrQLYG+ie68txRZnavHG78RVyqftlFflOdWoaYI
+ 8uQYg7hTrFjAJCRpOdQ2wYbNf6gw886L+Gp3StBdB/MYaSoaHGnU4LLuXvIi5/FEr+sy
+ NBRA53EAikLdyc28nmTtv0gy3cLiyDDgwq8NcCqXj+ApHzjR5AmhcEjgjn3OE0mNkgEa
+ BF5A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683105172; x=1685697172;
+ d=1e100.net; s=20221208; t=1683105753; x=1685697753;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=fYDvZUsIhInwPW03MTF99p4xI8+tuKyXF0ZctjY31L8=;
- b=H99m+vLgOUhhixmicN09HHbJ8hvaU0mLlfhmxjBZAsjs26lksp0yDyctuW6ePUbMrt
- PpRRGaakpSd50cJrj2AzcDaal+4oXt0qWNEvRdP6O71r7BNyrSuEK/wual+An97pr91v
- 3q2rhZ8vv83wzquyzF7InA9vEPOkNfTfX/tudTXksGKM2fY/uhdLxTJEP45sm5PaaBL+
- Z/sB+5TncQXOdbW4VIO08ZZWgvUcKKqy5THKAd5MPVHgCu0ZL1DPtIZgDyN2qDqJUz2C
- G1njQ2fcY1LFetdY8QJGuJjHNXq5bKyTj7U/ihi5blSog5HJQsBayTgBdRQLhHnKCXEN
- BsLw==
-X-Gm-Message-State: AC+VfDwLFcSM8/HaT2df5kJQHeOr2kinYAjElWOVMGjiXFNKl02n1lgQ
- mbSs35AZpZwDk6/zOzgjrTvgCg==
-X-Google-Smtp-Source: ACHHUZ4MbCjwD59cWoL+xfch0ykU93xg/EDMczlmW1vzO81S8ejDzXJO64noR/7fnaZilolSlAM7DQ==
-X-Received: by 2002:a05:600c:6024:b0:3f1:89de:7e51 with SMTP id
- az36-20020a05600c602400b003f189de7e51mr984876wmb.12.1683105172731; 
- Wed, 03 May 2023 02:12:52 -0700 (PDT)
+ bh=yWRDmm4fTQGdVDGEVeXWjAX3jawozx4yERCbR87qEzg=;
+ b=REuYuuYleYOSi9DDZYjTl0HTZBzevPYlLgtL/ug/FfbaMn85Gf4IiPXRK6LrvKJzsZ
+ tDKhvpYqwrMn3kIM6Oc/BkHr9y10OIcRQQk5hKWfDIE5py9TloJFf8EoDe3c+FL5CYha
+ o/JP67hxOm8jbpJiSCisTmeYfQdgxBs7hUyr1dCr6WSqqxfhODE1o+b/godMP+4Zwk3h
+ 1HO1nD3xiy8ctdc/Y67F2Wget3A+hwUeH4cKVEOaIXTzt98OvlpbNQt3qCt4SITBlvRN
+ fxm1ygKU3gMZuShYXMegp1LvebG/5ZKftSY6NaSk6vst394poG3X0EwovrYoXR3g3e/1
+ tLlA==
+X-Gm-Message-State: AC+VfDxJfWgKH98YYo0IokUKYwXwQHgLykzAHvlCC94DQIn7yQLR6F+Q
+ U0PZZUCi+IRPkJMLNIdyTBMiuA==
+X-Google-Smtp-Source: ACHHUZ6f9ORtClX3It3EOKJCLfrCo9JRmxhpxbh1Ln+puwTo3Ki8/L/wekikR3Xfyc21l89U8UNvJg==
+X-Received: by 2002:a1c:750f:0:b0:3f1:661e:4686 with SMTP id
+ o15-20020a1c750f000000b003f1661e4686mr14401010wmc.7.1683105753302; 
+ Wed, 03 May 2023 02:22:33 -0700 (PDT)
 Received: from zen.linaroharston ([85.9.250.243])
  by smtp.gmail.com with ESMTPSA id
- l9-20020a1c7909000000b003f193d7c6b7sm1223276wme.41.2023.05.03.02.12.48
+ h4-20020a5d6884000000b003062d815fa6sm7655998wru.85.2023.05.03.02.22.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 03 May 2023 02:12:50 -0700 (PDT)
+ Wed, 03 May 2023 02:22:32 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 8A8B21FFBC;
+ by zen.linaroharston (Postfix) with ESMTP id A34521FFC7;
  Wed,  3 May 2023 10:12:46 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
@@ -90,17 +90,17 @@ Cc: Laurent Vivier <lvivier@redhat.com>,
  Joel Stanley <joel@jms.id.au>,
  =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PATCH 15/22] hw/sh4: make RTL8139 a hard dependency for RD2
-Date: Wed,  3 May 2023 10:12:37 +0100
-Message-Id: <20230503091244.1450613-16-alex.bennee@linaro.org>
+Subject: [PATCH 16/22] hw/mips: add VIRTIO and USB dependencies for LOONGSON3V
+Date: Wed,  3 May 2023 10:12:38 +0100
+Message-Id: <20230503091244.1450613-17-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230503091244.1450613-1-alex.bennee@linaro.org>
 References: <20230503091244.1450613-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::334;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x334.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -123,28 +123,28 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-We can't just imply it as the board will fail to create otherwise.
-This shows up as a "make check" failure with a
---without-default-devices build.
+These are hardwired into the board so must be selected. This shows up
+as a "make check" failure with a --without-default-devices build.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- hw/sh4/Kconfig | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ hw/mips/Kconfig | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/hw/sh4/Kconfig b/hw/sh4/Kconfig
-index ab733a3f76..03f3469ae1 100644
---- a/hw/sh4/Kconfig
-+++ b/hw/sh4/Kconfig
-@@ -2,7 +2,7 @@ config R2D
+diff --git a/hw/mips/Kconfig b/hw/mips/Kconfig
+index da3a37e215..0fcc3da41c 100644
+--- a/hw/mips/Kconfig
++++ b/hw/mips/Kconfig
+@@ -45,6 +45,9 @@ config LOONGSON3V
+     select PCI_EXPRESS_GENERIC_BRIDGE
+     select MSI_NONBROKEN
+     select FW_CFG_MIPS
++    select VIRTIO_PCI
++    select VIRTIO_NET
++    select USB_OHCI_PCI
+ 
+ config MIPS_CPS
      bool
-     imply PCI_DEVICES
-     imply TEST_DEVICES
--    imply RTL8139_PCI
-+    select RTL8139_PCI
-     select I82378 if TEST_DEVICES
-     select IDE_MMIO
-     select PFLASH_CFI02
 -- 
 2.39.2
 
