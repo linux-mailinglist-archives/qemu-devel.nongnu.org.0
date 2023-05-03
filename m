@@ -2,77 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8DF3C6F5A20
+	by mail.lfdr.de (Postfix) with ESMTPS id 9136F6F5A21
 	for <lists+qemu-devel@lfdr.de>; Wed,  3 May 2023 16:33:00 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1puDWD-0006Jm-5Q; Wed, 03 May 2023 10:31:45 -0400
+	id 1puDWI-0006L4-7b; Wed, 03 May 2023 10:31:50 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1puDW8-0006JH-QU; Wed, 03 May 2023 10:31:42 -0400
-Received: from mail-oa1-x36.google.com ([2001:4860:4864:20::36])
+ id 1puDWF-0006KI-Rx; Wed, 03 May 2023 10:31:47 -0400
+Received: from mail-oa1-x2c.google.com ([2001:4860:4864:20::2c])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1puDW6-0003RF-Uv; Wed, 03 May 2023 10:31:40 -0400
-Received: by mail-oa1-x36.google.com with SMTP id
- 586e51a60fabf-187c78c6657so3610620fac.2; 
- Wed, 03 May 2023 07:31:37 -0700 (PDT)
+ id 1puDWE-0003S7-5v; Wed, 03 May 2023 10:31:47 -0400
+Received: by mail-oa1-x2c.google.com with SMTP id
+ 586e51a60fabf-18f4a6d2822so4502381fac.1; 
+ Wed, 03 May 2023 07:31:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1683124296; x=1685716296;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
+ d=gmail.com; s=20221208; t=1683124304; x=1685716304;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=zYdfS+DttZJ+HvBAGQ8Rcokmnq3yxtbqCsF9dwyusDg=;
- b=cPu2A5xN+DWP3tXRUhonMeOLJy/6/gJt48TT3TRtAo1+htTyrpmndDgOd+NbObTjk9
- yl90Wzrkr62Wi6zchoipn5BgSWHmgmEwoHZ9cA2rJ5IjNrOPt7lLIZuTtvJ2XT3ZBNQb
- 2Rlf4z1TEtWy64Wix2kdEHZXAMDMHEPFVrXeLh+Wedc/9kMFgiGrBKVba7BXre/sc8ap
- LvNFZnxxn6+8x14mWVL5RHPQkU64f4XUT/+ezFVtES5psjXSy9TiVWupJmWlx+qzifOg
- Y9UWT1TkOwnK5u1etrI2pI2JmC1d/a2oQ6bItswsdNudnXSTjzJaBxrHlYXheyKtRTPf
- 3aiw==
+ bh=zyfnQ9QB+k3g7XtX1wg3nNYO1Qan4d9JWM8HoP9gFX0=;
+ b=e8TbfTVT4o4ym6vm/kwrAcoxYLZfu7Fg/SzUUZXYfcR2hKKzN5zG88qwusep6+Wx2s
+ Gf/GRqSF+Wo5Vk/S21J1xSc1PTzx17Z05fE2XAsCrIIh3Ubwa/iuFxvEDG4oOLtJIhcI
+ pmPyGHJe935H8ylD6i9RHvbHdXHuXXkKlLAcDN2k3L55b3CqPmUnAN50QUvV6aGOAs4W
+ 4XqFROA+xAFka73qDszCedKysMWjZ0CrPTNBw9NMYUf91aDqWIkdADYe27eLfscrFhGh
+ Bb37gDii8VN6Yp3oX2Z0R1QY6i4GEHaUWi58oCDb73WuuOsYKBaIQ9b730PL7dcIEWxn
+ 6luQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683124296; x=1685716296;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
+ d=1e100.net; s=20221208; t=1683124304; x=1685716304;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=zYdfS+DttZJ+HvBAGQ8Rcokmnq3yxtbqCsF9dwyusDg=;
- b=EEI8quiERCqflL2jc21FymovSVH5C312zWL3lB2gjcxI4D29aMab3mMS3DR0f5BFyM
- 9aV8sN5Dw6TI2yySchwbT8637mxCeE2sK3MUs6tYLjvc0AYIt8YB+AFWNsRHQZNFbGvh
- vs4u56+SINWQ2pBIJYFX0hMHx+HoudOKFdaXm+tQUulh43pDAec37Ddq5eNHDU+EMjH/
- +YXI2jj+cPH8KJ4BwntCqb9h0auH2USfoUlaVCVCGf9qi8YoM36IqTFw59TGYJFbMAH/
- 7TvyyZA03cpCs50L5st3D4WkmCJjPmr9IOSC2IUQro++E7zHEYRII0rQh4qZq+3D/COV
- K7oQ==
-X-Gm-Message-State: AC+VfDyXB04+cqTzA3TdVSZjaSpVxLwHxfUKlrwdJ6oQ/iEG0HtUokP3
- 3gJoMcfKF5OLYrqp31vs9is=
-X-Google-Smtp-Source: ACHHUZ6hPBJTYNy2XqMIS4wNoO3b7YvxY1OIL5JiLMEflcp+ZFqsNIDn5gG0IjTWYENV9nD40afzxA==
-X-Received: by 2002:a05:6808:1d8:b0:387:2075:59c with SMTP id
- x24-20020a05680801d800b003872075059cmr106375oic.37.1683124295733; 
- Wed, 03 May 2023 07:31:35 -0700 (PDT)
+ bh=zyfnQ9QB+k3g7XtX1wg3nNYO1Qan4d9JWM8HoP9gFX0=;
+ b=Nlw6Ro119ndd4My7A+EOnIQnlqCgANhSQuurX26hcQyyBftUCaI8GEAFr2kkc1BiYc
+ 85LU5Ak8YvlFBG+Z6A62r1kkz+x0AaulWGIjzIKEw7kx51ZYrxOaZdJlIk7lNtuBzal2
+ iFJkfLOqKqKYknD+IianENnz9lsNcwWhSWrpsVPSV3g5uuCAJPIS0ALRj1X5WF7FSKeA
+ KEDjXLOZ8iUFpsdn95c+P72poLZ5T19C9iXJmj13ddFn0XDvCJ3V3YXEiqy34oxV/bsO
+ d1LMpPhRW3ml7gMwkaXEksue4dFeRQ4S29i5QK/wEBFtWOPqqO922xzq8qeK0Hv/JGlp
+ 1GQA==
+X-Gm-Message-State: AC+VfDxIrRv8APvOSoK0jdpJHzx83Fa/mC+O4/djaMWtgMXmV+knEfd/
+ lqPl5293fl4Xtlo8dAEFmBo=
+X-Google-Smtp-Source: ACHHUZ5dvxQgH1Pzkh1PQbf3yLVOn4x1cuETQLS3Gv1VQRjgwH8yozuLX+hfA4/nyNBzu3rOoFNuFg==
+X-Received: by 2002:a05:6830:3353:b0:6a4:1938:7d92 with SMTP id
+ l19-20020a056830335300b006a419387d92mr954174ott.13.1683124304510; 
+ Wed, 03 May 2023 07:31:44 -0700 (PDT)
 Received: from [192.168.68.107] ([179.111.98.125])
  by smtp.gmail.com with ESMTPSA id
- r2-20020acaf302000000b0038e086c764dsm637557oih.43.2023.05.03.07.31.32
+ y20-20020a0568301d9400b0069f0a85fa36sm623750oti.57.2023.05.03.07.31.42
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 03 May 2023 07:31:35 -0700 (PDT)
-Message-ID: <f45b4655-394b-8843-e735-288f513ad023@gmail.com>
-Date: Wed, 3 May 2023 11:31:30 -0300
+ Wed, 03 May 2023 07:31:43 -0700 (PDT)
+Message-ID: <3087e8d4-308f-28ef-c90e-0b1dd20f2979@gmail.com>
+Date: Wed, 3 May 2023 11:31:41 -0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.10.0
-Subject: Re: [PATCH 0/2] tcg: ppc64: Fix mask generation for vextractdm
-To: Shivaprasad G Bhat <sbhat@linux.ibm.com>, philmd@linaro.org,
- richard.henderson@linaro.org, lucas.araujo@eldorado.org.br,
- qemu-ppc@nongnu.org, clg@kaod.org, david@gibson.dropbear.id.au,
- groug@kaod.org
-Cc: john_platts@hotmail.com, qemu-devel@nongnu.org
-References: <168141244011.3026479.13697197743885252330.stgit@ltc-boston1.aus.stglabs.ibm.com>
+Subject: Re: [PATCH v3 0/2] Cleanup ppc cr get/set with helper routines
 Content-Language: en-US
+To: Harsh Prateek Bora <harshpb@linux.ibm.com>, qemu-ppc@nongnu.org
+Cc: qemu-devel@nongnu.org, farosas@suse.de, npiggin@gmail.com
+References: <20230503093619.2530487-1-harshpb@linux.ibm.com>
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
-In-Reply-To: <168141244011.3026479.13697197743885252330.stgit@ltc-boston1.aus.stglabs.ibm.com>
+In-Reply-To: <20230503093619.2530487-1-harshpb@linux.ibm.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2001:4860:4864:20::36;
- envelope-from=danielhb413@gmail.com; helo=mail-oa1-x36.google.com
+Received-SPF: pass client-ip=2001:4860:4864:20::2c;
+ envelope-from=danielhb413@gmail.com; helo=mail-oa1-x2c.google.com
 X-Spam_score_int: -60
 X-Spam_score: -6.1
 X-Spam_bar: ------
@@ -96,65 +93,40 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Shiva,
-
-I just queued patch 1 adding this line in the commit msg:
-
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1536
-
-This was mentioned by Cedric in patch 2. Also, speaking of patch 2, take a look
-on Cedric's review and see if it's applicable or not.
-
-I plan to send a ppc pull request at the end of the week.
-
-
-Thanks,
+Queued in gitlab.com/danielhb/qemu/tree/ppc-next. Thanks,
 
 
 Daniel
 
-
-On 4/13/23 16:00, Shivaprasad G Bhat wrote:
-> While debugging gitlab issue[1] 1536, I happen to try the
-> vextract[X]m instructions on the real hardware. The test
-> used in [1] is failing for vextractdm.
+On 5/3/23 06:36, Harsh Prateek Bora wrote:
+> This patchset introduces helper routines to get/set cr reg for better code
+> readability / maintenance. No functional changes intended with this patchset.
 > 
-> On debugging it is seen, in function do_extractm() the
-> mask is calculated as dup_const(1 << (element_width - 1)).
-> '1' being signed int works fine for MO_8,16,32. For MO_64,
-> on PPC64 host this ends up becoming 0 on compilation. The
-> vextractdm uses MO_64, and it ends up having mask as 0.
+> Changelog:
 > 
-> The first patch here fixes that by explicitly using
-> 1ULL instead of signed int 1 like its used everywhere else.
-> Second patch introduces the test case from [1] into qemu
-> tcg/ppc64 along with fixes/tweaks to make it work for both
-> big and little-endian targets.
-> 
-> Let me know if both patches should be squashed into single
-> patch. Checkpatch flagged me to avoid use of __BYTE_ORDER__
-> in the test file(second patch), however I see it being
-> used in multiarch/sha1.c also this being arch specific
-> test, I think it is appropriate to use it here. Let me
-> know if otherwise.
-> 
-> References:
-> [1] : https://gitlab.com/qemu-project/qemu/-/issues/1536
-> 
-> ---
-> 
-> Shivaprasad G Bhat (2):
->        tcg: ppc64: Fix mask generation for vextractdm
->        tests: tcg: ppc64: Add tests for Vector Extract Mask Instructions
+> changes from v2:
+>   - addressed Nick's review comments
+>   - holding changes from 2/4, 3/4 for future
+> changes from v1:
+>   - addressed Fabiano's review comments
+>   - folding Reviewed-by tags in patch 1/4, 4/4
 > 
 > 
->   target/ppc/translate/vmx-impl.c.inc |  2 +-
->   tests/tcg/ppc64/Makefile.target     |  6 +++-
->   tests/tcg/ppc64/vector.c            | 50 +++++++++++++++++++++++++++++
->   3 files changed, 56 insertions(+), 2 deletions(-)
->   create mode 100644 tests/tcg/ppc64/vector.c
+> *** BLURB HERE ***
 > 
-> --
-> Signature
+> Harsh Prateek Bora (2):
+>    ppc: spapr: cleanup cr get/set with helpers.
+>    MAINTAINERS: Adding myself in the list for ppc/spapr
+> 
+>   MAINTAINERS               |  1 +
+>   hw/ppc/spapr_hcall.c      | 18 ++----------------
+>   linux-user/elfload.c      |  4 +---
+>   linux-user/ppc/signal.c   |  9 ++-------
+>   target/ppc/cpu.c          | 17 +++++++++++++++++
+>   target/ppc/cpu.h          |  2 ++
+>   target/ppc/gdbstub.c      | 22 ++++------------------
+>   target/ppc/kvm.c          | 13 ++-----------
+>   target/ppc/ppc-qmp-cmds.c |  6 +-----
+>   9 files changed, 32 insertions(+), 60 deletions(-)
 > 
 
