@@ -2,72 +2,108 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F5316F586E
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 May 2023 15:00:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2B026F58FF
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 May 2023 15:24:02 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1puC51-0006fC-4E; Wed, 03 May 2023 08:59:35 -0400
+	id 1puCS6-0003Ln-Eh; Wed, 03 May 2023 09:23:26 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1puC4z-0006el-OA
- for qemu-devel@nongnu.org; Wed, 03 May 2023 08:59:33 -0400
-Received: from mail-ed1-x52b.google.com ([2a00:1450:4864:20::52b])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1puC4y-0005du-6k
- for qemu-devel@nongnu.org; Wed, 03 May 2023 08:59:33 -0400
-Received: by mail-ed1-x52b.google.com with SMTP id
- 4fb4d7f45d1cf-50bc0ced1d9so6746843a12.0
- for <qemu-devel@nongnu.org>; Wed, 03 May 2023 05:59:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1683118770; x=1685710770;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=ZhkjGCjqsQrQhA4tw25U2zqq9v/r2QPCO3/uIbH6iYY=;
- b=lI9Nw+1UlnPkhtbKWbkp+HSihlGFIQrsPiNCFhzEXAMo8YpUHf3aZY2jiginBebbQh
- ScacajAxqFjQNVLEt+2+K+6kU9jbFpNkNXwkmncXsaFyKPK2UGI/HggLOvpLAsrFqV+M
- w/AdI8oSsdPrzEdDEF96LIQWMRpMrArmcxFnogRU+7880Tu2Fjuu+9JtqIJMiP4CElh8
- dqRsBk2R78FmX6oG1kobsHVOIfj6QVW4U6nYRzRVQjoJ884OM61KFvSvbTA4uuqNsPO7
- 39X3n2O586++D2iyHIAG/1biLPopt+YNGKScr3NptSzWjXllLDF+/Mxm6JARYr4KNCT8
- N7fA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683118770; x=1685710770;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=ZhkjGCjqsQrQhA4tw25U2zqq9v/r2QPCO3/uIbH6iYY=;
- b=igPKZ6Eme9DtIXcH6jFceYlnCqT5Opt9e4erP7ott+TYBqfoQidgLgIljMyuMNBu2b
- AyPDKVrRw2lFsMdQ1UwpzGubM2i/DOdT99DJYfv4Y/3s2PD4wzAZ0LNda4ZyB8Mr8tbC
- K7afAie8Rni6vXIqfDXBtS5w4WBaCD1GDmg3PX5YWKd2cBjWxg+xToUfZk6FwfVdeifu
- mzRlIt5RsTQKEmpLC/ua8OeOIcMWCOXbx/Y68xTzbfbavYzsJgGX/M1L5Vwyf19IelSl
- PZacHD6waWdQO73tPatYC9Wf6gW4OJiIctwZPqJVsXCiOxeA8l08M+jlhVzRk3g8iYaq
- jeEA==
-X-Gm-Message-State: AC+VfDyAqVm8C5FuWJ0RG5y/wNQVFG66XEoG8XaXq2Yo3aa4OtQLNTtU
- FG2VjnsKdetLco2/PT+tOzshDRnXttvztYL7ifXU7A==
-X-Google-Smtp-Source: ACHHUZ6QVmt4yhpvRMo4CuTFVNltMofp5D6Gi36UQVkTzlQ4zBJSjzU7HF9SiH7jTSQjjcHCy4TB3qJUdyif2Fq+8AM=
-X-Received: by 2002:a05:6402:543:b0:4fd:2b05:1722 with SMTP id
- i3-20020a056402054300b004fd2b051722mr10575423edx.7.1683118770470; Wed, 03 May
- 2023 05:59:30 -0700 (PDT)
-MIME-Version: 1.0
-References: <20230503115437.262469-1-pizhenwei@bytedance.com>
-In-Reply-To: <20230503115437.262469-1-pizhenwei@bytedance.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Wed, 3 May 2023 13:59:15 +0100
-Message-ID: <CAFEAcA-rXQwFAj9pz9vtqdk3i5KYDcf_w2-s78VtF7NYQJvsvw@mail.gmail.com>
-Subject: Re: [PATCH] cryptodev: fix memory leak during stats query
-To: zhenwei pi <pizhenwei@bytedance.com>
-Cc: mst@redhat.com, arei.gonglei@huawei.com, qemu-devel@nongnu.org
+ (Exim 4.90_1) (envelope-from <nsg@linux.ibm.com>)
+ id 1puCQW-0002oy-TF; Wed, 03 May 2023 09:21:53 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <nsg@linux.ibm.com>)
+ id 1puCQU-0007ZX-Jt; Wed, 03 May 2023 09:21:48 -0400
+Received: from pps.filterd (m0353725.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 343DEBQR012265; Wed, 3 May 2023 13:21:26 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : subject :
+ from : to : cc : date : in-reply-to : references : content-type :
+ content-transfer-encoding : mime-version; s=pp1;
+ bh=Fhs4BJdhEEKnJwBGpaQP5atlBQmszCVyWUcOFzxz6VQ=;
+ b=HcCRaixescAXD7RxAOc9Mr5N2NEF2d0yyf8edOHh/+x3pnAKL0+XBKvGD0x8Fe1N9HCA
+ FckCTC2Oyr1GqVtNOHrQWtEdnwZmSMOvGZCINR5oW6Ct862Jp0e/FJ2TWHqTtGtHqYf7
+ skYskmsFPVnQxbFge5nGJIdLC+nbKUSM6J5HhkAUf8Q70AafLnXk68k0a2qdpIdLrHVt
+ CD61TFyJ55qKzjzZEBfzh0+kjm/A6tVWuDHK9kABh1VgTuzx2gfTjIjZA4mXkjuSz1sF
+ 0VDlw9qH1PAED28t0xnYyXKPYIfx9xAF3bGk5B4XzvmuaLu5025bdhoFZ10tHmySIfLZ 6w== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3qbrap0bt0-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 03 May 2023 13:21:26 +0000
+Received: from m0353725.ppops.net (m0353725.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 343DKoPS018661;
+ Wed, 3 May 2023 13:21:25 GMT
+Received: from ppma01fra.de.ibm.com (46.49.7a9f.ip4.static.sl-reverse.com
+ [159.122.73.70])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3qbrap0br4-2
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 03 May 2023 13:21:25 +0000
+Received: from pps.filterd (ppma01fra.de.ibm.com [127.0.0.1])
+ by ppma01fra.de.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 3433qbo4016351;
+ Wed, 3 May 2023 13:01:14 GMT
+Received: from smtprelay07.fra02v.mail.ibm.com ([9.218.2.229])
+ by ppma01fra.de.ibm.com (PPS) with ESMTPS id 3q8tv6su1s-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 03 May 2023 13:01:13 +0000
+Received: from smtpav02.fra02v.mail.ibm.com (smtpav02.fra02v.mail.ibm.com
+ [10.20.54.101])
+ by smtprelay07.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 343D18bo28508850
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 3 May 2023 13:01:08 GMT
+Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 7F13F20043;
+ Wed,  3 May 2023 13:01:08 +0000 (GMT)
+Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 49EB820040;
+ Wed,  3 May 2023 13:01:07 +0000 (GMT)
+Received: from li-7e0de7cc-2d9d-11b2-a85c-de26c016e5ad.ibm.com (unknown
+ [9.171.79.14]) by smtpav02.fra02v.mail.ibm.com (Postfix) with ESMTP;
+ Wed,  3 May 2023 13:01:07 +0000 (GMT)
+Message-ID: <b442a9c506efa66b18b566e859966614e82e2273.camel@linux.ibm.com>
+Subject: Re: [PATCH v20 03/21] target/s390x/cpu topology: handle STSI(15)
+ and build the SYSIB
+From: Nina Schoetterl-Glausch <nsg@linux.ibm.com>
+To: Pierre Morel <pmorel@linux.ibm.com>, qemu-s390x@nongnu.org
+Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
+ richard.henderson@linaro.org, david@redhat.com, thuth@redhat.com,
+ cohuck@redhat.com, mst@redhat.com, pbonzini@redhat.com,
+ kvm@vger.kernel.org, ehabkost@redhat.com, marcel.apfelbaum@gmail.com,
+ eblake@redhat.com, armbru@redhat.com, seiden@linux.ibm.com,
+ nrb@linux.ibm.com, frankja@linux.ibm.com, berrange@redhat.com, clg@kaod.org
+Date: Wed, 03 May 2023 15:01:06 +0200
+In-Reply-To: <d1949e44-a4c1-4f7a-6a81-c909ecb610fa@linux.ibm.com>
+References: <20230425161456.21031-1-pmorel@linux.ibm.com>
+ <20230425161456.21031-4-pmorel@linux.ibm.com>
+ <5f4fa29eaec7269350403b2d1b2b051e6aa59a39.camel@linux.ibm.com>
+ <d1949e44-a4c1-4f7a-6a81-c909ecb610fa@linux.ibm.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::52b;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52b.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.4 (3.46.4-1.fc37) 
+MIME-Version: 1.0
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: yntoHMvAhkJUztNoV9l2ykep4dv5-CXI
+X-Proofpoint-ORIG-GUID: Y3O-EPTtM3rCXRrgt1TabhCC_93K_Fpg
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-05-03_08,2023-05-03_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 bulkscore=0
+ adultscore=0 clxscore=1015 impostorscore=0 phishscore=0 malwarescore=0
+ mlxlogscore=999 mlxscore=0 lowpriorityscore=0 priorityscore=1501
+ spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2303200000 definitions=main-2305030110
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=nsg@linux.ibm.com;
+ helo=mx0b-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,20 +120,85 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, 3 May 2023 at 12:54, zhenwei pi <pizhenwei@bytedance.com> wrote:
->
-> object_get_canonical_path already returns newly allocated memory, this
-> means no additional g_strdup required. Remove g_strdup to avoid memory
-> leak.
->
-> Fixes: Coverity CID 1508074
-> Fixes: f2b901098 ("cryptodev: Support query-stats QMP command")
-> Cc: Peter Maydell <peter.maydell@linaro.org>
-> Signed-off-by: zhenwei pi <pizhenwei@bytedance.com>
-> ---
+On Wed, 2023-05-03 at 10:43 +0200, Pierre Morel wrote:
+> On 5/2/23 19:22, Nina Schoetterl-Glausch wrote:
+> > On Tue, 2023-04-25 at 18:14 +0200, Pierre Morel wrote:
+> > > On interception of STSI(15.1.x) the System Information Block
+> > > (SYSIB) is built from the list of pre-ordered topology entries.
+> > >=20
+> > > Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
+> > > ---
+> > >   MAINTAINERS                     |   1 +
+> > >   include/hw/s390x/cpu-topology.h |  24 +++
+> > >   include/hw/s390x/sclp.h         |   1 +
+> > >   target/s390x/cpu.h              |  72 ++++++++
+> > >   hw/s390x/cpu-topology.c         |  13 +-
+> > >   target/s390x/kvm/cpu_topology.c | 308 +++++++++++++++++++++++++++++=
++++
+> > >   target/s390x/kvm/kvm.c          |   5 +-
+> > >   target/s390x/kvm/meson.build    |   3 +-
+> > >   8 files changed, 424 insertions(+), 3 deletions(-)
+> > >   create mode 100644 target/s390x/kvm/cpu_topology.c
+> > >=20
+> > > diff --git a/MAINTAINERS b/MAINTAINERS
+> > > index bb7b34d0d8..de9052f753 100644
+> > > --- a/MAINTAINERS
+> > > +++ b/MAINTAINERS
+> > > @@ -1659,6 +1659,7 @@ M: Pierre Morel <pmorel@linux.ibm.com>
+> > >   S: Supported
+> > >   F: include/hw/s390x/cpu-topology.h
+> > >   F: hw/s390x/cpu-topology.c
+> > > +F: target/s390x/kvm/cpu_topology.c
+> > >  =20
+> > >   X86 Machines
+> > >   ------------
+> > > diff --git a/include/hw/s390x/cpu-topology.h b/include/hw/s390x/cpu-t=
+opology.h
+> > > index af36f634e0..87bfeb631e 100644
+> > > --- a/include/hw/s390x/cpu-topology.h
+> > > +++ b/include/hw/s390x/cpu-topology.h
+> > > @@ -15,9 +15,33 @@
+> > >=20
+> > [...]
+> >=20
+> > > +typedef struct S390TopologyEntry {
+> > > +    QTAILQ_ENTRY(S390TopologyEntry) next;
+> > > +    s390_topology_id id;
+> > > +    uint64_t mask;
+> > > +} S390TopologyEntry;
+> > > +
+> > >   typedef struct S390Topology {
+> > >       uint8_t *cores_per_socket;
+> > > +    QTAILQ_HEAD(, S390TopologyEntry) list;
+> > Since you recompute the list on every STSI, you no longer need this in =
+here.
+> > You can create it in insert_stsi_15_1_x.
+>=20
+> Sure but why should we do that?
+>=20
+> It does not change functionality or performance and I do not find it=20
+> makes the code clearer.
+> On the other hand it changes the implementation and the initialization=
+=20
+> of the list with the sentinel becomes tricky.
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+IMO, it's a local calculation, so it should be local.
+It makes the question "how is this list calculated" when reading the code e=
+asier,
+because, instead of having to check where a global is accessed you just hav=
+e to look
+at the call stack.
 
-thanks
--- PMM
+You can just move
+
++    entry =3D g_malloc0(sizeof(S390TopologyEntry));
++    entry->id.sentinel =3D 0xff;
++    QTAILQ_INSERT_HEAD(&s390_topology.list, entry, next);
+
+to s390_topology_fill_list_sorted. And completely free the list in s390_top=
+ology_empty_list.
+>=20
+[...]
+>=20
+
 
