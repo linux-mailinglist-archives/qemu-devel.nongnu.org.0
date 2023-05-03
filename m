@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 586CF6F6043
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 May 2023 22:41:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D63476F6046
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 May 2023 22:41:11 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1puJGZ-0007gJ-Am; Wed, 03 May 2023 16:39:59 -0400
+	id 1puJGb-0007gl-30; Wed, 03 May 2023 16:40:01 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farosas@suse.de>) id 1puJGX-0007fi-Hn
- for qemu-devel@nongnu.org; Wed, 03 May 2023 16:39:57 -0400
-Received: from smtp-out2.suse.de ([2001:67c:2178:6::1d])
+ (Exim 4.90_1) (envelope-from <farosas@suse.de>) id 1puJGZ-0007gY-Gp
+ for qemu-devel@nongnu.org; Wed, 03 May 2023 16:39:59 -0400
+Received: from smtp-out1.suse.de ([195.135.220.28])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <farosas@suse.de>) id 1puJGV-0005sW-Ub
- for qemu-devel@nongnu.org; Wed, 03 May 2023 16:39:57 -0400
+ (Exim 4.90_1) (envelope-from <farosas@suse.de>) id 1puJGX-0005sl-S7
+ for qemu-devel@nongnu.org; Wed, 03 May 2023 16:39:59 -0400
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 66928206E3;
- Wed,  3 May 2023 20:39:54 +0000 (UTC)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id A4D2A22CC8;
+ Wed,  3 May 2023 20:39:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1683146394; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
+ t=1683146396; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=MTUxCHqiQybvi1dONKBH/ejbHi2JtFT3ch8bE8x75TE=;
- b=FzkmsQ4hU5o4+HBbO9IzufQJJOZ9thXO7weWBWlSFrpA1uTZxYiX4+C+sVcUtHW0YRlGOh
- dbSVctKt8pUZ752Yge1sYx1nFXi8pmh52rclQhi0wvcZWlIv+X6mAtoAWlL3gsa7e0TKHr
- /h1FJSd0L2RlgsbpKKEaOXv/CJ/wL3c=
+ bh=urXhDKl2MolY1NPxpyuZ/N/nDOlLqUMu1hjJCx4bfJE=;
+ b=IT1nfuHlRDMs4HQnirS+VnfV8yCJRmXC6qOhk2DS0zhdumK6lvjBDCfuYCiGPndLJKJPYf
+ jqo78TfAisku4FHP+x5RASf2OcGlrDAEDMMBbO7tslwYpXe05GeOHutzAqprlOzXAmorNO
+ 31n+FlUzM6CGtrl65P69CcJ1dTnEn3I=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1683146394;
+ s=susede2_ed25519; t=1683146396;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
+ mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=MTUxCHqiQybvi1dONKBH/ejbHi2JtFT3ch8bE8x75TE=;
- b=yNpB4UjSU5b3kbvfMQdGsoP7S81wgQugfLpPVok4bxsBD8tOA1WbM5eb5h0xieMytZ2bKn
- ylcXxktt+KnsklCw==
+ bh=urXhDKl2MolY1NPxpyuZ/N/nDOlLqUMu1hjJCx4bfJE=;
+ b=aO5mFcSxMstd71d+RPKkMntztM0TgZ+dDBw2CetolpZbzx9lUqa0ylj9ga5BsCRlMCIQKm
+ GTgM4yrM1n79cbCg==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 9A48613584;
- Wed,  3 May 2023 20:39:52 +0000 (UTC)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id D462813584;
+ Wed,  3 May 2023 20:39:54 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id SPVUGJjGUmRofAAAMHmgww
- (envelope-from <farosas@suse.de>); Wed, 03 May 2023 20:39:52 +0000
+ by imap2.suse-dmz.suse.de with ESMTPSA id oMyyJprGUmRofAAAMHmgww
+ (envelope-from <farosas@suse.de>); Wed, 03 May 2023 20:39:54 +0000
 From: Fabiano Rosas <farosas@suse.de>
 To: qemu-devel@nongnu.org
 Cc: =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>,
  =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
  Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>
-Subject: [PATCH v4 1/2] meson: Pass -j option to sphinx
-Date: Wed,  3 May 2023 17:39:46 -0300
-Message-Id: <20230503203947.3417-2-farosas@suse.de>
+Subject: [PATCH v4 2/2] meson: Deserialize the man pages and html builds
+Date: Wed,  3 May 2023 17:39:47 -0300
+Message-Id: <20230503203947.3417-3-farosas@suse.de>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20230503203947.3417-1-farosas@suse.de>
 References: <20230503203947.3417-1-farosas@suse.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2001:67c:2178:6::1d; envelope-from=farosas@suse.de;
- helo=smtp-out2.suse.de
+Received-SPF: pass client-ip=195.135.220.28; envelope-from=farosas@suse.de;
+ helo=smtp-out1.suse.de
 X-Spam_score_int: -43
 X-Spam_score: -4.4
 X-Spam_bar: ----
@@ -88,91 +87,111 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Save a bit of build time by passing the number of jobs option to
-sphinx.
+For the documentation builds (man pages & manual), we let Sphinx
+decide when to rebuild and use a depfile to know when to trigger the
+make target.
 
-We cannot use  the -j option from make because  meson does not support
-setting build time parameters for custom targets. Use nproc instead or
-the equivalent sphinx option "-j  auto", if that is available (version
->=1.7.0).
+We currently use a trick of having the man pages custom_target take as
+input the html pages custom_target object, which causes both targets
+to be executed if one of the dependencies has changed. However, having
+this at the custom_target level means that the two builds are
+effectively serialized.
 
-Also make sure our plugins support parallelism and report it properly
-to sphinx. Particularly, implement the merge_domaindata method in
-DBusDomain that is used to merge in data from other subprocesses.
+We can eliminate the dependency between the targets by adding a second
+depfile for the man pages build, allowing them to be parallelized by
+ninja while keeping sphinx in charge of deciding when to rebuild.
 
-Tested-by: Daniel P. Berrangé <berrange@redhat.com>
+Since they can now run in parallel, separate the Sphinx cache
+directory of the two builds. We need this not only for data
+consistency but also because Sphinx writes builder-dependent
+environment information to the cache directory (see notes under
+smartquotes_excludes in sphinx docs [1]).
+
+Note that after this patch the commands `make man` and `make html`
+only build the specified target. To keep the old behavior of building
+both targets, use `make man html` or `make sphinxdocs`.
+
+1- https://www.sphinx-doc.org/en/master/usage/configuration.html
+
 Signed-off-by: Fabiano Rosas <farosas@suse.de>
 ---
- docs/meson.build           | 12 ++++++++++++
- docs/sphinx/dbusdomain.py  |  4 ++++
- docs/sphinx/fakedbusdoc.py |  5 +++++
- docs/sphinx/qmp_lexer.py   |  5 +++++
- 4 files changed, 26 insertions(+)
+ docs/meson.build | 36 ++++++++++++++++++++----------------
+ 1 file changed, 20 insertions(+), 16 deletions(-)
 
 diff --git a/docs/meson.build b/docs/meson.build
-index f220800e3e..6d0986579e 100644
+index 6d0986579e..858e737431 100644
 --- a/docs/meson.build
 +++ b/docs/meson.build
-@@ -10,6 +10,18 @@ if sphinx_build.found()
-     SPHINX_ARGS += [ '-W', '-Dkerneldoc_werror=1' ]
-   endif
+@@ -42,7 +42,9 @@ if sphinx_build.found()
+ endif
  
-+  sphinx_version = run_command(SPHINX_ARGS + ['--version'],
-+                               check: true).stdout().split()[1]
-+  if sphinx_version.version_compare('>=1.7.0')
-+    SPHINX_ARGS += ['-j', 'auto']
-+  else
-+    nproc = find_program('nproc')
-+    if nproc.found()
-+      jobs = run_command(nproc, check: true).stdout()
-+      SPHINX_ARGS += ['-j', jobs]
-+    endif
-+  endif
-+
-   # This is a bit awkward but works: create a trivial document and
-   # try to run it with our configuration file (which enforces a
-   # version requirement). This will fail if sphinx-build is too old.
-diff --git a/docs/sphinx/dbusdomain.py b/docs/sphinx/dbusdomain.py
-index 2ea95af623..9872fd5bf6 100644
---- a/docs/sphinx/dbusdomain.py
-+++ b/docs/sphinx/dbusdomain.py
-@@ -400,6 +400,10 @@ def get_objects(self) -> Iterator[Tuple[str, str, str, str, str, int]]:
-         for refname, obj in self.objects.items():
-             yield (refname, refname, obj.objtype, obj.docname, obj.node_id, 1)
+ if build_docs
+-  SPHINX_ARGS += ['-Dversion=' + meson.project_version(), '-Drelease=' + get_option('pkgversion')]
++  SPHINX_ARGS += ['-Dversion=' + meson.project_version(),
++                  '-Drelease=' + get_option('pkgversion'),
++                  '-Ddepfile=@DEPFILE@', '-Ddepfile_stamp=@OUTPUT0@']
  
-+    def merge_domaindata(self, docnames, otherdata):
-+        for name, obj in otherdata['objects'].items():
-+            if obj.docname in docnames:
-+                self.data['objects'][name] = obj
+   man_pages = {
+         'qemu-ga.8': (have_ga ? 'man8' : ''),
+@@ -61,41 +63,43 @@ if build_docs
+   }
  
- def setup(app):
-     app.add_domain(DBusDomain)
-diff --git a/docs/sphinx/fakedbusdoc.py b/docs/sphinx/fakedbusdoc.py
-index d2c5079046..2d2e6ef640 100644
---- a/docs/sphinx/fakedbusdoc.py
-+++ b/docs/sphinx/fakedbusdoc.py
-@@ -23,3 +23,8 @@ def run(self):
- def setup(app: Sphinx) -> Dict[str, Any]:
-     """Register a fake dbus-doc directive with Sphinx"""
-     app.add_directive("dbus-doc", FakeDBusDocDirective)
+   sphinxdocs = []
+-  sphinxmans = []
+ 
+   private_dir = meson.current_build_dir() / 'manual.p'
+   output_dir = meson.current_build_dir() / 'manual'
+   input_dir = meson.current_source_dir()
+ 
+-  this_manual = custom_target('QEMU manual',
++  manual = custom_target('QEMU manual',
+                 build_by_default: build_docs,
+-                output: 'docs.stamp',
++                output: 'manual.stamp',
+                 input: files('conf.py'),
+-                depfile: 'docs.d',
+-                command: [SPHINX_ARGS, '-Ddepfile=@DEPFILE@',
+-                          '-Ddepfile_stamp=@OUTPUT0@',
+-                          '-b', 'html', '-d', private_dir,
++                depfile: 'manual.dep',
++                command: [SPHINX_ARGS, '-b', 'html', '-d', private_dir,
+                           input_dir, output_dir])
+-  sphinxdocs += this_manual
++  sphinxdocs += manual
+   install_subdir(output_dir, install_dir: qemu_docdir, strip_directory: true)
+ 
+-  these_man_pages = []
+-  install_dirs = []
++  man_private_dir = meson.current_build_dir() / 'man.p'
++  # man.stamp is not installed
++  these_man_pages = ['man.stamp']
++  install_dirs = [false]
 +
-+    return dict(
-+        parallel_read_safe = True,
-+        parallel_write_safe = True
-+    )
-diff --git a/docs/sphinx/qmp_lexer.py b/docs/sphinx/qmp_lexer.py
-index f7e4c0e198..a59de8a079 100644
---- a/docs/sphinx/qmp_lexer.py
-+++ b/docs/sphinx/qmp_lexer.py
-@@ -41,3 +41,8 @@ def setup(sphinx):
-         sphinx.add_lexer('QMP', QMPExampleLexer)
-     except errors.VersionRequirementError:
-         sphinx.add_lexer('QMP', QMPExampleLexer())
+   foreach page, section : man_pages
+     these_man_pages += page
+     install_dirs += section == '' ? false : get_option('mandir') / section
+   endforeach
+ 
+-  sphinxmans += custom_target('QEMU man pages',
 +
-+    return dict(
-+        parallel_read_safe = True,
-+        parallel_write_safe = True
-+    )
++  man_pages = custom_target('QEMU man pages',
+                               build_by_default: build_docs,
+                               output: these_man_pages,
+-                              input: this_manual,
++                              depfile: 'man.dep',
+                               install: build_docs,
+                               install_dir: install_dirs,
+-                              command: [SPHINX_ARGS, '-b', 'man', '-d', private_dir,
++                              command: [SPHINX_ARGS, '-b', 'man', '-d', man_private_dir,
+                                         input_dir, meson.current_build_dir()])
++  sphinxdocs += man_pages
+ 
+   alias_target('sphinxdocs', sphinxdocs)
+-  alias_target('html', sphinxdocs)
+-  alias_target('man', sphinxmans)
++  alias_target('html', manual)
++  alias_target('man', man_pages)
+ endif
 -- 
 2.35.3
 
