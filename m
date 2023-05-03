@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31E306F5825
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C9826F5826
 	for <lists+qemu-devel@lfdr.de>; Wed,  3 May 2023 14:48:09 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1puBsh-00035I-TN; Wed, 03 May 2023 08:46:52 -0400
+	id 1puBt5-0003ee-By; Wed, 03 May 2023 08:47:16 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <anjo@rev.ng>) id 1puBsd-0002yv-G7
- for qemu-devel@nongnu.org; Wed, 03 May 2023 08:46:49 -0400
+ (Exim 4.90_1) (envelope-from <anjo@rev.ng>) id 1puBt1-0003dk-Lx
+ for qemu-devel@nongnu.org; Wed, 03 May 2023 08:47:12 -0400
 Received: from rev.ng ([5.9.113.41])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <anjo@rev.ng>) id 1puBsb-0007NB-7F
- for qemu-devel@nongnu.org; Wed, 03 May 2023 08:46:46 -0400
+ (Exim 4.90_1) (envelope-from <anjo@rev.ng>) id 1puBsz-0007TG-W0
+ for qemu-devel@nongnu.org; Wed, 03 May 2023 08:47:11 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=rev.ng;
  s=dkim; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:
  Cc:To:Subject:Reply-To:MIME-Version:Date:Message-ID:Sender:Content-ID:
  Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
  :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=AYLnuijvgFYvz6xggm2MQHPSaacSk9cBOwO+A3DATwY=; b=XHgUT2zP/8gwuZkC9cc4dLb7Yd
- 9bc38jRCwMisAPKO3Xm/ufUTso3GVqz6kiwzxOGsFQ3Ud5fLDHwOQD9oSx0l7OUBNIJfczMNX910w
- NTXefNJBmSP9d6I6IRw7qEDlWiK774wmms5EEMq8DNRs5jAprMOTRH7R7RUxgJkLeXT0=;
-Message-ID: <7aa9755b-1441-657f-90fc-19df38dd7a74@rev.ng>
-Date: Wed, 3 May 2023 14:46:14 +0200
+ bh=y2r/1ppk/CtlZLWvpK/PkP7hCz3f5SEjQHEM9d2QmoE=; b=WEZMuQqbKNY1fqYXvhQDWK4wRZ
+ FQb7zuHu5Y7hbl09b1a5qG92FbkvvgEfQ2sIq5RSEjx2KERmrAeu5EFr4YSGdwzBdu2aNstvuUYYu
+ wcnOrVmt66Z2Q0zeNmxT7TFU7Gs/evj03Rs9kxinFQ3cm6MgAmo2vDZwJv4NAL2kFKCI=;
+Message-ID: <6d66e676-bd32-2c1c-f144-c111fc6094a5@rev.ng>
+Date: Wed, 3 May 2023 14:47:01 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.7.0
-Subject: Re: [PATCH 1/9] target/avr: Finish conversion to
+Subject: Re: [PATCH 2/9] target/cris: Finish conversion to
  tcg_gen_qemu_{ld,st}_*
+Content-Language: en-US
 To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
 Cc: mrolnik@gmail.com, edgar.iglesias@gmail.com, tsimpson@quicinc.com,
  ale@rev.ng, laurent@vivier.eu, philmd@linaro.org, jiaxun.yang@flygoat.com,
  david@redhat.com, iii@linux.ibm.com, thuth@redhat.com,
  mark.cave-ayland@ilande.co.uk, atar4qemu@gmail.com, jcmvbkbc@gmail.com
 References: <20230502135741.1158035-1-richard.henderson@linaro.org>
- <20230502135741.1158035-2-richard.henderson@linaro.org>
-Content-Language: en-US
+ <20230502135741.1158035-3-richard.henderson@linaro.org>
 Organization: rev.ng
-In-Reply-To: <20230502135741.1158035-2-richard.henderson@linaro.org>
+In-Reply-To: <20230502135741.1158035-3-richard.henderson@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 Received-SPF: pass client-ip=5.9.113.41; envelope-from=anjo@rev.ng; helo=rev.ng
@@ -73,12 +73,13 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On 5/2/23 15:57, Richard Henderson wrote:
 > Convert away from the old interface with the implicit
-> MemOp argument.
+> MemOp argument.  In this case we can fold the calls
+> using the size bits of MemOp.
 >
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->   target/avr/translate.c | 16 ++++++++--------
->   1 file changed, 8 insertions(+), 8 deletions(-)
+>   target/cris/translate_v10.c.inc | 18 ++++--------------
+>   1 file changed, 4 insertions(+), 14 deletions(-)
 >
 Reviewed-by: Anton Johansson <anjo@rev.ng>
 
