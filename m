@@ -2,72 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 718986F5243
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 May 2023 09:50:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0AEC96F5221
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 May 2023 09:45:28 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pu6pV-0000AY-81; Wed, 03 May 2023 03:23:14 -0400
+	id 1pu6rJ-0004oo-Jh; Wed, 03 May 2023 03:25:05 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <maxime.coquelin@redhat.com>)
- id 1pu6p4-00077u-Hg
- for qemu-devel@nongnu.org; Wed, 03 May 2023 03:22:46 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <maxime.coquelin@redhat.com>)
- id 1pu6p2-0007YT-O1
- for qemu-devel@nongnu.org; Wed, 03 May 2023 03:22:46 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1683098563;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=yEwjYvFuqjAsLbc+yUER9zf84Qtz/UBPbdQjgsj77sk=;
- b=RojitHsA03yEybuWIvXishzStRbZ/BqfV2+t82b9A0rwq8ZXWs4o0HUR/y+XN8w+AGsuZj
- JiBWdLCEFL6DgufQfP36AzTCidBAGSx9u9v36Lq0BoaYmv75hE4prSojGFMNsZunJh26Qs
- bxZWsrrSFcFMiMELuLEQ2Agb7u/9UYo=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-214-UaSFeG6HOVeyh-lSjOTeLg-1; Wed, 03 May 2023 03:22:42 -0400
-X-MC-Unique: UaSFeG6HOVeyh-lSjOTeLg-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
- [10.11.54.7])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D39828314EB;
- Wed,  3 May 2023 07:22:41 +0000 (UTC)
-Received: from [10.39.208.36] (unknown [10.39.208.36])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C285C1410F2A;
- Wed,  3 May 2023 07:22:40 +0000 (UTC)
-Message-ID: <440bcd53-e527-4257-5fbb-d489bae18fac@redhat.com>
-Date: Wed, 3 May 2023 09:22:38 +0200
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pu6qH-0002K1-1P
+ for qemu-devel@nongnu.org; Wed, 03 May 2023 03:24:01 -0400
+Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pu6qF-0001lG-63
+ for qemu-devel@nongnu.org; Wed, 03 May 2023 03:24:00 -0400
+Received: by mail-wm1-x336.google.com with SMTP id
+ 5b1f17b1804b1-3f18dacd392so29710515e9.0
+ for <qemu-devel@nongnu.org>; Wed, 03 May 2023 00:23:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1683098637; x=1685690637;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=9rir6NX/kPhI8HP6pX0Ufmiv/ove4hTQETxAc/FKtww=;
+ b=EPTf4oDuB/nCghHgX14zCKrMu5FXGLgaVu7pmXhwQm2eIX3POBuEqdm1H7wj6tGa/p
+ t4VqRFpuR5176TgSLuI93PVgcWXJ+5KlhzPxIpEEVpZ2AsRJhAYpfJ+xqeIaJEWT2Y6m
+ OKkyDX875qWvCV/AViHEKnyokfCwgVcPy4KG2YMEp5Z8z3Rwe2zbYNmfPSPVjnsgc3by
+ 5x80dG68t8TwyrdwFpP9E+tWLbS1S48JErXqWMQfsNkPb+K/md72h7yAfhK0+R4zN0Ta
+ D3+36OgIG9q3A8pJsYESF4RI3S0svIeek+eaF2WMGvG4FmVGWRjvJ3HFlIyUTkv4qnJA
+ Dz1g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1683098637; x=1685690637;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=9rir6NX/kPhI8HP6pX0Ufmiv/ove4hTQETxAc/FKtww=;
+ b=cP/P3SYRlfuEMuwcZJrAM3mp/Aq63D+xQIPjZ76rV4MPzlJYY+3S4LWBi2UBVjvgyd
+ Sp5v47idiK6HqU9mVKoh5432LUSxFK1jbhOB4RVSMWqVx9p00/YdEIlKAU89+BoUhC/6
+ IL11Y6m96mp1EDDl3z61o9nHiPhT6szBzfLlqZz4tmZ6AH1FkX9aGTsan00rj4TDrmSI
+ fwb22vRqWaDuuazzfjo/fcIr4rBtntiMnXio3uyqyUgzQGKY1uk+QVzmY2Eb9AZQbvJS
+ I1J657RX0nWw0PAXnlVAgQJw5Gp9TzZScFiyTQHjUBYiUaoAlFpGN+/wlygH8ESZvxWr
+ HchA==
+X-Gm-Message-State: AC+VfDwTLOLWYl9kaBV+s4VQoxj41A6jBh5Gl1fnIGLssJwkv+yeLNyA
+ CsQLDZqFNTZbx2E9OyWouQNrDjTSYs9+/6c/tS+C1Q==
+X-Google-Smtp-Source: ACHHUZ7p5999/KTvr0Qyw4g3cPamP3N/zsxw8ARhE59O0VZlQ7e8qVsrUHThEzzfOtnobLX92mYCfw==
+X-Received: by 2002:a5d:452b:0:b0:2fe:6b1e:3818 with SMTP id
+ j11-20020a5d452b000000b002fe6b1e3818mr13655191wra.51.1683098637736; 
+ Wed, 03 May 2023 00:23:57 -0700 (PDT)
+Received: from stoup.Home ([2a02:c7c:74db:8d00:c01d:9d74:b630:9087])
+ by smtp.gmail.com with ESMTPSA id
+ b14-20020a05600010ce00b0030627f58325sm9586745wrx.25.2023.05.03.00.23.57
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 03 May 2023 00:23:57 -0700 (PDT)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Cc: ale@rev.ng, philmd@linaro.org, marcel.apfelbaum@gmail.com,
+ wangyanan55@huawei.com, anjo@rev.ng
+Subject: [PATCH 32/84] tcg: Add tlb_dyn_max_bits to TCGContext
+Date: Wed,  3 May 2023 08:22:39 +0100
+Message-Id: <20230503072331.1747057-33-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20230503072331.1747057-1-richard.henderson@linaro.org>
+References: <20230503072331.1747057-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.1
-Subject: Re: [PATCH v2] vhost-user: send SET_STATUS 0 after GET_VRING_BASE
-Content-Language: en-US
-To: Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org
-Cc: "Michael S. Tsirkin" <mst@redhat.com>, Cindy Lu <lulu@redhat.com>,
- Yajun Wu <yajunw@nvidia.com>
-References: <20230501230409.274178-1-stefanha@redhat.com>
-From: Maxime Coquelin <maxime.coquelin@redhat.com>
-In-Reply-To: <20230501230409.274178-1-stefanha@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
-Received-SPF: pass client-ip=170.10.133.124;
- envelope-from=maxime.coquelin@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -36
-X-Spam_score: -3.7
-X-Spam_bar: ---
-X-Spam_report: (-3.7 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.171,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.422, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Received-SPF: pass client-ip=2a00:1450:4864:20::336;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x336.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,77 +92,67 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+Disconnect guest tlb parameters from TCG compilation.
 
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ include/tcg/tcg.h            | 1 +
+ accel/tcg/translate-all.c    | 1 +
+ tcg/aarch64/tcg-target.c.inc | 2 +-
+ tcg/i386/tcg-target.c.inc    | 2 +-
+ 4 files changed, 4 insertions(+), 2 deletions(-)
 
-On 5/2/23 01:04, Stefan Hajnoczi wrote:
-> Setting the VIRTIO Device Status Field to 0 resets the device. The
-> device's state is lost, including the vring configuration.
-> 
-> vhost-user.c currently sends SET_STATUS 0 before GET_VRING_BASE. This
-> risks confusion about the lifetime of the vhost-user state (e.g. vring
-> last_avail_idx) across VIRTIO device reset.
-> 
-> Eugenio Pérez <eperezma@redhat.com> adjusted the order for vhost-vdpa.c
-> in commit c3716f260bff ("vdpa: move vhost reset after get vring base")
-> and in that commit description suggested doing the same for vhost-user
-> in the future.
-> 
-> Go ahead and adjust vhost-user.c now. I ran various online code searches
-> to identify vhost-user backends implementing SET_STATUS. It seems only
-> DPDK implements SET_STATUS and Yajun Wu <yajunw@nvidia.com> has
-> confirmed that it is safe to make this change.
-> 
-> Fixes: commit 923b8921d210763359e96246a58658ac0db6c645 ("vhost-user: Support vhost_dev_start")
-> Cc: Michael S. Tsirkin <mst@redhat.com>
-> Cc: Cindy Lu <lulu@redhat.com>
-> Cc: Yajun Wu <yajunw@nvidia.com>
-> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-> ---
-> v2:
-> - Added VHOST_USER_PROTOCOL_F_STATUS check [Yajun Wu]
-> - Added "Fixes:" tag [Michael]
-> ---
->   hw/virtio/vhost-user.c | 16 +++++++++++++++-
->   1 file changed, 15 insertions(+), 1 deletion(-)
-> 
-> diff --git a/hw/virtio/vhost-user.c b/hw/virtio/vhost-user.c
-> index e5285df4ba..40974afd06 100644
-> --- a/hw/virtio/vhost-user.c
-> +++ b/hw/virtio/vhost-user.c
-> @@ -2677,7 +2677,20 @@ static int vhost_user_dev_start(struct vhost_dev *dev, bool started)
->                                             VIRTIO_CONFIG_S_DRIVER |
->                                             VIRTIO_CONFIG_S_DRIVER_OK);
->       } else {
-> -        return vhost_user_set_status(dev, 0);
-> +        return 0;
-> +    }
-> +}
-> +
-> +static void vhost_user_reset_status(struct vhost_dev *dev)
-> +{
-> +    /* Set device status only for last queue pair */
-> +    if (dev->vq_index + dev->nvqs != dev->vq_index_end) {
-> +        return;
-> +    }
-> +
-> +    if (virtio_has_feature(dev->protocol_features,
-> +                           VHOST_USER_PROTOCOL_F_STATUS)) {
-> +        vhost_user_set_status(dev, 0);
->       }
->   }
->   
-> @@ -2716,4 +2729,5 @@ const VhostOps user_ops = {
->           .vhost_get_inflight_fd = vhost_user_get_inflight_fd,
->           .vhost_set_inflight_fd = vhost_user_set_inflight_fd,
->           .vhost_dev_start = vhost_user_dev_start,
-> +        .vhost_reset_status = vhost_user_reset_status,
->   };
-
-I confirm it won't introduce regression on DPDK side:
-
-Reviewed-by: Maxime Coquelin <maxime.coquelin@redhat.com>
-
-Thanks,
-Maxime
+diff --git a/include/tcg/tcg.h b/include/tcg/tcg.h
+index c507b0d653..719d719b58 100644
+--- a/include/tcg/tcg.h
++++ b/include/tcg/tcg.h
+@@ -556,6 +556,7 @@ struct TCGContext {
+ #ifdef CONFIG_SOFTMMU
+     int page_mask;
+     uint8_t page_bits;
++    uint8_t tlb_dyn_max_bits;
+ #endif
+ 
+     TCGRegSet reserved_regs;
+diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
+index 12d7febfee..f6c8ad1a18 100644
+--- a/accel/tcg/translate-all.c
++++ b/accel/tcg/translate-all.c
+@@ -360,6 +360,7 @@ TranslationBlock *tb_gen_code(CPUState *cpu,
+ #ifdef CONFIG_SOFTMMU
+     tcg_ctx->page_bits = TARGET_PAGE_BITS;
+     tcg_ctx->page_mask = TARGET_PAGE_MASK;
++    tcg_ctx->tlb_dyn_max_bits = CPU_TLB_DYN_MAX_BITS;
+ #endif
+ 
+  tb_overflow:
+diff --git a/tcg/aarch64/tcg-target.c.inc b/tcg/aarch64/tcg-target.c.inc
+index 3819d15563..fa8f3a7629 100644
+--- a/tcg/aarch64/tcg-target.c.inc
++++ b/tcg/aarch64/tcg-target.c.inc
+@@ -1687,7 +1687,7 @@ static TCGLabelQemuLdst *prepare_host_addr(TCGContext *s, HostAddress *h,
+     ldst->oi = oi;
+     ldst->addrlo_reg = addr_reg;
+ 
+-    mask_type = (s->page_bits + CPU_TLB_DYN_MAX_BITS > 32
++    mask_type = (s->page_bits + s->tlb_dyn_max_bits > 32
+                  ? TCG_TYPE_I64 : TCG_TYPE_I32);
+ 
+     /* Load env_tlb(env)->f[mmu_idx].{mask,table} into {x0,x1}.  */
+diff --git a/tcg/i386/tcg-target.c.inc b/tcg/i386/tcg-target.c.inc
+index 5f1c23b2a5..9eb4ae15b6 100644
+--- a/tcg/i386/tcg-target.c.inc
++++ b/tcg/i386/tcg-target.c.inc
+@@ -1975,7 +1975,7 @@ static TCGLabelQemuLdst *prepare_host_addr(TCGContext *s, HostAddress *h,
+         trexw = (ttype == TCG_TYPE_I32 ? 0 : P_REXW);
+         if (TCG_TYPE_PTR == TCG_TYPE_I64) {
+             hrexw = P_REXW;
+-            if (s->page_bits + CPU_TLB_DYN_MAX_BITS > 32) {
++            if (s->page_bits + s->tlb_dyn_max_bits > 32) {
+                 tlbtype = TCG_TYPE_I64;
+                 tlbrexw = P_REXW;
+             }
+-- 
+2.34.1
 
 
