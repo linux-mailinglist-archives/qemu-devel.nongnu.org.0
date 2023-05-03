@@ -2,96 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CFE576F4E28
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 May 2023 02:33:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9288A6F4E35
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 May 2023 02:41:38 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pu0QH-0007gq-DK; Tue, 02 May 2023 20:32:45 -0400
+	id 1pu0XU-0001NG-1L; Tue, 02 May 2023 20:40:12 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <leobras@redhat.com>)
- id 1pu0QE-0007gi-EX
- for qemu-devel@nongnu.org; Tue, 02 May 2023 20:32:42 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <leobras@redhat.com>)
- id 1pu0QC-0006Ts-Kk
- for qemu-devel@nongnu.org; Tue, 02 May 2023 20:32:42 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1683073959;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=jP7Xb60Rt20Hzxq+/xNuwIevKyiJ3I+jtXojyrQkRWA=;
- b=Hlo6voYc783OO3UDsrXDeO+UkrGviyT6Vdjf8XJUofz9LXQYqULzoxX84P9jGAvajcPI0T
- clQirp05UaBwtpt7R3qHLsSWOERTe1C/x+7BM6LqdaBlMOl4GJXt56Vr88yLiYyVeOFYqe
- CwFewiKTN76pmkOt0T5Hd4m1yEKTxoI=
-Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
- [209.85.219.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-393-O1lZzD12NWiKbxHGeLWs9g-1; Tue, 02 May 2023 20:32:37 -0400
-X-MC-Unique: O1lZzD12NWiKbxHGeLWs9g-1
-Received: by mail-qv1-f70.google.com with SMTP id
- 6a1803df08f44-5ef626ad00fso68712856d6.3
- for <qemu-devel@nongnu.org>; Tue, 02 May 2023 17:32:37 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <npiggin@gmail.com>)
+ id 1pu0XQ-0001Mr-84; Tue, 02 May 2023 20:40:08 -0400
+Received: from mail-pf1-x42f.google.com ([2607:f8b0:4864:20::42f])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <npiggin@gmail.com>)
+ id 1pu0XO-0006fJ-Ip; Tue, 02 May 2023 20:40:07 -0400
+Received: by mail-pf1-x42f.google.com with SMTP id
+ d2e1a72fcca58-63b51fd2972so3231329b3a.3; 
+ Tue, 02 May 2023 17:40:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1683074402; x=1685666402;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=ltTbutF9TCzNEkXc7Z7ZY4GIBEFBC2R5a4IJ9+TV5pY=;
+ b=WNMSwU5WO+ztnBNCEpPvDvPYKRoyVkxhO3RawKpGM5KOSkQNFQCQTAC6v5zwo7pXP/
+ MU9biXW/ObEX2vVOjLpv+VXsgo1gIzRhigrLjZ3N3hm05XqiTDZAPTNu/hR4NiPj7x8F
+ B85wX9qaYe2LpWcpcR6KIi97wzRRBPHMaj3hVoliMm7jUvRyI9TB9Oy9nEGFHsmn9AF5
+ VZvEoGHCHei+M97ZZIbA6Q1pzIzWukX3ttqCXiELNGDIYqG+eIm5jr0L2n2LefPRFPgc
+ hiF24BcevCtxYG1/lXt8IcxVpbr2XrqRCUgGZfE13L3eGSba5zAZ8YWDpmXfY/BPvGij
+ WPHw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683073957; x=1685665957;
- h=mime-version:user-agent:content-transfer-encoding:references
- :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=jP7Xb60Rt20Hzxq+/xNuwIevKyiJ3I+jtXojyrQkRWA=;
- b=NCvRg2chvpcx46fxJ0pJYzd3e6/do5V2Ec2TpGiggSKc4jHjU7orxqXAUFJPaO/rRz
- wrNW7jJvfSDlcTET3shxjT3sjzK4jvb5nqDgl4FYW+qJoA2t0dHCjMeXxUWVeOLCEF9y
- qpDl2iQb6tV65LvRgVUOTCb/dbQcTVx7VHIJq+byH/MDYnYxNA2YcLMFmC8ZyKr4VXmH
- CwtKhuQKfg8pGjN/qPJ/kR+Rxs/okiv9b/ObbENaHeXxvHQ8qjpaJYGmA9kXVg0g1mS0
- CR1UDxbH1NwHlrat3z/AAJeXSpYNJkVD75XpHHABxaePPt7FSsEbmRL4oS8AH49BFhy2
- gaCg==
-X-Gm-Message-State: AC+VfDzUcHmqf3Fl26RAMo3edVuyV1epJXoDPdVV50NJZK0UrSlDZEq7
- Xx/uycVyr6AEv5ER6MBS/G5Y4OgvmZaVrT93WAHf5SOsKswtrJ3oeA6OV4jEXJ/1of6sZYIdW/D
- 2wKRxhWeYeo41HOU=
-X-Received: by 2002:a05:6214:518c:b0:5b8:6efe:77f4 with SMTP id
- kl12-20020a056214518c00b005b86efe77f4mr7669315qvb.46.1683073957429; 
- Tue, 02 May 2023 17:32:37 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ7sUgPhvR+GqJM7skiOIkjco4Pa4dq5AvO1Uj3Cthx8k+gVijkKNI1zee4WEMsqHi5dnOJd6g==
-X-Received: by 2002:a05:6214:518c:b0:5b8:6efe:77f4 with SMTP id
- kl12-20020a056214518c00b005b86efe77f4mr7669290qvb.46.1683073957072; 
- Tue, 02 May 2023 17:32:37 -0700 (PDT)
-Received: from ?IPv6:2804:1b3:a802:fb9f:720f:65e5:7914:9a9b?
- ([2804:1b3:a802:fb9f:720f:65e5:7914:9a9b])
- by smtp.gmail.com with ESMTPSA id
- y26-20020a05620a0e1a00b0074f4edb7007sm7606548qkm.112.2023.05.02.17.32.34
+ d=1e100.net; s=20221208; t=1683074402; x=1685666402;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=ltTbutF9TCzNEkXc7Z7ZY4GIBEFBC2R5a4IJ9+TV5pY=;
+ b=OGW7ZDDJhi2BW9BM58Iv+3xxzcscJQbTpRx7929zAZyu00M+48JgaXJPYVw1S08FTu
+ R/Tc+GhrwSQc6KjqvRMSqnYEDf5K8btqGeIzmosnWs2/jhFO9km5TlARbq8/L94SHtWq
+ IxbG5J8HIxGLo38n0CR/WwcypYkZoRRxE0snjjht3LUN/zWZlEQiYm10i5T2UXfVBGc4
+ 55EwZcGs/va3PxzbUpZcwpbScgQGXkDqVCRiwsFFJkhSgzNNGtlxYCI/wszCPIlDqxRd
+ TSRqJVzrWnyLIEbyWl6D/kB2nvaPPW6NJTzztz/pgjTySvF4gpWHOpkb9H/68U56jPnv
+ vlrA==
+X-Gm-Message-State: AC+VfDw0IvfTADjtuS5RYRAFPifWZOTp763o4Fxta1FAT8zyy9oXRkj2
+ e6T/9iu4F/3CLWzTxYYtnzBatjh86D3oIg==
+X-Google-Smtp-Source: ACHHUZ4YOM3ly+cYJF304zK428o6MC/bz5u+z9WHpH/WUTb0NZ9PfJLdDPW8/346kJFkStqcLxI/aQ==
+X-Received: by 2002:a05:6a20:394a:b0:ec:5eb2:a2bb with SMTP id
+ r10-20020a056a20394a00b000ec5eb2a2bbmr24956738pzg.61.1683074401664; 
+ Tue, 02 May 2023 17:40:01 -0700 (PDT)
+Received: from wheely.local0.net (118-208-214-188.tpgi.com.au.
+ [118.208.214.188]) by smtp.gmail.com with ESMTPSA id
+ e13-20020a63db0d000000b0050f7208b4bcsm19332338pgg.89.2023.05.02.17.39.58
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 02 May 2023 17:32:36 -0700 (PDT)
-Message-ID: <109bc1e721e009894bf4b1529fe1904afce1e13e.camel@redhat.com>
-Subject: Re: [PULL 61/73] hw/pci/aer: Implement PCI_ERR_UNCOR_MASK register
-From: Leonardo =?ISO-8859-1?Q?Br=E1s?= <leobras@redhat.com>
-To: quintela@redhat.com, "Michael S. Tsirkin" <mst@redhat.com>
-Cc: Peter Xu <peterx@redhat.com>, qemu-devel@nongnu.org, Peter Maydell
- <peter.maydell@linaro.org>, Jonathan Cameron <Jonathan.Cameron@huawei.com>,
- Dave Jiang <dave.jiang@intel.com>, Fan Ni <fan.ni@samsung.com>, Marcel
- Apfelbaum <marcel.apfelbaum@gmail.com>, Leonardo Bras Soares Passos
- <lsoaresp@redhat.com>
-Date: Tue, 02 May 2023 21:32:34 -0300
-In-Reply-To: <875y9jglfr.fsf@secure.mitica>
-References: <cover.1678237635.git.mst@redhat.com>
- <010746ae1db7f52700cb2e2c46eb94f299cfa0d2.1678237635.git.mst@redhat.com>
- <ZEhzaWpNM+NvZCUw@x1n> <20230426021019-mutt-send-email-mst@kernel.org>
- <875y9jglfr.fsf@secure.mitica>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.4 
+ Tue, 02 May 2023 17:40:01 -0700 (PDT)
+From: Nicholas Piggin <npiggin@gmail.com>
+To: qemu-ppc@nongnu.org
+Cc: Nicholas Piggin <npiggin@gmail.com>, qemu-devel@nongnu.org,
+ Harsh Prateek Bora <harsh@linux.vnet.ibm.com>
+Subject: [RFC PATCH 0/4] spapr: clean up nested hv
+Date: Wed,  3 May 2023 10:39:50 +1000
+Message-Id: <20230503003954.128188-1-npiggin@gmail.com>
+X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=leobras@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -22
-X-Spam_score: -2.3
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42f;
+ envelope-from=npiggin@gmail.com; helo=mail-pf1-x42f.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.171,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -107,83 +87,33 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hello Michael, Juan, Peter,
+Something like this is the way I'd been wanting to refactor nested hv.
+The state load/store functions and data is (somewhat) abstracted, and
+the hcall interface remains in the hcall handlers.
 
-On Wed, 2023-04-26 at 09:19 +0200, Juan Quintela wrote:
-> "Michael S. Tsirkin" <mst@redhat.com> wrote:
-> > On Tue, Apr 25, 2023 at 08:42:17PM -0400, Peter Xu wrote:
-> > > Hi, Michael, Jonathan,
-> > >=20
-> > > On Tue, Mar 07, 2023 at 08:13:53PM -0500, Michael S. Tsirkin wrote:
-> > > This breaks the simplest migration from QEMU 8.0->7.2 binaries on all
-> > > machine types I think as long as the cap is present, e.g. the default
-> > > e1000e provided by the default q35 machine can already hit it with al=
-l
-> > > default cmdline:
-> > >=20
-> > >   ./qemu-system-x86_64 -M pc-q35-7.2 [-incoming XXX]
-> > >=20
-> > > 7.2 binary will have empty wmask for PCI_ERR_UNCOR_MASK, meanwhile I =
-think
-> > > it can also see a non-zero value, then the migration will fail at:
-> > >=20
-> > > vmstate_load 0000:00:02.0/e1000e, e1000e                             =
-                     =20
-> > > qemu-7.2: get_pci_config_device: Bad config data: i=3D0x10a read: 40 =
-device: 0 cmask: ff wmask: 0 w1cmask:0
-> > > qemu-7.2: Failed to load PCIDevice:config  =20
-> > > qemu-7.2: Failed to load e1000e:parent_obj                           =
-                    =20
-> > > qemu-7.2: error while loading state for instance 0x0 of device '0000:=
-00:02.0/e1000e'     =20
-> > > qemu-7.2: load of migration failed: Invalid argument
-> > >=20
-> > > We probably at least want to have the default value to be still zero,=
- and
-> > > we'd need to make sure it'll not be modified by the guest, iiuc.
-> > >=20
-> > > Below oneliner works for me and makes the migration work again:
-> > >=20
-> > > =3D=3D=3D8<=3D=3D=3D
-> > > diff --git a/hw/pci/pcie_aer.c b/hw/pci/pcie_aer.c
-> > > index 103667c368..563a37b79c 100644
-> > > --- a/hw/pci/pcie_aer.c
-> > > +++ b/hw/pci/pcie_aer.c
-> > > @@ -113,7 +113,7 @@ int pcie_aer_init(PCIDevice *dev, uint8_t cap_ver=
-, uint16_t offset,
-> > >      pci_set_long(dev->w1cmask + offset + PCI_ERR_UNCOR_STATUS,
-> > >                   PCI_ERR_UNC_SUPPORTED);
-> > >      pci_set_long(dev->config + offset + PCI_ERR_UNCOR_MASK,
-> > > -                 PCI_ERR_UNC_MASK_DEFAULT);
-> > > +                 0/*PCI_ERR_UNC_MASK_DEFAULT*/);
-> > >      pci_set_long(dev->wmask + offset + PCI_ERR_UNCOR_MASK,
-> > >                   PCI_ERR_UNC_SUPPORTED);
-> > > =3D=3D=3D8<=3D=3D=3D
-> > >=20
-> > > Anyone could have a look on a solid solution from PCI side?
-> > >=20
-> > > Copy Juan and Leonardo.
-> > >=20
-> > > Thanks,
-> >=20
-> > My bad, I forgot about this =F0=9F=A4=A6.
-> > So we need a property and tweak it with compat machinery depending on
-> > machine type. Jonathan, can you work on this pls?
-> > Or I can revert for now to relieve the time pressure,
-> > redo the patch at your leasure.
->=20
-> I agree with Michael here, the best option is adding a new property.
->=20
-> Later, Juan.
->=20
+If, hypothetically, you had a new flavour of nested enter hcall that had
+some other way of specifying the L2 state to load, then you would
+(hopefully) be able to extend and reuse the state struct and load/store
+helpers.
 
-I sent a patch implementing the suggested fix:
-https://lore.kernel.org/qemu-devel/20230503002701.854329-1-leobras@redhat.c=
-om/T/#u
+Thanks,
+Nick
 
-Please let me know of anything to improve.
+Nicholas Piggin (4):
+  spapr: H_ENTER_NESTED should restore host XER ca field
+  spapr: Add a nested state struct
+  spapr: load and store l2 state with helper functions
+  spapr: Move spapr nested HV to a new file
 
-Best regards,
-Leo
+ hw/ppc/meson.build              |   1 +
+ hw/ppc/spapr_hcall.c            | 348 +---------------------
+ hw/ppc/spapr_nested.c           | 496 ++++++++++++++++++++++++++++++++
+ include/hw/ppc/spapr.h          |  61 +---
+ include/hw/ppc/spapr_cpu_core.h |   5 +-
+ 5 files changed, 502 insertions(+), 409 deletions(-)
+ create mode 100644 hw/ppc/spapr_nested.c
+
+-- 
+2.40.1
 
 
