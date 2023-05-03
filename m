@@ -2,76 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F25E26F51C1
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 May 2023 09:35:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 877F26F51A1
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 May 2023 09:33:12 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pu6pD-0007VH-Ad; Wed, 03 May 2023 03:22:55 -0400
+	id 1pu6p6-00074o-2f; Wed, 03 May 2023 03:22:48 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pu6oy-0006q5-RJ
+ id 1pu6oz-0006ql-Jo
  for qemu-devel@nongnu.org; Wed, 03 May 2023 03:22:41 -0400
-Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335])
+Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pu6ou-0007Iv-5Y
- for qemu-devel@nongnu.org; Wed, 03 May 2023 03:22:39 -0400
-Received: by mail-wm1-x335.google.com with SMTP id
- 5b1f17b1804b1-3f1cfed93e2so47561595e9.3
- for <qemu-devel@nongnu.org>; Wed, 03 May 2023 00:22:33 -0700 (PDT)
+ id 1pu6ow-0007J8-CG
+ for qemu-devel@nongnu.org; Wed, 03 May 2023 03:22:41 -0400
+Received: by mail-wm1-x336.google.com with SMTP id
+ 5b1f17b1804b1-3f173af665fso30096315e9.3
+ for <qemu-devel@nongnu.org>; Wed, 03 May 2023 00:22:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1683098552; x=1685690552;
+ d=linaro.org; s=google; t=1683098553; x=1685690553;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=wY72rBTCusrC/WPaiwfzmoq60/uULSGfuUcD5/U5TwY=;
- b=VVX2wPC9/yTexd3VORD65jWKPelzoHfjU3HPT4UJsu8POVkU2SW4Lr7nBoovuY/DMp
- tNQtl4lRfUdK/GTL7Q/2Cxex5vvfKGNvAnhGtIW7whIQ0IHP8zi1Rq7ISAqpd3Emeehp
- 1nt8pYiFAyB1BCSVhr+DQOKvUyV0tb3/tCZXacCDA3V9AgQPysDm6Kna+/eKkxPI2B7Y
- BPNMOQ4b5ts/9rgVc4vfXPb9BBU+cRjYrCZ/3b75XPbeC+qUcELYZ8Mu4kqi5u0GP+MV
- LsQZr3JXetKPx5dagCS3jMRhq9iOBmwznKFecCDi2lG5najpP3X3cP7XtVo+bDkJlRrF
- UiBw==
+ bh=pPLvUEtS2r7DTVcycF0JmWSxgARIqH2mkH/yVD891tk=;
+ b=S9E55tR7z99t6wAtiXufLtU1l3184OhXQK6gVtO5sKximgDOIQKqru7sjZ8dHXjX+f
+ nwXMbUrC3yiUqNA7V1yL1Cv/o7W3tv+e1ylfOwxpoTIv795JMYRNgzUDv1cDT2dzSsJx
+ 0549noETNcoY469SLTBawH8ncqwz9g3AVxm8jChDKk9MISg8Tty0UBf00a5kkuKj4wXY
+ bj0f/ru/WlpNbrN0GI93539LIY0nhnt9CpYDVisD9hLlKkpuKujHjLV5QRuc0SbXqa6d
+ Xd9pKoODiF90nYQV5kE/31SHq3pwifmnUCuMjY0WF9L4awciAoIwaNlq5tsd/Si4fBcs
+ WzLQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683098552; x=1685690552;
+ d=1e100.net; s=20221208; t=1683098553; x=1685690553;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=wY72rBTCusrC/WPaiwfzmoq60/uULSGfuUcD5/U5TwY=;
- b=R0iUnWEGa9GAjqM6h4PxqIhg6Xk4DnExpIShZk8BU7wmD1wEyqXtAlHcPk5pKmiDnt
- 0Y603qkws3vE9LObp+M7PFLUYUbVt4ZZsRpGmVsTp3Xc9lzRtcl67KMB/YFAxu5Ezm20
- LnlAsakFgU9Tn1OV/GsFNW7SBq5hiA1GUBqNqV+H1pKKhBlJH+Er2LAkdxJNstmnOi/H
- haB3JYezC2KW+46HIAJFClE48/cpm3l4wxuTI4xnoqnMWzjM4LHIWBamn6EBBl9Nw4Ja
- PmQ9J9w9ZFVs3l3Zs+W8kqZq+SwasA2XwbfTi5DkjVinBiJ+xfbtqXe3jDAEmFuF8Eto
- /DNA==
-X-Gm-Message-State: AC+VfDycTmW8NcfUz9j0fSaZlOzca3EnxzNuLNYhsrT/BihihajIG0b3
- yF4wFBFU41NvpJ4R7AmIAx19Fupq3ULJu9UkxyjFeQ==
-X-Google-Smtp-Source: ACHHUZ5xFlZlteKG1qccpTFZq2BjrZ1yukBNRpmSwRJJzbzNI+K4VNTjIoNeNjU2QwSJJCpMre8NlA==
-X-Received: by 2002:a05:600c:2212:b0:3f1:6ebe:d598 with SMTP id
- z18-20020a05600c221200b003f16ebed598mr13505907wml.7.1683098552540; 
- Wed, 03 May 2023 00:22:32 -0700 (PDT)
+ bh=pPLvUEtS2r7DTVcycF0JmWSxgARIqH2mkH/yVD891tk=;
+ b=Zg3VNfTp6cn1KZjlkfKojkMTTcWSONG3la+4d1k8JxqTf/j+dgWFv70D9WxOsVv36y
+ eCetdaofaw+eCLgkzFU+vplQwHvmym/1jISRauVPuajOeZusPAinbeOsV+8pzwzmluhk
+ bNrVcsYmPgVosJYoSh7zGrGNmZP8cM7RURjYJMKqS2KlBuSs8jPzXPQHoXsXqBlPdgfX
+ 8XkuztfGzQcuBbxQI0fz6Y1NN1wP7s9j1YJpfHMD0cX0ClUfBe9F/SmPQt9bmA/5HrET
+ i77z1n66YLDB3oDbOK0zag/rTyznJLX/ysJvvscfqt10qQYGIVLZn4X1NztefroagpKp
+ GTBA==
+X-Gm-Message-State: AC+VfDyNyp0KxatZ0eCKg4e9TXe6LDcOiYMblYFG0u+ZMNYr6b5xLhtt
+ ZwMNIQ5KDclfJbht+LKGPs3pDYAhsRWLPim1OREv8A==
+X-Google-Smtp-Source: ACHHUZ5dg2bfPaQjBBpB3uNrjM6BXxEd41zR9QX+ekp/0+ZjEBEc867iCSTm/26U/vXXAHpoD5emWQ==
+X-Received: by 2002:a05:600c:3787:b0:3f1:9540:d5fe with SMTP id
+ o7-20020a05600c378700b003f19540d5femr13364552wmr.21.1683098553409; 
+ Wed, 03 May 2023 00:22:33 -0700 (PDT)
 Received: from stoup.Home ([2a02:c7c:74db:8d00:c01d:9d74:b630:9087])
  by smtp.gmail.com with ESMTPSA id
  t4-20020a7bc3c4000000b003f1745c7df3sm962789wmj.23.2023.05.03.00.22.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 03 May 2023 00:22:32 -0700 (PDT)
+ Wed, 03 May 2023 00:22:33 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: ale@rev.ng, philmd@linaro.org, marcel.apfelbaum@gmail.com,
- wangyanan55@huawei.com, anjo@rev.ng,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: [PULL v2 07/12] qemu/int128: Re-shuffle Int128Alias members
-Date: Wed,  3 May 2023 08:20:59 +0100
-Message-Id: <20230503072221.1746802-15-richard.henderson@linaro.org>
+ wangyanan55@huawei.com, anjo@rev.ng
+Subject: [PATCH 08/84] accel/tcg: Merge do_gen_mem_cb into caller
+Date: Wed,  3 May 2023 08:21:00 +0100
+Message-Id: <20230503072221.1746802-16-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230503072221.1746802-1-richard.henderson@linaro.org>
 References: <20230503072221.1746802-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::335;
- envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x335.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::336;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x336.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -94,43 +92,73 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Clang 14, with --enable-tcg-interpreter errors with
-
-include/qemu/int128.h:487:16: error: alignment of field 'i' (128 bits)
-  does not match the alignment of the first field in transparent union;
-  transparent_union attribute ignored [-Werror,-Wignored-attributes]
-    __int128_t i;
-               ^
-include/qemu/int128.h:486:12: note: alignment of first field is 64 bits
-    Int128 s;
-           ^
-1 error generated.
-
-By placing the __uint128_t member first, this is avoided.
+As do_gen_mem_cb is called once, merge it into gen_empty_mem_cb.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20230501204625.277361-1-richard.henderson@linaro.org>
 ---
- include/qemu/int128.h | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ accel/tcg/plugin-gen.c | 41 ++++++++++++++++++-----------------------
+ 1 file changed, 18 insertions(+), 23 deletions(-)
 
-diff --git a/include/qemu/int128.h b/include/qemu/int128.h
-index f62a46b48c..9e46cfaefc 100644
---- a/include/qemu/int128.h
-+++ b/include/qemu/int128.h
-@@ -483,9 +483,9 @@ static inline void bswap128s(Int128 *s)
-  */
- #ifdef CONFIG_INT128
- typedef union {
--    Int128 s;
--    __int128_t i;
-     __uint128_t u;
-+    __int128_t i;
-+    Int128 s;
- } Int128Alias __attribute__((transparent_union));
- #else
- typedef Int128 Int128Alias;
+diff --git a/accel/tcg/plugin-gen.c b/accel/tcg/plugin-gen.c
+index 04facd6305..55e892b684 100644
+--- a/accel/tcg/plugin-gen.c
++++ b/accel/tcg/plugin-gen.c
+@@ -92,27 +92,6 @@ void HELPER(plugin_vcpu_mem_cb)(unsigned int vcpu_index,
+                                 void *userdata)
+ { }
+ 
+-static void do_gen_mem_cb(TCGv vaddr, uint32_t info)
+-{
+-    TCGv_i32 cpu_index = tcg_temp_ebb_new_i32();
+-    TCGv_i32 meminfo = tcg_temp_ebb_new_i32();
+-    TCGv_i64 vaddr64 = tcg_temp_ebb_new_i64();
+-    TCGv_ptr udata = tcg_temp_ebb_new_ptr();
+-
+-    tcg_gen_movi_i32(meminfo, info);
+-    tcg_gen_movi_ptr(udata, 0);
+-    tcg_gen_ld_i32(cpu_index, cpu_env,
+-                   -offsetof(ArchCPU, env) + offsetof(CPUState, cpu_index));
+-    tcg_gen_extu_tl_i64(vaddr64, vaddr);
+-
+-    gen_helper_plugin_vcpu_mem_cb(cpu_index, meminfo, vaddr64, udata);
+-
+-    tcg_temp_free_ptr(udata);
+-    tcg_temp_free_i64(vaddr64);
+-    tcg_temp_free_i32(meminfo);
+-    tcg_temp_free_i32(cpu_index);
+-}
+-
+ static void gen_empty_udata_cb(void)
+ {
+     TCGv_i32 cpu_index = tcg_temp_ebb_new_i32();
+@@ -145,9 +124,25 @@ static void gen_empty_inline_cb(void)
+     tcg_temp_free_i64(val);
+ }
+ 
+-static void gen_empty_mem_cb(TCGv addr, uint32_t info)
++static void gen_empty_mem_cb(TCGv vaddr, uint32_t info)
+ {
+-    do_gen_mem_cb(addr, info);
++    TCGv_i32 cpu_index = tcg_temp_ebb_new_i32();
++    TCGv_i32 meminfo = tcg_temp_ebb_new_i32();
++    TCGv_i64 vaddr64 = tcg_temp_ebb_new_i64();
++    TCGv_ptr udata = tcg_temp_ebb_new_ptr();
++
++    tcg_gen_movi_i32(meminfo, info);
++    tcg_gen_movi_ptr(udata, 0);
++    tcg_gen_ld_i32(cpu_index, cpu_env,
++                   -offsetof(ArchCPU, env) + offsetof(CPUState, cpu_index));
++    tcg_gen_extu_tl_i64(vaddr64, vaddr);
++
++    gen_helper_plugin_vcpu_mem_cb(cpu_index, meminfo, vaddr64, udata);
++
++    tcg_temp_free_ptr(udata);
++    tcg_temp_free_i64(vaddr64);
++    tcg_temp_free_i32(meminfo);
++    tcg_temp_free_i32(cpu_index);
+ }
+ 
+ /*
 -- 
 2.34.1
 
