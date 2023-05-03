@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1EEFB6F548F
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 May 2023 11:23:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A56636F548E
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 May 2023 11:23:08 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pu8hI-0000gy-3h; Wed, 03 May 2023 05:22:52 -0400
+	id 1pu8hK-0000tT-1P; Wed, 03 May 2023 05:22:54 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pu8h4-0000Ip-NP
- for qemu-devel@nongnu.org; Wed, 03 May 2023 05:22:38 -0400
-Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429])
+ id 1pu8h6-0000KD-AF
+ for qemu-devel@nongnu.org; Wed, 03 May 2023 05:22:41 -0400
+Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pu8h1-00065Q-Fn
- for qemu-devel@nongnu.org; Wed, 03 May 2023 05:22:37 -0400
-Received: by mail-wr1-x429.google.com with SMTP id
- ffacd0b85a97d-2f55ffdbaedso2989293f8f.2
- for <qemu-devel@nongnu.org>; Wed, 03 May 2023 02:22:35 -0700 (PDT)
+ id 1pu8h4-00066J-CV
+ for qemu-devel@nongnu.org; Wed, 03 May 2023 05:22:39 -0400
+Received: by mail-wr1-x42e.google.com with SMTP id
+ ffacd0b85a97d-3063891d61aso1658608f8f.0
+ for <qemu-devel@nongnu.org>; Wed, 03 May 2023 02:22:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1683105753; x=1685697753;
+ d=linaro.org; s=google; t=1683105755; x=1685697755;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=CNfwyGTXREVlcwDJev212ecLngQvJTwdm4EqlF0mGis=;
- b=MKTNCbJuML+9FMIht3qXRn5jFn29DAPpxo2xRIuHXVU+eXSFD7Atdw8eIcyyFQvzhf
- ITkXC56XMibc2TOOp2bgCIit9uxOF9LwqclZYLGdX5GMfva6W+VtcQTwTu7AvOMTstM/
- wa2XNq6hJZGY/fh8ODzhQ+HsiG+M0X90uTBLSbpQxjCJHsNtkN8YBbkdbNMPzX/ySFvk
- EeC2hJWZvwcw7hHVMqun7tUzq389NAGCTqJXTHHd62aIFCIPMiuLe/ico+7aschodvNP
- 3hutjkyrXhuqaJ846+XyQFxCvOB7CmQodAtw4e1B6BrZWaCv3fIf7rd5aQFJ3uRkNcyb
- M1GA==
+ bh=BaX2dnRzYU8iVo190OC5WZA7wUtx7L7d4Pkiir1d0ZY=;
+ b=XOc9HK8R5MqW10eJ+nQ7NSFIUMMtVR8U/kVTDVZVYMdj0fky20OujG0aEKFOi+vE5a
+ ucaSkYgR1SqNIyd5ftxWnilOdLeogJirg4aSBXEApV1IZK2lgQatJKjDtTDaQbaOJj7E
+ K2RxHFWaizT9Ko2uBKaSwvCM1B+B/3lO+VV0T9ySvhhcJWAl62cK48iP+EjgsQBS/B7Q
+ maQKpecbivW2TpPe77TobSPCwLBbNBdhCf5KX9C/zKfLa1Non58K/OKYSXXOBoA0KG/U
+ PfZRJ4cRHmEXI7MKjL0NHtTNn3mOBoiMMnklfX7bGsp3wE2gybPGx+Q3i73IX6Msj33E
+ KxpQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683105753; x=1685697753;
+ d=1e100.net; s=20221208; t=1683105755; x=1685697755;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=CNfwyGTXREVlcwDJev212ecLngQvJTwdm4EqlF0mGis=;
- b=S+KROnxhC/zGZHcispd+jd054ScRtogE2OcQ+IW0BoertyirSreKVSl9B71H/yL01U
- ILfKoOPNgdMNAdI76f5/pzqxUd6hCyzly3toNgAy5rgABeWFelgtmSjZ0mzZE1NM0uAI
- mnA6VDmwroH//3gwZ/PitPaNaP39opR3wMx4MoDN3sMnl/H0QrbP8Psjfrc/zP8crGCm
- 4OAnbDLIguJHiEfvT/AeHGj7dGrnwPGHCrTr8COIxMFYPa8DUSditwLMCKBG1Vd4jDrg
- we85p6ZUFK60353l11JHu0tI3VXptn1ikAmy5u8lYyVH7zzwVmzrIu+BXGuTLmeoVmaT
- 65gA==
-X-Gm-Message-State: AC+VfDz/DaFKQnkn9tLz6bFJt6yR+ojWsm6UBuOzu9OUqxQz534i15i9
- rPZsstHztu1iZ8iPtAh3QctZoQ==
-X-Google-Smtp-Source: ACHHUZ5G1fk0ox6ZY3rquRVFtr90T5+Tvns8dr0pF4cbtpOyMurlmXw3Rk2gmoLuU9GPE8qXAp8fzg==
-X-Received: by 2002:adf:e507:0:b0:306:2a21:b5ff with SMTP id
- j7-20020adfe507000000b003062a21b5ffmr8148531wrm.17.1683105752836; 
- Wed, 03 May 2023 02:22:32 -0700 (PDT)
+ bh=BaX2dnRzYU8iVo190OC5WZA7wUtx7L7d4Pkiir1d0ZY=;
+ b=aJD+sx7hfsUqCeB5XV6qRbDpizU+JUu2KA78RR23RHSkDspOoTfNhwflIeWYdPtEME
+ Vnoxwr5ECdyUeKiL0qnx7psTLa4l0sxBxQ8rn3sFSXTYq8gK7fwFwYTcSFnYS7AOQM4k
+ hIW0vLm1BIvUI3WbD6V70aS4oN72fUg36t3fiZMySsEUL3nd5VJtphUFVJaS3DpUlIvI
+ Vi5jOhQOvVzi4KudWXR2fwkV7ZooON17EB6wnWZmwSnkDd37ela5xtNhQMPfDZTW7cj/
+ DYYc52rbGspJobh/N5ekayZBJQ8D3DwAJMxZNFA3ta3cJ7Z6Ri78C6pMPitG/YSJifx1
+ kvcA==
+X-Gm-Message-State: AC+VfDy+UnOt7UMSPAXPz82iHluU6MDbGUXzSPnaTLg7GVO2oPOJx/J1
+ 5r1yGuoW69kXV4GYnPnHTs6xVQ==
+X-Google-Smtp-Source: ACHHUZ68Tw1hJFrUnzXO/+cT34WqjFRTI7GRV0Ziq/lIcQ7B4xC1jUwTGG91dWKisSiNVsF7aPDgUg==
+X-Received: by 2002:a5d:4841:0:b0:2fa:ce3:9a0 with SMTP id
+ n1-20020a5d4841000000b002fa0ce309a0mr13532921wrs.36.1683105754032; 
+ Wed, 03 May 2023 02:22:34 -0700 (PDT)
 Received: from zen.linaroharston ([85.9.250.243])
  by smtp.gmail.com with ESMTPSA id
- i1-20020a05600c290100b003edf2dc7ca3sm1272810wmd.34.2023.05.03.02.22.32
+ k6-20020a5d5186000000b003062b57ffd1sm8684068wrv.50.2023.05.03.02.22.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Wed, 03 May 2023 02:22:32 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 3086D1FFCC;
+ by zen.linaroharston (Postfix) with ESMTP id 47F8E1FFCD;
  Wed,  3 May 2023 10:12:47 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
@@ -90,17 +90,17 @@ Cc: Laurent Vivier <lvivier@redhat.com>,
  Joel Stanley <joel@jms.id.au>,
  =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PATCH 21/22] tests/avocado: use http for mipsdistros.mips.com
-Date: Wed,  3 May 2023 10:12:43 +0100
-Message-Id: <20230503091244.1450613-22-alex.bennee@linaro.org>
+Subject: [PATCH 22/22] tests/qtest: skip bcm2835-test if no raspi3b model
+Date: Wed,  3 May 2023 10:12:44 +0100
+Message-Id: <20230503091244.1450613-23-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230503091244.1450613-1-alex.bennee@linaro.org>
 References: <20230503091244.1450613-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::429;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x429.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -123,48 +123,39 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-As the cached assets have fallen out of our cache new attempts to
-fetch these binaries fail hard due to certificate expirty. It's hard
-to find a contact email for the domain as the root page of mipsdistros
-throws up some random XML. I suspect Amazon are merely the hosts.
+We can't assume the machine exists and should gracefully skip the test
+if we haven't built the model. This is ostensibly fixed by
+db2237c459 (tests/qtest: Restrict bcm2835-dma-test to CONFIG_RASPI)
+but I still hit it during my tests. Other qtests seem to use this
+pattern to gracefully skip stuff.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Cc: Philippe Mathieu-Daudé <philmd@linaro.org>
 ---
- tests/avocado/replay_kernel.py | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ tests/qtest/bcm2835-dma-test.c | 11 +++++------
+ 1 file changed, 5 insertions(+), 6 deletions(-)
 
-diff --git a/tests/avocado/replay_kernel.py b/tests/avocado/replay_kernel.py
-index f13456e1ec..fe1e901f4b 100644
---- a/tests/avocado/replay_kernel.py
-+++ b/tests/avocado/replay_kernel.py
-@@ -493,7 +493,7 @@ def test_mips_malta32el_nanomips_4k(self):
-         :avocado: tags=endian:little
-         :avocado: tags=cpu:I7200
-         """
--        kernel_url = ('https://mipsdistros.mips.com/LinuxDistro/nanomips/'
-+        kernel_url = ('http://mipsdistros.mips.com/LinuxDistro/nanomips/'
-                       'kernels/v4.15.18-432-gb2eb9a8b07a1-20180627102142/'
-                       'generic_nano32r6el_page4k.xz')
-         kernel_hash = '477456aafd2a0f1ddc9482727f20fe9575565dd6'
-@@ -507,7 +507,7 @@ def test_mips_malta32el_nanomips_16k_up(self):
-         :avocado: tags=endian:little
-         :avocado: tags=cpu:I7200
-         """
--        kernel_url = ('https://mipsdistros.mips.com/LinuxDistro/nanomips/'
-+        kernel_url = ('http://mipsdistros.mips.com/LinuxDistro/nanomips/'
-                       'kernels/v4.15.18-432-gb2eb9a8b07a1-20180627102142/'
-                       'generic_nano32r6el_page16k_up.xz')
-         kernel_hash = 'e882868f944c71c816e832e2303b7874d044a7bc'
-@@ -521,7 +521,7 @@ def test_mips_malta32el_nanomips_64k_dbg(self):
-         :avocado: tags=endian:little
-         :avocado: tags=cpu:I7200
-         """
--        kernel_url = ('https://mipsdistros.mips.com/LinuxDistro/nanomips/'
-+        kernel_url = ('http://mipsdistros.mips.com/LinuxDistro/nanomips/'
-                       'kernels/v4.15.18-432-gb2eb9a8b07a1-20180627102142/'
-                       'generic_nano32r6el_page64k_dbg.xz')
-         kernel_hash = '18d1c68f2e23429e266ca39ba5349ccd0aeb7180'
+diff --git a/tests/qtest/bcm2835-dma-test.c b/tests/qtest/bcm2835-dma-test.c
+index 8293d822b9..2e6245e9e2 100644
+--- a/tests/qtest/bcm2835-dma-test.c
++++ b/tests/qtest/bcm2835-dma-test.c
+@@ -107,12 +107,11 @@ static void bcm2835_dma_test_interrupts(void)
+ 
+ int main(int argc, char **argv)
+ {
+-    int ret;
+     g_test_init(&argc, &argv, NULL);
+-    qtest_add_func("/bcm2835/dma/test_interrupts",
++    if (qtest_has_machine("raspi3b")) {
++        qtest_add_func("/bcm2835/dma/test_interrupts",
+                    bcm2835_dma_test_interrupts);
+-    qtest_start("-machine raspi3b");
+-    ret = g_test_run();
+-    qtest_end();
+-    return ret;
++        qtest_start("-machine raspi3b");
++    }
++    return g_test_run();
+ }
 -- 
 2.39.2
 
