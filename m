@@ -2,63 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 519A96F5EE4
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 May 2023 21:07:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 395D16F5F42
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 May 2023 21:40:08 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1puHo9-0007hO-R7; Wed, 03 May 2023 15:06:33 -0400
+	id 1puIJK-00040s-KQ; Wed, 03 May 2023 15:38:47 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1puHo7-0007gJ-Di; Wed, 03 May 2023 15:06:31 -0400
-Received: from forwardcorp1b.mail.yandex.net
- ([2a02:6b8:c02:900:1:45:d181:df01])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1puHo5-00060Z-Mo; Wed, 03 May 2023 15:06:31 -0400
-Received: from mail-nwsmtp-smtp-corp-main-62.myt.yp-c.yandex.net
- (mail-nwsmtp-smtp-corp-main-62.myt.yp-c.yandex.net
- [IPv6:2a02:6b8:c00:2582:0:640:9a17:0])
- by forwardcorp1b.mail.yandex.net (Yandex) with ESMTP id BDCA060C5C;
- Wed,  3 May 2023 22:06:17 +0300 (MSK)
-Received: from [IPV6:2a02:6b8:b081:b43b::1:1a] (unknown
- [2a02:6b8:b081:b43b::1:1a])
- by mail-nwsmtp-smtp-corp-main-62.myt.yp-c.yandex.net (smtpcorp/Yandex) with
- ESMTPSA id G6UXDc0MlW20-WMdQ4I1Z; Wed, 03 May 2023 22:06:17 +0300
-X-Yandex-Fwd: 1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
- s=default; 
- t=1683140777; bh=D1MzpJqW6dv+RQIjgODtNeJgh82OFtOD3a7rjfC0xxc=;
- h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
- b=YWNTAbr/nxXLm9pE3Ar5K76az1yBWsQxxuTFCEd2upDBjPFMqFe7DKLrU6mdNRHRX
- FsyfjlRiYvGJy+uKNhv1/ObP+H13UTL4jCxXqaNLgcSZbEuhypYM2JHy/06jcdLfbP
- RLRbcHwfCS1LIgEd5p/zY7MZNs/JzOslx8Ovd78o=
-Authentication-Results: mail-nwsmtp-smtp-corp-main-62.myt.yp-c.yandex.net;
- dkim=pass header.i=@yandex-team.ru
-Message-ID: <1a177c21-23d1-1ade-f8cc-fc8208216e04@yandex-team.ru>
-Date: Wed, 3 May 2023 22:06:16 +0300
+ (Exim 4.90_1) (envelope-from <farosas@suse.de>)
+ id 1puIJF-0003r1-Eg; Wed, 03 May 2023 15:38:42 -0400
+Received: from smtp-out2.suse.de ([2001:67c:2178:6::1d])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <farosas@suse.de>)
+ id 1puIJD-0007OD-V5; Wed, 03 May 2023 15:38:41 -0400
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 03F96206A5;
+ Wed,  3 May 2023 19:38:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1683142718; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=UKbydkf8tEevwnM9EJLqnc1oN0PgR9mzrT/VWdFlVl4=;
+ b=JJ9Lgc93L9qdotqE3u77hgnplbeUP1+OreeTelfGOx3hpdScKO8EiJWij2CAZffOmZGMR3
+ ByA690EkndczurLmr6zf0stvHUN+y1we7kCL+0HTCjxvCZnTT1sz40Vp+7uzQpNH4YVADN
+ lHDWyKGztQ2MufRQH2TQv7QXX6em35M=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1683142718;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=UKbydkf8tEevwnM9EJLqnc1oN0PgR9mzrT/VWdFlVl4=;
+ b=e/I11JctZ+EeqJj/KB/vcBv0AvBekezqQyHlvq88oXVYLOcQlvqnYdy01dE8Cr+LqeQivm
+ oJtliA+Kl5GPqlCA==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 2C0DC1331F;
+ Wed,  3 May 2023 19:38:35 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id 19gpOTu4UmTNYQAAMHmgww
+ (envelope-from <farosas@suse.de>); Wed, 03 May 2023 19:38:35 +0000
+From: Fabiano Rosas <farosas@suse.de>
+To: qemu-devel@nongnu.org
+Cc: qemu-arm@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Subject: [PATCH 0/3] target/arm: disable-tcg and without-default-devices fixes
+Date: Wed,  3 May 2023 16:38:30 -0300
+Message-Id: <20230503193833.29047-1-farosas@suse.de>
+X-Mailer: git-send-email 2.35.3
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH] iotests/nbd-reconnect-on-open: Fix NBD socket path
-Content-Language: en-US
-To: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org
-Cc: hreitz@redhat.com, vsementsov@virtuozzo.com,
- nikita.lapshin@virtuozzo.com, qemu-devel@nongnu.org
-References: <20230503165019.8867-1-kwolf@redhat.com>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-In-Reply-To: <20230503165019.8867-1-kwolf@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a02:6b8:c02:900:1:45:d181:df01;
- envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1b.mail.yandex.net
-X-Spam_score_int: -63
-X-Spam_score: -6.4
-X-Spam_bar: ------
-X-Spam_report: (-6.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-4.28,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2001:67c:2178:6::1d; envelope-from=farosas@suse.de;
+ helo=smtp-out2.suse.de
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -75,21 +81,26 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 03.05.23 19:50, Kevin Wolf wrote:
-> Socket paths need to be short to avoid failures. This is why there is a
-> iotests.sock_dir (defaulting to /tmp) separate from the disk image base
-> directory.
-> 
-> Make use of it to fix failures in too deeply nested test directories.
-> 
-> Fixes: ab7f7e67a7e7b49964109501dfcde4ec29bae60e
-> Signed-off-by: Kevin Wolf<kwolf@redhat.com>
+Here's the fix for the cdrom test failure that we discussed in the
+list, plus 2 fixes for the ---without-default-devices build.
 
+When I moved the boards CONFIGs from default.mak to Kconfig, it became
+possible (due to --without-default-devices) to disable the CONFIGs for
+all the boards that require ARM_V7M. That breaks the build because
+ARM_V7M is required to be always set.
 
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+Fabiano Rosas (3):
+  target/arm: Use CONFIG_SEMIHOSTING instead of TCG for semihosting
+  target/arm: Add CONFIG_ARM_V7M back to default.mak
+  tests/qtest: Don't run cdrom tests if no accelerator is present
+
+ configs/devices/arm-softmmu/default.mak | 1 +
+ target/arm/helper.c                     | 4 ++--
+ target/arm/tcg/m_helper.c               | 2 +-
+ tests/qtest/cdrom-test.c                | 5 +++++
+ 4 files changed, 9 insertions(+), 3 deletions(-)
 
 -- 
-Best regards,
-Vladimir
+2.35.3
 
 
