@@ -2,64 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA4A36F5461
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 May 2023 11:17:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB8A36F543A
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 May 2023 11:14:58 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pu8av-0007VT-EO; Wed, 03 May 2023 05:16:17 -0400
+	id 1pu8Z9-0000Ld-H0; Wed, 03 May 2023 05:14:27 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1pu8as-0007Tm-Vc
- for qemu-devel@nongnu.org; Wed, 03 May 2023 05:16:15 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1pu8aq-0008Hs-SH
- for qemu-devel@nongnu.org; Wed, 03 May 2023 05:16:14 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1683105372;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=8tXpMpIWR7EehLxorBcS/d7hy6TsGogWnQ3nyCwcUeM=;
- b=SbvR9wnH5WT2BytxjmljfR14pR9pUO7hW0Ft6BvC1wOZ4Ml5yO70mXttm7uVdEBO5Zuaz9
- FNXUYnZfR2yRRaPY5KMVMx0/C8RfzgNnRWLP4tUG9hpQkeRWIar/aEpZ6uvSJdTKbGJ0BE
- u8TP5Btsa0k70FVeMpdvbvRHtoWQZE8=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-48-pANSXla8M0i9qP61dGFRnA-1; Wed, 03 May 2023 05:14:22 -0400
-X-MC-Unique: pANSXla8M0i9qP61dGFRnA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
- [10.11.54.3])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C38F7A0F385
- for <qemu-devel@nongnu.org>; Wed,  3 May 2023 09:14:21 +0000 (UTC)
-Received: from server.redhat.com (ovpn-12-29.pek2.redhat.com [10.72.12.29])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D35171121331;
- Wed,  3 May 2023 09:14:19 +0000 (UTC)
-From: Cindy Lu <lulu@redhat.com>
-To: lulu@redhat.com, mst@redhat.com, jasowang@redhat.com, qemu-devel@nongnu.org
-Subject: [RFC 7/7] vhost-vdpa-iommufd: Add iommufd support for vdpa
-Date: Wed,  3 May 2023 17:13:37 +0800
-Message-Id: <20230503091337.2130631-8-lulu@redhat.com>
-In-Reply-To: <20230503091337.2130631-1-lulu@redhat.com>
-References: <20230503091337.2130631-1-lulu@redhat.com>
+ (Exim 4.90_1) (envelope-from <shorne@gmail.com>) id 1pu8Z4-0008Mt-8V
+ for qemu-devel@nongnu.org; Wed, 03 May 2023 05:14:23 -0400
+Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <shorne@gmail.com>) id 1pu8Z2-0006Yx-Mo
+ for qemu-devel@nongnu.org; Wed, 03 May 2023 05:14:22 -0400
+Received: by mail-wm1-x32c.google.com with SMTP id
+ 5b1f17b1804b1-3f3331f928cso30219185e9.2
+ for <qemu-devel@nongnu.org>; Wed, 03 May 2023 02:14:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1683105258; x=1685697258;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=R/v/5578I+S3Crmtq0JIaHpyxyBUFP1tU/u2+Dgdt90=;
+ b=J7FKujiZmG4VjwD7aaVOpXBupeuoYlui2mJx95KDwjNlJSpXqS+W9Tztf/LhzwvstY
+ jcpORa1fKKnYDlSr/QrMkhictT6yQrcMyhfax7+YOF1SCmKdOBvPuHUYbFm3IzoRMD0q
+ 66crNjs5pOxNlt6Hfo8RiWOjGbC3jerK/oHmlNTKq+KMJtYhOAkStv1VF5MisPGcPMtC
+ C2KmX5c0GCgrM68reHHNwhVKgRZLtYs/UHRrBzyU8VSaX5gRw7mUh1Vxt//Ymakx4xDl
+ L4WB4X3hh64Y2vUMV4K8un3kkgo6SUKkmCnJSIEs98U+vDsaCXNboqFcxuG+kamotBtU
+ bnNw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1683105258; x=1685697258;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=R/v/5578I+S3Crmtq0JIaHpyxyBUFP1tU/u2+Dgdt90=;
+ b=X+paIpzZJOlfg+MEQQ4aDYQGlVMjMQkiBVnuUwLSYl3huXDr/JX3AOeCBS26FQp/mT
+ JB+3tOLguMEUP+/Js+ya89UYSFGxAWUVucEon4gPWUJF8ylqaRlNucQQfNAfg4wGTTBo
+ QN56p1wF89vJfjKsHG4GDWpaR9worLX+RCkGE6gd5NxCF9K4hm1Oww0Qb9cnYaoGoyhd
+ VJyp+p8TGksThzeEJJ0Rnqtnm1NY5Fx5zCYFuN9/fOeFEhVab7Yryw9Z0gN3+hq2ytnG
+ i1Dfu6JEZgkh0WZzOog7JO3IyH6bY/IH6KIu0OVtn7K8LflLw33r+LPo4kYK7emDuk7q
+ /YNg==
+X-Gm-Message-State: AC+VfDzyHajH/+EEk7BiMSG+CyJEm8akOJHxGnjV+1BbPiY4DGmPY135
+ tdF4ighFVNrzmcLMPbzwVuM=
+X-Google-Smtp-Source: ACHHUZ6UZ1zaLJe6vboTg/B8odSiPOsxnKi7tS2fvd5fFMY+FQ6oHCAWevKS8ENFU4UuilpaLoOWrw==
+X-Received: by 2002:a7b:ca53:0:b0:3f0:a08e:811b with SMTP id
+ m19-20020a7bca53000000b003f0a08e811bmr14317681wml.13.1683105258127; 
+ Wed, 03 May 2023 02:14:18 -0700 (PDT)
+Received: from localhost (cpc1-brnt4-2-0-cust862.4-2.cable.virginm.net.
+ [86.9.131.95]) by smtp.gmail.com with ESMTPSA id
+ p4-20020a1c7404000000b003f1739a0116sm1255349wmc.33.2023.05.03.02.14.17
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 03 May 2023 02:14:17 -0700 (PDT)
+Date: Wed, 3 May 2023 10:14:17 +0100
+From: Stafford Horne <shorne@gmail.com>
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: QEMU Development <qemu-devel@nongnu.org>,
+ Linux OpenRISC <linux-openrisc@vger.kernel.org>
+Subject: Re: [PATCH 3/3] target/openrisc: Setup FPU for detecting tininess
+ before rounding
+Message-ID: <ZFIl6db3isktCOk8@antec>
+References: <20230502185731.3543420-1-shorne@gmail.com>
+ <20230502185731.3543420-4-shorne@gmail.com>
+ <933ff5d8-3875-34ac-9bc4-ed06f74efad7@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=lulu@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -22
-X-Spam_score: -2.3
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <933ff5d8-3875-34ac-9bc4-ed06f74efad7@linaro.org>
+Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
+ envelope-from=shorne@gmail.com; helo=mail-wm1-x32c.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.171,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -75,285 +92,39 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-This file is support iommufd for vdpa, including the function:
+On Wed, May 03, 2023 at 08:37:31AM +0100, Richard Henderson wrote:
+> On 5/2/23 19:57, Stafford Horne wrote:
+> > OpenRISC defines tininess to be detected before rounding.  Setup qemu to
+> > obey this.
+> > 
+> > Signed-off-by: Stafford Horne <shorne@gmail.com>
+> > ---
+> >   target/openrisc/cpu.c | 5 +++++
+> >   1 file changed, 5 insertions(+)
+> > 
+> > diff --git a/target/openrisc/cpu.c b/target/openrisc/cpu.c
+> > index 0ce4f796fa..cdbff26fb5 100644
+> > --- a/target/openrisc/cpu.c
+> > +++ b/target/openrisc/cpu.c
+> > @@ -22,6 +22,7 @@
+> >   #include "qemu/qemu-print.h"
+> >   #include "cpu.h"
+> >   #include "exec/exec-all.h"
+> > +#include "fpu/softfloat-helpers.h"
+> >   #include "tcg/tcg.h"
+> >   static void openrisc_cpu_set_pc(CPUState *cs, vaddr value)
+> > @@ -90,6 +91,10 @@ static void openrisc_cpu_reset_hold(Object *obj)
+> >       s->exception_index = -1;
+> >       cpu_set_fpcsr(&cpu->env, 0);
+> > +    set_default_nan_mode(1, &cpu->env.fp_status);
+> > +    set_float_detect_tininess(float_tininess_before_rounding,
+> > +                              &cpu->env.fp_status);
+> 
+> You don't mention the nan change in the commit message.
 
-1> iommufd bind/unbind the iommufd device 
-   bind the vdpa device to iommufd and attach the ASID 0 to iommufd
+Right, and I am not sure I need it.  Let me remove it and run tests again.  I
+was just adding it as a few other architectures did who set
+float_tininess_before_rounding.
 
-2> iommufd map/unmap function.The map function working process is
-   a. Check if the asid was used before.
-   b. If this is the new asid,  get the new ioas_id and attach it to iommufd.
-       save this information in vdpa_iommufd.
-   c. Use the ioas_id for mapping
-   The unmap logic is the same
-
-Signed-off-by: Cindy Lu <lulu@redhat.com>
----
- hw/virtio/meson.build          |   2 +-
- hw/virtio/vhost-vdpa-iommufd.c | 240 +++++++++++++++++++++++++++++++++
- 2 files changed, 241 insertions(+), 1 deletion(-)
- create mode 100644 hw/virtio/vhost-vdpa-iommufd.c
-
-diff --git a/hw/virtio/meson.build b/hw/virtio/meson.build
-index f93be2e137..848fdb18eb 100644
---- a/hw/virtio/meson.build
-+++ b/hw/virtio/meson.build
-@@ -13,7 +13,7 @@ if have_vhost
-     specific_virtio_ss.add(files('vhost-user.c'))
-   endif
-   if have_vhost_vdpa
--    specific_virtio_ss.add(files('vhost-vdpa.c', 'vhost-shadow-virtqueue.c'))
-+    specific_virtio_ss.add(files('vhost-vdpa.c', 'vhost-shadow-virtqueue.c','vhost-vdpa-iommufd.c'))
-   endif
- else
-   softmmu_virtio_ss.add(files('vhost-stub.c'))
-diff --git a/hw/virtio/vhost-vdpa-iommufd.c b/hw/virtio/vhost-vdpa-iommufd.c
-new file mode 100644
-index 0000000000..6a0875c0a4
---- /dev/null
-+++ b/hw/virtio/vhost-vdpa-iommufd.c
-@@ -0,0 +1,240 @@
-+
-+#include "qemu/osdep.h"
-+#include <sys/ioctl.h>
-+#include <linux/vhost.h>
-+#include <linux/vfio.h>
-+#include <linux/iommufd.h>
-+#include "sysemu/iommufd.h"
-+#include "hw/virtio/vhost.h"
-+
-+#include "hw/virtio/vhost-vdpa.h"
-+
-+static int vdpa_device_attach_ioas(struct vhost_vdpa *dev,
-+                                   VDPAIOMMUFDState *vdpa_iommufd)
-+{
-+    int ret;
-+
-+    struct vdpa_device_attach_iommufd_as attach_data = {
-+        .argsz = sizeof(attach_data),
-+        .flags = 0,
-+        .ioas_id = vdpa_iommufd->ioas_id,
-+    };
-+    /* Attach device to an ioas within iommufd */
-+    ret = ioctl(dev->device_fd, VDPA_DEVICE_ATTACH_IOMMUFD_AS, &attach_data);
-+    if (ret) {
-+        error_report("fail to bind device fd=%d to ioas_id=%d", dev->device_fd,
-+                     vdpa_iommufd->ioas_id);
-+        return ret;
-+    }
-+
-+    return 0;
-+}
-+static VDPAIOMMUFDState *vdpa_get_ioas_by_asid(struct vhost_dev *hdev,
-+                                               uint32_t asid)
-+{
-+    VDPAIOMMUFDState *vdpa_iommufd_ptr = hdev->vdev->iommufd_ptr;
-+    while (vdpa_iommufd_ptr != NULL) {
-+        if (asid == vdpa_iommufd_ptr->asid) {
-+            return vdpa_iommufd_ptr;
-+        }
-+
-+        vdpa_iommufd_ptr = vdpa_iommufd_ptr->next;
-+    }
-+
-+    return NULL;
-+}
-+static VDPAIOMMUFDState *vdpa_add_new_ioas_id(struct vhost_dev *hdev,
-+                                              uint32_t asid)
-+{
-+    int ret;
-+    uint32_t ioas_id;
-+
-+    struct vhost_vdpa *v = hdev->opaque;
-+    VDPAIOMMUFDState *vdpa_iommufd_ptr = hdev->vdev->iommufd_ptr;
-+    VDPAIOMMUFDState *vdpa_iommufd_new = g_malloc(sizeof(VDPAIOMMUFDState));
-+
-+    vdpa_iommufd_new->dev = hdev;
-+    vdpa_iommufd_new->asid = asid;
-+    vdpa_iommufd_new->iommufd = vdpa_iommufd_ptr->iommufd;
-+
-+    ret = iommufd_backend_get_ioas(vdpa_iommufd_new->iommufd, &ioas_id);
-+    if (ret < 0) {
-+        error_report("Failed to alloc ioas (%s)", strerror(errno));
-+        return NULL;
-+    }
-+
-+    vdpa_iommufd_new->ioas_id = ioas_id;
-+    /* this is new asid, attch to iommufd*/
-+    ret = vdpa_device_attach_ioas(v, vdpa_iommufd_new);
-+    if (ret < 0) {
-+        error_report("Failed to attach ioas (%s)", strerror(errno));
-+        return NULL;
-+    }
-+    while (vdpa_iommufd_ptr->next != NULL) {
-+        vdpa_iommufd_ptr = vdpa_iommufd_ptr->next;
-+    }
-+    /*save this vdpa_iommufd in list */
-+    vdpa_iommufd_ptr->next = vdpa_iommufd_new;
-+    vdpa_iommufd_new->next = NULL;
-+    return vdpa_iommufd_new;
-+}
-+static int vdpa_iommufd_map(struct vhost_dev *hdev, uint32_t asid, hwaddr iova,
-+                            hwaddr size, void *vaddr, bool readonly)
-+{
-+    VDPAIOMMUFDState *vdpa_iommufd;
-+
-+    if (hdev->vdev == NULL) {
-+        error_report("Failed to get vdev (%s)", strerror(errno));
-+        return 0;
-+    }
-+    /*search if this asid have attach to iommufd before*/
-+    vdpa_iommufd = vdpa_get_ioas_by_asid(hdev, asid);
-+    if (vdpa_iommufd == NULL) {
-+        /*this asid is first use, need to alloc and add to iommufd*/
-+        vdpa_iommufd = vdpa_add_new_ioas_id(hdev, asid);
-+    }
-+    return iommufd_backend_map_dma(vdpa_iommufd->iommufd, vdpa_iommufd->ioas_id,
-+                                   iova, size, vaddr, readonly);
-+}
-+
-+
-+static int vdpa_iommufd_unmap(struct vhost_dev *hdev, uint32_t asid,
-+                              hwaddr iova, hwaddr size)
-+{
-+    VDPAIOMMUFDState *vdpa_iommufd;
-+    if (hdev->vdev == NULL) {
-+        error_report("Failed to get vdev (%s)", strerror(errno));
-+        return 0;
-+    }
-+    /*search if this asid have attach to iommufd before*/
-+
-+    vdpa_iommufd = vdpa_get_ioas_by_asid(hdev, asid);
-+    if (vdpa_iommufd == NULL) {
-+        error_report("Failed to get ioas (%s)", strerror(errno));
-+        return 0;
-+    }
-+    return iommufd_backend_unmap_dma(vdpa_iommufd->iommufd,
-+                                     vdpa_iommufd->ioas_id, iova, size);
-+}
-+
-+
-+static void vdpa_device_detach_iommufd(struct vhost_vdpa *v,
-+                                       VDPAIOMMUFDState *vdpa_iommufd,
-+                                       Error **errp)
-+{
-+    struct vdpa_device_detach_iommufd_as detach_data = {
-+        .argsz = sizeof(detach_data),
-+        .flags = 0,
-+    };
-+
-+    if (ioctl(v->device_fd, VDPA_DEVICE_DETACH_IOMMUFD_AS, &detach_data)) {
-+        error_report("error bind device fd=%d ", v->device_fd);
-+        return;
-+    }
-+}
-+
-+
-+static int vdpa_device_bind_iommufd(struct vhost_vdpa *dev,
-+                                    VDPAIOMMUFDState *vdpa_iommufd,
-+                                    Error **errp)
-+{
-+    struct vhost_vdpa_set_iommufd bind = {
-+        .iommufd = vdpa_iommufd->iommufd->fd,
-+        .ioas_id = vdpa_iommufd->ioas_id,
-+    };
-+
-+    int ret;
-+    /* Bind device to iommufd */
-+    ret = ioctl(dev->device_fd, VHOST_VDPA_SET_IOMMU_FD, &bind);
-+    if (ret) {
-+        error_report("error bind device fd=%d to iommufd=%d", dev->device_fd,
-+                     bind.iommufd);
-+        return ret;
-+    }
-+
-+    vdpa_iommufd->devid = bind.out_devid;
-+    vdpa_iommufd->hwptid = bind.out_hwptid;
-+
-+    return vdpa_device_attach_ioas(dev, vdpa_iommufd);
-+}
-+
-+static void vdpa_iommufd_destroy(VDPAIOMMUFDState *vdpa_iommufd)
-+{
-+    g_free(vdpa_iommufd);
-+}
-+
-+/*attach the device to iommufd */
-+static int vdpa_iommufd_attach_device(struct vhost_vdpa *v, AddressSpace *as,
-+                                      Error **errp)
-+{
-+    VDPAIOMMUFDState *vdpa_iommufd;
-+    int ret;
-+    uint32_t ioas_id;
-+    Error *err = NULL;
-+    struct vhost_dev *dev = v->dev;
-+    vdpa_iommufd = dev->vdev->iommufd_ptr;
-+
-+    /*allocate a new IOAS */
-+    ret = iommufd_backend_get_ioas(vdpa_iommufd->iommufd, &ioas_id);
-+    if (ret < 0) {
-+        close(v->device_fd);
-+        error_report("Failed to alloc ioas (%s)", strerror(errno));
-+        return ret;
-+    }
-+
-+    vdpa_iommufd->ioas_id = ioas_id;
-+    vdpa_iommufd->dev = dev;
-+    /* use the default ASID*/
-+    vdpa_iommufd->asid = VHOST_VDPA_GUEST_PA_ASID;
-+    vdpa_iommufd->next = NULL;
-+
-+    vdpa_iommufd->as = as;
-+    /*bind the default ASID to iommufd*/
-+    ret = vdpa_device_bind_iommufd(v, vdpa_iommufd, &err);
-+    if (ret) {
-+        /* todo check if fail */
-+        error_report("Failed to vdpa_device_bind_iommufd  (%s)",
-+                     strerror(errno));
-+        iommufd_backend_put_ioas(vdpa_iommufd->iommufd, ioas_id);
-+
-+        vdpa_iommufd_destroy(vdpa_iommufd);
-+        return ret;
-+    }
-+
-+    return ret;
-+}
-+
-+static void vdpa_iommufd_detach_device(struct vhost_vdpa *v)
-+{
-+    VDPAIOMMUFDState *vdpa_iommufd;
-+
-+    VDPAIOMMUFDState *vdpa_iommufd_tmp;
-+    Error *err = NULL;
-+
-+    struct vhost_dev *dev = v->dev;
-+    if (!dev->vdev) {
-+        return;
-+    }
-+    vdpa_iommufd = dev->vdev->iommufd_ptr;
-+    vdpa_device_detach_iommufd(v, vdpa_iommufd, &err);
-+
-+    while (vdpa_iommufd != NULL) {
-+        iommufd_backend_put_ioas(vdpa_iommufd->iommufd, vdpa_iommufd->ioas_id);
-+        vdpa_iommufd_tmp = vdpa_iommufd;
-+        vdpa_iommufd = vdpa_iommufd->next;
-+
-+        vdpa_iommufd_destroy(vdpa_iommufd_tmp);
-+    }
-+}
-+
-+struct vdpa_iommu_backend_ops iommufd_ops = {
-+    .dma_map = vdpa_iommufd_map,
-+    .dma_unmap = vdpa_iommufd_unmap,
-+    .attach_device = vdpa_iommufd_attach_device,
-+    .detach_device = vdpa_iommufd_detach_device,
-+};
-+
-+void vdpa_backend_iommufd_ops_class_init(struct vhost_vdpa *v)
-+{
-+    v->ops = &iommufd_ops;
-+}
--- 
-2.34.3
-
+Will clean this up.
 
