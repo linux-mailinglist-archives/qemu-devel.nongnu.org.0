@@ -2,97 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D47EF6F5563
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 May 2023 11:54:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DCC486F556D
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 May 2023 11:56:21 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pu9Bm-0005FS-Hx; Wed, 03 May 2023 05:54:22 -0400
+	id 1pu9DE-0006lt-C6; Wed, 03 May 2023 05:55:52 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pu9Bg-0005El-Ud
- for qemu-devel@nongnu.org; Wed, 03 May 2023 05:54:16 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pu9Bf-0004Kz-Bi
- for qemu-devel@nongnu.org; Wed, 03 May 2023 05:54:16 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1683107654;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=QfDh1HnKMyX+ix+B/1joO88eLFvIU3pV3Zk04H6Q3pM=;
- b=HMmhNTCTG8cCouiAQOJeA2UYkQnj2ozibxXx0D2mToUwGBcRwapjtmKRA5jQ0uJ3g1L09J
- sfv1D+PtTfzsw9d5WsQ/XP711HUrgyPBXDQ7T19Yoim5HiEbFMvVRC46MaZlWBGYa57XmI
- scpIvA3gzCxOIhnJAVwOecGHqPbCPXc=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-613-DCgv_0MgP2C4LSxEt_YMNg-1; Wed, 03 May 2023 05:54:13 -0400
-X-MC-Unique: DCgv_0MgP2C4LSxEt_YMNg-1
-Received: by mail-wr1-f71.google.com with SMTP id
- ffacd0b85a97d-2ff4bc7a770so2879304f8f.3
- for <qemu-devel@nongnu.org>; Wed, 03 May 2023 02:54:13 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pu9DB-0006lM-VG
+ for qemu-devel@nongnu.org; Wed, 03 May 2023 05:55:49 -0400
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pu9DA-0004kd-Ds
+ for qemu-devel@nongnu.org; Wed, 03 May 2023 05:55:49 -0400
+Received: by mail-wr1-x433.google.com with SMTP id
+ ffacd0b85a97d-30626f4d74aso2732649f8f.0
+ for <qemu-devel@nongnu.org>; Wed, 03 May 2023 02:55:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1683107746; x=1685699746;
+ h=content-transfer-encoding:in-reply-to:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=1dmFxe3aDASORIgcNcqURuHCWbrP/tv325Tp70O8Wbs=;
+ b=f/Q1Hugn3fF9ZMpa8Ni1EdftRAy8lULCI+fc8nD9m/uqGDEnHnKOHpqW+wNyHzO8Oc
+ 7oPu8BS8QOg4iJuuiLaKAfb7GHQuapHs8JSZOTQpeMcGoz6Yn0e8uCqfTxDFBAbtM5+w
+ 52b0oPVbN3N9dMBhAGwIrnvZjSgtEeUQSKPHlXBvG84atfwLOQmJguqpyeoPtcHbyUfQ
+ cwjsI1qjQbxK54aklCpJdbNWfNFCKqOWWFY2AarRrzdAmdJRxVAz+CTCIPKKVhMHKUUJ
+ Xn9+Gwll6qMwMFbWiSBPwQ6YeTZYpZtGjDFKI0KifLpMoo/4B0FvKL0g7fLSIidtxufB
+ 0mlw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683107652; x=1685699652;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ d=1e100.net; s=20221208; t=1683107746; x=1685699746;
+ h=content-transfer-encoding:in-reply-to:from:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=QfDh1HnKMyX+ix+B/1joO88eLFvIU3pV3Zk04H6Q3pM=;
- b=NJ43ioLK01cEozi0JvxE/My0JMr7+RjSbDmOSGLaAhPbqRa97aWbGOndayOHMgwnU0
- 6rYia+NX5hZiH8gN/ogCcCHgvY/0JLzi0NWuZ8OcwHQ1drtu5x2TMK1HglB5ndpJvi3C
- LL3Gqnj7v0jo9zdJY32DCzsCTBugNhZJqXi1WkGJAm9KxtqXRIer2ijvtLvNqtYC9jp8
- gAB1I0PdNufTpifOki2HsI57qLx7yT8FD5Outs2H+fHZrYYZhQGVcC6wgXg2WnrGQKrR
- yvSO5kURl0AzqNXba84a5VVJoUzYkzAEKfq1peRc7Ek12JldENj/nT2Lmgn0xYub78/w
- 96Jg==
-X-Gm-Message-State: AC+VfDzUb4y1LN/8wm2ugMEaanuZtrPGaAV1aTUpiy5i8lZLKCXk3fPa
- 25awaixOXxfMOLek8TgNg2lXXOuql/ndmIc/C9zksbm4mSqBZEIZ/CaTIaKDI83tQpG6WZqnYSV
- Cv6feYx6YCdgQylpwa9emxTQ=
-X-Received: by 2002:a5d:6243:0:b0:2fb:bb97:d975 with SMTP id
- m3-20020a5d6243000000b002fbbb97d975mr14157242wrv.47.1683107652094; 
- Wed, 03 May 2023 02:54:12 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ6z8OMMoDCsW7/+VAR/96RegARypnwnMLqZLZrqW6zoadIY7R4GMQEQxDFLLLf8zI2RTNd5pg==
-X-Received: by 2002:a5d:6243:0:b0:2fb:bb97:d975 with SMTP id
- m3-20020a5d6243000000b002fbbb97d975mr14157220wrv.47.1683107651806; 
- Wed, 03 May 2023 02:54:11 -0700 (PDT)
-Received: from [10.33.192.225] (nat-pool-str-t.redhat.com. [149.14.88.106])
+ bh=1dmFxe3aDASORIgcNcqURuHCWbrP/tv325Tp70O8Wbs=;
+ b=Ggj3h7EMKH6yL5cSU79Tqqm9iD+xcgHD6F+OiSTfj7R6byWgg3qj6YFJ3PcjzYQScM
+ 3UyU6FPH9tfNi73gx4+/0qXkwz/h331TFtktLALuPm5mgysT9Wq3Vouoyysmq/rjJ2cW
+ IsPGX24A0DRap9SiR/FMtTVHA1tghIh3WjuNpfqmfuII5vrb18tnFRqaeHUI7LwZ4sDo
+ CAUuqF1WoyNwhQTRGRikpFcTZfvtK8E0zJzltRDxBBmlLbLZFf00J20L64uQ39Bk1UPP
+ lXCuYubWUibBdzeVuXQLPKzTPlS82PqfJaR/LvmW1IE2wpJ+Nf0kF1CAhllaCgV7VkCZ
+ lPcg==
+X-Gm-Message-State: AC+VfDxShaa5YIrvhyRC01agqiGjbYQqi0ddd1zoSvfeZJs7j6hxXBEW
+ jxHkog7+gpQHY9H9IRVndMIvjmTGSoD+/2zXxB5Stw==
+X-Google-Smtp-Source: ACHHUZ4d10G8c9sVtCIGTRatIK/qKn9xmyfpRxPTpHn/iUPykfHyo4IpCwdueoizv0OrZLeU1hOByQ==
+X-Received: by 2002:adf:e70c:0:b0:306:321c:995b with SMTP id
+ c12-20020adfe70c000000b00306321c995bmr5407782wrm.41.1683107746673; 
+ Wed, 03 May 2023 02:55:46 -0700 (PDT)
+Received: from ?IPV6:2a02:c7c:74db:8d00:c01d:9d74:b630:9087?
+ ([2a02:c7c:74db:8d00:c01d:9d74:b630:9087])
  by smtp.gmail.com with ESMTPSA id
- j6-20020a5d6186000000b003063772a55bsm4221775wru.61.2023.05.03.02.54.10
+ f6-20020a5d6646000000b002f6dafef040sm33271070wrw.12.2023.05.03.02.55.46
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 03 May 2023 02:54:11 -0700 (PDT)
-Message-ID: <669d2181-7429-5c49-aad1-65fb844f2e5a@redhat.com>
-Date: Wed, 3 May 2023 11:54:10 +0200
+ Wed, 03 May 2023 02:55:46 -0700 (PDT)
+Message-ID: <11bcc3c8-5e84-6303-e6c2-d0be3eefeeac@linaro.org>
+Date: Wed, 3 May 2023 10:55:44 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH v20 01/21] s390x/cpu topology: add s390 specifics to CPU
- topology
+ Thunderbird/102.10.0
+Subject: Re: [PATCH v2 05/10] qapi: make the vcpu parameters deprecated for 8.1
 Content-Language: en-US
-To: Pierre Morel <pmorel@linux.ibm.com>, qemu-s390x@nongnu.org
-Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
- richard.henderson@linaro.org, david@redhat.com, cohuck@redhat.com,
- mst@redhat.com, pbonzini@redhat.com, kvm@vger.kernel.org,
- ehabkost@redhat.com, marcel.apfelbaum@gmail.com, eblake@redhat.com,
- armbru@redhat.com, seiden@linux.ibm.com, nrb@linux.ibm.com,
- nsg@linux.ibm.com, frankja@linux.ibm.com, berrange@redhat.com, clg@kaod.org
-References: <20230425161456.21031-1-pmorel@linux.ibm.com>
- <20230425161456.21031-2-pmorel@linux.ibm.com>
- <45e09800-6a47-0372-5244-16e2dc72370d@redhat.com>
- <47e3a077-0819-e88b-bc49-a580c8939350@linux.ibm.com>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <47e3a077-0819-e88b-bc49-a580c8939350@linux.ibm.com>
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
+References: <20230503091756.1453057-1-alex.bennee@linaro.org>
+ <20230503091756.1453057-6-alex.bennee@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20230503091756.1453057-6-alex.bennee@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -36
-X-Spam_score: -3.7
+Received-SPF: pass client-ip=2a00:1450:4864:20::433;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x433.google.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
 X-Spam_bar: ---
-X-Spam_report: (-3.7 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.171,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.422, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.422,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -109,63 +96,19 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 03/05/2023 11.36, Pierre Morel wrote:
+On 5/3/23 10:17, Alex Bennée wrote:
+> I don't think I can remove the parameters directly but certainly mark
+> them as deprecated.
 > 
-> On 4/27/23 10:04, Thomas Huth wrote:
->> On 25/04/2023 18.14, Pierre Morel wrote:
->>> S390 adds two new SMP levels, drawers and books to the CPU
->>> topology.
->>> The S390 CPU have specific topology features like dedication
->>> and entitlement to give to the guest indications on the host
->>> vCPUs scheduling and help the guest take the best decisions
->>> on the scheduling of threads on the vCPUs.
->>>
->>> Let us provide the SMP properties with books and drawers levels
->>> and S390 CPU with dedication and entitlement,
->>>
->>> Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
-> 
-> 
-> [...]
-> 
-> 
->>>   {
->>>       MachineClass *mc = MACHINE_GET_CLASS(ms);
->>>       unsigned cpus    = config->has_cpus ? config->cpus : 0;
->>> +    unsigned drawers = config->has_drawers ? config->drawers : 0;
->>> +    unsigned books   = config->has_books ? config->books : 0;
->>>       unsigned sockets = config->has_sockets ? config->sockets : 0;
->>>       unsigned dies    = config->has_dies ? config->dies : 0;
->>>       unsigned clusters = config->has_clusters ? config->clusters : 0;
->>> @@ -85,6 +98,8 @@ void machine_parse_smp_config(MachineState *ms,
->>>        * explicit configuration like "cpus=0" is not allowed.
->>>        */
->>>       if ((config->has_cpus && config->cpus == 0) ||
->>> +        (config->has_drawers && config->drawers == 0) ||
->>> +        (config->has_books && config->books == 0) ||
->>>           (config->has_sockets && config->sockets == 0) ||
->>>           (config->has_dies && config->dies == 0) ||
->>>           (config->has_clusters && config->clusters == 0) ||
->>> @@ -111,6 +126,19 @@ void machine_parse_smp_config(MachineState *ms,
->>>       dies = dies > 0 ? dies : 1;
->>>       clusters = clusters > 0 ? clusters : 1;
->>>   +    if (!mc->smp_props.books_supported && books > 1) {
->>> +        error_setg(errp, "books not supported by this machine's CPU 
->>> topology");
->>> +        return;
->>> +    }
->>> +    books = books > 0 ? books : 1;
->>
->> Could be shortened to:  book = books ?: 1;
->>
-> More thinking about this, all other existing assignments are done so, 
-> clusters, dies, sockets, cores and threads.
-> 
-> to keep the core consistent shouldn't we keep it the same way?
+> Message-Id:<20230420150009.1675181-6-alex.bennee@linaro.org>
+> Reviewed-by: Stefan Hajnoczi<stefanha@redhat.com>
+> Signed-off-by: Alex Bennée<alex.bennee@linaro.org>
+> ---
+>   qapi/trace.json | 22 +++++++---------------
+>   1 file changed, 7 insertions(+), 15 deletions(-)
 
-Fine for me, too. It just might happen that I forget about it and suggest it 
-again in a future version of the patch ;-)
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-  Thomas
 
+r~
 
