@@ -2,60 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10CF46F4E0B
+	by mail.lfdr.de (Postfix) with ESMTPS id 462176F4E0E
 	for <lists+qemu-devel@lfdr.de>; Wed,  3 May 2023 02:14:40 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pu07c-0006Rh-Hr; Tue, 02 May 2023 20:13:28 -0400
+	id 1pu07X-0006RY-I7; Tue, 02 May 2023 20:13:23 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <sstabellini@kernel.org>)
- id 1pu07N-0006OP-7I
+ id 1pu07N-0006OS-7S
  for qemu-devel@nongnu.org; Tue, 02 May 2023 20:13:14 -0400
-Received: from dfw.source.kernel.org ([139.178.84.217])
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <sstabellini@kernel.org>)
- id 1pu07L-0003df-1E
+ id 1pu07L-0003dg-2M
  for qemu-devel@nongnu.org; Tue, 02 May 2023 20:13:12 -0400
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 1199A62982;
- Wed,  3 May 2023 00:13:08 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A554AC433EF;
- Wed,  3 May 2023 00:13:06 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 5985C62489;
+ Wed,  3 May 2023 00:13:09 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C7646C4339B;
+ Wed,  3 May 2023 00:13:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1683072787;
- bh=joi3dWPmcWzv+vuIV94J2Qjlpu0roVGAFPGsS2MEaYY=;
+ s=k20201202; t=1683072788;
+ bh=HhMHJFItJdScsOf/MaHtSlKmrppp8rUWn/XSY9EcuFQ=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=BhxHA2KvH2OS4/gu1bV6S1u/DtmjdFueHzB2KUl7VhFrrhSX0Ti3leJhqBgjc1Kpv
- aWpHoD5aKqwzfLirJqortvTix8K2zvLBU9LiSvwrtDUC2V4lqcK59uZoMnaYrVNCmY
- ZJsro+9Luq6q+DGNn93hjfG32smnTl/LG5z/Qh+N4NamHebJglI4Zf83xhe4LoYGEn
- taAzCbuY0PioL/AL2bIz6qOVkSuaLyz5Sm0NWA45T3ysQzhCtrw/3Q33XcEr6lIH9d
- 9P0UU9S/rzbO+m4dToOjb6guFimmfadtdFENQMzJwEyOw5QmyQlR4lmzbO1la2kCPj
- y7ua+iNYBcbRA==
+ b=PKrUGp6szyZdwKg1uY+yzOY0rF/+/J9b8yH1DATsMT0ou7lhqCp4NpAfzqZrJdxQI
+ VcigKtZ1bCsFkbwmDh7ZvImqjeoT10DX1LHBSx8BKeDN5gV+E6eyDCk247DO6XtLOX
+ kX3dReOEyUFNdAZ6Z4Gk6wEWCzScMJYQd8Djo2rXzB/wk5mhnRIOYzRlmoIWoUZ//R
+ narDMwOvh7uCBlkQoS6u+wjHheOFDrD23oMbJfR1ZMZerVePRhxBFhGNP6gHr9oOLG
+ M4zrI3bjyxvset7VZaPwkx+cXNindLph2q931QzOjuuxZKKbEv8g3+IvjYuD8/7FzV
+ UzPTnLDC3WhJQ==
 From: Stefano Stabellini <sstabellini@kernel.org>
 To: peter.maydell@linaro.org
 Cc: sstabellini@kernel.org, qemu-devel@nongnu.org, vikram.garhwal@amd.com,
  Stefano Stabellini <stefano.stabellini@amd.com>,
- Paul Durrant <paul@xen.org>
-Subject: [PULL v3 02/10] hw/i386/xen: rearrange xen_hvm_init_pc
-Date: Tue,  2 May 2023 17:12:55 -0700
-Message-Id: <20230503001303.1837420-2-sstabellini@kernel.org>
+ Paul Durrant <paul@xen.org>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Subject: [PULL v3 03/10] hw/i386/xen/xen-hvm: move x86-specific fields out of
+ XenIOState
+Date: Tue,  2 May 2023 17:12:56 -0700
+Message-Id: <20230503001303.1837420-3-sstabellini@kernel.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <alpine.DEB.2.22.394.2305021708010.974517@ubuntu-linux-20-04-desktop>
 References: <alpine.DEB.2.22.394.2305021708010.974517@ubuntu-linux-20-04-desktop>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=139.178.84.217;
+Received-SPF: pass client-ip=2604:1380:4641:c500::1;
  envelope-from=sstabellini@kernel.org; helo=dfw.source.kernel.org
-X-Spam_score_int: -72
-X-Spam_score: -7.3
-X-Spam_bar: -------
-X-Spam_report: (-7.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.171,
+X-Spam_score_int: -45
+X-Spam_score: -4.6
+X-Spam_bar: ----
+X-Spam_report: (-4.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.171,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -72,109 +75,184 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Vikram Garhwal <vikram.garhwal@amd.com>
+From: Stefano Stabellini <stefano.stabellini@amd.com>
 
-In preparation to moving most of xen-hvm code to an arch-neutral location,
-move non IOREQ references to:
-- xen_get_vmport_regs_pfn
-- xen_suspend_notifier
-- xen_wakeup_notifier
-- xen_ram_init
+In preparation to moving most of xen-hvm code to an arch-neutral location, move:
+- shared_vmport_page
+- log_for_dirtybit
+- dirty_bitmap
+- suspend
+- wakeup
 
-towards the end of the xen_hvm_init_pc() function.
+out of XenIOState struct as these are only used on x86, especially the ones
+related to dirty logging.
+Updated XenIOState can be used for both aarch64 and x86.
 
-This is done to keep the common ioreq functions in one place which will be
-moved to new function in next patch in order to make it common to both x86 and
-aarch64 machines.
+Also, remove free_phys_offset as it was unused.
 
-Signed-off-by: Vikram Garhwal <vikram.garhwal@amd.com>
 Signed-off-by: Stefano Stabellini <stefano.stabellini@amd.com>
+Signed-off-by: Vikram Garhwal <vikram.garhwal@amd.com>
 Reviewed-by: Paul Durrant <paul@xen.org>
+Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- hw/i386/xen/xen-hvm.c | 49 ++++++++++++++++++++++---------------------
- 1 file changed, 25 insertions(+), 24 deletions(-)
+ hw/i386/xen/xen-hvm.c | 58 ++++++++++++++++++++-----------------------
+ 1 file changed, 27 insertions(+), 31 deletions(-)
 
 diff --git a/hw/i386/xen/xen-hvm.c b/hw/i386/xen/xen-hvm.c
-index 56641a550e..5403ac4b89 100644
+index 5403ac4b89..6be5a250a8 100644
 --- a/hw/i386/xen/xen-hvm.c
 +++ b/hw/i386/xen/xen-hvm.c
-@@ -1419,12 +1419,6 @@ void xen_hvm_init_pc(PCMachineState *pcms, MemoryRegion **ram_memory)
-     state->exit.notify = xen_exit_notifier;
-     qemu_add_exit_notifier(&state->exit);
+@@ -74,6 +74,7 @@ struct shared_vmport_iopage {
+ };
+ typedef struct shared_vmport_iopage shared_vmport_iopage_t;
+ #endif
++static shared_vmport_iopage_t *shared_vmport_page;
  
--    state->suspend.notify = xen_suspend_notifier;
--    qemu_register_suspend_notifier(&state->suspend);
--
--    state->wakeup.notify = xen_wakeup_notifier;
--    qemu_register_wakeup_notifier(&state->wakeup);
--
-     /*
-      * Register wake-up support in QMP query-current-machine API
-      */
-@@ -1435,23 +1429,6 @@ void xen_hvm_init_pc(PCMachineState *pcms, MemoryRegion **ram_memory)
-         goto err;
+ static inline uint32_t xen_vcpu_eport(shared_iopage_t *shared_page, int i)
+ {
+@@ -96,6 +97,11 @@ typedef struct XenPhysmap {
+ } XenPhysmap;
+ 
+ static QLIST_HEAD(, XenPhysmap) xen_physmap;
++static const XenPhysmap *log_for_dirtybit;
++/* Buffer used by xen_sync_dirty_bitmap */
++static unsigned long *dirty_bitmap;
++static Notifier suspend;
++static Notifier wakeup;
+ 
+ typedef struct XenPciDevice {
+     PCIDevice *pci_dev;
+@@ -106,7 +112,6 @@ typedef struct XenPciDevice {
+ typedef struct XenIOState {
+     ioservid_t ioservid;
+     shared_iopage_t *shared_page;
+-    shared_vmport_iopage_t *shared_vmport_page;
+     buffered_iopage_t *buffered_io_page;
+     xenforeignmemory_resource_handle *fres;
+     QEMUTimer *buffered_io_timer;
+@@ -126,14 +131,8 @@ typedef struct XenIOState {
+     MemoryListener io_listener;
+     QLIST_HEAD(, XenPciDevice) dev_list;
+     DeviceListener device_listener;
+-    hwaddr free_phys_offset;
+-    const XenPhysmap *log_for_dirtybit;
+-    /* Buffer used by xen_sync_dirty_bitmap */
+-    unsigned long *dirty_bitmap;
+ 
+     Notifier exit;
+-    Notifier suspend;
+-    Notifier wakeup;
+ } XenIOState;
+ 
+ /* Xen specific function for piix pci */
+@@ -463,10 +462,10 @@ static int xen_remove_from_physmap(XenIOState *state,
      }
  
--    rc = xen_get_vmport_regs_pfn(xen_xc, xen_domid, &ioreq_pfn);
--    if (!rc) {
--        DPRINTF("shared vmport page at pfn %lx\n", ioreq_pfn);
--        state->shared_vmport_page =
--            xenforeignmemory_map(xen_fmem, xen_domid, PROT_READ|PROT_WRITE,
--                                 1, &ioreq_pfn, NULL);
--        if (state->shared_vmport_page == NULL) {
--            error_report("map shared vmport IO page returned error %d handle=%p",
--                         errno, xen_xc);
--            goto err;
--        }
--    } else if (rc != -ENOSYS) {
--        error_report("get vmport regs pfn returned error %d, rc=%d",
--                     errno, rc);
--        goto err;
--    }
+     QLIST_REMOVE(physmap, list);
+-    if (state->log_for_dirtybit == physmap) {
+-        state->log_for_dirtybit = NULL;
+-        g_free(state->dirty_bitmap);
+-        state->dirty_bitmap = NULL;
++    if (log_for_dirtybit == physmap) {
++        log_for_dirtybit = NULL;
++        g_free(dirty_bitmap);
++        dirty_bitmap = NULL;
+     }
+     g_free(physmap);
+ 
+@@ -627,16 +626,16 @@ static void xen_sync_dirty_bitmap(XenIOState *state,
+         return;
+     }
+ 
+-    if (state->log_for_dirtybit == NULL) {
+-        state->log_for_dirtybit = physmap;
+-        state->dirty_bitmap = g_new(unsigned long, bitmap_size);
+-    } else if (state->log_for_dirtybit != physmap) {
++    if (log_for_dirtybit == NULL) {
++        log_for_dirtybit = physmap;
++        dirty_bitmap = g_new(unsigned long, bitmap_size);
++    } else if (log_for_dirtybit != physmap) {
+         /* Only one range for dirty bitmap can be tracked. */
+         return;
+     }
+ 
+     rc = xen_track_dirty_vram(xen_domid, start_addr >> TARGET_PAGE_BITS,
+-                              npages, state->dirty_bitmap);
++                              npages, dirty_bitmap);
+     if (rc < 0) {
+ #ifndef ENODATA
+ #define ENODATA  ENOENT
+@@ -651,7 +650,7 @@ static void xen_sync_dirty_bitmap(XenIOState *state,
+     }
+ 
+     for (i = 0; i < bitmap_size; i++) {
+-        unsigned long map = state->dirty_bitmap[i];
++        unsigned long map = dirty_bitmap[i];
+         while (map != 0) {
+             j = ctzl(map);
+             map &= ~(1ul << j);
+@@ -677,12 +676,10 @@ static void xen_log_start(MemoryListener *listener,
+ static void xen_log_stop(MemoryListener *listener, MemoryRegionSection *section,
+                          int old, int new)
+ {
+-    XenIOState *state = container_of(listener, XenIOState, memory_listener);
 -
-     /* Note: cpus is empty at this point in init */
-     state->cpu_by_vcpu_id = g_new0(CPUState *, max_cpus);
+     if (old & ~new & (1 << DIRTY_MEMORY_VGA)) {
+-        state->log_for_dirtybit = NULL;
+-        g_free(state->dirty_bitmap);
+-        state->dirty_bitmap = NULL;
++        log_for_dirtybit = NULL;
++        g_free(dirty_bitmap);
++        dirty_bitmap = NULL;
+         /* Disable dirty bit tracking */
+         xen_track_dirty_vram(xen_domid, 0, 0, NULL);
+     }
+@@ -1022,9 +1019,9 @@ static void handle_vmport_ioreq(XenIOState *state, ioreq_t *req)
+ {
+     vmware_regs_t *vmport_regs;
  
-@@ -1490,7 +1467,6 @@ void xen_hvm_init_pc(PCMachineState *pcms, MemoryRegion **ram_memory)
- #else
-     xen_map_cache_init(NULL, state);
- #endif
--    xen_ram_init(pcms, ms->ram_size, ram_memory);
+-    assert(state->shared_vmport_page);
++    assert(shared_vmport_page);
+     vmport_regs =
+-        &state->shared_vmport_page->vcpu_vmport_regs[state->send_vcpu];
++        &shared_vmport_page->vcpu_vmport_regs[state->send_vcpu];
+     QEMU_BUILD_BUG_ON(sizeof(*req) < sizeof(*vmport_regs));
  
-     qemu_add_vm_change_state_handler(xen_hvm_change_state_handler, state);
+     current_cpu = state->cpu_by_vcpu_id[state->send_vcpu];
+@@ -1472,7 +1469,6 @@ void xen_hvm_init_pc(PCMachineState *pcms, MemoryRegion **ram_memory)
  
-@@ -1511,6 +1487,31 @@ void xen_hvm_init_pc(PCMachineState *pcms, MemoryRegion **ram_memory)
+     state->memory_listener = xen_memory_listener;
+     memory_listener_register(&state->memory_listener, &address_space_memory);
+-    state->log_for_dirtybit = NULL;
+ 
+     state->io_listener = xen_io_listener;
+     memory_listener_register(&state->io_listener, &address_space_io);
+@@ -1487,19 +1483,19 @@ void xen_hvm_init_pc(PCMachineState *pcms, MemoryRegion **ram_memory)
      QLIST_INIT(&xen_physmap);
      xen_read_physmap(state);
  
-+    state->suspend.notify = xen_suspend_notifier;
-+    qemu_register_suspend_notifier(&state->suspend);
-+
-+    state->wakeup.notify = xen_wakeup_notifier;
-+    qemu_register_wakeup_notifier(&state->wakeup);
-+
-+    rc = xen_get_vmport_regs_pfn(xen_xc, xen_domid, &ioreq_pfn);
-+    if (!rc) {
-+        DPRINTF("shared vmport page at pfn %lx\n", ioreq_pfn);
-+        state->shared_vmport_page =
-+            xenforeignmemory_map(xen_fmem, xen_domid, PROT_READ|PROT_WRITE,
-+                                 1, &ioreq_pfn, NULL);
-+        if (state->shared_vmport_page == NULL) {
-+            error_report("map shared vmport IO page returned error %d handle=%p",
-+                         errno, xen_xc);
-+            goto err;
-+        }
-+    } else if (rc != -ENOSYS) {
-+        error_report("get vmport regs pfn returned error %d, rc=%d",
-+                     errno, rc);
-+        goto err;
-+    }
-+
-+    xen_ram_init(pcms, ms->ram_size, ram_memory);
-+
-     /* Disable ACPI build because Xen handles it */
-     pcms->acpi_build_enabled = false;
+-    state->suspend.notify = xen_suspend_notifier;
+-    qemu_register_suspend_notifier(&state->suspend);
++    suspend.notify = xen_suspend_notifier;
++    qemu_register_suspend_notifier(&suspend);
  
+-    state->wakeup.notify = xen_wakeup_notifier;
+-    qemu_register_wakeup_notifier(&state->wakeup);
++    wakeup.notify = xen_wakeup_notifier;
++    qemu_register_wakeup_notifier(&wakeup);
+ 
+     rc = xen_get_vmport_regs_pfn(xen_xc, xen_domid, &ioreq_pfn);
+     if (!rc) {
+         DPRINTF("shared vmport page at pfn %lx\n", ioreq_pfn);
+-        state->shared_vmport_page =
++        shared_vmport_page =
+             xenforeignmemory_map(xen_fmem, xen_domid, PROT_READ|PROT_WRITE,
+                                  1, &ioreq_pfn, NULL);
+-        if (state->shared_vmport_page == NULL) {
++        if (shared_vmport_page == NULL) {
+             error_report("map shared vmport IO page returned error %d handle=%p",
+                          errno, xen_xc);
+             goto err;
 -- 
 2.25.1
 
