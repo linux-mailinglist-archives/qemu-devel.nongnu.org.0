@@ -2,71 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9534E6F5747
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 May 2023 13:41:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 696766F574A
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 May 2023 13:41:43 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1puApY-00071S-Oi; Wed, 03 May 2023 07:39:32 -0400
+	id 1puAr3-0007tL-7O; Wed, 03 May 2023 07:41:05 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1puApV-00070z-0V
- for qemu-devel@nongnu.org; Wed, 03 May 2023 07:39:29 -0400
-Received: from forwardcorp1c.mail.yandex.net ([178.154.239.200])
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1puAr0-0007rp-E6
+ for qemu-devel@nongnu.org; Wed, 03 May 2023 07:41:02 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1puApR-0001YH-MV
- for qemu-devel@nongnu.org; Wed, 03 May 2023 07:39:28 -0400
-Received: from mail-nwsmtp-smtp-corp-main-62.myt.yp-c.yandex.net
- (mail-nwsmtp-smtp-corp-main-62.myt.yp-c.yandex.net
- [IPv6:2a02:6b8:c00:2582:0:640:9a17:0])
- by forwardcorp1c.mail.yandex.net (Yandex) with ESMTP id 72C7A5F3C8;
- Wed,  3 May 2023 14:39:17 +0300 (MSK)
-Received: from [IPV6:2a02:6b8:b081:b43b::1:1a] (unknown
- [2a02:6b8:b081:b43b::1:1a])
- by mail-nwsmtp-smtp-corp-main-62.myt.yp-c.yandex.net (smtpcorp/Yandex) with
- ESMTPSA id FdM7WZ0MpqM0-6RfiYA2T; Wed, 03 May 2023 14:39:16 +0300
-X-Yandex-Fwd: 1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
- s=default; 
- t=1683113956; bh=WjkOFFyChz4R7+Y+89vNftCzPvr/rDbsteYCL4ceklk=;
- h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
- b=yBHY0O8AuPPFyNpJoAF3+l7ZeygsKJzNtPFF67cd6icF73DYjRMAjAQFdhk9gWceS
- 4LQdde71JKjSMbPNAYv/7AT6W1NgEvoEnqTQoa6XqGPKzBWQUEw55Jo/d2hxQX6+8U
- MQXWWCAmRfibtN3nC980BlQ05U3aUmMbwgMbHMt8=
-Authentication-Results: mail-nwsmtp-smtp-corp-main-62.myt.yp-c.yandex.net;
- dkim=pass header.i=@yandex-team.ru
-Message-ID: <ed74d57a-5f24-bf0a-09c2-b755c69c8c08@yandex-team.ru>
-Date: Wed, 3 May 2023 14:39:15 +0300
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1puAqy-00037o-4y
+ for qemu-devel@nongnu.org; Wed, 03 May 2023 07:41:02 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1683114058;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=dRwOSZS087B+j9NDbbckQmSe0NEnNmqFyABRgslLrL0=;
+ b=BDOUwj80VvLKG2y/6Pu6MEr4gj8NPzdB3n8cFFLU214EGPqpiAyeSB6wTXx/lh6y2aGKgY
+ +qYO4vxyza/Zu+h7pbRDHRlq4KLq9lxKlFF51/zDw78zFJCKpCaTj8lg3O1p2kktM+kkhW
+ +FQ2A3r9ixJSkVu1Zvu99ocO/EtFx1E=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-638-0-m7RWIiMhaNdaGkO17WiQ-1; Wed, 03 May 2023 07:40:55 -0400
+X-MC-Unique: 0-m7RWIiMhaNdaGkO17WiQ-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6BEB7A0F386;
+ Wed,  3 May 2023 11:40:54 +0000 (UTC)
+Received: from redhat.com (dhcp-192-205.str.redhat.com [10.33.192.205])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 132F1405DBBC;
+ Wed,  3 May 2023 11:40:49 +0000 (UTC)
+Date: Wed, 3 May 2023 13:40:49 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Cc: qemu-devel@nongnu.org,
+ Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+ Juan Quintela <quintela@redhat.com>,
+ Julia Suvorova <jusual@redhat.com>, xen-devel@lists.xenproject.org,
+ eesposit@redhat.com, Richard Henderson <richard.henderson@linaro.org>,
+ Fam Zheng <fam@euphon.net>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Coiby Xu <Coiby.Xu@gmail.com>, David Woodhouse <dwmw2@infradead.org>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Peter Lieven <pl@kamp.de>, Paul Durrant <paul@xen.org>,
+ "Richard W.M. Jones" <rjones@redhat.com>, qemu-block@nongnu.org,
+ Stefano Garzarella <sgarzare@redhat.com>,
+ Anthony Perard <anthony.perard@citrix.com>,
+ Stefan Weil <sw@weilnetz.de>, Xie Yongji <xieyongji@bytedance.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Aarushi Mehta <mehta.aaru20@gmail.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>,
+ Eduardo Habkost <eduardo@habkost.net>,
+ Stefano Stabellini <sstabellini@kernel.org>,
+ Hanna Reitz <hreitz@redhat.com>,
+ Ronnie Sahlberg <ronniesahlberg@gmail.com>,
+ Zhengui Li <lizhengui@huawei.com>,
+ Daniil Tatianin <d-tatianin@yandex-team.ru>
+Subject: Re: [PATCH v4 04/20] virtio-scsi: stop using aio_disable_external()
+ during unplug
+Message-ID: <ZFJIQW6RpndfCcXR@redhat.com>
+References: <20230425172716.1033562-1-stefanha@redhat.com>
+ <20230425172716.1033562-5-stefanha@redhat.com>
+ <ZEvWv8dF78Jpb6CQ@redhat.com> <20230501150934.GA14869@fedora>
+ <ZFEN+KY8JViTDtv/@redhat.com> <20230502200243.GD535070@fedora>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH v2 3/3] pci: ROM preallocation for incoming migration
-Content-Language: en-US
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Cc: David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org,
- marcel.apfelbaum@gmail.com, philmd@linaro.org, peterx@redhat.com,
- pbonzini@redhat.com, den-plotnikov@yandex-team.ru, lersek@redhat.com,
- kraxel@redhat.com
-References: <20230425161434.173022-1-vsementsov@yandex-team.ru>
- <20230425161434.173022-4-vsementsov@yandex-team.ru>
- <c9ee303b-0de4-7c44-c5f7-b723df9825af@redhat.com>
- <fe20f078-53fe-1e60-b30f-c3611aa7e7dd@yandex-team.ru>
- <20230503060231-mutt-send-email-mst@kernel.org>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-In-Reply-To: <20230503060231-mutt-send-email-mst@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=178.154.239.200;
- envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1c.mail.yandex.net
-X-Spam_score_int: -63
-X-Spam_score: -6.4
-X-Spam_bar: ------
-X-Spam_report: (-6.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-4.28,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="Sh4VljrAVjcetdM0"
+Content-Disposition: inline
+In-Reply-To: <20230502200243.GD535070@fedora>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -22
+X-Spam_score: -2.3
+X-Spam_bar: --
+X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.161,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -82,213 +101,207 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 03.05.23 13:05, Michael S. Tsirkin wrote:
-> On Wed, May 03, 2023 at 12:50:09PM +0300, Vladimir Sementsov-Ogievskiy wrote:
->> On 03.05.23 12:20, David Hildenbrand wrote:
->>> On 25.04.23 18:14, Vladimir Sementsov-Ogievskiy wrote:
->>>> On incoming migration we have the following sequence to load option
->>>> ROM:
->>>>
->>>> 1. On device realize we do normal load ROM from the file
->>>>
->>>> 2. Than, on incoming migration we rewrite ROM from the incoming RAM
->>>>      block. If sizes mismatch we fail.
->>>>
->>>> This is not ideal when we migrate to updated distribution: we have to
->>>> keep old ROM files in new distribution and be careful around romfile
->>>> property to load correct ROM file. Which is loaded actually just to
->>>> allocate the ROM with correct length.
->>>>
->>>> Note, that romsize property doesn't really help: if we try to specify
->>>> it when default romfile is larger, it fails with something like:
->>>>
->>>> romfile "efi-virtio.rom" (160768 bytes) is too large for ROM size 65536
->>>>
->>>> Let's just ignore ROM file when romsize is specified and we are in
->>>> incoming migration state. In other words, we need only to preallocate
->>>> ROM of specified size, local ROM file is unrelated.
->>>>
->>>> This way:
->>>>
->>>> If romsize was specified on source, we just use same commandline as on
->>>> source, and migration will work independently of local ROM files on
->>>> target.
->>>>
->>>> If romsize was not specified on source (and we have mismatching local
->>>> ROM file on target host), we have to specify romsize on target to match
->>>> source romsize. romfile parameter may be kept same as on source or may
->>>> be dropped, the file is not loaded anyway.
->>>>
->>>> As a bonus we avoid extra reading from ROM file on target.
->>>>
->>>> Note: when we don't have romsize parameter on source command line and
->>>> need it for target, it may be calculated as aligned up to power of two
->>>> size of ROM file on source (if we know, which file is it) or,
->>>> alternatively it may be retrieved from source QEMU by QMP qom-get
->>>> command, like
->>>>
->>>>     { "execute": "qom-get",
->>>>       "arguments": {
->>>>         "path": "/machine/peripheral/CARD_ID/virtio-net-pci.rom[0]",
->>>>         "property": "size" } }
->>>>
->>>> Suggested-by: Michael S. Tsirkin <mst@redhat.com>
->>>> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
->>>> ---
->>>>    hw/pci/pci.c | 77 ++++++++++++++++++++++++++++++----------------------
->>>>    1 file changed, 45 insertions(+), 32 deletions(-)
->>>>
->>>> diff --git a/hw/pci/pci.c b/hw/pci/pci.c
->>>> index a442f8fce1..e2cab622e4 100644
->>>> --- a/hw/pci/pci.c
->>>> +++ b/hw/pci/pci.c
->>>> @@ -36,6 +36,7 @@
->>>>    #include "migration/vmstate.h"
->>>>    #include "net/net.h"
->>>>    #include "sysemu/numa.h"
->>>> +#include "sysemu/runstate.h"
->>>>    #include "sysemu/sysemu.h"
->>>>    #include "hw/loader.h"
->>>>    #include "qemu/error-report.h"
->>>> @@ -2293,10 +2294,16 @@ static void pci_add_option_rom(PCIDevice *pdev, bool is_default_rom,
->>>>    {
->>>>        int64_t size;
->>>>        g_autofree char *path = NULL;
->>>> -    void *ptr;
->>>>        char name[32];
->>>>        const VMStateDescription *vmsd;
->>>> +    /*
->>>> +     * In case of incoming migration ROM will come with migration stream, no
->>>> +     * reason to load the file.  Neither we want to fail if local ROM file
->>>> +     * mismatches with specified romsize.
->>>> +     */
->>>> +    bool load_file = !runstate_check(RUN_STATE_INMIGRATE);
->>>> +
->>>>        if (!pdev->romfile) {
->>>>            return;
->>>>        }
->>>> @@ -2329,32 +2336,35 @@ static void pci_add_option_rom(PCIDevice *pdev, bool is_default_rom,
->>>>            return;
->>>>        }
->>>> -    path = qemu_find_file(QEMU_FILE_TYPE_BIOS, pdev->romfile);
->>>> -    if (path == NULL) {
->>>> -        path = g_strdup(pdev->romfile);
->>>> -    }
->>>> +    if (load_file || pdev->romsize == -1) {
->>>> +        path = qemu_find_file(QEMU_FILE_TYPE_BIOS, pdev->romfile);
->>>> +        if (path == NULL) {
->>>> +            path = g_strdup(pdev->romfile);
->>>> +        }
->>>> -    size = get_image_size(path);
->>>> -    if (size < 0) {
->>>> -        error_setg(errp, "failed to find romfile \"%s\"", pdev->romfile);
->>>> -        return;
->>>> -    } else if (size == 0) {
->>>> -        error_setg(errp, "romfile \"%s\" is empty", pdev->romfile);
->>>> -        return;
->>>> -    } else if (size > 2 * GiB) {
->>>> -        error_setg(errp, "romfile \"%s\" too large (size cannot exceed 2 GiB)",
->>>> -                   pdev->romfile);
->>>> -        return;
->>>> -    }
->>>> -    if (pdev->romsize != -1) {
->>>> -        if (size > pdev->romsize) {
->>>> -            error_setg(errp, "romfile \"%s\" (%u bytes) "
->>>> -                       "is too large for ROM size %u",
->>>> -                       pdev->romfile, (uint32_t)size, pdev->romsize);
->>>> +        size = get_image_size(path);
->>>> +        if (size < 0) {
->>>> +            error_setg(errp, "failed to find romfile \"%s\"", pdev->romfile);
->>>> +            return;
->>>> +        } else if (size == 0) {
->>>> +            error_setg(errp, "romfile \"%s\" is empty", pdev->romfile);
->>>> +            return;
->>>> +        } else if (size > 2 * GiB) {
->>>> +            error_setg(errp,
->>>> +                       "romfile \"%s\" too large (size cannot exceed 2 GiB)",
->>>> +                       pdev->romfile);
->>>>                return;
->>>>            }
->>>> -    } else {
->>>> -        pdev->romsize = pow2ceil(size);
->>>> +        if (pdev->romsize != -1) {
->>>> +            if (size > pdev->romsize) {
->>>> +                error_setg(errp, "romfile \"%s\" (%u bytes) "
->>>> +                           "is too large for ROM size %u",
->>>> +                           pdev->romfile, (uint32_t)size, pdev->romsize);
->>>> +                return;
->>>> +            }
->>>> +        } else {
->>>> +            pdev->romsize = pow2ceil(size);
->>>> +        }
->>>>        }
->>>>        vmsd = qdev_get_vmsd(DEVICE(pdev));
->>>> @@ -2365,15 +2375,18 @@ static void pci_add_option_rom(PCIDevice *pdev, bool is_default_rom,
->>>>        memory_region_init_rom(&pdev->rom, OBJECT(pdev), name, pdev->romsize,
->>>>                               &error_fatal);
->>>> -    ptr = memory_region_get_ram_ptr(&pdev->rom);
->>>> -    if (load_image_size(path, ptr, size) < 0) {
->>>> -        error_setg(errp, "failed to load romfile \"%s\"", pdev->romfile);
->>>> -        return;
->>>> -    }
->>>> +    if (load_file) {
->>>> +        void *ptr = memory_region_get_ram_ptr(&pdev->rom);
->>>> -    if (is_default_rom) {
->>>> -        /* Only the default rom images will be patched (if needed). */
->>>> -        pci_patch_ids(pdev, ptr, size);
->>>> +        if (load_image_size(path, ptr, size) < 0) {
->>>> +            error_setg(errp, "failed to load romfile \"%s\"", pdev->romfile);
->>>> +            return;
->>>> +        }
->>>> +
->>>> +        if (is_default_rom) {
->>>> +            /* Only the default rom images will be patched (if needed). */
->>>> +            pci_patch_ids(pdev, ptr, size);
->>>> +        }
->>>>        }
->>>>        pci_register_bar(pdev, PCI_ROM_SLOT, 0, &pdev->rom);
->>>
->>>
->>> So, we'll now never load the file on the migration destination. But if "pdev->romsize == -1", we'll use the size of the file to size the region -- but not load it.
->>>
->>>
->>> While that should work (because the ROM content will be migrated), at least I would find this easier to digest if we would have
->>>
->>> bool use_file = !runstate_check(RUN_STATE_INMIGRATE) ||
->>>           pdev->romsize == -1;
->>>
->>> if (use_file) {
->>>       path = qemu_find_file(QEMU_FILE_TYPE_BIOS, pdev->romfile);
->>>       ...
->>> }
->>> ...
->>> memory_region_init_rom(&pdev->rom, OBJECT(pdev), name, pdev->romsize ...
->>> ...
->>> if (use_file) {
->>>       ptr = memory_region_get_ram_ptr(&pdev->rom);
->>>       if (load_image_size(path, ptr, size) < 0) {
->>>           ...
->>>       }
->>> }
->>>
->>>
->>> If something about the file is weird (such that reading the size would work but loading would fail), it would fail consistently. Sure, we would load once more, but who really cares about that.
->>>
->>> I wonder, though, if we then also want to handle the "pdev->romfile" checks differently, when we're not going to use the file at all ... would maybe make it more consistent. If we're not using the file, then ignore if no file is given/available ... because we don't need it. The romsize is sufficient in that case on the migration destination.
->>>
->>
->> Maybe, we should just deprecate unspecified romsize? And make it necessary in future?
-> 
-> That would be quite annoying. The whole problem arises because
-> downstream decided to override QEMU provided ROM
-> on the command line. Users that don't do this,
-> are ok and I do not want to make things harder for them.
-> 
 
-OK. Are you agree with Devid's advice to still load file, even on incoming migration, when romsize argument is absent?
+--Sh4VljrAVjcetdM0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
--- 
-Best regards,
-Vladimir
+Am 02.05.2023 um 22:02 hat Stefan Hajnoczi geschrieben:
+> On Tue, May 02, 2023 at 03:19:52PM +0200, Kevin Wolf wrote:
+> > Am 01.05.2023 um 17:09 hat Stefan Hajnoczi geschrieben:
+> > > On Fri, Apr 28, 2023 at 04:22:55PM +0200, Kevin Wolf wrote:
+> > > > Am 25.04.2023 um 19:27 hat Stefan Hajnoczi geschrieben:
+> > > > > This patch is part of an effort to remove the aio_disable_externa=
+l()
+> > > > > API because it does not fit in a multi-queue block layer world wh=
+ere
+> > > > > many AioContexts may be submitting requests to the same disk.
+> > > > >=20
+> > > > > The SCSI emulation code is already in good shape to stop using
+> > > > > aio_disable_external(). It was only used by commit 9c5aad84da1c
+> > > > > ("virtio-scsi: fixed virtio_scsi_ctx_check failed when detaching =
+scsi
+> > > > > disk") to ensure that virtio_scsi_hotunplug() works while the gue=
+st
+> > > > > driver is submitting I/O.
+> > > > >=20
+> > > > > Ensure virtio_scsi_hotunplug() is safe as follows:
+> > > > >=20
+> > > > > 1. qdev_simple_device_unplug_cb() -> qdev_unrealize() ->
+> > > > >    device_set_realized() calls qatomic_set(&dev->realized, false)=
+ so
+> > > > >    that future scsi_device_get() calls return NULL because they e=
+xclude
+> > > > >    SCSIDevices with realized=3Dfalse.
+> > > > >=20
+> > > > >    That means virtio-scsi will reject new I/O requests to this
+> > > > >    SCSIDevice with VIRTIO_SCSI_S_BAD_TARGET even while
+> > > > >    virtio_scsi_hotunplug() is still executing. We are protected a=
+gainst
+> > > > >    new requests!
+> > > > >=20
+> > > > > 2. Add a call to scsi_device_purge_requests() from scsi_unrealize=
+() so
+> > > > >    that in-flight requests are cancelled synchronously. This ensu=
+res
+> > > > >    that no in-flight requests remain once qdev_simple_device_unpl=
+ug_cb()
+> > > > >    returns.
+> > > > >=20
+> > > > > Thanks to these two conditions we don't need aio_disable_external=
+()
+> > > > > anymore.
+> > > > >=20
+> > > > > Cc: Zhengui Li <lizhengui@huawei.com>
+> > > > > Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
+> > > > > Reviewed-by: Daniil Tatianin <d-tatianin@yandex-team.ru>
+> > > > > Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+> > > >=20
+> > > > qemu-iotests 040 starts failing for me after this patch, with what =
+looks
+> > > > like a use-after-free error of some kind.
+> > > >=20
+> > > > (gdb) bt
+> > > > #0  0x000055b6e3e1f31c in job_type (job=3D0xe3e3e3e3e3e3e3e3) at ..=
+/job.c:238
+> > > > #1  0x000055b6e3e1cee5 in is_block_job (job=3D0xe3e3e3e3e3e3e3e3) a=
+t ../blockjob.c:41
+> > > > #2  0x000055b6e3e1ce7d in block_job_next_locked (bjob=3D0x55b6e72b7=
+570) at ../blockjob.c:54
+> > > > #3  0x000055b6e3df6370 in blockdev_mark_auto_del (blk=3D0x55b6e74af=
+0a0) at ../blockdev.c:157
+> > > > #4  0x000055b6e393e23b in scsi_qdev_unrealize (qdev=3D0x55b6e7c04d4=
+0) at ../hw/scsi/scsi-bus.c:303
+> > > > #5  0x000055b6e3db0d0e in device_set_realized (obj=3D0x55b6e7c04d40=
+, value=3Dfalse, errp=3D0x55b6e497c918 <error_abort>) at ../hw/core/qdev.c:=
+599
+> > > > #6  0x000055b6e3dba36e in property_set_bool (obj=3D0x55b6e7c04d40, =
+v=3D0x55b6e7d7f290, name=3D0x55b6e41bd6d8 "realized", opaque=3D0x55b6e7246d=
+20, errp=3D0x55b6e497c918 <error_abort>)
+> > > >     at ../qom/object.c:2285
+> > > > #7  0x000055b6e3db7e65 in object_property_set (obj=3D0x55b6e7c04d40=
+, name=3D0x55b6e41bd6d8 "realized", v=3D0x55b6e7d7f290, errp=3D0x55b6e497c9=
+18 <error_abort>) at ../qom/object.c:1420
+> > > > #8  0x000055b6e3dbd84a in object_property_set_qobject (obj=3D0x55b6=
+e7c04d40, name=3D0x55b6e41bd6d8 "realized", value=3D0x55b6e74c1890, errp=3D=
+0x55b6e497c918 <error_abort>)
+> > > >     at ../qom/qom-qobject.c:28
+> > > > #9  0x000055b6e3db8570 in object_property_set_bool (obj=3D0x55b6e7c=
+04d40, name=3D0x55b6e41bd6d8 "realized", value=3Dfalse, errp=3D0x55b6e497c9=
+18 <error_abort>) at ../qom/object.c:1489
+> > > > #10 0x000055b6e3daf2b5 in qdev_unrealize (dev=3D0x55b6e7c04d40) at =
+=2E./hw/core/qdev.c:306
+> > > > #11 0x000055b6e3db509d in qdev_simple_device_unplug_cb (hotplug_dev=
+=3D0x55b6e81c3630, dev=3D0x55b6e7c04d40, errp=3D0x7ffec5519200) at ../hw/co=
+re/qdev-hotplug.c:72
+> > > > #12 0x000055b6e3c520f9 in virtio_scsi_hotunplug (hotplug_dev=3D0x55=
+b6e81c3630, dev=3D0x55b6e7c04d40, errp=3D0x7ffec5519200) at ../hw/scsi/virt=
+io-scsi.c:1065
+> > > > #13 0x000055b6e3db4dec in hotplug_handler_unplug (plug_handler=3D0x=
+55b6e81c3630, plugged_dev=3D0x55b6e7c04d40, errp=3D0x7ffec5519200) at ../hw=
+/core/hotplug.c:56
+> > > > #14 0x000055b6e3a28f84 in qdev_unplug (dev=3D0x55b6e7c04d40, errp=
+=3D0x7ffec55192e0) at ../softmmu/qdev-monitor.c:935
+> > > > #15 0x000055b6e3a290fa in qmp_device_del (id=3D0x55b6e74c1760 "scsi=
+0", errp=3D0x7ffec55192e0) at ../softmmu/qdev-monitor.c:955
+> > > > #16 0x000055b6e3fb0a5f in qmp_marshal_device_del (args=3D0x7f61cc00=
+5eb0, ret=3D0x7f61d5a8ae38, errp=3D0x7f61d5a8ae40) at qapi/qapi-commands-qd=
+ev.c:114
+> > > > #17 0x000055b6e3fd52e1 in do_qmp_dispatch_bh (opaque=3D0x7f61d5a8ae=
+08) at ../qapi/qmp-dispatch.c:128
+> > > > #18 0x000055b6e4007b9e in aio_bh_call (bh=3D0x55b6e7dea730) at ../u=
+til/async.c:155
+> > > > #19 0x000055b6e4007d2e in aio_bh_poll (ctx=3D0x55b6e72447c0) at ../=
+util/async.c:184
+> > > > #20 0x000055b6e3fe3b45 in aio_dispatch (ctx=3D0x55b6e72447c0) at ..=
+/util/aio-posix.c:421
+> > > > #21 0x000055b6e4009544 in aio_ctx_dispatch (source=3D0x55b6e72447c0=
+, callback=3D0x0, user_data=3D0x0) at ../util/async.c:326
+> > > > #22 0x00007f61ddc14c7f in g_main_dispatch (context=3D0x55b6e7244b20=
+) at ../glib/gmain.c:3454
+> > > > #23 g_main_context_dispatch (context=3D0x55b6e7244b20) at ../glib/g=
+main.c:4172
+> > > > #24 0x000055b6e400a7e8 in glib_pollfds_poll () at ../util/main-loop=
+=2Ec:290
+> > > > #25 0x000055b6e400a0c2 in os_host_main_loop_wait (timeout=3D0) at .=
+=2E/util/main-loop.c:313
+> > > > #26 0x000055b6e4009fa2 in main_loop_wait (nonblocking=3D0) at ../ut=
+il/main-loop.c:592
+> > > > #27 0x000055b6e3a3047b in qemu_main_loop () at ../softmmu/runstate.=
+c:731
+> > > > #28 0x000055b6e3dab27d in qemu_default_main () at ../softmmu/main.c=
+:37
+> > > > #29 0x000055b6e3dab2b8 in main (argc=3D24, argv=3D0x7ffec55196a8) a=
+t ../softmmu/main.c:48
+> > > > (gdb) p jobs
+> > > > $4 =3D {lh_first =3D 0x0}
+> > >=20
+> > > I wasn't able to reproduce this with gcc 13.1.1 or clang 16.0.1:
+> > >=20
+> > >   $ tests/qemu-iotests/check -qcow2 040
+> > >=20
+> > > Any suggestions on how to reproduce the issue?
+> >=20
+> > It happens consistently for me with the same command line, both with gcc
+> > and clang.
+> >=20
+> > gcc (GCC) 12.2.1 20221121 (Red Hat 12.2.1-4)
+> > clang version 15.0.7 (Fedora 15.0.7-2.fc37)
+> >=20
+> > Maybe there is a semantic merge conflict? I have applied the series on
+> > top of master (05d50ba2d4) and my block branch (88f81f7bc8).
+>=20
+> I can't find 88f81f7bc8 but rebased on repo.or.cz/qemu/kevin.git block
+> (4514dac7f2e9) and the test passes here.
+>=20
+> I rebased on qemu.git/master (05d50ba2d4) and it also passes.
+>=20
+> Please let me know if the following tree (a0ff680a72f6) works on your
+> machine:
+> https://gitlab.com/stefanha/qemu/-/tree/remove-aio_disable_external
+
+Fails in the same way.
+
+So I tried to debug this myself now. The problem is that iterating the
+jobs in blockdev_mark_auto_del() is incorrect: job_cancel_locked()
+frees the job and then block_job_next_locked() is a use after free.
+
+It also drops job_mutex temporarily and polls, so even switching to a
+*_FOREACH_SAFE style loop won't fix this. I guess we have to restart
+the whole search from the start after a job_cancel_locked() because the
+list might look very different after the call.
+
+Now, of course, how this is related to your patch and why it doesn't
+trigger before it, is still less than clear. What I found out is that
+adding the scsi_device_purge_requests() is enough to crash it. Maybe
+it's related to the blk_drain() inside of it. That the job finishes
+earlier during the unplug now or something like that.
+
+Anyway, changing blockdev_mark_auto_del() fixes it. I'll send a patch.
+
+Kevin
+
+--Sh4VljrAVjcetdM0
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEE3D3rFZqa+V09dFb+fwmycsiPL9YFAmRSSEAACgkQfwmycsiP
+L9Z4jRAAvTT64p9bQdNSCCIFrqkkGEZS5J/8ud4wvKBgYacJ8pOY30Z2B3dA78bz
+ik5KMZlaTa4GXFwlKGNn/OUGiB3ivuhXeIUHXv+pw8F9sCQy4WJDpeO6WPDtQ6Os
+swWWC3Uv+cnfLQH8dZjf4yoLY4hYACt683Ptml960LIYhpX/AXjdnOv6f/tj3gXO
+q+mxfLwTi5S08Kkq08e8sXbqCwSiTPXX106MDdk/oMD3MxzUmqu6qFxrf9n6Yp5i
+kI1rJD0VR64ScA58lJlFnAdZGWL7d9kX5WUbZ+x27lLay4Uel4cmY9AIsUWThnHZ
+fMk2Sol1aUKSEAlVdHL5vWbQF/UyYe+KB2tn++4HJZ/ojVBL1GNdnWgmk+ZPXGfI
+BtIc5+h7Qsa2uXUX2gJQYP7j6Y/EBQMAT0oTlG2v+CxS+1MrSa4O9ufnx1c9hoLF
+FOUU2CT4vrJlYI281yWZ5R6pZrm0ZJMHAGStCJH4/ayo1xVj/5gPdffIRksFwUzy
+yfia4Pis1nU9ET5riOk4WTCHz44BgIPvkDSYe1aJMS9XT3DM6MsZm9shuUMueLBd
+0H5rU7ScgGB6ZLJLOQN0m84AfHOrxSgo7+bdAmXriAYvgDwr9B6fc50cDUBOEGNo
+zDb0PBH7R3fZT9rEpHlQi4t3SOBkDV3L1toGvWHYymLPkzOC3/w=
+=9639
+-----END PGP SIGNATURE-----
+
+--Sh4VljrAVjcetdM0--
 
 
