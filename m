@@ -2,67 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 210156F5ECD
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 May 2023 21:03:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 49EF66F5ED4
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 May 2023 21:04:44 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1puHkR-0001tI-Q1; Wed, 03 May 2023 15:02:43 -0400
+	id 1puHm5-0005fX-Vx; Wed, 03 May 2023 15:04:26 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1puHkP-0001sz-Uq
- for qemu-devel@nongnu.org; Wed, 03 May 2023 15:02:41 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
+ id 1puHm1-0005f3-Mo; Wed, 03 May 2023 15:04:21 -0400
+Received: from forwardcorp1c.mail.yandex.net
+ ([2a02:6b8:c03:500:1:45:d181:df01])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1puHkO-0004wA-F5
- for qemu-devel@nongnu.org; Wed, 03 May 2023 15:02:41 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1683140559;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=+IHGxrm/Xp0lBQuQRwa1E6vZgFCzDQjnRyAKec7RbHk=;
- b=LO2YxD5oLWzwue5KOiofswXktxNQTEM/JEDtjiyPGIIYkvY5rxxHLgpZzwPuu/bqqGItn4
- IIx1E5Hm0nYxEGrywFKH/KnrcmxxXoEZ7VzELa9bYwAssQuSjuwuBGkRq5bJOuGnYmsXnY
- 6uip262ODdEmQoX/jWf1fCHtWXTCgw8=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-97-_CsLVcBANFGSeA6tRlnRHw-1; Wed, 03 May 2023 15:02:36 -0400
-X-MC-Unique: _CsLVcBANFGSeA6tRlnRHw-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
- [10.11.54.7])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 342BEA0F381;
- Wed,  3 May 2023 19:02:36 +0000 (UTC)
-Received: from green.redhat.com (unknown [10.2.16.118])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6698A1410F2A;
- Wed,  3 May 2023 19:02:35 +0000 (UTC)
-From: Eric Blake <eblake@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: Stefan Hajnoczi <stefanha@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
- Hanna Reitz <hreitz@redhat.com>, Xie Yongji <xieyongji@bytedance.com>,
- qemu-block@nongnu.org (open list:Block layer core)
-Subject: [PULL 2/2] block/export: call blk_set_dev_ops(blk, NULL, NULL)
-Date: Wed,  3 May 2023 14:02:32 -0500
-Message-Id: <20230503190232.362022-3-eblake@redhat.com>
-In-Reply-To: <20230503190232.362022-1-eblake@redhat.com>
-References: <20230503190232.362022-1-eblake@redhat.com>
+ (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
+ id 1puHlz-00056s-5U; Wed, 03 May 2023 15:04:21 -0400
+Received: from mail-nwsmtp-smtp-corp-main-62.myt.yp-c.yandex.net
+ (mail-nwsmtp-smtp-corp-main-62.myt.yp-c.yandex.net
+ [IPv6:2a02:6b8:c00:2582:0:640:9a17:0])
+ by forwardcorp1c.mail.yandex.net (Yandex) with ESMTP id 09B6C5E8A1;
+ Wed,  3 May 2023 22:04:09 +0300 (MSK)
+Received: from [IPV6:2a02:6b8:b081:b43b::1:1a] (unknown
+ [2a02:6b8:b081:b43b::1:1a])
+ by mail-nwsmtp-smtp-corp-main-62.myt.yp-c.yandex.net (smtpcorp/Yandex) with
+ ESMTPSA id 84UwCc0MoW20-X5gx46r5; Wed, 03 May 2023 22:04:08 +0300
+X-Yandex-Fwd: 1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
+ s=default; 
+ t=1683140648; bh=TFfwCrCLBY1tRnuZ+DpUvwOUVwyc+D9yGsm2vdlfmeY=;
+ h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
+ b=V3Z/me4IdxW4xShqQR3h27ti0r1GCBlJ2jS0M2rz0Ns7GFKdzFnOV1n82KQ+YrUml
+ 6h9Ei284WuVYZY45qVXHhVOeHqydYGlRMBXgG0APrd2L3I6sUawO/yz43eMV+dX4nK
+ OS6OQHYLn5lNXMMQUHP0Ec9sXbnO8xL6ahkukgQ8=
+Authentication-Results: mail-nwsmtp-smtp-corp-main-62.myt.yp-c.yandex.net;
+ dkim=pass header.i=@yandex-team.ru
+Message-ID: <18c7c4d3-cd80-8a41-93e3-e14f6112802c@yandex-team.ru>
+Date: Wed, 3 May 2023 22:04:07 +0300
 MIME-Version: 1.0
-Content-type: text/plain
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -22
-X-Spam_score: -2.3
-X-Spam_bar: --
-X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.161,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH] migration: Fix block_bitmap_mapping migration
+Content-Language: en-US
+To: Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org
+Cc: Stefan Hajnoczi <stefanha@redhat.com>, Peter Xu <peterx@redhat.com>,
+ qemu-block@nongnu.org, Leonardo Bras <leobras@redhat.com>,
+ Fam Zheng <fam@euphon.net>, Eric Blake <eblake@redhat.com>,
+ John Snow <jsnow@redhat.com>, Kevin Wolf <kwolf@redhat.com>
+References: <20230503181036.14890-1-quintela@redhat.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+In-Reply-To: <20230503181036.14890-1-quintela@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a02:6b8:c03:500:1:45:d181:df01;
+ envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1c.mail.yandex.net
+X-Spam_score_int: -63
+X-Spam_score: -6.4
+X-Spam_bar: ------
+X-Spam_report: (-6.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-4.28,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -78,61 +77,23 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Stefan Hajnoczi <stefanha@redhat.com>
+On 03.05.23 21:10, Juan Quintela wrote:
+> It is valid that params->has_block_bitmap_mapping is true and
+> params->block_bitmap_mapping is NULL.  So we can't use the trick of
+> having a single function.
+> 
+> Move to two functions one for each value and the tests are fixed.
+> 
+> Fixes: b804b35b1c8a0edfd127ac20819c234be55ac7fc
+>         migration: Create migrate_block_bitmap_mapping() function
+> 
+> Reported-by: Kevin Wolf<kwolf@redhat.com>
+> Signed-off-by: Juan Quintela<quintela@redhat.com>
 
-Most export types install BlockDeviceOps pointers. It is easy to forget
-to remove them because that happens automatically via the "drive" qdev
-property in hw/ but not block/export/.
+Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
 
-Put blk_set_dev_ops(blk, NULL, NULL) calls in the core export.c code so
-the export types don't need to remember.
-
-This fixes the nbd and vhost-user-blk export types.
-
-Fixes: fd6afc501a01 ("nbd/server: Use drained block ops to quiesce the server")
-Fixes: ca858a5fe94c ("vhost-user-blk-server: notify client about disk resize")
-Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-Reviewed-by: Eric Blake <eblake@redhat.com>
-Message-Id: <20230502211119.720647-1-stefanha@redhat.com>
-Signed-off-by: Eric Blake <eblake@redhat.com>
----
- block/export/export.c    | 2 ++
- block/export/vduse-blk.c | 1 -
- 2 files changed, 2 insertions(+), 1 deletion(-)
-
-diff --git a/block/export/export.c b/block/export/export.c
-index e3fee606116..62c7c22d45d 100644
---- a/block/export/export.c
-+++ b/block/export/export.c
-@@ -192,6 +192,7 @@ BlockExport *blk_exp_add(BlockExportOptions *export, Error **errp)
-     return exp;
-
- fail:
-+    blk_set_dev_ops(exp->blk, NULL, NULL);
-     blk_unref(blk);
-     aio_context_release(ctx);
-     if (exp) {
-@@ -219,6 +220,7 @@ static void blk_exp_delete_bh(void *opaque)
-     assert(exp->refcount == 0);
-     QLIST_REMOVE(exp, next);
-     exp->drv->delete(exp);
-+    blk_set_dev_ops(exp->blk, NULL, NULL);
-     blk_unref(exp->blk);
-     qapi_event_send_block_export_deleted(exp->id);
-     g_free(exp->id);
-diff --git a/block/export/vduse-blk.c b/block/export/vduse-blk.c
-index f7ae44e3cea..b53ef39da02 100644
---- a/block/export/vduse-blk.c
-+++ b/block/export/vduse-blk.c
-@@ -346,7 +346,6 @@ static void vduse_blk_exp_delete(BlockExport *exp)
-
-     blk_remove_aio_context_notifier(exp->blk, blk_aio_attached, blk_aio_detach,
-                                     vblk_exp);
--    blk_set_dev_ops(exp->blk, NULL, NULL);
-     ret = vduse_dev_destroy(vblk_exp->dev);
-     if (ret != -EBUSY) {
-         unlink(vblk_exp->recon_file);
 -- 
-2.40.1
+Best regards,
+Vladimir
 
 
