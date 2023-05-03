@@ -2,59 +2,116 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84B456F54C7
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 May 2023 11:32:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B77376F54D7
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 May 2023 11:35:03 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pu8qa-0002KN-Vy; Wed, 03 May 2023 05:32:29 -0400
+	id 1pu8sp-00057U-7m; Wed, 03 May 2023 05:34:47 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1pu8qZ-0002K5-1N
- for qemu-devel@nongnu.org; Wed, 03 May 2023 05:32:27 -0400
-Received: from frasgout.his.huawei.com ([185.176.79.56])
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pu8sn-000575-Ao
+ for qemu-devel@nongnu.org; Wed, 03 May 2023 05:34:45 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1pu8qX-0007YS-75
- for qemu-devel@nongnu.org; Wed, 03 May 2023 05:32:26 -0400
-Received: from lhrpeml500005.china.huawei.com (unknown [172.18.147.207])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4QBBTd42y6z6J6nJ;
- Wed,  3 May 2023 17:28:53 +0800 (CST)
-Received: from localhost (10.202.227.76) by lhrpeml500005.china.huawei.com
- (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.23; Wed, 3 May
- 2023 10:32:23 +0100
-Date: Wed, 3 May 2023 10:32:22 +0100
-To: Leonardo Bras <leobras@redhat.com>, Marcel Apfelbaum
- <marcel.apfelbaum@gmail.com>
-CC: Eduardo Habkost <eduardo@habkost.net>, Philippe =?ISO-8859-1?Q?Mathieu?=
- =?ISO-8859-1?Q?-Daud=E9?= <philmd@linaro.org>, Yanan Wang
- <wangyanan55@huawei.com>, "Michael S. Tsirkin" <mst@redhat.com>, Peter Xu
- <peterx@redhat.com>, Juan Quintela <quintela@redhat.com>,
- <qemu-devel@nongnu.org>, <linuxarm@huawei.com>
-Subject: Re: [PATCH v1 1/1] hw/pci: Disable PCI_ERR_UNCOR_MASK register for
- machine type < 8.0
-Message-ID: <20230503103222.00003a89@Huawei.com>
-In-Reply-To: <20230503002701.854329-1-leobras@redhat.com>
-References: <20230503002701.854329-1-leobras@redhat.com>
-Organization: Huawei Technologies Research and Development (UK) Ltd.
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-w64-mingw32)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pu8sl-0007pp-OG
+ for qemu-devel@nongnu.org; Wed, 03 May 2023 05:34:45 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1683106482;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Tjqg7kCYsyCb7j42RiZFjdXyBQhukHv/BpkJuuVPrVY=;
+ b=IjuxzEy1Oe4kwd5HDHgszthTxuwHsKBiMyJy2/eOQLCKbbR3XrkF9ZnTDAK4mpWsZI7LPv
+ CUSVQCsXHKzv+ddH9TG6kkPRu1H1uuugJ/5f0g9kbqxIJgP3NDlw2QqzxKtDReF1l4hLyp
+ jtCnGcKQQzT8u+h06B4s8EsEVHQlkBw=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-360-DZ1NIPI0Mnaw8VLh8kE00w-1; Wed, 03 May 2023 05:34:41 -0400
+X-MC-Unique: DZ1NIPI0Mnaw8VLh8kE00w-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ ffacd0b85a97d-30467a7020eso2980130f8f.2
+ for <qemu-devel@nongnu.org>; Wed, 03 May 2023 02:34:41 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1683106480; x=1685698480;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=Tjqg7kCYsyCb7j42RiZFjdXyBQhukHv/BpkJuuVPrVY=;
+ b=QStHLxSrvtBPffq0YmZXsZ9I6Zm8pmqdaU+Q5lA/1DxHgNQfYFANVVrduUtBxYDewJ
+ v6uBktqFl4XXvqXEpY3kQ3+qP81ztztWBirPFjfJKtwYYGTtojEwtpkzdrCDDmJ6bjpT
+ GABL/reYZmnMEeEBWgGrxtzpDy4NFO9/LlyNnJIP/bjcNy2BGinz/snsm8ASIXUWyuSt
+ KEwYD66grgCX8Z8tTUm6Yl2eqHmz8AQR/9C5ZEQLPHUmCp4ZzmJ3OaxPRcUOO+teEWPa
+ 66Bzjo7MgGbbzQ+wdqu9ws+J/IsOR3a/AheoYt0TWwygMyqB7RWtb1QYvFEw2YhC+c8B
+ MsnA==
+X-Gm-Message-State: AC+VfDwcTEZaPfIb+potdi8QhjtkQOvSBjOG14iBoqrV/tHt4OENDSSe
+ 898oUaQNxFKmB2PCRSocxYJdazNkatrbef+zuDj6gzRyYHyAPCV+4MttMV1mVlmpV7qPIClcaFQ
+ JpXZPn8/GROwKMX4=
+X-Received: by 2002:adf:e442:0:b0:306:3911:dff0 with SMTP id
+ t2-20020adfe442000000b003063911dff0mr3618512wrm.4.1683106480537; 
+ Wed, 03 May 2023 02:34:40 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ52pU4nGxwyKG2XoNadtrfFu/UYDHp8t60fQb/Nx+GM/oeWZAfW1nNqPV9o7bcViqKnoz8pig==
+X-Received: by 2002:adf:e442:0:b0:306:3911:dff0 with SMTP id
+ t2-20020adfe442000000b003063911dff0mr3618477wrm.4.1683106480224; 
+ Wed, 03 May 2023 02:34:40 -0700 (PDT)
+Received: from [10.33.192.225] (nat-pool-str-t.redhat.com. [149.14.88.106])
+ by smtp.gmail.com with ESMTPSA id
+ o16-20020a5d6850000000b003063a1cdaf2sm3421996wrw.48.2023.05.03.02.34.38
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 03 May 2023 02:34:39 -0700 (PDT)
+Message-ID: <23155e96-8c8c-335e-6bc3-9df5f0df5997@redhat.com>
+Date: Wed, 3 May 2023 11:34:38 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.202.227.76]
-X-ClientProxiedBy: lhrpeml100003.china.huawei.com (7.191.160.210) To
- lhrpeml500005.china.huawei.com (7.191.163.240)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=185.176.79.56;
- envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH 19/22] gitlab: add ubuntu-22.04-aarch64-without-defaults
+Content-Language: en-US
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
+Cc: Laurent Vivier <lvivier@redhat.com>,
+ Artyom Tarasenko <atar4qemu@gmail.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Leif Lindholm <quic_llindhol@quicinc.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Helge Deller <deller@gmx.de>, Xiaojuan Yang <yangxiaojuan@loongson.cn>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Cleber Rosa <crosa@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Eduardo Habkost <eduardo@habkost.net>, Juan Quintela <quintela@redhat.com>,
+ John Snow <jsnow@redhat.com>, Yoshinori Sato <ysato@users.sourceforge.jp>,
+ =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
+ Ilya Leoshkevich <iii@linux.ibm.com>,
+ Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>, Andrew Jeffery
+ <andrew@aj.id.au>, qemu-s390x@nongnu.org,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-arm@nongnu.org,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Beraldo Leal <bleal@redhat.com>, Max Filippov <jcmvbkbc@gmail.com>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Jiaxun Yang <jiaxun.yang@flygoat.com>, Radoslaw Biernacki
+ <rad@semihalf.com>, Aurelien Jarno <aurelien@aurel32.net>,
+ David Hildenbrand <david@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ Song Gao <gaosong@loongson.cn>, Joel Stanley <joel@jms.id.au>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+References: <20230503091244.1450613-1-alex.bennee@linaro.org>
+ <20230503091244.1450613-20-alex.bennee@linaro.org>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <20230503091244.1450613-20-alex.bennee@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -36
+X-Spam_score: -3.7
+X-Spam_bar: ---
+X-Spam_report: (-3.7 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.171,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-1.422, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -67,109 +124,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-to:  Jonathan Cameron <Jonathan.Cameron@Huawei.com>
-From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue,  2 May 2023 21:27:02 -0300
-Leonardo Bras <leobras@redhat.com> wrote:
-
-> Since it's implementation on v8.0.0-rc0, having the PCI_ERR_UNCOR_MASK
-> set for machine types < 8.0 will cause migration to fail if the target
-> QEMU version is < 8.0.0 :
+On 03/05/2023 11.12, Alex Bennée wrote:
+> This does a very minimal build without default devices or features. I
+> chose the aarch64 runner as it doesn't count towards CI minutes and is
+> a fairly under-utilised builder.
 > 
-> qemu-system-x86_64: get_pci_config_device: Bad config data: i=0x10a read: 40 device: 0 cmask: ff wmask: 0 w1cmask:0
-> qemu-system-x86_64: Failed to load PCIDevice:config
-> qemu-system-x86_64: Failed to load e1000e:parent_obj
-> qemu-system-x86_64: error while loading state for instance 0x0 of device '0000:00:02.0/e1000e'
-> qemu-system-x86_64: load of migration failed: Invalid argument
-> 
-> The above test migrated a 7.2 machine type from QEMU master to QEMU 7.2.0,
-> with this cmdline:
-> 
-> ./qemu-system-x86_64 -M pc-q35-7.2 [-incoming XXX]
-> 
-> In order to fix this, property x-pcie-err-unc-mask was introduced to
-> control when PCI_ERR_UNCOR_MASK is enabled. This property is enabled by
-> default, but is disabled if machine type <= 7.2.
-> 
-> Fixes: 010746ae1d ("hw/pci/aer: Implement PCI_ERR_UNCOR_MASK register")
-> Suggested-by: Michael S. Tsirkin <mst@redhat.com>
-> Signed-off-by: Leonardo Bras <leobras@redhat.com>
-
-Thanks Leo, you are a star.
-
-LGTM
-
-Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-
+> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 > ---
->  include/hw/pci/pci.h |  2 ++
->  hw/core/machine.c    |  1 +
->  hw/pci/pci.c         |  2 ++
->  hw/pci/pcie_aer.c    | 11 +++++++----
->  4 files changed, 12 insertions(+), 4 deletions(-)
+>   .../custom-runners/ubuntu-22.04-aarch64.yml   | 22 +++++++++++++++++++
+>   1 file changed, 22 insertions(+)
 > 
-> diff --git a/include/hw/pci/pci.h b/include/hw/pci/pci.h
-> index 935b4b91b4..e6d0574a29 100644
-> --- a/include/hw/pci/pci.h
-> +++ b/include/hw/pci/pci.h
-> @@ -207,6 +207,8 @@ enum {
->      QEMU_PCIE_EXTCAP_INIT = (1 << QEMU_PCIE_EXTCAP_INIT_BITNR),
->  #define QEMU_PCIE_CXL_BITNR 10
->      QEMU_PCIE_CAP_CXL = (1 << QEMU_PCIE_CXL_BITNR),
-> +#define QEMU_PCIE_ERR_UNC_MASK_BITNR 11
-> +    QEMU_PCIE_ERR_UNC_MASK = (1 << QEMU_PCIE_ERR_UNC_MASK_BITNR),
->  };
->  
->  typedef struct PCIINTxRoute {
-> diff --git a/hw/core/machine.c b/hw/core/machine.c
-> index 47a34841a5..07f763eb2e 100644
-> --- a/hw/core/machine.c
-> +++ b/hw/core/machine.c
-> @@ -48,6 +48,7 @@ GlobalProperty hw_compat_7_2[] = {
->      { "e1000e", "migrate-timadj", "off" },
->      { "virtio-mem", "x-early-migration", "false" },
->      { "migration", "x-preempt-pre-7-2", "true" },
-> +    { TYPE_PCI_DEVICE, "x-pcie-err-unc-mask", "off" },
->  };
->  const size_t hw_compat_7_2_len = G_N_ELEMENTS(hw_compat_7_2);
->  
-> diff --git a/hw/pci/pci.c b/hw/pci/pci.c
-> index 8a87ccc8b0..5153ad63d6 100644
-> --- a/hw/pci/pci.c
-> +++ b/hw/pci/pci.c
-> @@ -79,6 +79,8 @@ static Property pci_props[] = {
->      DEFINE_PROP_STRING("failover_pair_id", PCIDevice,
->                         failover_pair_id),
->      DEFINE_PROP_UINT32("acpi-index",  PCIDevice, acpi_index, 0),
-> +    DEFINE_PROP_BIT("x-pcie-err-unc-mask", PCIDevice, cap_present,
-> +                    QEMU_PCIE_ERR_UNC_MASK_BITNR, true),
->      DEFINE_PROP_END_OF_LIST()
->  };
->  
-> diff --git a/hw/pci/pcie_aer.c b/hw/pci/pcie_aer.c
-> index 103667c368..374d593ead 100644
-> --- a/hw/pci/pcie_aer.c
-> +++ b/hw/pci/pcie_aer.c
-> @@ -112,10 +112,13 @@ int pcie_aer_init(PCIDevice *dev, uint8_t cap_ver, uint16_t offset,
->  
->      pci_set_long(dev->w1cmask + offset + PCI_ERR_UNCOR_STATUS,
->                   PCI_ERR_UNC_SUPPORTED);
-> -    pci_set_long(dev->config + offset + PCI_ERR_UNCOR_MASK,
-> -                 PCI_ERR_UNC_MASK_DEFAULT);
-> -    pci_set_long(dev->wmask + offset + PCI_ERR_UNCOR_MASK,
-> -                 PCI_ERR_UNC_SUPPORTED);
-> +
-> +    if (dev->cap_present & QEMU_PCIE_ERR_UNC_MASK) {
-> +        pci_set_long(dev->config + offset + PCI_ERR_UNCOR_MASK,
-> +                     PCI_ERR_UNC_MASK_DEFAULT);
-> +        pci_set_long(dev->wmask + offset + PCI_ERR_UNCOR_MASK,
-> +                     PCI_ERR_UNC_SUPPORTED);
-> +    }
->  
->      pci_set_long(dev->config + offset + PCI_ERR_UNCOR_SEVER,
->                   PCI_ERR_UNC_SEVERITY_DEFAULT);
+> diff --git a/.gitlab-ci.d/custom-runners/ubuntu-22.04-aarch64.yml b/.gitlab-ci.d/custom-runners/ubuntu-22.04-aarch64.yml
+> index 57303c12e1..f8489dd3fc 100644
+> --- a/.gitlab-ci.d/custom-runners/ubuntu-22.04-aarch64.yml
+> +++ b/.gitlab-ci.d/custom-runners/ubuntu-22.04-aarch64.yml
+> @@ -45,6 +45,28 @@ ubuntu-22.04-aarch64-all:
+>    - make --output-sync -j`nproc --ignore=40`
+>    - make --output-sync -j`nproc --ignore=40` check
+>   
+> +ubuntu-22.04-aarch64-without-defaults:
+> + extends: .custom_runner_template
+> + needs: []
+> + stage: build
+> + tags:
+> + - ubuntu_22.04
+> + - aarch64
+> + rules:
+> + - if: '$CI_PROJECT_NAMESPACE == "qemu-project" && $CI_COMMIT_BRANCH =~ /^staging/'
+> +   when: manual
+> +   allow_failure: true
+> + - if: "$AARCH64_RUNNER_AVAILABLE"
+> +   when: manual
+> +   allow_failure: true
+> + script:
+> + - mkdir build
+> + - cd build
+> + - ../configure --disable-user --without-default-devices --without-default-features
+> +   || { cat config.log meson-logs/meson-log.txt; exit 1; }
+> + - make --output-sync -j`nproc --ignore=40`
+> + - make --output-sync -j`nproc --ignore=40` check
+
+Reviewed-by: Thomas Huth <thuth@redhat.com>
+
+Maybe you could also enable "check-qtest" for the "build-without-defaults" 
+job in builtest.yml now?
+
+  Thomas
 
 
