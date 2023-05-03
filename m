@@ -2,54 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1FE66F5676
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 May 2023 12:44:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC5826F56DE
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 May 2023 13:05:06 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pu9wp-0001zq-8X; Wed, 03 May 2023 06:42:59 -0400
+	id 1puAGb-0006Eq-Oa; Wed, 03 May 2023 07:03:25 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1pu9wm-0001xq-6j
- for qemu-devel@nongnu.org; Wed, 03 May 2023 06:42:56 -0400
-Received: from frasgout.his.huawei.com ([185.176.79.56])
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1puAGZ-0006EP-KT
+ for qemu-devel@nongnu.org; Wed, 03 May 2023 07:03:23 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1pu9wj-0007A3-46
- for qemu-devel@nongnu.org; Wed, 03 May 2023 06:42:55 -0400
-Received: from lhrpeml500005.china.huawei.com (unknown [172.18.147.206])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4QBD5F1tW4z67bjw;
- Wed,  3 May 2023 18:41:21 +0800 (CST)
-Received: from localhost (10.202.227.76) by lhrpeml500005.china.huawei.com
- (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.23; Wed, 3 May
- 2023 11:42:48 +0100
-Date: Wed, 3 May 2023 11:42:48 +0100
-To: Dave Jiang <dave.jiang@intel.com>
-CC: <qemu-devel@nongnu.org>, <imammedo@redhat.com>, <ira.weiny@intel.com>,
- <mst@redhat.com>, <bwidawsk@kernel.org>
-Subject: Re: [RFC PATCH 0/3] QEMU ACPI generic port support
-Message-ID: <20230503114248.00004c51@Huawei.com>
-In-Reply-To: <168185633821.899932.322047053764766056.stgit@djiang5-mobl3>
-References: <168185633821.899932.322047053764766056.stgit@djiang5-mobl3>
-Organization: Huawei Technologies Research and Development (UK) Ltd.
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-w64-mingw32)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1puAGX-00085w-6l
+ for qemu-devel@nongnu.org; Wed, 03 May 2023 07:03:23 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1683111799;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=VJadEu+6zRBnoWcF+9JpYQ3UZe7sRKE2r/xUzyXg8pY=;
+ b=arGaYaFM66DLq6e80jgY4NKs6mGwPTtUIyzLnvoRhczpY7Smb5+kZLko5uiz7oAzqRG11j
+ pkb8x09A/eJLymRD71jND5Fj9aJ0GD+a8NjZgxevLkG4Qxpy1E8KW9QLMHtt6SBxDNAUMJ
+ Ir+TBl3heU/YqzXb72eTiHZGd17xZgg=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-561-e6lLQcXuO-uOW1zZ5cNc1A-1; Wed, 03 May 2023 07:03:16 -0400
+X-MC-Unique: e6lLQcXuO-uOW1zZ5cNc1A-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.3])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id F312929ABA18;
+ Wed,  3 May 2023 11:03:15 +0000 (UTC)
+Received: from redhat.com (unknown [10.42.28.37])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B13301121331;
+ Wed,  3 May 2023 11:03:14 +0000 (UTC)
+Date: Wed, 3 May 2023 12:03:12 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Andrew Melnychenko <andrew@daynix.com>
+Cc: jasowang@redhat.com, mst@redhat.com, armbru@redhat.com,
+ eblake@redhat.com, qemu-devel@nongnu.org,
+ yuri.benditovich@daynix.com, yan@daynix.com
+Subject: Re: [PATCH 2/5] virtio-net: Added property to load eBPF RSS with fds.
+Message-ID: <ZFI/cIIf6DKRwvCq@redhat.com>
+References: <20230501072101.22890-1-andrew@daynix.com>
+ <20230501072101.22890-3-andrew@daynix.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.202.227.76]
-X-ClientProxiedBy: lhrpeml500001.china.huawei.com (7.191.163.213) To
- lhrpeml500005.china.huawei.com (7.191.163.240)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=185.176.79.56;
- envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20230501072101.22890-3-andrew@daynix.com>
+User-Agent: Mutt/2.2.9 (2022-11-12)
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -22
+X-Spam_score: -2.3
+X-Spam_bar: --
+X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.161,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -62,100 +78,205 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-to:  Jonathan Cameron <Jonathan.Cameron@Huawei.com>
-From:  Jonathan Cameron via <qemu-devel@nongnu.org>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, 18 Apr 2023 15:21:36 -0700
-Dave Jiang <dave.jiang@intel.com> wrote:
-
-> s small RFC patch series is really a hack on what I need from qemu rather
-> than a proper implementation. I'm hoping to get some guidance from the list on
-> how to implement this correctly for qemu upstream. Thank you!
+On Mon, May 01, 2023 at 10:20:58AM +0300, Andrew Melnychenko wrote:
+> eBPF RSS program and maps may now be passed during initialization.
+> Initially was implemented for libvirt to launch qemu without permissions,
+> and initialized eBPF program through the helper.
 > 
-> The patch series provides support for the ACPI Generic Port support that's
-> defined by ACPI spec 6.5 5.2.16.7 (Generic Port Affinity Structure). The
-> series also adds a genport object that allows locality data to be injected via
-> qemu commandline to the HMAT tables. The generic port support is to allow a hot
-> plugged CXL memory device to calculate the locality data from the CPU to
-> the CXL device. The generic port related data provides the locality data from
-> the CPU to the CXL host bridge (latency and bandwidth). These data in
-> addition to the PCIe link data, CDAT from device, and CXL switch CDAT if switch
-> exist, provides the locality data for the entire path.
-> 
-> Patch1: Adds Generic Port Affinity Structure sub-tables to the SRAT. For
-> each CXL Host Bridge (HB) a GPAS entry is created with a unique proximity
-> domain. For example, if the system is created with 4 proximity domains (PXM) for
-> system memory, then the next GPAS will get PXM 4 and so on.
-
-I may be going crazy but I'm not seeing an increment on the numa node. So I think
-they all get 4 at the moment. Found it increment in patch 3.
-
-> 
-> Patch2: Add the json support for generic port. Split out because
-> clang-format really clobbers the json files.
-> 
-> Patch3: Add a generic port object. The intention here is to allow setup of
-> numa nodes, add hmat-lb data and node distance for the generic targets. I had to
-> add a hack in qemu_create_cli_devices() to realize the genport objects. I need
-> guidance on where and how to do this properly so the genport objects
-> realize at the correct place and time.
-> 
-> Example of genport setup:
-> -object genport,id=$X -numa node,genport=genport$X,nodeid=$Y,initiator=$Z
-> -numa hmat-lb,initiator=$Z,target=$X,hierarchy=memory,data-type=access-latency,latency=$latency
-> -numa hmat-lb,initiator=$Z,target=$X,hierarchy=memory,data-type=access-bandwidth,bandwidth=$bandwidthM
-
-I think we should be using some links to the host bridges in here.
-So I don't think there should be an explicit genport object at all.
-Instead we should be able to point at the pxb itself.  Perhaps also
-allowing other port types in future.
-
-Something like
-
--device pxb-cxl,id=cxl1.1
--numa node,genport=cxl1.1,nodeid=$X
--numa hmat-lb,initiator=$Z,target=$X,...
--numa hmat-lb,initiator=$X,target=$Y,...
-//as generic port goes both ways.
-
-As we are currently using bus_nr for UID (which is admittedly a somewhat dirty hack that
-just happened to be convenient) the ACPI building code can use that to fill in the SRAT
-entry at appropriate point.
-
-I haven't tried implementing it so there may well be some ordering issues that
-require some late binding etc, but it should be possible to make it work.
-
-> for ((i = 0; i < total_nodes; i++)); do
->         for ((j = 0; j < cxl_hbs; j++ )); do        # 2 CXL HBs
->                 -numa dist,src=$i,dst=$X,val=$dist
->         done
-> done
-> Linux kernel support:
-> https://lore.kernel.org/linux-cxl/168088732996.1441063.10107817505475386072.stgit@djiang5-mobl3/T/#t
-> 
+> Signed-off-by: Andrew Melnychenko <andrew@daynix.com>
 > ---
+>  hw/net/virtio-net.c            | 96 +++++++++++++++++++++++++++++++---
+>  include/hw/virtio/virtio-net.h |  1 +
+>  2 files changed, 91 insertions(+), 6 deletions(-)
 > 
-> Dave Jiang (3):
->       hw/acpi: Add support for Generic Port Affinity Structure to SRAT
->       genport: Add json support for generic port
->       acpi: add generic port device object
+> diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
+> index 53e1c326433..9b3a997d872 100644
+> --- a/hw/net/virtio-net.c
+> +++ b/hw/net/virtio-net.c
+> @@ -42,6 +42,7 @@
+>  #include "sysemu/sysemu.h"
+>  #include "trace.h"
+>  #include "monitor/qdev.h"
+> +#include "monitor/monitor.h"
+>  #include "hw/pci/pci_device.h"
+>  #include "net_rx_pkt.h"
+>  #include "hw/virtio/vhost.h"
+> @@ -1305,14 +1306,96 @@ static void virtio_net_detach_epbf_rss(VirtIONet *n)
+>      virtio_net_attach_ebpf_to_backend(n->nic, -1);
+>  }
+>  
+> -static bool virtio_net_load_ebpf(VirtIONet *n)
+> +static int virtio_net_get_ebpf_rss_fds(char *str, char *fds[], int nfds,
+> +                                       Error **errp)
+>  {
+> -    if (!virtio_net_attach_ebpf_to_backend(n->nic, -1)) {
+> -        /* backend does't support steering ebpf */
+> -        return false;
+> +    char *ptr = str;
+> +    char *cur = NULL;
+> +    size_t len = strlen(str);
+> +    int i = 0;
+> +
+> +    for (; i < nfds && ptr < str + len;) {
+> +        cur = strchr(ptr, ':');
+> +
+> +        if (cur == NULL) {
+> +            fds[i] = g_strdup(ptr);
+> +        } else {
+> +            fds[i] = g_strndup(ptr, cur - ptr);
+> +        }
+> +
+> +        i++;
+> +        if (cur == NULL) {
+> +            break;
+> +        } else {
+> +            ptr = cur + 1;
+> +        }
+> +    }
+> +
+> +    if (cur != NULL) {
+> +        /* the string contains more arguments */
+> +        error_setg(errp,
+> +                   "Too many eBPF file descriptors for RSS provided.");
+> +    } else if (i < nfds) {
+> +        error_setg(errp,
+> +                   "Not enough eBPF file descriptors for RSS were provided.");
+> +    }
+> +
+> +    return i;
+> +}
+
+This whole method could be replaced by a call to g_strsplit in
+the caller....
+ 
+
+> +
+> +static bool virtio_net_load_ebpf_fds(VirtIONet *n, Error **errp)
+> +{
+> +    char *fds_strs[EBPF_RSS_MAX_FDS];
+
+   g_autoptr(GStrv) fds_strs = g_strsplit(n->ebpf_rss_fds, ",", 0);
+
+> +    int fds[EBPF_RSS_MAX_FDS];
+
+Left as uninitialized stack memory.
+
+> +    int nfds;
+> +    int ret = true;
+> +    int i = 0;
+> +
+> +    ERRP_GUARD();
+> +
+> +    nfds = virtio_net_get_ebpf_rss_fds(n->ebpf_rss_fds,
+> +                                       fds_strs, EBPF_RSS_MAX_FDS, errp);
+> +    if (*errp) {
+> +        ret = false;
+> +        goto exit;
+>      }
+
+Replace with 
+
+   if (g_strv_length(fds_strs) != EBPF_RSS_MAX_FDS) {
+       error_setg(errp,
+                  "Expected %d file descriptors but got %d",
+		  EBPF_RSS_MAX_FDS, g_strv_length(fds_strs));
+       return false;
+   }
+
+>  
+> -    return ebpf_rss_load(&n->ebpf_rss);
+> +    for (i = 0; i < nfds; i++) {
+> +        fds[i] = monitor_fd_param(monitor_cur(), fds_strs[i], errp);
+> +        if (*errp) {
+> +            ret = false;
+> +            goto exit;
+
+This can break out of the loop before all elements in 'fds' are
+initialized.
+
+> +        }
+> +    }
+> +
+> +    ret = ebpf_rss_load_fds(&n->ebpf_rss, fds[0], fds[1], fds[2], fds[3]);
+> +
+> +exit:
+> +    if (!ret || *errp) {
+> +        for (i = 0; i < nfds; i++) {
+> +            close(fds[i]);
+> +        }
+> +    }
+
+This now calls close() on uninitialized memory, killing
+arbitary FDs QEMU has open elsewhere.
+
+> +
+> +    for (i = 0; i < nfds; i++) {
+> +        g_free(fds_strs[i]);
+> +    }
+
+Not required if we use g_autoptr(GStrv)
+
+> +
+> +    return ret;
+> +}
+> +
+> +static bool virtio_net_load_ebpf(VirtIONet *n, Error **errp)
+> +{
+> +    bool ret = false;
+> +
+> +    if (virtio_net_attach_ebpf_to_backend(n->nic, -1)) {
+> +        if (!(n->ebpf_rss_fds
+> +                && virtio_net_load_ebpf_fds(n, errp))) {
+> +            ret = ebpf_rss_load(&n->ebpf_rss);
+> +        }
+> +    }
+> +
+> +    return ret;
+>  }
+>  
+>  static void virtio_net_unload_ebpf(VirtIONet *n)
+> @@ -3738,7 +3821,7 @@ static void virtio_net_device_realize(DeviceState *dev, Error **errp)
+>      net_rx_pkt_init(&n->rx_pkt);
+>  
+>      if (virtio_has_feature(n->host_features, VIRTIO_NET_F_RSS)) {
+> -        virtio_net_load_ebpf(n);
+> +        virtio_net_load_ebpf(n, errp);
+>      }
+>  }
+>  
+> @@ -3900,6 +3983,7 @@ static Property virtio_net_properties[] = {
+>                      VIRTIO_NET_F_RSS, false),
+>      DEFINE_PROP_BIT64("hash", VirtIONet, host_features,
+>                      VIRTIO_NET_F_HASH_REPORT, false),
+> +    DEFINE_PROP_STRING("ebpf_rss_fds", VirtIONet, ebpf_rss_fds),
+>      DEFINE_PROP_BIT64("guest_rsc_ext", VirtIONet, host_features,
+>                      VIRTIO_NET_F_RSC_EXT, false),
+>      DEFINE_PROP_UINT32("rsc_interval", VirtIONet, rsc_timeout,
+> diff --git a/include/hw/virtio/virtio-net.h b/include/hw/virtio/virtio-net.h
+> index ef234ffe7ef..e10ce88f918 100644
+> --- a/include/hw/virtio/virtio-net.h
+> +++ b/include/hw/virtio/virtio-net.h
+> @@ -219,6 +219,7 @@ struct VirtIONet {
+>      VirtioNetRssData rss_data;
+>      struct NetRxPkt *rx_pkt;
+>      struct EBPFRSSContext ebpf_rss;
+> +    char *ebpf_rss_fds;
+>  };
+>  
+>  size_t virtio_net_handle_ctrl_iov(VirtIODevice *vdev,
+> -- 
+> 2.39.1
 > 
-> 
->  hw/acpi/aml-build.c         | 21 +++++++++++++
->  hw/acpi/genport.c           | 61 +++++++++++++++++++++++++++++++++++++
->  hw/acpi/meson.build         |  1 +
->  hw/i386/acpi-build.c        | 45 +++++++++++++++++++++++++++
->  include/hw/acpi/aml-build.h | 27 ++++++++++++++++
->  qapi/machine.json           |  3 +-
->  qapi/qom.json               | 12 ++++++++
->  softmmu/vl.c                | 26 ++++++++++++++++
->  8 files changed, 195 insertions(+), 1 deletion(-)
->  create mode 100644 hw/acpi/genport.c
-> 
-> --
-> 
-> 
+
+With regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
