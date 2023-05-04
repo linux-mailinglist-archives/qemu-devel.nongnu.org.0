@@ -2,90 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A9F66F7127
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 May 2023 19:37:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 562436F7146
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 May 2023 19:41:53 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pucoH-0006xY-K3; Thu, 04 May 2023 13:32:06 -0400
+	id 1pucoL-0006xi-Da; Thu, 04 May 2023 13:32:11 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1puYtz-0006Od-9T
- for qemu-devel@nongnu.org; Thu, 04 May 2023 09:21:43 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1puYtx-0006sr-Tn
- for qemu-devel@nongnu.org; Thu, 04 May 2023 09:21:43 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1683206501;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
+ (Exim 4.90_1) (envelope-from <farosas@suse.de>)
+ id 1puYxf-0007Ku-Df; Thu, 04 May 2023 09:25:31 -0400
+Received: from smtp-out2.suse.de ([195.135.220.29])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <farosas@suse.de>)
+ id 1puYxd-0002xh-SJ; Thu, 04 May 2023 09:25:31 -0400
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id F35DA1FD79;
+ Thu,  4 May 2023 13:25:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1683206727; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=cyh9GNwkSeiWX8VVWJet6cmrStrv1Y1BhHYKMAKCy08=;
- b=Qw195BOvGD9tengc7/QORCaoSCN5l9LrcrhN4Jw0iSjHMhw7imj8q4aF2TIEifHBxZQeNM
- mayzkUbzHnRmTz42ovfsGAZUnZTBKJxafdORa9Uz4Eco9uslh2zyc5EeHJRZv0bO6/cLzK
- UkwznC97BQ1+1RKW+dQp3d1Qex0OMic=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-427-IG8EGK1nMeSx5WiaH4eRXQ-1; Thu, 04 May 2023 09:21:39 -0400
-X-MC-Unique: IG8EGK1nMeSx5WiaH4eRXQ-1
-Received: by mail-ed1-f69.google.com with SMTP id
- 4fb4d7f45d1cf-506beab6a73so497042a12.1
- for <qemu-devel@nongnu.org>; Thu, 04 May 2023 06:21:39 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683206498; x=1685798498;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=cyh9GNwkSeiWX8VVWJet6cmrStrv1Y1BhHYKMAKCy08=;
- b=Xfz7ouLl2rjiDpIQK0x8nZK9Rh7utamz+zG+pRcNwu25QhRLQ3KM27NpfHMDDWm3Sn
- fFs+YVN9jr3kisKDUeSpf164zwMWc1o3wgeSEBQ7WYR7ce6tZA5EaLrKFuhKegPe2hOR
- yVWt1FVnBpu2sMC7c+nQgPyLyjdbmLPfd2Uk34t+HasVKG9d1ZNvbuV9HEWuSLsHPvJy
- p8WB4WHg3uysJXul091ey1iAvEsJd0bckKB0jFP+PH2yNga+Cg/AEucqndZmKRod5psL
- yaboxIedN5LZpnf9GebL0PfdAPH2eZ6GgvvvnqIE6ppalY4Td2zA1njkF5IGz82GpML+
- sZZg==
-X-Gm-Message-State: AC+VfDw2iirlbnOpBxGs0VPznPsF91uF5S1sC2m4kbwEveVJ6xIdfP4c
- B4/+tIfR5MZw367nnj92SL8GbQTabjeIWsH5z7+zVU4nzeb5OFa5Kj2doMKJuXrRnhxqvNzr5he
- TtvOiwUYkxwWXogM=
-X-Received: by 2002:a17:906:9b89:b0:957:43b:36ee with SMTP id
- dd9-20020a1709069b8900b00957043b36eemr6865308ejc.20.1683206498669; 
- Thu, 04 May 2023 06:21:38 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ5dECDTXZCHy+Oq3w2Xe1T8H8IOY4rVdKuIQbjSxhDuLzPW5WZHHtbHLSXEIN5GxW/qOSFXdQ==
-X-Received: by 2002:a17:906:9b89:b0:957:43b:36ee with SMTP id
- dd9-20020a1709069b8900b00957043b36eemr6865286ejc.20.1683206498347; 
- Thu, 04 May 2023 06:21:38 -0700 (PDT)
-Received: from [192.168.10.118] ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
- by smtp.gmail.com with ESMTPSA id
- sg9-20020a170907a40900b00959aba150c3sm14094588ejc.50.2023.05.04.06.21.37
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 04 May 2023 06:21:37 -0700 (PDT)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: Fabiano Rosas <farosas@suse.de>
-Cc: qemu-devel@nongnu.org,
- =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH v4 0/2] docs: Speedup docs build
-Date: Thu,  4 May 2023 15:21:35 +0200
-Message-Id: <20230504132135.11429-1-pbonzini@redhat.com>
-X-Mailer: git-send-email 2.40.0
-In-Reply-To: <20230503203947.3417-1-farosas@suse.de>
-References: 
+ bh=HcMII6ChGAGYjOLxXTYDfDqToJxPc9woYkrHQEvR0zQ=;
+ b=V1+WaIfsBqJ8Fbp0v9pXFkVptlG7GXiR4nl4FS1tUHMW0jPiGquQyLo3pMsmv+wYa8OpoT
+ tGpuHlh5YMYgNghgKHluW2LSS2Wny7WvTRqTsuTq0cv8QWL7yoOwfMCng7KGrLYPHDZOd5
+ DQ7tGkdx112VPd/I87ePmlQsyLBkbwk=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1683206727;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=HcMII6ChGAGYjOLxXTYDfDqToJxPc9woYkrHQEvR0zQ=;
+ b=6IAGFArM045cOqKu6ZJywzIIvcCpmnv6dSwWQ2u+DTs0yAvN09A9s2SMk5nIhtrUOODDaA
+ 7lKT7V7j3U+pDRAA==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 7454313444;
+ Thu,  4 May 2023 13:25:27 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id sNReD0eyU2QfXQAAMHmgww
+ (envelope-from <farosas@suse.de>); Thu, 04 May 2023 13:25:27 +0000
+From: Fabiano Rosas <farosas@suse.de>
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+Cc: qemu-arm@nongnu.org
+Subject: Re: [PATCH 1/2] target/arm: Move translate-a32.h, arm_ldst.h,
+ sve_ldst_internal.h to tcg/
+In-Reply-To: <20230504110412.1892411-2-richard.henderson@linaro.org>
+References: <20230504110412.1892411-1-richard.henderson@linaro.org>
+ <20230504110412.1892411-2-richard.henderson@linaro.org>
+Date: Thu, 04 May 2023 10:25:24 -0300
+Message-ID: <87lei4jkjf.fsf@suse.de>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -22
-X-Spam_score: -2.3
-X-Spam_bar: --
-X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.161,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: text/plain
+Received-SPF: pass client-ip=195.135.220.29; envelope-from=farosas@suse.de;
+ helo=smtp-out2.suse.de
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -101,8 +83,12 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Queued, thanks.
+Richard Henderson <richard.henderson@linaro.org> writes:
 
-Paolo
+> These files got missed when populating tcg/.
+> Because they are included with "", no change to the users required.
+>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 
+Reviewed-by: Fabiano Rosas <farosas@suse.de>
 
