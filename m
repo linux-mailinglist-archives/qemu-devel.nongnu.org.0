@@ -2,104 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9F6D6F6BE2
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 May 2023 14:34:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F1A96F718A
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 May 2023 19:51:18 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1puY4e-0001aY-Ur; Thu, 04 May 2023 08:28:40 -0400
+	id 1pucpQ-0000ec-IO; Thu, 04 May 2023 13:33:16 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>) id 1puY4W-0001U6-O4
- for qemu-devel@nongnu.org; Thu, 04 May 2023 08:28:33 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>) id 1puY4V-00032B-0m
- for qemu-devel@nongnu.org; Thu, 04 May 2023 08:28:32 -0400
-Received: from pps.filterd (m0353724.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 344BllEN023903; Thu, 4 May 2023 12:28:19 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : subject :
- from : to : cc : date : in-reply-to : references : content-type :
- content-transfer-encoding : mime-version; s=pp1;
- bh=LrZPHccsLRnGe08Z7p2mDG/P3nIFgPDTlgG3swzg98M=;
- b=rfuAL1ifImThm06s+OqxpGXlWahUJzu7eRK2zmoIajP6dRVw6NT8R40JkKcxAB0HSopc
- TsX6K2+VaRLE3BKPx9qvwQaWUbCM6A/LuhmPItMB6n86KLEHOBEIpHYqwp7IXzhI9Eqx
- zjCb8W9zeiyL8lEYCuZhFsJJjQf+MBXZsmlEH/hw9R1/gsSC1+W1M6XHtYLfFWHkELZc
- uX4/p7IvO0vfGc/7lct0usSvsfVdYF+ovatQ1qMEzCqE5hjSkA3cD5reP8Im3IowimU0
- jbs/qX1PQwCMsUpLbg8j8mSaq6fnTkjxVr851xcO0trrRMLVxuQ9A9o8aYxnJsZED436 4w== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3qcbghapss-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 04 May 2023 12:28:19 +0000
-Received: from m0353724.ppops.net (m0353724.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 344CJPQO030876;
- Thu, 4 May 2023 12:28:18 GMT
-Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.98])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3qcbghaprg-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 04 May 2023 12:28:18 +0000
-Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
- by ppma03ams.nl.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 3442qO9Z007067;
- Thu, 4 May 2023 12:28:16 GMT
-Received: from smtprelay04.fra02v.mail.ibm.com ([9.218.2.228])
- by ppma03ams.nl.ibm.com (PPS) with ESMTPS id 3q8tv6tuft-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 04 May 2023 12:28:16 +0000
-Received: from smtpav06.fra02v.mail.ibm.com (smtpav06.fra02v.mail.ibm.com
- [10.20.54.105])
- by smtprelay04.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 344CSE0O34734748
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 4 May 2023 12:28:14 GMT
-Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 7463220049;
- Thu,  4 May 2023 12:28:14 +0000 (GMT)
-Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 6215D20040;
- Thu,  4 May 2023 12:28:13 +0000 (GMT)
-Received: from [9.171.60.220] (unknown [9.171.60.220])
- by smtpav06.fra02v.mail.ibm.com (Postfix) with ESMTP;
- Thu,  4 May 2023 12:28:13 +0000 (GMT)
-Message-ID: <713778814b7f04b6a828d4ed79675d7bae9d686b.camel@linux.ibm.com>
-Subject: Re: [PATCH 6/9] target/s390x: Finish conversion to
- tcg_gen_qemu_{ld,st}_*
-From: Ilya Leoshkevich <iii@linux.ibm.com>
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-Cc: mrolnik@gmail.com, edgar.iglesias@gmail.com, tsimpson@quicinc.com,
- ale@rev.ng, anjo@rev.ng, laurent@vivier.eu, philmd@linaro.org,
- jiaxun.yang@flygoat.com, david@redhat.com, thuth@redhat.com,
- mark.cave-ayland@ilande.co.uk, atar4qemu@gmail.com, jcmvbkbc@gmail.com
-Date: Thu, 04 May 2023 14:28:13 +0200
-In-Reply-To: <20230502135741.1158035-7-richard.henderson@linaro.org>
-References: <20230502135741.1158035-1-richard.henderson@linaro.org>
- <20230502135741.1158035-7-richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.4 (3.46.4-1.fc37) 
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1puYNP-0005rZ-U6
+ for qemu-devel@nongnu.org; Thu, 04 May 2023 08:48:04 -0400
+Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1puYNO-0002VS-6i
+ for qemu-devel@nongnu.org; Thu, 04 May 2023 08:48:03 -0400
+Received: by mail-wm1-x333.google.com with SMTP id
+ 5b1f17b1804b1-3f19323259dso4551825e9.3
+ for <qemu-devel@nongnu.org>; Thu, 04 May 2023 05:48:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1683204480; x=1685796480;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=8Y9RtzxHz2uJtd85gOiV7+07348jFZKXTSNCxiiZlEE=;
+ b=y+WS02A/whwZz9Fdr1aff2724iBm1WLxdlb6YVs2OOvyPHvIvFpaV0P73rhiFKsWF2
+ i5H/8IGT+0WL8elQGmCBksTjvSHusDDrIsmQv868prqF52ami6FaeyRw++syVTIninTk
+ KnCytbvgMmpPZYiR0j66/hkOtHNP6G8FmZTHtqf/PNPCKvPjvsnIwMgObk+trdZzfulT
+ +Z5sZLSRHC1A1taQIEoGTSoxh8UZk8b6Q4uOUEgDe0r2YKZ5BtxWPuKNoSPtRMqSMyBY
+ qSftVIGugSwELsC/IPY7og6LJLYVZQhABVVlL3PDb2Vi+DyTZ/p8/X0+EAnMof+o75U3
+ Nm2Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1683204480; x=1685796480;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=8Y9RtzxHz2uJtd85gOiV7+07348jFZKXTSNCxiiZlEE=;
+ b=OxXpPrAbJT5F1Rs5jL+W8KhTdpQMrfVUFvJdb6vFXrn5bHz4w8hqhQE5thNg5vgyGI
+ IkhjYMrHY6N3t8aD8vaM6Qa3MvUqY6wg5HnjLOLC4tDdoGRQJpJztu1bdsksUWVtyMsR
+ LczZG5/lwSj3OhFYqRSsXbR4q0KafevloD6gjNyX+Vl/ZafVqRpCVfz59fud6LvF0iM6
+ zbdoEWb5nbs90t49YBVoLRsSyPqLKamLr4/kyiZuqzzJ2a7iU0sr3ZUEMeqquH9NLkcN
+ LF1dFmR1k0aUYryZvn8z0BLcWJwyH0+VmcshtAtqGP1LCbn9FZWohqmgkcj/RcAAlWBD
+ lPHQ==
+X-Gm-Message-State: AC+VfDxWkpYuxhHxwXDCsWODkOIvCMbkWvvuH0Fbt8mks2iT3XezpU8Y
+ PXMuIHnEJL/EMnd3WkJPEVM1Qw==
+X-Google-Smtp-Source: ACHHUZ71M85dPZO97/fSUMBpcGYv7E4KBzJVfe77FuVmtvDyY8smt8H7v8VjM7DUPYpMvqctmSD3Ag==
+X-Received: by 2002:a05:600c:215:b0:3f1:6757:6245 with SMTP id
+ 21-20020a05600c021500b003f167576245mr17064504wmi.7.1683204479649; 
+ Thu, 04 May 2023 05:47:59 -0700 (PDT)
+Received: from zen.linaroharston ([85.9.250.243])
+ by smtp.gmail.com with ESMTPSA id
+ z19-20020a7bc7d3000000b003edef091b17sm4871686wmk.37.2023.05.04.05.47.59
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 04 May 2023 05:47:59 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id D1FEE1FFBA;
+ Thu,  4 May 2023 13:47:58 +0100 (BST)
+References: <20230503193833.29047-1-farosas@suse.de>
+ <20230503193833.29047-2-farosas@suse.de>
+ <3f8ed21a-6c05-e7a4-ab9a-c8f6ca041013@redhat.com>
+User-agent: mu4e 1.11.4; emacs 29.0.90
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Cc: Fabiano Rosas <farosas@suse.de>, qemu-devel@nongnu.org,
+ qemu-arm@nongnu.org, Peter Maydell <peter.maydell@linaro.org>, Philippe
+ =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>, Richard Henderson
+ <richard.henderson@linaro.org>
+Subject: Re: [PATCH 1/3] target/arm: Use CONFIG_SEMIHOSTING instead of TCG
+ for semihosting
+Date: Thu, 04 May 2023 13:32:58 +0100
+In-reply-to: <3f8ed21a-6c05-e7a4-ab9a-c8f6ca041013@redhat.com>
+Message-ID: <87cz3gs1oh.fsf@linaro.org>
 MIME-Version: 1.0
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: 3pWH0qbuaY_xYVPuxlhDzPu2_oEmjoqD
-X-Proofpoint-ORIG-GUID: QU3k4vUb4DdQQh0zO2OVUO5XScA0odZy
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-05-04_08,2023-05-04_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0
- priorityscore=1501 impostorscore=0 clxscore=1011 lowpriorityscore=0
- mlxlogscore=614 phishscore=0 bulkscore=0 mlxscore=0 malwarescore=0
- suspectscore=0 spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2303200000 definitions=main-2305040098
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=iii@linux.ibm.com;
- helo=mx0b-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::333;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x333.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -116,16 +101,107 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, 2023-05-02 at 14:57 +0100, Richard Henderson wrote:
-> Convert away from the old interface with the implicit
-> MemOp argument.
->=20
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
-> =C2=A0target/s390x/tcg/translate.c | 152 ++++++++++++++++----------------=
--
-> --
-> =C2=A01 file changed, 71 insertions(+), 81 deletions(-)
 
-Reviewed-by: Ilya Leoshkevich <iii@linux.ibm.com>
+Paolo Bonzini <pbonzini@redhat.com> writes:
+
+> On 5/3/23 21:38, Fabiano Rosas wrote:
+>> When building --without-default-devices, the semihosting code will not
+>> be available, so check the proper config.
+>
+> Acked-by: Paolo Bonzini <pbonzini@redhat.com>
+>
+> for this change; however, there are two more related issues:
+>
+> 1) you still want to leave out the code if !TCG, because KVM is not able
+> to exit to userspace on semihosting calls as far as I understand
+
+Correct.
+
+> 2) I am not sure why CONFIG_ARM_COMPATIBLE_SEMIHOSTING=3Dy appears in
+> config/targets/{arm,riscv32,riscv64}-softmmu/default.mak.
+
+I think we need to be clearer in the development guide when things are
+triggered by config/devices/ and when they are triggered by default
+rules in Kconfig.
+
+After Fabino's series the delta between
+config/aarch64-softmmu/minimal.mk and config/aarch64-softmmu/default.mk
+is pretty small.
+
+I guess minimal.mk should be renamed to virt.mk, sbsa-ref dropped from
+it (as you can't run it under KVM) and what controls which devices the
+virt platform can use?
+
+Should it be:
+
+CONFIG_PCI_DEVICES=3Dy
+CONFIG_VIRTIO_PCI=3Dy
+
+to ensure we can plug and play all the various VirtIO bits we need for
+the KVM/Xen use case?
+
+>
+> Putting things together you also need something like
+>
+> diff --git a/semihosting/Kconfig b/semihosting/Kconfig
+> index eaf3a20ef5b2..671020a33426 100644
+> --- a/semihosting/Kconfig
+> +++ b/semihosting/Kconfig
+> @@ -4,4 +4,5 @@ config SEMIHOSTING
+>    config ARM_COMPATIBLE_SEMIHOSTING
+>         bool
+> +       default y if (ARM && TCG) || RISCV32 || RISCV64
+>         select SEMIHOSTING
+> diff --git a/configs/devices/arm-softmmu/default.mak b/configs/devices/ar=
+m-softmmu/default.mak
+> index 1b49a7830c7e..5e7a17d05bf8 100644
+> --- a/configs/devices/arm-softmmu/default.mak
+> +++ b/configs/devices/arm-softmmu/default.mak
+> @@ -41,5 +41,4 @@ CONFIG_FSL_IMX25=3Dy
+>  CONFIG_FSL_IMX7=3Dy
+>  CONFIG_FSL_IMX6UL=3Dy
+>  CONFIG_SEMIHOSTING=3Dy
+> -CONFIG_ARM_COMPATIBLE_SEMIHOSTING=3Dy
+>  CONFIG_ALLWINNER_H3=3Dy
+> diff --git a/configs/devices/riscv32-softmmu/default.mak b/configs/device=
+s/riscv32-softmmu/default.mak
+> index d847bd5692ec..94a236c9c25b 100644
+> --- a/configs/devices/riscv32-softmmu/default.mak
+> +++ b/configs/devices/riscv32-softmmu/default.mak
+> @@ -3,8 +3,6 @@
+>  # Uncomment the following lines to disable these optional devices:
+>  #
+>  #CONFIG_PCI_DEVICES=3Dn
+> -CONFIG_SEMIHOSTING=3Dy
+> -CONFIG_ARM_COMPATIBLE_SEMIHOSTING=3Dy
+>    # Boards:
+>  #
+> diff --git a/configs/devices/riscv64-softmmu/default.mak b/configs/device=
+s/riscv64-softmmu/default.mak
+> index bc69301fa4a6..3f6805944849 100644
+> --- a/configs/devices/riscv64-softmmu/default.mak
+> +++ b/configs/devices/riscv64-softmmu/default.mak
+> @@ -3,8 +3,6 @@
+>  # Uncomment the following lines to disable these optional devices:
+>  #
+>  #CONFIG_PCI_DEVICES=3Dn
+> -CONFIG_SEMIHOSTING=3Dy
+> -CONFIG_ARM_COMPATIBLE_SEMIHOSTING=3Dy
+>    # Boards:
+>  #
+>
+> Paolo
+>
+>> Fixes: 29d9efca16 ("arm/Kconfig: Do not build TCG-only boards on a KVM-o=
+nly build")
+>> Signed-off-by: Fabiano Rosas<farosas@suse.de>
+>> ---
+>>   target/arm/helper.c       | 4 ++--
+>>   target/arm/tcg/m_helper.c | 2 +-
+>>   2 files changed, 3 insertions(+), 3 deletions(-)
+
+
+--=20
+Alex Benn=C3=A9e
+Virtualisation Tech Lead @ Linaro
 
