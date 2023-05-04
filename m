@@ -2,70 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2BDDC6F687C
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 May 2023 11:42:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D40B56F687F
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 May 2023 11:42:43 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1puVSQ-00069t-Vo; Thu, 04 May 2023 05:41:03 -0400
+	id 1puVTM-0006Vg-NE; Thu, 04 May 2023 05:42:00 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1puVSO-00069c-Nq
- for qemu-devel@nongnu.org; Thu, 04 May 2023 05:41:00 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1puVSN-0000kd-D0
- for qemu-devel@nongnu.org; Thu, 04 May 2023 05:41:00 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1683193258;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=MBDOQxGnFKFNch5hWnht0EvOhAiRVzRfzZweY/XOVA8=;
- b=JMKHZua5PmVhKW+ntJ6n/1NeChXGffoqjCRKI9Nv+0eEOdfQO2Qg+EZiZRAS1+aj02yBMR
- 8yVdUE4SPd8ckPMASDHq6vNvxIuZ9IyKfOHYpIU4RUajaHXRiBik3CNQtgZsRwyfRUydYA
- llaU2UMZHQv4c1VgSM9sz3iGJmaNBlQ=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-664-WBvB009xP5Kkviw2HVBq3Q-1; Thu, 04 May 2023 05:40:55 -0400
-X-MC-Unique: WBvB009xP5Kkviw2HVBq3Q-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
- [10.11.54.8])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 296931C189A3;
- Thu,  4 May 2023 09:40:55 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.194.84])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 865FEC15BAD;
- Thu,  4 May 2023 09:40:53 +0000 (UTC)
-Date: Thu, 4 May 2023 11:40:52 +0200
-From: Kevin Wolf <kwolf@redhat.com>
-To: Juan Quintela <quintela@redhat.com>
-Cc: qemu-devel@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>,
- Peter Xu <peterx@redhat.com>, qemu-block@nongnu.org,
- Leonardo Bras <leobras@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
- Fam Zheng <fam@euphon.net>, Eric Blake <eblake@redhat.com>,
- John Snow <jsnow@redhat.com>
-Subject: Re: [PATCH] migration: Fix block_bitmap_mapping migration
-Message-ID: <ZFN9pHO659kASsIu@redhat.com>
-References: <20230503181036.14890-1-quintela@redhat.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1puVTL-0006VW-GW
+ for qemu-devel@nongnu.org; Thu, 04 May 2023 05:41:59 -0400
+Received: from mail-ej1-x629.google.com ([2a00:1450:4864:20::629])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1puVTJ-0000us-UI
+ for qemu-devel@nongnu.org; Thu, 04 May 2023 05:41:59 -0400
+Received: by mail-ej1-x629.google.com with SMTP id
+ a640c23a62f3a-94f1a6e66c9so41369866b.2
+ for <qemu-devel@nongnu.org>; Thu, 04 May 2023 02:41:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1683193316; x=1685785316;
+ h=content-transfer-encoding:in-reply-to:references:to:from
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=YDVaBtv1PIDlDD2jrvaFDTkSIKEBWMsiMbu7ii97qmw=;
+ b=gex4Qedh/q3RL/L9/4hPhL1cLwjzuDFtvVLEnrKneMmMozOukoxzVTj60ms6GluT+o
+ M29AKGcbG7yOEYgnkfdzutrfofVaFDNcRQO4+J5McbHSx+tOYrL6zakzsRT7ffkSfF6K
+ tBVgyldftz/siuHB90Swi9d+HENvaTH6b/QvA2+FNFkoaQ8SinQ2gdsbKKlNk0rWb/Xn
+ QwcNJIQTgjAzBtGU+uBKjs83/cc4f9LuOdHlA1WDGUqiXUpxY14ZM9tCADfGzigfhEM3
+ I3VgL3FbOmSgyUjINJrGDwWcOZfy1H5cQPGwK7k5KWGwJeneDPusZXWM/Zhjhgj1akM6
+ ddDQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1683193316; x=1685785316;
+ h=content-transfer-encoding:in-reply-to:references:to:from
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=YDVaBtv1PIDlDD2jrvaFDTkSIKEBWMsiMbu7ii97qmw=;
+ b=QBGPmLT/JUgHoPhwP4prJMvuCRP0i0t7n321mmSYcrg5tSFT+U05ChwD5hYDjBtYE2
+ pIYGNnbyZH4WK+uYUtw8sqoylixN8+E/XZuGMnL+bngEbCiDWFt3RMr2oPv3UM6Hmq21
+ uyejH2aXpPs0j8fGfycR4mbQBurJszEjA+OR9kJP1/EJ3PvnEwpIo2ymj7TGPNsihhgO
+ rqqGjekbyEkRubuG5xAFiuiqsVA/gzxsZZ/Zvw8it5E5b1JRedr1yohpXAtqeoi0MnIo
+ XynCdtxCUN+dJMxvUwkLYgplf+aSsLN+AcfLrB2YKa8RxHJAVZS3tNX5lG84DGkTgck3
+ kYow==
+X-Gm-Message-State: AC+VfDymtZVbzjGUUjnKIGVqMhVphk/HpBJgdBac3wCSGSfzbMUgwp/6
+ XmeGZysnF5PWhMaJ5jn113oyGL5hGwAtYJUb/RQMFQ==
+X-Google-Smtp-Source: ACHHUZ6t3GlECTJpJ/Spsyz1aC93+osADyKDwH/Ifak76LTtMRlNxGiUAeVMknOMatxEwlG0v5AfKg==
+X-Received: by 2002:a17:907:805:b0:94e:e3c3:aebe with SMTP id
+ wv5-20020a170907080500b0094ee3c3aebemr5514092ejb.0.1683193316096; 
+ Thu, 04 May 2023 02:41:56 -0700 (PDT)
+Received: from [192.168.66.227] ([91.223.100.49])
+ by smtp.gmail.com with ESMTPSA id
+ jy26-20020a170907763a00b009655d4450a6sm1937395ejc.192.2023.05.04.02.41.55
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 04 May 2023 02:41:55 -0700 (PDT)
+Message-ID: <620c7286-f643-b7f8-5e21-56f3890db25a@linaro.org>
+Date: Thu, 4 May 2023 10:41:53 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230503181036.14890-1-quintela@redhat.com>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -22
-X-Spam_score: -2.3
-X-Spam_bar: --
-X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.161,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [RFC PATCH v4 00/44] Add LoongArch LSX instructions
+Content-Language: en-US
+From: Richard Henderson <richard.henderson@linaro.org>
+To: Song Gao <gaosong@loongson.cn>, qemu-devel@nongnu.org
+References: <20230425070248.2550028-1-gaosong@loongson.cn>
+ <8a821169-6dc3-ab82-bd32-990b0f9a8c98@linaro.org>
+ <b6243a8d-8ef6-7609-b71c-fd3cddb69d67@loongson.cn>
+ <80c6ed35-1d19-eb6a-0e3b-6fbf23d8540c@linaro.org>
+In-Reply-To: <80c6ed35-1d19-eb6a-0e3b-6fbf23d8540c@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::629;
+ envelope-from=richard.henderson@linaro.org; helo=mail-ej1-x629.google.com
+X-Spam_score_int: -63
+X-Spam_score: -6.4
+X-Spam_bar: ------
+X-Spam_report: (-6.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-4.28,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,21 +96,37 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Am 03.05.2023 um 20:10 hat Juan Quintela geschrieben:
-> It is valid that params->has_block_bitmap_mapping is true and
-> params->block_bitmap_mapping is NULL.  So we can't use the trick of
-> having a single function.
+On 5/4/23 09:25, Richard Henderson wrote:
+> On 5/4/23 02:26, Song Gao wrote:
+>>>> V4:
+>>>>    - R-b and rebase;
+>>>>    - Migrate the upper half lsx regs;
+>>>>    - Remove tcg_gen_mulus2_*;
+>>>>    - Vsetallnez use !do_match2;
+>>>>    - Use tcg_gen_concat_i64_i128/tcg_gen_extr_i128_i64 to replace
+>>>>      TCGV128_LOW(val)/TCGV128_High(val);
+>>>
+>>> One minor nit, everything reviewed!  Congratulations.
+>>>
+>> Thank you for your guidance and review.
+>>
+>> Since all patches are reviewed, how about drop 'RFC' on v5?
 > 
-> Move to two functions one for each value and the tests are fixed.
+> Sure.
 > 
-> Fixes: b804b35b1c8a0edfd127ac20819c234be55ac7fc
->        migration: Create migrate_block_bitmap_mapping() function
+>> I am  really not sure When the Vol2 will be open.
 > 
-> Reported-by: Kevin Wolf <kwolf@redhat.com>
-> Signed-off-by: Juan Quintela <quintela@redhat.com>
+> That is unfortunate.
+> 
+> I think the timing of the merge of this code is now up to you as maintainer of the 
+> Loongson target.  As an employee of the company you have more insight into the status of 
+> the extension, whether it is already present in shipping silicon, or completed final 
+> draft, or still beta, etc.
+> 
+> Even if the extension is finalized, I see no reason why you should not be able to merge, 
 
-Thanks, applied to the block branch.
+Oops.  "Even if the extension is *not* finalized..."
+I.e., a beta extension can be merged if it is off by default.
 
-Kevin
-
+r~
 
