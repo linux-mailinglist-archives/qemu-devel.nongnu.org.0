@@ -2,80 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9FF36F7161
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 May 2023 19:44:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F1DA06F713B
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 May 2023 19:40:10 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pucpz-0002T1-D1; Thu, 04 May 2023 13:33:51 -0400
+	id 1pucoT-00071E-6O; Thu, 04 May 2023 13:32:17 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1puZx0-00061P-4m
- for qemu-devel@nongnu.org; Thu, 04 May 2023 10:28:54 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <kchamart@redhat.com>)
+ id 1pua1I-0007KH-74
+ for qemu-devel@nongnu.org; Thu, 04 May 2023 10:33:20 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1puZwy-0005Cw-Rh
- for qemu-devel@nongnu.org; Thu, 04 May 2023 10:28:53 -0400
+ (Exim 4.90_1) (envelope-from <kchamart@redhat.com>)
+ id 1pua1G-0006tN-0w
+ for qemu-devel@nongnu.org; Thu, 04 May 2023 10:33:19 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1683210532;
+ s=mimecast20190719; t=1683210796;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=9m3z1Ik9wgFlglX5k1rMYsVsnclcnXCzbVoP8eHoC1c=;
- b=dTFDXTjpzgwcXx/u7xSFO9bABQxCnrFxwLp7xeoMa9TB0wOxjCubQBC6hdZuIbvrYW1D8m
- hw2fdK+JHE9fYxpGPdYaJM13ac3DrZkjCyDe38IxEspjOQwFftujyWl+tx110ONZXtxi4S
- USNZfO5g3+Iv6pGDkNoD8K0rVf6bwsY=
-Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
- [209.85.219.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-520-9KAtlp2RPdiq8csDo5RN7w-1; Thu, 04 May 2023 10:28:50 -0400
-X-MC-Unique: 9KAtlp2RPdiq8csDo5RN7w-1
-Received: by mail-qv1-f72.google.com with SMTP id
- 6a1803df08f44-5ef4d54d84cso1764726d6.0
- for <qemu-devel@nongnu.org>; Thu, 04 May 2023 07:28:50 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683210530; x=1685802530;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=9m3z1Ik9wgFlglX5k1rMYsVsnclcnXCzbVoP8eHoC1c=;
- b=WWC4ssDX5cd3mT1XIUKCYnxaNjaQrTLwCYtM/3psv/kTD5845LdkYqa5oFnog6a2Gz
- CeBNcqjfPz3vzN0leaR0X5kzkhn+Qe7jGzBe04m/qUl61nXwn0ugXGiYv3HJnDzPD4sI
- suG5NLCtzFnP+s3LoUNdcCVV7tX7z4YbQtkeNp4d6JkA8pv7EZVEz+3EzB0qpVCAGxAU
- AfjCxqpIQrkiPYWd73WleI/6Jqk1ApN1hIy1tyFW0I6clLRjKtFCz/rWVkd38Oif4x2v
- mH8C9cAjrUXLU3uaoAoBKBHserfxzBGLg5AcBXvkqPzXsGZqAj9ngaOu14p+p3jzsIm2
- SwiA==
-X-Gm-Message-State: AC+VfDyI5JquvGPNREeMDfWL7Of8nCEyRoyRDFwPjjk2gaalydG8+Sd1
- 0WoW5WqGOpXbALY6uJgB/kDAUCwE6ri7zx2tQyQVwwNbexYNWM27IxCajnMO/6mhTMMy5V8ZQ6y
- hZCQWxFanaMtLCCA=
-X-Received: by 2002:a05:622a:1aa4:b0:3ef:59e8:511f with SMTP id
- s36-20020a05622a1aa400b003ef59e8511fmr15265165qtc.0.1683210530242; 
- Thu, 04 May 2023 07:28:50 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ4bigbNAl6RGBnZ9Vt/es5/8TPFDyOufZ03nKHMdHss/jY9u2K3gZstLO6kurs/hMrnvebcbQ==
-X-Received: by 2002:a05:622a:1aa4:b0:3ef:59e8:511f with SMTP id
- s36-20020a05622a1aa400b003ef59e8511fmr15265138qtc.0.1683210530014; 
- Thu, 04 May 2023 07:28:50 -0700 (PDT)
-Received: from x1n (bras-base-aurron9127w-grc-40-70-52-229-124.dsl.bell.ca.
- [70.52.229.124]) by smtp.gmail.com with ESMTPSA id
- t10-20020a05622a148a00b003eec85171d6sm12412973qtx.61.2023.05.04.07.28.48
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 04 May 2023 07:28:49 -0700 (PDT)
-Date: Thu, 4 May 2023 10:28:47 -0400
-From: Peter Xu <peterx@redhat.com>
-To: Juan Quintela <quintela@redhat.com>
-Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org,
- Stefan Hajnoczi <stefanha@redhat.com>,
- Leonardo Bras <leobras@redhat.com>, Fam Zheng <fam@euphon.net>
-Subject: Re: [PATCH 8/9] qemu-file: Make ram_control_save_page() use
- accessors for rate_limit
-Message-ID: <ZFPBH8m1JnWHyGGj@x1n>
-References: <20230504113841.23130-1-quintela@redhat.com>
- <20230504113841.23130-9-quintela@redhat.com>
+ bh=gdKlPqkQPeQt2emxyapQvIEiy/pM14oXdqQvg/Iwt2E=;
+ b=g3DKEJiQqtcXCrNUwS37Yi+nDHJF2UW92cijf/zmxhcc08jZLqAfVsUcdQSP4motrHq04J
+ BnQGyqsLsSGCwt+lvBnvp6YJXp5ZkTeuO9VOHRp4GEno7DPYq8BkcXVr01jtFpd4VZ8rEw
+ DqVumR1WIHMBddRhiqE2SFt5CH9VMmo=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-369-COnVYqe8P9-n0kqbasaDIQ-1; Thu, 04 May 2023 10:33:15 -0400
+X-MC-Unique: COnVYqe8P9-n0kqbasaDIQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.8])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 35A51185A79C;
+ Thu,  4 May 2023 14:33:15 +0000 (UTC)
+Received: from pinwheel (unknown [10.39.194.118])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 69552C15BB8;
+ Thu,  4 May 2023 14:33:13 +0000 (UTC)
+Date: Thu, 4 May 2023 16:33:11 +0200
+From: Kashyap Chamarthy <kchamart@redhat.com>
+To: imammedo@redhat.com, Michael Tokarev <mjt@tls.msk.ru>
+Cc: qemu-devel@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>,
+ mst@redhat.com, anisinha@redhat.com, jusual@redhat.com, gibi@redhat.com
+Subject: Re: [PATCH v4] acpi: pcihp: allow repeating hot-unplug requests
+Message-ID: <ZFPCJ+xm7Si6uC+a@pinwheel>
+References: <20230418090449.2155757-1-imammedo@redhat.com>
+ <eaff7481-48ab-14f4-330b-e2d84dd72855@msgid.tls.msk.ru>
+ <ZEldKCEgmDA7Hmdx@pinwheel>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230504113841.23130-9-quintela@redhat.com>
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
+In-Reply-To: <ZEldKCEgmDA7Hmdx@pinwheel>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=kchamart@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -22
 X-Spam_score: -2.3
@@ -83,8 +64,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.161,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -100,12 +80,122 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, May 04, 2023 at 01:38:40PM +0200, Juan Quintela wrote:
-> Signed-off-by: Juan Quintela <quintela@redhat.com>
+On Wed, Apr 26, 2023 at 07:20:08PM +0200, Kashyap Chamarthy wrote:
+> On Wed, Apr 26, 2023 at 07:40:02PM +0300, Michael Tokarev wrote:
+> > 18.04.2023 12:04, Igor Mammedov wrote:
+> > > with Q35 using ACPI PCI hotplug by default, user's request to unplug
+> > > device is ignored when it's issued before guest OS has been booted.
+> > > And any additional attempt to request device hot-unplug afterwards
+> > > results in following error:
+> > > 
+> > >    "Device XYZ is already in the process of unplug"
+> > > 
+> > > arguably it can be considered as a regression introduced by [2],
+> > > before which it was possible to issue unplug request multiple
+> > > times.
+> > 
+> > Stable-8.0 material?
+> 
+> FWIW, I'd say, yes. This fix is useful for stable releases.  As this
+> solves a real problem for upper-management tools.
+> 
+> I have tested this fix; and it works.  I'll post my testing notes /
+> reproducer in a follow-up email.  In short, I followed the
+> reproducer steps from here[1].
 
-Reviewed-by: Peter Xu <peterx@redhat.com>
+Tested-by: Kashyap Chamarthy <kchamart@redhat.com>    
+
+It solves the device-detach bug noted here[1].  As promised, here are my
+reproducer notes (expanded from[1]):
+
+Disk image prep
+---------------
+
+(1) Download an Ubuntu "Jammy" guest image from here:
+    https://cloud-images.ubuntu.com/jammy/current/jammy-server-cloudimg-amd64.img
+
+(2) Update the above disk image's kernel command-line to have the
+    guest-boot slowed down by 100 seconds; use "boot_delay=100".
+
+(3) Have an additional image ("disk2.img") ready for hot-plug/un-plug.
+
+Test
+----
+
+(1) Build QEMU with the patch in question:
+
+      $ git describe
+      7.2.94v8.0.0-rc4-1-gfa6650df6d7
+
+(2) Use the above QEMU binary to launch the Ubuntu "Jammy" guest:
+
+      $ virsh dumpxml jammy1 | grep emulator
+      <emulator>/home/kashyapc/tinker-space/qemu-upstream/build/qemu-system-x86_64</emulator>
+
+(3) Have a split `tmux` ready; start the guest in the first pane, with
+    the serial console logs rolling:
+
+      $ virsh start jammy1 --console
+
+(4) Wait until the guest consoles messages start rolling.  Once they do,
+    on the other `tmux` pane, issue the below command (it's a live
+    attach, followed by a detach):
+
+      $ virsh attach-disk jammy1 ./disk2.img vdb --live --persistent \
+          && sleep 1 \
+          && virsh detach-disk jammy1 --live ./disk2.img
+  
+      Disk attached successfully
+                                                     
+      Disk detached successfully
+
+(5) Enumerate the attached block devices to the guest.  We still see the
+    second disk, "disk2.img":
+
+      $> virsh domblklist jammy1
+       Target   Source                         
+      -------------------------------------------
+       vda      /data/images/jammy-ubuntu.qcow2      
+       vdb      /data/images/disk2.img
+
+(6) Now detach the disk from the inactive guest XML (that affects
+    next boot) by using "--persistent" flag; and enumerate the live
+    block devices (we still see the second disk)
+
+      $> virsh detach-disk jammy1 --persistent /data/images/disk2.img
+      Disk detached successfully
+  
+      $> virsh domblklist jammy1
+       Target   Source                         
+      -------------------------------------------
+       vda      /data/images/jammy-ubuntu.qcow2      
+       vdb      /data/images/disk2.img
+ 
+(NOTE: We're using two separate calls to `virsh detach-disk`, one with
+"--live" and the other with "--persistent" based on upstream libvirt
+recommendation in [1].)
+
+(7) Again, re-issue the detach command with just "--live" flag:
+
+      $> virsh detach-disk jammy1 --live /data/images/disk2.img                                       
+      Disk detached successfully
+
+(8) Re-enumerate the attached block devices: 
+
+      $> virsh domblklist jammy1                                                                      
+       Target   Source
+      -------------------------------------------
+       vda      /data/images/jammy-ubuntu.qcow2
+
+Now we see the second device is detached "for real".  Overall, we were
+able to successfully re-issue `device detach` while the guest is still
+booting, and see through the actual detach to its logical conclusion.
+
+
+[1] https://gitlab.com/libvirt/libvirt/-/issues/309 -- Disk detach is
+    unsuccessfull while the guest is still booting
 
 -- 
-Peter Xu
+/kashyap
 
 
