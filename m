@@ -2,65 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 562436F7146
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 May 2023 19:41:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F4546F70F2
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 May 2023 19:34:07 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pucoL-0006xi-Da; Thu, 04 May 2023 13:32:11 -0400
+	id 1pucq3-00031v-Ae; Thu, 04 May 2023 13:33:55 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <farosas@suse.de>)
- id 1puYxf-0007Ku-Df; Thu, 04 May 2023 09:25:31 -0400
-Received: from smtp-out2.suse.de ([195.135.220.29])
+ id 1puYy9-0007Nv-FB; Thu, 04 May 2023 09:26:01 -0400
+Received: from smtp-out1.suse.de ([2001:67c:2178:6::1c])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <farosas@suse.de>)
- id 1puYxd-0002xh-SJ; Thu, 04 May 2023 09:25:31 -0400
+ id 1puYy4-00033O-Rh; Thu, 04 May 2023 09:26:01 -0400
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id F35DA1FD79;
- Thu,  4 May 2023 13:25:27 +0000 (UTC)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 4042433947;
+ Thu,  4 May 2023 13:25:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1683206727; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1683206755; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=HcMII6ChGAGYjOLxXTYDfDqToJxPc9woYkrHQEvR0zQ=;
- b=V1+WaIfsBqJ8Fbp0v9pXFkVptlG7GXiR4nl4FS1tUHMW0jPiGquQyLo3pMsmv+wYa8OpoT
- tGpuHlh5YMYgNghgKHluW2LSS2Wny7WvTRqTsuTq0cv8QWL7yoOwfMCng7KGrLYPHDZOd5
- DQ7tGkdx112VPd/I87ePmlQsyLBkbwk=
+ bh=qZrNvbff2dYgzK6kgpqSQXgNSPXbLmFT2ff5DIV1KMg=;
+ b=2FKmdg2Vjg88Io+J42m1G4zqe2WyYNvJS/WySgIA1jgD0FZIxRvGd0ws9Ri12KUslxsSzb
+ TblPlcu3/ZMUeRq+qMRKJfcSh29OW+WHBEPAFinbqZnhq4FViu6CbWS3suPjsNRr1F0ejr
+ Tz4djote7Q6i9NDAExfP6+alrNmKJyU=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1683206727;
+ s=susede2_ed25519; t=1683206755;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=HcMII6ChGAGYjOLxXTYDfDqToJxPc9woYkrHQEvR0zQ=;
- b=6IAGFArM045cOqKu6ZJywzIIvcCpmnv6dSwWQ2u+DTs0yAvN09A9s2SMk5nIhtrUOODDaA
- 7lKT7V7j3U+pDRAA==
+ bh=qZrNvbff2dYgzK6kgpqSQXgNSPXbLmFT2ff5DIV1KMg=;
+ b=YYlMPqslQSzY1MJBa5eS7tiZPNLhDdiaNBLEoi/TmjP3sD5aXEzCJxzinT/0wvAMjlirdg
+ Wm4wqe7Lhu3GSiCg==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 7454313444;
- Thu,  4 May 2023 13:25:27 +0000 (UTC)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id B641E13444;
+ Thu,  4 May 2023 13:25:54 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id sNReD0eyU2QfXQAAMHmgww
- (envelope-from <farosas@suse.de>); Thu, 04 May 2023 13:25:27 +0000
+ by imap2.suse-dmz.suse.de with ESMTPSA id LA16H2KyU2RjXQAAMHmgww
+ (envelope-from <farosas@suse.de>); Thu, 04 May 2023 13:25:54 +0000
 From: Fabiano Rosas <farosas@suse.de>
 To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
 Cc: qemu-arm@nongnu.org
-Subject: Re: [PATCH 1/2] target/arm: Move translate-a32.h, arm_ldst.h,
- sve_ldst_internal.h to tcg/
-In-Reply-To: <20230504110412.1892411-2-richard.henderson@linaro.org>
+Subject: Re: [PATCH 2/2] target/arm: Move helper-{a64,mve,sme,sve}.h to tcg/
+In-Reply-To: <20230504110412.1892411-3-richard.henderson@linaro.org>
 References: <20230504110412.1892411-1-richard.henderson@linaro.org>
- <20230504110412.1892411-2-richard.henderson@linaro.org>
-Date: Thu, 04 May 2023 10:25:24 -0300
-Message-ID: <87lei4jkjf.fsf@suse.de>
+ <20230504110412.1892411-3-richard.henderson@linaro.org>
+Date: Thu, 04 May 2023 10:25:52 -0300
+Message-ID: <87ild8jkin.fsf@suse.de>
 MIME-Version: 1.0
 Content-Type: text/plain
-Received-SPF: pass client-ip=195.135.220.29; envelope-from=farosas@suse.de;
- helo=smtp-out2.suse.de
+Received-SPF: pass client-ip=2001:67c:2178:6::1c; envelope-from=farosas@suse.de;
+ helo=smtp-out1.suse.de
 X-Spam_score_int: -43
 X-Spam_score: -4.4
 X-Spam_bar: ----
@@ -85,8 +84,8 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 Richard Henderson <richard.henderson@linaro.org> writes:
 
-> These files got missed when populating tcg/.
-> Because they are included with "", no change to the users required.
+> While we cannot move the main "helper.h" out of target/arm/,
+> due to usage by generic code, we can move the sub-includes.
 >
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 
