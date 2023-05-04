@@ -2,70 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB6A66F66B4
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 May 2023 10:03:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 282896F66B8
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 May 2023 10:03:22 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1puTv0-00054j-IM; Thu, 04 May 2023 04:02:26 -0400
+	id 1puTvC-000563-JB; Thu, 04 May 2023 04:02:38 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1puTuy-00054H-I6
- for qemu-devel@nongnu.org; Thu, 04 May 2023 04:02:24 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1puTux-0005lO-02
- for qemu-devel@nongnu.org; Thu, 04 May 2023 04:02:24 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1683187342;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=acxbqWXq2u5C2WrcDZ87BeWmYiEhqGZMcULhRLTCgX4=;
- b=WBC1wZUEHgFAGkHEPMk/6cpqtO/8vSln7PhrJvEnoqc/CKLqZncKTzvlzFm0T+0a0IAViq
- OsszTy+oAa5ckX5JKArJqdtLwYEEUz7vVsS2Cn9/rMw36iagP8+Da104pdPzDohvuirmwN
- EVshfYw9ZCmnGrE18Yo2OXPwzE4cFFI=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-63-2Mjc3aFwP7K3NnmP9lBfGQ-1; Thu, 04 May 2023 04:02:18 -0400
-X-MC-Unique: 2Mjc3aFwP7K3NnmP9lBfGQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
- [10.11.54.4])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4C189857F81;
- Thu,  4 May 2023 08:02:18 +0000 (UTC)
-Received: from redhat.com (unknown [10.42.28.42])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id CF9C02026D16;
- Thu,  4 May 2023 08:02:16 +0000 (UTC)
-Date: Thu, 4 May 2023 09:02:13 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Thomas Huth <thuth@redhat.com>
-Cc: Ani Sinha <anisinha@redhat.com>, alex.bennee@linaro.org,
- philmd@linaro.org, wainersm@redhat.com, bleal@redhat.com,
- qemu-devel@nongnu.org, mst@redhat.com
-Subject: Re: [PATCH 0/2] Add mformat and xorriso dependencies in containers
-Message-ID: <ZFNmhT9Fosay1bee@redhat.com>
-References: <20230503145547.202251-1-anisinha@redhat.com>
- <8d7e46ec-95c0-5c4a-a843-20106576e9ba@redhat.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1puTvA-00055W-Bm
+ for qemu-devel@nongnu.org; Thu, 04 May 2023 04:02:36 -0400
+Received: from mail-ed1-x536.google.com ([2a00:1450:4864:20::536])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1puTv8-0005mA-QX
+ for qemu-devel@nongnu.org; Thu, 04 May 2023 04:02:36 -0400
+Received: by mail-ed1-x536.google.com with SMTP id
+ 4fb4d7f45d1cf-50bc075d6b2so249914a12.0
+ for <qemu-devel@nongnu.org>; Thu, 04 May 2023 01:02:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1683187352; x=1685779352;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=pQcCwXd/8abMNv/MlFtmypGjKUer1ODHN4y9tWWGwY8=;
+ b=oDqcrsYebrzgl0pRhV94qZAwzEU3FS91vPytGPQHgEZNTNJ1kiu+4e58/wjrp94JRz
+ L/2AetTqvGjxrUQ/bmInKSuLF4nXdYnkTE4lB5s61TNYbCTmnRZWrsfZIi7yZwzsdyNK
+ /DseK3rl/LV1eifAGJzU1L5ncedtnkfUYlIdb44kZuGtIXyIOlrPjaOjk2Mih/1h0uvv
+ L4zKGuxZYeBoRLghm09fKMySPMTTVrgJlxrTflXMZ8ZZjk11186AtBzVrnsFfpEH2jRl
+ vCqT58BMWRMKxgOgnBIadx45TbVfB8LKTocxz9lFadwCPWcF6QAQ6rwZlb49KDf6zKyq
+ beeA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1683187352; x=1685779352;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=pQcCwXd/8abMNv/MlFtmypGjKUer1ODHN4y9tWWGwY8=;
+ b=BX58TlezWIkQilrh/KYkXQyh0GTCCPuamYl5z1BtVVaXIOlBZUT7LTzD8kahzQkpmi
+ 2TbHmQhrh0ZOMN7sv5WcUXMv+cqE4tJhL2tIoWQfXHJjinQPwdqo2GXd/oOiOgZ6MVzI
+ x7xmZHyzuS17xU4mc5fTP6KXfCmvLED16XYoGDyHilQJgOLIfQ87vtljE6pJ/LWLd6QC
+ YOSI8rR4fBgDzsZ3urAvZcTA505I8nVW718HYQJo1AQoMbG8HeeSNWCweIV6aN3FGbxf
+ mrCvH7SE7vC3Mu5+LpKXeZ2tVXghUNEv15Rq6gxtJ0x3dNCry9Z6vD3OqVbopY/inTRU
+ sPbw==
+X-Gm-Message-State: AC+VfDzOOj1FFW+52/7OnrDfhandkxyTi1fKj3Vu9JGR8FFLzEkHtD9R
+ jI+nrP/Fa0E9XJUZidb8zz5zjw==
+X-Google-Smtp-Source: ACHHUZ5JlwY9oudIrDG6t8d+eLByO6OQ9efsTzIPfzfNjZ5W1DFGnPoOJ3RwlQ05C5y96nVmn2lgUw==
+X-Received: by 2002:a17:907:608b:b0:88f:a236:69e6 with SMTP id
+ ht11-20020a170907608b00b0088fa23669e6mr5960149ejc.7.1683187352574; 
+ Thu, 04 May 2023 01:02:32 -0700 (PDT)
+Received: from [192.168.0.57] ([82.152.154.96])
+ by smtp.gmail.com with ESMTPSA id
+ l3-20020a170906230300b0094e7d196aa4sm18219573eja.160.2023.05.04.01.02.31
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 04 May 2023 01:02:32 -0700 (PDT)
+Message-ID: <f8c09f9d-eab3-1b6e-ef5f-73d2f3867395@linaro.org>
+Date: Thu, 4 May 2023 09:02:30 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <8d7e46ec-95c0-5c4a-a843-20106576e9ba@redhat.com>
-User-Agent: Mutt/2.2.9 (2022-11-12)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -22
-X-Spam_score: -2.3
-X-Spam_bar: --
-X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.161,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH 4/9] target/m68k: Finish conversion to
+ tcg_gen_qemu_{ld,st}_*
+Content-Language: en-US
+To: anjo@rev.ng, qemu-devel@nongnu.org
+Cc: mrolnik@gmail.com, edgar.iglesias@gmail.com, tsimpson@quicinc.com,
+ ale@rev.ng, laurent@vivier.eu, philmd@linaro.org, jiaxun.yang@flygoat.com,
+ david@redhat.com, iii@linux.ibm.com, thuth@redhat.com,
+ mark.cave-ayland@ilande.co.uk, atar4qemu@gmail.com, jcmvbkbc@gmail.com
+References: <20230502135741.1158035-1-richard.henderson@linaro.org>
+ <20230502135741.1158035-5-richard.henderson@linaro.org>
+ <b93063d6-3162-db59-5a16-3613cceadec0@rev.ng>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <b93063d6-3162-db59-5a16-3613cceadec0@rev.ng>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::536;
+ envelope-from=richard.henderson@linaro.org; helo=mail-ed1-x536.google.com
+X-Spam_score_int: -63
+X-Spam_score: -6.4
+X-Spam_bar: ------
+X-Spam_report: (-6.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-4.28,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -78,41 +97,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, May 04, 2023 at 08:35:53AM +0200, Thomas Huth wrote:
-> On 03/05/2023 16.55, Ani Sinha wrote:
-> > mformat and xorriso tools are needed by biosbits avocado tests. This patchset
-> > adds those two tools in the docker container images.
+On 5/3/23 14:08, Anton Johansson wrote:
+>> @@ -971,23 +958,16 @@ static void gen_load_fp(DisasContext *s, int opsize, TCGv addr, 
+>> TCGv_ptr fp,
+>>       tmp = tcg_temp_new();
+>>       switch (opsize) {
+>>       case OS_BYTE:
+>> -        tcg_gen_qemu_ld8s(tmp, addr, index);
+>> -        gen_helper_exts32(cpu_env, fp, tmp);
+>> -        break;
+>>       case OS_WORD:
+>> -        tcg_gen_qemu_ld16s(tmp, addr, index);
+>> -        gen_helper_exts32(cpu_env, fp, tmp);
+>> -        break;
+>> -    case OS_LONG:
 > 
-> tests/qtest/cdrom-test.c already uses genisoimage to create ISO images, and
-> the containers already have that tool installed. Could you maybe switch the
-> biosbits test to use that tool? Or the other way round? ... at least having
-> two tools to create ISO images in our containers sounds IMHO excessive.
+> Accidental label removal?
 
-It looks like this series wasn't tested, because it doesn't even install
-the alpine image:
+Whoops, yes indeed.
 
-ERROR: unable to select packages:
-  cdrkit-1.1.11-r3:
-    conflicts: xorriso-1.5.4-r2[cmd:mkisofs=1.1.11-r3]
-    satisfies: world[cdrkit]
-  xorriso-1.5.4-r2:
-    conflicts: cdrkit-1.1.11-r3[cmd:mkisofs=1.5.4-r2]
-    satisfies: world[xorriso]
-
-
-We definitely need to have either biosbits or cdrom-test.c changed to
-use the same tool. We can't be requiring deps that are conflicting at
-install time.
-
-With regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-
+r~
 
