@@ -2,83 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D82166F784E
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 May 2023 23:46:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC8A86F78CF
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 May 2023 00:12:56 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pugl5-0007nV-Mf; Thu, 04 May 2023 17:45:03 -0400
+	id 1puhAT-0003Es-HD; Thu, 04 May 2023 18:11:17 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pugl3-0007mw-Mu
- for qemu-devel@nongnu.org; Thu, 04 May 2023 17:45:01 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
+ id 1puhAR-0003DE-Jn
+ for qemu-devel@nongnu.org; Thu, 04 May 2023 18:11:15 -0400
+Received: from mout.web.de ([212.227.17.12])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pugl1-0001Hx-CO
- for qemu-devel@nongnu.org; Thu, 04 May 2023 17:45:01 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1683236697;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=4uQyhS4chih7E8Y8+j3wgbWTkP0aNND6XQO9VSCZB+8=;
- b=KWUVc1YSOqDgT78OlwWbRZb3XmdULyKiGDYdnW841orLGa1bwcdfPm8UUMm1OAL7xnVEYe
- uySrAIhEKrp2py+PKVcCF6imLrnqF531117hctW5kNDb2k9C8oll9T9cGFCEkK0czHWzHh
- kOyimFAlD27JHImPHCSIuT4aAGeWNJQ=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-645-HnOtJYstOJWrNZLz1UfM9w-1; Thu, 04 May 2023 17:44:54 -0400
-X-MC-Unique: HnOtJYstOJWrNZLz1UfM9w-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
- [10.11.54.5])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 994CD85531A;
- Thu,  4 May 2023 21:44:53 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.192.9])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 6800363F3E;
- Thu,  4 May 2023 21:44:43 +0000 (UTC)
-Date: Thu, 4 May 2023 23:44:42 +0200
-From: Kevin Wolf <kwolf@redhat.com>
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Cc: qemu-devel@nongnu.org, Ronnie Sahlberg <ronniesahlberg@gmail.com>,
- Aarushi Mehta <mehta.aaru20@gmail.com>, qemu-block@nongnu.org,
- Paul Durrant <paul@xen.org>, Anthony Perard <anthony.perard@citrix.com>,
- Peter Lieven <pl@kamp.de>, Stefan Weil <sw@weilnetz.de>,
- Xie Yongji <xieyongji@bytedance.com>, Paolo Bonzini <pbonzini@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Leonardo Bras <leobras@redhat.com>, Peter Xu <peterx@redhat.com>,
- Hanna Reitz <hreitz@redhat.com>,
- Stefano Stabellini <sstabellini@kernel.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- David Woodhouse <dwmw2@infradead.org>, Coiby Xu <Coiby.Xu@gmail.com>,
- Eduardo Habkost <eduardo@habkost.net>,
- Stefano Garzarella <sgarzare@redhat.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>,
- Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
- Julia Suvorova <jusual@redhat.com>, xen-devel@lists.xenproject.org,
- eesposit@redhat.com, Juan Quintela <quintela@redhat.com>,
- "Richard W.M. Jones" <rjones@redhat.com>, Fam Zheng <fam@euphon.net>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-Subject: Re: [PATCH v5 00/21] block: remove aio_disable_external() API
-Message-ID: <ZFQnSjGiEWuSFWTh@redhat.com>
-References: <20230504195327.695107-1-stefanha@redhat.com>
+ (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
+ id 1puhAP-0002bL-OP
+ for qemu-devel@nongnu.org; Thu, 04 May 2023 18:11:15 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de; s=s29768273;
+ t=1683238265; i=lukasstraub2@web.de;
+ bh=KZD9LRCcCHukAFCJ09WgeW2DeCK3LXQfUeY0LW1LYnw=;
+ h=X-UI-Sender-Class:Date:From:To:Cc:Subject:In-Reply-To:References;
+ b=aGUM1P55vDcFoPYrKt46ds7cF4qEgDIaP3iJ6YGHXKOaTn4/jISql9/PyDabH6+7y
+ NDGvE/Bz67BNuzyFivUn3OnbDnrwN9tW4e7X1JR6gOqW7SZ+eBCNl66yo+VrXDcfAA
+ VKdWXvpilAToHJ4FCVcQE31PsYy9t28Or0xN19T+CUFzkPXqz64Y4R+q6vlQV7xdll
+ g6RIbQkVRDdP8uhwrvQIkUFxKXwI1Lo50S+ZhRz9AE49lP+UTiPSeG8tzGals9vreU
+ MuRhVyzQ6M1gw4QKARFhCG/HVFvxwzLApUfRRnKb2oG37AKHMAe3HJrdEoIn5vsu0T
+ qu5ufDmG032CQ==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from gecko.fritz.box ([82.207.254.112]) by smtp.web.de (mrweb106
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 1Mq1CC-1qYxv03Am2-00nCtB; Fri, 05
+ May 2023 00:11:04 +0200
+Date: Fri, 5 May 2023 00:10:54 +0200
+From: Lukas Straub <lukasstraub2@web.de>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+Cc: qemu-devel@nongnu.org, quintela@redhat.com, chen.zhang@intel.com, Peter
+ Xu <peterx@redhat.com>, Leonardo Bras <leobras@redhat.com>
+Subject: Re: [PATCH v4 10/10] migration: block incoming colo when capability
+ is disabled
+Message-ID: <20230504221054.616e4fe6@gecko.fritz.box>
+In-Reply-To: <20230428194928.1426370-11-vsementsov@yandex-team.ru>
+References: <20230428194928.1426370-1-vsementsov@yandex-team.ru>
+ <20230428194928.1426370-11-vsementsov@yandex-team.ru>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230504195327.695107-1-stefanha@redhat.com>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -22
-X-Spam_score: -2.3
-X-Spam_bar: --
-X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.161,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+Content-Type: multipart/signed; boundary="Sig_/O7EE9SqN8Fug7_j5ZA95U1.";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
+X-Provags-ID: V03:K1:C3BLSfRKG+qDv8xUpYEhPfc/+s6v7xJtwdCfKl+MYITExuJsbky
+ oe31RMVBz3RFf1iQ5Cyj1oFfzT38hbxa553oquezVO/wnKCUKOlw5zu3wPCzllPF0GvWJJQ
+ j31fVzhdqCXcyEnz7OtCC9kDlfIMG1+VXAGZoT/wXxcjnAipPmKW07Ok920tPQDx6WVyvyq
+ DTEJKZ9wCjaMv31mSqn0A==
+UI-OutboundReport: notjunk:1;M01:P0:yXONtsax/2o=;pDvnSN4u+ulmSs6M4tdMZAw9Edj
+ 2d2/zDVxDQwSsKQy8O62nkAUY2pCneI7LDxBEqRQIhyfwk5L7EZmkEiKdU1CL8hXO4f135WX6
+ 0YKL8KLYYL4TG7U0VwQ4kZeWFPQ6EbxXJaOnBzvmZwjDcgk5EtZR1BIeP7d1SBbv7+J6BS5jM
+ HRG6pv94pcG3IfzCyjYzZNGmbqL8/lTbNy28awwY65rz193uGhPpC9uo8XMmBXN9Ugwp3v0no
+ h9LMVpBgoqbYYbUCn7LIs9SOpsR3tFCWrn3m5KZ3OMiDqHPZswiW3b2lcwaY8hRkqJGbd7n+K
+ ipvmf0di5oC9RmtaOzWo1q+/0weahvZlipkeua75kU02BVgA/MWy3tB7jWOZKNdNeikkshpj0
+ sNjO91DDSO9C28iV/vEfnmuQdh4nb2XraqaNctfM2ZLwYReXqA7nR2Z7JGkiw75pQyfdPU1Sz
+ l4pnBhG+9F1veukrUvxoHBMLn+b5lFb73re8/NL0DgSLdJfijdCzWsrjGdn7cdRNVvCvCFBko
+ 6TV3mxC5f/NZ7dumclrCe/8N1GvTZwEYz/05c5RwA1yj8XCD2FijxxM2nJMPGSjXu7cAWlIAj
+ Hsdw1p/6rQgpB1l6thVF7nkmabUXKzFHHMfzqYhdOFpFiq+7oKO09soZVRrSevMSOY0UvOhQ9
+ f02mLYBWqednHrJ1c2Zbbv6SiHHojLF91gE3qbX1f0URk3StS2zQaHw4E+gLA/HdAAUAkFXCF
+ dv1waUp5kddpScnYwmhDsJdo6TL/8Sk9YPhX9q2y+s1zVN8h2lQIQT7uckeQk4i1/DRKraJEi
+ buqtfKPpyKaCRuyh44mncPnYoZrSiB5BUgW2FxYQFDZQhS6GpnVlAEgbp7t+MfCrJUuctBFXg
+ Jkz5M1HqvINhNtD3aDRn2wTxFSJ/Q4ePeP1FLUlzmzIeBmF1rJQIKCEmjVCq1tonaxEet9/08
+ 8PcoiJH3/3sX9hKqvXMnIchXeDU=
+Received-SPF: pass client-ip=212.227.17.12; envelope-from=lukasstraub2@web.de;
+ helo=mout.web.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,21 +90,91 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Am 04.05.2023 um 21:53 hat Stefan Hajnoczi geschrieben:
-> v5:
-> - Use atomic accesses for in_flight counter in vhost-user-server.c [Kevin]
-> - Stash SCSIDevice id/lun values for VIRTIO_SCSI_T_TRANSPORT_RESET event
->   before unrealizing the SCSIDevice [Kevin]
-> - Keep vhost-user-blk export .detach() callback so ctx is set to NULL [Kevin]
-> - Narrow BdrvChildClass and BlockDriver drained_{begin/end/poll} callbacks from
->   IO_OR_GS_CODE() to GLOBAL_STATE_CODE() [Kevin]
-> - Include Kevin's "block: Fix use after free in blockdev_mark_auto_del()" to
->   fix a latent bug that was exposed by this series
+--Sig_/O7EE9SqN8Fug7_j5ZA95U1.
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-I only just finished reviewing v4 when you had already sent v5, but it
-hadn't arrived yet. I had a few more comments on what are now patches
-17, 18, 19 and 21 in v5. I think they all still apply.
+On Fri, 28 Apr 2023 22:49:28 +0300
+Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru> wrote:
 
-Kevin
+> We generally require same set of capabilities on source and target.
+> Let's require x-colo capability to use COLO on target.
+>=20
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
 
+Good patch, this is needed anyway for COLO with multifd.
+
+Also, it allows to remove a some code, like
+migration_incoming_enable_colo(), qemu_savevm_send_colo_enable() etc.
+I will send patches for that. Or you can do it if you like.
+
+Please update the docs like below, then:
+Reviewed-by: Lukas Straub <lukasstraub2@web.de>
+
+diff --git a/docs/COLO-FT.txt b/docs/COLO-FT.txt
+index 8ec653f81c..2e760a4aee 100644
+--- a/docs/COLO-FT.txt
++++ b/docs/COLO-FT.txt
+@@ -210,6 +210,7 @@ children.0=3Dchilds0 \
+=20
+ 3. On Secondary VM's QEMU monitor, issue command
+ {"execute":"qmp_capabilities"}
++{"execute": "migrate-set-capabilities", "arguments": {"capabilities": [ {"=
+capability": "x-colo", "state": true } ] } }
+ {"execute": "nbd-server-start", "arguments": {"addr": {"type": "inet", "da=
+ta": {"host": "0.0.0.0", "port": "9999"} } } }
+ {"execute": "nbd-server-add", "arguments": {"device": "parent0", "writable=
+": true } }
+
+
+> ---
+>  migration/migration.c | 6 ++++++
+>  1 file changed, 6 insertions(+)
+>=20
+> diff --git a/migration/migration.c b/migration/migration.c
+> index 8c5bbf3e94..5e162c0622 100644
+> --- a/migration/migration.c
+> +++ b/migration/migration.c
+> @@ -395,6 +395,12 @@ int migration_incoming_enable_colo(void)
+>      return -ENOTSUP;
+>  #endif
+> =20
+> +    if (!migrate_colo()) {
+> +        error_report("ENABLE_COLO command come in migration stream, but =
+c-colo "
+> +                     "capability is not set");
+> +        return -EINVAL;
+> +    }
+> +
+>      if (ram_block_discard_disable(true)) {
+>          error_report("COLO: cannot disable RAM discard");
+>          return -EBUSY;
+
+
+
+--=20
+
+
+--Sig_/O7EE9SqN8Fug7_j5ZA95U1.
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEg/qxWKDZuPtyYo+kNasLKJxdslgFAmRULW4ACgkQNasLKJxd
+slhd9g//dRpgGu8p4ZBaz32xdiQeIJZHabn4Bn7dwvUTlZLBPz4d2QsnrwpmcQJ5
+iTOdK6t8TrdIpyW0gcV24H5igDU2TMAV5RdRhFEbJPf1fPeU2HTH9OM2w0DVYoMS
+YWQ1r9N+eUOHawXf7soxYT8LofiBKxVwF937nGtGQzlf35EPJvr976JE3A9Jqye4
+W3mDfsX2yKr9qyvBGBji9VTY3QKrPMW/dRNJQAm5Zo7phHNc/ed8XNwSTiMTeEDh
+LiTUzORjNkUqAt3fOx6uM9VrIYSsSz54Xs2Q4VijBVelf7esluthW3BuG0IVW0hh
+0Kst+ZwWLN5s3sqA2ICRcaEbv2KS4rOns7d8zoFwMzjcfKaaVjAQOjRX4AKFkjZq
+/CVttx9slqKl4qzJL+ybEXDsiG1mUadogbqAiXwQrz4ercB1BexTOk/wKl1nhFKA
+H9+4br+eCr3PGlo+839xwO5o6RO4fEBBRJw9bvyjwp4gIruSAbqsjPSmlypZhzOE
+qnieU+SyshZroZbe2zILQLgd7zwPjFYw5jiJW0hCHs+z8Bj4uuRKCzjogLWM+YKt
+iDSpbYfVbxa6czeYK4Bpa1FdpgOle5QW5iJLm8OrhiAf8Tbfki75OcKkviSA8VMM
+h0oAcCJcV5EF4/O36QMXQvVr0EN3jQDTpwPcb+lvKdBjtgja7TY=
+=/p3Z
+-----END PGP SIGNATURE-----
+
+--Sig_/O7EE9SqN8Fug7_j5ZA95U1.--
 
