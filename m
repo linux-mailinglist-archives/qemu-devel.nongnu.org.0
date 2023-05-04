@@ -2,89 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5551E6F716C
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 May 2023 19:47:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CCFB66F715C
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 May 2023 19:44:00 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pucpU-0001DP-CM; Thu, 04 May 2023 13:33:20 -0400
+	id 1pucon-0007MA-GE; Thu, 04 May 2023 13:32:37 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <anisinha@redhat.com>)
- id 1pubAU-0006P7-MB
- for qemu-devel@nongnu.org; Thu, 04 May 2023 11:46:54 -0400
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1pubDu-0007bm-IK
+ for qemu-devel@nongnu.org; Thu, 04 May 2023 11:50:26 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <anisinha@redhat.com>)
- id 1pubAS-0004ki-9s
- for qemu-devel@nongnu.org; Thu, 04 May 2023 11:46:54 -0400
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1pubDs-0006nn-JQ
+ for qemu-devel@nongnu.org; Thu, 04 May 2023 11:50:26 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1683215211;
+ s=mimecast20190719; t=1683215423;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=LrZJ8ot8gf/7gEPEGm0dwItF/RywJDOEURnFVkXOO70=;
- b=UHOOlDK9WxAsz6Adj7LAmKB07bSzR6MHugQd+5fkMuwqspNthA4MTRxm/cdiShY125GqLA
- GCSB+i0aR8LhTXaURHaWaTpq3QzGtadH+Fqwtkt3itzppzxZhT5aJO8xccO+iKyt7cXOGt
- easaTDGaaL/E4X/j62oK7RCOjLKoHr4=
-Received: from mail-pj1-f70.google.com (mail-pj1-f70.google.com
- [209.85.216.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=Z/ajHZQA9u/eZFVD7GxRNFzWcFzetI3o3LvU+DGPfNM=;
+ b=VHWRo8hmikHkSv6fsZ7X9KPmAzj3kLQOBO8neT84jBooG3u90SR/wd56ZqgcGBieXKWETZ
+ jdm5WGB45WL/Dyo+yH2M2hmZLqdPrqregMCgS136jZuidYLFLpef0yLYQZCbEcVB+rA/uk
+ CxsaN5Zz0bZEYNiPLKkWh8YnElMD8nw=
+Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
+ [209.85.219.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-324-ffwWvXbbMZSIdBCAsm7Ung-1; Thu, 04 May 2023 11:46:45 -0400
-X-MC-Unique: ffwWvXbbMZSIdBCAsm7Ung-1
-Received: by mail-pj1-f70.google.com with SMTP id
- 98e67ed59e1d1-24e02410140so644153a91.1
- for <qemu-devel@nongnu.org>; Thu, 04 May 2023 08:46:44 -0700 (PDT)
+ us-mta-98-gkSGFVf8OC-AJhiH-tE7nA-1; Thu, 04 May 2023 11:50:21 -0400
+X-MC-Unique: gkSGFVf8OC-AJhiH-tE7nA-1
+Received: by mail-qv1-f72.google.com with SMTP id
+ 6a1803df08f44-61a3c7657aeso294186d6.0
+ for <qemu-devel@nongnu.org>; Thu, 04 May 2023 08:50:21 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683215203; x=1685807203;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=LrZJ8ot8gf/7gEPEGm0dwItF/RywJDOEURnFVkXOO70=;
- b=kUjb8zMYXOTwdWua7dWWwz0WSS1oRhQbjnSfanU7Vni1HFw7D/yAYT7ggEK/+ivsvq
- mB0p/0Ztp5hqR7FvNCk2ONVm+FPTpO13GAt2kfnF2rt1hBin1LcEsuQ5gAwzI1LXj3rm
- /5GWomMbzWUTaxUvthA0z+v/uz2MYuOlUIz9Qptt4GzFJb03cyczfCGzbMatU7UhTgxa
- AE5rudLeWRaEGxGpkhRKdJlKRgoxeyn+vvinOrBkiXeHbb7+/qJnjl2kAy3w9dVe27Wn
- 5b5ZFqHx3qqBFWLfBEKUOl7LCwTUX9WFSSi01fSGzFBLwtV7JoEXgQH0CQD9bjKH7RIQ
- SQnA==
-X-Gm-Message-State: AC+VfDzs2NmZeJqgXlKVAgukuTQETNrciwaB53GjJYRKc1GkoqWlm0h4
- a5j93Z5iFdHX3s5AUbv8UCmsM+GXW5d0rSjfXY9+BmgBIIEe4deBEn1tQ0SAxXukZiS7ZTXloeO
- Q/bLi8NKgsJ7eiKhOpGaZyq97U0n8wF6MEYhoAgNmYn6LinXyIA21fBA2PAcNWblDUmQZ4lNM1v
- I=
-X-Received: by 2002:a17:90a:8414:b0:246:9ef5:3c45 with SMTP id
- j20-20020a17090a841400b002469ef53c45mr2485840pjn.13.1683215203398; 
- Thu, 04 May 2023 08:46:43 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ5DPMHGtoabfDIn7PMIMVVgNhjDkCVZeSOlCwsl+YVck8/GZ+r4Agb6eQ/KrtHG0Y3NhFiFKg==
-X-Received: by 2002:a17:90a:8414:b0:246:9ef5:3c45 with SMTP id
- j20-20020a17090a841400b002469ef53c45mr2485796pjn.13.1683215202787; 
- Thu, 04 May 2023 08:46:42 -0700 (PDT)
-Received: from localhost.localdomain ([115.96.136.25])
- by smtp.googlemail.com with ESMTPSA id
- cu19-20020a17090afa9300b0024df4cfc881sm3282829pjb.10.2023.05.04.08.46.38
+ d=1e100.net; s=20221208; t=1683215421; x=1685807421;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=Z/ajHZQA9u/eZFVD7GxRNFzWcFzetI3o3LvU+DGPfNM=;
+ b=YqEZtg/IsKPuhqDW4XZ4wlELtPFrjIlfvSzsspbTozKg5qyOnfDZpsSCY1qHw2rjdq
+ y+pnuZsC1CzrfU/czLzGyMB7vtu7wE6azkT0RFUO+sxaYpy5Phjej2hTSMGkUp+4wSre
+ RMbRs6C8xsMwnBGek2mzu3x11e3zQGWJmJZ13fs9EpdnDKFLnHf6r9zkbkUMH6kYfZf3
+ eWubiJm7GHIIg3tKXbm3AF1KN+PvqBIhYVeh8+D5aLyc0eq5zv7LCgKYYsjE7BHdQfJV
+ Ucg2/jNC5ayYTavegwl4D+UWS+p+tmIkR6xpELdzeqZc/UBJFagcj0+LjsJLAvK0tV/3
+ kzeQ==
+X-Gm-Message-State: AC+VfDyD00PE/QsTaEYasLXDwk8dTIK8NXlDaK83Iy7DWYR/dlrhufcV
+ x0mVNxAyMtzmy6jYzaRE8W7HWYez1x4yMbEZF7lkT7xqAUSXJVgeJRHp1W7NXEPumInKwtVN2Fa
+ vO3+7fotpYo0qUiI=
+X-Received: by 2002:a05:6214:404:b0:5ac:325c:a28f with SMTP id
+ z4-20020a056214040400b005ac325ca28fmr32013531qvx.0.1683215421335; 
+ Thu, 04 May 2023 08:50:21 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ702ctUJhm7jbW/Ms8KKiSFpbrJW8M9iY2tqkgCSYZi3epjRgTiZFw8s/CXOFXuU5+DdIQHBw==
+X-Received: by 2002:a05:6214:404:b0:5ac:325c:a28f with SMTP id
+ z4-20020a056214040400b005ac325ca28fmr32013496qvx.0.1683215420982; 
+ Thu, 04 May 2023 08:50:20 -0700 (PDT)
+Received: from x1n (bras-base-aurron9127w-grc-40-70-52-229-124.dsl.bell.ca.
+ [70.52.229.124]) by smtp.gmail.com with ESMTPSA id
+ 7-20020a370307000000b0074b5219b63esm11715918qkd.121.2023.05.04.08.50.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 04 May 2023 08:46:42 -0700 (PDT)
-From: Ani Sinha <anisinha@redhat.com>
-To: qemu-devel@nongnu.org, Ed Maste <emaste@freebsd.org>,
- Li-Wen Hsu <lwhsu@freebsd.org>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Thomas Huth <thuth@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Beraldo Leal <bleal@redhat.com>, John Snow <jsnow@redhat.com>,
- Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
-Cc: Ani Sinha <anisinha@redhat.com>, mst@redhat.com, berrange@redhat.com,
- qemu-block@nongnu.org
-Subject: [PATCH v2 2/2] tests/lcitool: Add mtools and xorriso and remove
- genisoimage as dependencies
-Date: Thu,  4 May 2023 21:16:11 +0530
-Message-Id: <20230504154611.85854-3-anisinha@redhat.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20230504154611.85854-1-anisinha@redhat.com>
-References: <20230504154611.85854-1-anisinha@redhat.com>
+ Thu, 04 May 2023 08:50:20 -0700 (PDT)
+Date: Thu, 4 May 2023 11:50:17 -0400
+From: Peter Xu <peterx@redhat.com>
+To: Avihai Horon <avihaih@nvidia.com>
+Cc: qemu-devel@nongnu.org, Alex Williamson <alex.williamson@redhat.com>,
+ =?utf-8?Q?C=C3=A9dric?= Le Goater <clg@redhat.com>,
+ Juan Quintela <quintela@redhat.com>,
+ Leonardo Bras <leobras@redhat.com>, Eric Blake <eblake@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Yishai Hadas <yishaih@nvidia.com>, Jason Gunthorpe <jgg@nvidia.com>,
+ Maor Gottlieb <maorg@nvidia.com>, Kirti Wankhede <kwankhede@nvidia.com>,
+ Tarun Gupta <targupta@nvidia.com>, Joao Martins <joao.m.martins@oracle.com>
+Subject: Re: [PATCH 0/8] migration: Add precopy initial data capability and
+ VFIO precopy support
+Message-ID: <ZFPUOeuICJ1gehNk@x1n>
+References: <20230501140141.11743-1-avihaih@nvidia.com> <ZFGTerErJWnWHD6/@x1n>
+ <72e14c81-a953-c288-c570-4987492b3569@nvidia.com>
+ <ZFKCg2xnws2Smchb@x1n>
+ <cd16086f-7c82-47ab-d893-b33d64f121d9@nvidia.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=anisinha@redhat.com;
+In-Reply-To: <cd16086f-7c82-47ab-d893-b33d64f121d9@nvidia.com>
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -22
 X-Spam_score: -2.3
@@ -92,8 +94,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.161,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -109,620 +110,217 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Bios bits avocado tests need mformat (provided by the mtools package) and
-xorriso tools in order to run within gitlab CI containers. Add those
-dependencies within the Dockerfiles so that containers can be built with
-those tools present and bios bits avocado tests can be run there.
+On Thu, May 04, 2023 at 01:18:04PM +0300, Avihai Horon wrote:
+> 
+> On 03/05/2023 18:49, Peter Xu wrote:
+> > External email: Use caution opening links or attachments
+> > 
+> > 
+> > On Wed, May 03, 2023 at 06:22:59PM +0300, Avihai Horon wrote:
+> > > On 03/05/2023 1:49, Peter Xu wrote:
+> > > > External email: Use caution opening links or attachments
+> > > > 
+> > > > 
+> > > > On Mon, May 01, 2023 at 05:01:33PM +0300, Avihai Horon wrote:
+> > > > > Hello everyone,
+> > > > Hi, Avihai,
+> > > > 
+> > > > > === Flow of operation ===
+> > > > > 
+> > > > > To use precopy initial data, the capability must be enabled in the
+> > > > > source.
+> > > > > 
+> > > > > As this capability must be supported also in the destination, a
+> > > > > handshake is performed during migration setup. The purpose of the
+> > > > > handshake is to notify the destination that precopy initial data is used
+> > > > > and to check if it's supported.
+> > > > > 
+> > > > > The handshake is done in two levels. First, a general handshake is done
+> > > > > with the destination migration code to notify that precopy initial data
+> > > > > is used. Then, for each migration user in the source that supports
+> > > > > precopy initial data, a handshake is done with its counterpart in the
+> > > > > destination:
+> > > > > If both support it, precopy initial data will be used for them.
+> > > > > If source doesn't support it, precopy initial data will not be used for
+> > > > > them.
+> > > > > If source supports it and destination doesn't, migration will be failed.
+> > > > > 
+> > > > > Assuming the handshake succeeded, migration starts to send precopy data
+> > > > > and as part of it also the initial precopy data. Initial precopy data is
+> > > > > just like any other precopy data and as such, migration code is not
+> > > > > aware of it. Therefore, it's the responsibility of the migration users
+> > > > > (such as VFIO devices) to notify their counterparts in the destination
+> > > > > that their initial precopy data has been sent (for example, VFIO
+> > > > > migration does it when its initial bytes reach zero).
+> > > > > 
+> > > > > In the destination, migration code will query each migration user that
+> > > > > supports precopy initial data and check if its initial data has been
+> > > > > loaded. If initial data has been loaded by all of them, an ACK will be
+> > > > > sent to the source which will now be able to complete migration when
+> > > > > appropriate.
+> > > > I can understand why this is useful, what I'm not 100% sure is whether the
+> > > > complexity is needed.  The idea seems to be that src never switchover
+> > > > unless it receives a READY notification from dst.
+> > > > 
+> > > > I'm imaging below simplified and more general workflow, not sure whether it
+> > > > could work for you:
+> > > > 
+> > > >     - Introduce a new cap "switchover-ready", it means whether there'll be a
+> > > >       ready event sent from dst -> src for "being ready for switchover"
+> > > > 
+> > > >     - When cap set, a new msg MIG_RP_MSG_SWITCHOVER_READY is defined and
+> > > >       handled on src showing that dest is ready for switchover. It'll be sent
+> > > >       only if dest is ready for the switchover
+> > > > 
+> > > >     - Introduce a field SaveVMHandlers.explicit_switchover_needed.  For each
+> > > >       special device like vfio that would like to participate in the decision
+> > > >       making, device can set its explicit_switchover_needed=1.  This field is
+> > > >       ignored if the new cap is not set.
+> > > > 
+> > > >     - Dst qemu: when new cap set, remember how many special devices are there
+> > > >       requesting explicit switchover (count of SaveVMHandlers that has the
+> > > >       bit set during load setup) as switch_over_pending=N.
+> > > > 
+> > > >     - Dst qemu: Once a device thinks its fine to switchover (probably in the
+> > > >       load_state() callback), it calls migration_notify_switchover_ready().
+> > > >       That decreases switch_over_pending and when it hits zero, one msg
+> > > >       MIG_RP_MSG_SWITCHOVER_READY will be sent to src.
+> > > > 
+> > > > Only until READY msg received on src could src switchover the precopy to
+> > > > dst.
+> > > > 
+> > > > Then it only needs 1 more field in SaveVMHandlers rather than 3, and only 1
+> > > > more msg (dst->src).
+> > > > 
+> > > > This is based on the fact that right now we always set caps on both qemus
+> > > > so I suppose it already means either both have or don't have the feature
+> > > > (even if one has, not setting the cap means disabled on both).
+> > > > 
+> > > > Would it work for this case and cleaner?
+> > > Hi Peter, thanks for the response!
+> > > Your approach is indeed much simpler, however I have a few concerns
+> > > regarding compatibility.
+> > > 
+> > > You are saying that caps are always set both in src and dest.
+> > > But what happens if we set the cap only on one side?
+> > > Should we care about these scenarios?
+> > I think it's not needed for now, but I am aware that this is a problem.
+> > It's just that it is a more generic problem to me rather than very special
+> > in the current feature being proposed.  At least there're a few times
+> > Daniel showed concern on keeping this way and hoped we can have a better
+> > handshake in general with migration framework.
+> > 
+> > I'd be perfectly fine if you want to approach this with a handshake
+> > methodology, but I hope if so we should provide a more generic handshake.
+> > So potentially that can make this new feature rely on the handshake work,
+> > and slower to get into shape.  Your call on how to address this, at least
+> > fine by me either way.
+> 
+> I'd really like this feature to get in, and I'm afraid making it dependent
+> on first implementing a general migration handshake may take a long time,
+> like you said.
+> What about keeping current approach but changing it such that the capability
+> will have to be set in both src and dest, to make it similar to other
+> capability usages?
+> I.e., we will remove the "general" handshake:
+> 
+>     /* Enable precopy initial data generally in the migration */
+>     memset(&buf, 0, sizeof(buf));
+>     buf.general_enable = 1;
+>     qemu_savevm_command_send(f, MIG_CMD_INITIAL_DATA_ENABLE, sizeof(buf),
+>                              (uint8_t *)&buf);
+> 
+> but keep the per-device handshake, which is not a handshake for migration
+> capabilities, but a part of the protocol when the capability is set, like in
+> multifd, postcopy, etc.
+> This way we can advance with this feature while making the general migration
+> handshake an independent effort.
+> Will that work for you?
 
-xorriso package conflicts with genisoimage package on some distributions.
-Therefore, it is not possible to have both the packages at the same time
-in the container image uniformly for all distribution flavors. Further,
-on some distributions like RHEL, both xorriso and genisoimage
-packages provide /usr/bin/genisoimage and on some other distributions like
-Fedora, only genisoimage package provides the same utility.
-Therefore, this change removes the dependency on geninsoimage for building
-container images altogether keeping only xorriso package. At the same time,
-cdrom-test.c is updated to use and check for existence of only xorrisofs.
+Yes it's fine by me.
 
-CC: mst@redhat.com
-CC: berrange@redhat.com
-Signed-off-by: Ani Sinha <anisinha@redhat.com>
----
- .gitlab-ci.d/cirrus/freebsd-13.vars                |  2 +-
- .gitlab-ci.d/cirrus/macos-12.vars                  |  2 +-
- tests/docker/dockerfiles/alpine.docker             |  3 ++-
- tests/docker/dockerfiles/centos8.docker            |  3 ++-
- tests/docker/dockerfiles/debian-amd64-cross.docker |  3 ++-
- tests/docker/dockerfiles/debian-amd64.docker       |  3 ++-
- tests/docker/dockerfiles/debian-arm64-cross.docker |  3 ++-
- tests/docker/dockerfiles/debian-armel-cross.docker |  3 ++-
- tests/docker/dockerfiles/debian-armhf-cross.docker |  3 ++-
- .../dockerfiles/debian-mips64el-cross.docker       |  3 ++-
- .../docker/dockerfiles/debian-mipsel-cross.docker  |  3 ++-
- .../docker/dockerfiles/debian-ppc64el-cross.docker |  3 ++-
- tests/docker/dockerfiles/debian-s390x-cross.docker |  3 ++-
- tests/docker/dockerfiles/fedora-win32-cross.docker |  3 ++-
- tests/docker/dockerfiles/fedora-win64-cross.docker |  3 ++-
- tests/docker/dockerfiles/fedora.docker             |  3 ++-
- tests/docker/dockerfiles/opensuse-leap.docker      |  3 ++-
- tests/docker/dockerfiles/ubuntu2004.docker         |  3 ++-
- tests/docker/dockerfiles/ubuntu2204.docker         |  3 ++-
- tests/lcitool/projects/qemu.yml                    |  3 ++-
- tests/qtest/cdrom-test.c                           | 14 +++++++-------
- 21 files changed, 45 insertions(+), 27 deletions(-)
+> 
+> BTW, with your suggestion to add a notification mechanism to notify when
+> initial data is loaded in dest, I think we can drop these two SaveVMHandlers
+> handlers:
+>     /*
+>      * Checks if precopy initial data is active. If it's inactive,
+>      * initial_data_loaded check is skipped.
+>      */
+>     bool (*is_initial_data_active)(void *opaque);
+>     /* Checks if precopy initial data has been loaded in dest */
+>     bool (*initial_data_loaded)(void *opaque);
+> 
+> > In my imagination a generic handshake should happen at the very start of
+> > migration and negociate feature bits between src/dst qemu, so they can
+> > reach a consensus on what to do next.
+> > 
+> > > For example, if we set the cap only in src, then src will wait indefinitely
+> > > for dest to notify that switchover is ready.
+> > > Would you expect migration to fail instead of just keep running
+> > > indefinitely?
+> > > In current approach we only need to enable the cap in the source, so such
+> > > scenario can't happen.
+> > > 
+> > > Let's look at some other scenario.
+> > > Src QEMU supports explicit-switchover for device X but *not* for device Y
+> > > (i.e., src QEMU is some older version of QEMU that supports
+> > > explicit-switchover for device X but not for Y).
+> > > Dest QEMU supports explicit-switchover for device X and device Y.
+> > > The capability is set in both src and dest.
+> > > In the destination we will have switchover_pending=2 because both X and Y
+> > > support explicit-switchover.
+> > > We do migration, but switchover_pending will never reach 0 because only X
+> > > supports it in the source, so the migration will run indefinitely.
+> > > The per-device handshake solves this by making device Y not use
+> > > explicit-switchover in this case.
+> > Hmm, right.  When I was replying obviously I thought that decision can be
+> > made sololy by the dest qemu, then I assumed it's fine.  Because IIUC in
+> > that case how many devices that supports switchover_pending on src qemu
+> > doesn't really matter but only dest.
+> > 
+> > But I re-read the last patch and I do see that there's a new bit that will
+> > change the device protocol of migration:
+> > 
+> >    if (migration->initial_data_active && !migration->precopy_init_size &&
+> >        !migration->initial_data_sent) {
+> >        qemu_put_be64(f, VFIO_MIG_FLAG_DEV_INIT_DATA_SENT);
+> >        migration->initial_data_sent = true;
+> >    } else {
+> >        qemu_put_be64(f, VFIO_MIG_FLAG_END_OF_STATE);
+> >    }
+> > 
+> > With this, I think what you said makes sense because then the src qemu
+> > matters on deciding whether to send VFIO_MIG_FLAG_DEV_INIT_DATA_SENT, it
+> > also needs to make sure dst qemu will recognize it.
+> > 
+> > Do you think this new VFIO_MIG_FLAG_DEV_INIT_DATA_SENT is a must to have?
+> > Can this decision be made on dest qemu only?
+> > 
+> > To ask in another way, I saw that precopy_init_size is the fundation to
+> > decide whether to send this flag.  Then it's a matter of whether dest qemu
+> > is also aware of precopy_init_size, then it can already tell when it's
+> > ready to handle the switchover.
+> 
+> The destination is not aware of precopy_init_size, only the source knows it.
+> So the source must send VFIO_MIG_FLAG_DEV_INIT_DATA_SENT to notify dest that
+> the initial data was sent.
 
-diff --git a/.gitlab-ci.d/cirrus/freebsd-13.vars b/.gitlab-ci.d/cirrus/freebsd-13.vars
-index 7622c849b2..facb649f5b 100644
---- a/.gitlab-ci.d/cirrus/freebsd-13.vars
-+++ b/.gitlab-ci.d/cirrus/freebsd-13.vars
-@@ -11,6 +11,6 @@ MAKE='/usr/local/bin/gmake'
- NINJA='/usr/local/bin/ninja'
- PACKAGING_COMMAND='pkg'
- PIP3='/usr/local/bin/pip-3.8'
--PKGS='alsa-lib bash bison bzip2 ca_root_nss capstone4 ccache cdrkit-genisoimage cmocka ctags curl cyrus-sasl dbus diffutils dtc flex fusefs-libs3 gettext git glib gmake gnutls gsed gtk3 json-c libepoxy libffi libgcrypt libjpeg-turbo libnfs libslirp libspice-server libssh libtasn1 llvm lzo2 meson ncurses nettle ninja opencv pixman pkgconf png py39-numpy py39-pillow py39-pip py39-sphinx py39-sphinx_rtd_theme py39-yaml python3 rpm2cpio sdl2 sdl2_image snappy sndio socat spice-protocol tesseract usbredir virglrenderer vte3 zstd'
-+PKGS='alsa-lib bash bison bzip2 ca_root_nss capstone4 ccache cmocka ctags curl cyrus-sasl dbus diffutils dtc flex fusefs-libs3 gettext git glib gmake gnutls gsed gtk3 json-c libepoxy libffi libgcrypt libjpeg-turbo libnfs libslirp libspice-server libssh libtasn1 llvm lzo2 meson mtools ncurses nettle ninja opencv pixman pkgconf png py39-numpy py39-pillow py39-pip py39-sphinx py39-sphinx_rtd_theme py39-yaml python3 rpm2cpio sdl2 sdl2_image snappy sndio socat spice-protocol tesseract usbredir virglrenderer vte3 xorriso zstd'
- PYPI_PKGS=''
- PYTHON='/usr/local/bin/python3'
-diff --git a/.gitlab-ci.d/cirrus/macos-12.vars b/.gitlab-ci.d/cirrus/macos-12.vars
-index da6aa6469b..ceb294e153 100644
---- a/.gitlab-ci.d/cirrus/macos-12.vars
-+++ b/.gitlab-ci.d/cirrus/macos-12.vars
-@@ -11,6 +11,6 @@ MAKE='/opt/homebrew/bin/gmake'
- NINJA='/opt/homebrew/bin/ninja'
- PACKAGING_COMMAND='brew'
- PIP3='/opt/homebrew/bin/pip3'
--PKGS='bash bc bison bzip2 capstone ccache cmocka ctags curl dbus diffutils dtc flex gcovr gettext git glib gnu-sed gnutls gtk+3 jemalloc jpeg-turbo json-c libepoxy libffi libgcrypt libiscsi libnfs libpng libslirp libssh libtasn1 libusb llvm lzo make meson ncurses nettle ninja pixman pkg-config python3 rpm2cpio sdl2 sdl2_image snappy socat sparse spice-protocol tesseract usbredir vde vte3 zlib zstd'
-+PKGS='bash bc bison bzip2 capstone ccache cmocka ctags curl dbus diffutils dtc flex gcovr gettext git glib gnu-sed gnutls gtk+3 jemalloc jpeg-turbo json-c libepoxy libffi libgcrypt libiscsi libnfs libpng libslirp libssh libtasn1 libusb llvm lzo make meson mtools ncurses nettle ninja pixman pkg-config python3 rpm2cpio sdl2 sdl2_image snappy socat sparse spice-protocol tesseract usbredir vde vte3 xorriso zlib zstd'
- PYPI_PKGS='PyYAML numpy pillow sphinx sphinx-rtd-theme'
- PYTHON='/opt/homebrew/bin/python3'
-diff --git a/tests/docker/dockerfiles/alpine.docker b/tests/docker/dockerfiles/alpine.docker
-index 81c70aeaf9..0097637dca 100644
---- a/tests/docker/dockerfiles/alpine.docker
-+++ b/tests/docker/dockerfiles/alpine.docker
-@@ -19,7 +19,6 @@ RUN apk update && \
-         ca-certificates \
-         capstone-dev \
-         ccache \
--        cdrkit \
-         ceph-dev \
-         clang \
-         cmocka-dev \
-@@ -67,6 +66,7 @@ RUN apk update && \
-         make \
-         mesa-dev \
-         meson \
-+        mtools \
-         multipath-tools \
-         musl-dev \
-         ncurses-dev \
-@@ -108,6 +108,7 @@ RUN apk update && \
-         which \
-         xen-dev \
-         xfsprogs-dev \
-+        xorriso \
-         zlib-dev \
-         zlib-static \
-         zstd \
-diff --git a/tests/docker/dockerfiles/centos8.docker b/tests/docker/dockerfiles/centos8.docker
-index 1a6a9087c1..78f454b782 100644
---- a/tests/docker/dockerfiles/centos8.docker
-+++ b/tests/docker/dockerfiles/centos8.docker
-@@ -36,7 +36,6 @@ RUN dnf distro-sync -y && \
-         fuse3-devel \
-         gcc \
-         gcc-c++ \
--        genisoimage \
-         gettext \
-         git \
-         glib2-devel \
-@@ -82,6 +81,7 @@ RUN dnf distro-sync -y && \
-         lzo-devel \
-         make \
-         mesa-libgbm-devel \
-+        mtools \
-         ncurses-devel \
-         nettle-devel \
-         ninja-build \
-@@ -114,6 +114,7 @@ RUN dnf distro-sync -y && \
-         vte291-devel \
-         which \
-         xfsprogs-devel \
-+        xorriso \
-         zlib-devel \
-         zlib-static \
-         zstd && \
-diff --git a/tests/docker/dockerfiles/debian-amd64-cross.docker b/tests/docker/dockerfiles/debian-amd64-cross.docker
-index 2e7eb445f1..40a2b6acc4 100644
---- a/tests/docker/dockerfiles/debian-amd64-cross.docker
-+++ b/tests/docker/dockerfiles/debian-amd64-cross.docker
-@@ -25,7 +25,6 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
-                       findutils \
-                       flex \
-                       gcovr \
--                      genisoimage \
-                       gettext \
-                       git \
-                       hostname \
-@@ -37,6 +36,7 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
-                       locales \
-                       make \
-                       meson \
-+                      mtools \
-                       ncat \
-                       ninja-build \
-                       openssh-client \
-@@ -57,6 +57,7 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
-                       tar \
-                       tesseract-ocr \
-                       tesseract-ocr-eng \
-+                      xorriso \
-                       zstd && \
-     eatmydata apt-get autoremove -y && \
-     eatmydata apt-get autoclean -y && \
-diff --git a/tests/docker/dockerfiles/debian-amd64.docker b/tests/docker/dockerfiles/debian-amd64.docker
-index 28e2fa81b1..e39871c7bb 100644
---- a/tests/docker/dockerfiles/debian-amd64.docker
-+++ b/tests/docker/dockerfiles/debian-amd64.docker
-@@ -28,7 +28,6 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
-                       g++ \
-                       gcc \
-                       gcovr \
--                      genisoimage \
-                       gettext \
-                       git \
-                       hostname \
-@@ -103,6 +102,7 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
-                       locales \
-                       make \
-                       meson \
-+                      mtools \
-                       multipath-tools \
-                       ncat \
-                       nettle-dev \
-@@ -127,6 +127,7 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
-                       tesseract-ocr \
-                       tesseract-ocr-eng \
-                       xfslibs-dev \
-+                      xorriso \
-                       zlib1g-dev \
-                       zstd && \
-     eatmydata apt-get autoremove -y && \
-diff --git a/tests/docker/dockerfiles/debian-arm64-cross.docker b/tests/docker/dockerfiles/debian-arm64-cross.docker
-index f558770f84..c99300bbfa 100644
---- a/tests/docker/dockerfiles/debian-arm64-cross.docker
-+++ b/tests/docker/dockerfiles/debian-arm64-cross.docker
-@@ -25,7 +25,6 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
-                       findutils \
-                       flex \
-                       gcovr \
--                      genisoimage \
-                       gettext \
-                       git \
-                       hostname \
-@@ -37,6 +36,7 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
-                       locales \
-                       make \
-                       meson \
-+                      mtools \
-                       ncat \
-                       ninja-build \
-                       openssh-client \
-@@ -57,6 +57,7 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
-                       tar \
-                       tesseract-ocr \
-                       tesseract-ocr-eng \
-+                      xorriso \
-                       zstd && \
-     eatmydata apt-get autoremove -y && \
-     eatmydata apt-get autoclean -y && \
-diff --git a/tests/docker/dockerfiles/debian-armel-cross.docker b/tests/docker/dockerfiles/debian-armel-cross.docker
-index f3d7e07cce..5db5c78b31 100644
---- a/tests/docker/dockerfiles/debian-armel-cross.docker
-+++ b/tests/docker/dockerfiles/debian-armel-cross.docker
-@@ -25,7 +25,6 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
-                       findutils \
-                       flex \
-                       gcovr \
--                      genisoimage \
-                       gettext \
-                       git \
-                       hostname \
-@@ -37,6 +36,7 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
-                       locales \
-                       make \
-                       meson \
-+                      mtools \
-                       ncat \
-                       ninja-build \
-                       openssh-client \
-@@ -57,6 +57,7 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
-                       tar \
-                       tesseract-ocr \
-                       tesseract-ocr-eng \
-+                      xorriso \
-                       zstd && \
-     eatmydata apt-get autoremove -y && \
-     eatmydata apt-get autoclean -y && \
-diff --git a/tests/docker/dockerfiles/debian-armhf-cross.docker b/tests/docker/dockerfiles/debian-armhf-cross.docker
-index 531c556ad5..ae6600b25f 100644
---- a/tests/docker/dockerfiles/debian-armhf-cross.docker
-+++ b/tests/docker/dockerfiles/debian-armhf-cross.docker
-@@ -25,7 +25,6 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
-                       findutils \
-                       flex \
-                       gcovr \
--                      genisoimage \
-                       gettext \
-                       git \
-                       hostname \
-@@ -37,6 +36,7 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
-                       locales \
-                       make \
-                       meson \
-+                      mtools \
-                       ncat \
-                       ninja-build \
-                       openssh-client \
-@@ -57,6 +57,7 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
-                       tar \
-                       tesseract-ocr \
-                       tesseract-ocr-eng \
-+                      xorriso \
-                       zstd && \
-     eatmydata apt-get autoremove -y && \
-     eatmydata apt-get autoclean -y && \
-diff --git a/tests/docker/dockerfiles/debian-mips64el-cross.docker b/tests/docker/dockerfiles/debian-mips64el-cross.docker
-index 816dbd2911..daa2d48e36 100644
---- a/tests/docker/dockerfiles/debian-mips64el-cross.docker
-+++ b/tests/docker/dockerfiles/debian-mips64el-cross.docker
-@@ -25,7 +25,6 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
-                       findutils \
-                       flex \
-                       gcovr \
--                      genisoimage \
-                       gettext \
-                       git \
-                       hostname \
-@@ -37,6 +36,7 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
-                       locales \
-                       make \
-                       meson \
-+                      mtools \
-                       ncat \
-                       ninja-build \
-                       openssh-client \
-@@ -57,6 +57,7 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
-                       tar \
-                       tesseract-ocr \
-                       tesseract-ocr-eng \
-+                      xorriso \
-                       zstd && \
-     eatmydata apt-get autoremove -y && \
-     eatmydata apt-get autoclean -y && \
-diff --git a/tests/docker/dockerfiles/debian-mipsel-cross.docker b/tests/docker/dockerfiles/debian-mipsel-cross.docker
-index b115b29af3..5af04e2054 100644
---- a/tests/docker/dockerfiles/debian-mipsel-cross.docker
-+++ b/tests/docker/dockerfiles/debian-mipsel-cross.docker
-@@ -25,7 +25,6 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
-                       findutils \
-                       flex \
-                       gcovr \
--                      genisoimage \
-                       gettext \
-                       git \
-                       hostname \
-@@ -37,6 +36,7 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
-                       locales \
-                       make \
-                       meson \
-+                      mtools \
-                       ncat \
-                       ninja-build \
-                       openssh-client \
-@@ -57,6 +57,7 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
-                       tar \
-                       tesseract-ocr \
-                       tesseract-ocr-eng \
-+                      xorriso \
-                       zstd && \
-     eatmydata apt-get autoremove -y && \
-     eatmydata apt-get autoclean -y && \
-diff --git a/tests/docker/dockerfiles/debian-ppc64el-cross.docker b/tests/docker/dockerfiles/debian-ppc64el-cross.docker
-index 301bddb536..1eeba7fcab 100644
---- a/tests/docker/dockerfiles/debian-ppc64el-cross.docker
-+++ b/tests/docker/dockerfiles/debian-ppc64el-cross.docker
-@@ -25,7 +25,6 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
-                       findutils \
-                       flex \
-                       gcovr \
--                      genisoimage \
-                       gettext \
-                       git \
-                       hostname \
-@@ -37,6 +36,7 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
-                       locales \
-                       make \
-                       meson \
-+                      mtools \
-                       ncat \
-                       ninja-build \
-                       openssh-client \
-@@ -57,6 +57,7 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
-                       tar \
-                       tesseract-ocr \
-                       tesseract-ocr-eng \
-+                      xorriso \
-                       zstd && \
-     eatmydata apt-get autoremove -y && \
-     eatmydata apt-get autoclean -y && \
-diff --git a/tests/docker/dockerfiles/debian-s390x-cross.docker b/tests/docker/dockerfiles/debian-s390x-cross.docker
-index 5d27c91c17..52e89a6dab 100644
---- a/tests/docker/dockerfiles/debian-s390x-cross.docker
-+++ b/tests/docker/dockerfiles/debian-s390x-cross.docker
-@@ -25,7 +25,6 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
-                       findutils \
-                       flex \
-                       gcovr \
--                      genisoimage \
-                       gettext \
-                       git \
-                       hostname \
-@@ -37,6 +36,7 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
-                       locales \
-                       make \
-                       meson \
-+                      mtools \
-                       ncat \
-                       ninja-build \
-                       openssh-client \
-@@ -57,6 +57,7 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
-                       tar \
-                       tesseract-ocr \
-                       tesseract-ocr-eng \
-+                      xorriso \
-                       zstd && \
-     eatmydata apt-get autoremove -y && \
-     eatmydata apt-get autoclean -y && \
-diff --git a/tests/docker/dockerfiles/fedora-win32-cross.docker b/tests/docker/dockerfiles/fedora-win32-cross.docker
-index e7966ec7fd..dc72ae9cc9 100644
---- a/tests/docker/dockerfiles/fedora-win32-cross.docker
-+++ b/tests/docker/dockerfiles/fedora-win32-cross.docker
-@@ -30,7 +30,6 @@ exec "$@"\n' > /usr/bin/nosync && \
-                findutils \
-                flex \
-                gcovr \
--               genisoimage \
-                git \
-                glib2-devel \
-                glibc-langpack-en \
-@@ -38,6 +37,7 @@ exec "$@"\n' > /usr/bin/nosync && \
-                llvm \
-                make \
-                meson \
-+               mtools \
-                ninja-build \
-                nmap-ncat \
-                openssh-clients \
-@@ -59,6 +59,7 @@ exec "$@"\n' > /usr/bin/nosync && \
-                tesseract-langpack-eng \
-                util-linux \
-                which \
-+               xorriso \
-                zstd && \
-     nosync dnf autoremove -y && \
-     nosync dnf clean all -y
-diff --git a/tests/docker/dockerfiles/fedora-win64-cross.docker b/tests/docker/dockerfiles/fedora-win64-cross.docker
-index 86c3a8f2ac..7eb4a5dba2 100644
---- a/tests/docker/dockerfiles/fedora-win64-cross.docker
-+++ b/tests/docker/dockerfiles/fedora-win64-cross.docker
-@@ -30,7 +30,6 @@ exec "$@"\n' > /usr/bin/nosync && \
-                findutils \
-                flex \
-                gcovr \
--               genisoimage \
-                git \
-                glib2-devel \
-                glibc-langpack-en \
-@@ -38,6 +37,7 @@ exec "$@"\n' > /usr/bin/nosync && \
-                llvm \
-                make \
-                meson \
-+               mtools \
-                ninja-build \
-                nmap-ncat \
-                openssh-clients \
-@@ -59,6 +59,7 @@ exec "$@"\n' > /usr/bin/nosync && \
-                tesseract-langpack-eng \
-                util-linux \
-                which \
-+               xorriso \
-                zstd && \
-     nosync dnf autoremove -y && \
-     nosync dnf clean all -y
-diff --git a/tests/docker/dockerfiles/fedora.docker b/tests/docker/dockerfiles/fedora.docker
-index b698b7595d..3a69eefdda 100644
---- a/tests/docker/dockerfiles/fedora.docker
-+++ b/tests/docker/dockerfiles/fedora.docker
-@@ -43,7 +43,6 @@ exec "$@"\n' > /usr/bin/nosync && \
-                gcc \
-                gcc-c++ \
-                gcovr \
--               genisoimage \
-                gettext \
-                git \
-                glib2-devel \
-@@ -90,6 +89,7 @@ exec "$@"\n' > /usr/bin/nosync && \
-                make \
-                mesa-libgbm-devel \
-                meson \
-+               mtools \
-                ncurses-devel \
-                nettle-devel \
-                ninja-build \
-@@ -128,6 +128,7 @@ exec "$@"\n' > /usr/bin/nosync && \
-                which \
-                xen-devel \
-                xfsprogs-devel \
-+               xorriso \
-                zlib-devel \
-                zlib-static \
-                zstd && \
-diff --git a/tests/docker/dockerfiles/opensuse-leap.docker b/tests/docker/dockerfiles/opensuse-leap.docker
-index afb9f5419f..185abe57d8 100644
---- a/tests/docker/dockerfiles/opensuse-leap.docker
-+++ b/tests/docker/dockerfiles/opensuse-leap.docker
-@@ -81,7 +81,7 @@ RUN zypper update -y && \
-            lttng-ust-devel \
-            lzo-devel \
-            make \
--           mkisofs \
-+           mtools \
-            ncat \
-            ncurses-devel \
-            ninja \
-@@ -111,6 +111,7 @@ RUN zypper update -y && \
-            which \
-            xen-devel \
-            xfsprogs-devel \
-+           xorriso \
-            zlib-devel \
-            zlib-devel-static \
-            zstd && \
-diff --git a/tests/docker/dockerfiles/ubuntu2004.docker b/tests/docker/dockerfiles/ubuntu2004.docker
-index aa2f5ca7b4..8f864d19e6 100644
---- a/tests/docker/dockerfiles/ubuntu2004.docker
-+++ b/tests/docker/dockerfiles/ubuntu2004.docker
-@@ -28,7 +28,6 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
-                       g++ \
-                       gcc \
-                       gcovr \
--                      genisoimage \
-                       gettext \
-                       git \
-                       hostname \
-@@ -100,6 +99,7 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
-                       llvm \
-                       locales \
-                       make \
-+                      mtools \
-                       multipath-tools \
-                       ncat \
-                       nettle-dev \
-@@ -126,6 +126,7 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
-                       tesseract-ocr \
-                       tesseract-ocr-eng \
-                       xfslibs-dev \
-+                      xorriso \
-                       zlib1g-dev \
-                       zstd && \
-     eatmydata apt-get autoremove -y && \
-diff --git a/tests/docker/dockerfiles/ubuntu2204.docker b/tests/docker/dockerfiles/ubuntu2204.docker
-index 3f7d30e5d0..1d442cdfe6 100644
---- a/tests/docker/dockerfiles/ubuntu2204.docker
-+++ b/tests/docker/dockerfiles/ubuntu2204.docker
-@@ -28,7 +28,6 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
-                       g++ \
-                       gcc \
-                       gcovr \
--                      genisoimage \
-                       gettext \
-                       git \
-                       hostname \
-@@ -103,6 +102,7 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
-                       locales \
-                       make \
-                       meson \
-+                      mtools \
-                       multipath-tools \
-                       ncat \
-                       nettle-dev \
-@@ -127,6 +127,7 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
-                       tesseract-ocr \
-                       tesseract-ocr-eng \
-                       xfslibs-dev \
-+                      xorriso \
-                       zlib1g-dev \
-                       zstd && \
-     eatmydata apt-get autoremove -y && \
-diff --git a/tests/lcitool/projects/qemu.yml b/tests/lcitool/projects/qemu.yml
-index af3700379a..566db8313b 100644
---- a/tests/lcitool/projects/qemu.yml
-+++ b/tests/lcitool/projects/qemu.yml
-@@ -26,7 +26,6 @@ packages:
-  - gcc
-  - gcovr
-  - gettext
-- - genisoimage
-  - glib2
-  - glib2-native
-  - glib2-static
-@@ -73,6 +72,7 @@ packages:
-  - llvm
-  - lttng-ust
-  - lzo
-+ - mtools
-  - netcat
-  - nettle
-  - ninja
-@@ -116,6 +116,7 @@ packages:
-  - which
-  - xen
-  - xfsprogs
-+ - xorriso
-  - zstdtools
-  - zlib
-  - zlib-static
-diff --git a/tests/qtest/cdrom-test.c b/tests/qtest/cdrom-test.c
-index 26a2400181..73d45d7cef 100644
---- a/tests/qtest/cdrom-test.c
-+++ b/tests/qtest/cdrom-test.c
-@@ -17,7 +17,7 @@
- 
- static char isoimage[] = "cdrom-boot-iso-XXXXXX";
- 
--static int exec_genisoimg(const char **args)
-+static int exec_xorrisofs(const char **args)
- {
-     gchar *out_err = NULL;
-     gint exit_status = -1;
-@@ -43,7 +43,7 @@ static int prepare_image(const char *arch, char *isoimage)
-     char *codefile = NULL;
-     int ifh, ret = -1;
-     const char *args[] = {
--        "genisoimage", "-quiet", "-l", "-no-emul-boot",
-+        "xorrisofs", "-quiet", "-l", "-no-emul-boot",
-         "-b", NULL, "-o", isoimage, srcdir, NULL
-     };
- 
-@@ -75,9 +75,9 @@ static int prepare_image(const char *arch, char *isoimage)
-     }
- 
-     args[5] = strchr(codefile, '/') + 1;
--    ret = exec_genisoimg(args);
-+    ret = exec_xorrisofs(args);
-     if (ret) {
--        fprintf(stderr, "genisoimage failed: %i\n", ret);
-+        fprintf(stderr, "xorrisofs failed: %i\n", ret);
-     }
- 
-     unlink(codefile);
-@@ -201,12 +201,12 @@ int main(int argc, char **argv)
- {
-     int ret;
-     const char *arch = qtest_get_arch();
--    const char *genisocheck[] = { "genisoimage", "-version", NULL };
-+    const char *xorrisocheck[] = { "xorrisofs", "-version", NULL };
- 
-     g_test_init(&argc, &argv, NULL);
- 
--    if (exec_genisoimg(genisocheck)) {
--        /* genisoimage not available - so can't run tests */
-+    if (exec_xorrisofs(xorrisocheck)) {
-+        /* xorrisofs not available - so can't run tests */
-         return g_test_run();
-     }
- 
+Then, can the src qemu notify instead?
+
+We can have similar notification mechanism on src qemu and if that can work
+we can further same the other MIG_RP_MSG.  The counter counts how many
+special src devices are there and we don't switchover only if all agree.
+
+I know that even if !precopy_init_size on src, it doesn't mean that dest
+has already digested all the data in the send buffer.  However since we'll
+anyway make sure queued data landed before switch over happens (e.g., when
+we only have 1 migration channel data are sent in sequential manner), it
+means when switchover the dst qemu should have these loaded?
+
+Thanks,
+
 -- 
-2.31.1
+Peter Xu
 
 
