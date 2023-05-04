@@ -2,85 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 907F56F77DC
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 May 2023 23:14:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F6556F77DD
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 May 2023 23:15:00 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pugGz-00044d-H5; Thu, 04 May 2023 17:13:57 -0400
+	id 1pugHo-0004va-7f; Thu, 04 May 2023 17:14:48 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pugGx-00043v-Uq
- for qemu-devel@nongnu.org; Thu, 04 May 2023 17:13:55 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pugGw-00046A-1G
- for qemu-devel@nongnu.org; Thu, 04 May 2023 17:13:55 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1683234833;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=PbtQd0T/eOvB2WwyzniyotLqfkl9lge5PBzlNU6yYaw=;
- b=i0puvISbTaW2jZYx0QRfnL7nnPg1gnIMs9EFxTmG1Dydf1HcZ7JffIaolSnexl/yn1sZI/
- oDZOknQblVFqz9jzj+qqGydhtcUtu10ZfCRtNDHMSeyNGKRBXvyH0qoFZKFAi4iVg5mEzZ
- u++lbfNOfHC1dZkmMSG1jDA4F3NoF4M=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-199-0jJU1yuvPWyStda8F5r-dw-1; Thu, 04 May 2023 17:13:48 -0400
-X-MC-Unique: 0jJU1yuvPWyStda8F5r-dw-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
- [10.11.54.7])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 81E11857F81;
- Thu,  4 May 2023 21:13:47 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.192.9])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A4B891410F24;
- Thu,  4 May 2023 21:13:43 +0000 (UTC)
-Date: Thu, 4 May 2023 23:13:42 +0200
-From: Kevin Wolf <kwolf@redhat.com>
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Cc: qemu-devel@nongnu.org,
- Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
- Juan Quintela <quintela@redhat.com>,
- Julia Suvorova <jusual@redhat.com>, xen-devel@lists.xenproject.org,
- eesposit@redhat.com, Richard Henderson <richard.henderson@linaro.org>,
- Fam Zheng <fam@euphon.net>, "Michael S. Tsirkin" <mst@redhat.com>,
- Coiby Xu <Coiby.Xu@gmail.com>, David Woodhouse <dwmw2@infradead.org>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Peter Lieven <pl@kamp.de>, Paul Durrant <paul@xen.org>,
- "Richard W.M. Jones" <rjones@redhat.com>, qemu-block@nongnu.org,
- Stefano Garzarella <sgarzare@redhat.com>,
- Anthony Perard <anthony.perard@citrix.com>,
- Stefan Weil <sw@weilnetz.de>, Xie Yongji <xieyongji@bytedance.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Aarushi Mehta <mehta.aaru20@gmail.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>,
- Eduardo Habkost <eduardo@habkost.net>,
- Stefano Stabellini <sstabellini@kernel.org>,
- Hanna Reitz <hreitz@redhat.com>, Ronnie Sahlberg <ronniesahlberg@gmail.com>
-Subject: Re: [PATCH v4 17/20] virtio-blk: implement
- BlockDevOps->drained_begin()
-Message-ID: <ZFQgBvWShB4NCymj@redhat.com>
-References: <20230425172716.1033562-1-stefanha@redhat.com>
- <20230425172716.1033562-18-stefanha@redhat.com>
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1pugHj-0004u3-IL
+ for qemu-devel@nongnu.org; Thu, 04 May 2023 17:14:45 -0400
+Received: from mail-yb1-xb2f.google.com ([2607:f8b0:4864:20::b2f])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1pugHh-0005cy-9v
+ for qemu-devel@nongnu.org; Thu, 04 May 2023 17:14:42 -0400
+Received: by mail-yb1-xb2f.google.com with SMTP id
+ 3f1490d57ef6-b9d8b2e1576so1373216276.2
+ for <qemu-devel@nongnu.org>; Thu, 04 May 2023 14:14:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1683234879; x=1685826879;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=27wGPxASm5D+OJrXzX3KXHSg8htD14xi5K9Gkzx1etg=;
+ b=kyHG+qjKZRuvxbYA8KdXuG4oZYiqefaG6Te/H+s9G2VqFBKZndiXgJZdUzLvnKmJCr
+ scQIunjh8kXYZQNJDCcLqbxs+Fr6uUprMyFaOfG/lTWbDPShe1ovhIk2hBM+NqeWMkNi
+ /ooC+JQXLszql7pTRmGqaJ9DN2Xt33l0rzEj13R/bhOKxoLkGEf05pDstseNoh9nCgGX
+ c6k3rIPtXlGY/6qp2ckpHUmsBN5tnOuaPn8aKd4CVN84qFLxpzDVi/8CNGld/SiY2Pwa
+ V5MDERvoPVJXHSQCYhDdwJ67j3FRNG5ptZrlKIVau7cOuPzkWb0wH0BYgBt/rSefQ53L
+ JA/w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1683234879; x=1685826879;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=27wGPxASm5D+OJrXzX3KXHSg8htD14xi5K9Gkzx1etg=;
+ b=HBcsaf3LdmGpqmxex7Yeei7UgpYUkRUr0S6ndqxDvGrzXTzQEpqsmdr7FvhN5atAwX
+ C/Xyh2c4z+JGPiVk5PF+IjBK8EuxcuSM3Hb/AcuLeL2nIINg90QmkwhfLO0SQ1B9GblQ
+ x23Wq7qadTh9ybeBqDOMvGsZgQ5me7uc5CPFhT+3hubAvnaELnHXF9enAUKviRfHnptg
+ M2wOV2RDc22W2i69wL1Fn9I8LEKD1QbNqeBf32zAdofSWzDVo1i4wjDrYr/n48hxkCIh
+ u2h71OL5Gtg5C+3kDzKcztmqLZOkLH3xcOvB1uLiRzJZpmn00BS6tCBC4AUCR2oam8pd
+ CfYg==
+X-Gm-Message-State: AC+VfDxc7SlA2kmjQ2cZPNxlrCg5FvPgB8fZv6viqGyC2DzP94F3CuZt
+ 6+YMOTmzN71X3CT744ZJ7eUZAOukjd3RSCvseGY=
+X-Google-Smtp-Source: ACHHUZ4Muuq2y8FR4DtUOMOUjfgE30pMo7Hyt0nvrZ47Vr5Ab4VM2WmM57y1tJOH7u3GShkmXlEI7CaDIwuGvohQYW4=
+X-Received: by 2002:a25:694b:0:b0:b96:ab2d:368f with SMTP id
+ e72-20020a25694b000000b00b96ab2d368fmr967893ybc.39.1683234878936; Thu, 04 May
+ 2023 14:14:38 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230425172716.1033562-18-stefanha@redhat.com>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -22
-X-Spam_score: -2.3
+References: <20230411150515.14020-1-hreitz@redhat.com>
+ <e8cc4521-50a1-2e38-1fb3-8cfa7b0c967e@redhat.com>
+In-Reply-To: <e8cc4521-50a1-2e38-1fb3-8cfa7b0c967e@redhat.com>
+From: Stefan Hajnoczi <stefanha@gmail.com>
+Date: Thu, 4 May 2023 17:14:27 -0400
+Message-ID: <CAJSP0QUFFYWwD5+8+1q41sNErJVNbkfnQ3VtB4z-HZUV8S0=zw@mail.gmail.com>
+Subject: Re: [PATCH 0/4] vhost-user-fs: Internal migration
+To: Hanna Czenczek <hreitz@redhat.com>
+Cc: qemu-devel@nongnu.org, virtio-fs@redhat.com, 
+ Stefan Hajnoczi <stefanha@redhat.com>, German Maglione <gmaglione@redhat.com>, 
+ Anton Kuchin <antonkuchin@yandex-team.ru>, Juan Quintela <quintela@redhat.com>,
+ "Michael S . Tsirkin" <mst@redhat.com>,
+ Stefano Garzarella <sgarzare@redhat.com>, 
+ Eugenio Perez Martin <eperezma@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b2f;
+ envelope-from=stefanha@gmail.com; helo=mail-yb1-xb2f.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.161,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,65 +92,160 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Am 25.04.2023 um 19:27 hat Stefan Hajnoczi geschrieben:
-> Detach ioeventfds during drained sections to stop I/O submission from
-> the guest. virtio-blk is no longer reliant on aio_disable_external()
-> after this patch. This will allow us to remove the
-> aio_disable_external() API once all other code that relies on it is
-> converted.
-> 
-> Take extra care to avoid attaching/detaching ioeventfds if the data
-> plane is started/stopped during a drained section. This should be rare,
-> but maybe the mirror block job can trigger it.
-> 
-> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-> ---
->  hw/block/dataplane/virtio-blk.c | 17 +++++++++------
->  hw/block/virtio-blk.c           | 38 ++++++++++++++++++++++++++++++++-
->  2 files changed, 48 insertions(+), 7 deletions(-)
-> 
-> diff --git a/hw/block/dataplane/virtio-blk.c b/hw/block/dataplane/virtio-blk.c
-> index bd7cc6e76b..d77fc6028c 100644
-> --- a/hw/block/dataplane/virtio-blk.c
-> +++ b/hw/block/dataplane/virtio-blk.c
-> @@ -245,13 +245,15 @@ int virtio_blk_data_plane_start(VirtIODevice *vdev)
->      }
->  
->      /* Get this show started by hooking up our callbacks */
-> -    aio_context_acquire(s->ctx);
-> -    for (i = 0; i < nvqs; i++) {
-> -        VirtQueue *vq = virtio_get_queue(s->vdev, i);
-> +    if (!blk_in_drain(s->conf->conf.blk)) {
-> +        aio_context_acquire(s->ctx);
-> +        for (i = 0; i < nvqs; i++) {
-> +            VirtQueue *vq = virtio_get_queue(s->vdev, i);
->  
-> -        virtio_queue_aio_attach_host_notifier(vq, s->ctx);
-> +            virtio_queue_aio_attach_host_notifier(vq, s->ctx);
-> +        }
-> +        aio_context_release(s->ctx);
->      }
-> -    aio_context_release(s->ctx);
->      return 0;
->  
->    fail_aio_context:
-> @@ -317,7 +319,10 @@ void virtio_blk_data_plane_stop(VirtIODevice *vdev)
->      trace_virtio_blk_data_plane_stop(s);
->  
->      aio_context_acquire(s->ctx);
-> -    aio_wait_bh_oneshot(s->ctx, virtio_blk_data_plane_stop_bh, s);
-> +
-> +    if (!blk_in_drain(s->conf->conf.blk)) {
-> +        aio_wait_bh_oneshot(s->ctx, virtio_blk_data_plane_stop_bh, s);
-> +    }
+On Thu, 4 May 2023 at 13:39, Hanna Czenczek <hreitz@redhat.com> wrote:
+>
+> On 11.04.23 17:05, Hanna Czenczek wrote:
+>
+> [...]
+>
+> > Hanna Czenczek (4):
+> >    vhost: Re-enable vrings after setting features
+> >    vhost-user: Interface for migration state transfer
+> >    vhost: Add high-level state save/load functions
+> >    vhost-user-fs: Implement internal migration
+>
+> I=E2=80=99m trying to write v2, and my intention was to keep the code
+> conceptually largely the same, but include in the documentation change
+> thoughts and notes on how this interface is to be used in the future,
+> when e.g. vDPA =E2=80=9Cextensions=E2=80=9D come over to vhost-user.  My =
+plan was to,
+> based on that documentation, discuss further.
+>
+> But now I=E2=80=99m struggling to even write that documentation because i=
+t=E2=80=99s not
+> clear to me what exactly the result of the discussion was, so I need to
+> stop even before that.
+>
+> So as far as I understand, we need/want SUSPEND/RESUME for two reasons:
+> 1. As a signal to the back-end when virt queues are no longer to be
+> processed, so that it is clear that it will not do that when asked for
+> migration state.
+> 2. Stateful devices that support SET_STATUS receive a status of 0 when
+> the VM is stopped, which supposedly resets the internal state. While
+> suspended, device state is frozen, so as far as I understand, SUSPEND
+> before SET_STATUS would have the status change be deferred until RESUME.
 
-So here we actually get a semantic change: What you described as the
-second part in the previous patch, processing the virtqueue one last
-time, isn't done any more if the device is drained.
+I'm not sure about SUSPEND -> SET_STATUS 0 -> RESUME. I guess the
+device would be reset right away and it would either remain suspended
+or be resumed as part of reset :).
 
-If it's okay to just skip this during drain, why do we need to do it
-outside of drain?
+Unfortunately the concepts of SUSPEND/RESUME and the Device Status
+Field are orthogonal and there is no spec that explains how they
+interact.
 
-Kevin
+>
+> I don=E2=80=99t want to hang myself up on 2 because it doesn=E2=80=99t re=
+ally seem
+> important to this series, but: Why does a status of 0 reset the internal
+> state?  [Note: This is all virtio_reset() seems to do, set the status to
+> 0.]  The vhost-user specification only points to the virtio
+> specification, which doesn=E2=80=99t say anything to that effect. Instead=
+, an
+> explicit device reset is mentioned, which would be
+> VHOST_USER_RESET_DEVICE, i.e. something completely different. Because
+> RESET_DEVICE directly contradicts SUSPEND=E2=80=99s description, I would =
+like to
+> think that invoking RESET_DEVICE on a SUSPEND-ed device is just invalid.
 
+The vhost-user protocol didn't have the concept of the VIRTIO Device
+Status Field until SET_STATUS was added.
+
+In order to participate in the VIRTIO device lifecycle to some extent,
+the pre-SET_STATUS vhost-user protocol relied on vhost-user-specific
+messages like RESET_DEVICE.
+
+At the VIRTIO level, devices are reset by setting the Device Status
+Field to 0. All state is lost and the Device Initialization process
+must be followed to make the device operational again.
+
+Existing vhost-user backends don't implement SET_STATUS 0 (it's new).
+
+It's messy and not your fault. I think QEMU should solve this by
+treating stateful devices differently from non-stateful devices. That
+way existing vhost-user backends continue to work and new stateful
+devices can also be supported.
+
+>
+> Is it that a status 0 won=E2=80=99t explicitly reset the internal state, =
+but
+> because it does mean that the driver is unbound, the state should
+> implicitly be reset?
+
+I think the fundamental problem is that transports like virtio-pci put
+registers back in their initialization state upon reset, so internal
+state is lost.
+
+The VIRTIO spec does not go into detail on device state across reset
+though, so I don't think much more can be said about the semantics.
+
+> Anyway.  1 seems to be the relevant point for migration.  As far as I
+> understand, currently, a vhost-user back-end has no way of knowing when
+> to stop processing virt queues.  Basically, rings can only transition
+> from stopped to started, but not vice versa.  The vhost-user
+> specification has this bit: =E2=80=9COnce the source has finished migrati=
+on,
+> rings will be stopped by the source. No further update must be done
+> before rings are restarted.=E2=80=9D  It just doesn=E2=80=99t say how the=
+ front-end lets
+> the back-end know that the rings are (to be) stopped.  So this seems
+> like a pre-existing problem for stateless migration.  Unless this is
+> communicated precisely by setting the device status to 0?
+
+No, my understanding is different. The vhost-user spec says the
+backend must "stop [the] ring upon receiving
+``VHOST_USER_GET_VRING_BASE``". The "Ring states" section goes into
+more detail and adds the concept of enabled/disabled too.
+
+SUSPEND is stronger than GET_VRING_BASE though. GET_VRING_BASE only
+applies to a single virtqueue, whereas SUSPEND acts upon the entire
+device, including non-virtqueue aspects like Configuration Change
+Notifications (VHOST_USER_BACKEND_CONFIG_CHANGE_MSG).
+
+You can approximate SUSPEND today by sending GET_VRING_BASE for all
+virtqueues. I think in practice this does fully stop the device even
+if the spec doesn't require it.
+
+If we want minimal changes to vhost-user, then we could rely on
+GET_VRING_BASE to suspend and SET_VRING_ENABLE to resume. And
+SET_STATUS 0 must not be sent so that the device's state is not lost.
+
+However, this approach means this effort needs to be redone when it's
+time to add stateful device support to vDPA and the QEMU vhost code
+will become more complex. I think it's better to agree on a proper
+model that works for both vhost-user and vhost-vdpa now to avoid more
+hacks/special cases.
+
+> Naturally, what I want to know most of all is whether you believe I can
+> get away without SUSPEND/RESUME for now.  To me, it seems like honestly
+> not really, only when turning two blind eyes, because otherwise we can=E2=
+=80=99t
+> ensure that virtiofsd isn=E2=80=99t still processing pending virt queue r=
+equests
+> when the state transfer is begun, even when the guest CPUs are already
+> stopped.  Of course, virtiofsd could stop queue processing right there
+> and then, but=E2=80=A6  That feels like a hack that in the grand scheme o=
+f
+> things just isn=E2=80=99t necessary when we could =E2=80=9Cjust=E2=80=9D =
+introduce
+> SUSPEND/RESUME into vhost-user for exactly this.
+>
+> Beyond the SUSPEND/RESUME question, I understand everything can stay
+> as-is for now, as the design doesn=E2=80=99t seem to conflict too badly w=
+ith
+> possible future extensions for other migration phases or more finely
+> grained migration phase control between front-end and back-end.
+>
+> Did I at least roughly get the gist?
+
+One part we haven't discussed much: I'm not sure how much trouble
+you'll face due to the fact that QEMU assumes vhost devices can be
+reset across vhost_dev_stop() -> vhost_dev_start(). I don't think we
+should keep a copy of the state in-memory just so it can be restored
+in vhost_dev_start(). I think it's better to change QEMU's vhost code
+to leave stateful devices suspended (but not reset) across
+vhost_dev_stop() -> vhost_dev_start(), maybe by introducing
+vhost_dev_suspend() and vhost_dev_resume(). Have you thought about
+this aspect?
+
+Stefan
 
