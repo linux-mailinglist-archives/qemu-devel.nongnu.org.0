@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3EDDA6F684A
+	by mail.lfdr.de (Postfix) with ESMTPS id 05E3B6F6849
 	for <lists+qemu-devel@lfdr.de>; Thu,  4 May 2023 11:30:05 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1puVGl-0000Xa-Q8; Thu, 04 May 2023 05:28:59 -0400
+	id 1puVHB-0001Io-Iy; Thu, 04 May 2023 05:29:25 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1puVGj-0000Wz-Mo
- for qemu-devel@nongnu.org; Thu, 04 May 2023 05:28:57 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ id 1puVH9-0001Bb-7J
+ for qemu-devel@nongnu.org; Thu, 04 May 2023 05:29:23 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1puVGi-0001Xr-DP
- for qemu-devel@nongnu.org; Thu, 04 May 2023 05:28:57 -0400
+ id 1puVH7-0001aD-MM
+ for qemu-devel@nongnu.org; Thu, 04 May 2023 05:29:22 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1683192535;
+ s=mimecast20190719; t=1683192561;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=5Emdv5sg3+4EmePlgNlIalGBCZu0cJxG5LJhlwrFNeo=;
- b=fQhW5UWVJqiEPdQmHie7hk0a/7jiF4Rc0YoYYgG8DLQ7yCSDsz9qZwj82FfrHZhx0htq1l
- NVpzZF8i1BDVPGRrvwKZIg8ZOe5b6QZ5/+KxIbjLl5uqPHov+5sqrJzBkC0J0D+3eWFqRK
- dNMaU7Z9p5aaCD09UImglOrbnXt3LXU=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=760do11jc3iXril9t35fcWDkgKuZmBJWXZ+rInX0Ui4=;
+ b=At/HDMU80kJFaRuFEDlq9dtZQoKTxyjYkWt+LaU14aw0rb2Wa0HAM4xvaKXTIyqH3tPQ38
+ c+Ytd+xZj6r0L5kfuKgRPdvNbiDmONEm7AqQ0+3ncHe7jKteJFpqbAd7il4Bbx72I0d6hU
+ 5m6TbPV+Ip/Cc932UroSv1jf022A8XI=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-57-Rvgf9aMBMX2GDgjtWXZwHA-1; Thu, 04 May 2023 05:28:54 -0400
-X-MC-Unique: Rvgf9aMBMX2GDgjtWXZwHA-1
-Received: by mail-wr1-f71.google.com with SMTP id
- ffacd0b85a97d-30640be4fd0so64641f8f.1
- for <qemu-devel@nongnu.org>; Thu, 04 May 2023 02:28:54 -0700 (PDT)
+ us-mta-240-gyOJkJiVP7mNI7UIObXKSQ-1; Thu, 04 May 2023 05:29:00 -0400
+X-MC-Unique: gyOJkJiVP7mNI7UIObXKSQ-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ 5b1f17b1804b1-3f315735edeso34359915e9.1
+ for <qemu-devel@nongnu.org>; Thu, 04 May 2023 02:29:00 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683192533; x=1685784533;
+ d=1e100.net; s=20221208; t=1683192539; x=1685784539;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=5Emdv5sg3+4EmePlgNlIalGBCZu0cJxG5LJhlwrFNeo=;
- b=XYj/xlhPIpNOVt7gIQUtBOlRZR787yGuD+5B7XBgnjf5sVBGWxpxgB1l3kB6UEQtLX
- 7QUWqDNDNeOlsFHMhHc+Huvwh/SjBjYAyS/Bzu4DNuBYkNn+KlFWZz2WGaRhbYbfjEv8
- V8SQdz9zZiY0cfLRK1UEFiycHkS65W0ZIvFVBPv39DKIc7pcCG9HlX1vsrV2qs2Fmi2S
- 240c1cxSC3Y0GnqvuEMG3cESHT6ILCpAsjhMNpeoqNf8N4l/LokuSARwwSZvL9f/Pgec
- 6YBSuEFktxt84+VzZAdixiqxQfP7REIpUCfHjnnV2dhKt+bAxcqUONfwBe10RPgCMDfU
- AVcg==
-X-Gm-Message-State: AC+VfDx7kCKBlW//1vwKBwxYsSOdjKHod0tim8jZ5QDCsNPFxXIaTNdf
- eMIh70VEtV5KYdodD/p+UBpvBPb/cS4ZveVUdGII9ln4yJt3ZRc8SN/Cr1eqfo5ugi8KW6sOSbr
- +1c9Yc5bSa1xQizr9lJZCiK/wAtuvHDtJKhASczdlnm0Uac8+V/I+HriLL0LrE2aP9sGscaHbqe
- w=
-X-Received: by 2002:a5d:6648:0:b0:306:368d:8a1c with SMTP id
- f8-20020a5d6648000000b00306368d8a1cmr1951293wrw.45.1683192533017; 
- Thu, 04 May 2023 02:28:53 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ6lnEua7UUrMpAKxN07Get+3YADPNjDSVU4lbyfwGQGipI3Ig4KJnZH3EkiFKPFSey6gs2qZA==
-X-Received: by 2002:a5d:6648:0:b0:306:368d:8a1c with SMTP id
- f8-20020a5d6648000000b00306368d8a1cmr1951269wrw.45.1683192532630; 
- Thu, 04 May 2023 02:28:52 -0700 (PDT)
+ bh=760do11jc3iXril9t35fcWDkgKuZmBJWXZ+rInX0Ui4=;
+ b=R5XxN6DcispvzzbgcerFwnn3nLiITkdYdSa8Q5fnyVjUtnPmgRJfRsRhYV2GWn3FHf
+ J9EF8iYO3/uFTmNB3TPt38/CA6Z1rgDRhu7NZ5nWEEkjfu6ixKDggk/3LB8r09lSPysX
+ sRvreqzJ/WsGs+Brt7TLDmz+0J4niYUjWdZeTF86Ml1pMN14HYez4zMJ2Waua4dmtMLC
+ GNjUy5vqx2ltFCjUlXK2S6TRyhDNPGka4ydVM07IQvFzt/Hgs7KMA3wjr14BKNm5toF4
+ nXcJIinOzn93j+7Hpj3u8RhBeUh3wHRGOWMajjJXBM84xqAIPm21Ou9t9gmazDH4fQDC
+ BjlA==
+X-Gm-Message-State: AC+VfDwHoWfe/0n3lbGKqpvCxAvbIOiEVbVULYmRjBl3wtOW/nKj6Ufs
+ Hre/KaeY0Ado+FQixkG84NSNvtXFP35DmZy6d0Oj5LQK6EDBX0WewswWRx3yVdC97nHfWOR3DyD
+ 8bC0vdLXWAV8Kuq1U0wZOGsz4r80fBc/CN5g9HMr5yePfPzgBh47/DG5Yafsa6FUkOY6vKH7qgA
+ s=
+X-Received: by 2002:adf:fb8e:0:b0:306:459c:495 with SMTP id
+ a14-20020adffb8e000000b00306459c0495mr1945488wrr.30.1683192538946; 
+ Thu, 04 May 2023 02:28:58 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ7zwe4JPgcPsruP9gUPG/0o0WBukX+HYhif8at7Nuju7VtyknnGoyiZJCFGaM4GHEg4OHmZBw==
+X-Received: by 2002:adf:fb8e:0:b0:306:459c:495 with SMTP id
+ a14-20020adffb8e000000b00306459c0495mr1945466wrr.30.1683192538663; 
+ Thu, 04 May 2023 02:28:58 -0700 (PDT)
 Received: from step1.redhat.com ([5.179.186.0])
  by smtp.gmail.com with ESMTPSA id
- n17-20020a5d4c51000000b002d6f285c0a2sm36193792wrt.42.2023.05.04.02.28.50
+ f24-20020a1cc918000000b003f0ad8d1c69sm4268317wmb.25.2023.05.04.02.28.56
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 04 May 2023 02:28:51 -0700 (PDT)
+ Thu, 04 May 2023 02:28:57 -0700 (PDT)
 From: Stefano Garzarella <sgarzare@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Hanna Reitz <hreitz@redhat.com>, qemu-block@nongnu.org,
@@ -71,16 +71,17 @@ Cc: Hanna Reitz <hreitz@redhat.com>, qemu-block@nongnu.org,
  Stefan Hajnoczi <stefanha@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>, jjongsma@redhat.com,
  Stefano Garzarella <sgarzare@redhat.com>
-Subject: [PATCH v2 1/2] stubs/monitor: add monitor_fd_param()
-Date: Thu,  4 May 2023 11:28:42 +0200
-Message-Id: <20230504092843.62493-2-sgarzare@redhat.com>
+Subject: [PATCH v2 2/2] block/blkio: add 'fd' option to virtio-blk-vhost-vdpa
+ driver
+Date: Thu,  4 May 2023 11:28:43 +0200
+Message-Id: <20230504092843.62493-3-sgarzare@redhat.com>
 X-Mailer: git-send-email 2.40.1
 In-Reply-To: <20230504092843.62493-1-sgarzare@redhat.com>
 References: <20230504092843.62493-1-sgarzare@redhat.com>
 MIME-Version: 1.0
 Content-type: text/plain
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=sgarzare@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=sgarzare@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -22
 X-Spam_score: -2.3
@@ -105,40 +106,121 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The blkio block driver will use monitor_fd_param() to support
-file descriptor passing. This is possible in builds (e.g. softmmu)
-where the monitor API is available.
-
-Add the monitor_fd_param() stub so tools and tests that link the
-block layer can build successfully.
+The virtio-blk-vhost-vdpa driver in libblkio 1.3.0 supports the new
+'fd' property. Let's expose this to the user, so the management layer
+can pass the file descriptor of an already opened vhost-vdpa character
+device. This is useful especially when the device can only be accessed
+with certain privileges.
 
 Signed-off-by: Stefano Garzarella <sgarzare@redhat.com>
 ---
 
 Notes:
     v2:
-    - added this patch to use monitor_fd_param() in the blkio module
+    - used monitor_fd_param() to parse the fd like vhost devices [Stefan]
 
- stubs/monitor.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+ qapi/block-core.json |  6 ++++-
+ block/blkio.c        | 53 +++++++++++++++++++++++++++++++++++++++++++-
+ 2 files changed, 57 insertions(+), 2 deletions(-)
 
-diff --git a/stubs/monitor.c b/stubs/monitor.c
-index 20786ac4ff..0bcd49e41e 100644
---- a/stubs/monitor.c
-+++ b/stubs/monitor.c
-@@ -9,6 +9,12 @@ int monitor_get_fd(Monitor *mon, const char *name, Error **errp)
-     return -1;
+diff --git a/qapi/block-core.json b/qapi/block-core.json
+index b57978957f..9f70777d49 100644
+--- a/qapi/block-core.json
++++ b/qapi/block-core.json
+@@ -3841,10 +3841,14 @@
+ #
+ # @path: path to the vhost-vdpa character device.
+ #
++# @fd: file descriptor of an already opened vhost-vdpa character device.
++#      (Since 8.1)
++#
+ # Since: 7.2
+ ##
+ { 'struct': 'BlockdevOptionsVirtioBlkVhostVdpa',
+-  'data': { 'path': 'str' },
++  'data': { '*path': 'str',
++            '*fd': 'str' },
+   'if': 'CONFIG_BLKIO' }
+ 
+ ##
+diff --git a/block/blkio.c b/block/blkio.c
+index 0cdc99a729..66b3dd2cd0 100644
+--- a/block/blkio.c
++++ b/block/blkio.c
+@@ -18,6 +18,7 @@
+ #include "qapi/qmp/qdict.h"
+ #include "qemu/module.h"
+ #include "exec/memory.h" /* for ram_block_discard_disable() */
++#include "monitor/monitor.h"
+ 
+ #include "block/block-io.h"
+ 
+@@ -694,6 +695,56 @@ static int blkio_virtio_blk_common_open(BlockDriverState *bs,
+     return 0;
  }
  
-+int monitor_fd_param(Monitor *mon, const char *fdname, Error **errp)
++static int blkio_virtio_blk_vhost_vdpa_open(BlockDriverState *bs,
++        QDict *options, int flags, Error **errp)
 +{
-+    error_setg(errp, "only QEMU supports file descriptor passing");
-+    return -1;
++    const char *path = qdict_get_try_str(options, "path");
++    const char *fd_str = qdict_get_try_str(options, "fd");
++    BDRVBlkioState *s = bs->opaque;
++    int ret;
++
++    if (path && fd_str) {
++        error_setg(errp, "'path' and 'fd' options are mutually exclusive");
++        return -EINVAL;
++    }
++
++    if (!path && !fd_str) {
++        error_setg(errp, "none of 'path' or 'fd' options was specified");
++        return -EINVAL;
++    }
++
++    if (path) {
++        ret = blkio_set_str(s->blkio, "path", path);
++        qdict_del(options, "path");
++        if (ret < 0) {
++            error_setg_errno(errp, -ret, "failed to set path: %s",
++                             blkio_get_error_msg());
++            return ret;
++        }
++    } else {
++        int fd = monitor_fd_param(monitor_cur(), fd_str, errp);
++
++        if (fd < 0) {
++            error_prepend(errp, "unable to parse 'fd' option: ");
++            return -EINVAL;
++        }
++
++        ret = blkio_set_int(s->blkio, "fd", fd);
++        qdict_del(options, "fd");
++        if (ret < 0) {
++            error_setg_errno(errp, -ret, "failed to set fd: %s",
++                             blkio_get_error_msg());
++            return ret;
++        }
++    }
++
++    if (!(flags & BDRV_O_NOCACHE)) {
++        error_setg(errp, "cache.direct=off is not supported");
++        return -EINVAL;
++    }
++    return 0;
 +}
 +
- void monitor_init_hmp(Chardev *chr, bool use_readline, Error **errp)
+ static int blkio_file_open(BlockDriverState *bs, QDict *options, int flags,
+                            Error **errp)
  {
- }
+@@ -717,7 +768,7 @@ static int blkio_file_open(BlockDriverState *bs, QDict *options, int flags,
+     } else if (strcmp(blkio_driver, DRIVER_VIRTIO_BLK_VHOST_USER) == 0) {
+         ret = blkio_virtio_blk_common_open(bs, options, flags, errp);
+     } else if (strcmp(blkio_driver, DRIVER_VIRTIO_BLK_VHOST_VDPA) == 0) {
+-        ret = blkio_virtio_blk_common_open(bs, options, flags, errp);
++        ret = blkio_virtio_blk_vhost_vdpa_open(bs, options, flags, errp);
+     } else {
+         g_assert_not_reached();
+     }
 -- 
 2.40.1
 
