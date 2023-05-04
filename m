@@ -2,90 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25A376F6521
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 May 2023 08:36:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EBBEC6F652E
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 May 2023 08:43:53 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1puSZQ-0001Py-HV; Thu, 04 May 2023 02:36:04 -0400
+	id 1puSgL-0003lF-Cq; Thu, 04 May 2023 02:43:13 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1puSZN-0001KB-IV
- for qemu-devel@nongnu.org; Thu, 04 May 2023 02:36:01 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1puSZM-0003i0-3d
- for qemu-devel@nongnu.org; Thu, 04 May 2023 02:36:01 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1683182158;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=1jKtQbeNrVp3EcXhTE/QQuBctxizzoY/P6tOSAokhCg=;
- b=MIs9NP28388CJH6Lb1TbLQXkGvbeyZ1jAHYLHN9u/jg8oy348O1P+XxIpYsG6lQ2prA4IL
- OuoYvNRaJNlEqLaXNdYE2ZH092CJZNGFJN7W7b0/gGIwQh2DqrJtF0QqTPr2wfExmDkzs0
- h59TlmKRkcxVrcG+0vwbR0TRy68CL84=
-Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
- [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-349-MSvSDTpmPVSuE12SFBZpNQ-1; Thu, 04 May 2023 02:35:57 -0400
-X-MC-Unique: MSvSDTpmPVSuE12SFBZpNQ-1
-Received: by mail-ej1-f70.google.com with SMTP id
- a640c23a62f3a-94a341ee4fcso11718066b.0
- for <qemu-devel@nongnu.org>; Wed, 03 May 2023 23:35:56 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <dkovalev@compiler-toolchain-for.me>)
+ id 1puSgI-0003l6-Hj
+ for qemu-devel@nongnu.org; Thu, 04 May 2023 02:43:10 -0400
+Received: from mail-lf1-x12d.google.com ([2a00:1450:4864:20::12d])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <dkovalev@compiler-toolchain-for.me>)
+ id 1puSgG-0006nW-8k
+ for qemu-devel@nongnu.org; Thu, 04 May 2023 02:43:10 -0400
+Received: by mail-lf1-x12d.google.com with SMTP id
+ 2adb3069b0e04-4eff50911bfso107141e87.2
+ for <qemu-devel@nongnu.org>; Wed, 03 May 2023 23:43:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=compiler-toolchain-for-me.20221208.gappssmtp.com; s=20221208; t=1683182583;
+ x=1685774583; 
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=IbIZK2vQrvIq+rkE6352SYpKeFdsSPYl10VyCPhZbAE=;
+ b=F3dtKJpQXIFoHGpqunLRz65XLs74h0jInCsESiwJQfPO5D9cqqa/u5152R71GCvS4o
+ 79QqGQpA4LuXSLJP6YcO9RvEoAD5FX4gUMZI7tWxwj7ljAhEJNL44Uvi1SuCyE5seU3V
+ oWkaT2hgWptx+F82Kt9uoCkgGnaej/ypxcnaHLkvEYQOdW25ia1Kl+wAqDhUdutI+q9s
+ Lr7ayf0hagnRXBXUI87nSunxpsj+gor26fpQO00nIZsQev/lQ3UDqngI7E+jcY9lCMxB
+ OHqz1Tkd6dIP5tl7Hp9AFjgdXJuutJhWRmCYoXzmgs46M0zi4f+1GG/f3bqgxPTXScNw
+ Quxw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683182156; x=1685774156;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=1jKtQbeNrVp3EcXhTE/QQuBctxizzoY/P6tOSAokhCg=;
- b=HjWR7BHeduuHUVl6p3T6gzQCxhByo/snn4GUSSQ42ZKgH0kqTFgMwuSLJgpxNuiIYd
- ZY1ZG9qzVRMxCtZbNaFj8ginDF6MwoWluk9gekOhe0cZhqDo+yHFQGNguTICV1GNmKsY
- AzwaZG7vy3UiO9W8MK6pDrf4RY9EcbX9IYhmZTqzO9LDZnJ6tSSz+UamF3A6SMcBDJAN
- hUVwlcViFMP6aDsQ6dsgqnDlb7BCV8Jw4MKlVuJxeu9CcDTvSG3DoqvbWocdw0SZLFvP
- LpqVTsA9VgoJnlT2Jy6hX2oOvB5/zeVZP1qDMIEUUPspXuG3rWKKBDSGLdiCuqyz+l4e
- O47g==
-X-Gm-Message-State: AC+VfDw2sF+ztf2sJVucnHTlil7IH5vf9WqDud86vo5Lp4IS9dHufqVo
- ZgZLx4Ts0PIq2e94ne48LryRcqq+FxXcQjKhwoYaZB2z7fDofLpa+kbgL+LGWa89UVOlY+Fvs8d
- 0ccLRi2ne7BQfS9U=
-X-Received: by 2002:a17:907:3e98:b0:94f:7a8:a902 with SMTP id
- hs24-20020a1709073e9800b0094f07a8a902mr5643008ejc.14.1683182156072; 
- Wed, 03 May 2023 23:35:56 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ7Jo3dJ6IVlkC6Oa2dQOjVI+6cYlEp5sZSOqTncZRlWIKGFC1n2fVn6M5cwuubtCz1hF174xg==
-X-Received: by 2002:a17:907:3e98:b0:94f:7a8:a902 with SMTP id
- hs24-20020a1709073e9800b0094f07a8a902mr5642993ejc.14.1683182155786; 
- Wed, 03 May 2023 23:35:55 -0700 (PDT)
-Received: from [192.168.0.3] (ip-109-43-179-91.web.vodafone.de.
- [109.43.179.91]) by smtp.gmail.com with ESMTPSA id
- h20-20020a1709070b1400b009658f5a90d2sm1045382ejl.189.2023.05.03.23.35.54
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 03 May 2023 23:35:55 -0700 (PDT)
-Message-ID: <8d7e46ec-95c0-5c4a-a843-20106576e9ba@redhat.com>
-Date: Thu, 4 May 2023 08:35:53 +0200
+ d=1e100.net; s=20221208; t=1683182583; x=1685774583;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=IbIZK2vQrvIq+rkE6352SYpKeFdsSPYl10VyCPhZbAE=;
+ b=bqeYPPAazakwLmeQobAmkhQgfc/rTxif4vTUypFOcO7GwNIDGrzmNfOY8KEz6PVM/j
+ pfhG406nfc8noInJrnD49MPLspktWmHcSoHF/ZZaFVcqzCJa61lseyBxMspg6iYOKzAp
+ ut2GH7Xcn59Kc8xm4YEu7DllqMH2PBzcPpOp3LK88mpudP1n38XKYANXnj+ECuMI/icB
+ nZHJuOVgfljOFn0P5j3jraA7rRGhja+1/l+ubwewsTBCHo8IHWq0Q8FWwlwEZoyqLQdz
+ YAietlMt1t/9WthxL2CQuvdX582wsD415s4cAsbJ5R7XI+d7hl5xy2YX8Zcpmzoc1HrS
+ a+kA==
+X-Gm-Message-State: AC+VfDzz09Pz9RIUlHqZ+eE0s07jJ7MfBL13wYcDIhvt7cao7HnJDx5P
+ qOnp8YqrL1K4Ayjn7uUAjORVXA==
+X-Google-Smtp-Source: ACHHUZ5RgfMmrsos+DnB7/nYw4IMh3wS2dmVl5KiReVQnh40BsJ8VTilKyTNvlTB0dmhVvRAbIogTQ==
+X-Received: by 2002:a05:6512:484:b0:4dc:84dd:eb91 with SMTP id
+ v4-20020a056512048400b004dc84ddeb91mr1442762lfq.22.1683182582713; 
+ Wed, 03 May 2023 23:43:02 -0700 (PDT)
+Received: from arch-pc.localdomain ([89.19.180.108])
+ by smtp.gmail.com with ESMTPSA id
+ h4-20020a197004000000b004f11de71aa6sm2259231lfc.95.2023.05.03.23.43.02
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 03 May 2023 23:43:02 -0700 (PDT)
+Date: Thu, 4 May 2023 09:43:00 +0300
+From: Daniil Kovalev <dkovalev@compiler-toolchain-for.me>
+To: Michael Tokarev <mjt@tls.msk.ru>, qemu-devel@nongnu.org
+Cc: Laurent Vivier <laurent@vivier.eu>, Philippe Mathieu-Daude
+ <philmd@linaro.org>, Jiaxun Yang <jiaxun.yang@flygoat.com>
+Subject: Re: [PATCH] linux-user: Fix mips fp64 executables loading
+Message-ID: <20230504094300.5125dc11@arch-pc.localdomain>
+In-Reply-To: <28135abf-407f-2d62-7101-ab5488a8c61b@msgid.tls.msk.ru>
+References: <20230404052153.16617-1-dkovalev@compiler-toolchain-for.me>
+ <28135abf-407f-2d62-7101-ab5488a8c61b@msgid.tls.msk.ru>
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.37; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH 0/2] Add mformat and xorriso dependencies in containers
-Content-Language: en-US
-To: Ani Sinha <anisinha@redhat.com>, alex.bennee@linaro.org,
- philmd@linaro.org, wainersm@redhat.com, bleal@redhat.com
-Cc: qemu-devel@nongnu.org, mst@redhat.com, berrange@redhat.com
-References: <20230503145547.202251-1-anisinha@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <20230503145547.202251-1-anisinha@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.161,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-4.28, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Received-SPF: none client-ip=2a00:1450:4864:20::12d;
+ envelope-from=dkovalev@compiler-toolchain-for.me;
+ helo=mail-lf1-x12d.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -101,15 +95,19 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 03/05/2023 16.55, Ani Sinha wrote:
-> mformat and xorriso tools are needed by biosbits avocado tests. This patchset
-> adds those two tools in the docker container images.
+Hello,
 
-tests/qtest/cdrom-test.c already uses genisoimage to create ISO images, and 
-the containers already have that tool installed. Could you maybe switch the 
-biosbits test to use that tool? Or the other way round? ... at least having 
-two tools to create ISO images in our containers sounds IMHO excessive.
+On Tue, 2 May 2023 14:41:31 +0300
+Michael Tokarev <mjt@tls.msk.ru> wrote:
 
-  Thomas
+> Is it a -stable material?
 
+Yes, this `else if` branch is present in the latest linux-stable. It was
+actually introduced in 46490b572544fa908be051f7872beb2941e55ede in 2015 and
+never changed since then. I suppose that just a dummy typo error occurred when
+copying that to qemu-user loader: this piece of code never changed in the linux
+kernel since initially committed, so this particular `else if` branch just
+seems to be forgotten when copying.
+
+Best regards, Daniil Kovalev
 
