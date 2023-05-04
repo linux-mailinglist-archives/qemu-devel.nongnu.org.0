@@ -2,62 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F02C26F62A4
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 May 2023 03:28:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 887986F630D
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 May 2023 04:56:35 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1puNkr-0003Gd-Cd; Wed, 03 May 2023 21:27:33 -0400
+	id 1puP7T-0005fX-Rz; Wed, 03 May 2023 22:54:59 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
- id 1puNkl-0003GN-1W
- for qemu-devel@nongnu.org; Wed, 03 May 2023 21:27:30 -0400
+ (Exim 4.90_1) (envelope-from <zhaotianrui@loongson.cn>)
+ id 1puP7R-0005fP-BU
+ for qemu-devel@nongnu.org; Wed, 03 May 2023 22:54:57 -0400
 Received: from mail.loongson.cn ([114.242.206.163] helo=loongson.cn)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <gaosong@loongson.cn>) id 1puNki-0000pK-Bh
- for qemu-devel@nongnu.org; Wed, 03 May 2023 21:27:26 -0400
-Received: from loongson.cn (unknown [10.20.42.57])
- by gateway (Coremail) with SMTP id _____8AxFunmCVNkIlgEAA--.7054S3;
- Thu, 04 May 2023 09:27:02 +0800 (CST)
-Received: from [10.20.42.57] (unknown [10.20.42.57])
+ (envelope-from <zhaotianrui@loongson.cn>) id 1puP7O-0002ck-DB
+ for qemu-devel@nongnu.org; Wed, 03 May 2023 22:54:57 -0400
+Received: from loongson.cn (unknown [10.20.42.120])
+ by gateway (Coremail) with SMTP id _____8Bx5ehvHlNk2mEEAA--.7153S3;
+ Thu, 04 May 2023 10:54:39 +0800 (CST)
+Received: from [10.20.42.120] (unknown [10.20.42.120])
  by localhost.localdomain (Coremail) with SMTP id
- AQAAf8BxFLXjCVNksARJAA--.4441S3; 
- Thu, 04 May 2023 09:26:59 +0800 (CST)
-Subject: Re: [RFC PATCH v4 00/44] Add LoongArch LSX instructions
+ AQAAf8Cx4zhsHlNkoSZJAA--.4479S3; 
+ Thu, 04 May 2023 10:54:37 +0800 (CST)
+Subject: Re: [PATCH RFC v2 3/9] target/loongarch: Supplement vcpu env initial
+ when vcpu reset
 To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20230425070248.2550028-1-gaosong@loongson.cn>
- <8a821169-6dc3-ab82-bd32-990b0f9a8c98@linaro.org>
-From: Song Gao <gaosong@loongson.cn>
-Message-ID: <b6243a8d-8ef6-7609-b71c-fd3cddb69d67@loongson.cn>
-Date: Thu, 4 May 2023 09:26:59 +0800
-User-Agent: Mozilla/5.0 (X11; Linux loongarch64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+References: <20230427072645.3368102-1-zhaotianrui@loongson.cn>
+ <20230427072645.3368102-4-zhaotianrui@loongson.cn>
+ <cccd2658-26fa-ca9f-68f7-9704eb095c99@linaro.org>
+Cc: kvm@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>,
+ gaosong@loongson.cn, "Michael S . Tsirkin" <mst@redhat.com>,
+ Cornelia Huck <cohuck@redhat.com>, maobibo@loongson.cn, philmd@linaro.org,
+ peter.maydell@linaro.org
+From: Tianrui Zhao <zhaotianrui@loongson.cn>
+Message-ID: <839d9f65-721c-0ca1-a458-0d84d9198533@loongson.cn>
+Date: Thu, 4 May 2023 10:54:36 +0800
+User-Agent: Mozilla/5.0 (X11; Linux mips64; rv:45.0) Gecko/20100101
+ Thunderbird/45.4.0
 MIME-Version: 1.0
-In-Reply-To: <8a821169-6dc3-ab82-bd32-990b0f9a8c98@linaro.org>
+In-Reply-To: <cccd2658-26fa-ca9f-68f7-9704eb095c99@linaro.org>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-CM-TRANSID: AQAAf8BxFLXjCVNksARJAA--.4441S3
-X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
-X-Coremail-Antispam: 1Uk129KBjvJXoW7Ww4rJr45urWruw15WFW3KFg_yoW8Wry7pF
- Z29Fy5tFs3Cr95WrWxG3Z8Zr40yw13GasFqF1rGa4I9F45AF9Fqr40qw1jqF9xJw4xCrW2
- vF18tw1rZF43JrJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
- qI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUIcSsGvfJTRUUU
- bxkYFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s
- 1l1IIY67AEw4v_Jr0_Jr4l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xv
- wVC0I7IYx2IY67AKxVWUCVW8JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwA2z4
- x0Y4vEx4A2jsIE14v26F4j6r4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UM2AI
- xVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12xvs2x26I8E6xACxx1l5I8CrVACY4xI64
- kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r106r15McIj6I8E87Iv67AKxVWUJVW8JwAm
- 72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lc7I2V7IY0VAS07AlzVAYIcxG8wCF04
- k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18
- MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jrv_JF1lIxkGc2Ij64vIr4
- 1lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1l
- IxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4
- A2jsIEc7CjxVAFwI0_Jr0_GrUvcSsGvfC2KfnxnUUI43ZEXa7IU1wL05UUUUU==
-Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
- helo=loongson.cn
+X-CM-TRANSID: AQAAf8Cx4zhsHlNkoSZJAA--.4479S3
+X-CM-SenderInfo: p2kd03xldq233l6o00pqjv00gofq/
+X-Coremail-Antispam: 1Uk129KBjvdXoW7XrWrGr45JryxKw1DZF48Crg_yoWfArb_Ga
+ 1fZrn7Gw47W3ZFkw12qrWrt3WYgF1kAFyF9F47tF4fCryqqan7Gwn0gwn7Zw129FW8GF1v
+ yr1vyrnIkr1qyjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8wcxFpf9Il3svdxBIdaVrn0
+ xqx4xG64xvF2IEw4CE5I8CrVC2j2Jv73VFW2AGmfu7bjvjm3AaLaJ3UjIYCTnIWjp_UUUY
+ x7kC6x804xWl14x267AKxVWUJVW8JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0rVWrJVCq3w
+ AFIxvE14AKwVWUXVWUAwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK
+ 6xIIjxv20xvE14v26r4j6ryUM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j6F4UM28EF7
+ xvwVC2z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gr1j6F4UJwAS
+ 0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07AIYIkI8VC2zVCFFI0UMc02F40EFcxC0V
+ AKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUGVWUXwAv7VC2z280aVAFwI0_Jr0_Gr1l
+ Ox8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JMxk0xIA0c2IEe2xFo4CEbIxvr21l42
+ xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWU
+ GwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI4
+ 8JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4U
+ MIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I
+ 8E87Iv6xkF7I0E14v26r1j6r4UYxBIdaVFxhVjvjDU0xZFpf9x07jUsqXUUUUU=
+Received-SPF: pass client-ip=114.242.206.163;
+ envelope-from=zhaotianrui@loongson.cn; helo=loongson.cn
 X-Spam_score_int: -61
 X-Spam_score: -6.2
 X-Spam_bar: ------
@@ -80,51 +85,31 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 
-在 2023/5/2 上午2:43, Richard Henderson 写道:
-> On 4/25/23 08:02, Song Gao wrote:
->> Hi,
->>
->> This series adds LoongArch LSX instructions, Since the LoongArch
->> Vol2 is not open, So we use 'RFC' title.
->>
->> I'm not sure when the manual will be open.
->> After these patches are reviewed, how about merging them?
->>
->> About test:
->> V2 we use RISU test the LoongArch LSX instructions.
->>
->> QEMU:
->> https://github.com/loongson/qemu/tree/tcg-old-abi-support-lsx
->> RISU:
->>      https://github.com/loongson/risu/tree/loongarch-suport-lsx
->>
->> Build test:
->> make docker-test-build@fedora-i386-cross
->>
->> The following patches need to be reviewed:
->>    0001-target-loongarch-Add-LSX-data-type-VReg.patch
->>    0014-target-loongarch-Implement-vmul-vmuh-vmulw-ev-od.patch
->>    0030-target-loongarch-Implement-vpcnt.patch
->> 0034-target-loongarch-Implement-LSX-fpu-fcvt-instructions.patch
->>    0037-target-loongarch-Implement-vbitsel-vset.patch
->>    0041-target-loongarch-Implement-vld-vst.patch
->>
->> V4:
->>    - R-b and rebase;
->>    - Migrate the upper half lsx regs;
->>    - Remove tcg_gen_mulus2_*;
->>    - Vsetallnez use !do_match2;
->>    - Use tcg_gen_concat_i64_i128/tcg_gen_extr_i128_i64 to replace
->>      TCGV128_LOW(val)/TCGV128_High(val);
->
-> One minor nit, everything reviewed!  Congratulations.
->
-Thank you for your guidance and review.
 
-Since all patches are reviewed, how about drop 'RFC' on v5?
-I am  really not sure When the Vol2 will be open.
+在 2023年05月02日 19:04, Richard Henderson 写道:
+> On 4/27/23 08:26, Tianrui Zhao wrote:
+>> Supplement vcpu env initial when vcpu reset, including
+>> init vcpu mp_state value to KVM_MP_STATE_RUNNABLE and
+>> init vcpu CSR_CPUID,CSR_TID to cpu->cpu_index.
+>>
+>> Signed-off-by: Tianrui Zhao<zhaotianrui@loongson.cn>
+>> ---
+>>   target/loongarch/cpu.c | 3 +++
+>>   target/loongarch/cpu.h | 2 ++
+>>   2 files changed, 5 insertions(+)
+>
+> Why do you need KVM_MP_STATE_RUNNABLE in loongarch/cpu.c, outside of 
+> kvm.c?
+> For Arm, we test the architectural power state of the cpu.
+>
+>
+> r~
+Thanks for your reviewing, we want to set mp_state to default value when 
+vcpu reset, so we add it in cpu.c. When I reference other archs, I think 
+I should add a new function named kvm_arch_reset_vcpu in kvm.c which 
+will be called by vcpu_reset and move the reset mp_state into it.
 
-Thanks.
-Song Gao
+Thanks
+Tianrui Zhao
 
 
