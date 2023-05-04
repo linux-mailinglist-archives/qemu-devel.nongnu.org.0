@@ -2,52 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 836426F68C1
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 May 2023 11:58:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CFD36F68BF
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 May 2023 11:58:41 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1puVi4-0002Iu-Fo; Thu, 04 May 2023 05:57:12 -0400
+	id 1puVi6-0002JS-3x; Thu, 04 May 2023 05:57:14 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kkostiuk@redhat.com>)
- id 1puVi2-0002IP-SW
- for qemu-devel@nongnu.org; Thu, 04 May 2023 05:57:10 -0400
+ id 1puVi4-0002Iw-5x
+ for qemu-devel@nongnu.org; Thu, 04 May 2023 05:57:12 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kkostiuk@redhat.com>)
- id 1puVi1-00071X-3H
- for qemu-devel@nongnu.org; Thu, 04 May 2023 05:57:10 -0400
+ id 1puVi2-00071d-LS
+ for qemu-devel@nongnu.org; Thu, 04 May 2023 05:57:11 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1683194228;
+ s=mimecast20190719; t=1683194229;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=U7hiO6XwdD0JqgeO6wIJ1gbxYZ12dZI8DL7+6aUnnhI=;
- b=hEz0PtO1VLO8qTKihxbRPOtQmkINT4NcOBBKIm5KeQzbu164sQqvvxDfu3N6fCVEFRJfYH
- 4CM2s/IRafjDrHERYFJhHplcUsrKpWgeCVlqZbS+FNVtiFyTapuxICvdDSy5XtFMh27ORC
- HozQoXNbgekjStmGCpPWTyhootDImZg=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=h80tO33HC7sjInE8GOS+QicJSI6yD7AQUYhSBWamUAI=;
+ b=Nys3S8qPKXGOSmkRni30CK0VOPLBq7cjNNpj63vW0V630vzGy7N93Eqc5yEV0RYX1konRW
+ PLAZ6UhrlBDNQH6Z8FLFNRgFQTNvsN/OAREsjvi9ujS+U//yD3iyR3bjrr40orc3+ETgNi
+ eziYgXVEt3vn0D+c8+/11b3gNS6IvyA=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-570-hr9iV1H5NLe9VYVNXT1tTg-1; Thu, 04 May 2023 05:57:07 -0400
-X-MC-Unique: hr9iV1H5NLe9VYVNXT1tTg-1
+ us-mta-392-m1UeufUkM7Wp7utTbi6bNQ-1; Thu, 04 May 2023 05:57:08 -0400
+X-MC-Unique: m1UeufUkM7Wp7utTbi6bNQ-1
 Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
  [10.11.54.9])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E6A921C060CF;
- Thu,  4 May 2023 09:57:06 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 20426886063;
+ Thu,  4 May 2023 09:57:08 +0000 (UTC)
 Received: from kostyanf14nb.redhat.com (unknown [10.45.225.218])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 82271492C13;
- Thu,  4 May 2023 09:57:04 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 48E10492C13;
+ Thu,  4 May 2023 09:57:07 +0000 (UTC)
 From: Konstantin Kostiuk <kkostiuk@redhat.com>
 To: qemu-devel@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 4/6] qga: test: Add tests for `merged` flag
-Date: Thu,  4 May 2023 12:56:55 +0300
-Message-Id: <20230504095657.239048-5-kkostiuk@redhat.com>
+Subject: [PULL 5/6] qga/commands-win32.c: Drop the check for _WIN32_WINNT >=
+ 0x0601
+Date: Thu,  4 May 2023 12:56:56 +0300
+Message-Id: <20230504095657.239048-6-kkostiuk@redhat.com>
 In-Reply-To: <20230504095657.239048-1-kkostiuk@redhat.com>
 References: <20230504095657.239048-1-kkostiuk@redhat.com>
 MIME-Version: 1.0
@@ -78,219 +79,42 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Daniel Xu <dxu@dxuuu.xyz>
+From: Thomas Huth <thuth@redhat.com>
 
-This commit adds a test to ensure `merged` functions as expected.
-We also add a negative test to ensure we haven't regressed previous
-functionality.
+All current versions of glib require _WIN32_WINNT set to 0x0601
+or higher already, and we also use this value as a minimum in our
+osdep.h header file, so there is no way to still compile this code
+with an older version of the Windows ABI. Thus we can drop this
+check now.
 
+Signed-off-by: Thomas Huth <thuth@redhat.com>
 Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
-Signed-off-by: Daniel Xu <dxu@dxuuu.xyz>
+Reviewed-by: Konstantin Kostiuk <kkostiuk@redhat.com>
 Signed-off-by: Konstantin Kostiuk <kkostiuk@redhat.com>
 ---
- tests/unit/test-qga.c | 158 +++++++++++++++++++++++++++++++++++++-----
- 1 file changed, 141 insertions(+), 17 deletions(-)
+ qga/commands-win32.c | 2 --
+ 1 file changed, 2 deletions(-)
 
-diff --git a/tests/unit/test-qga.c b/tests/unit/test-qga.c
-index b4e0a14573..360b4cab23 100644
---- a/tests/unit/test-qga.c
-+++ b/tests/unit/test-qga.c
-@@ -755,6 +755,31 @@ static void test_qga_fsfreeze_status(gconstpointer fix)
-     g_assert_cmpstr(status, ==, "thawed");
- }
+diff --git a/qga/commands-win32.c b/qga/commands-win32.c
+index b5fee6a2cd..d23875264f 100644
+--- a/qga/commands-win32.c
++++ b/qga/commands-win32.c
+@@ -484,7 +484,6 @@ static GuestDiskBusType win2qemu[] = {
+     [BusTypeSata] = GUEST_DISK_BUS_TYPE_SATA,
+     [BusTypeSd] =  GUEST_DISK_BUS_TYPE_SD,
+     [BusTypeMmc] = GUEST_DISK_BUS_TYPE_MMC,
+-#if (_WIN32_WINNT >= 0x0601)
+     [BusTypeVirtual] = GUEST_DISK_BUS_TYPE_VIRTUAL,
+     [BusTypeFileBackedVirtual] = GUEST_DISK_BUS_TYPE_FILE_BACKED_VIRTUAL,
+     /*
+@@ -492,7 +491,6 @@ static GuestDiskBusType win2qemu[] = {
+      */
+     [BusTypeSpaces] = GUEST_DISK_BUS_TYPE_UNKNOWN,
+     [BusTypeNvme] = GUEST_DISK_BUS_TYPE_NVME,
+-#endif
+ };
  
-+static QDict *wait_for_guest_exec_completion(int fd, int64_t pid)
-+{
-+    QDict *ret = NULL;
-+    int64_t now;
-+    bool exited;
-+    QDict *val;
-+
-+    now = g_get_monotonic_time();
-+    do {
-+        ret = qmp_fd(fd,
-+                     "{'execute': 'guest-exec-status',"
-+                     " 'arguments': { 'pid': %" PRId64 " } }", pid);
-+        g_assert_nonnull(ret);
-+        val = qdict_get_qdict(ret, "return");
-+        exited = qdict_get_bool(val, "exited");
-+        if (!exited) {
-+            qobject_unref(ret);
-+        }
-+    } while (!exited &&
-+             g_get_monotonic_time() < now + 5 * G_TIME_SPAN_SECOND);
-+    g_assert(exited);
-+
-+    return ret;
-+}
-+
- static void test_qga_guest_exec(gconstpointer fix)
- {
-     const TestFixture *fixture = fix;
-@@ -762,9 +787,8 @@ static void test_qga_guest_exec(gconstpointer fix)
-     QDict *val;
-     const gchar *out;
-     g_autofree guchar *decoded = NULL;
--    int64_t pid, now, exitcode;
-+    int64_t pid, exitcode;
-     gsize len;
--    bool exited;
- 
-     /* exec 'echo foo bar' */
-     ret = qmp_fd(fixture->fd, "{'execute': 'guest-exec', 'arguments': {"
-@@ -777,23 +801,10 @@ static void test_qga_guest_exec(gconstpointer fix)
-     g_assert_cmpint(pid, >, 0);
-     qobject_unref(ret);
- 
--    /* wait for completion */
--    now = g_get_monotonic_time();
--    do {
--        ret = qmp_fd(fixture->fd,
--                     "{'execute': 'guest-exec-status',"
--                     " 'arguments': { 'pid': %" PRId64 " } }", pid);
--        g_assert_nonnull(ret);
--        val = qdict_get_qdict(ret, "return");
--        exited = qdict_get_bool(val, "exited");
--        if (!exited) {
--            qobject_unref(ret);
--        }
--    } while (!exited &&
--             g_get_monotonic_time() < now + 5 * G_TIME_SPAN_SECOND);
--    g_assert(exited);
-+    ret = wait_for_guest_exec_completion(fixture->fd, pid);
- 
-     /* check stdout */
-+    val = qdict_get_qdict(ret, "return");
-     exitcode = qdict_get_int(val, "exitcode");
-     g_assert_cmpint(exitcode, ==, 0);
-     out = qdict_get_str(val, "out-data");
-@@ -802,6 +813,115 @@ static void test_qga_guest_exec(gconstpointer fix)
-     g_assert_cmpstr((char *)decoded, ==, "\" test_str \"");
- }
- 
-+#if defined(G_OS_WIN32)
-+static void test_qga_guest_exec_separated(gconstpointer fix)
-+{
-+}
-+static void test_qga_guest_exec_merged(gconstpointer fix)
-+{
-+    const TestFixture *fixture = fix;
-+    g_autoptr(QDict) ret = NULL;
-+    QDict *val;
-+    const gchar *class, *desc;
-+    g_autofree guchar *decoded = NULL;
-+
-+    /* exec 'echo foo bar' */
-+    ret = qmp_fd(fixture->fd, "{'execute': 'guest-exec', 'arguments': {"
-+                 " 'path': 'echo',"
-+                 " 'arg': [ 'execution never reaches here' ],"
-+                 " 'capture-output': 'merged' } }");
-+
-+    g_assert_nonnull(ret);
-+    val = qdict_get_qdict(ret, "error");
-+    g_assert_nonnull(val);
-+    class = qdict_get_str(val, "class");
-+    desc = qdict_get_str(val, "desc");
-+    g_assert_cmpstr(class, ==, "GenericError");
-+    g_assert_cmpint(strlen(desc), >, 0);
-+}
-+#else
-+static void test_qga_guest_exec_separated(gconstpointer fix)
-+{
-+    const TestFixture *fixture = fix;
-+    g_autoptr(QDict) ret = NULL;
-+    QDict *val;
-+    const gchar *out, *err;
-+    g_autofree guchar *out_decoded = NULL;
-+    g_autofree guchar *err_decoded = NULL;
-+    int64_t pid, exitcode;
-+    gsize len;
-+
-+    /* exec 'echo foo bar' */
-+    ret = qmp_fd(fixture->fd, "{'execute': 'guest-exec', 'arguments': {"
-+                 " 'path': '/bin/bash',"
-+                 " 'arg': [ '-c', 'for i in $(seq 4); do if (( $i %% 2 )); then echo stdout; else echo stderr 1>&2; fi; done;' ],"
-+                 " 'capture-output': 'separated' } }");
-+    g_assert_nonnull(ret);
-+    qmp_assert_no_error(ret);
-+    val = qdict_get_qdict(ret, "return");
-+    pid = qdict_get_int(val, "pid");
-+    g_assert_cmpint(pid, >, 0);
-+    qobject_unref(ret);
-+
-+    ret = wait_for_guest_exec_completion(fixture->fd, pid);
-+
-+    val = qdict_get_qdict(ret, "return");
-+    exitcode = qdict_get_int(val, "exitcode");
-+    g_assert_cmpint(exitcode, ==, 0);
-+
-+    /* check stdout */
-+    out = qdict_get_str(val, "out-data");
-+    out_decoded = g_base64_decode(out, &len);
-+    g_assert_cmpint(len, ==, 14);
-+    g_assert_cmpstr((char *)out_decoded, ==, "stdout\nstdout\n");
-+
-+    /* check stderr */
-+    err = qdict_get_try_str(val, "err-data");
-+    err_decoded = g_base64_decode(err, &len);
-+    g_assert_cmpint(len, ==, 14);
-+    g_assert_cmpstr((char *)err_decoded, ==, "stderr\nstderr\n");
-+}
-+
-+static void test_qga_guest_exec_merged(gconstpointer fix)
-+{
-+    const TestFixture *fixture = fix;
-+    g_autoptr(QDict) ret = NULL;
-+    QDict *val;
-+    const gchar *out, *err;
-+    g_autofree guchar *decoded = NULL;
-+    int64_t pid, exitcode;
-+    gsize len;
-+
-+    /* exec 'echo foo bar' */
-+    ret = qmp_fd(fixture->fd, "{'execute': 'guest-exec', 'arguments': {"
-+                 " 'path': '/bin/bash',"
-+                 " 'arg': [ '-c', 'for i in $(seq 4); do if (( $i %% 2 )); then echo stdout; else echo stderr 1>&2; fi; done;' ],"
-+                 " 'capture-output': 'merged' } }");
-+    g_assert_nonnull(ret);
-+    qmp_assert_no_error(ret);
-+    val = qdict_get_qdict(ret, "return");
-+    pid = qdict_get_int(val, "pid");
-+    g_assert_cmpint(pid, >, 0);
-+    qobject_unref(ret);
-+
-+    ret = wait_for_guest_exec_completion(fixture->fd, pid);
-+
-+    val = qdict_get_qdict(ret, "return");
-+    exitcode = qdict_get_int(val, "exitcode");
-+    g_assert_cmpint(exitcode, ==, 0);
-+
-+    /* check stdout */
-+    out = qdict_get_str(val, "out-data");
-+    decoded = g_base64_decode(out, &len);
-+    g_assert_cmpint(len, ==, 28);
-+    g_assert_cmpstr((char *)decoded, ==, "stdout\nstderr\nstdout\nstderr\n");
-+
-+    /* check stderr */
-+    err = qdict_get_try_str(val, "err-data");
-+    g_assert_null(err);
-+}
-+#endif
-+
- static void test_qga_guest_exec_invalid(gconstpointer fix)
- {
-     const TestFixture *fixture = fix;
-@@ -972,6 +1092,10 @@ int main(int argc, char **argv)
-     g_test_add_data_func("/qga/blockedrpcs", NULL, test_qga_blockedrpcs);
-     g_test_add_data_func("/qga/config", NULL, test_qga_config);
-     g_test_add_data_func("/qga/guest-exec", &fix, test_qga_guest_exec);
-+    g_test_add_data_func("/qga/guest-exec-separated", &fix,
-+                         test_qga_guest_exec_separated);
-+    g_test_add_data_func("/qga/guest-exec-merged", &fix,
-+                         test_qga_guest_exec_merged);
-     g_test_add_data_func("/qga/guest-exec-invalid", &fix,
-                          test_qga_guest_exec_invalid);
-     g_test_add_data_func("/qga/guest-get-osinfo", &fix,
+ static GuestDiskBusType find_bus_type(STORAGE_BUS_TYPE bus)
 -- 
 2.25.1
 
