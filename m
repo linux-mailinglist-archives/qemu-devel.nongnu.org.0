@@ -2,78 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D7336F7154
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 May 2023 19:42:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9CD726F7180
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 May 2023 19:50:09 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pucq4-0003CC-Ad; Thu, 04 May 2023 13:33:56 -0400
+	id 1pucoQ-0006zv-2h; Thu, 04 May 2023 13:32:14 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1puaH3-00011e-ET
- for qemu-devel@nongnu.org; Thu, 04 May 2023 10:49:37 -0400
-Received: from mail-ed1-x536.google.com ([2a00:1450:4864:20::536])
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
+ id 1puaJK-0001K4-J6
+ for qemu-devel@nongnu.org; Thu, 04 May 2023 10:51:58 -0400
+Received: from mail-pl1-x630.google.com ([2607:f8b0:4864:20::630])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1puaH1-0005PU-11
- for qemu-devel@nongnu.org; Thu, 04 May 2023 10:49:37 -0400
-Received: by mail-ed1-x536.google.com with SMTP id
- 4fb4d7f45d1cf-50bc0117683so1064419a12.1
- for <qemu-devel@nongnu.org>; Thu, 04 May 2023 07:49:33 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
+ id 1puaJI-0007Vq-JW
+ for qemu-devel@nongnu.org; Thu, 04 May 2023 10:51:58 -0400
+Received: by mail-pl1-x630.google.com with SMTP id
+ d9443c01a7336-1aaec9ad820so5048095ad.0
+ for <qemu-devel@nongnu.org>; Thu, 04 May 2023 07:51:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1683211772; x=1685803772;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=GstM3uCHYYNhP7vLiPGJkNr4X7whCpAksFGwpTC8qGk=;
- b=L2l7e6kwZ1zye5vBA5JdgavpVPQ7GTz44lHYC6AEIk7v0AEJrm8IPT7kjZw8AqEuha
- Oeq743CGnnivzMnMGw/pjN3kQG3GSGepO2aLIduH91A3a4nQIMD2zYF3SySSykXhaKPm
- GWRMdCZmB4sNTmFIB069ufP85Q24wiNjo0fKaH1vMW6D7kniTS1r3OGUvSCKX9nmgDEN
- cv4NF+vI04OzZH+/t8FZBzrKuIfVfOO44Z+yT/ibj6SFd/xTtBHcibj0wC6xVJRQxev+
- tzGkG+cAqyEl9513J5JVBXHYIC1Stbzm9TKnaLRra4xU72y4ouH2AYbs/pRz01xh6tgq
- VQ3A==
+ d=daynix-com.20221208.gappssmtp.com; s=20221208; t=1683211915; x=1685803915;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=kqe6k0DP1jr9vC6mdbnHaC4U3Aow4sh60iqa8s/gwrA=;
+ b=kE1Lx56iVEWeVdDhbbb8gz0aYYhELB59FLIZVTl5xnd7Ak2vZXDWq8WaquuF23Yxla
+ IxHkr1oBYT77wt+4XLjm8S4gX06zwPUSe+gpnl+uY72raZHKCVSqWvyzvqhjLhPRdS02
+ Gxg6rbLC29mxFRv3l/hUh1A+2+G2A/7F3BGicYBGKGDjbm/cMz8PlxIhkBjOvTp/5Gcq
+ O5FYRMw/6PNmvPz+dXwuOt4J5YtwcifERo5nRnRWhU5EKkV4GRkwEVfsUyJphuaTrlry
+ UyjQOMT1qENb4/V2CgwSUdUre8AD8c0fxLHhXu8VKBsnSR3qUK7drZVAV90bq/tvM2oH
+ gv/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683211772; x=1685803772;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=GstM3uCHYYNhP7vLiPGJkNr4X7whCpAksFGwpTC8qGk=;
- b=MfhrdJnWjnR+BcXNgmGVEXvv//uJQAXvDezlMybtHDNyOjhUGp8B5wrxYc8MBwqlnJ
- KQd0U6DS4H0xMpLsI12K2xJBDxTLYvM9Pm0RqK0CVsOWr9TZS+b+dvzQBXvsheN03bwo
- 0FlgXOLXtjT/v1WmpU7raWl96zBfMQYLAUcMwBp6+3AUGv1ey17z2nJohs/5hMfsCLkB
- 4mP9RnzG+cPOfoi8NPLwRItmcPbo4uecFppGviI4ZDwRo8+n7UsuN7iFEdJ+gehB7+bO
- eYhUsfGU/217zGdK+yfTbT88tBg3yyfxDfNjBiHqf/j1k59jrx5aGQYO4ICI5d80USwM
- u7ww==
-X-Gm-Message-State: AC+VfDxXHRZv5cCw+YUBRQImeJzzrrCkrY5KB4CPcMOdVPXAhX1sE2Gm
- pPZZB7+1kYYEzvjchbHJC5mOhkVrVjLIe6JxPd378A==
-X-Google-Smtp-Source: ACHHUZ7BNquxS80Ct2PDV2DD4UP2fAat2wEb/hwwhGO/o0Jjj7xWdEBC6yBmBLMujI/zpMysprCXfKe6IscCnjLz56I=
-X-Received: by 2002:aa7:cc11:0:b0:50b:dcf6:8e6d with SMTP id
- q17-20020aa7cc11000000b0050bdcf68e6dmr1429493edt.18.1683211772386; Thu, 04
- May 2023 07:49:32 -0700 (PDT)
+ d=1e100.net; s=20221208; t=1683211915; x=1685803915;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=kqe6k0DP1jr9vC6mdbnHaC4U3Aow4sh60iqa8s/gwrA=;
+ b=QMIYojs+iw0cETDUNCUMG+MY6kkh7hAVYrytbR7Sjy4TGSzZQVwqv4LkId8GByUQP5
+ 87An4aFdZQeAvoB7Dnxv7aracVHbVajN0oVq/NYBiryERE9e6UR5T8eqVCu582MHfukl
+ 1VsYFgEyH22MYXAVQgVPsIB/oUBbyJ5F9XZmQcfuNKm/mBh8HGvS9dQV0M8dzGogU6ul
+ ndMjJC/jsCSXfa70FGLvjOz/eoU0GUa2R30+zTX3iGGnIOBm56hKc+2z1oUsO6V5K/Cu
+ 4qKM8+aeLXlGtaFd29SkREJEcmKeSigyhfQOZmtvlI/Kf0hSIE593FfsHj3klkjvCPHo
+ G6Kw==
+X-Gm-Message-State: AC+VfDxi50qHGMQPHR1/8c6koXCpWb45K7NT/W3VDMa5D8RVGQ1VpoN2
+ pPcLUokwdRHlU6wjcySg7+uOOQ==
+X-Google-Smtp-Source: ACHHUZ7cn6SgpcnM6nHARJQT9zbFgKWBmGbWKC7fcjauSBwGUc+y1zB86fuPQI+3Tu2ST562mU4rnw==
+X-Received: by 2002:a17:902:d2c4:b0:1a6:e27a:8a4d with SMTP id
+ n4-20020a170902d2c400b001a6e27a8a4dmr5084937plc.2.1683211914959; 
+ Thu, 04 May 2023 07:51:54 -0700 (PDT)
+Received: from ?IPV6:2400:4050:a840:1e00:4457:c267:5e09:481b?
+ ([2400:4050:a840:1e00:4457:c267:5e09:481b])
+ by smtp.gmail.com with ESMTPSA id
+ iw12-20020a170903044c00b001ac38343438sm300381plb.176.2023.05.04.07.51.53
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 04 May 2023 07:51:54 -0700 (PDT)
+Message-ID: <58dbab6d-3e65-b26e-c14b-c12568babe24@daynix.com>
+Date: Thu, 4 May 2023 23:51:52 +0900
 MIME-Version: 1.0
-References: <20230503070656.1746170-1-richard.henderson@linaro.org>
- <20230503070656.1746170-2-richard.henderson@linaro.org>
-In-Reply-To: <20230503070656.1746170-2-richard.henderson@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 4 May 2023 15:49:21 +0100
-Message-ID: <CAFEAcA8k-4Obf9njjX9zcBTLhS3vdUNyeYYLSb3wTiy5nJyS7w@mail.gmail.com>
-Subject: Re: [PATCH v4 01/57] include/exec/memop: Add bits describing atomicity
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-devel@nongnu.org, git@xen0n.name, gaosong@loongson.cn, 
- philmd@linaro.org, qemu-arm@nongnu.org, qemu-riscv@nongnu.org, 
- qemu-s390x@nongnu.org, =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::536;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x536.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.1
+Subject: Re: [PATCH v4 2/5] igb: rename E1000E_RingInfo_st
+To: Tomasz Dzieciol <t.dzieciol@partner.samsung.com>, qemu-devel@nongnu.org
+Cc: sriram.yagnaraman@est.tech, jasowang@redhat.com, k.kwiecien@samsung.com,
+ m.sochacki@samsung.com
+References: <20230504131055.11767-1-t.dzieciol@partner.samsung.com>
+ <CGME20230504131106eucas1p1714e019395c941f51155c0e9ae52a66b@eucas1p1.samsung.com>
+ <20230504131055.11767-3-t.dzieciol@partner.samsung.com>
+Content-Language: en-US
+From: Akihiko Odaki <akihiko.odaki@daynix.com>
+In-Reply-To: <20230504131055.11767-3-t.dzieciol@partner.samsung.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: none client-ip=2607:f8b0:4864:20::630;
+ envelope-from=akihiko.odaki@daynix.com; helo=mail-pl1-x630.google.com
+X-Spam_score_int: -61
+X-Spam_score: -6.2
+X-Spam_bar: ------
+X-Spam_report: (-6.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, NICE_REPLY_A=-4.28, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,92 +98,196 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, 3 May 2023 at 08:11, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> These bits may be used to describe the precise atomicity
-> requirements of the guest, which may then be used to
-> constrain the methods by which it may be emulated by the host.
->
-> For instance, the AArch64 LDP (32-bit) instruction changes
-> semantics with ARMv8.4 LSE2, from
->
->   MO_64 | MO_ATMAX_4 | MO_ATOM_IFALIGN
->   (64-bits, single-copy atomic only on 4 byte units,
->    nonatomic if not aligned by 4),
->
-> to
->
->   MO_64 | MO_ATMAX_SIZE | MO_ATOM_WITHIN16
->   (64-bits, single-copy atomic within a 16 byte block)
->
-> The former may be implemented with two 4 byte loads, or
-> a single 8 byte load if that happens to be efficient on
-> the host.  The latter may not, and may also require a
-> helper when misaligned.
->
-> Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+On 2023/05/04 22:10, Tomasz Dzieciol wrote:
+> Rename E1000E_RingInfo_st and E1000E_RingInfo according to qemu typdefs guide.
+
+Please make the same change for e1000e to make it easy to compare it 
+with igb.
+
+> 
+> Signed-off-by: Tomasz Dzieciol <t.dzieciol@partner.samsung.com>
 > ---
->  include/exec/memop.h | 36 ++++++++++++++++++++++++++++++++++++
->  1 file changed, 36 insertions(+)
->
-> diff --git a/include/exec/memop.h b/include/exec/memop.h
-> index 25d027434a..04e4048f0b 100644
-> --- a/include/exec/memop.h
-> +++ b/include/exec/memop.h
-> @@ -81,6 +81,42 @@ typedef enum MemOp {
->      MO_ALIGN_32 =3D 5 << MO_ASHIFT,
->      MO_ALIGN_64 =3D 6 << MO_ASHIFT,
->
-> +    /*
-> +     * MO_ATOM_* describes that atomicity requirements of the operation:
-
-"the atomicity requirements"
-
-> +     * MO_ATOM_IFALIGN: the operation must be single-copy atomic if and
-> +     *    only if it is aligned; if unaligned there is no atomicity.
-
-Is this really "and only if", ie "must *not* be single-copy-atomic if
-non aligned"? Plain old "if" seems more likely...
-
-> +     * MO_ATOM_NONE: the operation has no atomicity requirements.
-> +     * MO_ATOM_SUBALIGN: the operation is single-copy atomic by parts
-> +     *    by the alignment.  E.g. if the address is 0 mod 4, then each
-> +     *    4-byte subobject is single-copy atomic.
-> +     *    This is the atomicity of IBM Power and S390X processors.
-> +     * MO_ATOM_WITHIN16: the operation is single-copy atomic, even if it
-> +     *    is unaligned, so long as it does not cross a 16-byte boundary;
-> +     *    if it crosses a 16-byte boundary there is no atomicity.
-> +     *    This is the atomicity of Arm FEAT_LSE2.
-> +     *
-> +     * MO_ATMAX_* describes the maximum atomicity unit required:
-> +     * MO_ATMAX_SIZE: the entire operation, i.e. MO_SIZE.
-> +     * MO_ATMAX_[248]: units of N bytes.
-> +     *
-> +     * Note the default (i.e. 0) values are single-copy atomic to the
-> +     * size of the operation, if aligned.  This retains the behaviour
-> +     * from before these were introduced.
-> +     */
-> +    MO_ATOM_SHIFT    =3D 8,
-> +    MO_ATOM_MASK     =3D 0x3 << MO_ATOM_SHIFT,
-> +    MO_ATOM_IFALIGN  =3D 0 << MO_ATOM_SHIFT,
-> +    MO_ATOM_NONE     =3D 1 << MO_ATOM_SHIFT,
-> +    MO_ATOM_SUBALIGN =3D 2 << MO_ATOM_SHIFT,
-> +    MO_ATOM_WITHIN16 =3D 3 << MO_ATOM_SHIFT,
-> +
-> +    MO_ATMAX_SHIFT =3D 10,
-> +    MO_ATMAX_MASK  =3D 0x3 << MO_ATMAX_SHIFT,
-> +    MO_ATMAX_SIZE  =3D 0 << MO_ATMAX_SHIFT,
-> +    MO_ATMAX_2     =3D 1 << MO_ATMAX_SHIFT,
-> +    MO_ATMAX_4     =3D 2 << MO_ATMAX_SHIFT,
-> +    MO_ATMAX_8     =3D 3 << MO_ATMAX_SHIFT,
-> +
-
-Otherwise
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-
-thanks
--- PMM
+>   hw/net/igb_core.c | 42 +++++++++++++++++++++---------------------
+>   1 file changed, 21 insertions(+), 21 deletions(-)
+> 
+> diff --git a/hw/net/igb_core.c b/hw/net/igb_core.c
+> index 012eb1e1b9..b6031dea24 100644
+> --- a/hw/net/igb_core.c
+> +++ b/hw/net/igb_core.c
+> @@ -694,24 +694,24 @@ static uint32_t igb_rx_wb_eic(IGBCore *core, int queue_idx)
+>       return (ent & E1000_IVAR_VALID) ? BIT(ent & 0x1f) : 0;
+>   }
+>   
+> -typedef struct E1000E_RingInfo_st {
+> +typedef struct E1000ERingInfo {
+>       int dbah;
+>       int dbal;
+>       int dlen;
+>       int dh;
+>       int dt;
+>       int idx;
+> -} E1000E_RingInfo;
+> +} E1000ERingInfo;
+>   
+>   static inline bool
+> -igb_ring_empty(IGBCore *core, const E1000E_RingInfo *r)
+> +igb_ring_empty(IGBCore *core, const E1000ERingInfo *r)
+>   {
+>       return core->mac[r->dh] == core->mac[r->dt] ||
+>                   core->mac[r->dt] >= core->mac[r->dlen] / E1000_RING_DESC_LEN;
+>   }
+>   
+>   static inline uint64_t
+> -igb_ring_base(IGBCore *core, const E1000E_RingInfo *r)
+> +igb_ring_base(IGBCore *core, const E1000ERingInfo *r)
+>   {
+>       uint64_t bah = core->mac[r->dbah];
+>       uint64_t bal = core->mac[r->dbal];
+> @@ -720,13 +720,13 @@ igb_ring_base(IGBCore *core, const E1000E_RingInfo *r)
+>   }
+>   
+>   static inline uint64_t
+> -igb_ring_head_descr(IGBCore *core, const E1000E_RingInfo *r)
+> +igb_ring_head_descr(IGBCore *core, const E1000ERingInfo *r)
+>   {
+>       return igb_ring_base(core, r) + E1000_RING_DESC_LEN * core->mac[r->dh];
+>   }
+>   
+>   static inline void
+> -igb_ring_advance(IGBCore *core, const E1000E_RingInfo *r, uint32_t count)
+> +igb_ring_advance(IGBCore *core, const E1000ERingInfo *r, uint32_t count)
+>   {
+>       core->mac[r->dh] += count;
+>   
+> @@ -736,7 +736,7 @@ igb_ring_advance(IGBCore *core, const E1000E_RingInfo *r, uint32_t count)
+>   }
+>   
+>   static inline uint32_t
+> -igb_ring_free_descr_num(IGBCore *core, const E1000E_RingInfo *r)
+> +igb_ring_free_descr_num(IGBCore *core, const E1000ERingInfo *r)
+>   {
+>       trace_e1000e_ring_free_space(r->idx, core->mac[r->dlen],
+>                                    core->mac[r->dh],  core->mac[r->dt]);
+> @@ -755,13 +755,13 @@ igb_ring_free_descr_num(IGBCore *core, const E1000E_RingInfo *r)
+>   }
+>   
+>   static inline bool
+> -igb_ring_enabled(IGBCore *core, const E1000E_RingInfo *r)
+> +igb_ring_enabled(IGBCore *core, const E1000ERingInfo *r)
+>   {
+>       return core->mac[r->dlen] > 0;
+>   }
+>   
+>   typedef struct IGB_TxRing_st {
+> -    const E1000E_RingInfo *i;
+> +    const E1000ERingInfo *i;
+>       struct igb_tx *tx;
+>   } IGB_TxRing;
+>   
+> @@ -774,7 +774,7 @@ igb_mq_queue_idx(int base_reg_idx, int reg_idx)
+>   static inline void
+>   igb_tx_ring_init(IGBCore *core, IGB_TxRing *txr, int idx)
+>   {
+> -    static const E1000E_RingInfo i[IGB_NUM_QUEUES] = {
+> +    static const E1000ERingInfo i[IGB_NUM_QUEUES] = {
+>           { TDBAH0, TDBAL0, TDLEN0, TDH0, TDT0, 0 },
+>           { TDBAH1, TDBAL1, TDLEN1, TDH1, TDT1, 1 },
+>           { TDBAH2, TDBAL2, TDLEN2, TDH2, TDT2, 2 },
+> @@ -800,13 +800,13 @@ igb_tx_ring_init(IGBCore *core, IGB_TxRing *txr, int idx)
+>   }
+>   
+>   typedef struct E1000E_RxRing_st {
+> -    const E1000E_RingInfo *i;
+> +    const E1000ERingInfo *i;
+>   } E1000E_RxRing;
+>   
+>   static inline void
+>   igb_rx_ring_init(IGBCore *core, E1000E_RxRing *rxr, int idx)
+>   {
+> -    static const E1000E_RingInfo i[IGB_NUM_QUEUES] = {
+> +    static const E1000ERingInfo i[IGB_NUM_QUEUES] = {
+>           { RDBAH0, RDBAL0, RDLEN0, RDH0, RDT0, 0 },
+>           { RDBAH1, RDBAL1, RDLEN1, RDH1, RDT1, 1 },
+>           { RDBAH2, RDBAL2, RDLEN2, RDH2, RDT2, 2 },
+> @@ -833,7 +833,7 @@ igb_rx_ring_init(IGBCore *core, E1000E_RxRing *rxr, int idx)
+>   static uint32_t
+>   igb_txdesc_writeback(IGBCore *core, dma_addr_t base,
+>                        union e1000_adv_tx_desc *tx_desc,
+> -                     const E1000E_RingInfo *txi)
+> +                     const E1000ERingInfo *txi)
+>   {
+>       PCIDevice *d;
+>       uint32_t cmd_type_len = le32_to_cpu(tx_desc->read.cmd_type_len);
+> @@ -866,7 +866,7 @@ igb_txdesc_writeback(IGBCore *core, dma_addr_t base,
+>   }
+>   
+>   static inline bool
+> -igb_tx_enabled(IGBCore *core, const E1000E_RingInfo *txi)
+> +igb_tx_enabled(IGBCore *core, const E1000ERingInfo *txi)
+>   {
+>       bool vmdq = core->mac[MRQC] & 1;
+>       uint16_t qn = txi->idx;
+> @@ -883,7 +883,7 @@ igb_start_xmit(IGBCore *core, const IGB_TxRing *txr)
+>       PCIDevice *d;
+>       dma_addr_t base;
+>       union e1000_adv_tx_desc desc;
+> -    const E1000E_RingInfo *txi = txr->i;
+> +    const E1000ERingInfo *txi = txr->i;
+>       uint32_t eic = 0;
+>   
+>       if (!igb_tx_enabled(core, txi)) {
+> @@ -918,7 +918,7 @@ igb_start_xmit(IGBCore *core, const IGB_TxRing *txr)
+>   }
+>   
+>   static uint32_t
+> -igb_rxbufsize(IGBCore *core, const E1000E_RingInfo *r)
+> +igb_rxbufsize(IGBCore *core, const E1000ERingInfo *r)
+>   {
+>       uint32_t srrctl = core->mac[E1000_SRRCTL(r->idx) >> 2];
+>       uint32_t bsizepkt = srrctl & E1000_SRRCTL_BSIZEPKT_MASK;
+> @@ -930,7 +930,7 @@ igb_rxbufsize(IGBCore *core, const E1000E_RingInfo *r)
+>   }
+>   
+>   static bool
+> -igb_has_rxbufs(IGBCore *core, const E1000E_RingInfo *r, size_t total_size)
+> +igb_has_rxbufs(IGBCore *core, const E1000ERingInfo *r, size_t total_size)
+>   {
+>       uint32_t bufs = igb_ring_free_descr_num(core, r);
+>       uint32_t bufsize = igb_rxbufsize(core, r);
+> @@ -1522,7 +1522,7 @@ igb_write_to_rx_buffers(IGBCore *core,
+>   }
+>   
+>   static void
+> -igb_update_rx_stats(IGBCore *core, const E1000E_RingInfo *rxi,
+> +igb_update_rx_stats(IGBCore *core, const E1000ERingInfo *rxi,
+>                       size_t pkt_size, size_t pkt_fcs_size)
+>   {
+>       eth_pkt_types_e pkt_type = net_rx_pkt_get_packet_type(core->rx_pkt);
+> @@ -1540,7 +1540,7 @@ igb_update_rx_stats(IGBCore *core, const E1000E_RingInfo *rxi,
+>   }
+>   
+>   static inline bool
+> -igb_rx_descr_threshold_hit(IGBCore *core, const E1000E_RingInfo *rxi)
+> +igb_rx_descr_threshold_hit(IGBCore *core, const E1000ERingInfo *rxi)
+>   {
+>       return igb_ring_free_descr_num(core, rxi) ==
+>              ((core->mac[E1000_SRRCTL(rxi->idx) >> 2] >> 20) & 31) * 16;
+> @@ -1562,7 +1562,7 @@ igb_write_packet_to_guest(IGBCore *core, struct NetRxPkt *pkt,
+>       struct iovec *iov = net_rx_pkt_get_iovec(pkt);
+>       size_t size = net_rx_pkt_get_total_len(pkt);
+>       size_t total_size = size + e1000x_fcs_len(core->mac);
+> -    const E1000E_RingInfo *rxi = rxr->i;
+> +    const E1000ERingInfo *rxi = rxr->i;
+>       size_t bufsize = igb_rxbufsize(core, rxi);
+>   
+>       d = pcie_sriov_get_vf_at_index(core->owner, rxi->idx % 8);
+> @@ -1643,7 +1643,7 @@ igb_write_packet_to_guest(IGBCore *core, struct NetRxPkt *pkt,
+>   }
+>   
+>   static bool
+> -igb_rx_strip_vlan(IGBCore *core, const E1000E_RingInfo *rxi)
+> +igb_rx_strip_vlan(IGBCore *core, const E1000ERingInfo *rxi)
+>   {
+>       if (core->mac[MRQC] & 1) {
+>           uint16_t pool = rxi->idx % IGB_NUM_VM_POOLS;
 
