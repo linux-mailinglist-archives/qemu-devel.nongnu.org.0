@@ -2,97 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2ECB26F7169
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 May 2023 19:45:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6268B6F717F
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 May 2023 19:49:41 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pucoh-0007DM-Lt; Thu, 04 May 2023 13:32:31 -0400
+	id 1pucoU-00077S-SW; Thu, 04 May 2023 13:32:18 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mathbern@qualcomm.com>)
- id 1pub1i-0003vd-PV
- for qemu-devel@nongnu.org; Thu, 04 May 2023 11:37:50 -0400
-Received: from mx0a-0031df01.pphosted.com ([205.220.168.131])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mathbern@qualcomm.com>)
- id 1pub1f-0001D9-E4
- for qemu-devel@nongnu.org; Thu, 04 May 2023 11:37:50 -0400
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 344E7N6Y004368; Thu, 4 May 2023 15:37:39 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=from : to : cc :
- subject : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding; s=qcppdkim1;
- bh=08KvEFYdaFR9vtu9SeaolAEyX6Z69I80I8DZF0jn9gs=;
- b=S/8HYlwtGJj926t6GxSpYLV9QSDivUFh+BT242lZD1Gj7WQzzcbH2n6UMVHLgIxpYGfr
- nXf4oWjOQzX3KUR2FBxUz9K9GGOaGE51LbcOtuzpRo3QR1cFx2+I4ql0DXitIE3ovssL
- iGzlaVOnlTYFKYqbFPYS6S9rQAi22HDR5ZYeS9BedVpbQ4KwyPYR7OGJjqA7n8ZR8x0T
- 3uN0aNAGlOxqap2vM7bhDdHT5D4nltqOhHZRNDwKvpGOGCvMHpe3yQ4Fl2Pa3YSZ3RYt
- +eb89UPRgi4xxN/9iFl/ykuxx1GgKhRdybA/FqAu3F6V9XuYndh1B4dwgj2wj4jQVscB VA== 
-Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3qce6mg8p0-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 04 May 2023 15:37:39 +0000
-Received: from pps.filterd (NALASPPMTA01.qualcomm.com [127.0.0.1])
- by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTP id 344FbdqN008821; 
- Thu, 4 May 2023 15:37:39 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
- by NALASPPMTA01.qualcomm.com (PPS) with ESMTPS id 3qbe48auxp-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 04 May 2023 15:37:39 +0000
-Received: from NALASPPMTA01.qualcomm.com (NALASPPMTA01.qualcomm.com
- [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 344FWoLs001239;
- Thu, 4 May 2023 15:37:38 GMT
-Received: from hu-devc-sd-u20-a-1.qualcomm.com (hu-mathbern-lv.qualcomm.com
- [10.47.235.147])
- by NALASPPMTA01.qualcomm.com (PPS) with ESMTPS id 344FbcqU008816
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 04 May 2023 15:37:38 +0000
-Received: by hu-devc-sd-u20-a-1.qualcomm.com (Postfix, from userid 4229910)
- id 0E2F770F7; Thu,  4 May 2023 12:37:38 -0300 (-03)
-From: Matheus Tavares Bernardino <quic_mathbern@quicinc.com>
-To: qemu-devel@nongnu.org
-Cc: alex.bennee@linaro.org, bcain@quicinc.com, f4bug@amsat.org,
- peter.maydell@linaro.org, tsimpson@quicinc.com, philmd@linaro.org,
- richard.henderson@linaro.org, Laurent Vivier <laurent@vivier.eu>
-Subject: [PATCH v3 6/6] Hexagon (linux-user/hexagon): handle breakpoints
-Date: Thu,  4 May 2023 12:37:36 -0300
-Message-Id: <c287a129dcbe7d974d8b7608e8672d34a3c91c04.1683214375.git.quic_mathbern@quicinc.com>
-X-Mailer: git-send-email 2.37.2
-In-Reply-To: <cover.1683214375.git.quic_mathbern@quicinc.com>
-References: <cover.1683214375.git.quic_mathbern@quicinc.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pub3I-000440-OW
+ for qemu-devel@nongnu.org; Thu, 04 May 2023 11:39:29 -0400
+Received: from mail-ed1-x532.google.com ([2a00:1450:4864:20::532])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pub3F-0002rA-Q5
+ for qemu-devel@nongnu.org; Thu, 04 May 2023 11:39:28 -0400
+Received: by mail-ed1-x532.google.com with SMTP id
+ 4fb4d7f45d1cf-50bc5197d33so1259458a12.1
+ for <qemu-devel@nongnu.org>; Thu, 04 May 2023 08:39:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1683214763; x=1685806763;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=CCpRlDguvEjAb+xFSEilMlq7+yQCqd5fPfosF9kyQDg=;
+ b=EEcBaBWcDiqJ08RRatzOE7TDLM3AiIoz9h7WWtHZHhmqJCBrQr991BzWT/RvAbVHrv
+ +ETJrHGpfEyX7LTa2WkCNZozB5/aK9vydWf4CpcStkJFdAqTZvKgAPYT3hRs6HtedC1M
+ fmMQ2FLdZaskIc2b5t6WIVSqcPc18vw02eGNV0VD5qJgS7my9PXB4/cddbsuskBGTZgz
+ aYLSFE510RG3nfR9TtX0dgiLmAzzB5rIXqPoSIRwRLvMich8IwwFUI97/gdcr2gp0TzX
+ mOHhwtN0DriCyFLW8I/XZ9UJ2fqwckWenrD+yGp7FN9cW37Wa5aNu5THjEmc6gbU2pw3
+ Q/Rw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1683214763; x=1685806763;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=CCpRlDguvEjAb+xFSEilMlq7+yQCqd5fPfosF9kyQDg=;
+ b=Y8h+/nH6J9zvg2oB1wgKZw01pkOQkoUD2gnN39PxLn97zh3tOJxn7ZKgfwhFYPusRz
+ TiT8arw2lfnEK6fq3Yi6cgOx0A6kjD/VE7kCTQDdpHF8fvpah8E3/hxBn95pRRPUkxm1
+ 9Q6y8jAleZGWgkP++cvyUgpEpnwwpLoZcaD4oSZsLhR4/oqbNaJScX3Ckh/70Fyzi8Il
+ vT6v9UTsLbsfxTb0ov1y8KroOmA4V3r1XKPDGjqczfBLVbQkbBDpIoOtz0NRvqFhRjGW
+ HoZKoCYHpptqz9qBRAe5QsnrHNzHAgT1S+mHKvlczfzLmHgq82hkw9kGfZ98FRlXLTLV
+ iMhw==
+X-Gm-Message-State: AC+VfDyiQa9lmZj1OCIBXp47nQ2mfDgjWh8vs4VmAlQuURrbU+saOD3o
+ 3YyrbZ40+7a4ChaKI55jxhBXKC0fY9o0mrdfmyNAxA==
+X-Google-Smtp-Source: ACHHUZ7HawQI3rHbfUDkI/xOB5Bb5SyM1pN4vgRaAmTPiSZY0AZXIlW6RfIxsYmASUxLtC/0SpCNcFv8xcCYJtnO7CY=
+X-Received: by 2002:a50:ee8c:0:b0:506:b228:7aff with SMTP id
+ f12-20020a50ee8c000000b00506b2287affmr2091106edr.23.1683214763344; Thu, 04
+ May 2023 08:39:23 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-QCInternal: smtphost
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: XqezKiUO2pQvWTqlGJ8355LVrSod0dms
-X-Proofpoint-ORIG-GUID: XqezKiUO2pQvWTqlGJ8355LVrSod0dms
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-05-04_10,2023-05-04_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 mlxscore=0
- lowpriorityscore=0 priorityscore=1501 spamscore=0 phishscore=0
- mlxlogscore=529 impostorscore=0 suspectscore=0 adultscore=0 malwarescore=0
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2303200000 definitions=main-2305040127
-Received-SPF: pass client-ip=205.220.168.131;
- envelope-from=mathbern@qualcomm.com; helo=mx0a-0031df01.pphosted.com
-X-Spam_score_int: -24
-X-Spam_score: -2.5
+References: <20230503070656.1746170-1-richard.henderson@linaro.org>
+ <20230503070656.1746170-5-richard.henderson@linaro.org>
+In-Reply-To: <20230503070656.1746170-5-richard.henderson@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 4 May 2023 16:39:12 +0100
+Message-ID: <CAFEAcA8LMQ6rfbCBB=sPfnDG0Uk9qaTZQXbH4D55veQgFNOqvg@mail.gmail.com>
+Subject: Re: [PATCH v4 04/57] accel/tcg: Reorg system mode load helpers
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: qemu-devel@nongnu.org, git@xen0n.name, gaosong@loongson.cn, 
+ philmd@linaro.org, qemu-arm@nongnu.org, qemu-riscv@nongnu.org, 
+ qemu-s390x@nongnu.org, =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::532;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x532.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -108,30 +89,183 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-This enables LLDB to work with hexagon linux-user mode through the GDB
-remote protocol.
+On Wed, 3 May 2023 at 08:11, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> Instead of trying to unify all operations on uint64_t, pull out
+> mmu_lookup() to perform the basic tlb hit and resolution.
+> Create individual functions to handle access by size.
+>
+> Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 
-Helped-by: Richard Henderson <richard.henderson@linaro.org>
-Signed-off-by: Matheus Tavares Bernardino <quic_mathbern@quicinc.com>
----
- linux-user/hexagon/cpu_loop.c | 3 +++
- 1 file changed, 3 insertions(+)
+> +/**
+> + * mmu_watch_or_dirty
+> + * @env: cpu context
+> + * @data: lookup parameters
+> + * @access_type: load/store/code
+> + * @ra: return address into tcg generated code, or 0
+> + *
+> + * Trigger watchpoints for @data.addr:@data.size;
+> + * record writes to protected clean pages.
+> + */
+> +static void mmu_watch_or_dirty(CPUArchState *env, MMULookupPageData *dat=
+a,
+> +                               MMUAccessType access_type, uintptr_t ra)
+> +{
+> +    CPUTLBEntryFull *full =3D data->full;
+> +    target_ulong addr =3D data->addr;
+> +    int flags =3D data->flags;
+> +    int size =3D data->size;
+> +
+> +    /* On watchpoint hit, this will longjmp out.  */
+> +    if (flags & TLB_WATCHPOINT) {
+> +        int wp =3D access_type =3D=3D MMU_DATA_STORE ? BP_MEM_WRITE : BP=
+_MEM_READ;
+> +        cpu_check_watchpoint(env_cpu(env), addr, size, full->attrs, wp, =
+ra);
+> +        flags &=3D ~TLB_WATCHPOINT;
+> +    }
+> +
+> +    if (flags & TLB_NOTDIRTY) {
+> +        notdirty_write(env_cpu(env), addr, size, full, ra);
+> +        flags &=3D ~TLB_NOTDIRTY;
+> +    }
 
-diff --git a/linux-user/hexagon/cpu_loop.c b/linux-user/hexagon/cpu_loop.c
-index b84e25bf71..7f1499ed28 100644
---- a/linux-user/hexagon/cpu_loop.c
-+++ b/linux-user/hexagon/cpu_loop.c
-@@ -63,6 +63,9 @@ void cpu_loop(CPUHexagonState *env)
-         case EXCP_ATOMIC:
-             cpu_exec_step_atomic(cs);
-             break;
-+        case EXCP_DEBUG:
-+            force_sig_fault(TARGET_SIGTRAP, TARGET_TRAP_BRKPT, 0);
-+            break;
-         default:
-             EXCP_DUMP(env, "\nqemu: unhandled CPU exception %#x - aborting\n",
-                      trapnr);
--- 
-2.37.2
+Maybe worth a comment that the NOTDIRTY flag is only ever
+set for the addr_write TLB entry? This confused me for a bit...
 
+> +    data->flags =3D flags;
+> +}
+> +
+> +/**
+> + * mmu_lookup: translate page(s)
+> + * @env: cpu context
+> + * @addr: virtual address
+> + * @oi: combined mmu_idx and MemOp
+> + * @ra: return address into tcg generated code, or 0
+> + * @access_type: load/store/code
+> + * @l: output result
+> + *
+> + * Resolve the translation for the page(s) beginning at @addr, for MemOp=
+.size
+> + * bytes.  Return true if the lookup crosses a page boundary.
+> + */
+> +static bool mmu_lookup(CPUArchState *env, target_ulong addr, MemOpIdx oi=
+,
+> +                       uintptr_t ra, MMUAccessType type, MMULookupLocals=
+ *l)
+> +{
+> +    unsigned a_bits;
+> +    bool crosspage;
+> +    int flags;
+> +
+> +    l->memop =3D get_memop(oi);
+> +    l->mmu_idx =3D get_mmuidx(oi);
+> +
+> +    tcg_debug_assert(l->mmu_idx < NB_MMU_MODES);
+> +
+> +    /* Handle CPU specific unaligned behaviour */
+> +    a_bits =3D get_alignment_bits(l->memop);
+> +    if (addr & ((1 << a_bits) - 1)) {
+> +        cpu_unaligned_access(env_cpu(env), addr, type, l->mmu_idx, ra);
+> +    }
+> +
+> +    l->page[0].addr =3D addr;
+> +    l->page[0].size =3D memop_size(l->memop);
+> +    l->page[1].addr =3D (addr + l->page[0].size - 1) & TARGET_PAGE_MASK;
+> +    l->page[1].size =3D 0;
+> +    crosspage =3D (addr ^ l->page[1].addr) & TARGET_PAGE_MASK;
+> +
+> +    if (likely(!crosspage)) {
+> +        mmu_lookup1(env, &l->page[0], l->mmu_idx, type, ra);
+> +
+> +        flags =3D l->page[0].flags;
+> +        if (unlikely(flags & (TLB_WATCHPOINT | TLB_NOTDIRTY))) {
+> +            mmu_watch_or_dirty(env, &l->page[0], type, ra);
+> +        }
+> +        if (unlikely(flags & TLB_BSWAP)) {
+> +            l->memop ^=3D MO_BSWAP;
+> +        }
+> +    } else {
+> +        /* Finish compute of page crossing. */
+> +        int size1 =3D l->page[1].addr - addr;
+> +        l->page[1].size =3D l->page[0].size - size1;
+> +        l->page[0].size =3D size1;
+
+Should this local variable be named "size0" ? It seems to be
+the size of the access done to page[0], not the size of the
+access to page[1].
+
+> +
+> +        /*
+> +         * Lookup both pages, recognizing exceptions from either.  If th=
+e
+> +         * second lookup potentially resized, refresh first CPUTLBEntryF=
+ull.
+> +         */
+> +        mmu_lookup1(env, &l->page[0], l->mmu_idx, type, ra);
+> +        if (mmu_lookup1(env, &l->page[1], l->mmu_idx, type, ra)) {
+> +            uintptr_t index =3D tlb_index(env, l->mmu_idx, addr);
+> +            l->page[0].full =3D &env_tlb(env)->d[l->mmu_idx].fulltlb[ind=
+ex];
+> +        }
+> +
+> +        flags =3D l->page[0].flags | l->page[1].flags;
+> +        if (unlikely(flags & (TLB_WATCHPOINT | TLB_NOTDIRTY))) {
+> +            mmu_watch_or_dirty(env, &l->page[0], type, ra);
+> +            mmu_watch_or_dirty(env, &l->page[1], type, ra);
+> +        }
+> +
+> +        /*
+> +         * Since target/sparc is the only user of TLB_BSWAP, and all
+> +         * Sparc accesses are aligned, any treatment across two pages
+> +         * would be arbitrary.  Refuse it until there's a use.
+> +         */
+> +        tcg_debug_assert((flags & TLB_BSWAP) =3D=3D 0);
+> +    }
+> +
+> +    return crosspage;
+> +}
+
+
+> +/**
+> + * do_ld_mmio_beN:
+> + * @env: cpu context
+> + * @p: translation parameters
+> + * @ret_be: accumulated data
+> + * @mmu_idx: virtual address context
+> + * @ra: return address into tcg generated code, or 0
+> + *
+> + * Load @p->size bytes from @p->addr, which is memory-mapped i/o.
+> + * The bytes are concatenated with in big-endian order with @ret_be.
+
+"in big-endian order with"
+
+> + */
+> +static uint64_t do_ld_mmio_beN(CPUArchState *env, MMULookupPageData *p,
+> +                               uint64_t ret_be, int mmu_idx,
+> +                               MMUAccessType type, uintptr_t ra)
+>  {
+> -    validate_memop(oi, MO_UB);
+> -    return load_helper(env, addr, oi, retaddr, MO_UB, MMU_DATA_LOAD,
+> -                       full_ldub_mmu);
+> +    CPUTLBEntryFull *full =3D p->full;
+> +    target_ulong addr =3D p->addr;
+> +    int i, size =3D p->size;
+> +
+> +    QEMU_IOTHREAD_LOCK_GUARD();
+> +    for (i =3D 0; i < size; i++) {
+> +        uint8_t x =3D io_readx(env, full, mmu_idx, addr + i, ra, type, M=
+O_UB);
+> +        ret_be =3D (ret_be << 8) | x;
+> +    }
+> +    return ret_be;
+> +}
+
+Otherwise
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+
+thanks
+-- PMM
 
