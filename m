@@ -2,53 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E2516F7137
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 May 2023 19:39:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B43D16F7184
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 May 2023 19:50:34 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pucrD-0006wX-Ja; Thu, 04 May 2023 13:35:07 -0400
+	id 1pucpV-0001J3-0X; Thu, 04 May 2023 13:33:21 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1pucr8-0006s7-T9
- for qemu-devel@nongnu.org; Thu, 04 May 2023 13:35:03 -0400
-Received: from [200.168.210.66] (helo=outlook.eldorado.org.br)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <matheus.ferst@eldorado.org.br>) id 1pucr6-0003LB-D0
- for qemu-devel@nongnu.org; Thu, 04 May 2023 13:35:02 -0400
-Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
- secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
- Thu, 4 May 2023 14:17:51 -0300
-Received: from [127.0.0.1] (unknown [10.10.70.45])
- by p9ibm (Postfix) with ESMTPS id EE9F580012C;
- Thu,  4 May 2023 14:17:50 -0300 (-03)
-Message-ID: <1f22eb31-7573-cbca-bc9a-6d4ef5d1b71d@eldorado.org.br>
-Date: Thu, 4 May 2023 14:17:50 -0300
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pucad-0003YL-4H
+ for qemu-devel@nongnu.org; Thu, 04 May 2023 13:17:59 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pucab-0002v1-2V
+ for qemu-devel@nongnu.org; Thu, 04 May 2023 13:17:58 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1683220675;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=B4xbHJm1ERjpqIqutCi0zmoiu/WRR60yK7nPPAyz55o=;
+ b=JIn5Xn5PALnRCunP52zykZCJ6AFYhkINo3Nb+pGCv6tUtkpMLiuquJuYuDejsvUnC08xbK
+ Cj3yLEQdtlOzhMUXRIm4iM0Q5wAn6L2c1q5PBL9GyoyhH+rLqUBgKBSOzlPlOLhfPH3AzI
+ TkqnjQf2So6u+TQ1UJsYS34mYO0q6x4=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-456-M52A0ul6PDe-qz8e80SYtA-1; Thu, 04 May 2023 13:17:54 -0400
+X-MC-Unique: M52A0ul6PDe-qz8e80SYtA-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ 5b1f17b1804b1-3f321e60feaso3492325e9.0
+ for <qemu-devel@nongnu.org>; Thu, 04 May 2023 10:17:54 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1683220673; x=1685812673;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=B4xbHJm1ERjpqIqutCi0zmoiu/WRR60yK7nPPAyz55o=;
+ b=VSDR/yWIxK/1ykTvtHAhDizpuCmGNY3req8OieJZQE3dfNh9GmBJjCvR75rLx7/Emr
+ 8eUSupXS5dpv6eMM2eGGyfkDbKa6wMjWs9KNBk+4P3AwTPXv11xRruC/eDyKTzabvRUt
+ R69NxrutnEfoSF5zzu89ok+JlxEzF55VkVkzAyENGFl/HcXf1oZ2YW3sR8RQahqYHq1M
+ 6xvPoWl4eQAojtVzbPvdb5hiHJYa8McIsqXw/Nf6N66K9kijgq6j3Pe+ioXmiwO+AU+8
+ 8S+sfTp24sn64G8P8mSuzIw+2C7mZqWmbDcqADQuDMHdn2CEnUEMMpO3MEMhgjCpmmPo
+ juRw==
+X-Gm-Message-State: AC+VfDycyn1IkZ9E283CpjFL8va4Zm9vJswGlmeuIViNQgNwLvP2fOI9
+ Y+l6pIzknFjNQT37CTPcHL8F6lxL8YnYDDRf8P5Be8ENRqH52sYQAFSPUK/MFYOIAvdJM3anfsL
+ C/VN0tj1sNce6I3U=
+X-Received: by 2002:a7b:c419:0:b0:3f1:8c5f:dfc5 with SMTP id
+ k25-20020a7bc419000000b003f18c5fdfc5mr231057wmi.39.1683220673619; 
+ Thu, 04 May 2023 10:17:53 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ5hTmbdvXUH+4iYxWkwcldc7JFek98wNcsVuMfj8f5hdW9WHlWylmN/krRXgvQ37Unkui06ZQ==
+X-Received: by 2002:a7b:c419:0:b0:3f1:8c5f:dfc5 with SMTP id
+ k25-20020a7bc419000000b003f18c5fdfc5mr231043wmi.39.1683220673314; 
+ Thu, 04 May 2023 10:17:53 -0700 (PDT)
+Received: from [192.168.8.102] (tmo-098-139.customers.d1-online.com.
+ [80.187.98.139]) by smtp.gmail.com with ESMTPSA id
+ z9-20020a05600c114900b003f4069417absm2529021wmz.24.2023.05.04.10.17.52
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 04 May 2023 10:17:52 -0700 (PDT)
+Message-ID: <c4e92b29-89a7-1d87-6277-06ac6270318c@redhat.com>
+Date: Thu, 4 May 2023 19:17:51 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH] target/ppc: Fix fallback to MFSS for MFFSCRN, MFFSCRNI,
- MFFSCE and MFFSL
-To: Richard Purdie <richard.purdie@linuxfoundation.org>, qemu-devel@nongnu.org
-Cc: =?UTF-8?Q?V=c3=adctor_Colombo?= <victor.colombo@eldorado.org.br>,
- Daniel Henrique Barboza <danielhb413@gmail.com>
-References: <20230504110150.3044402-1-richard.purdie@linuxfoundation.org>
+ Thunderbird/102.9.0
+Subject: Re: [PATCH v2 1/2] tests: libvirt-ci: Update to commit 'c8971e90ac'
+ to pull in mformat and xorriso
 Content-Language: en-US
-From: "Matheus K. Ferst" <matheus.ferst@eldorado.org.br>
-In-Reply-To: <20230504110150.3044402-1-richard.purdie@linuxfoundation.org>
+To: Ani Sinha <anisinha@redhat.com>, qemu-devel@nongnu.org,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>
+Cc: mst@redhat.com, berrange@redhat.com
+References: <20230504154611.85854-1-anisinha@redhat.com>
+ <20230504154611.85854-2-anisinha@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <20230504154611.85854-2-anisinha@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-OriginalArrivalTime: 04 May 2023 17:17:51.0291 (UTC)
- FILETIME=[5B2730B0:01D97EAC]
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 200.168.210.66 (failed)
-Received-SPF: pass client-ip=200.168.210.66;
- envelope-from=matheus.ferst@eldorado.org.br; helo=outlook.eldorado.org.br
-X-Spam_score_int: -53
-X-Spam_score: -5.4
-X-Spam_bar: -----
-X-Spam_report: (-5.4 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-4.28,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.161,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-4.28, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -65,84 +106,44 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 04/05/2023 08:01, Richard Purdie wrote:
-> The following commits changed the code such that these instructions became invalid
-> on pre 3.0 ISAs:
+On 04/05/2023 17.46, Ani Sinha wrote:
+> Pull in the following changes from lcitool:
 > 
->    bf8adfd88b547680aa857c46098f3a1e94373160 - target/ppc: Move mffscrn[i] to decodetree
->    394c2e2fda70da722f20fb60412d6c0ca4bfaa03 - target/ppc: Move mffsce to decodetree
->    3e5bce70efe6bd1f684efbb21fd2a316cbf0657e - target/ppc: Move mffsl to decodetree
+> * tests/lcitool/libvirt-ci 85487e1...c8971e9 (18):
+>    > mappings: add new package mappings for mformat and xorriso
+>    > docs: testing: Update contents with tox
+>    > .gitlab-ci.yml: Always test against installed lcitool
+>    > gitlab-ci.yml: Start using tox for testing
+>    > tox: Allow running with custom pytest options with {posargs}
+>    > gitignore: Add the default .tox directory
+>    > dev-requirements: Reference VM requirements
+>    > requirements: Add tox to dev-requirements.txt and drop pytest and flake
+>    > test-requirements: Rename to dev-requirements.txt
+>    > Add tox.ini configuration file
+>    > tests: commands: Consolidate the installed package/run from git tests
+>    > Add a pytest.ini
+>    > facts: targets: Drop Fedora 36 target
+>    > gitlab-ci.yml: Add Fedora 38 target
+>    > facts: targets: Add Fedora 38
+>    > facts: mappings: Drop 'zstd' mapping
+>    > facts: projects: nbdkit: Replace zstd mapping with libzstd
+>    > docs: mappings: Add a section on the preferred mapping naming scheme
 > 
-> The hardware will handle them as a MFFS instruction as the code did previously.
-> Restore that behaviour. This means applications that were segfaulting under qemu
-> when encountering these instructions now operate correctly. The instruction
-> is used in glibc libm functions for example.
-> 
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> CC: mst@redhat.com
+> CC: berrange@redhat.com
+> Signed-off-by: Ani Sinha <anisinha@redhat.com>
 > ---
->   target/ppc/translate/fp-impl.c.inc | 20 ++++++++++++++++----
->   1 file changed, 16 insertions(+), 4 deletions(-)
+>   tests/lcitool/libvirt-ci | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/target/ppc/translate/fp-impl.c.inc b/target/ppc/translate/fp-impl.c.inc
-> index 57d8437851..cb86381c3f 100644
-> --- a/target/ppc/translate/fp-impl.c.inc
-> +++ b/target/ppc/translate/fp-impl.c.inc
-> @@ -584,7 +584,10 @@ static bool trans_MFFSCE(DisasContext *ctx, arg_X_t *a)
->   {
->       TCGv_i64 fpscr;
-> 
-> -    REQUIRE_INSNS_FLAGS2(ctx, ISA300);
-> +    if (unlikely(!(ctx->insns_flags2 & PPC2_ISA300))) {
-> +        return trans_MFFS(ctx, a);
-> +    }
-> +
+> diff --git a/tests/lcitool/libvirt-ci b/tests/lcitool/libvirt-ci
+> index 85487e1404..c8971e90ac 160000
+> --- a/tests/lcitool/libvirt-ci
+> +++ b/tests/lcitool/libvirt-ci
+> @@ -1 +1 @@
+> -Subproject commit 85487e140415b2ac54b01a9a6b600fd7c21edc2f
+> +Subproject commit c8971e90ac169ee2b539c747f74d96c876debdf9
 
-Hi Richard, nice catch!
-
-I believe this may be better addressed by decodetree pattern groups, e.g.:
-
-On insns32.decode:
-{
-   # Before Power ISA v3.0, MFFS bits 11~15 were reserved and should be 
-ignored
-   MFFS_ISA207   111111 ..... ----- ----- 1001000111 .   @X_t_rc
-   [
-     MFFS        111111 ..... 00000 ----- 1001000111 .   @X_t_rc
-     MFFSCE      111111 ..... 00001 ----- 1001000111 -   @X_t
-     MFFSCRN     111111 ..... 10110 ..... 1001000111 -   @X_tb
-     MFFSCDRN    111111 ..... 10100 ..... 1001000111 -   @X_tb
-     MFFSCRNI    111111 ..... 10111 ---.. 1001000111 -   @X_imm2
-     MFFSCDRNI   111111 ..... 10101 --... 1001000111 -   @X_imm3
-     MFFSL       111111 ..... 11000 ----- 1001000111 -   @X_t
-   ]
-}
-
-And on fp-impl.c.inc:
-static bool trans_MFFS_ISA207(DisasContext *ctx, arg_X_t_rc *a)
-{
-     if (!(ctx->insns_flags2 & PPC2_ISA300)) {
-         /*
-          * Before Power ISA v3.0, MFFS bits 11~15 were reserved, any 
-instruction
-          * with OPCD=63 and XO=583 should be decoded as MFFS.
-          */
-         return trans_MFFS(ctx, a);
-     }
-     /*
-      * For Power ISA v3.0+, return false and let the pattern group
-      * select the correct instruction.
-      */
-     return false;
-}
-
-That way, I believe it'll be easier to add more MFFS variants in the 
-future without thinking too much about the behavior in previous versions 
-of Power ISA.
-
-Thanks,
-Matheus K. Ferst
-Instituto de Pesquisas ELDORADO <http://www.eldorado.org.br/>
-Analista de Software
-Aviso Legal - Disclaimer <https://www.eldorado.org.br/disclaimer.html>
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 
 
