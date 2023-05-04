@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9B346F6AA2
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 May 2023 13:59:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 42C346F6AC0
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 May 2023 14:03:09 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1puXba-0003d6-EB; Thu, 04 May 2023 07:58:38 -0400
+	id 1puXbZ-0003Vw-7h; Thu, 04 May 2023 07:58:37 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1puXbK-0003Ea-FB
- for qemu-devel@nongnu.org; Thu, 04 May 2023 07:58:23 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1puXbL-0003Fq-WD
+ for qemu-devel@nongnu.org; Thu, 04 May 2023 07:58:26 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1puXbH-0004E9-Bj
- for qemu-devel@nongnu.org; Thu, 04 May 2023 07:58:21 -0400
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1puXbI-0004EP-Pf
+ for qemu-devel@nongnu.org; Thu, 04 May 2023 07:58:23 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1683201498;
+ s=mimecast20190719; t=1683201500;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=i81jJMpIATmtlfBmGOPfMo/WO9M89YDrGbDRXnlDZfs=;
- b=YM48aHtXR+xwQia2OY+9stAiKLPRNyFquBFi0mhLfNUrXpYLo8Fi4pqGrxdhn13Dd5RX4T
- 7571snO+VFzTk1M/sAhA11h4wq3fV4agap/u4kG9/Ty2lya/2CWLTevX51BMu+lB4aLbmF
- d/WTrLpkoxMiEFeVZ5R5fRftLWcQO3Q=
+ bh=K/sdHy6Fk6pNRu5YspXW3VX0IYXNu43UTK5jXiiG9iI=;
+ b=dH9arHHJCkZAvRJyxPGaAir94cp20GMktGL09HjNrmDpTnNIInZWOCPRksq3lpfhYEfuzv
+ VBCsN5jvGiJVMkGaYbr6wcVUCclDmB4yTPb3uZsLkewXiudLZA29EAGjY1DpwpETm8q/QX
+ Su1yCpdOwOoKfFjZ06YvQ9nocc3GdTg=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-458-U03l7DrIMMSQDySAA5fIzA-1; Thu, 04 May 2023 07:58:15 -0400
-X-MC-Unique: U03l7DrIMMSQDySAA5fIzA-1
+ us-mta-657-335GQX_mNiKGsv2RaZnTzw-1; Thu, 04 May 2023 07:58:17 -0400
+X-MC-Unique: 335GQX_mNiKGsv2RaZnTzw-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
  [10.11.54.8])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 610B5811E7C;
- Thu,  4 May 2023 11:58:15 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id AD73EA0F388;
+ Thu,  4 May 2023 11:58:16 +0000 (UTC)
 Received: from merkur.redhat.com (unknown [10.39.194.84])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 40A6FC15BAD;
- Thu,  4 May 2023 11:58:14 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 98C3AC15BAD;
+ Thu,  4 May 2023 11:58:15 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
 Cc: kwolf@redhat.com, stefanha@redhat.com, eblake@redhat.com,
  eesposit@redhat.com, pbonzini@redhat.com, qemu-devel@nongnu.org
-Subject: [PATCH v2 11/20] vhdx: Require GRAPH_RDLOCK for accessing a node's
+Subject: [PATCH v2 12/20] mirror: Require GRAPH_RDLOCK for accessing a node's
  parent list
-Date: Thu,  4 May 2023 13:57:41 +0200
-Message-Id: <20230504115750.54437-12-kwolf@redhat.com>
+Date: Thu,  4 May 2023 13:57:42 +0200
+Message-Id: <20230504115750.54437-13-kwolf@redhat.com>
 In-Reply-To: <20230504115750.54437-1-kwolf@redhat.com>
 References: <20230504115750.54437-1-kwolf@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=kwolf@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -22
 X-Spam_score: -2.3
@@ -83,39 +83,23 @@ the parent list of a node need to hold a reader lock for the graph. As
 it happens, they already do.
 
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-Reviewed-by: Eric Blake <eblake@redhat.com>
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 ---
- block/vhdx.c | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
+ block/mirror.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/block/vhdx.c b/block/vhdx.c
-index 00777da91a..b20b1edf11 100644
---- a/block/vhdx.c
-+++ b/block/vhdx.c
-@@ -1506,8 +1506,9 @@ exit:
-  * There are 2 headers, and the highest sequence number will represent
-  * the active header
-  */
--static int vhdx_create_new_headers(BlockBackend *blk, uint64_t image_size,
--                                   uint32_t log_size)
-+static int coroutine_fn GRAPH_RDLOCK
-+vhdx_create_new_headers(BlockBackend *blk, uint64_t image_size,
-+                        uint32_t log_size)
+diff --git a/block/mirror.c b/block/mirror.c
+index 80fa345071..b5c4ae31f3 100644
+--- a/block/mirror.c
++++ b/block/mirror.c
+@@ -1416,7 +1416,7 @@ static MirrorOp *coroutine_fn active_write_prepare(MirrorBlockJob *s,
+     return op;
+ }
+ 
+-static void coroutine_fn active_write_settle(MirrorOp *op)
++static void coroutine_fn GRAPH_RDLOCK active_write_settle(MirrorOp *op)
  {
-     BlockDriverState *bs = blk_bs(blk);
-     BdrvChild *child;
-@@ -1897,8 +1898,8 @@ exit:
-  *    .---- ~ ----------- ~ ------------ ~ ---------------- ~ -----------.
-  *   1MB
-  */
--static int coroutine_fn vhdx_co_create(BlockdevCreateOptions *opts,
--                                       Error **errp)
-+static int coroutine_fn GRAPH_RDLOCK
-+vhdx_co_create(BlockdevCreateOptions *opts, Error **errp)
- {
-     BlockdevCreateOptionsVhdx *vhdx_opts;
-     BlockBackend *blk = NULL;
+     uint64_t start_chunk = op->offset / op->s->granularity;
+     uint64_t end_chunk = DIV_ROUND_UP(op->offset + op->bytes,
 -- 
 2.40.1
 
