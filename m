@@ -2,96 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C92C76F6A08
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 May 2023 13:34:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 18B776F6A0F
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 May 2023 13:34:34 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1puXCp-0003Gg-Fu; Thu, 04 May 2023 07:33:03 -0400
+	id 1puXE1-0003vm-LO; Thu, 04 May 2023 07:34:17 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <anisinha@redhat.com>)
- id 1puXCm-0003GQ-Kp
- for qemu-devel@nongnu.org; Thu, 04 May 2023 07:33:00 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <anisinha@redhat.com>)
- id 1puXCj-0001O2-IS
- for qemu-devel@nongnu.org; Thu, 04 May 2023 07:33:00 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1683199976;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=/F3xIkumEtWHapIyEddyjtLBZuYIDSzJZ3fNfb7IcRk=;
- b=jVqFozwT0YNHDMIfzUHqcIFi1J2hCFWPzJI0EZCDt3NdQuMWziiMsLupOijElaa3UqvU3y
- 7mpwTCpZKj2lhIXZPbLRbnzezA+kmPD7zWS/7VMnYpmW/DT1bnnV3AzpY2ry6I0Mp3iS/r
- dHJ05bJgbYqf8Bni6DCry508zA4kBf4=
-Received: from mail-pf1-f198.google.com (mail-pf1-f198.google.com
- [209.85.210.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-610-q12dSviKOxeEnRxJnjuWVg-1; Thu, 04 May 2023 07:32:55 -0400
-X-MC-Unique: q12dSviKOxeEnRxJnjuWVg-1
-Received: by mail-pf1-f198.google.com with SMTP id
- d2e1a72fcca58-6438bffbe3dso195877b3a.1
- for <qemu-devel@nongnu.org>; Thu, 04 May 2023 04:32:55 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683199974; x=1685791974;
- h=to:references:message-id:content-transfer-encoding:cc:date
- :in-reply-to:from:subject:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=/F3xIkumEtWHapIyEddyjtLBZuYIDSzJZ3fNfb7IcRk=;
- b=P3PbkA4KxNdnRorwn1opoJpkqKpfHw4llaRBkGBpFyjlKUM92nwcXaoG/9ylQWtj98
- o89QjaFbgddY+DNSiFHsgKVWy2csnpY64bu7BUSoV6I5bgrLzMGG+ofRazOzSKSHjgeP
- IqNKbN122G5pFZT81R/A1xwKVHvLgnM85NxJAFxkYLDvvmFAa6rLKI19r2hhbjLZ7UPo
- HUPU/skkYT2OKZ0wNIDu8xa9HX9ajN0w2STeVVRcbEvjQhz5Oh42O4xXJe2VSdN4jx/a
- +7o9/2lPCOr4yci1pPdxOPshU1q4Vh3l1u1VsEtiORQLRK6aMdfAGHFw/nSfgGmdvHzl
- vyZw==
-X-Gm-Message-State: AC+VfDxjXUvMstClqNwjCVjPwGX46CSqL+FjHhfNW1jGSgsO4y09aT5Z
- /vVbGwyxtUcqu3zTEVL9EpOE3CWYuhvDTGcMf4ZvivMZHuI2pvCa3rqQ2+SbLDYQ8SrUrcjrrmo
- Zd5Htr8LUKZ/JySY=
-X-Received: by 2002:a05:6a00:b83:b0:63b:57cb:145f with SMTP id
- g3-20020a056a000b8300b0063b57cb145fmr2233618pfj.20.1683199974448; 
- Thu, 04 May 2023 04:32:54 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ5KfSfAVAJvOAsCvI0QxqqVO3G+PfbQWR9nTC7Y2WYT47GeJa83q+KxLRrJjbs1E8NyfIbZWg==
-X-Received: by 2002:a05:6a00:b83:b0:63b:57cb:145f with SMTP id
- g3-20020a056a000b8300b0063b57cb145fmr2233597pfj.20.1683199974163; 
- Thu, 04 May 2023 04:32:54 -0700 (PDT)
-Received: from smtpclient.apple ([115.96.136.25])
- by smtp.gmail.com with ESMTPSA id
- y1-20020a056a001c8100b005a8173829d5sm24911755pfw.66.2023.05.04.04.32.51
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Thu, 04 May 2023 04:32:53 -0700 (PDT)
-Content-Type: text/plain;
-	charset=utf-8
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3696.120.41.1.3\))
-Subject: Re: [PATCH 0/2] Add mformat and xorriso dependencies in containers
-From: Ani Sinha <anisinha@redhat.com>
-In-Reply-To: <ZFNr/YMWTicdsVHt@redhat.com>
-Date: Thu, 4 May 2023 17:02:48 +0530
-Cc: Thomas Huth <thuth@redhat.com>, alex.bennee@linaro.org,
- =?utf-8?Q?Philippe_Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- wainersm@redhat.com, bleal@redhat.com, qemu-devel@nongnu.org,
- "Michael S. Tsirkin" <mst@redhat.com>
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <16CB2748-DC38-4FBC-97A7-CEB95560B01A@redhat.com>
-References: <20230503145547.202251-1-anisinha@redhat.com>
- <8d7e46ec-95c0-5c4a-a843-20106576e9ba@redhat.com>
- <ZFNmhT9Fosay1bee@redhat.com>
- <82B950B9-1C97-483F-A5A5-C755BEA1B727@redhat.com>
- <ZFNr/YMWTicdsVHt@redhat.com>
-To: =?utf-8?B?IkRhbmllbCBQLiBCZXJyYW5nw6ki?= <berrange@redhat.com>
-X-Mailer: Apple Mail (2.3696.120.41.1.3)
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=anisinha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -22
-X-Spam_score: -2.3
-X-Spam_bar: --
-X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.161,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
+ id 1puXDo-0003uK-Da
+ for qemu-devel@nongnu.org; Thu, 04 May 2023 07:34:04 -0400
+Received: from mail.loongson.cn ([114.242.206.163] helo=loongson.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <gaosong@loongson.cn>) id 1puXDl-0001TL-Jf
+ for qemu-devel@nongnu.org; Thu, 04 May 2023 07:34:04 -0400
+Received: from loongson.cn (unknown [10.20.42.57])
+ by gateway (Coremail) with SMTP id _____8DxBekhmFNkcpkEAA--.7567S3;
+ Thu, 04 May 2023 19:33:54 +0800 (CST)
+Received: from [10.20.42.57] (unknown [10.20.42.57])
+ by localhost.localdomain (Coremail) with SMTP id
+ AQAAf8DxddEgmFNkktpJAA--.5364S3; 
+ Thu, 04 May 2023 19:33:52 +0800 (CST)
+Subject: Re: [RFC PATCH v4 00/44] Add LoongArch LSX instructions
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ maobibo@loongson.cn
+References: <20230425070248.2550028-1-gaosong@loongson.cn>
+ <8a821169-6dc3-ab82-bd32-990b0f9a8c98@linaro.org>
+ <b6243a8d-8ef6-7609-b71c-fd3cddb69d67@loongson.cn>
+ <80c6ed35-1d19-eb6a-0e3b-6fbf23d8540c@linaro.org>
+ <620c7286-f643-b7f8-5e21-56f3890db25a@linaro.org>
+From: Song Gao <gaosong@loongson.cn>
+Message-ID: <5ab5deb9-707f-5b68-bd34-86c1efa159b9@loongson.cn>
+Date: Thu, 4 May 2023 19:33:52 +0800
+User-Agent: Mozilla/5.0 (X11; Linux loongarch64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
+MIME-Version: 1.0
+In-Reply-To: <620c7286-f643-b7f8-5e21-56f3890db25a@linaro.org>
+Content-Type: multipart/alternative;
+ boundary="------------1F08D90EB2DE16AB1B830D32"
+Content-Language: en-US
+X-CM-TRANSID: AQAAf8DxddEgmFNkktpJAA--.5364S3
+X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
+X-Coremail-Antispam: 1Uk129KBjvJXoW7Ar1xXr45tw18ZrWkZr1xuFg_yoW8Gw1DpF
+ 4Fqan7GF9rJ3W8Jry8C3Wqya4Iya48K3yUCw1kGrW8uFn8uF9xJrWjv3W8W3WrWrZ2gF4U
+ Aw1avryruwn8J3DanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
+ DUYxn0WfASr-VFAUDa7-sFnT9fnUUIcSsGvfJTRUUUb4xYFVCjjxCrM7AC8VAFwI0_Jr0_
+ Gr1l1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s1l1IIY67AEw4v_Jr0_Jr4l8cAvFV
+ AK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2IY67AKxVW8JVW5JwA2
+ z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM2
+ 8EF7xvwVC2z280aVCY1x0267AKxVW0oVCq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc80
+ 4VCY07AIYIkI8VC2zVCFFI0UMcIj6xIIjxv20xvE14v26r106r15McIj6I8E87Iv67AKxV
+ WUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41l7480Y4vEI4kI2Ix0rVAq
+ x4xJMxk0xIA0c2IEe2xFo4CEbIxvr21l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7
+ v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUGVWUWwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF
+ 1VAY17CE14v26r1Y6r17MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIx
+ AIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI
+ 42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r1j6r4UYxBIdaVFxh
+ VjvjDU0xZFpf9x07UBGQDUUUUU=
+Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
+ helo=loongson.cn
+X-Spam_score_int: -61
+X-Spam_score: -6.2
+X-Spam_bar: ------
+X-Spam_report: (-6.2 / 5.0 requ) BAYES_00=-1.9, HTML_MESSAGE=0.001,
+ NICE_REPLY_A=-4.28, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -107,52 +83,154 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+This is a multi-part message in MIME format.
+--------------1F08D90EB2DE16AB1B830D32
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
 
-> On 04-May-2023, at 1:55 PM, Daniel P. Berrang=C3=A9 =
-<berrange@redhat.com> wrote:
->=20
-> On Thu, May 04, 2023 at 01:52:36PM +0530, Ani Sinha wrote:
->>=20
->>=20
->>> On 04-May-2023, at 1:32 PM, Daniel P. Berrang=C3=A9 =
-<berrange@redhat.com> wrote:
->>>=20
->>> On Thu, May 04, 2023 at 08:35:53AM +0200, Thomas Huth wrote:
->>>> On 03/05/2023 16.55, Ani Sinha wrote:
->>>>> mformat and xorriso tools are needed by biosbits avocado tests. =
-This patchset
->>>>> adds those two tools in the docker container images.
->>>>=20
->>>> tests/qtest/cdrom-test.c already uses genisoimage to create ISO =
-images, and
->>>> the containers already have that tool installed. Could you maybe =
-switch the
->>>> biosbits test to use that tool? Or the other way round? ... at =
-least having
->>>> two tools to create ISO images in our containers sounds IMHO =
-excessive.
->>>=20
->>> It looks like this series wasn't tested,
->>=20
->> Oh I wasn=E2=80=99t sure which tests I were to run to verify this =
-because https://www.qemu.org/docs/master/devel/testing.html does not =
-mention any specific tests to run after:
->>=20
->> 	=E2=80=A2 Once the merge request is accepted, go back to QEMU =
-and update the tests/lcitool/libvirt-ci submodule to point to a commit =
-that contains the mappings.yml update. Then add the prerequisite and run =
-make lcitool-refresh.
->>=20
->> Is it =E2=80=9Cmake docker-all-tests=E2=80=9D ? Maybe we can update =
-the doc. This is the first time me updating the docker images with new =
-packages and I doing not touch this infrastructure part at all.
->=20
-> By testing, I mean run the CI pipeline in GitLab to see if everything
-> still passes. I expect the alpine job will fail the container build.
+在 2023/5/4 下午5:41, Richard Henderson 写道:
+> On 5/4/23 09:25, Richard Henderson wrote:
+>> On 5/4/23 02:26, Song Gao wrote:
+>>>>> V4:
+>>>>>    - R-b and rebase;
+>>>>>    - Migrate the upper half lsx regs;
+>>>>>    - Remove tcg_gen_mulus2_*;
+>>>>>    - Vsetallnez use !do_match2;
+>>>>>    - Use tcg_gen_concat_i64_i128/tcg_gen_extr_i128_i64 to replace
+>>>>>      TCGV128_LOW(val)/TCGV128_High(val);
+>>>>
+>>>> One minor nit, everything reviewed!  Congratulations.
+>>>>
+>>> Thank you for your guidance and review.
+>>>
+>>> Since all patches are reviewed, how about drop 'RFC' on v5?
+>>
+>> Sure.
+>>
+>>> I am  really not sure When the Vol2 will be open.
+>>
+>> That is unfortunate.
+>>
+>> I think the timing of the merge of this code is now up to you as 
+>> maintainer of the Loongson target.  As an employee of the company you 
+>> have more insight into the status of the extension, whether it is 
+>> already present in shipping silicon, or completed final draft, or 
+>> still beta, etc.
+>>
+>> Even if the extension is finalized, I see no reason why you should 
+>> not be able to merge, 
+>
+> Oops.  "Even if the extension is *not* finalized..."
+> I.e., a beta extension can be merged if it is off by default. 
+Thanks for  your explanation.
 
-Ah that makes sense. As I told you offline, I regenerated the centos8 =
-container image in my fork with those two packages and made sure =
-avocado-system-centos job passed. I did not run all the pipelines.=
+The  'la464' supports LSX and LASX by default.  The 'la364' supports LSX 
+by default.
+Neither of these are beta extensions. They are already present in the 
+shipping silicon and have been finalized.
+
+And the 'la664' also supports LSX and LASX by default.
+
+I will send v5 series.
+
+Thanks.
+Song Gao
+
+--------------1F08D90EB2DE16AB1B830D32
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: 8bit
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+  <body>
+    <p><br>
+    </p>
+    <div class="moz-cite-prefix">在 2023/5/4 下午5:41, Richard Henderson
+      写道:<br>
+    </div>
+    <blockquote type="cite"
+      cite="mid:620c7286-f643-b7f8-5e21-56f3890db25a@linaro.org">On
+      5/4/23 09:25, Richard Henderson wrote:
+      <br>
+      <blockquote type="cite" style="color: #000000;">On 5/4/23 02:26,
+        Song Gao wrote:
+        <br>
+        <blockquote type="cite" style="color: #000000;">
+          <blockquote type="cite" style="color: #000000;">
+            <blockquote type="cite" style="color: #000000;">V4:
+              <br>
+                 - R-b and rebase;
+              <br>
+                 - Migrate the upper half lsx regs;
+              <br>
+                 - Remove tcg_gen_mulus2_*;
+              <br>
+                 - Vsetallnez use !do_match2;
+              <br>
+                 - Use tcg_gen_concat_i64_i128/tcg_gen_extr_i128_i64 to
+              replace
+              <br>
+                   TCGV128_LOW(val)/TCGV128_High(val);
+              <br>
+            </blockquote>
+            <br>
+            One minor nit, everything reviewed!  Congratulations.
+            <br>
+            <br>
+          </blockquote>
+          Thank you for your guidance and review.
+          <br>
+          <br>
+          Since all patches are reviewed, how about drop 'RFC' on v5?
+          <br>
+        </blockquote>
+        <br>
+        Sure.
+        <br>
+        <br>
+        <blockquote type="cite" style="color: #000000;">I am  really not
+          sure When the Vol2 will be open.
+          <br>
+        </blockquote>
+        <br>
+        That is unfortunate.
+        <br>
+        <br>
+        I think the timing of the merge of this code is now up to you as
+        maintainer of the Loongson target.  As an employee of the
+        company you have more insight into the status of the extension,
+        whether it is already present in shipping silicon, or completed
+        final draft, or still beta, etc.
+        <br>
+        <br>
+        Even if the extension is finalized, I see no reason why you
+        should not be able to merge, </blockquote>
+      <br>
+      Oops.  "Even if the extension is <b class="moz-txt-star"><span
+          class="moz-txt-tag">*</span>not<span class="moz-txt-tag">*</span></b>
+      finalized..."
+      <br>
+      I.e., a beta extension can be merged if it is off by default.
+    </blockquote>
+    Thanks for  your explanation.<br>
+    <br>
+    The  'la464' supports LSX and LASX by default.  The 'la364' supports
+    LSX by default.<br>
+    Neither of these are beta extensions. They are already present in
+    the shipping silicon and have been finalized.<br>
+    <br>
+    And the 'la664' also supports LSX and LASX by default.  <br>
+    <br>
+    I will send v5 series.<br>
+    <br>
+    Thanks.<br>
+    Song Gao<br>
+  </body>
+</html>
+
+--------------1F08D90EB2DE16AB1B830D32--
 
 
