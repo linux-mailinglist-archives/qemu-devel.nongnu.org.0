@@ -2,87 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98C3D6F713D
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 May 2023 19:40:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D4CA6F70ED
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 May 2023 19:33:22 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pucor-0007ok-UG; Thu, 04 May 2023 13:32:41 -0400
+	id 1pucog-0007CC-6a; Thu, 04 May 2023 13:32:30 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
- id 1puadd-0007we-GP
- for qemu-devel@nongnu.org; Thu, 04 May 2023 11:12:57 -0400
-Received: from mail-pl1-x62e.google.com ([2607:f8b0:4864:20::62e])
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
+ id 1puaeZ-00080t-H6; Thu, 04 May 2023 11:13:55 -0400
+Received: from mail-pl1-x636.google.com ([2607:f8b0:4864:20::636])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
- id 1puada-00009I-7b
- for qemu-devel@nongnu.org; Thu, 04 May 2023 11:12:57 -0400
-Received: by mail-pl1-x62e.google.com with SMTP id
- d9443c01a7336-1aaf91ae451so5245855ad.1
- for <qemu-devel@nongnu.org>; Thu, 04 May 2023 08:12:53 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
+ id 1puaeX-0001XS-Qp; Thu, 04 May 2023 11:13:55 -0400
+Received: by mail-pl1-x636.google.com with SMTP id
+ d9443c01a7336-1aaf70676b6so4430615ad.3; 
+ Thu, 04 May 2023 08:13:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=daynix-com.20221208.gappssmtp.com; s=20221208; t=1683213172; x=1685805172;
+ d=gmail.com; s=20221208; t=1683213232; x=1685805232;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=8+W9dglJi0LCNk5Os9N7KYrKJd+qz0snwzWXG8Kq7BE=;
- b=c30KeaTh9gi8muUGg1/6/G8xvsqpX6kPM43wCJ3g4DrzlqYV/1CIAcKGhXyg6VdsTc
- K1vsLDlstpVD6uGlYmeoVwW1BFt5rUzueTcJr0iTWkSUgjZmWCfh/GJ9KNkA7+H7yACL
- weeTem8ZtQg8HDE+XGcNt0CJgQM23WxJOL3pKDGClFdRo4ld240nKI1Pm8PukQWAFgd5
- NYl5RanD9Tf6p+SS/dVceauOtUfjm2FbW/FUPjZN+5KFTxuciiQLB1QMEX5fjf58QkiP
- sT3u2xP8UU0LPJNJlDs3v73G5A6selBC/DVx27156O6iMSOyyLEV7fzKxdluCvNHxjFG
- Tq9A==
+ bh=NutIhzJDNxMTIFS9t7wC7dYAQ4J8605wnEL53vTTKq8=;
+ b=InyQIdeyMf9NDPULaNrnY4h/3RV6BZAfT7Chvhj1AvDjHhxWCE/OqKywvE38DuEMjY
+ lXELf/oB4gEwANpaOTSaJ++Wvj+n1SrDPczCwlpYFqglLzXx1KS64ZXFgItlLR6BJPpz
+ jdHWXUIwF1uttGY6on4L5XuWIqvvwnHkercb0LtJLhKaMnC+vKQuQ7gOVxRwDyH2mQS6
+ Yc1yfPH4pHCmsAPJm6+mOcf3GZv7Xmb0B7PLLpPDFCgIVU8+KPt7AWZEN5tpgujsQOwz
+ eOH3cjRAHyinEbJlGx8+JVfcNn2ghIQyoM5nQgLKAtx/AdI/FS8r/8ZXepYvTyQFEkyg
+ 1Lmg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683213172; x=1685805172;
+ d=1e100.net; s=20221208; t=1683213232; x=1685805232;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=8+W9dglJi0LCNk5Os9N7KYrKJd+qz0snwzWXG8Kq7BE=;
- b=Ftoo6PsJYnGRRuah1a308s10yX8IyHd6j1G9qaADxv+YcOGFkcWESSRXJcrFGvSixj
- hk4uY4KSE26RRG/wueBnqAiehoq71kz9h1w1C0BNogYPFfKGSfCCmwasufpwW4hR+tOd
- 6/YhXc2xMDChW5w2qFlFj1D2p/SsR6kWOjKEaxsmqVyAV6NJC7wI17VZnI/krEm+m8Rz
- Pyi1d1ZLSnCDOxLdU6eWIzWggDiLuQ/+qMbIKePThDVd24ZDS3Xv5vwLUqKCK40A1dZ0
- +bxHE8m+jsiwegmpl8ei7SMByriE2yobSg1iblTQhNYYdgjpqWYPYMW6nT4xeTzPKzar
- HIrg==
-X-Gm-Message-State: AC+VfDwoTcTZ08CDg7HDtN9oiHwCTZf57ULxuYKFg5t65V87jcQLSLQv
- R7r9WDFCw9XsTUEKxtT8Ahqjxw==
-X-Google-Smtp-Source: ACHHUZ48mEA4pEyc0GCc41VocGd/lunxZv7V7kx6IdH4MgyYBQFNt2XnADG/qsCUedq0l4F06a8ODg==
-X-Received: by 2002:a17:903:11cc:b0:1aa:f616:f5a5 with SMTP id
- q12-20020a17090311cc00b001aaf616f5a5mr4889955plh.29.1683213172708; 
- Thu, 04 May 2023 08:12:52 -0700 (PDT)
+ bh=NutIhzJDNxMTIFS9t7wC7dYAQ4J8605wnEL53vTTKq8=;
+ b=L098+wzUE95vpMBxXr3rlzxysqxkJe/1DpjKF4C4hqFAbsUBbDivEEjIzaXzWCDxDW
+ Tkco7OlcaGzwlRDD5r5Zm8EZgzX0BPWf0fQE3AQOx2G8RiHG12/N3evfMS+5ko6DwsYC
+ wv9R0RJgSveW3llzac58fHuUteDImLx06zE+lt7V/JKg+j/1NMOlojDDks5SWcbnEmiI
+ F1O/HxvROJ4z0dbmi4KcNBdeapDKbmzmFYHMtlqXtzllDUICDW0XBP/UpKpyQ3VV9pqI
+ hSur5o1TW3teO0jciMFF+tkAjXilW1NrjkmaapMr3399r/CtA9e8qnU6WFSoGT3p6fkq
+ Z1sA==
+X-Gm-Message-State: AC+VfDwQ2OM47MSiTqWQ0S9pbUQ0RVrRJI92sR3SYMvy3H/S7/DE9cAB
+ 67Os5EObpuI3+uhq8yhd5Oo=
+X-Google-Smtp-Source: ACHHUZ7C+6O5YFyhAbK1LCzUqJ9aWM+Ol4ot/HEt1yLuEDAWRNI6/o+dixSqGGIkjMiTJprBO/ZBIg==
+X-Received: by 2002:a17:902:b198:b0:1a1:b174:836c with SMTP id
+ s24-20020a170902b19800b001a1b174836cmr3826967plr.16.1683213231657; 
+ Thu, 04 May 2023 08:13:51 -0700 (PDT)
 Received: from ?IPV6:2400:4050:a840:1e00:4457:c267:5e09:481b?
  ([2400:4050:a840:1e00:4457:c267:5e09:481b])
  by smtp.gmail.com with ESMTPSA id
- a7-20020a1709027d8700b001a653a32173sm23505334plm.29.2023.05.04.08.12.51
+ i1-20020a17090332c100b001a3d041ca71sm2322354plr.275.2023.05.04.08.13.49
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 04 May 2023 08:12:52 -0700 (PDT)
-Message-ID: <7a39e1fd-2fd1-2a83-bd63-46aa5ae48880@daynix.com>
-Date: Fri, 5 May 2023 00:12:50 +0900
+ Thu, 04 May 2023 08:13:51 -0700 (PDT)
+Message-ID: <8373e1c9-8b4a-c5e1-cafd-cec7f19dbb7d@gmail.com>
+Date: Fri, 5 May 2023 00:13:48 +0900
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:102.0) Gecko/20100101
  Thunderbird/102.10.1
-Subject: Re: [PATCH v4 3/5] igb: RX descriptors handling cleanup
+Subject: Re: [PATCH] include/qemu/osdep.h: Bump _WIN32_WINNT to the Windows 8
+ API
 Content-Language: en-US
-To: Tomasz Dzieciol <t.dzieciol@partner.samsung.com>, qemu-devel@nongnu.org
-Cc: sriram.yagnaraman@est.tech, jasowang@redhat.com, k.kwiecien@samsung.com,
- m.sochacki@samsung.com
-References: <20230504131055.11767-1-t.dzieciol@partner.samsung.com>
- <CGME20230504131106eucas1p13530e4d1f10ca1086b39b37feddc3e28@eucas1p1.samsung.com>
- <20230504131055.11767-4-t.dzieciol@partner.samsung.com>
-From: Akihiko Odaki <akihiko.odaki@daynix.com>
-In-Reply-To: <20230504131055.11767-4-t.dzieciol@partner.samsung.com>
+To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
+Cc: qemu-trivial@nongnu.org, =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?=
+ <berrange@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Yonggang Luo <luoyonggang@gmail.com>, Stefan Weil <sw@weilnetz.de>
+References: <20230504081351.125140-1-thuth@redhat.com>
+From: Akihiko Odaki <akihiko.odaki@gmail.com>
+In-Reply-To: <20230504081351.125140-1-thuth@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::62e;
- envelope-from=akihiko.odaki@daynix.com; helo=mail-pl1-x62e.google.com
-X-Spam_score_int: -61
-X-Spam_score: -6.2
+Received-SPF: pass client-ip=2607:f8b0:4864:20::636;
+ envelope-from=akihiko.odaki@gmail.com; helo=mail-pl1-x636.google.com
+X-Spam_score_int: -63
+X-Spam_score: -6.4
 X-Spam_bar: ------
-X-Spam_report: (-6.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, NICE_REPLY_A=-4.28, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-6.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ NICE_REPLY_A=-4.28, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -98,11 +96,13 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 2023/05/04 22:10, Tomasz Dzieciol wrote:
-> Refactoring is done in preparation for support of multiple advanced
-> descriptors RX modes, especially packet-split modes. >
-> Signed-off-by: Tomasz Dzieciol <t.dzieciol@partner.samsung.com>
+On 2023/05/04 17:13, Thomas Huth wrote:
+> Commit cf60ccc330 ("cutils: Introduce bundle mechanism") abandoned
+> compatibility with Windows older than 8 - we should reflect this
+> in our _WIN32_WINNT and set it to the value that corresponds to
+> Windows 8.
+> 
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
 
-I guess the refactoring of igb_write_rx_descr() and 
-igb_write_packet_to_guest() can be split. Please do so in that casea
+Reviewed-by: Akihiko Odaki <akihiko.odaki@daynix.com>
 
