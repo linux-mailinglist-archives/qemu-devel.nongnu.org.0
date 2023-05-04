@@ -2,87 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16FE46F796B
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 May 2023 00:54:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 340DC6F79E0
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 May 2023 02:01:03 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1puhpi-0008WH-4D; Thu, 04 May 2023 18:53:55 -0400
+	id 1puirJ-00025i-CD; Thu, 04 May 2023 19:59:37 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1puhpe-0008W8-EH
- for qemu-devel@nongnu.org; Thu, 04 May 2023 18:53:50 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ id 1puirH-00024k-PO
+ for qemu-devel@nongnu.org; Thu, 04 May 2023 19:59:35 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1puhpY-0003Fi-UF
- for qemu-devel@nongnu.org; Thu, 04 May 2023 18:53:50 -0400
+ id 1puirG-0004KM-B2
+ for qemu-devel@nongnu.org; Thu, 04 May 2023 19:59:35 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1683240823;
+ s=mimecast20190719; t=1683244772;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=I2Ly/JCwzSNIm1xCfO8zJ3mJXdoAliRA3y+4MzV2gFE=;
- b=cJav30I6pfTYwAcBX6+YfJoyV/XFWxx72vs9grb49KpjKPtl8MkXrhsiSOu+DNeU9yxPqM
- wJ8RHAamGjRTdelW63NoJ6W9StWmjraFQO9EiCOujCwMzvE1uP7yQL/GkRGbxarjmRJz2+
- 1ValvS8aV777gMHw5xFVbvdEc/Yx/k0=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=iNPWkotzqSCJl7CCXJB7NdFOIewYr0floAJpDRhAC8I=;
+ b=ihxZ1zSqLjw/Ac7Yg7kdgrr0U4Ldp2PSjVMuF8at4EXPy9AvXx2y2L7ZW4/h2L3YYjPSKs
+ Xllo3UY6RoUw3vJ2AA5Mr4h4/1BD2xodY/CJZhTX8lfkyDw9pI20EuLiGmnfYnuNZBs9qi
+ Z0mQlAKcyro0956ggV9br3JFsfylerE=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-522-RrtCrwvXNSyGMLjh4bA4Ow-1; Thu, 04 May 2023 18:53:41 -0400
-X-MC-Unique: RrtCrwvXNSyGMLjh4bA4Ow-1
-Received: by mail-wm1-f69.google.com with SMTP id
- 5b1f17b1804b1-3f16fa91923so6347575e9.2
- for <qemu-devel@nongnu.org>; Thu, 04 May 2023 15:53:41 -0700 (PDT)
+ us-mta-433-sYpw6rlNPHqN_SPdcxRkcA-1; Thu, 04 May 2023 19:59:31 -0400
+X-MC-Unique: sYpw6rlNPHqN_SPdcxRkcA-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ ffacd0b85a97d-302cdf5d034so618661f8f.0
+ for <qemu-devel@nongnu.org>; Thu, 04 May 2023 16:59:31 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683240820; x=1685832820;
- h=content-transfer-encoding:mime-version:message-id:date:reply-to
- :user-agent:references:in-reply-to:subject:cc:to:from
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=I2Ly/JCwzSNIm1xCfO8zJ3mJXdoAliRA3y+4MzV2gFE=;
- b=etPKJTOo+47Pplle5yDKy3OwZ8GZnefNt/qtNOMuvSbaI9c5foTJN0avjWepXOZqkl
- mzwkj+0fn2Vpcz+qrXL4wnICMM2jSFmccT2YZLmB5JsN12WIz9sSSXVsKg0wP3D4l+do
- l6nTRvPjN4CFfBJB8as2bn1S/u2N5HmVCJzsZNCmnAHoz/eKBzpLBoeTTaGSpHxUEO6F
- 4uBII6XQAYC/ApKwWo4MUQPjp/v3tuwxbBACgKeqrNRdwuPkLTHfsS5vyXbR8sfGwSxY
- /gVtArDKnkMbbAajJMhpbttep2REq2iCMjN6cRI0rFc6yvwft6HAb/ZTV868Z7fllPDN
- +IIA==
-X-Gm-Message-State: AC+VfDxU+7PXxmvYCUyNsNIOH5rW4cpoc+qBieWF7+lsNe34WB2J4QT5
- x8fKF6MT74Ev6H17TKnvLUB5lFYQYlJBcqyVw+OTuVEEkH0hiYCOrmMA7j82mt1uBe7rBB4S4Fv
- 26RMfxxhW/mouBB8=
-X-Received: by 2002:adf:e84e:0:b0:306:2e04:5925 with SMTP id
- d14-20020adfe84e000000b003062e045925mr3597210wrn.17.1683240820764; 
- Thu, 04 May 2023 15:53:40 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ6wt0WJ01UlDnHgu0EGCvLh8sVmGSWvz+YimYiMSBn9Za7gP+M+PYMyrDt85NJD/WP0isXmsw==
-X-Received: by 2002:adf:e84e:0:b0:306:2e04:5925 with SMTP id
- d14-20020adfe84e000000b003062e045925mr3597201wrn.17.1683240820510; 
- Thu, 04 May 2023 15:53:40 -0700 (PDT)
-Received: from redhat.com (static-92-120-85-188.ipcom.comunitel.net.
- [188.85.120.92]) by smtp.gmail.com with ESMTPSA id
- d6-20020a056000114600b00306344eaebfsm423820wrx.28.2023.05.04.15.53.39
+ d=1e100.net; s=20221208; t=1683244770; x=1685836770;
+ h=mime-version:message-id:date:reply-to:user-agent:references
+ :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=iNPWkotzqSCJl7CCXJB7NdFOIewYr0floAJpDRhAC8I=;
+ b=AtRvVeeTzJ9GReLzkhWIsLi5na/TEYR+HdCCXKXRPVvpJNnIjLXgPC7h+Jtx9hjRar
+ prex81ymc/8LtzpxB21NZAw2Y+4Bl0TjzDAVbZVIFmRiROeKCtKtuKRi1MQiofvisKkd
+ 0DFQLWSsBEHPczq3ulghEVKxxKeA+kueCWE53lWFbZlD1HSP+e0AFi27AoDqyYqrUWKg
+ 1kHDMVEVdQP300/5xWwQ7NPCXjDH1riQvO5YCOzbj8W1euBbw0DQGQJmR+EBuZXBOnMO
+ ZEsmfOKaBunjsHZqdpggr/Dp2KDTpTJhpHujoPu8liXbop3PNHE91BZkuuHDKbxv0X3e
+ txXA==
+X-Gm-Message-State: AC+VfDyAMlsXV2dFjinOgoW7fWv6kEZ2COtxFAuOFqE0ss8N0ro/uVTT
+ EFR/+b6F59QEKz4shRbUmi8er3LIQV4MDWOFgN75zc8ibivrkkAAFhMPaYWxbmHCgjWjcXqQ57n
+ JCPBhI4JDNpGJhw2Sbt1kdegejhiSEr6H9QWmXu+w86iQRbYwuCUs2WlBufXuh3oOISkkDWij80
+ bYc4C8
+X-Received: by 2002:a5d:640f:0:b0:306:2d32:8ec with SMTP id
+ z15-20020a5d640f000000b003062d3208ecmr3754932wru.6.1683244770205; 
+ Thu, 04 May 2023 16:59:30 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ4xX1yn6LtBCLOw2dID7YMAZUmxHgzpcP6d8hIVs7a/hcmaWN/DAAJYLJztVCUSj7n4n6BB4g==
+X-Received: by 2002:a5d:640f:0:b0:306:2d32:8ec with SMTP id
+ z15-20020a5d640f000000b003062d3208ecmr3754918wru.6.1683244769896; 
+ Thu, 04 May 2023 16:59:29 -0700 (PDT)
+Received: from redhat.com ([188.85.120.92]) by smtp.gmail.com with ESMTPSA id
+ k9-20020adfe8c9000000b0030642f5da27sm536763wrn.37.2023.05.04.16.59.29
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 04 May 2023 15:53:39 -0700 (PDT)
+ Thu, 04 May 2023 16:59:29 -0700 (PDT)
 From: Juan Quintela <quintela@redhat.com>
-To: Daniel P. =?utf-8?Q?Berrang=C3=A9?= <berrange@redhat.com>
-Cc: qemu-devel@nongnu.org,  Leonardo Bras <leobras@redhat.com>,  Peter Xu
+To: qemu-devel@nongnu.org
+Cc: qemu-block@nongnu.org,  Stefan Hajnoczi <stefanha@redhat.com>,  Leonardo
+ Bras <leobras@redhat.com>,  Fam Zheng <fam@euphon.net>,  Peter Xu
  <peterx@redhat.com>
-Subject: Re: [PATCH 4/5] migration/rdma: It makes no sense to recive that
- flag without RDMA
-In-Reply-To: <ZFPl0Slq5vX4VuBl@redhat.com> ("Daniel P. =?utf-8?Q?Berrang?=
- =?utf-8?Q?=C3=A9=22's?= message of
- "Thu, 4 May 2023 18:05:21 +0100")
-References: <20230504114443.23891-1-quintela@redhat.com>
- <20230504114443.23891-5-quintela@redhat.com>
- <ZFPl0Slq5vX4VuBl@redhat.com>
+Subject: Re: [PATCH 3/9] qemu-file: make qemu_file_[sg]et_rate_limit() use
+ an uint64_t
+In-Reply-To: <20230504113841.23130-4-quintela@redhat.com> (Juan Quintela's
+ message of "Thu, 4 May 2023 13:38:35 +0200")
+References: <20230504113841.23130-1-quintela@redhat.com>
+ <20230504113841.23130-4-quintela@redhat.com>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
-Date: Fri, 05 May 2023 00:53:39 +0200
-Message-ID: <87y1m3ogi4.fsf@secure.mitica>
+Date: Fri, 05 May 2023 01:59:26 +0200
+Message-ID: <87r0rvodgh.fsf@secure.mitica>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -22
 X-Spam_score: -2.3
@@ -90,7 +86,8 @@ X-Spam_bar: --
 X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.161,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -107,25 +104,61 @@ Reply-To: quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Daniel P. Berrang=C3=A9 <berrange@redhat.com> wrote:
-> In $SUBJECT   s/recive/receive/
+Juan Quintela <quintela@redhat.com> wrote:
+> It is really size_t.  Everything else uses uint64_t, so move this to
+> uint64_t as well.  A size can't be negative anyways.
 >
-> On Thu, May 04, 2023 at 01:44:42PM +0200, Juan Quintela wrote:
->> This could only happen if the source send
->
-> s/send/sent/
+> Signed-off-by: Juan Quintela <quintela@redhat.com>
 
-Fixed.
+Self-nack.
 
->> RAM_SAVE_FLAG_HOOK (i.e. rdma) and destination don't have CONFIG_RDMA.
->>=20
->> Signed-off-by: Juan Quintela <quintela@redhat.com>
->> ---
->>  migration/qemu-file.c | 8 --------
->>  1 file changed, 8 deletions(-)
->
-> Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+> -        qemu_file_set_rate_limit(ms->to_dst_file, INT64_MAX);
+> +        qemu_file_set_rate_limit(ms->to_dst_file, UINT64_MAX);
 
-Thanks.
+1st: this should be zero.
+
+>      } else {
+>          qemu_file_set_rate_limit(ms->to_dst_file, bandwidth / XFER_LIMIT_RATIO);
+>      }
+> @@ -2301,7 +2301,7 @@ static void migration_completion(MigrationState *s)
+>              }
+>              if (ret >= 0) {
+>                  s->block_inactive = !migrate_colo();
+> -                qemu_file_set_rate_limit(s->to_dst_file, INT64_MAX);
+> +                qemu_file_set_rate_limit(s->to_dst_file, UINT64_MAX);
+
+Same here
+
+>                  ret = qemu_savevm_state_complete_precopy(s->to_dst_file, false,
+>                                                           s->block_inactive);
+>              }
+
+
+> @@ -3049,7 +3049,7 @@ static void *bg_migration_thread(void *opaque)
+>      rcu_register_thread();
+>      object_ref(OBJECT(s));
+>  
+> -    qemu_file_set_rate_limit(s->to_dst_file, INT64_MAX);
+> +    qemu_file_set_rate_limit(s->to_dst_file, UINT64_MAX);
+
+And here.
+
+> @@ -748,18 +748,18 @@ int qemu_file_rate_limit(QEMUFile *f)
+>      if (qemu_file_get_error(f)) {
+>          return 1;
+>      }
+> -    if (f->rate_limit_max > 0 && f->rate_limit_used > f->rate_limit_max) {
+> +    if (f->rate_limit_used > f->rate_limit_max) {
+
+And this is wrong.  f->rate_limit_max == 0 means that we don't do  rate_limit.
+
+Will resend this one later.
+
+Sorry, Juan.
+
+PD.  No, I have no clue how I have had this patch applied the whole day
+     and no failures and now I get failures in migration-test.  The
+     number of times that I run this test on the last two days have been
+     in the hundreds.
 
 
