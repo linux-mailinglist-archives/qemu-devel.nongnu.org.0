@@ -2,82 +2,158 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF3B46F6831
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 May 2023 11:21:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B51E6F6842
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 May 2023 11:27:02 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1puV8T-0006Zg-3L; Thu, 04 May 2023 05:20:25 -0400
+	id 1puVE1-000859-SU; Thu, 04 May 2023 05:26:09 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kkostiuk@redhat.com>)
- id 1puV8P-0006ZK-HV
- for qemu-devel@nongnu.org; Thu, 04 May 2023 05:20:22 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
+ id 1puVDz-00084m-7F
+ for qemu-devel@nongnu.org; Thu, 04 May 2023 05:26:07 -0400
+Received: from mga14.intel.com ([192.55.52.115])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kkostiuk@redhat.com>)
- id 1puV8M-0007GX-HE
- for qemu-devel@nongnu.org; Thu, 04 May 2023 05:20:20 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1683192017;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=U3dkBZd4Bd5o6y5a6A7L9mob1Im11ltu5mW7/8bVr8o=;
- b=fwWn44Qu0XcYa1pYrVbfgYarrh6NB4ea99l5Ns7SonPk/F9MHyTMugiwY2YScPag+r0L31
- F/s7YZ+HsCTtahhqFJfMlckB1LcGVv8pdI5ORcSINReefX0CI+Yeu+VPIxboWCuzRrOP9v
- bjUE/BJ2BEBv4pL3i2cyIrbAKK7ERoo=
-Received: from mail-yb1-f199.google.com (mail-yb1-f199.google.com
- [209.85.219.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-182-qH2DJuVBM0mMTO47nhcpwA-1; Thu, 04 May 2023 05:20:16 -0400
-X-MC-Unique: qH2DJuVBM0mMTO47nhcpwA-1
-Received: by mail-yb1-f199.google.com with SMTP id
- 3f1490d57ef6-b9a7553f95dso562231276.2
- for <qemu-devel@nongnu.org>; Thu, 04 May 2023 02:20:16 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683192015; x=1685784015;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=U3dkBZd4Bd5o6y5a6A7L9mob1Im11ltu5mW7/8bVr8o=;
- b=Olf021gA2Q5DYmxzUe/f0387V9rMT2zJQtc83/9RBtRVlUJwTpSnSzrwfJHeKANeK9
- UHmjI4zru5oYZrkPtsbdHDYxDlDW0iwDb2CCRASlNjUyHG37RqkWgfGBkqfld8ffoHrf
- I1Jeae7E7GBF1CbaU27WcQhxu4bpZEUf0Oq0aq58JlgBH73O1FUW2ima3AHGRR3pukm7
- lfy0By/wfzO/lFS3lde4J4lmbigrbne0Z/9WBw9CHgtwmnS6O++9CqdKMKJ3n/PdDjDX
- EkFXS1g/TXGCL6+iYeF02VYKnA+AqZEXFb/mzJo1enHBqJgPO9uiIE6O3okrDJvuG/0L
- ayWQ==
-X-Gm-Message-State: AC+VfDzo4hYC8j4GjnILzZhlNWs6DCLg2+uIwKrPskit8zUwlK/TIJn6
- Px53mHWt+Z2tm1HK7c/n/MrLkCDCwaoVNZQ1rVcyebD2ZMYmXkbDPZpaQc12NeYh9/pWiyyEr4m
- uTOJvxFxydXCyDc3bnh1AB/s9PnQLKmM=
-X-Received: by 2002:a25:40d2:0:b0:b9e:7589:62fc with SMTP id
- n201-20020a2540d2000000b00b9e758962fcmr7862734yba.28.1683192015570; 
- Thu, 04 May 2023 02:20:15 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ7MG0VIGvCupzKNYSMIQ3PCPU+7M4rKhCa4QQnOheC2le1t6kE1NPi8C+7MiNHoDgRguSkE9Eg9er1WlSj5gOk=
-X-Received: by 2002:a25:40d2:0:b0:b9e:7589:62fc with SMTP id
- n201-20020a2540d2000000b00b9e758962fcmr7862725yba.28.1683192015279; Thu, 04
- May 2023 02:20:15 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
+ id 1puVDw-0000aX-Um
+ for qemu-devel@nongnu.org; Thu, 04 May 2023 05:26:06 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1683192364; x=1714728364;
+ h=from:to:cc:subject:date:message-id:references:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=TB6pze/ql7BdkzvhiNr/G3enMOEUTKQWhBWVRoPEqy8=;
+ b=EbXVJlN9eZxAZ0DZP+J6SZxN8wEwtnNQVvFdkP3mgh1w+PT53Ow+eEPQ
+ WiiN3Cpe6pHBCW8zWxP/mQZJHk480/fSPgVE0iLWTJSkq/vr6iYpwZBVN
+ MKqxctYEjkVMqXqTauylRtwNheDZ9Hqf953v5Ewsk7/GTbp/sVYRLGXmB
+ HgNfzgrAv3u94yyZNDrVOhvzi7qrq8A8yJpjaxUh6Iytmexi3j0bs3tiK
+ GuwkaPdcIVPeafVK3Sf1qzLFMYx01UC5mqxCzHCKsmmmnccgE7mh3YH95
+ 7HZu4zs9z3dA7xTVYmOvp9DA5QbXuyWDZKmimxJO3Z1idZJcnZksECELJ Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10699"; a="348925484"
+X-IronPort-AV: E=Sophos;i="5.99,249,1677571200"; d="scan'208";a="348925484"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 May 2023 02:26:01 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10699"; a="729721432"
+X-IronPort-AV: E=Sophos;i="5.99,249,1677571200"; d="scan'208";a="729721432"
+Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
+ by orsmga001.jf.intel.com with ESMTP; 04 May 2023 02:26:00 -0700
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.23; Thu, 4 May 2023 02:26:00 -0700
+Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
+ fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.23 via Frontend Transport; Thu, 4 May 2023 02:26:00 -0700
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com (104.47.56.172)
+ by edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.23; Thu, 4 May 2023 02:25:25 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=nJYnRRFUKP3vdRTP4TlI+wDdVW87dZ3CG7fuAtEzI9s/IyguTscPUzWkjMZ8JVX3n+2p6F86uuIQxGQpvWe4ihNRKMtL1siVCNP0M5d1PBeoghXSAnx7LTSP/3AFwJw+PqtzuqaNMXetBLx5kFYMVZdD/5w19lBV8tlJrpXkaXNJ6uvlvuRnKHyETAyjCTvWqNCsmwprJTot6r1lJrTYI2tqh3OKpzvnNYnC15L/pT7UAxS7SDwX8KyPJvWqEX/NXh4azAO0Ua+AWNKfiX/ZGjN8nuIU7K5sdLxsXraqIkmo+2q/47NAyDQo08bESdSrcneYWQUcNSwX1V6KdWhcTg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=6z9X6iCslslSsFi4DoL1m/6PMZC71Oc6v4W4dqw6WDM=;
+ b=KWUEHB5Oz3fkBQM0/3fcHRogGT5Zh5A/KjHcyJn4luvFtDvc8fVdyo/EHc+fu8dygEk5du4jKQ+qQoyrqJM4rcyeVmEuNPu9zlGWnn9dEMcMUYxVr+sigjbgA7EJV2nKNSKX9JHAG/0P8NscWWfJ0a6WQULs8Ai4b+3puia1qFr5F7r/7oRtK2VNRXRH5LNjc4d/YXJyavj5RvpEswW7Sff4a8mpfsV5EwVRHkGWTHfX39Qj+kVmD0jAFcg69UVFhvd04g0ShhdmmMtOwAYQPkprPB0qG3076NLITvOOAhEfHPGesfEloHnsJfBUZEtKgey/lYG4kW37M2n8i/NvGA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from MWHPR11MB0031.namprd11.prod.outlook.com (2603:10b6:301:69::37)
+ by SN7PR11MB7565.namprd11.prod.outlook.com (2603:10b6:806:344::14)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6363.22; Thu, 4 May
+ 2023 09:25:23 +0000
+Received: from MWHPR11MB0031.namprd11.prod.outlook.com
+ ([fe80::1323:5ae6:8e04:faf0]) by MWHPR11MB0031.namprd11.prod.outlook.com
+ ([fe80::1323:5ae6:8e04:faf0%3]) with mapi id 15.20.6363.026; Thu, 4 May 2023
+ 09:25:23 +0000
+From: "Zhang, Chen" <chen.zhang@intel.com>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+CC: "lukasstraub2@web.de" <lukasstraub2@web.de>, "quintela@redhat.com"
+ <quintela@redhat.com>, Peter Xu <peterx@redhat.com>, Leonardo Bras
+ <leobras@redhat.com>
+Subject: RE: [PATCH v4 10/10] migration: block incoming colo when capability
+ is disabled
+Thread-Topic: [PATCH v4 10/10] migration: block incoming colo when capability
+ is disabled
+Thread-Index: AQHZegsem5DlCMGXNUO9DfneGN0CCa9J3/4A
+Date: Thu, 4 May 2023 09:25:23 +0000
+Message-ID: <MWHPR11MB003179BB59297E26416CF4869B6D9@MWHPR11MB0031.namprd11.prod.outlook.com>
+References: <20230428194928.1426370-1-vsementsov@yandex-team.ru>
+ <20230428194928.1426370-11-vsementsov@yandex-team.ru>
+In-Reply-To: <20230428194928.1426370-11-vsementsov@yandex-team.ru>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: MWHPR11MB0031:EE_|SN7PR11MB7565:EE_
+x-ms-office365-filtering-correlation-id: 3af3c6e7-2278-49b7-638f-08db4c817d3a
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: cXJOSpU2FTp3bYeHieetQddnpDPKP2XCva+qCR2p6zhHUUjA4j70Fo6UmoLaLUTA9VMve6G2xMAXGt6jrvKI8CAPHx52MnnhbGAcMkLsU5P9arUHZ4qJFC7mD/a++6ndVWwYNH5vK6S7opiTz8qGA7c+876re12ylHVJID9oYkILjzs7yklsZcn96vQsJj5igsZ+niaZ26P52Ngh4tUoq0WENpuv2Du6pb96inYEUjvAWErRPTcHdrBmbW20ycqmhItROk0TOQXqmIeZdPOwI3Wrnd7W+fGJqTk+53VbNgmPLhyHa147ZnpAeDl/uLfhPD0qpmAv05d8a1rzP55cLEtlcSU9eNdny3eQWBR5ppKyJNPLZWrxMhewEVIxFa1K78oY+BpJ/eqqb6gc39XlUCp7jc5XTCciJ7UJf/PCWIhxrMjH8lDtVcok7biaTvPxYHGJ8MVkdYvPnWo5rf2jfo4bXEi3+ExQ/DbEFOsbcqljllmfbbD5Dqi9DqLOD4HT1w+GOdsEQNu9n2potk6c5OwNU1LT8PS/nEwk+TcuPBwndu50GISp1wsGlVR4A4QU5dojnL4VNCIS74AoVWjlkCG6Pqjp4kNZdC9+rs9KAErHa/WMenaQwKtgvr4VNo43
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MWHPR11MB0031.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230028)(376002)(39860400002)(396003)(346002)(136003)(366004)(451199021)(33656002)(82960400001)(86362001)(38070700005)(38100700002)(53546011)(9686003)(6506007)(66476007)(7696005)(54906003)(55016003)(122000001)(83380400001)(26005)(186003)(71200400001)(8676002)(8936002)(478600001)(5660300002)(52536014)(110136005)(76116006)(2906002)(66556008)(41300700001)(66446008)(316002)(4326008)(66946007)(64756008);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?gf2Cr7HUBjifA5FEqFovrX+ZvO5QyDyhrtivJNCT4DqF/9zzdJt8QmP4Qlqq?=
+ =?us-ascii?Q?nkyHI+8SMKmQtU3YfJHYr3Jl0RiTMR3PXWvByDr7zbzxswrvFVrbLc2KGv8c?=
+ =?us-ascii?Q?faVJ8UHWCRMZ9ZEdTE9pO+mzZ7FSoD/O6Q2TwE4TflIRXiHW/dk05gtTDnKS?=
+ =?us-ascii?Q?N0M+6+VB94Xm7gHF2FafW34vTtp7/053pMDHG/xru5CAwA/3wShE/BUAQP2W?=
+ =?us-ascii?Q?9eUz0uLghfWtyy3+wlMY3rhOef6l+Hy1Fw1ByX2nKRD9VCdcUt11MNGsJCk4?=
+ =?us-ascii?Q?LBYEuy/+DG3XoSLMuy/Zf6C2tJGh9jEpEDGq6F0pqyEAsLriSi9NUKsO748Q?=
+ =?us-ascii?Q?y/ZzCnaTDfHa75/DM2G2xrb4krFTxaRnbOizt48ykbxmkwPAKAPmWC6L0JKL?=
+ =?us-ascii?Q?lgx2Jaga3KPhcEAgK7DzYvox2oI0765z816hfkLZu5VX2Pt2oHPxK4ecvvmq?=
+ =?us-ascii?Q?yH9DUXubKowmu2VXSAnsNlvBMko781WSOsSekgMhSMDkQsjM01cjhTQunthZ?=
+ =?us-ascii?Q?/uWYi3i5xD2rHNenwojX7EYTdDCcEcfFKn42stCQf9T16OltTXjRj8YCQIFF?=
+ =?us-ascii?Q?U2jH5O8uFeqizuXmjcXEtDauEav5SsyHjcKMyEJ9N0dMJ1K4rzFpkChwNzZ0?=
+ =?us-ascii?Q?hQfb5Et7lpVh9CMHk1u8gabOzYoaAddvx7sJcituV7vbnMy9q9DaaunPyhj1?=
+ =?us-ascii?Q?3puQ2MC4qjCA1sTTidQwuiOdblBYLzzGo3D7KWk62uAE2ze0TIZbgabKmOKL?=
+ =?us-ascii?Q?1MxI5tm8vTsEtWZZ2+g+Sw1iMkHW2UcE7414GctLOo207+9pcpCpd9tPNmRM?=
+ =?us-ascii?Q?O+FmzQlD5dCqs7gbiE5kWUhqhd5kWKeHvw8Q/xbNRvSDDx2V/FOuiZNBv6eD?=
+ =?us-ascii?Q?iGS4pEHcb7MU8b5VTo+fI/Bj4s/RRHj8/We+TovCQlM0lRqw/1NQsoYi9d7D?=
+ =?us-ascii?Q?XqibGb5RpiavmwgR+a75MwJHvU8qcx8Sm7amFl2F4pbPu9tMYHvKzrCJx/pE?=
+ =?us-ascii?Q?EP0NGz1OpFwZGlNW43+918jXc02iRP7WKy0vQPXkktcFbl6KEtZlyJiNozra?=
+ =?us-ascii?Q?iNfyEGjCqWslwL19Dgqbp9fuqYvYbbN8wABqhxVwBg1NTFnmq4PrmFOS3jbg?=
+ =?us-ascii?Q?l1BKBanCmQB1tFqN1mHe2vHQIjd8XlgqzmTXanbX0plmKFnsEF9acbwRo3kE?=
+ =?us-ascii?Q?VTl+4s/SNfpT8DMGkhFWAitqcj0dGynZHpZ7hOJkiaICXnIBiEw8LyFRrnz8?=
+ =?us-ascii?Q?/ovPbLGvSil/yTnFc73agLC7fWT7mhOfx9tge6O9lfm54bE4ubCDEe/qTu10?=
+ =?us-ascii?Q?CzS0l9tNM0ixmKgvJCgn7R8lwSxE8wLZzUt3el/wV03uasESpDp0Q018iHJ3?=
+ =?us-ascii?Q?1dGuVjaN1JyX61lVsUGH/0v7KLhBs9TqWRo+9naTew4dHAUYDwTlmOWOS+gU?=
+ =?us-ascii?Q?GJ83vO/G5oIA8OLuIxNd9pFlhDWY8kktTJfwHSrBDe78rQFG32tOS4btSPMm?=
+ =?us-ascii?Q?9cGZLRyjWIxOvF6YKGillveF/7OgzlNeKr8973Az0yOP3qm3kdGOIByTZ4Zn?=
+ =?us-ascii?Q?WNeOtocQOtqg6lKA6AhKbUohnqo/meKHqJqb5c23?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-References: <20230406124038.9813-1-mark@qpok.net>
-In-Reply-To: <20230406124038.9813-1-mark@qpok.net>
-From: Konstantin Kostiuk <kkostiuk@redhat.com>
-Date: Thu, 4 May 2023 12:20:04 +0300
-Message-ID: <CAPMcbCrHxYmLST-+XMEhX3_5EMpwBP394MO4m9FXww4-292M8Q@mail.gmail.com>
-Subject: Re: [PATCH v2] qga: Fix suspend on Linux guests without systemd
-To: Mark Somerville <mark@qpok.net>
-Cc: qemu-devel@nongnu.org, Michael Roth <michael.roth@amd.com>,
- qemu-trivial@nongnu.org
-Content-Type: multipart/alternative; boundary="00000000000028f18c05fadaaea4"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kkostiuk@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -22
-X-Spam_score: -2.3
-X-Spam_bar: --
-X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.161,
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: MWHPR11MB0031.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3af3c6e7-2278-49b7-638f-08db4c817d3a
+X-MS-Exchange-CrossTenant-originalarrivaltime: 04 May 2023 09:25:23.8261 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: PUadlrZJtV3rjCQBwOpDJm3BxXN7zN2GypZp//0bssowgsoEgAGfJD8w1YXkYpcFiZaz7YPNTTPGRvrot7EHWw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR11MB7565
+X-OriginatorOrg: intel.com
+Received-SPF: pass client-ip=192.55.52.115; envelope-from=chen.zhang@intel.com;
+ helo=mga14.intel.com
+X-Spam_score_int: -45
+X-Spam_score: -4.6
+X-Spam_bar: ----
+X-Spam_report: (-4.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.161,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,144 +169,53 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
---00000000000028f18c05fadaaea4
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-Reviewed-by: Konstantin Kostiuk <kkostiuk@redhat.com>
 
 
-On Thu, Apr 6, 2023 at 3:42=E2=80=AFPM Mark Somerville <mark@qpok.net> wrot=
-e:
+> -----Original Message-----
+> From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+> Sent: Saturday, April 29, 2023 3:49 AM
+> To: qemu-devel@nongnu.org
+> Cc: lukasstraub2@web.de; quintela@redhat.com; Zhang, Chen
+> <chen.zhang@intel.com>; vsementsov@yandex-team.ru; Peter Xu
+> <peterx@redhat.com>; Leonardo Bras <leobras@redhat.com>
+> Subject: [PATCH v4 10/10] migration: block incoming colo when capability =
+is
+> disabled
+>=20
+> We generally require same set of capabilities on source and target.
+> Let's require x-colo capability to use COLO on target.
+>=20
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+>
 
-> Allow the Linux guest agent to attempt each of the suspend methods
-> (systemctl, pm-* and writing to /sys) in turn.
->
-> Prior to this guests without systemd failed to suspend due to
-> `guest_suspend` returning early regardless of the return value of
-> `systemd_supports_mode`.
->
-> Signed-off-by: Mark Somerville <mark@qpok.net>
-> ---
-> v1: Identical to this version(!) but missing from qemu-devel... Sincere
->     apologies to anyone receiving this patch twice. I ran up against a
->     deeply frustrating and depressing SMTP issue which should now be
->     resovled.
->
->  qga/commands-posix.c | 12 ++++++------
->  1 file changed, 6 insertions(+), 6 deletions(-)
->
-> diff --git a/qga/commands-posix.c b/qga/commands-posix.c
-> index 079689d79a..59e7154af4 100644
-> --- a/qga/commands-posix.c
-> +++ b/qga/commands-posix.c
-> @@ -1918,10 +1918,10 @@ static void guest_suspend(SuspendMode mode, Error
-> **errp)
->      if (systemd_supports_mode(mode, &local_err)) {
->          mode_supported =3D true;
->          systemd_suspend(mode, &local_err);
-> -    }
->
-> -    if (!local_err) {
-> -        return;
-> +        if (!local_err) {
-> +            return;
-> +        }
->      }
->
->      error_free(local_err);
-> @@ -1930,10 +1930,10 @@ static void guest_suspend(SuspendMode mode, Error
-> **errp)
->      if (pmutils_supports_mode(mode, &local_err)) {
->          mode_supported =3D true;
->          pmutils_suspend(mode, &local_err);
-> -    }
->
-> -    if (!local_err) {
-> -        return;
-> +        if (!local_err) {
-> +            return;
-> +        }
->      }
->
->      error_free(local_err);
+Reviewed-by: Zhang Chen <chen.zhang@intel.com>
+
+Thanks
+Chen
+
+ ---
+>  migration/migration.c | 6 ++++++
+>  1 file changed, 6 insertions(+)
+>=20
+> diff --git a/migration/migration.c b/migration/migration.c index
+> 8c5bbf3e94..5e162c0622 100644
+> --- a/migration/migration.c
+> +++ b/migration/migration.c
+> @@ -395,6 +395,12 @@ int migration_incoming_enable_colo(void)
+>      return -ENOTSUP;
+>  #endif
+>=20
+> +    if (!migrate_colo()) {
+> +        error_report("ENABLE_COLO command come in migration stream, but
+> c-colo "
+> +                     "capability is not set");
+> +        return -EINVAL;
+> +    }
+> +
+>      if (ram_block_discard_disable(true)) {
+>          error_report("COLO: cannot disable RAM discard");
+>          return -EBUSY;
 > --
-> 2.40.0
->
->
-
---00000000000028f18c05fadaaea4
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">Reviewed-by: Konstantin Kostiuk &lt;<a href=3D"mailto:kkos=
-tiuk@redhat.com" target=3D"_blank">kkostiuk@redhat.com</a>&gt;</div><div di=
-r=3D"ltr"><br></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
-=3D"gmail_attr">On Thu, Apr 6, 2023 at 3:42=E2=80=AFPM Mark Somerville &lt;=
-<a href=3D"mailto:mark@qpok.net" target=3D"_blank">mark@qpok.net</a>&gt; wr=
-ote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px=
- 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Allow the L=
-inux guest agent to attempt each of the suspend methods<br>
-(systemctl, pm-* and writing to /sys) in turn.<br>
-<br>
-Prior to this guests without systemd failed to suspend due to<br>
-`guest_suspend` returning early regardless of the return value of<br>
-`systemd_supports_mode`.<br>
-<br>
-Signed-off-by: Mark Somerville &lt;<a href=3D"mailto:mark@qpok.net" target=
-=3D"_blank">mark@qpok.net</a>&gt;<br>
----<br>
-v1: Identical to this version(!) but missing from qemu-devel... Sincere<br>
-=C2=A0 =C2=A0 apologies to anyone receiving this patch twice. I ran up agai=
-nst a<br>
-=C2=A0 =C2=A0 deeply frustrating and depressing SMTP issue which should now=
- be<br>
-=C2=A0 =C2=A0 resovled.<br>
-<br>
-=C2=A0qga/commands-posix.c | 12 ++++++------<br>
-=C2=A01 file changed, 6 insertions(+), 6 deletions(-)<br>
-<br>
-diff --git a/qga/commands-posix.c b/qga/commands-posix.c<br>
-index 079689d79a..59e7154af4 100644<br>
---- a/qga/commands-posix.c<br>
-+++ b/qga/commands-posix.c<br>
-@@ -1918,10 +1918,10 @@ static void guest_suspend(SuspendMode mode, Error *=
-*errp)<br>
-=C2=A0 =C2=A0 =C2=A0if (systemd_supports_mode(mode, &amp;local_err)) {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0mode_supported =3D true;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0systemd_suspend(mode, &amp;local_err);<br=
->
--=C2=A0 =C2=A0 }<br>
-<br>
--=C2=A0 =C2=A0 if (!local_err) {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 return;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (!local_err) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-=C2=A0 =C2=A0 =C2=A0}<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0error_free(local_err);<br>
-@@ -1930,10 +1930,10 @@ static void guest_suspend(SuspendMode mode, Error *=
-*errp)<br>
-=C2=A0 =C2=A0 =C2=A0if (pmutils_supports_mode(mode, &amp;local_err)) {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0mode_supported =3D true;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0pmutils_suspend(mode, &amp;local_err);<br=
->
--=C2=A0 =C2=A0 }<br>
-<br>
--=C2=A0 =C2=A0 if (!local_err) {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 return;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (!local_err) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-=C2=A0 =C2=A0 =C2=A0}<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0error_free(local_err);<br>
--- <br>
-2.40.0<br>
-<br>
-</blockquote></div>
-
---00000000000028f18c05fadaaea4--
+> 2.34.1
 
 
