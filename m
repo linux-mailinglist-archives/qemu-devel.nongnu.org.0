@@ -2,57 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CFD36F68BF
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C5D26F68BE
 	for <lists+qemu-devel@lfdr.de>; Thu,  4 May 2023 11:58:41 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1puVi6-0002JS-3x; Thu, 04 May 2023 05:57:14 -0400
+	id 1puVi6-0002JX-Mr; Thu, 04 May 2023 05:57:14 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kkostiuk@redhat.com>)
- id 1puVi4-0002Iw-5x
- for qemu-devel@nongnu.org; Thu, 04 May 2023 05:57:12 -0400
+ id 1puVi5-0002JK-Ac
+ for qemu-devel@nongnu.org; Thu, 04 May 2023 05:57:13 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kkostiuk@redhat.com>)
- id 1puVi2-00071d-LS
- for qemu-devel@nongnu.org; Thu, 04 May 2023 05:57:11 -0400
+ id 1puVi3-00071x-Us
+ for qemu-devel@nongnu.org; Thu, 04 May 2023 05:57:13 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1683194229;
+ s=mimecast20190719; t=1683194231;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=h80tO33HC7sjInE8GOS+QicJSI6yD7AQUYhSBWamUAI=;
- b=Nys3S8qPKXGOSmkRni30CK0VOPLBq7cjNNpj63vW0V630vzGy7N93Eqc5yEV0RYX1konRW
- PLAZ6UhrlBDNQH6Z8FLFNRgFQTNvsN/OAREsjvi9ujS+U//yD3iyR3bjrr40orc3+ETgNi
- eziYgXVEt3vn0D+c8+/11b3gNS6IvyA=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=80AM+5RyIwhaCcbwOaL5+0xN1QqywYmR4e9Rab2Poi4=;
+ b=GVsIPmWAEe8NOBam4sAvgDMrxmaKZfHihYe3TcJjxlsfU15Md18h+tPQkOs2J5OGT2iC4q
+ 7yiijJnNKkeSS6wM52QYgEDT8djexCY3inWqEuALQTvj1yssLDEP11oFcobs4z556B0fxN
+ SowQpi5+AisiAngqSO1Qv485AKdIlf8=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-392-m1UeufUkM7Wp7utTbi6bNQ-1; Thu, 04 May 2023 05:57:08 -0400
-X-MC-Unique: m1UeufUkM7Wp7utTbi6bNQ-1
+ us-mta-440-r_4AvVeJNVWkfvcQFW_kVg-1; Thu, 04 May 2023 05:57:09 -0400
+X-MC-Unique: r_4AvVeJNVWkfvcQFW_kVg-1
 Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
  [10.11.54.9])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 20426886063;
- Thu,  4 May 2023 09:57:08 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A37B41C060CD;
+ Thu,  4 May 2023 09:57:09 +0000 (UTC)
 Received: from kostyanf14nb.redhat.com (unknown [10.45.225.218])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 48E10492C13;
- Thu,  4 May 2023 09:57:07 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 81227492C13;
+ Thu,  4 May 2023 09:57:08 +0000 (UTC)
 From: Konstantin Kostiuk <kkostiuk@redhat.com>
 To: qemu-devel@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 5/6] qga/commands-win32.c: Drop the check for _WIN32_WINNT >=
- 0x0601
-Date: Thu,  4 May 2023 12:56:56 +0300
-Message-Id: <20230504095657.239048-6-kkostiuk@redhat.com>
+Subject: [PULL 6/6] qga: Fix suspend on Linux guests without systemd
+Date: Thu,  4 May 2023 12:56:57 +0300
+Message-Id: <20230504095657.239048-7-kkostiuk@redhat.com>
 In-Reply-To: <20230504095657.239048-1-kkostiuk@redhat.com>
 References: <20230504095657.239048-1-kkostiuk@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=kkostiuk@redhat.com;
@@ -79,42 +77,54 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Thomas Huth <thuth@redhat.com>
+From: Mark Somerville <mark@qpok.net>
 
-All current versions of glib require _WIN32_WINNT set to 0x0601
-or higher already, and we also use this value as a minimum in our
-osdep.h header file, so there is no way to still compile this code
-with an older version of the Windows ABI. Thus we can drop this
-check now.
+Allow the Linux guest agent to attempt each of the suspend methods
+(systemctl, pm-* and writing to /sys) in turn.
 
-Signed-off-by: Thomas Huth <thuth@redhat.com>
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+Prior to this guests without systemd failed to suspend due to
+`guest_suspend` returning early regardless of the return value of
+`systemd_supports_mode`.
+
+Signed-off-by: Mark Somerville <mark@qpok.net>
 Reviewed-by: Konstantin Kostiuk <kkostiuk@redhat.com>
 Signed-off-by: Konstantin Kostiuk <kkostiuk@redhat.com>
 ---
- qga/commands-win32.c | 2 --
- 1 file changed, 2 deletions(-)
+ qga/commands-posix.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/qga/commands-win32.c b/qga/commands-win32.c
-index b5fee6a2cd..d23875264f 100644
---- a/qga/commands-win32.c
-+++ b/qga/commands-win32.c
-@@ -484,7 +484,6 @@ static GuestDiskBusType win2qemu[] = {
-     [BusTypeSata] = GUEST_DISK_BUS_TYPE_SATA,
-     [BusTypeSd] =  GUEST_DISK_BUS_TYPE_SD,
-     [BusTypeMmc] = GUEST_DISK_BUS_TYPE_MMC,
--#if (_WIN32_WINNT >= 0x0601)
-     [BusTypeVirtual] = GUEST_DISK_BUS_TYPE_VIRTUAL,
-     [BusTypeFileBackedVirtual] = GUEST_DISK_BUS_TYPE_FILE_BACKED_VIRTUAL,
-     /*
-@@ -492,7 +491,6 @@ static GuestDiskBusType win2qemu[] = {
-      */
-     [BusTypeSpaces] = GUEST_DISK_BUS_TYPE_UNKNOWN,
-     [BusTypeNvme] = GUEST_DISK_BUS_TYPE_NVME,
--#endif
- };
+diff --git a/qga/commands-posix.c b/qga/commands-posix.c
+index 97754930c1..def857d773 100644
+--- a/qga/commands-posix.c
++++ b/qga/commands-posix.c
+@@ -1922,10 +1922,10 @@ static void guest_suspend(SuspendMode mode, Error **errp)
+     if (systemd_supports_mode(mode, &local_err)) {
+         mode_supported = true;
+         systemd_suspend(mode, &local_err);
+-    }
  
- static GuestDiskBusType find_bus_type(STORAGE_BUS_TYPE bus)
+-    if (!local_err) {
+-        return;
++        if (!local_err) {
++            return;
++        }
+     }
+ 
+     error_free(local_err);
+@@ -1934,10 +1934,10 @@ static void guest_suspend(SuspendMode mode, Error **errp)
+     if (pmutils_supports_mode(mode, &local_err)) {
+         mode_supported = true;
+         pmutils_suspend(mode, &local_err);
+-    }
+ 
+-    if (!local_err) {
+-        return;
++        if (!local_err) {
++            return;
++        }
+     }
+ 
+     error_free(local_err);
 -- 
 2.25.1
 
