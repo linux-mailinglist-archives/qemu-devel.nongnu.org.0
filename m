@@ -2,75 +2,103 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E8BE6F6862
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 May 2023 11:36:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 73B6E6F6483
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 May 2023 07:43:47 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1puVNV-0003HJ-W9; Thu, 04 May 2023 05:35:58 -0400
+	id 1puRkB-0002Zg-M0; Thu, 04 May 2023 01:43:07 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1puVNC-0003Gq-8t
- for qemu-devel@nongnu.org; Thu, 04 May 2023 05:35:38 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <sbhat@linux.ibm.com>)
+ id 1puRjt-0002Y6-UP; Thu, 04 May 2023 01:42:52 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1puVNA-0004zC-Jc
- for qemu-devel@nongnu.org; Thu, 04 May 2023 05:35:38 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1683192935;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=dnxP0InMrcZ5IZi3UVHua/gB6t8tmQB3GGVxS1lxqAo=;
- b=UDc6FrD1mX6RZY3ArSV++ZlmOIWVuFy3p3HrxolIHXmgXgSK4VYnP6602oKkqDEI0jvg3V
- uUErwzk2T7BTmu8adrBlwymiIFaHIwq1JIvMIbHw7ipFbFaRqyTP8K96yv4CMs9VLZI7Hp
- G2uFuWMpdLXi7AZbEiPWcMhT/NiTS8I=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-422-IyrjsqdFMtaPgvnPLwYtFA-1; Thu, 04 May 2023 05:35:34 -0400
-X-MC-Unique: IyrjsqdFMtaPgvnPLwYtFA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6245E3C10232;
- Thu,  4 May 2023 09:35:34 +0000 (UTC)
-Received: from redhat.com (unknown [10.42.28.42])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 7044A4020961;
- Thu,  4 May 2023 09:35:32 +0000 (UTC)
-Date: Thu, 4 May 2023 10:35:28 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Ani Sinha <anisinha@redhat.com>
-Cc: Thomas Huth <thuth@redhat.com>, alex.bennee@linaro.org,
- philmd@linaro.org, wainersm@redhat.com, bleal@redhat.com,
- qemu-devel@nongnu.org, mst@redhat.com
-Subject: Re: [PATCH 0/2] Add mformat and xorriso dependencies in containers
-Message-ID: <ZFN8YBO9MXM0qiKi@redhat.com>
-References: <20230503145547.202251-1-anisinha@redhat.com>
- <8d7e46ec-95c0-5c4a-a843-20106576e9ba@redhat.com>
- <ZFNmhT9Fosay1bee@redhat.com>
- <550DF0FD-701E-408D-924B-C33ABC0BFF10@redhat.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+ (Exim 4.90_1) (envelope-from <sbhat@linux.ibm.com>)
+ id 1puRjr-0002O6-3g; Thu, 04 May 2023 01:42:49 -0400
+Received: from pps.filterd (m0356516.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 3445dcqA017988; Thu, 4 May 2023 05:42:34 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=subject : from : to : cc
+ : date : message-id : in-reply-to : references : content-type :
+ content-transfer-encoding : mime-version; s=pp1;
+ bh=WTbB69EseBT8Le4yVdDLV9jKnHiEX+StYxzVlPUURp8=;
+ b=i1sFjZbq7EU7OLEhZpFiA+X2SJE3E6w8y54NG4fdqCJpjLaivFy7GH6WM+L0po/Sm0nk
+ 5c8es7Oa7tuSJYbsPbfzoJ2CwBcKK92l5OuoKFFiWICX8QllHBmYY360VNSksVWBOet+
+ iNmudxqqC29E2ma42k3/cXx6nvRksEcTCRuZgraiMuNiuQyHCHdoVb7NpNcMLJU4jVQ/
+ vyzQ/eBF2J1wo1DDIQB8QGkH2PktjVJaRFcfNjuqFUkUa4D855TDJEJ+WJO+wDYNtpUj
+ V/CbxH/fJ9jWlH91xt7nAE27K/XwV/dmP8h6ORGb4Jjmnb62nFL1usMW48fkPOKrQZB3 HA== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3qc6g00aw6-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 04 May 2023 05:42:33 +0000
+Received: from m0356516.ppops.net (m0356516.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 3445euJS023590;
+ Thu, 4 May 2023 05:42:33 GMT
+Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.98])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3qc6g00avp-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 04 May 2023 05:42:32 +0000
+Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
+ by ppma03ams.nl.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 3443PVBL004759;
+ Thu, 4 May 2023 05:42:31 GMT
+Received: from smtprelay07.fra02v.mail.ibm.com ([9.218.2.229])
+ by ppma03ams.nl.ibm.com (PPS) with ESMTPS id 3q8tv6tmtr-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 04 May 2023 05:42:31 +0000
+Received: from smtpav01.fra02v.mail.ibm.com (smtpav01.fra02v.mail.ibm.com
+ [10.20.54.100])
+ by smtprelay07.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 3445gSkM19727064
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 4 May 2023 05:42:29 GMT
+Received: from smtpav01.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id C77D72004B;
+ Thu,  4 May 2023 05:42:28 +0000 (GMT)
+Received: from smtpav01.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 099F620043;
+ Thu,  4 May 2023 05:42:27 +0000 (GMT)
+Received: from ltc-boston1.aus.stglabs.ibm.com (unknown [9.40.193.18])
+ by smtpav01.fra02v.mail.ibm.com (Postfix) with ESMTP;
+ Thu,  4 May 2023 05:42:26 +0000 (GMT)
+Subject: [PATCH v2 1/2] tcg: ppc64: Fix mask generation for vextractdm
+From: Shivaprasad G Bhat <sbhat@linux.ibm.com>
+To: philmd@linaro.org, richard.henderson@linaro.org, danielhb413@gmail.com,
+ lucas.araujo@eldorado.org.br, qemu-ppc@nongnu.org, clg@kaod.org,
+ david@gibson.dropbear.id.au, groug@kaod.org, qemu-ppc@nongnu.org
+Cc: john_platts@hotmail.com, sbhat@linux.ibm.com, qemu-devel@nongnu.org
+Date: Thu, 04 May 2023 05:35:39 -0400
+Message-ID: <168319292809.1159309.5817546227121323288.stgit@ltc-boston1.aus.stglabs.ibm.com>
+In-Reply-To: <168319291781.1159309.7376486961333644798.stgit@ltc-boston1.aus.stglabs.ibm.com>
+References: <168319291781.1159309.7376486961333644798.stgit@ltc-boston1.aus.stglabs.ibm.com>
+User-Agent: StGit/1.5
+Content-Type: text/plain; charset="utf-8"
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: HPR_eaPkWIeyP0BNyhVSISAHvJB5uUsZ
+X-Proofpoint-ORIG-GUID: N2cndlyLqv4zj91JbIkI86fqk_WRuJeT
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <550DF0FD-701E-408D-924B-C33ABC0BFF10@redhat.com>
-User-Agent: Mutt/2.2.9 (2022-11-12)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -22
-X-Spam_score: -2.3
-X-Spam_bar: --
-X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.161,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+MIME-Version: 1.0
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-05-04_02,2023-05-03_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 phishscore=0
+ adultscore=0 priorityscore=1501 clxscore=1015 malwarescore=0 mlxscore=0
+ mlxlogscore=999 lowpriorityscore=0 impostorscore=0 suspectscore=0
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2303200000 definitions=main-2305040046
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=sbhat@linux.ibm.com;
+ helo=mx0b-001b2d01.pphosted.com
+X-Spam_score_int: 10
+X-Spam_score: 1.0
+X-Spam_bar: +
+X-Spam_report: (1.0 / 5.0 requ) BAYES_00=-1.9, DATE_IN_FUTURE_03_06=3.027,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,82 +111,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, May 04, 2023 at 02:19:21PM +0530, Ani Sinha wrote:
-> 
-> 
-> > On 04-May-2023, at 1:32 PM, Daniel P. Berrangé <berrange@redhat.com> wrote:
-> > 
-> > On Thu, May 04, 2023 at 08:35:53AM +0200, Thomas Huth wrote:
-> >> On 03/05/2023 16.55, Ani Sinha wrote:
-> >>> mformat and xorriso tools are needed by biosbits avocado tests. This patchset
-> >>> adds those two tools in the docker container images.
-> >> 
-> >> tests/qtest/cdrom-test.c already uses genisoimage to create ISO images, and
-> >> the containers already have that tool installed. Could you maybe switch the
-> >> biosbits test to use that tool? Or the other way round? ... at least having
-> >> two tools to create ISO images in our containers sounds IMHO excessive.
-> > 
-> > It looks like this series wasn't tested, because it doesn't even install
-> > the alpine image:
-> > 
-> > ERROR: unable to select packages:
-> >  cdrkit-1.1.11-r3:
-> >    conflicts: xorriso-1.5.4-r2[cmd:mkisofs=1.1.11-r3]
-> >    satisfies: world[cdrkit]
-> >  xorriso-1.5.4-r2:
-> >    conflicts: cdrkit-1.1.11-r3[cmd:mkisofs=1.5.4-r2]
-> >    satisfies: world[xorriso]
-> > 
-> > 
-> > We definitely need to have either biosbits or cdrom-test.c changed to
-> > use the same tool.
-> 
-> Wait, it seems xorriso package also provides geninsoimage?
-> 
-> xorriso-1.5.4-4.el9.x86_64 : ISO-9660 and Rock Ridge image manipulation tool
-> Repo        : @System
-> Matched from:
-> Filename    : /usr/bin/genisoimage
-> 
-> xorriso-1.5.4-4.el9.x86_64 : ISO-9660 and Rock Ridge image manipulation tool
-> Repo        : rhel-9-for-x86_64-appstream-rpms
-> Matched from:
-> Filename    : /usr/bin/genisoimage
-> 
-> $ rpm -ql  xorriso-1.5.4-4.el9.x86_64 | grep bin
-> /usr/bin/cdrecord
-> /usr/bin/genisoimage
-> /usr/bin/mkisofs
-> /usr/bin/osirrox
-> /usr/bin/wodim
-> /usr/bin/xorrecord
-> /usr/bin/xorriso
-> /usr/bin/xorriso-dd-target
-> /usr/bin/xorrisofs
+In function do_extractm() the mask is calculated as
+dup_const(1 << (element_width - 1)). '1' being signed int
+works fine for MO_8,16,32. For MO_64, on PPC64 host
+this ends up becoming 0 on compilation. The vextractdm
+uses MO_64, and it ends up having mask as 0.
 
-That is not the case in Fedora.  xorriso does not provide any
-genisoimage binary, that's provided by a 'genisoimage' RPM
-which was created from cdrkit src RPM.
+Explicitly use 1ULL instead of signed int 1 like its
+used everywhere else.
 
-Alpine likewise has no 'genisoimage' binary provided by
-xorriso.
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1536
+Signed-off-by: Shivaprasad G Bhat <sbhat@linux.ibm.com>
+Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+Reviewed-by: Lucas Mateus Castro <lucas.araujo@eldorado.org.br>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ target/ppc/translate/vmx-impl.c.inc |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-For even more fun, xorriso is now a sub-RPM of the libisoburn
-source RPM
+diff --git a/target/ppc/translate/vmx-impl.c.inc b/target/ppc/translate/vmx-impl.c.inc
+index 112233b541..c8712dd7d8 100644
+--- a/target/ppc/translate/vmx-impl.c.inc
++++ b/target/ppc/translate/vmx-impl.c.inc
+@@ -2058,7 +2058,7 @@ static bool trans_VEXPANDQM(DisasContext *ctx, arg_VX_tb *a)
+ static bool do_vextractm(DisasContext *ctx, arg_VX_tb *a, unsigned vece)
+ {
+     const uint64_t elem_width = 8 << vece, elem_count_half = 8 >> vece,
+-                   mask = dup_const(vece, 1 << (elem_width - 1));
++                   mask = dup_const(vece, 1ULL << (elem_width - 1));
+     uint64_t i, j;
+     TCGv_i64 lo, hi, t0, t1;
 
 
-If we could make cdrom-test  use 'mkisofs' binary then we could
-likely use the xorriso package on all platforms IIUC.
-
-With regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
