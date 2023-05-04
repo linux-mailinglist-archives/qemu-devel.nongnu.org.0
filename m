@@ -2,168 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9FF656F65C5
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 May 2023 09:33:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 861A76F65C9
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 May 2023 09:33:52 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1puTRf-0001YV-Kn; Thu, 04 May 2023 03:32:07 -0400
+	id 1puTSt-0002lL-BI; Thu, 04 May 2023 03:33:23 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
- id 1puTRa-0001YE-8d; Thu, 04 May 2023 03:32:02 -0400
-Received: from mga18.intel.com ([134.134.136.126])
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1puTSq-0002jl-Ko
+ for qemu-devel@nongnu.org; Thu, 04 May 2023 03:33:20 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
- id 1puTRX-0008FY-Fv; Thu, 04 May 2023 03:32:01 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1683185519; x=1714721519;
- h=from:to:cc:subject:date:message-id:references:
- in-reply-to:content-transfer-encoding:mime-version;
- bh=O1PONya4PEsVKVjvB9mTJ9H6XdVPH2Zg0if3IjnDC8A=;
- b=IixFcOxs4w27r9m3EPzGz419bke8GOFSaYiUx+HmOi+GPzk7WUg81+VR
- 1j+VfTsDwyDJt8IKJ8XNP60Cul2FFA0zXh83BASPDGSFw04YKb1b0TicH
- LkSrDWYFAEnn7g0anBAXOVBXba3674JdOt6qljdW3Sq9A5BSsJHgo7YGH
- oCH1o7NH9bTI6NTzlieatNl0IMDSofUueNO+ggn//TALmib61Eriaq8Xj
- rherudIAk1+PUgprzYyENyAoMIx5Me7ozSNfCRmjOi/dAAocbdRqtCNlH
- A186daVwcQ/XSu1Og8Znro4rRbPl89Ba4XtGwS+O53cYb+uVuNR9Vt81O w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10699"; a="333227007"
-X-IronPort-AV: E=Sophos;i="5.99,249,1677571200"; d="scan'208";a="333227007"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 May 2023 00:31:49 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10699"; a="821060113"
-X-IronPort-AV: E=Sophos;i="5.99,249,1677571200"; d="scan'208";a="821060113"
-Received: from fmsmsx603.amr.corp.intel.com ([10.18.126.83])
- by orsmga004.jf.intel.com with ESMTP; 04 May 2023 00:31:49 -0700
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.23; Thu, 4 May 2023 00:31:48 -0700
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.23; Thu, 4 May 2023 00:31:48 -0700
-Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
- fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.23 via Frontend Transport; Thu, 4 May 2023 00:31:48 -0700
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (104.47.66.43) by
- edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.23; Thu, 4 May 2023 00:31:48 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Rsxzpd0qKSW3Hf7fiTC2zhxO4lJvM95k7A8R7hScJEmOoaAauSrwxxoM6m72dZEaWppn+GlkDtXfiNp1Xf8rXVpto+Tn5Yd2FewNED4+CWXk3PMlgxlA9HQ0FN2xMr1Mp7ofXBuTWJygaVXiQaAaX3FpQ1euUYXetVa8bswmTo6GNHF4gacRwRTCogxtrfj2738TFVXeuxUZJxLWgPr0/2PziDyD7GpevqMqe5ygRgTs3IS/zYfBdNpMEYxDyhlDLr2Yb4G6dCRxhgAJXL0ediXMyE5iMJ2Bc6Hzk72C93NzpTWNI3dwQU8Xb81mJtF5Ikh3kODkT4NXoj5QXWySfQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=O1PONya4PEsVKVjvB9mTJ9H6XdVPH2Zg0if3IjnDC8A=;
- b=YvU/XUfXBMHt8BIwdZAxl28t0vL6yaTjYk0JWpQ1Llu+ZI+yzvIZLdlqRU8MRkDuB+HIpFjom/jTN17L/X49um0Vc5NGfSUnZw1d+UmWf8zmQBtTJnDU6kno4y93nWN813QhwfffmzQrBoZ/4t5keWJkHOw3hkddaPpHMk+AmbW9nmnzI7IYVPEFxTK/p9YzANX6RaEpQeGYSS9sNP3RQ758DHh4vWY6FU/YapnwmjSGVArjB3+UTnRog3sYspsQrrT7/YemqFi6z4Hp8nV17RXFYvxjU0oK2JJJGylhmv/dmywFlv67GSEYpdB5CsKCC7euEvpqwh5Q7QoAvCckGQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from MWHPR11MB0031.namprd11.prod.outlook.com (2603:10b6:301:69::37)
- by MN2PR11MB4533.namprd11.prod.outlook.com (2603:10b6:208:264::19)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6363.22; Thu, 4 May
- 2023 07:31:45 +0000
-Received: from MWHPR11MB0031.namprd11.prod.outlook.com
- ([fe80::1323:5ae6:8e04:faf0]) by MWHPR11MB0031.namprd11.prod.outlook.com
- ([fe80::1323:5ae6:8e04:faf0%3]) with mapi id 15.20.6363.026; Thu, 4 May 2023
- 07:31:45 +0000
-From: "Zhang, Chen" <chen.zhang@intel.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-CC: "lukasstraub2@web.de" <lukasstraub2@web.de>, "quintela@redhat.com"
- <quintela@redhat.com>, =?utf-8?B?UGhpbGlwcGUgTWF0aGlldS1EYXVkw6k=?=
- <philmd@linaro.org>, Kevin Wolf <kwolf@redhat.com>, Hanna Reitz
- <hreitz@redhat.com>, "open list:Block layer core" <qemu-block@nongnu.org>
-Subject: RE: [PATCH v4 01/10] block/meson.build: prefer positive condition for
- replication
-Thread-Topic: [PATCH v4 01/10] block/meson.build: prefer positive condition
- for replication
-Thread-Index: AQHZegtBZDTqxoif3kGVDaAfYtMQba9JvxfQ
-Date: Thu, 4 May 2023 07:31:44 +0000
-Message-ID: <MWHPR11MB0031B8B07C530BA4548349F59B6D9@MWHPR11MB0031.namprd11.prod.outlook.com>
-References: <20230428194928.1426370-1-vsementsov@yandex-team.ru>
- <20230428194928.1426370-2-vsementsov@yandex-team.ru>
-In-Reply-To: <20230428194928.1426370-2-vsementsov@yandex-team.ru>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: MWHPR11MB0031:EE_|MN2PR11MB4533:EE_
-x-ms-office365-filtering-correlation-id: 28863280-f65e-40b0-d2c6-08db4c719cd4
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: Y40BKcnnMjhUB5gekQgEB3y+QRao6eVAELzREKjcqftS1t7Jap+wOG22wGWveHrkRN4BQDXx4WjnTONKKdhNBWOw/BPYO+D5ojDFwiAjDjJRH3QdwxB/XQmPHHLHT/iClGsNKnSYDlTi+Dbp8TcDkGdkAcR1nm/YYt26+u0NSD8ZZzhJTN8y9FJYUflx5QXtcG5RIScMpVkanTUDQKB3l/x8o8+CZsbenc3I4T18/W1701zO0ekuvBfeCfpE1QQrWFOfFlO1blvoH59kpzYivnqgDILWLWeKrXmIDxJiKexKXy6EzvR/TRatb6mVpCmd1/uf9Qv4JfwTpDm2G2lHHS/DpyIK/0q4taxlqH+kViGXC8gDu0Nd7XJfYnhJwr/GaBjebJWiPPLEuD7dILMtehTQy/Ar1pZC4Ux6w08a4+/KkqoKCGULOygrXxC2KPaSzXHy6l7Z8qy+/Dwnv/87bJuMFtoCFbMgOvL5CahDJoJGfd5hCVSsVrppSyJ0RIGA0HSWUx05z0AzsxqCoVdOsiBfnR3msmJDphJewqJ2nPnx9ulJk1weqA6PptuFrG/e//Jqlie9ewOX3uihwWEuQ8PatssFWJZDdpDyw8YMZfSciRBUqMG7xYtFCNnlgg88
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MWHPR11MB0031.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230028)(346002)(396003)(366004)(376002)(136003)(39860400002)(451199021)(86362001)(8676002)(8936002)(55016003)(82960400001)(122000001)(33656002)(66946007)(64756008)(66476007)(66446008)(66556008)(316002)(4326008)(76116006)(38100700002)(38070700005)(478600001)(110136005)(71200400001)(54906003)(7696005)(41300700001)(2906002)(52536014)(5660300002)(53546011)(26005)(9686003)(6506007)(186003)(83380400001);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?MGNyZ051c0N6Q3hwbTBTOTE4enk4QTRFZWZjVUU4UVpkWkY0azQrb0dkQnZS?=
- =?utf-8?B?OE1PRHFDVXkvTU5ua1ZUK1QxTVJ0OWRXNUE3MnZjT2kxVVBmNlVna0NhTUM5?=
- =?utf-8?B?ZjJCNXRpV3Z6VE1RMXJQeW42YzdocXl4eVpIQlFWbUxjRlFNNzg2bSsrRDRu?=
- =?utf-8?B?OG14MTNwQXROUTdYaVgrWGFhRlgrUmt2UURRN0psWHNyTElsa251b2xKc0lX?=
- =?utf-8?B?ajUwTjBabFJVM0gvK29FWEI0OXRjNGh2ZWtENC90ck9QS1NFNEY4aHgwNXNu?=
- =?utf-8?B?NXdYTmRzbTczcmJrTllXZktaS2I1SVUyTEhBRW81eW1tR09HemZzellOUFgv?=
- =?utf-8?B?M25EWThnaXJWQWRkQll3U1llRmNEemtxMFRLN3lNdWJiVHdDV3FtUEFpRStk?=
- =?utf-8?B?MVpKTjhjTWN2L3Jsa2VUNzUvVEZrQWJINzU4VTFKTEhHWkZhSkJ4b1NOSHQx?=
- =?utf-8?B?TGVWdVhXK3dYd2J4cFZGcEU4SEtQYjV3YWVlYU41d24zWERSQ2RQZm9tSFlG?=
- =?utf-8?B?dFo4WS9mU2d1aUxnV004NWdPdGd2NDJ3WkhodEE4L3ZNZkpSUXVqbTFYcDg4?=
- =?utf-8?B?dUFKdE5kWVdxTHcvdEx3YStuVnFZdkMzdkp1cnh0enN1bVhhUWMyVzJWMnpt?=
- =?utf-8?B?ZEJqcTlYNmhKVEg3Q3RmK2xPN2txVmk5eDdxL2RXYXcxR0tLclBBV0N4dFdZ?=
- =?utf-8?B?MXV6MnlCV1JMK2tVOEJVOEt5OWZmSFpPSWpDTHdGalBteTRaem1BRy9CR2h2?=
- =?utf-8?B?STdPWENMMERzKzBLOFAwd3VqSm9DTERTMG1aV2pHLzk5dm9rbm5jakNmSDda?=
- =?utf-8?B?NERDVzdqT05jY2YvK2JlUkJnejBMNXBDTVU5dFRpOFplWkRablFmU0pjbmR6?=
- =?utf-8?B?dkhidUtlZDRDUnBvNmNoUFdtR3ZZUVg4eElNbTJBZkpjS05MVjBIODlhUUZC?=
- =?utf-8?B?M0dwOGhYa3BYbTBXc2plNnBvQTRuSzQ5VFhQYkllRnk2U3IvQk1DM1prQXZU?=
- =?utf-8?B?bTJyTEZiRHJEd0VOSWh4RE9OSFM1c040UmdGTEoyOWNYK08zMXZvL2NvamQ2?=
- =?utf-8?B?U2VmbWxZUGxhVExSUzdtQlJVMXpUZFJEa2ZQM0JCT2tESms0REtzUlQ2WVVw?=
- =?utf-8?B?dmdNcTc4dHUzcXNJODJ6V0llZ0tFZFBWR2dqbmRvcEhUdnVlRHlnVmJrcHJy?=
- =?utf-8?B?aFJwc0pZcGIzb3Fwem9WQmtsL014SWp1RW9rRUFReGdoYUlYNjZXbU02Umww?=
- =?utf-8?B?VWhrZnVYSFVXc0xETmFiaCs5UkZqM3RGbUUwb0c1QlZBRUYva282eFZzOFFG?=
- =?utf-8?B?ckhiVWEvSzF3cTN5SUswaWtWbURVVHVvSGo0aWtOWUVzWmdlSjVTNGhQNEJV?=
- =?utf-8?B?Q001OVJRWHVRanI3cnptRi9Da0h1WnpxQWJSa1FkR3dTb3NIclQwUXBGVEsx?=
- =?utf-8?B?WjZoS21sNlFHZE1NTWRqM2hnUjFHeWkzT2cxOFdrZ0wvZ0Y0eFR4NzJDckdr?=
- =?utf-8?B?blAzWDZiSHFzQWVsdGNlODFLbllvaVFtY2UwV2RKNm5hTGJOWkNuWGU3ZWRx?=
- =?utf-8?B?aGY0WjhLT3czVHljejRHVmJTMk9pb09xRm4vT01PYXBoaFI3Zm85M1VXaWhJ?=
- =?utf-8?B?YU1NajZ2SDl0aXVvaFR6RHdjbUZtUVo5RUE3R3QyZjhmcmxJcFFsK2ltYkVG?=
- =?utf-8?B?eDhORXkwZG9RUDdIMGxmZGlGT2RqQ3R4a1lWMWF6Q2JPQkMxQUZyaFg3T3U1?=
- =?utf-8?B?eTgzNHdlNnBYZEpadyswYXN0VFFFWlE4UmhtMXc5VnV0NUthSjRiSjd1Nngr?=
- =?utf-8?B?djNuekJ4SXlXdHlXNEljTFNRMHFZTitnUlB0d1R0ZWE5K282UytON1FkZjdZ?=
- =?utf-8?B?dUNFRWxQekJhZVVZdlJTTXpRYis4U0FsM3d0dHlrWEJkUDFPMFV0STh3QThD?=
- =?utf-8?B?UlFLOFJNdC9sa29iUDJCZmtrd0tWQy85QUdralJKa3pVL1ZsWWY1aXova3p6?=
- =?utf-8?B?L2UyMWwxeEN6YXFDc0M0NCs5aFY1eGRoenJhWTFWYmtiRTAya3hON3hvM1cv?=
- =?utf-8?B?UHhnZ05ndmVhY2ZIZEtZalFtM3NjTGNKbmoycHphOGZhV3MwcXMzNHVhelAr?=
- =?utf-8?Q?Gtmn8uy5Oe0UTazILKY6l8/zT?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1puTSp-00007G-0z
+ for qemu-devel@nongnu.org; Thu, 04 May 2023 03:33:20 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1683185598;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=fCpmttJ9d5f9xVD9aDsHz2r2m3u3wo4We41P/UK796I=;
+ b=aK7HWV0clxJYjvF+cB7tikbIXc+mbQ4/whDsx9tDNv3YPx4mPBSveCfr1HLksaiWWwVEwL
+ CmlfD/kuY/WDSZCM5DqEoIbgcPwCk3oX46bcaWTNlaPVxfDUnpvI3FDL8GN8SOFElAQabU
+ aKc7LDqYg6Lw7lphDCfYuGfE1uF6LBk=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-590-SgDBnTx6OFK9syL3I5u0Xg-1; Thu, 04 May 2023 03:33:16 -0400
+X-MC-Unique: SgDBnTx6OFK9syL3I5u0Xg-1
+Received: by mail-ed1-f71.google.com with SMTP id
+ 4fb4d7f45d1cf-50bcd245040so122739a12.0
+ for <qemu-devel@nongnu.org>; Thu, 04 May 2023 00:33:16 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1683185595; x=1685777595;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=fCpmttJ9d5f9xVD9aDsHz2r2m3u3wo4We41P/UK796I=;
+ b=dtcwC+vo8dc7uFd3YaNZDRgvaLyju6lcqX43kK3GYAUhE+j1Da7PBcMV7AFKn/X3VO
+ zTqkMsT17jXLryit6M4SR/EpGqIYEEDGRdiycFjqFYZi4/j3y4/m0/BxrhJy+qSyS5D9
+ YfbFdpN2LqKp3WPQ14ywbQt3uY68fCvwCBS56N8lEwn9i4Kqqwgwha+qPV5/rQxtbnoG
+ wfF2bQv7sxqyykvXEribfLbqFs66uMx7QQhL2b3W7qe5UHjQnckoUNWpUyyV97rzmPtA
+ tkNEcQGcobUQBq8c+pKlMayX2CT4D27HtXjWoad9ulb5E3yqrOOqAJZoj+I7DzBb8RXx
+ NBKQ==
+X-Gm-Message-State: AC+VfDx1qVhma84z0fbIhe/vZrsfaX5OkP6v59mvVBPDt0xX92AexdE2
+ BXMnzoKjVZCK0oiD2h5akm4lo/wVUst0PuNmNzwNWEyK8dNujgcCODWTiETbfZccKoShqkDAhmr
+ u+8WzFE2b06LW1HY=
+X-Received: by 2002:a17:907:7fac:b0:965:9d20:a41b with SMTP id
+ qk44-20020a1709077fac00b009659d20a41bmr1882645ejc.16.1683185595120; 
+ Thu, 04 May 2023 00:33:15 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ4H5L/I9TVRuxgZ8QnbK9k7V8NBDIp0ZZI11Q5d39CeCjiz3yEPoQXeoa9ogC/Q6naR0XvA5A==
+X-Received: by 2002:a17:907:7fac:b0:965:9d20:a41b with SMTP id
+ qk44-20020a1709077fac00b009659d20a41bmr1882623ejc.16.1683185594789; 
+ Thu, 04 May 2023 00:33:14 -0700 (PDT)
+Received: from ?IPV6:2001:b07:6468:f312:1c09:f536:3de6:228c?
+ ([2001:b07:6468:f312:1c09:f536:3de6:228c])
+ by smtp.googlemail.com with ESMTPSA id
+ d9-20020a17090694c900b0095354acf666sm18401553ejy.92.2023.05.04.00.33.13
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 04 May 2023 00:33:14 -0700 (PDT)
+Message-ID: <3f8ed21a-6c05-e7a4-ab9a-c8f6ca041013@redhat.com>
+Date: Thu, 4 May 2023 09:33:13 +0200
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: MWHPR11MB0031.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 28863280-f65e-40b0-d2c6-08db4c719cd4
-X-MS-Exchange-CrossTenant-originalarrivaltime: 04 May 2023 07:31:44.9149 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: LkNIkMDmXooT3IPkVXXgxDEGImmmWwh6yBvmImKJDFhjMNtO1vNFvguMPkFJLxyFKAuKCUgZxXoV0un7bNzFqQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR11MB4533
-X-OriginatorOrg: intel.com
-Received-SPF: pass client-ip=134.134.136.126;
- envelope-from=chen.zhang@intel.com; helo=mga18.intel.com
-X-Spam_score_int: -22
-X-Spam_score: -2.3
-X-Spam_bar: --
-X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.161,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.1
+Subject: Re: [PATCH 1/3] target/arm: Use CONFIG_SEMIHOSTING instead of TCG for
+ semihosting
+Content-Language: en-US
+To: Fabiano Rosas <farosas@suse.de>, qemu-devel@nongnu.org
+Cc: qemu-arm@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+References: <20230503193833.29047-1-farosas@suse.de>
+ <20230503193833.29047-2-farosas@suse.de>
+From: Paolo Bonzini <pbonzini@redhat.com>
+In-Reply-To: <20230503193833.29047-2-farosas@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.161,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-4.28, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -181,33 +108,76 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogVmxhZGltaXIgU2VtZW50
-c292LU9naWV2c2tpeSA8dnNlbWVudHNvdkB5YW5kZXgtdGVhbS5ydT4NCj4gU2VudDogU2F0dXJk
-YXksIEFwcmlsIDI5LCAyMDIzIDM6NDkgQU0NCj4gVG86IHFlbXUtZGV2ZWxAbm9uZ251Lm9yZw0K
-PiBDYzogbHVrYXNzdHJhdWIyQHdlYi5kZTsgcXVpbnRlbGFAcmVkaGF0LmNvbTsgWmhhbmcsIENo
-ZW4NCj4gPGNoZW4uemhhbmdAaW50ZWwuY29tPjsgdnNlbWVudHNvdkB5YW5kZXgtdGVhbS5ydTsg
-UGhpbGlwcGUgTWF0aGlldS0NCj4gRGF1ZMOpIDxwaGlsbWRAbGluYXJvLm9yZz47IEtldmluIFdv
-bGYgPGt3b2xmQHJlZGhhdC5jb20+OyBIYW5uYSBSZWl0eg0KPiA8aHJlaXR6QHJlZGhhdC5jb20+
-OyBvcGVuIGxpc3Q6QmxvY2sgbGF5ZXIgY29yZSA8cWVtdS1ibG9ja0Bub25nbnUub3JnPg0KPiBT
-dWJqZWN0OiBbUEFUQ0ggdjQgMDEvMTBdIGJsb2NrL21lc29uLmJ1aWxkOiBwcmVmZXIgcG9zaXRp
-dmUgY29uZGl0aW9uIGZvcg0KPiByZXBsaWNhdGlvbg0KPiANCj4gU2lnbmVkLW9mZi1ieTogVmxh
-ZGltaXIgU2VtZW50c292LU9naWV2c2tpeSA8dnNlbWVudHNvdkB5YW5kZXgtdGVhbS5ydT4NCj4g
-UmV2aWV3ZWQtYnk6IEp1YW4gUXVpbnRlbGEgPHF1aW50ZWxhQHJlZGhhdC5jb20+DQo+IFJldmll
-d2VkLWJ5OiBQaGlsaXBwZSBNYXRoaWV1LURhdWTDqSA8cGhpbG1kQGxpbmFyby5vcmc+DQo+IFJl
-dmlld2VkLWJ5OiBMdWthcyBTdHJhdWIgPGx1a2Fzc3RyYXViMkB3ZWIuZGU+DQoNClJldmlld2Vk
-LWJ5OiBaaGFuZyBDaGVuIDxjaGVuLnpoYW5nQGludGVsLmNvbT4NCg0KVGhhbmtzDQpDaGVuDQoN
-Cj4gLS0tDQo+ICBibG9jay9tZXNvbi5idWlsZCB8IDIgKy0NCj4gIDEgZmlsZSBjaGFuZ2VkLCAx
-IGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQ0KPiANCj4gZGlmZiAtLWdpdCBhL2Jsb2NrL21l
-c29uLmJ1aWxkIGIvYmxvY2svbWVzb24uYnVpbGQgaW5kZXgNCj4gMzgyYmVjMGU3ZC4uYjlhNzJl
-MjE5YiAxMDA2NDQNCj4gLS0tIGEvYmxvY2svbWVzb24uYnVpbGQNCj4gKysrIGIvYmxvY2svbWVz
-b24uYnVpbGQNCj4gQEAgLTg0LDcgKzg0LDcgQEAgYmxvY2tfc3MuYWRkKHdoZW46ICdDT05GSUdf
-V0lOMzInLCBpZl90cnVlOiBmaWxlcygnZmlsZS0NCj4gd2luMzIuYycsICd3aW4zMi1haW8uYycp
-DQo+ICBibG9ja19zcy5hZGQod2hlbjogJ0NPTkZJR19QT1NJWCcsIGlmX3RydWU6IFtmaWxlcygn
-ZmlsZS1wb3NpeC5jJyksIGNvcmVmLCBpb2tpdF0pDQo+ICBibG9ja19zcy5hZGQod2hlbjogbGli
-aXNjc2ksIGlmX3RydWU6IGZpbGVzKCdpc2NzaS1vcHRzLmMnKSkNCj4gIGJsb2NrX3NzLmFkZCh3
-aGVuOiAnQ09ORklHX0xJTlVYJywgaWZfdHJ1ZTogZmlsZXMoJ252bWUuYycpKSAtaWYgbm90DQo+
-IGdldF9vcHRpb24oJ3JlcGxpY2F0aW9uJykuZGlzYWJsZWQoKQ0KPiAraWYgZ2V0X29wdGlvbign
-cmVwbGljYXRpb24nKS5hbGxvd2VkKCkNCj4gICAgYmxvY2tfc3MuYWRkKGZpbGVzKCdyZXBsaWNh
-dGlvbi5jJykpDQo+ICBlbmRpZg0KPiAgYmxvY2tfc3MuYWRkKHdoZW46IGxpYmFpbywgaWZfdHJ1
-ZTogZmlsZXMoJ2xpbnV4LWFpby5jJykpDQo+IC0tDQo+IDIuMzQuMQ0KDQo=
+On 5/3/23 21:38, Fabiano Rosas wrote:
+> When building --without-default-devices, the semihosting code will not
+> be available, so check the proper config.
+
+Acked-by: Paolo Bonzini <pbonzini@redhat.com>
+
+for this change; however, there are two more related issues:
+
+1) you still want to leave out the code if !TCG, because KVM is not able
+to exit to userspace on semihosting calls as far as I understand
+
+2) I am not sure why CONFIG_ARM_COMPATIBLE_SEMIHOSTING=y appears in
+config/targets/{arm,riscv32,riscv64}-softmmu/default.mak.
+
+Putting things together you also need something like
+
+diff --git a/semihosting/Kconfig b/semihosting/Kconfig
+index eaf3a20ef5b2..671020a33426 100644
+--- a/semihosting/Kconfig
++++ b/semihosting/Kconfig
+@@ -4,4 +4,5 @@ config SEMIHOSTING
+  
+  config ARM_COMPATIBLE_SEMIHOSTING
+         bool
++       default y if (ARM && TCG) || RISCV32 || RISCV64
+         select SEMIHOSTING
+diff --git a/configs/devices/arm-softmmu/default.mak b/configs/devices/arm-softmmu/default.mak
+index 1b49a7830c7e..5e7a17d05bf8 100644
+--- a/configs/devices/arm-softmmu/default.mak
++++ b/configs/devices/arm-softmmu/default.mak
+@@ -41,5 +41,4 @@ CONFIG_FSL_IMX25=y
+  CONFIG_FSL_IMX7=y
+  CONFIG_FSL_IMX6UL=y
+  CONFIG_SEMIHOSTING=y
+-CONFIG_ARM_COMPATIBLE_SEMIHOSTING=y
+  CONFIG_ALLWINNER_H3=y
+diff --git a/configs/devices/riscv32-softmmu/default.mak b/configs/devices/riscv32-softmmu/default.mak
+index d847bd5692ec..94a236c9c25b 100644
+--- a/configs/devices/riscv32-softmmu/default.mak
++++ b/configs/devices/riscv32-softmmu/default.mak
+@@ -3,8 +3,6 @@
+  # Uncomment the following lines to disable these optional devices:
+  #
+  #CONFIG_PCI_DEVICES=n
+-CONFIG_SEMIHOSTING=y
+-CONFIG_ARM_COMPATIBLE_SEMIHOSTING=y
+  
+  # Boards:
+  #
+diff --git a/configs/devices/riscv64-softmmu/default.mak b/configs/devices/riscv64-softmmu/default.mak
+index bc69301fa4a6..3f6805944849 100644
+--- a/configs/devices/riscv64-softmmu/default.mak
++++ b/configs/devices/riscv64-softmmu/default.mak
+@@ -3,8 +3,6 @@
+  # Uncomment the following lines to disable these optional devices:
+  #
+  #CONFIG_PCI_DEVICES=n
+-CONFIG_SEMIHOSTING=y
+-CONFIG_ARM_COMPATIBLE_SEMIHOSTING=y
+  
+  # Boards:
+  #
+
+Paolo
+
+> Fixes: 29d9efca16 ("arm/Kconfig: Do not build TCG-only boards on a KVM-only build")
+> Signed-off-by: Fabiano Rosas<farosas@suse.de>
+> ---
+>   target/arm/helper.c       | 4 ++--
+>   target/arm/tcg/m_helper.c | 2 +-
+>   2 files changed, 3 insertions(+), 3 deletions(-)
+
 
