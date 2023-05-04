@@ -2,64 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21B776F6C20
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 May 2023 14:38:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F6EB6F6B26
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 May 2023 14:29:26 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1puY4h-0001ih-LZ; Thu, 04 May 2023 08:28:43 -0400
+	id 1puY40-0001PV-OY; Thu, 04 May 2023 08:28:00 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
- id 1puY4f-0001fo-Lc
- for qemu-devel@nongnu.org; Thu, 04 May 2023 08:28:41 -0400
-Received: from mail.loongson.cn ([114.242.206.163] helo=loongson.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <gaosong@loongson.cn>) id 1puY4c-00030y-Iq
- for qemu-devel@nongnu.org; Thu, 04 May 2023 08:28:41 -0400
-Received: from loongson.cn (unknown [10.2.5.185])
- by gateway (Coremail) with SMTP id _____8CxOuropFNktKAEAA--.7495S3;
- Thu, 04 May 2023 20:28:24 +0800 (CST)
-Received: from localhost.localdomain (unknown [10.2.5.185])
- by localhost.localdomain (Coremail) with SMTP id
- AQAAf8Cx77PapFNk1uxJAA--.5674S25; 
- Thu, 04 May 2023 20:28:22 +0800 (CST)
-From: Song Gao <gaosong@loongson.cn>
-To: qemu-devel@nongnu.org
-Cc: richard.henderson@linaro.org,
-	gaosong@loongson.cn
-Subject: [PATCH v5 23/44] target/loongarch: Implement vsllwil vextl
-Date: Thu,  4 May 2023 20:27:49 +0800
-Message-Id: <20230504122810.4094787-24-gaosong@loongson.cn>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20230504122810.4094787-1-gaosong@loongson.cn>
-References: <20230504122810.4094787-1-gaosong@loongson.cn>
+ (Exim 4.90_1) (envelope-from <farosas@suse.de>) id 1puY3w-0001PG-HE
+ for qemu-devel@nongnu.org; Thu, 04 May 2023 08:27:56 -0400
+Received: from smtp-out2.suse.de ([195.135.220.29])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <farosas@suse.de>) id 1puY3u-0002pH-Po
+ for qemu-devel@nongnu.org; Thu, 04 May 2023 08:27:56 -0400
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 21C0920A77;
+ Thu,  4 May 2023 12:27:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1683203273; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=l19bKpbu8rElxtnV8nw339I4HfosoM365Tl3Du5nHO0=;
+ b=PjNyI+S8QaS570RpyP2vJa4JMEztLIJAohYcL+PzQQgkEJF9HjIu2oMqC22A6XNuL6GqWS
+ Y7+CrC59my5BBTWWHYDxmozHsiXeTw4CnrhX1SQrkxzRJ4a0O9cZ0rh8Q6KzHZNnp8y3Tb
+ E2qNsHphtXTNfhAIbkIW8opLn8NCWm0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1683203273;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=l19bKpbu8rElxtnV8nw339I4HfosoM365Tl3Du5nHO0=;
+ b=50X6PE48/GiuEHXDGqfGMI3mU72iU/FER1CWB/kbkDK1NzvaCRo+H+Kufbjp7bWDW0xJTF
+ PivdaSSY7ct5LrAQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id A2628133F7;
+ Thu,  4 May 2023 12:27:52 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id QkqjGsikU2RVPQAAMHmgww
+ (envelope-from <farosas@suse.de>); Thu, 04 May 2023 12:27:52 +0000
+From: Fabiano Rosas <farosas@suse.de>
+To: Thomas Huth <thuth@redhat.com>, Peter Maydell
+ <peter.maydell@linaro.org>, qemu-devel@nongnu.org, Paolo Bonzini
+ <pbonzini@redhat.com>
+Subject: Re: [PULL 11/35] arm/Kconfig: Do not build TCG-only boards on a
+ KVM-only build
+In-Reply-To: <b5d0ea65-0485-382b-f59a-84a5596b63a2@redhat.com>
+References: <20230502121459.2422303-1-peter.maydell@linaro.org>
+ <20230502121459.2422303-12-peter.maydell@linaro.org>
+ <b5d0ea65-0485-382b-f59a-84a5596b63a2@redhat.com>
+Date: Thu, 04 May 2023 09:27:50 -0300
+Message-ID: <87bkj0cmd5.fsf@suse.de>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf8Cx77PapFNk1uxJAA--.5674S25
-X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
-X-Coremail-Antispam: 1Uk129KBjvJXoW3XFWxXrW7Ar1DZrWUXrW8JFb_yoW7tF1xpF
- 42kryUGr48JrWxX3Za9a4rAF1DZr4DKw17uw4fta48WrW7JF1qqF1kt3yqkFW5X3ZxXFW0
- v3W3A3yY9FW5X37anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
- qI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUIcSsGvfJTRUUU
- b0AFc2x0x2IEx4CE42xK8VAvwI8IcIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4
- AK67xGY2AK021l84ACjcxK6xIIjxv20xvE14v26F1j6w1UM28EF7xvwVC0I7IYx2IY6xkF
- 7I0E14v26F4j6r4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x
- 0267AKxVW0oVCq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07AIYIkI8VC2zVCF
- FI0UMc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VCjz48v1sIEY20_WwAm72CE4IkC6x0Yz7
- v_Jr0_Gr1lF7xvr2IYc2Ij64vIr41l42xK82IYc2Ij64vIr41l42xK82IY6x8ErcxFaVAv
- 8VWrMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7
- xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUXVWUAwCIc40Y0x0EwIxGrwCI42IY6xII
- jxv20xvE14v26F1j6w1UMIIF0xvE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwCI42IY6xAIw2
- 0EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Cr0_Gr1UMIIF0xvEx4A2jsIEc7Cj
- xVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x0zRVWlkUUUUU=
-Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
- helo=loongson.cn
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: text/plain
+Received-SPF: pass client-ip=195.135.220.29; envelope-from=farosas@suse.de;
+ helo=smtp-out2.suse.de
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -75,158 +85,132 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-This patch includes:
-- VSLLWIL.{H.B/W.H/D.W};
-- VSLLWIL.{HU.BU/WU.HU/DU.WU};
-- VEXTL.Q.D, VEXTL.QU.DU.
+Thomas Huth <thuth@redhat.com> writes:
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Signed-off-by: Song Gao <gaosong@loongson.cn>
----
- target/loongarch/disas.c                    |  9 +++++
- target/loongarch/helper.h                   |  9 +++++
- target/loongarch/insn_trans/trans_lsx.c.inc | 21 +++++++++++
- target/loongarch/insns.decode               |  9 +++++
- target/loongarch/lsx_helper.c               | 41 +++++++++++++++++++++
- 5 files changed, 89 insertions(+)
+> On 02/05/2023 14.14, Peter Maydell wrote:
+>> From: Fabiano Rosas <farosas@suse.de>
+>> 
+>> Move all the CONFIG_FOO=y from default.mak into "default y if TCG"
+>> statements in Kconfig. That way they won't be selected when
+>> CONFIG_TCG=n.
+>> 
+>> I'm leaving CONFIG_ARM_VIRT in default.mak because it allows us to
+>> keep the two default.mak files not empty and keep aarch64-default.mak
+>> including arm-default.mak. That way we don't surprise anyone that's
+>> used to altering these files.
+>> 
+>> With this change we can start building with --disable-tcg.
+>> 
+>> Signed-off-by: Fabiano Rosas <farosas@suse.de>
+>> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+>> Message-id: 20230426180013.14814-12-farosas@suse.de
+>> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+>> ---
+>>   configs/devices/aarch64-softmmu/default.mak |  4 --
+>>   configs/devices/arm-softmmu/default.mak     | 37 ------------------
+>>   hw/arm/Kconfig                              | 42 ++++++++++++++++++++-
+>>   3 files changed, 41 insertions(+), 42 deletions(-)
+>> 
+>> diff --git a/configs/devices/aarch64-softmmu/default.mak b/configs/devices/aarch64-softmmu/default.mak
+>> index cf43ac8da11..70e05a197dc 100644
+>> --- a/configs/devices/aarch64-softmmu/default.mak
+>> +++ b/configs/devices/aarch64-softmmu/default.mak
+>> @@ -2,7 +2,3 @@
+>>   
+>>   # We support all the 32 bit boards so need all their config
+>>   include ../arm-softmmu/default.mak
+>> -
+>> -CONFIG_XLNX_ZYNQMP_ARM=y
+>> -CONFIG_XLNX_VERSAL=y
+>> -CONFIG_SBSA_REF=y
+>> diff --git a/configs/devices/arm-softmmu/default.mak b/configs/devices/arm-softmmu/default.mak
+>> index cb3e5aea657..647fbce88d3 100644
+>> --- a/configs/devices/arm-softmmu/default.mak
+>> +++ b/configs/devices/arm-softmmu/default.mak
+>> @@ -4,40 +4,3 @@
+>>   # CONFIG_TEST_DEVICES=n
+>>   
+>>   CONFIG_ARM_VIRT=y
+>> -CONFIG_CUBIEBOARD=y
+>> -CONFIG_EXYNOS4=y
+>> -CONFIG_HIGHBANK=y
+>> -CONFIG_INTEGRATOR=y
+>> -CONFIG_FSL_IMX31=y
+>> -CONFIG_MUSICPAL=y
+>> -CONFIG_MUSCA=y
+>> -CONFIG_CHEETAH=y
+>> -CONFIG_SX1=y
+>> -CONFIG_NSERIES=y
+>> -CONFIG_STELLARIS=y
+>> -CONFIG_STM32VLDISCOVERY=y
+>> -CONFIG_REALVIEW=y
+>> -CONFIG_VERSATILE=y
+>> -CONFIG_VEXPRESS=y
+>> -CONFIG_ZYNQ=y
+>> -CONFIG_MAINSTONE=y
+>> -CONFIG_GUMSTIX=y
+>> -CONFIG_SPITZ=y
+>> -CONFIG_TOSA=y
+>> -CONFIG_Z2=y
+>> -CONFIG_NPCM7XX=y
+>> -CONFIG_COLLIE=y
+>> -CONFIG_ASPEED_SOC=y
+>> -CONFIG_NETDUINO2=y
+>> -CONFIG_NETDUINOPLUS2=y
+>> -CONFIG_OLIMEX_STM32_H405=y
+>> -CONFIG_MPS2=y
+>> -CONFIG_RASPI=y
+>> -CONFIG_DIGIC=y
+>> -CONFIG_SABRELITE=y
+>> -CONFIG_EMCRAFT_SF2=y
+>> -CONFIG_MICROBIT=y
+>> -CONFIG_FSL_IMX25=y
+>> -CONFIG_FSL_IMX7=y
+>> -CONFIG_FSL_IMX6UL=y
+>> -CONFIG_ALLWINNER_H3=y
+>> diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
+>> index 87c1a29c912..2d7c4579559 100644
+>> --- a/hw/arm/Kconfig
+>> +++ b/hw/arm/Kconfig
+>> @@ -35,20 +35,24 @@ config ARM_VIRT
+>>   
+>>   config CHEETAH
+>>       bool
+>> +    default y if TCG && ARM
+>>       select OMAP
+>>       select TSC210X
+>>   
+>>   config CUBIEBOARD
+>>       bool
+>> +    default y if TCG && ARM
+>>       select ALLWINNER_A10
+> ...
+>
+>   Hi!
+>
+> Sorry for not noticing this earlier, but I have to say that I really dislike 
+> this change, since it very much changes the way we did our machine 
+> configuration so far.
+> Until now, you could simply go to configs/devices/*-softmmu/*.mak and only 
+> select the machines you wanted to have with "...=y" and delete everything 
+> else. Now you have to know *all* the machines that you do *not* want to have 
+> in your build and disable them with "...=n" in that file. That's quite ugly, 
+> especially for the arm target that has so many machines. (ok, you could also 
+> do a "--without-default-devices" configuration to get rid of the machines, 
+> but that also disables all other kind of devices that you then have to 
+> specify manually).
+>
 
-diff --git a/target/loongarch/disas.c b/target/loongarch/disas.c
-index f7d0fb4441..087cac10ad 100644
---- a/target/loongarch/disas.c
-+++ b/target/loongarch/disas.c
-@@ -1139,3 +1139,12 @@ INSN_LSX(vrotri_b,         vv_i)
- INSN_LSX(vrotri_h,         vv_i)
- INSN_LSX(vrotri_w,         vv_i)
- INSN_LSX(vrotri_d,         vv_i)
-+
-+INSN_LSX(vsllwil_h_b,      vv_i)
-+INSN_LSX(vsllwil_w_h,      vv_i)
-+INSN_LSX(vsllwil_d_w,      vv_i)
-+INSN_LSX(vextl_q_d,        vv)
-+INSN_LSX(vsllwil_hu_bu,    vv_i)
-+INSN_LSX(vsllwil_wu_hu,    vv_i)
-+INSN_LSX(vsllwil_du_wu,    vv_i)
-+INSN_LSX(vextl_qu_du,      vv)
-diff --git a/target/loongarch/helper.h b/target/loongarch/helper.h
-index 617c579592..e98f7c3e6f 100644
---- a/target/loongarch/helper.h
-+++ b/target/loongarch/helper.h
-@@ -352,3 +352,12 @@ DEF_HELPER_3(vmskgez_b, void, env, i32, i32)
- DEF_HELPER_3(vmsknz_b, void, env, i32,i32)
- 
- DEF_HELPER_FLAGS_4(vnori_b, TCG_CALL_NO_RWG, void, ptr, ptr, i64, i32)
-+
-+DEF_HELPER_4(vsllwil_h_b, void, env, i32, i32, i32)
-+DEF_HELPER_4(vsllwil_w_h, void, env, i32, i32, i32)
-+DEF_HELPER_4(vsllwil_d_w, void, env, i32, i32, i32)
-+DEF_HELPER_3(vextl_q_d, void, env, i32, i32)
-+DEF_HELPER_4(vsllwil_hu_bu, void, env, i32, i32, i32)
-+DEF_HELPER_4(vsllwil_wu_hu, void, env, i32, i32, i32)
-+DEF_HELPER_4(vsllwil_du_wu, void, env, i32, i32, i32)
-+DEF_HELPER_3(vextl_qu_du, void, env, i32, i32)
-diff --git a/target/loongarch/insn_trans/trans_lsx.c.inc b/target/loongarch/insn_trans/trans_lsx.c.inc
-index ad8f32ed18..037c742aa4 100644
---- a/target/loongarch/insn_trans/trans_lsx.c.inc
-+++ b/target/loongarch/insn_trans/trans_lsx.c.inc
-@@ -39,6 +39,18 @@ static bool gen_vv(DisasContext *ctx, arg_vv *a,
-     return true;
- }
- 
-+static bool gen_vv_i(DisasContext *ctx, arg_vv_i *a,
-+                     void (*func)(TCGv_ptr, TCGv_i32, TCGv_i32, TCGv_i32))
-+{
-+    TCGv_i32 vd = tcg_constant_i32(a->vd);
-+    TCGv_i32 vj = tcg_constant_i32(a->vj);
-+    TCGv_i32 imm = tcg_constant_i32(a->imm);
-+
-+    CHECK_SXE;
-+    func(cpu_env, vd, vj, imm);
-+    return true;
-+}
-+
- static bool gvec_vvv(DisasContext *ctx, arg_vvv *a, MemOp mop,
-                      void (*func)(unsigned, uint32_t, uint32_t,
-                                   uint32_t, uint32_t, uint32_t))
-@@ -2966,3 +2978,12 @@ TRANS(vrotri_b, gvec_vv_i, MO_8, tcg_gen_gvec_rotri)
- TRANS(vrotri_h, gvec_vv_i, MO_16, tcg_gen_gvec_rotri)
- TRANS(vrotri_w, gvec_vv_i, MO_32, tcg_gen_gvec_rotri)
- TRANS(vrotri_d, gvec_vv_i, MO_64, tcg_gen_gvec_rotri)
-+
-+TRANS(vsllwil_h_b, gen_vv_i, gen_helper_vsllwil_h_b)
-+TRANS(vsllwil_w_h, gen_vv_i, gen_helper_vsllwil_w_h)
-+TRANS(vsllwil_d_w, gen_vv_i, gen_helper_vsllwil_d_w)
-+TRANS(vextl_q_d, gen_vv, gen_helper_vextl_q_d)
-+TRANS(vsllwil_hu_bu, gen_vv_i, gen_helper_vsllwil_hu_bu)
-+TRANS(vsllwil_wu_hu, gen_vv_i, gen_helper_vsllwil_wu_hu)
-+TRANS(vsllwil_du_wu, gen_vv_i, gen_helper_vsllwil_du_wu)
-+TRANS(vextl_qu_du, gen_vv, gen_helper_vextl_qu_du)
-diff --git a/target/loongarch/insns.decode b/target/loongarch/insns.decode
-index 7c0b0c4ac8..23dd338026 100644
---- a/target/loongarch/insns.decode
-+++ b/target/loongarch/insns.decode
-@@ -839,3 +839,12 @@ vrotri_b         0111 00101010 00000 01 ... ..... .....   @vv_ui3
- vrotri_h         0111 00101010 00000 1 .... ..... .....   @vv_ui4
- vrotri_w         0111 00101010 00001 ..... ..... .....    @vv_ui5
- vrotri_d         0111 00101010 0001 ...... ..... .....    @vv_ui6
-+
-+vsllwil_h_b      0111 00110000 10000 01 ... ..... .....   @vv_ui3
-+vsllwil_w_h      0111 00110000 10000 1 .... ..... .....   @vv_ui4
-+vsllwil_d_w      0111 00110000 10001 ..... ..... .....    @vv_ui5
-+vextl_q_d        0111 00110000 10010 00000 ..... .....    @vv
-+vsllwil_hu_bu    0111 00110000 11000 01 ... ..... .....   @vv_ui3
-+vsllwil_wu_hu    0111 00110000 11000 1 .... ..... .....   @vv_ui4
-+vsllwil_du_wu    0111 00110000 11001 ..... ..... .....    @vv_ui5
-+vextl_qu_du      0111 00110000 11010 00000 ..... .....    @vv
-diff --git a/target/loongarch/lsx_helper.c b/target/loongarch/lsx_helper.c
-index ff00d60ab8..de86f41cce 100644
---- a/target/loongarch/lsx_helper.c
-+++ b/target/loongarch/lsx_helper.c
-@@ -793,3 +793,44 @@ void HELPER(vnori_b)(void *vd, void *vj, uint64_t imm, uint32_t v)
-         Vd->B(i) = ~(Vj->B(i) | (uint8_t)imm);
-     }
- }
-+
-+#define VSLLWIL(NAME, BIT, E1, E2)                        \
-+void HELPER(NAME)(CPULoongArchState *env,                 \
-+                  uint32_t vd, uint32_t vj, uint32_t imm) \
-+{                                                         \
-+    int i;                                                \
-+    VReg temp;                                            \
-+    VReg *Vd = &(env->fpr[vd].vreg);                      \
-+    VReg *Vj = &(env->fpr[vj].vreg);                      \
-+    typedef __typeof(temp.E1(0)) TD;                      \
-+                                                          \
-+    temp.D(0) = 0;                                        \
-+    temp.D(1) = 0;                                        \
-+    for (i = 0; i < LSX_LEN/BIT; i++) {                   \
-+        temp.E1(i) = (TD)Vj->E2(i) << (imm % BIT);        \
-+    }                                                     \
-+    *Vd = temp;                                           \
-+}
-+
-+void HELPER(vextl_q_d)(CPULoongArchState *env, uint32_t vd, uint32_t vj)
-+{
-+    VReg *Vd = &(env->fpr[vd].vreg);
-+    VReg *Vj = &(env->fpr[vj].vreg);
-+
-+    Vd->Q(0) = int128_makes64(Vj->D(0));
-+}
-+
-+void HELPER(vextl_qu_du)(CPULoongArchState *env, uint32_t vd, uint32_t vj)
-+{
-+    VReg *Vd = &(env->fpr[vd].vreg);
-+    VReg *Vj = &(env->fpr[vj].vreg);
-+
-+    Vd->Q(0) = int128_make64(Vj->D(0));
-+}
-+
-+VSLLWIL(vsllwil_h_b, 16, H, B)
-+VSLLWIL(vsllwil_w_h, 32, W, H)
-+VSLLWIL(vsllwil_d_w, 64, D, W)
-+VSLLWIL(vsllwil_hu_bu, 16, UH, UB)
-+VSLLWIL(vsllwil_wu_hu, 32, UW, UH)
-+VSLLWIL(vsllwil_du_wu, 64, UD, UW)
--- 
-2.31.1
+Would leaving the CONFIGs as 'n', but commented out in the .mak files be
+of any help? If I understand your use case, you were probably just
+deleting the CONFIG=y for the boards you don't want. So now you'd be
+uncommenting the CONFIG=n instead.
+
+Alternatively, we could revert the .mak part of this change, convert
+default.mak into tcg.mak and kvm.mak, and use those transparently
+depending on whether --disable-tcg is present in the configure line.
+
+But there's probably a better way still that I'm not seeing here, let's
+see what others think.
 
 
