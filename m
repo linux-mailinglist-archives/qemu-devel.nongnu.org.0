@@ -2,109 +2,135 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A01AE6F6451
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 May 2023 07:19:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA6716F645A
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 May 2023 07:24:55 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1puRM2-0003c9-HG; Thu, 04 May 2023 01:18:12 -0400
+	id 1puRSG-0005us-IC; Thu, 04 May 2023 01:24:36 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sbhat@linux.ibm.com>)
- id 1puRLs-0003bt-NR; Thu, 04 May 2023 01:18:00 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
+ (Exim 4.90_1) (envelope-from <vikram.garhwal@amd.com>)
+ id 1puRS6-0005uD-Il
+ for qemu-devel@nongnu.org; Thu, 04 May 2023 01:24:27 -0400
+Received: from mail-bn8nam11on2040.outbound.protection.outlook.com
+ ([40.107.236.40] helo=NAM11-BN8-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sbhat@linux.ibm.com>)
- id 1puRLq-0007S7-8j; Thu, 04 May 2023 01:18:00 -0400
-Received: from pps.filterd (m0353726.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 3445C4BF014828; Thu, 4 May 2023 05:17:37 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- subject : to : cc : references : from : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=pp1;
- bh=ESiBNw5k+3ALp+2xb9y6VHa1iWQTXEIU38N1ol6AFQ8=;
- b=plYnfu2dZ/Sh4oml+/W23oN6OKc7GP/tkLnnUUkkS3sffy48QS7dbWPLr6SpS/WdtcIr
- KNOrLGRcjMW2fO9qC0Kg4ESs28OPjSUPWWAluvRQZOIORYBtHRpNeZyCV1nM879RXrrw
- FWrBKatyQ9e/czFW0pNyj6prHBHH+SppAAX0nfvG2FKoGtnGVD3BTFEg1h4rZElFPHcH
- qM0UESznayaJ6o8D1W0ym9jXLTTitRBAH2P/j4tt+GhkoD2zK1z3u1EolrxxxiYhinbZ
- azyt6dhRbXgZZCxYZhAhkOiZ0TwfhKUMpJbmMTVz2c1E9ccGRUyT7/hDOwvqYZHcolhE Nw== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3qc6bgg487-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 04 May 2023 05:17:36 +0000
-Received: from m0353726.ppops.net (m0353726.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 3445FStX026226;
- Thu, 4 May 2023 05:17:36 GMT
-Received: from ppma02fra.de.ibm.com (47.49.7a9f.ip4.static.sl-reverse.com
- [159.122.73.71])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3qc6bgg47p-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 04 May 2023 05:17:36 +0000
-Received: from pps.filterd (ppma02fra.de.ibm.com [127.0.0.1])
- by ppma02fra.de.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 3444uFRh031622;
- Thu, 4 May 2023 05:17:33 GMT
-Received: from smtprelay05.fra02v.mail.ibm.com ([9.218.2.225])
- by ppma02fra.de.ibm.com (PPS) with ESMTPS id 3q8tv6t69f-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 04 May 2023 05:17:33 +0000
-Received: from smtpav06.fra02v.mail.ibm.com (smtpav06.fra02v.mail.ibm.com
- [10.20.54.105])
- by smtprelay05.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 3445HVIY64618826
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 4 May 2023 05:17:31 GMT
-Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 6570E20040;
- Thu,  4 May 2023 05:17:31 +0000 (GMT)
-Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 44C5E20043;
- Thu,  4 May 2023 05:17:29 +0000 (GMT)
-Received: from [9.43.55.38] (unknown [9.43.55.38])
- by smtpav06.fra02v.mail.ibm.com (Postfix) with ESMTP;
- Thu,  4 May 2023 05:17:29 +0000 (GMT)
-Message-ID: <8ddf6bcf-c499-9173-a3a0-7aa86dd9d42a@linux.ibm.com>
-Date: Thu, 4 May 2023 10:47:28 +0530
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.1
-Subject: Re: [PATCH 2/2] tests: tcg: ppc64: Add tests for Vector Extract Mask
- Instructions
+ (Exim 4.90_1) (envelope-from <vikram.garhwal@amd.com>)
+ id 1puRS0-0008Tr-E3
+ for qemu-devel@nongnu.org; Thu, 04 May 2023 01:24:26 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=JMQsMuDrio35Cu7rRISbivUN3HAtdv3tbqU4IYFjEQl10CDqJFouVSzivWoCN9aC9xtaWn5vHK4jBK4iHkbSIKSbS+kbTL8wpWGwSQlL+UWNRTeiw8V+CSbzJhjwrz7HqOrzzS/ewRlwJ5Tjqo9cGy7w3yKLzkU83USsn3bt2L/lg1KJpbb8hlRaVfIeNQRgfC8BX0OuCR7Ooj5lZZM0d9khcRqkQJG9V6WFNcT80kpIb2ZQyK0xBot6oAN/F9oP0ujaY2p0HEhwiGZpPnoL2O3xKzP91/SOGS9/WVmp/z+NesFZQw1dyhlqD5B3fJTgQazehamp0jG831u6E5v8MA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=wDXSQ5oV29XHKOM8Bm2EB2LTOGbnwUyOLCnoYzDxRv4=;
+ b=MWTMSMc8GaRsqRkHP53mrci/B5R1LuPjiMQonrLwC4QM425CEdedH4NmSrNGyoq3Yzxt0jKwcZu0WTzaPBrhJQoB+EzzO9jnHsMswm/J4khXyOxgHSax29buj459Rk+x+xMkB7p8WFSYd5Iai6CLI8mUJpRzAatwu62MxGBx/RzkPOW5pIWfRugg7whCzVW256X72S93SQ5gMFPkDZjnFC9BKV/opAo5zEu5SuN6SYEotvu8w/7Ku33Wv8/7gAYRzHJEzNtTXRXK5w0BG1gwt6SiJS9mOHvZAR+1jENAhqiUSvBIGN2buYJ/NQzQbHe5Kr2tpi+7/XoSbIt08miN+A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=wDXSQ5oV29XHKOM8Bm2EB2LTOGbnwUyOLCnoYzDxRv4=;
+ b=ho10jx+iCbloEIX5bVr1NpyxvXrS/D7Ym2oc0U4o6TTkw/6eeDW+w3IC/DV5O529l8G1OSexsa3DainiS9xcBtblYKI5dn4AlVks6kvR4Sj/q/2LwC6VnB17THO3918TrUfUi2K8sHuu1TN/Ewu8pBYqrlKLupaWfieC7OmCaD0=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from MW3PR12MB4409.namprd12.prod.outlook.com (2603:10b6:303:2d::23)
+ by MW4PR12MB6731.namprd12.prod.outlook.com (2603:10b6:303:1eb::11)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6340.29; Thu, 4 May
+ 2023 05:19:13 +0000
+Received: from MW3PR12MB4409.namprd12.prod.outlook.com
+ ([fe80::f32a:31f7:2579:879b]) by MW3PR12MB4409.namprd12.prod.outlook.com
+ ([fe80::f32a:31f7:2579:879b%7]) with mapi id 15.20.6363.022; Thu, 4 May 2023
+ 05:19:13 +0000
+Message-ID: <1f6b3666-fc7e-083a-50fb-b2e91ac2c012@amd.com>
+Date: Wed, 3 May 2023 22:18:24 -0700
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.10.1
+Subject: Re: [PULL v3 0/10] xenpvh3-tag
 Content-Language: en-US
-To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>, philmd@linaro.org,
- richard.henderson@linaro.org, danielhb413@gmail.com,
- lucas.araujo@eldorado.org.br, qemu-ppc@nongnu.org,
- david@gibson.dropbear.id.au, groug@kaod.org
-Cc: john_platts@hotmail.com, qemu-devel@nongnu.org
-References: <168141244011.3026479.13697197743885252330.stgit@ltc-boston1.aus.stglabs.ibm.com>
- <168141246968.3026479.12755025628496245070.stgit@ltc-boston1.aus.stglabs.ibm.com>
- <0435d42f-e48a-3c51-108a-df284fc496ab@kaod.org>
-From: Shivaprasad G Bhat <sbhat@linux.ibm.com>
-In-Reply-To: <0435d42f-e48a-3c51-108a-df284fc496ab@kaod.org>
+To: Richard Henderson <richard.henderson@linaro.org>,
+ Stefano Stabellini <sstabellini@kernel.org>, peter.maydell@linaro.org
+Cc: qemu-devel@nongnu.org
+References: <alpine.DEB.2.22.394.2305021708010.974517@ubuntu-linux-20-04-desktop>
+ <a01d5ddf-b6b3-7fc7-daef-44debf48ca77@linaro.org>
+From: Vikram Garhwal <vikram.garhwal@amd.com>
+In-Reply-To: <a01d5ddf-b6b3-7fc7-daef-44debf48ca77@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: IG68h5xRHlWumbdy6Um5iJW07qkHpYK8
-X-Proofpoint-ORIG-GUID: caacO-KUYtOMOZ38eau19YShn4FIbvJs
 Content-Transfer-Encoding: 8bit
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+X-ClientProxiedBy: SJ0PR03CA0340.namprd03.prod.outlook.com
+ (2603:10b6:a03:39c::15) To MW3PR12MB4409.namprd12.prod.outlook.com
+ (2603:10b6:303:2d::23)
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-05-04_02,2023-05-03_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0
- mlxlogscore=962 spamscore=0 bulkscore=0 phishscore=0 clxscore=1011
- suspectscore=0 adultscore=0 priorityscore=1501 malwarescore=0 mlxscore=0
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2303200000 definitions=main-2305040042
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=sbhat@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -62
-X-Spam_score: -6.3
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MW3PR12MB4409:EE_|MW4PR12MB6731:EE_
+X-MS-Office365-Filtering-Correlation-Id: eaf481ae-f9e6-41e6-8b73-08db4c5f1915
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 4fFI2GZZYaA+pQUzXpi560HfJebh7uqH76mZKb1Yn7YMdHW5tGhnD6g46+X7HjRWJoYQL87BlMWdhn6LBT1hFJqXzoAUXLMkrq8QVQH0+VJvzt4qHmkrA9zbQiOqNFN3OHLYa7xCiHorT5nX4NYiJUymAArKBW1IVgMqw29Z/rZROKSS9Fy3CAHxc2GpOaA/sBDAbBDPk1SN9f+/WPeNXPuz+FQ2Gz/4tbTayB1LYyao5O05LTIsC8K2kiVQ7X4uCDZTSOK/Q0GUrYL5vN1pqbeBvHbEySE1kTP/X2M8C8NbqvSuFMqQNQiz4/kQgNYypX5cs+bv0BiACtDlqYBqRiUwIU+qdUCsmxveSgZJyYMzIjPGObLM6D9BxlzXO2zqcOECoQqjbgGB8yRoezzFQ6emQtufcIa1KWXhtnNsp2vdvQHXc+zrgmdumo/Uj25oErutZ96VGsI+zZ6tQujtpFPgE69QGj+QJj6BlQKg9JCLipCe3Qg/JRflRN7/UeW0CaQzW5LLb4xIza9WDryKWSVnKPll7MpCBHkprEYfuMUajGQcK/qVhV2mqt/6TWJXD1T2hbQAyoA7R6D0AWxTiN9BM5V1HIKfy0ifM0y1sUqjzCCS+HLH5hf25fMjsQekAiq0aoShW4mgE9scBloXaVYeQE5+ZyITByx+BtitxDw=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MW3PR12MB4409.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230028)(4636009)(346002)(376002)(136003)(39860400002)(366004)(396003)(451199021)(66946007)(66476007)(38100700002)(36756003)(110136005)(66556008)(4326008)(316002)(966005)(6666004)(6486002)(8936002)(478600001)(8676002)(41300700001)(2906002)(44832011)(5660300002)(26005)(53546011)(86362001)(2616005)(186003)(6506007)(6512007)(83380400001)(31696002)(31686004)(45980500001)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?c1pRTFF1MFZMcUVOeFVlYzcwMWxucm1SaVo5RzR5bTFYZjRWRkQrRVo5RE43?=
+ =?utf-8?B?cHlDd3R2a0c3TWVFZ1VaTUh2ZTM4bm54UDVEV1d1OHdCT0VLemFLS0NHRGdV?=
+ =?utf-8?B?bEE4MXlZS3Z3NjJycXRLMTFjNlAwcUpZQTdxV3ZmUUk0VnVDbVNLeWU1VnpP?=
+ =?utf-8?B?RllDNnFWZkExNkdVR2VLTjVONXJ6OWRZaUI1TllSUFZ5SnRDNFJ1KzQ1TlBL?=
+ =?utf-8?B?NUd1VXI3TCtISWpnN0RPYndYbE5sY2QzQzFOM2ZjaFlhSXJoZDRtZHNqYjVk?=
+ =?utf-8?B?dTBORFZNNCtFK0xlVDgwVC9GZmRMWG14bXpvcjRpMWhxNXhIdHI3dFJtRUdJ?=
+ =?utf-8?B?dUQ3T3d0Y2xmUVhvVnZaMjdLd2tiVlZKd0l6MDZzLzVSWk5obG01eHdVNVZz?=
+ =?utf-8?B?WkR5azl5Z2IxVGpSQyszVEp2UlJsQmJ2YXAwbjFsNktPZDNHNXlIV2ZkN0xm?=
+ =?utf-8?B?RU1YTlFPZ1RFbjJicjRkZEYzT2FVbWRWbEZON0xkQVRXa2lEWFNqK00wYklF?=
+ =?utf-8?B?ckR4UjJNRFNQa0NOQnQ4bUY3SVdxakJ3NzRtZ09ZMW1QWmM0QlJ5c01iQ2RP?=
+ =?utf-8?B?SU9GU0V4YUhxUHB1ZFNHQ1o4dk5EUEVPWnViYWEvajdnREdVdC9yTmlMdlNK?=
+ =?utf-8?B?QVFnbTd3dmpET0VMN0Nybno5MCtZY0F4T29XNTZPbUxNS1huMUR2K0t4Z2F6?=
+ =?utf-8?B?ekd2eEE1c0tEbW1mZ2lDL2FtYi9uS1Z3dnBWRlgzWWtKaUlGNUZQVERhcWZI?=
+ =?utf-8?B?OUZ4Wjg3ZDFxN0NJTUU3b3YvKzdFbGNmcldTTW1PRFlyWXRwUi9tM25JWW14?=
+ =?utf-8?B?Q0ZibzNPQ2pjZGJuSEJTK3FSMjNmS0tzTmtUS0YwUm81Q05JeGxjckRKbFNB?=
+ =?utf-8?B?WUxXb2dTRE0xNmZjQ1Y1TFR5c0FQbzhnRHR3VWc2TkpGSk5QU1VCVUFFTHRq?=
+ =?utf-8?B?Ky9vK1d1dzBaMjNKalF6QVZmOTU4THc4eG9ZczZlMkIxKzM3ZW5TMnZPeFBv?=
+ =?utf-8?B?MzJsVldrZWo3S0c3dEFxOUtPcU1BdDMwWlpNZXVENE1aZXhQS1BrTDBIbjQ4?=
+ =?utf-8?B?RTRNSnNHcXRjSUhRUkY5b1Nmd3F4dmsxVUJHOW51b1N2M2hic2gxczJ1QTU5?=
+ =?utf-8?B?N1REdDRnR1FFQW9CMGU3QXl1SjRsQng0Qm5yU0FoTS9VcUl0VUJzd1RiSTR4?=
+ =?utf-8?B?cGpqMWtUc1BDZVo3c29HWmpJa2NReTZRTTlLdnZueTU0NWtiT05ueFlyT3Uw?=
+ =?utf-8?B?aTVnYnVGSnRITmMvQXBKdkFseHhud3QzMmpzWm5PNmc1MEZWUXpIZ0NYWGQv?=
+ =?utf-8?B?aEhaTFQ0WS9KRUtocXJSb0tLeGN1V2NhejJyaHRuOG5qNmNpUDlOUGNxWTNM?=
+ =?utf-8?B?bFpjWXc0MnVCUlFRWFBiakhkQUdQZVdweUVqZUlxN1BlSFB5YTVsQStCTUxH?=
+ =?utf-8?B?cjEwYk5tZzFCZVB3VzZjWVVrWXlkeWpvUnM3b1krck5mU3dNWnhuL1BiZGZV?=
+ =?utf-8?B?VEExaHdjdFNGTnkyVWl3dlh1OWZuZ0hCVlVvWVh2dnFpQ2plNUEzaGMxQUtm?=
+ =?utf-8?B?NytVaWVrUWlMajBzeVFHUU1zN0RoVWJWVmlZbCtCYkQwZjdDclkxQlBqZHZ3?=
+ =?utf-8?B?TFk1RHp3UVoxYVNkYTFaenZnTm45Tm5mOVJ0MW93RWg1TXRPU2NIWGxramlY?=
+ =?utf-8?B?TjV5LytqelQvNWlJSFhXb0MxWWFkbGkyR0o1d0tweVJXMTRyRjluNGlVckJM?=
+ =?utf-8?B?VWNWN1NXQ0pOMTVlclkyQ1hIVndiYmNhZU1kT0UrMGgzY3o5NTRPQUp3RlBM?=
+ =?utf-8?B?blBodmJpTzQ3Y2JqbUNDUDZFTUY4VllKc3dnSEJqQmJ6dzN3ZTJqQnZuaG4w?=
+ =?utf-8?B?NTFOWFdlYjFDcldpU2VIZFZ1TTk1K3o3Rkh1UzZCbmZ3SEhiRE4yRm5jSnR2?=
+ =?utf-8?B?YkhldktWVWNLVjRWUXFiSzJGWFZ5RnRLNGcrZlJLdDd6RDhNSlBvaExrYisy?=
+ =?utf-8?B?dlJSMWR3Vmk0VzFrK3Vseml1c3lPbXBtdjhIK1oxd3h5MGVuSS9kZmtNU3hI?=
+ =?utf-8?B?eEVSUEFUbVNwV1ZqQnhUMU1naHhvVUVJMXpCQjIxYklCYkQrdTBoNjVPVUV0?=
+ =?utf-8?Q?zRoA=3D?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: eaf481ae-f9e6-41e6-8b73-08db4c5f1915
+X-MS-Exchange-CrossTenant-AuthSource: MW3PR12MB4409.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 May 2023 05:19:13.1166 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: PviIEaCa3CoaWBjM3ZlG0X19dumprmv+0LwgLCs+sfLcxWFPVGbo+DIxSpcNPLrdUrZB8fJlKDsLM4iXDYWW1A==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR12MB6731
+Received-SPF: softfail client-ip=40.107.236.40;
+ envelope-from=vikram.garhwal@amd.com;
+ helo=NAM11-BN8-obe.outbound.protection.outlook.com
+X-Spam_score_int: -63
+X-Spam_score: -6.4
 X-Spam_bar: ------
-X-Spam_report: (-6.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-4.28,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-6.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-4.28,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -120,33 +146,80 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 5/2/23 12:35, Cédric Le Goater wrote:
-> On 4/13/23 21:01, Shivaprasad G Bhat wrote:
->> Add test for vextractbm, vextractwm, vextractdm and vextractqm
->> instructions. Test works for both qemu-ppc64 and qemu-ppc64le.
+Hi Richard,
+
+On 5/3/23 12:47 AM, Richard Henderson wrote:
+> On 5/3/23 01:12, Stefano Stabellini wrote:
+>> Hi Peter,
 >>
->> Based on the test case written by John Platts posted at [1]
+>> Vikram fixed the gitlab test problem, so now all the tests should
+>> succeed. There were no changes to the QEMU code. I am resending the pull
+>> request (I rebased it on staging, no conflicts.)
 >>
->> References:
->> [1]: https://gitlab.com/qemu-project/qemu/-/issues/1536
+>> For reference this was the previous pull request:
+>> https://marc.info/?l=qemu-devel&m=167641819725964
+>>
+>> Cheers,
+>>
+>> Stefano
+>>
+>>
+>> The following changes since commit 
+>> 4ebc33f3f3b656ebf62112daca6aa0f8019b4891:
+>>
+>>    Merge tag 'pull-tcg-20230502-2' of https://gitlab.com/rth7680/qemu 
+>> into staging (2023-05-02 21:18:45 +0100)
+>>
+>> are available in the Git repository at:
+>>
+>>    https://gitlab.com/sstabellini/qemu xenpvh3-tag
+>>
+>> for you to fetch changes up to bc618c54318cbc2fcb9decf9d4c193cc336a0dbc:
+>>
+>>    meson.build: enable xenpv machine build for ARM (2023-05-02 
+>> 17:04:54 -0700)
+>>
+>> ----------------------------------------------------------------
+>> Stefano Stabellini (5):
+>>        hw/i386/xen/xen-hvm: move x86-specific fields out of XenIOState
+>>        xen-hvm: reorganize xen-hvm and move common function to 
+>> xen-hvm-common
+>>        include/hw/xen/xen_common: return error from 
+>> xen_create_ioreq_server
+>>        hw/xen/xen-hvm-common: skip ioreq creation on ioreq 
+>> registration failure
+>>        meson.build: do not set have_xen_pci_passthrough for aarch64 
+>> targets
+>>
+>> Vikram Garhwal (5):
+>>        hw/i386/xen/: move xen-mapcache.c to hw/xen/
+>>        hw/i386/xen: rearrange xen_hvm_init_pc
+>>        hw/xen/xen-hvm-common: Use g_new and error_report
+>>        hw/arm: introduce xenpvh machine
+>>        meson.build: enable xenpv machine build for ARM
 >
-> Gitlab issues should be referenced as :
+> Errors in CI:
 >
-> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1536
+> https://gitlab.com/qemu-project/qemu/-/jobs/4216392008#L2381
 >
-> However, this patch adds a test, not a fix. So it is the previous patch
-> which should be annotated as resolving the issue.
->
-> Also, I think the code should be using  HOST_BIG_ENDIAN instead of
-> __ORDER_BIG_ENDIAN__
->
-Thanks for the comments Cédric.
+> ../hw/i386/xen/xen-hvm.c:303:9: error: implicit declaration of 
+> function 'error_report' is invalid in C99 
+> [-Werror,-Wimplicit-function-declaration]
+>         error_report("relocate_memory %lu pages from GFN %"HWADDR_PRIx
+Thanks for notifying this. I am not sure why this particular build is 
+failing. error_report() is defined in "|qemu/error-report.h" and the 
+header should be included as |||it builds fine for other configs.
+|Also, the same tsan-build passed when we sent the PULL for v2.
 
-Fixing these in v2.
+||||I am not sure why it's failing for this config. W||ill try to fix 
+this. Meanwhile, any hints on how to fix/debug this?
 
-Thanks,
-
-Shivaprasad
-
+Regards,
+Vikram
+|
+> ^
+>
+>
+> r~
 
 
