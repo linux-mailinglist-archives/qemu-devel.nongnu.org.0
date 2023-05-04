@@ -2,93 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6829D6F6587
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 May 2023 09:11:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BABCD6F658D
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 May 2023 09:13:05 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1puT6i-000253-94; Thu, 04 May 2023 03:10:28 -0400
+	id 1puT8j-0003fv-EC; Thu, 04 May 2023 03:12:33 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <anisinha@redhat.com>)
- id 1puT6e-000236-9N
- for qemu-devel@nongnu.org; Thu, 04 May 2023 03:10:24 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1puT8i-0003eq-3W
+ for qemu-devel@nongnu.org; Thu, 04 May 2023 03:12:32 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <anisinha@redhat.com>)
- id 1puT6b-0004Z5-JK
- for qemu-devel@nongnu.org; Thu, 04 May 2023 03:10:24 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1puT8g-0005EV-Do
+ for qemu-devel@nongnu.org; Thu, 04 May 2023 03:12:31 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1683184220;
+ s=mimecast20190719; t=1683184349;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=g0tt9EgqFoCDfHlGdXe1yUPSQ/oIxVYM3OqpF/KUIfo=;
- b=HZJX6A1N0E09tiaC2tf4HFpGEZFn1aoMKtvV/Lo6QEhLpgQ+dHy6m4VfcopLsWDMZvwF7c
- 25ngV6/sx5D1pflHgbT1pmMw3FPIKI1YpmSkaBWFyyHOUQw2AYhVHwFrFdZmKH3xJ7zWXx
- mHBU9PjmnEW2nvLoi4eDShwnqSrzruE=
-Received: from mail-pf1-f200.google.com (mail-pf1-f200.google.com
- [209.85.210.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=qPC5xSBUaXBPxko2ZFE07ON7pqdShsd/N0cXFpVpoNw=;
+ b=ZHdY1byBdX9WsCdGxBw16cRJE7Fp4oTF1XNxNwgIREJDAEpCQd5j+e3+OPSBgmjSzyxGtU
+ uYmuc+p1kUpZ7X9W7wmiFNIObWwEr/MeX7v6/khNUhN5hC47Y/4p5FPKHInO6ci4pxZS8Z
+ BooWyX+kixToChJmt/lVqq8TMRNcoAQ=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-207-abf3cW2BPp-_6abcUnsEZg-1; Thu, 04 May 2023 03:10:19 -0400
-X-MC-Unique: abf3cW2BPp-_6abcUnsEZg-1
-Received: by mail-pf1-f200.google.com with SMTP id
- d2e1a72fcca58-64115ef7234so6968821b3a.1
- for <qemu-devel@nongnu.org>; Thu, 04 May 2023 00:10:18 -0700 (PDT)
+ us-mta-303-H11YbjFZMpaOdb5LJRA97A-1; Thu, 04 May 2023 03:12:27 -0400
+X-MC-Unique: H11YbjFZMpaOdb5LJRA97A-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ 5b1f17b1804b1-3f3157128b4so31699155e9.0
+ for <qemu-devel@nongnu.org>; Thu, 04 May 2023 00:12:27 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683184217; x=1685776217;
- h=to:references:message-id:content-transfer-encoding:cc:date
- :in-reply-to:from:subject:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=g0tt9EgqFoCDfHlGdXe1yUPSQ/oIxVYM3OqpF/KUIfo=;
- b=bnNbEUrXfBYRdY6TzNm4PDfxxzY3GayO6H9Xz2SPmPelBojWv/fC7Q7wKDpVzGQfeP
- KxvG6xLG7U5h8eQ7F+Ao1Bt4+H7RmLEMSZ8koVka851kXUldtBt0I7Qyd+14U4GZ9gLn
- 9r2MWT9MWngj+slTyCStHQnPL0r/PFXQgVKUS1QO6ui/g4mu2H7dfLn8LUZE8eQZITpL
- FBQru4suKOxV9P1k2lLRGxAwYV+NZwLLaajN8CMhIGhnPVCGxleYz56quZwNX7qoHW4w
- 5KTk39+08Rsq7M9gFKT1N1QHCYuXe948Ftsss1AAKNJWx38YM7tYsEBdXvUYfpUv2md1
- a6+g==
-X-Gm-Message-State: AC+VfDwZ/2x8+G7ZQwhYnX9sgj7Pbrn0mtOc9AMcSZGjtl3SlYGE/CHP
- 8o2UAHY5YinM5qQA/7JKb/AU7wazXj4IKkx7k7S/As3/RBSrhExajabRCVshfNexXBNRUawQ3wB
- WS6xIFPLn+eW/ro5FjKc+ZoE=
-X-Received: by 2002:a05:6a20:918f:b0:f3:c08:ce12 with SMTP id
- v15-20020a056a20918f00b000f30c08ce12mr1760046pzd.5.1683184217733; 
- Thu, 04 May 2023 00:10:17 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ5r5pxNYtCx7RKQ473qeQ2/joIMiRASkSuS0Vbiq19HMDjXr7szSERaTAZ6liLG6UAkgZTEaQ==
-X-Received: by 2002:a05:6a20:918f:b0:f3:c08:ce12 with SMTP id
- v15-20020a056a20918f00b000f30c08ce12mr1760024pzd.5.1683184217448; 
- Thu, 04 May 2023 00:10:17 -0700 (PDT)
-Received: from smtpclient.apple ([115.96.136.25])
- by smtp.gmail.com with ESMTPSA id
- x125-20020a636383000000b00513ec871c01sm21079935pgb.16.2023.05.04.00.10.14
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Thu, 04 May 2023 00:10:17 -0700 (PDT)
-Content-Type: text/plain;
-	charset=us-ascii
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3696.120.41.1.3\))
-Subject: Re: [PATCH 0/2] Add mformat and xorriso dependencies in containers
-From: Ani Sinha <anisinha@redhat.com>
-In-Reply-To: <8d7e46ec-95c0-5c4a-a843-20106576e9ba@redhat.com>
-Date: Thu, 4 May 2023 12:40:12 +0530
-Cc: alex.bennee@linaro.org,
- =?utf-8?Q?Philippe_Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- wainersm@redhat.com, bleal@redhat.com, qemu-devel@nongnu.org,
- "Michael S. Tsirkin" <mst@redhat.com>, berrange@redhat.com
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <602A585B-01D1-4140-899F-F7E3A5045E47@redhat.com>
-References: <20230503145547.202251-1-anisinha@redhat.com>
- <8d7e46ec-95c0-5c4a-a843-20106576e9ba@redhat.com>
-To: Thomas Huth <thuth@redhat.com>
-X-Mailer: Apple Mail (2.3696.120.41.1.3)
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=anisinha@redhat.com;
+ d=1e100.net; s=20221208; t=1683184346; x=1685776346;
+ h=content-transfer-encoding:in-reply-to:subject:from:references:to
+ :content-language:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=qPC5xSBUaXBPxko2ZFE07ON7pqdShsd/N0cXFpVpoNw=;
+ b=OgiiLqJ0giahpBbjNYgAlFBYm5Q7wMOTglBmbi2+8RZGKk2kdVuaFK+0fVAtCtnqj1
+ 2jAeFcMxcVWb6SygTlydc7unvOnzF4eSQRTujbtRAjlD/Ycs1PYuqU9Obm/8bbc6Cgji
+ IwZXWxSbqLuFlRDgqP5gLutHeOO7882Z36BJCwJEtXOrtaI/L4G+pOgK6aK+GsCi3K2z
+ Kw/y2RjggoNrw/kFOp7rSKRj0h1bd0E5/OR1zQaiBCg/gb6HHG0p63VBuaHYRtT5HMQ/
+ mHPTBslK6Kvvy7gAkyNdPZK8DHzuQ+VKG8DDj6ynXNa0ulqS9Bgz4ATCYJt+ZAA5Kwwn
+ 0zyg==
+X-Gm-Message-State: AC+VfDyF3JeEppsGGewL6IYjI0O+YuQFQdzWw0VBorHjkDrTtFIjfFkK
+ ENNB+2L88L5/2/aJaekdo+tl9ZZR+gl0L8xgEhT1IvXArJRR+MAgUDA6h7KPQ+YI+g+Pof+ggvF
+ woMpTOzSeP5pqCg8=
+X-Received: by 2002:a05:600c:5102:b0:3f1:7510:62e8 with SMTP id
+ o2-20020a05600c510200b003f1751062e8mr3114577wms.3.1683184346732; 
+ Thu, 04 May 2023 00:12:26 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ7rqecFDW8tS/MBh65vNBpwLMp3d4eM6CmAdcSSDGtMwmL8bTlvnNe0GrI5JtEKTxIqV8r3aw==
+X-Received: by 2002:a05:600c:5102:b0:3f1:7510:62e8 with SMTP id
+ o2-20020a05600c510200b003f1751062e8mr3114562wms.3.1683184346363; 
+ Thu, 04 May 2023 00:12:26 -0700 (PDT)
+Received: from [192.168.0.3] (ip-109-43-179-91.web.vodafone.de.
+ [109.43.179.91]) by smtp.gmail.com with ESMTPSA id
+ f1-20020a1cc901000000b003f25b40fc24sm3952594wmb.6.2023.05.04.00.12.25
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 04 May 2023 00:12:25 -0700 (PDT)
+Message-ID: <b5d0ea65-0485-382b-f59a-84a5596b63a2@redhat.com>
+Date: Thu, 4 May 2023 09:12:24 +0200
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Content-Language: en-US
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
+ Fabiano Rosas <farosas@suse.de>, Paolo Bonzini <pbonzini@redhat.com>
+References: <20230502121459.2422303-1-peter.maydell@linaro.org>
+ <20230502121459.2422303-12-peter.maydell@linaro.org>
+From: Thomas Huth <thuth@redhat.com>
+Subject: Re: [PULL 11/35] arm/Kconfig: Do not build TCG-only boards on a
+ KVM-only build
+In-Reply-To: <20230502121459.2422303-12-peter.maydell@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -22
-X-Spam_score: -2.3
-X-Spam_bar: --
-X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.161,
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.161,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-4.28, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -104,24 +102,122 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On 02/05/2023 14.14, Peter Maydell wrote:
+> From: Fabiano Rosas <farosas@suse.de>
+> 
+> Move all the CONFIG_FOO=y from default.mak into "default y if TCG"
+> statements in Kconfig. That way they won't be selected when
+> CONFIG_TCG=n.
+> 
+> I'm leaving CONFIG_ARM_VIRT in default.mak because it allows us to
+> keep the two default.mak files not empty and keep aarch64-default.mak
+> including arm-default.mak. That way we don't surprise anyone that's
+> used to altering these files.
+> 
+> With this change we can start building with --disable-tcg.
+> 
+> Signed-off-by: Fabiano Rosas <farosas@suse.de>
+> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+> Message-id: 20230426180013.14814-12-farosas@suse.de
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> ---
+>   configs/devices/aarch64-softmmu/default.mak |  4 --
+>   configs/devices/arm-softmmu/default.mak     | 37 ------------------
+>   hw/arm/Kconfig                              | 42 ++++++++++++++++++++-
+>   3 files changed, 41 insertions(+), 42 deletions(-)
+> 
+> diff --git a/configs/devices/aarch64-softmmu/default.mak b/configs/devices/aarch64-softmmu/default.mak
+> index cf43ac8da11..70e05a197dc 100644
+> --- a/configs/devices/aarch64-softmmu/default.mak
+> +++ b/configs/devices/aarch64-softmmu/default.mak
+> @@ -2,7 +2,3 @@
+>   
+>   # We support all the 32 bit boards so need all their config
+>   include ../arm-softmmu/default.mak
+> -
+> -CONFIG_XLNX_ZYNQMP_ARM=y
+> -CONFIG_XLNX_VERSAL=y
+> -CONFIG_SBSA_REF=y
+> diff --git a/configs/devices/arm-softmmu/default.mak b/configs/devices/arm-softmmu/default.mak
+> index cb3e5aea657..647fbce88d3 100644
+> --- a/configs/devices/arm-softmmu/default.mak
+> +++ b/configs/devices/arm-softmmu/default.mak
+> @@ -4,40 +4,3 @@
+>   # CONFIG_TEST_DEVICES=n
+>   
+>   CONFIG_ARM_VIRT=y
+> -CONFIG_CUBIEBOARD=y
+> -CONFIG_EXYNOS4=y
+> -CONFIG_HIGHBANK=y
+> -CONFIG_INTEGRATOR=y
+> -CONFIG_FSL_IMX31=y
+> -CONFIG_MUSICPAL=y
+> -CONFIG_MUSCA=y
+> -CONFIG_CHEETAH=y
+> -CONFIG_SX1=y
+> -CONFIG_NSERIES=y
+> -CONFIG_STELLARIS=y
+> -CONFIG_STM32VLDISCOVERY=y
+> -CONFIG_REALVIEW=y
+> -CONFIG_VERSATILE=y
+> -CONFIG_VEXPRESS=y
+> -CONFIG_ZYNQ=y
+> -CONFIG_MAINSTONE=y
+> -CONFIG_GUMSTIX=y
+> -CONFIG_SPITZ=y
+> -CONFIG_TOSA=y
+> -CONFIG_Z2=y
+> -CONFIG_NPCM7XX=y
+> -CONFIG_COLLIE=y
+> -CONFIG_ASPEED_SOC=y
+> -CONFIG_NETDUINO2=y
+> -CONFIG_NETDUINOPLUS2=y
+> -CONFIG_OLIMEX_STM32_H405=y
+> -CONFIG_MPS2=y
+> -CONFIG_RASPI=y
+> -CONFIG_DIGIC=y
+> -CONFIG_SABRELITE=y
+> -CONFIG_EMCRAFT_SF2=y
+> -CONFIG_MICROBIT=y
+> -CONFIG_FSL_IMX25=y
+> -CONFIG_FSL_IMX7=y
+> -CONFIG_FSL_IMX6UL=y
+> -CONFIG_ALLWINNER_H3=y
+> diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
+> index 87c1a29c912..2d7c4579559 100644
+> --- a/hw/arm/Kconfig
+> +++ b/hw/arm/Kconfig
+> @@ -35,20 +35,24 @@ config ARM_VIRT
+>   
+>   config CHEETAH
+>       bool
+> +    default y if TCG && ARM
+>       select OMAP
+>       select TSC210X
+>   
+>   config CUBIEBOARD
+>       bool
+> +    default y if TCG && ARM
+>       select ALLWINNER_A10
+...
 
+  Hi!
 
-> On 04-May-2023, at 12:05 PM, Thomas Huth <thuth@redhat.com> wrote:
->=20
-> On 03/05/2023 16.55, Ani Sinha wrote:
->> mformat and xorriso tools are needed by biosbits avocado tests. This =
-patchset
->> adds those two tools in the docker container images.
->=20
-> tests/qtest/cdrom-test.c already uses genisoimage to create ISO =
-images, and the containers already have that tool installed. Could you =
-maybe switch the biosbits test to use that tool? Or the other way round? =
-... at least having two tools to create ISO images in our containers =
-sounds IMHO excessive.
+Sorry for not noticing this earlier, but I have to say that I really dislike 
+this change, since it very much changes the way we did our machine 
+configuration so far.
+Until now, you could simply go to configs/devices/*-softmmu/*.mak and only 
+select the machines you wanted to have with "...=y" and delete everything 
+else. Now you have to know *all* the machines that you do *not* want to have 
+in your build and disable them with "...=n" in that file. That's quite ugly, 
+especially for the arm target that has so many machines. (ok, you could also 
+do a "--without-default-devices" configuration to get rid of the machines, 
+but that also disables all other kind of devices that you then have to 
+specify manually).
 
-The dependency comes from the use of grub-mkrescue in the avocado test =
-in order to generate the iso with the bios bits enabled grub and boot =
-off with it. Grub-mkrescue is a bash script that uses mformat and =
-xorriso.=20=
+Isn't there a better way to solve this TCG dependency problem?
+Paolo, do you maybe have any ideas?
+
+  Thomas
 
 
