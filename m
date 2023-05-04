@@ -2,45 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E322A6F7577
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 May 2023 21:57:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C3E2F6F7505
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 May 2023 21:55:16 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1puf1H-0005jn-Vo; Thu, 04 May 2023 15:53:40 -0400
+	id 1puf1M-0005kj-4d; Thu, 04 May 2023 15:53:44 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1puf1F-0005jX-2F
- for qemu-devel@nongnu.org; Thu, 04 May 2023 15:53:37 -0400
+ id 1puf1K-0005kY-2D
+ for qemu-devel@nongnu.org; Thu, 04 May 2023 15:53:42 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1puf1C-0006OQ-OL
- for qemu-devel@nongnu.org; Thu, 04 May 2023 15:53:36 -0400
+ id 1puf1I-0006PI-MB
+ for qemu-devel@nongnu.org; Thu, 04 May 2023 15:53:41 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1683230013;
+ s=mimecast20190719; t=1683230019;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=9XCfQf87U8+YhGmnm4aQEFf11a+HXKX39xdjDXLXz/w=;
- b=TmVS7gvHjkBsjUg/G1Xsz4iz4nW9V8Gf6OanlmxpZzIUXPahbvfmjCa+S2zWYX4prozPqh
- 61USzVarIdEWKUA/s+HH7TSowvfMiX/+ZCDrL+Hq2H40pdz//YgayY32QO6VDMbbb3q1VY
- n6eystGBLL73dj5qmtxC8SECWzYmewI=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=7t7uQFODUsT7GUPKJzVAstWb4vuQdfLqZNy3S4rp+B4=;
+ b=eelqbAO8I/JUbe2xFP80AHlqtSOREZPT7ZN60dAP+Yz1eFc+AkF/wxP0Ri4Frx49DEoe38
+ f2KAhiZSePU7Vmy6Vd9g8FZOMyP9JM0kbF1rI3ksIgSCH9tj2wDvU1y+2BEOtiUVHxeJg3
+ /U+0OsJDNAo7XevHYLn7nA3it6ev+ps=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-600-HQNHFjJIMHiplNqYoaDlwg-1; Thu, 04 May 2023 15:53:31 -0400
-X-MC-Unique: HQNHFjJIMHiplNqYoaDlwg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
+ us-mta-558-qVm4RSmtOvC22VNK6fWUTQ-1; Thu, 04 May 2023 15:53:34 -0400
+X-MC-Unique: qVm4RSmtOvC22VNK6fWUTQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.7])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8C9BF3813F3C;
- Thu,  4 May 2023 19:53:30 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 50FFE101A550;
+ Thu,  4 May 2023 19:53:33 +0000 (UTC)
 Received: from localhost (unknown [10.39.192.57])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 562674020960;
- Thu,  4 May 2023 19:53:29 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 78E421410F29;
+ Thu,  4 May 2023 19:53:32 +0000 (UTC)
 From: Stefan Hajnoczi <stefanha@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Ronnie Sahlberg <ronniesahlberg@gmail.com>,
@@ -63,13 +64,14 @@ Cc: Ronnie Sahlberg <ronniesahlberg@gmail.com>,
  Juan Quintela <quintela@redhat.com>,
  "Richard W.M. Jones" <rjones@redhat.com>, Fam Zheng <fam@euphon.net>,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-Subject: [PATCH v5 00/21] block: remove aio_disable_external() API
-Date: Thu,  4 May 2023 15:53:06 -0400
-Message-Id: <20230504195327.695107-1-stefanha@redhat.com>
+Subject: [PATCH v5 01/21] block: Fix use after free in blockdev_mark_auto_del()
+Date: Thu,  4 May 2023 15:53:07 -0400
+Message-Id: <20230504195327.695107-2-stefanha@redhat.com>
+In-Reply-To: <20230504195327.695107-1-stefanha@redhat.com>
+References: <20230504195327.695107-1-stefanha@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -22
@@ -78,7 +80,8 @@ X-Spam_bar: --
 X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.161,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,141 +97,57 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-v5:
-- Use atomic accesses for in_flight counter in vhost-user-server.c [Kevin]
-- Stash SCSIDevice id/lun values for VIRTIO_SCSI_T_TRANSPORT_RESET event
-  before unrealizing the SCSIDevice [Kevin]
-- Keep vhost-user-blk export .detach() callback so ctx is set to NULL [Kevin]
-- Narrow BdrvChildClass and BlockDriver drained_{begin/end/poll} callbacks from
-  IO_OR_GS_CODE() to GLOBAL_STATE_CODE() [Kevin]
-- Include Kevin's "block: Fix use after free in blockdev_mark_auto_del()" to
-  fix a latent bug that was exposed by this series
+From: Kevin Wolf <kwolf@redhat.com>
 
-v4:
-- Remove external_disable_cnt variable [Philippe]
-- Add Patch 1 to fix assertion failure in .drained_end() -> blk_get_aio_context()
-v3:
-- Resend full patch series. v2 was sent in the middle of a git rebase and was
-  missing patches. [Eric]
-- Apply Reviewed-by tags.
-v2:
-- Do not rely on BlockBackend request queuing, implement .drained_begin/end()
-  instead in xen-block, virtio-blk, and virtio-scsi [Paolo]
-- Add qdev_is_realized() API [Philippe]
-- Add patch to avoid AioContext lock around blk_exp_ref/unref() [Paolo]
-- Add patch to call .drained_begin/end() from main loop thread to simplify
-  callback implementations
+job_cancel_locked() drops the job list lock temporarily and it may call
+aio_poll(). We must assume that the list has changed after this call.
+Also, with unlucky timing, it can end up freeing the job during
+job_completed_txn_abort_locked(), making the job pointer invalid, too.
 
-The aio_disable_external() API temporarily suspends file descriptor monitoring
-in the event loop. The block layer uses this to prevent new I/O requests being
-submitted from the guest and elsewhere between bdrv_drained_begin() and
-bdrv_drained_end().
+For both reasons, we can't just continue at block_job_next_locked(job).
+Instead, start at the head of the list again after job_cancel_locked()
+and skip those jobs that we already cancelled (or that are completing
+anyway).
 
-While the block layer still needs to prevent new I/O requests in drained
-sections, the aio_disable_external() API can be replaced with
-.drained_begin/end/poll() callbacks that have been added to BdrvChildClass and
-BlockDevOps.
+Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+Message-Id: <20230503140142.474404-1-kwolf@redhat.com>
+---
+ blockdev.c | 18 ++++++++++++++----
+ 1 file changed, 14 insertions(+), 4 deletions(-)
 
-This newer .bdrained_begin/end/poll() approach is attractive because it works
-without specifying a specific AioContext. The block layer is moving towards
-multi-queue and that means multiple AioContexts may be processing I/O
-simultaneously.
-
-The aio_disable_external() was always somewhat hacky. It suspends all file
-descriptors that were registered with is_external=true, even if they have
-nothing to do with the BlockDriverState graph nodes that are being drained.
-It's better to solve a block layer problem in the block layer than to have an
-odd event loop API solution.
-
-The approach in this patch series is to implement BlockDevOps
-.drained_begin/end() callbacks that temporarily stop file descriptor handlers.
-This ensures that new I/O requests are not submitted in drained sections.
-
-Kevin Wolf (1):
-  block: Fix use after free in blockdev_mark_auto_del()
-
-Stefan Hajnoczi (20):
-  block-backend: split blk_do_set_aio_context()
-  hw/qdev: introduce qdev_is_realized() helper
-  virtio-scsi: avoid race between unplug and transport event
-  virtio-scsi: stop using aio_disable_external() during unplug
-  util/vhost-user-server: rename refcount to in_flight counter
-  block/export: wait for vhost-user-blk requests when draining
-  block/export: stop using is_external in vhost-user-blk server
-  hw/xen: do not use aio_set_fd_handler(is_external=true) in
-    xen_xenstore
-  block: add blk_in_drain() API
-  block: drain from main loop thread in bdrv_co_yield_to_drain()
-  xen-block: implement BlockDevOps->drained_begin()
-  hw/xen: do not set is_external=true on evtchn fds
-  block/export: rewrite vduse-blk drain code
-  block/export: don't require AioContext lock around blk_exp_ref/unref()
-  block/fuse: do not set is_external=true on FUSE fd
-  virtio: make it possible to detach host notifier from any thread
-  virtio-blk: implement BlockDevOps->drained_begin()
-  virtio-scsi: implement BlockDevOps->drained_begin()
-  virtio: do not set is_external=true on host notifiers
-  aio: remove aio_disable_external() API
-
- hw/block/dataplane/xen-block.h              |   2 +
- include/block/aio.h                         |  57 ---------
- include/block/block_int-common.h            |  90 +++++++-------
- include/block/export.h                      |   2 +
- include/hw/qdev-core.h                      |  17 ++-
- include/hw/scsi/scsi.h                      |  14 +++
- include/qemu/vhost-user-server.h            |   8 +-
- include/sysemu/block-backend-common.h       |  25 ++--
- include/sysemu/block-backend-global-state.h |   1 +
- util/aio-posix.h                            |   1 -
- block.c                                     |   7 --
- block/blkio.c                               |  15 +--
- block/block-backend.c                       |  78 ++++++------
- block/curl.c                                |  10 +-
- block/export/export.c                       |  13 +-
- block/export/fuse.c                         |  56 ++++++++-
- block/export/vduse-blk.c                    | 128 ++++++++++++++------
- block/export/vhost-user-blk-server.c        |  52 +++++++-
- block/io.c                                  |  16 ++-
- block/io_uring.c                            |   4 +-
- block/iscsi.c                               |   3 +-
- block/linux-aio.c                           |   4 +-
- block/nfs.c                                 |   5 +-
- block/nvme.c                                |   8 +-
- block/ssh.c                                 |   4 +-
- block/win32-aio.c                           |   6 +-
- blockdev.c                                  |  18 ++-
- hw/block/dataplane/virtio-blk.c             |  19 ++-
- hw/block/dataplane/xen-block.c              |  42 +++++--
- hw/block/virtio-blk.c                       |  38 +++++-
- hw/block/xen-block.c                        |  24 +++-
- hw/i386/kvm/xen_xenstore.c                  |   2 +-
- hw/scsi/scsi-bus.c                          |  46 ++++++-
- hw/scsi/scsi-disk.c                         |  27 ++++-
- hw/scsi/virtio-scsi-dataplane.c             |  31 +++--
- hw/scsi/virtio-scsi.c                       | 127 ++++++++++++++-----
- hw/virtio/virtio.c                          |   6 +-
- hw/xen/xen-bus.c                            |  11 +-
- io/channel-command.c                        |   6 +-
- io/channel-file.c                           |   3 +-
- io/channel-socket.c                         |   3 +-
- migration/rdma.c                            |  16 +--
- tests/unit/test-aio.c                       |  27 +----
- tests/unit/test-bdrv-drain.c                |  15 +--
- tests/unit/test-fdmon-epoll.c               |  73 -----------
- util/aio-posix.c                            |  20 +--
- util/aio-win32.c                            |   8 +-
- util/async.c                                |   3 +-
- util/fdmon-epoll.c                          |  18 +--
- util/fdmon-io_uring.c                       |   8 +-
- util/fdmon-poll.c                           |   3 +-
- util/main-loop.c                            |   7 +-
- util/qemu-coroutine-io.c                    |   7 +-
- util/vhost-user-server.c                    |  33 ++---
- hw/scsi/trace-events                        |   2 +
- tests/unit/meson.build                      |   3 -
- 56 files changed, 738 insertions(+), 534 deletions(-)
- delete mode 100644 tests/unit/test-fdmon-epoll.c
-
+diff --git a/blockdev.c b/blockdev.c
+index d7b5c18f0a..2c1752a403 100644
+--- a/blockdev.c
++++ b/blockdev.c
+@@ -153,12 +153,22 @@ void blockdev_mark_auto_del(BlockBackend *blk)
+ 
+     JOB_LOCK_GUARD();
+ 
+-    for (job = block_job_next_locked(NULL); job;
+-         job = block_job_next_locked(job)) {
+-        if (block_job_has_bdrv(job, blk_bs(blk))) {
++    do {
++        job = block_job_next_locked(NULL);
++        while (job && (job->job.cancelled ||
++                       job->job.deferred_to_main_loop ||
++                       !block_job_has_bdrv(job, blk_bs(blk))))
++        {
++            job = block_job_next_locked(job);
++        }
++        if (job) {
++            /*
++             * This drops the job lock temporarily and polls, so we need to
++             * restart processing the list from the start after this.
++             */
+             job_cancel_locked(&job->job, false);
+         }
+-    }
++    } while (job);
+ 
+     dinfo->auto_del = 1;
+ }
 -- 
 2.40.1
 
