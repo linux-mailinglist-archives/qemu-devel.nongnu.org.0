@@ -2,78 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 486BE6F7189
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 May 2023 19:51:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A8066F7111
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 May 2023 19:36:39 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pucoQ-00070a-N0; Thu, 04 May 2023 13:32:14 -0400
+	id 1puco4-0006mH-UL; Thu, 04 May 2023 13:31:53 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1puaTm-0003Rp-2l
- for qemu-devel@nongnu.org; Thu, 04 May 2023 11:02:48 -0400
-Received: from mail-lj1-x233.google.com ([2a00:1450:4864:20::233])
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
+ id 1puaXa-0004ml-Oo
+ for qemu-devel@nongnu.org; Thu, 04 May 2023 11:06:42 -0400
+Received: from mail-pf1-x42a.google.com ([2607:f8b0:4864:20::42a])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1puaTj-00018e-E3
- for qemu-devel@nongnu.org; Thu, 04 May 2023 11:02:45 -0400
-Received: by mail-lj1-x233.google.com with SMTP id
- 38308e7fff4ca-2ac81d2bfbcso4957011fa.3
- for <qemu-devel@nongnu.org>; Thu, 04 May 2023 08:02:42 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
+ id 1puaXY-00039g-Mp
+ for qemu-devel@nongnu.org; Thu, 04 May 2023 11:06:42 -0400
+Received: by mail-pf1-x42a.google.com with SMTP id
+ d2e1a72fcca58-64115eef620so13067164b3a.1
+ for <qemu-devel@nongnu.org>; Thu, 04 May 2023 08:06:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1683212561; x=1685804561;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=oAocgrsmEG603ZQnZ5CcZYHrN6ZBFyDbbTu3VCHsd9A=;
- b=F5Lf4HMj5EDCPlBNDdOROkY7rL3tB9dkVfjlF0oq9y/8yhYT+/yhnK2nE0hwkHEV0y
- 5J81IkkQfN52l2ARjnvLgau0rCxMM8h2nWkOl0MdRdw21OFixdT4lJ5CNVbBry56mzfb
- yr0Im6nBMdPRvddSuEfWCmGkCTA+AbZZPGCIlQGgb0H+2bOZ5xuw9X0rgQvNvcyVsaqG
- YoSULS1L/3wBePrmXwue0lL9+kA541dX4KoJeTOLJqw2NalzEWjndaPNLSRT0eanCihr
- XCJlUxZZVv+mqd7QbYRL+fueSvCNJ9nb57/sV5qMh6CMWw0SeasWIo/qXP605FRyniw9
- X1zg==
+ d=daynix-com.20221208.gappssmtp.com; s=20221208; t=1683212799; x=1685804799;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=Bd0wGy7b2kMKL8aHt34nDgaIQr9gbygk/ihp3zKgYvE=;
+ b=xzVpkl2u+OOq/6iFDf+Fum6G1wKEiiuab7BadptyrupcKQ5A25Vx7JW3104PaRmHAZ
+ GQkJnlrNzSBskCTCjdm2Zl23KGAs07VjEudh6QXE+Z+8olLR4HtHT9SttKeOkSNq+NFr
+ W7FOC2ouZfPO83oyXyidVbtDEG2iFdRb8sRfxWW3ir0+tBFOsrVa+E5Kv/Y2M9qNwlMS
+ jTMJrKrHp3crevl+RSaJNufOIGpI/9BsH0HBWHY/W4vT2vFFGYbrDqCKylrTZeYb8SIo
+ kfmFSvQ9MwmEjgCyx33TmccfMl9mRqVFsrMNFf4Ag7Ato7tTjoH/Pm7RbHNTc+nK9cPC
+ SWWQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683212561; x=1685804561;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=oAocgrsmEG603ZQnZ5CcZYHrN6ZBFyDbbTu3VCHsd9A=;
- b=NJ0TkDTbp5d5Sv8WcCX/KuLOGgHi1dRj6pHRb2euoMYiP815bNz3nSpz01uF2ru182
- BNex8AAEyvPR1IPzADfQiL09dRAew07eyf9Co9JhzYurBAwDglrPycRJNu+kjX5g4w7m
- FyJsBlJw9ld4O9bCdtJZA/Jw1HUbIBrAbABRq+w3Gr5vl7k77xX2axj2x36IHvhyaiKv
- 0lzPnYbXSzw41Tok3A+Vfkz6dSpmvI92fAw8nSlFExh1Mc+pgVIRcgPbEc9EkL73i6DG
- W8SKnRJSVn8QY3LLRNBH7ZQdLo2loesowG67NFlubVawfPG5bpvGSiT//mgTR2mC8Es5
- 7TyQ==
-X-Gm-Message-State: AC+VfDy/95L/ISDprvqMAS/CV+vXinxqf9Q6lY2iCEuwwD1hKPjZIHBZ
- TVZdoJD1yTsyDPl8jyZWNAEfO6eq017Zn/aYO6agvA==
-X-Google-Smtp-Source: ACHHUZ70ZJ5nS7SJYchXMEhZ86p6VAPNGSHQNuYDTYgMkadcT9NIj+L4y7vdoGyQ5J0eJRWMhP3UN0mLmAY/LPBKWdk=
-X-Received: by 2002:a2e:9b84:0:b0:2ac:7e64:ef8 with SMTP id
- z4-20020a2e9b84000000b002ac7e640ef8mr971691lji.16.1683212561375; Thu, 04 May
- 2023 08:02:41 -0700 (PDT)
+ d=1e100.net; s=20221208; t=1683212799; x=1685804799;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=Bd0wGy7b2kMKL8aHt34nDgaIQr9gbygk/ihp3zKgYvE=;
+ b=SiU7dJUuWydK2WkIa8zXAQP+6aeLrjF0iZJWtsJBs3OeKuR1loB5sD61tyksQMWGwy
+ ifVdRs0zBVy5Rd5u88psNpzotG8jhI2hpi4qnc7hyoZqaiWVZwPpMvNw0ET1Pe3OLoog
+ 0MdHN5WevEXOnbrSSxX8wHxhHdVg0vzIR4mJZt2fY17Q9z47pVbn2TVnMKJrDtUfLV4U
+ iaPtYQWfZ7JgCG++ZdCLSFrrA+UxmeCoQK1v0H9nTDHbkQKzxqCR43i9k3D2NsUSmYCn
+ HKrKt8FQia4Cu8WCm/JNVXGgZrv1/ld5LDlZNEqUjP6xuIG/vq/MoZbViRS8Ev7Ib0+W
+ ndRg==
+X-Gm-Message-State: AC+VfDxakQA92gDh3nObg7HdGqMZH6qRN1bSetU8LmK5WR64knoSRDxO
+ zoeyWKpcFrYybIZ4k4oPcm4xIw==
+X-Google-Smtp-Source: ACHHUZ6YVvJ/fWWpNO71DveeeHwccxoXBi1d2RGMEot0PXoY2dcPkmXFKtLRX2rR+g4AAGL7pZxD3g==
+X-Received: by 2002:a05:6a20:7da0:b0:f3:3ea5:5185 with SMTP id
+ v32-20020a056a207da000b000f33ea55185mr2766966pzj.10.1683212799034; 
+ Thu, 04 May 2023 08:06:39 -0700 (PDT)
+Received: from ?IPV6:2400:4050:a840:1e00:4457:c267:5e09:481b?
+ ([2400:4050:a840:1e00:4457:c267:5e09:481b])
+ by smtp.gmail.com with ESMTPSA id
+ s23-20020a62e717000000b005aa60d8545esm25436548pfh.61.2023.05.04.08.06.37
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 04 May 2023 08:06:38 -0700 (PDT)
+Message-ID: <5377fd3f-a4e4-0ec1-8a27-e7958ee290aa@daynix.com>
+Date: Fri, 5 May 2023 00:06:35 +0900
 MIME-Version: 1.0
-References: <20230503070656.1746170-1-richard.henderson@linaro.org>
- <20230503070656.1746170-4-richard.henderson@linaro.org>
-In-Reply-To: <20230503070656.1746170-4-richard.henderson@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 4 May 2023 16:02:30 +0100
-Message-ID: <CAFEAcA858-D37=MrvYnGxBVkL1V14wZ_JLEzFahbweRUDvPmwg@mail.gmail.com>
-Subject: Re: [PATCH v4 03/57] accel/tcg: Introduce tlb_read_idx
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-devel@nongnu.org, git@xen0n.name, gaosong@loongson.cn, 
- philmd@linaro.org, qemu-arm@nongnu.org, qemu-riscv@nongnu.org, 
- qemu-s390x@nongnu.org, =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::233;
- envelope-from=peter.maydell@linaro.org; helo=mail-lj1-x233.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.1
+Subject: Re: [PATCH v4 5/5] igb: packet-split descriptors support
+Content-Language: en-US
+To: Tomasz Dzieciol <t.dzieciol@partner.samsung.com>, qemu-devel@nongnu.org
+Cc: sriram.yagnaraman@est.tech, jasowang@redhat.com, k.kwiecien@samsung.com,
+ m.sochacki@samsung.com
+References: <20230504131055.11767-1-t.dzieciol@partner.samsung.com>
+ <CGME20230504131107eucas1p2aae525d7b23725b4efd8713e14943fb6@eucas1p2.samsung.com>
+ <20230504131055.11767-6-t.dzieciol@partner.samsung.com>
+From: Akihiko Odaki <akihiko.odaki@daynix.com>
+In-Reply-To: <20230504131055.11767-6-t.dzieciol@partner.samsung.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: none client-ip=2607:f8b0:4864:20::42a;
+ envelope-from=akihiko.odaki@daynix.com; helo=mail-pf1-x42a.google.com
+X-Spam_score_int: -61
+X-Spam_score: -6.2
+X-Spam_bar: ------
+X-Spam_report: (-6.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, NICE_REPLY_A=-4.28, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,48 +98,95 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, 3 May 2023 at 08:15, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> Instead of playing with offsetof in various places, use
-> MMUAccessType to index an array.  This is easily defined
-> instead of the previous dummy padding array in the union.
->
-> Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+On 2023/05/04 22:10, Tomasz Dzieciol wrote:
+> Packet-split descriptors are used by Linux VF driver for MTU values from 2048
+> 
+> Signed-off-by: Tomasz Dzieciol <t.dzieciol@partner.samsung.com>
 > ---
+>   hw/net/igb_core.c   | 368 ++++++++++++++++++++++++++++++++++++++------
+>   hw/net/igb_regs.h   |   8 +
+>   hw/net/trace-events |   2 +-
+>   3 files changed, 332 insertions(+), 46 deletions(-)
+> 
+> diff --git a/hw/net/igb_core.c b/hw/net/igb_core.c
+> index 8c0291665f..9c1a2fa136 100644
+> --- a/hw/net/igb_core.c
+> +++ b/hw/net/igb_core.c
+> @@ -276,6 +276,20 @@ typedef struct E1000ERingInfo {
+>       int idx;
+>   } E1000ERingInfo;
+>   
+> +static uint32_t
+> +igb_rx_queue_desctyp_get(IGBCore *core, const E1000ERingInfo *r)
+> +{
+> +    return core->mac[E1000_SRRCTL(r->idx) >> 2] & E1000_SRRCTL_DESCTYPE_MASK;
+> +}
+> +
+> +static bool
+> +igb_rx_use_ps_descriptor(IGBCore *core, const E1000ERingInfo *r)
+> +{
+> +    uint32_t desctyp = igb_rx_queue_desctyp_get(core, r);
+> +    return desctyp == E1000_SRRCTL_DESCTYPE_HDR_SPLIT ||
+> +           desctyp == E1000_SRRCTL_DESCTYPE_HDR_SPLIT_ALWAYS;
+> +}
+> +
+>   static inline bool
+>   igb_rss_enabled(IGBCore *core)
+>   {
+> @@ -1233,21 +1247,70 @@ igb_read_lgcy_rx_descr(IGBCore *core, struct e1000_rx_desc *desc,
+>   }
+>   
+>   static inline void
+> -igb_read_adv_rx_descr(IGBCore *core, union e1000_adv_rx_desc *desc,
+> -                      hwaddr *buff_addr)
+> +igb_read_adv_rx_single_buf_descr(IGBCore *core, union e1000_adv_rx_desc *desc,
+> +                                 hwaddr *buff_addr)
+>   {
+>       *buff_addr = le64_to_cpu(desc->read.pkt_addr);
+>   }
+>   
+>   static inline void
+> -igb_read_rx_descr(IGBCore *core, union e1000_rx_desc_union *desc,
+> -                  hwaddr *buff_addr)
+> +igb_read_adv_rx_split_buf_descr(IGBCore *core, union e1000_adv_rx_desc *desc,
+> +                                hwaddr *buff_addr)
+>   {
+> +    buff_addr[0] = le64_to_cpu(desc->read.hdr_addr);
+> +    buff_addr[1] = le64_to_cpu(desc->read.pkt_addr);
+> +}
+> +
+> +typedef struct IGBBaState {
+> +    uint16_t written[IGB_MAX_PS_BUFFERS];
+> +    uint8_t cur_idx;
+> +} IGBBaState;
 
-> @@ -1802,7 +1763,8 @@ static void *atomic_mmu_lookup(CPUArchState *env, t=
-arget_ulong addr,
->      if (prot & PAGE_WRITE) {
->          tlb_addr =3D tlb_addr_write(tlbe);
->          if (!tlb_hit(tlb_addr, addr)) {
-> -            if (!VICTIM_TLB_HIT(addr_write, addr)) {
-> +            if (!victim_tlb_hit(env, mmu_idx, index, MMU_DATA_STORE,
-> +                                addr & TARGET_PAGE_MASK)) {
->                  tlb_fill(env_cpu(env), addr, size,
->                           MMU_DATA_STORE, mmu_idx, retaddr);
->                  index =3D tlb_index(env, mmu_idx, addr);
-> @@ -1835,7 +1797,8 @@ static void *atomic_mmu_lookup(CPUArchState *env, t=
-arget_ulong addr,
->      } else /* if (prot & PAGE_READ) */ {
->          tlb_addr =3D tlbe->addr_read;
->          if (!tlb_hit(tlb_addr, addr)) {
-> -            if (!VICTIM_TLB_HIT(addr_write, addr)) {
-> +            if (!victim_tlb_hit(env, mmu_idx, index, MMU_DATA_LOAD,
-> +                                addr & TARGET_PAGE_MASK)) {
+This struct derives from e1000e so you should rename the corresponding 
+struct of e1000e.
 
-This was previously looking at addr_write, but now we pass
-MMU_DATA_LOAD ?
+> +
+> +typedef struct IGBPacketRxDMAState {
+> +    size_t size;
+> +    size_t total_size;
+> +    size_t ps_hdr_len;
+> +    size_t desc_size;
+> +    size_t desc_offset;
+> +    uint32_t rx_desc_packet_buf_size;
+> +    uint32_t rx_desc_header_buf_size;
+> +    struct iovec *iov;
+> +    size_t iov_ofs;
+> +    bool do_ps;
+> +    bool is_first;
+> +    IGBBaState bastate;
+> +    hwaddr ba[IGB_MAX_PS_BUFFERS];
 
->                  tlb_fill(env_cpu(env), addr, size,
->                           MMU_DATA_LOAD, mmu_idx, retaddr);
->                  index =3D tlb_index(env, mmu_idx, addr);
+I meant this should not be an array but instead should be defined as a 
+struct as it is in the "read" member of union e1000_adv_rx_desc. It's 
+defined in a way different from e1000e's extended packet split 
+descriptor (union e1000_rx_desc_packet_split) and that is based on the 
+differences of notations in e1000e's and igb's datasheets so I want you 
+to respect that.
 
-Otherwise
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-
-thanks
--- PMM
+Also, this definition is moved from the place where it is defined at 
+first in an earlier patch, but I suggest to place it here in the earlier 
+patch to keep this patch concise unless there is something to prevent that.
 
