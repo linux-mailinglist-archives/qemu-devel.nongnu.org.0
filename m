@@ -2,41 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DE7B6F70F7
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 May 2023 19:35:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6003E6F7138
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 May 2023 19:39:30 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pucoP-0006yb-VZ; Thu, 04 May 2023 13:32:14 -0400
+	id 1pucop-0007ME-1x; Thu, 04 May 2023 13:32:39 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>) id 1puZ34-0008HB-9H
- for qemu-devel@nongnu.org; Thu, 04 May 2023 09:31:06 -0400
+ (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>)
+ id 1puZ43-0008Oy-OT; Thu, 04 May 2023 09:32:08 -0400
 Received: from isrv.corpit.ru ([86.62.121.231])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>) id 1puZ32-0005oM-Dw
- for qemu-devel@nongnu.org; Thu, 04 May 2023 09:31:06 -0400
+ (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>)
+ id 1puZ42-0005x2-5a; Thu, 04 May 2023 09:32:07 -0400
 Received: from tsrv.corpit.ru (tsrv.tls.msk.ru [192.168.177.2])
- by isrv.corpit.ru (Postfix) with ESMTP id E39D4400FD;
- Thu,  4 May 2023 16:30:59 +0300 (MSK)
+ by isrv.corpit.ru (Postfix) with ESMTP id 2291C400F1;
+ Thu,  4 May 2023 16:32:04 +0300 (MSK)
 Received: from [192.168.177.130] (mjt.wg.tls.msk.ru [192.168.177.130])
- by tsrv.corpit.ru (Postfix) with ESMTP id E55BC9E;
- Thu,  4 May 2023 16:30:58 +0300 (MSK)
-Message-ID: <5f7329f2-8d17-12de-4ea9-74a5932b80c5@msgid.tls.msk.ru>
-Date: Thu, 4 May 2023 16:30:58 +0300
+ by tsrv.corpit.ru (Postfix) with ESMTP id 1F1349E;
+ Thu,  4 May 2023 16:32:03 +0300 (MSK)
+Message-ID: <f2f38f23-a505-75b0-21b0-f2901cdf4e7d@msgid.tls.msk.ru>
+Date: Thu, 4 May 2023 16:32:03 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.10.0
-Subject: Re: [PATCH] 9pfs/xen: Fix segfault on shutdown
+Subject: Re: [PATCH] softfloat: Fix the incorrect computation in float32_exp2()
 Content-Language: en-US
-To: Jason Andryuk <jandryuk@gmail.com>, qemu-devel@nongnu.org
-Cc: Greg Kurz <groug@kaod.org>, Christian Schoenebeck
- <qemu_oss@crudebyte.com>, Stefano Stabellini <sstabellini@kernel.org>,
- Anthony Perard <anthony.perard@citrix.com>, Paul Durrant <paul@xen.org>,
- "open list:X86 Xen CPUs" <xen-devel@lists.xenproject.org>
-References: <20230502143722.15613-1-jandryuk@gmail.com>
+To: Shivaprasad G Bhat <sbhat@linux.ibm.com>, aurelien@aurel32.net,
+ peter.maydell@linaro.org, alex.bennee@linaro.org
+Cc: qemu-devel@nongnu.org, vaibhav@linux.ibm.com,
+ qemu-stable <qemu-stable@nongnu.org>
+References: <168304110865.537992.13059030916325018670.stgit@localhost.localdomain>
 From: Michael Tokarev <mjt@tls.msk.ru>
-In-Reply-To: <20230502143722.15613-1-jandryuk@gmail.com>
+In-Reply-To: <168304110865.537992.13059030916325018670.stgit@localhost.localdomain>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 Received-SPF: pass client-ip=86.62.121.231; envelope-from=mjt@tls.msk.ru;
@@ -62,12 +61,32 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-02.05.2023 17:37, Jason Andryuk wrote:
-> xen_9pfs_free can't use gnttabdev since it is already closed and NULL-ed
-> out when free is called.  Do the teardown in _disconnect().  This
-> matches the setup done in _connect().
+02.05.2023 18:25, Shivaprasad G Bhat wrote:
+> The float32_exp2() is computing wrong exponent of 2.
+> For example, with the following set of values {0.1, 2.0, 2.0, -1.0},
+> the expected output would be {1.071773, 4.000000, 4.000000, 0.500000}.
+> Instead, the function is computing {1.119102, 3.382044, 3.382044, -0.191022}
+> 
+> Looking at the code, the float32_exp2() attempts to do this
+> 
+>                    2     3     4     5           n
+>    x        x     x     x     x     x           x
+>   e  = 1 + --- + --- + --- + --- + --- + ... + --- + ...
+>             1!    2!    3!    4!    5!          n!
+> 
+> But because of the 'typo'/bug it ends up doing
+> 
+>   x        x     x     x     x     x           x
+> e  = 1 + --- + --- + --- + --- + --- + ... + --- + ...
+>            1!    2!    3!    4!    5!          n!
+> 
+> This is because instead of the xnp which holds the numerator,
+> parts_muladd is using the xp which is just 'x'. The commit '572c4d862ff2'
+> refactored this function, and it seems mistakenly using xp instead of xnp.
+> 
+> The patches fixes this possible typo.
 
-Ping?
+This smells like a -stable material.
 
 /mjt
 
