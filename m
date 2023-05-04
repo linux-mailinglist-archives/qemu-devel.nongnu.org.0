@@ -2,97 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B0356F7183
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 May 2023 19:50:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E8B516F7174
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 May 2023 19:47:50 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pucpV-0001Ld-9W; Thu, 04 May 2023 13:33:21 -0400
+	id 1pucvO-0004ed-L6; Thu, 04 May 2023 13:39:26 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pucgI-00045X-2Z
- for qemu-devel@nongnu.org; Thu, 04 May 2023 13:23:50 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1pucus-0003vr-PD
+ for qemu-devel@nongnu.org; Thu, 04 May 2023 13:39:06 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pucgG-0006pS-NV
- for qemu-devel@nongnu.org; Thu, 04 May 2023 13:23:49 -0400
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1pucur-0006PG-3R
+ for qemu-devel@nongnu.org; Thu, 04 May 2023 13:38:54 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1683221027;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=FxKfAgGfMXo0LtkuVOmr4LIWgw9+j6T3MGQ6WUyQ2b4=;
- b=KJP9Uf4JQou1KsEwYHLWb+amiQc+AI7IR3Ok0UyjtoLgEBT1KDe1ZB65VBgTUn4tr8QpQq
- o6TlBzhA2OY0V7yA4zVbEwBf02xz5nOexDhebdOhv2+7mTZvWwRDeMD2GbkkEJvoO1DgsV
- xBIV1tv2JFJU98QbHij4/BzC3R19amY=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ s=mimecast20190719; t=1683221932;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=kQsDN9mFl5EOb49dmr4D7MrnqW45XSEkyuHwgoitXJg=;
+ b=VNqXFhWIDZvpMw6w1v4ko4bMJQ5UBxUHzeXOt2jWz61gZ7qqKulyr1cHCWzBgqfBdgBaqe
+ +GW83f0uvrYdfbZ0dqsubInu7ubzUCx+Fd3xkAzxRvuqR7fIgM5xEA57Osaa6n9XXgpqCT
+ hU37jDY8u/jg74RZqDgn6aO+x77NQ1U=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-661-_wABuYLLN72xQrIVSkC7DA-1; Thu, 04 May 2023 13:23:46 -0400
-X-MC-Unique: _wABuYLLN72xQrIVSkC7DA-1
-Received: by mail-wm1-f72.google.com with SMTP id
- 5b1f17b1804b1-3f3157128b4so45837605e9.0
- for <qemu-devel@nongnu.org>; Thu, 04 May 2023 10:23:46 -0700 (PDT)
+ us-mta-302-W_qBp6yaM5O1F-FayMsFmQ-1; Thu, 04 May 2023 13:38:50 -0400
+X-MC-Unique: W_qBp6yaM5O1F-FayMsFmQ-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ 5b1f17b1804b1-3f1757ebb1eso3312985e9.2
+ for <qemu-devel@nongnu.org>; Thu, 04 May 2023 10:38:50 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683221025; x=1685813025;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=FxKfAgGfMXo0LtkuVOmr4LIWgw9+j6T3MGQ6WUyQ2b4=;
- b=cdOxCfis2OpHYYfiiMxYy5h+dsDTkEv24D80PtN5E2zfT3pXenf2zlfvbfUIarX0e4
- UefVEq2a8Ou0JUAMXYpx68bmMmOg0ZvWkh91Pu2vgPNETKvbPQOdPAIcMNEiEPeVRSt4
- WUeDYnBG1y1sJSKXXVOvMthbN2VUOuhanNcw0I/E+iaMJZY0/KX2AKU2H8V6LCcjV3Mg
- cxwtEZ8ZDe6+blZjuD1OClS2wqsiZ0dGEg1LCfMjOCDlb7qVbTRb7PLeVOvZctlpcGkB
- Mp2mvAyJR6xW5Y5D6+mtpE4XDnKnTZz4aIkWDWqaxwvypy4mVcWz3Eehyold5XoZ01m2
- anvQ==
-X-Gm-Message-State: AC+VfDzibDIuBuwuNbRjMl57D08hm+BjBOxK6wABq2Ow9rgDR4vPdtXC
- 8jwrXPLBbNvx/ebVThKwRN0RZ6FEFAed8Xxci3O2iwz9GL77bhqczbQ2EQZ7aK2gkxzLV2oend6
- Yjkn2D0aKk6xnMWE=
-X-Received: by 2002:a05:600c:4e4f:b0:3f1:88b:bd40 with SMTP id
- e15-20020a05600c4e4f00b003f1088bbd40mr239650wmq.14.1683221025231; 
- Thu, 04 May 2023 10:23:45 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ7rtT2mdqQuKC33mTz3HvCOlGnTypNZyE/qaorzR9R351w0uHhj0yEOz7psMMVsOqU/ROrhTg==
-X-Received: by 2002:a05:600c:4e4f:b0:3f1:88b:bd40 with SMTP id
- e15-20020a05600c4e4f00b003f1088bbd40mr239644wmq.14.1683221024923; 
- Thu, 04 May 2023 10:23:44 -0700 (PDT)
-Received: from [192.168.8.102] (tmo-098-139.customers.d1-online.com.
- [80.187.98.139]) by smtp.gmail.com with ESMTPSA id
- 18-20020a05600c229200b003f17a00c214sm5434617wmf.16.2023.05.04.10.23.43
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 04 May 2023 10:23:44 -0700 (PDT)
-Message-ID: <f59bc1fe-2af1-704e-5cab-02c72544620c@redhat.com>
-Date: Thu, 4 May 2023 19:23:42 +0200
+ d=1e100.net; s=20221208; t=1683221929; x=1685813929;
+ h=mime-version:message-id:date:reply-to:user-agent:references
+ :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=kQsDN9mFl5EOb49dmr4D7MrnqW45XSEkyuHwgoitXJg=;
+ b=VJ3Etl9EFOuoX7GhnD+6PKvhV2I01iK+k60Qd99YXPhnLQEwWxzIubL3eU5kVaxzfd
+ O/sIfGUa8RQHnc07f5DvwHtw72vsv0FGkd2mt/EiJJxfCT3Jt0DiOl9JEKthOORq6Ik3
+ /2/kmSpoeIkr9DnVuDM0E6sjs4V5knecgCIDgFIGTEqTRHq42cltoGD/ZXBXTV0Z6uFv
+ nLK/8jlmb39S248ghZXJAS4DO/fFPzu85rzg1n0GaUlxWlkWXhkxOZyC5DKDCQkuz19g
+ z/UkBCiOh4oRND9VlIDwY8Mj6uyTfPr/vK4STl3lxGQlPxRwUFkl1E2w28xYx6+y84kP
+ Wd7g==
+X-Gm-Message-State: AC+VfDzIC5eIZP1c3Ba7xcBwY4R+v9xtQovLWOkXwWjRYCorKXFDecgK
+ vsL1qwxaJEcQ9skp74hhkGvDEdoHqpwB7SmPwS4KjjOjEbIKS2dYqUj1/tkDdl8jlSofnO3AIrU
+ QQxbfLXFoITu/X5IpD8/5gfI8Eh2I
+X-Received: by 2002:a7b:c317:0:b0:3ee:4ff0:83d6 with SMTP id
+ k23-20020a7bc317000000b003ee4ff083d6mr263273wmj.40.1683221929432; 
+ Thu, 04 May 2023 10:38:49 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ7p4ZNoY7p7O2au7JrTb7XKaj3nepHoQ5ix/gmcdCGcE8z8HB9gS3sqrPFoiN03Tnsa8gL2XA==
+X-Received: by 2002:a7b:c317:0:b0:3ee:4ff0:83d6 with SMTP id
+ k23-20020a7bc317000000b003ee4ff083d6mr263262wmj.40.1683221929142; 
+ Thu, 04 May 2023 10:38:49 -0700 (PDT)
+Received: from redhat.com (static-92-120-85-188.ipcom.comunitel.net.
+ [188.85.120.92]) by smtp.gmail.com with ESMTPSA id
+ s13-20020a05600c45cd00b003f1738d0d13sm4389127wmo.1.2023.05.04.10.38.48
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 04 May 2023 10:38:48 -0700 (PDT)
+From: Juan Quintela <quintela@redhat.com>
+To: David Edmondson <david.edmondson@oracle.com>
+Cc: qemu-devel@nongnu.org,  Leonardo Bras <leobras@redhat.com>,  Peter Xu
+ <peterx@redhat.com>
+Subject: Re: [PATCH 1/2] migration: Document all migration_stats
+In-Reply-To: <m2jzxo5l20.fsf@oracle.com> (David Edmondson's message of "Thu,
+ 04 May 2023 13:37:59 +0100")
+References: <20230504103357.22130-1-quintela@redhat.com>
+ <20230504103357.22130-2-quintela@redhat.com>
+ <m2jzxo5l20.fsf@oracle.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
+Date: Thu, 04 May 2023 19:38:47 +0200
+Message-ID: <87bkj0ov2w.fsf@secure.mitica>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH v2 2/2] tests/lcitool: Add mtools and xorriso and remove
- genisoimage as dependencies
-Content-Language: en-US
-To: Ani Sinha <anisinha@redhat.com>, qemu-devel@nongnu.org,
- Ed Maste <emaste@freebsd.org>, Li-Wen Hsu <lwhsu@freebsd.org>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Beraldo Leal <bleal@redhat.com>, John Snow <jsnow@redhat.com>,
- Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
-Cc: mst@redhat.com, berrange@redhat.com, qemu-block@nongnu.org
-References: <20230504154611.85854-1-anisinha@redhat.com>
- <20230504154611.85854-3-anisinha@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <20230504154611.85854-3-anisinha@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.161,
+X-Spam_score_int: -22
+X-Spam_score: -2.3
+X-Spam_bar: --
+X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.161,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-4.28, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -105,31 +98,90 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 04/05/2023 17.46, Ani Sinha wrote:
-> Bios bits avocado tests need mformat (provided by the mtools package) and
-> xorriso tools in order to run within gitlab CI containers. Add those
-> dependencies within the Dockerfiles so that containers can be built with
-> those tools present and bios bits avocado tests can be run there.
-> 
-> xorriso package conflicts with genisoimage package on some distributions.
-> Therefore, it is not possible to have both the packages at the same time
-> in the container image uniformly for all distribution flavors. Further,
-> on some distributions like RHEL, both xorriso and genisoimage
-> packages provide /usr/bin/genisoimage and on some other distributions like
-> Fedora, only genisoimage package provides the same utility.
-> Therefore, this change removes the dependency on geninsoimage for building
-> container images altogether keeping only xorriso package. At the same time,
-> cdrom-test.c is updated to use and check for existence of only xorrisofs.
-> 
-> CC: mst@redhat.com
-> CC: berrange@redhat.com
-> Signed-off-by: Ani Sinha <anisinha@redhat.com>
-> ---
+David Edmondson <david.edmondson@oracle.com> wrote:
+> Juan Quintela <quintela@redhat.com> writes:
+>
+>> Signed-off-by: Juan Quintela <quintela@redhat.com>
+>
+> Reviewed-by: David Edmondson <david.edmondson@oracle.com>
 
+Thanks.
 
-Reviewed-by: Thomas Huth <thuth@redhat.com>
+>> ---
+>>  migration/migration-stats.h | 43 +++++++++++++++++++++++++++++++++++++
+>>  1 file changed, 43 insertions(+)
+>>
+>> diff --git a/migration/migration-stats.h b/migration/migration-stats.h
+>> index 149af932d7..0e49c236fa 100644
+>> --- a/migration/migration-stats.h
+>> +++ b/migration/migration-stats.h
+>> @@ -22,17 +22,60 @@
+>>   * one thread).
+>>   */
+>>  typedef struct {
+>> +    /*
+>> +     * number of bytes that were dirty last time that we sync with the
+>
+> Minor, but given that you are writing sentences, please start with a
+> capital letter.
+
+Done.
+
+>
+>> +     * guest memory.  We use that to calculate the downtime.  As the
+>> +     * remaining dirty amounts to what we know that is still dirty
+>> +     * since last iteration, not counting what the guest has dirtied
+>> +     * sync we synchronize bitmaps.
+>> +     */
+>>      Stat64 dirty_bytes_last_sync;
+>> +    /*
+>> +     * number of pages dirtied by second.
+>> +     */
+>>      Stat64 dirty_pages_rate;
+>> +    /*
+>> +     * number of times we have synchronize guest bitmaps.
+>> +     */
+>>      Stat64 dirty_sync_count;
+>> +    /*
+>> +     * number of times zero copy failed to send any page using zero
+>> +     * copy.
+>> +     */
+>>      Stat64 dirty_sync_missed_zero_copy;
+>> +    /*
+>> +     * number of bytes sent at migration completion stage while the
+>> +     * guest is stopped.
+>> +     */
+>>      Stat64 downtime_bytes;
+>> +    /*
+>> +     * number of pages transferred that were full of zeros.
+>> +     */
+>>      Stat64 zero_pages;
+>> +    /*
+>> +     * number of bytes sent through multifd channels.
+>> +     */
+>>      Stat64 multifd_bytes;
+>> +    /*
+>> +     * number of pages transferred that were not full of zeros.
+>> +     */
+>>      Stat64 normal_pages;
+>> +    /*
+>> +     * number of bytes sent during postcopy.
+>> +     */
+>>      Stat64 postcopy_bytes;
+>> +    /*
+>> +     * number of postcopy page faults that we have handled during
+>> +     * postocpy stage.
+>> +     */
+>>      Stat64 postcopy_requests;
+>> +    /*
+>> +     *  number of bytes sent during precopy stage.
+>
+> Spurious double space before 'number'.
+
+Done.
 
 
