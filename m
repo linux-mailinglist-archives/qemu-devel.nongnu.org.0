@@ -2,107 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C78C6F6982
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 May 2023 13:05:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A8916F6980
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 May 2023 13:05:18 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1puWmM-0007ur-Mw; Thu, 04 May 2023 07:05:42 -0400
+	id 1puWlE-0005hj-1G; Thu, 04 May 2023 07:04:32 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <nsg@linux.ibm.com>) id 1puWmJ-0007tH-Fk
- for qemu-devel@nongnu.org; Thu, 04 May 2023 07:05:39 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <nsg@linux.ibm.com>) id 1puWmG-0003JY-NN
- for qemu-devel@nongnu.org; Thu, 04 May 2023 07:05:39 -0400
-Received: from pps.filterd (m0356516.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 344Adb55031054; Thu, 4 May 2023 11:03:22 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : subject :
- from : to : cc : date : in-reply-to : references : content-type :
- content-transfer-encoding : mime-version; s=pp1;
- bh=UroErleK60vpRc1TOxZACROEUFKkYQPb17vzVe0JFHo=;
- b=H5veoE00VHcp5BIEhCRUBH71u5aI/zw+yTm9m1AhfTTQxjVnuJSJDue3m/PEB3B4d0KP
- Z/LtwunYdoGkacYTBnqqIVxLbbuze3K1hPqVWk6JK9GAzsmSm9qQgV0D19Dts0iQRRl3
- qwH2ggkMnypd0pNHw0JRM0/AvDE8gJp62lv3oz5mcJQNVp6xRMD2Bq8ng+w8eI5JfAk9
- d/mwAeDbvbw8pHeuDRt8Nq83PImOO5FYaeIMsuoCfXRGjChpaI+q2saeur6rkrcrCYwV
- XQ2o7sSqYIDzDonLbfevRPN6UJstr5XBaGi3sI5rg5xnWb1lkWcq1103fVRjP+y8q3F5 7Q== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3qca122nqh-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 04 May 2023 11:03:21 +0000
-Received: from m0356516.ppops.net (m0356516.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 344AmRVN005306;
- Thu, 4 May 2023 11:03:21 GMT
-Received: from ppma04fra.de.ibm.com (6a.4a.5195.ip4.static.sl-reverse.com
- [149.81.74.106])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3qca122npe-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 04 May 2023 11:03:20 +0000
-Received: from pps.filterd (ppma04fra.de.ibm.com [127.0.0.1])
- by ppma04fra.de.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 3444P042018678;
- Thu, 4 May 2023 11:03:18 GMT
-Received: from smtprelay06.fra02v.mail.ibm.com ([9.218.2.230])
- by ppma04fra.de.ibm.com (PPS) with ESMTPS id 3q8tv6janj-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 04 May 2023 11:03:18 +0000
-Received: from smtpav05.fra02v.mail.ibm.com (smtpav05.fra02v.mail.ibm.com
- [10.20.54.104])
- by smtprelay06.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 344B3DoE30933324
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 4 May 2023 11:03:13 GMT
-Received: from smtpav05.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id F41A1201F7;
- Thu,  4 May 2023 11:03:12 +0000 (GMT)
-Received: from smtpav05.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 3D80D201F6;
- Thu,  4 May 2023 11:03:11 +0000 (GMT)
-Received: from li-7e0de7cc-2d9d-11b2-a85c-de26c016e5ad.ibm.com (unknown
- [9.171.36.58]) by smtpav05.fra02v.mail.ibm.com (Postfix) with ESMTP;
- Thu,  4 May 2023 11:03:11 +0000 (GMT)
-Message-ID: <ffc6bf647f1d7238f15b9d08ae20683bdb116eb4.camel@linux.ibm.com>
-Subject: Re: [PATCH v20 06/21] s390x/cpu topology: interception of PTF
- instruction
-From: Nina Schoetterl-Glausch <nsg@linux.ibm.com>
-To: Pierre Morel <pmorel@linux.ibm.com>, qemu-s390x@nongnu.org
-Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
- richard.henderson@linaro.org, david@redhat.com, thuth@redhat.com,
- cohuck@redhat.com, mst@redhat.com, pbonzini@redhat.com,
- kvm@vger.kernel.org, ehabkost@redhat.com, marcel.apfelbaum@gmail.com,
- eblake@redhat.com, armbru@redhat.com, seiden@linux.ibm.com,
- nrb@linux.ibm.com, frankja@linux.ibm.com, berrange@redhat.com, clg@kaod.org
-Date: Thu, 04 May 2023 13:03:10 +0200
-In-Reply-To: <20230425161456.21031-7-pmorel@linux.ibm.com>
-References: <20230425161456.21031-1-pmorel@linux.ibm.com>
- <20230425161456.21031-7-pmorel@linux.ibm.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.4 (3.46.4-1.fc37) 
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1puWlB-0005hR-UR
+ for qemu-devel@nongnu.org; Thu, 04 May 2023 07:04:29 -0400
+Received: from mail-ej1-x629.google.com ([2a00:1450:4864:20::629])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1puWky-0003aA-Ej
+ for qemu-devel@nongnu.org; Thu, 04 May 2023 07:04:29 -0400
+Received: by mail-ej1-x629.google.com with SMTP id
+ a640c23a62f3a-9659443fb56so47741066b.2
+ for <qemu-devel@nongnu.org>; Thu, 04 May 2023 04:04:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1683198255; x=1685790255;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=yEb8PpHn49AMMlxPL+20BITsNaLIqwdHTBTJ6O58xYU=;
+ b=e/qlDT/TM1LLxO7OEkmY0QDEvkLijegh/DpsgOHX1tmAUWQKqi2Iv+z8tEGjurrG58
+ lOMQArkjc+LjBGl/85UT8NM5uDsbfEcughqdCjq1FHubfhScpV9gzCsj5YzeH6qQS82o
+ fd7aKH27ig9IGJ0n5E4nfvtqqNzvLfn3jeN8NXN2WiO/iS3x9kM3n3MDcqHfyPlt/+aG
+ s69/fMz/qTdSJNy+A2FnRcyqPFOqlMtpfZvabUZqUqLggn82NBljZdGELYtUKYYc3ae3
+ xPRY3oRAKnuepcpwv+7OEx0bH9v+qB6GGU2DWhhv5RNwvCtkrEdrvciYnJKO0ct+pRyJ
+ oNFQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1683198255; x=1685790255;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=yEb8PpHn49AMMlxPL+20BITsNaLIqwdHTBTJ6O58xYU=;
+ b=k1K2zzhYTX79rel2CI50wU9Nj6kCxGEAr9Lvr1xLXrZonBDNC2QlSX94oJMbTS2yay
+ SfNO3B+p4OeiVgSiI/G7Pfvuiii2T6uL5/me7NRZGtisUtknO0pjvd+piT3ZjjWNxK4e
+ o+0eYleMdmBrBK1ORu1GmmA14RDH/bi6rZFwGjI0FUsRgsRCEd1cUTQH4PLlel/Bt6YF
+ QM5AcqGcy0GRkQ0WfvvkrqnbVl61LCBMflmKqTiZgzKeWgb07ZXovDS3XMAqBQQBA7AK
+ 94/YizGTeGY+fqn1+Kb+J5Vk9j6/vD9lJBewTyeTpTe3kk+aqOlzUq5ctJLYhHvL5fyT
+ o2lQ==
+X-Gm-Message-State: AC+VfDxuddrqGo6iMa5gvY5fz9xAtJ59eviChMnu0ec5uXyto1jb1niV
+ mvem+7nQpEEoVNhhr4/r4yHobKUgu+cpdkD/zYSPog==
+X-Google-Smtp-Source: ACHHUZ5VoNxvH8HHIOPSR1oERZErB6zfWkEMesjYhGNCcSSgroPs4QCNxAAmBQAIzykh6KlDJAdaaA==
+X-Received: by 2002:a17:907:6d1f:b0:962:582d:89c8 with SMTP id
+ sa31-20020a1709076d1f00b00962582d89c8mr6023461ejc.45.1683198254714; 
+ Thu, 04 May 2023 04:04:14 -0700 (PDT)
+Received: from stoup.. ([91.223.100.49]) by smtp.gmail.com with ESMTPSA id
+ d5-20020a17090648c500b008c16025b318sm18626175ejt.155.2023.05.04.04.04.13
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 04 May 2023 04:04:14 -0700 (PDT)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Cc: qemu-arm@nongnu.org
+Subject: [PATCH 0/2] target/arm: Move more files to tcg/
+Date: Thu,  4 May 2023 12:04:10 +0100
+Message-Id: <20230504110412.1892411-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: ZUkmcHyfjvYu_Fyxm4tkvvzezxETm3C_
-X-Proofpoint-GUID: t_ESf3W_lMKj1HXLgbYhIq0vdlj-OUkj
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-05-04_06,2023-05-03_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 bulkscore=0
- priorityscore=1501 lowpriorityscore=0 malwarescore=0 suspectscore=0
- spamscore=0 clxscore=1015 adultscore=0 mlxlogscore=999 phishscore=0
- impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2303200000 definitions=main-2305040086
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=nsg@linux.ibm.com;
- helo=mx0b-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::629;
+ envelope-from=richard.henderson@linaro.org; helo=mail-ej1-x629.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -118,110 +87,34 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, 2023-04-25 at 18:14 +0200, Pierre Morel wrote:
-> When the host supports the CPU topology facility, the PTF
-> instruction with function code 2 is interpreted by the SIE,
-> provided that the userland hypervisor activates the interpretation
-> by using the KVM_CAP_S390_CPU_TOPOLOGY KVM extension.
->=20
-> The PTF instructions with function code 0 and 1 are intercepted
-> and must be emulated by the userland hypervisor.
->=20
-> During RESET all CPU of the configuration are placed in
-> horizontal polarity.
->=20
-> Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
+Move 7 files to tcg/.
 
-Reviewed-by: Nina Schoetterl-Glausch <nsg@linux.ibm.com>
+r~
 
-See nit below.
-> ---
->  include/hw/s390x/s390-virtio-ccw.h |  6 ++++
->  hw/s390x/cpu-topology.c            | 51 ++++++++++++++++++++++++++++++
->  target/s390x/kvm/kvm.c             | 11 +++++++
->  3 files changed, 68 insertions(+)
->=20
-> diff --git a/include/hw/s390x/s390-virtio-ccw.h b/include/hw/s390x/s390-v=
-irtio-ccw.h
-> index 9bba21a916..c1d46e78af 100644
-> --- a/include/hw/s390x/s390-virtio-ccw.h
-> +++ b/include/hw/s390x/s390-virtio-ccw.h
-> @@ -30,6 +30,12 @@ struct S390CcwMachineState {
->      uint8_t loadparm[8];
->  };
-> =20
-> +#define S390_PTF_REASON_NONE (0x00 << 8)
-> +#define S390_PTF_REASON_DONE (0x01 << 8)
-> +#define S390_PTF_REASON_BUSY (0x02 << 8)
-> +#define S390_TOPO_FC_MASK 0xffUL
-> +void s390_handle_ptf(S390CPU *cpu, uint8_t r1, uintptr_t ra);
-> +
->  struct S390CcwMachineClass {
->      /*< private >*/
->      MachineClass parent_class;
-> diff --git a/hw/s390x/cpu-topology.c b/hw/s390x/cpu-topology.c
-> index c98439ff7a..3c7bbff4bc 100644
-> --- a/hw/s390x/cpu-topology.c
-> +++ b/hw/s390x/cpu-topology.c
-> @@ -96,6 +96,56 @@ static void s390_topology_init(MachineState *ms)
->      QTAILQ_INSERT_HEAD(&s390_topology.list, entry, next);
->  }
-> =20
-> +/*
-> + * s390_handle_ptf:
-> + *
-> + * @register 1: contains the function code
-> + *
-> + * Function codes 0 (horizontal) and 1 (vertical) define the CPU
-> + * polarization requested by the guest.
-> + *
-> + * Function code 2 is handling topology changes and is interpreted
-> + * by the SIE.
-> + */
-> +void s390_handle_ptf(S390CPU *cpu, uint8_t r1, uintptr_t ra)
-> +{
-> +    CPUS390XState *env =3D &cpu->env;
-> +    uint64_t reg =3D env->regs[r1];
-> +    int fc =3D reg & S390_TOPO_FC_MASK;
-> +
-> +    if (!s390_has_feat(S390_FEAT_CONFIGURATION_TOPOLOGY)) {
-> +        s390_program_interrupt(env, PGM_OPERATION, ra);
-> +        return;
-> +    }
-> +
-> +    if (env->psw.mask & PSW_MASK_PSTATE) {
-> +        s390_program_interrupt(env, PGM_PRIVILEGED, ra);
-> +        return;
-> +    }
-> +
-> +    if (reg & ~S390_TOPO_FC_MASK) {
-> +        s390_program_interrupt(env, PGM_SPECIFICATION, ra);
-> +        return;
-> +    }
-> +
-> +    switch (fc) {
-> +    case S390_CPU_POLARIZATION_VERTICAL:
-> +    case S390_CPU_POLARIZATION_HORIZONTAL:
 
-I'd give this a name.
-bool requested_vertical =3D !!fc;
+Richard Henderson (2):
+  target/arm: Move translate-a32.h, arm_ldst.h, sve_ldst_internal.h to
+    tcg/
+  target/arm: Move helper-{a64,mve,sme,sve}.h to tcg/
 
-> +        if (s390_topology.vertical_polarization =3D=3D !!fc) {
-> +            env->regs[r1] |=3D S390_PTF_REASON_DONE;
-> +            setcc(cpu, 2);
-> +        } else {
-> +            s390_topology.vertical_polarization =3D !!fc;
-> +            s390_cpu_topology_set_changed(true);
-> +            setcc(cpu, 0);
-> +        }
-> +        break;
-> +    default:
-> +        /* Note that fc =3D=3D 2 is interpreted by the SIE */
-> +        s390_program_interrupt(env, PGM_SPECIFICATION, ra);
-> +    }
-> +}
-> +
+ target/arm/helper.h                      | 8 ++++----
+ target/arm/{ => tcg}/arm_ldst.h          | 0
+ target/arm/{ => tcg}/helper-a64.h        | 0
+ target/arm/{ => tcg}/helper-mve.h        | 0
+ target/arm/{ => tcg}/helper-sme.h        | 0
+ target/arm/{ => tcg}/helper-sve.h        | 0
+ target/arm/{ => tcg}/sve_ldst_internal.h | 0
+ target/arm/{ => tcg}/translate-a32.h     | 0
+ 8 files changed, 4 insertions(+), 4 deletions(-)
+ rename target/arm/{ => tcg}/arm_ldst.h (100%)
+ rename target/arm/{ => tcg}/helper-a64.h (100%)
+ rename target/arm/{ => tcg}/helper-mve.h (100%)
+ rename target/arm/{ => tcg}/helper-sme.h (100%)
+ rename target/arm/{ => tcg}/helper-sve.h (100%)
+ rename target/arm/{ => tcg}/sve_ldst_internal.h (100%)
+ rename target/arm/{ => tcg}/translate-a32.h (100%)
 
-[...]
+-- 
+2.34.1
 
 
