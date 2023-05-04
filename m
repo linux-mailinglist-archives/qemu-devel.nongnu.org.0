@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37A4B6F6639
+	by mail.lfdr.de (Postfix) with ESMTPS id 301676F6638
 	for <lists+qemu-devel@lfdr.de>; Thu,  4 May 2023 09:47:34 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1puTfK-0007lE-8K; Thu, 04 May 2023 03:46:14 -0400
+	id 1puTfy-0007sW-6S; Thu, 04 May 2023 03:46:54 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
- id 1puTf8-0007kt-3D
- for qemu-devel@nongnu.org; Thu, 04 May 2023 03:46:02 -0400
-Received: from mga12.intel.com ([192.55.52.136])
+ id 1puTft-0007nk-Ag
+ for qemu-devel@nongnu.org; Thu, 04 May 2023 03:46:49 -0400
+Received: from mga14.intel.com ([192.55.52.115])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
- id 1puTf5-0006ig-B7
- for qemu-devel@nongnu.org; Thu, 04 May 2023 03:46:01 -0400
+ id 1puTfr-0006tl-Fz
+ for qemu-devel@nongnu.org; Thu, 04 May 2023 03:46:49 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1683186359; x=1714722359;
+ t=1683186407; x=1714722407;
  h=from:to:cc:subject:date:message-id:references:
  in-reply-to:content-transfer-encoding:mime-version;
- bh=rAwHOHP2HATTczdPpomduJ1i5ocUr80Ou1R/ggO6+80=;
- b=cRgDZ6KkK98EVj7I0x5cLwIM6GqjwjysPRN2sSHbS6guMwS3vQojTpiQ
- fkl2YwTzL4fCHNCyAk9DHWFtv9WF5u5rkwRdFD1ZmbA0KF7Dx3Q55h+PL
- 2w2kMfWdpMgMJI/DkO2Y2XxgAbZNlGbieIVQFR90B3dgnOTn4UyFDndpA
- ML0AspRV/MItgOPewXYSjZyokxFJiblEyzJQaQKQHiM3mviCKAzbbbSW8
- gXk3Y8r4DdjAfxxkurxKPF5ermvkv9kdlnzwtH5wuJ/i5pa+KBC8yj4QW
- UVo8hHvtccBIQgbhz9+OxzDv3e0ciF/cqG+z/qR5RaxaS4jpWm7Yuc6TW A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10699"; a="328475743"
-X-IronPort-AV: E=Sophos;i="5.99,249,1677571200"; d="scan'208";a="328475743"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 May 2023 00:45:40 -0700
+ bh=FLlDjGxL9Zs+Yj1JqDseIFkF7PClidF7TnrFOP95gXA=;
+ b=Yf9FiWY37HtfB6X0eo1FnFT4h2IBhQzsDsjXDB2qSkP1BMbghU36NQnY
+ U0UtbKkaxJZfGV5/Bx8gJ61Yzy6fzmXNsGYuQLC51GMj6DrczM/C+zpCA
+ QI+QNSXu7VqAfHpZ7JbHkmNDS/BKBnAQbLAq2CWiLD3X9gjAyJX0F6X4f
+ 6x+a8uZIR5plbkeSfMhPjozSI7duRZIOaa8sFM19klMM6erZRt5KVCo4x
+ mHF7m35ddc22wpUimCAZZ+ML2jDADOsIf7ygONyZAXAHOln/IMYOJZJhf
+ 5+gXnOFwVznu2VHYuT6Q2AABoDEOVx5I6Az+P4Y1nRx3h6u87OOq/Nc9y A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10699"; a="348902745"
+X-IronPort-AV: E=Sophos;i="5.99,249,1677571200"; d="scan'208";a="348902745"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 May 2023 00:46:33 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10699"; a="841027374"
-X-IronPort-AV: E=Sophos;i="5.99,249,1677571200"; d="scan'208";a="841027374"
-Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
- by fmsmga001.fm.intel.com with ESMTP; 04 May 2023 00:45:40 -0700
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
+X-IronPort-AV: E=McAfee;i="6600,9927,10699"; a="1026826404"
+X-IronPort-AV: E=Sophos;i="5.99,249,1677571200"; d="scan'208";a="1026826404"
+Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
+ by fmsmga005.fm.intel.com with ESMTP; 04 May 2023 00:46:33 -0700
+Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.23; Thu, 4 May 2023 00:45:40 -0700
-Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
- fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ 15.1.2507.23; Thu, 4 May 2023 00:46:33 -0700
+Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
+ orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.23 via Frontend Transport; Thu, 4 May 2023 00:45:40 -0700
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com (104.47.59.175)
- by edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
+ 15.1.2507.23 via Frontend Transport; Thu, 4 May 2023 00:46:33 -0700
+Received: from NAM04-DM6-obe.outbound.protection.outlook.com (104.47.73.45) by
+ edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.23; Thu, 4 May 2023 00:45:40 -0700
+ 15.1.2507.23; Thu, 4 May 2023 00:46:33 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=E8Gm/HCW4ELmilm2u2CW0Qrg72MEl/fmvQKkFpCYIoRXKMRDcE+WKjSmgvm7luu2WClIAA5pauNWZ0SfyiPxSlqbr9CwOaUCeUzOCDld9OwvtUpdBdOyM92OJ9MHHKJA/hl+bNA39PAph/zmNPItHqaX0nydQJp335c3ByOnkSblvgJ8dt7gRADeltgBCZLHyMrVMl3fLqN9md7wv/EIvDcrXsp8kDfmubWKHhjMYF7+smst5mL3uewW4onKdhhF3NuMPdMG/tsp3oO7pNAh3jQ8I/Z1ipujGBKtHbIIAUPGG120kVl3z3xLyYkvdyIAwa256w06EtdAAOHZ30rTMw==
+ b=VXucPTVnX6S49HD7fql35fm435R/P2Ubfgnl26ArMxrs3BBFT+y5m/SN1bZ9dbmSQGRCY+0TZmZoDpGpD9jOnI0x9rh72GGH/VPAXmLu/NcbMN3oLqoLRTwmawxJv0tB8eM3/6tAtReJX8egMUcd7cwydRAroh8xNBKm66PUipkNUL5ef4Sq7iJk3H6h5xh0gf8HgJ3gBbvmHJTkiIom1jXvOg1h+Hj8Pr8Aw+AG9ihBQVo6gRkg0okOhGSHwrhXMVMv7NFnXHxKP/u8qpw+yS0x5/1Amd/BvD78ycJKDWBLqf5bM5O9aHZsv8Rfn7hBo/rozH3L8R3eX/GE1WtL5g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=OXxvh3zlHC+OIu3aYau0wn1QANFBge5UENJKWm/rT4k=;
- b=JWkZ6lYEe5jcNLtRCwtOzdhrjM0m7vEA1VOsMr93GcWf8Nj9sPQ5RrnoJD3O0BVN/6ToWYTir3lWHfxeAOF37zaVB8CdNO7TkJygJss+Cif4B8CmT+HjpF9XSJPwfh3grXnR1MqpqlO5lLIoRuiVD+drfzAUmZs8pB1ugIiwuZFtXNUTWuTSWTPS8lh9RrMNVAPdcrLop7rGiMDMdbg+paVbQyaKCr10bonniNWgY0GrpRx2Vge/JU7HhBI+oIh2ynZjIaZ2fqVOjmpB+fXPE4qtwJi+supXQJsdF3ptWnmJb4ILrMRye20xckbgnee59M1UJT5fbKQ0MKWly4o1WA==
+ bh=oXIaQJFEJ4kQkmrHswRHLD258qc964J999FNRHlzSD0=;
+ b=gbds7jCS0ZpRh6uUVZI8fG3FWgehtJU9ObrBZrsI93v+wx5ODK4KQ8EXBI2uBYVmoN0kLR3RWgdWXPHSW8UmE5nC1jroSXYAlxoAMYB+ZEDRMKxBdh2EgkH3Vq7C0MMrQ/IxDU9giNA/i9JWUZcpl3izgBTdbh6R69CaFnehzZevmuALJZXW7aD5FHewjsxBRTt5Oo9xQDm0d9jYPXWaAZWEcff5SUbn+FBSMntZDLeY3fdN5MnvN68949DyVP+QXhYjA7OKCjn0bLAnXXV6gKHnmOXBvhPVAvOvBq9kmOoGoxmPA5zrq/yQ2ueyKNjBOb/XIg2uHH2uEbtVFMf1Rg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
  dkim=pass header.d=intel.com; arc=none
@@ -66,28 +66,27 @@ Received: from MWHPR11MB0031.namprd11.prod.outlook.com (2603:10b6:301:69::37)
  by DS0PR11MB7191.namprd11.prod.outlook.com (2603:10b6:8:139::5) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6363.22; Thu, 4 May
- 2023 07:45:35 +0000
+ 2023 07:46:31 +0000
 Received: from MWHPR11MB0031.namprd11.prod.outlook.com
  ([fe80::1323:5ae6:8e04:faf0]) by MWHPR11MB0031.namprd11.prod.outlook.com
  ([fe80::1323:5ae6:8e04:faf0%3]) with mapi id 15.20.6363.026; Thu, 4 May 2023
- 07:45:35 +0000
+ 07:46:31 +0000
 From: "Zhang, Chen" <chen.zhang@intel.com>
 To: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
  "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
 CC: "lukasstraub2@web.de" <lukasstraub2@web.de>, "quintela@redhat.com"
- <quintela@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- =?iso-8859-1?Q?Marc-Andr=E9_Lureau?= <marcandre.lureau@redhat.com>,
- =?iso-8859-1?Q?Daniel_P=2E_Berrang=E9?= <berrange@redhat.com>, Thomas Huth
- <thuth@redhat.com>, =?iso-8859-1?Q?Philippe_Mathieu-Daud=E9?=
- <philmd@linaro.org>, Jason Wang <jasowang@redhat.com>
-Subject: RE: [PATCH v4 04/10] configure: add --disable-colo-proxy option
-Thread-Topic: [PATCH v4 04/10] configure: add --disable-colo-proxy option
-Thread-Index: AQHZegt3PuVf/VfjkUyhK5LAiwXWTq9Jw92w
-Date: Thu, 4 May 2023 07:45:35 +0000
-Message-ID: <MWHPR11MB0031A6901E847CA3ED49E9AF9B6D9@MWHPR11MB0031.namprd11.prod.outlook.com>
+ <quintela@redhat.com>, Peter Xu <peterx@redhat.com>, Leonardo Bras
+ <leobras@redhat.com>
+Subject: RE: [PATCH v4 05/10] migration: drop colo_incoming_thread from
+ MigrationIncomingState
+Thread-Topic: [PATCH v4 05/10] migration: drop colo_incoming_thread from
+ MigrationIncomingState
+Thread-Index: AQHZegtA+ItxwHZTV0us+rE4+KxjHq9JxPDA
+Date: Thu, 4 May 2023 07:46:31 +0000
+Message-ID: <MWHPR11MB003170B0C3F8FD1B795777F29B6D9@MWHPR11MB0031.namprd11.prod.outlook.com>
 References: <20230428194928.1426370-1-vsementsov@yandex-team.ru>
- <20230428194928.1426370-5-vsementsov@yandex-team.ru>
-In-Reply-To: <20230428194928.1426370-5-vsementsov@yandex-team.ru>
+ <20230428194928.1426370-6-vsementsov@yandex-team.ru>
+In-Reply-To: <20230428194928.1426370-6-vsementsov@yandex-team.ru>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
@@ -96,65 +95,64 @@ authentication-results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=intel.com;
 x-ms-publictraffictype: Email
 x-ms-traffictypediagnostic: MWHPR11MB0031:EE_|DS0PR11MB7191:EE_
-x-ms-office365-filtering-correlation-id: 85c2964f-890e-4d9c-e7aa-08db4c738bc8
+x-ms-office365-filtering-correlation-id: 12308534-15f7-4d9d-de33-08db4c73ad58
 x-ms-exchange-senderadcheck: 1
 x-ms-exchange-antispam-relay: 0
 x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: MEGHda/3kczyZUop4P3yhWGdy6YuiJNdsBpivqGmikJtZ/LLp/LvoRGz4g5qIWKMX7O9jtbniTDRFqd8OKxywarplvLKEYmpCVu7p3Stkc9IVaa1OqdA2Od5cPa6v7/HGiprja3kmlyPsN1083kPPrdUnVs+KAeCfcgakjhnV+ncEoP/3uq1nbhlgCbZO7U0DzpRlL3MFyvQGbaV7IaPociM0DVSauIB2/+ferfZJZlGWn+uGXtPoqsqF/QRIPASZHsTIh7H+zdR+EHBTLz2vFPUWumIhVfVLN6AkghQwOg8J0k2VUdOK4tx7iOXlDEGyGA4F7/RIUUV1vUAwpikHLxhjxy7uFmjSmL0YXarzabYtDRjofQ4hi5KJ/mUGUzDP4NGs1aFOiXAUzDoqllIOFRXv8n45NG3McQSHQrBWnd9nEjkfQNyOepc63SRa43+ZV4N1f4w5eUDV8NR9L68Ho4+1xSZZBxG0sJrsKMr7cbuTVBQ5vZxtJDUgApiZQGZrr3P69JdQP7E3zq/Y4zmPHaFbdpCk0dIFkp6DxNb1VWvg5iBICn7cuajP+ECV0dKpGkXx4FQ3bCSW0kzKww2eaLb3OBkpZ/I/nqekm+BmSdFtoMVLnkM/jcHPiCnzvkd
+x-microsoft-antispam-message-info: WoZ4tbgiIW+WKVNQ6F40srv2K0K7kxmp1KE7Q2K93bOXHc3w9XA9adQNaMtaIBAeU8HdS+WZE8sd6m5Kmw0XeVs1hY0+9iP18RAoNIO9Ay0wUOq1EKVD/88jL897IebcWefJFGTggdvz22dAVR2bWJIAb5HWe6bCZwbsZ9Hq/jB6TxfCeboeQDpZgsDdmNjKchXzhe3iYbg9R8/T+BD0/2qIGzJNRjJwVAX4DC4jHYUGFIcirVh7vxi6yijmwebJVyb5ZzNL2XOPqK0qGdGJHcYRciUsAfJ1ISRGM53j3zD8WH+uL42fSIluyNeM7EH8JghuJElrurWW0liY6/X31VPtjUJh8Vi7XRWIdxsSs/a66oD23mEBXdMmXnILtire0y36aQS3cvKcHylmVDBc0OEpTsrCDstQjG4tEByCefXmimCoiJmNQsfdS5kA7P92EoaLuzFCWDWRzhEirk0ou7o2Wn3q1GdkS49DF3pXVlL+gyW7MKR4PaR8ZZb1aCncTzwphCF9uNhSfNIPXxy1Mj49ypRQGs9LzjkXZlenLWntXM3ErUUpFOAKJDo+H7lgzRk3R+kSWhvP2O9xr3Q8l1yrsmxQm478oznAcDhkForZBp0Z1OWHIruPZkJRH2mW
 x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:MWHPR11MB0031.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230028)(346002)(366004)(376002)(136003)(396003)(39860400002)(451199021)(83380400001)(2906002)(5660300002)(7416002)(33656002)(8676002)(8936002)(110136005)(66446008)(66476007)(41300700001)(86362001)(66946007)(66556008)(52536014)(76116006)(71200400001)(478600001)(4326008)(54906003)(316002)(7696005)(64756008)(55016003)(122000001)(38100700002)(82960400001)(186003)(53546011)(38070700005)(26005)(6506007)(9686003);
+ SFS:(13230028)(346002)(366004)(376002)(136003)(396003)(39860400002)(451199021)(83380400001)(2906002)(5660300002)(33656002)(8676002)(8936002)(110136005)(66446008)(66476007)(41300700001)(86362001)(66946007)(66556008)(52536014)(76116006)(71200400001)(478600001)(4326008)(54906003)(316002)(7696005)(64756008)(55016003)(122000001)(38100700002)(82960400001)(186003)(53546011)(38070700005)(26005)(6506007)(9686003);
  DIR:OUT; SFP:1102; 
 x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?xly7W534rMNJtEMQOlhn8Dh2ofFi/IFCrdv/sCWeDIGL9Ib/nuw9FQbqJH?=
- =?iso-8859-1?Q?HXUFpFt8XDROdIOYqRPTMDO7jw3bvio4S74k7baelvQVo7d3LO5Fx2qFKO?=
- =?iso-8859-1?Q?wfrVwt70J50euKDlBHe3fuaHex9lCmCzJirh5SKWzgvYZ/58zSrzYfIFVg?=
- =?iso-8859-1?Q?+CQeRN9RTxOVHk3fnK539h1xI+RyoOXFRihVpkFg8K/t5Nzk8ccXc8xMmY?=
- =?iso-8859-1?Q?w5DQMyT97c3fkyR5Zw70Tblh9tlDCUE3k4tCqW8vTpRiFppAwbM8CYWU9I?=
- =?iso-8859-1?Q?XP9ZMX2aQKoB2e3vJCKszuHuQQHacoKngg483a6p0DZjQm0KkdC1i3hNZz?=
- =?iso-8859-1?Q?XOnjZ9x9aYxT2lpT4JBdKta523QI/gxkCkNhdcr1sWCmstAmpnTuehYepD?=
- =?iso-8859-1?Q?x5JYJB0OYHKBL7nUgpHrrwgr7Dd6RNmlYZFof0Vlwtw6djYmqftenQQMlz?=
- =?iso-8859-1?Q?QagvP8s9H3jvVj7Ew1ZAfy6xs6fmOvqfjse8nDlj5AzDC93cyuHwI8TpsK?=
- =?iso-8859-1?Q?gKW5WzbbM34eJsWqn0qkssWUveUXX65Aw9d9XYuDQqd9pYLxO3TxLtPJPn?=
- =?iso-8859-1?Q?f7KzKv9bp+dQBAa3cyrtUTvTeg+GIFJ/1UpnQ38wC0/m+A95qBXtP+33lY?=
- =?iso-8859-1?Q?0WaLYmkXvp7knw1rjHOu84+/4UzYP/r6Klz71JR4mntmoEjyH0NeDfETFS?=
- =?iso-8859-1?Q?ZNTcWphIxBeACkpzFJ3R2G9LEHzeWAMAcpLktT0uMUIFT0OAytVYQizJqL?=
- =?iso-8859-1?Q?J685nkclfwrNF1qGhBeTRiWgR5U8HMmiS0JuzzLKKy0XNAKXY3PbLwqUE1?=
- =?iso-8859-1?Q?qxMAlMJLQtOSWskP8seZN1gMgxn8Bsh1qchmwJHw66386OsvgaFK27exlT?=
- =?iso-8859-1?Q?2czX1PvbDopCW+0HNlYrwQKwJgyFZHJyW+NAiIrzzqJa+TdR4pKRRfZ3lC?=
- =?iso-8859-1?Q?4sSoOfyTHRTs33GQU2j4KHwSV1J3u+C+ynjyXHHAhdA8Hx9afCk5ddSUl3?=
- =?iso-8859-1?Q?clg1kaHq0aETB+cGo2bUPoTgUwJpnnrc2BwXVELQXookv8EqgIb9XSPI5R?=
- =?iso-8859-1?Q?Q5LOHaHO3XDm4vmcmw3ehNs2ov6AT7IjV46i9Tskdrw/WPizNAhVB5L5Kx?=
- =?iso-8859-1?Q?qFOGl/ZjPyjiJzZOMgz0wI/5VNFnWqGigfUZyarcqppwiX/dtgfKzLiOis?=
- =?iso-8859-1?Q?cOnJSj15VfDuKWTMl4l1ZL04F6mqbhAK6xHYsbMeTb3gk0R0IhZf7Ai1uS?=
- =?iso-8859-1?Q?onCbs0ZxA5uyhsYRNY0tyVNRfar0skaycSlbuF6abjXzGEFojV4hJbGRd8?=
- =?iso-8859-1?Q?7Dayduw6JW0mwFoK9vhnS46pjg/SEPcjod6oIlX9lUQ/449fZ0XRP8Gah7?=
- =?iso-8859-1?Q?WsvVgIgtv5Amue8RB8LWDCH/KKPchxsfOxKzkTYqh7GbypknFAoaFyKpuW?=
- =?iso-8859-1?Q?cdx4BWHy0bN4iN2X6khw11Cu9hsn1SXS/pu5OzvIAbe/+IsxNvij8M+VRz?=
- =?iso-8859-1?Q?kZw0gh60kU4g57dideiAS9E04KF+i+Jzygs4nOCHb810ssnUCOvMEdaRAI?=
- =?iso-8859-1?Q?5qV/paS1kC4LC53EdAD0oSGjfbjo/4Ah4u+pvvUW9NJEkPlwbV9mDEdKdB?=
- =?iso-8859-1?Q?UVfLvRJlLkcvWEBVZ6ot0K93lN4goYNk8F?=
-Content-Type: text/plain; charset="iso-8859-1"
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?lpuHz5nyHLznfOzsoxF4/ZYCCegDiwoN/HR3WM16beWfUhnpRF/CTIDncb9M?=
+ =?us-ascii?Q?dUPolMx/taHIYn+FHtkUau0vb1d0z7K6IrIJJkdlMU7N4NORXSEkT+0iMTR5?=
+ =?us-ascii?Q?gXIYSlpYJnwt4meXqOjn9O+PfxSI5Ck2L8cxUy66cFgJNYqFv1qXFwMlZZNy?=
+ =?us-ascii?Q?++88hR8iZT4A2gnpBL5eLUsGaDLfvLNolAR501EKysPr2WgQOHK+wFJwbei0?=
+ =?us-ascii?Q?ymPsObJRdnqXOIcKZdqv/PWEwcrtinuihVMlju4nZIHLj1K4ZrjY+2dTRisK?=
+ =?us-ascii?Q?vF/HtO45JAYEE1WJUC+mCUwQ254P38d6tahWtPN4cCU/IRMTh2X5uVJUGC/r?=
+ =?us-ascii?Q?hYROupwk7/QboUl6LF5dd7wZ4lvR8TYX8yjS7OKpOOIv7c8W04p3f9kfiLkJ?=
+ =?us-ascii?Q?5BeCl2Auz8iQVxZd8MV+/GDe2qKlHZTNTwqfC+NJaK+94CM6arqVFl32TBph?=
+ =?us-ascii?Q?KRbCtnia7eG1WBV+J5aLOr7M+E3PJjd2882deaS6jTx3Pl6ToV1tEo0j23qu?=
+ =?us-ascii?Q?4K2fH+xnRohWp/OGmwj3QGc8F/7PFyOLamZOuYRWuWiIkulZ10dfiJgntAdZ?=
+ =?us-ascii?Q?ChnWRM6QvV983t5p0+tH87A1vsGrumk1+uWqtRHF+F3u4E8calDEDIPKSOjz?=
+ =?us-ascii?Q?72bZnFqokqgvgghgoSxXdkTO0ipTCEAGldxDsLUH0wesK2YLMHhAi3oZ12+i?=
+ =?us-ascii?Q?036v22RlPh+XxzzDEso5JZLDxzxIPWApu1WDQmyW6HzIuUOWCazf2FiPZ0No?=
+ =?us-ascii?Q?1Xu6NSWIqcAitcOK+XDz2lU7bhSn65KUMNbkXay6eZOvnI3kNCHyB6rqX6x1?=
+ =?us-ascii?Q?QPa7RNgEQ2Z5VstN8PkBXq4AXAEFeiq1t8/A7biQ/LxZF1+9cJqcr0seoe32?=
+ =?us-ascii?Q?Dod5AWmZcNxnd8HkTzvIZzXZ3H+WKnBrueX9U8R6WhKNOwbjuHlNQeXs0EBq?=
+ =?us-ascii?Q?n5pQ7tuOJwBkULwQBciWuQB/y9rMYFmfvpay0u5mhuE/xJtvRTKYTJyxoneE?=
+ =?us-ascii?Q?AAieFsxsVJecl7VzMOS45twNh2g75DfOPRwAse9BBNy9N0g2LBfKwt8Uxs94?=
+ =?us-ascii?Q?KiqMJ6lD6Ei1DWpUjhcoo+eHlB1z2RHPEEmAleJUf9b/AODeJEPTT+972yHG?=
+ =?us-ascii?Q?4uuogt51t1IH9SFTPTy6ndSt0CCl7/NQOMWrhRgIMjHUJDKXbV4hYqPm3CX1?=
+ =?us-ascii?Q?p7gBPWJmtDMC2zkWNBK9n39zDQ+m5nsAWIx8YCsBoZmfXxnDEIx0oTt+i9gu?=
+ =?us-ascii?Q?SnDkAlI1Na46/TrHYOajB6nauyhYbzCtDzvvBeD6ht2cGJTAYqYhv3VwQEi/?=
+ =?us-ascii?Q?XxIbi6aj0bugmn7BfXDdGP6tYxTAO7Veph8r4wQUpEdhIwSvUC7DlIE1Zyws?=
+ =?us-ascii?Q?O3oBuaf/XTPpRfjV183UFczPKhF6/AxJdBb6AQj/w93TE33AJ+Zl6sVSQESj?=
+ =?us-ascii?Q?1gNCxAnsQSq6atjEfF5yRKuL9xbHYA8LNvhLn9ZEZX/xmpb43h9PGUsnXB9e?=
+ =?us-ascii?Q?8lmtYqzu3MiY2Rp6PZgrvemTsTIACK68Pc26sRDhgJHsoH3l7LS0H0Ttj1Cr?=
+ =?us-ascii?Q?WMfr625QXwwPPqrTjxDoKc1OwFsqTb+SPfnQK0MD?=
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
 X-MS-Exchange-CrossTenant-AuthAs: Internal
 X-MS-Exchange-CrossTenant-AuthSource: MWHPR11MB0031.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 85c2964f-890e-4d9c-e7aa-08db4c738bc8
-X-MS-Exchange-CrossTenant-originalarrivaltime: 04 May 2023 07:45:35.3115 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 12308534-15f7-4d9d-de33-08db4c73ad58
+X-MS-Exchange-CrossTenant-originalarrivaltime: 04 May 2023 07:46:31.5899 (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: DNoEMH8tc028J/QRNmdK6ogTRenXWcIN7dm7pGAjrsX8eyeBgedKaDHvdn5o4w8sEkkBBBuxnWqRq5wXpA8QOQ==
+X-MS-Exchange-CrossTenant-userprincipalname: lA67w1zHp1Bpxl4Aii2AH9rMsFe2nd2/3jNAyvPHo3zWjH4WVgujO4u4/q5oc4nTO1uk7FcvKVKRQrObbZO0qg==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR11MB7191
 X-OriginatorOrg: intel.com
-Received-SPF: pass client-ip=192.55.52.136; envelope-from=chen.zhang@intel.com;
- helo=mga12.intel.com
+Received-SPF: pass client-ip=192.55.52.115; envelope-from=chen.zhang@intel.com;
+ helo=mga14.intel.com
 X-Spam_score_int: -45
 X-Spam_score: -4.6
 X-Spam_bar: ----
 X-Spam_report: (-4.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.161,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -178,142 +176,70 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 > Sent: Saturday, April 29, 2023 3:49 AM
 > To: qemu-devel@nongnu.org
 > Cc: lukasstraub2@web.de; quintela@redhat.com; Zhang, Chen
-> <chen.zhang@intel.com>; vsementsov@yandex-team.ru; Paolo Bonzini
-> <pbonzini@redhat.com>; Marc-Andr=E9 Lureau
-> <marcandre.lureau@redhat.com>; Daniel P. Berrang=E9
-> <berrange@redhat.com>; Thomas Huth <thuth@redhat.com>; Philippe
-> Mathieu-Daud=E9 <philmd@linaro.org>; Jason Wang <jasowang@redhat.com>
-> Subject: [PATCH v4 04/10] configure: add --disable-colo-proxy option
+> <chen.zhang@intel.com>; vsementsov@yandex-team.ru; Peter Xu
+> <peterx@redhat.com>; Leonardo Bras <leobras@redhat.com>
+> Subject: [PATCH v4 05/10] migration: drop colo_incoming_thread from
+> MigrationIncomingState
 >=20
-> Add option to not build filter-mirror, filter-rewriter and colo-compare w=
-hen
-> they are not needed.
-
-Typo: This patch still build the filter-mirror/filter-redirector in filter-=
-mirror.c.
-Please remove the "filter-mirror" here.
-Other code look good to me.
+> have_colo_incoming_thread variable is unused. colo_incoming_thread can
+> be local.
+>=20
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
 
 Reviewed-by: Zhang Chen <chen.zhang@intel.com>
 
 Thanks
 Chen
 
->=20
-> There could be more agile configuration, for example add separate options
-> for each filter, but that may be done in future on demand. The aim of thi=
-s
-> patch is to make possible to disable the whole COLO Proxy subsystem.
->=20
-> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-> Reviewed-by: Juan Quintela <quintela@redhat.com>
 > ---
->  meson_options.txt             |  2 ++
->  net/meson.build               | 13 ++++++++++---
->  scripts/meson-buildoptions.sh |  3 +++
->  stubs/colo-compare.c          |  7 +++++++
->  stubs/meson.build             |  1 +
->  5 files changed, 23 insertions(+), 3 deletions(-)  create mode 100644
-> stubs/colo-compare.c
+>  migration/migration.c | 7 ++++---
+>  migration/migration.h | 2 --
+>  2 files changed, 4 insertions(+), 5 deletions(-)
 >=20
-> diff --git a/meson_options.txt b/meson_options.txt index
-> 2471dd02da..b59e7ae342 100644
-> --- a/meson_options.txt
-> +++ b/meson_options.txt
-> @@ -289,6 +289,8 @@ option('live_block_migration', type: 'feature', value=
-:
-> 'auto',
->         description: 'block migration in the main migration stream')
-> option('replication', type: 'feature', value: 'auto',
->         description: 'replication support')
-> +option('colo_proxy', type: 'feature', value: 'auto',
-> +       description: 'colo-proxy support')
->  option('bochs', type: 'feature', value: 'auto',
->         description: 'bochs image format support')  option('cloop', type:=
- 'feature',
-> value: 'auto', diff --git a/net/meson.build b/net/meson.build index
-> 87afca3e93..6f4ecde57f 100644
-> --- a/net/meson.build
-> +++ b/net/meson.build
-> @@ -1,13 +1,10 @@
->  softmmu_ss.add(files(
->    'announce.c',
->    'checksum.c',
-> -  'colo-compare.c',
-> -  'colo.c',
->    'dump.c',
->    'eth.c',
->    'filter-buffer.c',
->    'filter-mirror.c',
-> -  'filter-rewriter.c',
->    'filter.c',
->    'hub.c',
->    'net-hmp-cmds.c',
-> @@ -19,6 +16,16 @@ softmmu_ss.add(files(
->    'util.c',
->  ))
+> diff --git a/migration/migration.c b/migration/migration.c index
+> 0c14837cd3..d4fa1a853c 100644
+> --- a/migration/migration.c
+> +++ b/migration/migration.c
+> @@ -535,6 +535,8 @@ process_incoming_migration_co(void *opaque)
 >=20
-> +if get_option('replication').allowed() or \
-> +    get_option('colo_proxy').allowed()
-> +  softmmu_ss.add(files('colo-compare.c'))
-> +  softmmu_ss.add(files('colo.c'))
-> +endif
+>      /* we get COLO info, and know if we are in COLO mode */
+>      if (!ret && migration_incoming_colo_enabled()) {
+> +        QemuThread colo_incoming_thread;
 > +
-> +if get_option('colo_proxy').allowed()
-> +  softmmu_ss.add(files('filter-rewriter.c'))
-> +endif
-> +
->  softmmu_ss.add(when: 'CONFIG_TCG', if_true: files('filter-replay.c'))
+>          /* Make sure all file formats throw away their mutable metadata =
+*/
+>          bdrv_activate_all(&local_err);
+>          if (local_err) {
+> @@ -542,14 +544,13 @@ process_incoming_migration_co(void *opaque)
+>              goto fail;
+>          }
 >=20
->  if have_l2tpv3
-> diff --git a/scripts/meson-buildoptions.sh b/scripts/meson-buildoptions.s=
-h
-> index d4369a3ad8..036047ce6f 100644
-> --- a/scripts/meson-buildoptions.sh
-> +++ b/scripts/meson-buildoptions.sh
-> @@ -83,6 +83,7 @@ meson_options_help() {
->    printf "%s\n" '  capstone        Whether and how to find the capstone =
-library'
->    printf "%s\n" '  cloop           cloop image format support'
->    printf "%s\n" '  cocoa           Cocoa user interface (macOS only)'
-> +  printf "%s\n" '  colo-proxy      colo-proxy support'
->    printf "%s\n" '  coreaudio       CoreAudio sound support'
->    printf "%s\n" '  crypto-afalg    Linux AF_ALG crypto backend driver'
->    printf "%s\n" '  curl            CURL block device driver'
-> @@ -236,6 +237,8 @@ _meson_option_parse() {
->      --disable-cloop) printf "%s" -Dcloop=3Ddisabled ;;
->      --enable-cocoa) printf "%s" -Dcocoa=3Denabled ;;
->      --disable-cocoa) printf "%s" -Dcocoa=3Ddisabled ;;
-> +    --enable-colo-proxy) printf "%s" -Dcolo_proxy=3Denabled ;;
-> +    --disable-colo-proxy) printf "%s" -Dcolo_proxy=3Ddisabled ;;
->      --enable-coreaudio) printf "%s" -Dcoreaudio=3Denabled ;;
->      --disable-coreaudio) printf "%s" -Dcoreaudio=3Ddisabled ;;
->      --enable-coroutine-pool) printf "%s" -Dcoroutine_pool=3Dtrue ;; diff=
- --git
-> a/stubs/colo-compare.c b/stubs/colo-compare.c new file mode 100644 index
-> 0000000000..ec726665be
-> --- /dev/null
-> +++ b/stubs/colo-compare.c
-> @@ -0,0 +1,7 @@
-> +#include "qemu/osdep.h"
-> +#include "qemu/notify.h"
-> +#include "net/colo-compare.h"
-> +
-> +void colo_compare_cleanup(void)
-> +{
-> +}
-> diff --git a/stubs/meson.build b/stubs/meson.build index
-> 8412cad15f..a56645e2f7 100644
-> --- a/stubs/meson.build
-> +++ b/stubs/meson.build
-> @@ -46,6 +46,7 @@ stub_ss.add(files('target-monitor-defs.c'))
->  stub_ss.add(files('trace-control.c'))
->  stub_ss.add(files('uuid.c'))
->  stub_ss.add(files('colo.c'))
-> +stub_ss.add(files('colo-compare.c'))
->  stub_ss.add(files('vmstate.c'))
->  stub_ss.add(files('vm-stop.c'))
->  stub_ss.add(files('win32-kbd-hook.c'))
+> -        qemu_thread_create(&mis->colo_incoming_thread, "COLO incoming",
+> +        qemu_thread_create(&colo_incoming_thread, "COLO incoming",
+>               colo_process_incoming_thread, mis, QEMU_THREAD_JOINABLE);
+> -        mis->have_colo_incoming_thread =3D true;
+>          qemu_coroutine_yield();
+>=20
+>          qemu_mutex_unlock_iothread();
+>          /* Wait checkpoint incoming thread exit before free resource */
+> -        qemu_thread_join(&mis->colo_incoming_thread);
+> +        qemu_thread_join(&colo_incoming_thread);
+>          qemu_mutex_lock_iothread();
+>          /* We hold the global iothread lock, so it is safe here */
+>          colo_release_ram_cache();
+> diff --git a/migration/migration.h b/migration/migration.h index
+> 3a918514e7..7721c7658b 100644
+> --- a/migration/migration.h
+> +++ b/migration/migration.h
+> @@ -162,8 +162,6 @@ struct MigrationIncomingState {
+>=20
+>      int state;
+>=20
+> -    bool have_colo_incoming_thread;
+> -    QemuThread colo_incoming_thread;
+>      /* The coroutine we should enter (back) after failover */
+>      Coroutine *migration_incoming_co;
+>      QemuSemaphore colo_incoming_sem;
 > --
 > 2.34.1
 
