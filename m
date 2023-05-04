@@ -2,93 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 076416F672E
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 May 2023 10:23:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1650E6F6731
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 May 2023 10:23:37 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1puUEi-00085x-F7; Thu, 04 May 2023 04:22:48 -0400
+	id 1puUFM-0000N8-PX; Thu, 04 May 2023 04:23:28 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <anisinha@redhat.com>)
- id 1puUEh-00085Q-7A
- for qemu-devel@nongnu.org; Thu, 04 May 2023 04:22:47 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
+ id 1puUFJ-0000Kx-PT
+ for qemu-devel@nongnu.org; Thu, 04 May 2023 04:23:25 -0400
+Received: from forwardcorp1b.mail.yandex.net ([178.154.239.136])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <anisinha@redhat.com>)
- id 1puUEf-0008Ln-FA
- for qemu-devel@nongnu.org; Thu, 04 May 2023 04:22:46 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1683188564;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=mXznZeEUzuNve/gG42E2V4al8vjK9SatPXcIO/sRg9Y=;
- b=To6hG3fgpCoztUh08diMONRAH6uRfyJamfJxk3mVVmLAcetnB6JH1DJStqcXrlyiKMX/IM
- 20+h9WFHiotPmcK/crHb0/epY9VA9xEwdsBCkMLwFfRPaNmtKA5C2dbbtTh7Qjute6qbUW
- Y0OZgCiXD0z/6TV9bb8bbMztIkaP2OU=
-Received: from mail-pf1-f199.google.com (mail-pf1-f199.google.com
- [209.85.210.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-25-LA6bIzDDO4uqXIZZlQkmew-1; Thu, 04 May 2023 04:22:43 -0400
-X-MC-Unique: LA6bIzDDO4uqXIZZlQkmew-1
-Received: by mail-pf1-f199.google.com with SMTP id
- d2e1a72fcca58-64388ab2864so146263b3a.1
- for <qemu-devel@nongnu.org>; Thu, 04 May 2023 01:22:43 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683188562; x=1685780562;
- h=to:references:message-id:content-transfer-encoding:cc:date
- :in-reply-to:from:subject:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=mXznZeEUzuNve/gG42E2V4al8vjK9SatPXcIO/sRg9Y=;
- b=hHbpAgRInK/pY5e3nqkJlBgoSAFOsxR8UqUsyvszPF6nOdkzEofO3deOXZVP3hQoiE
- jvUydTFdontzbmPeUZFpfbPKZXp8gYo9OmgsqA27PN5MZMVg+YnJ8rivBex9Nm3H92t4
- 5nuFLWQ4u1eLVsA2qAqZQfq/UudIyrqkiNEseeenK7Cu3uNfdaeGGmuvc3PvOSSVkSnG
- YM5SrOSoEj8kytJd6zERuMLoyS5mADEZAhiNtv7tmT+xa8J8uzlren4orVrmOxrqG9XT
- t6zsEvBy59nVTXD7B0Ji3yxkYpXoRf4TvDN6S+2eWLOlUVX6NgPy0ZvSHoLVJ3UPdA1x
- /bDQ==
-X-Gm-Message-State: AC+VfDzQwRYuLlywSi6jBpOpn4GlA6+1ZOT5r4GNSB5lN3pA91pDODT1
- y8H0VOL6zBZ1zCr8KWmJyIVUZrJPK1VGG5Vt1f/i7laSY8Ve8sZGrxAOxrJ2Vv2MdJKn2N/0SkI
- SnNSjjemPCy+70LI=
-X-Received: by 2002:a05:6a20:54a1:b0:f0:a556:4777 with SMTP id
- i33-20020a056a2054a100b000f0a5564777mr1867025pzk.3.1683188562570; 
- Thu, 04 May 2023 01:22:42 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ7qQk9/Z02oiaaPY6LWhK20sL7cb+SCQwS0GYvphzjCU/Jyg6Xagv8qe1qQ89Un5dirJx8pEg==
-X-Received: by 2002:a05:6a20:54a1:b0:f0:a556:4777 with SMTP id
- i33-20020a056a2054a100b000f0a5564777mr1867008pzk.3.1683188562252; 
- Thu, 04 May 2023 01:22:42 -0700 (PDT)
-Received: from smtpclient.apple ([115.96.136.25])
- by smtp.gmail.com with ESMTPSA id
- 136-20020a63008e000000b0051806da5cd6sm21216069pga.60.2023.05.04.01.22.39
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Thu, 04 May 2023 01:22:41 -0700 (PDT)
-Content-Type: text/plain;
-	charset=utf-8
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3696.120.41.1.3\))
-Subject: Re: [PATCH 0/2] Add mformat and xorriso dependencies in containers
-From: Ani Sinha <anisinha@redhat.com>
-In-Reply-To: <ZFNmhT9Fosay1bee@redhat.com>
-Date: Thu, 4 May 2023 13:52:36 +0530
-Cc: Thomas Huth <thuth@redhat.com>, alex.bennee@linaro.org, philmd@linaro.org,
- wainersm@redhat.com, bleal@redhat.com, qemu-devel@nongnu.org,
- mst@redhat.com
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <82B950B9-1C97-483F-A5A5-C755BEA1B727@redhat.com>
-References: <20230503145547.202251-1-anisinha@redhat.com>
- <8d7e46ec-95c0-5c4a-a843-20106576e9ba@redhat.com>
- <ZFNmhT9Fosay1bee@redhat.com>
-To: =?utf-8?B?IkRhbmllbCBQLiBCZXJyYW5nw6ki?= <berrange@redhat.com>
-X-Mailer: Apple Mail (2.3696.120.41.1.3)
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=anisinha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -22
-X-Spam_score: -2.3
-X-Spam_bar: --
-X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.161,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
+ id 1puUFG-00008U-Fp
+ for qemu-devel@nongnu.org; Thu, 04 May 2023 04:23:25 -0400
+Received: from mail-nwsmtp-smtp-corp-main-62.myt.yp-c.yandex.net
+ (mail-nwsmtp-smtp-corp-main-62.myt.yp-c.yandex.net
+ [IPv6:2a02:6b8:c00:2582:0:640:9a17:0])
+ by forwardcorp1b.mail.yandex.net (Yandex) with ESMTP id 4E22E60BE6;
+ Thu,  4 May 2023 11:23:15 +0300 (MSK)
+Received: from [IPV6:2a02:6b8:b081:b43e::1:b] (unknown
+ [2a02:6b8:b081:b43e::1:b])
+ by mail-nwsmtp-smtp-corp-main-62.myt.yp-c.yandex.net (smtpcorp/Yandex) with
+ ESMTPSA id DNKVuf0MouQ0-YZwXoAYY; Thu, 04 May 2023 11:23:14 +0300
+X-Yandex-Fwd: 1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
+ s=default; 
+ t=1683188594; bh=ytjfhwxrObHkf97iflKUUg4Mi2qkk478HrWfdl71nOU=;
+ h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
+ b=bLOhIOYZjAd9oVgOAwcnmu3MRJZlAyQ+cW/KEXqeN9iBi5d+XHhAo53Bye1iSh0AA
+ VPJCFoQyqIbo5ID3m66gCJ9YhqgiuSd6cC62MKG46Px7vF+XkpkCDKaWCFNpyEpQWm
+ o5NxJXq/AcjO5lV6igWc6tcYowsZpMuH9+y6JxYQ=
+Authentication-Results: mail-nwsmtp-smtp-corp-main-62.myt.yp-c.yandex.net;
+ dkim=pass header.i=@yandex-team.ru
+Message-ID: <b0d9e820-6ee1-0e49-2195-f535bcc00555@yandex-team.ru>
+Date: Thu, 4 May 2023 11:23:13 +0300
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH v4 09/10] migration: disallow change capabilities in COLO
+ state
+Content-Language: en-US
+To: "Zhang, Chen" <chen.zhang@intel.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Cc: "lukasstraub2@web.de" <lukasstraub2@web.de>,
+ "quintela@redhat.com" <quintela@redhat.com>, Peter Xu <peterx@redhat.com>,
+ Leonardo Bras <leobras@redhat.com>
+References: <20230428194928.1426370-1-vsementsov@yandex-team.ru>
+ <20230428194928.1426370-10-vsementsov@yandex-team.ru>
+ <MWHPR11MB003113F9302058F9BA7F20479B6D9@MWHPR11MB0031.namprd11.prod.outlook.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+In-Reply-To: <MWHPR11MB003113F9302058F9BA7F20479B6D9@MWHPR11MB0031.namprd11.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=178.154.239.136;
+ envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1b.mail.yandex.net
+X-Spam_score_int: -63
+X-Spam_score: -6.4
+X-Spam_bar: ------
+X-Spam_report: (-6.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-4.28,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -104,72 +81,81 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On 04.05.23 11:09, Zhang, Chen wrote:
+> 
+> 
+>> -----Original Message-----
+>> From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+>> Sent: Saturday, April 29, 2023 3:49 AM
+>> To: qemu-devel@nongnu.org
+>> Cc: lukasstraub2@web.de; quintela@redhat.com; Zhang, Chen
+>> <chen.zhang@intel.com>; vsementsov@yandex-team.ru; Peter Xu
+>> <peterx@redhat.com>; Leonardo Bras <leobras@redhat.com>
+>> Subject: [PATCH v4 09/10] migration: disallow change capabilities in COLO
+>> state
+>>
+>> COLO is not listed as running state in migrate_is_running(), so, it's
+>> theoretically possible to disable colo capability in COLO state and the
+>> unexpected error in migration_iteration_finish() is reachable.
+>>
+>> Let's disallow that in qmp_migrate_set_capabilities. Than the error becomes
+>> absolutely unreachable: we can get into COLO state only with enabled
+>> capability and can't disable it while we are in COLO state. So substitute the
+>> error by simple assertion.
+>>
+>> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+>> ---
+>>   migration/migration.c | 5 +----
+>>   migration/options.c   | 2 +-
+>>   2 files changed, 2 insertions(+), 5 deletions(-)
+>>
+>> diff --git a/migration/migration.c b/migration/migration.c index
+>> 0d912ee0d7..8c5bbf3e94 100644
+>> --- a/migration/migration.c
+>> +++ b/migration/migration.c
+>> @@ -2751,10 +2751,7 @@ static void
+>> migration_iteration_finish(MigrationState *s)
+>>           runstate_set(RUN_STATE_POSTMIGRATE);
+>>           break;
+>>       case MIGRATION_STATUS_COLO:
+>> -        if (!migrate_colo()) {
+>> -            error_report("%s: critical error: calling COLO code without "
+>> -                         "COLO enabled", __func__);
+>> -        }
+>> +        assert(migrate_colo());
+>>           migrate_start_colo_process(s);
+>>           s->vm_was_running = true;
+>>           /* Fallthrough */
+>> diff --git a/migration/options.c b/migration/options.c index
+>> 865a0214d8..f461d02eeb 100644
+>> --- a/migration/options.c
+>> +++ b/migration/options.c
+>> @@ -598,7 +598,7 @@ void
+>> qmp_migrate_set_capabilities(MigrationCapabilityStatusList *params,
+>>       MigrationCapabilityStatusList *cap;
+>>       bool new_caps[MIGRATION_CAPABILITY__MAX];
+>>
+>> -    if (migration_is_running(s->state)) {
+>> +    if (migration_is_running(s->state) || migration_in_colo_state()) {
+> 
+> Make the "MIGRATION_STATUS_COLO" into the " migration_is_running()" is a better way?
 
+I wasn't sure that that's correct.. migration_is_running() is used in several places, to do so, I'd have to analyze them all.
 
-> On 04-May-2023, at 1:32 PM, Daniel P. Berrang=C3=A9 =
-<berrange@redhat.com> wrote:
->=20
-> On Thu, May 04, 2023 at 08:35:53AM +0200, Thomas Huth wrote:
->> On 03/05/2023 16.55, Ani Sinha wrote:
->>> mformat and xorriso tools are needed by biosbits avocado tests. This =
-patchset
->>> adds those two tools in the docker container images.
->>=20
->> tests/qtest/cdrom-test.c already uses genisoimage to create ISO =
-images, and
->> the containers already have that tool installed. Could you maybe =
-switch the
->> biosbits test to use that tool? Or the other way round? ... at least =
-having
->> two tools to create ISO images in our containers sounds IMHO =
-excessive.
->=20
-> It looks like this series wasn't tested,
+> Like the "migration_is_setup_ot_active()".
+> 
+> Thanks
+> Chen
+> 
+>>           error_setg(errp, QERR_MIGRATION_ACTIVE);
+>>           return;
+>>       }
+>> --
+>> 2.34.1
+> 
 
-Oh I wasn=E2=80=99t sure which tests I were to run to verify this =
-because https://www.qemu.org/docs/master/devel/testing.html does not =
-mention any specific tests to run after:
-
-	=E2=80=A2 Once the merge request is accepted, go back to QEMU =
-and update the tests/lcitool/libvirt-ci submodule to point to a commit =
-that contains the mappings.yml update. Then add the prerequisite and run =
-make lcitool-refresh.
-
-Is it =E2=80=9Cmake docker-all-tests=E2=80=9D ? Maybe we can update the =
-doc. This is the first time me updating the docker images with new =
-packages and I doing not touch this infrastructure part at all.
-
-> because it doesn't even install
-> the alpine image:
->=20
-> ERROR: unable to select packages:
->  cdrkit-1.1.11-r3:
->    conflicts: xorriso-1.5.4-r2[cmd:mkisofs=3D1.1.11-r3]
->    satisfies: world[cdrkit]
->  xorriso-1.5.4-r2:
->    conflicts: cdrkit-1.1.11-r3[cmd:mkisofs=3D1.5.4-r2]
->    satisfies: world[xorriso]
->=20
->=20
-> We definitely need to have either biosbits or cdrom-test.c changed to
-> use the same tool.
-
-=46rom what I found out so far, xorriso has more fine grained options =
-and can be run with "-as mkisofs=E2=80=9D to generate the bootable iso. =
-But it requires more experimentation.=20
-
-> We can't be requiring deps that are conflicting at
-> install time.
->=20
-> With regards,
-> Daniel
-> --=20
-> |: https://berrange.com      -o-    =
-https://www.flickr.com/photos/dberrange :|
-> |: https://libvirt.org         -o-            =
-https://fstop138.berrange.com :|
-> |: https://entangle-photo.org    -o-    =
-https://www.instagram.com/dberrange :|
->=20
+-- 
+Best regards,
+Vladimir
 
 
