@@ -2,91 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CCFB66F715C
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 May 2023 19:44:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B3E26F70F4
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 May 2023 19:34:36 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pucon-0007MA-GE; Thu, 04 May 2023 13:32:37 -0400
+	id 1pucq5-0003Mw-Qv; Thu, 04 May 2023 13:33:57 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1pubDu-0007bm-IK
- for qemu-devel@nongnu.org; Thu, 04 May 2023 11:50:26 -0400
+ (Exim 4.90_1) (envelope-from <anisinha@redhat.com>)
+ id 1pubK5-0008UQ-55
+ for qemu-devel@nongnu.org; Thu, 04 May 2023 11:56:49 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1pubDs-0006nn-JQ
- for qemu-devel@nongnu.org; Thu, 04 May 2023 11:50:26 -0400
+ (Exim 4.90_1) (envelope-from <anisinha@redhat.com>)
+ id 1pubK2-00080m-Ka
+ for qemu-devel@nongnu.org; Thu, 04 May 2023 11:56:48 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1683215423;
+ s=mimecast20190719; t=1683215790;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Z/ajHZQA9u/eZFVD7GxRNFzWcFzetI3o3LvU+DGPfNM=;
- b=VHWRo8hmikHkSv6fsZ7X9KPmAzj3kLQOBO8neT84jBooG3u90SR/wd56ZqgcGBieXKWETZ
- jdm5WGB45WL/Dyo+yH2M2hmZLqdPrqregMCgS136jZuidYLFLpef0yLYQZCbEcVB+rA/uk
- CxsaN5Zz0bZEYNiPLKkWh8YnElMD8nw=
-Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
- [209.85.219.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=QN8zHA79+6v89GkoW54UVytdiZxOmEkW673w+9Z2iOc=;
+ b=QMH0688kCO2wMfTg3Tp3PbB6NyN3VD9JTcEsZcJCburwaX7IKkggKZdv/Tx17VyAjjTSkR
+ O3hbFbFwWGTpNquigzwCdxXmd9QQX0TXAXJJ5+dzpIRNZpBHsoM9CYVdkarES7JtEihO5V
+ qYkt1fG8jnA/ZN36ooUcNSBRC4MyCGw=
+Received: from mail-pf1-f200.google.com (mail-pf1-f200.google.com
+ [209.85.210.200]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-98-gkSGFVf8OC-AJhiH-tE7nA-1; Thu, 04 May 2023 11:50:21 -0400
-X-MC-Unique: gkSGFVf8OC-AJhiH-tE7nA-1
-Received: by mail-qv1-f72.google.com with SMTP id
- 6a1803df08f44-61a3c7657aeso294186d6.0
- for <qemu-devel@nongnu.org>; Thu, 04 May 2023 08:50:21 -0700 (PDT)
+ us-mta-168-Stl-a_UPMHO00CiAO1WTHA-1; Thu, 04 May 2023 11:56:29 -0400
+X-MC-Unique: Stl-a_UPMHO00CiAO1WTHA-1
+Received: by mail-pf1-f200.google.com with SMTP id
+ d2e1a72fcca58-63b6527a539so414502b3a.0
+ for <qemu-devel@nongnu.org>; Thu, 04 May 2023 08:56:29 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683215421; x=1685807421;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Z/ajHZQA9u/eZFVD7GxRNFzWcFzetI3o3LvU+DGPfNM=;
- b=YqEZtg/IsKPuhqDW4XZ4wlELtPFrjIlfvSzsspbTozKg5qyOnfDZpsSCY1qHw2rjdq
- y+pnuZsC1CzrfU/czLzGyMB7vtu7wE6azkT0RFUO+sxaYpy5Phjej2hTSMGkUp+4wSre
- RMbRs6C8xsMwnBGek2mzu3x11e3zQGWJmJZ13fs9EpdnDKFLnHf6r9zkbkUMH6kYfZf3
- eWubiJm7GHIIg3tKXbm3AF1KN+PvqBIhYVeh8+D5aLyc0eq5zv7LCgKYYsjE7BHdQfJV
- Ucg2/jNC5ayYTavegwl4D+UWS+p+tmIkR6xpELdzeqZc/UBJFagcj0+LjsJLAvK0tV/3
- kzeQ==
-X-Gm-Message-State: AC+VfDyD00PE/QsTaEYasLXDwk8dTIK8NXlDaK83Iy7DWYR/dlrhufcV
- x0mVNxAyMtzmy6jYzaRE8W7HWYez1x4yMbEZF7lkT7xqAUSXJVgeJRHp1W7NXEPumInKwtVN2Fa
- vO3+7fotpYo0qUiI=
-X-Received: by 2002:a05:6214:404:b0:5ac:325c:a28f with SMTP id
- z4-20020a056214040400b005ac325ca28fmr32013531qvx.0.1683215421335; 
- Thu, 04 May 2023 08:50:21 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ702ctUJhm7jbW/Ms8KKiSFpbrJW8M9iY2tqkgCSYZi3epjRgTiZFw8s/CXOFXuU5+DdIQHBw==
-X-Received: by 2002:a05:6214:404:b0:5ac:325c:a28f with SMTP id
- z4-20020a056214040400b005ac325ca28fmr32013496qvx.0.1683215420982; 
- Thu, 04 May 2023 08:50:20 -0700 (PDT)
-Received: from x1n (bras-base-aurron9127w-grc-40-70-52-229-124.dsl.bell.ca.
- [70.52.229.124]) by smtp.gmail.com with ESMTPSA id
- 7-20020a370307000000b0074b5219b63esm11715918qkd.121.2023.05.04.08.50.19
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 04 May 2023 08:50:20 -0700 (PDT)
-Date: Thu, 4 May 2023 11:50:17 -0400
-From: Peter Xu <peterx@redhat.com>
-To: Avihai Horon <avihaih@nvidia.com>
-Cc: qemu-devel@nongnu.org, Alex Williamson <alex.williamson@redhat.com>,
- =?utf-8?Q?C=C3=A9dric?= Le Goater <clg@redhat.com>,
- Juan Quintela <quintela@redhat.com>,
- Leonardo Bras <leobras@redhat.com>, Eric Blake <eblake@redhat.com>,
- Markus Armbruster <armbru@redhat.com>,
- Thomas Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Yishai Hadas <yishaih@nvidia.com>, Jason Gunthorpe <jgg@nvidia.com>,
- Maor Gottlieb <maorg@nvidia.com>, Kirti Wankhede <kwankhede@nvidia.com>,
- Tarun Gupta <targupta@nvidia.com>, Joao Martins <joao.m.martins@oracle.com>
-Subject: Re: [PATCH 0/8] migration: Add precopy initial data capability and
- VFIO precopy support
-Message-ID: <ZFPUOeuICJ1gehNk@x1n>
-References: <20230501140141.11743-1-avihaih@nvidia.com> <ZFGTerErJWnWHD6/@x1n>
- <72e14c81-a953-c288-c570-4987492b3569@nvidia.com>
- <ZFKCg2xnws2Smchb@x1n>
- <cd16086f-7c82-47ab-d893-b33d64f121d9@nvidia.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <cd16086f-7c82-47ab-d893-b33d64f121d9@nvidia.com>
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
+ d=1e100.net; s=20221208; t=1683215787; x=1685807787;
+ h=to:references:message-id:content-transfer-encoding:cc:date
+ :in-reply-to:from:subject:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=QN8zHA79+6v89GkoW54UVytdiZxOmEkW673w+9Z2iOc=;
+ b=fr9lGCnNAPWAoC9maGAxofJawUzNR46fgsiSd7u7oM3b00swbUK5aPEfihpqU7cVju
+ oEpfo58wzM3Dzk+dxRVAdfm2ME3/oPQhQu4fBHEpcFAJbkhRS8prYHmubogvw9B0IDfD
+ 1sl92W+qotI+uvozcFOhu80OgcsGq7OEA36F/0KvsXtaluRWSlrkG7oqm0EkUPncoVa+
+ QbpihF9tXh6Ruz5sotAq8kR7uQPNvkNsbcmuE1quADhgMI8RqP2h7M6RqzlQCIwaBrrQ
+ e+7glXZIn9FZiYZe19YaW2fCxhy8hoEDFSzXBXl82x4i1L4C0N1Eh+LGV12YU5m8TI53
+ L3sA==
+X-Gm-Message-State: AC+VfDxZs5xg/DPibeW6wCOcsX5dzpbIEmwWbMCJo4Vi57P3oJb8dPkC
+ h2dlBT/0vc7SAbw7rUM8f2S/xKaEy7Ub6Gex6nab/wu++4wNeo3XXDdW7gTsSVUcz23ilKWIcyV
+ NHowYa+J9BHLk4Qo=
+X-Received: by 2002:a05:6a00:18a1:b0:643:87fd:1f9 with SMTP id
+ x33-20020a056a0018a100b0064387fd01f9mr2548595pfh.2.1683215787564; 
+ Thu, 04 May 2023 08:56:27 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ6L5LgqD0k6Tj5s6XLXEfv0SI+odXlRvG8fesmLx0zDe690rfJH9bG0Wzz04nSRW813LNlPHA==
+X-Received: by 2002:a05:6a00:18a1:b0:643:87fd:1f9 with SMTP id
+ x33-20020a056a0018a100b0064387fd01f9mr2548575pfh.2.1683215787150; 
+ Thu, 04 May 2023 08:56:27 -0700 (PDT)
+Received: from smtpclient.apple ([115.96.136.25])
+ by smtp.gmail.com with ESMTPSA id
+ q14-20020aa7842e000000b00640dbf177b8sm19329113pfn.37.2023.05.04.08.56.24
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Thu, 04 May 2023 08:56:26 -0700 (PDT)
+Content-Type: text/plain;
+	charset=utf-8
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3696.120.41.1.3\))
+Subject: Re: [PATCH 0/2] Add mformat and xorriso dependencies in containers
+From: Ani Sinha <anisinha@redhat.com>
+In-Reply-To: <1873652a-6dac-2851-e09d-474ba9071731@redhat.com>
+Date: Thu, 4 May 2023 21:26:22 +0530
+Cc: =?utf-8?B?IkRhbmllbCBQLiBCZXJyYW5nw6ki?= <berrange@redhat.com>,
+ alex.bennee@linaro.org, philmd@linaro.org, wainersm@redhat.com,
+ bleal@redhat.com, qemu-devel@nongnu.org, mst@redhat.com
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <45CAF08B-8A52-4D2D-A0BD-2FFDCE855589@redhat.com>
+References: <20230503145547.202251-1-anisinha@redhat.com>
+ <8d7e46ec-95c0-5c4a-a843-20106576e9ba@redhat.com>
+ <ZFNmhT9Fosay1bee@redhat.com>
+ <550DF0FD-701E-408D-924B-C33ABC0BFF10@redhat.com>
+ <ZFN8YBO9MXM0qiKi@redhat.com>
+ <1873652a-6dac-2851-e09d-474ba9071731@redhat.com>
+To: Thomas Huth <thuth@redhat.com>
+X-Mailer: Apple Mail (2.3696.120.41.1.3)
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=anisinha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -22
 X-Spam_score: -2.3
@@ -110,217 +107,113 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, May 04, 2023 at 01:18:04PM +0300, Avihai Horon wrote:
-> 
-> On 03/05/2023 18:49, Peter Xu wrote:
-> > External email: Use caution opening links or attachments
-> > 
-> > 
-> > On Wed, May 03, 2023 at 06:22:59PM +0300, Avihai Horon wrote:
-> > > On 03/05/2023 1:49, Peter Xu wrote:
-> > > > External email: Use caution opening links or attachments
-> > > > 
-> > > > 
-> > > > On Mon, May 01, 2023 at 05:01:33PM +0300, Avihai Horon wrote:
-> > > > > Hello everyone,
-> > > > Hi, Avihai,
-> > > > 
-> > > > > === Flow of operation ===
-> > > > > 
-> > > > > To use precopy initial data, the capability must be enabled in the
-> > > > > source.
-> > > > > 
-> > > > > As this capability must be supported also in the destination, a
-> > > > > handshake is performed during migration setup. The purpose of the
-> > > > > handshake is to notify the destination that precopy initial data is used
-> > > > > and to check if it's supported.
-> > > > > 
-> > > > > The handshake is done in two levels. First, a general handshake is done
-> > > > > with the destination migration code to notify that precopy initial data
-> > > > > is used. Then, for each migration user in the source that supports
-> > > > > precopy initial data, a handshake is done with its counterpart in the
-> > > > > destination:
-> > > > > If both support it, precopy initial data will be used for them.
-> > > > > If source doesn't support it, precopy initial data will not be used for
-> > > > > them.
-> > > > > If source supports it and destination doesn't, migration will be failed.
-> > > > > 
-> > > > > Assuming the handshake succeeded, migration starts to send precopy data
-> > > > > and as part of it also the initial precopy data. Initial precopy data is
-> > > > > just like any other precopy data and as such, migration code is not
-> > > > > aware of it. Therefore, it's the responsibility of the migration users
-> > > > > (such as VFIO devices) to notify their counterparts in the destination
-> > > > > that their initial precopy data has been sent (for example, VFIO
-> > > > > migration does it when its initial bytes reach zero).
-> > > > > 
-> > > > > In the destination, migration code will query each migration user that
-> > > > > supports precopy initial data and check if its initial data has been
-> > > > > loaded. If initial data has been loaded by all of them, an ACK will be
-> > > > > sent to the source which will now be able to complete migration when
-> > > > > appropriate.
-> > > > I can understand why this is useful, what I'm not 100% sure is whether the
-> > > > complexity is needed.  The idea seems to be that src never switchover
-> > > > unless it receives a READY notification from dst.
-> > > > 
-> > > > I'm imaging below simplified and more general workflow, not sure whether it
-> > > > could work for you:
-> > > > 
-> > > >     - Introduce a new cap "switchover-ready", it means whether there'll be a
-> > > >       ready event sent from dst -> src for "being ready for switchover"
-> > > > 
-> > > >     - When cap set, a new msg MIG_RP_MSG_SWITCHOVER_READY is defined and
-> > > >       handled on src showing that dest is ready for switchover. It'll be sent
-> > > >       only if dest is ready for the switchover
-> > > > 
-> > > >     - Introduce a field SaveVMHandlers.explicit_switchover_needed.  For each
-> > > >       special device like vfio that would like to participate in the decision
-> > > >       making, device can set its explicit_switchover_needed=1.  This field is
-> > > >       ignored if the new cap is not set.
-> > > > 
-> > > >     - Dst qemu: when new cap set, remember how many special devices are there
-> > > >       requesting explicit switchover (count of SaveVMHandlers that has the
-> > > >       bit set during load setup) as switch_over_pending=N.
-> > > > 
-> > > >     - Dst qemu: Once a device thinks its fine to switchover (probably in the
-> > > >       load_state() callback), it calls migration_notify_switchover_ready().
-> > > >       That decreases switch_over_pending and when it hits zero, one msg
-> > > >       MIG_RP_MSG_SWITCHOVER_READY will be sent to src.
-> > > > 
-> > > > Only until READY msg received on src could src switchover the precopy to
-> > > > dst.
-> > > > 
-> > > > Then it only needs 1 more field in SaveVMHandlers rather than 3, and only 1
-> > > > more msg (dst->src).
-> > > > 
-> > > > This is based on the fact that right now we always set caps on both qemus
-> > > > so I suppose it already means either both have or don't have the feature
-> > > > (even if one has, not setting the cap means disabled on both).
-> > > > 
-> > > > Would it work for this case and cleaner?
-> > > Hi Peter, thanks for the response!
-> > > Your approach is indeed much simpler, however I have a few concerns
-> > > regarding compatibility.
-> > > 
-> > > You are saying that caps are always set both in src and dest.
-> > > But what happens if we set the cap only on one side?
-> > > Should we care about these scenarios?
-> > I think it's not needed for now, but I am aware that this is a problem.
-> > It's just that it is a more generic problem to me rather than very special
-> > in the current feature being proposed.  At least there're a few times
-> > Daniel showed concern on keeping this way and hoped we can have a better
-> > handshake in general with migration framework.
-> > 
-> > I'd be perfectly fine if you want to approach this with a handshake
-> > methodology, but I hope if so we should provide a more generic handshake.
-> > So potentially that can make this new feature rely on the handshake work,
-> > and slower to get into shape.  Your call on how to address this, at least
-> > fine by me either way.
-> 
-> I'd really like this feature to get in, and I'm afraid making it dependent
-> on first implementing a general migration handshake may take a long time,
-> like you said.
-> What about keeping current approach but changing it such that the capability
-> will have to be set in both src and dest, to make it similar to other
-> capability usages?
-> I.e., we will remove the "general" handshake:
-> 
->     /* Enable precopy initial data generally in the migration */
->     memset(&buf, 0, sizeof(buf));
->     buf.general_enable = 1;
->     qemu_savevm_command_send(f, MIG_CMD_INITIAL_DATA_ENABLE, sizeof(buf),
->                              (uint8_t *)&buf);
-> 
-> but keep the per-device handshake, which is not a handshake for migration
-> capabilities, but a part of the protocol when the capability is set, like in
-> multifd, postcopy, etc.
-> This way we can advance with this feature while making the general migration
-> handshake an independent effort.
-> Will that work for you?
 
-Yes it's fine by me.
 
-> 
-> BTW, with your suggestion to add a notification mechanism to notify when
-> initial data is loaded in dest, I think we can drop these two SaveVMHandlers
-> handlers:
->     /*
->      * Checks if precopy initial data is active. If it's inactive,
->      * initial_data_loaded check is skipped.
->      */
->     bool (*is_initial_data_active)(void *opaque);
->     /* Checks if precopy initial data has been loaded in dest */
->     bool (*initial_data_loaded)(void *opaque);
-> 
-> > In my imagination a generic handshake should happen at the very start of
-> > migration and negociate feature bits between src/dst qemu, so they can
-> > reach a consensus on what to do next.
-> > 
-> > > For example, if we set the cap only in src, then src will wait indefinitely
-> > > for dest to notify that switchover is ready.
-> > > Would you expect migration to fail instead of just keep running
-> > > indefinitely?
-> > > In current approach we only need to enable the cap in the source, so such
-> > > scenario can't happen.
-> > > 
-> > > Let's look at some other scenario.
-> > > Src QEMU supports explicit-switchover for device X but *not* for device Y
-> > > (i.e., src QEMU is some older version of QEMU that supports
-> > > explicit-switchover for device X but not for Y).
-> > > Dest QEMU supports explicit-switchover for device X and device Y.
-> > > The capability is set in both src and dest.
-> > > In the destination we will have switchover_pending=2 because both X and Y
-> > > support explicit-switchover.
-> > > We do migration, but switchover_pending will never reach 0 because only X
-> > > supports it in the source, so the migration will run indefinitely.
-> > > The per-device handshake solves this by making device Y not use
-> > > explicit-switchover in this case.
-> > Hmm, right.  When I was replying obviously I thought that decision can be
-> > made sololy by the dest qemu, then I assumed it's fine.  Because IIUC in
-> > that case how many devices that supports switchover_pending on src qemu
-> > doesn't really matter but only dest.
-> > 
-> > But I re-read the last patch and I do see that there's a new bit that will
-> > change the device protocol of migration:
-> > 
-> >    if (migration->initial_data_active && !migration->precopy_init_size &&
-> >        !migration->initial_data_sent) {
-> >        qemu_put_be64(f, VFIO_MIG_FLAG_DEV_INIT_DATA_SENT);
-> >        migration->initial_data_sent = true;
-> >    } else {
-> >        qemu_put_be64(f, VFIO_MIG_FLAG_END_OF_STATE);
-> >    }
-> > 
-> > With this, I think what you said makes sense because then the src qemu
-> > matters on deciding whether to send VFIO_MIG_FLAG_DEV_INIT_DATA_SENT, it
-> > also needs to make sure dst qemu will recognize it.
-> > 
-> > Do you think this new VFIO_MIG_FLAG_DEV_INIT_DATA_SENT is a must to have?
-> > Can this decision be made on dest qemu only?
-> > 
-> > To ask in another way, I saw that precopy_init_size is the fundation to
-> > decide whether to send this flag.  Then it's a matter of whether dest qemu
-> > is also aware of precopy_init_size, then it can already tell when it's
-> > ready to handle the switchover.
-> 
-> The destination is not aware of precopy_init_size, only the source knows it.
-> So the source must send VFIO_MIG_FLAG_DEV_INIT_DATA_SENT to notify dest that
-> the initial data was sent.
+> On 04-May-2023, at 3:43 PM, Thomas Huth <thuth@redhat.com> wrote:
+>=20
+> On 04/05/2023 11.35, Daniel P. Berrang=C3=A9 wrote:
+>> On Thu, May 04, 2023 at 02:19:21PM +0530, Ani Sinha wrote:
+>>>=20
+>>>=20
+>>>> On 04-May-2023, at 1:32 PM, Daniel P. Berrang=C3=A9 =
+<berrange@redhat.com> wrote:
+>>>>=20
+>>>> On Thu, May 04, 2023 at 08:35:53AM +0200, Thomas Huth wrote:
+>>>>> On 03/05/2023 16.55, Ani Sinha wrote:
+>>>>>> mformat and xorriso tools are needed by biosbits avocado tests. =
+This patchset
+>>>>>> adds those two tools in the docker container images.
+>>>>>=20
+>>>>> tests/qtest/cdrom-test.c already uses genisoimage to create ISO =
+images, and
+>>>>> the containers already have that tool installed. Could you maybe =
+switch the
+>>>>> biosbits test to use that tool? Or the other way round? ... at =
+least having
+>>>>> two tools to create ISO images in our containers sounds IMHO =
+excessive.
+>>>>=20
+>>>> It looks like this series wasn't tested, because it doesn't even =
+install
+>>>> the alpine image:
+>>>>=20
+>>>> ERROR: unable to select packages:
+>>>>  cdrkit-1.1.11-r3:
+>>>>    conflicts: xorriso-1.5.4-r2[cmd:mkisofs=3D1.1.11-r3]
+>>>>    satisfies: world[cdrkit]
+>>>>  xorriso-1.5.4-r2:
+>>>>    conflicts: cdrkit-1.1.11-r3[cmd:mkisofs=3D1.5.4-r2]
+>>>>    satisfies: world[xorriso]
+>>>>=20
+>>>>=20
+>>>> We definitely need to have either biosbits or cdrom-test.c changed =
+to
+>>>> use the same tool.
+>>>=20
+>>> Wait, it seems xorriso package also provides geninsoimage?
+>>>=20
+>>> xorriso-1.5.4-4.el9.x86_64 : ISO-9660 and Rock Ridge image =
+manipulation tool
+>>> Repo        : @System
+>>> Matched from:
+>>> Filename    : /usr/bin/genisoimage
+>>>=20
+>>> xorriso-1.5.4-4.el9.x86_64 : ISO-9660 and Rock Ridge image =
+manipulation tool
+>>> Repo        : rhel-9-for-x86_64-appstream-rpms
+>>> Matched from:
+>>> Filename    : /usr/bin/genisoimage
+>>>=20
+>>> $ rpm -ql  xorriso-1.5.4-4.el9.x86_64 | grep bin
+>>> /usr/bin/cdrecord
+>>> /usr/bin/genisoimage
+>>> /usr/bin/mkisofs
+>>> /usr/bin/osirrox
+>>> /usr/bin/wodim
+>>> /usr/bin/xorrecord
+>>> /usr/bin/xorriso
+>>> /usr/bin/xorriso-dd-target
+>>> /usr/bin/xorrisofs
+>> That is not the case in Fedora.  xorriso does not provide any
+>> genisoimage binary, that's provided by a 'genisoimage' RPM
+>> which was created from cdrkit src RPM.
+>> Alpine likewise has no 'genisoimage' binary provided by
+>> xorriso.
+>> For even more fun, xorriso is now a sub-RPM of the libisoburn
+>> source RPM
+>> If we could make cdrom-test  use 'mkisofs' binary then we could
+>> likely use the xorriso package on all platforms IIUC.
+>=20
+> I assume it shoul be pretty easy to replace it in crom-test.c ... =
+genisofs is a successor of the old mkisofs, so the commandd line =
+parameter should be very similar or even the same.
 
-Then, can the src qemu notify instead?
+In my RHEL 9 box, funny that cdrom-test is actually using xorriso even =
+today since genisoimage is eventually a symlink to xorriso and it works =
+just fine :
 
-We can have similar notification mechanism on src qemu and if that can work
-we can further same the other MIG_RP_MSG.  The counter counts how many
-special src devices are there and we don't switchover only if all agree.
+$ QTEST_QEMU_BINARY=3D./qemu-system-x86_64 ./tests/qtest/cdrom-test
+# random seed: R02S8027650089f37c7be48a579c1b3bdeaa
+xorriso 1.5.4 : RockRidge filesystem manipulator, libburnia project.
 
-I know that even if !precopy_init_size on src, it doesn't mean that dest
-has already digested all the data in the send buffer.  However since we'll
-anyway make sure queued data landed before switch over happens (e.g., when
-we only have 1 migration channel data are sent in sequential manner), it
-means when switchover the dst qemu should have these loaded?
+xorriso 1.5.4
+ISO 9660 Rock Ridge filesystem manipulator and CD/DVD/BD burn program
+Copyright (C) 2019, Thomas Schmitt <scdbackup@gmx.net>, libburnia =
+project.
+xorriso version   :  1.5.4
+Version timestamp :  2021.01.30.150001
+Build timestamp   :  -none-given-
+libisofs   in use :  1.5.4  (min. 1.5.4)
+libburn    in use :  1.5.4  (min. 1.5.4)
+libburn OS adapter:  internal GNU/Linux SG_IO adapter sg-linux
+libisoburn in use :  1.5.4  (min. 1.5.4)
+Provided under GNU GPL version 3 or later, due to libreadline license.
+There is NO WARRANTY, to the extent permitted by law.
+xorriso 1.5.4 : RockRidge filesystem manipulator, libburnia project.
 
-Thanks,
+> Ani, could you add a patch to your series to replace it there?
 
--- 
-Peter Xu
+Just sent the updated patch. Yes replacing genisoimage with xorrisfs is =
+good enough. Exact same arguments work just fine.=
 
 
