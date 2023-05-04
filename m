@@ -2,78 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 098146F67C8
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 May 2023 10:52:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9829C6F67DD
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 May 2023 10:59:07 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1puUgz-0003a6-5a; Thu, 04 May 2023 04:52:01 -0400
+	id 1puUnI-0004cf-A7; Thu, 04 May 2023 04:58:32 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1puUgw-0003Zq-Tw
- for qemu-devel@nongnu.org; Thu, 04 May 2023 04:51:58 -0400
-Received: from mail-ed1-x534.google.com ([2a00:1450:4864:20::534])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1puUgv-0002MG-5A
- for qemu-devel@nongnu.org; Thu, 04 May 2023 04:51:58 -0400
-Received: by mail-ed1-x534.google.com with SMTP id
- 4fb4d7f45d1cf-50be0d835aaso293238a12.3
- for <qemu-devel@nongnu.org>; Thu, 04 May 2023 01:51:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1683190315; x=1685782315;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=c8vIiLKADuDgYNo/Qc2v/rzDJ8Wu/dKJum83HSO4GvM=;
- b=SXB+VCTmXTRyIAEg7Ahxum+MoYjlRzw7GZTYGdNyFZJ/qSlfDWeEbV55MH8m+u1N1w
- 01sDqQPDsES4tAEgCqDaU/84bvbP1N8ovseauW2oi40zXYc1W4IETxSrSQEpaoU6opha
- +WaUu7QzHhFe7QTemcfmgP5vZO5O6B4oMHLBNJP56eESRpNtc2SQq1beszSg+JX/yOyF
- pBKv9igDUg5joi8yX4aeFf4p+AvSRgiLpDWhd8YGrQsImcA2qhfA9nKMDScjoKf64lqN
- vIsVLXPEeky5Q2vRXnEeHFNbbScbbrsjbzkWS5B8S7p0nl8Y3kwvOy8Kb6gtVhmOmLqu
- ghUQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683190315; x=1685782315;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=c8vIiLKADuDgYNo/Qc2v/rzDJ8Wu/dKJum83HSO4GvM=;
- b=OPkE36f8s85czx2y4A2/U5B3W7E8gkBvm9yhmvwtjyf5nvpi6/xKOaAJEMkCwHAS2k
- yhudBpQzLD9PTMzXST8BFWkrKX4HvtxZ1Eaf8FbXnD2DiyTZn2akVG2DqhSjMQo1hhw8
- Fmg05+XIf1AOTqnfwyZXj4jV9iPd0O9Bgy1oKg2Ff/DQR2a85iPzOFjDNuXtTx8bRCsD
- jSQ6BzFbBTaJsYCVLGq6q5rMwOV4T4AikaFNI47ayDpkckow4VX6yLUpbRcuZPkLQkV3
- 5qqTHTjg20cv5K02cmQ40A/6/ykoZN8mw6QGnd3MsmI9tzaqjms882AsxL4ILmDchr59
- go0w==
-X-Gm-Message-State: AC+VfDxZcnock+oT3mXjXwES2XKWDUeG5SNRdJvu2oyi/8RKsSqmcUxE
- HUmkSR+Eu1lXKw0vIbPn3/x+hmItXxisxbeWmNmqFA==
-X-Google-Smtp-Source: ACHHUZ6ftuok3JRmVW4ClKb4NMqt6vG+JSM9J81sdOl1QZZgaaw96vjMTO4YKeYtS+2nu+XXO/Hqv3ynCbFaxNcYMoY=
-X-Received: by 2002:aa7:d6c8:0:b0:50b:c397:bbba with SMTP id
- x8-20020aa7d6c8000000b0050bc397bbbamr830562edr.31.1683190310078; Thu, 04 May
- 2023 01:51:50 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1puUnG-0004cA-AP
+ for qemu-devel@nongnu.org; Thu, 04 May 2023 04:58:30 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1puUnE-0004BA-Sg
+ for qemu-devel@nongnu.org; Thu, 04 May 2023 04:58:30 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1683190707;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=+oa78KseC6zvhs77DhdK4zKcP3W3zTsG059VHkwkfSM=;
+ b=bMVERX6xA7F7QDMEwBZLqaGiK3s3PZXOo79ACBPBNLg6NX6BK4h8M+/8J7P4D/5iAqh/H9
+ dJiK1opOWoInYNrznIBVdl0R+QpK2FVG4wiWE6NvPXpO1qLZNkCKWZQEKaGK8aMVrTjolc
+ olqRyQJdd69ipEH6LWlvWJz5UEvCVb4=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-631-mO5ZqMZpOcuH5S1LgaFbkA-1; Thu, 04 May 2023 04:58:26 -0400
+X-MC-Unique: mO5ZqMZpOcuH5S1LgaFbkA-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.7])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4CE87A0F387;
+ Thu,  4 May 2023 08:58:26 +0000 (UTC)
+Received: from redhat.com (unknown [10.42.28.42])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 83CCE1410F29;
+ Thu,  4 May 2023 08:58:24 +0000 (UTC)
+Date: Thu, 4 May 2023 09:58:21 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Ani Sinha <anisinha@redhat.com>
+Cc: Thomas Huth <thuth@redhat.com>, alex.bennee@linaro.org,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ wainersm@redhat.com, bleal@redhat.com, qemu-devel@nongnu.org,
+ "Michael S. Tsirkin" <mst@redhat.com>
+Subject: Re: [PATCH 0/2] Add mformat and xorriso dependencies in containers
+Message-ID: <ZFNzrXnLAVO37LgX@redhat.com>
+References: <20230503145547.202251-1-anisinha@redhat.com>
+ <8d7e46ec-95c0-5c4a-a843-20106576e9ba@redhat.com>
+ <602A585B-01D1-4140-899F-F7E3A5045E47@redhat.com>
 MIME-Version: 1.0
-References: <20230503203947.3417-1-farosas@suse.de>
- <20230503203947.3417-3-farosas@suse.de>
-In-Reply-To: <20230503203947.3417-3-farosas@suse.de>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 4 May 2023 09:51:39 +0100
-Message-ID: <CAFEAcA-QU0qs=P8GLPcngt96TiOHQTaRUnuyfadyut=fo5ymwA@mail.gmail.com>
-Subject: Re: [PATCH v4 2/2] meson: Deserialize the man pages and html builds
-To: Fabiano Rosas <farosas@suse.de>
-Cc: qemu-devel@nongnu.org,
- =?UTF-8?Q?Daniel_P_=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>, 
- Thomas Huth <thuth@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::534;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x534.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <602A585B-01D1-4140-899F-F7E3A5045E47@redhat.com>
+User-Agent: Mutt/2.2.9 (2022-11-12)
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -22
+X-Spam_score: -2.3
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.161,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -86,41 +80,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, 3 May 2023 at 21:39, Fabiano Rosas <farosas@suse.de> wrote:
->
-> For the documentation builds (man pages & manual), we let Sphinx
-> decide when to rebuild and use a depfile to know when to trigger the
-> make target.
->
-> We currently use a trick of having the man pages custom_target take as
-> input the html pages custom_target object, which causes both targets
-> to be executed if one of the dependencies has changed. However, having
-> this at the custom_target level means that the two builds are
-> effectively serialized.
->
-> We can eliminate the dependency between the targets by adding a second
-> depfile for the man pages build, allowing them to be parallelized by
-> ninja while keeping sphinx in charge of deciding when to rebuild.
->
-> Since they can now run in parallel, separate the Sphinx cache
-> directory of the two builds. We need this not only for data
-> consistency but also because Sphinx writes builder-dependent
-> environment information to the cache directory (see notes under
-> smartquotes_excludes in sphinx docs [1]).
+On Thu, May 04, 2023 at 12:40:12PM +0530, Ani Sinha wrote:
+> 
+> 
+> > On 04-May-2023, at 12:05 PM, Thomas Huth <thuth@redhat.com> wrote:
+> > 
+> > On 03/05/2023 16.55, Ani Sinha wrote:
+> >> mformat and xorriso tools are needed by biosbits avocado tests. This patchset
+> >> adds those two tools in the docker container images.
+> > 
+> > tests/qtest/cdrom-test.c already uses genisoimage to create ISO images, and the containers already have that tool installed. Could you maybe switch the biosbits test to use that tool? Or the other way round? ... at least having two tools to create ISO images in our containers sounds IMHO excessive.
+> 
+> The dependency comes from the use of grub-mkrescue in the avocado
+> test in order to generate the iso with the bios bits enabled grub
+> and boot off with it. Grub-mkrescue is a bash script that uses
+> mformat and xorriso.
 
-The sphinx-build manpage disagrees about that last part.
-https://www.sphinx-doc.org/en/master/man/sphinx-build.html
-says about -d:
-"with this option you can select a different cache directory
- (the doctrees can be shared between all builders)"
+Where does grub-mkrescue come from ?  IIUC, we don't have a dep
+on the grub package in our dockerfiles.
 
-If we don't share the cache directory, presumably Sphinx
-now ends up parsing all the input files twice, once per
-builder, rather than being able to share them?
+With regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
-thanks
--- PMM
 
