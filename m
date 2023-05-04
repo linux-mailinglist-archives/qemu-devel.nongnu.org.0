@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC3CF6F716F
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 May 2023 19:47:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2CC026F70E8
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 May 2023 19:33:18 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pucou-0007vE-Ip; Thu, 04 May 2023 13:32:44 -0400
+	id 1pucoo-0007QL-EJ; Thu, 04 May 2023 13:32:38 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1puc9U-0004qd-T9
- for qemu-devel@nongnu.org; Thu, 04 May 2023 12:49:57 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ id 1pucA9-0004y3-3V
+ for qemu-devel@nongnu.org; Thu, 04 May 2023 12:50:37 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1puc9T-0007Je-DO
- for qemu-devel@nongnu.org; Thu, 04 May 2023 12:49:56 -0400
+ id 1pucA3-0007q1-PY
+ for qemu-devel@nongnu.org; Thu, 04 May 2023 12:50:36 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1683218994;
+ s=mimecast20190719; t=1683219029;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=tKrGg4tJzn4sfrTY8B0FgsJhI96UCkrbwR4dgtjGXgw=;
- b=hwSwd1D3rVGiTZ/cn+pYNZppimLTFpEwvAawdLDg+DFOOuK2jQFP283uT7tPn1n7L8b/8F
- M5jE0A7FhZVtAxoUBGFeqFqbWVFZMCMRyvRRKj0OJftGF9IscHinNjO66WOY38iQai//fm
- QdBErKn6jp58I6ASjK4gt0veF/pw8Ss=
+ bh=YhyMsOwc3f+ysZOE15HwD/Iojcj7Pm7ojlspwJxc6/Q=;
+ b=WRlSYVYMCvPimUANz9+dyw+nZJoi0GODjplgWJdzmrCi0jKiKuqZ7QFx49bfHt/sLuPU8e
+ BlhmyeMYXe6Y/ba5tewKJmwpe+vk1he+AAp+6hug8bu47LNOVV74UzZjTfGhjzasS8pIHE
+ L822nJRLx1KA+06Zi5j/oOLcf7CXvBc=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-499-ughPh8eOMYersWqGC6P-Fg-1; Thu, 04 May 2023 12:49:53 -0400
-X-MC-Unique: ughPh8eOMYersWqGC6P-Fg-1
+ us-mta-278-8nDeOSPJPoKD8OUV1Sz5XQ-1; Thu, 04 May 2023 12:50:26 -0400
+X-MC-Unique: 8nDeOSPJPoKD8OUV1Sz5XQ-1
 Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
  [10.11.54.10])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E0F50101A531;
- Thu,  4 May 2023 16:49:52 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 63B00101A550;
+ Thu,  4 May 2023 16:50:26 +0000 (UTC)
 Received: from redhat.com (unknown [10.42.28.42])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id BC295492C3E;
- Thu,  4 May 2023 16:49:51 +0000 (UTC)
-Date: Thu, 4 May 2023 17:49:49 +0100
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 1CF64492C3E;
+ Thu,  4 May 2023 16:50:24 +0000 (UTC)
+Date: Thu, 4 May 2023 17:50:20 +0100
 From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 To: Juan Quintela <quintela@redhat.com>
 Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org,
  Stefan Hajnoczi <stefanha@redhat.com>,
  Leonardo Bras <leobras@redhat.com>, Fam Zheng <fam@euphon.net>,
  Peter Xu <peterx@redhat.com>
-Subject: Re: [PATCH 2/9] migration: qemu_file_total_transferred() function is
- monotonic
-Message-ID: <ZFPiLVevbMB+OM5J@redhat.com>
+Subject: Re: [PATCH 3/9] qemu-file: make qemu_file_[sg]et_rate_limit() use an
+ uint64_t
+Message-ID: <ZFPiTM38Cpjk07vg@redhat.com>
 References: <20230504113841.23130-1-quintela@redhat.com>
- <20230504113841.23130-3-quintela@redhat.com>
+ <20230504113841.23130-4-quintela@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230504113841.23130-3-quintela@redhat.com>
+In-Reply-To: <20230504113841.23130-4-quintela@redhat.com>
 User-Agent: Mutt/2.2.9 (2022-11-12)
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -22
 X-Spam_score: -2.3
@@ -87,13 +87,16 @@ Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, May 04, 2023 at 01:38:34PM +0200, Juan Quintela wrote:
-> So delta_bytes can only be greater or equal to zero.  Never negative.
+On Thu, May 04, 2023 at 01:38:35PM +0200, Juan Quintela wrote:
+> It is really size_t.  Everything else uses uint64_t, so move this to
+> uint64_t as well.  A size can't be negative anyways.
 > 
 > Signed-off-by: Juan Quintela <quintela@redhat.com>
 > ---
->  migration/block.c | 8 +-------
->  1 file changed, 1 insertion(+), 7 deletions(-)
+>  migration/migration.c | 6 +++---
+>  migration/qemu-file.c | 8 ++++----
+>  migration/qemu-file.h | 4 ++--
+>  3 files changed, 9 insertions(+), 9 deletions(-)
 
 Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 
