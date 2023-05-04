@@ -2,80 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9ED036F7181
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 May 2023 19:50:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 19B3E6F7165
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 May 2023 19:45:10 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pucoU-000785-R3; Thu, 04 May 2023 13:32:18 -0400
+	id 1pucoV-00078z-Km; Thu, 04 May 2023 13:32:19 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1puaBP-0000JU-Gm
- for qemu-devel@nongnu.org; Thu, 04 May 2023 10:43:47 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1puaDP-0000YY-H3
+ for qemu-devel@nongnu.org; Thu, 04 May 2023 10:45:51 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1puaBN-0004Kx-W7
- for qemu-devel@nongnu.org; Thu, 04 May 2023 10:43:47 -0400
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1puaDO-0004nb-2t
+ for qemu-devel@nongnu.org; Thu, 04 May 2023 10:45:51 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1683211424;
+ s=mimecast20190719; t=1683211549;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=JF8Ke4n1Zn7eZ87CIdotqQX9hJOYkAVIQGjWjalqiZs=;
- b=abxILYZks2pdLdxxs2QLfrwkFO6b0Rzjy6+CQphFY7wZHXWPFv53nZd4Nt945aloP2YUD1
- kEQHo5d58MtB2Y93VwR7P9NyQshyMXMIBFOyEjFKEAGHZkyADKcdSz6aOfUNH5KlUckygS
- kGo3+M1WwxD+ZZ8+h10hhIyiZz2L3i4=
-Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
- [209.85.222.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=0NvICj7ilUAhFYlBDvg9fXmfxXZyvAVjlCjWLyvNqTY=;
+ b=QuhSVpq8zu/8MlJiGm3bShNJtmVu33gQF5MEcK7qV4NPpo3KV24Mgcw5BD7OfFpUoNLUMN
+ fogujkfpjjhC9gitvdyquvyDvjyg8PNvde+qduwInc8a7c004J1mM8Gn0mPAiJSqcvuKRF
+ J2uTjJnngDbpuhkKX2+IIMh6crYwBQQ=
+Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
+ [209.85.160.199]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-8-NUNHphM2Orq02YX9ysapQg-1; Thu, 04 May 2023 10:43:42 -0400
-X-MC-Unique: NUNHphM2Orq02YX9ysapQg-1
-Received: by mail-qk1-f197.google.com with SMTP id
- af79cd13be357-74e0dd4e504so1099585a.0
- for <qemu-devel@nongnu.org>; Thu, 04 May 2023 07:43:42 -0700 (PDT)
+ us-mta-139-cqRVdFkmNX-ctj15I5OEzA-1; Thu, 04 May 2023 10:45:46 -0400
+X-MC-Unique: cqRVdFkmNX-ctj15I5OEzA-1
+Received: by mail-qt1-f199.google.com with SMTP id
+ d75a77b69052e-3edbe09ba35so265941cf.1
+ for <qemu-devel@nongnu.org>; Thu, 04 May 2023 07:45:46 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683211422; x=1685803422;
+ d=1e100.net; s=20221208; t=1683211545; x=1685803545;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=JF8Ke4n1Zn7eZ87CIdotqQX9hJOYkAVIQGjWjalqiZs=;
- b=OavQqh3VsRCqHCwHgr+p7cbfruK7aAEkzrb+OXcs/m5GVd1Ty8i0XhdYOLrheLf2P7
- eJNp0LQk4rgR7oesKwzW1YjzjEN3iv+m31Psk0kyFj9FSyeLtw0gvXg+187IOjxPiEFr
- 0OqvCxcG0iZVG429mFzjNUZX/DfFyvkb8/HLNQIbdZGWwe7kcOmQ79Iotbo1NVplPaM/
- HFUEqmP0c0hm2He/LZq/EujRGLkO/bHLLjlavfe+aYgRxRxm9/NE943Ra5T6vXdk4KJ0
- F473cGbks62OTuETc1wYXuxRRPHK1ft15FmVFa+1itOh4NyczgCHq74/JVuIsGmjEsJA
- ZuqA==
-X-Gm-Message-State: AC+VfDwDENpUTuYcAcbODz1h3OmUyc1DD/3zeSoRDES357q+MmieM3/m
- qBUyu6mqgDv8aXGmYH3+sDIak+TrlIxOtbRYeKAqigyzi0IbFti5EXNKNgLgCAl41eZQN5jF9an
- DiXqvphuvLiK/ASc=
-X-Received: by 2002:a05:622a:c1:b0:3c0:40c3:b8fd with SMTP id
- p1-20020a05622a00c100b003c040c3b8fdmr16031571qtw.6.1683211422402; 
- Thu, 04 May 2023 07:43:42 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ5/7wnkwT7WX7rrIUEnu2mi3MuNnrfO21uoXmG7RphU4D6paoBdPQwRiRMXCXG+hr0m4Wf9ew==
-X-Received: by 2002:a05:622a:c1:b0:3c0:40c3:b8fd with SMTP id
- p1-20020a05622a00c100b003c040c3b8fdmr16031547qtw.6.1683211422152; 
- Thu, 04 May 2023 07:43:42 -0700 (PDT)
+ bh=0NvICj7ilUAhFYlBDvg9fXmfxXZyvAVjlCjWLyvNqTY=;
+ b=g7IRmOabc90RriWIOIjDFlzrMsKjz+jjUedL/fVoRMNl6WxmY7jxWWehgi6gXlQ3r4
+ sE5I7b6oMBNDG1BHJhI4v9gwMBbKM+rv/IuoF1ZJbOPKxbGHuaMlcA8OKmS0v21PdJ/X
+ 836JgZsxZMW2gHyqFO373itC33FMHJmDZwdXsyVymprCQlYO1XlEC9mTO0hm1olQsHI4
+ MV5zKJQ1PzTuttlNjyK3N3d3gv/FZeuC3U5HSsaoZjuP7fPslGtAzymtRiWnkTIosaOM
+ QaC+1yvZiZ8126GMLXmdnCNvv69HLb9dFxiDYFoT4tXkQr22OIsoYGUO1KRJPWxsPTMW
+ U51Q==
+X-Gm-Message-State: AC+VfDzO8FL8HarSYfunb2eeBoU7b16+0sxQYjEK9qFPkqfKcze4PfAc
+ kYUbRugzAcQdteTjZ9hHU1EzDKRT8A1CBKFxD63UHOL3loPFgfcdMZrabI1fgK187HZz/eebCdU
+ fRnr2sU+BcrLim0s=
+X-Received: by 2002:a05:622a:1819:b0:3ef:168:7833 with SMTP id
+ t25-20020a05622a181900b003ef01687833mr15197826qtc.5.1683211545658; 
+ Thu, 04 May 2023 07:45:45 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ6ntjrADwzvqj3gSU2vQdYgWbrPWBN7fBZ9lKfIRHJii/dliSn5mPOnX9IP+COaYwhXpYOdfw==
+X-Received: by 2002:a05:622a:1819:b0:3ef:168:7833 with SMTP id
+ t25-20020a05622a181900b003ef01687833mr15197793qtc.5.1683211545351; 
+ Thu, 04 May 2023 07:45:45 -0700 (PDT)
 Received: from x1n (bras-base-aurron9127w-grc-40-70-52-229-124.dsl.bell.ca.
  [70.52.229.124]) by smtp.gmail.com with ESMTPSA id
- a19-20020ac85b93000000b003e1cf472b17sm12432883qta.97.2023.05.04.07.43.40
+ dt9-20020a05620a478900b0074df7857e72sm11547641qkb.34.2023.05.04.07.45.44
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 04 May 2023 07:43:41 -0700 (PDT)
-Date: Thu, 4 May 2023 10:43:35 -0400
+ Thu, 04 May 2023 07:45:44 -0700 (PDT)
+Date: Thu, 4 May 2023 10:45:43 -0400
 From: Peter Xu <peterx@redhat.com>
 To: Juan Quintela <quintela@redhat.com>
 Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org,
  Stefan Hajnoczi <stefanha@redhat.com>,
  Leonardo Bras <leobras@redhat.com>, Fam Zheng <fam@euphon.net>
-Subject: Re: [PATCH 9/9] qemu-file: Account for rate_limit usage on
- qemu_fflush()
-Message-ID: <ZFPElx61bhgRf87L@x1n>
+Subject: Re: [PATCH 0/9] QEMU file cleanups
+Message-ID: <ZFPFF4MB1j5wNnxe@x1n>
 References: <20230504113841.23130-1-quintela@redhat.com>
- <20230504113841.23130-10-quintela@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20230504113841.23130-10-quintela@redhat.com>
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
+In-Reply-To: <20230504113841.23130-1-quintela@redhat.com>
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -22
 X-Spam_score: -2.3
@@ -100,24 +98,22 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, May 04, 2023 at 01:38:41PM +0200, Juan Quintela wrote:
-> That is the moment we know we have transferred something.
-> 
-> Signed-off-by: Juan Quintela <quintela@redhat.com>
+On Thu, May 04, 2023 at 01:38:32PM +0200, Juan Quintela wrote:
+> - convince and review code to see that everything is uint64_t.
 
-There'll be a slight side effect that qemu_file_rate_limit() can be
-triggered later than before because data cached in the qemufile won't be
-accounted until flushed.
+One general question to patches regarding this - what's the major benefit
+of using uint64_t?
 
-Two limits here:
+It doubles the possible numbers to hold, but it's already 64bits so I don't
+think it matters a lot.  The thing is we're removing some code trying to
+detect negative which seems to be still helpful to detect e.g. overflows
+(even though I don't think it'll happen).  I just still think it's good to
+know when overflow happens, and not sure what I missed on benefits of using
+unsigned here.
 
-- IO_BUF_SIZE==32K, the real buffer
-- MAX_IOV_SIZE==64 (I think), the async buffer to put guest page ptrs
-  directly, on x86 it's 64*4K=256K
+I've reviewed all the rest patches and all look good here.
 
-So the impact should be no more than 288KB on x86.  Looks still fine..
-
-Reviewed-by: Peter Xu <peterx@redhat.com>
+Thanks,
 
 -- 
 Peter Xu
