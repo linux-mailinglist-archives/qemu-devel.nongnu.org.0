@@ -2,93 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9151B6F67C6
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 May 2023 10:50:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 098146F67C8
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 May 2023 10:52:26 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1puUeb-0002O4-KA; Thu, 04 May 2023 04:49:33 -0400
+	id 1puUgz-0003a6-5a; Thu, 04 May 2023 04:52:01 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <anisinha@redhat.com>)
- id 1puUeZ-0002Nv-6d
- for qemu-devel@nongnu.org; Thu, 04 May 2023 04:49:31 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <anisinha@redhat.com>)
- id 1puUeX-0006gW-F0
- for qemu-devel@nongnu.org; Thu, 04 May 2023 04:49:30 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1683190168;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=htEUoH+5lnl6ejMPMq5/cLoCz2Tf4PuSGcGsktFseiE=;
- b=hKEniu3QpOCOfrqZpHscg1iEdCx5NV1pnYnp1HtXlxag1p9szF05VpZxTzWNz+gNjsHblI
- 1UJW1apQgi+EqBiQoR2tBmIbRklaXRFpBk+9trc4NpmtakrJYTeW+xI7Mg0loTv0CptEoC
- 4gcI9WX2mbmW7C/XX/jVUWbC3asZAyM=
-Received: from mail-pl1-f197.google.com (mail-pl1-f197.google.com
- [209.85.214.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-275-qm0Y3ARsPjeepF1wYnKyMw-1; Thu, 04 May 2023 04:49:27 -0400
-X-MC-Unique: qm0Y3ARsPjeepF1wYnKyMw-1
-Received: by mail-pl1-f197.google.com with SMTP id
- d9443c01a7336-1aafb2766e0so749505ad.3
- for <qemu-devel@nongnu.org>; Thu, 04 May 2023 01:49:27 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1puUgw-0003Zq-Tw
+ for qemu-devel@nongnu.org; Thu, 04 May 2023 04:51:58 -0400
+Received: from mail-ed1-x534.google.com ([2a00:1450:4864:20::534])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1puUgv-0002MG-5A
+ for qemu-devel@nongnu.org; Thu, 04 May 2023 04:51:58 -0400
+Received: by mail-ed1-x534.google.com with SMTP id
+ 4fb4d7f45d1cf-50be0d835aaso293238a12.3
+ for <qemu-devel@nongnu.org>; Thu, 04 May 2023 01:51:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1683190315; x=1685782315;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=c8vIiLKADuDgYNo/Qc2v/rzDJ8Wu/dKJum83HSO4GvM=;
+ b=SXB+VCTmXTRyIAEg7Ahxum+MoYjlRzw7GZTYGdNyFZJ/qSlfDWeEbV55MH8m+u1N1w
+ 01sDqQPDsES4tAEgCqDaU/84bvbP1N8ovseauW2oi40zXYc1W4IETxSrSQEpaoU6opha
+ +WaUu7QzHhFe7QTemcfmgP5vZO5O6B4oMHLBNJP56eESRpNtc2SQq1beszSg+JX/yOyF
+ pBKv9igDUg5joi8yX4aeFf4p+AvSRgiLpDWhd8YGrQsImcA2qhfA9nKMDScjoKf64lqN
+ vIsVLXPEeky5Q2vRXnEeHFNbbScbbrsjbzkWS5B8S7p0nl8Y3kwvOy8Kb6gtVhmOmLqu
+ ghUQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683190166; x=1685782166;
- h=to:references:message-id:content-transfer-encoding:cc:date
- :in-reply-to:from:subject:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=htEUoH+5lnl6ejMPMq5/cLoCz2Tf4PuSGcGsktFseiE=;
- b=dA/DJbP3HqC/f6eqN5rveVfEsg+rgAKrqDZsBS0dEcQhezXPqh/E/qJOZikui1/AZp
- EXJylVRq9FFMHtzhiyTc9kcxkIiB8WDkso8Bekg+npNczQvYgqf20ugXfd6Eopo3XHgj
- opr8FWMh7wnEdpEQD0nDHfME7n+deu9G/wp8MMybNsF7djd41d25mJRIx8A/9uK2nLAe
- dzQY/n5rgyyvXG4mC/CXFE3065zTL+yqV9AzdQnpBHnVNVBMUfojrw982i805hOtlfLY
- SsMAYdV7SUu09aU7I9wA8lb3AvNkc128xqcYc1vGLEnfMSYbwJNLVXJ4b9V9uPfz4PHh
- nMzw==
-X-Gm-Message-State: AC+VfDy43tpRLXhP8HARdVkYebqD1+gL9NH8DPfi41pvSKBi/2bcNZZv
- GnOTy+OqtaAvjeRLPlhcvsVo1ViXew94jlAo4XtT0SdO16KHw+gZTXx9gIWZzvrEWCRXDvx3SZP
- vZkVkd7OAkpl4YZsxjyGcHBg=
-X-Received: by 2002:a17:902:da8c:b0:1a6:3b9c:7fea with SMTP id
- j12-20020a170902da8c00b001a63b9c7feamr3691681plx.36.1683190166353; 
- Thu, 04 May 2023 01:49:26 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ6CU7/TVQCXWARlFwIzqjoqgB0sCi8dC4F+8CMRH6zngREfWDtNjRSZanAcQbZGJJOAT7lz7w==
-X-Received: by 2002:a17:902:da8c:b0:1a6:3b9c:7fea with SMTP id
- j12-20020a170902da8c00b001a63b9c7feamr3691665plx.36.1683190166062; 
- Thu, 04 May 2023 01:49:26 -0700 (PDT)
-Received: from smtpclient.apple ([115.96.136.25])
- by smtp.gmail.com with ESMTPSA id
- p5-20020a1709028a8500b001ab0d815dbbsm4526989plo.23.2023.05.04.01.49.23
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Thu, 04 May 2023 01:49:25 -0700 (PDT)
-Content-Type: text/plain;
-	charset=utf-8
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3696.120.41.1.3\))
-Subject: Re: [PATCH 0/2] Add mformat and xorriso dependencies in containers
-From: Ani Sinha <anisinha@redhat.com>
-In-Reply-To: <ZFNmhT9Fosay1bee@redhat.com>
-Date: Thu, 4 May 2023 14:19:21 +0530
-Cc: Thomas Huth <thuth@redhat.com>, alex.bennee@linaro.org, philmd@linaro.org,
- wainersm@redhat.com, bleal@redhat.com, qemu-devel@nongnu.org,
- mst@redhat.com
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <550DF0FD-701E-408D-924B-C33ABC0BFF10@redhat.com>
-References: <20230503145547.202251-1-anisinha@redhat.com>
- <8d7e46ec-95c0-5c4a-a843-20106576e9ba@redhat.com>
- <ZFNmhT9Fosay1bee@redhat.com>
-To: =?utf-8?B?IkRhbmllbCBQLiBCZXJyYW5nw6ki?= <berrange@redhat.com>
-X-Mailer: Apple Mail (2.3696.120.41.1.3)
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=anisinha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -22
-X-Spam_score: -2.3
+ d=1e100.net; s=20221208; t=1683190315; x=1685782315;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=c8vIiLKADuDgYNo/Qc2v/rzDJ8Wu/dKJum83HSO4GvM=;
+ b=OPkE36f8s85czx2y4A2/U5B3W7E8gkBvm9yhmvwtjyf5nvpi6/xKOaAJEMkCwHAS2k
+ yhudBpQzLD9PTMzXST8BFWkrKX4HvtxZ1Eaf8FbXnD2DiyTZn2akVG2DqhSjMQo1hhw8
+ Fmg05+XIf1AOTqnfwyZXj4jV9iPd0O9Bgy1oKg2Ff/DQR2a85iPzOFjDNuXtTx8bRCsD
+ jSQ6BzFbBTaJsYCVLGq6q5rMwOV4T4AikaFNI47ayDpkckow4VX6yLUpbRcuZPkLQkV3
+ 5qqTHTjg20cv5K02cmQ40A/6/ykoZN8mw6QGnd3MsmI9tzaqjms882AsxL4ILmDchr59
+ go0w==
+X-Gm-Message-State: AC+VfDxZcnock+oT3mXjXwES2XKWDUeG5SNRdJvu2oyi/8RKsSqmcUxE
+ HUmkSR+Eu1lXKw0vIbPn3/x+hmItXxisxbeWmNmqFA==
+X-Google-Smtp-Source: ACHHUZ6ftuok3JRmVW4ClKb4NMqt6vG+JSM9J81sdOl1QZZgaaw96vjMTO4YKeYtS+2nu+XXO/Hqv3ynCbFaxNcYMoY=
+X-Received: by 2002:aa7:d6c8:0:b0:50b:c397:bbba with SMTP id
+ x8-20020aa7d6c8000000b0050bc397bbbamr830562edr.31.1683190310078; Thu, 04 May
+ 2023 01:51:50 -0700 (PDT)
+MIME-Version: 1.0
+References: <20230503203947.3417-1-farosas@suse.de>
+ <20230503203947.3417-3-farosas@suse.de>
+In-Reply-To: <20230503203947.3417-3-farosas@suse.de>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 4 May 2023 09:51:39 +0100
+Message-ID: <CAFEAcA-QU0qs=P8GLPcngt96TiOHQTaRUnuyfadyut=fo5ymwA@mail.gmail.com>
+Subject: Re: [PATCH v4 2/2] meson: Deserialize the man pages and html builds
+To: Fabiano Rosas <farosas@suse.de>
+Cc: qemu-devel@nongnu.org,
+ =?UTF-8?Q?Daniel_P_=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>, 
+ Thomas Huth <thuth@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::534;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x534.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.161,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -104,81 +89,38 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On Wed, 3 May 2023 at 21:39, Fabiano Rosas <farosas@suse.de> wrote:
+>
+> For the documentation builds (man pages & manual), we let Sphinx
+> decide when to rebuild and use a depfile to know when to trigger the
+> make target.
+>
+> We currently use a trick of having the man pages custom_target take as
+> input the html pages custom_target object, which causes both targets
+> to be executed if one of the dependencies has changed. However, having
+> this at the custom_target level means that the two builds are
+> effectively serialized.
+>
+> We can eliminate the dependency between the targets by adding a second
+> depfile for the man pages build, allowing them to be parallelized by
+> ninja while keeping sphinx in charge of deciding when to rebuild.
+>
+> Since they can now run in parallel, separate the Sphinx cache
+> directory of the two builds. We need this not only for data
+> consistency but also because Sphinx writes builder-dependent
+> environment information to the cache directory (see notes under
+> smartquotes_excludes in sphinx docs [1]).
 
+The sphinx-build manpage disagrees about that last part.
+https://www.sphinx-doc.org/en/master/man/sphinx-build.html
+says about -d:
+"with this option you can select a different cache directory
+ (the doctrees can be shared between all builders)"
 
-> On 04-May-2023, at 1:32 PM, Daniel P. Berrang=C3=A9 =
-<berrange@redhat.com> wrote:
->=20
-> On Thu, May 04, 2023 at 08:35:53AM +0200, Thomas Huth wrote:
->> On 03/05/2023 16.55, Ani Sinha wrote:
->>> mformat and xorriso tools are needed by biosbits avocado tests. This =
-patchset
->>> adds those two tools in the docker container images.
->>=20
->> tests/qtest/cdrom-test.c already uses genisoimage to create ISO =
-images, and
->> the containers already have that tool installed. Could you maybe =
-switch the
->> biosbits test to use that tool? Or the other way round? ... at least =
-having
->> two tools to create ISO images in our containers sounds IMHO =
-excessive.
->=20
-> It looks like this series wasn't tested, because it doesn't even =
-install
-> the alpine image:
->=20
-> ERROR: unable to select packages:
->  cdrkit-1.1.11-r3:
->    conflicts: xorriso-1.5.4-r2[cmd:mkisofs=3D1.1.11-r3]
->    satisfies: world[cdrkit]
->  xorriso-1.5.4-r2:
->    conflicts: cdrkit-1.1.11-r3[cmd:mkisofs=3D1.5.4-r2]
->    satisfies: world[xorriso]
->=20
->=20
-> We definitely need to have either biosbits or cdrom-test.c changed to
-> use the same tool.
+If we don't share the cache directory, presumably Sphinx
+now ends up parsing all the input files twice, once per
+builder, rather than being able to share them?
 
-Wait, it seems xorriso package also provides geninsoimage?
-
-xorriso-1.5.4-4.el9.x86_64 : ISO-9660 and Rock Ridge image manipulation =
-tool
-Repo        : @System
-Matched from:
-Filename    : /usr/bin/genisoimage
-
-xorriso-1.5.4-4.el9.x86_64 : ISO-9660 and Rock Ridge image manipulation =
-tool
-Repo        : rhel-9-for-x86_64-appstream-rpms
-Matched from:
-Filename    : /usr/bin/genisoimage
-
-$ rpm -ql  xorriso-1.5.4-4.el9.x86_64 | grep bin
-/usr/bin/cdrecord
-/usr/bin/genisoimage
-/usr/bin/mkisofs
-/usr/bin/osirrox
-/usr/bin/wodim
-/usr/bin/xorrecord
-/usr/bin/xorriso
-/usr/bin/xorriso-dd-target
-/usr/bin/xorrisofs
-
-
-
-> We can't be requiring deps that are conflicting at
-> install time.
->=20
-> With regards,
-> Daniel
-> --=20
-> |: https://berrange.com      -o-    =
-https://www.flickr.com/photos/dberrange :|
-> |: https://libvirt.org         -o-            =
-https://fstop138.berrange.com :|
-> |: https://entangle-photo.org    -o-    =
-https://www.instagram.com/dberrange :|
->=20
-
+thanks
+-- PMM
 
