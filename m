@@ -2,60 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9AC666F7143
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 May 2023 19:41:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A9F66F7127
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 May 2023 19:37:12 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pucoN-0006yi-Ob; Thu, 04 May 2023 13:32:11 -0400
+	id 1pucoH-0006xY-K3; Thu, 04 May 2023 13:32:06 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1puYpp-00060y-Vd
- for qemu-devel@nongnu.org; Thu, 04 May 2023 09:17:25 -0400
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1puYtz-0006Od-9T
+ for qemu-devel@nongnu.org; Thu, 04 May 2023 09:21:43 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1puYpo-0003yf-DZ
- for qemu-devel@nongnu.org; Thu, 04 May 2023 09:17:25 -0400
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1puYtx-0006sr-Tn
+ for qemu-devel@nongnu.org; Thu, 04 May 2023 09:21:43 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1683206243;
+ s=mimecast20190719; t=1683206501;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=7aFpYmcuATl1gAOaNXAYWy0wCpW9ro2vd1/p/OnTR7M=;
- b=cwWabDHV7XOznOEu+rmxzzacLxgt8WBJiXgBnopO4A2uNk4iK9hcxOieD02jbjXxl45ZTb
- W0Sb9aR/HknTxVCsQ5Rs3uNs8bWlqwvfwMJp5QUBaZ+XexETWKoevw3kdL+lvNvm8/KOFu
- 6LhzQGj/4ixgmcT54BIyMO4Kt6eQZ3Y=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-47-XLhfm-5MMFO8-CY14BWoXg-1; Thu, 04 May 2023 09:17:20 -0400
-X-MC-Unique: XLhfm-5MMFO8-CY14BWoXg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C6A0E2999B34;
- Thu,  4 May 2023 13:17:19 +0000 (UTC)
-Received: from redhat.com (unknown [10.2.16.118])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 36E7540C94A9;
- Thu,  4 May 2023 13:17:19 +0000 (UTC)
-Date: Thu, 4 May 2023 08:17:17 -0500
-From: Eric Blake <eblake@redhat.com>
-To: Kevin Wolf <kwolf@redhat.com>
-Cc: qemu-block@nongnu.org, stefanha@redhat.com, eesposit@redhat.com, 
- pbonzini@redhat.com, qemu-devel@nongnu.org
-Subject: Re: [PATCH v2 12/20] mirror: Require GRAPH_RDLOCK for accessing a
- node's parent list
-Message-ID: <vvrehglysx4vfeuusciyfamfshz54u3dqhqb3cnenjzalysiqi@ekx46ms77hv7>
-References: <20230504115750.54437-1-kwolf@redhat.com>
- <20230504115750.54437-13-kwolf@redhat.com>
+ bh=cyh9GNwkSeiWX8VVWJet6cmrStrv1Y1BhHYKMAKCy08=;
+ b=Qw195BOvGD9tengc7/QORCaoSCN5l9LrcrhN4Jw0iSjHMhw7imj8q4aF2TIEifHBxZQeNM
+ mayzkUbzHnRmTz42ovfsGAZUnZTBKJxafdORa9Uz4Eco9uslh2zyc5EeHJRZv0bO6/cLzK
+ UkwznC97BQ1+1RKW+dQp3d1Qex0OMic=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-427-IG8EGK1nMeSx5WiaH4eRXQ-1; Thu, 04 May 2023 09:21:39 -0400
+X-MC-Unique: IG8EGK1nMeSx5WiaH4eRXQ-1
+Received: by mail-ed1-f69.google.com with SMTP id
+ 4fb4d7f45d1cf-506beab6a73so497042a12.1
+ for <qemu-devel@nongnu.org>; Thu, 04 May 2023 06:21:39 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1683206498; x=1685798498;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=cyh9GNwkSeiWX8VVWJet6cmrStrv1Y1BhHYKMAKCy08=;
+ b=Xfz7ouLl2rjiDpIQK0x8nZK9Rh7utamz+zG+pRcNwu25QhRLQ3KM27NpfHMDDWm3Sn
+ fFs+YVN9jr3kisKDUeSpf164zwMWc1o3wgeSEBQ7WYR7ce6tZA5EaLrKFuhKegPe2hOR
+ yVWt1FVnBpu2sMC7c+nQgPyLyjdbmLPfd2Uk34t+HasVKG9d1ZNvbuV9HEWuSLsHPvJy
+ p8WB4WHg3uysJXul091ey1iAvEsJd0bckKB0jFP+PH2yNga+Cg/AEucqndZmKRod5psL
+ yaboxIedN5LZpnf9GebL0PfdAPH2eZ6GgvvvnqIE6ppalY4Td2zA1njkF5IGz82GpML+
+ sZZg==
+X-Gm-Message-State: AC+VfDw2iirlbnOpBxGs0VPznPsF91uF5S1sC2m4kbwEveVJ6xIdfP4c
+ B4/+tIfR5MZw367nnj92SL8GbQTabjeIWsH5z7+zVU4nzeb5OFa5Kj2doMKJuXrRnhxqvNzr5he
+ TtvOiwUYkxwWXogM=
+X-Received: by 2002:a17:906:9b89:b0:957:43b:36ee with SMTP id
+ dd9-20020a1709069b8900b00957043b36eemr6865308ejc.20.1683206498669; 
+ Thu, 04 May 2023 06:21:38 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ5dECDTXZCHy+Oq3w2Xe1T8H8IOY4rVdKuIQbjSxhDuLzPW5WZHHtbHLSXEIN5GxW/qOSFXdQ==
+X-Received: by 2002:a17:906:9b89:b0:957:43b:36ee with SMTP id
+ dd9-20020a1709069b8900b00957043b36eemr6865286ejc.20.1683206498347; 
+ Thu, 04 May 2023 06:21:38 -0700 (PDT)
+Received: from [192.168.10.118] ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
+ by smtp.gmail.com with ESMTPSA id
+ sg9-20020a170907a40900b00959aba150c3sm14094588ejc.50.2023.05.04.06.21.37
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 04 May 2023 06:21:37 -0700 (PDT)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: Fabiano Rosas <farosas@suse.de>
+Cc: qemu-devel@nongnu.org,
+ =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>
+Subject: Re: [PATCH v4 0/2] docs: Speedup docs build
+Date: Thu,  4 May 2023 15:21:35 +0200
+Message-Id: <20230504132135.11429-1-pbonzini@redhat.com>
+X-Mailer: git-send-email 2.40.0
+In-Reply-To: <20230503203947.3417-1-farosas@suse.de>
+References: 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230504115750.54437-13-kwolf@redhat.com>
-User-Agent: NeoMutt/20230407
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=eblake@redhat.com;
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -22
 X-Spam_score: -2.3
@@ -79,39 +101,8 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, May 04, 2023 at 01:57:42PM +0200, Kevin Wolf wrote:
-> This adds GRAPH_RDLOCK annotations to declare that functions accessing
-> the parent list of a node need to hold a reader lock for the graph. As
-> it happens, they already do.
-> 
-> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-> ---
->  block/mirror.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+Queued, thanks.
 
-Reviewed-by: Eric Blake <eblake@redhat.com>
-
-> 
-> diff --git a/block/mirror.c b/block/mirror.c
-> index 80fa345071..b5c4ae31f3 100644
-> --- a/block/mirror.c
-> +++ b/block/mirror.c
-> @@ -1416,7 +1416,7 @@ static MirrorOp *coroutine_fn active_write_prepare(MirrorBlockJob *s,
->      return op;
->  }
->  
-> -static void coroutine_fn active_write_settle(MirrorOp *op)
-> +static void coroutine_fn GRAPH_RDLOCK active_write_settle(MirrorOp *op)
->  {
->      uint64_t start_chunk = op->offset / op->s->granularity;
->      uint64_t end_chunk = DIV_ROUND_UP(op->offset + op->bytes,
-> -- 
-> 2.40.1
-> 
-
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3266
-Virtualization:  qemu.org | libvirt.org
+Paolo
 
 
