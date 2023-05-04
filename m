@@ -2,52 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F15886F7140
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 May 2023 19:40:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ECFCE6F7182
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 May 2023 19:50:26 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pucpT-00014G-8t; Thu, 04 May 2023 13:33:19 -0400
+	id 1pucoU-00076C-E8; Thu, 04 May 2023 13:32:18 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <anjo@rev.ng>) id 1puaNr-0002K4-1B
- for qemu-devel@nongnu.org; Thu, 04 May 2023 10:56:39 -0400
-Received: from rev.ng ([5.9.113.41])
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1puaO5-0002Kk-21
+ for qemu-devel@nongnu.org; Thu, 04 May 2023 10:56:53 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <anjo@rev.ng>) id 1puaNp-0008K3-Ag
- for qemu-devel@nongnu.org; Thu, 04 May 2023 10:56:38 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=rev.ng;
- s=dkim; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:
- Cc:To:Subject:Reply-To:MIME-Version:Date:Message-ID:Sender:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=7aYgpb3wTPVxezC9tuziG0biPQgSXX91yuA5LybRUzw=; b=TxhJyjlHLNhQCG7yWq2BH6Zv43
- hKjWSMlh4A2t6R99845xDOxeWB5UglRTFJZh6I5SD+NqZOsM+hI7ItSPyGg6anfNSqlcsyAUkAdRO
- dq9L0kOFCnSFjoL+YPn+JOAA7Psa/SL+yQ7SMfPt86cDv5c1HrWn2VOoEf5PEyDn4NgE=;
-Message-ID: <0daaf7f3-044c-5b23-94b8-577ba4ebb3be@rev.ng>
-Date: Thu, 4 May 2023 16:55:45 +0200
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1puaO3-0008Qe-IA
+ for qemu-devel@nongnu.org; Thu, 04 May 2023 10:56:52 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1683212210;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=8RWno/ip0ojDIBVq1kbkhJr9XbYoZVM2s0ePplaA9Cg=;
+ b=H3uz/JmU3adgg/BY/Y9+shA8T1HnAvQUFzATJdbr8Qq7R1jiAc36TFsPaaFVyu8CsEH980
+ VWLxWLu3F99na2GFcmznm0AVs0zoC/di9veWWfXAdsnSIiTOp7yecFK0IbPEcVQ1HVoHPP
+ Eqyh599fGBtHUK8K5SIH0KTr5WOzduA=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-655-F3_7a723OXKNWP1ifMgWxQ-1; Thu, 04 May 2023 10:56:49 -0400
+X-MC-Unique: F3_7a723OXKNWP1ifMgWxQ-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ 5b1f17b1804b1-3f1754de18cso4083545e9.1
+ for <qemu-devel@nongnu.org>; Thu, 04 May 2023 07:56:49 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1683212208; x=1685804208;
+ h=mime-version:message-id:date:reply-to:user-agent:references
+ :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=8RWno/ip0ojDIBVq1kbkhJr9XbYoZVM2s0ePplaA9Cg=;
+ b=La5t7ZZMz3ASKKvi5dnjDBkVoWl6hPYA2TWzXo7HOg1cptijeIfCJI59FeDh5LPu2w
+ Wa6CvXDXTVtoSNlzfsBUW6k8DMI6TDpPBvxf9BJbAJW4PeCZxWpQxiZx14kbiIgJ8SiC
+ qY/Pczy31TUPUkBXCIThtOXtACLaZr+lWQ2y/yWfGRFBDyS4B1BMVt7rcTrgq9EqP+Cw
+ D7j3+KCXeUbp2tYJNM0anCyihJjWf4oPnCW2fOqPcdRFIwtVzMCtTqEIzmP9oef1n9z6
+ Q9SPLOz2CVcGMjRrg6KQVSZQKCDx+C9DL8lidwcuM1PDsM9yGRH3+qxqYBrqaPV9Utmp
+ ZeDw==
+X-Gm-Message-State: AC+VfDyvTnn7XiTQPW0rsul3WnYuNnERqN1Jsi2/SbYLtYwYC2NcfgM6
+ bQchw++mLPHK3Pka3F4AgsriJSHKxyrv6TXzC+E6E+mYpoDHFIr7dZLFmkLa8JsX7K1eSIlm24V
+ XzvmR4clmt/Udb+U=
+X-Received: by 2002:a05:600c:22c9:b0:3f0:46ca:f201 with SMTP id
+ 9-20020a05600c22c900b003f046caf201mr2590wmg.1.1683212208260; 
+ Thu, 04 May 2023 07:56:48 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ6xKlOlCi+zZol3QlFswdeuwJHfJHzBSMrPBO0Lj3TAvK0Dv4+Y0RfhKLi8cY35zTJjz2PRWw==
+X-Received: by 2002:a05:600c:22c9:b0:3f0:46ca:f201 with SMTP id
+ 9-20020a05600c22c900b003f046caf201mr2573wmg.1.1683212207948; 
+ Thu, 04 May 2023 07:56:47 -0700 (PDT)
+Received: from redhat.com (static-92-120-85-188.ipcom.comunitel.net.
+ [188.85.120.92]) by smtp.gmail.com with ESMTPSA id
+ z19-20020a7bc7d3000000b003edef091b17sm5188385wmk.37.2023.05.04.07.56.46
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 04 May 2023 07:56:47 -0700 (PDT)
+From: Juan Quintela <quintela@redhat.com>
+To: Peter Xu <peterx@redhat.com>
+Cc: qemu-devel@nongnu.org,  qemu-block@nongnu.org,  Stefan Hajnoczi
+ <stefanha@redhat.com>,  Leonardo Bras <leobras@redhat.com>,  Fam Zheng
+ <fam@euphon.net>
+Subject: Re: [PATCH 0/9] QEMU file cleanups
+In-Reply-To: <ZFPFF4MB1j5wNnxe@x1n> (Peter Xu's message of "Thu, 4 May 2023
+ 10:45:43 -0400")
+References: <20230504113841.23130-1-quintela@redhat.com> <ZFPFF4MB1j5wNnxe@x1n>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
+Date: Thu, 04 May 2023 16:56:46 +0200
+Message-ID: <87ttwsp2kx.fsf@secure.mitica>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.0
-Subject: Re: [PATCH v2] target/hexagon: fix = vs. == mishap
-To: Taylor Simpson <tsimpson@quicinc.com>, qemu-devel@nongnu.org
-Cc: pbonzini@redhat.com, richard.henderson@linaro.org, philmd@linaro.org,
- ale@rev.ng, bcain@quicinc.com, quic_mathbern@quicinc.com
-References: <20230428204411.1400931-1-tsimpson@quicinc.com>
-Content-Language: en-US
-Organization: rev.ng
-In-Reply-To: <20230428204411.1400931-1-tsimpson@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=5.9.113.41; envelope-from=anjo@rev.ng; helo=rev.ng
-X-Spam_score_int: -63
-X-Spam_score: -6.4
-X-Spam_bar: ------
-X-Spam_report: (-6.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-4.28,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -22
+X-Spam_score: -2.3
+X-Spam_bar: --
+X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.161,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -60,31 +97,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-to:  anjo@rev.ng
-X-ACL-Warn: ,  Anton Johansson <anjo@rev.ng>
-From:  Anton Johansson via <qemu-devel@nongnu.org>
+Reply-To: quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+Peter Xu <peterx@redhat.com> wrote:
+> On Thu, May 04, 2023 at 01:38:32PM +0200, Juan Quintela wrote:
+>> - convince and review code to see that everything is uint64_t.
+>
+> One general question to patches regarding this - what's the major benefit
+> of using uint64_t?
+>
+> It doubles the possible numbers to hold, but it's already 64bits so I don't
+> think it matters a lot.
 
-On 4/28/23 22:44, Taylor Simpson wrote:
-> From: Paolo Bonzini <pbonzini@redhat.com>
->
-> **** Changes in v2 ****
-> Fix yyassert's for sign and zero extends
->
-> Coverity reports a parameter that is "set but never used".  This is caused
-> by an assignment operator being used instead of equality.
->
-> Co-authored-by: Taylor Simpson <tsimpson@quicinc.com>
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-> Signed-off-by: Taylor Simpson <tsimpson@quicinc.com>
-> ---
->   target/hexagon/idef-parser/parser-helpers.c | 2 +-
->   target/hexagon/idef-parser/idef-parser.y    | 4 ++--
->   2 files changed, 3 insertions(+), 3 deletions(-)
->
+We were checking for negatives even when that can't be.
+And we are doing this dance of
 
-Reviewed-by: Anton Johansson <anjo@rev.ng>
-Tested-by: Anton Johansson <anjo@rev.ng>
+int64_t x, y;
+uint64_t a, b;
+
+x = a;
+b = y;
+
+This is always confusing and not always right.
+
+> The thing is we're removing some code trying to
+> detect negative which seems to be still helpful to detect e.g. overflows
+> (even though I don't think it'll happen).  I just still think it's good to
+> know when overflow happens, and not sure what I missed on benefits of using
+> unsigned here.
+
+If you grep through the code, you see that half of the things are
+int64_t and the other half is uint64_t.  I find it always confusing.
+
+
+> I've reviewed all the rest patches and all look good here.
+
+Thanks very much.
+
 
