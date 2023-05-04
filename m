@@ -2,82 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D27BD6F67BB
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 May 2023 10:48:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9151B6F67C6
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 May 2023 10:50:27 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1puUcS-0001dZ-U7; Thu, 04 May 2023 04:47:20 -0400
+	id 1puUeb-0002O4-KA; Thu, 04 May 2023 04:49:33 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1puUcM-0001cp-Rw
- for qemu-devel@nongnu.org; Thu, 04 May 2023 04:47:15 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <anisinha@redhat.com>)
+ id 1puUeZ-0002Nv-6d
+ for qemu-devel@nongnu.org; Thu, 04 May 2023 04:49:31 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1puUcK-0004yG-UG
- for qemu-devel@nongnu.org; Thu, 04 May 2023 04:47:14 -0400
+ (Exim 4.90_1) (envelope-from <anisinha@redhat.com>)
+ id 1puUeX-0006gW-F0
+ for qemu-devel@nongnu.org; Thu, 04 May 2023 04:49:30 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1683190031;
+ s=mimecast20190719; t=1683190168;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=RYV0ZpdicWA1WnTf98CzTXvB6JTa/PxypjYL4guPGIo=;
- b=N9gG2rqbKI37kWfq021mesLfr7wQVERrLMZZTulORh9P0NrHSF1cC4EmmxV0nbqo5F2ysZ
- GK69NTAUhgwMkjOJrIMmkb45E+p+mqKedt0Pe/LUgbIlVABvVasBg9kfkEuAco/aK2Z/dd
- A4LHrBLG6BFbVKIPSx9NppY7yhosb0Q=
-Received: from mail-yb1-f200.google.com (mail-yb1-f200.google.com
- [209.85.219.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=htEUoH+5lnl6ejMPMq5/cLoCz2Tf4PuSGcGsktFseiE=;
+ b=hKEniu3QpOCOfrqZpHscg1iEdCx5NV1pnYnp1HtXlxag1p9szF05VpZxTzWNz+gNjsHblI
+ 1UJW1apQgi+EqBiQoR2tBmIbRklaXRFpBk+9trc4NpmtakrJYTeW+xI7Mg0loTv0CptEoC
+ 4gcI9WX2mbmW7C/XX/jVUWbC3asZAyM=
+Received: from mail-pl1-f197.google.com (mail-pl1-f197.google.com
+ [209.85.214.197]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-456-qdwK_d6EM9GjWCYx60nmHQ-1; Thu, 04 May 2023 04:47:08 -0400
-X-MC-Unique: qdwK_d6EM9GjWCYx60nmHQ-1
-Received: by mail-yb1-f200.google.com with SMTP id
- 3f1490d57ef6-b9a8023ccf1so468922276.2
- for <qemu-devel@nongnu.org>; Thu, 04 May 2023 01:47:08 -0700 (PDT)
+ us-mta-275-qm0Y3ARsPjeepF1wYnKyMw-1; Thu, 04 May 2023 04:49:27 -0400
+X-MC-Unique: qm0Y3ARsPjeepF1wYnKyMw-1
+Received: by mail-pl1-f197.google.com with SMTP id
+ d9443c01a7336-1aafb2766e0so749505ad.3
+ for <qemu-devel@nongnu.org>; Thu, 04 May 2023 01:49:27 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683190028; x=1685782028;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ d=1e100.net; s=20221208; t=1683190166; x=1685782166;
+ h=to:references:message-id:content-transfer-encoding:cc:date
+ :in-reply-to:from:subject:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=RYV0ZpdicWA1WnTf98CzTXvB6JTa/PxypjYL4guPGIo=;
- b=RuPf/ep0fKwJ7ER9dHtennc1ukAPSXPAsSdaMW2N90HyYsqUJ1iV3ZIOGhXE4LMFbv
- l2tYAAAIMpC/VFotLP4Lbze49pKZrq9UbJL97HhOjtGdWOP7oywaMqSMwG6LsGbUH1fT
- fs84MlcPLNGDOGceWcy1OjZvSS3ctYdB8s480DJOGxAKf+x73+h87G8XU/hVXzcO2gg6
- CBmCcYP/t9oYSa5OFlqTq1z2wagm4vhPAXRuDwW1DMv4flwF0qf/IULG7vM1DcjhFao0
- m+zB/JMt9aGC+kPocKcyyEXQeWENRMshYIJma6sMqd2VrTI4MhGS2VXISJdv9nLu3hk3
- BiYw==
-X-Gm-Message-State: AC+VfDzVLwaNCY54KqwxQNnm7dkDMOxO2hxuSmLYZ2sABtlQ5vfBnu/u
- Njbi0t00BtC8WteDk3cL0DAtpzzZe82hpGcx6G+8OVn0fPfS/3sezS4EcH09tEbVbYHdkc8ycdu
- BbEgFGOpjCswm3tIs/tQ2E8I8KMup4N0=
-X-Received: by 2002:a25:3c82:0:b0:b9a:6a68:b8da with SMTP id
- j124-20020a253c82000000b00b9a6a68b8damr20651375yba.25.1683190028186; 
- Thu, 04 May 2023 01:47:08 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ78ejvi3DzFOdo/JiY5E2KHb/XDtVTNX8c8yKghplZF/ngU8EXXxDvL3JyZWHy4IjD9lLlKc9pKsdilNfmI8sI=
-X-Received: by 2002:a25:3c82:0:b0:b9a:6a68:b8da with SMTP id
- j124-20020a253c82000000b00b9a6a68b8damr20651359yba.25.1683190027868; Thu, 04
- May 2023 01:47:07 -0700 (PDT)
-MIME-Version: 1.0
-References: <20230502145050.224615-1-sgarzare@redhat.com>
- <20230502190232.GB535070@fedora>
- <2dhjygwf76syej7espfdecxcoawborvm2qqx66bz3g6ljdvg53@xo3d64wtbdeu>
- <20230503132618.GD757667@fedora>
- <CAGxU2F4UrTcmatM96MiH-3JwOkZhXJNu5yM7+WH28BS6+Z5f5Q@mail.gmail.com>
-In-Reply-To: <CAGxU2F4UrTcmatM96MiH-3JwOkZhXJNu5yM7+WH28BS6+Z5f5Q@mail.gmail.com>
-From: Stefano Garzarella <sgarzare@redhat.com>
-Date: Thu, 4 May 2023 10:46:56 +0200
-Message-ID: <CAGxU2F4J=k9MwuuMAXEv+J2ac_BFBQBo0+Rz=ua92USpyeOzAQ@mail.gmail.com>
-Subject: Re: [PATCH] block/blkio: add 'fd' option to virtio-blk-vhost-vdpa
- driver
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org, 
- Hanna Reitz <hreitz@redhat.com>, jjongsma@redhat.com,
- Kevin Wolf <kwolf@redhat.com>, 
- Eric Blake <eblake@redhat.com>, Markus Armbruster <armbru@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
+ bh=htEUoH+5lnl6ejMPMq5/cLoCz2Tf4PuSGcGsktFseiE=;
+ b=dA/DJbP3HqC/f6eqN5rveVfEsg+rgAKrqDZsBS0dEcQhezXPqh/E/qJOZikui1/AZp
+ EXJylVRq9FFMHtzhiyTc9kcxkIiB8WDkso8Bekg+npNczQvYgqf20ugXfd6Eopo3XHgj
+ opr8FWMh7wnEdpEQD0nDHfME7n+deu9G/wp8MMybNsF7djd41d25mJRIx8A/9uK2nLAe
+ dzQY/n5rgyyvXG4mC/CXFE3065zTL+yqV9AzdQnpBHnVNVBMUfojrw982i805hOtlfLY
+ SsMAYdV7SUu09aU7I9wA8lb3AvNkc128xqcYc1vGLEnfMSYbwJNLVXJ4b9V9uPfz4PHh
+ nMzw==
+X-Gm-Message-State: AC+VfDy43tpRLXhP8HARdVkYebqD1+gL9NH8DPfi41pvSKBi/2bcNZZv
+ GnOTy+OqtaAvjeRLPlhcvsVo1ViXew94jlAo4XtT0SdO16KHw+gZTXx9gIWZzvrEWCRXDvx3SZP
+ vZkVkd7OAkpl4YZsxjyGcHBg=
+X-Received: by 2002:a17:902:da8c:b0:1a6:3b9c:7fea with SMTP id
+ j12-20020a170902da8c00b001a63b9c7feamr3691681plx.36.1683190166353; 
+ Thu, 04 May 2023 01:49:26 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ6CU7/TVQCXWARlFwIzqjoqgB0sCi8dC4F+8CMRH6zngREfWDtNjRSZanAcQbZGJJOAT7lz7w==
+X-Received: by 2002:a17:902:da8c:b0:1a6:3b9c:7fea with SMTP id
+ j12-20020a170902da8c00b001a63b9c7feamr3691665plx.36.1683190166062; 
+ Thu, 04 May 2023 01:49:26 -0700 (PDT)
+Received: from smtpclient.apple ([115.96.136.25])
+ by smtp.gmail.com with ESMTPSA id
+ p5-20020a1709028a8500b001ab0d815dbbsm4526989plo.23.2023.05.04.01.49.23
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Thu, 04 May 2023 01:49:25 -0700 (PDT)
+Content-Type: text/plain;
+	charset=utf-8
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3696.120.41.1.3\))
+Subject: Re: [PATCH 0/2] Add mformat and xorriso dependencies in containers
+From: Ani Sinha <anisinha@redhat.com>
+In-Reply-To: <ZFNmhT9Fosay1bee@redhat.com>
+Date: Thu, 4 May 2023 14:19:21 +0530
+Cc: Thomas Huth <thuth@redhat.com>, alex.bennee@linaro.org, philmd@linaro.org,
+ wainersm@redhat.com, bleal@redhat.com, qemu-devel@nongnu.org,
+ mst@redhat.com
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=sgarzare@redhat.com;
+Message-Id: <550DF0FD-701E-408D-924B-C33ABC0BFF10@redhat.com>
+References: <20230503145547.202251-1-anisinha@redhat.com>
+ <8d7e46ec-95c0-5c4a-a843-20106576e9ba@redhat.com>
+ <ZFNmhT9Fosay1bee@redhat.com>
+To: =?utf-8?B?IkRhbmllbCBQLiBCZXJyYW5nw6ki?= <berrange@redhat.com>
+X-Mailer: Apple Mail (2.3696.120.41.1.3)
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=anisinha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -22
 X-Spam_score: -2.3
@@ -85,8 +88,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.161,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -102,180 +104,81 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, May 4, 2023 at 9:38=E2=80=AFAM Stefano Garzarella <sgarzare@redhat.=
-com> wrote:
->
-> On Wed, May 3, 2023 at 5:57=E2=80=AFPM Stefan Hajnoczi <stefanha@redhat.c=
-om> wrote:
-> >
-> > On Wed, May 03, 2023 at 11:15:56AM +0200, Stefano Garzarella wrote:
-> > > On Tue, May 02, 2023 at 03:02:32PM -0400, Stefan Hajnoczi wrote:
-> > > > On Tue, May 02, 2023 at 04:50:50PM +0200, Stefano Garzarella wrote:
-> > > > > The virtio-blk-vhost-vdpa driver in libblkio 1.3.0 supports the n=
-ew
-> > > > > 'fd' property. Let's expose this to the user, so the management l=
-ayer
-> > > > > can pass the file descriptor of an already opened vhost-vdpa char=
-acter
-> > > > > device. This is useful especially when the device can only be acc=
-essed
-> > > > > with certain privileges.
-> > > > >
-> > > > > Signed-off-by: Stefano Garzarella <sgarzare@redhat.com>
-> > > > > ---
-> > > > >
-> > > > > Notes:
-> > > > >     As an alternative we could support passing `/dev/fdset/N` via=
- 'path',
-> > > > >     always opening the path with qemu_open() and passing the fd t=
-o the
-> > > > >     libblkio driver.
-> > > > >     I preferred to add a new parameter though, because the code i=
-s
-> > > > >     simpler without changing how path works (alternatively we sho=
-uld check
-> > > > >     first if fd is supported by the driver or not).
-> > > > >
-> > > > >     What do you think?
-> > > >
-> > > > I think the approach in this patch is fine.
-> > > >
-> > > > >
-> > > > >     Thanks,
-> > > > >     Stefano
-> > > > >
-> > > > >  qapi/block-core.json |  6 +++++-
-> > > > >  block/blkio.c        | 45 ++++++++++++++++++++++++++++++++++++++=
-+++++-
-> > > > >  2 files changed, 49 insertions(+), 2 deletions(-)
-> > > > >
-> > > > > diff --git a/qapi/block-core.json b/qapi/block-core.json
-> > > > > index b57978957f..9f70777d49 100644
-> > > > > --- a/qapi/block-core.json
-> > > > > +++ b/qapi/block-core.json
-> > > > > @@ -3841,10 +3841,14 @@
-> > > > >  #
-> > > > >  # @path: path to the vhost-vdpa character device.
-> > > > >  #
-> > > > > +# @fd: file descriptor of an already opened vhost-vdpa character=
- device.
-> > > > > +#      (Since 8.1)
-> > > > > +#
-> > > > >  # Since: 7.2
-> > > > >  ##
-> > > > >  { 'struct': 'BlockdevOptionsVirtioBlkVhostVdpa',
-> > > > > -  'data': { 'path': 'str' },
-> > > > > +  'data': { '*path': 'str',
-> > > > > +            '*fd': 'str' },
-> > > > >    'if': 'CONFIG_BLKIO' }
-> > > > >
-> > > > >  ##
-> > > > > diff --git a/block/blkio.c b/block/blkio.c
-> > > > > index 0cdc99a729..98394b5745 100644
-> > > > > --- a/block/blkio.c
-> > > > > +++ b/block/blkio.c
-> > > > > @@ -694,6 +694,49 @@ static int blkio_virtio_blk_common_open(Bloc=
-kDriverState *bs,
-> > > > >      return 0;
-> > > > >  }
-> > > > >
-> > > > > +static int blkio_virtio_blk_vhost_vdpa_open(BlockDriverState *bs=
-,
-> > > > > +        QDict *options, int flags, Error **errp)
-> > > > > +{
-> > > > > +    const char *path =3D qdict_get_try_str(options, "path");
-> > > > > +    const char *fd_str =3D qdict_get_try_str(options, "fd");
-> > > > > +    BDRVBlkioState *s =3D bs->opaque;
-> > > > > +    int ret;
-> > > > > +
-> > > > > +    if (path && fd_str) {
-> > > > > +        error_setg(errp, "'path' and 'fd' options are mutually e=
-xclusive");
-> > > > > +        return -EINVAL;
-> > > > > +    }
-> > > > > +
-> > > > > +    if (!path && !fd_str) {
-> > > > > +        error_setg(errp, "none of 'path' or 'fd' options was spe=
-cified");
-> > > > > +        return -EINVAL;
-> > > > > +    }
-> > > > > +
-> > > > > +    if (path) {
-> > > > > +        ret =3D blkio_set_str(s->blkio, "path", path);
-> > > > > +        qdict_del(options, "path");
-> > > > > +        if (ret < 0) {
-> > > > > +            error_setg_errno(errp, -ret, "failed to set path: %s=
-",
-> > > > > +                             blkio_get_error_msg());
-> > > > > +            return ret;
-> > > > > +        }
-> > > > > +    } else {
-> > > > > +        ret =3D blkio_set_str(s->blkio, "fd", fd_str);
-> > > >
-> > > > monitor_fd_param() is used by vhost-net, vhost-vsock, vhost-scsi, e=
-tc.
-> > > >
-> > > > I think QEMU should parse the fd string and resolve it to a file
-> > > > descriptor so the fd passing syntax matches the other vhost devices=
-.
-> > >
-> > > Okay, but I have a linker issue if I use monitor_fd_param().
-> > > IIUC because blkio is built as a module, so what about adding
-> > > qemu_fd_param() in libqemuutil?
-> >
-> > Modules can access any extern function in QEMU so I don't think there i=
-s
-> > a fundamental limitation there.
-> >
-> > Maybe it's related to the dependencies between the blkio module and
-> > monitor/ code. monitor_get_fd_param() is in softmmu_ss, which block
-> > drivers don't directly depend on AFAICT.
->
-> Yep, I think this is the case.
->
-> >
-> > >
-> > > I mean something like this:
-> > >
-> > > diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h
-> > > index 9eff0be95b..87360c983a 100644
-> > > --- a/include/qemu/osdep.h
-> > > +++ b/include/qemu/osdep.h
-> > > @@ -568,6 +568,7 @@ int qemu_lock_fd(int fd, int64_t start, int64_t l=
-en, bool exclusive);
-> > >  int qemu_unlock_fd(int fd, int64_t start, int64_t len);
-> > >  int qemu_lock_fd_test(int fd, int64_t start, int64_t len, bool exclu=
-sive);
-> > >  bool qemu_has_ofd_lock(void);
-> > > +int qemu_fd_param(const char *fdname, Error **errp);
-> > >  #endif
-> > >
-> > >  #if defined(__HAIKU__) && defined(__i386__)
-> > > diff --git a/util/osdep.c b/util/osdep.c
-> > > index e996c4744a..ed0832810b 100644
-> > > --- a/util/osdep.c
-> > > +++ b/util/osdep.c
-> > > @@ -234,6 +234,11 @@ bool qemu_has_ofd_lock(void)
-> > >  #endif
-> > >  }
-> > >
-> > > +int qemu_fd_param(const char *fdname, Error **errp)
-> > > +{
-> > > +    return monitor_fd_param(monitor_cur(), fdname, errp);
-> > > +}
-> >
-> > I'm not sure. If it works with modules enabled/disabled,
-> > qemu-io/qemu-img/etc, and qemu-user then I guess this solution is okay.
->
-> It seems to work, and I think it's easier than introducing the
-> dependency between the blkio module and monitor/ code.
-> Something similar has already been done with monitor_get_fd().
-> Anyway I'll send v2 by adding that patch and we can discuss it there.
 
-Aaargs, the linker issue was only in some tests. Adding just
-monitor_fd_param() in the stubs fixed the problem.
 
-Thanks,
-Stefano
+> On 04-May-2023, at 1:32 PM, Daniel P. Berrang=C3=A9 =
+<berrange@redhat.com> wrote:
+>=20
+> On Thu, May 04, 2023 at 08:35:53AM +0200, Thomas Huth wrote:
+>> On 03/05/2023 16.55, Ani Sinha wrote:
+>>> mformat and xorriso tools are needed by biosbits avocado tests. This =
+patchset
+>>> adds those two tools in the docker container images.
+>>=20
+>> tests/qtest/cdrom-test.c already uses genisoimage to create ISO =
+images, and
+>> the containers already have that tool installed. Could you maybe =
+switch the
+>> biosbits test to use that tool? Or the other way round? ... at least =
+having
+>> two tools to create ISO images in our containers sounds IMHO =
+excessive.
+>=20
+> It looks like this series wasn't tested, because it doesn't even =
+install
+> the alpine image:
+>=20
+> ERROR: unable to select packages:
+>  cdrkit-1.1.11-r3:
+>    conflicts: xorriso-1.5.4-r2[cmd:mkisofs=3D1.1.11-r3]
+>    satisfies: world[cdrkit]
+>  xorriso-1.5.4-r2:
+>    conflicts: cdrkit-1.1.11-r3[cmd:mkisofs=3D1.5.4-r2]
+>    satisfies: world[xorriso]
+>=20
+>=20
+> We definitely need to have either biosbits or cdrom-test.c changed to
+> use the same tool.
+
+Wait, it seems xorriso package also provides geninsoimage?
+
+xorriso-1.5.4-4.el9.x86_64 : ISO-9660 and Rock Ridge image manipulation =
+tool
+Repo        : @System
+Matched from:
+Filename    : /usr/bin/genisoimage
+
+xorriso-1.5.4-4.el9.x86_64 : ISO-9660 and Rock Ridge image manipulation =
+tool
+Repo        : rhel-9-for-x86_64-appstream-rpms
+Matched from:
+Filename    : /usr/bin/genisoimage
+
+$ rpm -ql  xorriso-1.5.4-4.el9.x86_64 | grep bin
+/usr/bin/cdrecord
+/usr/bin/genisoimage
+/usr/bin/mkisofs
+/usr/bin/osirrox
+/usr/bin/wodim
+/usr/bin/xorrecord
+/usr/bin/xorriso
+/usr/bin/xorriso-dd-target
+/usr/bin/xorrisofs
+
+
+
+> We can't be requiring deps that are conflicting at
+> install time.
+>=20
+> With regards,
+> Daniel
+> --=20
+> |: https://berrange.com      -o-    =
+https://www.flickr.com/photos/dberrange :|
+> |: https://libvirt.org         -o-            =
+https://fstop138.berrange.com :|
+> |: https://entangle-photo.org    -o-    =
+https://www.instagram.com/dberrange :|
+>=20
 
 
