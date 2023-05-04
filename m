@@ -2,82 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB6D76F69CA
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 May 2023 13:23:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C92C76F6A08
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 May 2023 13:34:24 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1puX2y-0007zn-Hb; Thu, 04 May 2023 07:22:52 -0400
+	id 1puXCp-0003Gg-Fu; Thu, 04 May 2023 07:33:03 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kkostiuk@redhat.com>)
- id 1puX2w-0007zf-GX
- for qemu-devel@nongnu.org; Thu, 04 May 2023 07:22:50 -0400
+ (Exim 4.90_1) (envelope-from <anisinha@redhat.com>)
+ id 1puXCm-0003GQ-Kp
+ for qemu-devel@nongnu.org; Thu, 04 May 2023 07:33:00 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kkostiuk@redhat.com>)
- id 1puX2u-00032l-TO
- for qemu-devel@nongnu.org; Thu, 04 May 2023 07:22:50 -0400
+ (Exim 4.90_1) (envelope-from <anisinha@redhat.com>)
+ id 1puXCj-0001O2-IS
+ for qemu-devel@nongnu.org; Thu, 04 May 2023 07:33:00 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1683199367;
+ s=mimecast20190719; t=1683199976;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=zHXQo+p5GWKzE7+35FNQkbr9i18s91JcIq7BrNB9Tcg=;
- b=B/mpS6SRKqsaTcPMGaDa5ViVCnbMmK+fu8whlS1mroXtlEoYb0SzAmOoL7t0nKlTHso4Ns
- suZ0KOBiTB0aabLeoG1FuDv/ul9aFjvfzpT4gEdajoTU2w1/hGFR+Ab7HZUBPX36ysaOOS
- TyGo3Ab9HW7UP2O+1/MvuRFp/HCU/oI=
-Received: from mail-yb1-f197.google.com (mail-yb1-f197.google.com
- [209.85.219.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=/F3xIkumEtWHapIyEddyjtLBZuYIDSzJZ3fNfb7IcRk=;
+ b=jVqFozwT0YNHDMIfzUHqcIFi1J2hCFWPzJI0EZCDt3NdQuMWziiMsLupOijElaa3UqvU3y
+ 7mpwTCpZKj2lhIXZPbLRbnzezA+kmPD7zWS/7VMnYpmW/DT1bnnV3AzpY2ry6I0Mp3iS/r
+ dHJ05bJgbYqf8Bni6DCry508zA4kBf4=
+Received: from mail-pf1-f198.google.com (mail-pf1-f198.google.com
+ [209.85.210.198]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-64-tZIo6D6nNJOxIpMhxE0WJQ-1; Thu, 04 May 2023 07:22:46 -0400
-X-MC-Unique: tZIo6D6nNJOxIpMhxE0WJQ-1
-Received: by mail-yb1-f197.google.com with SMTP id
- 3f1490d57ef6-b8f32cc8c31so675439276.2
- for <qemu-devel@nongnu.org>; Thu, 04 May 2023 04:22:46 -0700 (PDT)
+ us-mta-610-q12dSviKOxeEnRxJnjuWVg-1; Thu, 04 May 2023 07:32:55 -0400
+X-MC-Unique: q12dSviKOxeEnRxJnjuWVg-1
+Received: by mail-pf1-f198.google.com with SMTP id
+ d2e1a72fcca58-6438bffbe3dso195877b3a.1
+ for <qemu-devel@nongnu.org>; Thu, 04 May 2023 04:32:55 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683199365; x=1685791365;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=zHXQo+p5GWKzE7+35FNQkbr9i18s91JcIq7BrNB9Tcg=;
- b=Gkf3ZDlQyG+xRB2MVQ5S7FNQqANWU6MIq7d2u9ICTaHu978mTgNsDz5j89vqvCbrpr
- OykWqM+8LcByT4tWjctnrdXUrLVUv+ORbWjZ4aelSR/emzB6rUFzZZiEOzAhmozEv/e9
- D/0vlrDhglMp7TNpVi+q25M+H3zmFUZ1s6IV6UpGdVc61wTwn84yLnmyZBqmC2dYU/gc
- ySMaMCrxxlmv2YYki79nqKiv96o+H5DvziQ/yP+RBRiGNCNBv5zAp3Wa3hBqGrsbC7No
- K9vllSqsK421k6wzDdt+1xnthXr+sAtENtTSyp5baoALOFulP0lTnkKWw/Wen23eFOXc
- 6fow==
-X-Gm-Message-State: AC+VfDwsdsDdw/289zdK+FtMOPYY7mye4MCDIZzoJN+poxflOB0xhzgo
- 6zCXsiIfj4U5f44LfbhmYmNnarjOkJn+sui3l3iCFl7KdyMySIlpBOFA9zf4oD2vZ3y671dgkb7
- FqH100Lw1udXB9pNVbJHezI/FQoy6fxM=
-X-Received: by 2002:a25:b38a:0:b0:b99:f435:3f09 with SMTP id
- m10-20020a25b38a000000b00b99f4353f09mr21782733ybj.29.1683199365580; 
- Thu, 04 May 2023 04:22:45 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ6L4SFUf11SXN6fikQqg3FXl2THL2z/vK9R4E3zgUD0oj0AoyztxfrtPheA7tq91LBUyiOKp7oKTTxS/9oNMCg=
-X-Received: by 2002:a25:b38a:0:b0:b99:f435:3f09 with SMTP id
- m10-20020a25b38a000000b00b99f4353f09mr21782707ybj.29.1683199365027; Thu, 04
- May 2023 04:22:45 -0700 (PDT)
-MIME-Version: 1.0
-References: <20230504095657.239048-1-kkostiuk@redhat.com>
- <6db84566-e0d4-e519-55e7-16b9188d8670@linaro.org>
-In-Reply-To: <6db84566-e0d4-e519-55e7-16b9188d8670@linaro.org>
-From: Konstantin Kostiuk <kkostiuk@redhat.com>
-Date: Thu, 4 May 2023 14:22:34 +0300
-Message-ID: <CAPMcbCpoWG5NoyEvKz7ZDrOBOWsMZCGh52834U2Oh3vXbcoGWw@mail.gmail.com>
-Subject: Re: [PULL 0/6] Misc QGA patches
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>
-Content-Type: multipart/alternative; boundary="0000000000003d2c5c05fadc64e7"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kkostiuk@redhat.com;
+ d=1e100.net; s=20221208; t=1683199974; x=1685791974;
+ h=to:references:message-id:content-transfer-encoding:cc:date
+ :in-reply-to:from:subject:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=/F3xIkumEtWHapIyEddyjtLBZuYIDSzJZ3fNfb7IcRk=;
+ b=P3PbkA4KxNdnRorwn1opoJpkqKpfHw4llaRBkGBpFyjlKUM92nwcXaoG/9ylQWtj98
+ o89QjaFbgddY+DNSiFHsgKVWy2csnpY64bu7BUSoV6I5bgrLzMGG+ofRazOzSKSHjgeP
+ IqNKbN122G5pFZT81R/A1xwKVHvLgnM85NxJAFxkYLDvvmFAa6rLKI19r2hhbjLZ7UPo
+ HUPU/skkYT2OKZ0wNIDu8xa9HX9ajN0w2STeVVRcbEvjQhz5Oh42O4xXJe2VSdN4jx/a
+ +7o9/2lPCOr4yci1pPdxOPshU1q4Vh3l1u1VsEtiORQLRK6aMdfAGHFw/nSfgGmdvHzl
+ vyZw==
+X-Gm-Message-State: AC+VfDxjXUvMstClqNwjCVjPwGX46CSqL+FjHhfNW1jGSgsO4y09aT5Z
+ /vVbGwyxtUcqu3zTEVL9EpOE3CWYuhvDTGcMf4ZvivMZHuI2pvCa3rqQ2+SbLDYQ8SrUrcjrrmo
+ Zd5Htr8LUKZ/JySY=
+X-Received: by 2002:a05:6a00:b83:b0:63b:57cb:145f with SMTP id
+ g3-20020a056a000b8300b0063b57cb145fmr2233618pfj.20.1683199974448; 
+ Thu, 04 May 2023 04:32:54 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ5KfSfAVAJvOAsCvI0QxqqVO3G+PfbQWR9nTC7Y2WYT47GeJa83q+KxLRrJjbs1E8NyfIbZWg==
+X-Received: by 2002:a05:6a00:b83:b0:63b:57cb:145f with SMTP id
+ g3-20020a056a000b8300b0063b57cb145fmr2233597pfj.20.1683199974163; 
+ Thu, 04 May 2023 04:32:54 -0700 (PDT)
+Received: from smtpclient.apple ([115.96.136.25])
+ by smtp.gmail.com with ESMTPSA id
+ y1-20020a056a001c8100b005a8173829d5sm24911755pfw.66.2023.05.04.04.32.51
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Thu, 04 May 2023 04:32:53 -0700 (PDT)
+Content-Type: text/plain;
+	charset=utf-8
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3696.120.41.1.3\))
+Subject: Re: [PATCH 0/2] Add mformat and xorriso dependencies in containers
+From: Ani Sinha <anisinha@redhat.com>
+In-Reply-To: <ZFNr/YMWTicdsVHt@redhat.com>
+Date: Thu, 4 May 2023 17:02:48 +0530
+Cc: Thomas Huth <thuth@redhat.com>, alex.bennee@linaro.org,
+ =?utf-8?Q?Philippe_Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ wainersm@redhat.com, bleal@redhat.com, qemu-devel@nongnu.org,
+ "Michael S. Tsirkin" <mst@redhat.com>
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <16CB2748-DC38-4FBC-97A7-CEB95560B01A@redhat.com>
+References: <20230503145547.202251-1-anisinha@redhat.com>
+ <8d7e46ec-95c0-5c4a-a843-20106576e9ba@redhat.com>
+ <ZFNmhT9Fosay1bee@redhat.com>
+ <82B950B9-1C97-483F-A5A5-C755BEA1B727@redhat.com>
+ <ZFNr/YMWTicdsVHt@redhat.com>
+To: =?utf-8?B?IkRhbmllbCBQLiBCZXJyYW5nw6ki?= <berrange@redhat.com>
+X-Mailer: Apple Mail (2.3696.120.41.1.3)
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=anisinha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -22
 X-Spam_score: -2.3
 X-Spam_bar: --
 X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.161,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,87 +107,52 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
---0000000000003d2c5c05fadc64e7
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-Thanks, Richard. It was ok to use git@ URL last time but not a problem to
-fix.
 
 
-Best Regards,
-Konstantin Kostiuk.
+> On 04-May-2023, at 1:55 PM, Daniel P. Berrang=C3=A9 =
+<berrange@redhat.com> wrote:
+>=20
+> On Thu, May 04, 2023 at 01:52:36PM +0530, Ani Sinha wrote:
+>>=20
+>>=20
+>>> On 04-May-2023, at 1:32 PM, Daniel P. Berrang=C3=A9 =
+<berrange@redhat.com> wrote:
+>>>=20
+>>> On Thu, May 04, 2023 at 08:35:53AM +0200, Thomas Huth wrote:
+>>>> On 03/05/2023 16.55, Ani Sinha wrote:
+>>>>> mformat and xorriso tools are needed by biosbits avocado tests. =
+This patchset
+>>>>> adds those two tools in the docker container images.
+>>>>=20
+>>>> tests/qtest/cdrom-test.c already uses genisoimage to create ISO =
+images, and
+>>>> the containers already have that tool installed. Could you maybe =
+switch the
+>>>> biosbits test to use that tool? Or the other way round? ... at =
+least having
+>>>> two tools to create ISO images in our containers sounds IMHO =
+excessive.
+>>>=20
+>>> It looks like this series wasn't tested,
+>>=20
+>> Oh I wasn=E2=80=99t sure which tests I were to run to verify this =
+because https://www.qemu.org/docs/master/devel/testing.html does not =
+mention any specific tests to run after:
+>>=20
+>> 	=E2=80=A2 Once the merge request is accepted, go back to QEMU =
+and update the tests/lcitool/libvirt-ci submodule to point to a commit =
+that contains the mappings.yml update. Then add the prerequisite and run =
+make lcitool-refresh.
+>>=20
+>> Is it =E2=80=9Cmake docker-all-tests=E2=80=9D ? Maybe we can update =
+the doc. This is the first time me updating the docker images with new =
+packages and I doing not touch this infrastructure part at all.
+>=20
+> By testing, I mean run the CI pipeline in GitLab to see if everything
+> still passes. I expect the alpine job will fail the container build.
 
-
-On Thu, May 4, 2023 at 2:10=E2=80=AFPM Richard Henderson <
-richard.henderson@linaro.org> wrote:
-
-> On 5/4/23 10:56, Konstantin Kostiuk wrote:
-> > From: Kostiantyn Kostiuk<kostyanf14@live.com>
-> >
-> >
-> > The following changes since commit
-> 044f8cf70a2fdf3b9e4c4d849c66e7855d2c446a:
-> >
-> >    Merge tag 'migration-20230428-pull-request' ofhttps://
-> gitlab.com/juan.quintela/qemu  into staging (2023-05-03 10:29:30 +0100)
-> >
-> > are available in the Git repository at:
-> >
-> >    git@github.com:kostyanf14/qemu.git  tags/qga-pull-2023-05-04
->
-> Please adjust your .git/config to use url=3Dhttps and pushurl=3Dgit@
-> so that you automatically get an https:// url here.
->
-> Fixed by hand while applying, so no need to re-send now.
->
->
-> r~
->
->
-
---0000000000003d2c5c05fadc64e7
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div>Thanks, Richard. It was ok to use <span class=3D"gmai=
-l-im">git@ URL last time but not a problem to fix. <br></span></div><div><b=
-r></div><div><br></div><div><div><div dir=3D"ltr" class=3D"gmail_signature"=
- data-smartmail=3D"gmail_signature"><div dir=3D"ltr"><div>Best Regards,</di=
-v><div>Konstantin Kostiuk.</div></div></div></div><br></div></div><br><div =
-class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Thu, May 4, =
-2023 at 2:10=E2=80=AFPM Richard Henderson &lt;<a href=3D"mailto:richard.hen=
-derson@linaro.org">richard.henderson@linaro.org</a>&gt; wrote:<br></div><bl=
-ockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-lef=
-t:1px solid rgb(204,204,204);padding-left:1ex">On 5/4/23 10:56, Konstantin =
-Kostiuk wrote:<br>
-&gt; From: Kostiantyn Kostiuk&lt;<a href=3D"mailto:kostyanf14@live.com" tar=
-get=3D"_blank">kostyanf14@live.com</a>&gt;<br>
-&gt; <br>
-&gt; <br>
-&gt; The following changes since commit 044f8cf70a2fdf3b9e4c4d849c66e7855d2=
-c446a:<br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0 Merge tag &#39;migration-20230428-pull-request&#39; ofhtt=
-ps://<a href=3D"http://gitlab.com/juan.quintela/qemu" rel=3D"noreferrer" ta=
-rget=3D"_blank">gitlab.com/juan.quintela/qemu</a>=C2=A0 into staging (2023-=
-05-03 10:29:30 +0100)<br>
-&gt; <br>
-&gt; are available in the Git repository at:<br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0 git@github.com:kostyanf14/qemu.git=C2=A0 tags/qga-pull-20=
-23-05-04<br>
-<br>
-Please adjust your .git/config to use url=3Dhttps and pushurl=3Dgit@<br>
-so that you automatically get an https:// url here.<br>
-<br>
-Fixed by hand while applying, so no need to re-send now.<br>
-<br>
-<br>
-r~<br>
-<br>
-</blockquote></div>
-
---0000000000003d2c5c05fadc64e7--
+Ah that makes sense. As I told you offline, I regenerated the centos8 =
+container image in my fork with those two packages and made sure =
+avocado-system-centos job passed. I did not run all the pipelines.=
 
 
