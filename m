@@ -2,78 +2,110 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F17826F7167
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 May 2023 19:45:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A01AE6F6451
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 May 2023 07:19:40 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pucwN-000173-Ip; Thu, 04 May 2023 13:40:27 -0400
+	id 1puRM2-0003c9-HG; Thu, 04 May 2023 01:18:12 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <billow.fun@gmail.com>)
- id 1puRJn-0003Gf-Kz
- for qemu-devel@nongnu.org; Thu, 04 May 2023 01:15:54 -0400
-Received: from mail-yb1-xb31.google.com ([2607:f8b0:4864:20::b31])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <billow.fun@gmail.com>)
- id 1puRJl-0007CL-02
- for qemu-devel@nongnu.org; Thu, 04 May 2023 01:15:51 -0400
-Received: by mail-yb1-xb31.google.com with SMTP id
- 3f1490d57ef6-b9a6f17f2b6so6985136276.1
- for <qemu-devel@nongnu.org>; Wed, 03 May 2023 22:15:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1683177346; x=1685769346;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=rbR8wVFulJl1MN/uvDvjX2u8EHPVMfqsA3Zyv2J4LeA=;
- b=biX+ygDRbVnT3G6ywCWPEEQx/LEQH7MK0LXCbhVRKPTtteUBjTh8CGViFArgUVrjrV
- no4aQ2XG8Wjz31AH7G7xTDWvRmdXy24TR0YZEOM9ABBAyCos53OPMkLH+ysu/FH4EbmZ
- yReyRwECTEglu5+s7XGqQvcwWrmsM2LYVV4fWgZAzwcqPXUzTE8kKUnZXz8O96heSpH+
- TnHGCHi9DX8fmkN9PIGUbUpg0IoavI4TVxoMTfJlyAdOrnkzswY1ewXd8F/5Iqdd8TQ2
- KWzDp5n/MGLfB70kkdfl1pu+U5RaKKmfYyNqurQ5gEKeVpN86ENX/8n14ozKZun5tM1U
- b96Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683177346; x=1685769346;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=rbR8wVFulJl1MN/uvDvjX2u8EHPVMfqsA3Zyv2J4LeA=;
- b=g2URDkpX6aXupXRy7HhkrIj10YNJgW/dAQfQpw816i/ieBw1d1JZGJE8wkukvHe+Ib
- ayNSW7UEQc6W1I4eVULXiC+I1N9gOO2WJXr9zFeS7KcHgPEEqKesm2Hfqvnetlq+Rj53
- vscDwgw1Vxhjo/B44xg0LRWCqOigUHh4P+4nsgz0xOv7thAJWBvuLzfl8D/oAmQRjjMp
- X6wUVxMC3oJAV4pMO9oD2CLL6iWdppPmNWCqPaXUwrdDCO7Er6/mUQ7UTR9AK7FiA/ap
- D9dRG3PMEjvN8HZ1NQjT68Q8mn16Q9bGKWb9gmlrS+oswa8oP9N1rMXI2ZFVpeVtHwqT
- Vxyg==
-X-Gm-Message-State: AC+VfDyG/4Q7rKx6WO/rZjgGhVhJodavNJC3aIgVhUFH7ab3OpUxrklm
- L5mrQpO9/L2AkaRQonV+wukRVhC9UXkCB3q3eCo3/uAcIqZThg==
-X-Google-Smtp-Source: ACHHUZ4VtLH7llE1qNG2pcN8wm6Hw1m/gKQngpTm/vViz6UsTLAcpnhS4AUlfWFpaeY5nGj6vPA/EaFVozIgJGBs6Ms=
-X-Received: by 2002:a81:1e57:0:b0:552:a4af:da with SMTP id
- e84-20020a811e57000000b00552a4af00damr1036520ywe.10.1683177346184; 
- Wed, 03 May 2023 22:15:46 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <sbhat@linux.ibm.com>)
+ id 1puRLs-0003bt-NR; Thu, 04 May 2023 01:18:00 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <sbhat@linux.ibm.com>)
+ id 1puRLq-0007S7-8j; Thu, 04 May 2023 01:18:00 -0400
+Received: from pps.filterd (m0353726.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 3445C4BF014828; Thu, 4 May 2023 05:17:37 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : date :
+ subject : to : cc : references : from : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=pp1;
+ bh=ESiBNw5k+3ALp+2xb9y6VHa1iWQTXEIU38N1ol6AFQ8=;
+ b=plYnfu2dZ/Sh4oml+/W23oN6OKc7GP/tkLnnUUkkS3sffy48QS7dbWPLr6SpS/WdtcIr
+ KNOrLGRcjMW2fO9qC0Kg4ESs28OPjSUPWWAluvRQZOIORYBtHRpNeZyCV1nM879RXrrw
+ FWrBKatyQ9e/czFW0pNyj6prHBHH+SppAAX0nfvG2FKoGtnGVD3BTFEg1h4rZElFPHcH
+ qM0UESznayaJ6o8D1W0ym9jXLTTitRBAH2P/j4tt+GhkoD2zK1z3u1EolrxxxiYhinbZ
+ azyt6dhRbXgZZCxYZhAhkOiZ0TwfhKUMpJbmMTVz2c1E9ccGRUyT7/hDOwvqYZHcolhE Nw== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3qc6bgg487-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 04 May 2023 05:17:36 +0000
+Received: from m0353726.ppops.net (m0353726.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 3445FStX026226;
+ Thu, 4 May 2023 05:17:36 GMT
+Received: from ppma02fra.de.ibm.com (47.49.7a9f.ip4.static.sl-reverse.com
+ [159.122.73.71])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3qc6bgg47p-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 04 May 2023 05:17:36 +0000
+Received: from pps.filterd (ppma02fra.de.ibm.com [127.0.0.1])
+ by ppma02fra.de.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 3444uFRh031622;
+ Thu, 4 May 2023 05:17:33 GMT
+Received: from smtprelay05.fra02v.mail.ibm.com ([9.218.2.225])
+ by ppma02fra.de.ibm.com (PPS) with ESMTPS id 3q8tv6t69f-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 04 May 2023 05:17:33 +0000
+Received: from smtpav06.fra02v.mail.ibm.com (smtpav06.fra02v.mail.ibm.com
+ [10.20.54.105])
+ by smtprelay05.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 3445HVIY64618826
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 4 May 2023 05:17:31 GMT
+Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 6570E20040;
+ Thu,  4 May 2023 05:17:31 +0000 (GMT)
+Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 44C5E20043;
+ Thu,  4 May 2023 05:17:29 +0000 (GMT)
+Received: from [9.43.55.38] (unknown [9.43.55.38])
+ by smtpav06.fra02v.mail.ibm.com (Postfix) with ESMTP;
+ Thu,  4 May 2023 05:17:29 +0000 (GMT)
+Message-ID: <8ddf6bcf-c499-9173-a3a0-7aa86dd9d42a@linux.ibm.com>
+Date: Thu, 4 May 2023 10:47:28 +0530
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.1
+Subject: Re: [PATCH 2/2] tests: tcg: ppc64: Add tests for Vector Extract Mask
+ Instructions
+Content-Language: en-US
+To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>, philmd@linaro.org,
+ richard.henderson@linaro.org, danielhb413@gmail.com,
+ lucas.araujo@eldorado.org.br, qemu-ppc@nongnu.org,
+ david@gibson.dropbear.id.au, groug@kaod.org
+Cc: john_platts@hotmail.com, qemu-devel@nongnu.org
+References: <168141244011.3026479.13697197743885252330.stgit@ltc-boston1.aus.stglabs.ibm.com>
+ <168141246968.3026479.12755025628496245070.stgit@ltc-boston1.aus.stglabs.ibm.com>
+ <0435d42f-e48a-3c51-108a-df284fc496ab@kaod.org>
+From: Shivaprasad G Bhat <sbhat@linux.ibm.com>
+In-Reply-To: <0435d42f-e48a-3c51-108a-df284fc496ab@kaod.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: IG68h5xRHlWumbdy6Um5iJW07qkHpYK8
+X-Proofpoint-ORIG-GUID: caacO-KUYtOMOZ38eau19YShn4FIbvJs
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
 MIME-Version: 1.0
-References: <CAPLqH_6R_mtZr1aWT9PqfBAMesxkNuPYEZMR_RcXKQ0G_S0zag@mail.gmail.com>
- <xvth67djad5y33d7yh2knjqq54ep6p5vhtogsckaumiyq6j4cp@uokkglljkbge>
-In-Reply-To: <xvth67djad5y33d7yh2knjqq54ep6p5vhtogsckaumiyq6j4cp@uokkglljkbge>
-From: "_ *" <billow.fun@gmail.com>
-Date: Thu, 4 May 2023 13:15:24 +0800
-Message-ID: <CAPLqH_4u7quXA77=cP8sQDi4VWgxGyjRUGueovd4x00mRBAUEA@mail.gmail.com>
-Subject: Re: [Capstone] TriCore support in Capstone
-To: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
-Cc: qemu-devel@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b31;
- envelope-from=billow.fun@gmail.com; helo=mail-yb1-xb31.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-05-04_02,2023-05-03_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0
+ mlxlogscore=962 spamscore=0 bulkscore=0 phishscore=0 clxscore=1011
+ suspectscore=0 adultscore=0 priorityscore=1501 malwarescore=0 mlxscore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2303200000 definitions=main-2305040042
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=sbhat@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -62
+X-Spam_score: -6.3
+X-Spam_bar: ------
+X-Spam_report: (-6.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-4.28,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Thu, 04 May 2023 13:40:21 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,48 +120,33 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hello bastian,
-
-I'm excited to inform you that the TriCore support in Capstone has
-been successfully merged! The pull request can be found here:
-https://github.com/capstone-engine/capstone/pull/1973
-
-With this update, you can now utilize Capstone's TriCore disassembly
-capabilities in QEMU. I believe this addition will enhance QEMU's
-support for the TriCore architecture, providing a more robust
-disassembly engine.
-
-To get started, you can integrate the latest version of Capstone in
-your QEMU project. If you encounter any issues or require further
-assistance, please don't hesitate to reach out. Your feedback is
-crucial in ensuring the smooth integration of this feature and
-addressing any potential concerns.
-
-Thank you for your support, and I'm looking forward to seeing the
-benefits of this collaboration.
-
-Best regards, billow
-
-Bastian Koppelmann <kbastian@mail.uni-paderborn.de> =E4=BA=8E2023=E5=B9=B44=
-=E6=9C=8819=E6=97=A5=E5=91=A8=E4=B8=89 17:01=E5=86=99=E9=81=93=EF=BC=9A
+On 5/2/23 12:35, Cédric Le Goater wrote:
+> On 4/13/23 21:01, Shivaprasad G Bhat wrote:
+>> Add test for vextractbm, vextractwm, vextractdm and vextractqm
+>> instructions. Test works for both qemu-ppc64 and qemu-ppc64le.
+>>
+>> Based on the test case written by John Platts posted at [1]
+>>
+>> References:
+>> [1]: https://gitlab.com/qemu-project/qemu/-/issues/1536
 >
-> Hi billow,
+> Gitlab issues should be referenced as :
 >
-> On Mon, Mar 13, 2023 at 02:02:10PM +0800, _ * wrote:
-> > Hi!
-> >
-> > My name is billow, I currently work on TriCore support in Capstone.
-> > Maybe later on it could be used in QEMU
-> > as a disassembly engine for that architecture?
-> >
-> > It's in an early stage, but some feedback would be welcome.
-> > Any suggestions or improvements would be greatly appreciated!
-> >
-> > The draft PR: https://github.com/capstone-engine/capstone/pull/1973
+> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1536
 >
-> Looks really impressive. Thanks, for doing the work. I'd be happy to use =
-it in QEMU.
+> However, this patch adds a test, not a fix. So it is the previous patch
+> which should be annotated as resolving the issue.
 >
-> Cheers,
-> Bastian
+> Also, I think the code should be using  HOST_BIG_ENDIAN instead of
+> __ORDER_BIG_ENDIAN__
+>
+Thanks for the comments Cédric.
+
+Fixing these in v2.
+
+Thanks,
+
+Shivaprasad
+
+
 
