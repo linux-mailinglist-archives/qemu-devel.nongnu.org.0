@@ -2,64 +2,111 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0880D6F774E
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 May 2023 22:45:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 341316F778D
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 May 2023 22:55:17 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pufnU-0006EF-O8; Thu, 04 May 2023 16:43:28 -0400
+	id 1pufxa-0001rI-I5; Thu, 04 May 2023 16:53:54 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1pufnT-0006Dl-05
- for qemu-devel@nongnu.org; Thu, 04 May 2023 16:43:27 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <Babu.Moger@amd.com>)
+ id 1pufxX-0001qr-W0
+ for qemu-devel@nongnu.org; Thu, 04 May 2023 16:53:52 -0400
+Received: from mail-co1nam11on2061b.outbound.protection.outlook.com
+ ([2a01:111:f400:7eab::61b]
+ helo=NAM11-CO1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1pufnR-0000vN-78
- for qemu-devel@nongnu.org; Thu, 04 May 2023 16:43:26 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1683233003;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=H7PYASPsGG6ph90ZQSJHQDqxffecx65cU9xQ+fLW2qw=;
- b=HIy/QAKVxpXNIpEP66JBvE8lhyldrDv1xPowrWeDW1JA6wp/LC06zzx3vpEKXR4q0n+3BV
- AnNoqyStWsvtMjjANA4YmH3Z5tEWCqy954lbbTcBRWzZSrliCspZkzYSWQY0h3s2dAVvtA
- rWkWX4NC9wDW4xpqiHBZS1YlEDYa2dM=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-494-9No3HuAQORW0HByLgCMaeQ-1; Thu, 04 May 2023 16:43:22 -0400
-X-MC-Unique: 9No3HuAQORW0HByLgCMaeQ-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
- [10.11.54.8])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C9D1038237CB
- for <qemu-devel@nongnu.org>; Thu,  4 May 2023 20:43:21 +0000 (UTC)
-Received: from omen.home.shazbot.org (unknown [10.22.18.185])
- by smtp.corp.redhat.com (Postfix) with ESMTP id EB75CC15BAD;
- Thu,  4 May 2023 20:43:04 +0000 (UTC)
-From: Alex Williamson <alex.williamson@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: clg@redhat.com,
-	Alex Williamson <alex.williamson@redhat.com>
-Subject: [PATCH] vfio/pci: Static Resizable BAR capability
-Date: Thu,  4 May 2023 14:42:48 -0600
-Message-Id: <20230504204248.2774200-1-alex.williamson@redhat.com>
+ (Exim 4.90_1) (envelope-from <Babu.Moger@amd.com>)
+ id 1pufxH-0006AK-Fp
+ for qemu-devel@nongnu.org; Thu, 04 May 2023 16:53:51 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=J1nmoKdzqa4n+OInhA6uVbcbU6ekjxvMHBxJYo2pVXAsiQea7AdPRV/OhFHuu+QNBRwRbBu88yyBIKS8IEzz0u60Cv5YXoo0fUdIX1wpufST7RqIHAnTETfyyDkF06mnR/ynMLKbhFkRP8TNjmaO9pDMvk+Kr+nGpYBfPLMHoZ8q+FVDddxGie//WVNv05S/sblsQtfJEOd4MRXc56CTV70m8ozrQqB4rQDPmFsN4rpENhrkXFmGihOjI0pjhz9afnE85kNgRcTb1EYPY56Vrfh/3PaCdolX41SoNqYZjgTWebTPFFg/zhUZaf37IPLLKhu+AXduTjf5iOpVBFE5Jw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=q/61EDjxQjnEgveD1OOw1GjU7f2wXAypzPTMo2T3a08=;
+ b=ZDsc4Bt6CPd8zund+JWPCFyljc3VveVdIeqsvjYOEcdo4N6VkrkwexggITpJI8YwJ5We4zx59EFuH3Ohk3itDpTvRdRbv+riJNCQZdhkJw4CUWOsMpUrWnTgQQwI2zEX5sXe/7NhM+3uLmeRlw8ehHQmFJGH3RDuMbaOKoI8uDNnoz/7mBEqWc3He1an0VuXtLHplVxzC2KA3YNWAEYmji1Kh2awJzL3DjcnobBixfepYk+sHSX8IppU6MzPk9YuPPwS9xAtCxd8g58bYhso1BfjZ2kzE+FSX5z9LVuehsrd52RUQQ9j6eEBjTA9MbkZzqD9ua5AmeJwmUr2C8qJtQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=redhat.com smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=q/61EDjxQjnEgveD1OOw1GjU7f2wXAypzPTMo2T3a08=;
+ b=EVuv0MFwO3IhmggXI0q8ThCIt+VlG6/FIUc3jshUOwKXHbYldlFiEIrbO+AMZciFpnd7Kwkw+oWmU5TAWbPMHW7zz7wlGLqdhAwANiavZeoVWKYaBWwl49EcHCfRVNB2lw+JPjgDhynYFVhTRGCQhRkycg+cNpefQsdaJHIf6Yo=
+Received: from MW4P222CA0008.NAMP222.PROD.OUTLOOK.COM (2603:10b6:303:114::13)
+ by DS0PR12MB8415.namprd12.prod.outlook.com (2603:10b6:8:fc::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6363.26; Thu, 4 May
+ 2023 20:53:28 +0000
+Received: from CO1NAM11FT098.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:303:114:cafe::91) by MW4P222CA0008.outlook.office365.com
+ (2603:10b6:303:114::13) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6363.26 via Frontend
+ Transport; Thu, 4 May 2023 20:53:27 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ CO1NAM11FT098.mail.protection.outlook.com (10.13.174.207) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.6363.26 via Frontend Transport; Thu, 4 May 2023 20:53:27 +0000
+Received: from bmoger-ubuntu.amd.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Thu, 4 May
+ 2023 15:53:22 -0500
+From: Babu Moger <babu.moger@amd.com>
+To: <pbonzini@redhat.com>, <richard.henderson@linaro.org>
+CC: <weijiang.yang@intel.com>, <philmd@linaro.org>, <dwmw@amazon.co.uk>,
+ <paul@xen.org>, <joao.m.martins@oracle.com>, <qemu-devel@nongnu.org>,
+ <mtosatti@redhat.com>, <kvm@vger.kernel.org>, <mst@redhat.com>,
+ <marcel.apfelbaum@gmail.com>, <yang.zhong@intel.com>, <jing2.liu@intel.com>,
+ <vkuznets@redhat.com>, <michael.roth@amd.com>, <wei.huang2@amd.com>,
+ <berrange@redhat.com>, <babu.moger@amd.com>, <bdas@redhat.com>
+Subject: [PATCH v4 0/7] Add EPYC-Genoa model and update previous EPYC Models
+Date: Thu, 4 May 2023 15:53:05 -0500
+Message-ID: <20230504205313.225073-1-babu.moger@amd.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
-Received-SPF: pass client-ip=170.10.133.124;
- envelope-from=alex.williamson@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -22
-X-Spam_score: -2.3
+Content-Type: text/plain
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CO1NAM11FT098:EE_|DS0PR12MB8415:EE_
+X-MS-Office365-Filtering-Correlation-Id: 65f29cb6-31e4-44fa-50c0-08db4ce19c20
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: aNFlu+GoQVmQdhP/hfFhZdZS32zPtwfsaJzdMKlOAFIp8Sqxka3/bz7ILRc69gngjeMOvaFKWWz5SM4QCR9qV4KntAPNYKzcluipmQQOCRg+2kWHPuWjRjp1BjFQQLd3ISe2CqZv5+WNaaGQx6uf5evmoOHNwRHUDB8TdlKqBDlBRRDbVOnsVNJSPflmbqE+gt5cux5OUYxpr+fpUkr+f1wYEdrmbn2YAlBFApvsjPlTPFfPMBQMUBlNMLWVnUug2VXF97auVbypuYeaG7XUt8eT3S1hEZAYyUObwmj870w+qyxqr3RO0QX2ALP+GKI5704vZacrqG5azjQSr2UwLeZCShALH3egRf+SjhEMQ9BwyHIj3VZoKrnbUFubfD4Zlhyj8GIU63uWLk6pjlsYX9zCXQaDIUu90eErpj6cIp7/OKfsibx3jlolPvWG9htsEyGjBVq5YViSWdjd49PPZwPOvYZ1wB/OFlPTUA7X09i2Lfrpk/P+AgFAk/SIRYSnhbynHaKzo/dsqnLWKQJtp1wV29n14vLrvD+qeebpty8OGKVzVBcfB9x1fDzzhu5PGrRw9KCpcASINmHuPZIAWwIffW1nVovgk3whbSXazGd9yxPfmDy9oLhScrTjf3x5s5dO6NwTJeqt5f1iqPpcrwQSHLE0j0I23kuCzE2WIgVwI5JaHV00O8nhJsVnihPt3o1jchoWOdTlUTH2bdUuj1Ilt0Er1611A1eoGZ4faNPLnPpV0kVISt8Q9RyNH4s9cHPNnhjnMuMwaneVc5mwKm+HXJQmhlZ2COmknFkiwh4=
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230028)(4636009)(396003)(346002)(136003)(39860400002)(376002)(451199021)(46966006)(36840700001)(40470700004)(1076003)(16526019)(26005)(186003)(2616005)(966005)(336012)(426003)(110136005)(54906003)(83380400001)(36860700001)(7696005)(47076005)(36756003)(6666004)(40460700003)(316002)(40480700001)(5660300002)(82740400003)(2906002)(478600001)(15650500001)(4326008)(86362001)(7416002)(8676002)(44832011)(8936002)(41300700001)(81166007)(70586007)(82310400005)(356005)(70206006)(170073001)(36900700001);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 May 2023 20:53:27.1742 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 65f29cb6-31e4-44fa-50c0-08db4ce19c20
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT098.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB8415
+Received-SPF: softfail client-ip=2a01:111:f400:7eab::61b;
+ envelope-from=Babu.Moger@amd.com;
+ helo=NAM11-CO1-obe.outbound.protection.outlook.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.161,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -76,113 +123,56 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The PCI Resizable BAR (ReBAR) capability is currently hidden from the
-VM because the protocol for interacting with the capability does not
-support a mechanism for the device to reject an advertised supported
-BAR size.  However, when assigned to a VM, the act of resizing the
-BAR requires adjustment of host resources for the device, which
-absolutely can fail.  Linux does not currently allow us to reserve
-resources for the device independent of the current usage.
+This series updates the AMD EPYC models and adds new EPYC-Genoa model.
 
-The only writable field within the ReBAR capability is the BAR Size
-register.  The PCIe spec indicates that when written, the device
-should immediately begin to operate with the provided BAR size.  The
-spec however also notes that software must only write values
-corresponding to supported sizes as indicated in the capability and
-control registers.  Writing unsupported sizes produces undefined
-results.  Therefore, if the hypervisor were to virtualize the
-capability and control registers such that the current size is the
-only indicated available size, then a write of anything other than
-the current size falls into the category of undefined behavior,
-where we can essentially expose the modified ReBAR capability as
-read-only.
+Here are the features.
+a. Allow versioned CPUs to specify new cache_info pointers.
+b. Add EPYC-v4, EPYC-Rome-v3 and EPYC-Milan-v2 fixing the
+   cache_info.complex_indexing.
+c. Introduce EPYC-Milan-v2 by adding few missing feature bits.
+d. Add CPU model for AMD EPYC Genoa processor series
 
-This may seem pointless, but users have reported that virtualizing
-the capability in this way not only allows guest software to expose
-related features as available (even if only cosmetic), but in some
-scenarios can resolve guest driver issues.  Additionally, no
-regressions in behavior have been reported for this change.
-
-A caveat here is that the PCIe spec requires for compatibility that
-devices report support for a size in the range of 1MB to 512GB,
-therefore if the current BAR size falls outside that range we revert
-to hiding the capability.
-
-Signed-off-by: Alex Williamson <alex.williamson@redhat.com>
+This series depends on the following recent kernel commits:
+8c19b6f257fa ("KVM: x86: Propagate the AMD Automatic IBRS feature to the guest")
+e7862eda309e ("x86/cpu: Support AMD Automatic IBRS")
+5b909d4ae59a ("x86/cpu, kvm: Add the Null Selector Clears Base feature")
+a9dc9ec5a1fa ("x86/cpu, kvm: Add the NO_NESTED_DATA_BP feature")
+0977cfac6e76 ("KVM: nSVM: Implement support for nested VNMI")
+fa4c027a7956 ("KVM: x86: Add support for SVM's Virtual NMI")
 ---
- hw/vfio/pci.c | 49 ++++++++++++++++++++++++++++++++++++++++++++++++-
- 1 file changed, 48 insertions(+), 1 deletion(-)
+v4:
+  Minor text changes and function name change in patch1 (Robert Hoo).
 
-diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
-index ec9a854361ac..3b4d36ce87bf 100644
---- a/hw/vfio/pci.c
-+++ b/hw/vfio/pci.c
-@@ -2066,6 +2066,49 @@ static int vfio_add_std_cap(VFIOPCIDevice *vdev, uint8_t pos, Error **errp)
-     return 0;
- }
- 
-+static int vfio_setup_rebar_ecap(VFIOPCIDevice *vdev, uint16_t pos)
-+{
-+    uint8_t bars = pci_get_byte(vdev->pdev.config + pos + PCI_REBAR_CTRL) >>
-+                                                    PCI_REBAR_CTRL_NBAR_SHIFT;
-+    int i;
-+
-+    for (i = 0; i < bars; i++) {
-+        uint32_t cap, ctrl;
-+        uint8_t size;
-+
-+        ctrl = pci_get_long(vdev->pdev.config + pos + PCI_REBAR_CTRL + (i * 8));
-+        size = (ctrl & PCI_REBAR_CTRL_BAR_SIZE) >> PCI_REBAR_CTRL_BAR_SHIFT;
-+
-+        /*
-+         * PCIe spec requires HW to support at least one size in the range 1MB
-+         * to 512GB, we intend to mask all sizes except the one currently
-+         * enabled in the size field, therefore if it's outside the range,
-+         * hide the whole capability.
-+         */
-+        if (size > 19) {
-+            return -EINVAL;
-+        }
-+
-+        /* Hide all sizes reported in the ctrl reg per above requirement. */
-+        ctrl &= (PCI_REBAR_CTRL_BAR_SIZE |
-+                 PCI_REBAR_CTRL_NBAR_MASK | PCI_REBAR_CTRL_BAR_IDX);
-+
-+        /* Only the current size is reported in the capabilities register. */
-+        cap = 1 << (4 + size);
-+
-+        /*
-+         * The BAR size field is RW, however we've mangled the capability
-+         * register such that we only report a single size, ie. the current
-+         * BAR size.  A write of an unsupported value is undefined, therefore
-+         * the register field is essentially RO.
-+         */
-+        vfio_add_emulated_long(vdev, pos + PCI_REBAR_CTRL + (i * 8), ctrl, ~0);
-+        vfio_add_emulated_long(vdev, pos + PCI_REBAR_CAP + (i * 8), cap, ~0);
-+    }
-+
-+    return 0;
-+}
-+
- static void vfio_add_ext_cap(VFIOPCIDevice *vdev)
- {
-     PCIDevice *pdev = &vdev->pdev;
-@@ -2139,9 +2182,13 @@ static void vfio_add_ext_cap(VFIOPCIDevice *vdev)
-         case 0: /* kernel masked capability */
-         case PCI_EXT_CAP_ID_SRIOV: /* Read-only VF BARs confuse OVMF */
-         case PCI_EXT_CAP_ID_ARI: /* XXX Needs next function virtualization */
--        case PCI_EXT_CAP_ID_REBAR: /* Can't expose read-only */
-             trace_vfio_add_ext_cap_dropped(vdev->vbasedev.name, cap_id, next);
-             break;
-+        case PCI_EXT_CAP_ID_REBAR:
-+            if (!vfio_setup_rebar_ecap(vdev, next)) {
-+                pcie_add_capability(pdev, cap_id, cap_ver, next, size);
-+            }
-+            break;
-         default:
-             pcie_add_capability(pdev, cap_id, cap_ver, next, size);
-         }
+v3:
+  Refreshed the patches on top of latest master.
+  Add CPU model for AMD EPYC Genoa processor series (zen4)
+  
+v2:
+  Refreshed the patches on top of latest master.
+  Changed the feature NULL_SELECT_CLEARS_BASE to NULL_SEL_CLR_BASE to
+  match the kernel name.
+  https://lore.kernel.org/kvm/20221205233235.622491-3-kim.phillips@amd.com/
+
+v1: https://lore.kernel.org/kvm/167001034454.62456.7111414518087569436.stgit@bmoger-ubuntu/
+v2: https://lore.kernel.org/kvm/20230106185700.28744-1-babu.moger@amd.com/
+v3: https://lore.kernel.org/kvm/20230424163401.23018-1-babu.moger@amd.com/
+
+Babu Moger (5):
+  target/i386: Add a couple of feature bits in  8000_0008_EBX
+  target/i386: Add feature bits for CPUID_Fn80000021_EAX
+  target/i386: Add missing feature bits in EPYC-Milan model
+  target/i386: Add VNMI and automatic IBRS feature bits
+  target/i386: Add EPYC-Genoa model to support Zen 4 processor series
+
+Michael Roth (2):
+  target/i386: allow versioned CPUs to specify new cache_info
+  target/i386: Add new EPYC CPU versions with updated  cache_info
+
+ target/i386/cpu.c | 375 +++++++++++++++++++++++++++++++++++++++++++++-
+ target/i386/cpu.h |  15 ++
+ 2 files changed, 384 insertions(+), 6 deletions(-)
+
 -- 
-2.39.2
+2.34.1
 
 
