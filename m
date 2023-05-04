@@ -2,96 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B3E26F70F4
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 May 2023 19:34:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 567146F714C
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 May 2023 19:42:06 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pucq5-0003Mw-Qv; Thu, 04 May 2023 13:33:57 -0400
+	id 1pucoN-0006y4-GW; Thu, 04 May 2023 13:32:11 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <anisinha@redhat.com>)
- id 1pubK5-0008UQ-55
- for qemu-devel@nongnu.org; Thu, 04 May 2023 11:56:49 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1pubTA-0003uK-Gf
+ for qemu-devel@nongnu.org; Thu, 04 May 2023 12:06:12 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <anisinha@redhat.com>)
- id 1pubK2-00080m-Ka
- for qemu-devel@nongnu.org; Thu, 04 May 2023 11:56:48 -0400
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1pubT8-0006d2-DC
+ for qemu-devel@nongnu.org; Thu, 04 May 2023 12:06:12 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1683215790;
+ s=mimecast20190719; t=1683216361;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=QN8zHA79+6v89GkoW54UVytdiZxOmEkW673w+9Z2iOc=;
- b=QMH0688kCO2wMfTg3Tp3PbB6NyN3VD9JTcEsZcJCburwaX7IKkggKZdv/Tx17VyAjjTSkR
- O3hbFbFwWGTpNquigzwCdxXmd9QQX0TXAXJJ5+dzpIRNZpBHsoM9CYVdkarES7JtEihO5V
- qYkt1fG8jnA/ZN36ooUcNSBRC4MyCGw=
-Received: from mail-pf1-f200.google.com (mail-pf1-f200.google.com
- [209.85.210.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=evUYBb5bab6FQEkQrRMiUed6IK05Yeb0VtTkFNioU1Y=;
+ b=Jw+JdwsVeQgLvWKN3ptWTkQaGUCTLXE7pg/7Nf4bjF3l6LZvnuYFTrAaDPvFOVw8BTDQgj
+ T1KWjQSOESmra0Wy3wEAosR5Knd/G3srl5SHDc+tVMkBqPw+ehsQcW30MdiqGrQJ1SYeZ4
+ +RUCk8vI3VWmhQN/kVi3LjjvgLED6eE=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-168-Stl-a_UPMHO00CiAO1WTHA-1; Thu, 04 May 2023 11:56:29 -0400
-X-MC-Unique: Stl-a_UPMHO00CiAO1WTHA-1
-Received: by mail-pf1-f200.google.com with SMTP id
- d2e1a72fcca58-63b6527a539so414502b3a.0
- for <qemu-devel@nongnu.org>; Thu, 04 May 2023 08:56:29 -0700 (PDT)
+ us-mta-575-641JvJCdNI2y5-rJ6OAcmA-1; Thu, 04 May 2023 12:05:54 -0400
+X-MC-Unique: 641JvJCdNI2y5-rJ6OAcmA-1
+Received: by mail-ed1-f69.google.com with SMTP id
+ 4fb4d7f45d1cf-50bc6c6b9dbso7235359a12.0
+ for <qemu-devel@nongnu.org>; Thu, 04 May 2023 09:05:50 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683215787; x=1685807787;
- h=to:references:message-id:content-transfer-encoding:cc:date
- :in-reply-to:from:subject:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=QN8zHA79+6v89GkoW54UVytdiZxOmEkW673w+9Z2iOc=;
- b=fr9lGCnNAPWAoC9maGAxofJawUzNR46fgsiSd7u7oM3b00swbUK5aPEfihpqU7cVju
- oEpfo58wzM3Dzk+dxRVAdfm2ME3/oPQhQu4fBHEpcFAJbkhRS8prYHmubogvw9B0IDfD
- 1sl92W+qotI+uvozcFOhu80OgcsGq7OEA36F/0KvsXtaluRWSlrkG7oqm0EkUPncoVa+
- QbpihF9tXh6Ruz5sotAq8kR7uQPNvkNsbcmuE1quADhgMI8RqP2h7M6RqzlQCIwaBrrQ
- e+7glXZIn9FZiYZe19YaW2fCxhy8hoEDFSzXBXl82x4i1L4C0N1Eh+LGV12YU5m8TI53
- L3sA==
-X-Gm-Message-State: AC+VfDxZs5xg/DPibeW6wCOcsX5dzpbIEmwWbMCJo4Vi57P3oJb8dPkC
- h2dlBT/0vc7SAbw7rUM8f2S/xKaEy7Ub6Gex6nab/wu++4wNeo3XXDdW7gTsSVUcz23ilKWIcyV
- NHowYa+J9BHLk4Qo=
-X-Received: by 2002:a05:6a00:18a1:b0:643:87fd:1f9 with SMTP id
- x33-20020a056a0018a100b0064387fd01f9mr2548595pfh.2.1683215787564; 
- Thu, 04 May 2023 08:56:27 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ6L5LgqD0k6Tj5s6XLXEfv0SI+odXlRvG8fesmLx0zDe690rfJH9bG0Wzz04nSRW813LNlPHA==
-X-Received: by 2002:a05:6a00:18a1:b0:643:87fd:1f9 with SMTP id
- x33-20020a056a0018a100b0064387fd01f9mr2548575pfh.2.1683215787150; 
- Thu, 04 May 2023 08:56:27 -0700 (PDT)
-Received: from smtpclient.apple ([115.96.136.25])
+ d=1e100.net; s=20221208; t=1683216349; x=1685808349;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=evUYBb5bab6FQEkQrRMiUed6IK05Yeb0VtTkFNioU1Y=;
+ b=VB9wKYaG9qXZ35RUTghqu3em1wUnQ6Ul1mH+rWV4BX0+qRBaj5PGufH/pdg9OGPXP/
+ DvQv5o75bskF/PFmLrXdofkuBPW7VN3oKrUa4gyQlVRfKY8mMqMlyOcgfey2Az3q9eal
+ v6oD3zOQ+06CLHjcyQQxg1eccPs7kfW66y5kqY74pyNnG0m10GlooKaiHY2ULH5+VZ/9
+ cdTcDyw/A6qC8jk1FmoxRVwvlBvktgEckaPWk4dgvwR7ll/C4CkCIWwa1D0nXr5ARrLg
+ xAvkkIW13Gtto8lzFVYUccUlMd798r8qB6DzWpzHpqr7MRBV++26+vHpIQq+bOgQ8A4h
+ 9fng==
+X-Gm-Message-State: AC+VfDxnS4P/5usOMw77WbNDiYUWJdp/TZYJ+v8B1qswqGvRcxFp166E
+ 8JqzsPQF7SaTW64PPSew8roxGjSH8anYnUl5UPq7Jtci6Qqvv1TnSyPxuhu1sX13kfnRJ0Y7A9s
+ EpfMiHonO9R6fcqSfrQ3/Gpa2xbPiLgqvs7qXZ6fwzUyV+7X+y69PcPJf9+Fyx5yDvBdv3vZe
+X-Received: by 2002:a17:907:7ea7:b0:965:77d2:7802 with SMTP id
+ qb39-20020a1709077ea700b0096577d27802mr4065108ejc.0.1683216349012; 
+ Thu, 04 May 2023 09:05:49 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ4DLZUFC/RWTvNHjaWrOADvZhTJUTD8+AhKihdvWhX1Z/e3E7VLylz6BRk9fUiu7AiYzlFaZQ==
+X-Received: by 2002:a17:907:7ea7:b0:965:77d2:7802 with SMTP id
+ qb39-20020a1709077ea700b0096577d27802mr4065064ejc.0.1683216348559; 
+ Thu, 04 May 2023 09:05:48 -0700 (PDT)
+Received: from ?IPV6:2003:cf:d738:349d:2ac7:7f11:643a:99c0?
+ (p200300cfd738349d2ac77f11643a99c0.dip0.t-ipconnect.de.
+ [2003:cf:d738:349d:2ac7:7f11:643a:99c0])
  by smtp.gmail.com with ESMTPSA id
- q14-20020aa7842e000000b00640dbf177b8sm19329113pfn.37.2023.05.04.08.56.24
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Thu, 04 May 2023 08:56:26 -0700 (PDT)
-Content-Type: text/plain;
-	charset=utf-8
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3696.120.41.1.3\))
-Subject: Re: [PATCH 0/2] Add mformat and xorriso dependencies in containers
-From: Ani Sinha <anisinha@redhat.com>
-In-Reply-To: <1873652a-6dac-2851-e09d-474ba9071731@redhat.com>
-Date: Thu, 4 May 2023 21:26:22 +0530
-Cc: =?utf-8?B?IkRhbmllbCBQLiBCZXJyYW5nw6ki?= <berrange@redhat.com>,
- alex.bennee@linaro.org, philmd@linaro.org, wainersm@redhat.com,
- bleal@redhat.com, qemu-devel@nongnu.org, mst@redhat.com
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <45CAF08B-8A52-4D2D-A0BD-2FFDCE855589@redhat.com>
-References: <20230503145547.202251-1-anisinha@redhat.com>
- <8d7e46ec-95c0-5c4a-a843-20106576e9ba@redhat.com>
- <ZFNmhT9Fosay1bee@redhat.com>
- <550DF0FD-701E-408D-924B-C33ABC0BFF10@redhat.com>
- <ZFN8YBO9MXM0qiKi@redhat.com>
- <1873652a-6dac-2851-e09d-474ba9071731@redhat.com>
-To: Thomas Huth <thuth@redhat.com>
-X-Mailer: Apple Mail (2.3696.120.41.1.3)
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=anisinha@redhat.com;
+ g10-20020a170906594a00b008cecb8f374asm18773710ejr.0.2023.05.04.09.05.47
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 04 May 2023 09:05:47 -0700 (PDT)
+Message-ID: <e8cc4521-50a1-2e38-1fb3-8cfa7b0c967e@redhat.com>
+Date: Thu, 4 May 2023 18:05:46 +0200
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH 0/4] vhost-user-fs: Internal migration
+To: qemu-devel@nongnu.org, virtio-fs@redhat.com
+Cc: Stefan Hajnoczi <stefanha@redhat.com>,
+ German Maglione <gmaglione@redhat.com>,
+ Anton Kuchin <antonkuchin@yandex-team.ru>,
+ Juan Quintela <quintela@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>,
+ Stefano Garzarella <sgarzare@redhat.com>,
+ Eugenio Perez Martin <eperezma@redhat.com>
+References: <20230411150515.14020-1-hreitz@redhat.com>
+Content-Language: en-US
+From: Hanna Czenczek <hreitz@redhat.com>
+In-Reply-To: <20230411150515.14020-1-hreitz@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=hreitz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -22
-X-Spam_score: -2.3
-X-Spam_bar: --
-X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.161,
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.161,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-4.28, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -107,113 +107,77 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On 11.04.23 17:05, Hanna Czenczek wrote:
 
+[...]
 
-> On 04-May-2023, at 3:43 PM, Thomas Huth <thuth@redhat.com> wrote:
->=20
-> On 04/05/2023 11.35, Daniel P. Berrang=C3=A9 wrote:
->> On Thu, May 04, 2023 at 02:19:21PM +0530, Ani Sinha wrote:
->>>=20
->>>=20
->>>> On 04-May-2023, at 1:32 PM, Daniel P. Berrang=C3=A9 =
-<berrange@redhat.com> wrote:
->>>>=20
->>>> On Thu, May 04, 2023 at 08:35:53AM +0200, Thomas Huth wrote:
->>>>> On 03/05/2023 16.55, Ani Sinha wrote:
->>>>>> mformat and xorriso tools are needed by biosbits avocado tests. =
-This patchset
->>>>>> adds those two tools in the docker container images.
->>>>>=20
->>>>> tests/qtest/cdrom-test.c already uses genisoimage to create ISO =
-images, and
->>>>> the containers already have that tool installed. Could you maybe =
-switch the
->>>>> biosbits test to use that tool? Or the other way round? ... at =
-least having
->>>>> two tools to create ISO images in our containers sounds IMHO =
-excessive.
->>>>=20
->>>> It looks like this series wasn't tested, because it doesn't even =
-install
->>>> the alpine image:
->>>>=20
->>>> ERROR: unable to select packages:
->>>>  cdrkit-1.1.11-r3:
->>>>    conflicts: xorriso-1.5.4-r2[cmd:mkisofs=3D1.1.11-r3]
->>>>    satisfies: world[cdrkit]
->>>>  xorriso-1.5.4-r2:
->>>>    conflicts: cdrkit-1.1.11-r3[cmd:mkisofs=3D1.5.4-r2]
->>>>    satisfies: world[xorriso]
->>>>=20
->>>>=20
->>>> We definitely need to have either biosbits or cdrom-test.c changed =
-to
->>>> use the same tool.
->>>=20
->>> Wait, it seems xorriso package also provides geninsoimage?
->>>=20
->>> xorriso-1.5.4-4.el9.x86_64 : ISO-9660 and Rock Ridge image =
-manipulation tool
->>> Repo        : @System
->>> Matched from:
->>> Filename    : /usr/bin/genisoimage
->>>=20
->>> xorriso-1.5.4-4.el9.x86_64 : ISO-9660 and Rock Ridge image =
-manipulation tool
->>> Repo        : rhel-9-for-x86_64-appstream-rpms
->>> Matched from:
->>> Filename    : /usr/bin/genisoimage
->>>=20
->>> $ rpm -ql  xorriso-1.5.4-4.el9.x86_64 | grep bin
->>> /usr/bin/cdrecord
->>> /usr/bin/genisoimage
->>> /usr/bin/mkisofs
->>> /usr/bin/osirrox
->>> /usr/bin/wodim
->>> /usr/bin/xorrecord
->>> /usr/bin/xorriso
->>> /usr/bin/xorriso-dd-target
->>> /usr/bin/xorrisofs
->> That is not the case in Fedora.  xorriso does not provide any
->> genisoimage binary, that's provided by a 'genisoimage' RPM
->> which was created from cdrkit src RPM.
->> Alpine likewise has no 'genisoimage' binary provided by
->> xorriso.
->> For even more fun, xorriso is now a sub-RPM of the libisoburn
->> source RPM
->> If we could make cdrom-test  use 'mkisofs' binary then we could
->> likely use the xorriso package on all platforms IIUC.
->=20
-> I assume it shoul be pretty easy to replace it in crom-test.c ... =
-genisofs is a successor of the old mkisofs, so the commandd line =
-parameter should be very similar or even the same.
+> Hanna Czenczek (4):
+>    vhost: Re-enable vrings after setting features
+>    vhost-user: Interface for migration state transfer
+>    vhost: Add high-level state save/load functions
+>    vhost-user-fs: Implement internal migration
 
-In my RHEL 9 box, funny that cdrom-test is actually using xorriso even =
-today since genisoimage is eventually a symlink to xorriso and it works =
-just fine :
+I’m trying to write v2, and my intention was to keep the code 
+conceptually largely the same, but include in the documentation change 
+thoughts and notes on how this interface is to be used in the future, 
+when e.g. vDPA “extensions” come over to vhost-user.  My plan was to, 
+based on that documentation, discuss further.
 
-$ QTEST_QEMU_BINARY=3D./qemu-system-x86_64 ./tests/qtest/cdrom-test
-# random seed: R02S8027650089f37c7be48a579c1b3bdeaa
-xorriso 1.5.4 : RockRidge filesystem manipulator, libburnia project.
+But now I’m struggling to even write that documentation because it’s not 
+clear to me what exactly the result of the discussion was, so I need to 
+stop even before that.
 
-xorriso 1.5.4
-ISO 9660 Rock Ridge filesystem manipulator and CD/DVD/BD burn program
-Copyright (C) 2019, Thomas Schmitt <scdbackup@gmx.net>, libburnia =
-project.
-xorriso version   :  1.5.4
-Version timestamp :  2021.01.30.150001
-Build timestamp   :  -none-given-
-libisofs   in use :  1.5.4  (min. 1.5.4)
-libburn    in use :  1.5.4  (min. 1.5.4)
-libburn OS adapter:  internal GNU/Linux SG_IO adapter sg-linux
-libisoburn in use :  1.5.4  (min. 1.5.4)
-Provided under GNU GPL version 3 or later, due to libreadline license.
-There is NO WARRANTY, to the extent permitted by law.
-xorriso 1.5.4 : RockRidge filesystem manipulator, libburnia project.
+So as far as I understand, we need/want SUSPEND/RESUME for two reasons:
+1. As a signal to the back-end when virt queues are no longer to be 
+processed, so that it is clear that it will not do that when asked for 
+migration state.
+2. Stateful devices that support SET_STATUS receive a status of 0 when 
+the VM is stopped, which supposedly resets the internal state. While 
+suspended, device state is frozen, so as far as I understand, SUSPEND 
+before SET_STATUS would have the status change be deferred until RESUME.
 
-> Ani, could you add a patch to your series to replace it there?
+I don’t want to hang myself up on 2 because it doesn’t really seem 
+important to this series, but: Why does a status of 0 reset the internal 
+state?  [Note: This is all virtio_reset() seems to do, set the status to 
+0.]  The vhost-user specification only points to the virtio 
+specification, which doesn’t say anything to that effect. Instead, an 
+explicit device reset is mentioned, which would be 
+VHOST_USER_RESET_DEVICE, i.e. something completely different. Because 
+RESET_DEVICE directly contradicts SUSPEND’s description, I would like to 
+think that invoking RESET_DEVICE on a SUSPEND-ed device is just invalid.
 
-Just sent the updated patch. Yes replacing genisoimage with xorrisfs is =
-good enough. Exact same arguments work just fine.=
+Is it that a status 0 won’t explicitly reset the internal state, but 
+because it does mean that the driver is unbound, the state should 
+implicitly be reset?
+
+Anyway.  1 seems to be the relevant point for migration.  As far as I 
+understand, currently, a vhost-user back-end has no way of knowing when 
+to stop processing virt queues.  Basically, rings can only transition 
+from stopped to started, but not vice versa.  The vhost-user 
+specification has this bit: “Once the source has finished migration, 
+rings will be stopped by the source. No further update must be done 
+before rings are restarted.”  It just doesn’t say how the front-end lets 
+the back-end know that the rings are (to be) stopped.  So this seems 
+like a pre-existing problem for stateless migration.  Unless this is 
+communicated precisely by setting the device status to 0?
+
+Naturally, what I want to know most of all is whether you believe I can 
+get away without SUSPEND/RESUME for now.  To me, it seems like honestly 
+not really, only when turning two blind eyes, because otherwise we can’t 
+ensure that virtiofsd isn’t still processing pending virt queue requests 
+when the state transfer is begun, even when the guest CPUs are already 
+stopped.  Of course, virtiofsd could stop queue processing right there 
+and then, but…  That feels like a hack that in the grand scheme of 
+things just isn’t necessary when we could “just” introduce 
+SUSPEND/RESUME into vhost-user for exactly this.
+
+Beyond the SUSPEND/RESUME question, I understand everything can stay 
+as-is for now, as the design doesn’t seem to conflict too badly with 
+possible future extensions for other migration phases or more finely 
+grained migration phase control between front-end and back-end.
+
+Did I at least roughly get the gist?
+
+Hanna
 
 
