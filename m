@@ -2,75 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D5A66F6AD9
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 May 2023 14:07:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB4F86F6B2C
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 May 2023 14:29:34 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1puXjK-0002Ck-Sa; Thu, 04 May 2023 08:06:39 -0400
+	id 1puY4b-0001Ut-2z; Thu, 04 May 2023 08:28:37 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farosas@suse.de>) id 1puXjI-0002Bv-2X
- for qemu-devel@nongnu.org; Thu, 04 May 2023 08:06:36 -0400
-Received: from smtp-out2.suse.de ([195.135.220.29])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <farosas@suse.de>) id 1puXjF-00016S-OK
- for qemu-devel@nongnu.org; Thu, 04 May 2023 08:06:35 -0400
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 4731520A64;
- Thu,  4 May 2023 12:06:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1683201992; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=tdgA+ZnHz8tqkpgjfp7M8qbWg+dCQixkEug88Ux2kLs=;
- b=HiX3q12Ls0bttSi6ynbqBKruZJ/vgDd+HGB6PTuZiHF5C9FNTCcw6yJfbzvlXxZq4EWSLs
- qiQOps9qjMtnJ90r+vMz/pLFjz9gNh/yoskkDghQry16NtPtxfbAo3yWnwJdOfFWKqKpXT
- OE6amxdK7FKdSeNe7F63M6BDnxz0Wh8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1683201992;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=tdgA+ZnHz8tqkpgjfp7M8qbWg+dCQixkEug88Ux2kLs=;
- b=9JDd328qEny17rFgaSkz0+MkpXoMT25TkCHY879Y0+BFWD8SDB6bF0MKs/nRf0aXoIHrVF
- R1iigHy/S/Rn2FBg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id CA775133F7;
- Thu,  4 May 2023 12:06:31 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id FzR5JMefU2SWMQAAMHmgww
- (envelope-from <farosas@suse.de>); Thu, 04 May 2023 12:06:31 +0000
-From: Fabiano Rosas <farosas@suse.de>
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: qemu-devel@nongnu.org, =?utf-8?Q?Daniel_P_=2E_Berrang=C3=A9?=
- <berrange@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, =?utf-8?Q?Marc-Andr=C3=A9?= Lureau
- <marcandre.lureau@redhat.com>, Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH v4 2/2] meson: Deserialize the man pages and html builds
-In-Reply-To: <CAFEAcA-QU0qs=P8GLPcngt96TiOHQTaRUnuyfadyut=fo5ymwA@mail.gmail.com>
-References: <20230503203947.3417-1-farosas@suse.de>
- <20230503203947.3417-3-farosas@suse.de>
- <CAFEAcA-QU0qs=P8GLPcngt96TiOHQTaRUnuyfadyut=fo5ymwA@mail.gmail.com>
-Date: Thu, 04 May 2023 09:06:29 -0300
-Message-ID: <87fs8ccncq.fsf@suse.de>
+ (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
+ id 1puY4O-0001Rk-CC
+ for qemu-devel@nongnu.org; Thu, 04 May 2023 08:28:24 -0400
+Received: from mail.loongson.cn ([114.242.206.163] helo=loongson.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <gaosong@loongson.cn>) id 1puY4K-0002yA-De
+ for qemu-devel@nongnu.org; Thu, 04 May 2023 08:28:24 -0400
+Received: from loongson.cn (unknown [10.2.5.185])
+ by gateway (Coremail) with SMTP id _____8AxnOrbpFNkeaAEAA--.7399S3;
+ Thu, 04 May 2023 20:28:11 +0800 (CST)
+Received: from localhost.localdomain (unknown [10.2.5.185])
+ by localhost.localdomain (Coremail) with SMTP id
+ AQAAf8Cx77PapFNk1uxJAA--.5674S2; 
+ Thu, 04 May 2023 20:28:10 +0800 (CST)
+From: Song Gao <gaosong@loongson.cn>
+To: qemu-devel@nongnu.org
+Cc: richard.henderson@linaro.org,
+	gaosong@loongson.cn
+Subject: [PATCH v5 00/44] Add LoongArch LSX instructions
+Date: Thu,  4 May 2023 20:27:26 +0800
+Message-Id: <20230504122810.4094787-1-gaosong@loongson.cn>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-Content-Type: text/plain
-Received-SPF: pass client-ip=195.135.220.29; envelope-from=farosas@suse.de;
- helo=smtp-out2.suse.de
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: AQAAf8Cx77PapFNk1uxJAA--.5674S2
+X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
+X-Coremail-Antispam: 1Uk129KBjvJXoWxWFWUZFWrtr4kAr4DAry7Wrg_yoWrAryfpr
+ W7ZrnrtFW8XrZ7XF1kXa9xZrn0qr18G3y2v3Z3t348uw43AryxZF18t3sFgFyUXayUCry2
+ qFy0kwn8XF43X37anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
+ qI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUIcSsGvfJTRUUU
+ b08Fc2x0x2IEx4CE42xK8VAvwI8IcIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4
+ AK67xGY2AK021l84ACjcxK6xIIjxv20xvE14v26r4j6ryUM28EF7xvwVC0I7IYx2IY6xkF
+ 7I0E14v26r4j6F4UM28EF7xvwVC2z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I
+ 0E14v26rxl6s0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12xvs2x26I8E6xAC
+ xx1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6x8ErcxFaVAv8VWrMcvjeVCFs4IE7xkEbV
+ WUJVW8JwACjcxG0xvY0x0EwIxGrwCF04k20xvY0x0EwIxGrwCF04k20xvE74AGY7Cv6cx2
+ 6rWl4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8Gjc
+ xK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1Y6r17MIIYrxkI7VAKI48JMIIF0xvE2Ix0
+ cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8V
+ AvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E
+ 14v26r1j6r4UYxBIdaVFxhVjvjDU0xZFpf9x0zRVWlkUUUUU=
+Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
+ helo=loongson.cn
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -86,55 +73,119 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Peter Maydell <peter.maydell@linaro.org> writes:
+Hi,
 
-> On Wed, 3 May 2023 at 21:39, Fabiano Rosas <farosas@suse.de> wrote:
->>
->> For the documentation builds (man pages & manual), we let Sphinx
->> decide when to rebuild and use a depfile to know when to trigger the
->> make target.
->>
->> We currently use a trick of having the man pages custom_target take as
->> input the html pages custom_target object, which causes both targets
->> to be executed if one of the dependencies has changed. However, having
->> this at the custom_target level means that the two builds are
->> effectively serialized.
->>
->> We can eliminate the dependency between the targets by adding a second
->> depfile for the man pages build, allowing them to be parallelized by
->> ninja while keeping sphinx in charge of deciding when to rebuild.
->>
->> Since they can now run in parallel, separate the Sphinx cache
->> directory of the two builds. We need this not only for data
->> consistency but also because Sphinx writes builder-dependent
->> environment information to the cache directory (see notes under
->> smartquotes_excludes in sphinx docs [1]).
->
-> The sphinx-build manpage disagrees about that last part.
-> https://www.sphinx-doc.org/en/master/man/sphinx-build.html
-> says about -d:
-> "with this option you can select a different cache directory
->  (the doctrees can be shared between all builders)"
->
+This series adds LoongArch LSX instructions.
 
-The issue I had is that sphinx by default uses smart quotes for html
-builders, but not for man builders. But whichever builder runs first
-gets to set the smartquotes option and that sticks for the next
-builder. That causes our man pages to come up with fancy curly quotes
-instead of ' which is probably not an issue, but I didn't want to
-produce different output from what we already have today.
+About test:
+V2 we use RISU test the LoongArch LSX instructions.
 
-I ended up conflating the cache directory (-d) with the environment
-(-E), so it is possible that we can reuse the cache but not the
-environment (where I assume the smartquotes option is stored). Well, I
-better go read the sphinx code and figure that out.
+QEMU:
+    https://github.com/loongson/qemu/tree/tcg-old-abi-support-lsx
+RISU:
+    https://github.com/loongson/risu/tree/loongarch-suport-lsx
 
-> If we don't share the cache directory, presumably Sphinx
-> now ends up parsing all the input files twice, once per
-> builder, rather than being able to share them?
->
+Build test:
+make docker-test-build@fedora-i386-cross
 
-Yes, but having it run in parallel from the ninja level is still
-faster. Of course, if we could reuse the cache, this could potentially
-be even faster. I'll try to determine if it is really safe to do so.
+V5:
+  - R-b and rebase;
+  - vld/vst{x} Memop = MO_128 | MO_TE.
+
+V4:
+  - R-b and rebase;
+  - Migrate the upper half lsx regs;
+  - Remove tcg_gen_mulus2_*;
+  - Vsetallnez use !do_match2;
+  - Use tcg_gen_concat_i64_i128/tcg_gen_extr_i128_i64 to replace 
+    TCGV128_LOW(val)/TCGV128_High(val);
+
+V3:
+  - R-b;
+  - Add unsigned data type in vreg;
+  - Add ctx->vl;
+  - Use tcg_constant_vec_matching instead of dupi;
+  - Use __typeof(Vd->E(0)) instead of the output type;
+  - Tcg integer expansion;
+  - Use tcg_gen_qemu_ld/st_i128 to implement vld/vst;
+  - Fix some typos;
+  - Optimize code based on Richard's comments.
+
+V2:
+  - Use gvec;
+  - Fix instructions bugs;
+  - Add set_fpr()/get_fpr() replace to cpu_fpr.
+
+Song Gao (44):
+  target/loongarch: Add LSX data type VReg
+  target/loongarch: meson.build support build LSX
+  target/loongarch: Add CHECK_SXE maccro for check LSX enable
+  target/loongarch: Implement vadd/vsub
+  target/loongarch: Implement vaddi/vsubi
+  target/loongarch: Implement vneg
+  target/loongarch: Implement vsadd/vssub
+  target/loongarch: Implement vhaddw/vhsubw
+  target/loongarch: Implement vaddw/vsubw
+  target/loongarch: Implement vavg/vavgr
+  target/loongarch: Implement vabsd
+  target/loongarch: Implement vadda
+  target/loongarch: Implement vmax/vmin
+  target/loongarch: Implement vmul/vmuh/vmulw{ev/od}
+  target/loongarch: Implement vmadd/vmsub/vmaddw{ev/od}
+  target/loongarch: Implement vdiv/vmod
+  target/loongarch: Implement vsat
+  target/loongarch: Implement vexth
+  target/loongarch: Implement vsigncov
+  target/loongarch: Implement vmskltz/vmskgez/vmsknz
+  target/loongarch: Implement LSX logic instructions
+  target/loongarch: Implement vsll vsrl vsra vrotr
+  target/loongarch: Implement vsllwil vextl
+  target/loongarch: Implement vsrlr vsrar
+  target/loongarch: Implement vsrln vsran
+  target/loongarch: Implement vsrlrn vsrarn
+  target/loongarch: Implement vssrln vssran
+  target/loongarch: Implement vssrlrn vssrarn
+  target/loongarch: Implement vclo vclz
+  target/loongarch: Implement vpcnt
+  target/loongarch: Implement vbitclr vbitset vbitrev
+  target/loongarch: Implement vfrstp
+  target/loongarch: Implement LSX fpu arith instructions
+  target/loongarch: Implement LSX fpu fcvt instructions
+  target/loongarch: Implement vseq vsle vslt
+  target/loongarch: Implement vfcmp
+  target/loongarch: Implement vbitsel vset
+  target/loongarch: Implement vinsgr2vr vpickve2gr vreplgr2vr
+  target/loongarch: Implement vreplve vpack vpick
+  target/loongarch: Implement vilvl vilvh vextrins vshuf
+  target/loongarch: Implement vld vst
+  target/loongarch: Implement vldi
+  target/loongarch: Use {set/get}_gpr replace to cpu_fpr
+  target/loongarch: CPUCFG support LSX
+
+ linux-user/loongarch64/signal.c               |    4 +-
+ target/loongarch/cpu.c                        |    5 +-
+ target/loongarch/cpu.h                        |   27 +-
+ target/loongarch/disas.c                      |  911 ++++
+ target/loongarch/fpu_helper.c                 |    2 +-
+ target/loongarch/gdbstub.c                    |    4 +-
+ target/loongarch/helper.h                     |  566 +++
+ .../loongarch/insn_trans/trans_farith.c.inc   |   72 +-
+ target/loongarch/insn_trans/trans_fcmp.c.inc  |   12 +-
+ .../loongarch/insn_trans/trans_fmemory.c.inc  |   37 +-
+ target/loongarch/insn_trans/trans_fmov.c.inc  |   31 +-
+ target/loongarch/insn_trans/trans_lsx.c.inc   | 4400 +++++++++++++++++
+ target/loongarch/insns.decode                 |  811 +++
+ target/loongarch/internals.h                  |   23 +
+ target/loongarch/lsx_helper.c                 | 3004 +++++++++++
+ target/loongarch/machine.c                    |   79 +-
+ target/loongarch/meson.build                  |    1 +
+ target/loongarch/translate.c                  |   55 +-
+ target/loongarch/translate.h                  |    1 +
+ 19 files changed, 9988 insertions(+), 57 deletions(-)
+ create mode 100644 target/loongarch/insn_trans/trans_lsx.c.inc
+ create mode 100644 target/loongarch/lsx_helper.c
+
+-- 
+2.31.1
+
 
