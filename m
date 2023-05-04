@@ -2,85 +2,110 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DEF806F6549
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 May 2023 08:52:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B00926F655C
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 May 2023 08:57:32 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1puSoG-0006Aa-83; Thu, 04 May 2023 02:51:24 -0400
+	id 1puStT-0007R7-I1; Thu, 04 May 2023 02:56:48 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1puSoA-0006AO-Jx
- for qemu-devel@nongnu.org; Thu, 04 May 2023 02:51:18 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1puStA-0007QX-EM
+ for qemu-devel@nongnu.org; Thu, 04 May 2023 02:56:28 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1puSo8-00024E-Dp
- for qemu-devel@nongnu.org; Thu, 04 May 2023 02:51:18 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1puSt8-00051y-Oy
+ for qemu-devel@nongnu.org; Thu, 04 May 2023 02:56:27 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1683183075;
+ s=mimecast20190719; t=1683183385;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=BMycvkEYwFC4khcp1fXKSnhfUKK8B/qFARTss42/LZc=;
- b=dr7oobJC2ag/rlOMOOrTpKZx3dapfTgR3e0TRimdiYYqv7x4DJNumoIFEUMELU/StC03Kp
- E2nfWCeFXsLSdB1wb1uXNkCQ1NgXrGEdksQ5NiqRoQAlClsRAQrdyP/SboU+Tfv17wJVAn
- gm2Oe4Ueo8xdVQzad0xTmuY/gWjukNg=
-Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
- [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=KSEdqS53iXoaCZxhq7JVYfhIWJEheAVKjupkF6jDTGU=;
+ b=jMpVeRy2eUNHKftsmqJTJ+JRC9LY4g1NyMpZi5CpQIW3oCJVoeoQRTPwozLYrCtFsDMvy7
+ h851/tPz7Jwy8AECLGEmUyhcovMEFfc2s7QFzOsuSjeb0MqnIioAJeYkJ43L5SRe+peSK+
+ 6I/1UmrGVCxDz0viWbvAIInHm+a7OU4=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-596-jZKBh0n7MbeIjxZLB7JOkg-1; Thu, 04 May 2023 02:51:13 -0400
-X-MC-Unique: jZKBh0n7MbeIjxZLB7JOkg-1
-Received: by mail-ej1-f69.google.com with SMTP id
- a640c23a62f3a-94ec76d7a26so9642066b.1
- for <qemu-devel@nongnu.org>; Wed, 03 May 2023 23:51:12 -0700 (PDT)
+ us-mta-256---0qNhdTNqKPspQdRA3ehg-1; Thu, 04 May 2023 02:56:24 -0400
+X-MC-Unique: --0qNhdTNqKPspQdRA3ehg-1
+Received: by mail-ed1-f71.google.com with SMTP id
+ 4fb4d7f45d1cf-50bcc3ee913so62780a12.2
+ for <qemu-devel@nongnu.org>; Wed, 03 May 2023 23:56:23 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683183072; x=1685775072;
+ d=1e100.net; s=20221208; t=1683183383; x=1685775383;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=BMycvkEYwFC4khcp1fXKSnhfUKK8B/qFARTss42/LZc=;
- b=lZvNvCxU1KCkHwV3880DizmVbT55ZhHEeW2FtgCs8j5rL9dtc6qwVWIPeh2p8rkdkV
- qJFgt8xQdoWGSG12QFboI62BGnGeW522rU1rgBg/Uyk3MCAiCHLcPFLVLsBAH6R2RAS6
- U1QnVcPdcac+aIJQbn6z6IPoBfZkU+FMuMlCIabF2UBJ9n1z35tgj84Gz9T48eWxKqSS
- buqAbVQZjIsd157zKUZiXAzg+iGUjaOaE8SaaOl2tJBIOHAicR8idTfoQnB66X1r2fw9
- st7dDtRZJZD3XE5UWRebrjw9bvuxb2f6NcdzbnNb4v/b0ZW0be7+WcbEh/4qHHdGBAPa
- vnzg==
-X-Gm-Message-State: AC+VfDycroF7yezVWvQoNrlFoPcVMlMq1noKSYzrF6D1ihlu76KkhzCl
- ibGZSf0axBRD/NTInV4++brHyRpKlip9I1IQsViSajlGx43D53oZSUyaFN8dgv0L9HXPdLaea/V
- vaPV0K5X2MVKcTIY=
-X-Received: by 2002:a17:907:2d12:b0:965:66dd:78f8 with SMTP id
- gs18-20020a1709072d1200b0096566dd78f8mr3504401ejc.56.1683183072146; 
- Wed, 03 May 2023 23:51:12 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ4Hcg3baCI2H7oO4ZeHzO/3pDx4vW1Ke3ou7q7gJdEmLGLEV26GP9cVdbmYj1R+RY3redr1uw==
-X-Received: by 2002:a17:907:2d12:b0:965:66dd:78f8 with SMTP id
- gs18-20020a1709072d1200b0096566dd78f8mr3504392ejc.56.1683183071846; 
- Wed, 03 May 2023 23:51:11 -0700 (PDT)
+ bh=KSEdqS53iXoaCZxhq7JVYfhIWJEheAVKjupkF6jDTGU=;
+ b=OkNagKbJC4VJsEV2kUnj/qOESSy8piXOxh3GbN/dZgyLlTg0w5AH1wcC2IazhFRlTR
+ jMj6XRKXWZWRCGtwN4EcRyms7yYfJ6nJKCSOMeN5qnXK2ZuPLkusFDtWPD8VDWMNpxyi
+ 8Opk5OXN86D2oAhkpXj5Xhqm3q5gvFHKA/s7rBU8RFwq32tUeaevAFwSTIcLGJiQZv30
+ JuotNBM/kdZ/FtWwNwCOFDxREAvkiW0JVt7lABzYMvasT+Mja/UtehsKE+9HL4+HqTcP
+ nU1Luxdogy5Ice40nWXqJ5G4GUVbnMXoawkGbeqNyumgrjN288P/nODv72M0fXp6/8Qg
+ ufMA==
+X-Gm-Message-State: AC+VfDyOLwD4hbGwXpbjU2rKqtQjiMNjvUDsMbaiZucq1THn2vDYQsmg
+ DUUCt1lhVaa15zZBVRXG+P+cZiFelrKse5GEvA2rch4nZjXXwsqo25C7EnD2xrsHihFAfv6c5AR
+ YZJnqB0s4T2iVhB8=
+X-Received: by 2002:a17:907:3e22:b0:94e:c40a:cca9 with SMTP id
+ hp34-20020a1709073e2200b0094ec40acca9mr6169901ejc.35.1683183383111; 
+ Wed, 03 May 2023 23:56:23 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ7YkcqjHzqdEL2nev6EBG98vm/gPxC7wihnukirUprBdof67RAkDWUy9I90mcx+DyWxDLjMoQ==
+X-Received: by 2002:a17:907:3e22:b0:94e:c40a:cca9 with SMTP id
+ hp34-20020a1709073e2200b0094ec40acca9mr6169878ejc.35.1683183382781; 
+ Wed, 03 May 2023 23:56:22 -0700 (PDT)
 Received: from [192.168.0.3] (ip-109-43-179-91.web.vodafone.de.
  [109.43.179.91]) by smtp.gmail.com with ESMTPSA id
- jt11-20020a170906ca0b00b00958434d4ecesm15816926ejb.13.2023.05.03.23.51.10
+ re21-20020a170906d8d500b0094ea48e9052sm18269263ejb.32.2023.05.03.23.56.19
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 03 May 2023 23:51:11 -0700 (PDT)
-Message-ID: <6aa44584-3a3a-e1b8-db7d-04dbbd82e68e@redhat.com>
-Date: Thu, 4 May 2023 08:51:09 +0200
+ Wed, 03 May 2023 23:56:22 -0700 (PDT)
+Message-ID: <6ed176f9-be38-b4ea-ac90-906cc62c24c4@redhat.com>
+Date: Thu, 4 May 2023 08:56:19 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.9.0
-Subject: Re: [PATCH] Add information how to fix common build error on Windows
- in symlink-install-tree
+Subject: Re: [PATCH 05/22] hw/arm: Select VIRTIO_NET for virt machine
 Content-Language: en-US
-To: Mateusz Krawczuk <mat.krawczuk@gmail.com>
-Cc: John Snow <jsnow@redhat.com>, Cleber Rosa <crosa@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
+To: Peter Maydell <peter.maydell@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>
+Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org, Laurent Vivier <lvivier@redhat.com>,
+ Artyom Tarasenko <atar4qemu@gmail.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Leif Lindholm <quic_llindhol@quicinc.com>, Gerd Hoffmann
+ <kraxel@redhat.com>, Helge Deller <deller@gmx.de>,
+ Xiaojuan Yang <yangxiaojuan@loongson.cn>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Cleber Rosa <crosa@redhat.com>,
+ Eduardo Habkost <eduardo@habkost.net>, Juan Quintela <quintela@redhat.com>,
+ John Snow <jsnow@redhat.com>, Yoshinori Sato <ysato@users.sourceforge.jp>,
+ =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
+ Ilya Leoshkevich <iii@linux.ibm.com>,
+ Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>, Andrew Jeffery
+ <andrew@aj.id.au>, qemu-s390x@nongnu.org,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-arm@nongnu.org,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Beraldo Leal <bleal@redhat.com>, Max Filippov <jcmvbkbc@gmail.com>,
  =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Jiaxun Yang <jiaxun.yang@flygoat.com>, Radoslaw Biernacki
+ <rad@semihalf.com>, Aurelien Jarno <aurelien@aurel32.net>,
+ David Hildenbrand <david@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ Song Gao <gaosong@loongson.cn>, Joel Stanley <joel@jms.id.au>,
  =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- "open list:All patches CC here" <qemu-devel@nongnu.org>
-References: <20230503150855.1182-1-mat.krawczuk@gmail.com>
+ Fabiano Rosas <farosas@suse.de>
+References: <20230503091244.1450613-1-alex.bennee@linaro.org>
+ <20230503091244.1450613-6-alex.bennee@linaro.org>
+ <531a2eab-f0e6-46a5-c021-c82746c1ae38@redhat.com> <87y1m5s9yl.fsf@linaro.org>
+ <5fb214d8-4a54-f896-f23f-fe9e646e4b2d@redhat.com>
+ <CAFEAcA-Cfz8CkNeTQodoSitocBmm4ddk25Dq8x=5FiiGvaS34Q@mail.gmail.com>
 From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <20230503150855.1182-1-mat.krawczuk@gmail.com>
+In-Reply-To: <CAFEAcA-Cfz8CkNeTQodoSitocBmm4ddk25Dq8x=5FiiGvaS34Q@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -65
@@ -106,49 +131,35 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 03/05/2023 17.08, Mateusz Krawczuk wrote:
-> By default, Windows doesn't allow to create soft links for user account and only administrator is allowed to do this. To fix this problem you have to raise your permissions or enable Developer Mode, which available since Windows 10. Additional explanation when build fails will allow developer to fix the problem on his computer faster.
+On 03/05/2023 20.32, Peter Maydell wrote:
+> On Wed, 3 May 2023 at 18:06, Paolo Bonzini <pbonzini@redhat.com> wrote:
+>>
+>> On 5/3/23 17:35, Alex Bennée wrote:
+>>>> You should select a device only if you cannot even start
+>>>> the machine without --nodefaults.
+>>>
+>>> Which is the case here right? We could skip tests that explicitly
+>>> instantiate a device but these are tests failing with default devices
+>>> the machine tries to instantiate.
+>>
+>> I'm sorry, I meant "select" directives are needed if you cannot even
+>> start the machine *with* --nodefaults.
+>>
+>> Devices that are added *without* --nodefaults should use "imply"
+>> directives instead, as is already the case.
 > 
-> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1386
-> Signed-off-by: Mateusz Krawczuk <mat.krawczuk@gmail.com>
-> ---
->   scripts/symlink-install-tree.py | 5 +++++
->   1 file changed, 5 insertions(+)
-> 
-> diff --git a/scripts/symlink-install-tree.py b/scripts/symlink-install-tree.py
-> index 67cb86dd52..bb3a2d708c 100644
-> --- a/scripts/symlink-install-tree.py
-> +++ b/scripts/symlink-install-tree.py
-> @@ -7,12 +7,14 @@
->   import subprocess
->   import sys
->   
-> +
->   def destdir_join(d1: str, d2: str) -> str:
->       if not d1:
->           return d2
->       # c:\destdir + c:\prefix must produce c:\destdir\prefix
->       return str(PurePath(d1, *PurePath(d2).parts[1:]))
->   
-> +
+> Do we really want to build a QEMU that then barfs unless
+> you pass -nodefaults, though ? That doesn't seem very useful.
+> Something somewhere ought to be saying "if you want the
+> virt board then you almost certainly want these". Or
+> alternatively we should fall back to "don't create a
+> network device we don't have", maybe ?
 
-Please avoid such white space damage. QEMU coding style is to use only one 
-empty line between functions.
+I think we should do the latter. If you compiled without certain devices 
+that are used only in the default mode, the board should not try to 
+instantiate such devices (since it is also working fine without them). Just 
+my 0.02 €.
 
   Thomas
-
-
->   introspect = os.environ.get('MESONINTROSPECT')
->   out = subprocess.run([*introspect.split(' '), '--installed'],
->                        stdout=subprocess.PIPE, check=True).stdout
-> @@ -28,5 +30,8 @@ def destdir_join(d1: str, d2: str) -> str:
->           os.symlink(source, bundle_dest)
->       except BaseException as e:
->           if not isinstance(e, OSError) or e.errno != errno.EEXIST:
-> +            if os.name == 'nt':
-> +                print('\nPlease enable Developer Mode to support soft link '
-> +                      'without Administrator permission\n')
->               print(f'error making symbolic link {dest}', file=sys.stderr)
->               raise e
 
 
