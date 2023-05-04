@@ -2,79 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 794C96F7963
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 May 2023 00:49:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 16FE46F796B
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 May 2023 00:54:52 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1puhlM-0006ur-2X; Thu, 04 May 2023 18:49:24 -0400
+	id 1puhpi-0008WH-4D; Thu, 04 May 2023 18:53:55 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1puhlJ-0006uP-9u
- for qemu-devel@nongnu.org; Thu, 04 May 2023 18:49:21 -0400
+ id 1puhpe-0008W8-EH
+ for qemu-devel@nongnu.org; Thu, 04 May 2023 18:53:50 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1puhlH-0000WV-FY
- for qemu-devel@nongnu.org; Thu, 04 May 2023 18:49:21 -0400
+ id 1puhpY-0003Fi-UF
+ for qemu-devel@nongnu.org; Thu, 04 May 2023 18:53:50 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1683240558;
+ s=mimecast20190719; t=1683240823;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=+3ekbnQ8XWaxZy5RSz16ZW4WUAMmhHljg1RFNru0SIE=;
- b=KDOxCS60Qdu5UPch/KeBPpzoUvxHbPNkyVtM5YgxUgL7FpBBPEVbLmhvJS5RIlcLfr6+TR
- XwdVqcy3C4Hv6+E45my4znqb4GQFtCiFda1IfSQb2+I4sWDczJSPlxd03EEtZRuVptFaB2
- qmsimyRQxv/1heGB19mmTl4X2TsrUdQ=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=I2Ly/JCwzSNIm1xCfO8zJ3mJXdoAliRA3y+4MzV2gFE=;
+ b=cJav30I6pfTYwAcBX6+YfJoyV/XFWxx72vs9grb49KpjKPtl8MkXrhsiSOu+DNeU9yxPqM
+ wJ8RHAamGjRTdelW63NoJ6W9StWmjraFQO9EiCOujCwMzvE1uP7yQL/GkRGbxarjmRJz2+
+ 1ValvS8aV777gMHw5xFVbvdEc/Yx/k0=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-8-oTTOA1QWNheEb48CGAorLQ-1; Thu, 04 May 2023 18:49:16 -0400
-X-MC-Unique: oTTOA1QWNheEb48CGAorLQ-1
-Received: by mail-wm1-f70.google.com with SMTP id
- 5b1f17b1804b1-3f315735edeso50246625e9.1
- for <qemu-devel@nongnu.org>; Thu, 04 May 2023 15:49:16 -0700 (PDT)
+ us-mta-522-RrtCrwvXNSyGMLjh4bA4Ow-1; Thu, 04 May 2023 18:53:41 -0400
+X-MC-Unique: RrtCrwvXNSyGMLjh4bA4Ow-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ 5b1f17b1804b1-3f16fa91923so6347575e9.2
+ for <qemu-devel@nongnu.org>; Thu, 04 May 2023 15:53:41 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683240555; x=1685832555;
+ d=1e100.net; s=20221208; t=1683240820; x=1685832820;
  h=content-transfer-encoding:mime-version:message-id:date:reply-to
  :user-agent:references:in-reply-to:subject:cc:to:from
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=+3ekbnQ8XWaxZy5RSz16ZW4WUAMmhHljg1RFNru0SIE=;
- b=QCawHifHDqnkl7s8pyIq+pyza2ByDMYYYIrL+bPzicqSqZLdLTGKqMlBwg5VTMFRXl
- tBIv8yPn77vZ3ZKPEsTdtXfdkK3fGRmAmBy1cLllTT6qc+pRy5/Vz6fuBm+9KRVm3Ep1
- 1hg+1oIkzIJdMfUbMNSO+clj8Ih0fRG6kNqt6KYxMMsc0hjyDZWwglaOUAs51W5shX8/
- J93MeV5Fg/My8mEuVXrJ2LpzUl3RnX+1Y+cH49WJc39cIzghY70vIFZQblx8K2zrnTZ8
- SCA6v5FIkupIN9EySELXpBADZZqW0Oxz4PGF2g/C05Alr7zHMo0lSt2e7nazO85q9q+v
- GsMg==
-X-Gm-Message-State: AC+VfDwaj3XLyjjtolD9frAOarK56bbf31h/t8rvASVzlfKS83pcLHwi
- q02WxOBW9QxCkn6kfaSEjZD1kNG0s9Iy7gQEsXh9IhIeSDzU3aObXkjtps0GOhdWIMTUm13TfiY
- KHxxXqVXkecHDk18=
-X-Received: by 2002:a05:600c:1da6:b0:3f0:a095:7b9 with SMTP id
- p38-20020a05600c1da600b003f0a09507b9mr232611wms.5.1683240555610; 
- Thu, 04 May 2023 15:49:15 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ48seO5WHySvc4tcGlm/Kfjb80FfgwgG6ue4kDke4DFfTHtcxQVpyff8UDT32rvlNXJ2+dUYw==
-X-Received: by 2002:a05:600c:1da6:b0:3f0:a095:7b9 with SMTP id
- p38-20020a05600c1da600b003f0a09507b9mr232604wms.5.1683240555300; 
- Thu, 04 May 2023 15:49:15 -0700 (PDT)
+ bh=I2Ly/JCwzSNIm1xCfO8zJ3mJXdoAliRA3y+4MzV2gFE=;
+ b=etPKJTOo+47Pplle5yDKy3OwZ8GZnefNt/qtNOMuvSbaI9c5foTJN0avjWepXOZqkl
+ mzwkj+0fn2Vpcz+qrXL4wnICMM2jSFmccT2YZLmB5JsN12WIz9sSSXVsKg0wP3D4l+do
+ l6nTRvPjN4CFfBJB8as2bn1S/u2N5HmVCJzsZNCmnAHoz/eKBzpLBoeTTaGSpHxUEO6F
+ 4uBII6XQAYC/ApKwWo4MUQPjp/v3tuwxbBACgKeqrNRdwuPkLTHfsS5vyXbR8sfGwSxY
+ /gVtArDKnkMbbAajJMhpbttep2REq2iCMjN6cRI0rFc6yvwft6HAb/ZTV868Z7fllPDN
+ +IIA==
+X-Gm-Message-State: AC+VfDxU+7PXxmvYCUyNsNIOH5rW4cpoc+qBieWF7+lsNe34WB2J4QT5
+ x8fKF6MT74Ev6H17TKnvLUB5lFYQYlJBcqyVw+OTuVEEkH0hiYCOrmMA7j82mt1uBe7rBB4S4Fv
+ 26RMfxxhW/mouBB8=
+X-Received: by 2002:adf:e84e:0:b0:306:2e04:5925 with SMTP id
+ d14-20020adfe84e000000b003062e045925mr3597210wrn.17.1683240820764; 
+ Thu, 04 May 2023 15:53:40 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ6wt0WJ01UlDnHgu0EGCvLh8sVmGSWvz+YimYiMSBn9Za7gP+M+PYMyrDt85NJD/WP0isXmsw==
+X-Received: by 2002:adf:e84e:0:b0:306:2e04:5925 with SMTP id
+ d14-20020adfe84e000000b003062e045925mr3597201wrn.17.1683240820510; 
+ Thu, 04 May 2023 15:53:40 -0700 (PDT)
 Received: from redhat.com (static-92-120-85-188.ipcom.comunitel.net.
  [188.85.120.92]) by smtp.gmail.com with ESMTPSA id
- w8-20020a1cf608000000b003f18b942338sm6102186wmc.3.2023.05.04.15.49.14
+ d6-20020a056000114600b00306344eaebfsm423820wrx.28.2023.05.04.15.53.39
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 04 May 2023 15:49:14 -0700 (PDT)
+ Thu, 04 May 2023 15:53:39 -0700 (PDT)
 From: Juan Quintela <quintela@redhat.com>
-To: Peter Xu <peterx@redhat.com>
-Cc: qemu-devel@nongnu.org,  Daniel P . =?utf-8?Q?Berrang=C3=A9?=
- <berrange@redhat.com>, Leonardo Bras <leobras@redhat.com>
-Subject: Re: [PATCH] migration: Rename xbzrle_enabled xbzrle_started
-In-Reply-To: <ZFO+lJoYweoLkkPw@x1n> (Peter Xu's message of "Thu, 4 May 2023
- 10:17:56 -0400")
-References: <20230504115323.24407-1-quintela@redhat.com> <ZFO+lJoYweoLkkPw@x1n>
+To: Daniel P. =?utf-8?Q?Berrang=C3=A9?= <berrange@redhat.com>
+Cc: qemu-devel@nongnu.org,  Leonardo Bras <leobras@redhat.com>,  Peter Xu
+ <peterx@redhat.com>
+Subject: Re: [PATCH 4/5] migration/rdma: It makes no sense to recive that
+ flag without RDMA
+In-Reply-To: <ZFPl0Slq5vX4VuBl@redhat.com> ("Daniel P. =?utf-8?Q?Berrang?=
+ =?utf-8?Q?=C3=A9=22's?= message of
+ "Thu, 4 May 2023 18:05:21 +0100")
+References: <20230504114443.23891-1-quintela@redhat.com>
+ <20230504114443.23891-5-quintela@redhat.com>
+ <ZFPl0Slq5vX4VuBl@redhat.com>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
-Date: Fri, 05 May 2023 00:49:13 +0200
-Message-ID: <87354bpv9y.fsf@secure.mitica>
+Date: Fri, 05 May 2023 00:53:39 +0200
+Message-ID: <87y1m3ogi4.fsf@secure.mitica>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
@@ -103,37 +107,24 @@ Reply-To: quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Peter Xu <peterx@redhat.com> wrote:
-> On Thu, May 04, 2023 at 01:53:23PM +0200, Juan Quintela wrote:
->> Otherwise it is confusing with the function xbzrle_enabled().
->>=20
->> Suggested-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
->> Signed-off-by: Juan Quintela <quintela@redhat.com>
->> ---
->>  migration/ram.c | 14 +++++++-------
->>  1 file changed, 7 insertions(+), 7 deletions(-)
->>=20
->> diff --git a/migration/ram.c b/migration/ram.c
->> index 43338e1f5b..06015eeb0b 100644
->> --- a/migration/ram.c
->> +++ b/migration/ram.c
->> @@ -388,8 +388,8 @@ struct RAMState {
->>      uint64_t xbzrle_pages_prev;
->>      /* Amount of xbzrle encoded bytes since the beginning of the period=
- */
->>      uint64_t xbzrle_bytes_prev;
->> -    /* Start using XBZRLE (e.g., after the first round). */
->> -    bool xbzrle_enabled;
->> +    /* Are we really  using XBZRLE (e.g., after the first round). */
+Daniel P. Berrang=C3=A9 <berrange@redhat.com> wrote:
+> In $SUBJECT   s/recive/receive/
 >
-> double spaces
+> On Thu, May 04, 2023 at 01:44:42PM +0200, Juan Quintela wrote:
+>> This could only happen if the source send
+>
+> s/send/sent/
 
 Fixed.
 
+>> RAM_SAVE_FLAG_HOOK (i.e. rdma) and destination don't have CONFIG_RDMA.
+>>=20
+>> Signed-off-by: Juan Quintela <quintela@redhat.com>
+>> ---
+>>  migration/qemu-file.c | 8 --------
+>>  1 file changed, 8 deletions(-)
 >
->> +    bool xbzrle_started;
->
-> Reviewed-by: Peter Xu <peterx@redhat.com>
+> Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
 
 Thanks.
 
