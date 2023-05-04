@@ -2,94 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 310B26F714E
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 May 2023 19:42:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4BAF76F70E9
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 May 2023 19:33:18 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pucoc-0007Ae-K5; Thu, 04 May 2023 13:32:26 -0400
+	id 1puco9-0006oa-VD; Thu, 04 May 2023 13:31:58 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <farosas@suse.de>)
- id 1puYVP-0008DI-Tn; Thu, 04 May 2023 08:56:19 -0400
-Received: from smtp-out2.suse.de ([2001:67c:2178:6::1d])
+ id 1puYaI-0000sd-BJ; Thu, 04 May 2023 09:01:22 -0400
+Received: from smtp-out1.suse.de ([2001:67c:2178:6::1c])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <farosas@suse.de>)
- id 1puYVO-0006oc-AP; Thu, 04 May 2023 08:56:19 -0400
+ id 1puYaE-0008MR-W0; Thu, 04 May 2023 09:01:22 -0400
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 55DFE20AA0;
- Thu,  4 May 2023 12:56:16 +0000 (UTC)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id CF988339FE;
+ Thu,  4 May 2023 13:01:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1683204976; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1683205275; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=QTjxPNXUea4Fx/ok4KnuX3WtYHWnEYvpZix0XRJS4jQ=;
- b=dl0F7kfWatFTLFqDh7ruCwcQ9Pzm25Rv87yi6deE209IFGxsXjB6u+2PPwk9YlakIgEXWR
- o3nVg75LvmFmzTbrxD+gHOhbshYvLma0ml/mkTszEA6tVdJf03QykNlaz7ssqA3VtyuH6s
- x/WImXPfMnD7hxjXnZ2lneGmkBuThMU=
+ bh=0CNvTeBJC9NJbW36bHQEsE9hma/Iv/am1DYHSeKhXYU=;
+ b=1XEGdvf6vMCVSTb4QYfLvzlNb6u1HyHFbMjHgKD55zDr7HpvJ7XUQFjbJ7Q7TD++/OEDF/
+ /RE6WEG3nDX8EkD1zEnl3OIr7EFTbPPDr5wgR/Iqj0LoNHvuN2XHrCxdBiSfWQiqyNPrIs
+ VcXsQOEUNX5cNsN2vOp0P61gRa5IMeo=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1683204976;
+ s=susede2_ed25519; t=1683205275;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=QTjxPNXUea4Fx/ok4KnuX3WtYHWnEYvpZix0XRJS4jQ=;
- b=4yfZmRBAPO82SV5L2fWn8QB+WpRsOhcRw+owWntNv71mVAleX4tPcuaZwM4yvqecbcqORz
- 8Dg5quxDH/TNt2AQ==
+ bh=0CNvTeBJC9NJbW36bHQEsE9hma/Iv/am1DYHSeKhXYU=;
+ b=hYOmSgZtufLv0n6XLuWaojVL1UG5wP0WA83NVrwt0dxN3La5e/f3eqx3bx6ADJWlz7jbSB
+ Se/bY6GB7gLugjAA==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id A3112133F7;
- Thu,  4 May 2023 12:56:15 +0000 (UTC)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 5C59813444;
+ Thu,  4 May 2023 13:01:15 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id xVS6J2+rU2T/TAAAMHmgww
- (envelope-from <farosas@suse.de>); Thu, 04 May 2023 12:56:15 +0000
+ by imap2.suse-dmz.suse.de with ESMTPSA id 0MicCZusU2TdTwAAMHmgww
+ (envelope-from <farosas@suse.de>); Thu, 04 May 2023 13:01:15 +0000
 From: Fabiano Rosas <farosas@suse.de>
 To: Paolo Bonzini <pbonzini@redhat.com>, Peter Maydell
  <peter.maydell@linaro.org>
-Cc: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org, Laurent
- Vivier <lvivier@redhat.com>, Artyom Tarasenko <atar4qemu@gmail.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>, Wainer dos Santos
- Moschetta <wainersm@redhat.com>, Thomas Huth <thuth@redhat.com>, Leif
- Lindholm <quic_llindhol@quicinc.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Helge Deller <deller@gmx.de>, Xiaojuan Yang <yangxiaojuan@loongson.cn>,
- Stefan Hajnoczi <stefanha@redhat.com>, Cleber Rosa <crosa@redhat.com>,
- Eduardo Habkost <eduardo@habkost.net>, Juan Quintela
- <quintela@redhat.com>, John Snow <jsnow@redhat.com>, Yoshinori Sato
- <ysato@users.sourceforge.jp>, =?utf-8?Q?C=C3=A9dric?= Le Goater
- <clg@kaod.org>, Ilya Leoshkevich <iii@linux.ibm.com>, Pavel Dovgalyuk
- <pavel.dovgaluk@ispras.ru>, Andrew Jeffery <andrew@aj.id.au>,
- qemu-s390x@nongnu.org, Richard Henderson <richard.henderson@linaro.org>,
- qemu-arm@nongnu.org, Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Beraldo Leal <bleal@redhat.com>, Max Filippov <jcmvbkbc@gmail.com>,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>, Mark
- Cave-Ayland
- <mark.cave-ayland@ilande.co.uk>, Jiaxun Yang <jiaxun.yang@flygoat.com>,
- Radoslaw Biernacki <rad@semihalf.com>, Aurelien Jarno
- <aurelien@aurel32.net>, David Hildenbrand <david@redhat.com>, Markus
- Armbruster <armbru@redhat.com>, Song Gao <gaosong@loongson.cn>, Joel
- Stanley <joel@jms.id.au>, =?utf-8?Q?Daniel_P=2E_Berrang=C3=A9?=
- <berrange@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: Re: [PATCH 05/22] hw/arm: Select VIRTIO_NET for virt machine
-In-Reply-To: <e7185f74-f041-05b1-0f76-bab6d724e796@redhat.com>
-References: <20230503091244.1450613-1-alex.bennee@linaro.org>
- <20230503091244.1450613-6-alex.bennee@linaro.org>
- <531a2eab-f0e6-46a5-c021-c82746c1ae38@redhat.com>
- <87y1m5s9yl.fsf@linaro.org>
- <5fb214d8-4a54-f896-f23f-fe9e646e4b2d@redhat.com>
- <CAFEAcA-Cfz8CkNeTQodoSitocBmm4ddk25Dq8x=5FiiGvaS34Q@mail.gmail.com>
- <e7185f74-f041-05b1-0f76-bab6d724e796@redhat.com>
-Date: Thu, 04 May 2023 09:56:13 -0300
-Message-ID: <878re4cl1u.fsf@suse.de>
+Cc: qemu-devel <qemu-devel@nongnu.org>, qemu-arm <qemu-arm@nongnu.org>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>, Richard
+ Henderson <richard.henderson@linaro.org>, Alex =?utf-8?Q?Benn=C3=A9e?=
+ <alex.bennee@linaro.org>
+Subject: Re: [PATCH 1/3] target/arm: Use CONFIG_SEMIHOSTING instead of TCG
+ for semihosting
+In-Reply-To: <CABgObfbBTUUAOmvKz9U2Esi3rmdYmbhw3uR5iouFYUwFGoG32Q@mail.gmail.com>
+References: <20230503193833.29047-1-farosas@suse.de>
+ <20230503193833.29047-2-farosas@suse.de>
+ <3f8ed21a-6c05-e7a4-ab9a-c8f6ca041013@redhat.com>
+ <CAFEAcA9y0tZVCSz93ziHkwYaM_whaEnCko2=Zzyb=BGFySJyRg@mail.gmail.com>
+ <CABgObfbBTUUAOmvKz9U2Esi3rmdYmbhw3uR5iouFYUwFGoG32Q@mail.gmail.com>
+Date: Thu, 04 May 2023 10:01:12 -0300
+Message-ID: <875y98cktj.fsf@suse.de>
 MIME-Version: 1.0
 Content-Type: text/plain
-Received-SPF: pass client-ip=2001:67c:2178:6::1d; envelope-from=farosas@suse.de;
- helo=smtp-out2.suse.de
+Received-SPF: pass client-ip=2001:67c:2178:6::1c; envelope-from=farosas@suse.de;
+ helo=smtp-out1.suse.de
 X-Spam_score_int: -43
 X-Spam_score: -4.4
 X-Spam_bar: ----
@@ -114,33 +92,56 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 Paolo Bonzini <pbonzini@redhat.com> writes:
 
-> On 5/3/23 20:32, Peter Maydell wrote:
->> Do we really want to build a QEMU that then barfs unless
->> you pass -nodefaults, though ? That doesn't seem very useful.
->> Something somewhere ought to be saying "if you want the
->> virt board then you almost certainly want these".
+> Il gio 4 mag 2023, 10:59 Peter Maydell <peter.maydell@linaro.org> ha
+> scritto:
 >
-> Well, the point is that --without-default-devices is intended to be for 
-> people that write their device config by hand.
+>> On Thu, 4 May 2023 at 08:33, Paolo Bonzini <pbonzini@redhat.com> wrote:
+>> >
+>> > On 5/3/23 21:38, Fabiano Rosas wrote:
+>> > > When building --without-default-devices, the semihosting code will not
+>> > > be available, so check the proper config.
+>>
+>> I think the changes to the ifdeffery are conceptually
+>> fine (only do semihosting if it was configured in), but
+>> it sounds like there's a separate problem here.
+>> Whether we need semihosting depends on the accelerator (ie
+>> "is it TCG or not"), not on what set of devices we're building.
+>> So the problem seems to me to be that --without-default-devices
+>> is causing the semihosting code not to be built in.
+>>
+>> > Acked-by: Paolo Bonzini <pbonzini@redhat.com>
+>> >
+>> > for this change; however, there are two more related issues:
+>> >
+>> > 1) you still want to leave out the code if !TCG, because KVM is not able
+>> > to exit to userspace on semihosting calls as far as I understand
+>> >
+>> > 2) I am not sure why CONFIG_ARM_COMPATIBLE_SEMIHOSTING=y appears in
+>> > config/targets/{arm,riscv32,riscv64}-softmmu/default.mak.
+>>
+>> Because those are the architectures which have
+>> "arm-compatible" semihosting ABIs ?
+>>
 >
+> Yes but is there a reason to do it in configs/ where all the other symbols
+> are boards, or was it just overlooked and a "default y" (as I suggested in
+> the previous reply) or "imply" is better?
 
-It's a bit hard to maintain the original intention with just
-documentation. Couldn't we require that --without-default-devices always
-be accompanied by --with-devices? And more to the point of Peter's
-question, couldn't we just leave the defaults off unconditionally when
---without-default-devices is passed without --with-devices?
+For arm it has been taken out of configs/ and moved into
+target/arm/Kconfig:
 
-The coupling of -nodefaults with --without-default-devices is a bit
-redundant. If we're choosing to not build some devices, then the QEMU
-binary should already know that.
+...
+# This config exists just so we can make SEMIHOSTING default when TCG
+# is selected without also changing it for other architectures.
+config ARM_SEMIHOSTING
+    bool
+    default y if TCG && ARM
+    select ARM_COMPATIBLE_SEMIHOSTING
 
-Just to be clear, -nodefaults by itself still makes sense because we can
-have a simple command line for those using QEMU directly while allowing
-the management layer to fine tune the devices.
+So I guess we'd need a similar change to what you suggested for ARM_V7M:
 
-In the long run, I think we need to add some configure option that gives
-us pure allnoconfig so we can have that in the CI and catch these CONFIG
-issues before merging. There's no reason to merge a new CONFIG if it
-will then be impossible to turn it off.
-
+config ARM
+    bool
+    select ARM_V7M if TCG
+    select ARM_COMPATIBLE_SEMIHOSTING if TCG
 
