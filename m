@@ -2,72 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18B776F6A0F
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 May 2023 13:34:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 672F66F6A3C
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 May 2023 13:40:30 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1puXE1-0003vm-LO; Thu, 04 May 2023 07:34:17 -0400
+	id 1puXIQ-0005va-UU; Thu, 04 May 2023 07:38:51 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
- id 1puXDo-0003uK-Da
- for qemu-devel@nongnu.org; Thu, 04 May 2023 07:34:04 -0400
-Received: from mail.loongson.cn ([114.242.206.163] helo=loongson.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <gaosong@loongson.cn>) id 1puXDl-0001TL-Jf
- for qemu-devel@nongnu.org; Thu, 04 May 2023 07:34:04 -0400
-Received: from loongson.cn (unknown [10.20.42.57])
- by gateway (Coremail) with SMTP id _____8DxBekhmFNkcpkEAA--.7567S3;
- Thu, 04 May 2023 19:33:54 +0800 (CST)
-Received: from [10.20.42.57] (unknown [10.20.42.57])
- by localhost.localdomain (Coremail) with SMTP id
- AQAAf8DxddEgmFNkktpJAA--.5364S3; 
- Thu, 04 May 2023 19:33:52 +0800 (CST)
-Subject: Re: [RFC PATCH v4 00/44] Add LoongArch LSX instructions
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- maobibo@loongson.cn
-References: <20230425070248.2550028-1-gaosong@loongson.cn>
- <8a821169-6dc3-ab82-bd32-990b0f9a8c98@linaro.org>
- <b6243a8d-8ef6-7609-b71c-fd3cddb69d67@loongson.cn>
- <80c6ed35-1d19-eb6a-0e3b-6fbf23d8540c@linaro.org>
- <620c7286-f643-b7f8-5e21-56f3890db25a@linaro.org>
-From: Song Gao <gaosong@loongson.cn>
-Message-ID: <5ab5deb9-707f-5b68-bd34-86c1efa159b9@loongson.cn>
-Date: Thu, 4 May 2023 19:33:52 +0800
-User-Agent: Mozilla/5.0 (X11; Linux loongarch64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1puXIO-0005v3-Tz
+ for qemu-devel@nongnu.org; Thu, 04 May 2023 07:38:48 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1puXIN-0003Ha-1c
+ for qemu-devel@nongnu.org; Thu, 04 May 2023 07:38:48 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1683200325;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=X75R3oVu1yf9/DidOUB8NWwDp7VbArum9twq3KJV6PA=;
+ b=XOwyq+1/oMyRFYR8VTAajOK3+YhhkMCgO9i0G0B4smCCG75KgNYjQzmqV6lP21AfgLIIm3
+ PsqjCO6es+uwTc2+EKENCV5YQEXQRMKnJdAlvvVxlUSjfKRny+8MICzC27vvLm2ibDBw5Q
+ OGVRxATdstZ0gZa9eQcZ8Fjse7fvuMc=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-618-bE5s82mwNiKQwvzuwcoyHA-1; Thu, 04 May 2023 07:38:44 -0400
+X-MC-Unique: bE5s82mwNiKQwvzuwcoyHA-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.6])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3AA2310334A1;
+ Thu,  4 May 2023 11:38:44 +0000 (UTC)
+Received: from secure.mitica (unknown [10.39.193.236])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 85D112166B30;
+ Thu,  4 May 2023 11:38:42 +0000 (UTC)
+From: Juan Quintela <quintela@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: qemu-block@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>,
+ Juan Quintela <quintela@redhat.com>, Leonardo Bras <leobras@redhat.com>,
+ Fam Zheng <fam@euphon.net>, Peter Xu <peterx@redhat.com>
+Subject: [PATCH 0/9] QEMU file cleanups
+Date: Thu,  4 May 2023 13:38:32 +0200
+Message-Id: <20230504113841.23130-1-quintela@redhat.com>
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-In-Reply-To: <620c7286-f643-b7f8-5e21-56f3890db25a@linaro.org>
-Content-Type: multipart/alternative;
- boundary="------------1F08D90EB2DE16AB1B830D32"
-Content-Language: en-US
-X-CM-TRANSID: AQAAf8DxddEgmFNkktpJAA--.5364S3
-X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
-X-Coremail-Antispam: 1Uk129KBjvJXoW7Ar1xXr45tw18ZrWkZr1xuFg_yoW8Gw1DpF
- 4Fqan7GF9rJ3W8Jry8C3Wqya4Iya48K3yUCw1kGrW8uFn8uF9xJrWjv3W8W3WrWrZ2gF4U
- Aw1avryruwn8J3DanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
- DUYxn0WfASr-VFAUDa7-sFnT9fnUUIcSsGvfJTRUUUb4xYFVCjjxCrM7AC8VAFwI0_Jr0_
- Gr1l1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s1l1IIY67AEw4v_Jr0_Jr4l8cAvFV
- AK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2IY67AKxVW8JVW5JwA2
- z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM2
- 8EF7xvwVC2z280aVCY1x0267AKxVW0oVCq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc80
- 4VCY07AIYIkI8VC2zVCFFI0UMcIj6xIIjxv20xvE14v26r106r15McIj6I8E87Iv67AKxV
- WUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41l7480Y4vEI4kI2Ix0rVAq
- x4xJMxk0xIA0c2IEe2xFo4CEbIxvr21l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7
- v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUGVWUWwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF
- 1VAY17CE14v26r1Y6r17MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIx
- AIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI
- 42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r1j6r4UYxBIdaVFxh
- VjvjDU0xZFpf9x07UBGQDUUUUU=
-Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
- helo=loongson.cn
-X-Spam_score_int: -61
-X-Spam_score: -6.2
-X-Spam_bar: ------
-X-Spam_report: (-6.2 / 5.0 requ) BAYES_00=-1.9, HTML_MESSAGE=0.001,
- NICE_REPLY_A=-4.28, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -22
+X-Spam_score: -2.3
+X-Spam_bar: --
+X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.161,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,154 +77,44 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-This is a multi-part message in MIME format.
---------------1F08D90EB2DE16AB1B830D32
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Hi
 
+While I am trying to put order in the atomic counters, I made in this series:
 
-在 2023/5/4 下午5:41, Richard Henderson 写道:
-> On 5/4/23 09:25, Richard Henderson wrote:
->> On 5/4/23 02:26, Song Gao wrote:
->>>>> V4:
->>>>>    - R-b and rebase;
->>>>>    - Migrate the upper half lsx regs;
->>>>>    - Remove tcg_gen_mulus2_*;
->>>>>    - Vsetallnez use !do_match2;
->>>>>    - Use tcg_gen_concat_i64_i128/tcg_gen_extr_i128_i64 to replace
->>>>>      TCGV128_LOW(val)/TCGV128_High(val);
->>>>
->>>> One minor nit, everything reviewed!  Congratulations.
->>>>
->>> Thank you for your guidance and review.
->>>
->>> Since all patches are reviewed, how about drop 'RFC' on v5?
->>
->> Sure.
->>
->>> I am  really not sure When the Vol2 will be open.
->>
->> That is unfortunate.
->>
->> I think the timing of the merge of this code is now up to you as 
->> maintainer of the Loongson target.  As an employee of the company you 
->> have more insight into the status of the extension, whether it is 
->> already present in shipping silicon, or completed final draft, or 
->> still beta, etc.
->>
->> Even if the extension is finalized, I see no reason why you should 
->> not be able to merge, 
->
-> Oops.  "Even if the extension is *not* finalized..."
-> I.e., a beta extension can be merged if it is off by default. 
-Thanks for  your explanation.
+- convince and review code to see that everything is uint64_t.
 
-The  'la464' supports LSX and LASX by default.  The 'la364' supports LSX 
-by default.
-Neither of these are beta extensions. They are already present in the 
-shipping silicon and have been finalized.
+- f->shutdown is not needed.  When we shutdown the file we put an
+  error there if there is none.  So remove it.
+- Make more clear how we use rate_limit.
 
-And the 'la664' also supports LSX and LASX by default.
+Please review.
 
-I will send v5 series.
+It is based on my previous series to the list:
+Subject: [PATCH 0/2] More migration stats
+Based-on: Message-Id: <20230504103357.22130-1-quintela@redhat.com>
 
-Thanks.
-Song Gao
+Juan Quintela (9):
+  migration: max_postcopy_bandwidth is a size parameter
+  migration: qemu_file_total_transferred() function is monotonic
+  qemu-file: make qemu_file_[sg]et_rate_limit() use an uint64_t
+  qemu-file: Make rate_limit_used an uint64_t
+  qemu-file: No need to check for shutdown in qemu_file_rate_limit
+  qemu-file: remove shutdown member
+  qemu-file: Make total_transferred an uint64_t
+  qemu-file: Make ram_control_save_page() use accessors for rate_limit
+  qemu-file: Account for rate_limit usage on qemu_fflush()
 
---------------1F08D90EB2DE16AB1B830D32
-Content-Type: text/html; charset=utf-8
-Content-Transfer-Encoding: 8bit
+ migration/block.c     | 13 +++----------
+ migration/migration.c | 10 +++++-----
+ migration/options.c   |  2 +-
+ migration/options.h   |  2 +-
+ migration/qemu-file.c | 42 +++++++++++++++++-------------------------
+ migration/qemu-file.h | 10 +++++-----
+ migration/savevm.c    |  6 ++----
+ migration/vmstate.c   |  2 +-
+ 8 files changed, 35 insertions(+), 52 deletions(-)
 
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  </head>
-  <body>
-    <p><br>
-    </p>
-    <div class="moz-cite-prefix">在 2023/5/4 下午5:41, Richard Henderson
-      写道:<br>
-    </div>
-    <blockquote type="cite"
-      cite="mid:620c7286-f643-b7f8-5e21-56f3890db25a@linaro.org">On
-      5/4/23 09:25, Richard Henderson wrote:
-      <br>
-      <blockquote type="cite" style="color: #000000;">On 5/4/23 02:26,
-        Song Gao wrote:
-        <br>
-        <blockquote type="cite" style="color: #000000;">
-          <blockquote type="cite" style="color: #000000;">
-            <blockquote type="cite" style="color: #000000;">V4:
-              <br>
-                 - R-b and rebase;
-              <br>
-                 - Migrate the upper half lsx regs;
-              <br>
-                 - Remove tcg_gen_mulus2_*;
-              <br>
-                 - Vsetallnez use !do_match2;
-              <br>
-                 - Use tcg_gen_concat_i64_i128/tcg_gen_extr_i128_i64 to
-              replace
-              <br>
-                   TCGV128_LOW(val)/TCGV128_High(val);
-              <br>
-            </blockquote>
-            <br>
-            One minor nit, everything reviewed!  Congratulations.
-            <br>
-            <br>
-          </blockquote>
-          Thank you for your guidance and review.
-          <br>
-          <br>
-          Since all patches are reviewed, how about drop 'RFC' on v5?
-          <br>
-        </blockquote>
-        <br>
-        Sure.
-        <br>
-        <br>
-        <blockquote type="cite" style="color: #000000;">I am  really not
-          sure When the Vol2 will be open.
-          <br>
-        </blockquote>
-        <br>
-        That is unfortunate.
-        <br>
-        <br>
-        I think the timing of the merge of this code is now up to you as
-        maintainer of the Loongson target.  As an employee of the
-        company you have more insight into the status of the extension,
-        whether it is already present in shipping silicon, or completed
-        final draft, or still beta, etc.
-        <br>
-        <br>
-        Even if the extension is finalized, I see no reason why you
-        should not be able to merge, </blockquote>
-      <br>
-      Oops.  "Even if the extension is <b class="moz-txt-star"><span
-          class="moz-txt-tag">*</span>not<span class="moz-txt-tag">*</span></b>
-      finalized..."
-      <br>
-      I.e., a beta extension can be merged if it is off by default.
-    </blockquote>
-    Thanks for  your explanation.<br>
-    <br>
-    The  'la464' supports LSX and LASX by default.  The 'la364' supports
-    LSX by default.<br>
-    Neither of these are beta extensions. They are already present in
-    the shipping silicon and have been finalized.<br>
-    <br>
-    And the 'la664' also supports LSX and LASX by default.  <br>
-    <br>
-    I will send v5 series.<br>
-    <br>
-    Thanks.<br>
-    Song Gao<br>
-  </body>
-</html>
-
---------------1F08D90EB2DE16AB1B830D32--
+-- 
+2.40.0
 
 
