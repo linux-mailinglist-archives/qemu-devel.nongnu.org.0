@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95A166F6AAE
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 May 2023 14:00:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E6586F6AA9
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 May 2023 14:00:09 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1puXbe-0003wD-Ft; Thu, 04 May 2023 07:58:42 -0400
+	id 1puXbe-0003vH-2m; Thu, 04 May 2023 07:58:42 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1puXbU-0003Ng-4U
- for qemu-devel@nongnu.org; Thu, 04 May 2023 07:58:33 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1puXbW-0003PH-9l
+ for qemu-devel@nongnu.org; Thu, 04 May 2023 07:58:34 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1puXbS-0004Hb-LG
- for qemu-devel@nongnu.org; Thu, 04 May 2023 07:58:31 -0400
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1puXbT-0004I9-Ni
+ for qemu-devel@nongnu.org; Thu, 04 May 2023 07:58:33 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1683201509;
+ s=mimecast20190719; t=1683201511;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=KF//YYEKa89C7Kwr3ZcRWCvVN4G+Poi0Ti/7lAlEpj4=;
- b=E29XUQGAoe/5DKBzS5FBf+ql7ZXT8zPlwzyQnElc4uiYpZuD7cGEw2zSvZ9D3vEQ5RSqen
- 0lDAzfIFGuf5O9qQTbr9FQhdYlEvOw1/vkQ9/9JMK2gQutNCSf9d0NU292ETRiGQuImvZl
- tF5CTkp/1IIO6q00oicayRbWgovUHHQ=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=oOq86BnFWA8YT2awmVhAjiZ3L0SCkkqkxa8RtHcPc+0=;
+ b=JBvk9jexOIrcdpeOFfMieX0heT9TgEHUg+NObPHBmL97a+ERmRn/h/6RKrIQ2XCARS7cjj
+ ifhNJXnLCn01woVl5rotkRvL6JgfZ8r6AbciEpD8Fy2ithRukIn1XvLYuvAWMg6BEolGyi
+ zPVkfdBru9mh4hP/DZHcnE3hQbGoAqU=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-264-wLB-oZxBMaOo0Ixbfep1xw-1; Thu, 04 May 2023 07:58:26 -0400
-X-MC-Unique: wLB-oZxBMaOo0Ixbfep1xw-1
+ us-mta-213--j_7UTAlMXyrVSKZxt2pag-1; Thu, 04 May 2023 07:58:28 -0400
+X-MC-Unique: -j_7UTAlMXyrVSKZxt2pag-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
  [10.11.54.8])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5E8CE185A78B;
- Thu,  4 May 2023 11:58:26 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id BA2B01C0758D;
+ Thu,  4 May 2023 11:58:27 +0000 (UTC)
 Received: from merkur.redhat.com (unknown [10.39.194.84])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 35833C15BB8;
- Thu,  4 May 2023 11:58:24 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 967F2C15BAD;
+ Thu,  4 May 2023 11:58:26 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
 Cc: kwolf@redhat.com, stefanha@redhat.com, eblake@redhat.com,
  eesposit@redhat.com, pbonzini@redhat.com, qemu-devel@nongnu.org
-Subject: [PATCH v2 18/20] block: Mark bdrv_query_block_graph_info() and
- callers GRAPH_RDLOCK
-Date: Thu,  4 May 2023 13:57:48 +0200
-Message-Id: <20230504115750.54437-19-kwolf@redhat.com>
+Subject: [PATCH v2 19/20] block: Mark bdrv_recurse_can_replace() and callers
+ GRAPH_RDLOCK
+Date: Thu,  4 May 2023 13:57:49 +0200
+Message-Id: <20230504115750.54437-20-kwolf@redhat.com>
 In-Reply-To: <20230504115750.54437-1-kwolf@redhat.com>
 References: <20230504115750.54437-1-kwolf@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=kwolf@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -22
 X-Spam_score: -2.3
@@ -79,55 +79,136 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 This adds GRAPH_RDLOCK annotations to declare that callers of
-bdrv_query_block_graph_info() need to hold a reader lock for the graph
+bdrv_recurse_can_replace() need to hold a reader lock for the graph
 because it accesses the children list of a node.
 
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 Reviewed-by: Eric Blake <eblake@redhat.com>
 Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 ---
- include/block/qapi.h | 7 ++++---
- qemu-img.c           | 2 ++
- 2 files changed, 6 insertions(+), 3 deletions(-)
+ include/block/block-global-state.h     | 5 +++--
+ include/block/block_int-common.h       | 4 ++--
+ include/block/block_int-global-state.h | 4 ++--
+ block/blkverify.c                      | 5 +++--
+ block/mirror.c                         | 4 ++++
+ block/quorum.c                         | 4 ++--
+ blockdev.c                             | 3 +++
+ 7 files changed, 19 insertions(+), 10 deletions(-)
 
-diff --git a/include/block/qapi.h b/include/block/qapi.h
-index 8773b9b191..18d48ddb70 100644
---- a/include/block/qapi.h
-+++ b/include/block/qapi.h
-@@ -25,6 +25,7 @@
- #ifndef BLOCK_QAPI_H
- #define BLOCK_QAPI_H
+diff --git a/include/block/block-global-state.h b/include/block/block-global-state.h
+index ec3ddb17a8..f234bca0b6 100644
+--- a/include/block/block-global-state.h
++++ b/include/block/block-global-state.h
+@@ -163,8 +163,9 @@ int bdrv_amend_options(BlockDriverState *bs_new, QemuOpts *opts,
+                        Error **errp);
  
-+#include "block/graph-lock.h"
- #include "block/snapshot.h"
- #include "qapi/qapi-types-block-core.h"
+ /* check if a named node can be replaced when doing drive-mirror */
+-BlockDriverState *check_to_replace_node(BlockDriverState *parent_bs,
+-                                        const char *node_name, Error **errp);
++BlockDriverState * GRAPH_RDLOCK
++check_to_replace_node(BlockDriverState *parent_bs, const char *node_name,
++                      Error **errp);
  
-@@ -43,9 +44,9 @@ void bdrv_query_image_info(BlockDriverState *bs,
-                            bool flat,
-                            bool skip_implicit_filters,
-                            Error **errp);
--void bdrv_query_block_graph_info(BlockDriverState *bs,
--                                 BlockGraphInfo **p_info,
--                                 Error **errp);
-+void GRAPH_RDLOCK
-+bdrv_query_block_graph_info(BlockDriverState *bs, BlockGraphInfo **p_info,
-+                            Error **errp);
+ int no_coroutine_fn bdrv_activate(BlockDriverState *bs, Error **errp);
  
- void bdrv_snapshot_dump(QEMUSnapshotInfo *sn);
- void bdrv_image_info_specific_dump(ImageInfoSpecific *info_spec,
-diff --git a/qemu-img.c b/qemu-img.c
-index 9aeac69fa6..9f9f0a7629 100644
---- a/qemu-img.c
-+++ b/qemu-img.c
-@@ -2938,6 +2938,8 @@ static BlockGraphInfoList *collect_image_info_list(bool image_opts,
+diff --git a/include/block/block_int-common.h b/include/block/block_int-common.h
+index 37d094796e..024ded4fc2 100644
+--- a/include/block/block_int-common.h
++++ b/include/block/block_int-common.h
+@@ -217,8 +217,8 @@ struct BlockDriver {
+      * same data as @bs without it affecting @bs's behavior (that is,
+      * without it being visible to @bs's parents).
+      */
+-    bool (*bdrv_recurse_can_replace)(BlockDriverState *bs,
+-                                     BlockDriverState *to_replace);
++    bool GRAPH_RDLOCK_PTR (*bdrv_recurse_can_replace)(
++        BlockDriverState *bs, BlockDriverState *to_replace);
+ 
+     int (*bdrv_probe_device)(const char *filename);
+ 
+diff --git a/include/block/block_int-global-state.h b/include/block/block_int-global-state.h
+index 902406eb99..da5fb31089 100644
+--- a/include/block/block_int-global-state.h
++++ b/include/block/block_int-global-state.h
+@@ -225,8 +225,8 @@ int bdrv_child_try_set_perm(BdrvChild *c, uint64_t perm, uint64_t shared,
+  */
+ int bdrv_child_refresh_perms(BlockDriverState *bs, BdrvChild *c, Error **errp);
+ 
+-bool bdrv_recurse_can_replace(BlockDriverState *bs,
+-                              BlockDriverState *to_replace);
++bool GRAPH_RDLOCK bdrv_recurse_can_replace(BlockDriverState *bs,
++                                           BlockDriverState *to_replace);
+ 
+ /*
+  * Default implementation for BlockDriver.bdrv_child_perm() that can
+diff --git a/block/blkverify.c b/block/blkverify.c
+index 1c16f86b2e..7326461f30 100644
+--- a/block/blkverify.c
++++ b/block/blkverify.c
+@@ -265,8 +265,9 @@ static int coroutine_fn GRAPH_RDLOCK blkverify_co_flush(BlockDriverState *bs)
+     return bdrv_co_flush(s->test_file->bs);
+ }
+ 
+-static bool blkverify_recurse_can_replace(BlockDriverState *bs,
+-                                          BlockDriverState *to_replace)
++static bool GRAPH_RDLOCK
++blkverify_recurse_can_replace(BlockDriverState *bs,
++                              BlockDriverState *to_replace)
+ {
+     BDRVBlkverifyState *s = bs->opaque;
+ 
+diff --git a/block/mirror.c b/block/mirror.c
+index e48ed0af31..717442ca4d 100644
+--- a/block/mirror.c
++++ b/block/mirror.c
+@@ -747,7 +747,10 @@ static int mirror_exit_common(Job *job)
+          * Cannot use check_to_replace_node() here, because that would
+          * check for an op blocker on @to_replace, and we have our own
+          * there.
++         *
++         * TODO Pull out the writer lock from bdrv_replace_node() to here
+          */
++        bdrv_graph_rdlock_main_loop();
+         if (bdrv_recurse_can_replace(src, to_replace)) {
+             bdrv_replace_node(to_replace, target_bs, &local_err);
+         } else {
+@@ -756,6 +759,7 @@ static int mirror_exit_common(Job *job)
+                        "would not lead to an abrupt change of visible data",
+                        to_replace->node_name, target_bs->node_name);
          }
-         bs = blk_bs(blk);
++        bdrv_graph_rdunlock_main_loop();
+         bdrv_drained_end(target_bs);
+         if (local_err) {
+             error_report_err(local_err);
+diff --git a/block/quorum.c b/block/quorum.c
+index ff5a0a2da3..f28758cf2b 100644
+--- a/block/quorum.c
++++ b/block/quorum.c
+@@ -825,8 +825,8 @@ static coroutine_fn GRAPH_RDLOCK int quorum_co_flush(BlockDriverState *bs)
+     return result;
+ }
  
-+        GRAPH_RDLOCK_GUARD_MAINLOOP();
+-static bool quorum_recurse_can_replace(BlockDriverState *bs,
+-                                       BlockDriverState *to_replace)
++static bool GRAPH_RDLOCK
++quorum_recurse_can_replace(BlockDriverState *bs, BlockDriverState *to_replace)
+ {
+     BDRVQuorumState *s = bs->opaque;
+     int i;
+diff --git a/blockdev.c b/blockdev.c
+index e464daea58..d141ca7a2d 100644
+--- a/blockdev.c
++++ b/blockdev.c
+@@ -2961,6 +2961,9 @@ static void blockdev_mirror_common(const char *job_id, BlockDriverState *bs,
+     BlockDriverState *unfiltered_bs;
+     int job_flags = JOB_DEFAULT;
+ 
++    GLOBAL_STATE_CODE();
++    GRAPH_RDLOCK_GUARD_MAINLOOP();
 +
-         /*
-          * Note that the returned BlockGraphInfo object will not have
-          * information about this image's backing node, because we have opened
+     if (!has_speed) {
+         speed = 0;
+     }
 -- 
 2.40.1
 
