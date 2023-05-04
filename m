@@ -2,72 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9829C6F67DD
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 May 2023 10:59:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C0416F67DE
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 May 2023 10:59:33 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1puUnI-0004cf-A7; Thu, 04 May 2023 04:58:32 -0400
+	id 1puUnv-0004ji-Q3; Thu, 04 May 2023 04:59:11 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1puUnG-0004cA-AP
- for qemu-devel@nongnu.org; Thu, 04 May 2023 04:58:30 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1puUnE-0004BA-Sg
- for qemu-devel@nongnu.org; Thu, 04 May 2023 04:58:30 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1683190707;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=+oa78KseC6zvhs77DhdK4zKcP3W3zTsG059VHkwkfSM=;
- b=bMVERX6xA7F7QDMEwBZLqaGiK3s3PZXOo79ACBPBNLg6NX6BK4h8M+/8J7P4D/5iAqh/H9
- dJiK1opOWoInYNrznIBVdl0R+QpK2FVG4wiWE6NvPXpO1qLZNkCKWZQEKaGK8aMVrTjolc
- olqRyQJdd69ipEH6LWlvWJz5UEvCVb4=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-631-mO5ZqMZpOcuH5S1LgaFbkA-1; Thu, 04 May 2023 04:58:26 -0400
-X-MC-Unique: mO5ZqMZpOcuH5S1LgaFbkA-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
- [10.11.54.7])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4CE87A0F387;
- Thu,  4 May 2023 08:58:26 +0000 (UTC)
-Received: from redhat.com (unknown [10.42.28.42])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 83CCE1410F29;
- Thu,  4 May 2023 08:58:24 +0000 (UTC)
-Date: Thu, 4 May 2023 09:58:21 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Ani Sinha <anisinha@redhat.com>
-Cc: Thomas Huth <thuth@redhat.com>, alex.bennee@linaro.org,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- wainersm@redhat.com, bleal@redhat.com, qemu-devel@nongnu.org,
- "Michael S. Tsirkin" <mst@redhat.com>
-Subject: Re: [PATCH 0/2] Add mformat and xorriso dependencies in containers
-Message-ID: <ZFNzrXnLAVO37LgX@redhat.com>
-References: <20230503145547.202251-1-anisinha@redhat.com>
- <8d7e46ec-95c0-5c4a-a843-20106576e9ba@redhat.com>
- <602A585B-01D1-4140-899F-F7E3A5045E47@redhat.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1puUnm-0004j5-Ud
+ for qemu-devel@nongnu.org; Thu, 04 May 2023 04:59:02 -0400
+Received: from mail-ed1-x535.google.com ([2a00:1450:4864:20::535])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1puUnl-0004GE-DD
+ for qemu-devel@nongnu.org; Thu, 04 May 2023 04:59:02 -0400
+Received: by mail-ed1-x535.google.com with SMTP id
+ 4fb4d7f45d1cf-5083bd8e226so220785a12.3
+ for <qemu-devel@nongnu.org>; Thu, 04 May 2023 01:59:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1683190739; x=1685782739;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=R3mSHr8LX8Jlb3iO3WxDX0U5YHuTcyztxi8aDXDMHVk=;
+ b=W53RnxM4qKooiKf0a1E1rtSMY3H/E6ZGPet1wQC6m0pTURLs4qkPqCyMRSBOGHUH6Y
+ wcB3Na6pgyA/N5iPa8aHwkm/hm6sc7Jhyd0hsEgy9G1v3oOtQt8DpkiUCFHz7rrrOgJ4
+ SoVmZgxRy661OrycHvvdIW3G+nSUGWqCp0IwCa9QQqdycJIqkvSLWGaFzTyb3mv/9v6e
+ kwO4yaPmpmTgYyYGwOPpwdf7GEPmCpeci5fuGYips3ostq+AvRXfWk2bV2nGdCan4atr
+ hQppMXDCbXF2V8vMoz2+QKYG+pwPkhcGAVhQgZognIem/U5X2X6z5EUMdvGjQvv7Kbls
+ G+TQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1683190739; x=1685782739;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=R3mSHr8LX8Jlb3iO3WxDX0U5YHuTcyztxi8aDXDMHVk=;
+ b=PMoZ9EEvJlUVq2VRska08jWq1mPPoLaGa3gEho2KSrNVS8e99Ai6SG1SbG/UG5Uix1
+ 975B28yZdj+PRqmb6gR3YCBjIRUvngNbIOSdOFTMIhaBJwShPUdiU4BzLsxReOawRguf
+ /QE71jhFfkimy8uaON1NTBQG/herU3c235GPA7YOT6EMbn/qbYk6Lq7TZvTObEyUCIO0
+ z/Ij1VrudKZJSO9CKJ33MUYCFUPaIZZnwwi1CZ9oUbHqVSU/ZQ7YhmxF/sC+roJuf7Jj
+ VaPnCwuC8J8x+W/KwdlFQaMm9i+T5AlCyGCYw4TB3J943dtiJpXfpPzP/tn+BEYvhazD
+ eJXg==
+X-Gm-Message-State: AC+VfDyMnDH8yvoEhM7Aw0ubZG7JleV38+mKO33qbO7W3AnZG0vtpF8P
+ LJCc17F2acck0rweTCakeINoipJeFrJDMFpBTuwf7w==
+X-Google-Smtp-Source: ACHHUZ7m35qj2uFEcMJ185kiR1wA9Y97qR2kWkJ/eiuIPegHBm9xaHB9FLpFyyQC8ug/RI3E5z13Q/KaWa+YsBS/BRU=
+X-Received: by 2002:aa7:dac2:0:b0:506:bc26:d6a9 with SMTP id
+ x2-20020aa7dac2000000b00506bc26d6a9mr1177720eds.8.1683190738910; Thu, 04 May
+ 2023 01:58:58 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <602A585B-01D1-4140-899F-F7E3A5045E47@redhat.com>
-User-Agent: Mutt/2.2.9 (2022-11-12)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -22
-X-Spam_score: -2.3
+References: <20230503193833.29047-1-farosas@suse.de>
+ <20230503193833.29047-2-farosas@suse.de>
+ <3f8ed21a-6c05-e7a4-ab9a-c8f6ca041013@redhat.com>
+In-Reply-To: <3f8ed21a-6c05-e7a4-ab9a-c8f6ca041013@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 4 May 2023 09:58:47 +0100
+Message-ID: <CAFEAcA9y0tZVCSz93ziHkwYaM_whaEnCko2=Zzyb=BGFySJyRg@mail.gmail.com>
+Subject: Re: [PATCH 1/3] target/arm: Use CONFIG_SEMIHOSTING instead of TCG for
+ semihosting
+To: Paolo Bonzini <pbonzini@redhat.com>
+Cc: Fabiano Rosas <farosas@suse.de>, qemu-devel@nongnu.org, qemu-arm@nongnu.org,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
+ Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::535;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x535.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.161,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,34 +87,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, May 04, 2023 at 12:40:12PM +0530, Ani Sinha wrote:
-> 
-> 
-> > On 04-May-2023, at 12:05 PM, Thomas Huth <thuth@redhat.com> wrote:
-> > 
-> > On 03/05/2023 16.55, Ani Sinha wrote:
-> >> mformat and xorriso tools are needed by biosbits avocado tests. This patchset
-> >> adds those two tools in the docker container images.
-> > 
-> > tests/qtest/cdrom-test.c already uses genisoimage to create ISO images, and the containers already have that tool installed. Could you maybe switch the biosbits test to use that tool? Or the other way round? ... at least having two tools to create ISO images in our containers sounds IMHO excessive.
-> 
-> The dependency comes from the use of grub-mkrescue in the avocado
-> test in order to generate the iso with the bios bits enabled grub
-> and boot off with it. Grub-mkrescue is a bash script that uses
-> mformat and xorriso.
+On Thu, 4 May 2023 at 08:33, Paolo Bonzini <pbonzini@redhat.com> wrote:
+>
+> On 5/3/23 21:38, Fabiano Rosas wrote:
+> > When building --without-default-devices, the semihosting code will not
+> > be available, so check the proper config.
 
-Where does grub-mkrescue come from ?  IIUC, we don't have a dep
-on the grub package in our dockerfiles.
+I think the changes to the ifdeffery are conceptually
+fine (only do semihosting if it was configured in), but
+it sounds like there's a separate problem here.
+Whether we need semihosting depends on the accelerator (ie
+"is it TCG or not"), not on what set of devices we're building.
+So the problem seems to me to be that --without-default-devices
+is causing the semihosting code not to be built in.
 
-With regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+> Acked-by: Paolo Bonzini <pbonzini@redhat.com>
+>
+> for this change; however, there are two more related issues:
+>
+> 1) you still want to leave out the code if !TCG, because KVM is not able
+> to exit to userspace on semihosting calls as far as I understand
+>
+> 2) I am not sure why CONFIG_ARM_COMPATIBLE_SEMIHOSTING=y appears in
+> config/targets/{arm,riscv32,riscv64}-softmmu/default.mak.
 
+Because those are the architectures which have
+"arm-compatible" semihosting ABIs ?
+
+-- PMM
 
