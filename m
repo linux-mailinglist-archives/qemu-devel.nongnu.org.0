@@ -2,73 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22E7F6F731A
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 May 2023 21:14:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 270A66F7317
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 May 2023 21:14:11 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pueNs-0005KB-Ry; Thu, 04 May 2023 15:12:56 -0400
+	id 1pueNv-0005L5-Hi; Thu, 04 May 2023 15:12:59 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <gurchetansingh@chromium.org>)
- id 1pueNr-0005Jy-Hr
- for qemu-devel@nongnu.org; Thu, 04 May 2023 15:12:55 -0400
-Received: from mail-pl1-x62f.google.com ([2607:f8b0:4864:20::62f])
+ id 1pueNs-0005Kc-O2
+ for qemu-devel@nongnu.org; Thu, 04 May 2023 15:12:56 -0400
+Received: from mail-pl1-x632.google.com ([2607:f8b0:4864:20::632])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <gurchetansingh@chromium.org>)
- id 1pueNq-0004d2-1N
- for qemu-devel@nongnu.org; Thu, 04 May 2023 15:12:55 -0400
-Received: by mail-pl1-x62f.google.com with SMTP id
- d9443c01a7336-1a5197f00e9so6581185ad.1
- for <qemu-devel@nongnu.org>; Thu, 04 May 2023 12:12:53 -0700 (PDT)
+ id 1pueNr-0004dE-4n
+ for qemu-devel@nongnu.org; Thu, 04 May 2023 15:12:56 -0400
+Received: by mail-pl1-x632.google.com with SMTP id
+ d9443c01a7336-1aae5c2423dso8379335ad.3
+ for <qemu-devel@nongnu.org>; Thu, 04 May 2023 12:12:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1683227572; x=1685819572;
+ d=chromium.org; s=google; t=1683227573; x=1685819573;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=LhcgR1tfEW81XgkDFEMdq0i555SGCKv5VKEGEtWb7CM=;
- b=FK3j1i8a/RwA0wGEXRObxCGBG/2eWgHy4uFZ3UhDDDgyU/S0i/1gCg8f5ehQK1sS+H
- bpueN1H5GiRyWrJYSbGn0rxNHs/fHRNr3JAydYPfPqjCLPxE/2Et2lhB/zkvyHbyiyEf
- k17Lh8XA32vRRSMs23+X5p4eMGNyIlwHbRwq8=
+ bh=287/29oMzxR+gFU1Ch4R9eYn8TM7CqSlYolep22Be98=;
+ b=idkH/GY7+UNUFMTAkgcCvujs4gn53SAXFx7hT9zKO6w4xBs5uLmlvHHJP8T4nUUfQJ
+ bs6eNcAU2D8ETEqOIJlfI1LtnT5SgsZNwbF/iONqgv2vic3UW5PHLneIPOnIembOS9Sh
+ ht/0Vw/FVGkYH4i3M7f1hNQDKHwZIL/mfTBHw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683227572; x=1685819572;
+ d=1e100.net; s=20221208; t=1683227573; x=1685819573;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=LhcgR1tfEW81XgkDFEMdq0i555SGCKv5VKEGEtWb7CM=;
- b=VdDJ5nKiFKyJEvTbdxrhrjWRYsjUVgcGZxJNuAYNIPlVQ9nxWf4SjgkI7cvDRmOE0a
- 1BlpnxCgnD4SFk8QgTwzTgyrWOTVwRBuRV2jCDMeeIraaSkSTePdTw7ASD5jzhT/Ybu/
- NMtp8Yhdz8b69WIsRYvnmHZ8+doCzieEjee7okT9ak+uhRwMfXrsSRexx4FOLLGY4YZX
- o4g22egCJ9AIYTfNgWvzGmrnuh06Bg9j5EzwmIRLG1D5D/Y2kJqSQ2dTWgn0TViCkVsF
- LLeqS0RS0Pwq3cZ1HYypPyhqitvMIaK/ZVMELBhGEN30AnDYkz1pj80d7Yx+juSVAd/9
- P/DA==
-X-Gm-Message-State: AC+VfDyN6HZ7TQKQUjjaxW6yMsoXxAK6AXeCEZ2aZJU7FxpaTWHMpjhT
- SOVAQgUqCq80UIrQTSp4AKpP2mN2Tj8NrHINI3Y=
-X-Google-Smtp-Source: ACHHUZ6fmEH/llMOaM7cjIOKLXIcz75wisPrXwdz0eVIO8LWEkC4hdAVfrAPa48WRVycRLd7dhG8hQ==
-X-Received: by 2002:a17:90a:f48c:b0:24d:f159:d28b with SMTP id
- bx12-20020a17090af48c00b0024df159d28bmr3067703pjb.47.1683227572300; 
- Thu, 04 May 2023 12:12:52 -0700 (PDT)
+ bh=287/29oMzxR+gFU1Ch4R9eYn8TM7CqSlYolep22Be98=;
+ b=dhnGkUkrxGlY/bqaksfkXVt9u9FyzFwlc1l1U4mjgVh5cjnR55DvKf1N88S0SHFnFo
+ BZZSWPXvW5iV7CUBwmBVNUnaVEB6+7XpxAogOlb+7gBXSiH3Jd0l0vyc+paTOlymhAa3
+ 25/ghwU1oojpaf4yk2vR4v+OH8eAj2WgochFHS7DSg4w6lDK4Ro66TXGx9EJvIcqqy08
+ fzBnU4TpbBHhVqjgwjJD0DVtAUmNPFEecjWDqiORBM/+PVn5hN+mqEjxHeaQ3OAMn9A0
+ Uyu8TpTrOB6gTSPpiybKAPw518xDXp21mWjqxA5Te7TIR8F3J2MKQHNRRQ9AwFpIGwT0
+ Uj0w==
+X-Gm-Message-State: AC+VfDy8zMXU7uwqfKpJZZzcCVMY3Qhs8h8WF+bY23KDxi2gPUGpS8DC
+ mkfrmFOVCLBwteXK77dr6Gjce7XhqFmIewLdQbo=
+X-Google-Smtp-Source: ACHHUZ7SUOQEMgQS0CYnOQB6p4PP/Z42G/2Uqq5FXVz1YYtFD5CB8SkgiVCE6xDmteNNy6j8zJXSXw==
+X-Received: by 2002:a17:903:22c1:b0:1a6:82ac:f277 with SMTP id
+ y1-20020a17090322c100b001a682acf277mr5530443plg.14.1683227573494; 
+ Thu, 04 May 2023 12:12:53 -0700 (PDT)
 Received: from gurchetansingh0.mtv.corp.google.com
  ([2620:15c:a7:2:4891:407:d4c8:7fa9])
  by smtp.gmail.com with ESMTPSA id
- w2-20020a170902e88200b001ab2a0733aasm2185980plg.39.2023.05.04.12.12.51
+ w2-20020a170902e88200b001ab2a0733aasm2185980plg.39.2023.05.04.12.12.52
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 04 May 2023 12:12:51 -0700 (PDT)
+ Thu, 04 May 2023 12:12:53 -0700 (PDT)
 From: Gurchetan Singh <gurchetansingh@chromium.org>
 To: qemu-devel@nongnu.org
 Cc: philmd@linaro.org, kraxel@redhat.com, marcandre.lureau@redhat.com,
  akihiko.odaki@gmail.com, dmitry.osipenko@collabora.com, ray.huang@amd.com,
  alex.bennee@linaro.org, shentey@gmail.com
-Subject: [PATCH v3 4/5] virtio: Add shared memory capability
-Date: Thu,  4 May 2023 12:12:42 -0700
-Message-Id: <20230504191243.746-5-gurchetansingh@chromium.org>
+Subject: [PATCH v3 5/5] virtio-gpu: CONTEXT_INIT feature
+Date: Thu,  4 May 2023 12:12:43 -0700
+Message-Id: <20230504191243.746-6-gurchetansingh@chromium.org>
 X-Mailer: git-send-email 2.31.0
 In-Reply-To: <20230504191243.746-1-gurchetansingh@chromium.org>
 References: <20230504191243.746-1-gurchetansingh@chromium.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62f;
- envelope-from=gurchetansingh@chromium.org; helo=mail-pl1-x62f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::632;
+ envelope-from=gurchetansingh@chromium.org; helo=mail-pl1-x632.google.com
 X-Spam_score_int: -22
 X-Spam_score: -2.3
 X-Spam_bar: --
@@ -91,64 +92,54 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+From: Antonio Caggiano <antonio.caggiano@collabora.com>
 
-Define a new capability type 'VIRTIO_PCI_CAP_SHARED_MEMORY_CFG' to allow
-defining shared memory regions with sizes and offsets of 2^32 and more.
-Multiple instances of the capability are allowed and distinguished
-by a device-specific 'id'.
+The feature can be enabled when a backend wants it.
 
-Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 Signed-off-by: Antonio Caggiano <antonio.caggiano@collabora.com>
-Reviewed-by: Gurchetan Singh <gurchetansingh@chromium.org>
+Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Signed-off-by: Gurchetan Singh <gurchetansingh@chromium.org>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 ---
- hw/virtio/virtio-pci.c         | 18 ++++++++++++++++++
- include/hw/virtio/virtio-pci.h |  4 ++++
- 2 files changed, 22 insertions(+)
+ hw/display/virtio-gpu-base.c   | 3 +++
+ include/hw/virtio/virtio-gpu.h | 3 +++
+ 2 files changed, 6 insertions(+)
 
-diff --git a/hw/virtio/virtio-pci.c b/hw/virtio/virtio-pci.c
-index 02fb84a8fa..40a798d794 100644
---- a/hw/virtio/virtio-pci.c
-+++ b/hw/virtio/virtio-pci.c
-@@ -1399,6 +1399,24 @@ static int virtio_pci_add_mem_cap(VirtIOPCIProxy *proxy,
-     return offset;
- }
+diff --git a/hw/display/virtio-gpu-base.c b/hw/display/virtio-gpu-base.c
+index a29f191aa8..6c5f1f327f 100644
+--- a/hw/display/virtio-gpu-base.c
++++ b/hw/display/virtio-gpu-base.c
+@@ -215,6 +215,9 @@ virtio_gpu_base_get_features(VirtIODevice *vdev, uint64_t features,
+     if (virtio_gpu_blob_enabled(g->conf)) {
+         features |= (1 << VIRTIO_GPU_F_RESOURCE_BLOB);
+     }
++    if (virtio_gpu_context_init_enabled(g->conf)) {
++        features |= (1 << VIRTIO_GPU_F_CONTEXT_INIT);
++    }
  
-+int virtio_pci_add_shm_cap(VirtIOPCIProxy *proxy,
-+                           uint8_t bar, uint64_t offset, uint64_t length,
-+                           uint8_t id)
-+{
-+    struct virtio_pci_cap64 cap = {
-+        .cap.cap_len = sizeof cap,
-+        .cap.cfg_type = VIRTIO_PCI_CAP_SHARED_MEMORY_CFG,
-+    };
-+
-+    cap.cap.bar = bar;
-+    cap.cap.length = cpu_to_le32(length);
-+    cap.length_hi = cpu_to_le32(length >> 32);
-+    cap.cap.offset = cpu_to_le32(offset);
-+    cap.offset_hi = cpu_to_le32(offset >> 32);
-+    cap.cap.id = id;
-+    return virtio_pci_add_mem_cap(proxy, &cap.cap);
-+}
-+
- static uint64_t virtio_pci_common_read(void *opaque, hwaddr addr,
-                                        unsigned size)
- {
-diff --git a/include/hw/virtio/virtio-pci.h b/include/hw/virtio/virtio-pci.h
-index ab2051b64b..5a3f182f99 100644
---- a/include/hw/virtio/virtio-pci.h
-+++ b/include/hw/virtio/virtio-pci.h
-@@ -264,4 +264,8 @@ unsigned virtio_pci_optimal_num_queues(unsigned fixed_queues);
- void virtio_pci_set_guest_notifier_fd_handler(VirtIODevice *vdev, VirtQueue *vq,
-                                               int n, bool assign,
-                                               bool with_irqfd);
-+
-+int virtio_pci_add_shm_cap(VirtIOPCIProxy *proxy, uint8_t bar, uint64_t offset,
-+                           uint64_t length, uint8_t id);
-+
- #endif
+     return features;
+ }
+diff --git a/include/hw/virtio/virtio-gpu.h b/include/hw/virtio/virtio-gpu.h
+index d5808f2ab6..cf24d2e21b 100644
+--- a/include/hw/virtio/virtio-gpu.h
++++ b/include/hw/virtio/virtio-gpu.h
+@@ -90,6 +90,7 @@ enum virtio_gpu_base_conf_flags {
+     VIRTIO_GPU_FLAG_EDID_ENABLED,
+     VIRTIO_GPU_FLAG_DMABUF_ENABLED,
+     VIRTIO_GPU_FLAG_BLOB_ENABLED,
++    VIRTIO_GPU_FLAG_CONTEXT_INIT_ENABLED,
+ };
+ 
+ #define virtio_gpu_virgl_enabled(_cfg) \
+@@ -102,6 +103,8 @@ enum virtio_gpu_base_conf_flags {
+     (_cfg.flags & (1 << VIRTIO_GPU_FLAG_DMABUF_ENABLED))
+ #define virtio_gpu_blob_enabled(_cfg) \
+     (_cfg.flags & (1 << VIRTIO_GPU_FLAG_BLOB_ENABLED))
++#define virtio_gpu_context_init_enabled(_cfg) \
++    (_cfg.flags & (1 << VIRTIO_GPU_FLAG_CONTEXT_INIT_ENABLED))
+ 
+ struct virtio_gpu_base_conf {
+     uint32_t max_outputs;
 -- 
 2.40.1.521.gf1e218fcd8-goog
 
