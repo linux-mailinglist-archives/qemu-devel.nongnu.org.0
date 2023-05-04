@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E46B6F6A5F
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 May 2023 13:46:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 63E4D6F6A5A
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 May 2023 13:46:16 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1puXOX-0004jo-Bv; Thu, 04 May 2023 07:45:09 -0400
+	id 1puXOW-0004jl-EQ; Thu, 04 May 2023 07:45:08 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1puXOI-0004fr-9C
- for qemu-devel@nongnu.org; Thu, 04 May 2023 07:44:55 -0400
+ id 1puXOJ-0004fy-84
+ for qemu-devel@nongnu.org; Thu, 04 May 2023 07:44:56 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1puXOF-0004l7-SG
- for qemu-devel@nongnu.org; Thu, 04 May 2023 07:44:53 -0400
+ id 1puXOG-0004ld-8o
+ for qemu-devel@nongnu.org; Thu, 04 May 2023 07:44:54 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1683200689;
+ s=mimecast20190719; t=1683200690;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=c1P8ZbpMlaB0f7vXwWVeLGZhTo7eEkv8iKUNOngYa/c=;
- b=PGR4SpHYHJ53CUgo+X12yp5Yza6m17ogWl2O0bEPlYxjs+az2j0Le4tq7fPRwh2X+XT3cz
- axyjTJN3ZOIDuUY2+LWKboUD62tBeRQkVpYsmcSw7k90wMbP9P0wK6oOiGTUAjFUQC4v2e
- MoBkCV46xqN6XTEW8extsiNBpDlSTRQ=
+ bh=AYoSSBJWHYG9lBfYdLKnRjhNHjYp8jTAiBWjCb4mCFU=;
+ b=go2E92w1krNy4fhelCyRjRYz5qV19b9R2UjKDbU3T6aUWWcyHpc1Yt46pkuPjVT0QbdjiN
+ 4ihdRH6GFUEPqMDwub2fhwOVAddf1lO4CgR9dk/ZGz1aEkES6aAKhJJd8WKKazLA4r7BtR
+ fImdcfXjMGLeg3kEsG3c7G5mS0CgKF4=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-79-zoQ7vz_IMm-y8RHM2Y7EMQ-1; Thu, 04 May 2023 07:44:48 -0400
-X-MC-Unique: zoQ7vz_IMm-y8RHM2Y7EMQ-1
+ us-mta-173-54y7WItwMJmCgIrrkOz8Yw-1; Thu, 04 May 2023 07:44:49 -0400
+X-MC-Unique: 54y7WItwMJmCgIrrkOz8Yw-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
  [10.11.54.4])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 06AF8800B35
- for <qemu-devel@nongnu.org>; Thu,  4 May 2023 11:44:48 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 213BD102F230
+ for <qemu-devel@nongnu.org>; Thu,  4 May 2023 11:44:49 +0000 (UTC)
 Received: from secure.mitica (unknown [10.39.193.236])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3FD402026D16;
- Thu,  4 May 2023 11:44:47 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4A8ED2026D16;
+ Thu,  4 May 2023 11:44:48 +0000 (UTC)
 From: Juan Quintela <quintela@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Juan Quintela <quintela@redhat.com>, Leonardo Bras <leobras@redhat.com>,
  Peter Xu <peterx@redhat.com>
-Subject: [PATCH 3/5] migration/rdma: We can calculate the rioc from the
- QEMUFile
-Date: Thu,  4 May 2023 13:44:41 +0200
-Message-Id: <20230504114443.23891-4-quintela@redhat.com>
+Subject: [PATCH 4/5] migration/rdma: It makes no sense to recive that flag
+ without RDMA
+Date: Thu,  4 May 2023 13:44:42 +0200
+Message-Id: <20230504114443.23891-5-quintela@redhat.com>
 In-Reply-To: <20230504114443.23891-1-quintela@redhat.com>
 References: <20230504114443.23891-1-quintela@redhat.com>
 MIME-Version: 1.0
@@ -79,39 +79,33 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+This could only happen if the source send
+RAM_SAVE_FLAG_HOOK (i.e. rdma) and destination don't have CONFIG_RDMA.
+
 Signed-off-by: Juan Quintela <quintela@redhat.com>
 ---
- migration/rdma.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ migration/qemu-file.c | 8 --------
+ 1 file changed, 8 deletions(-)
 
-diff --git a/migration/rdma.c b/migration/rdma.c
-index 5b82085bd7..17c4b9206f 100644
---- a/migration/rdma.c
-+++ b/migration/rdma.c
-@@ -3811,9 +3811,10 @@ out:
-  * the source.
-  */
- static int
--rdma_block_notification_handle(QIOChannelRDMA *rioc, const char *name)
-+rdma_block_notification_handle(QEMUFile *f, const char *name)
- {
-     RDMAContext *rdma;
-+    QIOChannelRDMA *rioc = QIO_CHANNEL_RDMA(qemu_file_get_ioc(f));
-     int curr;
-     int found = -1;
+diff --git a/migration/qemu-file.c b/migration/qemu-file.c
+index 112ba742fd..5783c9f385 100644
+--- a/migration/qemu-file.c
++++ b/migration/qemu-file.c
+@@ -343,14 +343,6 @@ void ram_control_load_hook(QEMUFile *f, uint64_t flags, void *data)
+         if (ret < 0) {
+             qemu_file_set_error(f, ret);
+         }
+-    } else {
+-        /*
+-         * Hook is a hook specifically requested by the source sending a flag
+-         * that expects there to be a hook on the destination.
+-         */
+-        if (flags == RAM_CONTROL_HOOK) {
+-            qemu_file_set_error(f, -EINVAL);
+-        }
+     }
+ }
  
-@@ -3846,10 +3847,9 @@ rdma_block_notification_handle(QIOChannelRDMA *rioc, const char *name)
- 
- static int rdma_load_hook(QEMUFile *f, uint64_t flags, void *data)
- {
--    QIOChannelRDMA *rioc = QIO_CHANNEL_RDMA(qemu_file_get_ioc(f));
-     switch (flags) {
-     case RAM_CONTROL_BLOCK_REG:
--        return rdma_block_notification_handle(rioc, data);
-+        return rdma_block_notification_handle(f, data);
- 
-     case RAM_CONTROL_HOOK:
-         return qemu_rdma_registration_handle(f);
 -- 
 2.40.0
 
