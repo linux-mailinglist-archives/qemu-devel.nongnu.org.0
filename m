@@ -2,67 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D18B6F70FB
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 May 2023 19:35:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD26F6F7158
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 May 2023 19:43:34 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pucoJ-0006xZ-BK; Thu, 04 May 2023 13:32:08 -0400
+	id 1pucq3-00035V-R0; Thu, 04 May 2023 13:33:55 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mathbern@qualcomm.com>)
- id 1pub1l-0003wC-Qd
- for qemu-devel@nongnu.org; Thu, 04 May 2023 11:37:53 -0400
+ id 1pub1j-0003vs-UT
+ for qemu-devel@nongnu.org; Thu, 04 May 2023 11:37:51 -0400
 Received: from mx0a-0031df01.pphosted.com ([205.220.168.131])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mathbern@qualcomm.com>)
- id 1pub1e-0001D7-Vn
- for qemu-devel@nongnu.org; Thu, 04 May 2023 11:37:53 -0400
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+ id 1pub1e-0001D6-VK
+ for qemu-devel@nongnu.org; Thu, 04 May 2023 11:37:51 -0400
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
  by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 344F61TC028232; Thu, 4 May 2023 15:37:39 GMT
+ 34452BMc013113; Thu, 4 May 2023 15:37:39 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
  h=from : to : cc :
- subject : date : message-id : mime-version : content-type :
- content-transfer-encoding; s=qcppdkim1;
- bh=IgQjqsG/6YfmrHCChmgLqKNcpyr8DF9bc3N7FM/pWIw=;
- b=RrsWmqB/SizRsdjijf1cgGfx94UPpCHyHPI2+HsamJuQGuheOcl/iJFwE4qLH7J5BE2V
- yyE0tRxhO9hLUAn2RPLX8iaVD+RUa4e/9d6+2iRapRvj6JDhsbGuegwFuG3ln6ZvlzFl
- OHS9MvSVDxUVUKkHUmI4ql4KCVQpUkQuWyLlTgdP5ITDMCgpUIzuYWySJ958dq/r7kCq
- FRAXWeN7J9DDDFUU1Y8GBJw2T9kyGIRRSM6wrqE9ZW9LxjRClGZ5djJ9/8yNEbTqyEXt
- P4tlU24e988E3+HpuqBQLEtivcE/A4heNntFVSgQpD8HuIPV2C/stFcL22q9uFYvV078 QA== 
-Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
+ subject : date : message-id : in-reply-to : references : mime-version :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=8f7i+ISTGGq7ep5iMBRQpWbXx0MDbZR1JjnyOc+kCg4=;
+ b=YTlGM9AW4H4xlRNrOjB9onX5tH8/bEua31tuoIlyQqGYeUm+UMSHXsDB5YMWXw+sTL12
+ sz3h+Z4UJ9zi9oUECPjqPN8hpEoRPGbO7H0A/CJxDCvVy3lzTv0x8hRWhTX6jCx3YdXU
+ QKtpTWkyrK3uAB9lMFWc+QsXER0Ls9f1LvJr2RfLN3fzAHi0vPcgQ/kSWxUqB3vOcBi4
+ Dscq+vnxIWBQ5fq2ow9Ujlyb2K8lfu8icnnU8p+wbMLP3sMH5XUtERpLgHOQrsJP334B
+ odsZaqtn7l2/QFneonx/S6/ek8QfRiqphtT8CbwOV9Pz62QIeaymEpomXiYSbgQ8caiu Rw== 
+Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
  [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3qcf24g35k-1
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3qc652hfnu-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Thu, 04 May 2023 15:37:39 +0000
-Received: from pps.filterd (NALASPPMTA04.qualcomm.com [127.0.0.1])
- by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTP id 344FbcBS031990; 
+Received: from pps.filterd (NALASPPMTA02.qualcomm.com [127.0.0.1])
+ by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTP id 344FbcqW009672; 
  Thu, 4 May 2023 15:37:38 GMT
 Received: from pps.reinject (localhost [127.0.0.1])
- by NALASPPMTA04.qualcomm.com (PPS) with ESMTPS id 3q8vam6h1t-1
+ by NALASPPMTA02.qualcomm.com (PPS) with ESMTPS id 3q8vamegyg-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Thu, 04 May 2023 15:37:38 +0000
-Received: from NALASPPMTA04.qualcomm.com (NALASPPMTA04.qualcomm.com
+Received: from NALASPPMTA02.qualcomm.com (NALASPPMTA02.qualcomm.com
  [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 344FbcOf031977;
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 344FbQSG009596;
  Thu, 4 May 2023 15:37:38 GMT
 Received: from hu-devc-sd-u20-a-1.qualcomm.com (hu-mathbern-lv.qualcomm.com
  [10.47.235.147])
- by NALASPPMTA04.qualcomm.com (PPS) with ESMTPS id 344Fbbif031975
+ by NALASPPMTA02.qualcomm.com (PPS) with ESMTPS id 344Fbblv009665
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Thu, 04 May 2023 15:37:38 +0000
 Received: by hu-devc-sd-u20-a-1.qualcomm.com (Postfix, from userid 4229910)
- id 8D20370ED; Thu,  4 May 2023 12:37:37 -0300 (-03)
+ id A290370EE; Thu,  4 May 2023 12:37:37 -0300 (-03)
 From: Matheus Tavares Bernardino <quic_mathbern@quicinc.com>
 To: qemu-devel@nongnu.org
 Cc: alex.bennee@linaro.org, bcain@quicinc.com, f4bug@amsat.org,
  peter.maydell@linaro.org, tsimpson@quicinc.com, philmd@linaro.org,
  richard.henderson@linaro.org
-Subject: [PATCH v3 0/6] Hexagon: add lldb support
-Date: Thu,  4 May 2023 12:37:30 -0300
-Message-Id: <cover.1683214375.git.quic_mathbern@quicinc.com>
+Subject: [PATCH v3 1/6] gdbstub: only send stop-reply packets when allowed to
+Date: Thu,  4 May 2023 12:37:31 -0300
+Message-Id: <a49c0897fc22a6a7827c8dfc32aef2e1d933ec6b.1683214375.git.quic_mathbern@quicinc.com>
 X-Mailer: git-send-email 2.37.2
+In-Reply-To: <cover.1683214375.git.quic_mathbern@quicinc.com>
+References: <cover.1683214375.git.quic_mathbern@quicinc.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -72,16 +74,16 @@ X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
  signatures=585085
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
  signatures=585085
-X-Proofpoint-ORIG-GUID: --TBowNG-G8kHUnmSbuVvW9FM8lC8tuA
-X-Proofpoint-GUID: --TBowNG-G8kHUnmSbuVvW9FM8lC8tuA
+X-Proofpoint-GUID: S1z_dnaY0ZBDgzTx-uYlFcVJabv5VoVv
+X-Proofpoint-ORIG-GUID: S1z_dnaY0ZBDgzTx-uYlFcVJabv5VoVv
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
  definitions=2023-05-04_10,2023-05-04_01,2023-02-09_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 mlxscore=0
- suspectscore=0 bulkscore=0 impostorscore=0 phishscore=0 priorityscore=1501
- spamscore=0 malwarescore=0 clxscore=1015 mlxlogscore=872
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ malwarescore=0 adultscore=0
+ mlxlogscore=999 mlxscore=0 bulkscore=0 clxscore=1011 spamscore=0
+ impostorscore=0 phishscore=0 suspectscore=0 lowpriorityscore=0
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2303200000 definitions=main-2305040127
 Received-SPF: pass client-ip=205.220.168.131;
  envelope-from=mathbern@qualcomm.com; helo=mx0a-0031df01.pphosted.com
@@ -107,356 +109,268 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-This series allows hexagon programs to be debugged under qemu user-mode
-through LLDB and qemu's gdbstub. LLDB implements the GDB remote serial
-protocol, so most of the necessary changes are in the Hexagon part itself.
-However, one fix is needed at the arch-independent side too.
+GDB's remote serial protocol allows stop-reply messages to be sent by
+the stub either as a notification packet or as a reply to a GDB command
+(provided that the cmd accepts such a response). QEMU currently does not
+implement notification packets, so it should only send stop-replies
+synchronously and when requested. Nevertheless, it still issues
+unsolicited stop messages through gdb_vm_state_change().
 
-Changes in v3:
-- Patches 1 & 2: added Alex ack.
-- Patch 1:       added missing allow_stop_reply guard to
-                 gdbstub/user.c:gdb_exit().
-- Patches 3 & 5: replaced qRegisterInfo with gdb-xml.
-- Patch 6:       Used force_sig_fault().
+Although this behavior doesn't seem to cause problems with GDB itself
+(the messages are just ignored), it can impact other debuggers that
+implement the GDB remote serial protocol, like hexagon-lldb. Let's
+change the gdbstub to send stop messages only as a response to a
+previous GDB command that accepts such a reply.
 
-v2: https://lore.kernel.org/qemu-devel/cover.1681993775.git.quic_mathbern@quicinc.com/
-v1: https://lore.kernel.org/qemu-devel/cover.1680808943.git.quic_mathbern@quicinc.com/
+Signed-off-by: Matheus Tavares Bernardino <quic_mathbern@quicinc.com>
+Acked-by: Alex Bennée <alex.bennee@linaro.org>
+---
+ gdbstub/internals.h |  5 +++++
+ gdbstub/gdbstub.c   | 37 ++++++++++++++++++++++++++++---------
+ gdbstub/softmmu.c   | 13 +++++++++++--
+ gdbstub/user.c      | 24 ++++++++++++++++--------
+ 4 files changed, 60 insertions(+), 19 deletions(-)
 
-Brian Cain (1):
-  Hexagon (gdbstub): fix p3:0 read and write via stub
-
-Matheus Tavares Bernardino (4):
-  gdbstub: only send stop-reply packets when allowed to
-  gdbstub: add test for untimely stop-reply packets
-  Hexagon: add core gdbstub xml data for LLDB
-  Hexagon (linux-user/hexagon): handle breakpoints
-
-Taylor Simpson (1):
-  Hexagon (gdbstub): add HVX support
-
- MAINTAINERS                                   |  1 +
- configs/targets/hexagon-linux-user.mak        |  1 +
- gdbstub/internals.h                           |  5 +
- target/hexagon/internal.h                     |  2 +
- gdbstub/gdbstub.c                             | 37 +++++--
- gdbstub/softmmu.c                             | 13 ++-
- gdbstub/user.c                                | 24 +++--
- linux-user/hexagon/cpu_loop.c                 |  3 +
- target/hexagon/cpu.c                          |  9 +-
- target/hexagon/gdbstub.c                      | 84 ++++++++++++++++
- gdb-xml/hexagon-core.xml                      | 84 ++++++++++++++++
- gdb-xml/hexagon-hvx.xml                       | 96 +++++++++++++++++++
- tests/guest-debug/run-test.py                 | 16 +++-
- .../multiarch/system/Makefile.softmmu-target  | 16 +++-
- 14 files changed, 366 insertions(+), 25 deletions(-)
- create mode 100644 gdb-xml/hexagon-core.xml
- create mode 100644 gdb-xml/hexagon-hvx.xml
-
-Range-diff against v2:
-1:  b4ec188e67 ! 1:  a49c0897fc gdbstub: only send stop-reply packets when allowed to
-    @@ gdbstub/softmmu.c: void gdb_exit(int code)
-      }
-     
-      ## gdbstub/user.c ##
-    +@@ gdbstub/user.c: void gdb_exit(int code)
-    + 
-    +     trace_gdbstub_op_exiting((uint8_t)code);
-    + 
-    +-    snprintf(buf, sizeof(buf), "W%02x", (uint8_t)code);
-    +-    gdb_put_packet(buf);
-    ++    if (gdbserver_state.allow_stop_reply) {
-    ++        snprintf(buf, sizeof(buf), "W%02x", (uint8_t)code);
-    ++        gdb_put_packet(buf);
-    ++        gdbserver_state.allow_stop_reply = false;
-    ++    }
-    + }
-    + 
-    + int gdb_handlesig(CPUState *cpu, int sig)
-     @@ gdbstub/user.c: int gdb_handlesig(CPUState *cpu, int sig)
-      
-          if (sig != 0) {
-2:  a91ec99036 = 2:  a30d93b9a8 gdbstub: add test for untimely stop-reply packets
-3:  40aa60ee50 < -:  ---------- gdbstub: add support for the qRegisterInfo query
-4:  090707eea1 < -:  ---------- Hexagon: support qRegisterInfo at gdbstub
--:  ---------- > 3:  d25a3a7933 Hexagon: add core gdbstub xml data for LLDB
-5:  06ed954dab ! 4:  32e7de567c Hexagon (gdbstub): fix p3:0 read and write via stub
-    @@ Metadata
-      ## Commit message ##
-         Hexagon (gdbstub): fix p3:0 read and write via stub
-     
-    +    Signed-off-by: Brian Cain <bcain@quicinc.com>
-         Co-authored-by: Sid Manning <sidneym@quicinc.com>
-         Signed-off-by: Sid Manning <sidneym@quicinc.com>
-    -    Signed-off-by: Brian Cain <bcain@quicinc.com>
-         Co-authored-by: Matheus Tavares Bernardino <quic_mathbern@quicinc.com>
-         Signed-off-by: Matheus Tavares Bernardino <quic_mathbern@quicinc.com>
-         Reviewed-by: Taylor Simpson <tsimpson@quicinc.com>
-6:  880c86bf2b ! 5:  17cb32f34d Hexagon (gdbstub): add HVX support
-    @@ Metadata
-      ## Commit message ##
-         Hexagon (gdbstub): add HVX support
-     
-    +    Signed-off-by: Taylor Simpson <tsimpson@quicinc.com>
-         Co-authored-by: Brian Cain <bcain@quicinc.com>
-         Signed-off-by: Brian Cain <bcain@quicinc.com>
-    -    Signed-off-by: Taylor Simpson <tsimpson@quicinc.com>
-         Co-authored-by: Matheus Tavares Bernardino <quic_mathbern@quicinc.com>
-         Signed-off-by: Matheus Tavares Bernardino <quic_mathbern@quicinc.com>
-     
-    - ## target/hexagon/gdbstub.c ##
-    + ## configs/targets/hexagon-linux-user.mak ##
-    +@@
-    + TARGET_ARCH=hexagon
-    +-TARGET_XML_FILES=gdb-xml/hexagon-core.xml
-    ++TARGET_XML_FILES=gdb-xml/hexagon-core.xml gdb-xml/hexagon-hvx.xml
-    +
-    + ## target/hexagon/internal.h ##
-     @@
-    - #include "cpu.h"
-    - #include "internal.h"
-      
-    + int hexagon_gdb_read_register(CPUState *cpu, GByteArray *buf, int reg);
-    + int hexagon_gdb_write_register(CPUState *cpu, uint8_t *buf, int reg);
-    ++int hexagon_hvx_gdb_read_register(CPUHexagonState *env, GByteArray *mem_buf, int n);
-    ++int hexagon_hvx_gdb_write_register(CPUHexagonState *env, uint8_t *mem_buf, int n);
-    + 
-    + void hexagon_debug_vreg(CPUHexagonState *env, int regnum);
-    + void hexagon_debug_qreg(CPUHexagonState *env, int regnum);
-    +
-    + ## target/hexagon/cpu.c ##
-    +@@
-    + #include "hw/qdev-properties.h"
-    + #include "fpu/softfloat-helpers.h"
-    + #include "tcg/tcg.h"
-    ++#include "exec/gdbstub.h"
-    + 
-    + static void hexagon_v67_cpu_init(Object *obj)
-    + {
-    +@@ target/hexagon/cpu.c: static void hexagon_cpu_realize(DeviceState *dev, Error **errp)
-    +         return;
-    +     }
-    + 
-    ++    gdb_register_coprocessor(cs, hexagon_hvx_gdb_read_register,
-    ++                             hexagon_hvx_gdb_write_register,
-    ++                             NUM_VREGS + NUM_QREGS,
-    ++                             "hexagon-hvx.xml", 0);
-    ++
-    +     qemu_init_vcpu(cs);
-    +     cpu_reset(cs);
-    + 
-    +
-    + ## target/hexagon/gdbstub.c ##
-    +@@ target/hexagon/gdbstub.c: int hexagon_gdb_write_register(CPUState *cs, uint8_t *mem_buf, int n)
-    + 
-    +     g_assert_not_reached();
-    + }
-    ++
-     +static int gdb_get_vreg(CPUHexagonState *env, GByteArray *mem_buf, int n)
-     +{
-     +    int total = 0;
-    @@ target/hexagon/gdbstub.c
-     +    return total;
-     +}
-     +
-    - int hexagon_gdb_read_register(CPUState *cs, GByteArray *mem_buf, int n)
-    - {
-    -     HexagonCPU *cpu = HEXAGON_CPU(cs);
-    -@@ target/hexagon/gdbstub.c: int hexagon_gdb_read_register(CPUState *cs, GByteArray *mem_buf, int n)
-    -     if (n < TOTAL_PER_THREAD_REGS) {
-    -         return gdb_get_regl(mem_buf, env->gpr[n]);
-    -     }
-    -+    n -= TOTAL_PER_THREAD_REGS;
-    -+
-    ++int hexagon_hvx_gdb_read_register(CPUHexagonState *env, GByteArray *mem_buf, int n)
-    ++{
-     +    if (n < NUM_VREGS) {
-     +        return gdb_get_vreg(env, mem_buf, n);
-     +    }
-    @@ target/hexagon/gdbstub.c: int hexagon_gdb_read_register(CPUState *cs, GByteArray
-     +    if (n < NUM_QREGS) {
-     +        return gdb_get_qreg(env, mem_buf, n);
-     +    }
-    - 
-    -     g_assert_not_reached();
-    - }
-    - 
-    ++
-    ++    g_assert_not_reached();
-    ++}
-    ++
-     +static int gdb_put_vreg(CPUHexagonState *env, uint8_t *mem_buf, int n)
-     +{
-     +    int i;
-    @@ target/hexagon/gdbstub.c: int hexagon_gdb_read_register(CPUState *cs, GByteArray
-     +    return MAX_VEC_SIZE_BYTES / 8;
-     +}
-     +
-    - int hexagon_gdb_write_register(CPUState *cs, uint8_t *mem_buf, int n)
-    - {
-    -     HexagonCPU *cpu = HEXAGON_CPU(cs);
-    -@@ target/hexagon/gdbstub.c: int hexagon_gdb_write_register(CPUState *cs, uint8_t *mem_buf, int n)
-    -         env->gpr[n] = ldtul_p(mem_buf);
-    -         return sizeof(target_ulong);
-    -     }
-    -+    n -= TOTAL_PER_THREAD_REGS;
-    -+
-    -+    if (n < NUM_VREGS) {
-    ++int hexagon_hvx_gdb_write_register(CPUHexagonState *env, uint8_t *mem_buf, int n)
-    ++{
-    ++   if (n < NUM_VREGS) {
-     +        return gdb_put_vreg(env, mem_buf, n);
-     +    }
-     +    n -= NUM_VREGS;
-    @@ target/hexagon/gdbstub.c: int hexagon_gdb_write_register(CPUState *cs, uint8_t *
-     +    if (n < NUM_QREGS) {
-     +        return gdb_put_qreg(env, mem_buf, n);
-     +    }
-    - 
-    -     g_assert_not_reached();
-    - }
-    ++
-    ++    g_assert_not_reached();
-    ++}
-    +
-    + ## gdb-xml/hexagon-hvx.xml (new) ##
-    +@@
-    ++<?xml version="1.0"?>
-    ++<!--
-    ++  Copyright(c) 2023 Qualcomm Innovation Center, Inc. All Rights Reserved.
-    ++
-    ++  This work is licensed under the terms of the GNU GPL, version 2 or
-    ++  (at your option) any later version. See the COPYING file in the
-    ++  top-level directory.
-    ++
-    ++  Note: this file is intended to be use with LLDB, so it contains fields
-    ++  that may be unknown to GDB. For more information on such fields, please
-    ++  see:
-    ++  https://github.com/llvm/llvm-project/blob/287aa6c4536408413b860e61fca0318a27214cf3/lldb/docs/lldb-gdb-remote.txt#L738-L860
-    ++  https://github.com/llvm/llvm-project/blob/287aa6c4536408413b860e61fca0318a27214cf3/lldb/source/Plugins/Process/gdb-remote/ProcessGDBRemote.cpp#L4275-L4335
-    ++-->
-    ++
-    ++<!DOCTYPE feature SYSTEM "gdb-target.dtd">
-    ++<feature name="org.gnu.gdb.hexagon.hvx">
-    ++
-    ++  <vector id="vud" type="uint64" count="16"/>
-    ++  <vector id="vd" type="int64" count="16"/>
-    ++  <vector id="vuw" type="uint32" count="32"/>
-    ++  <vector id="vw" type="int32" count="32"/>
-    ++  <vector id="vuh" type="uint16" count="64"/>
-    ++  <vector id="vh" type="int16" count="64"/>
-    ++  <vector id="vub" type="uint8" count="128"/>
-    ++  <vector id="vb" type="int8" count="128"/>
-    ++  <union id="hex_vec">
-    ++    <field name="ud" type="vud"/>
-    ++    <field name="d" type="vd"/>
-    ++    <field name="uw" type="vuw"/>
-    ++    <field name="w" type="vw"/>
-    ++    <field name="uh" type="vuh"/>
-    ++    <field name="h" type="vh"/>
-    ++    <field name="ub" type="vub"/>
-    ++    <field name="b" type="vb"/>
-    ++  </union>
-    ++
-    ++  <flags id="ui2" size="1">
-    ++    <field name="0" start="0" end="0"/>
-    ++    <field name="1" start="1" end="1"/>
-    ++  </flags>
-    ++  <flags id="ui4" size="1">
-    ++    <field name="0" start="0" end="0"/>
-    ++    <field name="1" start="1" end="1"/>
-    ++    <field name="2" start="2" end="2"/>
-    ++    <field name="3" start="3" end="3"/>
-    ++  </flags>
-    ++  <vector id="vpd" type="uint8" count="16"/>
-    ++  <vector id="vpw" type="ui4" count="32"/>
-    ++  <vector id="vph" type="ui2" count="64"/>
-    ++  <vector id="vpb" type="bool" count="128"/>
-    ++  <union id="hex_vec_pred">
-    ++    <field name="d" type="vpd"/>
-    ++    <field name="w" type="vpw"/>
-    ++    <field name="h" type="vph"/>
-    ++    <field name="b" type="vpb"/>
-    ++  </union>
-    ++
-    ++  <reg name="v0"  bitsize="1024" offset="256"  encoding="vector" format="hex" group="HVX Vector Registers" dwarf_regnum="88"/>
-    ++  <reg name="v1"  bitsize="1024" offset="384"  encoding="vector" format="hex" group="HVX Vector Registers" dwarf_regnum="89"/>
-    ++  <reg name="v2"  bitsize="1024" offset="512"  encoding="vector" format="hex" group="HVX Vector Registers" dwarf_regnum="90"/>
-    ++  <reg name="v3"  bitsize="1024" offset="640"  encoding="vector" format="hex" group="HVX Vector Registers" dwarf_regnum="91"/>
-    ++  <reg name="v4"  bitsize="1024" offset="768"  encoding="vector" format="hex" group="HVX Vector Registers" dwarf_regnum="92"/>
-    ++  <reg name="v5"  bitsize="1024" offset="896"  encoding="vector" format="hex" group="HVX Vector Registers" dwarf_regnum="93"/>
-    ++  <reg name="v6"  bitsize="1024" offset="1024" encoding="vector" format="hex" group="HVX Vector Registers" dwarf_regnum="94"/>
-    ++  <reg name="v7"  bitsize="1024" offset="1152" encoding="vector" format="hex" group="HVX Vector Registers" dwarf_regnum="95"/>
-    ++  <reg name="v8"  bitsize="1024" offset="1280" encoding="vector" format="hex" group="HVX Vector Registers" dwarf_regnum="96"/>
-    ++  <reg name="v9"  bitsize="1024" offset="1408" encoding="vector" format="hex" group="HVX Vector Registers" dwarf_regnum="97"/>
-    ++  <reg name="v10" bitsize="1024" offset="1536" encoding="vector" format="hex" group="HVX Vector Registers" dwarf_regnum="98"/>
-    ++  <reg name="v11" bitsize="1024" offset="1664" encoding="vector" format="hex" group="HVX Vector Registers" dwarf_regnum="99"/>
-    ++  <reg name="v12" bitsize="1024" offset="1792" encoding="vector" format="hex" group="HVX Vector Registers" dwarf_regnum="100"/>
-    ++  <reg name="v13" bitsize="1024" offset="1920" encoding="vector" format="hex" group="HVX Vector Registers" dwarf_regnum="101"/>
-    ++  <reg name="v14" bitsize="1024" offset="2048" encoding="vector" format="hex" group="HVX Vector Registers" dwarf_regnum="102"/>
-    ++  <reg name="v15" bitsize="1024" offset="2176" encoding="vector" format="hex" group="HVX Vector Registers" dwarf_regnum="103"/>
-    ++  <reg name="v16" bitsize="1024" offset="2304" encoding="vector" format="hex" group="HVX Vector Registers" dwarf_regnum="104"/>
-    ++  <reg name="v17" bitsize="1024" offset="2432" encoding="vector" format="hex" group="HVX Vector Registers" dwarf_regnum="105"/>
-    ++  <reg name="v18" bitsize="1024" offset="2560" encoding="vector" format="hex" group="HVX Vector Registers" dwarf_regnum="106"/>
-    ++  <reg name="v19" bitsize="1024" offset="2688" encoding="vector" format="hex" group="HVX Vector Registers" dwarf_regnum="107"/>
-    ++  <reg name="v20" bitsize="1024" offset="2816" encoding="vector" format="hex" group="HVX Vector Registers" dwarf_regnum="108"/>
-    ++  <reg name="v21" bitsize="1024" offset="2944" encoding="vector" format="hex" group="HVX Vector Registers" dwarf_regnum="109"/>
-    ++  <reg name="v22" bitsize="1024" offset="3072" encoding="vector" format="hex" group="HVX Vector Registers" dwarf_regnum="110"/>
-    ++  <reg name="v23" bitsize="1024" offset="3200" encoding="vector" format="hex" group="HVX Vector Registers" dwarf_regnum="111"/>
-    ++  <reg name="v24" bitsize="1024" offset="3328" encoding="vector" format="hex" group="HVX Vector Registers" dwarf_regnum="112"/>
-    ++  <reg name="v25" bitsize="1024" offset="3456" encoding="vector" format="hex" group="HVX Vector Registers" dwarf_regnum="113"/>
-    ++  <reg name="v26" bitsize="1024" offset="3584" encoding="vector" format="hex" group="HVX Vector Registers" dwarf_regnum="114"/>
-    ++  <reg name="v27" bitsize="1024" offset="3712" encoding="vector" format="hex" group="HVX Vector Registers" dwarf_regnum="115"/>
-    ++  <reg name="v28" bitsize="1024" offset="3840" encoding="vector" format="hex" group="HVX Vector Registers" dwarf_regnum="116"/>
-    ++  <reg name="v29" bitsize="1024" offset="3968" encoding="vector" format="hex" group="HVX Vector Registers" dwarf_regnum="117"/>
-    ++  <reg name="v30" bitsize="1024" offset="4096" encoding="vector" format="hex" group="HVX Vector Registers" dwarf_regnum="118"/>
-    ++  <reg name="v31" bitsize="1024" offset="4224" encoding="vector" format="hex" group="HVX Vector Registers" dwarf_regnum="119"/>
-    ++  <reg name="q0"  bitsize="128"  offset="4352" encoding="vector" format="hex" group="HVX Vector Registers" dwarf_regnum="120"/>
-    ++  <reg name="q1"  bitsize="128"  offset="4368" encoding="vector" format="hex" group="HVX Vector Registers" dwarf_regnum="121"/>
-    ++  <reg name="q2"  bitsize="128"  offset="4384" encoding="vector" format="hex" group="HVX Vector Registers" dwarf_regnum="122"/>
-    ++  <reg name="q3"  bitsize="128"  offset="4400" encoding="vector" format="hex" group="HVX Vector Registers" dwarf_regnum="123"/>
-    ++
-    ++</feature>
-7:  3ff83e45a5 ! 6:  c287a129dc Hexagon (linux-user/hexagon): handle breakpoints
-    @@
-      ## Metadata ##
-    -Author: Taylor Simpson <tsimpson@quicinc.com>
-    +Author: Matheus Tavares Bernardino <quic_mathbern@quicinc.com>
-     
-      ## Commit message ##
-         Hexagon (linux-user/hexagon): handle breakpoints
-    @@ Commit message
-         This enables LLDB to work with hexagon linux-user mode through the GDB
-         remote protocol.
-     
-    -    Signed-off-by: Taylor Simpson <tsimpson@quicinc.com>
-    +    Helped-by: Richard Henderson <richard.henderson@linaro.org>
-         Signed-off-by: Matheus Tavares Bernardino <quic_mathbern@quicinc.com>
-     
-      ## linux-user/hexagon/cpu_loop.c ##
-    -@@ linux-user/hexagon/cpu_loop.c: void cpu_loop(CPUHexagonState *env)
-    -     target_ulong ret;
-    - 
-    -     for (;;) {
-    -+        target_siginfo_t info;
-    -         cpu_exec_start(cs);
-    -         trapnr = cpu_exec(cs);
-    -         cpu_exec_end(cs);
-     @@ linux-user/hexagon/cpu_loop.c: void cpu_loop(CPUHexagonState *env)
-              case EXCP_ATOMIC:
-                  cpu_exec_step_atomic(cs);
-                  break;
-     +        case EXCP_DEBUG:
-    -+            info = (target_siginfo_t) {
-    -+                .si_signo = TARGET_SIGTRAP,
-    -+                .si_errno = 0,
-    -+                .si_code = TARGET_TRAP_BRKPT,
-    -+                ._sifields._sigfault._addr = 0
-    -+            };
-    -+            queue_signal(env, info.si_signo, QEMU_SI_KILL, &info);
-    ++            force_sig_fault(TARGET_SIGTRAP, TARGET_TRAP_BRKPT, 0);
-     +            break;
-              default:
-                  EXCP_DUMP(env, "\nqemu: unhandled CPU exception %#x - aborting\n",
+diff --git a/gdbstub/internals.h b/gdbstub/internals.h
+index 94ddff4495..33d21d6488 100644
+--- a/gdbstub/internals.h
++++ b/gdbstub/internals.h
+@@ -65,6 +65,11 @@ typedef struct GDBState {
+     GByteArray *mem_buf;
+     int sstep_flags;
+     int supported_sstep_flags;
++    /*
++     * Whether we are allowed to send a stop reply packet at this moment.
++     * Must be set off after sending the stop reply itself.
++     */
++    bool allow_stop_reply;
+ } GDBState;
+ 
+ /* lives in main gdbstub.c */
+diff --git a/gdbstub/gdbstub.c b/gdbstub/gdbstub.c
+index 0760d78685..be18568d0a 100644
+--- a/gdbstub/gdbstub.c
++++ b/gdbstub/gdbstub.c
+@@ -777,6 +777,10 @@ typedef void (*GdbCmdHandler)(GArray *params, void *user_ctx);
+ /*
+  * cmd_startswith -> cmd is compared using startswith
+  *
++ * allow_stop_reply -> true iff the gdbstub can respond to this command with a
++ *   "stop reply" packet. The list of commands that accept such response is
++ *   defined at the GDB Remote Serial Protocol documentation. see:
++ *   https://sourceware.org/gdb/onlinedocs/gdb/Stop-Reply-Packets.html#Stop-Reply-Packets.
+  *
+  * schema definitions:
+  * Each schema parameter entry consists of 2 chars,
+@@ -802,6 +806,7 @@ typedef struct GdbCmdParseEntry {
+     const char *cmd;
+     bool cmd_startswith;
+     const char *schema;
++    bool allow_stop_reply;
+ } GdbCmdParseEntry;
+ 
+ static inline int startswith(const char *string, const char *pattern)
+@@ -835,6 +840,7 @@ static int process_string_cmd(void *user_ctx, const char *data,
+             }
+         }
+ 
++        gdbserver_state.allow_stop_reply = cmd->allow_stop_reply;
+         cmd->handler(params, user_ctx);
+         return 0;
+     }
+@@ -1283,11 +1289,14 @@ static void handle_v_attach(GArray *params, void *user_ctx)
+     gdbserver_state.g_cpu = cpu;
+     gdbserver_state.c_cpu = cpu;
+ 
+-    g_string_printf(gdbserver_state.str_buf, "T%02xthread:", GDB_SIGNAL_TRAP);
+-    gdb_append_thread_id(cpu, gdbserver_state.str_buf);
+-    g_string_append_c(gdbserver_state.str_buf, ';');
++    if (gdbserver_state.allow_stop_reply) {
++        g_string_printf(gdbserver_state.str_buf, "T%02xthread:", GDB_SIGNAL_TRAP);
++        gdb_append_thread_id(cpu, gdbserver_state.str_buf);
++        g_string_append_c(gdbserver_state.str_buf, ';');
++        gdbserver_state.allow_stop_reply = false;
+ cleanup:
+-    gdb_put_strbuf();
++        gdb_put_strbuf();
++    }
+ }
+ 
+ static void handle_v_kill(GArray *params, void *user_ctx)
+@@ -1310,12 +1319,14 @@ static const GdbCmdParseEntry gdb_v_commands_table[] = {
+         .handler = handle_v_cont,
+         .cmd = "Cont",
+         .cmd_startswith = 1,
++        .allow_stop_reply = true,
+         .schema = "s0"
+     },
+     {
+         .handler = handle_v_attach,
+         .cmd = "Attach;",
+         .cmd_startswith = 1,
++        .allow_stop_reply = true,
+         .schema = "l0"
+     },
+     {
+@@ -1698,10 +1709,13 @@ static void handle_gen_set(GArray *params, void *user_ctx)
+ 
+ static void handle_target_halt(GArray *params, void *user_ctx)
+ {
+-    g_string_printf(gdbserver_state.str_buf, "T%02xthread:", GDB_SIGNAL_TRAP);
+-    gdb_append_thread_id(gdbserver_state.c_cpu, gdbserver_state.str_buf);
+-    g_string_append_c(gdbserver_state.str_buf, ';');
+-    gdb_put_strbuf();
++    if (gdbserver_state.allow_stop_reply) {
++        g_string_printf(gdbserver_state.str_buf, "T%02xthread:", GDB_SIGNAL_TRAP);
++        gdb_append_thread_id(gdbserver_state.c_cpu, gdbserver_state.str_buf);
++        g_string_append_c(gdbserver_state.str_buf, ';');
++        gdb_put_strbuf();
++        gdbserver_state.allow_stop_reply = false;
++    }
+     /*
+      * Remove all the breakpoints when this query is issued,
+      * because gdb is doing an initial connect and the state
+@@ -1725,7 +1739,8 @@ static int gdb_handle_packet(const char *line_buf)
+             static const GdbCmdParseEntry target_halted_cmd_desc = {
+                 .handler = handle_target_halt,
+                 .cmd = "?",
+-                .cmd_startswith = 1
++                .cmd_startswith = 1,
++                .allow_stop_reply = true,
+             };
+             cmd_parser = &target_halted_cmd_desc;
+         }
+@@ -1736,6 +1751,7 @@ static int gdb_handle_packet(const char *line_buf)
+                 .handler = handle_continue,
+                 .cmd = "c",
+                 .cmd_startswith = 1,
++                .allow_stop_reply = true,
+                 .schema = "L0"
+             };
+             cmd_parser = &continue_cmd_desc;
+@@ -1747,6 +1763,7 @@ static int gdb_handle_packet(const char *line_buf)
+                 .handler = handle_cont_with_sig,
+                 .cmd = "C",
+                 .cmd_startswith = 1,
++                .allow_stop_reply = true,
+                 .schema = "l0"
+             };
+             cmd_parser = &cont_with_sig_cmd_desc;
+@@ -1785,6 +1802,7 @@ static int gdb_handle_packet(const char *line_buf)
+                 .handler = handle_step,
+                 .cmd = "s",
+                 .cmd_startswith = 1,
++                .allow_stop_reply = true,
+                 .schema = "L0"
+             };
+             cmd_parser = &step_cmd_desc;
+@@ -1976,6 +1994,7 @@ void gdb_read_byte(uint8_t ch)
+ {
+     uint8_t reply;
+ 
++    gdbserver_state.allow_stop_reply = false;
+ #ifndef CONFIG_USER_ONLY
+     if (gdbserver_state.last_packet->len) {
+         /* Waiting for a response to the last packet.  If we see the start
+diff --git a/gdbstub/softmmu.c b/gdbstub/softmmu.c
+index 22ecd09d04..99d994e6bf 100644
+--- a/gdbstub/softmmu.c
++++ b/gdbstub/softmmu.c
+@@ -43,6 +43,7 @@ static void reset_gdbserver_state(void)
+     g_free(gdbserver_state.processes);
+     gdbserver_state.processes = NULL;
+     gdbserver_state.process_num = 0;
++    gdbserver_state.allow_stop_reply = false;
+ }
+ 
+ /*
+@@ -139,6 +140,10 @@ static void gdb_vm_state_change(void *opaque, bool running, RunState state)
+         return;
+     }
+ 
++    if (!gdbserver_state.allow_stop_reply) {
++        return;
++    }
++
+     gdb_append_thread_id(cpu, tid);
+ 
+     switch (state) {
+@@ -205,6 +210,7 @@ static void gdb_vm_state_change(void *opaque, bool running, RunState state)
+ 
+ send_packet:
+     gdb_put_packet(buf->str);
++    gdbserver_state.allow_stop_reply = false;
+ 
+     /* disable single step if it was enabled */
+     cpu_single_step(cpu, 0);
+@@ -422,8 +428,11 @@ void gdb_exit(int code)
+ 
+     trace_gdbstub_op_exiting((uint8_t)code);
+ 
+-    snprintf(buf, sizeof(buf), "W%02x", (uint8_t)code);
+-    gdb_put_packet(buf);
++    if (gdbserver_state.allow_stop_reply) {
++        snprintf(buf, sizeof(buf), "W%02x", (uint8_t)code);
++        gdb_put_packet(buf);
++        gdbserver_state.allow_stop_reply = false;
++    }
+ 
+     qemu_chr_fe_deinit(&gdbserver_system_state.chr, true);
+ }
+diff --git a/gdbstub/user.c b/gdbstub/user.c
+index 80488b6bb9..5b375be1d9 100644
+--- a/gdbstub/user.c
++++ b/gdbstub/user.c
+@@ -108,8 +108,11 @@ void gdb_exit(int code)
+ 
+     trace_gdbstub_op_exiting((uint8_t)code);
+ 
+-    snprintf(buf, sizeof(buf), "W%02x", (uint8_t)code);
+-    gdb_put_packet(buf);
++    if (gdbserver_state.allow_stop_reply) {
++        snprintf(buf, sizeof(buf), "W%02x", (uint8_t)code);
++        gdb_put_packet(buf);
++        gdbserver_state.allow_stop_reply = false;
++    }
+ }
+ 
+ int gdb_handlesig(CPUState *cpu, int sig)
+@@ -127,11 +130,14 @@ int gdb_handlesig(CPUState *cpu, int sig)
+ 
+     if (sig != 0) {
+         gdb_set_stop_cpu(cpu);
+-        g_string_printf(gdbserver_state.str_buf,
+-                        "T%02xthread:", gdb_target_signal_to_gdb(sig));
+-        gdb_append_thread_id(cpu, gdbserver_state.str_buf);
+-        g_string_append_c(gdbserver_state.str_buf, ';');
+-        gdb_put_strbuf();
++        if (gdbserver_state.allow_stop_reply) {
++            g_string_printf(gdbserver_state.str_buf,
++                            "T%02xthread:", gdb_target_signal_to_gdb(sig));
++            gdb_append_thread_id(cpu, gdbserver_state.str_buf);
++            g_string_append_c(gdbserver_state.str_buf, ';');
++            gdb_put_strbuf();
++            gdbserver_state.allow_stop_reply = false;
++        }
+     }
+     /*
+      * gdb_put_packet() might have detected that the peer terminated the
+@@ -174,12 +180,14 @@ void gdb_signalled(CPUArchState *env, int sig)
+ {
+     char buf[4];
+ 
+-    if (!gdbserver_state.init || gdbserver_user_state.fd < 0) {
++    if (!gdbserver_state.init || gdbserver_user_state.fd < 0 ||
++        !gdbserver_state.allow_stop_reply) {
+         return;
+     }
+ 
+     snprintf(buf, sizeof(buf), "X%02x", gdb_target_signal_to_gdb(sig));
+     gdb_put_packet(buf);
++    gdbserver_state.allow_stop_reply = false;
+ }
+ 
+ static void gdb_accept_init(int fd)
 -- 
 2.37.2
 
