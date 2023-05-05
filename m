@@ -2,86 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06C9A6F7A8C
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 May 2023 03:17:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C91E96F7A5D
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 May 2023 03:06:57 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pujtj-0003Lk-RW; Thu, 04 May 2023 21:06:11 -0400
+	id 1pujtw-00059J-Gu; Thu, 04 May 2023 21:06:24 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1pujtg-000315-NX
- for qemu-devel@nongnu.org; Thu, 04 May 2023 21:06:08 -0400
-Received: from mail-pl1-x62b.google.com ([2607:f8b0:4864:20::62b])
+ id 1pujts-0004oV-P5
+ for qemu-devel@nongnu.org; Thu, 04 May 2023 21:06:20 -0400
+Received: from mail-pg1-x531.google.com ([2607:f8b0:4864:20::531])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1pujte-0007eu-KV
- for qemu-devel@nongnu.org; Thu, 04 May 2023 21:06:08 -0400
-Received: by mail-pl1-x62b.google.com with SMTP id
- d9443c01a7336-1a516fb6523so10671365ad.3
- for <qemu-devel@nongnu.org>; Thu, 04 May 2023 18:06:06 -0700 (PDT)
+ id 1pujti-0007fb-8t
+ for qemu-devel@nongnu.org; Thu, 04 May 2023 21:06:20 -0400
+Received: by mail-pg1-x531.google.com with SMTP id
+ 41be03b00d2f7-517ab9a4a13so960522a12.1
+ for <qemu-devel@nongnu.org>; Thu, 04 May 2023 18:06:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1683248765; x=1685840765;
+ d=gmail.com; s=20221208; t=1683248768; x=1685840768;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=j0qdCGr5H/dXi5GZTnoaSiKG2ZdRv1O4vEZjYe7CLHE=;
- b=cFO9e48jajhGg8KVjk2iedPjaw20Fzq5tKRO0qLdEzcontK7B3NpD498m4CAo8/OeB
- On8EJS28b/ea+qpACoVsBxIzWHojAY+HPJWk0TxCIWYXxvl/oCDBvKZRDutZP/ra3GdB
- ebg737vJzMsBnuDJz0wY2+e7PrbbAwmgW7i3b72gSX1ad14Omgjpp9vGGO+lzSv92zi9
- dsAuyCFmFOxbVa0qgMBxMQzAZ5uhWs4IZ+WREoWjmTT+f1KTOVb2f97GQTKJjqDkryP6
- +1xw3H15VtvPTuuLnIzEcoAMF9A/hVCfuSyNOhcKp0SN+gsJ89/MP0+az3ftywt/Ezru
- 1RJA==
+ bh=0X8g131CVFq/pjT+ErsV8dyrgFnoRBEg/6IUxaJk6ls=;
+ b=ORB76+x5Oes4m/e49uVa1Zrh82qgY1We3nN223kVEAdrwARfWhNaBoYevGAWkpe/5C
+ oYLQX3eQRu3xbpdItiajTb2EWAPrBk1IT6qA1rD/+/K118Fj8J/+6crkvqcH2yZgIn0x
+ zgJjS+d3oBseWUk9NFk2/j0Q5iWyfUz5nuqsU8Z9twy/QdXScu0GkFs7VH/3uIkjB/6W
+ s5dxVFvv39ZQKpXK8I5kahOkrirX6nr+9BFJkNoi4/DP/Km8sCgNpx5MuccTMH6BenDN
+ LU4gevYP3O2aPEmxKA5439HLeNqFiGsfCgWEqWGfptgRkQKaJMwcneKNG/2wldaW5U4z
+ M/6A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683248765; x=1685840765;
+ d=1e100.net; s=20221208; t=1683248768; x=1685840768;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=j0qdCGr5H/dXi5GZTnoaSiKG2ZdRv1O4vEZjYe7CLHE=;
- b=JwiBvuCYuxv79fyv/C9GMzHl2853wt65yUn+j/p9AuK/Wo57lByXRAJII3nWErrOO9
- ArtlprZuGX2au+HDgd/opK27/aC60FmchxLHJ9rtV4I/O6hDDHEmG7ZRxRK3hLTGKOhO
- +3aHr7kdl7QXt+9UbWKJjgAlwBMiGt8XFt7VxMCKN8xsQr5vnDSNErQVa56CN9K4GV+K
- SdQ0E+A1aFuXXF0S/bBmRFBZXNznzsWfS6vT8KNQkgLE+ERmFp0SlR6+8qL0F2cUkNLy
- s8bw2FBxYH989ECVtUuKRF8SP2xPvOPZw1qROE+GwyMLrgyCH2LricrXvZN69vlOrsGC
- Z2gA==
-X-Gm-Message-State: AC+VfDxNjAlg6gMmhN+wTvciboUHMCXZyxXad25tGYsb6z9c9zBLlGQ2
- /lSUMGsVLuBrlqLypQRBymoor1cghtQL6Q==
-X-Google-Smtp-Source: ACHHUZ7XSfKzqvHa0j/ucS/pAnDOV5zUEZxCTfo8UwZ1Xj8N5vwL04dWfBoYbDocMXwqWOc8oBsxqQ==
-X-Received: by 2002:a17:903:187:b0:1a8:1320:133 with SMTP id
- z7-20020a170903018700b001a813200133mr6530699plg.51.1683248764870; 
- Thu, 04 May 2023 18:06:04 -0700 (PDT)
+ bh=0X8g131CVFq/pjT+ErsV8dyrgFnoRBEg/6IUxaJk6ls=;
+ b=lzD1rkoI2I6bFO2wbDPPMxrdYmIHRYsrLy92WflQytzbMo2Pf7VVtWvPC0eNFJ2sBx
+ Ig7BVZaKnSEvYLzJpNBDNxM4KlXs1ecyo6y/E0385j7Pu8xURMtiOroRHXPPiLTti7Oy
+ tFrews3ASzaMXztK5w6ZHLdJbGQvdX632ZLEYndAcRwfOZgwU70sUBvOzXFtSKjUDIBs
+ DIvlnCUq1UJX17YdvH0nX8G6yrWpbQR2Nuvh2MVrrspAbVwEjoeqK5ThF8NLrBEo4pGl
+ rmySCeJ8ZGQCtcY03UgQx5MTBYdzqv01S828sigxvm1BICA+l+gbXS8lsoC6ur2QWWj6
+ aJEg==
+X-Gm-Message-State: AC+VfDzesTafR4fKhYOe6Yprp2KYdteBn9Zzt87WCXu5AKVbzdSpVtXy
+ SJqt/sd8rO6MUJ6SZWCccUT/DJr7SvB2Tg==
+X-Google-Smtp-Source: ACHHUZ5ldR+D09E5oU+fwo8dL2+8v91uPEPfzqRqA9K7JTQaDJPKailCIp9R6mwk9aueSPNewg3ikw==
+X-Received: by 2002:a17:902:ab83:b0:1aa:fdab:24a5 with SMTP id
+ f3-20020a170902ab8300b001aafdab24a5mr4776539plr.10.1683248768100; 
+ Thu, 04 May 2023 18:06:08 -0700 (PDT)
 Received: from toolbox.alistair23.me
  (2403-580b-97e8-0-321-6fb2-58f1-a1b1.ip6.aussiebb.net.
  [2403:580b:97e8:0:321:6fb2:58f1:a1b1])
  by smtp.gmail.com with ESMTPSA id
- l19-20020a170902d35300b0019309be03e7sm218762plk.66.2023.05.04.18.06.02
+ l19-20020a170902d35300b0019309be03e7sm218762plk.66.2023.05.04.18.06.05
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 04 May 2023 18:06:04 -0700 (PDT)
+ Thu, 04 May 2023 18:06:07 -0700 (PDT)
 From: Alistair Francis <alistair23@gmail.com>
 X-Google-Original-From: Alistair Francis <alistair.francis@wdc.com>
 To: qemu-devel@nongnu.org
 Cc: alistair23@gmail.com, Daniel Henrique Barboza <dbarboza@ventanamicro.com>,
  Weiwei Li <liweiwei@iscas.ac.cn>,
  Alistair Francis <alistair.francis@wdc.com>
-Subject: [PULL 49/89] target/riscv: remove riscv_cpu_sync_misa_cfg()
-Date: Fri,  5 May 2023 11:02:01 +1000
-Message-Id: <20230505010241.21812-50-alistair.francis@wdc.com>
+Subject: [PULL 50/89] target/riscv: remove cfg.ext_g setup from
+ rv64_thead_c906_cpu_init()
+Date: Fri,  5 May 2023 11:02:02 +1000
+Message-Id: <20230505010241.21812-51-alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.40.0
 In-Reply-To: <20230505010241.21812-1-alistair.francis@wdc.com>
 References: <20230505010241.21812-1-alistair.francis@wdc.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62b;
- envelope-from=alistair23@gmail.com; helo=mail-pl1-x62b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::531;
+ envelope-from=alistair23@gmail.com; helo=mail-pg1-x531.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -99,96 +99,38 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
 
-This function was created to move the sync between cpu->cfg.ext_N bit
-changes to env->misa_ext* from the validation step to an ealier step,
-giving us a guarantee that we could use either cpu->cfg.ext_N or
-riscv_has_ext(env,N) in the validation.
+This CPU is enabling G via cfg.ext_g and, at the same time, setting
+IMAFD in set_misa() and cfg.ext_icsr.
 
-We don't have any cpu->cfg.ext_N left that has an existing MISA bit
-(cfg.ext_g will be handled shortly). The function is now a no-op, simply
-copying the existing values of misa_ext* back to misa_ext*.
-
-Remove it.
+riscv_cpu_validate_set_extensions() is already doing that, so there's no
+need for cpu_init() setups to worry about setting G and its extensions.
 
 Signed-off-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
 Reviewed-by: Weiwei Li <liweiwei@iscas.ac.cn>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Message-Id: <20230406180351.570807-18-dbarboza@ventanamicro.com>
+Message-Id: <20230406180351.570807-19-dbarboza@ventanamicro.com>
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- target/riscv/cpu.c | 52 ----------------------------------------------
- 1 file changed, 52 deletions(-)
+ target/riscv/cpu.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
 diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index 13ff37250e..1ecb82bb5d 100644
+index 1ecb82bb5d..b005bcb786 100644
 --- a/target/riscv/cpu.c
 +++ b/target/riscv/cpu.c
-@@ -1141,50 +1141,6 @@ static void riscv_cpu_finalize_features(RISCVCPU *cpu, Error **errp)
- #endif
- }
+@@ -403,11 +403,10 @@ static void rv64_thead_c906_cpu_init(Object *obj)
+     CPURISCVState *env = &RISCV_CPU(obj)->env;
+     RISCVCPU *cpu = RISCV_CPU(obj);
  
--static void riscv_cpu_sync_misa_cfg(CPURISCVState *env)
--{
--    uint32_t ext = 0;
--
--    if (riscv_has_ext(env, RVI)) {
--        ext |= RVI;
--    }
--    if (riscv_has_ext(env, RVE)) {
--        ext |= RVE;
--    }
--    if (riscv_has_ext(env, RVM)) {
--        ext |= RVM;
--    }
--    if (riscv_has_ext(env, RVA)) {
--        ext |= RVA;
--    }
--    if (riscv_has_ext(env, RVF)) {
--        ext |= RVF;
--    }
--    if (riscv_has_ext(env, RVD)) {
--        ext |= RVD;
--    }
--    if (riscv_has_ext(env, RVC)) {
--        ext |= RVC;
--    }
--    if (riscv_has_ext(env, RVS)) {
--        ext |= RVS;
--    }
--    if (riscv_has_ext(env, RVU)) {
--        ext |= RVU;
--    }
--    if (riscv_has_ext(env, RVH)) {
--        ext |= RVH;
--    }
--    if (riscv_has_ext(env, RVV)) {
--        ext |= RVV;
--    }
--    if (riscv_has_ext(env, RVJ)) {
--        ext |= RVJ;
--    }
--
--    env->misa_ext = env->misa_ext_mask = ext;
--}
--
- static void riscv_cpu_validate_misa_priv(CPURISCVState *env, Error **errp)
- {
-     if (riscv_has_ext(env, RVH) && env->priv_ver < PRIV_VERSION_1_12_0) {
-@@ -1228,14 +1184,6 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
-         set_priv_version(env, priv_version);
-     }
+-    set_misa(env, MXL_RV64, RVI | RVM | RVA | RVF | RVD | RVC | RVS | RVU);
++    set_misa(env, MXL_RV64, RVC | RVS | RVU);
+     set_priv_version(env, PRIV_VERSION_1_11_0);
  
--    /*
--     * We can't be sure of whether we set defaults during cpu_init()
--     * or whether the user enabled/disabled some bits via cpu->cfg
--     * flags. Sync env->misa_ext with cpu->cfg now to allow us to
--     * use just env->misa_ext later.
--     */
--    riscv_cpu_sync_misa_cfg(env);
--
-     riscv_cpu_validate_misa_priv(env, &local_err);
-     if (local_err != NULL) {
-         error_propagate(errp, local_err);
+     cpu->cfg.ext_g = true;
+-    cpu->cfg.ext_icsr = true;
+     cpu->cfg.ext_zfh = true;
+     cpu->cfg.mmu = true;
+     cpu->cfg.ext_xtheadba = true;
 -- 
 2.40.0
 
