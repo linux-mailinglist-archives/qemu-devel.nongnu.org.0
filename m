@@ -2,83 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C47FD6F7E94
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 May 2023 10:20:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 69DD96F7E59
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 May 2023 10:05:14 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1puqeT-0007Gw-8s; Fri, 05 May 2023 04:18:53 -0400
+	id 1puqPo-0004Z3-Nf; Fri, 05 May 2023 04:03:44 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1puqeR-0007Gl-1Z
- for qemu-devel@nongnu.org; Fri, 05 May 2023 04:18:51 -0400
-Received: from mail-ed1-x52c.google.com ([2a00:1450:4864:20::52c])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1puqeP-0007sq-8d
- for qemu-devel@nongnu.org; Fri, 05 May 2023 04:18:50 -0400
-Received: by mail-ed1-x52c.google.com with SMTP id
- 4fb4d7f45d1cf-50bcc565280so2198360a12.2
- for <qemu-devel@nongnu.org>; Fri, 05 May 2023 01:18:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1683274727; x=1685866727;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=CeatHWLZ/5FdfvOrx3GG2uSD8l2Mzrf8fLrIArXhG58=;
- b=Oqwbdv8nQ4TmjHao/6vhkJXPRL8ZyV0KTM9aReLEgl3FVn4r+J5UVI95BTX00qwVKx
- 8RSEHB6UK2uoti4JFmk3wXcru4lMKHnGZlBISRqsA/Bl4IkhukN1GIpu0JL03Uo4yHij
- 7D+nrnNqE0m21B2mDeC25TST6dmkjlVi293sog2bL4bU78qPWoHGOYr6547NthPSBeZ6
- ZgUDgEHQn+4nxYC25OL54Z5l8tsvrmOCGDVEdwu4VMx/2W1dPdlSffC33O6ZHO/pniJl
- uQsLvNxEM/kWEPVVc/B1oINQErgEEaQs5F81S1G9lCMYfFPMjhHUjXU+6eMCAo5OroYH
- wnGA==
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1puqPg-0004V2-DH
+ for qemu-devel@nongnu.org; Fri, 05 May 2023 04:03:36 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1puqPe-0002XR-EV
+ for qemu-devel@nongnu.org; Fri, 05 May 2023 04:03:35 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1683273812;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=xFAZGtt20jjfxFOWddyez5tj/P7elvG1aIyda0Udr64=;
+ b=RF5J/sRaWbPoi6iy5uGy7coKYkf3ClcaNvDbDTu115hfx2v42HMT6GHpiIE4CeMvDGnmgk
+ HJpkxQeRiddiTvaRdJ//5OT/wYgHw/FucmCvSQJmM3eiK+WzOZHAoSnf3qzRzubj8I8CUB
+ PIsQZbkwarBmS9wjUNJc++S1DFgG3I8=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-152-RHRGTjP3P1qlCi3TwNKfzw-1; Fri, 05 May 2023 04:03:30 -0400
+X-MC-Unique: RHRGTjP3P1qlCi3TwNKfzw-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ 5b1f17b1804b1-3f3fe24912cso9638125e9.0
+ for <qemu-devel@nongnu.org>; Fri, 05 May 2023 01:03:30 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683274727; x=1685866727;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
+ d=1e100.net; s=20221208; t=1683273809; x=1685865809;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=CeatHWLZ/5FdfvOrx3GG2uSD8l2Mzrf8fLrIArXhG58=;
- b=ZqyXGngSeDITIJi28/22uTXUSoyMmywQg73+KlR0jgQZFgbByaRpRZamuTYPWk0iVp
- 3SWM07AIgVYnQM+9U5rbQrsGzjcLaXiYpco2IWfCJfQGcbtGbx5hi+1nQYMvHgD98BCS
- k/nmeGestYF3CBSJ9ytMM0xgANZXDvcWz11g//x0NDEByjHyCGfxTA/YcwCvs0rivEdv
- Qo6BSVd/4y7QraJAF35O1n+LSGI2Phi846NNgQcIf2qKtO80ietK67hsMrMyrNc1K+Je
- YRzYPKLqDa/7Ro+bv/PY5/3OIWvZe9miWbZXNOFenjWGZDrJfDzuSXAOmH9YT7NNsTvg
- BbNA==
-X-Gm-Message-State: AC+VfDy/04VaCuNySpayWPeI3kqVdECJS+99skkEpZbBf9/VaYwtsMAg
- EVtSJ+bAjaMQCsSZ29Jrl92u4g==
-X-Google-Smtp-Source: ACHHUZ7rUI1VDrPbTznhwZNgRl3KYcGUwSj8FclX4CirXW1G+YhDE+4wzSZRx88OBuRYXhgwrdp7fA==
-X-Received: by 2002:a17:907:3207:b0:957:48c8:b081 with SMTP id
- xg7-20020a170907320700b0095748c8b081mr345824ejb.24.1683274727241; 
- Fri, 05 May 2023 01:18:47 -0700 (PDT)
-Received: from [192.168.0.81] ([82.152.154.96])
- by smtp.gmail.com with ESMTPSA id
- bk4-20020a170906b0c400b009659ad1072fsm635429ejb.113.2023.05.05.01.18.46
+ bh=xFAZGtt20jjfxFOWddyez5tj/P7elvG1aIyda0Udr64=;
+ b=DyY9rwpGLTXtVSLS2U4EwyJ6chaotseDqXLEkrrYkXiuDl+j2NJoRyjH1oypYp0qo2
+ 5Pgk0NuN9pbqSM6PVesRUgVHDlZJ6wHn8Lv5WLp037rzs3wbB8lyGxW17HGL40J6bJDs
+ jAlA6afk5800UI6CA0Goh3a22nKe/5x2rwBwOb7vgnA5jkJ4MqC9tUWm0GF3uplL0baq
+ /2yQVyHG2wJi+vcmsvqKFl8qNB4tH69n1uxufCi6LBpF0+GOYaYOCLnAFJzdlyd2gPpa
+ NLFxkXJX2KCtcCRnMQqWXxtlG/dvYR2XCJLTFJYp2i9adiwXkqULsuMECGVRVrmtajO3
+ /Hkg==
+X-Gm-Message-State: AC+VfDxKIL99zUhs3hzhm0f33trhAsXKS581fz/OBmm2J4dNnVC98MjE
+ ekvknq3KG/m5GXeTnJE3dOr7Jykh+UZzHkYR/qt+CfkHGYlkAHgslKxHq0aOSLORuvzePt81BkK
+ WI6V5fd26PNgNfV0=
+X-Received: by 2002:a7b:c357:0:b0:3ee:19b4:a2e6 with SMTP id
+ l23-20020a7bc357000000b003ee19b4a2e6mr414916wmj.19.1683273809413; 
+ Fri, 05 May 2023 01:03:29 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ7IgW4LpLerY7nDGpska6phJavNFcAvC/Va1g1I7WQwFaQE/fYo7poYMvsFKxEdXlmM7UqHkg==
+X-Received: by 2002:a7b:c357:0:b0:3ee:19b4:a2e6 with SMTP id
+ l23-20020a7bc357000000b003ee19b4a2e6mr414894wmj.19.1683273808956; 
+ Fri, 05 May 2023 01:03:28 -0700 (PDT)
+Received: from [192.168.0.3] (ip-109-43-179-91.web.vodafone.de.
+ [109.43.179.91]) by smtp.gmail.com with ESMTPSA id
+ p1-20020a05600c204100b003ed2c0a0f37sm7198369wmg.35.2023.05.05.01.03.28
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 05 May 2023 01:18:46 -0700 (PDT)
-Message-ID: <58a1c4af-7966-3980-afda-5868d9aef30d@linaro.org>
-Date: Thu, 4 May 2023 15:41:07 +0100
+ Fri, 05 May 2023 01:03:28 -0700 (PDT)
+Message-ID: <1cf86174-b3eb-0674-7669-1bc7b4bc3eac@redhat.com>
+Date: Fri, 5 May 2023 10:03:27 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PULL 0/6] Misc QGA patches
+ Thunderbird/102.9.0
+Subject: Re: [PATCH] hw/ppc/Kconfig: NVDIMM is a hard requirement for the
+ pseries machine
+To: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-devel@nongnu.org
+Cc: qemu-ppc@nongnu.org, qemu-trivial@nongnu.org,
+ =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+References: <20230504180521.220404-1-thuth@redhat.com>
+ <9b5e3d31-3e1a-eba1-e935-fb6f0dd75283@gmail.com>
 Content-Language: en-US
-To: Konstantin Kostiuk <kkostiuk@redhat.com>, qemu-devel@nongnu.org,
- Peter Maydell <peter.maydell@linaro.org>
-References: <20230504095657.239048-1-kkostiuk@redhat.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20230504095657.239048-1-kkostiuk@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <9b5e3d31-3e1a-eba1-e935-fb6f0dd75283@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::52c;
- envelope-from=richard.henderson@linaro.org; helo=mail-ed1-x52c.google.com
-X-Spam_score_int: -52
-X-Spam_score: -5.3
-X-Spam_bar: -----
-X-Spam_report: (-5.3 / 5.0 requ) BAYES_00=-1.9, DATE_IN_PAST_12_24=1.049,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.161,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-4.28, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-4.28, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,29 +103,51 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 5/4/23 10:56, Konstantin Kostiuk wrote:
-> From: Kostiantyn Kostiuk <kostyanf14@live.com>
+On 04/05/2023 23.19, Daniel Henrique Barboza wrote:
 > 
 > 
-> The following changes since commit 044f8cf70a2fdf3b9e4c4d849c66e7855d2c446a:
+> On 5/4/23 15:05, Thomas Huth wrote:
+>> When building QEMU with "--without-default-devices", the pseries
+>> machine fails to start even when running with the --nodefaults option:
+>>
+>>   $ ./qemu-system-ppc64 --nodefaults -M pseries
+>>   Type 'spapr-nvdimm' is missing its parent 'nvdimm'
+>>   Aborted (core dumped)
+>>
+>> Looks like NVDIMM is a hard requirement for this machine nowadays.
 > 
->    Merge tag 'migration-20230428-pull-request' of https://gitlab.com/juan.quintela/qemu into staging (2023-05-03 10:29:30 +0100)
+> Ouch.
 > 
-> are available in the Git repository at:
+> I believe this has to do with this comment in hw/ppc/spapr.c, in
+> spapr_instance_init():
 > 
->    git@github.com:kostyanf14/qemu.git tags/qga-pull-2023-05-04
+>      /*
+>       * NVDIMM support went live in 5.1 without considering that, in
+>       * other archs, the user needs to enable NVDIMM support with the
+>       * 'nvdimm' machine option and the default behavior is NVDIMM
+>       * support disabled. It is too late to roll back to the standard
+>       * behavior without breaking 5.1 guests.
+>       */
+>      if (mc->nvdimm_supported) {
+>          ms->nvdimms_state->is_enabled = true;
+>      }
 > 
-> for you to fetch changes up to 86dcb6ab9b603450eb6d896cdc95286de2c7d561:
+> It seems like you found out another side effect of this nvdimm situation 
+> that Igor
+> documented 2 years ago in 55810e90 ("ppc/spapr: cleanup -machine 
+> pseries,nvdimm=X
+> handling").
 > 
->    qga: Fix suspend on Linux guests without systemd (2023-05-04 09:30:01 +0000)
 > 
-> ----------------------------------------------------------------
-> qga-pull-2023-05-04
+> Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+> 
+> 
+> I'll send a PPC PR in the next few days. Let me know if you want me to queue 
+> it.
 
-Applied, thanks.  Please update https://wiki.qemu.org/ChangeLog/8.1 as appropriate.
+Yes, please add it to your queue!
 
-
-r~
-
+  Thanks,
+   Thomas
 
 
