@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3B366F7AE5
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 May 2023 04:29:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B58496F7B20
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 May 2023 04:37:44 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pulBg-0004Rz-V1; Thu, 04 May 2023 22:28:48 -0400
+	id 1pulBl-0004SV-3h; Thu, 04 May 2023 22:28:53 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
- id 1pulBf-0004Qu-3X
- for qemu-devel@nongnu.org; Thu, 04 May 2023 22:28:47 -0400
+ id 1pulBj-0004S3-AV
+ for qemu-devel@nongnu.org; Thu, 04 May 2023 22:28:51 -0400
 Received: from mail.loongson.cn ([114.242.206.163] helo=loongson.cn)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <gaosong@loongson.cn>) id 1pulBZ-0007yZ-L3
- for qemu-devel@nongnu.org; Thu, 04 May 2023 22:28:44 -0400
+ (envelope-from <gaosong@loongson.cn>) id 1pulBf-0008H3-N6
+ for qemu-devel@nongnu.org; Thu, 04 May 2023 22:28:51 -0400
 Received: from loongson.cn (unknown [10.2.5.185])
- by gateway (Coremail) with SMTP id _____8AxV+nTaVRkw_cEAA--.8137S3;
- Fri, 05 May 2023 10:28:35 +0800 (CST)
+ by gateway (Coremail) with SMTP id _____8AxnOrYaVRkzPcEAA--.7976S3;
+ Fri, 05 May 2023 10:28:40 +0800 (CST)
 Received: from localhost.localdomain (unknown [10.2.5.185])
  by localhost.localdomain (Coremail) with SMTP id
- AQAAf8Bx8a+2aVRkNw9LAA--.7251S13; 
- Fri, 05 May 2023 10:28:32 +0800 (CST)
+ AQAAf8Bx8a+2aVRkNw9LAA--.7251S14; 
+ Fri, 05 May 2023 10:28:35 +0800 (CST)
 From: Song Gao <gaosong@loongson.cn>
 To: qemu-devel@nongnu.org
 Cc: richard.henderson@linaro.org
-Subject: [PULL 11/45] target/loongarch: Implement vabsd
-Date: Fri,  5 May 2023 10:27:32 +0800
-Message-Id: <20230505022806.6082-12-gaosong@loongson.cn>
+Subject: [PULL 12/45] target/loongarch: Implement vadda
+Date: Fri,  5 May 2023 10:27:33 +0800
+Message-Id: <20230505022806.6082-13-gaosong@loongson.cn>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20230505022806.6082-1-gaosong@loongson.cn>
 References: <20230505022806.6082-1-gaosong@loongson.cn>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf8Bx8a+2aVRkNw9LAA--.7251S13
+X-CM-TRANSID: AQAAf8Bx8a+2aVRkNw9LAA--.7251S14
 X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
-X-Coremail-Antispam: 1Uk129KBjvJXoW3WF48JF4DJF4UJry3KryUKFg_yoWxAFy5pF
- yFgr4UGrW8GrZrZrnYqa15JF4DtrsIgw4a9anagws5ZFWDJFykXFZ3tr929r4UJ3Z7ZFy7
- X3Wakry5Xr93W37anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
+X-Coremail-Antispam: 1Uk129KBjvJXoWxWw18ur4DtF4rXw13AF13Jwb_yoW7Gr4fpF
+ yakry7GF48GrZrXrnaqa15WF4UXrs3Gw1S9anaqas3uF4UXF1kZFykt3s29F4UXan7AFyj
+ vF10kryYgrZ3WwUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
  qI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUIcSsGvfJTRUUU
  bnxFc2x0x2IEx4CE42xK8VAvwI8IcIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4
  AK67xGY2AK021l84ACjcxK6xIIjxv20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF
@@ -75,97 +75,94 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 This patch includes:
-- VABSD.{B/H/W/D}[U].
+- VADDA.{B/H/W/D}.
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Song Gao <gaosong@loongson.cn>
-Message-Id: <20230504122810.4094787-12-gaosong@loongson.cn>
+Message-Id: <20230504122810.4094787-13-gaosong@loongson.cn>
 ---
- target/loongarch/disas.c                    |  9 ++
- target/loongarch/helper.h                   |  9 ++
- target/loongarch/insn_trans/trans_lsx.c.inc | 95 +++++++++++++++++++++
- target/loongarch/insns.decode               |  9 ++
- target/loongarch/lsx_helper.c               | 11 +++
- 5 files changed, 133 insertions(+)
+ target/loongarch/disas.c                    |  5 ++
+ target/loongarch/helper.h                   |  5 ++
+ target/loongarch/insn_trans/trans_lsx.c.inc | 53 +++++++++++++++++++++
+ target/loongarch/insns.decode               |  5 ++
+ target/loongarch/lsx_helper.c               | 19 ++++++++
+ 5 files changed, 87 insertions(+)
 
 diff --git a/target/loongarch/disas.c b/target/loongarch/disas.c
-index e7592e7a34..e98ea37793 100644
+index e98ea37793..1f61e67d1f 100644
 --- a/target/loongarch/disas.c
 +++ b/target/loongarch/disas.c
-@@ -925,3 +925,12 @@ INSN_LSX(vavgr_bu,         vvv)
- INSN_LSX(vavgr_hu,         vvv)
- INSN_LSX(vavgr_wu,         vvv)
- INSN_LSX(vavgr_du,         vvv)
+@@ -934,3 +934,8 @@ INSN_LSX(vabsd_bu,         vvv)
+ INSN_LSX(vabsd_hu,         vvv)
+ INSN_LSX(vabsd_wu,         vvv)
+ INSN_LSX(vabsd_du,         vvv)
 +
-+INSN_LSX(vabsd_b,          vvv)
-+INSN_LSX(vabsd_h,          vvv)
-+INSN_LSX(vabsd_w,          vvv)
-+INSN_LSX(vabsd_d,          vvv)
-+INSN_LSX(vabsd_bu,         vvv)
-+INSN_LSX(vabsd_hu,         vvv)
-+INSN_LSX(vabsd_wu,         vvv)
-+INSN_LSX(vabsd_du,         vvv)
++INSN_LSX(vadda_b,          vvv)
++INSN_LSX(vadda_h,          vvv)
++INSN_LSX(vadda_w,          vvv)
++INSN_LSX(vadda_d,          vvv)
 diff --git a/target/loongarch/helper.h b/target/loongarch/helper.h
-index af0f9f9b0d..c3a5d2566e 100644
+index c3a5d2566e..85fb8f60d2 100644
 --- a/target/loongarch/helper.h
 +++ b/target/loongarch/helper.h
-@@ -211,3 +211,12 @@ DEF_HELPER_FLAGS_4(vavgr_bu, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
- DEF_HELPER_FLAGS_4(vavgr_hu, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
- DEF_HELPER_FLAGS_4(vavgr_wu, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
- DEF_HELPER_FLAGS_4(vavgr_du, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
+@@ -220,3 +220,8 @@ DEF_HELPER_FLAGS_4(vabsd_bu, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
+ DEF_HELPER_FLAGS_4(vabsd_hu, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
+ DEF_HELPER_FLAGS_4(vabsd_wu, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
+ DEF_HELPER_FLAGS_4(vabsd_du, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
 +
-+DEF_HELPER_FLAGS_4(vabsd_b, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
-+DEF_HELPER_FLAGS_4(vabsd_h, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
-+DEF_HELPER_FLAGS_4(vabsd_w, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
-+DEF_HELPER_FLAGS_4(vabsd_d, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
-+DEF_HELPER_FLAGS_4(vabsd_bu, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
-+DEF_HELPER_FLAGS_4(vabsd_hu, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
-+DEF_HELPER_FLAGS_4(vabsd_wu, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
-+DEF_HELPER_FLAGS_4(vabsd_du, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
++DEF_HELPER_FLAGS_4(vadda_b, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
++DEF_HELPER_FLAGS_4(vadda_h, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
++DEF_HELPER_FLAGS_4(vadda_w, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
++DEF_HELPER_FLAGS_4(vadda_d, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
 diff --git a/target/loongarch/insn_trans/trans_lsx.c.inc b/target/loongarch/insn_trans/trans_lsx.c.inc
-index 5fa4792305..0e9301bf93 100644
+index 0e9301bf93..8ad81c8517 100644
 --- a/target/loongarch/insn_trans/trans_lsx.c.inc
 +++ b/target/loongarch/insn_trans/trans_lsx.c.inc
-@@ -1166,3 +1166,98 @@ TRANS(vavgr_bu, gvec_vvv, MO_8, do_vavgr_u)
- TRANS(vavgr_hu, gvec_vvv, MO_16, do_vavgr_u)
- TRANS(vavgr_wu, gvec_vvv, MO_32, do_vavgr_u)
- TRANS(vavgr_du, gvec_vvv, MO_64, do_vavgr_u)
+@@ -1261,3 +1261,56 @@ TRANS(vabsd_bu, gvec_vvv, MO_8, do_vabsd_u)
+ TRANS(vabsd_hu, gvec_vvv, MO_16, do_vabsd_u)
+ TRANS(vabsd_wu, gvec_vvv, MO_32, do_vabsd_u)
+ TRANS(vabsd_du, gvec_vvv, MO_64, do_vabsd_u)
 +
-+static void gen_vabsd_s(unsigned vece, TCGv_vec t, TCGv_vec a, TCGv_vec b)
++static void gen_vadda(unsigned vece, TCGv_vec t, TCGv_vec a, TCGv_vec b)
 +{
-+    tcg_gen_smax_vec(vece, t, a, b);
-+    tcg_gen_smin_vec(vece, a, a, b);
-+    tcg_gen_sub_vec(vece, t, t, a);
++    TCGv_vec t1, t2;
++
++    t1 = tcg_temp_new_vec_matching(a);
++    t2 = tcg_temp_new_vec_matching(b);
++
++    tcg_gen_abs_vec(vece, t1, a);
++    tcg_gen_abs_vec(vece, t2, b);
++    tcg_gen_add_vec(vece, t, t1, t2);
 +}
 +
-+static void do_vabsd_s(unsigned vece, uint32_t vd_ofs, uint32_t vj_ofs,
-+                       uint32_t vk_ofs, uint32_t oprsz, uint32_t maxsz)
++static void do_vadda(unsigned vece, uint32_t vd_ofs, uint32_t vj_ofs,
++                     uint32_t vk_ofs, uint32_t oprsz, uint32_t maxsz)
 +{
 +    static const TCGOpcode vecop_list[] = {
-+        INDEX_op_smax_vec, INDEX_op_smin_vec, INDEX_op_sub_vec, 0
++        INDEX_op_abs_vec, INDEX_op_add_vec, 0
 +        };
 +    static const GVecGen3 op[4] = {
 +        {
-+            .fniv = gen_vabsd_s,
-+            .fno = gen_helper_vabsd_b,
++            .fniv = gen_vadda,
++            .fno = gen_helper_vadda_b,
 +            .opt_opc = vecop_list,
 +            .vece = MO_8
 +        },
 +        {
-+            .fniv = gen_vabsd_s,
-+            .fno = gen_helper_vabsd_h,
++            .fniv = gen_vadda,
++            .fno = gen_helper_vadda_h,
 +            .opt_opc = vecop_list,
 +            .vece = MO_16
 +        },
 +        {
-+            .fniv = gen_vabsd_s,
-+            .fno = gen_helper_vabsd_w,
++            .fniv = gen_vadda,
++            .fno = gen_helper_vadda_w,
 +            .opt_opc = vecop_list,
 +            .vece = MO_32
 +        },
 +        {
-+            .fniv = gen_vabsd_s,
-+            .fno = gen_helper_vabsd_d,
++            .fniv = gen_vadda,
++            .fno = gen_helper_vadda_d,
 +            .opt_opc = vecop_list,
 +            .vece = MO_64
 +        },
@@ -174,93 +171,50 @@ index 5fa4792305..0e9301bf93 100644
 +    tcg_gen_gvec_3(vd_ofs, vj_ofs, vk_ofs, oprsz, maxsz, &op[vece]);
 +}
 +
-+static void gen_vabsd_u(unsigned vece, TCGv_vec t, TCGv_vec a, TCGv_vec b)
-+{
-+    tcg_gen_umax_vec(vece, t, a, b);
-+    tcg_gen_umin_vec(vece, a, a, b);
-+    tcg_gen_sub_vec(vece, t, t, a);
-+}
-+
-+static void do_vabsd_u(unsigned vece, uint32_t vd_ofs, uint32_t vj_ofs,
-+                       uint32_t vk_ofs, uint32_t oprsz, uint32_t maxsz)
-+{
-+    static const TCGOpcode vecop_list[] = {
-+        INDEX_op_umax_vec, INDEX_op_umin_vec, INDEX_op_sub_vec, 0
-+        };
-+    static const GVecGen3 op[4] = {
-+        {
-+            .fniv = gen_vabsd_u,
-+            .fno = gen_helper_vabsd_bu,
-+            .opt_opc = vecop_list,
-+            .vece = MO_8
-+        },
-+        {
-+            .fniv = gen_vabsd_u,
-+            .fno = gen_helper_vabsd_hu,
-+            .opt_opc = vecop_list,
-+            .vece = MO_16
-+        },
-+        {
-+            .fniv = gen_vabsd_u,
-+            .fno = gen_helper_vabsd_wu,
-+            .opt_opc = vecop_list,
-+            .vece = MO_32
-+        },
-+        {
-+            .fniv = gen_vabsd_u,
-+            .fno = gen_helper_vabsd_du,
-+            .opt_opc = vecop_list,
-+            .vece = MO_64
-+        },
-+    };
-+
-+    tcg_gen_gvec_3(vd_ofs, vj_ofs, vk_ofs, oprsz, maxsz, &op[vece]);
-+}
-+
-+TRANS(vabsd_b, gvec_vvv, MO_8, do_vabsd_s)
-+TRANS(vabsd_h, gvec_vvv, MO_16, do_vabsd_s)
-+TRANS(vabsd_w, gvec_vvv, MO_32, do_vabsd_s)
-+TRANS(vabsd_d, gvec_vvv, MO_64, do_vabsd_s)
-+TRANS(vabsd_bu, gvec_vvv, MO_8, do_vabsd_u)
-+TRANS(vabsd_hu, gvec_vvv, MO_16, do_vabsd_u)
-+TRANS(vabsd_wu, gvec_vvv, MO_32, do_vabsd_u)
-+TRANS(vabsd_du, gvec_vvv, MO_64, do_vabsd_u)
++TRANS(vadda_b, gvec_vvv, MO_8, do_vadda)
++TRANS(vadda_h, gvec_vvv, MO_16, do_vadda)
++TRANS(vadda_w, gvec_vvv, MO_32, do_vadda)
++TRANS(vadda_d, gvec_vvv, MO_64, do_vadda)
 diff --git a/target/loongarch/insns.decode b/target/loongarch/insns.decode
-index 4a44380259..825ddedf4d 100644
+index 825ddedf4d..6cb22f9297 100644
 --- a/target/loongarch/insns.decode
 +++ b/target/loongarch/insns.decode
-@@ -619,3 +619,12 @@ vavgr_bu         0111 00000110 10100 ..... ..... .....    @vvv
- vavgr_hu         0111 00000110 10101 ..... ..... .....    @vvv
- vavgr_wu         0111 00000110 10110 ..... ..... .....    @vvv
- vavgr_du         0111 00000110 10111 ..... ..... .....    @vvv
+@@ -628,3 +628,8 @@ vabsd_bu         0111 00000110 00100 ..... ..... .....    @vvv
+ vabsd_hu         0111 00000110 00101 ..... ..... .....    @vvv
+ vabsd_wu         0111 00000110 00110 ..... ..... .....    @vvv
+ vabsd_du         0111 00000110 00111 ..... ..... .....    @vvv
 +
-+vabsd_b          0111 00000110 00000 ..... ..... .....    @vvv
-+vabsd_h          0111 00000110 00001 ..... ..... .....    @vvv
-+vabsd_w          0111 00000110 00010 ..... ..... .....    @vvv
-+vabsd_d          0111 00000110 00011 ..... ..... .....    @vvv
-+vabsd_bu         0111 00000110 00100 ..... ..... .....    @vvv
-+vabsd_hu         0111 00000110 00101 ..... ..... .....    @vvv
-+vabsd_wu         0111 00000110 00110 ..... ..... .....    @vvv
-+vabsd_du         0111 00000110 00111 ..... ..... .....    @vvv
++vadda_b          0111 00000101 11000 ..... ..... .....    @vvv
++vadda_h          0111 00000101 11001 ..... ..... .....    @vvv
++vadda_w          0111 00000101 11010 ..... ..... .....    @vvv
++vadda_d          0111 00000101 11011 ..... ..... .....    @vvv
 diff --git a/target/loongarch/lsx_helper.c b/target/loongarch/lsx_helper.c
-index b683a1cd0a..f0baffa9e3 100644
+index f0baffa9e3..8230fe2ed5 100644
 --- a/target/loongarch/lsx_helper.c
 +++ b/target/loongarch/lsx_helper.c
-@@ -307,3 +307,14 @@ DO_3OP(vavgr_bu, 8, UB, DO_VAVGR)
- DO_3OP(vavgr_hu, 16, UH, DO_VAVGR)
- DO_3OP(vavgr_wu, 32, UW, DO_VAVGR)
- DO_3OP(vavgr_du, 64, UD, DO_VAVGR)
+@@ -318,3 +318,22 @@ DO_3OP(vabsd_bu, 8, UB, DO_VABSD)
+ DO_3OP(vabsd_hu, 16, UH, DO_VABSD)
+ DO_3OP(vabsd_wu, 32, UW, DO_VABSD)
+ DO_3OP(vabsd_du, 64, UD, DO_VABSD)
 +
-+#define DO_VABSD(a, b)  ((a > b) ? (a -b) : (b-a))
++#define DO_VABS(a)  ((a < 0) ? (-a) : (a))
 +
-+DO_3OP(vabsd_b, 8, B, DO_VABSD)
-+DO_3OP(vabsd_h, 16, H, DO_VABSD)
-+DO_3OP(vabsd_w, 32, W, DO_VABSD)
-+DO_3OP(vabsd_d, 64, D, DO_VABSD)
-+DO_3OP(vabsd_bu, 8, UB, DO_VABSD)
-+DO_3OP(vabsd_hu, 16, UH, DO_VABSD)
-+DO_3OP(vabsd_wu, 32, UW, DO_VABSD)
-+DO_3OP(vabsd_du, 64, UD, DO_VABSD)
++#define DO_VADDA(NAME, BIT, E, DO_OP)                       \
++void HELPER(NAME)(void *vd, void *vj, void *vk, uint32_t v) \
++{                                                           \
++    int i;                                                  \
++    VReg *Vd = (VReg *)vd;                                  \
++    VReg *Vj = (VReg *)vj;                                  \
++    VReg *Vk = (VReg *)vk;                                  \
++    for (i = 0; i < LSX_LEN/BIT; i++) {                     \
++        Vd->E(i) = DO_OP(Vj->E(i)) + DO_OP(Vk->E(i));       \
++    }                                                       \
++}
++
++DO_VADDA(vadda_b, 8, B, DO_VABS)
++DO_VADDA(vadda_h, 16, H, DO_VABS)
++DO_VADDA(vadda_w, 32, W, DO_VABS)
++DO_VADDA(vadda_d, 64, D, DO_VABS)
 -- 
 2.31.1
 
