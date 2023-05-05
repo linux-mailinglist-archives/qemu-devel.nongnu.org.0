@@ -2,100 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D9BB6F7E95
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 May 2023 10:20:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 291CB6F7E98
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 May 2023 10:21:36 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1puqeD-0007Cw-SV; Fri, 05 May 2023 04:18:37 -0400
+	id 1puqgr-0000iX-DU; Fri, 05 May 2023 04:21:21 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1puqeB-0007Cm-Bk
- for qemu-devel@nongnu.org; Fri, 05 May 2023 04:18:35 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
+ id 1puqgp-0000iO-DB
+ for qemu-devel@nongnu.org; Fri, 05 May 2023 04:21:19 -0400
+Received: from forwardcorp1b.mail.yandex.net
+ ([2a02:6b8:c02:900:1:45:d181:df01])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1puqe9-0007rj-T7
- for qemu-devel@nongnu.org; Fri, 05 May 2023 04:18:35 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1683274712;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=yQqauCR4oeB9iJr7KlIXvJS9JCYwMo5ayMoqT5CXjPM=;
- b=G/OMej7pR/ksJ+1Asy0Wz697F9IvWRenWS/4rNE7ntiJG9/otrDpLqsl7+iFNZXl5zg4bO
- qcZlkO6PyyVBAE+S4JKKtx9hQPH0GSioIb0CFkxtFCGWB1QOZQWRo85BOrM2J5qukx9N6F
- 3XeGFnLUVYN94Sb5jWPnQsmN+p5e8ks=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-34-oKl2GfDNMzaEWE9O1ejlhQ-1; Fri, 05 May 2023 04:18:31 -0400
-X-MC-Unique: oKl2GfDNMzaEWE9O1ejlhQ-1
-Received: by mail-ed1-f71.google.com with SMTP id
- 4fb4d7f45d1cf-50c9582877cso2210091a12.1
- for <qemu-devel@nongnu.org>; Fri, 05 May 2023 01:18:31 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683274710; x=1685866710;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=yQqauCR4oeB9iJr7KlIXvJS9JCYwMo5ayMoqT5CXjPM=;
- b=j4kt3s9/XHJTmaWuY1nOA66O+xiBzjvdHUnZeBEql9rDjD7wM2SGy7Me++b5M9YN50
- TCekWTgTzNiWuf4HbjNvsKanF9Q0DAW/stmTBTbpYfUPuhxr+loFPgkMR55zxUvp2Bd9
- ZFzINzbK5FiWiYykvlmjmqqv8AjX69wO+fNT7bnN6Of4c+9DtrLqh1t13PZJ54XtA0Di
- 38/DGKh0nO8YNOhN7jok2NT9UXob3DaV7skl0NBggf8SLr/CaZoK6kVc+LpQ6wkeeJ69
- ke3aL7iA3l1TRm/d/iMjCa6yeX6QNEd/P2FOV1UM8UQg5yXdlaVgoksv3UKRmsMcsmdu
- XCMw==
-X-Gm-Message-State: AC+VfDxnEBe2QED2gh0k7BdmvTBhAG2zAIs3FIsFbAZSmpbhFBSJjZMA
- 83lwSPOtNIESRNizcK2zPv3Ak/VtxKVklSPYaXFpkltmjq4VOIIRlrrbMquaNfFNdIzZwJvBwls
- h6ikxQW15UgXsqpo=
-X-Received: by 2002:a17:907:704:b0:95f:969e:dc5a with SMTP id
- xb4-20020a170907070400b0095f969edc5amr1071685ejb.30.1683274710528; 
- Fri, 05 May 2023 01:18:30 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ5qTl++FhCyxI/AvOc1y64oCRlUvIAwN3R05p3HDxzp5/PO9NWWZQT11zdoShJdA8K6sHZLJA==
-X-Received: by 2002:a17:907:704:b0:95f:969e:dc5a with SMTP id
- xb4-20020a170907070400b0095f969edc5amr1071664ejb.30.1683274710124; 
- Fri, 05 May 2023 01:18:30 -0700 (PDT)
-Received: from ?IPV6:2001:b07:6468:f312:9af8:e5f5:7516:fa89?
- ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
- by smtp.googlemail.com with ESMTPSA id
- jt21-20020a170906ca1500b0095707b7dd04sm635250ejb.42.2023.05.05.01.18.29
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 05 May 2023 01:18:29 -0700 (PDT)
-Message-ID: <cbae8ce4-675f-6ffb-dd19-7011f2535fed@redhat.com>
-Date: Fri, 5 May 2023 10:18:28 +0200
+ (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
+ id 1puqgm-0008Kn-Gp
+ for qemu-devel@nongnu.org; Fri, 05 May 2023 04:21:19 -0400
+Received: from mail-nwsmtp-smtp-corp-main-26.myt.yp-c.yandex.net
+ (mail-nwsmtp-smtp-corp-main-26.myt.yp-c.yandex.net
+ [IPv6:2a02:6b8:c12:3f18:0:640:6450:0])
+ by forwardcorp1b.mail.yandex.net (Yandex) with ESMTP id 2E5D35FF1D;
+ Fri,  5 May 2023 11:21:08 +0300 (MSK)
+Received: from [IPV6:2a02:6b8:b081:b438::1:20] (unknown
+ [2a02:6b8:b081:b438::1:20])
+ by mail-nwsmtp-smtp-corp-main-26.myt.yp-c.yandex.net (smtpcorp/Yandex) with
+ ESMTPSA id 7LL7lF0OqmI0-JxSY34RP; Fri, 05 May 2023 11:21:07 +0300
+X-Yandex-Fwd: 1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
+ s=default; 
+ t=1683274867; bh=eCimwoA7YO48HdmfgeqPM5F/RBjwOUrFmF50peI9OJA=;
+ h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
+ b=zLP+t+Ui/Sm59FpWj4L8UgnPLTNKD3Vtjej4wDySVbPu4XVue9zuGD83bhkw33o1v
+ HwxJmNHZu0tkZxuVoesYnXrVMwAVECX8ztk3PxUX/K+cNS3zMCLZJWcYfn1xB+XCSj
+ YXnBYcOrttMPbjU0mPTaLS6fMlQAaPWBxprqj2XQ=
+Authentication-Results: mail-nwsmtp-smtp-corp-main-26.myt.yp-c.yandex.net;
+ dkim=pass header.i=@yandex-team.ru
+Message-ID: <e975fb61-3ecd-c1c1-2bf1-0572225076c4@yandex-team.ru>
+Date: Fri, 5 May 2023 11:21:06 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.1
-Subject: Re: [PATCH 1/3] target/arm: Use CONFIG_SEMIHOSTING instead of TCG for
- semihosting
+ Thunderbird/102.9.0
+Subject: Re: [PATCH v4 00/10] COLO: improve build options
 Content-Language: en-US
-To: Fabiano Rosas <farosas@suse.de>, Peter Maydell <peter.maydell@linaro.org>
-Cc: qemu-devel <qemu-devel@nongnu.org>, qemu-arm <qemu-arm@nongnu.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
-References: <20230503193833.29047-1-farosas@suse.de>
- <20230503193833.29047-2-farosas@suse.de>
- <3f8ed21a-6c05-e7a4-ab9a-c8f6ca041013@redhat.com>
- <CAFEAcA9y0tZVCSz93ziHkwYaM_whaEnCko2=Zzyb=BGFySJyRg@mail.gmail.com>
- <CABgObfbBTUUAOmvKz9U2Esi3rmdYmbhw3uR5iouFYUwFGoG32Q@mail.gmail.com>
- <875y98cktj.fsf@suse.de>
-From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <875y98cktj.fsf@suse.de>
+To: "Zhang, Chen" <chen.zhang@intel.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Cc: "lukasstraub2@web.de" <lukasstraub2@web.de>,
+ "quintela@redhat.com" <quintela@redhat.com>
+References: <20230428194928.1426370-1-vsementsov@yandex-team.ru>
+ <MWHPR11MB0031058F5CA0B21EAE6443EE9B729@MWHPR11MB0031.namprd11.prod.outlook.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+In-Reply-To: <MWHPR11MB0031058F5CA0B21EAE6443EE9B729@MWHPR11MB0031.namprd11.prod.outlook.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
+Received-SPF: pass client-ip=2a02:6b8:c02:900:1:45:d181:df01;
+ envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1b.mail.yandex.net
+X-Spam_score_int: -63
+X-Spam_score: -6.4
 X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.161,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-4.28, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-6.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-4.28,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -112,18 +79,44 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 5/4/23 15:01, Fabiano Rosas wrote:
-> ...
-> # This config exists just so we can make SEMIHOSTING default when TCG
-> # is selected without also changing it for other architectures.
-> config ARM_SEMIHOSTING
->      bool
->      default y if TCG && ARM
->      select ARM_COMPATIBLE_SEMIHOSTING
+On 05.05.23 10:56, Zhang, Chen wrote:
+> 
+>> -----Original Message-----
+>> From: Vladimir Sementsov-Ogievskiy<vsementsov@yandex-team.ru>
+>> Sent: Saturday, April 29, 2023 3:49 AM
+>> To:qemu-devel@nongnu.org
+>> Cc:lukasstraub2@web.de;quintela@redhat.com; Zhang, Chen
+>> <chen.zhang@intel.com>;vsementsov@yandex-team.ru
+>> Subject: [PATCH v4 00/10] COLO: improve build options
+>>
+>> v4:
+>> 01: add r-b by Lukas
+>> 02: new
+>> 03: - keep x-colo capability enum value unconditional
+>>      - drop ifdefs in options.c and keep capability check instead
+>>      - update stubs
+>>      - add missed a-b by Dr. David
+>> 04: keep filter-mirror untouched, add r-b by Juan
+>>
+>> others: new. Some further improvements of COLO module API. May be
+>> merged separately.
+>>
+>> Hi all!
+>>
+>> COLO substem seems to be useless when CONFIG_REPLICATION is unset, as
+>> we simply don't allow to set x-colo capability in this case. So, let's not compile
+>> in unreachable code and interface we cannot use when
+>> CONFIG_REPLICATION is unset.
+>>
+>> Also, provide personal configure option for COLO Proxy subsystem.
+> This series looks good to me.
+> Please add the new configure option related comments to docs/COLO-FT.txt, block-replication.txt, colo-proxy.txt.
 
-This can be replaced by "imply ARM_COMPATIBLE_SEMIHOSTING if TCG" placed 
-under "config ARM" (and also RISCV32/RISCV64)".
 
-Paolo
+Thanks! Will do.
+
+-- 
+Best regards,
+Vladimir
 
 
