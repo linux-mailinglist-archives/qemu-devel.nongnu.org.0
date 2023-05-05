@@ -2,84 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6ACF66F80F8
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 May 2023 12:42:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A3B716F80FB
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 May 2023 12:43:52 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pussd-0001Vi-7p; Fri, 05 May 2023 06:41:39 -0400
+	id 1pusuW-00038N-3E; Fri, 05 May 2023 06:43:36 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1pussb-0001Uo-Bv; Fri, 05 May 2023 06:41:37 -0400
-Received: from mail-oa1-x2f.google.com ([2001:4860:4864:20::2f])
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pusuT-000386-P9
+ for qemu-devel@nongnu.org; Fri, 05 May 2023 06:43:33 -0400
+Received: from mail-ed1-x532.google.com ([2a00:1450:4864:20::532])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1pussZ-0006du-Ok; Fri, 05 May 2023 06:41:37 -0400
-Received: by mail-oa1-x2f.google.com with SMTP id
- 586e51a60fabf-192d5ab4962so830201fac.3; 
- Fri, 05 May 2023 03:41:34 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pusuS-0007Wn-7h
+ for qemu-devel@nongnu.org; Fri, 05 May 2023 06:43:33 -0400
+Received: by mail-ed1-x532.google.com with SMTP id
+ 4fb4d7f45d1cf-50b9ef67f35so2858263a12.2
+ for <qemu-devel@nongnu.org>; Fri, 05 May 2023 03:43:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1683283293; x=1685875293;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=vODdYT/G/Q1MF08EO6e6b1vbwdh55LnVM49FB1PVMXQ=;
- b=b7LOLNSG++27+TaTf0Yd3DruBWQvu4tlJVfYrXYp+IXe/8Kp7ydXz0JEFD9gwM0g/h
- SGRLIzVqycf8TEu6o30HQo716yNehmHJvz75UaxymgQ+c4uE++MHMk6nmm3iEiwa4PPX
- 7EfMsoR+VgQO12M80FJerNfBeE+o5H3ioYOxOUSIWDb+dT0dAIuPi3aieXinQ65jEMoj
- Z8crpK0Jo8itKuth/1MPDUKQNRnkNy6Zp0nEdbufNgAp5Ixd44myxAI19copukK2+uWl
- MC9WYNTtRpH4xSltgVGX5VM5AGJs3efS5J61+zTO51FNxnwSxfHJOo9RxYhJl5HtaGFE
- zlUg==
+ d=linaro.org; s=google; t=1683283410; x=1685875410;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=qoFlwzXN5mH9Aj4KpFXV88viAD32yd1whvy9VzDa++8=;
+ b=GOGN54+QleJEx2Ate18HzRmFFN+84i4/51x+VxUT10qRiAmWcEBA8I598Yykiw4DqC
+ kJav5fHhTFC/zqz6qhcQu1t7LBkR1GA8U7bUitEG8RMX26NMMVd4yy0J9Y5A/MuobWGE
+ m792Mi3st2oMRIF8TjybtrF/Oe5Nmsgo9HzexA/JovjnmDJouC5UY6MA0QiBcU1CDCsP
+ L48eSZBvId98Jsst/VJBOiEk87+GJP9i+O2M09pD+97t4arsi7HHTLBYJLNl0FbZMAn+
+ EtAVNu0niCnvF8UWanoljRhb9JRLRIUs1j3gzZVc0VWHYZDMZK25UVqUztVtUhrQWlEH
+ u34Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683283293; x=1685875293;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=vODdYT/G/Q1MF08EO6e6b1vbwdh55LnVM49FB1PVMXQ=;
- b=e/OW+GjutvRRunHKOgXxC1f8J7VGVzwCe4E2PlrYxid+jzi/kuoorONmv+RXB4oova
- SKqaYt3+sU7xoaP/fqP63tlW7+LGqmtD8fHVNPyuyAZErAsbuBJxeRMptm7jUg0kWY2N
- 7lX3WTTf0tTEqkGrtWBqdGiVTXwzmJoU5QfESVZ9UAVVw27qU/k8fwl0/3HThst9TG+g
- fLHYVxDdprB0hjxGbsVolMo4vtPsYb68zTp4ba9xDtDFhsYc4k3TElKNmrBCO6LX9Dq7
- ZdBNHhzzJtbtJOTgM64B12Z4MwJzGo0tC3/pV6mow/TYggtEBLfQrzOzn6y9LtgMCHEH
- 7Kpw==
-X-Gm-Message-State: AC+VfDzpkxLumbX663N4+W3hgys43M2DiTaz02n0+7838fw+vQIrPmvZ
- i+aq14IWQbLQe+jd3C2aYAA=
-X-Google-Smtp-Source: ACHHUZ5DPn2KShvlz9x4oDnSaxWec2s11mOJnptkpIbdfutD4s1AIlGGbQWy9xudExI9PaB8M6ix7A==
-X-Received: by 2002:a05:6870:87c6:b0:194:83cb:29c2 with SMTP id
- s6-20020a05687087c600b0019483cb29c2mr429761oam.2.1683283292837; 
- Fri, 05 May 2023 03:41:32 -0700 (PDT)
-Received: from [192.168.68.107] (189-46-207-53.dsl.telesp.net.br.
- [189.46.207.53]) by smtp.gmail.com with ESMTPSA id
- s22-20020a4adb96000000b0053e8336f5dcsm774808oou.7.2023.05.05.03.41.30
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 05 May 2023 03:41:32 -0700 (PDT)
-Message-ID: <32418990-82eb-a6d7-1695-db64e191f30b@gmail.com>
-Date: Fri, 5 May 2023 07:41:28 -0300
+ d=1e100.net; s=20221208; t=1683283410; x=1685875410;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=qoFlwzXN5mH9Aj4KpFXV88viAD32yd1whvy9VzDa++8=;
+ b=Tc+KNk3wm1opHI5U4B2oSSk1IvvKPVTm1hJzC9dXeNWty25dy0AxxNOWi63dkEm3MP
+ 2WAbGayaaD1RKbH17n5GiJrmkG9j1bfOIQ/sM/0ygDu+lGxAVyffgX0Za0Ue6Y8Yofue
+ 6W9B/uvsh+4VfLviqq8z5xeo6irJzvqljWjsaR+83rgjWx/UIcTpMZR4c6bJ93xd+VoV
+ gjC2XqiKmHxYzRY3wm8etjozgxES/7DFewUqERaBKoQSuxM2pxA7vDrJXTBTNU6WfbVt
+ W+rCf+0137dcfNtOHnUHzEVata+PNUcA8ABW6uEQb5owc5je1Ksv1g4DSPpkm7y5xHnt
+ AVYg==
+X-Gm-Message-State: AC+VfDylrr0D0AOT3C0En/FvTwccfw2Xx8nUOJO2HnS6Gmhf1RNvKUt0
+ mTcR7hOF13kMt7Et6nn/BOW34GAPJd9T0R5bey2Gpw==
+X-Google-Smtp-Source: ACHHUZ7OlZqBCgw1LNirBvQkahUBqOz2NHXn5wyiCmSMCAM9ruLxw+vNlt6oseN2adqngkwJ/CiRey1xMbS/GnL2Bg0=
+X-Received: by 2002:aa7:d54c:0:b0:509:c6e6:c002 with SMTP id
+ u12-20020aa7d54c000000b00509c6e6c002mr971466edr.39.1683283410624; Fri, 05 May
+ 2023 03:43:30 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH] hw/ppc/Kconfig: NVDIMM is a hard requirement for the
- pseries machine
-Content-Language: en-US
-To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
-Cc: qemu-ppc@nongnu.org, qemu-trivial@nongnu.org,
- =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-References: <20230504180521.220404-1-thuth@redhat.com>
- <9b5e3d31-3e1a-eba1-e935-fb6f0dd75283@gmail.com>
- <1cf86174-b3eb-0674-7669-1bc7b4bc3eac@redhat.com>
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
-In-Reply-To: <1cf86174-b3eb-0674-7669-1bc7b4bc3eac@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2001:4860:4864:20::2f;
- envelope-from=danielhb413@gmail.com; helo=mail-oa1-x2f.google.com
-X-Spam_score_int: -60
-X-Spam_score: -6.1
-X-Spam_bar: ------
-X-Spam_report: (-6.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+References: <20230503070656.1746170-1-richard.henderson@linaro.org>
+ <20230503070656.1746170-19-richard.henderson@linaro.org>
+In-Reply-To: <20230503070656.1746170-19-richard.henderson@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 5 May 2023 11:43:19 +0100
+Message-ID: <CAFEAcA-sXLdmmoHTfsCrPEDQvxczh10tLwcFC1qB05UV2Y1ziQ@mail.gmail.com>
+Subject: Re: [PATCH v4 18/57] tcg/aarch64: Detect have_lse,
+ have_lse2 for darwin
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: qemu-devel@nongnu.org, git@xen0n.name, gaosong@loongson.cn, 
+ philmd@linaro.org, qemu-arm@nongnu.org, qemu-riscv@nongnu.org, 
+ qemu-s390x@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::532;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x532.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-4.28,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -97,57 +90,41 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On Wed, 3 May 2023 at 08:19, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> These features are present for Apple M1.
+>
+> Tested-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
+> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> +#ifdef CONFIG_DARWIN
+> +static bool sysctl_for_bool(const char *name)
+> +{
+> +    int val =3D 0;
+> +    size_t len =3D sizeof(val);
+> +
+> +    if (sysctlbyname(name, &val, &len, NULL, 0) =3D=3D 0) {
+> +        return val !=3D 0;
+> +    }
+> +
+> +    /*
+> +     * We might in ask for properties not present in older kernels,
 
+"might in ask" is a typo for something, but I'm not sure what.
 
-On 5/5/23 05:03, Thomas Huth wrote:
-> On 04/05/2023 23.19, Daniel Henrique Barboza wrote:
->>
->>
->> On 5/4/23 15:05, Thomas Huth wrote:
->>> When building QEMU with "--without-default-devices", the pseries
->>> machine fails to start even when running with the --nodefaults option:
->>>
->>>   $ ./qemu-system-ppc64 --nodefaults -M pseries
->>>   Type 'spapr-nvdimm' is missing its parent 'nvdimm'
->>>   Aborted (core dumped)
->>>
->>> Looks like NVDIMM is a hard requirement for this machine nowadays.
->>
->> Ouch.
->>
->> I believe this has to do with this comment in hw/ppc/spapr.c, in
->> spapr_instance_init():
->>
->>      /*
->>       * NVDIMM support went live in 5.1 without considering that, in
->>       * other archs, the user needs to enable NVDIMM support with the
->>       * 'nvdimm' machine option and the default behavior is NVDIMM
->>       * support disabled. It is too late to roll back to the standard
->>       * behavior without breaking 5.1 guests.
->>       */
->>      if (mc->nvdimm_supported) {
->>          ms->nvdimms_state->is_enabled = true;
->>      }
->>
->> It seems like you found out another side effect of this nvdimm situation that Igor
->> documented 2 years ago in 55810e90 ("ppc/spapr: cleanup -machine pseries,nvdimm=X
->> handling").
->>
->>
->> Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
->>
->>
->> I'll send a PPC PR in the next few days. Let me know if you want me to queue it.
-> 
-> Yes, please add it to your queue!
+> +     * but we're only asking about static properties, all of which
+> +     * should be 'int'.  So we shouln't see ENOMEM (val too small),
+> +     * or any of the other more exotic errors.
+> +     */
+> +    assert(errno =3D=3D ENOENT);
+> +    return false;
+> +}
+> +#endif
 
-Queued. Thanks,
+Otherwise
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
-
-Daniel
-
-> 
->   Thanks,
->    Thomas
-> 
+thanks
+-- PMM
 
