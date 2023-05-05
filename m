@@ -2,81 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9EFCA6F7A59
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 May 2023 03:06:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B64E6F7A44
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 May 2023 03:04:27 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pujrG-0007y3-Uq; Thu, 04 May 2023 21:03:38 -0400
+	id 1pujrK-0007ya-GP; Thu, 04 May 2023 21:03:42 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1pujrE-0007xd-Gm
- for qemu-devel@nongnu.org; Thu, 04 May 2023 21:03:37 -0400
-Received: from mail-pl1-x633.google.com ([2607:f8b0:4864:20::633])
+ id 1pujrI-0007yP-KX
+ for qemu-devel@nongnu.org; Thu, 04 May 2023 21:03:40 -0400
+Received: from mail-pf1-x433.google.com ([2607:f8b0:4864:20::433])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1pujrC-0006qw-Vn
- for qemu-devel@nongnu.org; Thu, 04 May 2023 21:03:36 -0400
-Received: by mail-pl1-x633.google.com with SMTP id
- d9443c01a7336-1ab01bf474aso8550085ad.1
- for <qemu-devel@nongnu.org>; Thu, 04 May 2023 18:03:34 -0700 (PDT)
+ id 1pujrH-0006sM-09
+ for qemu-devel@nongnu.org; Thu, 04 May 2023 21:03:40 -0400
+Received: by mail-pf1-x433.google.com with SMTP id
+ d2e1a72fcca58-64115e652eeso16410845b3a.0
+ for <qemu-devel@nongnu.org>; Thu, 04 May 2023 18:03:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1683248614; x=1685840614;
+ d=gmail.com; s=20221208; t=1683248617; x=1685840617;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=sslaewbTbiBH8XQ1gp6B49Xbcv0jBClrDRjZFrx/k4k=;
- b=okTasPgpUCcYczJZKJgxnR5fydDVZ5OrjxEnpQ1La4BSmL2KUxgLXmDdiYdZK6f63f
- pX2hAHjIq2ctVzaSBsHMqKkKemB+GVvLUMoWCAFufMmE0/3/J+j9cL2v12tmMSGPudOP
- 7lrJu3NPzdAZ6rUb1Nl5HTTClqBCotqaay/vgtZY4UYT7///zULkec+736/CRrJME+ey
- leww9ulGyXPulP1R2SBsX3ZCTCGr9Vbm+YE1Mq2pOWu1lUTE6pCPohWiuC2vx7OXfaxH
- P9Lq+ZX4j+cMSsLA+5KZ5+xGoeDGuJw/2L5iP+HWVdn80RFq6LGwgf5uc57nBmJghvaY
- ksTA==
+ bh=T4aY8YM6365clacuLSclfItYOK7GtpdOeg6+yztwDiQ=;
+ b=I9vaWfCw1+l53EJyvYjlAbS6HqxlhdjXoKaQUkNBnz8yTvq/Vlswkvmhg320jdMON3
+ muQ+G6ctRCycLh81uRN38j0c3t4nDowQZE/7NibUnTOGfNVsf3dZx0pVOzeQWPyCh1HP
+ kyQZ6HayyaKUEN4OAibpsgl3Wn3EQ1itcV2Zkj5WGq1QznqIku/DCyP+jJFKo/1j/Yxw
+ clF+qoBr32sgZX6HnpdoEqKU6nihqK7CJBK7h9gAP8W1gUJNoNEe5rYriIPj/tHeYMOl
+ jiyTAuoFSjG4wr+/CRxCGtCVokBQGjOLfLU9EK7/w506ZLPtvJHTa9xe164QrV9Fonu8
+ D6sg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683248614; x=1685840614;
+ d=1e100.net; s=20221208; t=1683248617; x=1685840617;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=sslaewbTbiBH8XQ1gp6B49Xbcv0jBClrDRjZFrx/k4k=;
- b=VDcxE6cEON5+1Rk82YCfb+/PaTy4ySNayp/3HSySuaWjUJ7VSDR2hSvJyHnH6D7VAG
- x5OtZBZwXBIf+UZGDH4NDJVYI4Mf2Nv6cC8ElraqfnTCz36MXBtfj8Xk+bsmUVMd2hmv
- sH76CzE5MyMpcJ2/fAc3Snz5f1OH9Lk8X2tTPSSGIJnAtNLTEoqrulj1vf1jsoV1I18B
- B4828Y6PUwbK6JfxbQV+o1a3fvy1iahlAo2D7hLaxfkOQ8ezMdEXYj9ODqIt2CKU/djq
- ja8keMJUrUgtXx+4pSKGaSpXKUZkx6E7860dPz4mu7T8IcsX2f0ojGh/hWImhXk+Vswg
- HLiQ==
-X-Gm-Message-State: AC+VfDx8SoczXTIps6adwWpxnatykvKTU5XPImtUb/9tSeIJeS72kb/V
- /dPdPp+zt4OEkXjmSsANwtD2u0+VurIExw==
-X-Google-Smtp-Source: ACHHUZ4kRGXyFKzwTcRsH0+/jSsNfQRNgl2Ejx4qeMnON5Ri4ry+3Y9e/e3KEMbGktJVzB2vpO4mow==
-X-Received: by 2002:a17:902:aa02:b0:1a0:50bd:31a8 with SMTP id
- be2-20020a170902aa0200b001a050bd31a8mr4967283plb.26.1683248613962; 
- Thu, 04 May 2023 18:03:33 -0700 (PDT)
+ bh=T4aY8YM6365clacuLSclfItYOK7GtpdOeg6+yztwDiQ=;
+ b=YgsHkRiJx55KCNpxvcxEfI57T00by1EaYrzQ8F6mdhScndvIGfsKEyRyQ6IkYE0Irg
+ V2jT9Tqw2bOPxobj92fFteWcFGuU9iS/OjjlUXdCYnFpscu6qrqczwvK+IH3v6fVdmWX
+ y1Y2uy57AFl/j8XZjfYVeyDRwT5sC3KcFnH3eLBoC5rbeP0c5NujstTlTAuymviyWP7h
+ 8COJamySEUoUrT//KQ9cA6gWdC0sJnS4Tbq9MCnQGGW3IUcPaoAd2ABMIEeaOEP/Qf2n
+ GrE8pvcWe3E+HNsFI9JiVBD2Z4D1y1Ph8JeT6r4pLGUUSRoXK+q9Bb6B37lKUtf9rKcQ
+ GOEw==
+X-Gm-Message-State: AC+VfDx4/u8BVnfQMhaVp3KLqaWqh35+9SyWOlw6g1CbnCTE8YHauAnC
+ HK/ZbOv3HBZOmbQ5ziNC1dA8YjTIuzXrDA==
+X-Google-Smtp-Source: ACHHUZ68gkrxpTfCdu30NGdd60equh36hn0eRXNB8besKs03V8urFJVPKgrQIDklfIL3VtXDhwbp9w==
+X-Received: by 2002:a17:903:1cd:b0:1a9:581b:fbb1 with SMTP id
+ e13-20020a17090301cd00b001a9581bfbb1mr6173188plh.32.1683248617335; 
+ Thu, 04 May 2023 18:03:37 -0700 (PDT)
 Received: from toolbox.alistair23.me
  (2403-580b-97e8-0-321-6fb2-58f1-a1b1.ip6.aussiebb.net.
  [2403:580b:97e8:0:321:6fb2:58f1:a1b1])
  by smtp.gmail.com with ESMTPSA id
- l19-20020a170902d35300b0019309be03e7sm218762plk.66.2023.05.04.18.03.30
+ l19-20020a170902d35300b0019309be03e7sm218762plk.66.2023.05.04.18.03.34
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 04 May 2023 18:03:33 -0700 (PDT)
+ Thu, 04 May 2023 18:03:36 -0700 (PDT)
 From: Alistair Francis <alistair23@gmail.com>
 X-Google-Original-From: Alistair Francis <alistair.francis@wdc.com>
 To: qemu-devel@nongnu.org
-Cc: alistair23@gmail.com, Weiwei Li <liweiwei@iscas.ac.cn>,
- Junqiang Wang <wangjunqiang@iscas.ac.cn>,
- Alistair Francis <alistair.francis@wdc.com>,
- Daniel Henrique Barboza <dbarboza@ventanamicro.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PULL 05/89] target/riscv: Simplify arguments for riscv_csrrw_check
-Date: Fri,  5 May 2023 11:01:17 +1000
-Message-Id: <20230505010241.21812-6-alistair.francis@wdc.com>
+Cc: alistair23@gmail.com, Philipp Tomsich <philipp.tomsich@vrull.eu>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Alistair Francis <alistair.francis@wdc.com>
+Subject: [PULL 06/89] target/riscv: refactor Zicond support
+Date: Fri,  5 May 2023 11:01:18 +1000
+Message-Id: <20230505010241.21812-7-alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.40.0
 In-Reply-To: <20230505010241.21812-1-alistair.francis@wdc.com>
 References: <20230505010241.21812-1-alistair.francis@wdc.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::633;
- envelope-from=alistair23@gmail.com; helo=mail-pl1-x633.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::433;
+ envelope-from=alistair23@gmail.com; helo=mail-pf1-x433.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -100,66 +97,87 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Weiwei Li <liweiwei@iscas.ac.cn>
+From: Philipp Tomsich <philipp.tomsich@vrull.eu>
 
-Remove RISCVCPU argument, and get cfg infomation from CPURISCVState
-directly.
+After the original Zicond support was stuck/fell through the cracks on
+the mailing list at v3 (and a different implementation was merged in
+the meanwhile), we need to refactor Zicond to prepare it to be reused
+by XVentanaCondOps.
 
-Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
-Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Reviewed-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-Message-Id: <20230309071329.45932-5-liweiwei@iscas.ac.cn>
+This commit lifts the common logic out into gen_czero and uses this
+via gen_logic and 2 helper functions (effectively partial closures).
+
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+
+Signed-off-by: Philipp Tomsich <philipp.tomsich@vrull.eu>
+Acked-by: Alistair Francis <alistair.francis@wdc.com>
+Message-Id: <20230307180708.302867-2-philipp.tomsich@vrull.eu>
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- target/riscv/csr.c | 12 ++++--------
- 1 file changed, 4 insertions(+), 8 deletions(-)
+ target/riscv/insn_trans/trans_rvzicond.c.inc | 36 ++++++++++++--------
+ 1 file changed, 21 insertions(+), 15 deletions(-)
 
-diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-index a7d0157d33..8f4d5eb13f 100644
---- a/target/riscv/csr.c
-+++ b/target/riscv/csr.c
-@@ -3756,15 +3756,14 @@ static RISCVException rmw_seed(CPURISCVState *env, int csrno,
+diff --git a/target/riscv/insn_trans/trans_rvzicond.c.inc b/target/riscv/insn_trans/trans_rvzicond.c.inc
+index 645260164e..c8e43fa325 100644
+--- a/target/riscv/insn_trans/trans_rvzicond.c.inc
++++ b/target/riscv/insn_trans/trans_rvzicond.c.inc
+@@ -2,6 +2,7 @@
+  * RISC-V translation routines for the Zicond Standard Extension.
+  *
+  * Copyright (c) 2020-2023 PLCT Lab
++ * Copyright (c) 2022 VRULL GmbH.
+  *
+  * This program is free software; you can redistribute it and/or modify it
+  * under the terms and conditions of the GNU General Public License,
+@@ -22,28 +23,33 @@
+     }                                     \
+ } while (0)
  
- static inline RISCVException riscv_csrrw_check(CPURISCVState *env,
-                                                int csrno,
--                                               bool write_mask,
--                                               RISCVCPU *cpu)
-+                                               bool write_mask)
+-static bool trans_czero_eqz(DisasContext *ctx, arg_czero_eqz *a)
++/* Emits "$rd = ($rs2 <cond> $zero) ? $zero : $rs1" */
++static void gen_czero(TCGv dest, TCGv src1, TCGv src2, TCGCond cond)
  {
-     /* check privileges and return RISCV_EXCP_ILLEGAL_INST if check fails */
-     bool read_only = get_field(csrno, 0xC00) == 3;
-     int csr_min_priv = csr_ops[csrno].min_priv_ver;
+-    REQUIRE_ZICOND(ctx);
++    TCGv zero = tcg_constant_tl(0);
++    tcg_gen_movcond_tl(cond, dest, src2, zero, zero, src1);
++}
  
-     /* ensure the CSR extension is enabled */
--    if (!cpu->cfg.ext_icsr) {
-+    if (!riscv_cpu_cfg(env)->ext_icsr) {
-         return RISCV_EXCP_ILLEGAL_INST;
-     }
+-    TCGv dest = dest_gpr(ctx, a->rd);
+-    TCGv src1 = get_gpr(ctx, a->rs1, EXT_NONE);
+-    TCGv src2 = get_gpr(ctx, a->rs2, EXT_NONE);
++static void gen_czero_eqz(TCGv dest, TCGv src1, TCGv src2)
++{
++    gen_czero(dest, src1, src2, TCG_COND_EQ);
++}
  
-@@ -3860,9 +3859,7 @@ RISCVException riscv_csrrw(CPURISCVState *env, int csrno,
-                            target_ulong *ret_value,
-                            target_ulong new_value, target_ulong write_mask)
+-    tcg_gen_movcond_tl(TCG_COND_EQ, dest, src2, ctx->zero, ctx->zero, src1);
+-    gen_set_gpr(ctx, a->rd, dest);
+-    return true;
++static void gen_czero_nez(TCGv dest, TCGv src1, TCGv src2)
++{
++    gen_czero(dest, src1, src2, TCG_COND_NE);
+ }
+ 
+-static bool trans_czero_nez(DisasContext *ctx, arg_czero_nez *a)
++static bool trans_czero_eqz(DisasContext *ctx, arg_r *a)
  {
--    RISCVCPU *cpu = env_archcpu(env);
--
--    RISCVException ret = riscv_csrrw_check(env, csrno, write_mask, cpu);
-+    RISCVException ret = riscv_csrrw_check(env, csrno, write_mask);
-     if (ret != RISCV_EXCP_NONE) {
-         return ret;
-     }
-@@ -3915,9 +3912,8 @@ RISCVException riscv_csrrw_i128(CPURISCVState *env, int csrno,
-                                 Int128 new_value, Int128 write_mask)
- {
-     RISCVException ret;
--    RISCVCPU *cpu = env_archcpu(env);
+     REQUIRE_ZICOND(ctx);
  
--    ret = riscv_csrrw_check(env, csrno, int128_nz(write_mask), cpu);
-+    ret = riscv_csrrw_check(env, csrno, int128_nz(write_mask));
-     if (ret != RISCV_EXCP_NONE) {
-         return ret;
-     }
+-    TCGv dest = dest_gpr(ctx, a->rd);
+-    TCGv src1 = get_gpr(ctx, a->rs1, EXT_NONE);
+-    TCGv src2 = get_gpr(ctx, a->rs2, EXT_NONE);
++    return gen_logic(ctx, a, gen_czero_eqz);
++}
++
++static bool trans_czero_nez(DisasContext *ctx, arg_r *a)
++{
++    REQUIRE_ZICOND(ctx);
+ 
+-    tcg_gen_movcond_tl(TCG_COND_NE, dest, src2, ctx->zero, ctx->zero, src1);
+-    gen_set_gpr(ctx, a->rd, dest);
+-    return true;
++    return gen_logic(ctx, a, gen_czero_nez);
+ }
 -- 
 2.40.0
 
