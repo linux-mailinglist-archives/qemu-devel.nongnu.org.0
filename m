@@ -2,60 +2,102 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22F456F824F
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 May 2023 13:52:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A65A36F827D
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 May 2023 14:03:06 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1putxx-0003Qo-JI; Fri, 05 May 2023 07:51:13 -0400
+	id 1puu7z-0006Pk-Iy; Fri, 05 May 2023 08:01:35 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1putxv-0003Qb-Uo
- for qemu-devel@nongnu.org; Fri, 05 May 2023 07:51:11 -0400
-Received: from mout.kundenserver.de ([212.227.126.130])
+ (Exim 4.90_1) (envelope-from <imbrenda@linux.ibm.com>)
+ id 1puu7n-0006Lz-3D
+ for qemu-devel@nongnu.org; Fri, 05 May 2023 08:01:23 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1putxt-0007BH-Jd
- for qemu-devel@nongnu.org; Fri, 05 May 2023 07:51:11 -0400
-Received: from [192.168.100.1] ([82.142.8.70]) by mrelayeu.kundenserver.de
- (mreue009 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1M6URd-1psz5c0t9F-006yCI; Fri, 05 May 2023 13:51:05 +0200
-Message-ID: <5274e1f0-36f5-7119-ac03-81d59f0ff175@vivier.eu>
-Date: Fri, 5 May 2023 13:51:04 +0200
+ (Exim 4.90_1) (envelope-from <imbrenda@linux.ibm.com>)
+ id 1puu7j-0001ug-VS
+ for qemu-devel@nongnu.org; Fri, 05 May 2023 08:01:22 -0400
+Received: from pps.filterd (m0353725.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 345Br6Xh012118; Fri, 5 May 2023 12:01:09 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : date : message-id : mime-version : content-transfer-encoding; s=pp1;
+ bh=CCMAE4tmFUWaFFdIHTM1hfEetD9Mgao3rruxg1NfP6Q=;
+ b=qygb6rnYgf4CBVryS6TBDKTEiaeFI1A26HvH0oThHnJUcOmI59aiBTr14pTGEKvQm81Z
+ ZNX0zP26tEr9N3rDSPGKaM1glCFyLhVYTl7DhUhQdvAmQ+Qd1xpVVE34x1zurWPC/iA3
+ DJCaMx4oO9xuI/TQza0dttD0UfoDCIb+T2ZA0Td7gEgXGtKi1WPFhSUAJ2T93Pgg+i02
+ RM9uA7jEA0MC3CWIyqlNYwty8sxDpGQNdsbBosJhU0WOAyd70unh0L2RTobeB2QN1Eub
+ +1PbqQwktLmlUioyU6NTquXJbfuxBHlKe7U51aXYWs+hMnAlUxOOoDdbwcCMOpf9zNLa xQ== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3qd1aq87cf-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 05 May 2023 12:01:08 +0000
+Received: from m0353725.ppops.net (m0353725.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 345BuGDV023222;
+ Fri, 5 May 2023 12:01:07 GMT
+Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.102])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3qd1aq876u-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 05 May 2023 12:01:07 +0000
+Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
+ by ppma06ams.nl.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 34515XOO021023;
+ Fri, 5 May 2023 12:00:58 GMT
+Received: from smtprelay06.fra02v.mail.ibm.com ([9.218.2.230])
+ by ppma06ams.nl.ibm.com (PPS) with ESMTPS id 3q8tgg3ex0-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 05 May 2023 12:00:58 +0000
+Received: from smtpav02.fra02v.mail.ibm.com (smtpav02.fra02v.mail.ibm.com
+ [10.20.54.101])
+ by smtprelay06.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 345C0qdM40829416
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 5 May 2023 12:00:52 GMT
+Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 3ACF120043;
+ Fri,  5 May 2023 12:00:52 +0000 (GMT)
+Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id DF46220040;
+ Fri,  5 May 2023 12:00:51 +0000 (GMT)
+Received: from p-imbrenda.boeblingen.de.ibm.com (unknown [9.152.224.56])
+ by smtpav02.fra02v.mail.ibm.com (Postfix) with ESMTP;
+ Fri,  5 May 2023 12:00:51 +0000 (GMT)
+From: Claudio Imbrenda <imbrenda@linux.ibm.com>
+To: pbonzini@redhat.com
+Cc: qemu-devel@nongnu.org, david@redhat.com, thuth@redhat.com,
+ borntraeger@de.ibm.com, frankja@linux.ibm.com, fiuczy@linux.ibm.com,
+ pasic@linux.ibm.com, nsg@linux.ibm.com, berrange@redhat.com,
+ alex.bennee@linaro.org, armbru@redhat.com
+Subject: [PATCH v7 0/1] util/async-teardown: appear in
+ query-command-line-options
+Date: Fri,  5 May 2023 14:00:50 +0200
+Message-Id: <20230505120051.36605-1-imbrenda@linux.ibm.com>
+X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH v3] linux-user: Add /proc/cpuinfo handler for RISC-V
-Content-Language: fr
-To: Palmer Dabbelt <palmer@dabbelt.com>, schwab@suse.de
-Cc: qemu-devel@nongnu.org
-References: <mhng-9a8e79cd-e48e-4b27-a5d9-af5ef2a5cd6c@palmer-ri-x1c9>
-From: Laurent Vivier <laurent@vivier.eu>
-In-Reply-To: <mhng-9a8e79cd-e48e-4b27-a5d9-af5ef2a5cd6c@palmer-ri-x1c9>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:DBh03oK5HKYucx/SFwv8E0xM/5jMA8qvjwC9cy3PDLNiNduxd7X
- 7RB2Bs8LaqwToL+tG28bGoaG90uLSQyURfXTWfJxDSgpVNhMsR3M2fI+eivIt7A5pjHs+qH
- Y4xrwHpFrDi+LGsbE2aOnJbTf8J3K++ZzljlYhT7pavvuCCOmXPZDOj4NPwq9HB9jPIAJ0k
- xdSist8HKlcQ22jzhcR+w==
-UI-OutboundReport: notjunk:1;M01:P0:WnnYNMgF2Ac=;ayMOakQdfYYTa72OZoiwCauqdOo
- fReoFm8H5ff/9eX72ILG4TGrB+tadDj2FlCzXCzzzWJKmg5i+n9tuVginJmXUAotxU+q5uKWN
- 2bwCGGdh2w2bb0opEWRjbIx8B8rmO+k4BwSZVISJ2JkcWlA6+yjlCRwHP1jkoeDpyvaT75cVE
- Hpgy+xK7LDDo6WZRANSJJC+McVxa47RDrt8vfyBT+cXeG7/tARUXfjwt2nR1Lb1JQmhy+XIod
- 31bey5tjaVHlUblfux2hq1F9Un4ZZMw2+CcCfUG8FdqA/lHXy2aQKUHc01S2Gq6NcGIjXDENn
- 7Ot44/w7og+F47+9KXPfdhDXCf67RGeBc5vyJfvhDYR78NDW+2fMVshjA9bV592Akqy5QzeUQ
- fsXIQurA0Wj3KG4ml8TqmWTqom8W+GHzIZ1imcWIl7wlq2T1Wazu+sCt1VAy1OB7/3YM9GS31
- fJUyAUJMWyLSBwkSjvyJgy5XjhFp5TVZN0emswD1+X3x9Yfdw4J4b5zJ+Ty7fN8IggRDEwdDy
- WaV01O0YwmD0oHthHnW6XCOsVpqNQvEuxBBm0SWvEstmIemI84kr5R1sqq0CnHf9g0UU6Je3V
- JhiiKi+KCadPBpvpiZ78nb8QyduxOMzcyYjPKf5jGJ6Vz0/5Ntyo/LTiP/14ccjhzWMoWzEmm
- /00xWHlfIi6Sqcxmv78sC6ixdY+U6wdf3ismA1BHgg==
-Received-SPF: none client-ip=212.227.126.130; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -61
-X-Spam_score: -6.2
-X-Spam_bar: ------
-X-Spam_report: (-6.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-4.28,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: si8a-N7fYzaAbMzDKKucQxzPmsZVrcW_
+X-Proofpoint-ORIG-GUID: zEyT_V0bD5EeKaUtpOkhLIliOJA_24JG
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-05-05_19,2023-05-05_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0
+ malwarescore=0 impostorscore=0 phishscore=0 clxscore=1015 spamscore=0
+ bulkscore=0 mlxscore=0 mlxlogscore=999 adultscore=0 suspectscore=0
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2303200000 definitions=main-2305050095
+Received-SPF: pass client-ip=148.163.158.5;
+ envelope-from=imbrenda@linux.ibm.com; helo=mx0b-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -71,113 +113,52 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Le 03/05/2023 à 17:34, Palmer Dabbelt a écrit :
-> On Wed, 03 May 2023 08:30:12 PDT (-0700), schwab@suse.de wrote:
->> From 912af433fa5d93ce81d2054135ed475ab7462d2d Mon Sep 17 00:00:00 2001
->> From: Andreas Schwab <schwab@suse.de>
->> Date: Tue, 18 Apr 2023 11:54:01 +0200
->>
->> Signed-off-by: Andreas Schwab <schwab@suse.de>
->> ---
->> v3: fix isa order
->>
->>  linux-user/syscall.c | 55 ++++++++++++++++++++++++++++++++++++++++++--
->>  1 file changed, 53 insertions(+), 2 deletions(-)
->>
->> diff --git a/linux-user/syscall.c b/linux-user/syscall.c
->> index 69f740ff98..5207259b56 100644
->> --- a/linux-user/syscall.c
->> +++ b/linux-user/syscall.c
->> @@ -8231,7 +8231,8 @@ void target_exception_dump(CPUArchState *env, const char *fmt, int code)
->>  }
->>
->>  #if HOST_BIG_ENDIAN != TARGET_BIG_ENDIAN || \
->> -    defined(TARGET_SPARC) || defined(TARGET_M68K) || defined(TARGET_HPPA)
->> +    defined(TARGET_SPARC) || defined(TARGET_M68K) || defined(TARGET_HPPA) || \
->> +    defined(TARGET_RISCV)
->>  static int is_proc(const char *filename, const char *entry)
->>  {
->>      return strcmp(filename, entry) == 0;
->> @@ -8309,6 +8310,56 @@ static int open_cpuinfo(CPUArchState *cpu_env, int fd)
->>  }
->>  #endif
->>
->> +#if defined(TARGET_RISCV)
->> +static int open_cpuinfo(CPUArchState *cpu_env, int fd)
->> +{
->> +    int i, num_cpus;
->> +    char isa[32];
->> +
->> +#if defined(TARGET_RISCV32)
->> +    strcpy (isa, "rv32");
->> +#endif
->> +#if defined(TARGET_RISCV64)
->> +    strcpy (isa, "rv64");
->> +#endif
->> +    i = strlen (isa);
->> +    if (riscv_has_ext (cpu_env, RVI))
->> +        isa[i++] = 'i';
->> +    if (riscv_has_ext (cpu_env, RVE))
->> +        isa[i++] = 'e';
->> +    if (riscv_has_ext (cpu_env, RVM))
->> +        isa[i++] = 'm';
->> +    if (riscv_has_ext (cpu_env, RVA))
->> +        isa[i++] = 'a';
->> +    if (riscv_has_ext (cpu_env, RVF))
->> +        isa[i++] = 'f';
->> +    if (riscv_has_ext (cpu_env, RVD))
->> +        isa[i++] = 'd';
->> +    if (riscv_has_ext (cpu_env, RVC))
->> +        isa[i++] = 'c';
->> +    if (riscv_has_ext (cpu_env, RVV))
->> +        isa[i++] = 'v';
->> +    isa[i] = 0;
->> +
->> +    num_cpus = sysconf(_SC_NPROCESSORS_ONLN);
->> +    for (i = 0; i < num_cpus; i++) {
->> +        dprintf(fd, "processor\t: %d\n", i);
->> +        dprintf(fd, "hart\t\t: %d\n", i);
->> +        dprintf(fd, "isa\t\t: %s\n", isa);
->> +#if defined(TARGET_RISCV32)
->> +        dprintf(fd, "mmu\t\t: sv32\n");
->> +#endif
->> +#if defined(TARGET_RISCV64)
->> +        dprintf(fd, "mmu\t\t: sv57\n");
->> +#endif
->> +        dprintf(fd, "mvendorid\t: 0x0\n");
->> +        dprintf(fd, "marchid\t\t: 0x0\n");
->> +        dprintf(fd, "mimpid\t\t: 0x0\n\n");
->> +    }
->> +    return 0;
->> +}
->> +#endif
->> +
->>  #if defined(TARGET_M68K)
->>  static int open_hardware(CPUArchState *cpu_env, int fd)
->>  {
->> @@ -8333,7 +8384,7 @@ static int do_openat(CPUArchState *cpu_env, int dirfd, const char *pathname, 
->> int
->>  #if HOST_BIG_ENDIAN != TARGET_BIG_ENDIAN
->>          { "/proc/net/route", open_net_route, is_proc },
->>  #endif
->> -#if defined(TARGET_SPARC) || defined(TARGET_HPPA)
->> +#if defined(TARGET_SPARC) || defined(TARGET_HPPA) || defined(TARGET_RISCV)
->>          { "/proc/cpuinfo", open_cpuinfo, is_proc },
->>  #endif
->>  #if defined(TARGET_M68K)
-> 
-> Reviewed-by: Palmer Dabbelt <palmer@rivosinc.com>
-> 
-> Thanks!
-> 
+Add new -run-with option with an async-teardown=on|off parameter. It
+is visible in the output of query-command-line-options QMP command, so
+it can be discovered and used by libvirt.
 
-In my linux-user branch I have already queued:
+The option -async-teardown is now redundant, deprecate it.
 
-[PATCH qemu v2] linux-user: Emulate /proc/cpuinfo output for riscv
-https://patchew.org/QEMU/167873059442.9885.15152085316575248452-0@git.sr.ht/
+v6->v7
+* move variable declaration inside #ifdef to avoid compile time errors
+  on *BSD due to unused variables. [thomas]
 
-IS this one better?
+v5->v6
+* deprecate the old -async-teardown option instead of removing it,
+  since it has now appeared in 2 QEMU releases
+* use -run-with as a grab bag commandline option for the async-teardown
+  boolean parameter [paolo,markus,thomas]
 
-Thanks,
-Laurent
+v4->v5
+* reword commit message [Markus]
+* document the removal of the -async-teardown commandline option in
+  docs/about/removed-features.rst [Markus]
+
+v3->v4
+* completely remove the useless -async-teardown option, since it was
+  not wired up properly and it had no users [thomas]
+* QEMU should be always uppercase in text and documentation [thomas]
+* if the new -teardown option fails to parse, exit immediately instead
+  of returning an error [thomas]
+
+v2->v3
+* add a new teardown option with an async parameter [Markus]
+* reworded documentation of existing -async-teardown option so that it
+  points to the new teardown option
+
+v1->v2
+* remove the unneeded .implied_opt_name initializer [Thomas]
+
+Claudio Imbrenda (1):
+  util/async-teardown: wire up query-command-line-options
+
+ docs/about/deprecated.rst |  5 +++++
+ os-posix.c                | 13 +++++++++++++
+ qemu-options.hx           | 34 +++++++++++++++++++++++-----------
+ util/async-teardown.c     | 21 +++++++++++++++++++++
+ 4 files changed, 62 insertions(+), 11 deletions(-)
+
+-- 
+2.40.1
+
 
