@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1726B6F8AD9
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 May 2023 23:26:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A3CD46F8AF1
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 May 2023 23:27:54 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pv2vL-0000hD-Fr; Fri, 05 May 2023 17:25:07 -0400
+	id 1pv2vS-0000kK-2K; Fri, 05 May 2023 17:25:14 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pv2vF-0000ec-31
- for qemu-devel@nongnu.org; Fri, 05 May 2023 17:25:01 -0400
-Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b])
+ id 1pv2vI-0000gI-G0
+ for qemu-devel@nongnu.org; Fri, 05 May 2023 17:25:05 -0400
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pv2vC-0004Na-O3
- for qemu-devel@nongnu.org; Fri, 05 May 2023 17:25:00 -0400
-Received: by mail-wm1-x32b.google.com with SMTP id
- 5b1f17b1804b1-3f315712406so113478555e9.0
- for <qemu-devel@nongnu.org>; Fri, 05 May 2023 14:24:58 -0700 (PDT)
+ id 1pv2vD-0004Rj-Qf
+ for qemu-devel@nongnu.org; Fri, 05 May 2023 17:25:04 -0400
+Received: by mail-wr1-x42a.google.com with SMTP id
+ ffacd0b85a97d-3075e802738so1865071f8f.1
+ for <qemu-devel@nongnu.org>; Fri, 05 May 2023 14:24:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=linaro.org; s=google; t=1683321898; x=1685913898;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=oB8BK24ylT5j8mHK7x+cgCN++DNdxFZfyjhkUcElAsk=;
- b=TbXsZTkUCqheGUheghixoVXdJ+5iPRareKsw507KD45narnM/l5/NVI/wmDDBQz0fU
- ptqVPdwrmcuC+FNIXt6QtRSygBd89MiwBh+LJOaub4+/gynZNiGxzA6HBzCeuqeqH1dp
- uE1n/k5HodzNV4uujQp4I8gdGi89C95P1NuIScetyyMvK1rcnEdJTAi0dvZBPFsIha9M
- BLL/OKBpKM8b+trLyFnQGlP5MGrM2i5ySlqNqA17ZpBmDuR4dcjElGiEvGDUfmuKqazX
- 8mXOWCj7+sr62A+rSDZ7U/Qu3NsB+jlGEOKB/yOx7snS/cnKGgAo9DHbk+wzz6LOec24
- oF7Q==
+ bh=6kaCkf+tWgS3OG0dqcISJnpxG2CWngLV2cNCMJMkKlk=;
+ b=N5mwmqihnMzDQOu0vsvkhdsS4l8oNxUmVigBAtMArDCbfhfSX626a+7Bbjf3GGgGNx
+ 6D+rdDT+V+7BVJfnfCZRPOrKoew9ew+DqeFkMNyIEJToRoAlrNrB7RgwLKR4KF6/FVX0
+ ydwdwwT4so5UzDIRnSM066O+gUkdpbjW+dD2sOg0pPBA1JrJ7CkmiaTNHUVq6x1XHgMV
+ lIgRx5+gWOfcvbD2IN0ryH8LZIM2gZ/2OBafasJmpgku7pcMqNSX/Aa9BhJWT0FrAVh7
+ FRE6fG4OUrU9H1kpWlaCAPM+o2dRsoxETzXo6RrJ6ra9W6Dpd6d0aa1Kjnnr7U5Oeom9
+ 3Lig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20221208; t=1683321898; x=1685913898;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=oB8BK24ylT5j8mHK7x+cgCN++DNdxFZfyjhkUcElAsk=;
- b=bXdjYuA1EgBsIa4u3YSA6ABpdO8FVzsO86yJVsx5ZZULUJiJqz4QL9L262wb+7Kqy9
- MZJmd+6xxknv2HSYbheR79/3gowCMf5d8iRxUGzXiOC7PO2/wQiB4SXvkZc2s4Tw5zwu
- ypcI+ZajJoyubWsA4jbj73Pw+Fxi6uHL1Sr2v0IU6Ayq7IVUVSFC8xJW85GPXGg4NRCo
- 42YhldaL1bl/cj0cFI470l0wJ9toi8krGQzHpTfE05CRRmN9M/lbfjA9327Q4IbsYSeE
- eLLtlAqPeWT3bD99hYZAFsO+oUJ54/DmXbSU+u5QGr+zKEu8S/c7o0sLBUspcGKL5WMm
- ADwg==
-X-Gm-Message-State: AC+VfDw+HrSOukLhOnfVfI5QpUyiJArglGGr8ADAGQRjojP/JyzrvlFr
- DFxtKCU5xSQ+qnZR5prJPeDgmRFkhYQiVEGcFewxhw==
-X-Google-Smtp-Source: ACHHUZ7mL7b8cjuqHv0ksWeN5sL4FZ5/UrATLTCJ3ZEvgC4lA3teZo2ndb7DVTBy1zshC65bbcWfpA==
-X-Received: by 2002:a5d:5233:0:b0:2f8:1305:dce1 with SMTP id
- i19-20020a5d5233000000b002f81305dce1mr2322015wra.19.1683321897898; 
- Fri, 05 May 2023 14:24:57 -0700 (PDT)
+ bh=6kaCkf+tWgS3OG0dqcISJnpxG2CWngLV2cNCMJMkKlk=;
+ b=A65WwW0/atVIQ0UFA8K4l0hwwlXliJX4A7wYSd19ICDNOiyx+kswzp4QvO4Q4qCVpg
+ mqlRbjnz8Y8e0kl0B3fv5LVictgPTOfisNzU8xJJdTFnEOPVQuvP/7A0voEoqfkRXr51
+ b8k4deoG4qkGLBa0vML7p7o9iPAONFbX5OVfsrtH3LI7H04ZPnwOQQDBAiiOsfSfv6h6
+ 6NqDGHDfLIlUIljyvZDe4CQaN3v7ZrZ9tyKqaK6WFlqrqw3XbArNGql4Durvxa2Dd75J
+ Hq2K27GtPwXXbpJptIM04a5PW07Vm1kmz/CXeNHl1oFki0LF+J9tNHcUdmKUPbKKDEve
+ EHcQ==
+X-Gm-Message-State: AC+VfDxOMzTqceCArrYycSubX9X2r00xETWRiCcjzW3k3+BexERFR28W
+ 6ID7Fiz3A6JXYwVK99MR+sb8Rh2XI/H/llJ9Qa9ZvA==
+X-Google-Smtp-Source: ACHHUZ6ggrtqpiftcYnt4QOu1yW3D7LlxcPT1PdD8WrNcARsQzJvjMuLPB7JXJN++z+cT62y32oJhA==
+X-Received: by 2002:adf:de8d:0:b0:306:2e04:5925 with SMTP id
+ w13-20020adfde8d000000b003062e045925mr2296422wrl.17.1683321898432; 
+ Fri, 05 May 2023 14:24:58 -0700 (PDT)
 Received: from stoup.. ([212.241.182.8]) by smtp.gmail.com with ESMTPSA id
- t14-20020a5d460e000000b003047ae72b14sm3426709wrq.82.2023.05.05.14.24.57
+ t14-20020a5d460e000000b003047ae72b14sm3426709wrq.82.2023.05.05.14.24.58
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 05 May 2023 14:24:57 -0700 (PDT)
+ Fri, 05 May 2023 14:24:58 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Subject: [PULL 16/42] target/sparc: Use MO_ALIGN where required
-Date: Fri,  5 May 2023 22:24:21 +0100
-Message-Id: <20230505212447.374546-17-richard.henderson@linaro.org>
+Subject: [PULL 17/42] target/sparc: Use cpu_ld*_code_mmu
+Date: Fri,  5 May 2023 22:24:22 +0100
+Message-Id: <20230505212447.374546-18-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230505212447.374546-1-richard.henderson@linaro.org>
 References: <20230505212447.374546-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
- envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x32b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x42a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,296 +90,52 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Acked-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+This passes on the memop as given as argument to
+helper_ld_asi to the ultimate load primitive.
+
+Reviewed-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/sparc/translate.c | 66 +++++++++++++++++++++-------------------
- 1 file changed, 34 insertions(+), 32 deletions(-)
+ target/sparc/ldst_helper.c | 10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
 
-diff --git a/target/sparc/translate.c b/target/sparc/translate.c
-index bc71e44e66..414e014b11 100644
---- a/target/sparc/translate.c
-+++ b/target/sparc/translate.c
-@@ -1899,7 +1899,7 @@ static void gen_swap(DisasContext *dc, TCGv dst, TCGv src,
-                      TCGv addr, int mmu_idx, MemOp memop)
- {
-     gen_address_mask(dc, addr);
--    tcg_gen_atomic_xchg_tl(dst, addr, src, mmu_idx, memop);
-+    tcg_gen_atomic_xchg_tl(dst, addr, src, mmu_idx, memop | MO_ALIGN);
- }
+diff --git a/target/sparc/ldst_helper.c b/target/sparc/ldst_helper.c
+index a53580d9e4..7972d56a72 100644
+--- a/target/sparc/ldst_helper.c
++++ b/target/sparc/ldst_helper.c
+@@ -593,6 +593,7 @@ uint64_t helper_ld_asi(CPUSPARCState *env, target_ulong addr,
+ #if defined(DEBUG_MXCC) || defined(DEBUG_ASI)
+     uint32_t last_addr = addr;
+ #endif
++    MemOpIdx oi;
  
- static void gen_ldstub(DisasContext *dc, TCGv dst, TCGv addr, int mmu_idx)
-@@ -2155,12 +2155,12 @@ static void gen_ld_asi(DisasContext *dc, TCGv dst, TCGv addr,
+     do_check_align(env, addr, size - 1, GETPC());
+     switch (asi) {
+@@ -692,19 +693,20 @@ uint64_t helper_ld_asi(CPUSPARCState *env, target_ulong addr,
+     case ASI_M_IODIAG:  /* Turbosparc IOTLB Diagnostic */
          break;
-     case GET_ASI_DIRECT:
-         gen_address_mask(dc, addr);
--        tcg_gen_qemu_ld_tl(dst, addr, da.mem_idx, da.memop);
-+        tcg_gen_qemu_ld_tl(dst, addr, da.mem_idx, da.memop | MO_ALIGN);
-         break;
-     default:
-         {
-             TCGv_i32 r_asi = tcg_constant_i32(da.asi);
--            TCGv_i32 r_mop = tcg_constant_i32(memop);
-+            TCGv_i32 r_mop = tcg_constant_i32(memop | MO_ALIGN);
- 
-             save_state(dc);
- #ifdef TARGET_SPARC64
-@@ -2201,7 +2201,7 @@ static void gen_st_asi(DisasContext *dc, TCGv src, TCGv addr,
-         /* fall through */
-     case GET_ASI_DIRECT:
-         gen_address_mask(dc, addr);
--        tcg_gen_qemu_st_tl(src, addr, da.mem_idx, da.memop);
-+        tcg_gen_qemu_st_tl(src, addr, da.mem_idx, da.memop | MO_ALIGN);
-         break;
- #if !defined(TARGET_SPARC64) && !defined(CONFIG_USER_ONLY)
-     case GET_ASI_BCOPY:
-@@ -2233,7 +2233,7 @@ static void gen_st_asi(DisasContext *dc, TCGv src, TCGv addr,
-     default:
-         {
-             TCGv_i32 r_asi = tcg_constant_i32(da.asi);
--            TCGv_i32 r_mop = tcg_constant_i32(memop & MO_SIZE);
-+            TCGv_i32 r_mop = tcg_constant_i32(memop | MO_ALIGN);
- 
-             save_state(dc);
- #ifdef TARGET_SPARC64
-@@ -2283,7 +2283,7 @@ static void gen_cas_asi(DisasContext *dc, TCGv addr, TCGv cmpv,
-     case GET_ASI_DIRECT:
-         oldv = tcg_temp_new();
-         tcg_gen_atomic_cmpxchg_tl(oldv, addr, cmpv, gen_load_gpr(dc, rd),
--                                  da.mem_idx, da.memop);
-+                                  da.mem_idx, da.memop | MO_ALIGN);
-         gen_store_gpr(dc, rd, oldv);
-         break;
-     default:
-@@ -2347,7 +2347,7 @@ static void gen_ldf_asi(DisasContext *dc, TCGv addr,
+     case ASI_KERNELTXT: /* Supervisor code access */
++        oi = make_memop_idx(memop, cpu_mmu_index(env, true));
          switch (size) {
+         case 1:
+-            ret = cpu_ldub_code(env, addr);
++            ret = cpu_ldb_code_mmu(env, addr, oi, GETPC());
+             break;
+         case 2:
+-            ret = cpu_lduw_code(env, addr);
++            ret = cpu_ldw_code_mmu(env, addr, oi, GETPC());
+             break;
+         default:
          case 4:
-             d32 = gen_dest_fpr_F(dc);
--            tcg_gen_qemu_ld_i32(d32, addr, da.mem_idx, da.memop);
-+            tcg_gen_qemu_ld_i32(d32, addr, da.mem_idx, da.memop | MO_ALIGN);
-             gen_store_fpr_F(dc, rd, d32);
+-            ret = cpu_ldl_code(env, addr);
++            ret = cpu_ldl_code_mmu(env, addr, oi, GETPC());
              break;
          case 8:
-@@ -2397,7 +2397,8 @@ static void gen_ldf_asi(DisasContext *dc, TCGv addr,
-         /* Valid for lddfa only.  */
-         if (size == 8) {
-             gen_address_mask(dc, addr);
--            tcg_gen_qemu_ld_i64(cpu_fpr[rd / 2], addr, da.mem_idx, da.memop);
-+            tcg_gen_qemu_ld_i64(cpu_fpr[rd / 2], addr, da.mem_idx,
-+                                da.memop | MO_ALIGN);
-         } else {
-             gen_exception(dc, TT_ILL_INSN);
-         }
-@@ -2406,7 +2407,7 @@ static void gen_ldf_asi(DisasContext *dc, TCGv addr,
-     default:
-         {
-             TCGv_i32 r_asi = tcg_constant_i32(da.asi);
--            TCGv_i32 r_mop = tcg_constant_i32(da.memop);
-+            TCGv_i32 r_mop = tcg_constant_i32(da.memop | MO_ALIGN);
- 
-             save_state(dc);
-             /* According to the table in the UA2011 manual, the only
-@@ -2454,7 +2455,7 @@ static void gen_stf_asi(DisasContext *dc, TCGv addr,
-         switch (size) {
-         case 4:
-             d32 = gen_load_fpr_F(dc, rd);
--            tcg_gen_qemu_st_i32(d32, addr, da.mem_idx, da.memop);
-+            tcg_gen_qemu_st_i32(d32, addr, da.mem_idx, da.memop | MO_ALIGN);
+-            ret = cpu_ldq_code(env, addr);
++            ret = cpu_ldq_code_mmu(env, addr, oi, GETPC());
              break;
-         case 8:
-             tcg_gen_qemu_st_i64(cpu_fpr[rd / 2], addr, da.mem_idx,
-@@ -2506,7 +2507,8 @@ static void gen_stf_asi(DisasContext *dc, TCGv addr,
-         /* Valid for stdfa only.  */
-         if (size == 8) {
-             gen_address_mask(dc, addr);
--            tcg_gen_qemu_st_i64(cpu_fpr[rd / 2], addr, da.mem_idx, da.memop);
-+            tcg_gen_qemu_st_i64(cpu_fpr[rd / 2], addr, da.mem_idx,
-+                                da.memop | MO_ALIGN);
-         } else {
-             gen_exception(dc, TT_ILL_INSN);
-         }
-@@ -2543,7 +2545,7 @@ static void gen_ldda_asi(DisasContext *dc, TCGv addr, int insn, int rd)
-             TCGv_i64 tmp = tcg_temp_new_i64();
- 
-             gen_address_mask(dc, addr);
--            tcg_gen_qemu_ld_i64(tmp, addr, da.mem_idx, da.memop);
-+            tcg_gen_qemu_ld_i64(tmp, addr, da.mem_idx, da.memop | MO_ALIGN);
- 
-             /* Note that LE ldda acts as if each 32-bit register
-                result is byte swapped.  Having just performed one
-@@ -2613,7 +2615,7 @@ static void gen_stda_asi(DisasContext *dc, TCGv hi, TCGv addr,
-                 tcg_gen_concat32_i64(t64, hi, lo);
-             }
-             gen_address_mask(dc, addr);
--            tcg_gen_qemu_st_i64(t64, addr, da.mem_idx, da.memop);
-+            tcg_gen_qemu_st_i64(t64, addr, da.mem_idx, da.memop | MO_ALIGN);
          }
          break;
- 
-@@ -2651,7 +2653,7 @@ static void gen_casx_asi(DisasContext *dc, TCGv addr, TCGv cmpv,
-     case GET_ASI_DIRECT:
-         oldv = tcg_temp_new();
-         tcg_gen_atomic_cmpxchg_tl(oldv, addr, cmpv, gen_load_gpr(dc, rd),
--                                  da.mem_idx, da.memop);
-+                                  da.mem_idx, da.memop | MO_ALIGN);
-         gen_store_gpr(dc, rd, oldv);
-         break;
-     default:
-@@ -2678,7 +2680,7 @@ static void gen_ldda_asi(DisasContext *dc, TCGv addr, int insn, int rd)
-         return;
-     case GET_ASI_DIRECT:
-         gen_address_mask(dc, addr);
--        tcg_gen_qemu_ld_i64(t64, addr, da.mem_idx, da.memop);
-+        tcg_gen_qemu_ld_i64(t64, addr, da.mem_idx, da.memop | MO_ALIGN);
-         break;
-     default:
-         {
-@@ -2710,7 +2712,7 @@ static void gen_stda_asi(DisasContext *dc, TCGv hi, TCGv addr,
-         break;
-     case GET_ASI_DIRECT:
-         gen_address_mask(dc, addr);
--        tcg_gen_qemu_st_i64(t64, addr, da.mem_idx, da.memop);
-+        tcg_gen_qemu_st_i64(t64, addr, da.mem_idx, da.memop | MO_ALIGN);
-         break;
-     case GET_ASI_BFILL:
-         /* Store 32 bytes of T64 to ADDR.  */
-@@ -5180,7 +5182,7 @@ static void disas_sparc_insn(DisasContext * dc, unsigned int insn)
-                 case 0x0:       /* ld, V9 lduw, load unsigned word */
-                     gen_address_mask(dc, cpu_addr);
-                     tcg_gen_qemu_ld_tl(cpu_val, cpu_addr,
--                                       dc->mem_idx, MO_TEUL);
-+                                       dc->mem_idx, MO_TEUL | MO_ALIGN);
-                     break;
-                 case 0x1:       /* ldub, load unsigned byte */
-                     gen_address_mask(dc, cpu_addr);
-@@ -5190,7 +5192,7 @@ static void disas_sparc_insn(DisasContext * dc, unsigned int insn)
-                 case 0x2:       /* lduh, load unsigned halfword */
-                     gen_address_mask(dc, cpu_addr);
-                     tcg_gen_qemu_ld_tl(cpu_val, cpu_addr,
--                                       dc->mem_idx, MO_TEUW);
-+                                       dc->mem_idx, MO_TEUW | MO_ALIGN);
-                     break;
-                 case 0x3:       /* ldd, load double word */
-                     if (rd & 1)
-@@ -5201,7 +5203,7 @@ static void disas_sparc_insn(DisasContext * dc, unsigned int insn)
-                         gen_address_mask(dc, cpu_addr);
-                         t64 = tcg_temp_new_i64();
-                         tcg_gen_qemu_ld_i64(t64, cpu_addr,
--                                            dc->mem_idx, MO_TEUQ);
-+                                            dc->mem_idx, MO_TEUQ | MO_ALIGN);
-                         tcg_gen_trunc_i64_tl(cpu_val, t64);
-                         tcg_gen_ext32u_tl(cpu_val, cpu_val);
-                         gen_store_gpr(dc, rd + 1, cpu_val);
-@@ -5217,7 +5219,7 @@ static void disas_sparc_insn(DisasContext * dc, unsigned int insn)
-                 case 0xa:       /* ldsh, load signed halfword */
-                     gen_address_mask(dc, cpu_addr);
-                     tcg_gen_qemu_ld_tl(cpu_val, cpu_addr,
--                                       dc->mem_idx, MO_TESW);
-+                                       dc->mem_idx, MO_TESW | MO_ALIGN);
-                     break;
-                 case 0xd:       /* ldstub */
-                     gen_ldstub(dc, cpu_val, cpu_addr, dc->mem_idx);
-@@ -5272,12 +5274,12 @@ static void disas_sparc_insn(DisasContext * dc, unsigned int insn)
-                 case 0x08: /* V9 ldsw */
-                     gen_address_mask(dc, cpu_addr);
-                     tcg_gen_qemu_ld_tl(cpu_val, cpu_addr,
--                                       dc->mem_idx, MO_TESL);
-+                                       dc->mem_idx, MO_TESL | MO_ALIGN);
-                     break;
-                 case 0x0b: /* V9 ldx */
-                     gen_address_mask(dc, cpu_addr);
-                     tcg_gen_qemu_ld_tl(cpu_val, cpu_addr,
--                                       dc->mem_idx, MO_TEUQ);
-+                                       dc->mem_idx, MO_TEUQ | MO_ALIGN);
-                     break;
-                 case 0x18: /* V9 ldswa */
-                     gen_ld_asi(dc, cpu_val, cpu_addr, insn, MO_TESL);
-@@ -5328,7 +5330,7 @@ static void disas_sparc_insn(DisasContext * dc, unsigned int insn)
-                     gen_address_mask(dc, cpu_addr);
-                     cpu_dst_32 = gen_dest_fpr_F(dc);
-                     tcg_gen_qemu_ld_i32(cpu_dst_32, cpu_addr,
--                                        dc->mem_idx, MO_TEUL);
-+                                        dc->mem_idx, MO_TEUL | MO_ALIGN);
-                     gen_store_fpr_F(dc, rd, cpu_dst_32);
-                     break;
-                 case 0x21:      /* ldfsr, V9 ldxfsr */
-@@ -5337,14 +5339,14 @@ static void disas_sparc_insn(DisasContext * dc, unsigned int insn)
-                     if (rd == 1) {
-                         TCGv_i64 t64 = tcg_temp_new_i64();
-                         tcg_gen_qemu_ld_i64(t64, cpu_addr,
--                                            dc->mem_idx, MO_TEUQ);
-+                                            dc->mem_idx, MO_TEUQ | MO_ALIGN);
-                         gen_helper_ldxfsr(cpu_fsr, cpu_env, cpu_fsr, t64);
-                         break;
-                     }
- #endif
-                     cpu_dst_32 = tcg_temp_new_i32();
-                     tcg_gen_qemu_ld_i32(cpu_dst_32, cpu_addr,
--                                        dc->mem_idx, MO_TEUL);
-+                                        dc->mem_idx, MO_TEUL | MO_ALIGN);
-                     gen_helper_ldfsr(cpu_fsr, cpu_env, cpu_fsr, cpu_dst_32);
-                     break;
-                 case 0x22:      /* ldqf, load quad fpreg */
-@@ -5377,7 +5379,7 @@ static void disas_sparc_insn(DisasContext * dc, unsigned int insn)
-                 case 0x4: /* st, store word */
-                     gen_address_mask(dc, cpu_addr);
-                     tcg_gen_qemu_st_tl(cpu_val, cpu_addr,
--                                       dc->mem_idx, MO_TEUL);
-+                                       dc->mem_idx, MO_TEUL | MO_ALIGN);
-                     break;
-                 case 0x5: /* stb, store byte */
-                     gen_address_mask(dc, cpu_addr);
-@@ -5386,7 +5388,7 @@ static void disas_sparc_insn(DisasContext * dc, unsigned int insn)
-                 case 0x6: /* sth, store halfword */
-                     gen_address_mask(dc, cpu_addr);
-                     tcg_gen_qemu_st_tl(cpu_val, cpu_addr,
--                                       dc->mem_idx, MO_TEUW);
-+                                       dc->mem_idx, MO_TEUW | MO_ALIGN);
-                     break;
-                 case 0x7: /* std, store double word */
-                     if (rd & 1)
-@@ -5400,7 +5402,7 @@ static void disas_sparc_insn(DisasContext * dc, unsigned int insn)
-                         t64 = tcg_temp_new_i64();
-                         tcg_gen_concat_tl_i64(t64, lo, cpu_val);
-                         tcg_gen_qemu_st_i64(t64, cpu_addr,
--                                            dc->mem_idx, MO_TEUQ);
-+                                            dc->mem_idx, MO_TEUQ | MO_ALIGN);
-                     }
-                     break;
- #if !defined(CONFIG_USER_ONLY) || defined(TARGET_SPARC64)
-@@ -5424,7 +5426,7 @@ static void disas_sparc_insn(DisasContext * dc, unsigned int insn)
-                 case 0x0e: /* V9 stx */
-                     gen_address_mask(dc, cpu_addr);
-                     tcg_gen_qemu_st_tl(cpu_val, cpu_addr,
--                                       dc->mem_idx, MO_TEUQ);
-+                                       dc->mem_idx, MO_TEUQ | MO_ALIGN);
-                     break;
-                 case 0x1e: /* V9 stxa */
-                     gen_st_asi(dc, cpu_val, cpu_addr, insn, MO_TEUQ);
-@@ -5442,7 +5444,7 @@ static void disas_sparc_insn(DisasContext * dc, unsigned int insn)
-                     gen_address_mask(dc, cpu_addr);
-                     cpu_src1_32 = gen_load_fpr_F(dc, rd);
-                     tcg_gen_qemu_st_i32(cpu_src1_32, cpu_addr,
--                                        dc->mem_idx, MO_TEUL);
-+                                        dc->mem_idx, MO_TEUL | MO_ALIGN);
-                     break;
-                 case 0x25: /* stfsr, V9 stxfsr */
-                     {
-@@ -5450,12 +5452,12 @@ static void disas_sparc_insn(DisasContext * dc, unsigned int insn)
-                         gen_address_mask(dc, cpu_addr);
-                         if (rd == 1) {
-                             tcg_gen_qemu_st_tl(cpu_fsr, cpu_addr,
--                                               dc->mem_idx, MO_TEUQ);
-+                                               dc->mem_idx, MO_TEUQ | MO_ALIGN);
-                             break;
-                         }
- #endif
-                         tcg_gen_qemu_st_tl(cpu_fsr, cpu_addr,
--                                           dc->mem_idx, MO_TEUL);
-+                                           dc->mem_idx, MO_TEUL | MO_ALIGN);
-                     }
-                     break;
-                 case 0x26:
 -- 
 2.34.1
 
