@@ -2,150 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93DA36F87D0
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 May 2023 19:43:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B3AA76F87FC
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 May 2023 19:49:44 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1puzRt-0008OC-Dh; Fri, 05 May 2023 13:42:29 -0400
+	id 1puzXT-0002Ju-Tq; Fri, 05 May 2023 13:48:15 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <tsimpson@quicinc.com>)
- id 1puzRq-0008Nl-Ac
- for qemu-devel@nongnu.org; Fri, 05 May 2023 13:42:26 -0400
-Received: from mx0b-0031df01.pphosted.com ([205.220.180.131])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <tsimpson@quicinc.com>)
- id 1puzRo-0001Vw-0U
- for qemu-devel@nongnu.org; Fri, 05 May 2023 13:42:25 -0400
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 345Dhhcc001195
- for <qemu-devel@nongnu.org>; Fri, 5 May 2023 17:42:22 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=from : to : subject
- : date : message-id : references : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=qcppdkim1;
- bh=oXkGlqS3QVjD62KbqwI4Z3mOgqSbl62bg2XyliFN7Zs=;
- b=JUNbc01OPhYwlb/GhtNZK9+jsn/kyMaj+DbMCCdEjB+rl9vO0hPYscB6DASxiwMjFuHr
- P7mhb2TAAlQnuEbQuVVir8w4L5OmdBXFSd4oJ32Bg7J8cQwJLnae6GnIaV+P6OQYR1ax
- sWD38U+zFqfBHUPZH9JScfjgfCapVOYFNi2pGtpdOpk3l/MUXlCU05731eaBUVBuyr7k
- q3y82ojTTrexVAJV33GqijE60adLy9B2QxmPTMY0ECo0woQMoqg2bmyMvOo5xPfm5R2j
- 6r+1EN8kcML98uK94IwXS93HdDySIlLE6RDlzfKjRCzV1K5dUzRFcKUHyaGMyO0n71K2 dQ== 
-Received: from nam12-mw2-obe.outbound.protection.outlook.com
- (mail-mw2nam12lp2040.outbound.protection.outlook.com [104.47.66.40])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3qcsa9hsne-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Fri, 05 May 2023 17:42:21 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Sm+Us7JEfCl6StsNkfmRjYqAGeXE1eXcr6bSTEoONVT7nwyvqY/U3O0kwQqlbACb4C9Oxt30Dd35nHeYmuYl7QipEJwEh8/5Ywg9M98nCmInbTZhmAjT9b+WGXGVgFuM921fEGAijcoZRyKwEr/KXUAP3XV1tY2l0s6pEWnVniaUjhUBoTUPqfA9Lg3+0X9J6KItMuxgE0L3ViLxHfcvh0M2bJ9m0gBApmpqKrTSzoPAowYxvEehlkX8M6TWvjww/MdybUinFqGDRPdeyAwQDt1iFBAp4LQ2pglRWR4IW8n3RBAQEkAsXTDTi3fvkcIIV3sM2O79Z3dicUgYxXUP3w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=oXkGlqS3QVjD62KbqwI4Z3mOgqSbl62bg2XyliFN7Zs=;
- b=Lrc8Na0SEa4Hh1l+6cRqFwxYh11adDZIFTBOi7kP6DiSybwrLZSbEciNIEHh7H1t62OXObwEfvMTrgo4qJIzPDq3962Ws+q9skA1DgERIJQrM/LtSHGg+U8WDKu1/uWTjAK4v4sgFcBgvvrpV+gPml5flrDffQGAYoRJ2M29yVv49zgMc6FBQefGrJSnzM0bwi/g9rS36D6UmEkZye75y4CkxQpFJdAeep0021vQhuE4NFQy3zhhOk3Esa+30nB5OKppaqu/pDmAQsH9iZ2Xe7RgR2J2o7jscyit90HawQIi6oCosre5VCxrBTbZgJXT/gxtF9HF8ZPf42vxNSlGbg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=quicinc.com; dmarc=pass action=none header.from=quicinc.com;
- dkim=pass header.d=quicinc.com; arc=none
-Received: from SN4PR0201MB8808.namprd02.prod.outlook.com
- (2603:10b6:806:203::12) by MN2PR02MB6944.namprd02.prod.outlook.com
- (2603:10b6:208:209::9) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6363.27; Fri, 5 May
- 2023 17:42:16 +0000
-Received: from SN4PR0201MB8808.namprd02.prod.outlook.com
- ([fe80::eb63:d1c0:28de:72f5]) by SN4PR0201MB8808.namprd02.prod.outlook.com
- ([fe80::eb63:d1c0:28de:72f5%8]) with mapi id 15.20.6363.026; Fri, 5 May 2023
- 17:42:15 +0000
-From: Taylor Simpson <tsimpson@quicinc.com>
-To: "Matheus Bernardino (QUIC)" <quic_mathbern@quicinc.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-Subject: RE: [PATCH] Hexagon (decode): look for pkts with multiple insns at
- the same slot
-Thread-Topic: [PATCH] Hexagon (decode): look for pkts with multiple insns at
- the same slot
-Thread-Index: AQHZfrom+lLq3j1PGUe6kW2gWcsAlq9L9Abg
-Date: Fri, 5 May 2023 17:42:15 +0000
-Message-ID: <SN4PR0201MB8808B7A7E1A508D2861873FDDE729@SN4PR0201MB8808.namprd02.prod.outlook.com>
-References: <7a90f0925f182e56cf49ec3ec01484739fa2f174.1683226473.git.quic_mathbern@quicinc.com>
-In-Reply-To: <7a90f0925f182e56cf49ec3ec01484739fa2f174.1683226473.git.quic_mathbern@quicinc.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: SN4PR0201MB8808:EE_|MN2PR02MB6944:EE_
-x-ms-office365-filtering-correlation-id: f0cd02c2-27c3-4026-3a6a-08db4d9010b3
-x-ld-processed: 98e9ba89-e1a1-4e38-9007-8bdabc25de1d,ExtAddr
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: Ea9ExDSKmo0eNJVX1UEIKa9vM2dCC0EBO2GZp3k8deobPaSsFPIraZm82IEbGZi91whKY957KfxnAwbXkVFzVlFcMkOqDvG17dzHZAMq95b37AdS6jUyn4e62kwnljJdKuXUIrHjBpe9D3natHD8EGY8F9uQx3UyLh4QRBp9C+b8fGTKuwqpRF3IPppnue4Zcbojq8IA02TwRxT/L2bSSafQF2sR8yc9RbaSqCqKmQEKejcz3FR+mhWFYVsH02KXZxxMARuahM5xv91TgaZEBfFDfYR2J1c7asE08aoRgnHeJjltOBlYveIit5GujEGjqzCKReLebg8Zj+Ot0eksRur8WnQ6co4kMuF+Kntm6a60v+yw7EWTkBqbArM4+QZee7AQjPsyCeqYyobDPmr0RCqP+rgZZ/bFk+D4k3MAOEde24D9/5XuqRH2nsLMwsEa0gIvNAEecQemIjHWO+0uGUrxtCVWnO9c3nMZ2gD07NnFP9rm8XRsG630qVV+YqhIJNONHzh3sMdmNSHkGbv0YUD0+7cwHMyYr9oiAOFtRoFtFVR5Cr2YHYEv6UL6ox4vE59pa4yHGeZrXJ2RFV9UMvZYls7ti15NPZuEWWib60o=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SN4PR0201MB8808.namprd02.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230028)(4636009)(396003)(136003)(376002)(39860400002)(366004)(346002)(451199021)(64756008)(66446008)(52536014)(66946007)(76116006)(71200400001)(41300700001)(66556008)(66476007)(8936002)(5660300002)(8676002)(966005)(110136005)(9686003)(26005)(6506007)(53546011)(478600001)(316002)(7696005)(2906002)(83380400001)(33656002)(186003)(86362001)(38070700005)(55016003)(122000001)(38100700002);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?FxM+PHP2DimOCn2/LDN8odkPNJo8xNkyWGnwLIIPOphGiYn/tq8FjvSAK+8y?=
- =?us-ascii?Q?TX/aRH3oWA7AL7J9F3i2EfptWbqDRmLuNU2aWHK5ZdkKKGURUnWiO63O8UH8?=
- =?us-ascii?Q?RfiWh8079ebId6WMj/fMUHwo75UCpDb1oAJYmt9TbWb+w76B/rII3MHq6nN1?=
- =?us-ascii?Q?HJIflSbk53Uomogj5L6JAJBX79El/m3t8FMFo/J1+r9S0+gtWRU07RfSs78j?=
- =?us-ascii?Q?DSwGn76PmDS0/Y5mETHB1nkbBPcx+BWzjXgHrMoLOoLRQ8XPy5OatIJ8T2u4?=
- =?us-ascii?Q?+GDhvvfAjf30TjlbYRrftbgjoox+yGx28qq4mwbnEoaQXV61WRXLIhM7lpDB?=
- =?us-ascii?Q?aXdMSV+dsIzNk2BpM/tx445+iUYA57qZVzyDueXiJHnJt7jFFJEOMLkZeiod?=
- =?us-ascii?Q?g1KWfTbETMDuAm6Ui+4OOS03v4rEwuJjAsnrWxXSceHmz9HxVJLQ/VqVqj2F?=
- =?us-ascii?Q?Nuy8/Q14qBcWDQozwkTpvW7LF6SBgqDQqLAIixdoP44vdlCXPBsZIjmiOVuy?=
- =?us-ascii?Q?rtC39xg/8IWhZHII0gEYoMnbwrEsNZy+EGeOS5Vqik1d8wrRQJSRs+YFqNhG?=
- =?us-ascii?Q?hybRosvlFTJq1KlNbUXtTzS/prZlagUOnzTCDIESik7+vHtwp6oNWiDJ5Zlu?=
- =?us-ascii?Q?uBN5MMW5uwwBslga3ArDHhEdpnye5P82Aev+VmvJ3rEkIyBuytSI/kv6QSSr?=
- =?us-ascii?Q?CKl27wQxR6E+6uE4WKuEoyIeEldggp7t9/LNTvV598OkIp5DxCyts/IDR5sR?=
- =?us-ascii?Q?OaObFesfz8jPhyldSCM4UO1/STkmuUXsVviXo9CXxCcvikz4qFQa9zwmhiVX?=
- =?us-ascii?Q?qHUkLA48gmTWuQnxgSwi+12Ek01omGLuu7lPeueMlvT6CD9WK3P7T77tDxbM?=
- =?us-ascii?Q?vxiRN+LJXVNcxMy6vfBFoQMBsCuIxqTOe0ujZaDKGjvRjO6Hzpf+u/NlTzaJ?=
- =?us-ascii?Q?ONRxhV3L6yCobnZ+SbnCaPwGOSQX0plul17rII0erKDYWqb+t+ZGU22cl1fR?=
- =?us-ascii?Q?Lihk8vBgRXOWbp/g9xm51rbRbg2ZTzMMenAJs0tHLTlQ8b7qp7au+zXOCLtA?=
- =?us-ascii?Q?Zgg8XbFGQoqtB4g8LFnKTzHeJ8cRplsXz7KgQLw74UvLBJnGuDwZ9Ho+ydjA?=
- =?us-ascii?Q?3TwlAjT6moQdew2iULCedgpbTPY1R5qTDUUVP/0C4Z103fAIqUotZVNKt4Az?=
- =?us-ascii?Q?EsshfbEWmtRG2SZ7pzY/WRL3A6ylovokAnlA8od28Sm5Kh2EUUd7rUMeRpKK?=
- =?us-ascii?Q?/uuAGfl4pLvriuNFljnHmQQsPoBq9saXdvsTP/TzNaC6ZyciKTijphKRw4k/?=
- =?us-ascii?Q?vkuZc6j+SQSqhVbjh3A5IZ/aoc0gV0mShjlvkx4Nt5slJUqHXhA+JOtpNfiw?=
- =?us-ascii?Q?OLXUrkGmWpdFPr538DFdI4+5CEAXnTpjbGKb85TEfj1cwg+Hn34/mrTpaLMs?=
- =?us-ascii?Q?RPMAYUe/wOEeIFmgpbiqquI3ioFYXRNHQlh4npcOnm7jtwAvDH0ecVX5OdU5?=
- =?us-ascii?Q?DDfy7jcZcZpBVeeFtDYXQRtxXeqaDijOSqFcVqKeSz4mxlbBEtdH4PiGNcLs?=
- =?us-ascii?Q?pkVu0a5WaXIP6Ka3vGAwbn1Rr6UKWMn5C5ExD6GI?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1puzXR-0002Jb-VK
+ for qemu-devel@nongnu.org; Fri, 05 May 2023 13:48:13 -0400
+Received: from mail-ej1-x631.google.com ([2a00:1450:4864:20::631])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1puzXP-0002i0-IV
+ for qemu-devel@nongnu.org; Fri, 05 May 2023 13:48:13 -0400
+Received: by mail-ej1-x631.google.com with SMTP id
+ a640c23a62f3a-9659f452148so365384866b.1
+ for <qemu-devel@nongnu.org>; Fri, 05 May 2023 10:48:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1683308889; x=1685900889;
+ h=content-transfer-encoding:mime-version:message-id:references
+ :in-reply-to:subject:cc:to:from:date:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=VXsiXpoBEqZ9gVERLRv5txGBQz69VASVlMJeMLyMj1k=;
+ b=ftMNMITAFApsjJLsgNTNJL4TLazHi4mXf7+gilHuPVhIb0xSDfbFF0xBGfFEUQzGPd
+ +kV0NJRcBuUL24kKAuslhAdE0LV1fHV3o3PEG+aA/DbwMQhOMU/fW27Dn9gAbHqxitDg
+ NTbMEEh+gYcixVEQWYHgqXchvtVPGo5mZnCvqP+C5j6Q8jSUTrt34DcV5suv/oxJFTR/
+ 0J9MOaHiRxkCmJO28BdPCwnMq7USColGgR/xxAJ7hA5FSxYvwwogDe9+T1BjefxsRo9v
+ QVSDV7Q5E1Jg4l2DLPL9IfIsHTzktGlsNvnIKL7WD6AcLoWgC1HadXANcphUQXb+AWX3
+ nRMg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1683308889; x=1685900889;
+ h=content-transfer-encoding:mime-version:message-id:references
+ :in-reply-to:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=VXsiXpoBEqZ9gVERLRv5txGBQz69VASVlMJeMLyMj1k=;
+ b=LHu3pBGfpQEfRJzZE3dDHa3jwbIt0mPjw+faNbkJp2afpEY3QbckNNjceUXp2bTM8H
+ F3FMJh2CvKtE6pbAYG9mdyG6L07mF3w40b26eoCYTF36qKn0GrxjG5cBfOPIMTYk5R4s
+ z0LrDYbtv7pvP4bK9LRU21vNVuLW5P7HMB/ffMiE5rnRYwdJp/42cemgLgmaS8wk4Kf3
+ G6Hdj8mvdsKXFPeb4HBgJ3AWGIQGBI34Chb6j3gCJjT/l1Y7x7l9ByIF0SgpiOqE+/6v
+ o+HlJTasAlZ1B+R65kNV9q4aiWp/RoUF8UISKkScjIWKaKcvD8VxkmcZbDyCjadg1ipX
+ KJ8A==
+X-Gm-Message-State: AC+VfDwXlM5dHGeDOInBNB0dOA3DPl6e2rgzBVn+r4s14RM727kUGQ4r
+ t9CvUvOw+qhM5PC+5+AcpG4=
+X-Google-Smtp-Source: ACHHUZ7jCkm+caMwg5ZzdsMP1lZUs18LMgVs77ic2e3RbkbGfZnPC3yeqftI0G534slBye9Xt6A9tw==
+X-Received: by 2002:a17:907:9281:b0:960:ddba:e5c5 with SMTP id
+ bw1-20020a170907928100b00960ddbae5c5mr2050173ejc.11.1683308889022; 
+ Fri, 05 May 2023 10:48:09 -0700 (PDT)
+Received: from [127.0.0.1] (dynamic-077-011-099-137.77.11.pool.telefonica.de.
+ [77.11.99.137]) by smtp.gmail.com with ESMTPSA id
+ bj6-20020a170906b04600b0096595cc0810sm1235013ejb.72.2023.05.05.10.48.08
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 05 May 2023 10:48:08 -0700 (PDT)
+Date: Fri, 05 May 2023 17:47:57 +0000
+From: Bernhard Beschow <shentey@gmail.com>
+To: Gurchetan Singh <gurchetansingh@chromium.org>
+CC: qemu-devel@nongnu.org, philmd@linaro.org, kraxel@redhat.com,
+ marcandre.lureau@redhat.com, akihiko.odaki@gmail.com,
+ dmitry.osipenko@collabora.com, ray.huang@amd.com, alex.bennee@linaro.org
+Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_v2_3/5=5D_hw/display/virtio-gpu-v?=
+ =?US-ASCII?Q?irgl=3A_define_callbacks_in_realize_function?=
+In-Reply-To: <CAAfnVB=8C3S8wzBQiSrPyNk0CwCLPeb3cvS6x9VS55J4aJncfA@mail.gmail.com>
+References: <20230428164823.789-1-gurchetansingh@google.com>
+ <20230428164823.789-3-gurchetansingh@google.com>
+ <0DAAC63B-0C0F-44C4-B7EB-ACD6C9A36BF1@gmail.com>
+ <CAAfnVB=8C3S8wzBQiSrPyNk0CwCLPeb3cvS6x9VS55J4aJncfA@mail.gmail.com>
+Message-ID: <6E514B4B-9185-424E-832E-01813DE8E83F@gmail.com>
 MIME-Version: 1.0
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: z5YjCch4F54x1w3y/WDLMhbF8x5JXmaqywuu9SogPiEp7jD8SrtLej63e0X7cB85cLLJ5oaV3zRvcnBAluemE6AVoNKHcmpDNH0qKOkivj7JqBwkVHKGEzCUaF23+zgQ3jKXPHTH97OyktuaffgYhmFeef+SdKV8AEzPpl5tyV0MItwkaitgcBG0fQ5uDfFCzJ0p4yOlXstXmNO3gajHefqgKqk7wS8t8PzfqggLP2u/SO5D49wtz/5WgD7Nwyd0ccY2uG2lqz8sviFuhgGV0fYtWbRo1KHs1y3C1SD9msvelCxEUW/vISjNw7UNf0oqAo6RXJn7vlV7RZvX0/gWh+sevuFPevz6TfqGYLkfJ5bLgUgNsUqUtb+Tgacxw67TrmUgFmGFgOl8Kj23OhjcZGLEMGuFcabQeHF4vbReW+KzjQiFg2rpELYsPznZ3Nf/F5P2DEjBxfhE+w1o6pdCsppz2nXnIvXzqcZ1YCXA9jfvXEgRWkW4+c87snHqfSRDRf1wNSLzDYGJ0BWK5HEXc4mBraNDRl73iUucvZY3IWjiC/bdtJkaECFHcsJXKY1nYiONGLokZLp2lZ7SognRw1wLKaT/wpJ3ROPTdIDPPCdLeBAguhogdb/SfVhkfQN+X/93sRLjRoRxJnM8DkKSg5emvngmbZieSESp1dIb6Q2varNScrxNtmNwH6954skSvr1Z/rHQ0yJ9jO4BtMPYYd/CpXrvWkV+t2xIa1YjQ31ARkpsKw+RPVdemUb5YEkBtOEo3H9E55O08NYbdAicsA==
-X-OriginatorOrg: quicinc.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SN4PR0201MB8808.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f0cd02c2-27c3-4026-3a6a-08db4d9010b3
-X-MS-Exchange-CrossTenant-originalarrivaltime: 05 May 2023 17:42:15.3663 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 98e9ba89-e1a1-4e38-9007-8bdabc25de1d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: q0+xb3jYC9hrBOBriiq1KneEl0WCLHAv6bUogF4nbj2wXU4QUhWt+CcfuAEtHVnspuUoy4gum0pzgTlmDx/9MQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR02MB6944
-X-Proofpoint-ORIG-GUID: Wu0aNv1F-4mny3I8OQbJoTo05JlAMigq
-X-Proofpoint-GUID: Wu0aNv1F-4mny3I8OQbJoTo05JlAMigq
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-05-05_23,2023-05-05_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 bulkscore=0
- spamscore=0 lowpriorityscore=0 clxscore=1015 adultscore=0 mlxlogscore=554
- priorityscore=1501 suspectscore=0 impostorscore=0 phishscore=0
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2303200000 definitions=main-2305050144
-Received-SPF: pass client-ip=205.220.180.131;
- envelope-from=tsimpson@quicinc.com; helo=mx0b-0031df01.pphosted.com
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::631;
+ envelope-from=shentey@gmail.com; helo=mail-ej1-x631.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -161,49 +96,300 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+Am 1=2E Mai 2023 16:53:03 UTC schrieb Gurchetan Singh <gurchetansingh@chrom=
+ium=2Eorg>:
+>On Sun, Apr 30, 2023 at 2:48=E2=80=AFPM Bernhard Beschow <shentey@gmail=
+=2Ecom> wrote:
+>
+>>
+>>
+>> Am 28=2E April 2023 16:48:21 UTC schrieb Gurchetan Singh <
+>> gurchetansingh@chromium=2Eorg>:
+>> >From: Gurchetan Singh <gurchetansingh@chromium=2Eorg>
+>> >
+>> >This reduces the amount of renderer backend specific needed to
+>> >be exposed to the GL device=2E  We only need one realize function
+>> >per renderer backend=2E
+>> >
+>> >Signed-off-by: Gurchetan Singh <gurchetansingh@chromium=2Eorg>
+>> >Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro=2Eorg>
+>> >---
+>> >v1: - Remove NULL inits (Philippe)
+>> >    - Use VIRTIO_GPU_BASE where possible (Philippe)
+>> >v2: - Fix unnecessary line break (Akihiko)
+>> >
+>> > hw/display/virtio-gpu-gl=2Ec     | 15 ++++++---------
+>> > hw/display/virtio-gpu-virgl=2Ec  | 35 ++++++++++++++++++++++++-------=
+---
+>> > include/hw/virtio/virtio-gpu=2Eh |  7 -------
+>> > 3 files changed, 31 insertions(+), 26 deletions(-)
+>> >
+>> >diff --git a/hw/display/virtio-gpu-gl=2Ec b/hw/display/virtio-gpu-gl=
+=2Ec
+>> >index 2d140e8792=2E=2Ecdc9483e4d 100644
+>> >--- a/hw/display/virtio-gpu-gl=2Ec
+>> >+++ b/hw/display/virtio-gpu-gl=2Ec
+>> >@@ -21,6 +21,11 @@
+>> > #include "hw/virtio/virtio-gpu-pixman=2Eh"
+>> > #include "hw/qdev-properties=2Eh"
+>> >
+>> >+static void virtio_gpu_gl_device_realize(DeviceState *qdev, Error **e=
+rrp)
+>> >+{
+>> >+    virtio_gpu_virgl_device_realize(qdev, errp);
+>> >+}
+>> >+
+>> > static Property virtio_gpu_gl_properties[] =3D {
+>> >     DEFINE_PROP_BIT("stats", VirtIOGPU, parent_obj=2Econf=2Eflags,
+>> >                     VIRTIO_GPU_FLAG_STATS_ENABLED, false),
+>> >@@ -31,16 +36,8 @@ static void virtio_gpu_gl_class_init(ObjectClass
+>> *klass, void *data)
+>> > {
+>> >     DeviceClass *dc =3D DEVICE_CLASS(klass);
+>> >     VirtioDeviceClass *vdc =3D VIRTIO_DEVICE_CLASS(klass);
+>> >-    VirtIOGPUBaseClass *vbc =3D VIRTIO_GPU_BASE_CLASS(klass);
+>> >-    VirtIOGPUClass *vgc =3D VIRTIO_GPU_CLASS(klass);
+>> >-
+>> >-    vbc->gl_flushed =3D virtio_gpu_virgl_flushed;
+>> >-    vgc->handle_ctrl =3D virtio_gpu_virgl_handle_ctrl;
+>> >-    vgc->process_cmd =3D virtio_gpu_virgl_process_cmd;
+>> >-    vgc->update_cursor_data =3D virtio_gpu_virgl_update_cursor;
+>> >
+>> >-    vdc->realize =3D virtio_gpu_virgl_device_realize;
+>> >-    vdc->reset =3D virtio_gpu_virgl_reset;
+>> >+    vdc->realize =3D virtio_gpu_gl_device_realize;
+>> >     device_class_set_props(dc, virtio_gpu_gl_properties);
+>> > }
+>> >
+>> >diff --git a/hw/display/virtio-gpu-virgl=2Ec b/hw/display/virtio-gpu-v=
+irgl=2Ec
+>> >index 786351446c=2E=2Ed7e01f1c77 100644
+>> >--- a/hw/display/virtio-gpu-virgl=2Ec
+>> >+++ b/hw/display/virtio-gpu-virgl=2Ec
+>> >@@ -401,8 +401,9 @@ static void virgl_cmd_get_capset(VirtIOGPU *g,
+>> >     g_free(resp);
+>> > }
+>> >
+>> >-void virtio_gpu_virgl_process_cmd(VirtIOGPU *g,
+>> >-                                      struct virtio_gpu_ctrl_command
+>> *cmd)
+>> >+static void
+>> >+virtio_gpu_virgl_process_cmd(VirtIOGPU *g,
+>> >+                             struct virtio_gpu_ctrl_command *cmd)
+>> > {
+>> >     VIRTIO_GPU_FILL_CMD(cmd->cmd_hdr);
+>> >
+>> >@@ -637,7 +638,7 @@ static int virtio_gpu_virgl_get_num_capsets(VirtIO=
+GPU
+>> *g)
+>> >     return capset2_max_ver ? 2 : 1;
+>> > }
+>> >
+>> >-void virtio_gpu_virgl_update_cursor(VirtIOGPU *g,
+>> >+static void virtio_gpu_virgl_update_cursor(VirtIOGPU *g,
+>> >                                struct virtio_gpu_scanout *s,
+>> >                                uint32_t resource_id)
+>> > {
+>> >@@ -660,14 +661,14 @@ void virtio_gpu_virgl_update_cursor(VirtIOGPU *g=
+,
+>> >     free(data);
+>> > }
+>> >
+>> >-void virtio_gpu_virgl_flushed(VirtIOGPUBase *b)
+>> >+static void virtio_gpu_virgl_flushed(VirtIOGPUBase *b)
+>> > {
+>> >     VirtIOGPU *g =3D VIRTIO_GPU(b);
+>> >
+>> >     virtio_gpu_process_cmdq(g);
+>> > }
+>> >
+>> >-void virtio_gpu_virgl_handle_ctrl(VirtIODevice *vdev, VirtQueue *vq)
+>> >+static void virtio_gpu_virgl_handle_ctrl(VirtIODevice *vdev, VirtQueu=
+e
+>> *vq)
+>> > {
+>> >     VirtIOGPU *g =3D VIRTIO_GPU(vdev);
+>> >     VirtIOGPUGL *gl =3D VIRTIO_GPU_GL(vdev);
+>> >@@ -699,7 +700,7 @@ void virtio_gpu_virgl_handle_ctrl(VirtIODevice *vd=
+ev,
+>> VirtQueue *vq)
+>> >     virtio_gpu_virgl_fence_poll(g);
+>> > }
+>> >
+>> >-void virtio_gpu_virgl_reset(VirtIODevice *vdev)
+>> >+static void virtio_gpu_virgl_reset(VirtIODevice *vdev)
+>> > {
+>> >     VirtIOGPU *g =3D VIRTIO_GPU(vdev);
+>> >     VirtIOGPUGL *gl =3D VIRTIO_GPU_GL(vdev);
+>> >@@ -718,7 +719,21 @@ void virtio_gpu_virgl_reset(VirtIODevice *vdev)
+>> >
+>> > void virtio_gpu_virgl_device_realize(DeviceState *qdev, Error **errp)
+>> > {
+>> >-    VirtIOGPU *g =3D VIRTIO_GPU(qdev);
+>> >+    VirtIODevice *vdev =3D VIRTIO_DEVICE(qdev);
+>> >+    VirtioDeviceClass *vdc =3D VIRTIO_DEVICE_GET_CLASS(vdev);
+>> >+
+>> >+    VirtIOGPUBase *bdev =3D VIRTIO_GPU_BASE(qdev);
+>> >+    VirtIOGPUBaseClass *vbc =3D VIRTIO_GPU_BASE_GET_CLASS(bdev);
+>> >+
+>> >+    VirtIOGPU *gpudev =3D VIRTIO_GPU(qdev);
+>> >+    VirtIOGPUClass *vgc =3D VIRTIO_GPU_GET_CLASS(gpudev);
+>> >+
+>> >+    vbc->gl_flushed =3D virtio_gpu_virgl_flushed;
+>> >+    vgc->handle_ctrl =3D virtio_gpu_virgl_handle_ctrl;
+>> >+    vgc->process_cmd =3D virtio_gpu_virgl_process_cmd;
+>> >+    vgc->update_cursor_data =3D virtio_gpu_virgl_update_cursor;
+>> >+
+>> >+    vdc->reset =3D virtio_gpu_virgl_reset;
+>>
+>> A realize method is supposed to modify a single instance only while we'=
+re
+>> modifying the behavior of whole classes here, i=2Ee=2E will affect ever=
+y
+>> instance of these classes=2E
+>
+>This goes against QOM design principles and will therefore be confusing f=
+or
+>> people who are familiar with QOM in particular and OOP in general=2E
+>
+>
+>Context: this is a cleanup in preparation for the gfxstream/rutabaga
+>support:
+>
+> https://patchew=2Eorg/QEMU/20230421011223=2E718-1-gurchetansingh@chromiu=
+m=2Eorg/
 
+Judging from this series the benefit of having a common -gl class isn't th=
+at big: AFAICS the only synergy effect is sharing a few properties which IM=
+O don't warrant sharing=2E IOW the almost non-existant benefit rather confi=
+rms the current design=2E The last word needs to be spoken by the maintaine=
+rs though=2E
 
-> -----Original Message-----
-> From: Matheus Tavares Bernardino <quic_mathbern@quicinc.com>
-> Sent: Thursday, May 4, 2023 1:57 PM
-> To: qemu-devel@nongnu.org
-> Cc: Taylor Simpson <tsimpson@quicinc.com>
-> Subject: [PATCH] Hexagon (decode): look for pkts with multiple insns at t=
-he
-> same slot
->=20
-> Each slot in a packet can be assigned to at most one instruction.
-> Although the assembler generally ought to enforce this rule, we better be
-> safe than sorry and also do some check to properly throw an "invalid pack=
-et"
-> exception on wrong slot assignments.
->=20
-> This should also make it easier to debug possible future errors caused by
-> missing updates to `find_iclass_slots()` rules in target/hexagon/iclass.c=
-.
->=20
-> Signed-off-by: Matheus Tavares Bernardino <quic_mathbern@quicinc.com>
-> Reviewed-by: Taylor Simpson <tsimpson@quicinc.com>
-> ---
-> I extracted this patch from [1]. There are more changes needed to support
-> v73 in qemu, so the first patch in that series doesn't make sense to be
-> incorporated yet. This one is useful nonetheless.
->=20
-> [1]: https://lore.kernel.org/qemu-
-> devel/cover.1673616964.git.quic_mathbern@quicinc.com/
->=20
->  target/hexagon/decode.c           | 30 +++++++++++++++++++++++++++---
->  tests/tcg/hexagon/invalid-slots.c | 29 +++++++++++++++++++++++++++++
-> tests/tcg/hexagon/Makefile.target | 11 +++++++++++
->  3 files changed, 67 insertions(+), 3 deletions(-)  create mode 100644
-> tests/tcg/hexagon/invalid-slots.c
+>
+>I explored creating a separate "virtio-gpu-rutabaga" device,
 
+Although this approach requires another -pci class it seems cleaner to me =
+due to how the QEMU object model works=2E See below=2E
 
-This breaks the -d in_asm output.
+> but felt it
+>added too much duplicate code (such as virtio-gpu-pci-rutabaga=2Ec and
+>virtio-vga-rutabaga=2Ec)=2E  Please see here:
+>
+>https://gitlab=2Efreedesktop=2Eorg/gurchetansingh/qemu-gfxstream/-/commit=
+s/master
+>
+>for that approach (current approach is in "qemu-gfxstream2" branch)=2E
+>
+>In the current approach, function pointers are modified in realize(=2E=2E=
+)
+>instead of class_init(=2E=2E) since "capset_names" can choose the appropr=
+iate
+>backend, but that variable is only accessible after class_init(=2E=2E)=2E
 
-We need to guard the call to decode_set_slot_number with !disas_only.
+Yeah, your're selecting a backend at runtime by changing a whole class' be=
+havior inside an *instance* of that class=2E This is not how the QEMU objec=
+t model is supposed to work=2E=2E=2E
 
-Thanks,
-Taylor
+>
+>The difference between instance_init() and the realize() has also come up
+>before here:
+>
+>https://lore=2Ekernel=2Eorg/all/268082DD-5FBB-41CC-8718-7D6BAA0D323A@livi=
+us=2Enet/T/#m52be60860e2bf598816ed162f7b6dd070b52cd1d
 
+The link is about a related but different topic=2E It discusses =2Einstanc=
+e_init vs=2E =2Erealize=2E This patch is essentially confusing =2Einstance_=
+init/=2Erealize and =2Eclass_init=2E You can read more about the QEMU objec=
+t model in general and class initialization in particular here: https://www=
+=2Eqemu=2Eorg/docs/master/devel/qom=2Ehtml#class-initialization
+
+>
+>
+>> I think the code should be cleaned up in a different way if really need=
+ed=2E
+>>
+>
+>Sure, if there's a cleaner way, we should definitely explore it=2E  Given=
+ the
+>goal of adding another backend for virtio-gpu, how do you suggest
+>refactoring the code?
+
+I'm no maintainer but my suggestion would be this: Use your first approach=
+ with dedicated classes=2E This would also allow to force the new backend v=
+ia the command line=2E If you really need detection at runtime you could ei=
+ther delegate this to Android Studio (by having it select the best (tm) bac=
+kend via command line) or you might be able to add a so called "sugar prope=
+rty" and have QEMU make the choice (sugar properties exceed my knowledge th=
+ough)=2E
+
+Regarding rutabaga I have the following comments:
+
+Given that rutabaga seems to be an abstraction layer over virgl and gfxstr=
+eam it seems redundant to me=2E QEMU already has an abstraction layer for v=
+arious graphics backends so IMO using another just introduces a maintenance=
+ burden=2E Therefore I suggest introducing a dedicated class wich uses gfxs=
+tream directly=2E The class name could end with -gfxstream to match the tec=
+hnology=2E
+
+Furthermore, rutabaga abstracts two C APIs and is used as C API=2E So the =
+benefit of using Rust seems to be low -- not even mentioning the packaging =
+issues this causes for Linux distributions=2E
+
+Last but not least rutabaga seems to be a personal pet project rather than=
+ something official=2E I guess that QEMU would't want to rely on a personal=
+ pet project=2E
+
+In any case I'd leave the last word to the maintainers=2E
+
+Best regards,
+Bernhard
+>
+>
+>>
+>> Best regards,
+>> Bernhard
+>>
+>> >
+>> > #if HOST_BIG_ENDIAN
+>> >     error_setg(errp, "virgl is not supported on bigendian platforms")=
+;
+>> >@@ -736,9 +751,9 @@ void virtio_gpu_virgl_device_realize(DeviceState
+>> *qdev, Error **errp)
+>> >         return;
+>> >     }
+>> >
+>> >-    g->parent_obj=2Econf=2Eflags |=3D (1 << VIRTIO_GPU_FLAG_VIRGL_ENA=
+BLED);
+>> >-    VIRTIO_GPU_BASE(g)->virtio_config=2Enum_capsets =3D
+>> >-        virtio_gpu_virgl_get_num_capsets(g);
+>> >+    VIRTIO_GPU_BASE(gpudev)->conf=2Eflags |=3D (1 <<
+>> VIRTIO_GPU_FLAG_VIRGL_ENABLED);
+>> >+    VIRTIO_GPU_BASE(gpudev)->virtio_config=2Enum_capsets =3D
+>> >+        virtio_gpu_virgl_get_num_capsets(gpudev);
+>> >
+>> >     virtio_gpu_device_realize(qdev, errp);
+>> > }
+>> >diff --git a/include/hw/virtio/virtio-gpu=2Eh
+>> b/include/hw/virtio/virtio-gpu=2Eh
+>> >index 89ee133f07=2E=2Ed5808f2ab6 100644
+>> >--- a/include/hw/virtio/virtio-gpu=2Eh
+>> >+++ b/include/hw/virtio/virtio-gpu=2Eh
+>> >@@ -277,13 +277,6 @@ int virtio_gpu_update_dmabuf(VirtIOGPU *g,
+>> >                              struct virtio_gpu_rect *r);
+>> >
+>> > /* virtio-gpu-3d=2Ec */
+>> >-void virtio_gpu_virgl_process_cmd(VirtIOGPU *g,
+>> >-                                  struct virtio_gpu_ctrl_command *cmd=
+);
+>> >-void virtio_gpu_virgl_update_cursor(VirtIOGPU *g, struct
+>> virtio_gpu_scanout *s,
+>> >-                                    uint32_t resource_id);
+>> >-void virtio_gpu_virgl_flushed(VirtIOGPUBase *b);
+>> >-void virtio_gpu_virgl_handle_ctrl(VirtIODevice *vdev, VirtQueue *vq);
+>> >-void virtio_gpu_virgl_reset(VirtIODevice *vdev);
+>> > void virtio_gpu_virgl_device_realize(DeviceState *qdev, Error **errp)=
+;
+>> >
+>> > #endif
+>>
 
