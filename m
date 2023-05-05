@@ -2,83 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 595326F8602
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 May 2023 17:41:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA59D6F8628
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 May 2023 17:49:03 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1puxXk-0008RZ-DL; Fri, 05 May 2023 11:40:24 -0400
+	id 1puxen-0001oO-TX; Fri, 05 May 2023 11:47:41 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1puxXj-0008RQ-Bf
- for qemu-devel@nongnu.org; Fri, 05 May 2023 11:40:23 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1puxXh-00051S-Ee
- for qemu-devel@nongnu.org; Fri, 05 May 2023 11:40:23 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1683301220;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=C/9EcHX4qnB9oMTlmvSJDOWM0TiS28NXODPj109Vof4=;
- b=VyRTnVmKhfRz6cXfvHupcE4CPT8Fl6pvvOQFE6VxgkepMf7qJ37qXGUeYuXl5ys+e7JLto
- 8LbSDWCUcgE9iV/KzUOC2v1qIcENHASQVuJqyyyTu+oFzX/U7l3NRq1dE3IHxxuTNQjbmd
- amsSY/jgqHfUlIOUOiLILud73vuice0=
-Received: from mail-yb1-f200.google.com (mail-yb1-f200.google.com
- [209.85.219.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-590-nBYKX7ihMyS9LxlMSelIKw-1; Fri, 05 May 2023 11:40:18 -0400
-X-MC-Unique: nBYKX7ihMyS9LxlMSelIKw-1
-Received: by mail-yb1-f200.google.com with SMTP id
- 3f1490d57ef6-b9a7550dca3so3467829276.0
- for <qemu-devel@nongnu.org>; Fri, 05 May 2023 08:40:18 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <jandryuk@gmail.com>)
+ id 1puxel-0001ny-7D
+ for qemu-devel@nongnu.org; Fri, 05 May 2023 11:47:39 -0400
+Received: from mail-ej1-x630.google.com ([2a00:1450:4864:20::630])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <jandryuk@gmail.com>)
+ id 1puxej-0006JX-9q
+ for qemu-devel@nongnu.org; Fri, 05 May 2023 11:47:38 -0400
+Received: by mail-ej1-x630.google.com with SMTP id
+ a640c23a62f3a-95f4c5cb755so342413366b.0
+ for <qemu-devel@nongnu.org>; Fri, 05 May 2023 08:47:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1683301654; x=1685893654;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=K7a6OP2ZbfbLEcN+mCIl6WNnEQ1CS2Knx9ltqA+VoLI=;
+ b=R1AvNbZqAwJlA3H0R1A+T2HPJ2Zj5UVscGVZpjfbImE5rGBM4MNxQhYvQIR+XVBrFn
+ 3m4JsqJAIFJxRw/njoLt56SrBW3FuBTSONMORidu89m3odaWR0ZIcYHieiQvRWUxj16H
+ cVYSYp/X4VlUpXDksSCC5rIP4VRc3G1g7bQ+PVVNJ+iUO6eJ6nyaQWev6mscWktdNCaA
+ hniLE82vr8l1yp1eOHHv6sEbJ2XSBjNtgr0XMSc+KdaSFBprcbOhltEnj2fWpp1ZXkJ2
+ kFSOlt0thoskG2rshZF7ShIznTKAFqnX6qHwZzUmFCVKXF6r+18C0lX9X0P9L2jBJ4js
+ mD9Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683301218; x=1685893218;
+ d=1e100.net; s=20221208; t=1683301654; x=1685893654;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=C/9EcHX4qnB9oMTlmvSJDOWM0TiS28NXODPj109Vof4=;
- b=FWKMaDOlsdnK4lrv995tru582aBmtqWv/PVvcjU5WzsANJvTbcOZsw24OEMCHr0d1a
- 5Yn63OM76NAv+meQxGKHHsJJ2prLg7ogAPn5+OtKmXPu4nf01IY6OPKwu1ZoZjCiHpWP
- y5Jz5daPix+JQEHzED2QwJY/y8IiynL0acwTVsNNWeLmV6VV9xyFi92l9XnUM8+vThxn
- TH+f0OVWoFRO+AJwWM3dZHxPtz8/BXCE2aLwX85s5Ty0IUNuWidol8NxhMPpuS4pfWSw
- MhUoH0qsHy7H26wNgaSDn47FExaN66TsQtBb0kT29PVCBNHlY3pl0ZHjlq/qTQH6iQGz
- 2wOQ==
-X-Gm-Message-State: AC+VfDyfbWUgQoBB2PeH4Y2ahwR9FEhOzUjxg7T6aP9iSY0CzlNRIrnu
- vo/2ZGhlT7v7YxBGr9VoM5jJVmYNcafHDg26JEhhNsEzAp42VehkkQfHy57qamju0TyYMiS/YwW
- BIhfI9Czyi18eHcxqZf6qW9eRmYEOWiM=
-X-Received: by 2002:a25:7355:0:b0:b9a:7cfe:9bed with SMTP id
- o82-20020a257355000000b00b9a7cfe9bedmr2189880ybc.14.1683301218397; 
- Fri, 05 May 2023 08:40:18 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ7TyuGIz124zW1XOQ9+tR3X/RWUykO0mZBatLAhzYK55mffFR6vboCYQ5K9bFQES91urDNvn034bOx4kYiTHCI=
-X-Received: by 2002:a25:7355:0:b0:b9a:7cfe:9bed with SMTP id
- o82-20020a257355000000b00b9a7cfe9bedmr2189868ybc.14.1683301218170; Fri, 05
- May 2023 08:40:18 -0700 (PDT)
+ bh=K7a6OP2ZbfbLEcN+mCIl6WNnEQ1CS2Knx9ltqA+VoLI=;
+ b=e+1CiEAyA0x4dKxL16fE8GbNgkzQ8BNFJBUCiP8XpHZjkdUN31t9ed18YKXSPS/bZK
+ NzrHAqqhFoDdrCwuDvTOpCFKfzVbolQ3c9z4y+lt7dYlFfN55Jo5GCL/d4fnRmSnCE9+
+ 3tk7+7+AcvPKclKGOPEl0bCEltsTWdviOeYEDdSwwM9BMIEfOUSk9mKBo6tLHtnQAngs
+ L/K2j4O3LE/5m/goXMzmAq28rZMOAEDNkd0ldIsX7l7mDzY2HPkJI6q0SIkKfwnaxAvR
+ /xhJ/KDvUeFPnTFEAgHlJJLcto1cXeUYm2B3xZw3BEN/+TirF+MYvVaVD4ZSz6EbzAXu
+ 28hQ==
+X-Gm-Message-State: AC+VfDzVkXHvfS0VUUCdPFXOTuQGU90DmkuLnw187mjH+BhwNLrrflkw
+ 2Dff9zRI2steijPZj2G/nqf8dBHIEvX6fMUc/jg=
+X-Google-Smtp-Source: ACHHUZ6hX1NVNdLDX3FwK5tK/XaAcUVGlrMRV5iFAyo2jjZU3aDo2vBO2rgQqXR/dKciAHCN22PumPlOGHa3zLVan2Q=
+X-Received: by 2002:a17:906:dc92:b0:955:34a5:ae46 with SMTP id
+ cs18-20020a170906dc9200b0095534a5ae46mr1654968ejc.77.1683301653862; Fri, 05
+ May 2023 08:47:33 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230501230409.274178-1-stefanha@redhat.com>
-In-Reply-To: <20230501230409.274178-1-stefanha@redhat.com>
-From: Eugenio Perez Martin <eperezma@redhat.com>
-Date: Fri, 5 May 2023 17:39:41 +0200
-Message-ID: <CAJaqyWdenC-q8VEYafgPML_rzDPzc-gsBp7uca5r-hOpY-kxaw@mail.gmail.com>
-Subject: Re: [PATCH v2] vhost-user: send SET_STATUS 0 after GET_VRING_BASE
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Cc: qemu-devel@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
- Cindy Lu <lulu@redhat.com>, Yajun Wu <yajunw@nvidia.com>
+References: <20230502143722.15613-1-jandryuk@gmail.com>
+ <43162544.QFhiSxD2Za@silver>
+In-Reply-To: <43162544.QFhiSxD2Za@silver>
+From: Jason Andryuk <jandryuk@gmail.com>
+Date: Fri, 5 May 2023 11:47:22 -0400
+Message-ID: <CAKf6xpsAYSd68jhCt7d603eDuLh5YJ9N8zihGBi9XvAZabNVwA@mail.gmail.com>
+Subject: Re: [PATCH] 9pfs/xen: Fix segfault on shutdown
+To: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Cc: qemu-devel@nongnu.org, Greg Kurz <groug@kaod.org>, 
+ Stefano Stabellini <sstabellini@kernel.org>,
+ Anthony Perard <anthony.perard@citrix.com>, Paul Durrant <paul@xen.org>,
+ "open list:X86 Xen CPUs" <xen-devel@lists.xenproject.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eperezma@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -22
-X-Spam_score: -2.3
+Received-SPF: pass client-ip=2a00:1450:4864:20::630;
+ envelope-from=jandryuk@gmail.com; helo=mail-ej1-x630.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.161,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,80 +90,179 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, May 2, 2023 at 1:42=E2=80=AFPM Stefan Hajnoczi <stefanha@redhat.com=
-> wrote:
+On Fri, May 5, 2023 at 6:05=E2=80=AFAM Christian Schoenebeck
+<qemu_oss@crudebyte.com> wrote:
 >
-> Setting the VIRTIO Device Status Field to 0 resets the device. The
-> device's state is lost, including the vring configuration.
+> Hi Jason,
 >
-> vhost-user.c currently sends SET_STATUS 0 before GET_VRING_BASE. This
-> risks confusion about the lifetime of the vhost-user state (e.g. vring
-> last_avail_idx) across VIRTIO device reset.
+> as this is a Xen specific change, I would like Stefano or another Xen
+> developer to take a look at it, just few things from my side ...
 >
-> Eugenio P=C3=A9rez <eperezma@redhat.com> adjusted the order for vhost-vdp=
-a.c
-> in commit c3716f260bff ("vdpa: move vhost reset after get vring base")
-> and in that commit description suggested doing the same for vhost-user
-> in the future.
+> On Tuesday, May 2, 2023 4:37:22 PM CEST Jason Andryuk wrote:
+> > xen_9pfs_free can't use gnttabdev since it is already closed and NULL-e=
+d
 >
-> Go ahead and adjust vhost-user.c now. I ran various online code searches
-> to identify vhost-user backends implementing SET_STATUS. It seems only
-> DPDK implements SET_STATUS and Yajun Wu <yajunw@nvidia.com> has
-> confirmed that it is safe to make this change.
->
-> Fixes: commit 923b8921d210763359e96246a58658ac0db6c645 ("vhost-user: Supp=
-ort vhost_dev_start")
-> Cc: Michael S. Tsirkin <mst@redhat.com>
-> Cc: Cindy Lu <lulu@redhat.com>
-> Cc: Yajun Wu <yajunw@nvidia.com>
-> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+> Where exactly does it do that access? A backtrace or another detailed com=
+mit
+> log description would help.
 
-Acked-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
+The segfault is down in the xen grant libraries during the free
+callback.  The call stack is roughly:
+xen_pv_del_xendev(struct XenLegacyDevice *xendev)
+xen_9pfs_free() (->free() callback)
+xen_be_unmap_grant_refs(&xen_9pdev->xendev, ...)
+qemu_xen_gnttab_unmap(xendev->gnttabdev, ...)
+xengnttab_unmap(xgt, ...) <- segfault.
 
-> ---
-> v2:
-> - Added VHOST_USER_PROTOCOL_F_STATUS check [Yajun Wu]
-> - Added "Fixes:" tag [Michael]
-> ---
->  hw/virtio/vhost-user.c | 16 +++++++++++++++-
->  1 file changed, 15 insertions(+), 1 deletion(-)
->
-> diff --git a/hw/virtio/vhost-user.c b/hw/virtio/vhost-user.c
-> index e5285df4ba..40974afd06 100644
-> --- a/hw/virtio/vhost-user.c
-> +++ b/hw/virtio/vhost-user.c
-> @@ -2677,7 +2677,20 @@ static int vhost_user_dev_start(struct vhost_dev *=
-dev, bool started)
->                                            VIRTIO_CONFIG_S_DRIVER |
->                                            VIRTIO_CONFIG_S_DRIVER_OK);
->      } else {
-> -        return vhost_user_set_status(dev, 0);
-> +        return 0;
-> +    }
-> +}
-> +
-> +static void vhost_user_reset_status(struct vhost_dev *dev)
-> +{
-> +    /* Set device status only for last queue pair */
-> +    if (dev->vq_index + dev->nvqs !=3D dev->vq_index_end) {
-> +        return;
-> +    }
-> +
-> +    if (virtio_has_feature(dev->protocol_features,
-> +                           VHOST_USER_PROTOCOL_F_STATUS)) {
-> +        vhost_user_set_status(dev, 0);
->      }
->  }
->
-> @@ -2716,4 +2729,5 @@ const VhostOps user_ops =3D {
->          .vhost_get_inflight_fd =3D vhost_user_get_inflight_fd,
->          .vhost_set_inflight_fd =3D vhost_user_set_inflight_fd,
->          .vhost_dev_start =3D vhost_user_dev_start,
-> +        .vhost_reset_status =3D vhost_user_reset_status,
->  };
-> --
-> 2.40.1
->
->
+The device went through the "disconnect" state before free() is
+called, so xen_be_disconnect() already ran which did:
+    if (xendev->gnttabdev) {
+        qemu_xen_gnttab_close(xendev->gnttabdev);
+        xendev->gnttabdev =3D NULL;
+    }
 
+gnttabdev being used by xengnttab_unmap().
+
+> > out when free is called.  Do the teardown in _disconnect().  This
+> > matches the setup done in _connect().
+> >
+> > trace-events are also added for the XenDevOps functions.
+> >
+> > Signed-off-by: Jason Andryuk <jandryuk@gmail.com>
+> > ---
+> >  hw/9pfs/trace-events     |  5 +++++
+> >  hw/9pfs/xen-9p-backend.c | 36 +++++++++++++++++++++++-------------
+> >  2 files changed, 28 insertions(+), 13 deletions(-)
+> >
+> > diff --git a/hw/9pfs/trace-events b/hw/9pfs/trace-events
+> > index 6c77966c0b..7b5b0b5a48 100644
+> > --- a/hw/9pfs/trace-events
+> > +++ b/hw/9pfs/trace-events
+> > @@ -48,3 +48,8 @@ v9fs_readlink(uint16_t tag, uint8_t id, int32_t fid) =
+"tag %d id %d fid %d"
+> >  v9fs_readlink_return(uint16_t tag, uint8_t id, char* target) "tag %d i=
+d %d name %s"
+> >  v9fs_setattr(uint16_t tag, uint8_t id, int32_t fid, int32_t valid, int=
+32_t mode, int32_t uid, int32_t gid, int64_t size, int64_t atime_sec, int64=
+_t mtime_sec) "tag %u id %u fid %d iattr=3D{valid %d mode %d uid %d gid %d =
+size %"PRId64" atime=3D%"PRId64" mtime=3D%"PRId64" }"
+> >  v9fs_setattr_return(uint16_t tag, uint8_t id) "tag %u id %u"
+> > +
+>
+> Nit-picking; missing leading comment:
+>
+> # xen-9p-backend.c
+
+Will do, thanks.
+
+> > +xen_9pfs_alloc(char *name) "name %s"
+> > +xen_9pfs_connect(char *name) "name %s"
+> > +xen_9pfs_disconnect(char *name) "name %s"
+> > +xen_9pfs_free(char *name) "name %s"
+> > diff --git a/hw/9pfs/xen-9p-backend.c b/hw/9pfs/xen-9p-backend.c
+> > index 0e266c552b..c646a0b3d1 100644
+> > --- a/hw/9pfs/xen-9p-backend.c
+> > +++ b/hw/9pfs/xen-9p-backend.c
+> > @@ -25,6 +25,8 @@
+> >  #include "qemu/iov.h"
+> >  #include "fsdev/qemu-fsdev.h"
+> >
+> > +#include "trace.h"
+> > +
+> >  #define VERSIONS "1"
+> >  #define MAX_RINGS 8
+> >  #define MAX_RING_ORDER 9
+> > @@ -337,6 +339,8 @@ static void xen_9pfs_disconnect(struct XenLegacyDev=
+ice *xendev)
+> >      Xen9pfsDev *xen_9pdev =3D container_of(xendev, Xen9pfsDev, xendev)=
+;
+> >      int i;
+> >
+> > +    trace_xen_9pfs_disconnect(xendev->name);
+> > +
+> >      for (i =3D 0; i < xen_9pdev->num_rings; i++) {
+> >          if (xen_9pdev->rings[i].evtchndev !=3D NULL) {
+> >              qemu_set_fd_handler(qemu_xen_evtchn_fd(xen_9pdev->rings[i]=
+.evtchndev),
+> > @@ -345,40 +349,42 @@ static void xen_9pfs_disconnect(struct XenLegacyD=
+evice *xendev)
+> >                                     xen_9pdev->rings[i].local_port);
+> >              xen_9pdev->rings[i].evtchndev =3D NULL;
+> >          }
+> > -    }
+> > -}
+> > -
+> > -static int xen_9pfs_free(struct XenLegacyDevice *xendev)
+> > -{
+> > -    Xen9pfsDev *xen_9pdev =3D container_of(xendev, Xen9pfsDev, xendev)=
+;
+> > -    int i;
+> > -
+> > -    if (xen_9pdev->rings[0].evtchndev !=3D NULL) {
+> > -        xen_9pfs_disconnect(xendev);
+> > -    }
+> > -
+> > -    for (i =3D 0; i < xen_9pdev->num_rings; i++) {
+> >          if (xen_9pdev->rings[i].data !=3D NULL) {
+> >              xen_be_unmap_grant_refs(&xen_9pdev->xendev,
+> >                                      xen_9pdev->rings[i].data,
+> >                                      xen_9pdev->rings[i].intf->ref,
+> >                                      (1 << xen_9pdev->rings[i].ring_ord=
+er));
+> > +            xen_9pdev->rings[i].data =3D NULL;
+> >          }
+> >          if (xen_9pdev->rings[i].intf !=3D NULL) {
+> >              xen_be_unmap_grant_ref(&xen_9pdev->xendev,
+> >                                     xen_9pdev->rings[i].intf,
+> >                                     xen_9pdev->rings[i].ref);
+> > +            xen_9pdev->rings[i].intf =3D NULL;
+> >          }
+> >          if (xen_9pdev->rings[i].bh !=3D NULL) {
+> >              qemu_bh_delete(xen_9pdev->rings[i].bh);
+> > +            xen_9pdev->rings[i].bh =3D NULL;
+> >          }
+> >      }
+> >
+> >      g_free(xen_9pdev->id);
+> > +    xen_9pdev->id =3D NULL;
+> >      g_free(xen_9pdev->tag);
+> > +    xen_9pdev->tag =3D NULL;
+> >      g_free(xen_9pdev->path);
+> > +    xen_9pdev->path =3D NULL;
+> >      g_free(xen_9pdev->security_model);
+> > +    xen_9pdev->security_model =3D NULL;
+> >      g_free(xen_9pdev->rings);
+> > +    xen_9pdev->rings =3D NULL;
+> > +    return;
+> > +}
+> > +
+> > +static int xen_9pfs_free(struct XenLegacyDevice *xendev)
+> > +{
+> > +    trace_xen_9pfs_free(xendev->name);
+> > +
+> >      return 0;
+> >  }
+>
+> xen_9pfs_free() doing nothing, that doesn't look right to me. Wouldn't it=
+ make
+> sense to turn xen_9pfs_free() idempotent instead?
+
+The callbacks are:
+    .alloc      =3D xen_9pfs_alloc,
+    .init       =3D xen_9pfs_init,
+    .initialise =3D xen_9pfs_connect,
+    .disconnect =3D xen_9pfs_disconnect,
+    .free       =3D xen_9pfs_free,
+
+.initialise (connect) and .disconnect are matched operations.  So
+.disconnect should be cleaning up from .connect, which this patch
+implements.
+
+Also, neither xen_9pfs_alloc() nor xen_9pfs_init,() perform any
+allocations, so that is why the .free callback is now empty.
+
+Thanks for taking a look!
+
+Regards,
+Jason
 
