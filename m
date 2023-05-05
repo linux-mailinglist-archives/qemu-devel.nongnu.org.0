@@ -2,75 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F312D6F7A43
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 May 2023 03:04:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 130576F7A47
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 May 2023 03:04:28 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pujqv-0007tD-Pu; Thu, 04 May 2023 21:03:17 -0400
+	id 1pujr5-0007vM-Hk; Thu, 04 May 2023 21:03:27 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1pujqq-0007sw-Vp
- for qemu-devel@nongnu.org; Thu, 04 May 2023 21:03:13 -0400
-Received: from mail-pg1-x530.google.com ([2607:f8b0:4864:20::530])
+ id 1pujr2-0007v7-3b
+ for qemu-devel@nongnu.org; Thu, 04 May 2023 21:03:24 -0400
+Received: from mail-pl1-x629.google.com ([2607:f8b0:4864:20::629])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1pujqo-0006nB-EO
- for qemu-devel@nongnu.org; Thu, 04 May 2023 21:03:12 -0400
-Received: by mail-pg1-x530.google.com with SMTP id
- 41be03b00d2f7-51b4ef5378bso1004609a12.1
- for <qemu-devel@nongnu.org>; Thu, 04 May 2023 18:03:09 -0700 (PDT)
+ id 1pujr0-0006oF-1l
+ for qemu-devel@nongnu.org; Thu, 04 May 2023 21:03:23 -0400
+Received: by mail-pl1-x629.google.com with SMTP id
+ d9443c01a7336-1aaec9ad820so10785515ad.0
+ for <qemu-devel@nongnu.org>; Thu, 04 May 2023 18:03:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1683248588; x=1685840588;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=CDKJRSmp+8LBUXM/U1uyhUhRRYsrO5iBQwAcawvqGyk=;
- b=Nr7PKko5iwoILqKzjDxaTJPAMWvmpLfOAM2SqUwXGEACpr19mVshU7a8ZRdKfi92Xz
- r8gnbxYNlYf2OJZQ1WPEH5zrmZNhgqGtMLsko2j15r3aP7AmRIJ42+6z6vQK0D0xwsSX
- PmLRexviKiuwuHwrBEK9UCz8GE6rNjtoVXYNTRcs3ooLbzuI4KgDleRdsjiqI7S6aaPz
- Zz/PSmJKQrf9Vv+H/9pGMTVrVWEGsmEGWnpq+ceBb4G/gfBazcXw4zI94loqfv0/84sL
- 93yOCK6GvOVq3kG3HchXX3IiJlLAGmgndhyCj6Dxc/EyLg1/578BTSXe6ioIsV7LRIC+
- sXLg==
+ d=gmail.com; s=20221208; t=1683248599; x=1685840599;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=cRmIoFl2e8CRrWTPkl6Y/zweMYKh21Ri0y8chZO7848=;
+ b=bl5+m1JZk67/dyNQIUlEAervOpEQw36Xg3QHhLi0pA6ZCN8l3+65Urk5ifKpZQdFmn
+ e/+EdPrDInlXh5mxAOyVlhoBtI13pZcC5uOWvKKxmXDWlTILmWSd10wG9b8kMOBUnvtT
+ 2I8cc85v6faxeQnJ1X9DiOb1vqtzY+48wSB7QBqcu+xGdoUn0nirImnlAP0vWsvLochQ
+ aEEg1OF/t1iD/japa6q4UkRiEkS3RHTAijyIk7XvjKFdtDyr9T1SOO90cgS/TgRMsjaI
+ lISUkFBQvMrDtSAFctElgoQhRGL0EmFVUY9nX0TOu3eePq3cqTZy34Jp/6mRrcB57UlK
+ P5Uw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683248588; x=1685840588;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=CDKJRSmp+8LBUXM/U1uyhUhRRYsrO5iBQwAcawvqGyk=;
- b=hezGKyEeIhGFW1/TNnrT9+iMJ08Vt/hlx4IWtYa9tv4d4im52W1LZ+8ru440BC4laN
- 5Wf3C3Evw1v/M+rLNshqWu+lpIPd3YeJEk/6/lYH3VsDWI3KyvG/kgM4eKXagY6+kKQh
- AjRA9lTdgBNtHq3KmQJthJtSMUorpbvhvRYNy8AiN+YLdsisElE1q9Lgr0nDT6D/CTHA
- M/+CgwZNL/W3IdYyLu9srZSlsndhfLea2BafF0p9qu7NYR63XxBsxLeg0XVERVm0sekd
- +89y63HqvM7w5unr7MWSLwd4qAN1uYAnXqABqPV2bm9WaLHDLTsZ8XC+VwqUL0TWVLa1
- bCBw==
-X-Gm-Message-State: AC+VfDwSh6BFbg2qBYN7B54GVrNEv34U9QYfk9kPloM35K22xm3EjXtO
- eTnY0Mr5aDGm2Nsl8BnKe2bNB6q9kL5Smg==
-X-Google-Smtp-Source: ACHHUZ47VKguvt524nq5A+aSjoUpzBC4EEPwkV5pH7yQPuhn9IWgIon/Ix1Y7pCqRfx/wsVqrh9QHw==
-X-Received: by 2002:a17:903:25c5:b0:1a9:7eea:2626 with SMTP id
- jc5-20020a17090325c500b001a97eea2626mr4720254plb.10.1683248587541; 
- Thu, 04 May 2023 18:03:07 -0700 (PDT)
+ d=1e100.net; s=20221208; t=1683248599; x=1685840599;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=cRmIoFl2e8CRrWTPkl6Y/zweMYKh21Ri0y8chZO7848=;
+ b=BUWvOx1qBE+zwMuDnyLphFHtEk2EFegIP0263R8ufiMY9a34/F6heMPTw0sv+xmUPY
+ dDmbOkFVc4C2GVq0DSLLwO7RGk+IUG+kabrDCH4N91ZOfzQubAfYf7Cmf9Slj3cjX+FS
+ tu2gLgJk1fTlaMgENrc/H4ZLT6r7wQVoKt6RjZovhz7BPp3l2lmSvLUm+Fl8Fe9YqW8Q
+ fCpglGw/8Ej1HC5T1j8YZ55sNlHHrf1s7Yiec9DtRUlRw/YSH8E4Xs66AsXiqxzj70Gm
+ aGE4INBO3yEAE9dM+fUMPphQVO/ty7RbTDw0C7FlUR0oCOdLMyFvVrC3PrTnDmvjFgzy
+ fgRg==
+X-Gm-Message-State: AC+VfDwMGpxMFtKmaWmDYXGm51UF0i0Kj9+iXiEa9sL9VfpMmWKJzYRD
+ ARTGY/0eSv3pwvAboSbUd/Gq8h0gX1d0Vw==
+X-Google-Smtp-Source: ACHHUZ6wHzX3uEv1YaEkJSG6CnGoi08dhd6ix4kI6+arf2vcVEkieWAbKqtbpMuMW3QUSpzO+pZLPA==
+X-Received: by 2002:a17:903:41c6:b0:1aa:e739:4097 with SMTP id
+ u6-20020a17090341c600b001aae7394097mr6466656ple.5.1683248598990; 
+ Thu, 04 May 2023 18:03:18 -0700 (PDT)
 Received: from toolbox.alistair23.me
  (2403-580b-97e8-0-321-6fb2-58f1-a1b1.ip6.aussiebb.net.
  [2403:580b:97e8:0:321:6fb2:58f1:a1b1])
  by smtp.gmail.com with ESMTPSA id
- l19-20020a170902d35300b0019309be03e7sm218762plk.66.2023.05.04.18.03.04
+ l19-20020a170902d35300b0019309be03e7sm218762plk.66.2023.05.04.18.03.15
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 04 May 2023 18:03:06 -0700 (PDT)
+ Thu, 04 May 2023 18:03:18 -0700 (PDT)
 From: Alistair Francis <alistair23@gmail.com>
 X-Google-Original-From: Alistair Francis <alistair.francis@wdc.com>
 To: qemu-devel@nongnu.org
-Cc: alistair23@gmail.com,
-	Alistair Francis <alistair.francis@wdc.com>
-Subject: [PULL 00/89] riscv-to-apply queue
-Date: Fri,  5 May 2023 11:01:12 +1000
-Message-Id: <20230505010241.21812-1-alistair.francis@wdc.com>
+Cc: alistair23@gmail.com, Weiwei Li <liweiwei@iscas.ac.cn>,
+ Junqiang Wang <wangjunqiang@iscas.ac.cn>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+Subject: [PULL 01/89] target/riscv: Avoid env_archcpu() when reading
+ RISCVCPUConfig
+Date: Fri,  5 May 2023 11:01:13 +1000
+Message-Id: <20230505010241.21812-2-alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.40.0
+In-Reply-To: <20230505010241.21812-1-alistair.francis@wdc.com>
+References: <20230505010241.21812-1-alistair.francis@wdc.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::530;
- envelope-from=alistair23@gmail.com; helo=mail-pg1-x530.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::629;
+ envelope-from=alistair23@gmail.com; helo=mail-pl1-x629.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -94,204 +99,214 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The following changes since commit f6b761bdbd8ba63cee7428d52fb6b46e4224ddab:
+From: Weiwei Li <liweiwei@iscas.ac.cn>
 
-  Merge tag 'qga-pull-2023-05-04' of https://github.com/kostyanf14/qemu into staging (2023-05-04 12:08:00 +0100)
+Use riscv_cpu_cfg(env) instead of env_archcpu().cfg.
 
-are available in the Git repository at:
+Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
+Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Reviewed-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+Message-Id: <20230309071329.45932-2-liweiwei@iscas.ac.cn>
+Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+---
+ target/riscv/cpu_helper.c |  9 ++++-----
+ target/riscv/csr.c        | 40 ++++++++++++---------------------------
+ target/riscv/gdbstub.c    |  4 ++--
+ 3 files changed, 18 insertions(+), 35 deletions(-)
 
-  https://github.com/alistair23/qemu.git tags/pull-riscv-to-apply-20230505-1
+diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
+index f88c503cf4..e677255f87 100644
+--- a/target/riscv/cpu_helper.c
++++ b/target/riscv/cpu_helper.c
+@@ -314,7 +314,6 @@ static int riscv_cpu_pending_to_irq(CPURISCVState *env,
+                                     int extirq, unsigned int extirq_def_prio,
+                                     uint64_t pending, uint8_t *iprio)
+ {
+-    RISCVCPU *cpu = env_archcpu(env);
+     int irq, best_irq = RISCV_EXCP_NONE;
+     unsigned int prio, best_prio = UINT_MAX;
+ 
+@@ -323,7 +322,8 @@ static int riscv_cpu_pending_to_irq(CPURISCVState *env,
+     }
+ 
+     irq = ctz64(pending);
+-    if (!((extirq == IRQ_M_EXT) ? cpu->cfg.ext_smaia : cpu->cfg.ext_ssaia)) {
++    if (!((extirq == IRQ_M_EXT) ? riscv_cpu_cfg(env)->ext_smaia :
++                                  riscv_cpu_cfg(env)->ext_ssaia)) {
+         return irq;
+     }
+ 
+@@ -765,7 +765,6 @@ static int get_physical_address(CPURISCVState *env, hwaddr *physical,
+     int mode = mmu_idx & TB_FLAGS_PRIV_MMU_MASK;
+     bool use_background = false;
+     hwaddr ppn;
+-    RISCVCPU *cpu = env_archcpu(env);
+     int napot_bits = 0;
+     target_ulong napot_mask;
+ 
+@@ -946,7 +945,7 @@ restart:
+ 
+         if (riscv_cpu_sxl(env) == MXL_RV32) {
+             ppn = pte >> PTE_PPN_SHIFT;
+-        } else if (pbmte || cpu->cfg.ext_svnapot) {
++        } else if (pbmte || riscv_cpu_cfg(env)->ext_svnapot) {
+             ppn = (pte & (target_ulong)PTE_PPN_MASK) >> PTE_PPN_SHIFT;
+         } else {
+             ppn = pte >> PTE_PPN_SHIFT;
+@@ -1043,7 +1042,7 @@ restart:
+                benefit. */
+             target_ulong vpn = addr >> PGSHIFT;
+ 
+-            if (cpu->cfg.ext_svnapot && (pte & PTE_N)) {
++            if (riscv_cpu_cfg(env)->ext_svnapot && (pte & PTE_N)) {
+                 napot_bits = ctzl(ppn) + 1;
+                 if ((i != (levels - 1)) || (napot_bits != 4)) {
+                     return TRANSLATE_FAIL;
+diff --git a/target/riscv/csr.c b/target/riscv/csr.c
+index d522efc0b6..70468572fe 100644
+--- a/target/riscv/csr.c
++++ b/target/riscv/csr.c
+@@ -89,9 +89,7 @@ static RISCVException fs(CPURISCVState *env, int csrno)
+ 
+ static RISCVException vs(CPURISCVState *env, int csrno)
+ {
+-    RISCVCPU *cpu = env_archcpu(env);
+-
+-    if (cpu->cfg.ext_zve32f) {
++    if (riscv_cpu_cfg(env)->ext_zve32f) {
+ #if !defined(CONFIG_USER_ONLY)
+         if (!env->debugger && !riscv_cpu_vector_enabled(env)) {
+             return RISCV_EXCP_ILLEGAL_INST;
+@@ -194,9 +192,7 @@ static RISCVException mctr32(CPURISCVState *env, int csrno)
+ 
+ static RISCVException sscofpmf(CPURISCVState *env, int csrno)
+ {
+-    RISCVCPU *cpu = env_archcpu(env);
+-
+-    if (!cpu->cfg.ext_sscofpmf) {
++    if (!riscv_cpu_cfg(env)->ext_sscofpmf) {
+         return RISCV_EXCP_ILLEGAL_INST;
+     }
+ 
+@@ -311,9 +307,7 @@ static RISCVException umode32(CPURISCVState *env, int csrno)
+ 
+ static RISCVException mstateen(CPURISCVState *env, int csrno)
+ {
+-    RISCVCPU *cpu = env_archcpu(env);
+-
+-    if (!cpu->cfg.ext_smstateen) {
++    if (!riscv_cpu_cfg(env)->ext_smstateen) {
+         return RISCV_EXCP_ILLEGAL_INST;
+     }
+ 
+@@ -322,9 +316,7 @@ static RISCVException mstateen(CPURISCVState *env, int csrno)
+ 
+ static RISCVException hstateen_pred(CPURISCVState *env, int csrno, int base)
+ {
+-    RISCVCPU *cpu = env_archcpu(env);
+-
+-    if (!cpu->cfg.ext_smstateen) {
++    if (!riscv_cpu_cfg(env)->ext_smstateen) {
+         return RISCV_EXCP_ILLEGAL_INST;
+     }
+ 
+@@ -391,10 +383,9 @@ static RISCVException sstateen(CPURISCVState *env, int csrno)
+ 
+ static RISCVException sstc(CPURISCVState *env, int csrno)
+ {
+-    RISCVCPU *cpu = env_archcpu(env);
+     bool hmode_check = false;
+ 
+-    if (!cpu->cfg.ext_sstc || !env->rdtime_fn) {
++    if (!riscv_cpu_cfg(env)->ext_sstc || !env->rdtime_fn) {
+         return RISCV_EXCP_ILLEGAL_INST;
+     }
+ 
+@@ -1171,27 +1162,21 @@ static RISCVException write_ignore(CPURISCVState *env, int csrno,
+ static RISCVException read_mvendorid(CPURISCVState *env, int csrno,
+                                      target_ulong *val)
+ {
+-    RISCVCPU *cpu = env_archcpu(env);
+-
+-    *val = cpu->cfg.mvendorid;
++    *val = riscv_cpu_cfg(env)->mvendorid;
+     return RISCV_EXCP_NONE;
+ }
+ 
+ static RISCVException read_marchid(CPURISCVState *env, int csrno,
+                                    target_ulong *val)
+ {
+-    RISCVCPU *cpu = env_archcpu(env);
+-
+-    *val = cpu->cfg.marchid;
++    *val = riscv_cpu_cfg(env)->marchid;
+     return RISCV_EXCP_NONE;
+ }
+ 
+ static RISCVException read_mimpid(CPURISCVState *env, int csrno,
+                                   target_ulong *val)
+ {
+-    RISCVCPU *cpu = env_archcpu(env);
+-
+-    *val = cpu->cfg.mimpid;
++    *val = riscv_cpu_cfg(env)->mimpid;
+     return RISCV_EXCP_NONE;
+ }
+ 
+@@ -1233,9 +1218,8 @@ static RISCVException read_mstatus(CPURISCVState *env, int csrno,
+ 
+ static bool validate_vm(CPURISCVState *env, target_ulong vm)
+ {
+-    RISCVCPU *cpu = RISCV_CPU(env_cpu(env));
+-
+-    return (vm & 0xf) <= satp_mode_max_from_map(cpu->cfg.satp_mode.map);
++    return (vm & 0xf) <=
++           satp_mode_max_from_map(riscv_cpu_cfg(env)->satp_mode.map);
+ }
+ 
+ static RISCVException write_mstatus(CPURISCVState *env, int csrno,
+@@ -1898,7 +1882,7 @@ static RISCVException read_menvcfg(CPURISCVState *env, int csrno,
+ static RISCVException write_menvcfg(CPURISCVState *env, int csrno,
+                                     target_ulong val)
+ {
+-    RISCVCPUConfig *cfg = &env_archcpu(env)->cfg;
++    const RISCVCPUConfig *cfg = riscv_cpu_cfg(env);
+     uint64_t mask = MENVCFG_FIOM | MENVCFG_CBIE | MENVCFG_CBCFE | MENVCFG_CBZE;
+ 
+     if (riscv_cpu_mxl(env) == MXL_RV64) {
+@@ -1921,7 +1905,7 @@ static RISCVException read_menvcfgh(CPURISCVState *env, int csrno,
+ static RISCVException write_menvcfgh(CPURISCVState *env, int csrno,
+                                      target_ulong val)
+ {
+-    RISCVCPUConfig *cfg = &env_archcpu(env)->cfg;
++    const RISCVCPUConfig *cfg = riscv_cpu_cfg(env);
+     uint64_t mask = (cfg->ext_svpbmt ? MENVCFG_PBMTE : 0) |
+                     (cfg->ext_sstc ? MENVCFG_STCE : 0) |
+                     (cfg->ext_svadu ? MENVCFG_HADE : 0);
+diff --git a/target/riscv/gdbstub.c b/target/riscv/gdbstub.c
+index 840d1ec5c6..692bbb64f6 100644
+--- a/target/riscv/gdbstub.c
++++ b/target/riscv/gdbstub.c
+@@ -130,7 +130,7 @@ static int riscv_gdb_set_fpu(CPURISCVState *env, uint8_t *mem_buf, int n)
+ 
+ static int riscv_gdb_get_vector(CPURISCVState *env, GByteArray *buf, int n)
+ {
+-    uint16_t vlenb = env_archcpu(env)->cfg.vlen >> 3;
++    uint16_t vlenb = riscv_cpu_cfg(env)->vlen >> 3;
+     if (n < 32) {
+         int i;
+         int cnt = 0;
+@@ -146,7 +146,7 @@ static int riscv_gdb_get_vector(CPURISCVState *env, GByteArray *buf, int n)
+ 
+ static int riscv_gdb_set_vector(CPURISCVState *env, uint8_t *mem_buf, int n)
+ {
+-    uint16_t vlenb = env_archcpu(env)->cfg.vlen >> 3;
++    uint16_t vlenb = riscv_cpu_cfg(env)->vlen >> 3;
+     if (n < 32) {
+         int i;
+         for (i = 0; i < vlenb; i += 8) {
+-- 
+2.40.0
 
-for you to fetch changes up to e1d084a8524a9225a46d485e2d164bb258f326f7:
-
-  target/riscv: add Ventana's Veyron V1 CPU (2023-05-05 10:49:50 +1000)
-
-----------------------------------------------------------------
-First RISC-V PR for 8.1
-
-* CPURISCVState related cleanup and simplification
-* Refactor Zicond and reuse in XVentanaCondOps
-* Fix invalid riscv,event-to-mhpmcounters entry
-* Support subsets of code size reduction extension
-* Fix itrigger when icount is used
-* Simplification for RVH related check and code style fix
-* Add signature dump function for spike to run ACT tests
-* Rework MISA writing
-* Fix mstatus.MPP related support
-* Use check for relationship between Zdinx/Zhinx{min} and Zfinx
-* Fix the H extension TVM trap
-* A large collection of mstatus sum changes and cleanups
-* Zero init APLIC internal state
-* Implement query-cpu-definitions
-* Restore the predicate() NULL check behavior
-* Fix Guest Physical Address Translation
-* Make sure an exception is raised if a pte is malformed
-* Add Ventana's Veyron V1 CPU
-
-----------------------------------------------------------------
-Alexandre Ghiti (1):
-      riscv: Make sure an exception is raised if a pte is malformed
-
-Bin Meng (1):
-      target/riscv: Restore the predicate() NULL check behavior
-
-Conor Dooley (1):
-      target/riscv: fix invalid riscv,event-to-mhpmcounters entry
-
-Daniel Henrique Barboza (23):
-      target/riscv: sync env->misa_ext* with cpu->cfg in realize()
-      target/riscv: remove MISA properties from isa_edata_arr[]
-      target/riscv/cpu.c: remove 'multi_letter' from isa_ext_data
-      target/riscv: introduce riscv_cpu_add_misa_properties()
-      target/riscv: remove cpu->cfg.ext_a
-      target/riscv: remove cpu->cfg.ext_c
-      target/riscv: remove cpu->cfg.ext_d
-      target/riscv: remove cpu->cfg.ext_f
-      target/riscv: remove cpu->cfg.ext_i
-      target/riscv: remove cpu->cfg.ext_e
-      target/riscv: remove cpu->cfg.ext_m
-      target/riscv: remove cpu->cfg.ext_s
-      target/riscv: remove cpu->cfg.ext_u
-      target/riscv: remove cpu->cfg.ext_h
-      target/riscv: remove cpu->cfg.ext_j
-      target/riscv: remove cpu->cfg.ext_v
-      target/riscv: remove riscv_cpu_sync_misa_cfg()
-      target/riscv: remove cfg.ext_g setup from rv64_thead_c906_cpu_init()
-      target/riscv: add RVG and remove cpu->cfg.ext_g
-      target/riscv/cpu.c: redesign register_cpu_props()
-      target/riscv: add CPU QOM header
-      target/riscv: add query-cpy-definitions support
-      target/riscv: add TYPE_RISCV_DYNAMIC_CPU
-
-Fei Wu (2):
-      target/riscv: Separate priv from mmu_idx
-      target/riscv: Reduce overhead of MSTATUS_SUM change
-
-Irina Ryapolova (1):
-      target/riscv: Fix Guest Physical Address Translation
-
-Ivan Klokov (1):
-      hw/intc/riscv_aplic: Zero init APLIC internal state
-
-LIU Zhiwei (7):
-      target/riscv: Fix priv version dependency for vector and zfh
-      target/riscv: Fix itrigger when icount is used
-      target/riscv: Convert env->virt to a bool env->virt_enabled
-      target/riscv: Extract virt enabled state from tb flags
-      target/riscv: Add a general status enum for extensions
-      target/riscv: Encode the FS and VS on a normal way for tb flags
-      target/riscv: Add a tb flags field for vstart
-
-Philipp Tomsich (2):
-      target/riscv: refactor Zicond support
-      target/riscv: redirect XVentanaCondOps to use the Zicond functions
-
-Rahul Pathak (1):
-      target/riscv: add Ventana's Veyron V1 CPU
-
-Richard Henderson (18):
-      target/riscv: Remove mstatus_hs_{fs, vs} from tb_flags
-      target/riscv: Use cpu_ld*_code_mmu for HLVX
-      target/riscv: Handle HLV, HSV via helpers
-      target/riscv: Rename MMU_HYP_ACCESS_BIT to MMU_2STAGE_BIT
-      target/riscv: Introduce mmuidx_sum
-      target/riscv: Introduce mmuidx_priv
-      target/riscv: Introduce mmuidx_2stage
-      target/riscv: Move hstatus.spvp check to check_access_hlsv
-      target/riscv: Set MMU_2STAGE_BIT in riscv_cpu_mmu_index
-      target/riscv: Check SUM in the correct register
-      target/riscv: Hoist second stage mode change to callers
-      target/riscv: Hoist pbmte and hade out of the level loop
-      target/riscv: Move leaf pte processing out of level loop
-      target/riscv: Suppress pte update with is_debug
-      target/riscv: Don't modify SUM with is_debug
-      target/riscv: Merge checks for reserved pte flags
-      target/riscv: Reorg access check in get_physical_address
-      target/riscv: Reorg sum check in get_physical_address
-
-Weiwei Li (30):
-      target/riscv: Avoid env_archcpu() when reading RISCVCPUConfig
-      target/riscv: Simplify getting RISCVCPU pointer from env
-      target/riscv: Simplify type conversion for CPURISCVState
-      target/riscv: Simplify arguments for riscv_csrrw_check
-      target/riscv: add cfg properties for Zc* extension
-      target/riscv: add support for Zca extension
-      target/riscv: add support for Zcf extension
-      target/riscv: add support for Zcd extension
-      target/riscv: add support for Zcb extension
-      target/riscv: add support for Zcmp extension
-      target/riscv: add support for Zcmt extension
-      target/riscv: expose properties for Zc* extension
-      disas/riscv.c: add disasm support for Zc*
-      target/riscv: Add support for Zce
-      target/riscv: Remove redundant call to riscv_cpu_virt_enabled
-      target/riscv: Remove redundant check on RVH
-      target/riscv: Remove check on RVH for riscv_cpu_virt_enabled
-      target/riscv: Remove check on RVH for riscv_cpu_set_virt_enabled
-      target/riscv: Remove redundant parentheses
-      target/riscv: Fix addr type for get_physical_address
-      target/riscv: Set opcode to env->bins for illegal/virtual instruction fault
-      target/riscv: Remove riscv_cpu_virt_enabled()
-      target/riscv: Fix format for indentation
-      target/riscv: Fix format for comments
-      target/riscv: Fix lines with over 80 characters
-      hw/riscv: Add signature dump function for spike to run ACT tests
-      target/riscv: Fix the mstatus.MPP value after executing MRET
-      target/riscv: Use PRV_RESERVED instead of PRV_H
-      target/riscv: Legalize MPP value in write_mstatus
-      target/riscv: Use check for relationship between Zdinx/Zhinx{min} and Zfinx
-
-Yi Chen (1):
-      target/riscv: fix H extension TVM trap
-
- MAINTAINERS                                        |   2 +-
- qapi/machine-target.json                           |   6 +-
- include/hw/char/riscv_htif.h                       |   3 +
- target/riscv/cpu-qom.h                             |  71 +++
- target/riscv/cpu.h                                 | 155 ++---
- target/riscv/cpu_bits.h                            |  27 +-
- target/riscv/cpu_vendorid.h                        |   4 +
- target/riscv/helper.h                              |  15 +-
- target/riscv/internals.h                           |  35 ++
- target/riscv/pmp.h                                 |   9 +-
- target/riscv/sbi_ecall_interface.h                 |   8 +-
- target/riscv/time_helper.h                         |   2 +-
- target/riscv/insn16.decode                         |  62 +-
- disas/riscv.c                                      | 228 ++++++-
- hw/char/riscv_htif.c                               |  44 +-
- hw/intc/riscv_aplic.c                              |   2 +-
- hw/riscv/spike.c                                   |  13 +
- target/riscv/arch_dump.c                           |   7 +-
- target/riscv/cpu.c                                 | 571 +++++++++++-------
- target/riscv/cpu_helper.c                          | 671 +++++++++++----------
- target/riscv/csr.c                                 | 331 +++++-----
- target/riscv/debug.c                               |  21 +-
- target/riscv/fpu_helper.c                          |  24 +-
- target/riscv/gdbstub.c                             |   9 +-
- target/riscv/m128_helper.c                         |  16 +-
- target/riscv/machine.c                             |  43 +-
- target/riscv/op_helper.c                           | 147 ++++-
- target/riscv/pmp.c                                 |  66 +-
- target/riscv/pmu.c                                 |  23 +-
- target/riscv/riscv-qmp-cmds.c                      |  57 ++
- target/riscv/time_helper.c                         |  15 +-
- target/riscv/translate.c                           | 109 ++--
- target/riscv/vector_helper.c                       | 317 +++++-----
- target/riscv/zce_helper.c                          |  55 ++
- target/riscv/insn_trans/trans_privileged.c.inc     |   8 +-
- target/riscv/insn_trans/trans_rvd.c.inc            |  18 +
- target/riscv/insn_trans/trans_rvf.c.inc            |  20 +-
- target/riscv/insn_trans/trans_rvh.c.inc            | 127 ++--
- target/riscv/insn_trans/trans_rvi.c.inc            |   4 +-
- target/riscv/insn_trans/trans_rvv.c.inc            |  58 +-
- target/riscv/insn_trans/trans_rvzce.c.inc          | 311 ++++++++++
- target/riscv/insn_trans/trans_rvzicond.c.inc       |  36 +-
- target/riscv/insn_trans/trans_xthead.c.inc         |  14 +-
- .../riscv/insn_trans/trans_xventanacondops.c.inc   |  18 +-
- target/riscv/meson.build                           |   6 +-
- 45 files changed, 2488 insertions(+), 1300 deletions(-)
- create mode 100644 target/riscv/cpu-qom.h
- create mode 100644 target/riscv/riscv-qmp-cmds.c
- create mode 100644 target/riscv/zce_helper.c
- create mode 100644 target/riscv/insn_trans/trans_rvzce.c.inc
 
