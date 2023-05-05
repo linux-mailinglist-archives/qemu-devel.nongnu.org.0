@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 449B96F8B13
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 May 2023 23:30:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C8806F8B00
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 May 2023 23:29:00 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pv2yR-0006mN-S5; Fri, 05 May 2023 17:28:19 -0400
+	id 1pv2yS-0006oK-Ih; Fri, 05 May 2023 17:28:20 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pv2yO-0006bm-R2
- for qemu-devel@nongnu.org; Fri, 05 May 2023 17:28:16 -0400
-Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b])
+ id 1pv2yQ-0006iB-DY
+ for qemu-devel@nongnu.org; Fri, 05 May 2023 17:28:18 -0400
+Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pv2yL-0005SE-OO
- for qemu-devel@nongnu.org; Fri, 05 May 2023 17:28:16 -0400
-Received: by mail-wm1-x32b.google.com with SMTP id
- 5b1f17b1804b1-3f19b9d5358so22961625e9.1
+ id 1pv2yM-0005SN-8P
+ for qemu-devel@nongnu.org; Fri, 05 May 2023 17:28:17 -0400
+Received: by mail-wm1-x336.google.com with SMTP id
+ 5b1f17b1804b1-3f193ca059bso15335495e9.3
  for <qemu-devel@nongnu.org>; Fri, 05 May 2023 14:28:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1683322092; x=1685914092;
+ d=linaro.org; s=google; t=1683322093; x=1685914093;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=Yu6T1N8rjMDvjcqVloIbI64DCiKYMAX1Jvlpvr4G/Zc=;
- b=mdheJA/Gwu2S4s+zM7DrfAwI0C+a3YjIS3/Q2E8eusWP7QbcQFEKenicfBjcwI+VV/
- hAbHKcU1izwfho4yCeVbdG9x9Pn5R/EYf2lpbUFhatdi+LtJDuKZMQA8hDOkiOt+hSDN
- Cx0bTl/2BE3UhM+0Tk6uoE0FUs3Kd1Q2FSd6alzOE6czspQdPYLLN5xkYa0NO4qv59PX
- owXmrRsXDRy6iASD+F7C5FO64B34BJKQBrFvEqQCjxLyl4c+gk9IfojwOT5eLBOFCmV0
- gOxaPDvCpDaQHaq/qf4bRuuugwKrmHCLx1ua3lQajzyzz6Gf965ObbJs664ftl35olj4
- t5/g==
+ bh=I4w3bX0EvMhXa1FPvD+aIFFJRHstVlIrJSKr2TPnALg=;
+ b=tvwGAkuZcct1ba7lwM/DR25lP0a//EAh+BE3T+QAOUHDIOMdcIBRTemi6/66L9C5bl
+ X+lZ121x2YvtuJ74TWuaxTRAHbzQwQTiCYGIgEjRwHtVLG48G0Q3UDvr+u6wbXGRtWri
+ 3EBUIwLv6avgKmCK5iQKQcSdJgMfhU1D5aZkaICwT8Pl5FvvTQhgGtAeT/tcibvLD63s
+ csT19BgYKehyxDgxWXAbwikFvZnD6r9fXgTZuws97Lz4bjPXTYmZzbnd0wZ9LgizSkRe
+ 49Lc2JsQx97QwgbF+Xj504h87xogTe1IjH0NAdiBFisIfzJZFq/iXO08mg+4mcl10SRY
+ dG5A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683322092; x=1685914092;
+ d=1e100.net; s=20221208; t=1683322093; x=1685914093;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=Yu6T1N8rjMDvjcqVloIbI64DCiKYMAX1Jvlpvr4G/Zc=;
- b=e7lRA50h8gG6Gd++pvnDEyJV26q+cpPXvz6p9lw4N1TGJiT2giDt81heZcnL5SXTG/
- zr28wqw3cbXAyyiZfUKp1Sl5J4R11JkLH7afmotVZAdWC5A8aLgi+oCaeHfoYGe5gqep
- 6gnNyn038IhRSwywfCAI5J1XJhcT28JJ1pHonXn6nXoLr9u3hnZ9cDNCuk0KyFj5B4QV
- vzsezeJhi/9ElqEuCnOibqWcgAUcdk7s0JGw66vLMdOnvxvIFIkkBOs6UIyT1OYt+Vn1
- bCwp6Mh2li4YQt2HU7BbEDU38l6H/j5fAqRRZER9izG1sXzKsH5/KOcBJZAcmvfSysNO
- aXZQ==
-X-Gm-Message-State: AC+VfDxzjzg6u1lIzDFSHJ4sy3HeibhvIwM1TosqkDljaNuJkj7XXpTm
- pm+kXdlBYVPs46HithNs1OEapabOMlqtwQag3tiKMQ==
-X-Google-Smtp-Source: ACHHUZ5S9DsPZofiXQjo1H6G76XHwh6U3E+/qnIGRKwOkHhqKpWw2L/gCFU9xXbGnotvtF/LnK8HaQ==
-X-Received: by 2002:a5d:470b:0:b0:306:2ddb:47ab with SMTP id
- y11-20020a5d470b000000b003062ddb47abmr2397988wrq.39.1683322092209; 
+ bh=I4w3bX0EvMhXa1FPvD+aIFFJRHstVlIrJSKr2TPnALg=;
+ b=GNzCizlgnTHNM75kOExYtT7DUeZySf23OB3g1DfRjkHf+wmbuWUcVLa4Gi4V9rQY3+
+ ES31RCj4zolK8Fm15x4xD4yNMO7Bcq2B8osTQPCCEkBejMI/nNjVN2bcGhTaaMmWgO2n
+ BRpfXdxRoNU/1pmcN2jFm+Yp0SeJS2jzurFEQ2mduYGnaoo207mGzR+DAeOEAGkTIzxS
+ WyBFhxZEooeyXO8ku5y+26rDahrCxwT3SKUPcu2AlZoF2udKQd2pyL1D3Pcj7d3NX86k
+ 4L+1IlbEZZNaQ6z9Z4nKdapwIiDPANaG5cDTi+GN8A1mcXnclS3hQ+Boz29tbi91F0a+
+ eanQ==
+X-Gm-Message-State: AC+VfDw5SjL/O0uGJjzX6Bn3B0ImsICvRzd5QbBhxWyOudoRgabXTPQH
+ 7Ub1XKp+HmAoZaNnMxJbouEEs2jTlFnuywsXhSr0Wg==
+X-Google-Smtp-Source: ACHHUZ6kxri/ilT9GjakQFIrmX0vHAQcmi1lF+Y1hgmaeGlfljZ1N6CnL4rtgFmKjsC7wpkAl3HvhA==
+X-Received: by 2002:a7b:c7c3:0:b0:3f1:72f8:6a92 with SMTP id
+ z3-20020a7bc7c3000000b003f172f86a92mr2082123wmk.20.1683322092688; 
  Fri, 05 May 2023 14:28:12 -0700 (PDT)
 Received: from stoup.. ([212.241.182.8]) by smtp.gmail.com with ESMTPSA id
- z10-20020a05600c220a00b003f171234a08sm9009001wml.20.2023.05.05.14.28.11
+ z10-20020a05600c220a00b003f171234a08sm9009001wml.20.2023.05.05.14.28.12
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 05 May 2023 14:28:11 -0700 (PDT)
+ Fri, 05 May 2023 14:28:12 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PULL 41/42] tcg: Introduce arg_slot_stk_ofs
-Date: Fri,  5 May 2023 22:24:46 +0100
-Message-Id: <20230505212447.374546-42-richard.henderson@linaro.org>
+Subject: [PULL 42/42] tcg: Widen helper_*_st[bw]_mmu val arguments
+Date: Fri,  5 May 2023 22:24:47 +0100
+Message-Id: <20230505212447.374546-43-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230505212447.374546-1-richard.henderson@linaro.org>
 References: <20230505212447.374546-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
- envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x32b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::336;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x336.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -91,105 +91,75 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Unify all computation of argument stack offset in one function.
-This requires that we adjust ref_slot to be in the same units,
-by adding max_reg_slots during init_call_layout.
+While the old type was correct in the ideal sense, some ABIs require
+the argument to be zero-extended.  Using uint32_t for all such values
+is a decent compromise.
 
 Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tcg/tcg.c | 29 +++++++++++++++++------------
- 1 file changed, 17 insertions(+), 12 deletions(-)
+ include/tcg/tcg-ldst.h | 10 +++++++---
+ accel/tcg/cputlb.c     |  6 +++---
+ 2 files changed, 10 insertions(+), 6 deletions(-)
 
-diff --git a/tcg/tcg.c b/tcg/tcg.c
-index fa28db0188..057423c121 100644
---- a/tcg/tcg.c
-+++ b/tcg/tcg.c
-@@ -816,6 +816,15 @@ static inline bool arg_slot_reg_p(unsigned arg_slot)
-     return arg_slot < nreg;
+diff --git a/include/tcg/tcg-ldst.h b/include/tcg/tcg-ldst.h
+index 2ba22bd5fe..684e394b06 100644
+--- a/include/tcg/tcg-ldst.h
++++ b/include/tcg/tcg-ldst.h
+@@ -55,15 +55,19 @@ tcg_target_ulong helper_be_ldsw_mmu(CPUArchState *env, target_ulong addr,
+ tcg_target_ulong helper_be_ldsl_mmu(CPUArchState *env, target_ulong addr,
+                                     MemOpIdx oi, uintptr_t retaddr);
+ 
+-void helper_ret_stb_mmu(CPUArchState *env, target_ulong addr, uint8_t val,
++/*
++ * Value extended to at least uint32_t, so that some ABIs do not require
++ * zero-extension from uint8_t or uint16_t.
++ */
++void helper_ret_stb_mmu(CPUArchState *env, target_ulong addr, uint32_t val,
+                         MemOpIdx oi, uintptr_t retaddr);
+-void helper_le_stw_mmu(CPUArchState *env, target_ulong addr, uint16_t val,
++void helper_le_stw_mmu(CPUArchState *env, target_ulong addr, uint32_t val,
+                        MemOpIdx oi, uintptr_t retaddr);
+ void helper_le_stl_mmu(CPUArchState *env, target_ulong addr, uint32_t val,
+                        MemOpIdx oi, uintptr_t retaddr);
+ void helper_le_stq_mmu(CPUArchState *env, target_ulong addr, uint64_t val,
+                        MemOpIdx oi, uintptr_t retaddr);
+-void helper_be_stw_mmu(CPUArchState *env, target_ulong addr, uint16_t val,
++void helper_be_stw_mmu(CPUArchState *env, target_ulong addr, uint32_t val,
+                        MemOpIdx oi, uintptr_t retaddr);
+ void helper_be_stl_mmu(CPUArchState *env, target_ulong addr, uint32_t val,
+                        MemOpIdx oi, uintptr_t retaddr);
+diff --git a/accel/tcg/cputlb.c b/accel/tcg/cputlb.c
+index c8bd642d0e..3117886af1 100644
+--- a/accel/tcg/cputlb.c
++++ b/accel/tcg/cputlb.c
+@@ -2508,7 +2508,7 @@ full_stb_mmu(CPUArchState *env, target_ulong addr, uint64_t val,
+     store_helper(env, addr, val, oi, retaddr, MO_UB);
  }
  
-+static inline int arg_slot_stk_ofs(unsigned arg_slot)
-+{
-+    unsigned max = TCG_STATIC_CALL_ARGS_SIZE / sizeof(tcg_target_long);
-+    unsigned stk_slot = arg_slot - ARRAY_SIZE(tcg_target_call_iarg_regs);
-+
-+    tcg_debug_assert(stk_slot < max);
-+    return TCG_TARGET_CALL_STACK_OFFSET + stk_slot * sizeof(tcg_target_long);
-+}
-+
- typedef struct TCGCumulativeArgs {
-     int arg_idx;                /* tcg_gen_callN args[] */
-     int info_in_idx;            /* TCGHelperInfo in[] */
-@@ -1055,6 +1064,7 @@ static void init_call_layout(TCGHelperInfo *info)
-             }
-         }
-         assert(ref_base + cum.ref_slot <= max_stk_slots);
-+        ref_base += max_reg_slots;
- 
-         if (ref_base != 0) {
-             for (int i = cum.info_in_idx - 1; i >= 0; --i) {
-@@ -4826,7 +4836,7 @@ static void load_arg_reg(TCGContext *s, TCGReg reg, TCGTemp *ts,
-     }
- }
- 
--static void load_arg_stk(TCGContext *s, int stk_slot, TCGTemp *ts,
-+static void load_arg_stk(TCGContext *s, unsigned arg_slot, TCGTemp *ts,
-                          TCGRegSet allocated_regs)
+-void helper_ret_stb_mmu(CPUArchState *env, target_ulong addr, uint8_t val,
++void helper_ret_stb_mmu(CPUArchState *env, target_ulong addr, uint32_t val,
+                         MemOpIdx oi, uintptr_t retaddr)
  {
-     /*
-@@ -4836,8 +4846,7 @@ static void load_arg_stk(TCGContext *s, int stk_slot, TCGTemp *ts,
-      */
-     temp_load(s, ts, tcg_target_available_regs[ts->type], allocated_regs, 0);
-     tcg_out_st(s, ts->type, ts->reg, TCG_REG_CALL_STACK,
--               TCG_TARGET_CALL_STACK_OFFSET +
--               stk_slot * sizeof(tcg_target_long));
-+               arg_slot_stk_ofs(arg_slot));
+     full_stb_mmu(env, addr, val, oi, retaddr);
+@@ -2521,7 +2521,7 @@ static void full_le_stw_mmu(CPUArchState *env, target_ulong addr, uint64_t val,
+     store_helper(env, addr, val, oi, retaddr, MO_LEUW);
  }
  
- static void load_arg_normal(TCGContext *s, const TCGCallArgumentLoc *l,
-@@ -4848,18 +4857,16 @@ static void load_arg_normal(TCGContext *s, const TCGCallArgumentLoc *l,
-         load_arg_reg(s, reg, ts, *allocated_regs);
-         tcg_regset_set_reg(*allocated_regs, reg);
-     } else {
--        load_arg_stk(s, l->arg_slot - ARRAY_SIZE(tcg_target_call_iarg_regs),
--                     ts, *allocated_regs);
-+        load_arg_stk(s, l->arg_slot, ts, *allocated_regs);
-     }
- }
- 
--static void load_arg_ref(TCGContext *s, int arg_slot, TCGReg ref_base,
-+static void load_arg_ref(TCGContext *s, unsigned arg_slot, TCGReg ref_base,
-                          intptr_t ref_off, TCGRegSet *allocated_regs)
+-void helper_le_stw_mmu(CPUArchState *env, target_ulong addr, uint16_t val,
++void helper_le_stw_mmu(CPUArchState *env, target_ulong addr, uint32_t val,
+                        MemOpIdx oi, uintptr_t retaddr)
  {
-     TCGReg reg;
--    int stk_slot = arg_slot - ARRAY_SIZE(tcg_target_call_iarg_regs);
- 
--    if (stk_slot < 0) {
-+    if (arg_slot_reg_p(arg_slot)) {
-         reg = tcg_target_call_iarg_regs[arg_slot];
-         tcg_reg_free(s, reg, *allocated_regs);
-         tcg_out_addi_ptr(s, reg, ref_base, ref_off);
-@@ -4869,8 +4876,7 @@ static void load_arg_ref(TCGContext *s, int arg_slot, TCGReg ref_base,
-                             *allocated_regs, 0, false);
-         tcg_out_addi_ptr(s, reg, ref_base, ref_off);
-         tcg_out_st(s, TCG_TYPE_PTR, reg, TCG_REG_CALL_STACK,
--                   TCG_TARGET_CALL_STACK_OFFSET
--                   + stk_slot * sizeof(tcg_target_long));
-+                   arg_slot_stk_ofs(arg_slot));
-     }
+     full_le_stw_mmu(env, addr, val, oi, retaddr);
+@@ -2534,7 +2534,7 @@ static void full_be_stw_mmu(CPUArchState *env, target_ulong addr, uint64_t val,
+     store_helper(env, addr, val, oi, retaddr, MO_BEUW);
  }
  
-@@ -4900,8 +4906,7 @@ static void tcg_reg_alloc_call(TCGContext *s, TCGOp *op)
-         case TCG_CALL_ARG_BY_REF:
-             load_arg_stk(s, loc->ref_slot, ts, allocated_regs);
-             load_arg_ref(s, loc->arg_slot, TCG_REG_CALL_STACK,
--                         TCG_TARGET_CALL_STACK_OFFSET
--                         + loc->ref_slot * sizeof(tcg_target_long),
-+                         arg_slot_stk_ofs(loc->ref_slot),
-                          &allocated_regs);
-             break;
-         case TCG_CALL_ARG_BY_REF_N:
+-void helper_be_stw_mmu(CPUArchState *env, target_ulong addr, uint16_t val,
++void helper_be_stw_mmu(CPUArchState *env, target_ulong addr, uint32_t val,
+                        MemOpIdx oi, uintptr_t retaddr)
+ {
+     full_be_stw_mmu(env, addr, val, oi, retaddr);
 -- 
 2.34.1
 
