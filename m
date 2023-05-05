@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3BE66F7D8C
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 May 2023 09:13:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 578A96F7D85
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 May 2023 09:12:56 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pupbH-0004mF-1R; Fri, 05 May 2023 03:11:31 -0400
+	id 1pupbI-0004mX-Bw; Fri, 05 May 2023 03:11:32 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1pupbC-0004lM-2t
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1pupbD-0004lQ-MA
  for qemu-devel@nongnu.org; Fri, 05 May 2023 03:11:29 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1pupbA-0000ec-3S
- for qemu-devel@nongnu.org; Fri, 05 May 2023 03:11:25 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1pupbA-0000f8-6U
+ for qemu-devel@nongnu.org; Fri, 05 May 2023 03:11:27 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1683270681;
+ s=mimecast20190719; t=1683270682;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ILIkb92YfjNdVPvNemK23NPzdxpIvUqcxZkOvQcuD1w=;
- b=DOV1chC7svV93bdmPy1cpzI6MdsPsARLM0ZnGNOn3aTlpOxD67cono+MewuXhY/NgDrdmB
- MzkOIVQRh9yywwQTAz3VwBBvgRQ6JYdnyhzbc3qfa5bE8mc9D/r8thY3+OoDcW343mElSQ
- sYmga58vEKyGqwk+I5bbcup7ZbJY4fI=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=CXPCS+kJxlRKApXWmifHvPqleJ4x39uVxri/m9e/MXc=;
+ b=CWSVdE1ckorRQP7ShFShC3DvuyHgV/1lRsxr3z894Ccp2H7B4T+QF3RAu6bxw2reL4/vNS
+ zQsNO2bL0uybwsLEfFChPKrQ3jyUroP02bKSTRVqN7PdI+5atlTpmcfGBcLQ2sAohU+3oZ
+ x0gdmj5VMzAqoQbnI+GlaBbB9fcBWfA=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-179-rGMpx1XXMNmUxuFZU7NaWQ-1; Fri, 05 May 2023 03:11:19 -0400
-X-MC-Unique: rGMpx1XXMNmUxuFZU7NaWQ-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
- [10.11.54.3])
+ us-mta-349-jEEDYcpxNWutIkrtl8jEWw-1; Fri, 05 May 2023 03:11:21 -0400
+X-MC-Unique: jEEDYcpxNWutIkrtl8jEWw-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.10])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 460EE185A79C;
- Fri,  5 May 2023 07:11:19 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9655E3806062;
+ Fri,  5 May 2023 07:11:20 +0000 (UTC)
 Received: from sirius.home.kraxel.org (unknown [10.39.192.60])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id F1EFD1121331;
- Fri,  5 May 2023 07:11:18 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5B12E492C13;
+ Fri,  5 May 2023 07:11:20 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id BCF8118003BA; Fri,  5 May 2023 09:11:17 +0200 (CEST)
+ id C066C1800986; Fri,  5 May 2023 09:11:17 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: seabios@seabios.org
 Cc: qemu-devel@nongnu.org,
 	Gerd Hoffmann <kraxel@redhat.com>
-Subject: [PATCH v3 1/6] better kvm detection
-Date: Fri,  5 May 2023 09:11:12 +0200
-Message-Id: <20230505071117.369471-2-kraxel@redhat.com>
+Subject: [PATCH v3 2/6] detect physical address space size
+Date: Fri,  5 May 2023 09:11:13 +0200
+Message-Id: <20230505071117.369471-3-kraxel@redhat.com>
 In-Reply-To: <20230505071117.369471-1-kraxel@redhat.com>
 References: <20230505071117.369471-1-kraxel@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -22
@@ -78,62 +78,127 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-In case kvm emulates features of another hypervisor (for example hyperv)
-two VMM CPUID blocks will be present, one for the emulated hypervisor
-and one for kvm itself.
+Check for pae and long mode using cpuid.  If present also read the
+physical address bits.  Apply some qemu sanity checks (see below).
+Record results in PhysBits and LongMode variables.  In case we are not
+sure what the address space size is leave the PhysBits variable unset.
 
-This patch makes seabios loop over the VMM CPUID blocks to make sure it
-will properly detect kvm when multiple blocks are present.
+On qemu we have the problem that for historical reasons x86_64
+processors advertise 40 physical address space bits by default, even in
+case the host supports less than that so actually using the whole
+address space will not work.
+
+Because of that the code applies some extra sanity checks in case we
+find 40 (or less) physical address space bits advertised.  Only
+known-good values (which is 40 for amd processors and 36+39 for intel
+processors) will be accepted as valid.
+
+Recommendation is to use 'qemu -cpu ${name},host-phys-bits=on' to
+advertise valid physical address space bits to the guest.  Some distro
+builds enable this by default, and most likely the qemu default will
+change in near future too.
 
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- src/fw/paravirt.c | 27 +++++++++++++++++++--------
- 1 file changed, 19 insertions(+), 8 deletions(-)
+ src/fw/paravirt.h |  2 ++
+ src/fw/paravirt.c | 57 +++++++++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 59 insertions(+)
 
+diff --git a/src/fw/paravirt.h b/src/fw/paravirt.h
+index 4e2e993ba9d3..62a2cd075d2b 100644
+--- a/src/fw/paravirt.h
++++ b/src/fw/paravirt.h
+@@ -31,6 +31,8 @@ typedef struct QemuCfgDmaAccess {
+ extern u32 RamSize;
+ extern u64 RamSizeOver4G;
+ extern int PlatformRunningOn;
++extern u8 CPUPhysBits;
++extern u8 CPULongMode;
+ 
+ static inline int runningOnQEMU(void) {
+     return CONFIG_QEMU || (
 diff --git a/src/fw/paravirt.c b/src/fw/paravirt.c
-index fba4e52db684..c880cb10a1bc 100644
+index c880cb10a1bc..fc308bf1ef1d 100644
 --- a/src/fw/paravirt.c
 +++ b/src/fw/paravirt.c
-@@ -56,20 +56,31 @@ inline int qemu_cfg_dma_enabled(void)
+@@ -32,6 +32,10 @@
+ u32 RamSize;
+ // Amount of continuous ram >4Gig
+ u64 RamSizeOver4G;
++// physical address space bits
++u8 CPUPhysBits;
++// 64bit processor
++u8 CPULongMode;
+ // Type of emulator platform.
+ int PlatformRunningOn VARFSEG;
+ // cfg enabled
+@@ -129,6 +133,58 @@ static void kvmclock_init(void)
+     tsctimer_setfreq(MHz * 1000, "kvmclock");
+ }
  
- static void kvm_detect(void)
- {
-+    unsigned int i, kvmbase = 0, max = 0;
-     unsigned int eax, ebx, ecx, edx;
-     char signature[13];
- 
--    cpuid(KVM_CPUID_SIGNATURE, &eax, &ebx, &ecx, &edx);
--    memcpy(signature + 0, &ebx, 4);
--    memcpy(signature + 4, &ecx, 4);
--    memcpy(signature + 8, &edx, 4);
--    signature[12] = 0;
-+    for (i = KVM_CPUID_SIGNATURE;; i += 0x100) {
-+        eax = 0;
-+        cpuid(i, &eax, &ebx, &ecx, &edx);
-+        if (eax < i)
-+            break;
-+        memcpy(signature + 0, &ebx, 4);
-+        memcpy(signature + 4, &ecx, 4);
-+        memcpy(signature + 8, &edx, 4);
-+        signature[12] = 0;
-+        dprintf(1, "cpuid 0x%x: eax %x, signature '%s'\n", i, eax, signature);
-+        if (strcmp(signature, "KVMKVMKVM") == 0) {
-+            kvmbase = i;
-+            max = eax;
-+        }
++static void physbits(int qemu_quirk)
++{
++    unsigned int max, eax, ebx, ecx, edx;
++    unsigned int physbits;
++    char signature[13];
++    int pae = 0, valid = 0;
++
++    cpuid(0, &eax, &ebx, &ecx, &edx);
++    memcpy(signature + 0, &ebx, 4);
++    memcpy(signature + 4, &edx, 4);
++    memcpy(signature + 8, &ecx, 4);
++    signature[12] = 0;
++    if (eax >= 1) {
++        cpuid(1, &eax, &ebx, &ecx, &edx);
++        pae = (edx & (1 << 6));
 +    }
++
++    cpuid(0x80000000, &eax, &ebx, &ecx, &edx);
++    max = eax;
++
++    if (max >= 0x80000001) {
++        cpuid(0x80000001, &eax, &ebx, &ecx, &edx);
++        CPULongMode = !!(edx & (1 << 29));
++    }
++
++    if (pae && CPULongMode && max >= 0x80000008) {
++        cpuid(0x80000008, &eax, &ebx, &ecx, &edx);
++        physbits = (u8)eax;
++        if (!qemu_quirk) {
++            valid = 1;
++        } else if (physbits >= 41) {
++            valid = 1;
++        } else if (strcmp(signature, "GenuineIntel") == 0) {
++            if ((physbits == 36) || (physbits == 39))
++                valid = 1;
++        } else if (strcmp(signature, "AuthenticAMD") == 0) {
++            if (physbits == 40)
++                valid = 1;
++        }
++    } else {
++        physbits = pae ? 36 : 32;
++        valid = 1;
++    }
++
++    dprintf(1, "%s: signature=\"%s\", pae=%s, lm=%s, phys-bits=%d, valid=%s\n",
++            __func__, signature, pae ? "yes" : "no", CPULongMode ? "yes" : "no",
++            physbits, valid ? "yes" : "no");
++
++    if (valid)
++        CPUPhysBits = physbits;
++}
++
+ static void qemu_detect(void)
+ {
+     if (!CONFIG_QEMU_HARDWARE)
+@@ -161,6 +217,7 @@ static void qemu_detect(void)
+         dprintf(1, "Running on QEMU (unknown nb: %04x:%04x)\n", v, d);
+         break;
+     }
++    physbits(1);
+ }
  
--    if (strcmp(signature, "KVMKVMKVM") == 0) {
-+    if (kvmbase) {
-         dprintf(1, "Running on KVM\n");
-         PlatformRunningOn |= PF_KVM;
--        if (eax >= KVM_CPUID_SIGNATURE + 0x10) {
--            cpuid(KVM_CPUID_SIGNATURE + 0x10, &eax, &ebx, &ecx, &edx);
-+        if (max >= kvmbase + 0x10) {
-+            cpuid(kvmbase + 0x10, &eax, &ebx, &ecx, &edx);
-             dprintf(1, "kvm: have invtsc, freq %u kHz\n", eax);
-             tsctimer_setfreq(eax, "invtsc");
-         }
+ static int qemu_early_e820(void);
 -- 
 2.40.1
 
