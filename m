@@ -2,76 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E045A6F83B9
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 May 2023 15:18:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ACD236F83BF
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 May 2023 15:19:24 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1puvK1-0008Dg-7G; Fri, 05 May 2023 09:18:05 -0400
+	id 1puvL1-0001Hw-8O; Fri, 05 May 2023 09:19:07 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1puvJu-0008CS-6h
- for qemu-devel@nongnu.org; Fri, 05 May 2023 09:17:59 -0400
-Received: from mail-ed1-x534.google.com ([2a00:1450:4864:20::534])
+ id 1puvKz-0001Ga-TM
+ for qemu-devel@nongnu.org; Fri, 05 May 2023 09:19:05 -0400
+Received: from mail-ed1-x52d.google.com ([2a00:1450:4864:20::52d])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1puvJs-000625-Eq
- for qemu-devel@nongnu.org; Fri, 05 May 2023 09:17:57 -0400
-Received: by mail-ed1-x534.google.com with SMTP id
- 4fb4d7f45d1cf-50be0d835aaso3159704a12.3
- for <qemu-devel@nongnu.org>; Fri, 05 May 2023 06:17:55 -0700 (PDT)
+ id 1puvKx-0006Lj-RK
+ for qemu-devel@nongnu.org; Fri, 05 May 2023 09:19:05 -0400
+Received: by mail-ed1-x52d.google.com with SMTP id
+ 4fb4d7f45d1cf-50bcc565280so2681818a12.2
+ for <qemu-devel@nongnu.org>; Fri, 05 May 2023 06:19:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1683292675; x=1685884675;
+ d=linaro.org; s=google; t=1683292742; x=1685884742;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=5tVPVNzDALYzakMPqGGCIzYb1I80NK4X5006/rlAVmI=;
- b=frvP9ZHmoHETgJ7sufxxO5AlcqpyGRT4YfxFqQCD/p2vY3YbnaMipfdizOrjj7kVP6
- +Kd70NJ0xUMTIpiBmsu9mGsg41g/syixPnakhTe48J35hC00j8KLJaOBt/oOwEaITkX7
- 4x1vQ1xqzTtwTpt+HN9QxV5yi7GtajLJKkG/+udrR7CmM91DVujoMVPmeNuxBTd3lZCf
- IFrFlC0+jiy7DEXVdZilZFP1WPPs6EJ22ea2BE5YxUUgdKeq4DCv2wbgadxLqvxfZHpO
- rZ/ny1AiYYbHPQ8G5uSl2iO85l08uKUQ9IdbacaReGpIEgkS8EIozQEhOdYK67iICv43
- ggDA==
+ bh=1iJg/In4kVZIJb5M1mlBGflolji94+DeBxWhy9kvlPs=;
+ b=VIJPxRZIaTDhIhZpK1UEGjVGZ1ORFIv2QT1s8gBCZqq6kv7JorqY31UKHpU3PDD+iU
+ Ekk3F3KE6G37rG6TVdOXgjMOlQXiZewbUHCEluTsBqsTVHIIerPn+tFY8ygJ3v2qJTzE
+ 2o9K705IByIJnBEarJQFWjkMR4dBEXNgcLAmoLZzgAYnKMsaRr95J3SEYbrft6bQ4h4k
+ 9TD8TzQGPFQiWwdY+r7/vhYoUbHR7C+rrJGz5U2MPZmiwpPkcv+k2kPtt5AUTFvmxteb
+ z+/Q5vTfxtne/yHH/AozILSvMRN63DSCRZee3PP6PkQ2n+fLg6hJ3omtI0nuWJMgeqUr
+ vxAw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683292675; x=1685884675;
+ d=1e100.net; s=20221208; t=1683292742; x=1685884742;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=5tVPVNzDALYzakMPqGGCIzYb1I80NK4X5006/rlAVmI=;
- b=CWfOpPVGgKTewIC0i+Nqc4AAngKYm8Otj4Z2OhgHT9ECYiTZZVyjijss6zQAmlv4iX
- bv2BG1+Kj7FTiowD4kd99VqFWLOrxfFibW4x/VDKpr2Puvw7qx36kS/NBv30OWHsUtTA
- A3IWBBYbXsZYmYkzzaSMMyUWfTfuJy2WbMN+tggzTbv45zWbLjZ2GK9XOT2Y4xwTDzwt
- +Y22oZB39yimP3zzXUgBtkztzx0IUlnIIk7ofTUPfavTgtAKhIF4H/LqQE7v3WPw93YT
- OsS4V781xq3B0ZaQi1lE1IELTSfJjl48VX1kJfCNP6fTMAZCBA7/o5XWls3Fo/o7CrNb
- gYdw==
-X-Gm-Message-State: AC+VfDwcamPZfnandGTigxTQUvNvSaTI56FxlpAaqge5yxSA1ElancXV
- fcxZc0/NnZpqi9TdnE+qG+BB39/2yXLHAZpZlDexag==
-X-Google-Smtp-Source: ACHHUZ7jjAI+a0ktR8aZM4g5wU2nnGAx4wld0DByEChZv4ZYLFvdP/sEl80EEHfxzEKcIjASq0GJuzTf6blFdtBwrPI=
-X-Received: by 2002:a50:fb96:0:b0:504:b511:1a39 with SMTP id
- e22-20020a50fb96000000b00504b5111a39mr1416085edq.12.1683292674989; Fri, 05
- May 2023 06:17:54 -0700 (PDT)
+ bh=1iJg/In4kVZIJb5M1mlBGflolji94+DeBxWhy9kvlPs=;
+ b=dUK+rTVQnvAnvO00zFulIwWUngQEarqPmzUYgoOt+jwwkYUEkFb8cJm9ZWjbtVLOrS
+ uD+AHmKIwzcw35O5fd0c4DuRb75PByly1yJL4SkXDatDOmZVCmbWD6OqDPrUl1DOdBrq
+ 9X5bRV+5xGRQar934q4R7Fv8u7OkBhgROE/rfbAJ0c6JsRt5BFqDvNk+eFpfFMJNyi4Q
+ n7W1lnkXUHZNrUPlKqhIoN2Pno4HZXR01Ip38WOshOv7wkwRQ9EKW7AF4gIjWbSrI8UB
+ fRNZIiAR12QF8z3dGpueZ7s6lk9bgeSknqxChr9lejeaq45+MmRj9RnGMGHJ4n0RzGxJ
+ p+2g==
+X-Gm-Message-State: AC+VfDx6cFElJJB3e96rjqes7SvR939R9ad7j95DLWfqufMo3lSVJyPW
+ fpTyQ+VYGonhz+RA0jD/TtLHYTlcWV5qsGtu3wPggA==
+X-Google-Smtp-Source: ACHHUZ4Hh8A/JZtXZdkV6mmIlmx75i4wZgNI7DDAwtKx3iKY0uTkZQkza3JJI7o1x+3GF75upUn1h5J/J3YTSG6OX4U=
+X-Received: by 2002:a05:6402:31f4:b0:50b:c370:4967 with SMTP id
+ dy20-20020a05640231f400b0050bc3704967mr1666027edb.19.1683292742207; Fri, 05
+ May 2023 06:19:02 -0700 (PDT)
 MIME-Version: 1.0
 References: <20230503070656.1746170-1-richard.henderson@linaro.org>
- <20230503070656.1746170-48-richard.henderson@linaro.org>
-In-Reply-To: <20230503070656.1746170-48-richard.henderson@linaro.org>
+ <20230503070656.1746170-49-richard.henderson@linaro.org>
+In-Reply-To: <20230503070656.1746170-49-richard.henderson@linaro.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 5 May 2023 14:17:44 +0100
-Message-ID: <CAFEAcA9X_JreK4mQ=f3opPhL1+PkmJHJZSEZTrzTpyomfb2wxA@mail.gmail.com>
-Subject: Re: [PATCH v4 47/57] tcg/mips: Use atom_and_align_for_opc
+Date: Fri, 5 May 2023 14:18:51 +0100
+Message-ID: <CAFEAcA8G_AAmPuNhX9k3AqAFStJ7mnMftoEH6N08abRz8i-ZSQ@mail.gmail.com>
+Subject: Re: [PATCH v4 48/57] tcg/ppc: Use atom_and_align_for_opc
 To: Richard Henderson <richard.henderson@linaro.org>
 Cc: qemu-devel@nongnu.org, git@xen0n.name, gaosong@loongson.cn, 
  philmd@linaro.org, qemu-arm@nongnu.org, qemu-riscv@nongnu.org, 
  qemu-s390x@nongnu.org
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::534;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x534.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::52d;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -87,52 +87,43 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, 3 May 2023 at 08:41, Richard Henderson
+On Wed, 3 May 2023 at 08:13, Richard Henderson
 <richard.henderson@linaro.org> wrote:
 >
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->  tcg/mips/tcg-target.c.inc | 11 ++++++++---
->  1 file changed, 8 insertions(+), 3 deletions(-)
+>  tcg/ppc/tcg-target.c.inc | 17 ++++++++++++++++-
+>  1 file changed, 16 insertions(+), 1 deletion(-)
 >
-> diff --git a/tcg/mips/tcg-target.c.inc b/tcg/mips/tcg-target.c.inc
-> index cd0254a0d7..43a8ffac17 100644
-> --- a/tcg/mips/tcg-target.c.inc
-> +++ b/tcg/mips/tcg-target.c.inc
-> @@ -1139,6 +1139,7 @@ static bool tcg_out_qemu_st_slow_path(TCGContext *s, TCGLabelQemuLdst *l)
->  typedef struct {
->      TCGReg base;
->      MemOp align;
-> +    MemOp atom;
->  } HostAddress;
->
->  bool tcg_target_has_memory_bswap(MemOp memop)
-> @@ -1158,11 +1159,16 @@ static TCGLabelQemuLdst *prepare_host_addr(TCGContext *s, HostAddress *h,
+> diff --git a/tcg/ppc/tcg-target.c.inc b/tcg/ppc/tcg-target.c.inc
+> index f0a4118bbb..60375804cd 100644
+> --- a/tcg/ppc/tcg-target.c.inc
+> +++ b/tcg/ppc/tcg-target.c.inc
+> @@ -2034,7 +2034,22 @@ static TCGLabelQemuLdst *prepare_host_addr(TCGContext *s, HostAddress *h,
 >  {
 >      TCGLabelQemuLdst *ldst = NULL;
 >      MemOp opc = get_memop(oi);
 > -    unsigned a_bits = get_alignment_bits(opc);
-> +    MemOp a_bits, atom_u;
->      unsigned s_bits = opc & MO_SIZE;
-> -    unsigned a_mask = (1 << a_bits) - 1;
-> +    unsigned a_mask;
->      TCGReg base;
->
-> +    a_bits = atom_and_align_for_opc(s, &h->atom, &atom_u, opc,
-> +                                    MO_ATOM_IFALIGN, false);
-> +    h->align = a_bits;
-> +    a_mask = (1 << a_bits) - 1;
+> +    MemOp a_bits, atom_a, atom_u;
 > +
->  #ifdef CONFIG_SOFTMMU
->      unsigned s_mask = (1 << s_bits) - 1;
->      int mem_index = get_mmuidx(oi);
+> +    /*
+> +     * Book II, Section 1.4, Single-Copy Atomicity, specifies:
+> +     *
+> +     * Before 3.0, "An access that is not atomic is performed as a set of
+> +     * smaller disjoint atomic accesses. In general, the number and alignment
+> +     * of these accesses are implementation-dependent."  Thus MO_ATOM_IFALIGN.
+> +     *
+> +     * As of 3.0, "the non-atomic access is performed as described in
+> +     * the corresponding list", which matches MO_ATOM_SUBALIGN.
+> +     */
+> +    a_bits = atom_and_align_for_opc(s, &atom_a, &atom_u, opc,
+> +                                    have_isa_3_00 ? MO_ATOM_SUBALIGN
+> +                                                  : MO_ATOM_IFALIGN,
+> +                                    false);
+>
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Why doesn't this patch have changes to a HostAddress struct
+like all the other archs ?
 
-(For a set of functions so new they're not even in master yet
-these do seem to have a surprisingly large variance in how
-they're setting up these HostAddress structs...)
-
-thanks
 -- PMM
 
