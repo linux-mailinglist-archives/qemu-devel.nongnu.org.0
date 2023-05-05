@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16C6A6F8AF6
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 May 2023 23:28:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 312CD6F8B08
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 May 2023 23:29:19 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pv2va-0000rh-MF; Fri, 05 May 2023 17:25:22 -0400
+	id 1pv2vt-0001H9-1y; Fri, 05 May 2023 17:25:41 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pv2vX-0000q4-F3
+ id 1pv2vX-0000qh-Q2
  for qemu-devel@nongnu.org; Fri, 05 May 2023 17:25:19 -0400
-Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f])
+Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pv2vP-0004fw-G7
+ id 1pv2vQ-0004g4-11
  for qemu-devel@nongnu.org; Fri, 05 May 2023 17:25:19 -0400
-Received: by mail-wm1-x32f.google.com with SMTP id
- 5b1f17b1804b1-3f1e2555b5aso16256345e9.0
+Received: by mail-wr1-x431.google.com with SMTP id
+ ffacd0b85a97d-3023a56048bso2068801f8f.3
  for <qemu-devel@nongnu.org>; Fri, 05 May 2023 14:25:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=linaro.org; s=google; t=1683321910; x=1685913910;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=Bq2h9X5UNDb637fCQb6pFT3eLaF1A8JaUegXUakX2qE=;
- b=OibSM4vE2KwV+ScIoiCvrsYDbgSRWzHCgdY3uAPxGJAYTj8crdHJptn27iRPOEuG+e
- xyhSzmi9AV7HNr1ymbaUnmL/ANTvZ3Pa+qruthJk8fm9yW1n1Vv2c8+Hc8goMr+MGYjQ
- eEc0R9hLgi8B5hAELMzcUpJ6SRaaUy85w1B3J4zH99ilNIqpA5nR1JLbqIa9HFIKg1G7
- bW50P+A6nRDwkBulD/pxm//VcqPn6W+ftFj6Yw6zYfjZSNGY66CL1rCT5VubSwUpmk2c
- DWlCc0LJ0X75exZnvBG9JKLsySxe6w1Rrwllazipde6YAQxJzeQP79+wH7bNNKojuE4V
- GuZA==
+ bh=JBlLTyWKOiEkOq0J5b/GXBVDB4TkoIkhZS8BOvAsaM4=;
+ b=kDLX2I/ck4Y1SWTYt3GY7GLelgGdJEDdkhKvGdzf+Bpz04Vx6ybwmomd2LbATuojc+
+ GcoZ5Er/bdWZm7OLlC7I4grDSBjRaHLbxouhhZZ4ZJbGJak3VMMWlwu8NadX08RjknIq
+ FAh93bsJnhq+Jqf8Yek1Qb9hY4WxfmWSKh5Qlp7LOV+AxVo1liN6k9yh4GYqklCYNPVa
+ 16BlzlfvLTShpE8v5R1k1SFdq0jYh0PstSQ+1SDXoMVgp/0PwFUV87ISXQGWRpsXHQON
+ r7wLgNHGYkp2X0ulna/Jn5OQ3NEx2rkkKubPoEeLsw1MnwZFbAKil8FNcO8nR62ydV7C
+ pOIA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20221208; t=1683321910; x=1685913910;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=Bq2h9X5UNDb637fCQb6pFT3eLaF1A8JaUegXUakX2qE=;
- b=DEqK6pp78/DGbxBTYI6WjuozOOa5gX9MUPTSfIi2yJJ9po2LJPq+vfNdQ59OvuZ9jj
- 85FQ6a4IXzb7F9aLvjux3vdSl0p7zjoDmwEgGLr+vmhdHGtDiwfOsUXHskL5vE4linQm
- zkJqdOi2bUfuWDxVpDgS6beFUC//x91w3yNB3w7/T8d15e9fsXhdDQo0fBRcWjdbRVYZ
- qRjZ8B6jD7QWHquK1jz2I/xqPjSBR+B9AVIFYjTnGaARLpDx4r7jQ66CtB41VZehlJpD
- OiODE7n4nCiR86E9a/cISO+DvzHiX3lp3zqDU8vhI/wvDYy78mL8E6lA/2DiijJRjQud
- ttbQ==
-X-Gm-Message-State: AC+VfDxEB7b2B3XElRcekqaHR95Kc7n0nhhhCI8qOiynQEiyUZ2XsQo/
- 4zV3z++gLAsxSnHXRMSO5SKFnALkihWPVsfn+O2lwg==
-X-Google-Smtp-Source: ACHHUZ6vHaHs6yClLSUCbHP4C6xOe50fZC5yUJjG38FNKiS1/3kZUVDCTfh/V03wnOUj81IP9ZDjQg==
-X-Received: by 2002:a7b:c38c:0:b0:3f4:e5c:794 with SMTP id
- s12-20020a7bc38c000000b003f40e5c0794mr1957297wmj.3.1683321910150; 
+ bh=JBlLTyWKOiEkOq0J5b/GXBVDB4TkoIkhZS8BOvAsaM4=;
+ b=BpP5GuB9RXB+YKNlnMeNjv2tJo+tml+QyopG+G4SITKfhyaqmEZ5waHpbhA+gVGFDW
+ yxqQddhBOHcGVNY38Zb3EUijypmS6dcdZX62DM3vVK6mrvE+QsO363YKVe0nq4GoC5h1
+ d/gijTYdXO+ExjlwP4ozPt50b5cFAKd02EgNnA8KtIobV2Rq2y0fMNiVrJdz2jtc60/3
+ JvwbqZeCgVztInMUOsGtk0iKBhr2I0qcoRWKpXrwnRg31Set0A0Szs+qx3X2r+WKttFs
+ ihckdpRx8Vtv1kDvhivP954obURLX5/nkJblmGfyeotgjPyvIARXCe6GgMCe6bILH0Jv
+ HgTA==
+X-Gm-Message-State: AC+VfDxI36W9MD+bVJB5OKHW9K45JPdL8HwbYjjza9Os+EEflNCYH8La
+ 33v9cZWEoHSheSAc6xxxfnxVovYsJupRdeLwD684wA==
+X-Google-Smtp-Source: ACHHUZ4LKAkeZeiJPg4YDabbzhsiuC6GKg2zlyLxvxYcQ+CpG7a+kUVDcIe/dHc84A3c63XjuDmA/Q==
+X-Received: by 2002:adf:e787:0:b0:2f6:519c:6aa6 with SMTP id
+ n7-20020adfe787000000b002f6519c6aa6mr2129864wrm.9.1683321910719; 
  Fri, 05 May 2023 14:25:10 -0700 (PDT)
 Received: from stoup.. ([212.241.182.8]) by smtp.gmail.com with ESMTPSA id
- t14-20020a5d460e000000b003047ae72b14sm3426709wrq.82.2023.05.05.14.25.09
+ t14-20020a5d460e000000b003047ae72b14sm3426709wrq.82.2023.05.05.14.25.10
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 05 May 2023 14:25:09 -0700 (PDT)
+ Fri, 05 May 2023 14:25:10 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PULL 38/42] tcg/sparc64: Pass TCGType to tcg_out_qemu_{ld,st}
-Date: Fri,  5 May 2023 22:24:43 +0100
-Message-Id: <20230505212447.374546-39-richard.henderson@linaro.org>
+Subject: [PULL 39/42] tcg: Move TCGLabelQemuLdst to tcg.c
+Date: Fri,  5 May 2023 22:24:44 +0100
+Message-Id: <20230505212447.374546-40-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230505212447.374546-1-richard.henderson@linaro.org>
 References: <20230505212447.374546-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
- envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x32f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::431;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x431.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -91,41 +91,62 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-We need to set this in TCGLabelQemuLdst, so plumb this
-all the way through from tcg_out_op.
-
 Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tcg/sparc64/tcg-target.c.inc | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ tcg/tcg.c          | 13 +++++++++++++
+ tcg/tcg-ldst.c.inc | 14 --------------
+ 2 files changed, 13 insertions(+), 14 deletions(-)
 
-diff --git a/tcg/sparc64/tcg-target.c.inc b/tcg/sparc64/tcg-target.c.inc
-index dbe4bf96b9..7e6466d3b6 100644
---- a/tcg/sparc64/tcg-target.c.inc
-+++ b/tcg/sparc64/tcg-target.c.inc
-@@ -1178,7 +1178,7 @@ static const int qemu_st_opc[(MO_SIZE | MO_BSWAP) + 1] = {
- };
+diff --git a/tcg/tcg.c b/tcg/tcg.c
+index cfd3262a4a..6f5daaee5f 100644
+--- a/tcg/tcg.c
++++ b/tcg/tcg.c
+@@ -94,6 +94,19 @@ typedef struct QEMU_PACKED {
+     DebugFrameFDEHeader fde;
+ } DebugFrameHeader;
  
- static void tcg_out_qemu_ld(TCGContext *s, TCGReg data, TCGReg addr,
--                            MemOpIdx oi, bool is_64)
-+                            MemOpIdx oi, TCGType data_type)
- {
-     MemOp memop = get_memop(oi);
-     tcg_insn_unit *label_ptr;
-@@ -1636,10 +1636,10 @@ static void tcg_out_op(TCGContext *s, TCGOpcode opc,
-         break;
++typedef struct TCGLabelQemuLdst {
++    bool is_ld;             /* qemu_ld: true, qemu_st: false */
++    MemOpIdx oi;
++    TCGType type;           /* result type of a load */
++    TCGReg addrlo_reg;      /* reg index for low word of guest virtual addr */
++    TCGReg addrhi_reg;      /* reg index for high word of guest virtual addr */
++    TCGReg datalo_reg;      /* reg index for low word to be loaded or stored */
++    TCGReg datahi_reg;      /* reg index for high word to be loaded or stored */
++    const tcg_insn_unit *raddr;   /* addr of the next IR of qemu_ld/st IR */
++    tcg_insn_unit *label_ptr[2]; /* label pointers to be updated */
++    QSIMPLEQ_ENTRY(TCGLabelQemuLdst) next;
++} TCGLabelQemuLdst;
++
+ static void tcg_register_jit_int(const void *buf, size_t size,
+                                  const void *debug_frame,
+                                  size_t debug_frame_size)
+diff --git a/tcg/tcg-ldst.c.inc b/tcg/tcg-ldst.c.inc
+index 403cbb0f06..ffada04af0 100644
+--- a/tcg/tcg-ldst.c.inc
++++ b/tcg/tcg-ldst.c.inc
+@@ -20,20 +20,6 @@
+  * THE SOFTWARE.
+  */
  
-     case INDEX_op_qemu_ld_i32:
--        tcg_out_qemu_ld(s, a0, a1, a2, false);
-+        tcg_out_qemu_ld(s, a0, a1, a2, TCG_TYPE_I32);
-         break;
-     case INDEX_op_qemu_ld_i64:
--        tcg_out_qemu_ld(s, a0, a1, a2, true);
-+        tcg_out_qemu_ld(s, a0, a1, a2, TCG_TYPE_I64);
-         break;
-     case INDEX_op_qemu_st_i32:
-         tcg_out_qemu_st(s, a0, a1, a2, TCG_TYPE_I32);
+-typedef struct TCGLabelQemuLdst {
+-    bool is_ld;             /* qemu_ld: true, qemu_st: false */
+-    MemOpIdx oi;
+-    TCGType type;           /* result type of a load */
+-    TCGReg addrlo_reg;      /* reg index for low word of guest virtual addr */
+-    TCGReg addrhi_reg;      /* reg index for high word of guest virtual addr */
+-    TCGReg datalo_reg;      /* reg index for low word to be loaded or stored */
+-    TCGReg datahi_reg;      /* reg index for high word to be loaded or stored */
+-    const tcg_insn_unit *raddr;   /* addr of the next IR of qemu_ld/st IR */
+-    tcg_insn_unit *label_ptr[2]; /* label pointers to be updated */
+-    QSIMPLEQ_ENTRY(TCGLabelQemuLdst) next;
+-} TCGLabelQemuLdst;
+-
+-
+ /*
+  * Generate TB finalization at the end of block
+  */
 -- 
 2.34.1
 
