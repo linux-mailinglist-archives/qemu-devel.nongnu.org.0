@@ -2,73 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1A106F7A0B
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 May 2023 02:24:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9A7B6F7A2C
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 May 2023 02:50:36 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pujDJ-0007BW-BW; Thu, 04 May 2023 20:22:21 -0400
+	id 1pujcY-0003y4-Qr; Thu, 04 May 2023 20:48:26 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsun@junsun.net>) id 1pujDG-00079B-W8
- for qemu-devel@nongnu.org; Thu, 04 May 2023 20:22:19 -0400
-Received: from mail-ot1-x329.google.com ([2607:f8b0:4864:20::329])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <jsun@junsun.net>) id 1pujDE-0005l4-UG
- for qemu-devel@nongnu.org; Thu, 04 May 2023 20:22:18 -0400
-Received: by mail-ot1-x329.google.com with SMTP id
- 46e09a7af769-6a5d9853d97so452665a34.2
- for <qemu-devel@nongnu.org>; Thu, 04 May 2023 17:22:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=junsun-net.20221208.gappssmtp.com; s=20221208; t=1683246135; x=1685838135;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=5SUr3/YDfseLvAPIUr4NOga8wGQCw3WV5Lgr49hR+OU=;
- b=sJ7VlxHENFk762+8JyUVzCqbrhxruGN6fO1KMcB2oJc8u8PcQ+JJhEH04j64wDuwf1
- GYG1wJNEIYUsoeBVFMMGOtbpzf6W2ljNUuVfq6u/KwNcJ7tpTLsMVgo10rp8iz0ABSCr
- p6GmGDlwfIdWnmFFrGrDZjDGgLfW9ocyuij4r9cmmLaT2vhYQQkBSK7IK7zrr8rJZ8jy
- WfZ3VUIBqN6a+WuKiVrkJEI5NDkkwu80djITq9nFkdUgjqN15XqiNnHBOUzxDsBuZuxV
- T40kz632zR/Uh1T9GyREtdbQ0bl0NnvP8E5y9ej3Ph/vCD78Ss7O6vC6bu12BIbswKB2
- tjfw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683246135; x=1685838135;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=5SUr3/YDfseLvAPIUr4NOga8wGQCw3WV5Lgr49hR+OU=;
- b=J9ArK+SoNKLp1k+DMw1PqdSi13DNhHu1VLumC+EMggLpHe/C+H2aCn3+xRGSo5HnaA
- tyCaMGIMH92+989my+msbR+mB2cvgifdh0dU4M4BCywkwIAlI25agzHIjjcTFRQXFLzf
- 7pH5+BdVlf2lH6Xyp4GV7LFQn0Dn+VAL+EKJZmhWEcju73W/BvHsL519Fkd2L4qUGgQi
- VyU1yQJ0b2jCvugB///8ukSdCn5LfTBs/1/dxK6yl1TF4g0/mLPEFMmYxbIfjQakEYjt
- vKUko2qDMktGESqc6+b27ZSJt8+i17Cl4aiRw3HBRIJt4FgUCq8dejwW59HPg0t2sdxf
- Eyhw==
-X-Gm-Message-State: AC+VfDyQyrnnE52ECRQdl6hyFCIUpVxziYxpNyP6ddH0VcP7LAWgoBp3
- sl4scBz8AJGtrgWuHhqKCv+YU9Hh09w3R4VBY0fe0Q==
-X-Google-Smtp-Source: ACHHUZ5d43j6LnYctEJ2nlaPxQQTZthn20cm39pQMncptC2ukLIZZ12ijDBF4nl6C8ZitlcATzn7Vv1JGpQ6wcvHXnw=
-X-Received: by 2002:a05:6808:1a9c:b0:38e:4737:fba1 with SMTP id
- bm28-20020a0568081a9c00b0038e4737fba1mr2304858oib.29.1683246135212; Thu, 04
- May 2023 17:22:15 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1pujcW-0003wn-JY
+ for qemu-devel@nongnu.org; Thu, 04 May 2023 20:48:24 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1pujcT-0000fY-Tp
+ for qemu-devel@nongnu.org; Thu, 04 May 2023 20:48:23 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1683247699;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=cHvyjPV1fTICsQfHOELv1x0hM+wuKjMjve/w19Xwheo=;
+ b=dFu2AtDIQemrtOuir7kr1CR2dW8v2X4Y/IrXK290xcXkHBD12SSw/oi3bgr4L3QL2nCm0n
+ 5JFFfuEc7pjaBgtY2datE5Dp91lTUiml9Ks94xslYLS5HmWhZnlPs+2cE2JwjM+fprIZ6J
+ iR7mS9QIUU4EMGjoPZUk3MMUw5mBrfo=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-13-Fxa05wdYOBKaV5Wp7PYSJQ-1; Thu, 04 May 2023 20:48:16 -0400
+X-MC-Unique: Fxa05wdYOBKaV5Wp7PYSJQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D5FDF811E7B;
+ Fri,  5 May 2023 00:48:15 +0000 (UTC)
+Received: from secure.mitica (unknown [10.39.193.236])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5FCEB404B24D;
+ Fri,  5 May 2023 00:48:13 +0000 (UTC)
+From: Juan Quintela <quintela@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: Eric Blake <eblake@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
+ Stefan Hajnoczi <stefanha@redhat.com>, John Snow <jsnow@redhat.com>,
+ Juan Quintela <quintela@redhat.com>, qemu-block@nongnu.org,
+ Leonardo Bras <leobras@redhat.com>, Fam Zheng <fam@euphon.net>,
+ Peter Xu <peterx@redhat.com>
+Subject: [PULL 00/16] Migration 20230505 patches
+Date: Fri,  5 May 2023 02:47:56 +0200
+Message-Id: <20230505004812.31583-1-quintela@redhat.com>
 MIME-Version: 1.0
-References: <CAP5Nno6wrz4qEMK70KFwxoZWeo89+SAyXDXFW8A30mJ-WeFi4A@mail.gmail.com>
- <87ttwts5ur.fsf@linaro.org>
-In-Reply-To: <87ttwts5ur.fsf@linaro.org>
-From: Jun Sun <jsun@junsun.net>
-Date: Thu, 4 May 2023 17:22:03 -0700
-Message-ID: <CAP5Nno4C6C-sfj73NM92Gstnw8mm7A7RwEYT=oUZm1Fh0QqFYQ@mail.gmail.com>
-Subject: Re: [PATCH risu] use time() as random seed and introduce --randseed
- option
-To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
-Cc: qemu-devel@nongnu.org
-Content-Type: multipart/alternative; boundary="000000000000f5955405fae747ac"
-Received-SPF: none client-ip=2607:f8b0:4864:20::329;
- envelope-from=jsun@junsun.net; helo=mail-ot1-x329.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -22
+X-Spam_score: -2.3
+X-Spam_bar: --
+X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.161,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -84,102 +80,63 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
---000000000000f5955405fae747ac
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+The following changes since commit f6b761bdbd8ba63cee7428d52fb6b46e4224ddab:
 
-Agree on the usefulness of generating the same test.  That is the reason
-behind adding --randseed option.  Once a seed is set, it always generates
-the same sequence of instructions.
+  Merge tag 'qga-pull-2023-05-04' of https://github.com/kostyanf14/qemu into staging (2023-05-04 12:08:00 +0100)
 
-Basically with this patch,
+are available in the Git repository at:
 
-   - by default you will generate random instruction sequences for most
-   testing cases
-   - you can provide a random seed option in the commandline to generate a
-   deterministic instruction sequence
+  https://gitlab.com/juan.quintela/qemu.git tags/migration-20230505-pull-request
 
-Without this patch,
+for you to fetch changes up to fae4009fb51b12927165667a9c9d6af93d31b1df:
 
-   - we always get one fixed sequence (ie. random seed =3D=3D 0 case)
-   - Otherwise we would have to manually modify code to generate random
-   instruction sequences or generate a different fixed sequence.
+  qemu-file: Make ram_control_save_page() use accessors for rate_limit (2023-05-05 02:01:59 +0200)
 
-Hope this clarifies things a little bit.
+----------------------------------------------------------------
+Migration Pull request (20230505 edition)
 
-Jun
+In this series:
+- fix block_bitmap_mapping (juan)
+- RDMA cleanup (juan)
+- qemu file cleanup (juan)
 
-On Wed, May 3, 2023 at 10:05=E2=80=AFAM Alex Benn=C3=A9e <alex.bennee@linar=
-o.org> wrote:
+Please apply.
 
->
-> Jun Sun <jsun@junsun.net> writes:
->
-> > By default, risu currently does not generate random instruction
-> sequences because it uses 0 as the random seed.
-> > This patch uses time() as random seed and also introduces --randomseed
-> option for deterministic sequence
-> > generation.
->
-> I can see the benefit for being able to change the seed but I think
-> using time() by default means any given sequence won't be reproducible.
-> This is useful behaviour if you want to regenerate the same test
-> sequence on another machine without copying stuff about.
->
-> >
-> > [4. text/x-diff;
-> 0008-add-randseed-option-and-use-time-as-default-seed.patch]...
->
->
-> --
-> Alex Benn=C3=A9e
-> Virtualisation Tech Lead @ Linaro
->
+----------------------------------------------------------------
 
---000000000000f5955405fae747ac
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Juan Quintela (16):
+  migration: Fix block_bitmap_mapping migration
+  migration/rdma: Don't pass the QIOChannelRDMA as an opaque
+  migration: Document all migration_stats
+  migration: Put zero_pages in alphabetical order
+  migration: Rename xbzrle_enabled xbzrle_started
+  migration: Make RAM_SAVE_FLAG_HOOK a normal case entry
+  migration/rdma: simplify ram_control_load_hook()
+  migration/rdma: We can calculate the rioc from the QEMUFile
+  migration/rdma: It makes no sense to recive that flag without RDMA
+  migration/rdma: Check for postcopy sooner
+  migration: max_postcopy_bandwidth is a size parameter
+  migration: qemu_file_total_transferred() function is monotonic
+  qemu-file: No need to check for shutdown in qemu_file_rate_limit
+  qemu-file: remove shutdown member
+  qemu-file: Make total_transferred an uint64_t
+  qemu-file: Make ram_control_save_page() use accessors for rate_limit
 
-<div dir=3D"ltr">Agree on the usefulness of generating the same test.=C2=A0=
- That is the reason behind adding --randseed option.=C2=A0 Once a seed is s=
-et, it always generates the same sequence of instructions.<div><br></div><d=
-iv>Basically with this patch,</div><div><ul><li>by default you will generat=
-e random instruction sequences for most testing cases</li><li>you can provi=
-de a random seed option in the commandline=C2=A0to generate a deterministic=
- instruction sequence</li></ul><div>Without this patch,</div></div><div><ul=
-><li>we always get one fixed sequence (ie. random=C2=A0seed =3D=3D 0 case)<=
-/li><li>Otherwise we would have to manually modify code to generate random =
-instruction sequences or generate a different=C2=A0fixed sequence.</li></ul=
-><div>Hope this clarifies things a little bit.</div></div><div><br></div><d=
-iv>Jun</div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"=
-gmail_attr">On Wed, May 3, 2023 at 10:05=E2=80=AFAM Alex Benn=C3=A9e &lt;<a=
- href=3D"mailto:alex.bennee@linaro.org">alex.bennee@linaro.org</a>&gt; wrot=
-e:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0=
-.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><br>
-Jun Sun &lt;<a href=3D"mailto:jsun@junsun.net" target=3D"_blank">jsun@junsu=
-n.net</a>&gt; writes:<br>
-<br>
-&gt; By default, risu currently does not generate random instruction sequen=
-ces because it uses 0 as the random seed. <br>
-&gt; This patch uses time() as random seed and also introduces --randomseed=
- option for deterministic sequence<br>
-&gt; generation.<br>
-<br>
-I can see the benefit for being able to change the seed but I think<br>
-using time() by default means any given sequence won&#39;t be reproducible.=
-<br>
-This is useful behaviour if you want to regenerate the same test<br>
-sequence on another machine without copying stuff about.<br>
-<br>
-&gt;<br>
-&gt; [4. text/x-diff; 0008-add-randseed-option-and-use-time-as-default-seed=
-.patch]...<br>
-<br>
-<br>
--- <br>
-Alex Benn=C3=A9e<br>
-Virtualisation Tech Lead @ Linaro<br>
-</blockquote></div>
+ migration/block-dirty-bitmap.c | 14 ++++-------
+ migration/block.c              | 13 +++-------
+ migration/migration-stats.h    | 45 ++++++++++++++++++++++++++++++++-
+ migration/migration.c          |  4 +--
+ migration/options.c            |  9 ++++++-
+ migration/options.h            |  4 ++-
+ migration/qemu-file.c          | 35 +++++++-------------------
+ migration/qemu-file.h          |  4 +--
+ migration/ram.c                | 26 +++++++++----------
+ migration/rdma.c               | 46 +++++++++++++++++-----------------
+ migration/savevm.c             |  6 ++---
+ migration/vmstate.c            |  2 +-
+ 12 files changed, 114 insertions(+), 94 deletions(-)
 
---000000000000f5955405fae747ac--
+-- 
+2.40.0
+
 
