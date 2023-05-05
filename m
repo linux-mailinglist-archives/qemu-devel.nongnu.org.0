@@ -2,85 +2,109 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED7716F7C22
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 May 2023 06:57:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 135156F7C81
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 May 2023 07:47:25 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1punUM-0004NP-VQ; Fri, 05 May 2023 00:56:15 -0400
+	id 1puoGS-0004Um-6C; Fri, 05 May 2023 01:45:56 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
- id 1punUJ-0004NB-JR
- for qemu-devel@nongnu.org; Fri, 05 May 2023 00:56:11 -0400
-Received: from mail-pj1-x102a.google.com ([2607:f8b0:4864:20::102a])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
- id 1punUG-0003Dr-W9
- for qemu-devel@nongnu.org; Fri, 05 May 2023 00:56:10 -0400
-Received: by mail-pj1-x102a.google.com with SMTP id
- 98e67ed59e1d1-24e5d5782edso1287384a91.0
- for <qemu-devel@nongnu.org>; Thu, 04 May 2023 21:56:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1683262567; x=1685854567;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=Tb8sjhNLr3yhxpT87IGgU4I6iW7oPEeK1eXi2F8N1Pg=;
- b=po5pUY3oAZGg2RPARLR6MRRfWJGQ2m+fm5qBh0H4NjfLJz1o3L/M+tOIrLmIAWItg/
- yx+VJUzv//VoRFlG59sMtzkD2Tq7ZrJ2MKXKpSNFUSQXAl3R+sOfF5tLuTPqUcZSsJx0
- FA/2p/sVgsWk/6DjlJJmOkjssEqkl3PuUIhjtw1Otzd4ajD8uXNsi9D/HUQKxA0ULjob
- cqorAFAVhpiCd4fIPWxdS8djBLNgxkSG6sz0kFsuQD5qnEyoGRyC0f/mSXRFv2bpK74o
- zxBEVS2gmSTbUBTKwMDDe4I1AbJc9MpxyIs5srkyb4OM5Jtr54A1X0s+1ozV0ElKYvMf
- +elQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683262567; x=1685854567;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Tb8sjhNLr3yhxpT87IGgU4I6iW7oPEeK1eXi2F8N1Pg=;
- b=YjOJlBOMUb5aqHzoO7ekTIZIL23XWxXauZkEBtUTW9Bacy0pkGVr/3szEwO1fMlC3K
- SE0YwZ+83y1GhFaBcnj4URqYDt2TPQBpaGLqsqAGMe2Q9M5uUI6fLCRS85MeagVC9JvR
- S3OkA41wuwYTrG+cI3bJwEkqo4DdOyD+XHUW18Tc14sPhVd7Ki1W/v+6btSPcxuIauhV
- 4NAiWiPvQYmeOrlxiR35VYgDyusDGKyj7uAYhmmVJ6W+AT+vv7WdK0OQMEUKvcPwaW8P
- tkDFd3mPfYuO+V97RUJBaql7PS/o7NQ84l88meMX2J+B5Mcij2pS6JMggIZdbZbAMmjL
- 7z1Q==
-X-Gm-Message-State: AC+VfDwIX9NX03sRqQ1YojDtpe66FoO8aCFdZKsgSpewqPRH+WKeIncF
- 7MOz+F1I+cb75nTF06I2Eo0=
-X-Google-Smtp-Source: ACHHUZ7BLcITVmEv4hymFFwifdDQYt0kwsfgVcXHLBOfonAYwDlPehU0WzuweVVHWCXMkHk6ssdB5w==
-X-Received: by 2002:a17:90b:817:b0:24b:fd8d:536b with SMTP id
- bk23-20020a17090b081700b0024bfd8d536bmr223646pjb.29.1683262567261; 
- Thu, 04 May 2023 21:56:07 -0700 (PDT)
-Received: from ?IPV6:2400:4050:a840:1e00:4457:c267:5e09:481b?
- ([2400:4050:a840:1e00:4457:c267:5e09:481b])
- by smtp.gmail.com with ESMTPSA id
- e8-20020a17090a9a8800b0024e227828a9sm3997774pjp.24.2023.05.04.21.56.04
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 04 May 2023 21:56:06 -0700 (PDT)
-Message-ID: <168d3290-1db5-6dda-1464-493c18473760@gmail.com>
-Date: Fri, 5 May 2023 13:56:02 +0900
+ (Exim 4.90_1) (envelope-from <yajunw@nvidia.com>) id 1puoGL-0004R7-OL
+ for qemu-devel@nongnu.org; Fri, 05 May 2023 01:45:49 -0400
+Received: from mail-bn8nam11on2041.outbound.protection.outlook.com
+ ([40.107.236.41] helo=NAM11-BN8-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <yajunw@nvidia.com>) id 1puoGD-0005IB-2n
+ for qemu-devel@nongnu.org; Fri, 05 May 2023 01:45:49 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=K9vjY5BsbwNlrD7U+RQDlKdGlt3rb97njKJz4XI70DGKoubJxtRa02Hzgv6AGPIppB8Bpogy7ItTOvr4xTd/xUvMmNJ99I1U77pM+sHAljYdcnSLR4NBXg0sM6Ef/ZmHgoQAJsCKu4ifZHEWqilOdh7CY+EicqFWKGHdPymiC04FFQqGaIlJRnrxhgezaER0gpLSlsE6SLIn+Ve0qB7X+j4exxdvC9lmXqqVK8LYLIjHJFzOvRb2+uE+WFj45tp+Dk9lqa2fna0S8tSJ5/+TH+oBBDAfR90JePbuNfApTyvDSycAYUcc8DrZnG3jhYevwNq5owVyHEbRzlWahekieg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=RB6viYA0niwqHvbytGvVwv2YuHctZkUCbMRu/zsZayI=;
+ b=ZX1QXq/eppu5DNQ0mgntJtfTAnE5qszeuLoF5tpMXkO924p/u5s3F9j2BYogm42oI8B2D6q9d3avTg+3TiASSzJunJc3FcTssuF64oa7IFbVQKnbo+EAzTEfWGgkytpAdMz0IWc07GMIGnXH3q/FVnbFa9A7gqXPf4Mvoakbv87PS/FosGft4OdRNHlcy0R4HciQe+01pv5L1TFxePUValRPXdcVIGFeF2Gy29q3hP9miAHzSVwWw8i2hhBCfFXCVVuCbQrNwBgC25ZqIs35nBYOeTUOWqZunL9tv9zaF0MN2P7+45dMr2y4lGVUrGvMaLR+h8+HlNENXK10lv8Lqw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.117.161) smtp.rcpttodomain=nongnu.org smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
+ dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=RB6viYA0niwqHvbytGvVwv2YuHctZkUCbMRu/zsZayI=;
+ b=nMQIseSekUAaah7TNNCtLee6djqT8i6zsxrz+UFW+02iGHKpERScqtykInKnCzM2td79Nxptpg+THJ6KBp6B8GobLnmAnO3jUsWLgAyGzBgy1pSG40+yj8T3l6aOVO8qonBl2OsVeVyC4YPBC21E0e0tYM0UgR6FunSmFKtDHIdoiVTfgQlk42kpB7Fgo5cz7UimM4upyt1aOePdaN7sxEPCSY/30vYNzB+UUgwYosR4FFwKQXYe2J6sxgkBSal/JQ/5g+97MkesH1e3cDJI0TPi8q06kcyE+dBJ3ocg8K7idzolYPILTCkX9cDkYoBrGHknq7i/8Cr9Y7BKhOXj4g==
+Received: from BYAPR05CA0041.namprd05.prod.outlook.com (2603:10b6:a03:74::18)
+ by SA1PR12MB8644.namprd12.prod.outlook.com (2603:10b6:806:384::17)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6363.22; Fri, 5 May
+ 2023 05:40:35 +0000
+Received: from DS1PEPF0000E630.namprd02.prod.outlook.com
+ (2603:10b6:a03:74:cafe::7a) by BYAPR05CA0041.outlook.office365.com
+ (2603:10b6:a03:74::18) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6387.12 via Frontend
+ Transport; Fri, 5 May 2023 05:40:34 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.161)
+ smtp.mailfrom=nvidia.com;
+ dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.117.161 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.117.161; helo=mail.nvidia.com; pr=C
+Received: from mail.nvidia.com (216.228.117.161) by
+ DS1PEPF0000E630.mail.protection.outlook.com (10.167.17.134) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.6363.21 via Frontend Transport; Fri, 5 May 2023 05:40:34 +0000
+Received: from rnnvmail201.nvidia.com (10.129.68.8) by mail.nvidia.com
+ (10.129.200.67) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.5; Thu, 4 May 2023
+ 22:40:15 -0700
+Received: from nvidia.com (10.126.231.37) by rnnvmail201.nvidia.com
+ (10.129.68.8) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.37; Thu, 4 May 2023
+ 22:40:13 -0700
+From: Yajun Wu <yajunw@nvidia.com>
+To: <qemu-devel@nongnu.org>, <mst@redhat.com>, <yajunw@nvidia.com>
+CC: Maxime Coquelin <maxime.coquelin@redhat.com>
+Subject: [PATCH] docs: vhost-user: VHOST_USER_GET_STATUS require reply
+Date: Fri, 5 May 2023 13:39:41 +0800
+Message-ID: <20230505053941.3597784-1-yajunw@nvidia.com>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.1
-Subject: Re: [PATCH v3 0/5] virtio-gpu cleanups and obvious definitions
-To: Gurchetan Singh <gurchetansingh@chromium.org>, qemu-devel@nongnu.org
-Cc: philmd@linaro.org, kraxel@redhat.com, marcandre.lureau@redhat.com,
- dmitry.osipenko@collabora.com, ray.huang@amd.com, alex.bennee@linaro.org,
- shentey@gmail.com
-References: <20230504191243.746-1-gurchetansingh@chromium.org>
-Content-Language: en-US
-From: Akihiko Odaki <akihiko.odaki@gmail.com>
-In-Reply-To: <20230504191243.746-1-gurchetansingh@chromium.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
- envelope-from=akihiko.odaki@gmail.com; helo=mail-pj1-x102a.google.com
-X-Spam_score_int: -63
-X-Spam_score: -6.4
-X-Spam_bar: ------
-X-Spam_report: (-6.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- NICE_REPLY_A=-4.28, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.126.231.37]
+X-ClientProxiedBy: rnnvmail203.nvidia.com (10.129.68.9) To
+ rnnvmail201.nvidia.com (10.129.68.8)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS1PEPF0000E630:EE_|SA1PR12MB8644:EE_
+X-MS-Office365-Filtering-Correlation-Id: 624ef84f-9706-4cb0-d083-08db4d2b3f7e
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: DLUoID7BAdLjh/mVuPluhj9xLpQALs9imGAiCFqTXtkZ1zZodgldy1CSYRpAfQ8Lpn7a2fcKI9RL78NLsZpOMtb06p2+4iPBq4xZc8ts9o4nzo5vr9iYWTMz4kIbO7WLNhJPubM/CtYGf8Sbjz2ecjWBfcd7KhA8F5TS56YVXz5PSbcGnnIWv34REZuGgA77CeIDgkbnlXrW2tZnug7lHpUbkk1zfuf+NOFeDEWs0pCAy81nk5bGcaxeCtU60ll2qAnu3HDruFjzSRP6UpYlqDgkN3+jHeFE3jNrh18U1rpUNTaUQZbqVQ5m7qkK2BKZ5+m1zVOXfsfumvcPgo+vOJ7BeOWu0IT9xapfssU0wZgybp3+EsBh2XHtMwBQwyXvEH9pp/nqMTcf3iYn/1jWutPjv+ljUjAyTj+9OZPBJMJgMPS+EmXVpjRQKLw8jlHpdVbkoS4avSn3AV0qIyHGf2qIPhkEjNlrVqNzBImwyQ2oPqB1yFC9vS3WD7a7kx0tqRsUJFhawoOPcpeh40ac52hS6RnCYY+zg5wjscWsH4pBCgNBTYmb8yElKC62XKF7Fhbu4p3Clab3M0DpSPcyWWW3YDRhPRa3IibtavyLRJsCkYHZWk67RRplc9i1xXWbfJjLXWUFNLL5YAub6z7+cnaxCdEpjGrQzRHf3VivtqE+p6bpwzWkVO5goAvSjpaMk/0iftkeDuBZ9cyWpiPUoQ==
+X-Forefront-Antispam-Report: CIP:216.228.117.161; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:mail.nvidia.com; PTR:dc6edge2.nvidia.com; CAT:NONE;
+ SFS:(13230028)(4636009)(136003)(39860400002)(396003)(346002)(376002)(451199021)(40470700004)(36840700001)(46966006)(5660300002)(6666004)(7696005)(7049001)(83380400001)(36756003)(36860700001)(47076005)(426003)(55016003)(186003)(40480700001)(2616005)(7636003)(82310400005)(356005)(86362001)(16526019)(6286002)(336012)(40460700003)(82740400003)(26005)(1076003)(110136005)(2906002)(4326008)(4744005)(70206006)(70586007)(8676002)(316002)(8936002)(478600001)(41300700001);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 May 2023 05:40:34.5702 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 624ef84f-9706-4cb0-d083-08db4d2b3f7e
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a; Ip=[216.228.117.161];
+ Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource: DS1PEPF0000E630.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB8644
+Received-SPF: softfail client-ip=40.107.236.41; envelope-from=yajunw@nvidia.com;
+ helo=NAM11-BN8-obe.outbound.protection.outlook.com
+X-Spam_score_int: -22
+X-Spam_score: -2.3
+X-Spam_bar: --
+X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.161,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -97,44 +121,28 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 2023/05/05 4:12, Gurchetan Singh wrote:
-> From: Gurchetan Singh <gurchetansingh@google.com>
-> 
-> v3 of "virtio-gpu cleanups and obvious definitions"
-> 
-> https://lists.gnu.org/archive/html/qemu-devel/2023-04/msg05392.html
-> 
-> All patches have been reviewed, though there was a question from
-> Bernhard Beschow about patch (3) and how it fits with the QOM:
-> 
-> https://lists.gnu.org/archive/html/qemu-devel/2023-05/msg00057.html
-> 
-> I go into detail in patch 3 commit message, but I think we meet
-> the requirements (which are tricky/fuzzy anyways).  Also, I think
-> this is the cleanest way to add another 3D virtgpu backend.  But
-> if anyone has other ideas, please do reply/review.
-> 
-> Antonio Caggiano (1):
->    virtio-gpu: CONTEXT_INIT feature
-> 
-> Dr. David Alan Gilbert (1):
->    virtio: Add shared memory capability
-> 
-> Gurchetan Singh (3):
->    hw/display/virtio-gpu-virgl: virtio_gpu_gl -> virtio_gpu_virgl
->    hw/display/virtio-gpu-virgl: make GL device more library agnostic
->    hw/display/virtio-gpu-virgl: define callbacks in realize function
-> 
->   hw/display/virtio-gpu-base.c   |   3 +
->   hw/display/virtio-gpu-gl.c     | 114 +--------------------------
->   hw/display/virtio-gpu-virgl.c  | 137 +++++++++++++++++++++++++++++++--
->   hw/virtio/virtio-pci.c         |  18 +++++
->   include/hw/virtio/virtio-gpu.h |  11 +--
->   include/hw/virtio/virtio-pci.h |   4 +
->   6 files changed, 160 insertions(+), 127 deletions(-)
-> 
+Add VHOST_USER_GET_STATUS to the list of requests that require a reply.
 
-For all patches:
+Cc: Maxime Coquelin <maxime.coquelin@redhat.com>
+Cc: Michael S. Tsirkin <mst@redhat.com>
+Signed-off-by: Yajun Wu <yajunw@nvidia.com>
+---
+ docs/interop/vhost-user.rst | 1 +
+ 1 file changed, 1 insertion(+)
 
-Reviewed-by: Akihiko Odaki <akihiko.odaki@daynix.com>
+diff --git a/docs/interop/vhost-user.rst b/docs/interop/vhost-user.rst
+index 8a5924ea75..2d13108284 100644
+--- a/docs/interop/vhost-user.rst
++++ b/docs/interop/vhost-user.rst
+@@ -299,6 +299,7 @@ replies. Here is a list of the ones that do:
+ * ``VHOST_USER_GET_VRING_BASE``
+ * ``VHOST_USER_SET_LOG_BASE`` (if ``VHOST_USER_PROTOCOL_F_LOG_SHMFD``)
+ * ``VHOST_USER_GET_INFLIGHT_FD`` (if ``VHOST_USER_PROTOCOL_F_INFLIGHT_SHMFD``)
++* ``VHOST_USER_GET_STATUS`` (if ``VHOST_USER_PROTOCOL_F_STATUS``)
+ 
+ .. seealso::
+ 
+-- 
+2.27.0
+
 
