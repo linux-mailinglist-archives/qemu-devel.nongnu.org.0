@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ACD236F83BF
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 May 2023 15:19:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA9F26F83C9
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 May 2023 15:20:21 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1puvL1-0001Hw-8O; Fri, 05 May 2023 09:19:07 -0400
+	id 1puvLc-0002Oa-VL; Fri, 05 May 2023 09:19:45 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1puvKz-0001Ga-TM
- for qemu-devel@nongnu.org; Fri, 05 May 2023 09:19:05 -0400
-Received: from mail-ed1-x52d.google.com ([2a00:1450:4864:20::52d])
+ id 1puvLa-0002Mv-9R
+ for qemu-devel@nongnu.org; Fri, 05 May 2023 09:19:42 -0400
+Received: from mail-ed1-x536.google.com ([2a00:1450:4864:20::536])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1puvKx-0006Lj-RK
- for qemu-devel@nongnu.org; Fri, 05 May 2023 09:19:05 -0400
-Received: by mail-ed1-x52d.google.com with SMTP id
- 4fb4d7f45d1cf-50bcc565280so2681818a12.2
- for <qemu-devel@nongnu.org>; Fri, 05 May 2023 06:19:03 -0700 (PDT)
+ id 1puvLY-0006YC-Cz
+ for qemu-devel@nongnu.org; Fri, 05 May 2023 09:19:41 -0400
+Received: by mail-ed1-x536.google.com with SMTP id
+ 4fb4d7f45d1cf-50b9ef67f35so3171563a12.2
+ for <qemu-devel@nongnu.org>; Fri, 05 May 2023 06:19:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1683292742; x=1685884742;
+ d=linaro.org; s=google; t=1683292779; x=1685884779;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=1iJg/In4kVZIJb5M1mlBGflolji94+DeBxWhy9kvlPs=;
- b=VIJPxRZIaTDhIhZpK1UEGjVGZ1ORFIv2QT1s8gBCZqq6kv7JorqY31UKHpU3PDD+iU
- Ekk3F3KE6G37rG6TVdOXgjMOlQXiZewbUHCEluTsBqsTVHIIerPn+tFY8ygJ3v2qJTzE
- 2o9K705IByIJnBEarJQFWjkMR4dBEXNgcLAmoLZzgAYnKMsaRr95J3SEYbrft6bQ4h4k
- 9TD8TzQGPFQiWwdY+r7/vhYoUbHR7C+rrJGz5U2MPZmiwpPkcv+k2kPtt5AUTFvmxteb
- z+/Q5vTfxtne/yHH/AozILSvMRN63DSCRZee3PP6PkQ2n+fLg6hJ3omtI0nuWJMgeqUr
- vxAw==
+ bh=IWhwwDCtf+VduCmmkFbrok/9YoNQdtaI1hIhqRrOGL8=;
+ b=mWlq+eY+fiBn3jk1dItTl7M9TBZXz8oMpH3djM5UzGeb0PmrrXma+asnjS1PSlmian
+ zegEozo8MadHSWWFbzJTLE60ZE2r531oc1mXOBFhKycbpodo9OX2xYGPpjbXPzRCBL6v
+ aGDY6nN7xPCaM9B1lr8o7viaaIMbcC++xewl351ijOuaeX7ICWMcAbVrQ/8N3IP7AxNl
+ ew0SeKP5gGlKyUNDpAODVOmYzxfmRCOHEpvMn9LqiE8f3Hv4mo5TLB2TztwxknbHJ7kU
+ 3uahKXvPt/8Am+wUHdL8H4GeO9bB575oiV0jAIJIePim1MvHhlx5LIAukJlg5hHI9zVT
+ 7IhA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683292742; x=1685884742;
+ d=1e100.net; s=20221208; t=1683292779; x=1685884779;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=1iJg/In4kVZIJb5M1mlBGflolji94+DeBxWhy9kvlPs=;
- b=dUK+rTVQnvAnvO00zFulIwWUngQEarqPmzUYgoOt+jwwkYUEkFb8cJm9ZWjbtVLOrS
- uD+AHmKIwzcw35O5fd0c4DuRb75PByly1yJL4SkXDatDOmZVCmbWD6OqDPrUl1DOdBrq
- 9X5bRV+5xGRQar934q4R7Fv8u7OkBhgROE/rfbAJ0c6JsRt5BFqDvNk+eFpfFMJNyi4Q
- n7W1lnkXUHZNrUPlKqhIoN2Pno4HZXR01Ip38WOshOv7wkwRQ9EKW7AF4gIjWbSrI8UB
- fRNZIiAR12QF8z3dGpueZ7s6lk9bgeSknqxChr9lejeaq45+MmRj9RnGMGHJ4n0RzGxJ
- p+2g==
-X-Gm-Message-State: AC+VfDx6cFElJJB3e96rjqes7SvR939R9ad7j95DLWfqufMo3lSVJyPW
- fpTyQ+VYGonhz+RA0jD/TtLHYTlcWV5qsGtu3wPggA==
-X-Google-Smtp-Source: ACHHUZ4Hh8A/JZtXZdkV6mmIlmx75i4wZgNI7DDAwtKx3iKY0uTkZQkza3JJI7o1x+3GF75upUn1h5J/J3YTSG6OX4U=
-X-Received: by 2002:a05:6402:31f4:b0:50b:c370:4967 with SMTP id
- dy20-20020a05640231f400b0050bc3704967mr1666027edb.19.1683292742207; Fri, 05
- May 2023 06:19:02 -0700 (PDT)
+ bh=IWhwwDCtf+VduCmmkFbrok/9YoNQdtaI1hIhqRrOGL8=;
+ b=D7cLLzEQK3r9x7cv7iL/VZGtLbfOtwhLY3ediFIDGpmSA1O/ycZ2ZjbgHUKFs7oCla
+ TArmiG/NUaQQap8gUXhru2Rf1P8bh/K1FPeUPqOgBJsD+hIuK8rcJSOqJ4PjKs3pgW6G
+ f42LI5nadfyRY8zoVsncVeQkcR7NYTdrBqQXJK9rOzPWF8KPBHWPnWwHuPJzq6aI7PMB
+ HJ9L+1GSTbgoFPg/1ht25A/JdxYm+uegMWtRQ71w6ll6l1v6bwMthwI9qCTH6fOP221Z
+ c8Hu296sDOJvSyZh80cvW61gcPj7C247D8rgBOragMhTDFeLccaNovAnQBDSOBpR37kY
+ R+5A==
+X-Gm-Message-State: AC+VfDzxTgzfvC5uYuVCnE7r1uSdAdcClNPNBTO7PemmtHumjGQgh5GR
+ mRBWo6TwJkScChg4e986W4grEO+F3CyVk2zRvxdQ3g==
+X-Google-Smtp-Source: ACHHUZ5oHq9oweS9AEs0s7xunR14rb3lGHIZBeAfQTFs3ELRt1LKKp8tT7AgkE8P+WRrTaq9YIU/YGfIYnlf6KidJ20=
+X-Received: by 2002:a05:6402:2145:b0:50b:f999:9dee with SMTP id
+ bq5-20020a056402214500b0050bf9999deemr1473774edb.8.1683292779001; Fri, 05 May
+ 2023 06:19:39 -0700 (PDT)
 MIME-Version: 1.0
 References: <20230503070656.1746170-1-richard.henderson@linaro.org>
- <20230503070656.1746170-49-richard.henderson@linaro.org>
-In-Reply-To: <20230503070656.1746170-49-richard.henderson@linaro.org>
+ <20230503070656.1746170-50-richard.henderson@linaro.org>
+In-Reply-To: <20230503070656.1746170-50-richard.henderson@linaro.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 5 May 2023 14:18:51 +0100
-Message-ID: <CAFEAcA8G_AAmPuNhX9k3AqAFStJ7mnMftoEH6N08abRz8i-ZSQ@mail.gmail.com>
-Subject: Re: [PATCH v4 48/57] tcg/ppc: Use atom_and_align_for_opc
+Date: Fri, 5 May 2023 14:19:28 +0100
+Message-ID: <CAFEAcA9PQ2YpJLZsJZoZ516r3XCsii2zeRi+OPgGc_OOwNu1qA@mail.gmail.com>
+Subject: Re: [PATCH v4 49/57] tcg/riscv: Use atom_and_align_for_opc
 To: Richard Henderson <richard.henderson@linaro.org>
 Cc: qemu-devel@nongnu.org, git@xen0n.name, gaosong@loongson.cn, 
  philmd@linaro.org, qemu-arm@nongnu.org, qemu-riscv@nongnu.org, 
  qemu-s390x@nongnu.org
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::52d;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::536;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x536.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -92,38 +92,30 @@ On Wed, 3 May 2023 at 08:13, Richard Henderson
 >
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->  tcg/ppc/tcg-target.c.inc | 17 ++++++++++++++++-
->  1 file changed, 16 insertions(+), 1 deletion(-)
+>  tcg/riscv/tcg-target.c.inc | 8 ++++++--
+>  1 file changed, 6 insertions(+), 2 deletions(-)
 >
-> diff --git a/tcg/ppc/tcg-target.c.inc b/tcg/ppc/tcg-target.c.inc
-> index f0a4118bbb..60375804cd 100644
-> --- a/tcg/ppc/tcg-target.c.inc
-> +++ b/tcg/ppc/tcg-target.c.inc
-> @@ -2034,7 +2034,22 @@ static TCGLabelQemuLdst *prepare_host_addr(TCGContext *s, HostAddress *h,
+> diff --git a/tcg/riscv/tcg-target.c.inc b/tcg/riscv/tcg-target.c.inc
+> index 37870c89fc..4dd33c73e8 100644
+> --- a/tcg/riscv/tcg-target.c.inc
+> +++ b/tcg/riscv/tcg-target.c.inc
+> @@ -910,8 +910,12 @@ static TCGLabelQemuLdst *prepare_host_addr(TCGContext *s, TCGReg *pbase,
 >  {
 >      TCGLabelQemuLdst *ldst = NULL;
 >      MemOp opc = get_memop(oi);
 > -    unsigned a_bits = get_alignment_bits(opc);
+> -    unsigned a_mask = (1u << a_bits) - 1;
 > +    MemOp a_bits, atom_a, atom_u;
+> +    unsigned a_mask;
 > +
-> +    /*
-> +     * Book II, Section 1.4, Single-Copy Atomicity, specifies:
-> +     *
-> +     * Before 3.0, "An access that is not atomic is performed as a set of
-> +     * smaller disjoint atomic accesses. In general, the number and alignment
-> +     * of these accesses are implementation-dependent."  Thus MO_ATOM_IFALIGN.
-> +     *
-> +     * As of 3.0, "the non-atomic access is performed as described in
-> +     * the corresponding list", which matches MO_ATOM_SUBALIGN.
-> +     */
 > +    a_bits = atom_and_align_for_opc(s, &atom_a, &atom_u, opc,
-> +                                    have_isa_3_00 ? MO_ATOM_SUBALIGN
-> +                                                  : MO_ATOM_IFALIGN,
-> +                                    false);
+> +                                    MO_ATOM_IFALIGN, false);
+> +    a_mask = (1u << a_bits) - 1;
 >
+>  #ifdef CONFIG_SOFTMMU
+>      unsigned s_bits = opc & MO_SIZE;
 
-Why doesn't this patch have changes to a HostAddress struct
-like all the other archs ?
+Same remark as for ppc.
 
 -- PMM
 
