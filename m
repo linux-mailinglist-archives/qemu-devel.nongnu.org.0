@@ -2,78 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 604EF6F7A6C
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 May 2023 03:13:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 06C9A6F7A8C
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 May 2023 03:17:13 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pujti-00036y-BC; Thu, 04 May 2023 21:06:10 -0400
+	id 1pujtj-0003Lk-RW; Thu, 04 May 2023 21:06:11 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1pujtd-0002Zu-VH
- for qemu-devel@nongnu.org; Thu, 04 May 2023 21:06:05 -0400
-Received: from mail-pl1-x632.google.com ([2607:f8b0:4864:20::632])
+ id 1pujtg-000315-NX
+ for qemu-devel@nongnu.org; Thu, 04 May 2023 21:06:08 -0400
+Received: from mail-pl1-x62b.google.com ([2607:f8b0:4864:20::62b])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1pujtc-0007e0-01
- for qemu-devel@nongnu.org; Thu, 04 May 2023 21:06:05 -0400
-Received: by mail-pl1-x632.google.com with SMTP id
- d9443c01a7336-1aae5c2423dso11257675ad.3
- for <qemu-devel@nongnu.org>; Thu, 04 May 2023 18:06:02 -0700 (PDT)
+ id 1pujte-0007eu-KV
+ for qemu-devel@nongnu.org; Thu, 04 May 2023 21:06:08 -0400
+Received: by mail-pl1-x62b.google.com with SMTP id
+ d9443c01a7336-1a516fb6523so10671365ad.3
+ for <qemu-devel@nongnu.org>; Thu, 04 May 2023 18:06:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1683248762; x=1685840762;
+ d=gmail.com; s=20221208; t=1683248765; x=1685840765;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=uGV9M7Q3fySnRT5Y8OU1Bm9pFj5qXHNKBUX8c4QcSuQ=;
- b=qQhRSYf4EiFyDRjq9TSbVH84i0fvA7mnA7asxXpEop679Y43vgT8HUGmsevpBeqJOt
- ZUrMD4sj5sntbZBM5o8dZr++6W4EMcLwZnsNy6AG6UdlNvh81QMAEKCDMPv6xmaby+kG
- e+32lD0B5lLfR2gAqu+mirBvUK1C5D0n6r4NklDJ9F12+fD3AX9HBBCvuEOrUcvUNlU0
- Mjknf1r3rMi7rCnrLfgp0olCb10mHfISH9AKJlRA+YMe6txGIBaVg8nL7rN56pzdyT8D
- X5KMQsngfUiMTbQeYMZ+DQpsej5wLL73pfwupCYLeeDjZVEqB0MHL/FO2g9qTkSvvHUh
- N3VQ==
+ bh=j0qdCGr5H/dXi5GZTnoaSiKG2ZdRv1O4vEZjYe7CLHE=;
+ b=cFO9e48jajhGg8KVjk2iedPjaw20Fzq5tKRO0qLdEzcontK7B3NpD498m4CAo8/OeB
+ On8EJS28b/ea+qpACoVsBxIzWHojAY+HPJWk0TxCIWYXxvl/oCDBvKZRDutZP/ra3GdB
+ ebg737vJzMsBnuDJz0wY2+e7PrbbAwmgW7i3b72gSX1ad14Omgjpp9vGGO+lzSv92zi9
+ dsAuyCFmFOxbVa0qgMBxMQzAZ5uhWs4IZ+WREoWjmTT+f1KTOVb2f97GQTKJjqDkryP6
+ +1xw3H15VtvPTuuLnIzEcoAMF9A/hVCfuSyNOhcKp0SN+gsJ89/MP0+az3ftywt/Ezru
+ 1RJA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683248762; x=1685840762;
+ d=1e100.net; s=20221208; t=1683248765; x=1685840765;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=uGV9M7Q3fySnRT5Y8OU1Bm9pFj5qXHNKBUX8c4QcSuQ=;
- b=YI9yLqX7h94YnvwwlT0fjqFYGgQ/nbrq/j/A9MLQNrD+CHh0ezeeGcWJ0IG7/78kUA
- BhUQRuRBS8Jt/agfil55K4ajXsEGOSqfzKsaL1I0Z4HVY2Y865R3waQvU2t7GGOKtJTh
- XV7vglEE2F2QfwZWPfaQfE2vZvmGs1tflHucoCJT3uaXJBbUVo2SVzHlur/bNXmzrCVf
- R5QSWD1c5kLg8DtHbRcpWaM8uxyRg5wgki3KT9dVWeYzR4VH5TGOsPQq7mEX1kKGPk9C
- FBXinvll5oTksMZwG6nIqf64JJvUouWZ+mTRhjpHvw1WUfIaJDVvQqGc+PyixNqg9kce
- iXyA==
-X-Gm-Message-State: AC+VfDxr/4frA6ErwmqEHi7VzoF89EyIMNy8uO02SqXqX22QFU9IBSYf
- UWsfu/hOMCa4CTKViE4ZH/+4ktvQiKnZ4w==
-X-Google-Smtp-Source: ACHHUZ5EOD1wYl80wWEvaBLliljsH2NNdVCpgP7cjsbRqs0vfBtLxTLeO2VDRO7x7/RepCDC9up9Fg==
-X-Received: by 2002:a17:903:22c1:b0:1a6:82ac:f277 with SMTP id
- y1-20020a17090322c100b001a682acf277mr6509208plg.14.1683248761694; 
- Thu, 04 May 2023 18:06:01 -0700 (PDT)
+ bh=j0qdCGr5H/dXi5GZTnoaSiKG2ZdRv1O4vEZjYe7CLHE=;
+ b=JwiBvuCYuxv79fyv/C9GMzHl2853wt65yUn+j/p9AuK/Wo57lByXRAJII3nWErrOO9
+ ArtlprZuGX2au+HDgd/opK27/aC60FmchxLHJ9rtV4I/O6hDDHEmG7ZRxRK3hLTGKOhO
+ +3aHr7kdl7QXt+9UbWKJjgAlwBMiGt8XFt7VxMCKN8xsQr5vnDSNErQVa56CN9K4GV+K
+ SdQ0E+A1aFuXXF0S/bBmRFBZXNznzsWfS6vT8KNQkgLE+ERmFp0SlR6+8qL0F2cUkNLy
+ s8bw2FBxYH989ECVtUuKRF8SP2xPvOPZw1qROE+GwyMLrgyCH2LricrXvZN69vlOrsGC
+ Z2gA==
+X-Gm-Message-State: AC+VfDxNjAlg6gMmhN+wTvciboUHMCXZyxXad25tGYsb6z9c9zBLlGQ2
+ /lSUMGsVLuBrlqLypQRBymoor1cghtQL6Q==
+X-Google-Smtp-Source: ACHHUZ7XSfKzqvHa0j/ucS/pAnDOV5zUEZxCTfo8UwZ1Xj8N5vwL04dWfBoYbDocMXwqWOc8oBsxqQ==
+X-Received: by 2002:a17:903:187:b0:1a8:1320:133 with SMTP id
+ z7-20020a170903018700b001a813200133mr6530699plg.51.1683248764870; 
+ Thu, 04 May 2023 18:06:04 -0700 (PDT)
 Received: from toolbox.alistair23.me
  (2403-580b-97e8-0-321-6fb2-58f1-a1b1.ip6.aussiebb.net.
  [2403:580b:97e8:0:321:6fb2:58f1:a1b1])
  by smtp.gmail.com with ESMTPSA id
- l19-20020a170902d35300b0019309be03e7sm218762plk.66.2023.05.04.18.05.59
+ l19-20020a170902d35300b0019309be03e7sm218762plk.66.2023.05.04.18.06.02
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 04 May 2023 18:06:01 -0700 (PDT)
+ Thu, 04 May 2023 18:06:04 -0700 (PDT)
 From: Alistair Francis <alistair23@gmail.com>
 X-Google-Original-From: Alistair Francis <alistair.francis@wdc.com>
 To: qemu-devel@nongnu.org
 Cc: alistair23@gmail.com, Daniel Henrique Barboza <dbarboza@ventanamicro.com>,
  Weiwei Li <liweiwei@iscas.ac.cn>,
  Alistair Francis <alistair.francis@wdc.com>
-Subject: [PULL 48/89] target/riscv: remove cpu->cfg.ext_v
-Date: Fri,  5 May 2023 11:02:00 +1000
-Message-Id: <20230505010241.21812-49-alistair.francis@wdc.com>
+Subject: [PULL 49/89] target/riscv: remove riscv_cpu_sync_misa_cfg()
+Date: Fri,  5 May 2023 11:02:01 +1000
+Message-Id: <20230505010241.21812-50-alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.40.0
 In-Reply-To: <20230505010241.21812-1-alistair.francis@wdc.com>
 References: <20230505010241.21812-1-alistair.francis@wdc.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::632;
- envelope-from=alistair23@gmail.com; helo=mail-pl1-x632.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62b;
+ envelope-from=alistair23@gmail.com; helo=mail-pl1-x62b.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -99,99 +99,96 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
 
-Create a new "v" RISCVCPUMisaExtConfig property that will update
-env->misa_ext* with RVV. Instances of cpu->cfg.ext_v and similar are
-replaced with riscv_has_ext(env, RVV).
+This function was created to move the sync between cpu->cfg.ext_N bit
+changes to env->misa_ext* from the validation step to an ealier step,
+giving us a guarantee that we could use either cpu->cfg.ext_N or
+riscv_has_ext(env,N) in the validation.
 
-Remove the old "v" property and 'ext_v' from RISCVCPUConfig.
+We don't have any cpu->cfg.ext_N left that has an existing MISA bit
+(cfg.ext_g will be handled shortly). The function is now a no-op, simply
+copying the existing values of misa_ext* back to misa_ext*.
+
+Remove it.
 
 Signed-off-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
 Reviewed-by: Weiwei Li <liweiwei@iscas.ac.cn>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Message-Id: <20230406180351.570807-17-dbarboza@ventanamicro.com>
+Message-Id: <20230406180351.570807-18-dbarboza@ventanamicro.com>
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- target/riscv/cpu.h |  1 -
- target/riscv/cpu.c | 12 +++++-------
- 2 files changed, 5 insertions(+), 8 deletions(-)
+ target/riscv/cpu.c | 52 ----------------------------------------------
+ 1 file changed, 52 deletions(-)
 
-diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-index 1aff93ba91..e011cf6ca4 100644
---- a/target/riscv/cpu.h
-+++ b/target/riscv/cpu.h
-@@ -423,7 +423,6 @@ typedef struct {
- 
- struct RISCVCPUConfig {
-     bool ext_g;
--    bool ext_v;
-     bool ext_zba;
-     bool ext_zbb;
-     bool ext_zbc;
 diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index 3bdd6875a8..13ff37250e 100644
+index 13ff37250e..1ecb82bb5d 100644
 --- a/target/riscv/cpu.c
 +++ b/target/riscv/cpu.c
-@@ -883,7 +883,7 @@ static void riscv_cpu_validate_set_extensions(RISCVCPU *cpu, Error **errp)
-     }
+@@ -1141,50 +1141,6 @@ static void riscv_cpu_finalize_features(RISCVCPU *cpu, Error **errp)
+ #endif
+ }
  
-     /* The V vector extension depends on the Zve64d extension */
--    if (cpu->cfg.ext_v) {
-+    if (riscv_has_ext(env, RVV)) {
-         cpu->cfg.ext_zve64d = true;
-     }
- 
-@@ -1018,7 +1018,7 @@ static void riscv_cpu_validate_set_extensions(RISCVCPU *cpu, Error **errp)
-         cpu->cfg.ext_zksh = true;
-     }
- 
--    if (cpu->cfg.ext_v) {
-+    if (riscv_has_ext(env, RVV)) {
-         int vext_version = VEXT_VERSION_1_00_0;
-         if (!is_power_of_2(cpu->cfg.vlen)) {
-             error_setg(errp,
-@@ -1175,7 +1175,7 @@ static void riscv_cpu_sync_misa_cfg(CPURISCVState *env)
-     if (riscv_has_ext(env, RVH)) {
-         ext |= RVH;
-     }
--    if (riscv_cpu_cfg(env)->ext_v) {
-+    if (riscv_has_ext(env, RVV)) {
-         ext |= RVV;
-     }
-     if (riscv_has_ext(env, RVJ)) {
-@@ -1513,6 +1513,8 @@ static const RISCVCPUMisaExtConfig misa_ext_cfgs[] = {
-      .misa_bit = RVH, .enabled = true},
-     {.name = "x-j", .description = "Dynamic translated languages",
-      .misa_bit = RVJ, .enabled = false},
-+    {.name = "v", .description = "Vector operations",
-+     .misa_bit = RVV, .enabled = false},
- };
- 
- static void riscv_cpu_add_misa_properties(Object *cpu_obj)
-@@ -1536,7 +1538,6 @@ static void riscv_cpu_add_misa_properties(Object *cpu_obj)
- static Property riscv_cpu_extensions[] = {
-     /* Defaults for standard extensions */
-     DEFINE_PROP_BOOL("g", RISCVCPU, cfg.ext_g, false),
--    DEFINE_PROP_BOOL("v", RISCVCPU, cfg.ext_v, false),
-     DEFINE_PROP_UINT8("pmu-num", RISCVCPU, cfg.pmu_num, 16),
-     DEFINE_PROP_BOOL("sscofpmf", RISCVCPU, cfg.ext_sscofpmf, false),
-     DEFINE_PROP_BOOL("Zifencei", RISCVCPU, cfg.ext_ifencei, true),
-@@ -1638,7 +1639,6 @@ static Property riscv_cpu_extensions[] = {
- static void register_cpu_props(Object *obj)
- {
-     RISCVCPU *cpu = RISCV_CPU(obj);
--    uint32_t misa_ext = cpu->env.misa_ext;
-     Property *prop;
-     DeviceState *dev = DEVICE(obj);
- 
-@@ -1648,8 +1648,6 @@ static void register_cpu_props(Object *obj)
-      * later on.
-      */
-     if (cpu->env.misa_ext != 0) {
--        cpu->cfg.ext_v = misa_ext & RVV;
+-static void riscv_cpu_sync_misa_cfg(CPURISCVState *env)
+-{
+-    uint32_t ext = 0;
 -
-         /*
-          * We don't want to set the default riscv_cpu_extensions
-          * in this case.
+-    if (riscv_has_ext(env, RVI)) {
+-        ext |= RVI;
+-    }
+-    if (riscv_has_ext(env, RVE)) {
+-        ext |= RVE;
+-    }
+-    if (riscv_has_ext(env, RVM)) {
+-        ext |= RVM;
+-    }
+-    if (riscv_has_ext(env, RVA)) {
+-        ext |= RVA;
+-    }
+-    if (riscv_has_ext(env, RVF)) {
+-        ext |= RVF;
+-    }
+-    if (riscv_has_ext(env, RVD)) {
+-        ext |= RVD;
+-    }
+-    if (riscv_has_ext(env, RVC)) {
+-        ext |= RVC;
+-    }
+-    if (riscv_has_ext(env, RVS)) {
+-        ext |= RVS;
+-    }
+-    if (riscv_has_ext(env, RVU)) {
+-        ext |= RVU;
+-    }
+-    if (riscv_has_ext(env, RVH)) {
+-        ext |= RVH;
+-    }
+-    if (riscv_has_ext(env, RVV)) {
+-        ext |= RVV;
+-    }
+-    if (riscv_has_ext(env, RVJ)) {
+-        ext |= RVJ;
+-    }
+-
+-    env->misa_ext = env->misa_ext_mask = ext;
+-}
+-
+ static void riscv_cpu_validate_misa_priv(CPURISCVState *env, Error **errp)
+ {
+     if (riscv_has_ext(env, RVH) && env->priv_ver < PRIV_VERSION_1_12_0) {
+@@ -1228,14 +1184,6 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
+         set_priv_version(env, priv_version);
+     }
+ 
+-    /*
+-     * We can't be sure of whether we set defaults during cpu_init()
+-     * or whether the user enabled/disabled some bits via cpu->cfg
+-     * flags. Sync env->misa_ext with cpu->cfg now to allow us to
+-     * use just env->misa_ext later.
+-     */
+-    riscv_cpu_sync_misa_cfg(env);
+-
+     riscv_cpu_validate_misa_priv(env, &local_err);
+     if (local_err != NULL) {
+         error_propagate(errp, local_err);
 -- 
 2.40.0
 
