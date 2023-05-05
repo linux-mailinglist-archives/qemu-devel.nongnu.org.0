@@ -2,78 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83C376F8103
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 May 2023 12:46:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A92DE6F810C
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 May 2023 12:52:52 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1puswp-0004AB-AF; Fri, 05 May 2023 06:45:59 -0400
+	id 1put2c-0005ZN-37; Fri, 05 May 2023 06:51:58 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1puswk-00048p-V2
- for qemu-devel@nongnu.org; Fri, 05 May 2023 06:45:55 -0400
-Received: from mail-ed1-x52c.google.com ([2a00:1450:4864:20::52c])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1puswj-00083Y-B2
- for qemu-devel@nongnu.org; Fri, 05 May 2023 06:45:54 -0400
-Received: by mail-ed1-x52c.google.com with SMTP id
- 4fb4d7f45d1cf-50be0d835aaso2853799a12.3
- for <qemu-devel@nongnu.org>; Fri, 05 May 2023 03:45:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1683283551; x=1685875551;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=E7xonDZGDCeV3oLF8XSfgab3ZnmrIzSTPzUuiuuyqYM=;
- b=zu94BxhbU3+mUH/3bX0rj42w5l+H0JyLnTrAh7man231kBQsDRDWj7/gwluGyI0Ssf
- 6jhMSpAVZYNmj/DkAt1s/kcWDjVnbPnUG7of+dMy5VGaF3MdGnj7tgFtLdpmfNcmOaBH
- NxkO18ZCwaxkdq30/vaC5oyJopeZZxNiqGtkMT1yBf/YCIKKHgG09SK5/4J82dLFfMKL
- lBkOHzRE3dm85NKNkcKhLuBrE9aeVz2bO6svPXWGvJHqMROPvQzqqmxHlOn5iTCLpgRZ
- rByTvf7bx3RC415MUJybWKyHDClLrOC/XzvIJ4SjNvwSHLHnqLBU/0Tmd5rHbSQLdXUD
- TXkQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683283551; x=1685875551;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=E7xonDZGDCeV3oLF8XSfgab3ZnmrIzSTPzUuiuuyqYM=;
- b=VlL8Z3LKYTqH6/u0dBNKnWyoFb3uwpcmzjpbahwXrQfjBa+2fRl1RUEoW3E3oQroJp
- XxY4WIRBe043CJ72zjFY5EGGu9b1mylQgNpMqH2wSRmZxxsPTonRPqQSaR2OQbQhR0KW
- PZL5L50YCtMWc3GMcvwMYr7DLKQvFs9hPZGzdy0h4hGKpnanylNQv3KAW/46Xe7uxrfM
- JeFBOvunmP0ojKGhIynd051W+iPSCUxlg4zWF2tQzb04FSehsaVQmNdl9pZ8o89zUF4O
- JAZQvNT2g+RctcNgRKuwBO3b/EwjN47ZK3fQQMwqjuj9bxrpLzWD0i8VHBzDQ8nEKoAJ
- Uz0g==
-X-Gm-Message-State: AC+VfDxMAsl9GBf2aWKPuvtTMIpqpxsITqq1z2uh2pxYMgNQWCXT6w7S
- KlNuQRePM23sI8vdrqJvmXBZO7APxhzb7b/QmR4xRg==
-X-Google-Smtp-Source: ACHHUZ7Np56xc3y1xd/Fmy7MgJ1/IXze/y4NKzCQnsQSNosYDWoWx9VmvW2ERpXI4HJsmzCiDehylEIOsNmogsL8fSQ=
-X-Received: by 2002:aa7:d355:0:b0:50b:d5d1:7409 with SMTP id
- m21-20020aa7d355000000b0050bd5d17409mr911227edr.23.1683283551476; Fri, 05 May
- 2023 03:45:51 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1put2Z-0005Yw-Bc
+ for qemu-devel@nongnu.org; Fri, 05 May 2023 06:51:55 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1put2X-0000jv-Vq
+ for qemu-devel@nongnu.org; Fri, 05 May 2023 06:51:55 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1683283908;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type;
+ bh=NvFAVu81xv+IWDCQ4Ov1ci7g+jz8o4vYQsuoVrOI+Gg=;
+ b=NiiI1m1bCX31K+gqMvpnP+vJdcmSzZvNy+lYgoQ8DryH5WznzQVcgT41akXuMp0eKrryvO
+ TyvXr4yqvSyx5yNL0nTeJIBl5L1P0apAxDjE3nMClw4ct8Iug7beU3y/iL12mo2AM4MyRX
+ jlKxkyNqd1XntKOJL2u5n8KlM2paKL0=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-650-vmDb73YiPyaxtFG541Bi1A-1; Fri, 05 May 2023 06:51:47 -0400
+X-MC-Unique: vmDb73YiPyaxtFG541Bi1A-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.6])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 286A1293248D
+ for <qemu-devel@nongnu.org>; Fri,  5 May 2023 10:51:47 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.39.192.121])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 05E1F2166B31
+ for <qemu-devel@nongnu.org>; Fri,  5 May 2023 10:51:47 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id DB70B21E6924; Fri,  5 May 2023 12:51:45 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: Juan Quintela <quintela@redhat.com>, Peter Xu <peterx@redhat.com>,
+ Leonardo Bras <leobras@redhat.com>
+Subject: migration/rdma.c's macro ERROR()
+Date: Fri, 05 May 2023 12:51:45 +0200
+Message-ID: <87sfcbuk3i.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
 MIME-Version: 1.0
-References: <20230503070656.1746170-1-richard.henderson@linaro.org>
- <20230503070656.1746170-21-richard.henderson@linaro.org>
-In-Reply-To: <20230503070656.1746170-21-richard.henderson@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 5 May 2023 11:45:40 +0100
-Message-ID: <CAFEAcA9finDiFy5c3iZvUNuBdc=3GSp7jAUk6_gfk7=0dVFUsA@mail.gmail.com>
-Subject: Re: [PATCH v4 20/57] tcg: Introduce TCG_OPF_TYPE_MASK
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-devel@nongnu.org, git@xen0n.name, gaosong@loongson.cn, 
- philmd@linaro.org, qemu-arm@nongnu.org, qemu-riscv@nongnu.org, 
- qemu-s390x@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::52c;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52c.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -22
+X-Spam_score: -2.3
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.161,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,17 +75,36 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, 3 May 2023 at 08:09, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> Reorg TCG_OPF_64BIT and TCG_OPF_VECTOR into a two-bit field so
-> that we can add TCG_OPF_128BIT without requiring another bit.
->
-> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+migration/rdma.c has
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+    /*
+     * Print and error on both the Monitor and the Log file.
+     */
+    #define ERROR(errp, fmt, ...) \
+        do { \
+            fprintf(stderr, "RDMA ERROR: " fmt "\n", ## __VA_ARGS__); \
+            if (errp && (*(errp) == NULL)) { \
+                error_setg(errp, "RDMA ERROR: " fmt, ## __VA_ARGS__); \
+            } \
+        } while (0)
 
-thanks
--- PMM
+This is problematic.  The point of error_setg() & friends is detectin
+errors from handling them.  error.h:
+
+ * - Separation of concerns: the function is responsible for detecting
+ *   errors and failing cleanly; handling the error is its caller's
+ *   job.  [...]
+
+Reporting the error to stderr violates this principle.  Consequences
+include
+
+* When the caller reports the error to stderr, it gets reported there
+  twice, possibly in slightly different form.
+
+* When the caller recovers from the error cleanly without reporting it,
+  it is reported to stderr anyway, even though it is not actually an
+  error.
+
+Mind if I kill the macro?
+
 
