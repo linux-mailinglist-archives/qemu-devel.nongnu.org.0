@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 578A96F7D85
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 May 2023 09:12:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 72B2C6F7D86
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 May 2023 09:12:58 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pupbI-0004mX-Bw; Fri, 05 May 2023 03:11:32 -0400
+	id 1pupbM-0004ns-3x; Fri, 05 May 2023 03:11:36 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1pupbD-0004lQ-MA
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1pupbF-0004lY-1q
  for qemu-devel@nongnu.org; Fri, 05 May 2023 03:11:29 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1pupbA-0000f8-6U
- for qemu-devel@nongnu.org; Fri, 05 May 2023 03:11:27 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1pupbA-0000f6-3J
+ for qemu-devel@nongnu.org; Fri, 05 May 2023 03:11:28 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1683270682;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=CXPCS+kJxlRKApXWmifHvPqleJ4x39uVxri/m9e/MXc=;
- b=CWSVdE1ckorRQP7ShFShC3DvuyHgV/1lRsxr3z894Ccp2H7B4T+QF3RAu6bxw2reL4/vNS
- zQsNO2bL0uybwsLEfFChPKrQ3jyUroP02bKSTRVqN7PdI+5atlTpmcfGBcLQ2sAohU+3oZ
- x0gdmj5VMzAqoQbnI+GlaBbB9fcBWfA=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=Hnbw/1xdXtcYTeMJ6hzBbi7QP8BTZHfCWmXXBwn82Jg=;
+ b=Sw67x8iVilhFs+CUg2uiVtMriI0PLHsNxNJMh2sqEHhC6yBJzcOBhit11/p5ziQ5C3svd5
+ LbE3TM6a0iY/5rWl1NYafOMplKlkjFGK2vZT0s96YIGQAXuybnX0NCZbGQ0ZKBzubRo1jn
+ sLgcWGd+anxS3aFX1mKn21ySbx9V1fo=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-349-jEEDYcpxNWutIkrtl8jEWw-1; Fri, 05 May 2023 03:11:21 -0400
-X-MC-Unique: jEEDYcpxNWutIkrtl8jEWw-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
- [10.11.54.10])
+ us-mta-618-jbST49ghO-CAaWscygLTJw-1; Fri, 05 May 2023 03:11:20 -0400
+X-MC-Unique: jbST49ghO-CAaWscygLTJw-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.8])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9655E3806062;
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8D28580080E;
  Fri,  5 May 2023 07:11:20 +0000 (UTC)
 Received: from sirius.home.kraxel.org (unknown [10.39.192.60])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 5B12E492C13;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5D76AC15BA0;
  Fri,  5 May 2023 07:11:20 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id C066C1800986; Fri,  5 May 2023 09:11:17 +0200 (CEST)
+ id C3E6F180099D; Fri,  5 May 2023 09:11:17 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: seabios@seabios.org
 Cc: qemu-devel@nongnu.org,
 	Gerd Hoffmann <kraxel@redhat.com>
-Subject: [PATCH v3 2/6] detect physical address space size
-Date: Fri,  5 May 2023 09:11:13 +0200
-Message-Id: <20230505071117.369471-3-kraxel@redhat.com>
+Subject: [PATCH v3 3/6] move 64bit pci window to end of address space
+Date: Fri,  5 May 2023 09:11:14 +0200
+Message-Id: <20230505071117.369471-4-kraxel@redhat.com>
 In-Reply-To: <20230505071117.369471-1-kraxel@redhat.com>
 References: <20230505071117.369471-1-kraxel@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=kraxel@redhat.com;
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -22
-X-Spam_score: -2.3
-X-Spam_bar: --
-X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.161,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_score_int: -16
+X-Spam_score: -1.7
+X-Spam_bar: -
+X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
+ DKIM_SIGNED=0.1, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -78,127 +78,33 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Check for pae and long mode using cpuid.  If present also read the
-physical address bits.  Apply some qemu sanity checks (see below).
-Record results in PhysBits and LongMode variables.  In case we are not
-sure what the address space size is leave the PhysBits variable unset.
-
-On qemu we have the problem that for historical reasons x86_64
-processors advertise 40 physical address space bits by default, even in
-case the host supports less than that so actually using the whole
-address space will not work.
-
-Because of that the code applies some extra sanity checks in case we
-find 40 (or less) physical address space bits advertised.  Only
-known-good values (which is 40 for amd processors and 36+39 for intel
-processors) will be accepted as valid.
-
-Recommendation is to use 'qemu -cpu ${name},host-phys-bits=on' to
-advertise valid physical address space bits to the guest.  Some distro
-builds enable this by default, and most likely the qemu default will
-change in near future too.
+When the size of the physical address space is known (PhysBits is not
+zero) move the 64bit pci io window to the end of the address space.
 
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- src/fw/paravirt.h |  2 ++
- src/fw/paravirt.c | 57 +++++++++++++++++++++++++++++++++++++++++++++++
- 2 files changed, 59 insertions(+)
+ src/fw/pciinit.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/src/fw/paravirt.h b/src/fw/paravirt.h
-index 4e2e993ba9d3..62a2cd075d2b 100644
---- a/src/fw/paravirt.h
-+++ b/src/fw/paravirt.h
-@@ -31,6 +31,8 @@ typedef struct QemuCfgDmaAccess {
- extern u32 RamSize;
- extern u64 RamSizeOver4G;
- extern int PlatformRunningOn;
-+extern u8 CPUPhysBits;
-+extern u8 CPULongMode;
- 
- static inline int runningOnQEMU(void) {
-     return CONFIG_QEMU || (
-diff --git a/src/fw/paravirt.c b/src/fw/paravirt.c
-index c880cb10a1bc..fc308bf1ef1d 100644
---- a/src/fw/paravirt.c
-+++ b/src/fw/paravirt.c
-@@ -32,6 +32,10 @@
- u32 RamSize;
- // Amount of continuous ram >4Gig
- u64 RamSizeOver4G;
-+// physical address space bits
-+u8 CPUPhysBits;
-+// 64bit processor
-+u8 CPULongMode;
- // Type of emulator platform.
- int PlatformRunningOn VARFSEG;
- // cfg enabled
-@@ -129,6 +133,58 @@ static void kvmclock_init(void)
-     tsctimer_setfreq(MHz * 1000, "kvmclock");
- }
- 
-+static void physbits(int qemu_quirk)
-+{
-+    unsigned int max, eax, ebx, ecx, edx;
-+    unsigned int physbits;
-+    char signature[13];
-+    int pae = 0, valid = 0;
-+
-+    cpuid(0, &eax, &ebx, &ecx, &edx);
-+    memcpy(signature + 0, &ebx, 4);
-+    memcpy(signature + 4, &edx, 4);
-+    memcpy(signature + 8, &ecx, 4);
-+    signature[12] = 0;
-+    if (eax >= 1) {
-+        cpuid(1, &eax, &ebx, &ecx, &edx);
-+        pae = (edx & (1 << 6));
-+    }
-+
-+    cpuid(0x80000000, &eax, &ebx, &ecx, &edx);
-+    max = eax;
-+
-+    if (max >= 0x80000001) {
-+        cpuid(0x80000001, &eax, &ebx, &ecx, &edx);
-+        CPULongMode = !!(edx & (1 << 29));
-+    }
-+
-+    if (pae && CPULongMode && max >= 0x80000008) {
-+        cpuid(0x80000008, &eax, &ebx, &ecx, &edx);
-+        physbits = (u8)eax;
-+        if (!qemu_quirk) {
-+            valid = 1;
-+        } else if (physbits >= 41) {
-+            valid = 1;
-+        } else if (strcmp(signature, "GenuineIntel") == 0) {
-+            if ((physbits == 36) || (physbits == 39))
-+                valid = 1;
-+        } else if (strcmp(signature, "AuthenticAMD") == 0) {
-+            if (physbits == 40)
-+                valid = 1;
+diff --git a/src/fw/pciinit.c b/src/fw/pciinit.c
+index badf13d3233b..0fcd2be598a2 100644
+--- a/src/fw/pciinit.c
++++ b/src/fw/pciinit.c
+@@ -1128,6 +1128,14 @@ static void pci_bios_map_devices(struct pci_bus *busses)
+         r64_mem.base = le64_to_cpu(romfile_loadint("etc/reserved-memory-end", 0));
+         if (r64_mem.base < 0x100000000LL + RamSizeOver4G)
+             r64_mem.base = 0x100000000LL + RamSizeOver4G;
++        if (CPUPhysBits) {
++            u64 top = 1LL << CPUPhysBits;
++            u64 size = (ALIGN(sum_mem, (1LL<<30)) +
++                        ALIGN(sum_pref, (1LL<<30)));
++            if (r64_mem.base < top - size) {
++                r64_mem.base = top - size;
++            }
 +        }
-+    } else {
-+        physbits = pae ? 36 : 32;
-+        valid = 1;
-+    }
-+
-+    dprintf(1, "%s: signature=\"%s\", pae=%s, lm=%s, phys-bits=%d, valid=%s\n",
-+            __func__, signature, pae ? "yes" : "no", CPULongMode ? "yes" : "no",
-+            physbits, valid ? "yes" : "no");
-+
-+    if (valid)
-+        CPUPhysBits = physbits;
-+}
-+
- static void qemu_detect(void)
- {
-     if (!CONFIG_QEMU_HARDWARE)
-@@ -161,6 +217,7 @@ static void qemu_detect(void)
-         dprintf(1, "Running on QEMU (unknown nb: %04x:%04x)\n", v, d);
-         break;
-     }
-+    physbits(1);
- }
- 
- static int qemu_early_e820(void);
+         r64_mem.base = ALIGN(r64_mem.base, align_mem);
+         r64_mem.base = ALIGN(r64_mem.base, (1LL<<30));    // 1G hugepage
+         r64_pref.base = r64_mem.base + sum_mem;
 -- 
 2.40.1
 
