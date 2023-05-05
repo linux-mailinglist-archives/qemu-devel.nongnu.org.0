@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C01A6F8AFC
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 May 2023 23:28:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 506F96F8AD1
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 May 2023 23:25:57 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pv2vA-0000c5-Nu; Fri, 05 May 2023 17:24:56 -0400
+	id 1pv2vD-0000cw-82; Fri, 05 May 2023 17:24:59 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pv2v8-0000aY-I2
+ id 1pv2v8-0000aW-Hr
  for qemu-devel@nongnu.org; Fri, 05 May 2023 17:24:54 -0400
 Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pv2v6-0004Ni-Jx
+ id 1pv2v6-0004Np-5m
  for qemu-devel@nongnu.org; Fri, 05 May 2023 17:24:54 -0400
 Received: by mail-wr1-x436.google.com with SMTP id
- ffacd0b85a97d-30644c18072so1555776f8f.2
- for <qemu-devel@nongnu.org>; Fri, 05 May 2023 14:24:52 -0700 (PDT)
+ ffacd0b85a97d-30639daee76so1558176f8f.1
+ for <qemu-devel@nongnu.org>; Fri, 05 May 2023 14:24:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=linaro.org; s=google; t=1683321890; x=1685913890;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=jDjzkdTI/MWyIO68yFYfphv3aGgKEw/onagZANA7ylI=;
- b=Sy+JawUOvpXkrqtoQ/p1KsSZugG75Wg+XQ5C8aaIuR+FugQKWCzZhOCp30nypFp+D6
- Dybg3e2ThFU8T7ijEkinmRXN5GZxhY5SEdXluvlCwFnyRXYEBrjM2lu5ZKBBjBgzjEqQ
- S+h14z+0ON9e5DM56aLlI4xBcCAosck+7SY/SErgdP22vmjMoteIMC9k7GLuDNm3UROj
- KtS3bQJZSADb3wV+0yAxqsCsLsa+jhiKle6uM+c0YUyVVUdQi0VxZ0CJ4vmQ6pkFRzje
- p14ztSyo68lle55BOuqhh6LZGDXSQ6hvPZx0bmTBtPa/NTn3HQ6WjgcZAHBnt1ZEbiKJ
- UQWg==
+ bh=JRV8Cx+YlPo92Hwls/dIiJIZvxAoW7WnNpj6EC6C0nA=;
+ b=nMEdyNZr8J2zalF2AC/biAderraInxqmsecXzXHMJXTPfrPDbtCjjGQhH83Jz21C0R
+ En6JOfS8FUd25DaYya3LABgLmDdtqjYDcyHyr8bIvr2oHi/ZKKeboUWWJSAMewWQT/er
+ qfsPTDEDcF9P0H3HNcAfg2J10boaa4Rs95cJMjoJH0ak7NUw4H8UX4zLuR8DirM6/zPo
+ aZQ8UY75B3xTmRlZSa6YIbF1TH2vHrymBAQk+EZA7asWgXwiQXF5/eYXN5l5/roxgb01
+ 3tLIio687XNddyC8yFQeeOF/7NpNHwockAOVEtMgSGmwxrpGzSQzoVtgNAYs7thmbXKd
+ EhBQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20221208; t=1683321890; x=1685913890;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=jDjzkdTI/MWyIO68yFYfphv3aGgKEw/onagZANA7ylI=;
- b=dqmOdOMVyE/Ajk2nrjev+6ous0S+K7jSc7LGfhhBnw/rbNrHebhvSsyGKOLGvPDkHl
- x2jsI+G68sRldJIu/fYEELZIWgBUk+QLRucFOjoImewwtTPek+Cr3LTGFMh9pMTo7VHj
- qRGzP5DhZ+jYKUG1nmZb0XBQAnphuoiwKRj4qjlIIaNY3NNHq5rB/hmOZgLZUGzaVUXd
- KNz4Ta0wXY2c78va4HL1uObpuTHGfgH2mdR/TeybXpEGryDzZtrm5+kfCarN+2VvAvPE
- QMFeVistYS3Qi0CglwRGNhQjCqlzWlTIpbpMeaqUM1wCUcKjiGDt8bD56hekgCcwk7uf
- tnpg==
-X-Gm-Message-State: AC+VfDxOBPKmeK/V2cklGzIjaovGFl35aX0EAvnjUhaw31AKJJWBm1fi
- RGHpjIowmTvsCw8ecseFMb76IMsXzsJKIGwH4FCdWA==
-X-Google-Smtp-Source: ACHHUZ55kOmnQAj2yO3iEWXV1bXbw7tv7IsFPwH3vHbQozkqdrgv2NJhFGrN10q/A4tgx0Dh+SewDA==
-X-Received: by 2002:adf:f1d1:0:b0:306:30e2:c84c with SMTP id
- z17-20020adff1d1000000b0030630e2c84cmr2285242wro.49.1683321890086; 
+ bh=JRV8Cx+YlPo92Hwls/dIiJIZvxAoW7WnNpj6EC6C0nA=;
+ b=lfD8diWwaT0bapbHQrEakxEHkbgJeU+vRinZna7I66yQ3wh8T8KlGKp8uRxADehdAv
+ yGp9laYN7KbMSDc+BMNVKMiyVBxckoBYHOJrkv9RQxfXiZOyLxSX7Xjp10aMK2jNjLqV
+ QwHVy6rSCRRVTbPXPlQlwiPJJs8yiM67ZYvl3KBqWuSK6Se+1ZbQ8warcxS67j3abdRc
+ OLWg+gg/LtcbNS97XVrwk7V5l9W32mSZrh2FwRPVVo/iF2xCpshPr9ehOnd3I60TfhIj
+ PJwmZaZmZlLNp35pFo6B4ZYJKRtUGZdz6IiHKQhlpMpomtHFI+sTNMHdb3ZzZQpmzr88
+ /HOw==
+X-Gm-Message-State: AC+VfDxlWHfVXNbeVu1dceDW4GJ2YqrJN7rLaoj0gMaSmnxrSxBJCE9e
+ VCu5aNa9doMpidIE7yDN2lKro6J8eI2zb28zEKGxng==
+X-Google-Smtp-Source: ACHHUZ6SgWfnKHF3tEdO8zqmSprvFOGvpPywvooQcwK2zyV0RQ1X/yhQ01k09kcRQr5yTHSEV8m7Cw==
+X-Received: by 2002:a5d:6803:0:b0:306:4586:28c7 with SMTP id
+ w3-20020a5d6803000000b00306458628c7mr2003654wru.39.1683321890581; 
  Fri, 05 May 2023 14:24:50 -0700 (PDT)
 Received: from stoup.. ([212.241.182.8]) by smtp.gmail.com with ESMTPSA id
- t14-20020a5d460e000000b003047ae72b14sm3426709wrq.82.2023.05.05.14.24.49
+ t14-20020a5d460e000000b003047ae72b14sm3426709wrq.82.2023.05.05.14.24.50
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 05 May 2023 14:24:49 -0700 (PDT)
+ Fri, 05 May 2023 14:24:50 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: Anton Johansson <anjo@rev.ng>
-Subject: [PULL 02/42] target/avr: Finish conversion to tcg_gen_qemu_{ld,st}_*
-Date: Fri,  5 May 2023 22:24:07 +0100
-Message-Id: <20230505212447.374546-3-richard.henderson@linaro.org>
+Subject: [PULL 03/42] target/cris: Finish conversion to tcg_gen_qemu_{ld, st}_*
+Date: Fri,  5 May 2023 22:24:08 +0100
+Message-Id: <20230505212447.374546-4-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230505212447.374546-1-richard.henderson@linaro.org>
 References: <20230505212447.374546-1-richard.henderson@linaro.org>
@@ -91,91 +91,52 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 Convert away from the old interface with the implicit
-MemOp argument.
+MemOp argument.  In this case we can fold the calls
+using the size bits of MemOp.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Anton Johansson <anjo@rev.ng>
-Message-Id: <20230502135741.1158035-2-richard.henderson@linaro.org>
+Message-Id: <20230502135741.1158035-3-richard.henderson@linaro.org>
 ---
- target/avr/translate.c | 16 ++++++++--------
- 1 file changed, 8 insertions(+), 8 deletions(-)
+ target/cris/translate_v10.c.inc | 18 ++++--------------
+ 1 file changed, 4 insertions(+), 14 deletions(-)
 
-diff --git a/target/avr/translate.c b/target/avr/translate.c
-index a6aeae6dfa..cd82f5d591 100644
---- a/target/avr/translate.c
-+++ b/target/avr/translate.c
-@@ -1492,7 +1492,7 @@ static void gen_data_store(DisasContext *ctx, TCGv data, TCGv addr)
-     if (ctx->base.tb->flags & TB_FLAGS_FULL_ACCESS) {
-         gen_helper_fullwr(cpu_env, data, addr);
-     } else {
--        tcg_gen_qemu_st8(data, addr, MMU_DATA_IDX); /* mem[addr] = data */
-+        tcg_gen_qemu_st_tl(data, addr, MMU_DATA_IDX, MO_UB);
+diff --git a/target/cris/translate_v10.c.inc b/target/cris/translate_v10.c.inc
+index 32338bb69b..b7b0517982 100644
+--- a/target/cris/translate_v10.c.inc
++++ b/target/cris/translate_v10.c.inc
+@@ -80,13 +80,9 @@ static void gen_store_v10_conditional(DisasContext *dc, TCGv addr, TCGv val,
+     /* Store only if F flag isn't set */
+     tcg_gen_andi_tl(t1, cpu_PR[PR_CCS], F_FLAG_V10);
+     tcg_gen_brcondi_tl(TCG_COND_NE, t1, 0, l1);
+-    if (size == 1) {
+-        tcg_gen_qemu_st8(tval, taddr, mem_index);
+-    } else if (size == 2) {
+-        tcg_gen_qemu_st16(tval, taddr, mem_index);
+-    } else {
+-        tcg_gen_qemu_st32(tval, taddr, mem_index);
+-    }
++
++    tcg_gen_qemu_st_tl(tval, taddr, mem_index, ctz32(size) | MO_TE);
++
+     gen_set_label(l1);
+     tcg_gen_shri_tl(t1, t1, 1);  /* shift F to P position */
+     tcg_gen_or_tl(cpu_PR[PR_CCS], cpu_PR[PR_CCS], t1); /*P=F*/
+@@ -109,13 +105,7 @@ static void gen_store_v10(DisasContext *dc, TCGv addr, TCGv val,
+         return;
      }
+ 
+-    if (size == 1) {
+-        tcg_gen_qemu_st8(val, addr, mem_index);
+-    } else if (size == 2) {
+-        tcg_gen_qemu_st16(val, addr, mem_index);
+-    } else {
+-        tcg_gen_qemu_st32(val, addr, mem_index);
+-    }
++    tcg_gen_qemu_st_tl(val, addr, mem_index, ctz32(size) | MO_TE);
  }
  
-@@ -1501,7 +1501,7 @@ static void gen_data_load(DisasContext *ctx, TCGv data, TCGv addr)
-     if (ctx->base.tb->flags & TB_FLAGS_FULL_ACCESS) {
-         gen_helper_fullrd(data, cpu_env, addr);
-     } else {
--        tcg_gen_qemu_ld8u(data, addr, MMU_DATA_IDX); /* data = mem[addr] */
-+        tcg_gen_qemu_ld_tl(data, addr, MMU_DATA_IDX, MO_UB);
-     }
- }
  
-@@ -1979,7 +1979,7 @@ static bool trans_LPM1(DisasContext *ctx, arg_LPM1 *a)
- 
-     tcg_gen_shli_tl(addr, H, 8); /* addr = H:L */
-     tcg_gen_or_tl(addr, addr, L);
--    tcg_gen_qemu_ld8u(Rd, addr, MMU_CODE_IDX); /* Rd = mem[addr] */
-+    tcg_gen_qemu_ld_tl(Rd, addr, MMU_CODE_IDX, MO_UB);
-     return true;
- }
- 
-@@ -1996,7 +1996,7 @@ static bool trans_LPM2(DisasContext *ctx, arg_LPM2 *a)
- 
-     tcg_gen_shli_tl(addr, H, 8); /* addr = H:L */
-     tcg_gen_or_tl(addr, addr, L);
--    tcg_gen_qemu_ld8u(Rd, addr, MMU_CODE_IDX); /* Rd = mem[addr] */
-+    tcg_gen_qemu_ld_tl(Rd, addr, MMU_CODE_IDX, MO_UB);
-     return true;
- }
- 
-@@ -2013,7 +2013,7 @@ static bool trans_LPMX(DisasContext *ctx, arg_LPMX *a)
- 
-     tcg_gen_shli_tl(addr, H, 8); /* addr = H:L */
-     tcg_gen_or_tl(addr, addr, L);
--    tcg_gen_qemu_ld8u(Rd, addr, MMU_CODE_IDX); /* Rd = mem[addr] */
-+    tcg_gen_qemu_ld_tl(Rd, addr, MMU_CODE_IDX, MO_UB);
-     tcg_gen_addi_tl(addr, addr, 1); /* addr = addr + 1 */
-     tcg_gen_andi_tl(L, addr, 0xff);
-     tcg_gen_shri_tl(addr, addr, 8);
-@@ -2045,7 +2045,7 @@ static bool trans_ELPM1(DisasContext *ctx, arg_ELPM1 *a)
-     TCGv Rd = cpu_r[0];
-     TCGv addr = gen_get_zaddr();
- 
--    tcg_gen_qemu_ld8u(Rd, addr, MMU_CODE_IDX); /* Rd = mem[addr] */
-+    tcg_gen_qemu_ld_tl(Rd, addr, MMU_CODE_IDX, MO_UB);
-     return true;
- }
- 
-@@ -2058,7 +2058,7 @@ static bool trans_ELPM2(DisasContext *ctx, arg_ELPM2 *a)
-     TCGv Rd = cpu_r[a->rd];
-     TCGv addr = gen_get_zaddr();
- 
--    tcg_gen_qemu_ld8u(Rd, addr, MMU_CODE_IDX); /* Rd = mem[addr] */
-+    tcg_gen_qemu_ld_tl(Rd, addr, MMU_CODE_IDX, MO_UB);
-     return true;
- }
- 
-@@ -2071,7 +2071,7 @@ static bool trans_ELPMX(DisasContext *ctx, arg_ELPMX *a)
-     TCGv Rd = cpu_r[a->rd];
-     TCGv addr = gen_get_zaddr();
- 
--    tcg_gen_qemu_ld8u(Rd, addr, MMU_CODE_IDX); /* Rd = mem[addr] */
-+    tcg_gen_qemu_ld_tl(Rd, addr, MMU_CODE_IDX, MO_UB);
-     tcg_gen_addi_tl(addr, addr, 1); /* addr = addr + 1 */
-     gen_set_zaddr(addr);
-     return true;
 -- 
 2.34.1
 
