@@ -2,81 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6920A6F7A90
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 May 2023 03:18:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D4D916F7A77
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 May 2023 03:14:25 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pujww-0002ML-CM; Thu, 04 May 2023 21:09:30 -0400
+	id 1pujx7-0003Cj-88; Thu, 04 May 2023 21:09:41 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1pujvr-0001oL-SW
+ id 1pujvr-0001nO-Hg
  for qemu-devel@nongnu.org; Thu, 04 May 2023 21:08:31 -0400
-Received: from mail-pg1-x535.google.com ([2607:f8b0:4864:20::535])
+Received: from mail-pl1-x630.google.com ([2607:f8b0:4864:20::630])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1pujvn-0008BM-Ue
- for qemu-devel@nongnu.org; Thu, 04 May 2023 21:08:22 -0400
-Received: by mail-pg1-x535.google.com with SMTP id
- 41be03b00d2f7-52c6f81193cso808609a12.1
- for <qemu-devel@nongnu.org>; Thu, 04 May 2023 18:08:17 -0700 (PDT)
+ id 1pujvp-0008Bu-Da
+ for qemu-devel@nongnu.org; Thu, 04 May 2023 21:08:23 -0400
+Received: by mail-pl1-x630.google.com with SMTP id
+ d9443c01a7336-1ab05018381so10726245ad.2
+ for <qemu-devel@nongnu.org>; Thu, 04 May 2023 18:08:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1683248896; x=1685840896;
+ d=gmail.com; s=20221208; t=1683248899; x=1685840899;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=qnaDtYju5dqRq5XZLlBygStOKuvR4eRJ5p4wSfjTUvM=;
- b=rGNExJN/yZHKP4GKj+Hs48ry5PeT4g97hqDhL8nmcac06mGlvQDeI3HNpTNHUWrLed
- Kv0izyGEOommvES7nTqqjb7IXC5OoKRwdm1ifie1qQCS3l1/hq5MHF/fobW+eUR3bZLg
- 2GE91FUSqEyY2vw4xvoNIzw2pulcqwlkTasj+YT/eGbIB/BnQcHaKWXUCZjfL7jsdLjf
- 3M3Ufr9STddeCyDGIg/LB+wyYCrxy7Orh4xveaOvm8N5Mm3K/jzEzCwR1Fd8ZjFMpU0g
- AJF6YYoEDfrt/fHA/g77sKJr8fIpvkAQ99VGGpuN+WeDftcMHbTpHNdsUSsQU0/zXtfF
- BEPQ==
+ bh=Jux+pPZw9jHjtOgyIueCriqpmKTHI9+buEKuL9Hw4r4=;
+ b=EhTqNku/2G6FS97roeLBmC54akODI9/uirbhfVSivXVVUt6VLFqQSv9bxibSN/5tBb
+ /eeM4yusxzP2se40baAe+aqBTEoErDj99vOJWNsO577mz9gZ/Scc9KnbwL6lYDH63uqv
+ o+nGWm20ulCFtgC7tZRX3NIm50JoHCGX8jMZhAeTAdTTG4hult74Tj6J5+0pP6q+DpJI
+ PtHIkN2LYYpL4Z+9TO6SoPJDMDuOS+esar/GM3eMhfcd2h0TQSLu2O2KMky3ktVd6h6z
+ 5e7uD17mmzoEmGoAjYilNgkxln6t7wfEucwVbtIdGphl+GnmPl5sB+XZYGED8GnXcZXZ
+ MvNQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683248896; x=1685840896;
+ d=1e100.net; s=20221208; t=1683248899; x=1685840899;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=qnaDtYju5dqRq5XZLlBygStOKuvR4eRJ5p4wSfjTUvM=;
- b=Ga4ldch3szXjP82Nqm3IeNflgJeUziQngPfOxXs7CKtiNKioKMaPDrYVnTM5LqLeMa
- x2Yra+W86SIxY+AOHAQCvORoCSCabvHfM61x48NpMzplJ+BSR8o54CbRMqESmU+G66C6
- Zw0YGuo885L/sfcjix4izdBSsj+m5WzJG9L1LMMKEjz1wJvywgnFqGtW7u7iJh5udIEf
- W2crp7eCuBe7kBoPZHQxGSqmkGvaa3bx738RmUaD3/RsShehbh3jHY/JaT0Okw94Ew8y
- yK0qGOPt2Nl0AIvvlnNeW9DoeVR6nvWHKKKY5UeJG+qELZXGcVdk4ogh1wxiVJ9OTmZm
- 2ANg==
-X-Gm-Message-State: AC+VfDy/t3B2rW3ikeRDurRYOpff3VCMPRTHPKTWOiEbVM7iHCyh3iXb
- UiVav87Ur475Ca6BZYGwvu0A+T5Q4Es+wA==
-X-Google-Smtp-Source: ACHHUZ5y5AMiQk5ddxl8g3qaROfAJv+H64m8mfVR8Ds5IeCwY4BM9JF1icZVLBvXTeLD0D6dznXtLA==
-X-Received: by 2002:a17:902:c403:b0:1a6:a8e5:9240 with SMTP id
- k3-20020a170902c40300b001a6a8e59240mr7098291plk.4.1683248896391; 
- Thu, 04 May 2023 18:08:16 -0700 (PDT)
+ bh=Jux+pPZw9jHjtOgyIueCriqpmKTHI9+buEKuL9Hw4r4=;
+ b=joBfUm709S9mWPoRIxBP/wAHNQnyWTWmdnqzxWBJ5Vkf4Rt3VtbHzplahyiMtSr4Os
+ dTiKjdJF3LBn6YuqOxF7ogEN2wD+NtOXyPHogjLgeb1Fz0PCJrzRD5eqsayCoRMqDMMS
+ wfmlu8jvg2/qeTuZnNglvuq8BEAQ/se6nfFF5PrDa/GhXP1xgFBix13YCg657+iBsnUW
+ zFIsQd+qqLk1V2tvlRsq3SXd6ceJxA8YJ3ej4+mfX3eYD26MSzCEjlPyXweKbj2fGigi
+ kAovdcKlCcBqFZET6pdJhs1RUOBSvnrOtIgsZSBuhWX9JW0SW1dBQAOiKWsu0zgvUfxA
+ k2Bw==
+X-Gm-Message-State: AC+VfDyKy3H/3YqnISWmDcLjED4fnVwv4X/hNTL2IBP9oS1nygwyuyUn
+ 4oucPEjxhHZvnNL70IDZ/BTpBonW7gWIzQ==
+X-Google-Smtp-Source: ACHHUZ4wuVtC1Zv2rOyYUfVT6cY6SlFHYseWpJHbHtNQT3eV6cfFmNtWJhXUmPIVSL47X+BT8JrHqg==
+X-Received: by 2002:a17:902:e5cf:b0:1a9:8ba4:d0e3 with SMTP id
+ u15-20020a170902e5cf00b001a98ba4d0e3mr5864858plf.59.1683248899585; 
+ Thu, 04 May 2023 18:08:19 -0700 (PDT)
 Received: from toolbox.alistair23.me
  (2403-580b-97e8-0-321-6fb2-58f1-a1b1.ip6.aussiebb.net.
  [2403:580b:97e8:0:321:6fb2:58f1:a1b1])
  by smtp.gmail.com with ESMTPSA id
- l19-20020a170902d35300b0019309be03e7sm218762plk.66.2023.05.04.18.08.12
+ l19-20020a170902d35300b0019309be03e7sm218762plk.66.2023.05.04.18.08.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 04 May 2023 18:08:15 -0700 (PDT)
+ Thu, 04 May 2023 18:08:19 -0700 (PDT)
 From: Alistair Francis <alistair23@gmail.com>
 X-Google-Original-From: Alistair Francis <alistair.francis@wdc.com>
 To: qemu-devel@nongnu.org
-Cc: alistair23@gmail.com, Bin Meng <bmeng@tinylab.org>,
- Fei Wu <fei2.wu@intel.com>,
- Daniel Henrique Barboza <dbarboza@ventanamicro.com>,
+Cc: alistair23@gmail.com, Irina Ryapolova <irina.ryapolova@syntacore.com>,
  Weiwei Li <liweiwei@iscas.ac.cn>,
- Alistair Francis <alistair.francis@wdc.com>,
- LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
-Subject: [PULL 86/89] target/riscv: Restore the predicate() NULL check behavior
-Date: Fri,  5 May 2023 11:02:38 +1000
-Message-Id: <20230505010241.21812-87-alistair.francis@wdc.com>
+ Alistair Francis <alistair.francis@wdc.com>
+Subject: [PULL 87/89] target/riscv: Fix Guest Physical Address Translation
+Date: Fri,  5 May 2023 11:02:39 +1000
+Message-Id: <20230505010241.21812-88-alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.40.0
 In-Reply-To: <20230505010241.21812-1-alistair.francis@wdc.com>
 References: <20230505010241.21812-1-alistair.francis@wdc.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::535;
- envelope-from=alistair23@gmail.com; helo=mail-pg1-x535.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::630;
+ envelope-from=alistair23@gmail.com; helo=mail-pl1-x630.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -100,63 +98,91 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Bin Meng <bmeng@tinylab.org>
+From: Irina Ryapolova <irina.ryapolova@syntacore.com>
 
-When reading a non-existent CSR QEMU should raise illegal instruction
-exception, but currently it just exits due to the g_assert() check.
+Before changing the flow check for sv39/48/57.
 
-This actually reverts commit 0ee342256af9205e7388efdf193a6d8f1ba1a617.
-Some comments are also added to indicate that predicate() must be
-provided for an implemented CSR.
+According to specification (for Supervisor mode):
+Sv39 implementations support a 39-bit virtual address space, divided into 4 KiB
+pages.
+Instruction fetch addresses and load and store effective addresses, which are
+64 bits,
+must have bits 63–39 all equal to bit 38, or else a page-fault exception will
+occur.
+Likewise for Sv48 and Sv57.
 
-Reported-by: Fei Wu <fei2.wu@intel.com>
-Signed-off-by: Bin Meng <bmeng@tinylab.org>
-Reviewed-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+So the high bits are equal to bit 38 for sv39.
+
+According to specification (for Hypervisor mode):
+For Sv39x4, address bits of the guest physical address 63:41 must all be zeros,
+or else a
+guest-page-fault exception occurs.
+
+Likewise for Sv48x4 and Sv57x4.
+For Sv48x4 address bits 63:50 must all be zeros, or else a guest-page-fault
+exception occurs.
+For Sv57x4 address bits 63:59 must all be zeros, or else a guest-page-fault
+exception occurs.
+
+For example we are trying to access address 0xffff_ffff_ff01_0000 with only
+G-translation enabled.
+So expected behavior is to generate exception. But qemu doesn't generate such
+exception.
+
+For the old check, we get
+va_bits == 41, mask == (1 << 24) - 1, masked_msbs == (0xffff_ffff_ff01_0000 >>
+40) & mask == mask.
+Accordingly, the condition masked_msbs != 0 && masked_msbs != mask is not
+fulfilled
+and the check passes.
+
+Signed-off-by: Irina Ryapolova <irina.ryapolova@syntacore.com>
 Reviewed-by: Weiwei Li <liweiwei@iscas.ac.cn>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Reviewed-by: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
-Message-Id: <20230417043054.3125614-1-bmeng@tinylab.org>
+Message-Id: <20230418075423.26217-1-irina.ryapolova@syntacore.com>
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- target/riscv/csr.c | 11 +++++++++--
- 1 file changed, 9 insertions(+), 2 deletions(-)
+ target/riscv/cpu_helper.c | 25 ++++++++++++++++---------
+ 1 file changed, 16 insertions(+), 9 deletions(-)
 
-diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-index 865ee9efda..4451bd1263 100644
---- a/target/riscv/csr.c
-+++ b/target/riscv/csr.c
-@@ -3826,6 +3826,11 @@ static inline RISCVException riscv_csrrw_check(CPURISCVState *env,
-         return RISCV_EXCP_ILLEGAL_INST;
+diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
+index 32a65f8007..b68dcfe7b6 100644
+--- a/target/riscv/cpu_helper.c
++++ b/target/riscv/cpu_helper.c
+@@ -837,17 +837,24 @@ static int get_physical_address(CPURISCVState *env, hwaddr *physical,
+ 
+     CPUState *cs = env_cpu(env);
+     int va_bits = PGSHIFT + levels * ptidxbits + widened;
+-    target_ulong mask, masked_msbs;
+ 
+-    if (TARGET_LONG_BITS > (va_bits - 1)) {
+-        mask = (1L << (TARGET_LONG_BITS - (va_bits - 1))) - 1;
+-    } else {
+-        mask = 0;
+-    }
+-    masked_msbs = (addr >> (va_bits - 1)) & mask;
++    if (first_stage == true) {
++        target_ulong mask, masked_msbs;
+ 
+-    if (masked_msbs != 0 && masked_msbs != mask) {
+-        return TRANSLATE_FAIL;
++        if (TARGET_LONG_BITS > (va_bits - 1)) {
++            mask = (1L << (TARGET_LONG_BITS - (va_bits - 1))) - 1;
++        } else {
++            mask = 0;
++        }
++        masked_msbs = (addr >> (va_bits - 1)) & mask;
++
++        if (masked_msbs != 0 && masked_msbs != mask) {
++            return TRANSLATE_FAIL;
++        }
++    } else {
++        if (vm != VM_1_10_SV32 && addr >> va_bits != 0) {
++            return TRANSLATE_FAIL;
++        }
      }
  
-+    /* ensure CSR is implemented by checking predicate */
-+    if (!csr_ops[csrno].predicate) {
-+        return RISCV_EXCP_ILLEGAL_INST;
-+    }
-+
-     /* privileged spec version check */
-     if (env->priv_ver < csr_min_priv) {
-         return RISCV_EXCP_ILLEGAL_INST;
-@@ -3843,7 +3848,6 @@ static inline RISCVException riscv_csrrw_check(CPURISCVState *env,
-      * illegal instruction exception should be triggered instead of virtual
-      * instruction exception. Hence this comes after the read / write check.
-      */
--    g_assert(csr_ops[csrno].predicate != NULL);
-     RISCVException ret = csr_ops[csrno].predicate(env, csrno);
-     if (ret != RISCV_EXCP_NONE) {
-         return ret;
-@@ -4032,7 +4036,10 @@ static RISCVException write_jvt(CPURISCVState *env, int csrno,
-     return RISCV_EXCP_NONE;
- }
- 
--/* Control and Status Register function table */
-+/*
-+ * Control and Status Register function table
-+ * riscv_csr_operations::predicate() must be provided for an implemented CSR
-+ */
- riscv_csr_operations csr_ops[CSR_TABLE_SIZE] = {
-     /* User Floating-Point CSRs */
-     [CSR_FFLAGS]   = { "fflags",   fs,     read_fflags,  write_fflags },
+     bool pbmte = env->menvcfg & MENVCFG_PBMTE;
 -- 
 2.40.0
 
