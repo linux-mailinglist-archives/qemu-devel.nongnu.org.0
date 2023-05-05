@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C18566F7A60
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 May 2023 03:07:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 758636F7A66
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 May 2023 03:09:43 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pujtz-0005z2-JI; Thu, 04 May 2023 21:06:27 -0400
+	id 1pujuO-0006rr-Uo; Thu, 04 May 2023 21:06:52 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1pujtx-0005jX-9Y
- for qemu-devel@nongnu.org; Thu, 04 May 2023 21:06:25 -0400
-Received: from mail-pl1-x62f.google.com ([2607:f8b0:4864:20::62f])
+ id 1puju0-0006Bd-92
+ for qemu-devel@nongnu.org; Thu, 04 May 2023 21:06:28 -0400
+Received: from mail-pj1-x102b.google.com ([2607:f8b0:4864:20::102b])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1pujtv-0007i3-1o
- for qemu-devel@nongnu.org; Thu, 04 May 2023 21:06:24 -0400
-Received: by mail-pl1-x62f.google.com with SMTP id
- d9443c01a7336-1aad5245632so8442635ad.3
- for <qemu-devel@nongnu.org>; Thu, 04 May 2023 18:06:22 -0700 (PDT)
+ id 1pujty-0007kW-9H
+ for qemu-devel@nongnu.org; Thu, 04 May 2023 21:06:27 -0400
+Received: by mail-pj1-x102b.google.com with SMTP id
+ 98e67ed59e1d1-24e3a0aa408so1099279a91.1
+ for <qemu-devel@nongnu.org>; Thu, 04 May 2023 18:06:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1683248781; x=1685840781;
+ d=gmail.com; s=20221208; t=1683248785; x=1685840785;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=xZGjFNLoqqGuNOvjc//J6vmOrtdne6dPztqTW31lhQM=;
- b=hJ8flvXhg7JJ+3jwRbPXw1pR73KPPs+h8A+GpcjmledHZnsCeN0JTr+9skMxRxJwRt
- VJLrXWOij2Opegxxq7bRrq5I5yST8k+HzuWQ8OPNbannggKtoxYKSyFFonmRFHiM/G6E
- 1vMvWrgeFFlUJJPgVUu0xiaUeLtYw8OQyb2+rEBJJmRAyhXSev3MSy7Stq5ciH2ymCEK
- hXPmE9k4ycNwQBTy29JpD+qbMCJUHxwBKoXHbkSF5GoxQg5cB7GAbgFrq5R5sXr7gEw7
- Yy0l/GEghFCy5Gnvv4TM9yWAD8MVK8IiU3w58XJ0gbkIdKz7EMwqkTQDBYgadFnI764Q
- J9CQ==
+ bh=cKRtGtYIgef1clEK0i7kNVfzqDvagT7FZvB4yYdMQ/Y=;
+ b=IS81Nq4qotlTFQf1bapWJ72rm4zd9ESpbv/6ZCxZEi3Zl3gsYhXnowAOsZvLWsAZ2/
+ ACcobbBLuvHSTg6jJcb/lxWhLeVPp8KR1SWvrrW77CQdEUpXu9TQg6opQkMUCFpHQHMe
+ 97jEgW2/PFTUdnQ/iH9xkbMPqyhlFAf26/XtmHAnkQ0NCpRi952W4XG5hJGm4mDla51q
+ FrMkirJC1wa1nEVhVheMUbcAvVXlVhdt8SI3y1OPRwC6vvYwXNK1gwT+k7YeQImeHLM8
+ oUp7OnMdu0vMYGNKLiLXWyZB29a0wSaAZcigrc3mIc327qbKbCT7Tpo0Q4TqBDqjNZ2O
+ xntA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683248781; x=1685840781;
+ d=1e100.net; s=20221208; t=1683248785; x=1685840785;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=xZGjFNLoqqGuNOvjc//J6vmOrtdne6dPztqTW31lhQM=;
- b=KuHRMJKdGTK59TGtVS2FYjE5ddh/W+Iq/QKQjy+whjgdK9bEbp1OxrjHnvej5T2Zom
- x+qghnU+v91m6KzRUrUVzR2C6tk/Vk4YzBR0/VQW42bTPqqzy6Rn6VgLCHAg5yZkTewT
- rwDq89itQUUKcrrvTX38l8Gisr68tXA+vfE9RHO6gUSkyNKBqdzIrw69OyyGwPuOvCVZ
- vOktxhCW8fQB6kBPsQMp35xLg/JXFUe9HCja4UIzmQKvXHg/VUQprLn9/Vfh2KzQCxZI
- L2I9F3Glv3dqw1nQ/evgV94DzhAjkN+dEiOq/Rcvodj6jgIyJw5y5Ihu3zI2aAjFi4Lp
- myTQ==
-X-Gm-Message-State: AC+VfDzC4YmuBS0FWXJC8yiB33OrYktpvPD21lHrVPMlS2AwxmFtJh1Y
- twigJdG2A+PTvppqW9yOEhdcvL0t5Jcbyg==
-X-Google-Smtp-Source: ACHHUZ7h1lHB73p6NiP01pregwc/pVVlAshbHy7j49dViNhMrLxU3K5MmqEdVdKvpmFP6tuNMczQyQ==
-X-Received: by 2002:a17:902:db08:b0:1ac:3103:c555 with SMTP id
- m8-20020a170902db0800b001ac3103c555mr3929044plx.58.1683248781336; 
- Thu, 04 May 2023 18:06:21 -0700 (PDT)
+ bh=cKRtGtYIgef1clEK0i7kNVfzqDvagT7FZvB4yYdMQ/Y=;
+ b=hhmMOKXCi0Bgr9IP44nOalQd3nXN4A5IIK3VndoDFnHRYKzPSP7WAPxXgExdgnFs9b
+ nKafm7c6mWXq54qxwB99yQsReEcuEW1KGG491A2uuVQrhn0vz2K0Y+8obUvraL+ETnHT
+ 7/d1LsbYvStIqg2F6XJxQ8nd9p63UhOP8WG2RGbUdYHCiNXGGNpSEudvp/tQuO7J33D3
+ 9cdGba/KlwwgY0wUHWnyED2HygixFToUI1EfWNdDQt+ZWf+v1W57Bzq+UiAidKZw9o3E
+ CbIr7hqA973BMzuR20i3VkghK3jP13qRzFioV9Ocp+tiIAUNruTfBsydPEb23Lha6U+D
+ g9DQ==
+X-Gm-Message-State: AC+VfDylKQHmUbM4lC3HkEQ1uXZpzO6eizdYPJhptQVX5eAdEHWyWKaN
+ QtoG/kvKtDHI72XGsCk0bk8mvuSTveYhVA==
+X-Google-Smtp-Source: ACHHUZ6xfXNn9XJ+7Ou6tuJ1Hdu506psOmeTzmHcsP0H0VcxoZLLlJJanmYaJpCAskjOrSCw7MClFg==
+X-Received: by 2002:a17:90b:3696:b0:250:5f4:5652 with SMTP id
+ mj22-20020a17090b369600b0025005f45652mr3536721pjb.39.1683248784729; 
+ Thu, 04 May 2023 18:06:24 -0700 (PDT)
 Received: from toolbox.alistair23.me
  (2403-580b-97e8-0-321-6fb2-58f1-a1b1.ip6.aussiebb.net.
  [2403:580b:97e8:0:321:6fb2:58f1:a1b1])
  by smtp.gmail.com with ESMTPSA id
- l19-20020a170902d35300b0019309be03e7sm218762plk.66.2023.05.04.18.06.18
+ l19-20020a170902d35300b0019309be03e7sm218762plk.66.2023.05.04.18.06.21
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 04 May 2023 18:06:20 -0700 (PDT)
+ Thu, 04 May 2023 18:06:24 -0700 (PDT)
 From: Alistair Francis <alistair23@gmail.com>
 X-Google-Original-From: Alistair Francis <alistair.francis@wdc.com>
 To: qemu-devel@nongnu.org
@@ -65,16 +65,16 @@ Cc: alistair23@gmail.com, Weiwei Li <liweiwei@iscas.ac.cn>,
  Junqiang Wang <wangjunqiang@iscas.ac.cn>,
  Alistair Francis <alistair.francis@wdc.com>,
  Richard Henderson <richard.henderson@linaro.org>
-Subject: [PULL 54/89] target/riscv: Use PRV_RESERVED instead of PRV_H
-Date: Fri,  5 May 2023 11:02:06 +1000
-Message-Id: <20230505010241.21812-55-alistair.francis@wdc.com>
+Subject: [PULL 55/89] target/riscv: Legalize MPP value in write_mstatus
+Date: Fri,  5 May 2023 11:02:07 +1000
+Message-Id: <20230505010241.21812-56-alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.40.0
 In-Reply-To: <20230505010241.21812-1-alistair.francis@wdc.com>
 References: <20230505010241.21812-1-alistair.francis@wdc.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62f;
- envelope-from=alistair23@gmail.com; helo=mail-pl1-x62f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102b;
+ envelope-from=alistair23@gmail.com; helo=mail-pj1-x102b.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -100,90 +100,90 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Weiwei Li <liweiwei@iscas.ac.cn>
 
-PRV_H has no real meaning, but just a reserved privilege mode currently.
+mstatus.MPP field is a WARL field since priv version 1.11, so we
+remain it unchanged if an invalid value is written into it. And
+after this, RVH shouldn't be passed to riscv_cpu_set_mode().
 
 Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
 Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20230407014743.18779-3-liweiwei@iscas.ac.cn>
-[ Changes by AF:
- - Convert one missing use of PRV_H
-]
+Message-Id: <20230407014743.18779-4-liweiwei@iscas.ac.cn>
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- target/riscv/cpu.h        | 2 +-
- target/riscv/cpu_bits.h   | 2 +-
- target/riscv/cpu_helper.c | 2 +-
- target/riscv/gdbstub.c    | 2 +-
- target/riscv/op_helper.c  | 2 +-
- 5 files changed, 5 insertions(+), 5 deletions(-)
+ target/riscv/cpu_helper.c |  8 ++------
+ target/riscv/csr.c        | 32 ++++++++++++++++++++++++++++++++
+ 2 files changed, 34 insertions(+), 6 deletions(-)
 
-diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-index f47c3fc139..86e08d10da 100644
---- a/target/riscv/cpu.h
-+++ b/target/riscv/cpu.h
-@@ -684,7 +684,7 @@ static inline RISCVMXL cpu_recompute_xl(CPURISCVState *env)
-         case PRV_U:
-             xl = get_field(env->mstatus, MSTATUS64_UXL);
-             break;
--        default: /* PRV_S | PRV_H */
-+        default: /* PRV_S */
-             xl = get_field(env->mstatus, MSTATUS64_SXL);
-             break;
-         }
-diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
-index 101702cb4a..a16bfaf43f 100644
---- a/target/riscv/cpu_bits.h
-+++ b/target/riscv/cpu_bits.h
-@@ -608,7 +608,7 @@ typedef enum {
- /* Privilege modes */
- #define PRV_U 0
- #define PRV_S 1
--#define PRV_H 2 /* Reserved */
-+#define PRV_RESERVED 2
- #define PRV_M 3
- 
- /* RV32 satp CSR field masks */
 diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
-index 2310c7905f..29ac7956f7 100644
+index 29ac7956f7..433ea529b0 100644
 --- a/target/riscv/cpu_helper.c
 +++ b/target/riscv/cpu_helper.c
-@@ -650,7 +650,7 @@ void riscv_cpu_set_mode(CPURISCVState *env, target_ulong newpriv)
-     if (newpriv > PRV_M) {
-         g_assert_not_reached();
-     }
--    if (newpriv == PRV_H) {
-+    if (newpriv == PRV_RESERVED) {
-         newpriv = PRV_U;
-     }
-     if (icount_enabled() && newpriv != env->priv) {
-diff --git a/target/riscv/gdbstub.c b/target/riscv/gdbstub.c
-index fa537aed74..524bede865 100644
---- a/target/riscv/gdbstub.c
-+++ b/target/riscv/gdbstub.c
-@@ -203,7 +203,7 @@ static int riscv_gdb_set_virtual(CPURISCVState *cs, uint8_t *mem_buf, int n)
-     if (n == 0) {
- #ifndef CONFIG_USER_ONLY
-         cs->priv = ldtul_p(mem_buf) & 0x3;
--        if (cs->priv == PRV_H) {
-+        if (cs->priv == PRV_RESERVED) {
-             cs->priv = PRV_S;
-         }
- #endif
-diff --git a/target/riscv/op_helper.c b/target/riscv/op_helper.c
-index b8a03afebb..bd21c6eeef 100644
---- a/target/riscv/op_helper.c
-+++ b/target/riscv/op_helper.c
-@@ -141,7 +141,7 @@ static void check_zicbo_envcfg(CPURISCVState *env, target_ulong envbits,
-     }
+@@ -647,12 +647,8 @@ void riscv_cpu_set_aia_ireg_rmw_fn(CPURISCVState *env, uint32_t priv,
  
-     if (env->virt_enabled &&
--        (((env->priv < PRV_H) && !get_field(env->henvcfg, envbits)) ||
-+        (((env->priv <= PRV_S) && !get_field(env->henvcfg, envbits)) ||
-          ((env->priv < PRV_S) && !get_field(env->senvcfg, envbits)))) {
-         riscv_raise_exception(env, RISCV_EXCP_VIRT_INSTRUCTION_FAULT, ra);
+ void riscv_cpu_set_mode(CPURISCVState *env, target_ulong newpriv)
+ {
+-    if (newpriv > PRV_M) {
+-        g_assert_not_reached();
+-    }
+-    if (newpriv == PRV_RESERVED) {
+-        newpriv = PRV_U;
+-    }
++    g_assert(newpriv <= PRV_M && newpriv != PRV_RESERVED);
++
+     if (icount_enabled() && newpriv != env->priv) {
+         riscv_itrigger_update_priv(env);
      }
+diff --git a/target/riscv/csr.c b/target/riscv/csr.c
+index e0b871f6dc..f4d2dcfdc8 100644
+--- a/target/riscv/csr.c
++++ b/target/riscv/csr.c
+@@ -1230,6 +1230,32 @@ static bool validate_vm(CPURISCVState *env, target_ulong vm)
+            satp_mode_max_from_map(riscv_cpu_cfg(env)->satp_mode.map);
+ }
+ 
++static target_ulong legalize_mpp(CPURISCVState *env, target_ulong old_mpp,
++                                 target_ulong val)
++{
++    bool valid = false;
++    target_ulong new_mpp = get_field(val, MSTATUS_MPP);
++
++    switch (new_mpp) {
++    case PRV_M:
++        valid = true;
++        break;
++    case PRV_S:
++        valid = riscv_has_ext(env, RVS);
++        break;
++    case PRV_U:
++        valid = riscv_has_ext(env, RVU);
++        break;
++    }
++
++    /* Remain field unchanged if new_mpp value is invalid */
++    if (!valid) {
++        val = set_field(val, MSTATUS_MPP, old_mpp);
++    }
++
++    return val;
++}
++
+ static RISCVException write_mstatus(CPURISCVState *env, int csrno,
+                                     target_ulong val)
+ {
+@@ -1237,6 +1263,12 @@ static RISCVException write_mstatus(CPURISCVState *env, int csrno,
+     uint64_t mask = 0;
+     RISCVMXL xl = riscv_cpu_mxl(env);
+ 
++    /*
++     * MPP field have been made WARL since priv version 1.11. However,
++     * legalization for it will not break any software running on 1.10.
++     */
++    val = legalize_mpp(env, get_field(mstatus, MSTATUS_MPP), val);
++
+     /* flush tlb on mstatus fields that affect VM */
+     if ((val ^ mstatus) & (MSTATUS_MXR | MSTATUS_MPP | MSTATUS_MPV |
+             MSTATUS_MPRV | MSTATUS_SUM)) {
 -- 
 2.40.0
 
