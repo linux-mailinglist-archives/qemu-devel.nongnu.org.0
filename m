@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79E596F86D9
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 May 2023 18:36:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B8E316F86DD
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 May 2023 18:36:50 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1puyOg-0000XB-2V; Fri, 05 May 2023 12:35:06 -0400
+	id 1puyOq-0000Z6-QL; Fri, 05 May 2023 12:35:16 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1puyOe-0000Vk-Ex; Fri, 05 May 2023 12:35:04 -0400
+ id 1puyOh-0000Ya-G8; Fri, 05 May 2023 12:35:12 -0400
 Received: from mail-ot1-x32d.google.com ([2607:f8b0:4864:20::32d])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1puyOc-0004uG-NY; Fri, 05 May 2023 12:35:04 -0400
+ id 1puyOf-00055M-LD; Fri, 05 May 2023 12:35:07 -0400
 Received: by mail-ot1-x32d.google.com with SMTP id
- 46e09a7af769-6a606135408so1791681a34.0; 
- Fri, 05 May 2023 09:35:01 -0700 (PDT)
+ 46e09a7af769-6a5ef766282so1538061a34.0; 
+ Fri, 05 May 2023 09:35:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1683304501; x=1685896501;
+ d=gmail.com; s=20221208; t=1683304504; x=1685896504;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=Jbx/0so/ks6rJVukEiTYoE7hqjtEvDeuQ+ZtkpBDRKw=;
- b=c3aLmMLutOoFSznxpEj2InimHOcUSz5Te+9SfeOJWpuI3o5sIU8HDoKcbYLHmKnvfx
- ifs+s+TVuruB2sXfVpsK05ymVDGbXKO19dXzuckS9PtE38FC1TFWBoIpQ69+UQ+jDBly
- oeHfuX756ZaiouRuwWDAe6vDjnHiHuDzijbWqUUya5gL7Guh/5bGJp9drQXy50qyr2rL
- 7QC0SPggBnPLWr9/U4h6f4glb7arYOsuc4IsUkPVYov+8Ejk8fJ7i/rfDCSRSFhGno5V
- ghn+i99LFZokDDCjUIDxuV/lBI7uV2FNQ9LgaYGZ8BqQRPyQzqiTpvodZ71B5rVT91OA
- fWXQ==
+ bh=KqvU8//8WYRiuqj0LMjiqtFrHPWBBdy2oZBbIlb2Uak=;
+ b=lJECY7nh8zXY0KmqIJDMWVxaOhZtGiKYnIS6iCdl7Gvskhhggb1EWd5G6Na0Tqo2qe
+ bg6qnOkWn2Emdqay4Z/VL8mZa3NSM/y0/+zHZEKxrDhNcFBNAqWN8lvki4Li6I0GafKP
+ 8FAyZLHCQ0bZWLAlNQmM8EOXOlazhCkgJq4Y/55iq5WOwk9RJtU3X8IxIp93f2jfgMUU
+ fd4JZwqavmKNY5yIlcrbaTWEfdJ3XLNQ2btaaqH+yza3zg31rkK0Dsgr26d+I10RrlMx
+ IiervQe/t/3EPYeFX0XIEpBZU/jgQZdeb7vPBOWsPTuxK8IYB6CFRQYMTfxnRxMSXIGu
+ FOYg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683304501; x=1685896501;
+ d=1e100.net; s=20221208; t=1683304504; x=1685896504;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=Jbx/0so/ks6rJVukEiTYoE7hqjtEvDeuQ+ZtkpBDRKw=;
- b=HfIkImO6dVBgHR67JpwRMc/aGcHR8m/UhcCdAaKBCEJ7dw3qrprvS3kbPggLOXr6aa
- DOBS9s+a5MJfZzMcISn1ru5ICdmUmEZjSvM3/7yvMWBLR5nsLLGWqcylqw6yGTDah9/F
- nUJwhA4kGmwmveNXFECg3o9kgXufEIsJ1Wym8yAbtX12Y6tUsWYD09N3K9IE8qxk0J3e
- YSBAKIRTA85h9t8b2yQBALP3LM9W4GrwlrF1/vG2GDX4eilxe/ltpOguHjEjzCUUNvsG
- +50OkVUsz93V3g4CkKGtzrpUO4D7i7+TW3wqhBdXT5HRHdFKVaMGwnyr+Y/OoqbGbPVz
- qkyg==
-X-Gm-Message-State: AC+VfDwqC9LUBez7iD+ETY4PsuM6R6ByZ3bFukcuNZ+4zTWp/wUJgdeG
- rwT15l9x4uMLoQfDGajqb7zWT1cpyX4=
-X-Google-Smtp-Source: ACHHUZ6B0Kc+KaB7yntZ8GdzGyD0r5QMkyxAVAqoEOfAgoJIU/yLlap1z9Mh2Awf11PXGVupQlxdcQ==
-X-Received: by 2002:a05:6830:208b:b0:69f:165b:1509 with SMTP id
- y11-20020a056830208b00b0069f165b1509mr952287otq.35.1683304500956; 
- Fri, 05 May 2023 09:35:00 -0700 (PDT)
+ bh=KqvU8//8WYRiuqj0LMjiqtFrHPWBBdy2oZBbIlb2Uak=;
+ b=gjpTzRtTfbzQgeLFBSU7azpYBS6HUMnTD0vkORbdfQocQDuOkMCuCOstzG0jauH6la
+ YT8TDLblAR3EiRgdJcVJy8NU5/wJijGEXhPPkqr9tfNFiiN+mejvPi/gvmtjv44JKBPB
+ v7xZCBJdBYtMqfYa4aw+Y1S8OmKd+wLaEz+1B2SIOKxgF+4wnDfgCgQbUVwgzgS6AzfG
+ VNOgyX4PhuFY6rMekMrObB1R6ZOw1JnPflvKZXxw3VjGIHETx173zJ/mQnpkaOWiavAD
+ 7x58uvD+yO/pzk2VVH+L2SKbmURTcuy6ewa3NDcBBi2+BXjLz+IAFhWHkG9IWlyWV33h
+ IKPw==
+X-Gm-Message-State: AC+VfDxx6V7fwQ3KJh1H6QS0V+wjWccWeNJHASVxVdtjyjlKWzkuYaPZ
+ V+3yuR0K2+tI4kUUtkMAhjDnyutocVs=
+X-Google-Smtp-Source: ACHHUZ6Pnjhm2l4BqRC8m6K6+ChFK7DDnZ0WTTchCJ7bwUWSYjb1X2Ig0czbWQbZ32OZvhxS5f1m0A==
+X-Received: by 2002:a9d:65d7:0:b0:6a6:767:ed71 with SMTP id
+ z23-20020a9d65d7000000b006a60767ed71mr1152422oth.18.1683304504026; 
+ Fri, 05 May 2023 09:35:04 -0700 (PDT)
 Received: from grind.. (189-46-207-53.dsl.telesp.net.br. [189.46.207.53])
  by smtp.gmail.com with ESMTPSA id
- z3-20020a9d62c3000000b006a43519523fsm1033475otk.1.2023.05.05.09.34.58
+ z3-20020a9d62c3000000b006a43519523fsm1033475otk.1.2023.05.05.09.35.01
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 05 May 2023 09:35:00 -0700 (PDT)
+ Fri, 05 May 2023 09:35:03 -0700 (PDT)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: qemu-ppc@nongnu.org, danielhb413@gmail.com, peter.maydell@linaro.org,
  Shivaprasad G Bhat <sbhat@linux.ibm.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ John Platts <john_platts@hotmail.com>,
  Lucas Mateus Castro <lucas.araujo@eldorado.org.br>,
- Richard Henderson <richard.henderson@linaro.org>,
  =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@redhat.com>
-Subject: [PULL 4/6] tcg: ppc64: Fix mask generation for vextractdm
-Date: Fri,  5 May 2023 13:34:42 -0300
-Message-Id: <20230505163444.347006-5-danielhb413@gmail.com>
+Subject: [PULL 5/6] tests: tcg: ppc64: Add tests for Vector Extract Mask
+ Instructions
+Date: Fri,  5 May 2023 13:34:43 -0300
+Message-Id: <20230505163444.347006-6-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.40.1
 In-Reply-To: <20230505163444.347006-1-danielhb413@gmail.com>
 References: <20230505163444.347006-1-danielhb413@gmail.com>
@@ -98,40 +98,106 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Shivaprasad G Bhat <sbhat@linux.ibm.com>
 
-In function do_extractm() the mask is calculated as
-dup_const(1 << (element_width - 1)). '1' being signed int
-works fine for MO_8,16,32. For MO_64, on PPC64 host
-this ends up becoming 0 on compilation. The vextractdm
-uses MO_64, and it ends up having mask as 0.
+Add test for vextractbm, vextractwm, vextractdm and vextractqm
+instructions. Test works for both qemu-ppc64 and qemu-ppc64le.
 
-Explicitly use 1ULL instead of signed int 1 like its
-used everywhere else.
+Based on the test case written by John Platts posted at [1]
 
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1536
+References:
+[1] - https://gitlab.com/qemu-project/qemu/-/issues/1536
+
+Signed-off-by: John Platts <john_platts@hotmail.com>
 Signed-off-by: Shivaprasad G Bhat <sbhat@linux.ibm.com>
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Reviewed-by: Lucas Mateus Castro <lucas.araujo@eldorado.org.br>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Cédric Le Goater <clg@redhat.com>
-Message-Id: <168319292809.1159309.5817546227121323288.stgit@ltc-boston1.aus.stglabs.ibm.com>
+Message-Id: <168319294881.1159309.17060400720026083557.stgit@ltc-boston1.aus.stglabs.ibm.com>
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
- target/ppc/translate/vmx-impl.c.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ tests/tcg/ppc64/Makefile.target |  5 +++-
+ tests/tcg/ppc64/vector.c        | 51 +++++++++++++++++++++++++++++++++
+ 2 files changed, 55 insertions(+), 1 deletion(-)
+ create mode 100644 tests/tcg/ppc64/vector.c
 
-diff --git a/target/ppc/translate/vmx-impl.c.inc b/target/ppc/translate/vmx-impl.c.inc
-index 112233b541..c8712dd7d8 100644
---- a/target/ppc/translate/vmx-impl.c.inc
-+++ b/target/ppc/translate/vmx-impl.c.inc
-@@ -2058,7 +2058,7 @@ static bool trans_VEXPANDQM(DisasContext *ctx, arg_VX_tb *a)
- static bool do_vextractm(DisasContext *ctx, arg_VX_tb *a, unsigned vece)
- {
-     const uint64_t elem_width = 8 << vece, elem_count_half = 8 >> vece,
--                   mask = dup_const(vece, 1 << (elem_width - 1));
-+                   mask = dup_const(vece, 1ULL << (elem_width - 1));
-     uint64_t i, j;
-     TCGv_i64 lo, hi, t0, t1;
+diff --git a/tests/tcg/ppc64/Makefile.target b/tests/tcg/ppc64/Makefile.target
+index 6d47d3cae6..b084963b9a 100644
+--- a/tests/tcg/ppc64/Makefile.target
++++ b/tests/tcg/ppc64/Makefile.target
+@@ -20,7 +20,7 @@ PPC64_TESTS += mtfsf
+ PPC64_TESTS += mffsce
  
+ ifneq ($(CROSS_CC_HAS_POWER10),)
+-PPC64_TESTS += byte_reverse sha512-vector
++PPC64_TESTS += byte_reverse sha512-vector vector
+ endif
+ byte_reverse: CFLAGS += -mcpu=power10
+ run-byte_reverse: QEMU_OPTS+=-cpu POWER10
+@@ -31,6 +31,9 @@ sha512-vector: sha512.c
+ 
+ run-sha512-vector: QEMU_OPTS+=-cpu POWER10
+ 
++vector: CFLAGS += -mcpu=power10 -I$(SRC_PATH)/include
++run-vector: QEMU_OPTS += -cpu POWER10
++
+ PPC64_TESTS += signal_save_restore_xer
+ PPC64_TESTS += xxspltw
+ 
+diff --git a/tests/tcg/ppc64/vector.c b/tests/tcg/ppc64/vector.c
+new file mode 100644
+index 0000000000..cbf4ae9332
+--- /dev/null
++++ b/tests/tcg/ppc64/vector.c
+@@ -0,0 +1,51 @@
++#include <assert.h>
++#include <stdint.h>
++#include "qemu/compiler.h"
++
++int main(void)
++{
++    unsigned int result_wi;
++    vector unsigned char vbc_bi_src = { 0xFF, 0xFF, 0, 0xFF, 0xFF, 0xFF,
++                                        0xFF, 0xFF, 0xFF, 0xFF, 0, 0, 0,
++                                        0, 0xFF, 0xFF};
++    vector unsigned short vbc_hi_src = { 0xFFFF, 0, 0, 0xFFFF,
++                                         0, 0, 0xFFFF, 0xFFFF};
++    vector unsigned int vbc_wi_src = {0, 0, 0xFFFFFFFF, 0xFFFFFFFF};
++    vector unsigned long long vbc_di_src = {0xFFFFFFFFFFFFFFFF, 0};
++    vector __uint128_t vbc_qi_src;
++
++    asm("vextractbm %0, %1" : "=r" (result_wi) : "v" (vbc_bi_src));
++#if HOST_BIG_ENDIAN
++    assert(result_wi == 0b1101111111000011);
++#else
++    assert(result_wi == 0b1100001111111011);
++#endif
++
++    asm("vextracthm %0, %1" : "=r" (result_wi) : "v" (vbc_hi_src));
++#if HOST_BIG_ENDIAN
++    assert(result_wi == 0b10010011);
++#else
++    assert(result_wi == 0b11001001);
++#endif
++
++    asm("vextractwm %0, %1" : "=r" (result_wi) : "v" (vbc_wi_src));
++#if HOST_BIG_ENDIAN
++    assert(result_wi == 0b0011);
++#else
++    assert(result_wi == 0b1100);
++#endif
++
++    asm("vextractdm %0, %1" : "=r" (result_wi) : "v" (vbc_di_src));
++#if HOST_BIG_ENDIAN
++    assert(result_wi == 0b10);
++#else
++    assert(result_wi == 0b01);
++#endif
++
++    vbc_qi_src[0] = 0x1;
++    vbc_qi_src[0] = vbc_qi_src[0] << 127;
++    asm("vextractqm %0, %1" : "=r" (result_wi) : "v" (vbc_qi_src));
++    assert(result_wi == 0b1);
++
++    return 0;
++}
 -- 
 2.40.1
 
