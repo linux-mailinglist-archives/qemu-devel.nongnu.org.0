@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 249C36F7A2D
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 May 2023 02:50:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF7A76F7A27
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 May 2023 02:50:12 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pujcz-0004KV-Pt; Thu, 04 May 2023 20:48:53 -0400
+	id 1pujcz-0004J1-0v; Thu, 04 May 2023 20:48:53 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pujcs-0004HN-Og
+ id 1pujcs-0004HM-Oh
  for qemu-devel@nongnu.org; Thu, 04 May 2023 20:48:48 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pujcp-0001IS-RM
+ id 1pujcp-0001Ic-QT
  for qemu-devel@nongnu.org; Thu, 04 May 2023 20:48:46 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1683247722;
+ s=mimecast20190719; t=1683247723;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=G4FEacCIGM6kVKmqMn9bVOW9qdeGr7/FeQLVE7nW1xM=;
- b=BaBMwHGTOrUur69dsmKhotmrFy0NpY4OEVJArMEEmb0fXdxfVP+MmYzLT82zw7OkEUPspC
- DqieopJsaCabvtqJlrGzrwGizDQffhJ9QfyiCTbc+OVQ0MSyHKQjggjAiE8FhFa+D2D54p
- 3LRd1hYp7IS/VLuEjgWZJNWKCBNrgg4=
+ bh=nPURkw5j/yJsflXTaxXIa9UkcEvDk6IdDUuPzAI8DcQ=;
+ b=NVKIenSwmz47vT8r3SfY1S/mXoFM2rk1L3dmWmaVxvmjDZNKT/CNEMgWEAnjiHR7Xs9pXG
+ OrVM2J/IBpJZOJFAS30P9627oCf63/OzvtV+Ka5/DSSPeJjTeTWBpMSvrE+/qx9G4LC/bu
+ LodLLBNB+Y3+mXAzNlpnUWAnddsbBAw=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-649-dQctjpPXPiyxvC7PNQdjpg-1; Thu, 04 May 2023 20:48:39 -0400
-X-MC-Unique: dQctjpPXPiyxvC7PNQdjpg-1
+ us-mta-255-sRjpN0qIPq2ms4T4t8jW5w-1; Thu, 04 May 2023 20:48:41 -0400
+X-MC-Unique: sRjpN0qIPq2ms4T4t8jW5w-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
  [10.11.54.2])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B11FE109DCE5;
- Fri,  5 May 2023 00:48:38 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id CE7E6A0F388;
+ Fri,  5 May 2023 00:48:40 +0000 (UTC)
 Received: from secure.mitica (unknown [10.39.193.236])
- by smtp.corp.redhat.com (Postfix) with ESMTP id F12F9404B24D;
- Fri,  5 May 2023 00:48:36 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 171CC404B24D;
+ Fri,  5 May 2023 00:48:38 +0000 (UTC)
 From: Juan Quintela <quintela@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Eric Blake <eblake@redhat.com>,
@@ -51,9 +51,10 @@ Cc: Eric Blake <eblake@redhat.com>,
  Leonardo Bras <leobras@redhat.com>, Fam Zheng <fam@euphon.net>,
  Peter Xu <peterx@redhat.com>,
  =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>
-Subject: [PULL 11/16] migration: max_postcopy_bandwidth is a size parameter
-Date: Fri,  5 May 2023 02:48:07 +0200
-Message-Id: <20230505004812.31583-12-quintela@redhat.com>
+Subject: [PULL 12/16] migration: qemu_file_total_transferred() function is
+ monotonic
+Date: Fri,  5 May 2023 02:48:08 +0200
+Message-Id: <20230505004812.31583-13-quintela@redhat.com>
 In-Reply-To: <20230505004812.31583-1-quintela@redhat.com>
 References: <20230505004812.31583-1-quintela@redhat.com>
 MIME-Version: 1.0
@@ -84,65 +85,34 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-So make everything that uses it uint64_t no int64_t.
+So delta_bytes can only be greater or equal to zero.  Never negative.
 
 Signed-off-by: Juan Quintela <quintela@redhat.com>
 Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
-Message-Id: <20230504113841.23130-2-quintela@redhat.com>
+Message-Id: <20230504113841.23130-3-quintela@redhat.com>
 ---
- migration/migration.c | 4 ++--
- migration/options.c   | 2 +-
- migration/options.h   | 2 +-
- 3 files changed, 4 insertions(+), 4 deletions(-)
+ migration/block.c | 8 +-------
+ 1 file changed, 1 insertion(+), 7 deletions(-)
 
-diff --git a/migration/migration.c b/migration/migration.c
-index feb5ab7493..232e387109 100644
---- a/migration/migration.c
-+++ b/migration/migration.c
-@@ -2056,7 +2056,7 @@ static int postcopy_start(MigrationState *ms)
-     QIOChannelBuffer *bioc;
-     QEMUFile *fb;
-     int64_t time_at_stop = qemu_clock_get_ms(QEMU_CLOCK_REALTIME);
--    int64_t bandwidth = migrate_max_postcopy_bandwidth();
-+    uint64_t bandwidth = migrate_max_postcopy_bandwidth();
-     bool restart_block = false;
-     int cur_state = MIGRATION_STATUS_ACTIVE;
+diff --git a/migration/block.c b/migration/block.c
+index 6d532ac7a2..3499f75e37 100644
+--- a/migration/block.c
++++ b/migration/block.c
+@@ -801,13 +801,7 @@ static int block_save_iterate(QEMUFile *f, void *opaque)
  
-@@ -3176,7 +3176,7 @@ fail:
- void migrate_fd_connect(MigrationState *s, Error *error_in)
- {
-     Error *local_err = NULL;
--    int64_t rate_limit;
-+    uint64_t rate_limit;
-     bool resume = s->state == MIGRATION_STATUS_POSTCOPY_PAUSED;
- 
-     /*
-diff --git a/migration/options.c b/migration/options.c
-index 7395787960..2e759cc306 100644
---- a/migration/options.c
-+++ b/migration/options.c
-@@ -717,7 +717,7 @@ uint64_t migrate_max_bandwidth(void)
-     return s->parameters.max_bandwidth;
+     qemu_put_be64(f, BLK_MIG_FLAG_EOS);
+     delta_bytes = qemu_file_total_transferred(f) - last_bytes;
+-    if (delta_bytes > 0) {
+-        return 1;
+-    } else if (delta_bytes < 0) {
+-        return -1;
+-    } else {
+-        return 0;
+-    }
++    return (delta_bytes > 0);
  }
  
--int64_t migrate_max_postcopy_bandwidth(void)
-+uint64_t migrate_max_postcopy_bandwidth(void)
- {
-     MigrationState *s = migrate_get_current();
- 
-diff --git a/migration/options.h b/migration/options.h
-index 09841d6a63..5cca3326d6 100644
---- a/migration/options.h
-+++ b/migration/options.h
-@@ -85,7 +85,7 @@ int migrate_decompress_threads(void);
- uint64_t migrate_downtime_limit(void);
- uint8_t migrate_max_cpu_throttle(void);
- uint64_t migrate_max_bandwidth(void);
--int64_t migrate_max_postcopy_bandwidth(void);
-+uint64_t migrate_max_postcopy_bandwidth(void);
- int migrate_multifd_channels(void);
- MultiFDCompression migrate_multifd_compression(void);
- int migrate_multifd_zlib_level(void);
+ /* Called with iothread lock taken.  */
 -- 
 2.40.0
 
