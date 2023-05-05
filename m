@@ -2,103 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0DC7A6F86FC
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 May 2023 18:46:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E5B06F870E
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 May 2023 18:51:45 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1puyYG-0001JB-4C; Fri, 05 May 2023 12:45:00 -0400
+	id 1puydT-0003FO-Uy; Fri, 05 May 2023 12:50:24 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from
- <3hTJVZAYKCmgYKGTPIMUUMRK.IUSWKSa-JKbKRTUTMTa.UXM@flex--seanjc.bounces.google.com>)
- id 1puyYE-0001Ix-6e
- for qemu-devel@nongnu.org; Fri, 05 May 2023 12:44:58 -0400
-Received: from mail-pj1-x1049.google.com ([2607:f8b0:4864:20::1049])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from
- <3hTJVZAYKCmgYKGTPIMUUMRK.IUSWKSa-JKbKRTUTMTa.UXM@flex--seanjc.bounces.google.com>)
- id 1puyYC-0008OL-Dh
- for qemu-devel@nongnu.org; Fri, 05 May 2023 12:44:57 -0400
-Received: by mail-pj1-x1049.google.com with SMTP id
- 98e67ed59e1d1-24e3f2bff83so1041515a91.2
- for <qemu-devel@nongnu.org>; Fri, 05 May 2023 09:44:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20221208; t=1683305094; x=1685897094;
- h=content-transfer-encoding:cc:to:from:subject:message-id:references
- :mime-version:in-reply-to:date:from:to:cc:subject:date:message-id
- :reply-to; bh=9+i6WgJAJzJlKXvdjrc4sB18Bds1WwkbYsWdLgSqVp4=;
- b=5NLcQWofuV/YkKQ6oScIEQc8lVhhA2L4HU7CAnLH03mX0Px3HVPbbRo2D6swL6bYVC
- DUB3fcT4XujkVxCNaKYJ+P/Z7sNnX421VReM55ms1qzD5WRQCvJ/Kix0mSSaYy6Vuguo
- DWnNHQWNURLtT+6bY0K/Qi8QSq5fb73IsidEyosi5bDvhPv4lQKLP/WCp19+1EjcQYkT
- 2ZZ09LoscjMPBSeU10UZCNvLYrLZpvQ7Vt2oUZW3pPlG97XC7fwgw982zXDkvUJKrQ1i
- ngUKTQDZ0x71ie0DU+LnkH+jsC1SnJHoK6gBPF+WpYtjUSRSNwRS6UiypPvCgognd0bl
- qZfw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683305094; x=1685897094;
- h=content-transfer-encoding:cc:to:from:subject:message-id:references
- :mime-version:in-reply-to:date:x-gm-message-state:from:to:cc:subject
- :date:message-id:reply-to;
- bh=9+i6WgJAJzJlKXvdjrc4sB18Bds1WwkbYsWdLgSqVp4=;
- b=Uj1nWH6oYsAc8xwXGLtXgJpBmOj68MRCc0srPO2lqgxnKaZBVfFO/tpX9cdy7OEk7o
- O1FaYPRlrgFNzOEK/3Y8UPNzjaZyRBKn49QL4sv9KYypRrBgjqRHiSlfl8NE04qbezoB
- skVAUfyY+wWdO8upgqljHG1oOPNHoiNfKExhoKa+WileU4D5173Z5JeJDOfF2woIcXx/
- X7rVgIRiVWnkO+goBr2iir1TzDUUG2dR2f1n8ZJ4gSl1gdILd0MwdFymu+COcb8StpnN
- XMVEHXP8YCnfPS4nLdi8MQB/9ezS3aWxySzNh2rxeHD+Sbf5yW6jW68WKrZe/9Jnz44r
- B+9g==
-X-Gm-Message-State: AC+VfDypVflG1vJpYQI+rfGwNmj45+geLJsCuTtoRiQ2HMAmYgD46iVs
- xTXxe9Pba+e06d/o5CvnhpKK7tUz4kY=
-X-Google-Smtp-Source: ACHHUZ6aankmXvB8085gNTlbF2PCEyPixSX1tutA3Hp2uz+l8puQYKdMvvxlOn7gLaJGVxpHKJ9HgVKK2Lk=
-X-Received: from zagreus.c.googlers.com
- ([fda3:e722:ac3:cc00:7f:e700:c0a8:5c37])
- (user=seanjc job=sendgmr) by 2002:a17:90a:ea0b:b0:24e:2787:405d with SMTP id
- w11-20020a17090aea0b00b0024e2787405dmr607921pjy.5.1683305093970; Fri, 05 May
- 2023 09:44:53 -0700 (PDT)
-Date: Fri, 5 May 2023 09:44:52 -0700
-In-Reply-To: <20230505152046.6575-5-mic@digikod.net>
-Mime-Version: 1.0
-References: <20230505152046.6575-1-mic@digikod.net>
- <20230505152046.6575-5-mic@digikod.net>
-Message-ID: <ZFUyhPuhtMbYdJ76@google.com>
-Subject: Re: [PATCH v1 4/9] KVM: x86: Add new hypercall to set EPT permissions
-From: Sean Christopherson <seanjc@google.com>
-To: "=?iso-8859-1?Q?Micka=EBl_Sala=FCn?=" <mic@digikod.net>
-Cc: Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, 
- "H . Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
- Kees Cook <keescook@chromium.org>, 
- Paolo Bonzini <pbonzini@redhat.com>, Thomas Gleixner <tglx@linutronix.de>, 
- Vitaly Kuznetsov <vkuznets@redhat.com>, Wanpeng Li <wanpengli@tencent.com>, 
- Alexander Graf <graf@amazon.com>, Forrest Yuan Yu <yuanyu@google.com>, 
+ (Exim 4.90_1) (envelope-from <mic@digikod.net>) id 1puydM-0003FF-5Y
+ for qemu-devel@nongnu.org; Fri, 05 May 2023 12:50:16 -0400
+Received: from smtp-42ac.mail.infomaniak.ch ([2001:1600:4:17::42ac])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mic@digikod.net>) id 1puydD-0001Q6-Ty
+ for qemu-devel@nongnu.org; Fri, 05 May 2023 12:50:15 -0400
+Received: from smtp-3-0001.mail.infomaniak.ch (unknown [10.4.36.108])
+ by smtp-3-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4QCc9j6pyZzMq29R;
+ Fri,  5 May 2023 18:50:01 +0200 (CEST)
+Received: from unknown by smtp-3-0001.mail.infomaniak.ch (Postfix) with ESMTPA
+ id 4QCc9f1ZprzMpt9p; Fri,  5 May 2023 18:49:58 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=digikod.net;
+ s=20191114; t=1683305401;
+ bh=RPOWf6TexJXD2F61Y+MwwaWrFJGnJ6O8Bzm/vPfHfEg=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=KFqsV29bRBQXZVMUZDnW9//LbmTjZRdZ5CYSCvQtHGOugYPQZro4kAj1y6BuQuLMI
+ 6ri9TjVKDdRi4alwo2oX8l60NkGjcqHjRzeAjieP1C8UKm+ZX2LPynTNK6yGyQO8br
+ /DpBAABiiqrinOuFsaScnqzH8PtKHmistKR3ODTI=
+Message-ID: <6412bf27-4d05-eab8-3db1-d4efa44af3aa@digikod.net>
+Date: Fri, 5 May 2023 18:49:57 +0200
+MIME-Version: 1.0
+User-Agent: 
+Subject: Re: [PATCH v1 2/9] KVM: x86/mmu: Add support for prewrite page
+ tracking
+Content-Language: en-US
+To: Sean Christopherson <seanjc@google.com>
+Cc: Borislav Petkov <bp@alien8.de>, Dave Hansen
+ <dave.hansen@linux.intel.com>, "H . Peter Anvin" <hpa@zytor.com>,
+ Ingo Molnar <mingo@redhat.com>, Kees Cook <keescook@chromium.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, Thomas Gleixner <tglx@linutronix.de>,
+ Vitaly Kuznetsov <vkuznets@redhat.com>, Wanpeng Li <wanpengli@tencent.com>,
+ Alexander Graf <graf@amazon.com>, Forrest Yuan Yu <yuanyu@google.com>,
  James Morris <jamorris@linux.microsoft.com>,
- John Andersen <john.s.andersen@intel.com>, 
- Liran Alon <liran.alon@oracle.com>, 
+ John Andersen <john.s.andersen@intel.com>, Liran Alon
+ <liran.alon@oracle.com>,
  "Madhavan T . Venkataraman" <madvenka@linux.microsoft.com>,
- Marian Rotariu <marian.c.rotariu@gmail.com>, 
- "Mihai =?utf-8?B?RG9uyJt1?=" <mdontu@bitdefender.com>, 
- "=?utf-8?B?TmljdciZb3IgQ8OuyJt1?=" <nicu.citu@icloud.com>,
- Rick Edgecombe <rick.p.edgecombe@intel.com>, 
- Thara Gopinath <tgopinath@microsoft.com>, Will Deacon <will@kernel.org>, 
- Zahra Tarkhani <ztarkhani@microsoft.com>, 
- "=?utf-8?Q?=C8=98tefan_=C8=98icleru?=" <ssicleru@bitdefender.com>,
- dev@lists.cloudhypervisor.org, 
- kvm@vger.kernel.org, linux-hardening@vger.kernel.org, 
- linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-security-module@vger.kernel.org, qemu-devel@nongnu.org, 
- virtualization@lists.linux-foundation.org, x86@kernel.org, 
- xen-devel@lists.xenproject.org
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1049;
- envelope-from=3hTJVZAYKCmgYKGTPIMUUMRK.IUSWKSa-JKbKRTUTMTa.UXM@flex--seanjc.bounces.google.com;
- helo=mail-pj1-x1049.google.com
-X-Spam_score_int: -95
-X-Spam_score: -9.6
-X-Spam_bar: ---------
-X-Spam_report: (-9.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01,
- USER_IN_DEF_DKIM_WL=-7.5 autolearn=ham autolearn_force=no
+ Marian Rotariu <marian.c.rotariu@gmail.com>,
+ =?UTF-8?Q?Mihai_Don=c8=9bu?= <mdontu@bitdefender.com>,
+ =?UTF-8?B?TmljdciZb3IgQ8OuyJt1?= <nicu.citu@icloud.com>,
+ Rick Edgecombe <rick.p.edgecombe@intel.com>,
+ Thara Gopinath <tgopinath@microsoft.com>, Will Deacon <will@kernel.org>,
+ Zahra Tarkhani <ztarkhani@microsoft.com>,
+ =?UTF-8?Q?=c8=98tefan_=c8=98icleru?= <ssicleru@bitdefender.com>,
+ dev@lists.cloudhypervisor.org, kvm@vger.kernel.org,
+ linux-hardening@vger.kernel.org, linux-hyperv@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-security-module@vger.kernel.org,
+ qemu-devel@nongnu.org, virtualization@lists.linux-foundation.org,
+ x86@kernel.org, xen-devel@lists.xenproject.org
+References: <20230505152046.6575-1-mic@digikod.net>
+ <20230505152046.6575-3-mic@digikod.net> <ZFUumGdZDNs1tkQA@google.com>
+From: =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mic@digikod.net>
+In-Reply-To: <ZFUumGdZDNs1tkQA@google.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Infomaniak-Routing: alpha
+Received-SPF: pass client-ip=2001:1600:4:17::42ac;
+ envelope-from=mic@digikod.net; helo=smtp-42ac.mail.infomaniak.ch
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -114,31 +88,93 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, May 05, 2023, Micka=EF=BF=BDl Sala=EF=BF=BDn wrote:
-> Add a new KVM_HC_LOCK_MEM_PAGE_RANGES hypercall that enables a guest to
-> set EPT permissions on a set of page ranges.
 
-IMO, manipulation of protections, both for memory (this patch) and CPU stat=
-e
-(control registers in the next patch) should come from userspace.  I have n=
-o
-objection to KVM providing plumbing if necessary, but I think userspace nee=
-ds to
-to have full control over the actual state.
+On 05/05/2023 18:28, Sean Christopherson wrote:
+> On Fri, May 05, 2023, Mickaï¿½l Salaï¿½n wrote:
+>> diff --git a/arch/x86/include/asm/kvm_page_track.h b/arch/x86/include/asm/kvm_page_track.h
+>> index eb186bc57f6a..a7fb4ff888e6 100644
+>> --- a/arch/x86/include/asm/kvm_page_track.h
+>> +++ b/arch/x86/include/asm/kvm_page_track.h
+>> @@ -3,6 +3,7 @@
+>>   #define _ASM_X86_KVM_PAGE_TRACK_H
+>>   
+>>   enum kvm_page_track_mode {
+>> +	KVM_PAGE_TRACK_PREWRITE,
+> 
+> Heh, just when I decide to finally kill off support for multiple modes[1] :-)
+> 
+> My assessment from that changelog still holds true for this case:
+> 
+>    Drop "support" for multiple page-track modes, as there is no evidence
+>    that array-based and refcounted metadata is the optimal solution for
+>    other modes, nor is there any evidence that other use cases, e.g. for
+>    access-tracking, will be a good fit for the page-track machinery in
+>    general.
+>    
+>    E.g. one potential use case of access-tracking would be to prevent guest
+>    access to poisoned memory (from the guest's perspective).  In that case,
+>    the number of poisoned pages is likely to be a very small percentage of
+>    the guest memory, and there is no need to reference count the number of
+>    access-tracking users, i.e. expanding gfn_track[] for a new mode would be
+>    grossly inefficient.  And for poisoned memory, host userspace would also
+>    likely want to trap accesses, e.g. to inject #MC into the guest, and that
+>    isn't currently supported by the page-track framework.
+>    
+>    A better alternative for that poisoned page use case is likely a
+>    variation of the proposed per-gfn attributes overlay (linked), which
+>    would allow efficiently tracking the sparse set of poisoned pages, and by
+>    default would exit to userspace on access.
+> 
+> Of particular relevance:
+> 
+>    - Using the page-track machinery is inefficient because the guest is likely
+>      going to write-protect a minority of its memory.  And this
+> 
+>        select KVM_EXTERNAL_WRITE_TRACKING if KVM
+> 
+>      is particularly nasty because simply enabling HEKI in the Kconfig will cause
+>      KVM to allocate rmaps and gfn tracking.
+> 
+>    - There's no need to reference count the protection, i.e. 15 of the 16 bits of
+>      gfn_track are dead weight.
+> 
+>    - As proposed, adding a second "mode" would double the cost of gfn tracking.
+> 
+>    - Tying the protections to the memslots will create an impossible-to-maintain
+>      ABI because the protections will be lost if the owning memslot is deleted and
+>      recreated.
+> 
+>    - The page-track framework provides incomplete protection and will lead to an
+>      ongoing game of whack-a-mole, e.g. this patch catches the obvious cases by
+>      adding calls to kvm_page_track_prewrite(), but misses things like kvm_vcpu_map().
+> 
+>    - The scaling and maintenance issues will only get worse if/when someone tries
+>      to support dropping read and/or execute permissions, e.g. for execute-only.
+> 
+>    - The code is x86-only, and is likely to stay that way for the foreseeable
+>      future.
+> 
+> The proposed alternative is to piggyback the memory attributes implementation[2]
+> that is being added (if all goes according to plan) for confidential VMs.  This
+> use case (dropping permissions) came up not too long ago[3], which is why I have
+> a ready-made answer).
+> 
+> I have no doubt that we'll need to solve performance and scaling issues with the
+> memory attributes implementation, e.g. to utilize xarray multi-range support
+> instead of storing information on a per-4KiB-page basis, but AFAICT, the core
+> idea is sound.  And a very big positive from a maintenance perspective is that
+> any optimizations, fixes, etc. for one use case (CoCo vs. hardening) should also
+> benefit the other use case.
+> 
+> [1] https://lore.kernel.org/all/20230311002258.852397-22-seanjc@google.com
+> [2] https://lore.kernel.org/all/Y2WB48kD0J4VGynX@google.com
+> [3] https://lore.kernel.org/all/Y1a1i9vbJ%2FpVmV9r@google.com
 
-One of the things that caused Intel's control register pinning series to st=
-all
-out was how to handle edge cases like kexec() and reboot.  Deferring to use=
-rspace
-means the kernel doesn't need to define policy, e.g. when to unprotect memo=
-ry,
-and avoids questions like "should userspace be able to overwrite pinned con=
-trol
-registers".
+I agree, I used this mechanism because it was easier at first to rely on 
+a previous work, but while I was working on the MBEC support, I realized 
+that it's not the optimal way to do it.
 
-And like the confidential VM use case, keeping userspace in the loop is a b=
-ig
-beneifit, e.g. the guest can't circumvent protections by coercing userspace=
- into
-writing to protected memory .
+I was thinking about using a new special EPT bit similar to 
+EPT_SPTE_HOST_WRITABLE, but it may not be portable though. What do you 
+think?
 
