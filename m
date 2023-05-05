@@ -2,76 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06C4B6F8433
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 May 2023 15:37:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 86DFE6F8434
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 May 2023 15:37:20 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1puvc4-00052r-KB; Fri, 05 May 2023 09:36:44 -0400
+	id 1puvbv-00050o-Sv; Fri, 05 May 2023 09:36:35 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1puvbz-000520-T4
- for qemu-devel@nongnu.org; Fri, 05 May 2023 09:36:39 -0400
-Received: from mail-ed1-x52e.google.com ([2a00:1450:4864:20::52e])
+ (Exim 4.90_1) (envelope-from <farosas@suse.de>)
+ id 1puvbr-0004zU-Sz; Fri, 05 May 2023 09:36:31 -0400
+Received: from smtp-out2.suse.de ([195.135.220.29])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1puvby-0004NC-4S
- for qemu-devel@nongnu.org; Fri, 05 May 2023 09:36:39 -0400
-Received: by mail-ed1-x52e.google.com with SMTP id
- 4fb4d7f45d1cf-50b8d2eed3dso2753360a12.0
- for <qemu-devel@nongnu.org>; Fri, 05 May 2023 06:36:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1683293795; x=1685885795;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=yHnlK3/J9vA42bspGNYsFHRqnY9V+IBOeoRMFxL1uR8=;
- b=rx//uw6FEWFZ9JiYZR2qlBMYfEHo03KXB7+P01GDnnldV+moGhsF/3x35SqGd9z3DY
- PU3Lug66/vKO1zMg3hvXbLRJlbXuRBJv9FTuzooRT82T32GiLJuuov6DNDBAPWpXYZNq
- CkwD5mO25jjLs+gOYbiB3cCcpY3e9IFF7xxbPL1qc9fxpwqq5iNoOz4dLPS9yWBXT4JF
- W4JsWyFnElHhhELdH3ehnoYG85Vh9pejJMZKTGJvyFZH6djzNQuEbDQ9rmNGT+H1p0xP
- smicvlWBoMdrTwmrg/vWAVslbG/LOe0xa3IxszM2FMU1dVP4IaeUJMhM+s+z2u1tlTsn
- bDqA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683293795; x=1685885795;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=yHnlK3/J9vA42bspGNYsFHRqnY9V+IBOeoRMFxL1uR8=;
- b=KoTPxXEQ+h3J7hd+o6om9M+0F8alIvHFUSimzoRqRtdGTztsyFFC3XOC97pxB8fcO9
- lS55qEZ+VaJ85libLLNhPvsmGwn4BrGMzQxcUCRsj4th+lga19LigllwOu22l/0zmHGM
- eaDokXWEbctT26Hck01+4+P42tEnq3BQyzvyv1gWjLlRlZHjRg1M1FUCwKD8wIykM8Vp
- deWtmC2mI07UlKz1E3yfKKmm5IOq/sUzt0Fkb/lHDh/9BwjMtShLCmo41B1qPBSBA0Jv
- EPr90ODhYuqWVcbE0QsXslmO9WMFcCJxGuMpv++6/sCtC6zq+E/KWjIFkDugGh5hsUmN
- 5J0Q==
-X-Gm-Message-State: AC+VfDz4gJmpoJjabylbhPcKPs42Sz6PaRoVO1Ubz8gGiItdmfJo+aAG
- o898oe28RY6aAvT7iL6RD5tzlV4ypUDnUxlt+FV3bw==
-X-Google-Smtp-Source: ACHHUZ5I5CkON9eMVXcoj/794f6VtZjYZpg0AiBhWIXtFFud6/LuIjiCh7eXmzv8d5Ux1Jp6U8cx5wcTpSpIDaX47Yg=
-X-Received: by 2002:a50:e601:0:b0:509:c10d:b53d with SMTP id
- y1-20020a50e601000000b00509c10db53dmr1575897edm.23.1683293794708; Fri, 05 May
- 2023 06:36:34 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <farosas@suse.de>)
+ id 1puvbq-0004Lm-CU; Fri, 05 May 2023 09:36:31 -0400
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id A81B82007D;
+ Fri,  5 May 2023 13:36:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1683293787; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=GX1YbvKEU2mzTdPFjNha9/GTyjcDB5z00w2L2gTVqio=;
+ b=0nrIK+JtcLNgJw/z8Wgk4CzObYXfpb9sNmVWhihiMUP/JH317KU26iPYrcYxfUWwC7swZ7
+ wJ+g/YK332Kho4NbIh1OKPdWLyYKryiNSRP1k8ApESDTpUKot6Ur0V+0UXxiwXqeHC1aXS
+ zB6/QbJLqcGas7LFSHH5+PKjazCPTJ8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1683293787;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=GX1YbvKEU2mzTdPFjNha9/GTyjcDB5z00w2L2gTVqio=;
+ b=2mtiztfVja+DxfHJ9rhO9EY0aC0VlwNu5otWe4LcbsLcEjZ2OsdO/ZFJzKXyVL5X9XYDUc
+ A5Sy4e5lFYJnBlBw==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 3177913488;
+ Fri,  5 May 2023 13:36:26 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id 1/cUOloGVWQsWgAAMHmgww
+ (envelope-from <farosas@suse.de>); Fri, 05 May 2023 13:36:26 +0000
+From: Fabiano Rosas <farosas@suse.de>
+To: Nicholas Piggin <npiggin@gmail.com>, qemu-ppc@nongnu.org
+Cc: Nicholas Piggin <npiggin@gmail.com>, qemu-devel@nongnu.org
+Subject: Re: [PATCH] target/ppc: Fix nested-hv HEAI delivery
+In-Reply-To: <20230505125655.329422-1-npiggin@gmail.com>
+References: <20230505125655.329422-1-npiggin@gmail.com>
+Date: Fri, 05 May 2023 10:36:24 -0300
+Message-ID: <87o7myq4rr.fsf@suse.de>
 MIME-Version: 1.0
-References: <20230503070656.1746170-1-richard.henderson@linaro.org>
- <20230503070656.1746170-55-richard.henderson@linaro.org>
-In-Reply-To: <20230503070656.1746170-55-richard.henderson@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 5 May 2023 14:36:23 +0100
-Message-ID: <CAFEAcA9jskOmO3GNjnGqs_PUN_H=sFYUHywWb07Mx-AfHUGueA@mail.gmail.com>
-Subject: Re: [PATCH v4 54/57] tcg/aarch64: Rename temporaries
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-devel@nongnu.org, git@xen0n.name, gaosong@loongson.cn, 
- philmd@linaro.org, qemu-arm@nongnu.org, qemu-riscv@nongnu.org, 
- qemu-s390x@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::52e;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52e.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+Content-Type: text/plain
+Received-SPF: pass client-ip=195.135.220.29; envelope-from=farosas@suse.de;
+ helo=smtp-out2.suse.de
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -87,16 +81,19 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, 3 May 2023 at 08:12, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> We will need to allocate a second general-purpose temporary.
-> Rename the existing temps to add a distinguishing number.
->
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+Nicholas Piggin <npiggin@gmail.com> writes:
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+> ppc hypervisors turn HEAI interrupts into program interrupts injected
+> into the guest that executed the illegal instruction, if the hypervisor
+> doesn't handle it some other way.
+>
+> The nexted-hv implementation failed to account for this HEAI->program
+> conversion. The virtual hypervisor wants to see the HEAI when running
+> a nested guest, so that interrupt type can be returned to its KVM
+> caller.
+>
+> Fixes: 7cebc5db2eba6 ("target/ppc: Introduce a vhyp framework for nested HV support")
+> Signed-off-by: Nicholas Piggin <npiggin@gmail.com>
 
-thanks
--- PMM
+Reviewed-by: Fabiano Rosas <farosas@suse.de>
 
