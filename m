@@ -2,70 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C9BC6F80E4
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 May 2023 12:38:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 64E106F80F7
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 May 2023 12:42:35 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pusom-0004q5-Go; Fri, 05 May 2023 06:37:40 -0400
+	id 1pussN-0001Qk-De; Fri, 05 May 2023 06:41:23 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pusok-0004oK-58
- for qemu-devel@nongnu.org; Fri, 05 May 2023 06:37:38 -0400
-Received: from mail-ed1-x52b.google.com ([2a00:1450:4864:20::52b])
+ id 1pussK-0001Ob-VA
+ for qemu-devel@nongnu.org; Fri, 05 May 2023 06:41:20 -0400
+Received: from mail-ed1-x52f.google.com ([2a00:1450:4864:20::52f])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pusoh-0004uk-IN
- for qemu-devel@nongnu.org; Fri, 05 May 2023 06:37:37 -0400
-Received: by mail-ed1-x52b.google.com with SMTP id
- 4fb4d7f45d1cf-50bc2feb320so2504969a12.3
- for <qemu-devel@nongnu.org>; Fri, 05 May 2023 03:37:35 -0700 (PDT)
+ id 1pussJ-0006bp-Cu
+ for qemu-devel@nongnu.org; Fri, 05 May 2023 06:41:20 -0400
+Received: by mail-ed1-x52f.google.com with SMTP id
+ 4fb4d7f45d1cf-50bd87539c2so2527657a12.0
+ for <qemu-devel@nongnu.org>; Fri, 05 May 2023 03:41:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1683283054; x=1685875054;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=lQFl/hfaokX6bWVDMMA0Liw7xdcfO7yVzbh3vEMN0ng=;
- b=CnicNmACePipY/HbiiDXqJ8853Y5kSFJHKLX4nKx1qOAJOqFqg/lnT/seHgegVy1e5
- K12LgtMNLz0TVxtvBKOzPhEMesZ4I+O7/2x0fshrVcBBgTKuW+7QsKsEEcHEohpbao/3
- pA7a+2iBWNirE8rIhTDO6qJo6PgPjbKxbJCchEU4fyoxZh43pwXnJjjZ1dGfB6Z9ifHu
- oetUgFhCtYBg5Zv4yfCfJPzA4AKxbIjg7uK45LuR9uHrJyJs6jCN6HLJXqSj3hG4o/VP
- RTJE+xgeKjLPmdfUO4V8grddcg0fxGOYW7b3kstIwIO1TeJEbpyPXJRxNliAzjQaK64r
- 5v8Q==
+ d=linaro.org; s=google; t=1683283278; x=1685875278;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=GGUYB/K0rHbygF7dcBo384KEw+1cPVilG6zEPPYTpr8=;
+ b=QpUPdjyaGWJusiYMY0cklVM/t1EabdSRoPAcVGgdV5t9vWqHm0brbvxrxvMXaRuVma
+ lvwi3IHbR8hEscm/GX5RqZGSxvl93wbv7lJ9QkaDasbS7vgerBzvULq+B6PX8UYYZW1p
+ 5eFxpBM4R9YXQrewF56f0Bzuw1NcMdQhDDbIWupt3RvvxdmYMIr9EQOg8FgE71/9sKf9
+ T5xUxUSFn8dwY+ryd31rS5zkMllICaEJoBGtJmpdqIDc6NalwGlc9ISL7JC6neR6XkB5
+ yWVUK1fXygLYgweM32wQC5sA1tYr+EgVgIrm39LTJiLdmSUVhsDjJkbG2G5e8PYVNi4j
+ W11w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683283054; x=1685875054;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=lQFl/hfaokX6bWVDMMA0Liw7xdcfO7yVzbh3vEMN0ng=;
- b=QYf8cEY9MuAQ5CdjiO51P5UFxQIEQ3xe0ssH2EQja4GLKRRmejGLpUM/n+1OIHfzHq
- eYBvJVqCWONQK/6yZN5Db5ihRSo3jLqRLTetD4IVXg6R4wgbkLTXYr/sUQHQvq5LIQzc
- nE3oQP2IJgE+wrNGAXsZuOSlvqERs3CMGww0dhWUl3EnIfACrFv4y+FY4DwNiIBeIltK
- HK4+b2LCdWrbTjqwJk5lImuMyBwdzJ48ISuf3JCM2nThl1eQH0uOt3KJj7U0YCo8Sjib
- eN2zeLlUnPu0Zd7+P8sP7Tx7nQhq+qGevCo4ikQEe8Aem/Zoe/6WDywfvKoQS0bKWNAc
- ltgw==
-X-Gm-Message-State: AC+VfDyC40dgL1kMtDh8c7AHp32UEVa95dCrLofA3j/wUhvJKBNPDZqC
- 5YRh9BFWsGvqsu3BA5x47V+uUpTW4FuXIaIBCVp+iA==
-X-Google-Smtp-Source: ACHHUZ6XeKuoAmKBc+GF31yiQuuv1+CjRQuFSk6tIw3yJsHjUJ7d6oxI9P/tNiKi3y4FGYfAcsaosqGmzwkXLBjvO3Y=
-X-Received: by 2002:aa7:dbc8:0:b0:50b:d305:3788 with SMTP id
- v8-20020aa7dbc8000000b0050bd3053788mr798666edt.11.1683283053934; Fri, 05 May
- 2023 03:37:33 -0700 (PDT)
+ d=1e100.net; s=20221208; t=1683283278; x=1685875278;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=GGUYB/K0rHbygF7dcBo384KEw+1cPVilG6zEPPYTpr8=;
+ b=luj43lvt0VTRcDhTkq3H6ySkjuJuDmykwlgICIVemZDB0M0ly2cEIl1JB0LtF9Hj4J
+ YfouDmLfYEfRHLMxRKmjCTIe+UbDr2S4w1y0xakWIzzCjtayDDVOVBHfEc3Ln0VNkkmf
+ WPiesBDpz7wYxfQmMnD2wbImav+Zx56+Vd1X8NibKal/eTeyc9aOOk00r6hoeMErWMdB
+ h+3//A7rYDJELZWv8BCd45T9DjQDjp9F6SInRqJZCahbXWYh4VIxw9i3hbHRthHIBSky
+ ZFm0N3gHA3v1YzCGbTrDOcGymzvGYQQuCw/0Lpo9u3afgl8q/GpiQ1RWq0xp6AP8Hk14
+ yPZA==
+X-Gm-Message-State: AC+VfDwaGzkcGOQ3sQWyetpJFNGhGSWhCYciP6miRgdc2khLOnq11ufS
+ m6jqC/FRnMM2j6fv7i7aT0MrAoNxWCw/uZu3fNPZxA==
+X-Google-Smtp-Source: ACHHUZ7+yiWlsG0fP3XBoYR3uhyG2OgdrnprfQvg3fW/tWuIDZ1vQOMC9WmrWfPy9f7KPE31Y14pusFnVtWT/WJFfaQ=
+X-Received: by 2002:aa7:c589:0:b0:50b:c9d4:8804 with SMTP id
+ g9-20020aa7c589000000b0050bc9d48804mr1018611edq.4.1683283277804; Fri, 05 May
+ 2023 03:41:17 -0700 (PDT)
 MIME-Version: 1.0
 References: <20230503070656.1746170-1-richard.henderson@linaro.org>
- <20230503070656.1746170-16-richard.henderson@linaro.org>
-In-Reply-To: <20230503070656.1746170-16-richard.henderson@linaro.org>
+ <20230503070656.1746170-18-richard.henderson@linaro.org>
+In-Reply-To: <20230503070656.1746170-18-richard.henderson@linaro.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 5 May 2023 11:37:23 +0100
-Message-ID: <CAFEAcA-qe+5+eDdjFUxrOqE4URwsBYdN7Q1_BLbAusGDnaudGw@mail.gmail.com>
-Subject: Re: [PATCH v4 15/57] accel/tcg: Use have_atomic16 in
- ldst_atomicity.c.inc
+Date: Fri, 5 May 2023 11:41:06 +0100
+Message-ID: <CAFEAcA9MZtk33geq=8-1vwM2W-fDHa8p1gcUf4h2ztPG7HGWfA@mail.gmail.com>
+Subject: Re: [PATCH v4 17/57] tcg/aarch64: Detect have_lse, have_lse2 for linux
 To: Richard Henderson <richard.henderson@linaro.org>
 Cc: qemu-devel@nongnu.org, git@xen0n.name, gaosong@loongson.cn, 
  philmd@linaro.org, qemu-arm@nongnu.org, qemu-riscv@nongnu.org, 
  qemu-s390x@nongnu.org
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::52b;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52b.google.com
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::52f;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -91,22 +92,14 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 On Wed, 3 May 2023 at 08:08, Richard Henderson
 <richard.henderson@linaro.org> wrote:
 >
-> Hosts using Intel and AMD AVX cpus are quite common.
-> Add fast paths through ldst_atomicity using this.
+> Notice when the host has additional atomic instructions.
+> The new variables will also be used in generated code.
 >
-> Only enable with CONFIG_INT128; some older clang versions do not
-> support __int128_t, and the inline assembly won't work on structures.
->
+> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  accel/tcg/ldst_atomicity.c.inc | 76 +++++++++++++++++++++++++++-------
->  1 file changed, 60 insertions(+), 16 deletions(-)
 
-Inline x86 asm in a bit of generic code seems rather awkward.
-Ideally the compiler should be doing this for us; failing
-that can we at least abstract out the operations to a
-set of functions that we can provide (or not provide)
-implementations of?
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
+thanks
 -- PMM
 
