@@ -2,41 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BBDEC6F845B
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 May 2023 15:48:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DAF516F84AD
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 May 2023 16:16:40 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1puvmN-0003hL-2k; Fri, 05 May 2023 09:47:23 -0400
+	id 1puwCe-0004xh-8L; Fri, 05 May 2023 10:14:32 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <f.ebner@proxmox.com>)
- id 1puvmF-0003ck-AY; Fri, 05 May 2023 09:47:15 -0400
-Received: from proxmox-new.maurer-it.com ([94.136.29.106])
+ (Exim 4.90_1) (envelope-from <anjo@rev.ng>) id 1puwCT-0004sn-BR
+ for qemu-devel@nongnu.org; Fri, 05 May 2023 10:14:21 -0400
+Received: from rev.ng ([5.9.113.41])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <f.ebner@proxmox.com>)
- id 1puvmB-0000DP-LE; Fri, 05 May 2023 09:47:15 -0400
-Received: from proxmox-new.maurer-it.com (localhost.localdomain [127.0.0.1])
- by proxmox-new.maurer-it.com (Proxmox) with ESMTP id 095274762E;
- Fri,  5 May 2023 15:47:06 +0200 (CEST)
-From: Fiona Ebner <f.ebner@proxmox.com>
+ (Exim 4.90_1) (envelope-from <anjo@rev.ng>) id 1puwCO-0000yI-BD
+ for qemu-devel@nongnu.org; Fri, 05 May 2023 10:14:21 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=rev.ng;
+ s=dkim; h=Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject:Cc:
+ To:From:Sender:Reply-To:Content-Type:Content-ID:Content-Description:
+ Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+ In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=aVYQ/Mt/AW7dVoflvCJaS8xKazDStGvGmBXxM4Rz2v4=; b=tMbW7K80DzSLctI47oWeQ5NgJ/
+ xI04MOkD7hMVDJ/b6u7XXkF/xADIbFmt5YBqTT2TAsLHLJxvGHDQLQWlPPANtfxfhJ+/DsDyq0XH0
+ 2UwCvZuZPOPT7Kn7BnyE9GS7tVjM7v7BKbKCVxdxPrl+9aAc/yrX8bqKYK/BQM9adZdQ=;
 To: qemu-devel@nongnu.org
-Cc: quintela@redhat.com, peterx@redhat.com, leobras@redhat.com,
- eblake@redhat.com, vsementsov@yandex-team.ru, jsnow@redhat.com,
- stefanha@redhat.com, fam@euphon.net, qemu-block@nongnu.org,
- pbonzini@redhat.com, t.lamprecht@proxmox.com
-Subject: [PATCH] migration: for snapshots, hold the BQL during setup callbacks
-Date: Fri,  5 May 2023 15:46:52 +0200
-Message-Id: <20230505134652.140884-1-f.ebner@proxmox.com>
-X-Mailer: git-send-email 2.30.2
+Cc: ale@rev.ng, richard.henderson@linaro.org, pbonzini@redhat.com,
+ eduardo@habkost.net, philmd@linaro.org, marcel.apfelbaum@gmail.com,
+ wangyanan55@huawei.com
+Subject: [PATCH v2 00/12] Start replacing target_ulong with vaddr
+Date: Fri,  5 May 2023 16:13:51 +0200
+Message-Id: <20230505141403.25735-1-anjo@rev.ng>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=94.136.29.106; envelope-from=f.ebner@proxmox.com;
- helo=proxmox-new.maurer-it.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=5.9.113.41; envelope-from=anjo@rev.ng; helo=rev.ng
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -50,196 +53,125 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-to:  Anton Johansson <anjo@rev.ng>
+From:  Anton Johansson via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-In spirit, this is a partial revert of commit 9b09503752 ("migration:
-run setup callbacks out of big lock"), but only for the snapshot case.
+Based-on: 20230503072331.1747057-1-richard.henderson@linaro.org
+("[RESEND PATCH 00/84] tcg: Build once for system, once for user")
 
-For snapshots, the bdrv_writev_vmstate() function is used during setup
-(in QIOChannelBlock backing the QEMUFile), but not holding the BQL
-while calling it could lead to an assertion failure. To understand
-how, first note the following:
+This is a first patchset in removing target_ulong from non-target/
+directories.  As use of target_ulong is spread accross the codebase we
+are attempting to target as few maintainers as possible with each
+patchset in order to ease reviewing.
 
-1. Generated coroutine wrappers for block layer functions spawn the
-coroutine and use AIO_WAIT_WHILE()/aio_poll() to wait for it.
-2. If the host OS switches threads at an inconvenient time, it can
-happen that a bottom half scheduled for the main thread's AioContext
-is executed as part of a vCPU thread's aio_poll().
+The following instances of target_ulong remain in accel/ and tcg/
+    - atomic helpers (atomic_common.c.inc), cpu_atomic_*()
+      (atomic_template.h,) and cpu_[st|ld]*()
+      (cputlb.c/ldst_common.c.inc) are only used in target/ and can
+      be pulled out into a separate target-specific file;
 
-An example leading to the assertion failure is as follows:
+    - walk_memory_regions() is used in user-exec.c and
+      linux-user/elfload.c;
 
-main thread:
-1. A snapshot-save QMP command gets issued.
-2. snapshot_save_job_bh() is scheduled.
+    - kvm_find_sw_breakpoint() in kvm-all.c used in target/;
 
-vCPU thread:
-3. aio_poll() for the main thread's AioContext is called (e.g. when
-the guest writes to a pflash device, as part of blk_pwrite which is a
-generated coroutine wrapper).
-4. snapshot_save_job_bh() is executed as part of aio_poll().
-3. qemu_savevm_state() is called.
-4. qemu_mutex_unlock_iothread() is called. Now
-qemu_get_current_aio_context() returns 0x0.
-5. bdrv_writev_vmstate() is executed during the usual savevm setup.
-But this function is a generated coroutine wrapper, so it uses
-AIO_WAIT_WHILE. There, the assertion
-assert(qemu_get_current_aio_context() == qemu_get_aio_context());
-will fail.
+Changes in v2:
+    - addr argument in tb_invalidate_phys_addr() changed from vaddr
+      to hwaddr;
 
-To fix it, ensure that the BQL is held during setup. To avoid changing
-the behavior for migration too, introduce conditionals for the setup
-callbacks that need the BQL and only take the lock if it's not already
-held.
+    - Removed previous patch:
 
-Signed-off-by: Fiona Ebner <f.ebner@proxmox.com>
----
- include/migration/register.h   |  2 +-
- migration/block-dirty-bitmap.c | 15 ++++++++++++---
- migration/block.c              | 15 ++++++++++++---
- migration/ram.c                | 16 +++++++++++++---
- migration/savevm.c             |  2 --
- 5 files changed, 38 insertions(+), 12 deletions(-)
+        "[PATCH 4/8] accel/tcg: Replace target_ulong with vaddr in helper_unaligned_*()"
 
-diff --git a/include/migration/register.h b/include/migration/register.h
-index a8dfd8fefd..fa9b0b0f10 100644
---- a/include/migration/register.h
-+++ b/include/migration/register.h
-@@ -43,9 +43,9 @@ typedef struct SaveVMHandlers {
-      * by other locks.
-      */
-     int (*save_live_iterate)(QEMUFile *f, void *opaque);
-+    int (*save_setup)(QEMUFile *f, void *opaque);
- 
-     /* This runs outside the iothread lock!  */
--    int (*save_setup)(QEMUFile *f, void *opaque);
-     /* Note for save_live_pending:
-      * must_precopy:
-      * - must be migrated in precopy or in stopped state
-diff --git a/migration/block-dirty-bitmap.c b/migration/block-dirty-bitmap.c
-index 6624f39bc6..4943f4d644 100644
---- a/migration/block-dirty-bitmap.c
-+++ b/migration/block-dirty-bitmap.c
-@@ -1217,10 +1217,17 @@ static int dirty_bitmap_save_setup(QEMUFile *f, void *opaque)
- {
-     DBMSaveState *s = &((DBMState *)opaque)->save;
-     SaveBitmapState *dbms = NULL;
-+    bool release_lock = false;
- 
--    qemu_mutex_lock_iothread();
-+    /* For snapshots, the BQL is held during setup. */
-+    if (!qemu_mutex_iothread_locked()) {
-+        qemu_mutex_lock_iothread();
-+        release_lock = true;
-+    }
-     if (init_dirty_bitmap_migration(s) < 0) {
--        qemu_mutex_unlock_iothread();
-+        if (release_lock) {
-+            qemu_mutex_unlock_iothread();
-+        }
-         return -1;
-     }
- 
-@@ -1228,7 +1235,9 @@ static int dirty_bitmap_save_setup(QEMUFile *f, void *opaque)
-         send_bitmap_start(f, s, dbms);
-     }
-     qemu_put_bitmap_flags(f, DIRTY_BITMAP_MIG_FLAG_EOS);
--    qemu_mutex_unlock_iothread();
-+    if (release_lock) {
-+        qemu_mutex_unlock_iothread();
-+    }
-     return 0;
- }
- 
-diff --git a/migration/block.c b/migration/block.c
-index 6d532ac7a2..399cf86cb4 100644
---- a/migration/block.c
-+++ b/migration/block.c
-@@ -717,21 +717,30 @@ static void block_migration_cleanup(void *opaque)
- static int block_save_setup(QEMUFile *f, void *opaque)
- {
-     int ret;
-+    bool release_lock = false;
- 
-     trace_migration_block_save("setup", block_mig_state.submitted,
-                                block_mig_state.transferred);
- 
--    qemu_mutex_lock_iothread();
-+    /* For snapshots, the BQL is held during setup. */
-+    if (!qemu_mutex_iothread_locked()) {
-+        qemu_mutex_lock_iothread();
-+        release_lock = true;
-+    }
-     ret = init_blk_migration(f);
-     if (ret < 0) {
--        qemu_mutex_unlock_iothread();
-+        if (release_lock) {
-+            qemu_mutex_unlock_iothread();
-+        }
-         return ret;
-     }
- 
-     /* start track dirty blocks */
-     ret = set_dirty_tracking();
- 
--    qemu_mutex_unlock_iothread();
-+    if (release_lock) {
-+        qemu_mutex_unlock_iothread();
-+    }
- 
-     if (ret) {
-         return ret;
-diff --git a/migration/ram.c b/migration/ram.c
-index 7d81c4a39e..c05c2d9506 100644
---- a/migration/ram.c
-+++ b/migration/ram.c
-@@ -3106,8 +3106,16 @@ static void migration_bitmap_clear_discarded_pages(RAMState *rs)
- 
- static void ram_init_bitmaps(RAMState *rs)
- {
--    /* For memory_global_dirty_log_start below.  */
--    qemu_mutex_lock_iothread();
-+    bool release_lock = false;
-+
-+    /*
-+     * For memory_global_dirty_log_start below.
-+     * For snapshots, the BQL is held during setup.
-+     */
-+    if (!qemu_mutex_iothread_locked()) {
-+        qemu_mutex_lock_iothread();
-+        release_lock = true;
-+    }
-     qemu_mutex_lock_ramlist();
- 
-     WITH_RCU_READ_LOCK_GUARD() {
-@@ -3119,7 +3127,9 @@ static void ram_init_bitmaps(RAMState *rs)
-         }
-     }
-     qemu_mutex_unlock_ramlist();
--    qemu_mutex_unlock_iothread();
-+    if (release_lock) {
-+        qemu_mutex_unlock_iothread();
-+    }
- 
-     /*
-      * After an eventual first bitmap sync, fixup the initial bitmap
-diff --git a/migration/savevm.c b/migration/savevm.c
-index a9d0a88e62..d545b01516 100644
---- a/migration/savevm.c
-+++ b/migration/savevm.c
-@@ -1626,10 +1626,8 @@ static int qemu_savevm_state(QEMUFile *f, Error **errp)
-     memset(&compression_counters, 0, sizeof(compression_counters));
-     ms->to_dst_file = f;
- 
--    qemu_mutex_unlock_iothread();
-     qemu_savevm_state_header(f);
-     qemu_savevm_state_setup(f);
--    qemu_mutex_lock_iothread();
- 
-     while (qemu_file_get_error(f) == 0) {
-         if (qemu_savevm_state_iterate(f, false) > 0) {
--- 
-2.30.2
+      as these functions are removed by Richard's patches;
 
+    - First patch:
 
+        "[PATCH 1/8] accel: Replace `target_ulong` with `vaddr` in TB/TLB"
+
+      has been split into patches 1-7 to ease reviewing;
+
+    - Pulled in target/ changes to cpu_get_tb_cpu_state() into this
+      patchset.  This was done to avoid pointer casts to target_ulong *
+      which would break for 32-bit targets on a 64-bit BE host;
+
+      Note the small target/ changes are collected in a single
+      patch to not break bisection.  If it's still desirable to split
+      based on maintainer, let me know;
+
+    - `last` argument of pageflags_[find|next] changed from target_long
+       to vaddr.  This change was left out of the last patchset due to
+       triggering a "Bad ram pointer" error (softmmu/physmem.c:2273)
+       when running make check for a i386-softmmu target.
+
+       I was not able to recreate this on master or post rebase on
+       Richard's tcg-once branch.
+
+Finally, the grand goal is to allow for heterogeneous QEMU binaries
+consisting of multiple frontends.
+
+RFC: https://lists.nongnu.org/archive/html/qemu-devel/2022-12/msg04518.html
+
+Anton Johansson (12):
+  accel: Replace target_ulong in tlb_*()
+  accel/tcg/translate-all.c: Widen pc and cs_base
+  target: Widen pc/cs_base in cpu_get_tb_cpu_state
+  accel/tcg/cputlb.c: Widen CPUTLBEntry access functions
+  accel/tcg/cputlb.c: Widen addr in MMULookupPageData
+  accel/tcg/cpu-exec.c: Widen pc to vaddr
+  accel/tcg: Widen pc to vaddr in CPUJumpCache
+  accel: Replace target_ulong with vaddr in probe_*()
+  accel/tcg: Replace target_ulong with vaddr in *_mmu_lookup()
+  accel/tcg: Replace target_ulong with vaddr in translator_*()
+  accel/tcg: Replace target_ulong with vaddr in page_*()
+  cpu: Replace target_ulong with hwaddr in tb_invalidate_phys_addr()
+
+ accel/stubs/tcg-stub.c       |   6 +-
+ accel/tcg/cpu-exec.c         |  43 ++++---
+ accel/tcg/cputlb.c           | 231 +++++++++++++++++------------------
+ accel/tcg/internal.h         |   6 +-
+ accel/tcg/tb-hash.h          |  12 +-
+ accel/tcg/tb-jmp-cache.h     |   2 +-
+ accel/tcg/tb-maint.c         |   2 +-
+ accel/tcg/translate-all.c    |  13 +-
+ accel/tcg/translator.c       |  10 +-
+ accel/tcg/user-exec.c        |  56 ++++-----
+ cpu.c                        |   2 +-
+ include/exec/cpu-all.h       |  10 +-
+ include/exec/cpu-defs.h      |   4 +-
+ include/exec/cpu_ldst.h      |  10 +-
+ include/exec/exec-all.h      |  95 +++++++-------
+ include/exec/translate-all.h |   2 +-
+ include/exec/translator.h    |   6 +-
+ include/qemu/plugin-memory.h |   2 +-
+ target/alpha/cpu.h           |   4 +-
+ target/arm/cpu.h             |   4 +-
+ target/arm/helper.c          |   4 +-
+ target/avr/cpu.h             |   4 +-
+ target/cris/cpu.h            |   4 +-
+ target/hexagon/cpu.h         |   4 +-
+ target/hppa/cpu.h            |   5 +-
+ target/i386/cpu.h            |   4 +-
+ target/loongarch/cpu.h       |   6 +-
+ target/m68k/cpu.h            |   4 +-
+ target/microblaze/cpu.h      |   4 +-
+ target/mips/cpu.h            |   4 +-
+ target/nios2/cpu.h           |   4 +-
+ target/openrisc/cpu.h        |   5 +-
+ target/ppc/cpu.h             |   8 +-
+ target/ppc/helper_regs.c     |   4 +-
+ target/riscv/cpu.h           |   4 +-
+ target/riscv/cpu_helper.c    |   4 +-
+ target/rx/cpu.h              |   4 +-
+ target/s390x/cpu.h           |   4 +-
+ target/sh4/cpu.h             |   4 +-
+ target/sparc/cpu.h           |   4 +-
+ target/tricore/cpu.h         |   4 +-
+ target/xtensa/cpu.h          |   4 +-
+ 42 files changed, 305 insertions(+), 311 deletions(-)
+
+--
+2.39.1
 
