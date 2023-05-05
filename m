@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B29E6F8645
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 May 2023 17:55:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 46C186F863D
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 May 2023 17:54:34 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1puxki-0003Mj-Ge; Fri, 05 May 2023 11:53:48 -0400
+	id 1puxkk-0003Ow-G4; Fri, 05 May 2023 11:53:50 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1puxkc-0003Iq-PP
- for qemu-devel@nongnu.org; Fri, 05 May 2023 11:53:42 -0400
-Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330])
+ id 1puxke-0003L5-Gi
+ for qemu-devel@nongnu.org; Fri, 05 May 2023 11:53:44 -0400
+Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1puxka-0008D1-Cb
- for qemu-devel@nongnu.org; Fri, 05 May 2023 11:53:41 -0400
-Received: by mail-wm1-x330.google.com with SMTP id
- 5b1f17b1804b1-3f315712406so104946965e9.0
- for <qemu-devel@nongnu.org>; Fri, 05 May 2023 08:53:39 -0700 (PDT)
+ id 1puxkb-0008DC-Ko
+ for qemu-devel@nongnu.org; Fri, 05 May 2023 11:53:44 -0400
+Received: by mail-wm1-x336.google.com with SMTP id
+ 5b1f17b1804b1-3f1e2555b5aso14088265e9.0
+ for <qemu-devel@nongnu.org>; Fri, 05 May 2023 08:53:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1683302018; x=1685894018;
+ d=linaro.org; s=google; t=1683302019; x=1685894019;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=fP88xWRTq0YOoukl2eZvLZM8OkmfjfHbQrJlI+FEzEo=;
- b=UwtBDGfT0wbs+Trr1+c1inCCOobVWyJzt1y02qHV6NALVzEY05Co3EOEDcq8NizorT
- ACZwJRuW3O4KBb7wcrBc5oxOwJdYEggQaSRdTrJ/NSL7V64XY9RHi/6CSh8JLhWW1x9I
- aWpCkiavVxTlic4xJuP3h6t51yRgzQVXKlSHfLLiSjD4pkIb/ojmqYLhiyapxXMKYQw9
- LUtIc0XcR8xsIUfkEv3cyfHeFK6T2foljdtizEjBLYF4VSTex9U6gj0tXLppYpvQnGQ1
- A5aPf8Zx/G/MFqKK4YAd3Y11gonRbzi4wCQSpJF0B9gjXzqwN5Bk0eT0grnjR+Kud8eH
- /A+g==
+ bh=qAFQ031yGy5vt+cv99TuLZYWxa/7CHKpt1ksqvu+PW8=;
+ b=CYgX7BTAhfKfZdpt9UR9Z9dDXlCwcarlJocXGc66T1oDZEOPWKG+geAZdaulnk3A8x
+ nHklGgRmk2c8RzB2QsgPJKcAGgqZJcoN5jfgspzsqR2G+q2GsZQWwhHp+lpdh8FcG3wf
+ XbBm217N9AV3yqe4+6JJDqIP6HkIzq+uG1ekUmdbi2MnS673A+MHhCTsh9CSY7vpGZmN
+ rq+D0V40HogmOfY7HTfbxr9MIcUSaTkwSxDR1rx4/893omsT9weOuNTIGBMQUIVyNFLQ
+ tLt4OotagF99tH2V0yEi7cWJuEtDWrFhkJtdxu2oBqjonW1eUFLnUv5hzFYa1FljToXq
+ YAIg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683302018; x=1685894018;
+ d=1e100.net; s=20221208; t=1683302019; x=1685894019;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=fP88xWRTq0YOoukl2eZvLZM8OkmfjfHbQrJlI+FEzEo=;
- b=SSlvPXAYCfvVofc7NRVW+aBqlBo/Vwemho5JAQTaaMFXwjiruAtq7BA57jTvbxt0HQ
- nnBbBWkXESiLiiiU/3rg+9McH0xlijWUXVmVrGsWIryxVBpi2xHtvP+fy+jFLzC48IpQ
- K7JD8oWJK1IqcTYrnqr2rgnkvSfE7LNFYR2W75cdFIFxZjETm9b8IuhZg79STrK6aR2/
- qUK1BUm60JKPENKYFKUvSArQjAJX4GlVOI8QkQFXltEQRhdf169I/t+rDNr9sFg8G0IG
- 8ZyXpQA/+MaSEc1YkmiCCVChqM/9SseceXJJZzi/183MzuB1ylU0THuVCSd0AqWBgdaB
- 8/tQ==
-X-Gm-Message-State: AC+VfDwdJm4R1SO92pH23JOM07Wo7J+2MmESnFcG9BpwrDDBgVzarWpk
- GVvJgS0+tvESi8ucJK6bYCtQSQ==
-X-Google-Smtp-Source: ACHHUZ4tafTL1vYsv+qkCFCePYhNZYkIwV1IJoKpONFqL2fIy1Jelan/J3MUZ/52OkO0UoPgu0ITLQ==
-X-Received: by 2002:a7b:c398:0:b0:3f2:5be3:cd6b with SMTP id
- s24-20020a7bc398000000b003f25be3cd6bmr1696914wmj.3.1683302018198; 
- Fri, 05 May 2023 08:53:38 -0700 (PDT)
+ bh=qAFQ031yGy5vt+cv99TuLZYWxa/7CHKpt1ksqvu+PW8=;
+ b=UO5ufPSRwEeUBc9178442XmvH9bZ3ezQKGtpdD/v9+ImntmiD2g0muPtyGVxRUVMSF
+ IqtIpxW8x/rV/hvfxjE59rbracBlJIYiFJVjNSjEmvipKF0JYzLmaV7CZk8Mesy5rLLv
+ 30WR9GJ62nVL6K91UZbjo+GMEedAYMPP71/iY/b4B5G36N5OOHOzmp2G0IzHQZ542747
+ s9fZ9RD5CRQDS/7uZqIWuobIo9bS7mQ4dcL3E7pHYvJJAI4LeLqogLpvHeoX7mB2Odlt
+ QsRZxnK19wg8F7fp7AZrk7s9/jgbz2IogFN+AQkL60IO33EAyYVoJXsJi7x3ZpXhNVF6
+ CNJA==
+X-Gm-Message-State: AC+VfDyuFUC4rJypjYYz898iqqXNlj3vhsE6u7XOwT7PQu7CmlfXYkYt
+ LQSP71Oomt19U41/WQEh6faRQw==
+X-Google-Smtp-Source: ACHHUZ6vpRrIqRoQN2FvHo6bL1tPbKc1EI+5yqJ3HCTJCAg2dzWJIFwvenh3QapyO1KBZAZhYMajYA==
+X-Received: by 2002:a7b:c84b:0:b0:3f3:fe82:ee89 with SMTP id
+ c11-20020a7bc84b000000b003f3fe82ee89mr1318469wml.8.1683302019060; 
+ Fri, 05 May 2023 08:53:39 -0700 (PDT)
 Received: from zen.linaroharston ([85.9.250.243])
  by smtp.gmail.com with ESMTPSA id
- k12-20020a7bc40c000000b003f175b360e5sm8386081wmi.0.2023.05.05.08.53.37
+ 16-20020a05600c021000b003f198dfbbfcsm8388866wmi.19.2023.05.05.08.53.37
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Fri, 05 May 2023 08:53:37 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id C85461FFBD;
+ by zen.linaroharston (Postfix) with ESMTP id E7B0B1FFBE;
  Fri,  5 May 2023 16:53:36 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: Stefan Hajnoczi <stefanha@redhat.com>,
@@ -72,17 +72,17 @@ Cc: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
  Richard Henderson <richard.henderson@linaro.org>,
  Markus Armbruster <armbru@redhat.com>, Riku Voipio <riku.voipio@iki.fi>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: [PATCH v3 02/10] trace-events: remove the remaining vcpu trace events
-Date: Fri,  5 May 2023 16:53:28 +0100
-Message-Id: <20230505155336.137393-3-alex.bennee@linaro.org>
+Subject: [PATCH v3 03/10] trace: remove vcpu_id from the TraceEvent structure
+Date: Fri,  5 May 2023 16:53:29 +0100
+Message-Id: <20230505155336.137393-4-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230505155336.137393-1-alex.bennee@linaro.org>
 References: <20230505155336.137393-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::330;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x330.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::336;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x336.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -105,123 +105,129 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-While these are all in helper functions being designated vcpu events
-complicates the removal of the dynamic vcpu state code. TCG plugins
-allow you to instrument vcpu_[init|exit|idle].
+This does involve temporarily stubbing out some helper functions
+before we excise the rest of the code.
 
-We rename cpu_reset and make it a normal trace point.
-
+Message-Id: <20230420150009.1675181-4-alex.bennee@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20230503091756.1453057-3-alex.bennee@linaro.org>
-
+Message-Id: <20230503091756.1453057-4-alex.bennee@linaro.org>
 ---
-v3
-  - s/watch/trace/ in commit msg
----
- hw/core/cpu-common.c   |  4 ++--
- trace/control-target.c |  1 -
- trace/control.c        |  2 --
- hw/core/trace-events   |  3 +++
- trace-events           | 31 -------------------------------
- 5 files changed, 5 insertions(+), 36 deletions(-)
+ trace/control-internal.h      |  4 ++--
+ trace/event-internal.h        |  2 --
+ trace/control.c               | 10 ----------
+ scripts/tracetool/format/c.py |  6 ------
+ scripts/tracetool/format/h.py | 11 +----------
+ 5 files changed, 3 insertions(+), 30 deletions(-)
 
-diff --git a/hw/core/cpu-common.c b/hw/core/cpu-common.c
-index 5ccc3837b6..951477a7fd 100644
---- a/hw/core/cpu-common.c
-+++ b/hw/core/cpu-common.c
-@@ -32,7 +32,7 @@
- #include "sysemu/tcg.h"
- #include "hw/boards.h"
- #include "hw/qdev-properties.h"
--#include "trace/trace-root.h"
-+#include "trace.h"
- #include "qemu/plugin.h"
+diff --git a/trace/control-internal.h b/trace/control-internal.h
+index 8b2b50a7cf..0178121720 100644
+--- a/trace/control-internal.h
++++ b/trace/control-internal.h
+@@ -27,12 +27,12 @@ static inline uint32_t trace_event_get_id(TraceEvent *ev)
  
- CPUState *cpu_by_arch_id(int64_t id)
-@@ -113,7 +113,7 @@ void cpu_reset(CPUState *cpu)
+ static inline uint32_t trace_event_get_vcpu_id(TraceEvent *ev)
  {
-     device_cold_reset(DEVICE(cpu));
- 
--    trace_guest_cpu_reset(cpu);
-+    trace_cpu_reset(cpu->cpu_index);
+-    return ev->vcpu_id;
++    return 0;
  }
  
- static void cpu_common_reset_hold(Object *obj)
-diff --git a/trace/control-target.c b/trace/control-target.c
-index 232c97a4a1..c6132f243f 100644
---- a/trace/control-target.c
-+++ b/trace/control-target.c
-@@ -145,5 +145,4 @@ void trace_init_vcpu(CPUState *vcpu)
-             }
-         }
-     }
--    trace_guest_cpu_enter(vcpu);
+ static inline bool trace_event_is_vcpu(TraceEvent *ev)
+ {
+-    return ev->vcpu_id != TRACE_VCPU_EVENT_NONE;
++    return false;
  }
+ 
+ static inline const char * trace_event_get_name(TraceEvent *ev)
+diff --git a/trace/event-internal.h b/trace/event-internal.h
+index f63500b37e..0c24e01b52 100644
+--- a/trace/event-internal.h
++++ b/trace/event-internal.h
+@@ -19,7 +19,6 @@
+ /**
+  * TraceEvent:
+  * @id: Unique event identifier.
+- * @vcpu_id: Unique per-vCPU event identifier.
+  * @name: Event name.
+  * @sstate: Static tracing state.
+  * @dstate: Dynamic tracing state
+@@ -33,7 +32,6 @@
+  */
+ typedef struct TraceEvent {
+     uint32_t id;
+-    uint32_t vcpu_id;
+     const char * name;
+     const bool sstate;
+     uint16_t *dstate;
 diff --git a/trace/control.c b/trace/control.c
-index 6c77cc6318..d24af91004 100644
+index d24af91004..5dfb609954 100644
 --- a/trace/control.c
 +++ b/trace/control.c
-@@ -277,8 +277,6 @@ void trace_fini_vcpu(CPUState *vcpu)
-     TraceEventIter iter;
-     TraceEvent *ev;
+@@ -68,16 +68,6 @@ void trace_event_register_group(TraceEvent **events)
+     size_t i;
+     for (i = 0; events[i] != NULL; i++) {
+         events[i]->id = next_id++;
+-        if (events[i]->vcpu_id == TRACE_VCPU_EVENT_NONE) {
+-            continue;
+-        }
+-
+-        if (likely(next_vcpu_id < CPU_TRACE_DSTATE_MAX_EVENTS)) {
+-            events[i]->vcpu_id = next_vcpu_id++;
+-        } else {
+-            warn_report("too many vcpu trace events; dropping '%s'",
+-                        events[i]->name);
+-        }
+     }
+     event_groups = g_renew(TraceEventGroup, event_groups, nevent_groups + 1);
+     event_groups[nevent_groups].events = events;
+diff --git a/scripts/tracetool/format/c.py b/scripts/tracetool/format/c.py
+index c390c1844a..69edf0d588 100644
+--- a/scripts/tracetool/format/c.py
++++ b/scripts/tracetool/format/c.py
+@@ -32,19 +32,13 @@ def generate(events, backend, group):
+         out('uint16_t %s;' % e.api(e.QEMU_DSTATE))
  
--    trace_guest_cpu_exit(vcpu);
--
-     trace_event_iter_init_all(&iter);
-     while ((ev = trace_event_iter_next(&iter)) != NULL) {
-         if (trace_event_is_vcpu(ev) &&
-diff --git a/hw/core/trace-events b/hw/core/trace-events
-index 56da55bd71..2cf085ac66 100644
---- a/hw/core/trace-events
-+++ b/hw/core/trace-events
-@@ -29,3 +29,6 @@ clock_set(const char *clk, uint64_t old, uint64_t new) "'%s', %"PRIu64"Hz->%"PRI
- clock_propagate(const char *clk) "'%s'"
- clock_update(const char *clk, const char *src, uint64_t hz, int cb) "'%s', src='%s', val=%"PRIu64"Hz cb=%d"
- clock_set_mul_div(const char *clk, uint32_t oldmul, uint32_t mul, uint32_t olddiv, uint32_t div) "'%s', mul: %u -> %u, div: %u -> %u"
-+
-+# cpu-common.c
-+cpu_reset(int cpu_index) "%d"
-diff --git a/trace-events b/trace-events
-index 691c3533e4..dd318ed1af 100644
---- a/trace-events
-+++ b/trace-events
-@@ -54,34 +54,3 @@ qmp_job_resume(void *job) "job %p"
- qmp_job_complete(void *job) "job %p"
- qmp_job_finalize(void *job) "job %p"
- qmp_job_dismiss(void *job) "job %p"
--
--
--### Guest events, keep at bottom
--
--
--## vCPU
--
--# trace/control-target.c
--
--# Hot-plug a new virtual (guest) CPU
--#
--# Mode: user, softmmu
--# Targets: all
--vcpu guest_cpu_enter(void)
--
--# trace/control.c
--
--# Hot-unplug a virtual (guest) CPU
--#
--# Mode: user, softmmu
--# Targets: all
--vcpu guest_cpu_exit(void)
--
--# hw/core/cpu.c
--
--# Reset the state of a virtual (guest) CPU
--#
--# Mode: user, softmmu
--# Targets: all
--vcpu guest_cpu_reset(void)
--
+     for e in events:
+-        if "vcpu" in e.properties:
+-            vcpu_id = 0
+-        else:
+-            vcpu_id = "TRACE_VCPU_EVENT_NONE"
+         out('TraceEvent %(event)s = {',
+             '    .id = 0,',
+-            '    .vcpu_id = %(vcpu_id)s,',
+             '    .name = \"%(name)s\",',
+             '    .sstate = %(sstate)s,',
+             '    .dstate = &%(dstate)s ',
+             '};',
+             event = e.api(e.QEMU_EVENT),
+-            vcpu_id = vcpu_id,
+             name = e.name,
+             sstate = "TRACE_%s_ENABLED" % e.name.upper(),
+             dstate = e.api(e.QEMU_DSTATE))
+diff --git a/scripts/tracetool/format/h.py b/scripts/tracetool/format/h.py
+index e94f0be7da..285d7b03a9 100644
+--- a/scripts/tracetool/format/h.py
++++ b/scripts/tracetool/format/h.py
+@@ -74,16 +74,7 @@ def generate(events, backend, group):
+ 
+         out('}')
+ 
+-        # tracer wrapper with checks (per-vCPU tracing)
+-        if "vcpu" in e.properties:
+-            trace_cpu = next(iter(e.args))[1]
+-            cond = "trace_event_get_vcpu_state(%(cpu)s,"\
+-                   " TRACE_%(id)s)"\
+-                   % dict(
+-                       cpu=trace_cpu,
+-                       id=e.name.upper())
+-        else:
+-            cond = "true"
++        cond = "true"
+ 
+         out('',
+             'static inline void %(api)s(%(args)s)',
 -- 
 2.39.2
 
