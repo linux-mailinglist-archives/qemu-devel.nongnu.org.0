@@ -2,87 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DBFC46F7A63
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 May 2023 03:08:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5864F6F7A85
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 May 2023 03:16:50 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pujsp-00062W-FR; Thu, 04 May 2023 21:05:15 -0400
+	id 1pujsr-0006IL-4u; Thu, 04 May 2023 21:05:17 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1pujsl-0005nb-Mh
+ id 1pujsl-0005nc-Mo
  for qemu-devel@nongnu.org; Thu, 04 May 2023 21:05:11 -0400
-Received: from mail-pl1-x634.google.com ([2607:f8b0:4864:20::634])
+Received: from mail-pl1-x629.google.com ([2607:f8b0:4864:20::629])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1pujsa-00078e-UI
+ id 1pujsf-00079N-L4
  for qemu-devel@nongnu.org; Thu, 04 May 2023 21:05:11 -0400
-Received: by mail-pl1-x634.google.com with SMTP id
- d9443c01a7336-1aae46e62e9so8424035ad.2
- for <qemu-devel@nongnu.org>; Thu, 04 May 2023 18:05:00 -0700 (PDT)
+Received: by mail-pl1-x629.google.com with SMTP id
+ d9443c01a7336-1aaec9ad820so10794185ad.0
+ for <qemu-devel@nongnu.org>; Thu, 04 May 2023 18:05:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1683248698; x=1685840698;
+ d=gmail.com; s=20221208; t=1683248702; x=1685840702;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=BPUQy7L/17jHHyuENkeh7TgDrXpL5kwOGOKSDqRiTaI=;
- b=KloG1HYWDxiqCHAulCqJGSBzplf0/Fn72K/OLJ38rHyYB8NSGW+uoYoUDkegr0tdN/
- iB8PZAlJ/BdpdrTuZ+EMZAwaNkmGMldhGkjZV/TC9mwDgxF4HC0p1cBwGXOT5hgfOiqQ
- wNtCrWKsYVYSlW4Jz2M9VJC8ngp1huAqKTGHFqbigcMc/SwuN3LN3CIc+2gmB+Hanzqd
- TpY3pHN3JnVOX1mnSuLCaHUXg46U0tNsHTDuV9XjsXN2G201JiJ0FzgQebuGfgZQqB/m
- Zi6j5kG9D2d/35kwAsfBvrH/dAQblJkicnlfFsthy0wbAqhwtGfl4082eZtC1mNwrBJq
- gSwQ==
+ bh=dZXFwkjB8nPXCEF/Az+/MDrGSTMkBQKBqEDdAB/wme0=;
+ b=QZJkC9nYaPEKf14OSfZe/lrXzM/ojE1szg/remH+b7qZn2YGcCrV26X+GMa7hNfx2Y
+ cX9TwmiqKfeZsI44k7UPBXgnY8fezqZWtwASim9SDAsNi5GkFmi1CwZBpE7iIA3Y12er
+ BVuF3oXDBLiwEVyjBGSxzWoB3VbmkU4OKK6N+O0CJkjAcOkIsBWftMjKHED6ReW9FvlG
+ mcp64wVlGnqOBirNs8UB/xExSyxZewXVDdZcE5WoXePRW8nlO0rpSqCm4kXWKUbCgnN7
+ yyk/mCt8pFooFfso/axonjPQxReySZ9LzpSDAmqdXjyDFsPoMgDmVO6QbrEh6fcB3Gar
+ me2w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683248698; x=1685840698;
+ d=1e100.net; s=20221208; t=1683248702; x=1685840702;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=BPUQy7L/17jHHyuENkeh7TgDrXpL5kwOGOKSDqRiTaI=;
- b=gQHIBJeGoGDmWRe3hkDFSzE8wv2tYokrWGWFhWEvIuVKjaQNO8WvXUuj2tvjMbqMB0
- RJCRBha4RfTAFRqz+95bbZ4zJVgRuKhyKPeznMHAp3HV7ctsMErLAo+lUxGtax+b+cz5
- wBi41BeFXpnBNoXUY0sno8WqWKyMRJk2kk7xDtJBRwbRXzvYGvqsi91yuy7asHIPIFtr
- aSAl2UxTR7RRHyDbDTKkUakcgqni2GCeOfu4GPvpCchhLiynuj18bs+bKRb6lddzR9eV
- Rg3OBplfO8EDbiFL3vSLv8WT/WGgHlh1v9MRz9GxZSYRkXyNHa/wMArwXokQ4xnS/wi+
- BhmQ==
-X-Gm-Message-State: AC+VfDxUTAjDrsa+kh10jq3GFNbgQV/V4fDD189u9lFY/Kj9ThRSg6jA
- DEa7phO/urD+J1xpCg5IyrG1TleUiPk0oA==
-X-Google-Smtp-Source: ACHHUZ7AbUAO7YPA2MC26hiTe2O7GXOYos4QQPK2s2lTzlpy+yJ5LsnyZFF8O9tTwpaMf9eSMTAH2A==
-X-Received: by 2002:a17:902:9693:b0:1ab:805:b38 with SMTP id
- n19-20020a170902969300b001ab08050b38mr4863872plp.18.1683248697805; 
- Thu, 04 May 2023 18:04:57 -0700 (PDT)
+ bh=dZXFwkjB8nPXCEF/Az+/MDrGSTMkBQKBqEDdAB/wme0=;
+ b=QSfPCzmMEB41RVfDPCfvNd5gpa17XaQWYmH5zysOCrYxL1LDkZEddroakfpO8AYlfO
+ 73gq1pi4wjnollvGmTXkvREi1KYYCGqTQJWlSxfllyTREdCGdoM8MzK5PKAZ7Cr7rjNJ
+ tQXAyJuFpwm2JilX1xN06GiHpdkjQJOLLDMOh+XXPQe0ZdbXNNX6wtY6bkwN4HhPtfz0
+ wenoG0m6ddAoT4V7gA47w0cMCcn5bxz9diujvbzoKi2EHYKmzrXHSlDqStcdOakxc+Qi
+ Ux2dCobrM/ZXdgPoA8EAO6ytFV0EEz6XlHrnqLuqlcfU3A7tOc0McY3CG2HIJuNXwpKe
+ IeGw==
+X-Gm-Message-State: AC+VfDwPSsTw2nBfeOeNfg32/OlVuB0wxi/EDrqckfYdN1mTz3k79IBQ
+ FHAIvCSVRtu/zBvJ8mJhFM6mYhO5XuYqJA==
+X-Google-Smtp-Source: ACHHUZ6xSlJoTU98EZVcLarKB2QUyzsRNBrNGQEgssyOEOykYXFNVSkDb6vo0uQhEKvO6fDAjZiJpQ==
+X-Received: by 2002:a17:902:74c1:b0:19e:ab29:1ec2 with SMTP id
+ f1-20020a17090274c100b0019eab291ec2mr5564205plt.65.1683248701951; 
+ Thu, 04 May 2023 18:05:01 -0700 (PDT)
 Received: from toolbox.alistair23.me
  (2403-580b-97e8-0-321-6fb2-58f1-a1b1.ip6.aussiebb.net.
  [2403:580b:97e8:0:321:6fb2:58f1:a1b1])
  by smtp.gmail.com with ESMTPSA id
- l19-20020a170902d35300b0019309be03e7sm218762plk.66.2023.05.04.18.04.54
+ l19-20020a170902d35300b0019309be03e7sm218762plk.66.2023.05.04.18.04.58
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 04 May 2023 18:04:57 -0700 (PDT)
+ Thu, 04 May 2023 18:05:01 -0700 (PDT)
 From: Alistair Francis <alistair23@gmail.com>
 X-Google-Original-From: Alistair Francis <alistair.francis@wdc.com>
 To: qemu-devel@nongnu.org
 Cc: alistair23@gmail.com, Weiwei Li <liweiwei@iscas.ac.cn>,
  Junqiang Wang <wangjunqiang@iscas.ac.cn>,
+ Richard Henderson <richard.henderson@linaro.org>,
  LIU Zhiwei <zhiwei_liu@linux.alibaba.com>,
  Alistair Francis <alistair.francis@wdc.com>,
  Daniel Henrique Barboza <dbarboza@ventanamicro.com>
-Subject: [PULL 29/89] target/riscv: Fix format for indentation
-Date: Fri,  5 May 2023 11:01:41 +1000
-Message-Id: <20230505010241.21812-30-alistair.francis@wdc.com>
+Subject: [PULL 30/89] target/riscv: Fix format for comments
+Date: Fri,  5 May 2023 11:01:42 +1000
+Message-Id: <20230505010241.21812-31-alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.40.0
 In-Reply-To: <20230505010241.21812-1-alistair.francis@wdc.com>
 References: <20230505010241.21812-1-alistair.francis@wdc.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::634;
- envelope-from=alistair23@gmail.com; helo=mail-pl1-x634.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
+Received-SPF: pass client-ip=2607:f8b0:4864:20::629;
+ envelope-from=alistair23@gmail.com; helo=mail-pl1-x629.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
- DKIM_SIGNED=0.1, FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -100,1209 +102,748 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Weiwei Li <liweiwei@iscas.ac.cn>
 
-Fix identation problems, and try to use the same indentation strategy
-in the same file.
+Fix formats for multi-lines comments.
+Add spaces around single line comments(after "/*" and before "*/").
 
 Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
 Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
+Acked-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
-Acked-by: Alistair Francis <alistair.francis@wdc.com>
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 Reviewed-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
-Message-Id: <20230405085813.40643-3-liweiwei@iscas.ac.cn>
+Message-Id: <20230405085813.40643-4-liweiwei@iscas.ac.cn>
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- target/riscv/pmp.h                      |   9 +-
- target/riscv/arch_dump.c                |   4 +-
- target/riscv/cpu.c                      |  40 +++---
- target/riscv/cpu_helper.c               | 163 ++++++++++++------------
- target/riscv/fpu_helper.c               |  24 ++--
- target/riscv/m128_helper.c              |  16 +--
- target/riscv/machine.c                  |  18 +--
- target/riscv/op_helper.c                |   4 +-
- target/riscv/pmp.c                      |  19 +--
- target/riscv/translate.c                |   4 +-
- target/riscv/vector_helper.c            | 159 +++++++++++------------
- target/riscv/insn_trans/trans_rvv.c.inc |  28 ++--
- 12 files changed, 247 insertions(+), 241 deletions(-)
+ target/riscv/cpu.h                      | 26 ++++----
+ target/riscv/cpu_bits.h                 |  2 +-
+ target/riscv/sbi_ecall_interface.h      |  8 +--
+ target/riscv/arch_dump.c                |  3 +-
+ target/riscv/cpu.c                      |  2 +-
+ target/riscv/cpu_helper.c               | 57 +++++++++++------
+ target/riscv/csr.c                      |  6 +-
+ target/riscv/pmp.c                      | 41 +++++++------
+ target/riscv/translate.c                | 20 +++---
+ target/riscv/vector_helper.c            | 82 +++++++++++++++----------
+ target/riscv/insn_trans/trans_rvv.c.inc |  8 ++-
+ 11 files changed, 151 insertions(+), 104 deletions(-)
 
-diff --git a/target/riscv/pmp.h b/target/riscv/pmp.h
-index da32c61c85..b296ea1fc6 100644
---- a/target/riscv/pmp.h
-+++ b/target/riscv/pmp.h
-@@ -63,18 +63,19 @@ typedef struct {
- } pmp_table_t;
+diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+index 995192757a..5018a3b1b2 100644
+--- a/target/riscv/cpu.h
++++ b/target/riscv/cpu.h
+@@ -124,7 +124,7 @@ FIELD(VTYPE, RESERVED, 10, sizeof(target_ulong) * 8 - 11)
+ typedef struct PMUCTRState {
+     /* Current value of a counter */
+     target_ulong mhpmcounter_val;
+-    /* Current value of a counter in RV32*/
++    /* Current value of a counter in RV32 */
+     target_ulong mhpmcounterh_val;
+     /* Snapshot values of counter */
+     target_ulong mhpmcounter_prev;
+@@ -280,8 +280,10 @@ struct CPUArchState {
+     target_ulong satp_hs;
+     uint64_t mstatus_hs;
  
- void pmpcfg_csr_write(CPURISCVState *env, uint32_t reg_index,
--    target_ulong val);
-+                      target_ulong val);
- target_ulong pmpcfg_csr_read(CPURISCVState *env, uint32_t reg_index);
+-    /* Signals whether the current exception occurred with two-stage address
+-       translation active. */
++    /*
++     * Signals whether the current exception occurred with two-stage address
++     * translation active.
++     */
+     bool two_stage_lookup;
+     /*
+      * Signals whether the current exception occurred while doing two-stage
+@@ -297,10 +299,10 @@ struct CPUArchState {
+     /* PMU counter state */
+     PMUCTRState pmu_ctrs[RV_MAX_MHPMCOUNTERS];
  
- void mseccfg_csr_write(CPURISCVState *env, target_ulong val);
- target_ulong mseccfg_csr_read(CPURISCVState *env);
+-    /* PMU event selector configured values. First three are unused*/
++    /* PMU event selector configured values. First three are unused */
+     target_ulong mhpmevent_val[RV_MAX_MHPMEVENTS];
  
- void pmpaddr_csr_write(CPURISCVState *env, uint32_t addr_index,
--    target_ulong val);
-+                       target_ulong val);
- target_ulong pmpaddr_csr_read(CPURISCVState *env, uint32_t addr_index);
- int pmp_hart_has_privs(CPURISCVState *env, target_ulong addr,
--    target_ulong size, pmp_priv_t privs, pmp_priv_t *allowed_privs,
--    target_ulong mode);
-+                       target_ulong size, pmp_priv_t privs,
-+                       pmp_priv_t *allowed_privs,
-+                       target_ulong mode);
- target_ulong pmp_get_tlb_size(CPURISCVState *env, int pmp_index,
-                               target_ulong tlb_sa, target_ulong tlb_ea);
- void pmp_update_rule_addr(CPURISCVState *env, uint32_t pmp_index);
+-    /* PMU event selector configured values for RV32*/
++    /* PMU event selector configured values for RV32 */
+     target_ulong mhpmeventh_val[RV_MAX_MHPMEVENTS];
+ 
+     target_ulong sscratch;
+@@ -389,7 +391,7 @@ struct CPUArchState {
+ 
+ OBJECT_DECLARE_CPU_TYPE(RISCVCPU, RISCVCPUClass, RISCV_CPU)
+ 
+-/**
++/*
+  * RISCVCPUClass:
+  * @parent_realize: The parent class' realize handler.
+  * @parent_phases: The parent class' reset phase handlers.
+@@ -397,9 +399,9 @@ OBJECT_DECLARE_CPU_TYPE(RISCVCPU, RISCVCPUClass, RISCV_CPU)
+  * A RISCV CPU model.
+  */
+ struct RISCVCPUClass {
+-    /*< private >*/
++    /* < private > */
+     CPUClass parent_class;
+-    /*< public >*/
++    /* < public > */
+     DeviceRealize parent_realize;
+     ResettablePhases parent_phases;
+ };
+@@ -530,16 +532,16 @@ struct RISCVCPUConfig {
+ 
+ typedef struct RISCVCPUConfig RISCVCPUConfig;
+ 
+-/**
++/*
+  * RISCVCPU:
+  * @env: #CPURISCVState
+  *
+  * A RISCV CPU.
+  */
+ struct ArchCPU {
+-    /*< private >*/
++    /* < private > */
+     CPUState parent_obj;
+-    /*< public >*/
++    /* < public > */
+     CPUNegativeOffsetState neg;
+     CPURISCVState env;
+ 
+@@ -813,7 +815,7 @@ enum {
+     CSR_TABLE_SIZE = 0x1000
+ };
+ 
+-/**
++/*
+  * The event id are encoded based on the encoding specified in the
+  * SBI specification v0.3
+  */
+diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
+index 190e517862..101702cb4a 100644
+--- a/target/riscv/cpu_bits.h
++++ b/target/riscv/cpu_bits.h
+@@ -731,7 +731,7 @@ typedef enum RISCVException {
+ #define MIE_SSIE                           (1 << IRQ_S_SOFT)
+ #define MIE_USIE                           (1 << IRQ_U_SOFT)
+ 
+-/* General PointerMasking CSR bits*/
++/* General PointerMasking CSR bits */
+ #define PM_ENABLE       0x00000001ULL
+ #define PM_CURRENT      0x00000002ULL
+ #define PM_INSN         0x00000004ULL
+diff --git a/target/riscv/sbi_ecall_interface.h b/target/riscv/sbi_ecall_interface.h
+index 77574ed4cb..43899d08f6 100644
+--- a/target/riscv/sbi_ecall_interface.h
++++ b/target/riscv/sbi_ecall_interface.h
+@@ -28,7 +28,7 @@
+ #define SBI_EXT_RFENCE                  0x52464E43
+ #define SBI_EXT_HSM                     0x48534D
+ 
+-/* SBI function IDs for BASE extension*/
++/* SBI function IDs for BASE extension */
+ #define SBI_EXT_BASE_GET_SPEC_VERSION   0x0
+ #define SBI_EXT_BASE_GET_IMP_ID         0x1
+ #define SBI_EXT_BASE_GET_IMP_VERSION    0x2
+@@ -37,13 +37,13 @@
+ #define SBI_EXT_BASE_GET_MARCHID        0x5
+ #define SBI_EXT_BASE_GET_MIMPID         0x6
+ 
+-/* SBI function IDs for TIME extension*/
++/* SBI function IDs for TIME extension */
+ #define SBI_EXT_TIME_SET_TIMER          0x0
+ 
+-/* SBI function IDs for IPI extension*/
++/* SBI function IDs for IPI extension */
+ #define SBI_EXT_IPI_SEND_IPI            0x0
+ 
+-/* SBI function IDs for RFENCE extension*/
++/* SBI function IDs for RFENCE extension */
+ #define SBI_EXT_RFENCE_REMOTE_FENCE_I       0x0
+ #define SBI_EXT_RFENCE_REMOTE_SFENCE_VMA    0x1
+ #define SBI_EXT_RFENCE_REMOTE_SFENCE_VMA_ASID  0x2
 diff --git a/target/riscv/arch_dump.c b/target/riscv/arch_dump.c
-index 736a232956..573587810e 100644
+index 573587810e..434c8a3dbb 100644
 --- a/target/riscv/arch_dump.c
 +++ b/target/riscv/arch_dump.c
-@@ -180,8 +180,8 @@ int cpu_get_dump_info(ArchDumpInfo *info,
-     info->d_class = ELFCLASS32;
- #endif
- 
--    info->d_endian = (env->mstatus & MSTATUS_UBE) != 0
--                     ? ELFDATA2MSB : ELFDATA2LSB;
-+    info->d_endian = (env->mstatus & MSTATUS_UBE) != 0 ?
-+                     ELFDATA2MSB : ELFDATA2LSB;
- 
-     return 0;
- }
+@@ -1,4 +1,5 @@
+-/* Support for writing ELF notes for RISC-V architectures
++/*
++ * Support for writing ELF notes for RISC-V architectures
+  *
+  * Copyright (C) 2021 Huawei Technologies Co., Ltd
+  *
 diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index c304deabd7..8ed8601399 100644
+index 8ed8601399..2e45b1f076 100644
 --- a/target/riscv/cpu.c
 +++ b/target/riscv/cpu.c
-@@ -54,7 +54,7 @@ struct isa_ext_data {
- };
- 
+@@ -56,7 +56,7 @@ struct isa_ext_data {
  #define ISA_EXT_DATA_ENTRY(_name, _m_letter, _min_ver, _prop) \
--{#_name, _m_letter, _min_ver, offsetof(struct RISCVCPUConfig, _prop)}
-+    {#_name, _m_letter, _min_ver, offsetof(struct RISCVCPUConfig, _prop)}
+     {#_name, _m_letter, _min_ver, offsetof(struct RISCVCPUConfig, _prop)}
  
- /**
+-/**
++/*
   * Here are the ordering rules of extension naming defined by RISC-V
-@@ -157,29 +157,29 @@ static void isa_ext_update_enabled(RISCVCPU *cpu,
- }
- 
- const char * const riscv_int_regnames[] = {
--  "x0/zero", "x1/ra",  "x2/sp",  "x3/gp",  "x4/tp",  "x5/t0",   "x6/t1",
--  "x7/t2",   "x8/s0",  "x9/s1",  "x10/a0", "x11/a1", "x12/a2",  "x13/a3",
--  "x14/a4",  "x15/a5", "x16/a6", "x17/a7", "x18/s2", "x19/s3",  "x20/s4",
--  "x21/s5",  "x22/s6", "x23/s7", "x24/s8", "x25/s9", "x26/s10", "x27/s11",
--  "x28/t3",  "x29/t4", "x30/t5", "x31/t6"
-+    "x0/zero", "x1/ra",  "x2/sp",  "x3/gp",  "x4/tp",  "x5/t0",   "x6/t1",
-+    "x7/t2",   "x8/s0",  "x9/s1",  "x10/a0", "x11/a1", "x12/a2",  "x13/a3",
-+    "x14/a4",  "x15/a5", "x16/a6", "x17/a7", "x18/s2", "x19/s3",  "x20/s4",
-+    "x21/s5",  "x22/s6", "x23/s7", "x24/s8", "x25/s9", "x26/s10", "x27/s11",
-+    "x28/t3",  "x29/t4", "x30/t5", "x31/t6"
- };
- 
- const char * const riscv_int_regnamesh[] = {
--  "x0h/zeroh", "x1h/rah",  "x2h/sph",   "x3h/gph",   "x4h/tph",  "x5h/t0h",
--  "x6h/t1h",   "x7h/t2h",  "x8h/s0h",   "x9h/s1h",   "x10h/a0h", "x11h/a1h",
--  "x12h/a2h",  "x13h/a3h", "x14h/a4h",  "x15h/a5h",  "x16h/a6h", "x17h/a7h",
--  "x18h/s2h",  "x19h/s3h", "x20h/s4h",  "x21h/s5h",  "x22h/s6h", "x23h/s7h",
--  "x24h/s8h",  "x25h/s9h", "x26h/s10h", "x27h/s11h", "x28h/t3h", "x29h/t4h",
--  "x30h/t5h",  "x31h/t6h"
-+    "x0h/zeroh", "x1h/rah",  "x2h/sph",   "x3h/gph",   "x4h/tph",  "x5h/t0h",
-+    "x6h/t1h",   "x7h/t2h",  "x8h/s0h",   "x9h/s1h",   "x10h/a0h", "x11h/a1h",
-+    "x12h/a2h",  "x13h/a3h", "x14h/a4h",  "x15h/a5h",  "x16h/a6h", "x17h/a7h",
-+    "x18h/s2h",  "x19h/s3h", "x20h/s4h",  "x21h/s5h",  "x22h/s6h", "x23h/s7h",
-+    "x24h/s8h",  "x25h/s9h", "x26h/s10h", "x27h/s11h", "x28h/t3h", "x29h/t4h",
-+    "x30h/t5h",  "x31h/t6h"
- };
- 
- const char * const riscv_fpr_regnames[] = {
--  "f0/ft0",   "f1/ft1",  "f2/ft2",   "f3/ft3",   "f4/ft4",  "f5/ft5",
--  "f6/ft6",   "f7/ft7",  "f8/fs0",   "f9/fs1",   "f10/fa0", "f11/fa1",
--  "f12/fa2",  "f13/fa3", "f14/fa4",  "f15/fa5",  "f16/fa6", "f17/fa7",
--  "f18/fs2",  "f19/fs3", "f20/fs4",  "f21/fs5",  "f22/fs6", "f23/fs7",
--  "f24/fs8",  "f25/fs9", "f26/fs10", "f27/fs11", "f28/ft8", "f29/ft9",
--  "f30/ft10", "f31/ft11"
-+    "f0/ft0",   "f1/ft1",  "f2/ft2",   "f3/ft3",   "f4/ft4",  "f5/ft5",
-+    "f6/ft6",   "f7/ft7",  "f8/fs0",   "f9/fs1",   "f10/fa0", "f11/fa1",
-+    "f12/fa2",  "f13/fa3", "f14/fa4",  "f15/fa5",  "f16/fa6", "f17/fa7",
-+    "f18/fs2",  "f19/fs3", "f20/fs4",  "f21/fs5",  "f22/fs6", "f23/fs7",
-+    "f24/fs8",  "f25/fs9", "f26/fs10", "f27/fs11", "f28/ft8", "f29/ft9",
-+    "f30/ft10", "f31/ft11"
- };
- 
- static const char * const riscv_excp_names[] = {
-@@ -351,8 +351,8 @@ static void riscv_any_cpu_init(Object *obj)
- 
- #ifndef CONFIG_USER_ONLY
-     set_satp_mode_max_supported(RISCV_CPU(obj),
--            riscv_cpu_mxl(&RISCV_CPU(obj)->env) == MXL_RV32 ?
--                                    VM_1_10_SV32 : VM_1_10_SV57);
-+        riscv_cpu_mxl(&RISCV_CPU(obj)->env) == MXL_RV32 ?
-+        VM_1_10_SV32 : VM_1_10_SV57);
- #endif
- 
-     set_priv_version(env, PRIV_VERSION_1_12_0);
+  * specification :
+  * 1. All extensions should be separated from other multi-letter extensions
 diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
-index fbcdec3c06..8d2547a164 100644
+index 8d2547a164..445ffe691a 100644
 --- a/target/riscv/cpu_helper.c
 +++ b/target/riscv/cpu_helper.c
-@@ -68,12 +68,12 @@ void cpu_get_tb_cpu_state(CPURISCVState *env, target_ulong *pc,
-         flags = FIELD_DP32(flags, TB_FLAGS, VILL, env->vill);
-         flags = FIELD_DP32(flags, TB_FLAGS, SEW, sew);
-         flags = FIELD_DP32(flags, TB_FLAGS, LMUL,
--                    FIELD_EX64(env->vtype, VTYPE, VLMUL));
-+                           FIELD_EX64(env->vtype, VTYPE, VLMUL));
-         flags = FIELD_DP32(flags, TB_FLAGS, VL_EQ_VLMAX, vl_eq_vlmax);
-         flags = FIELD_DP32(flags, TB_FLAGS, VTA,
--                    FIELD_EX64(env->vtype, VTYPE, VTA));
-+                           FIELD_EX64(env->vtype, VTYPE, VTA));
-         flags = FIELD_DP32(flags, TB_FLAGS, VMA,
--                    FIELD_EX64(env->vtype, VTYPE, VMA));
-+                           FIELD_EX64(env->vtype, VTYPE, VMA));
-     } else {
-         flags = FIELD_DP32(flags, TB_FLAGS, VILL, 1);
+@@ -717,7 +717,8 @@ static int get_physical_address_pmp(CPURISCVState *env, int *prot,
+     return TRANSLATE_SUCCESS;
+ }
+ 
+-/* get_physical_address - get the physical address for this virtual address
++/*
++ * get_physical_address - get the physical address for this virtual address
+  *
+  * Do a page table walk to obtain the physical address corresponding to a
+  * virtual address. Returns 0 if the translation was successful
+@@ -745,9 +746,11 @@ static int get_physical_address(CPURISCVState *env, hwaddr *physical,
+                                 bool first_stage, bool two_stage,
+                                 bool is_debug)
+ {
+-    /* NOTE: the env->pc value visible here will not be
++    /*
++     * NOTE: the env->pc value visible here will not be
+      * correct, but the value visible to the exception handler
+-     * (riscv_cpu_do_interrupt) is correct */
++     * (riscv_cpu_do_interrupt) is correct
++     */
+     MemTxResult res;
+     MemTxAttrs attrs = MEMTXATTRS_UNSPECIFIED;
+     int mode = mmu_idx & TB_FLAGS_PRIV_MMU_MASK;
+@@ -767,8 +770,10 @@ static int get_physical_address(CPURISCVState *env, hwaddr *physical,
+         use_background = true;
      }
-@@ -95,7 +95,7 @@ void cpu_get_tb_cpu_state(CPURISCVState *env, target_ulong *pc,
-         if (env->priv == PRV_M ||
-             (env->priv == PRV_S && !env->virt_enabled) ||
-             (env->priv == PRV_U && !env->virt_enabled &&
--                get_field(env->hstatus, HSTATUS_HU))) {
-+             get_field(env->hstatus, HSTATUS_HU))) {
-             flags = FIELD_DP32(flags, TB_FLAGS, HLSX, 1);
-         }
  
-@@ -230,75 +230,75 @@ int riscv_cpu_hviprio_index2irq(int index, int *out_irq, int *out_rdzero)
-  * ----------------------------------------------------------------
-  */
- static const uint8_t default_iprio[64] = {
-- /* Custom interrupts 48 to 63 */
-- [63] = IPRIO_MMAXIPRIO,
-- [62] = IPRIO_MMAXIPRIO,
-- [61] = IPRIO_MMAXIPRIO,
-- [60] = IPRIO_MMAXIPRIO,
-- [59] = IPRIO_MMAXIPRIO,
-- [58] = IPRIO_MMAXIPRIO,
-- [57] = IPRIO_MMAXIPRIO,
-- [56] = IPRIO_MMAXIPRIO,
-- [55] = IPRIO_MMAXIPRIO,
-- [54] = IPRIO_MMAXIPRIO,
-- [53] = IPRIO_MMAXIPRIO,
-- [52] = IPRIO_MMAXIPRIO,
-- [51] = IPRIO_MMAXIPRIO,
-- [50] = IPRIO_MMAXIPRIO,
-- [49] = IPRIO_MMAXIPRIO,
-- [48] = IPRIO_MMAXIPRIO,
--
-- /* Custom interrupts 24 to 31 */
-- [31] = IPRIO_MMAXIPRIO,
-- [30] = IPRIO_MMAXIPRIO,
-- [29] = IPRIO_MMAXIPRIO,
-- [28] = IPRIO_MMAXIPRIO,
-- [27] = IPRIO_MMAXIPRIO,
-- [26] = IPRIO_MMAXIPRIO,
-- [25] = IPRIO_MMAXIPRIO,
-- [24] = IPRIO_MMAXIPRIO,
--
-- [47] = IPRIO_DEFAULT_UPPER,
-- [23] = IPRIO_DEFAULT_UPPER + 1,
-- [46] = IPRIO_DEFAULT_UPPER + 2,
-- [45] = IPRIO_DEFAULT_UPPER + 3,
-- [22] = IPRIO_DEFAULT_UPPER + 4,
-- [44] = IPRIO_DEFAULT_UPPER + 5,
--
-- [43] = IPRIO_DEFAULT_UPPER + 6,
-- [21] = IPRIO_DEFAULT_UPPER + 7,
-- [42] = IPRIO_DEFAULT_UPPER + 8,
-- [41] = IPRIO_DEFAULT_UPPER + 9,
-- [20] = IPRIO_DEFAULT_UPPER + 10,
-- [40] = IPRIO_DEFAULT_UPPER + 11,
--
-- [11] = IPRIO_DEFAULT_M,
-- [3]  = IPRIO_DEFAULT_M + 1,
-- [7]  = IPRIO_DEFAULT_M + 2,
--
-- [9]  = IPRIO_DEFAULT_S,
-- [1]  = IPRIO_DEFAULT_S + 1,
-- [5]  = IPRIO_DEFAULT_S + 2,
--
-- [12] = IPRIO_DEFAULT_SGEXT,
--
-- [10] = IPRIO_DEFAULT_VS,
-- [2]  = IPRIO_DEFAULT_VS + 1,
-- [6]  = IPRIO_DEFAULT_VS + 2,
--
-- [39] = IPRIO_DEFAULT_LOWER,
-- [19] = IPRIO_DEFAULT_LOWER + 1,
-- [38] = IPRIO_DEFAULT_LOWER + 2,
-- [37] = IPRIO_DEFAULT_LOWER + 3,
-- [18] = IPRIO_DEFAULT_LOWER + 4,
-- [36] = IPRIO_DEFAULT_LOWER + 5,
--
-- [35] = IPRIO_DEFAULT_LOWER + 6,
-- [17] = IPRIO_DEFAULT_LOWER + 7,
-- [34] = IPRIO_DEFAULT_LOWER + 8,
-- [33] = IPRIO_DEFAULT_LOWER + 9,
-- [16] = IPRIO_DEFAULT_LOWER + 10,
-- [32] = IPRIO_DEFAULT_LOWER + 11,
-+    /* Custom interrupts 48 to 63 */
-+    [63] = IPRIO_MMAXIPRIO,
-+    [62] = IPRIO_MMAXIPRIO,
-+    [61] = IPRIO_MMAXIPRIO,
-+    [60] = IPRIO_MMAXIPRIO,
-+    [59] = IPRIO_MMAXIPRIO,
-+    [58] = IPRIO_MMAXIPRIO,
-+    [57] = IPRIO_MMAXIPRIO,
-+    [56] = IPRIO_MMAXIPRIO,
-+    [55] = IPRIO_MMAXIPRIO,
-+    [54] = IPRIO_MMAXIPRIO,
-+    [53] = IPRIO_MMAXIPRIO,
-+    [52] = IPRIO_MMAXIPRIO,
-+    [51] = IPRIO_MMAXIPRIO,
-+    [50] = IPRIO_MMAXIPRIO,
-+    [49] = IPRIO_MMAXIPRIO,
-+    [48] = IPRIO_MMAXIPRIO,
-+
-+    /* Custom interrupts 24 to 31 */
-+    [31] = IPRIO_MMAXIPRIO,
-+    [30] = IPRIO_MMAXIPRIO,
-+    [29] = IPRIO_MMAXIPRIO,
-+    [28] = IPRIO_MMAXIPRIO,
-+    [27] = IPRIO_MMAXIPRIO,
-+    [26] = IPRIO_MMAXIPRIO,
-+    [25] = IPRIO_MMAXIPRIO,
-+    [24] = IPRIO_MMAXIPRIO,
-+
-+    [47] = IPRIO_DEFAULT_UPPER,
-+    [23] = IPRIO_DEFAULT_UPPER + 1,
-+    [46] = IPRIO_DEFAULT_UPPER + 2,
-+    [45] = IPRIO_DEFAULT_UPPER + 3,
-+    [22] = IPRIO_DEFAULT_UPPER + 4,
-+    [44] = IPRIO_DEFAULT_UPPER + 5,
-+
-+    [43] = IPRIO_DEFAULT_UPPER + 6,
-+    [21] = IPRIO_DEFAULT_UPPER + 7,
-+    [42] = IPRIO_DEFAULT_UPPER + 8,
-+    [41] = IPRIO_DEFAULT_UPPER + 9,
-+    [20] = IPRIO_DEFAULT_UPPER + 10,
-+    [40] = IPRIO_DEFAULT_UPPER + 11,
-+
-+    [11] = IPRIO_DEFAULT_M,
-+    [3]  = IPRIO_DEFAULT_M + 1,
-+    [7]  = IPRIO_DEFAULT_M + 2,
-+
-+    [9]  = IPRIO_DEFAULT_S,
-+    [1]  = IPRIO_DEFAULT_S + 1,
-+    [5]  = IPRIO_DEFAULT_S + 2,
-+
-+    [12] = IPRIO_DEFAULT_SGEXT,
-+
-+    [10] = IPRIO_DEFAULT_VS,
-+    [2]  = IPRIO_DEFAULT_VS + 1,
-+    [6]  = IPRIO_DEFAULT_VS + 2,
-+
-+    [39] = IPRIO_DEFAULT_LOWER,
-+    [19] = IPRIO_DEFAULT_LOWER + 1,
-+    [38] = IPRIO_DEFAULT_LOWER + 2,
-+    [37] = IPRIO_DEFAULT_LOWER + 3,
-+    [18] = IPRIO_DEFAULT_LOWER + 4,
-+    [36] = IPRIO_DEFAULT_LOWER + 5,
-+
-+    [35] = IPRIO_DEFAULT_LOWER + 6,
-+    [17] = IPRIO_DEFAULT_LOWER + 7,
-+    [34] = IPRIO_DEFAULT_LOWER + 8,
-+    [33] = IPRIO_DEFAULT_LOWER + 9,
-+    [16] = IPRIO_DEFAULT_LOWER + 10,
-+    [32] = IPRIO_DEFAULT_LOWER + 11,
- };
+-    /* MPRV does not affect the virtual-machine load/store
+-       instructions, HLV, HLVX, and HSV. */
++    /*
++     * MPRV does not affect the virtual-machine load/store
++     * instructions, HLV, HLVX, and HSV.
++     */
+     if (riscv_cpu_two_stage_lookup(mmu_idx)) {
+         mode = get_field(env->hstatus, HSTATUS_SPVP);
+     } else if (mode == PRV_M && access_type != MMU_INST_FETCH) {
+@@ -778,8 +783,10 @@ static int get_physical_address(CPURISCVState *env, hwaddr *physical,
+     }
  
- uint8_t riscv_cpu_default_priority(int irq)
-@@ -1001,8 +1001,8 @@ restart:
-                  */
-                 MemoryRegion *mr;
-                 hwaddr l = sizeof(target_ulong), addr1;
--                mr = address_space_translate(cs->as, pte_addr,
--                    &addr1, &l, false, MEMTXATTRS_UNSPECIFIED);
-+                mr = address_space_translate(cs->as, pte_addr, &addr1, &l,
-+                                             false, MEMTXATTRS_UNSPECIFIED);
-                 if (memory_region_is_ram(mr)) {
+     if (first_stage == false) {
+-        /* We are in stage 2 translation, this is similar to stage 1. */
+-        /* Stage 2 is always taken as U-mode */
++        /*
++         * We are in stage 2 translation, this is similar to stage 1.
++         * Stage 2 is always taken as U-mode
++         */
+         mode = PRV_U;
+     }
+ 
+@@ -1007,8 +1014,10 @@ restart:
                      target_ulong *pte_pa =
                          qemu_map_ram_ptr(mr->ram_block, addr1);
-@@ -1052,7 +1052,7 @@ restart:
-             /* add write permission on stores or if the page is already dirty,
-                so that we TLB miss on later writes to update the dirty bit */
-             if ((pte & PTE_W) &&
--                    (access_type == MMU_DATA_STORE || (pte & PTE_D))) {
-+                (access_type == MMU_DATA_STORE || (pte & PTE_D))) {
-                 *prot |= PAGE_WRITE;
+ #if TCG_OVERSIZED_GUEST
+-                    /* MTTCG is not enabled on oversized TCG guests so
+-                     * page table updates do not need to be atomic */
++                    /*
++                     * MTTCG is not enabled on oversized TCG guests so
++                     * page table updates do not need to be atomic
++                     */
+                     *pte_pa = pte = updated_pte;
+ #else
+                     target_ulong old_pte =
+@@ -1020,14 +1029,18 @@ restart:
+                     }
+ #endif
+                 } else {
+-                    /* misconfigured PTE in ROM (AD bits are not preset) or
+-                     * PTE is in IO space and can't be updated atomically */
++                    /*
++                     * misconfigured PTE in ROM (AD bits are not preset) or
++                     * PTE is in IO space and can't be updated atomically
++                     */
+                     return TRANSLATE_FAIL;
+                 }
              }
-             return TRANSLATE_SUCCESS;
-@@ -1281,9 +1281,10 @@ bool riscv_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
-                                        false);
  
-             qemu_log_mask(CPU_LOG_MMU,
--                    "%s 2nd-stage address=%" VADDR_PRIx " ret %d physical "
--                    HWADDR_FMT_plx " prot %d\n",
--                    __func__, im_address, ret, pa, prot2);
-+                          "%s 2nd-stage address=%" VADDR_PRIx
-+                          " ret %d physical "
-+                          HWADDR_FMT_plx " prot %d\n",
-+                          __func__, im_address, ret, pa, prot2);
+-            /* for superpage mappings, make a fake leaf PTE for the TLB's
+-               benefit. */
++            /*
++             * for superpage mappings, make a fake leaf PTE for the TLB's
++             * benefit.
++             */
+             target_ulong vpn = addr >> PGSHIFT;
  
-             prot &= prot2;
+             if (riscv_cpu_cfg(env)->ext_svnapot && (pte & PTE_N)) {
+@@ -1049,8 +1062,10 @@ restart:
+             if (pte & PTE_X) {
+                 *prot |= PAGE_EXEC;
+             }
+-            /* add write permission on stores or if the page is already dirty,
+-               so that we TLB miss on later writes to update the dirty bit */
++            /*
++             * add write permission on stores or if the page is already dirty,
++             * so that we TLB miss on later writes to update the dirty bit
++             */
+             if ((pte & PTE_W) &&
+                 (access_type == MMU_DATA_STORE || (pte & PTE_D))) {
+                 *prot |= PAGE_WRITE;
+@@ -1235,8 +1250,10 @@ bool riscv_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+     qemu_log_mask(CPU_LOG_MMU, "%s ad %" VADDR_PRIx " rw %d mmu_idx %d\n",
+                   __func__, address, access_type, mmu_idx);
  
-@@ -1718,7 +1719,7 @@ void riscv_cpu_do_interrupt(CPUState *cs)
-         env->htval = htval;
-         env->htinst = tinst;
-         env->pc = (env->stvec >> 2 << 2) +
--            ((async && (env->stvec & 3) == 1) ? cause * 4 : 0);
-+                  ((async && (env->stvec & 3) == 1) ? cause * 4 : 0);
-         riscv_cpu_set_mode(env, PRV_S);
-     } else {
-         /* handle the trap in M-mode */
-@@ -1749,7 +1750,7 @@ void riscv_cpu_do_interrupt(CPUState *cs)
-         env->mtval2 = mtval2;
-         env->mtinst = tinst;
-         env->pc = (env->mtvec >> 2 << 2) +
--            ((async && (env->mtvec & 3) == 1) ? cause * 4 : 0);
-+                  ((async && (env->mtvec & 3) == 1) ? cause * 4 : 0);
+-    /* MPRV does not affect the virtual-machine load/store
+-       instructions, HLV, HLVX, and HSV. */
++    /*
++     * MPRV does not affect the virtual-machine load/store
++     * instructions, HLV, HLVX, and HSV.
++     */
+     if (riscv_cpu_two_stage_lookup(mmu_idx)) {
+         mode = get_field(env->hstatus, HSTATUS_SPVP);
+     } else if (mode == PRV_M && access_type != MMU_INST_FETCH &&
+@@ -1577,7 +1594,8 @@ void riscv_cpu_do_interrupt(CPUState *cs)
+     bool write_gva = false;
+     uint64_t s;
+ 
+-    /* cs->exception is 32-bits wide unlike mcause which is XLEN-bits wide
++    /*
++     * cs->exception is 32-bits wide unlike mcause which is XLEN-bits wide
+      * so we mask off the MSB and separate into trap type and cause.
+      */
+     bool async = !!(cs->exception_index & RISCV_EXCP_INT_FLAG);
+@@ -1754,7 +1772,8 @@ void riscv_cpu_do_interrupt(CPUState *cs)
          riscv_cpu_set_mode(env, PRV_M);
      }
  
-diff --git a/target/riscv/fpu_helper.c b/target/riscv/fpu_helper.c
-index 449d236df6..5dd14d8390 100644
---- a/target/riscv/fpu_helper.c
-+++ b/target/riscv/fpu_helper.c
-@@ -248,8 +248,8 @@ uint64_t helper_fmin_s(CPURISCVState *env, uint64_t rs1, uint64_t rs2)
-     float32 frs1 = check_nanbox_s(env, rs1);
-     float32 frs2 = check_nanbox_s(env, rs2);
-     return nanbox_s(env, env->priv_ver < PRIV_VERSION_1_11_0 ?
--                    float32_minnum(frs1, frs2, &env->fp_status) :
--                    float32_minimum_number(frs1, frs2, &env->fp_status));
-+                         float32_minnum(frs1, frs2, &env->fp_status) :
-+                         float32_minimum_number(frs1, frs2, &env->fp_status));
- }
+-    /* NOTE: it is not necessary to yield load reservations here. It is only
++    /*
++     * NOTE: it is not necessary to yield load reservations here. It is only
+      * necessary for an SC from "another hart" to cause a load reservation
+      * to be yielded. Refer to the memory consistency model section of the
+      * RISC-V ISA Specification.
+diff --git a/target/riscv/csr.c b/target/riscv/csr.c
+index 41e56012d5..76755ee128 100644
+--- a/target/riscv/csr.c
++++ b/target/riscv/csr.c
+@@ -189,7 +189,7 @@ static RISCVException mctr(CPURISCVState *env, int csrno)
+     }
+     ctr_index = csrno - base_csrno;
+     if (!pmu_num || ctr_index >= pmu_num) {
+-        /* The PMU is not enabled or counter is out of range*/
++        /* The PMU is not enabled or counter is out of range */
+         return RISCV_EXCP_ILLEGAL_INST;
+     }
  
- uint64_t helper_fmax_s(CPURISCVState *env, uint64_t rs1, uint64_t rs2)
-@@ -257,8 +257,8 @@ uint64_t helper_fmax_s(CPURISCVState *env, uint64_t rs1, uint64_t rs2)
-     float32 frs1 = check_nanbox_s(env, rs1);
-     float32 frs2 = check_nanbox_s(env, rs2);
-     return nanbox_s(env, env->priv_ver < PRIV_VERSION_1_11_0 ?
--                    float32_maxnum(frs1, frs2, &env->fp_status) :
--                    float32_maximum_number(frs1, frs2, &env->fp_status));
-+                         float32_maxnum(frs1, frs2, &env->fp_status) :
-+                         float32_maximum_number(frs1, frs2, &env->fp_status));
- }
+@@ -877,7 +877,7 @@ static RISCVException riscv_pmu_read_ctr(CPURISCVState *env, target_ulong *val,
+                                         counter.mhpmcounter_val;
  
- uint64_t helper_fsqrt_s(CPURISCVState *env, uint64_t rs1)
-@@ -361,15 +361,15 @@ uint64_t helper_fdiv_d(CPURISCVState *env, uint64_t frs1, uint64_t frs2)
- uint64_t helper_fmin_d(CPURISCVState *env, uint64_t frs1, uint64_t frs2)
- {
-     return env->priv_ver < PRIV_VERSION_1_11_0 ?
--            float64_minnum(frs1, frs2, &env->fp_status) :
--            float64_minimum_number(frs1, frs2, &env->fp_status);
-+           float64_minnum(frs1, frs2, &env->fp_status) :
-+           float64_minimum_number(frs1, frs2, &env->fp_status);
- }
+     if (get_field(env->mcountinhibit, BIT(ctr_idx))) {
+-        /**
++        /*
+          * Counter should not increment if inhibit bit is set. We can't really
+          * stop the icount counting. Just return the counter value written by
+          * the supervisor to indicate that counter was not incremented.
+@@ -891,7 +891,7 @@ static RISCVException riscv_pmu_read_ctr(CPURISCVState *env, target_ulong *val,
+         }
+     }
  
- uint64_t helper_fmax_d(CPURISCVState *env, uint64_t frs1, uint64_t frs2)
- {
-     return env->priv_ver < PRIV_VERSION_1_11_0 ?
--            float64_maxnum(frs1, frs2, &env->fp_status) :
--            float64_maximum_number(frs1, frs2, &env->fp_status);
-+           float64_maxnum(frs1, frs2, &env->fp_status) :
-+           float64_maximum_number(frs1, frs2, &env->fp_status);
- }
- 
- uint64_t helper_fcvt_s_d(CPURISCVState *env, uint64_t rs1)
-@@ -481,8 +481,8 @@ uint64_t helper_fmin_h(CPURISCVState *env, uint64_t rs1, uint64_t rs2)
-     float16 frs1 = check_nanbox_h(env, rs1);
-     float16 frs2 = check_nanbox_h(env, rs2);
-     return nanbox_h(env, env->priv_ver < PRIV_VERSION_1_11_0 ?
--                    float16_minnum(frs1, frs2, &env->fp_status) :
--                    float16_minimum_number(frs1, frs2, &env->fp_status));
-+                         float16_minnum(frs1, frs2, &env->fp_status) :
-+                         float16_minimum_number(frs1, frs2, &env->fp_status));
- }
- 
- uint64_t helper_fmax_h(CPURISCVState *env, uint64_t rs1, uint64_t rs2)
-@@ -490,8 +490,8 @@ uint64_t helper_fmax_h(CPURISCVState *env, uint64_t rs1, uint64_t rs2)
-     float16 frs1 = check_nanbox_h(env, rs1);
-     float16 frs2 = check_nanbox_h(env, rs2);
-     return nanbox_h(env, env->priv_ver < PRIV_VERSION_1_11_0 ?
--                    float16_maxnum(frs1, frs2, &env->fp_status) :
--                    float16_maximum_number(frs1, frs2, &env->fp_status));
-+                         float16_maxnum(frs1, frs2, &env->fp_status) :
-+                         float16_maximum_number(frs1, frs2, &env->fp_status));
- }
- 
- uint64_t helper_fsqrt_h(CPURISCVState *env, uint64_t rs1)
-diff --git a/target/riscv/m128_helper.c b/target/riscv/m128_helper.c
-index 7bf115b85e..e6a4f6120a 100644
---- a/target/riscv/m128_helper.c
-+++ b/target/riscv/m128_helper.c
-@@ -24,8 +24,8 @@
- #include "exec/helper-proto.h"
- 
- target_ulong HELPER(divu_i128)(CPURISCVState *env,
--                       target_ulong ul, target_ulong uh,
--                       target_ulong vl, target_ulong vh)
-+                               target_ulong ul, target_ulong uh,
-+                               target_ulong vl, target_ulong vh)
- {
-     target_ulong ql, qh;
-     Int128 q;
-@@ -44,8 +44,8 @@ target_ulong HELPER(divu_i128)(CPURISCVState *env,
- }
- 
- target_ulong HELPER(remu_i128)(CPURISCVState *env,
--                       target_ulong ul, target_ulong uh,
--                       target_ulong vl, target_ulong vh)
-+                               target_ulong ul, target_ulong uh,
-+                               target_ulong vl, target_ulong vh)
- {
-     target_ulong rl, rh;
-     Int128 r;
-@@ -64,8 +64,8 @@ target_ulong HELPER(remu_i128)(CPURISCVState *env,
- }
- 
- target_ulong HELPER(divs_i128)(CPURISCVState *env,
--                       target_ulong ul, target_ulong uh,
--                       target_ulong vl, target_ulong vh)
-+                               target_ulong ul, target_ulong uh,
-+                               target_ulong vl, target_ulong vh)
- {
-     target_ulong qh, ql;
-     Int128 q;
-@@ -89,8 +89,8 @@ target_ulong HELPER(divs_i128)(CPURISCVState *env,
- }
- 
- target_ulong HELPER(rems_i128)(CPURISCVState *env,
--                       target_ulong ul, target_ulong uh,
--                       target_ulong vl, target_ulong vh)
-+                               target_ulong ul, target_ulong uh,
-+                               target_ulong vl, target_ulong vh)
- {
-     target_ulong rh, rl;
-     Int128 r;
-diff --git a/target/riscv/machine.c b/target/riscv/machine.c
-index 8869346089..3ce2970785 100644
---- a/target/riscv/machine.c
-+++ b/target/riscv/machine.c
-@@ -136,15 +136,15 @@ static const VMStateDescription vmstate_vector = {
-     .minimum_version_id = 2,
-     .needed = vector_needed,
-     .fields = (VMStateField[]) {
--            VMSTATE_UINT64_ARRAY(env.vreg, RISCVCPU, 32 * RV_VLEN_MAX / 64),
--            VMSTATE_UINTTL(env.vxrm, RISCVCPU),
--            VMSTATE_UINTTL(env.vxsat, RISCVCPU),
--            VMSTATE_UINTTL(env.vl, RISCVCPU),
--            VMSTATE_UINTTL(env.vstart, RISCVCPU),
--            VMSTATE_UINTTL(env.vtype, RISCVCPU),
--            VMSTATE_BOOL(env.vill, RISCVCPU),
--            VMSTATE_END_OF_LIST()
--        }
-+        VMSTATE_UINT64_ARRAY(env.vreg, RISCVCPU, 32 * RV_VLEN_MAX / 64),
-+        VMSTATE_UINTTL(env.vxrm, RISCVCPU),
-+        VMSTATE_UINTTL(env.vxsat, RISCVCPU),
-+        VMSTATE_UINTTL(env.vl, RISCVCPU),
-+        VMSTATE_UINTTL(env.vstart, RISCVCPU),
-+        VMSTATE_UINTTL(env.vtype, RISCVCPU),
-+        VMSTATE_BOOL(env.vill, RISCVCPU),
-+        VMSTATE_END_OF_LIST()
-+    }
- };
- 
- static bool pointermasking_needed(void *opaque)
-diff --git a/target/riscv/op_helper.c b/target/riscv/op_helper.c
-index c0c4ced7f0..ec9a384772 100644
---- a/target/riscv/op_helper.c
-+++ b/target/riscv/op_helper.c
-@@ -367,8 +367,8 @@ void helper_wfi(CPURISCVState *env)
-     if (((prv_s || (!rvs && prv_u)) && get_field(env->mstatus, MSTATUS_TW)) ||
-         (rvs && prv_u && !env->virt_enabled)) {
-         riscv_raise_exception(env, RISCV_EXCP_ILLEGAL_INST, GETPC());
--    } else if (env->virt_enabled && (prv_u ||
--        (prv_s && get_field(env->hstatus, HSTATUS_VTW)))) {
-+    } else if (env->virt_enabled &&
-+               (prv_u || (prv_s && get_field(env->hstatus, HSTATUS_VTW)))) {
-         riscv_raise_exception(env, RISCV_EXCP_VIRT_INSTRUCTION_FAULT, GETPC());
-     } else {
-         cs->halted = 1;
+-    /**
++    /*
+      * The kernel computes the perf delta by subtracting the current value from
+      * the value it initialized previously (ctr_val).
+      */
 diff --git a/target/riscv/pmp.c b/target/riscv/pmp.c
-index a08cd95658..3943b0f2e3 100644
+index 3943b0f2e3..6ab2ae81c7 100644
 --- a/target/riscv/pmp.c
 +++ b/target/riscv/pmp.c
-@@ -27,7 +27,7 @@
- #include "exec/exec-all.h"
- 
- static void pmp_write_cfg(CPURISCVState *env, uint32_t addr_index,
--    uint8_t val);
-+                          uint8_t val);
- static uint8_t pmp_read_cfg(CPURISCVState *env, uint32_t addr_index);
- static void pmp_update_rule(CPURISCVState *env, uint32_t pmp_index);
- 
-@@ -220,8 +220,8 @@ static int pmp_is_in_range(CPURISCVState *env, int pmp_index, target_ulong addr)
+@@ -132,15 +132,15 @@ static void pmp_write_cfg(CPURISCVState *env, uint32_t pmp_index, uint8_t val)
+ static void pmp_decode_napot(target_ulong a, target_ulong *sa, target_ulong *ea)
  {
-     int result = 0;
+     /*
+-       aaaa...aaa0   8-byte NAPOT range
+-       aaaa...aa01   16-byte NAPOT range
+-       aaaa...a011   32-byte NAPOT range
+-       ...
+-       aa01...1111   2^XLEN-byte NAPOT range
+-       a011...1111   2^(XLEN+1)-byte NAPOT range
+-       0111...1111   2^(XLEN+2)-byte NAPOT range
+-       1111...1111   Reserved
+-    */
++     * aaaa...aaa0   8-byte NAPOT range
++     * aaaa...aa01   16-byte NAPOT range
++     * aaaa...a011   32-byte NAPOT range
++     * ...
++     * aa01...1111   2^XLEN-byte NAPOT range
++     * a011...1111   2^(XLEN+1)-byte NAPOT range
++     * 0111...1111   2^(XLEN+2)-byte NAPOT range
++     * 1111...1111   Reserved
++     */
+     a = (a << 2) | 0x3;
+     *sa = a & (a + 1);
+     *ea = a | (a + 1);
+@@ -205,7 +205,8 @@ void pmp_update_rule_nums(CPURISCVState *env)
+     }
+ }
  
--    if ((addr >= env->pmp_state.addr[pmp_index].sa)
--        && (addr <= env->pmp_state.addr[pmp_index].ea)) {
-+    if ((addr >= env->pmp_state.addr[pmp_index].sa) &&
-+        (addr <= env->pmp_state.addr[pmp_index].ea)) {
-         result = 1;
+-/* Convert cfg/addr reg values here into simple 'sa' --> start address and 'ea'
++/*
++ * Convert cfg/addr reg values here into simple 'sa' --> start address and 'ea'
+  *   end address values.
+  *   This function is called relatively infrequently whereas the check that
+  *   an address is within a pmp rule is called often, so optimise that one
+@@ -329,8 +330,10 @@ int pmp_hart_has_privs(CPURISCVState *env, target_ulong addr,
+         pmp_size = size;
+     }
+ 
+-    /* 1.10 draft priv spec states there is an implicit order
+-         from low to high */
++    /*
++     * 1.10 draft priv spec states there is an implicit order
++     * from low to high
++     */
+     for (i = 0; i < MAX_RISCV_PMPS; i++) {
+         s = pmp_is_in_range(env, i, addr);
+         e = pmp_is_in_range(env, i, addr + pmp_size - 1);
+@@ -609,13 +612,13 @@ target_ulong pmp_get_tlb_size(CPURISCVState *env, int pmp_index,
+         return TARGET_PAGE_SIZE;
      } else {
-         result = 0;
-@@ -234,8 +234,9 @@ static int pmp_is_in_range(CPURISCVState *env, int pmp_index, target_ulong addr)
-  * Check if the address has required RWX privs when no PMP entry is matched.
-  */
- static bool pmp_hart_has_privs_default(CPURISCVState *env, target_ulong addr,
--    target_ulong size, pmp_priv_t privs, pmp_priv_t *allowed_privs,
--    target_ulong mode)
-+                                       target_ulong size, pmp_priv_t privs,
-+                                       pmp_priv_t *allowed_privs,
-+                                       target_ulong mode)
- {
-     bool ret;
- 
-@@ -297,8 +298,8 @@ static bool pmp_hart_has_privs_default(CPURISCVState *env, target_ulong addr,
-  * Return negtive value if no match
-  */
- int pmp_hart_has_privs(CPURISCVState *env, target_ulong addr,
--    target_ulong size, pmp_priv_t privs, pmp_priv_t *allowed_privs,
--    target_ulong mode)
-+                       target_ulong size, pmp_priv_t privs,
-+                       pmp_priv_t *allowed_privs, target_ulong mode)
- {
-     int i = 0;
-     int ret = -1;
-@@ -466,7 +467,7 @@ int pmp_hart_has_privs(CPURISCVState *env, target_ulong addr,
-  * Handle a write to a pmpcfg CSR
-  */
- void pmpcfg_csr_write(CPURISCVState *env, uint32_t reg_index,
--    target_ulong val)
-+                      target_ulong val)
- {
-     int i;
-     uint8_t cfg_val;
-@@ -508,7 +509,7 @@ target_ulong pmpcfg_csr_read(CPURISCVState *env, uint32_t reg_index)
-  * Handle a write to a pmpaddr CSR
-  */
- void pmpaddr_csr_write(CPURISCVState *env, uint32_t addr_index,
--    target_ulong val)
-+                       target_ulong val)
- {
-     trace_pmpaddr_csr_write(env->mhartid, addr_index, val);
- 
+         /*
+-        * At this point we have a tlb_size that is the smallest possible size
+-        * That fits within a TARGET_PAGE_SIZE and the PMP region.
+-        *
+-        * If the size is less then TARGET_PAGE_SIZE we drop the size to 1.
+-        * This means the result isn't cached in the TLB and is only used for
+-        * a single translation.
+-        */
++         * At this point we have a tlb_size that is the smallest possible size
++         * That fits within a TARGET_PAGE_SIZE and the PMP region.
++         *
++         * If the size is less then TARGET_PAGE_SIZE we drop the size to 1.
++         * This means the result isn't cached in the TLB and is only used for
++         * a single translation.
++         */
+         return 1;
+     }
+ }
 diff --git a/target/riscv/translate.c b/target/riscv/translate.c
-index 03748f72e6..3613aca28d 100644
+index 3613aca28d..d0094922b6 100644
 --- a/target/riscv/translate.c
 +++ b/target/riscv/translate.c
-@@ -746,8 +746,8 @@ EX_SH(12)
- } while (0)
+@@ -69,11 +69,13 @@ typedef struct DisasContext {
+     uint32_t mstatus_hs_fs;
+     uint32_t mstatus_hs_vs;
+     uint32_t mem_idx;
+-    /* Remember the rounding mode encoded in the previous fp instruction,
+-       which we have already installed into env->fp_status.  Or -1 for
+-       no previous fp instruction.  Note that we exit the TB when writing
+-       to any system register, which includes CSR_FRM, so we do not have
+-       to reset this known value.  */
++    /*
++     * Remember the rounding mode encoded in the previous fp instruction,
++     * which we have already installed into env->fp_status.  Or -1 for
++     * no previous fp instruction.  Note that we exit the TB when writing
++     * to any system register, which includes CSR_FRM, so we do not have
++     * to reset this known value.
++     */
+     int frm;
+     RISCVMXL ol;
+     bool virt_inst_excp;
+@@ -491,7 +493,7 @@ static TCGv_i64 dest_fpr(DisasContext *ctx, int reg_num)
+     }
+ }
  
- #define REQUIRE_EITHER_EXT(ctx, A, B) do {       \
--    if (!ctx->cfg_ptr->ext_##A &&      \
--        !ctx->cfg_ptr->ext_##B) {      \
-+    if (!ctx->cfg_ptr->ext_##A &&                \
-+        !ctx->cfg_ptr->ext_##B) {                \
-         return false;                            \
-     }                                            \
- } while (0)
+-/* assume t is nanboxing (for normal) or sign-extended (for zfinx) */
++/* assume it is nanboxing (for normal) or sign-extended (for zfinx) */
+ static void gen_set_fpr_hs(DisasContext *ctx, int reg_num, TCGv_i64 t)
+ {
+     if (!ctx->cfg_ptr->ext_zfinx) {
+@@ -598,7 +600,8 @@ static TCGv get_address_indexed(DisasContext *ctx, int rs1, TCGv offs)
+ }
+ 
+ #ifndef CONFIG_USER_ONLY
+-/* The states of mstatus_fs are:
++/*
++ * The states of mstatus_fs are:
+  * 0 = disabled, 1 = initial, 2 = clean, 3 = dirty
+  * We will have already diagnosed disabled state,
+  * and need to turn initial/clean into dirty.
+@@ -636,7 +639,8 @@ static inline void mark_fs_dirty(DisasContext *ctx) { }
+ #endif
+ 
+ #ifndef CONFIG_USER_ONLY
+-/* The states of mstatus_vs are:
++/*
++ * The states of mstatus_vs are:
+  * 0 = disabled, 1 = initial, 2 = clean, 3 = dirty
+  * We will have already diagnosed disabled state,
+  * and need to turn initial/clean into dirty.
 diff --git a/target/riscv/vector_helper.c b/target/riscv/vector_helper.c
-index 2423affe37..6067b5cfc7 100644
+index 6067b5cfc7..81ac85b7d5 100644
 --- a/target/riscv/vector_helper.c
 +++ b/target/riscv/vector_helper.c
-@@ -50,10 +50,7 @@ target_ulong HELPER(vsetvl)(CPURISCVState *env, target_ulong s1,
-         }
-     }
- 
--    if ((sew > cpu->cfg.elen)
--        || vill
--        || (ediv != 0)
--        || (reserved != 0)) {
-+    if ((sew > cpu->cfg.elen) || vill || (ediv != 0) || (reserved != 0)) {
-         /* only set vill bit. */
-         env->vill = 1;
-         env->vtype = 0;
-@@ -1116,7 +1113,7 @@ void HELPER(NAME)(void *vd, void *v0, target_ulong s1, void *vs2,        \
-                                                                          \
-         *((ETYPE *)vd + H(i)) = DO_OP(s2, (ETYPE)(target_long)s1, carry);\
-     }                                                                    \
--    env->vstart = 0;                                          \
-+    env->vstart = 0;                                                     \
-     /* set tail elements to 1s */                                        \
-     vext_set_elems_1s(vd, vta, vl * esz, total_elems * esz);             \
- }
-@@ -1308,7 +1305,8 @@ GEN_VEXT_SHIFT_VV(vsra_vv_d, uint64_t, int64_t, H8, H8, DO_SRL, 0x3f)
- /* generate the helpers for shift instructions with one vector and one scalar */
- #define GEN_VEXT_SHIFT_VX(NAME, TD, TS2, HD, HS2, OP, MASK) \
- void HELPER(NAME)(void *vd, void *v0, target_ulong s1,      \
--        void *vs2, CPURISCVState *env, uint32_t desc)       \
-+                  void *vs2, CPURISCVState *env,            \
-+                  uint32_t desc)                            \
- {                                                           \
-     uint32_t vm = vext_vm(desc);                            \
-     uint32_t vl = env->vl;                                  \
-@@ -1735,9 +1733,9 @@ GEN_VEXT_VX(vmulhsu_vx_d, 8)
- /* Vector Integer Divide Instructions */
- #define DO_DIVU(N, M) (unlikely(M == 0) ? (__typeof(N))(-1) : N / M)
- #define DO_REMU(N, M) (unlikely(M == 0) ? N : N % M)
--#define DO_DIV(N, M)  (unlikely(M == 0) ? (__typeof(N))(-1) :\
-+#define DO_DIV(N, M)  (unlikely(M == 0) ? (__typeof(N))(-1) : \
-         unlikely((N == -N) && (M == (__typeof(N))(-1))) ? N : N / M)
--#define DO_REM(N, M)  (unlikely(M == 0) ? N :\
-+#define DO_REM(N, M)  (unlikely(M == 0) ? N : \
-         unlikely((N == -N) && (M == (__typeof(N))(-1))) ? 0 : N % M)
- 
- RVVCALL(OPIVV2, vdivu_vv_b, OP_UUU_B, H1, H1, H1, DO_DIVU)
-@@ -1846,7 +1844,7 @@ GEN_VEXT_VX(vwmulsu_vx_h, 4)
- GEN_VEXT_VX(vwmulsu_vx_w, 8)
- 
- /* Vector Single-Width Integer Multiply-Add Instructions */
--#define OPIVV3(NAME, TD, T1, T2, TX1, TX2, HD, HS1, HS2, OP)   \
-+#define OPIVV3(NAME, TD, T1, T2, TX1, TX2, HD, HS1, HS2, OP)       \
- static void do_##NAME(void *vd, void *vs1, void *vs2, int i)       \
- {                                                                  \
-     TX1 s1 = *((T1 *)vs1 + HS1(i));                                \
-@@ -2277,7 +2275,8 @@ vext_vx_rm_2(void *vd, void *v0, target_long s1, void *vs2,
- /* generate helpers for fixed point instructions with OPIVX format */
- #define GEN_VEXT_VX_RM(NAME, ESZ)                         \
- void HELPER(NAME)(void *vd, void *v0, target_ulong s1,    \
--        void *vs2, CPURISCVState *env, uint32_t desc)     \
-+                  void *vs2, CPURISCVState *env,          \
-+                  uint32_t desc)                          \
- {                                                         \
-     vext_vx_rm_2(vd, v0, s1, vs2, env, desc,              \
-                  do_##NAME, ESZ);                         \
-@@ -2651,7 +2650,7 @@ static inline int8_t vsmul8(CPURISCVState *env, int vxrm, int8_t a, int8_t b)
- 
-     res = (int16_t)a * (int16_t)b;
-     round = get_round(vxrm, res, 7);
--    res   = (res >> 7) + round;
-+    res = (res >> 7) + round;
- 
-     if (res > INT8_MAX) {
-         env->vxsat = 0x1;
-@@ -2671,7 +2670,7 @@ static int16_t vsmul16(CPURISCVState *env, int vxrm, int16_t a, int16_t b)
- 
-     res = (int32_t)a * (int32_t)b;
-     round = get_round(vxrm, res, 15);
--    res   = (res >> 15) + round;
-+    res = (res >> 15) + round;
- 
-     if (res > INT16_MAX) {
-         env->vxsat = 0x1;
-@@ -2691,7 +2690,7 @@ static int32_t vsmul32(CPURISCVState *env, int vxrm, int32_t a, int32_t b)
- 
-     res = (int64_t)a * (int64_t)b;
-     round = get_round(vxrm, res, 31);
--    res   = (res >> 31) + round;
-+    res = (res >> 31) + round;
- 
-     if (res > INT32_MAX) {
-         env->vxsat = 0x1;
-@@ -2758,7 +2757,7 @@ vssrl8(CPURISCVState *env, int vxrm, uint8_t a, uint8_t b)
-     uint8_t res;
- 
-     round = get_round(vxrm, a, shift);
--    res   = (a >> shift)  + round;
-+    res = (a >> shift) + round;
-     return res;
- }
- static inline uint16_t
-@@ -2862,7 +2861,7 @@ vnclip8(CPURISCVState *env, int vxrm, int16_t a, int8_t b)
-     int16_t res;
- 
-     round = get_round(vxrm, a, shift);
--    res   = (a >> shift)  + round;
-+    res = (a >> shift) + round;
-     if (res > INT8_MAX) {
-         env->vxsat = 0x1;
-         return INT8_MAX;
-@@ -2881,7 +2880,7 @@ vnclip16(CPURISCVState *env, int vxrm, int32_t a, int16_t b)
-     int32_t res;
- 
-     round = get_round(vxrm, a, shift);
--    res   = (a >> shift)  + round;
-+    res = (a >> shift) + round;
-     if (res > INT16_MAX) {
-         env->vxsat = 0x1;
-         return INT16_MAX;
-@@ -2900,7 +2899,7 @@ vnclip32(CPURISCVState *env, int vxrm, int64_t a, int32_t b)
-     int64_t res;
- 
-     round = get_round(vxrm, a, shift);
--    res   = (a >> shift)  + round;
-+    res = (a >> shift) + round;
-     if (res > INT32_MAX) {
-         env->vxsat = 0x1;
-         return INT32_MAX;
-@@ -2933,7 +2932,7 @@ vnclipu8(CPURISCVState *env, int vxrm, uint16_t a, uint8_t b)
-     uint16_t res;
- 
-     round = get_round(vxrm, a, shift);
--    res   = (a >> shift)  + round;
-+    res = (a >> shift) + round;
-     if (res > UINT8_MAX) {
-         env->vxsat = 0x1;
-         return UINT8_MAX;
-@@ -2949,7 +2948,7 @@ vnclipu16(CPURISCVState *env, int vxrm, uint32_t a, uint16_t b)
-     uint32_t res;
- 
-     round = get_round(vxrm, a, shift);
--    res   = (a >> shift)  + round;
-+    res = (a >> shift) + round;
-     if (res > UINT16_MAX) {
-         env->vxsat = 0x1;
-         return UINT16_MAX;
-@@ -2965,7 +2964,7 @@ vnclipu32(CPURISCVState *env, int vxrm, uint64_t a, uint32_t b)
-     uint64_t res;
- 
-     round = get_round(vxrm, a, shift);
--    res   = (a >> shift)  + round;
-+    res = (a >> shift) + round;
-     if (res > UINT32_MAX) {
-         env->vxsat = 0x1;
-         return UINT32_MAX;
-@@ -3052,7 +3051,7 @@ void HELPER(NAME)(void *vd, void *v0, uint64_t s1,        \
-     uint32_t vm = vext_vm(desc);                          \
-     uint32_t vl = env->vl;                                \
-     uint32_t total_elems =                                \
--        vext_get_total_elems(env, desc, ESZ);              \
-+        vext_get_total_elems(env, desc, ESZ);             \
-     uint32_t vta = vext_vta(desc);                        \
-     uint32_t vma = vext_vma(desc);                        \
-     uint32_t i;                                           \
-@@ -3118,13 +3117,13 @@ GEN_VEXT_VF(vfrsub_vf_d, 8)
- static uint32_t vfwadd16(uint16_t a, uint16_t b, float_status *s)
- {
-     return float32_add(float16_to_float32(a, true, s),
--            float16_to_float32(b, true, s), s);
-+                       float16_to_float32(b, true, s), s);
+@@ -287,7 +287,7 @@ static void vext_set_tail_elems_1s(CPURISCVState *env, target_ulong vl,
  }
  
- static uint64_t vfwadd32(uint32_t a, uint32_t b, float_status *s)
- {
-     return float64_add(float32_to_float64(a, s),
--            float32_to_float64(b, s), s);
-+                       float32_to_float64(b, s), s);
+ /*
+- *** stride: access vector element from strided memory
++ * stride: access vector element from strided memory
+  */
+ static void
+ vext_ldst_stride(void *vd, void *v0, target_ulong base,
+@@ -353,10 +353,10 @@ GEN_VEXT_ST_STRIDE(vsse32_v, int32_t, ste_w)
+ GEN_VEXT_ST_STRIDE(vsse64_v, int64_t, ste_d)
  
+ /*
+- *** unit-stride: access elements stored contiguously in memory
++ * unit-stride: access elements stored contiguously in memory
+  */
+ 
+-/* unmasked unit-stride load and store operation*/
++/* unmasked unit-stride load and store operation */
+ static void
+ vext_ldst_us(void *vd, target_ulong base, CPURISCVState *env, uint32_t desc,
+              vext_ldst_elem_fn *ldst_elem, uint32_t log2_esz, uint32_t evl,
+@@ -429,7 +429,7 @@ GEN_VEXT_ST_US(vse32_v, int32_t, ste_w)
+ GEN_VEXT_ST_US(vse64_v, int64_t, ste_d)
+ 
+ /*
+- *** unit stride mask load and store, EEW = 1
++ * unit stride mask load and store, EEW = 1
+  */
+ void HELPER(vlm_v)(void *vd, void *v0, target_ulong base,
+                     CPURISCVState *env, uint32_t desc)
+@@ -450,7 +450,7 @@ void HELPER(vsm_v)(void *vd, void *v0, target_ulong base,
  }
  
-@@ -3140,13 +3139,13 @@ GEN_VEXT_VF(vfwadd_vf_w, 8)
- static uint32_t vfwsub16(uint16_t a, uint16_t b, float_status *s)
- {
-     return float32_sub(float16_to_float32(a, true, s),
--            float16_to_float32(b, true, s), s);
-+                       float16_to_float32(b, true, s), s);
- }
+ /*
+- *** index: access vector element from indexed memory
++ * index: access vector element from indexed memory
+  */
+ typedef target_ulong vext_get_index_addr(target_ulong base,
+         uint32_t idx, void *vs2);
+@@ -554,7 +554,7 @@ GEN_VEXT_ST_INDEX(vsxei64_32_v, int32_t, idx_d, ste_w)
+ GEN_VEXT_ST_INDEX(vsxei64_64_v, int64_t, idx_d, ste_d)
  
- static uint64_t vfwsub32(uint32_t a, uint32_t b, float_status *s)
- {
-     return float64_sub(float32_to_float64(a, s),
--            float32_to_float64(b, s), s);
-+                       float32_to_float64(b, s), s);
+ /*
+- *** unit-stride fault-only-fisrt load instructions
++ * unit-stride fault-only-fisrt load instructions
+  */
+ static inline void
+ vext_ldff(void *vd, void *v0, target_ulong base,
+@@ -571,7 +571,7 @@ vext_ldff(void *vd, void *v0, target_ulong base,
+     uint32_t vma = vext_vma(desc);
+     target_ulong addr, offset, remain;
  
- }
+-    /* probe every access*/
++    /* probe every access */
+     for (i = env->vstart; i < env->vl; i++) {
+         if (!vm && !vext_elem_mask(v0, i)) {
+             continue;
+@@ -660,7 +660,7 @@ GEN_VEXT_LDFF(vle64ff_v, int64_t, lde_d)
+ #define DO_MINU(N, M) DO_MIN((UMTYPE)N, (UMTYPE)M)
  
-@@ -3250,13 +3249,13 @@ GEN_VEXT_VF(vfrdiv_vf_d, 8)
- static uint32_t vfwmul16(uint16_t a, uint16_t b, float_status *s)
- {
-     return float32_mul(float16_to_float32(a, true, s),
--            float16_to_float32(b, true, s), s);
-+                       float16_to_float32(b, true, s), s);
- }
+ /*
+- *** load and store whole register instructions
++ * load and store whole register instructions
+  */
+ static void
+ vext_ldst_whole(void *vd, target_ulong base, CPURISCVState *env, uint32_t desc,
+@@ -733,7 +733,7 @@ GEN_VEXT_ST_WHOLE(vs4r_v, int8_t, ste_b)
+ GEN_VEXT_ST_WHOLE(vs8r_v, int8_t, ste_b)
  
- static uint64_t vfwmul32(uint32_t a, uint32_t b, float_status *s)
- {
-     return float64_mul(float32_to_float64(a, s),
--            float32_to_float64(b, s), s);
-+                       float32_to_float64(b, s), s);
+ /*
+- *** Vector Integer Arithmetic Instructions
++ * Vector Integer Arithmetic Instructions
+  */
  
- }
- RVVCALL(OPFVV2, vfwmul_vv_h, WOP_UUU_H, H4, H2, H2, vfwmul16)
-@@ -3271,7 +3270,7 @@ GEN_VEXT_VF(vfwmul_vf_w, 8)
- /* Vector Single-Width Floating-Point Fused Multiply-Add Instructions */
- #define OPFVV3(NAME, TD, T1, T2, TX1, TX2, HD, HS1, HS2, OP)       \
- static void do_##NAME(void *vd, void *vs1, void *vs2, int i,       \
--        CPURISCVState *env)                                        \
-+                      CPURISCVState *env)                          \
- {                                                                  \
-     TX1 s1 = *((T1 *)vs1 + HS1(i));                                \
-     TX2 s2 = *((T2 *)vs2 + HS2(i));                                \
-@@ -3303,7 +3302,7 @@ GEN_VEXT_VV_ENV(vfmacc_vv_d, 8)
- 
- #define OPFVF3(NAME, TD, T1, T2, TX1, TX2, HD, HS2, OP)           \
- static void do_##NAME(void *vd, uint64_t s1, void *vs2, int i,    \
--        CPURISCVState *env)                                       \
-+                      CPURISCVState *env)                         \
- {                                                                 \
-     TX2 s2 = *((T2 *)vs2 + HS2(i));                               \
-     TD d = *((TD *)vd + HD(i));                                   \
-@@ -3319,20 +3318,20 @@ GEN_VEXT_VF(vfmacc_vf_d, 8)
- 
- static uint16_t fnmacc16(uint16_t a, uint16_t b, uint16_t d, float_status *s)
- {
--    return float16_muladd(a, b, d,
--            float_muladd_negate_c | float_muladd_negate_product, s);
-+    return float16_muladd(a, b, d, float_muladd_negate_c |
-+                                   float_muladd_negate_product, s);
- }
- 
- static uint32_t fnmacc32(uint32_t a, uint32_t b, uint32_t d, float_status *s)
- {
--    return float32_muladd(a, b, d,
--            float_muladd_negate_c | float_muladd_negate_product, s);
-+    return float32_muladd(a, b, d, float_muladd_negate_c |
-+                                   float_muladd_negate_product, s);
- }
- 
- static uint64_t fnmacc64(uint64_t a, uint64_t b, uint64_t d, float_status *s)
- {
--    return float64_muladd(a, b, d,
--            float_muladd_negate_c | float_muladd_negate_product, s);
-+    return float64_muladd(a, b, d, float_muladd_negate_c |
-+                                   float_muladd_negate_product, s);
- }
- 
- RVVCALL(OPFVV3, vfnmacc_vv_h, OP_UUU_H, H2, H2, H2, fnmacc16)
-@@ -3434,20 +3433,20 @@ GEN_VEXT_VF(vfmadd_vf_d, 8)
- 
- static uint16_t fnmadd16(uint16_t a, uint16_t b, uint16_t d, float_status *s)
- {
--    return float16_muladd(d, b, a,
--            float_muladd_negate_c | float_muladd_negate_product, s);
-+    return float16_muladd(d, b, a, float_muladd_negate_c |
-+                                   float_muladd_negate_product, s);
- }
- 
- static uint32_t fnmadd32(uint32_t a, uint32_t b, uint32_t d, float_status *s)
- {
--    return float32_muladd(d, b, a,
--            float_muladd_negate_c | float_muladd_negate_product, s);
-+    return float32_muladd(d, b, a, float_muladd_negate_c |
-+                                   float_muladd_negate_product, s);
- }
- 
- static uint64_t fnmadd64(uint64_t a, uint64_t b, uint64_t d, float_status *s)
- {
--    return float64_muladd(d, b, a,
--            float_muladd_negate_c | float_muladd_negate_product, s);
-+    return float64_muladd(d, b, a, float_muladd_negate_c |
-+                                   float_muladd_negate_product, s);
- }
- 
- RVVCALL(OPFVV3, vfnmadd_vv_h, OP_UUU_H, H2, H2, H2, fnmadd16)
-@@ -3523,13 +3522,13 @@ GEN_VEXT_VF(vfnmsub_vf_d, 8)
- static uint32_t fwmacc16(uint16_t a, uint16_t b, uint32_t d, float_status *s)
- {
-     return float32_muladd(float16_to_float32(a, true, s),
--                        float16_to_float32(b, true, s), d, 0, s);
-+                          float16_to_float32(b, true, s), d, 0, s);
- }
- 
- static uint64_t fwmacc32(uint32_t a, uint32_t b, uint64_t d, float_status *s)
- {
-     return float64_muladd(float32_to_float64(a, s),
--                        float32_to_float64(b, s), d, 0, s);
-+                          float32_to_float64(b, s), d, 0, s);
- }
- 
- RVVCALL(OPFVV3, vfwmacc_vv_h, WOP_UUU_H, H4, H2, H2, fwmacc16)
-@@ -3544,15 +3543,16 @@ GEN_VEXT_VF(vfwmacc_vf_w, 8)
- static uint32_t fwnmacc16(uint16_t a, uint16_t b, uint32_t d, float_status *s)
- {
-     return float32_muladd(float16_to_float32(a, true, s),
--                        float16_to_float32(b, true, s), d,
--                        float_muladd_negate_c | float_muladd_negate_product, s);
-+                          float16_to_float32(b, true, s), d,
-+                          float_muladd_negate_c | float_muladd_negate_product,
-+                          s);
- }
- 
- static uint64_t fwnmacc32(uint32_t a, uint32_t b, uint64_t d, float_status *s)
- {
--    return float64_muladd(float32_to_float64(a, s),
--                        float32_to_float64(b, s), d,
--                        float_muladd_negate_c | float_muladd_negate_product, s);
-+    return float64_muladd(float32_to_float64(a, s), float32_to_float64(b, s),
-+                          d, float_muladd_negate_c |
-+                             float_muladd_negate_product, s);
- }
- 
- RVVCALL(OPFVV3, vfwnmacc_vv_h, WOP_UUU_H, H4, H2, H2, fwnmacc16)
-@@ -3567,15 +3567,15 @@ GEN_VEXT_VF(vfwnmacc_vf_w, 8)
- static uint32_t fwmsac16(uint16_t a, uint16_t b, uint32_t d, float_status *s)
- {
-     return float32_muladd(float16_to_float32(a, true, s),
--                        float16_to_float32(b, true, s), d,
--                        float_muladd_negate_c, s);
-+                          float16_to_float32(b, true, s), d,
-+                          float_muladd_negate_c, s);
- }
- 
- static uint64_t fwmsac32(uint32_t a, uint32_t b, uint64_t d, float_status *s)
- {
-     return float64_muladd(float32_to_float64(a, s),
--                        float32_to_float64(b, s), d,
--                        float_muladd_negate_c, s);
-+                          float32_to_float64(b, s), d,
-+                          float_muladd_negate_c, s);
- }
- 
- RVVCALL(OPFVV3, vfwmsac_vv_h, WOP_UUU_H, H4, H2, H2, fwmsac16)
-@@ -3590,15 +3590,15 @@ GEN_VEXT_VF(vfwmsac_vf_w, 8)
- static uint32_t fwnmsac16(uint16_t a, uint16_t b, uint32_t d, float_status *s)
- {
-     return float32_muladd(float16_to_float32(a, true, s),
--                        float16_to_float32(b, true, s), d,
--                        float_muladd_negate_product, s);
-+                          float16_to_float32(b, true, s), d,
-+                          float_muladd_negate_product, s);
- }
- 
- static uint64_t fwnmsac32(uint32_t a, uint32_t b, uint64_t d, float_status *s)
- {
-     return float64_muladd(float32_to_float64(a, s),
--                        float32_to_float64(b, s), d,
--                        float_muladd_negate_product, s);
-+                          float32_to_float64(b, s), d,
-+                          float_muladd_negate_product, s);
- }
- 
- RVVCALL(OPFVV3, vfwnmsac_vv_h, WOP_UUU_H, H4, H2, H2, fwnmsac16)
-@@ -3616,9 +3616,9 @@ GEN_VEXT_VF(vfwnmsac_vf_w, 8)
- #define OP_UU_W uint32_t, uint32_t, uint32_t
- #define OP_UU_D uint64_t, uint64_t, uint64_t
- 
--#define OPFVV1(NAME, TD, T2, TX2, HD, HS2, OP)        \
-+#define OPFVV1(NAME, TD, T2, TX2, HD, HS2, OP)         \
- static void do_##NAME(void *vd, void *vs2, int i,      \
--        CPURISCVState *env)                            \
-+                      CPURISCVState *env)              \
- {                                                      \
-     TX2 s2 = *((T2 *)vs2 + HS2(i));                    \
-     *((TD *)vd + HD(i)) = OP(s2, &env->fp_status);     \
-@@ -3626,7 +3626,7 @@ static void do_##NAME(void *vd, void *vs2, int i,      \
- 
- #define GEN_VEXT_V_ENV(NAME, ESZ)                      \
- void HELPER(NAME)(void *vd, void *v0, void *vs2,       \
--        CPURISCVState *env, uint32_t desc)             \
-+                  CPURISCVState *env, uint32_t desc)   \
- {                                                      \
-     uint32_t vm = vext_vm(desc);                       \
-     uint32_t vl = env->vl;                             \
-@@ -3703,9 +3703,9 @@ static uint64_t frsqrt7(uint64_t f, int exp_size, int frac_size)
-     }
- 
-     int idx = ((exp & 1) << (precision - 1)) |
--                (frac >> (frac_size - precision + 1));
-+              (frac >> (frac_size - precision + 1));
-     uint64_t out_frac = (uint64_t)(lookup_table[idx]) <<
--                            (frac_size - precision);
-+                        (frac_size - precision);
-     uint64_t out_exp = (3 * MAKE_64BIT_MASK(0, exp_size - 1) + ~exp) / 2;
- 
-     uint64_t val = 0;
-@@ -3727,9 +3727,9 @@ static float16 frsqrt7_h(float16 f, float_status *s)
-      * frsqrt7(-subnormal) = canonical NaN
-      */
-     if (float16_is_signaling_nan(f, s) ||
--            (float16_is_infinity(f) && sign) ||
--            (float16_is_normal(f) && sign) ||
--            (float16_is_zero_or_denormal(f) && !float16_is_zero(f) && sign)) {
-+        (float16_is_infinity(f) && sign) ||
-+        (float16_is_normal(f) && sign) ||
-+        (float16_is_zero_or_denormal(f) && !float16_is_zero(f) && sign)) {
-         s->float_exception_flags |= float_flag_invalid;
-         return float16_default_nan(s);
-     }
-@@ -3767,9 +3767,9 @@ static float32 frsqrt7_s(float32 f, float_status *s)
-      * frsqrt7(-subnormal) = canonical NaN
-      */
-     if (float32_is_signaling_nan(f, s) ||
--            (float32_is_infinity(f) && sign) ||
--            (float32_is_normal(f) && sign) ||
--            (float32_is_zero_or_denormal(f) && !float32_is_zero(f) && sign)) {
-+        (float32_is_infinity(f) && sign) ||
-+        (float32_is_normal(f) && sign) ||
-+        (float32_is_zero_or_denormal(f) && !float32_is_zero(f) && sign)) {
-         s->float_exception_flags |= float_flag_invalid;
-         return float32_default_nan(s);
-     }
-@@ -3807,9 +3807,9 @@ static float64 frsqrt7_d(float64 f, float_status *s)
-      * frsqrt7(-subnormal) = canonical NaN
-      */
-     if (float64_is_signaling_nan(f, s) ||
--            (float64_is_infinity(f) && sign) ||
--            (float64_is_normal(f) && sign) ||
--            (float64_is_zero_or_denormal(f) && !float64_is_zero(f) && sign)) {
-+        (float64_is_infinity(f) && sign) ||
-+        (float64_is_normal(f) && sign) ||
-+        (float64_is_zero_or_denormal(f) && !float64_is_zero(f) && sign)) {
-         s->float_exception_flags |= float_flag_invalid;
-         return float64_default_nan(s);
-     }
-@@ -3897,18 +3897,18 @@ static uint64_t frec7(uint64_t f, int exp_size, int frac_size,
-                 ((s->float_rounding_mode == float_round_up) && sign)) {
-                 /* Return greatest/negative finite value. */
-                 return (sign << (exp_size + frac_size)) |
--                    (MAKE_64BIT_MASK(frac_size, exp_size) - 1);
-+                       (MAKE_64BIT_MASK(frac_size, exp_size) - 1);
-             } else {
-                 /* Return +-inf. */
-                 return (sign << (exp_size + frac_size)) |
--                    MAKE_64BIT_MASK(frac_size, exp_size);
-+                       MAKE_64BIT_MASK(frac_size, exp_size);
-             }
-         }
-     }
- 
-     int idx = frac >> (frac_size - precision);
-     uint64_t out_frac = (uint64_t)(lookup_table[idx]) <<
--                            (frac_size - precision);
-+                        (frac_size - precision);
-     uint64_t out_exp = 2 * MAKE_64BIT_MASK(0, exp_size - 1) + ~exp;
- 
-     if (out_exp == 0 || out_exp == UINT64_MAX) {
-@@ -4422,8 +4422,8 @@ void HELPER(NAME)(void *vd, void *v0, uint64_t s1, void *vs2, \
-                                                               \
-     for (i = env->vstart; i < vl; i++) {                      \
-         ETYPE s2 = *((ETYPE *)vs2 + H(i));                    \
--        *((ETYPE *)vd + H(i))                                 \
--          = (!vm && !vext_elem_mask(v0, i) ? s2 : s1);        \
-+        *((ETYPE *)vd + H(i)) =                               \
-+            (!vm && !vext_elem_mask(v0, i) ? s2 : s1);        \
+ /* expand macro args before macro */
+@@ -1149,8 +1149,10 @@ void HELPER(NAME)(void *vd, void *v0, void *vs1, void *vs2,   \
+         vext_set_elem_mask(vd, i, DO_OP(s2, s1, carry));      \
      }                                                         \
      env->vstart = 0;                                          \
-     /* set tail elements to 1s */                             \
-@@ -4564,7 +4564,8 @@ GEN_VEXT_V_ENV(vfncvt_f_f_w_w, 4)
+-    /* mask destination register are always tail-agnostic */  \
+-    /* set tail elements to 1s */                             \
++    /*
++     * mask destination register are always tail-agnostic
++     * set tail elements to 1s
++     */                                                       \
+     if (vta_all_1s) {                                         \
+         for (; i < total_elems; i++) {                        \
+             vext_set_elem_mask(vd, i, 1);                     \
+@@ -1185,8 +1187,10 @@ void HELPER(NAME)(void *vd, void *v0, target_ulong s1,          \
+                 DO_OP(s2, (ETYPE)(target_long)s1, carry));      \
+     }                                                           \
+     env->vstart = 0;                                            \
+-    /* mask destination register are always tail-agnostic */    \
+-    /* set tail elements to 1s */                               \
++    /*
++     * mask destination register are always tail-agnostic
++     * set tail elements to 1s
++     */                                                         \
+     if (vta_all_1s) {                                           \
+         for (; i < total_elems; i++) {                          \
+             vext_set_elem_mask(vd, i, 1);                       \
+@@ -1392,8 +1396,10 @@ void HELPER(NAME)(void *vd, void *v0, void *vs1, void *vs2,   \
+         vext_set_elem_mask(vd, i, DO_OP(s2, s1));             \
+     }                                                         \
+     env->vstart = 0;                                          \
+-    /* mask destination register are always tail-agnostic */  \
+-    /* set tail elements to 1s */                             \
++    /*
++     * mask destination register are always tail-agnostic
++     * set tail elements to 1s
++     */                                                       \
+     if (vta_all_1s) {                                         \
+         for (; i < total_elems; i++) {                        \
+             vext_set_elem_mask(vd, i, 1);                     \
+@@ -1455,8 +1461,10 @@ void HELPER(NAME)(void *vd, void *v0, target_ulong s1, void *vs2,   \
+                 DO_OP(s2, (ETYPE)(target_long)s1));                 \
+     }                                                               \
+     env->vstart = 0;                                                \
+-    /* mask destination register are always tail-agnostic */        \
+-    /* set tail elements to 1s */                                   \
++    /*
++     * mask destination register are always tail-agnostic
++     * set tail elements to 1s
++     */                                                             \
+     if (vta_all_1s) {                                               \
+         for (; i < total_elems; i++) {                              \
+             vext_set_elem_mask(vd, i, 1);                           \
+@@ -2075,7 +2083,7 @@ GEN_VEXT_VMERGE_VX(vmerge_vxm_w, int32_t, H4)
+ GEN_VEXT_VMERGE_VX(vmerge_vxm_d, int64_t, H8)
+ 
+ /*
+- *** Vector Fixed-Point Arithmetic Instructions
++ * Vector Fixed-Point Arithmetic Instructions
+  */
+ 
+ /* Vector Single-Width Saturating Add and Subtract */
+@@ -2988,7 +2996,7 @@ GEN_VEXT_VX_RM(vnclipu_wx_h, 2)
+ GEN_VEXT_VX_RM(vnclipu_wx_w, 4)
+ 
+ /*
+- *** Vector Float Point Arithmetic Instructions
++ * Vector Float Point Arithmetic Instructions
+  */
+ /* Vector Single-Width Floating-Point Add/Subtract Instructions */
+ #define OPFVV2(NAME, TD, T1, T2, TX1, TX2, HD, HS1, HS2, OP)   \
+@@ -4171,8 +4179,10 @@ void HELPER(NAME)(void *vd, void *v0, void *vs1, void *vs2,   \
+                            DO_OP(s2, s1, &env->fp_status));   \
+     }                                                         \
+     env->vstart = 0;                                          \
+-    /* mask destination register are always tail-agnostic */  \
+-    /* set tail elements to 1s */                             \
++    /*
++     * mask destination register are always tail-agnostic
++     * set tail elements to 1s
++     */                                                       \
+     if (vta_all_1s) {                                         \
+         for (; i < total_elems; i++) {                        \
+             vext_set_elem_mask(vd, i, 1);                     \
+@@ -4208,8 +4218,10 @@ void HELPER(NAME)(void *vd, void *v0, uint64_t s1, void *vs2,       \
+                            DO_OP(s2, (ETYPE)s1, &env->fp_status));  \
+     }                                                               \
+     env->vstart = 0;                                                \
+-    /* mask destination register are always tail-agnostic */        \
+-    /* set tail elements to 1s */                                   \
++    /*
++     * mask destination register are always tail-agnostic
++     * set tail elements to 1s
++     */                                                             \
+     if (vta_all_1s) {                                               \
+         for (; i < total_elems; i++) {                              \
+             vext_set_elem_mask(vd, i, 1);                           \
+@@ -4472,7 +4484,9 @@ GEN_VEXT_V_ENV(vfcvt_f_x_v_d, 8)
+ #define WOP_UU_B uint16_t, uint8_t,  uint8_t
+ #define WOP_UU_H uint32_t, uint16_t, uint16_t
+ #define WOP_UU_W uint64_t, uint32_t, uint32_t
+-/* vfwcvt.xu.f.v vd, vs2, vm # Convert float to double-width unsigned integer.*/
++/*
++ * vfwcvt.xu.f.v vd, vs2, vm # Convert float to double-width unsigned integer.
++ */
+ RVVCALL(OPFVV1, vfwcvt_xu_f_v_h, WOP_UU_H, H4, H2, float16_to_uint32)
+ RVVCALL(OPFVV1, vfwcvt_xu_f_v_w, WOP_UU_W, H8, H4, float32_to_uint64)
+ GEN_VEXT_V_ENV(vfwcvt_xu_f_v_h, 4)
+@@ -4559,7 +4573,7 @@ GEN_VEXT_V_ENV(vfncvt_f_f_w_h, 2)
+ GEN_VEXT_V_ENV(vfncvt_f_f_w_w, 4)
+ 
+ /*
+- *** Vector Reduction Operations
++ * Vector Reduction Operations
+  */
  /* Vector Single-Width Integer Reduction Instructions */
  #define GEN_VEXT_RED(NAME, TD, TS2, HD, HS2, OP)          \
- void HELPER(NAME)(void *vd, void *v0, void *vs1,          \
--        void *vs2, CPURISCVState *env, uint32_t desc)     \
-+                  void *vs2, CPURISCVState *env,          \
-+                  uint32_t desc)                          \
- {                                                         \
-     uint32_t vm = vext_vm(desc);                          \
-     uint32_t vl = env->vl;                                \
-@@ -5013,7 +5014,8 @@ GEN_VEXT_VSLIDEDOWN_VX(vslidedown_vx_d, uint64_t, H8)
+@@ -4713,7 +4727,7 @@ GEN_VEXT_FRED(vfwredosum_vs_h, uint32_t, uint16_t, H4, H2, fwadd16)
+ GEN_VEXT_FRED(vfwredosum_vs_w, uint64_t, uint32_t, H8, H4, fwadd32)
  
- #define GEN_VEXT_VSLIE1UP(BITWIDTH, H)                                      \
- static void vslide1up_##BITWIDTH(void *vd, void *v0, uint64_t s1,           \
--                     void *vs2, CPURISCVState *env, uint32_t desc)          \
-+                                 void *vs2, CPURISCVState *env,             \
-+                                 uint32_t desc)                             \
- {                                                                           \
-     typedef uint##BITWIDTH##_t ETYPE;                                       \
-     uint32_t vm = vext_vm(desc);                                            \
-@@ -5061,7 +5063,8 @@ GEN_VEXT_VSLIDE1UP_VX(vslide1up_vx_d, 64)
+ /*
+- *** Vector Mask Operations
++ * Vector Mask Operations
+  */
+ /* Vector Mask-Register Logical Instructions */
+ #define GEN_VEXT_MASK_VV(NAME, OP)                        \
+@@ -4733,10 +4747,10 @@ void HELPER(NAME)(void *vd, void *v0, void *vs1,          \
+         vext_set_elem_mask(vd, i, OP(b, a));              \
+     }                                                     \
+     env->vstart = 0;                                      \
+-    /* mask destination register are always tail-         \
+-     * agnostic                                           \
++    /*
++     * mask destination register are always tail-agnostic
++     * set tail elements to 1s
+      */                                                   \
+-    /* set tail elements to 1s */                         \
+     if (vta_all_1s) {                                     \
+         for (; i < total_elems; i++) {                    \
+             vext_set_elem_mask(vd, i, 1);                 \
+@@ -4779,7 +4793,7 @@ target_ulong HELPER(vcpop_m)(void *v0, void *vs2, CPURISCVState *env,
+     return cnt;
+ }
  
- #define GEN_VEXT_VSLIDE1DOWN(BITWIDTH, H)                                     \
- static void vslide1down_##BITWIDTH(void *vd, void *v0, uint64_t s1,           \
--                       void *vs2, CPURISCVState *env, uint32_t desc)          \
-+                                   void *vs2, CPURISCVState *env,             \
-+                                   uint32_t desc)                             \
- {                                                                             \
-     typedef uint##BITWIDTH##_t ETYPE;                                         \
-     uint32_t vm = vext_vm(desc);                                              \
+-/* vfirst find-first-set mask bit*/
++/* vfirst find-first-set mask bit */
+ target_ulong HELPER(vfirst_m)(void *v0, void *vs2, CPURISCVState *env,
+                               uint32_t desc)
+ {
+@@ -4844,8 +4858,10 @@ static void vmsetm(void *vd, void *v0, void *vs2, CPURISCVState *env,
+         }
+     }
+     env->vstart = 0;
+-    /* mask destination register are always tail-agnostic */
+-    /* set tail elements to 1s */
++    /*
++     * mask destination register are always tail-agnostic
++     * set tail elements to 1s
++     */
+     if (vta_all_1s) {
+         for (; i < total_elems; i++) {
+             vext_set_elem_mask(vd, i, 1);
+@@ -4937,7 +4953,7 @@ GEN_VEXT_VID_V(vid_v_w, uint32_t, H4)
+ GEN_VEXT_VID_V(vid_v_d, uint64_t, H8)
+ 
+ /*
+- *** Vector Permutation Instructions
++ * Vector Permutation Instructions
+  */
+ 
+ /* Vector Slide Instructions */
 diff --git a/target/riscv/insn_trans/trans_rvv.c.inc b/target/riscv/insn_trans/trans_rvv.c.inc
-index f2e3d38515..8e43bfc07c 100644
+index 8e43bfc07c..ca3c4c1a3d 100644
 --- a/target/riscv/insn_trans/trans_rvv.c.inc
 +++ b/target/riscv/insn_trans/trans_rvv.c.inc
-@@ -238,8 +238,8 @@ static bool vext_check_store(DisasContext *s, int vd, int nf, uint8_t eew)
- {
-     int8_t emul = eew - s->sew + s->lmul;
-     return (emul >= -3 && emul <= 3) &&
--            require_align(vd, emul) &&
--            require_nf(vd, nf, emul);
-+           require_align(vd, emul) &&
-+           require_nf(vd, nf, emul);
+@@ -3136,9 +3136,11 @@ static bool trans_vfirst_m(DisasContext *s, arg_rmr *a)
+     return false;
  }
  
- /*
-@@ -315,7 +315,7 @@ static bool vext_check_ld_index(DisasContext *s, int vd, int vs2,
-     int8_t seg_vd;
-     int8_t emul = eew - s->sew + s->lmul;
-     bool ret = vext_check_st_index(s, vd, vs2, nf, eew) &&
--        require_vm(vm, vd);
-+               require_vm(vm, vd);
- 
-     /* Each segment register group has to follow overlap rules. */
-     for (int i = 0; i < nf; ++i) {
-@@ -345,8 +345,8 @@ static bool vext_check_ld_index(DisasContext *s, int vd, int vs2,
- static bool vext_check_ss(DisasContext *s, int vd, int vs, int vm)
- {
-     return require_vm(vm, vd) &&
--        require_align(vd, s->lmul) &&
--        require_align(vs, s->lmul);
-+           require_align(vd, s->lmul) &&
-+           require_align(vs, s->lmul);
- }
- 
- /*
-@@ -365,7 +365,7 @@ static bool vext_check_ss(DisasContext *s, int vd, int vs, int vm)
- static bool vext_check_sss(DisasContext *s, int vd, int vs1, int vs2, int vm)
- {
-     return vext_check_ss(s, vd, vs2, vm) &&
--        require_align(vs1, s->lmul);
-+           require_align(vs1, s->lmul);
- }
- 
- static bool vext_check_ms(DisasContext *s, int vd, int vs)
-@@ -396,7 +396,7 @@ static bool vext_check_ms(DisasContext *s, int vd, int vs)
- static bool vext_check_mss(DisasContext *s, int vd, int vs1, int vs2)
- {
-     bool ret = vext_check_ms(s, vd, vs2) &&
--        require_align(vs1, s->lmul);
-+               require_align(vs1, s->lmul);
-     if (vd != vs1) {
-         ret &= require_noover(vd, 0, vs1, s->lmul);
-     }
-@@ -460,14 +460,14 @@ static bool vext_narrow_check_common(DisasContext *s, int vd, int vs2,
- static bool vext_check_ds(DisasContext *s, int vd, int vs, int vm)
- {
-     return vext_wide_check_common(s, vd, vm) &&
--        require_align(vs, s->lmul) &&
--        require_noover(vd, s->lmul + 1, vs, s->lmul);
-+           require_align(vs, s->lmul) &&
-+           require_noover(vd, s->lmul + 1, vs, s->lmul);
- }
- 
- static bool vext_check_dd(DisasContext *s, int vd, int vs, int vm)
- {
-     return vext_wide_check_common(s, vd, vm) &&
--        require_align(vs, s->lmul + 1);
-+           require_align(vs, s->lmul + 1);
- }
- 
- /*
-@@ -485,8 +485,8 @@ static bool vext_check_dd(DisasContext *s, int vd, int vs, int vm)
- static bool vext_check_dss(DisasContext *s, int vd, int vs1, int vs2, int vm)
- {
-     return vext_check_ds(s, vd, vs2, vm) &&
--        require_align(vs1, s->lmul) &&
--        require_noover(vd, s->lmul + 1, vs1, s->lmul);
-+           require_align(vs1, s->lmul) &&
-+           require_noover(vd, s->lmul + 1, vs1, s->lmul);
- }
- 
- /*
-@@ -507,7 +507,7 @@ static bool vext_check_dss(DisasContext *s, int vd, int vs1, int vs2, int vm)
- static bool vext_check_dds(DisasContext *s, int vd, int vs1, int vs2, int vm)
- {
-     return vext_check_ds(s, vd, vs1, vm) &&
--        require_align(vs2, s->lmul + 1);
-+           require_align(vs2, s->lmul + 1);
- }
- 
- static bool vext_check_sd(DisasContext *s, int vd, int vs, int vm)
-@@ -535,7 +535,7 @@ static bool vext_check_sd(DisasContext *s, int vd, int vs, int vm)
- static bool vext_check_sds(DisasContext *s, int vd, int vs1, int vs2, int vm)
- {
-     return vext_check_sd(s, vd, vs2, vm) &&
--        require_align(vs1, s->lmul);
-+           require_align(vs1, s->lmul);
- }
- 
- /*
+-/* vmsbf.m set-before-first mask bit */
+-/* vmsif.m set-includ-first mask bit */
+-/* vmsof.m set-only-first mask bit */
++/*
++ * vmsbf.m set-before-first mask bit
++ * vmsif.m set-including-first mask bit
++ * vmsof.m set-only-first mask bit
++ */
+ #define GEN_M_TRANS(NAME)                                          \
+ static bool trans_##NAME(DisasContext *s, arg_rmr *a)              \
+ {                                                                  \
 -- 
 2.40.0
 
