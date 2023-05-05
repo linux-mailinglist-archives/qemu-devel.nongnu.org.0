@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FF0C6F8640
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 May 2023 17:54:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 337926F8642
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 May 2023 17:54:53 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1puxkg-0003LS-J5; Fri, 05 May 2023 11:53:46 -0400
+	id 1puxkl-0003PO-2o; Fri, 05 May 2023 11:53:51 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1puxkd-0003Jg-8k
- for qemu-devel@nongnu.org; Fri, 05 May 2023 11:53:43 -0400
-Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a])
+ id 1puxke-0003LR-LT
+ for qemu-devel@nongnu.org; Fri, 05 May 2023 11:53:44 -0400
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1puxka-0008DD-Dw
- for qemu-devel@nongnu.org; Fri, 05 May 2023 11:53:42 -0400
-Received: by mail-wr1-x42a.google.com with SMTP id
- ffacd0b85a97d-30771c68a9eso1477720f8f.2
+ id 1puxkc-0008DF-Cm
+ for qemu-devel@nongnu.org; Fri, 05 May 2023 11:53:44 -0400
+Received: by mail-wr1-x42c.google.com with SMTP id
+ ffacd0b85a97d-2f95231618aso1335725f8f.1
  for <qemu-devel@nongnu.org>; Fri, 05 May 2023 08:53:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=linaro.org; s=google; t=1683302019; x=1685894019;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=Uhx8xf/tUsvgHorzJjHLi5H+bMJr8MaQ/Qyfkil5mMk=;
- b=jxQT7RAnRiG+4jZWepXpJwwqyv1KyR0mYc+xl8K2zGZmMTT2NN1ZlH8jHLiSgONI0c
- Ouqxu2+vgaAg41DJy+2/lrstpWTiZlgXgDxAJmN27nt4iJydj7zD3DNq7SZlbZXE7Raa
- PM3Sm8ScRO541hN/9vIlwjSQDG4iyqwN4N/aMYMnFEb4Zxt/8CEUhSkmlg/tKHodPauB
- 2xkFoXG5NLicCJL4/Nk/hUjF5zlC4EHfWV2NNTOkU+Kwhl098hm5rfDUWoYMtKhm/XvS
- AZElG/dQzuvIUqv87OI4u/kIh46Rx8m2Poe2wbMebQcACMg7loYxH7yOLY8vKylh2d0Y
- 5CYQ==
+ bh=v20eKJJJVW047Oo0oTM1wQXqOht2ZgPK9mBl9bJ8pSc=;
+ b=VLlTXE2z8p9t2Sm42UpKGi9VxkBaSZTpMnPl9EnsCEgNHMWALAr1NYn9gVwyac3Wn8
+ JfydF7+E5vl2ncV3KOjfuHwmH2IZ9dPSTP2RGWK9Y9ZGCP8grvUyy5kwU9ehWM8nRT5Z
+ hv7WjhmQXwzTXBSmgoKTCrBP3wINIVLBni1ywcC1iWh4mk4xrjW0eNl782EJTCPJz2kP
+ 7/lYwbLqrk8v+B8/zX6M25yvXJDVzbziaRyvUjvM8R8wgwmtEdESuBddIG5yfLtS3btu
+ brvtgLXlphhgTZ9xCd929602JuDqeV/CnJ7PqbXHakNb0IznPYuSZNUBrCGaOvVHNiIG
+ B5nA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20221208; t=1683302019; x=1685894019;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=Uhx8xf/tUsvgHorzJjHLi5H+bMJr8MaQ/Qyfkil5mMk=;
- b=PGPn/aEdoaKbDsAGY0Ur+PMDQAaJhlncI6p9t2Urb6VmjK2Nt02iCFB0yAzs0Ax4He
- BHlW0rdWqpxODo06OMz1L16mIzwcZx5nUF1m/LP0cZAAWxt3IdHCh7XxM3SLfTytYSBe
- WfkfrifmRjAk+8h+dWyvRTqYJRJEUuh1NOIy7d26Ui7dTWKsDOVLQ5n3y1uUE2nkHZEh
- xYI5azvS6WPq/1jW+XVknZvxtrudsKGdQrYLv3+s5O6rv7cc0iqlG+rnR3kLNIouZY6U
- EGuSjd/NAKlP9tFzj4VHgcOuxLj/stVImDsJZXpEKNkCPWOQUy5XSMnPaA01GVZH4wjC
- r+oA==
-X-Gm-Message-State: AC+VfDwpmhCTnRIgTY2vF1BiLlJNpMv0KG2W99KiHWAn/wcnRzLgG5KP
- 8bAw2KQMQ/P5xcuarbteS2DZVQ==
-X-Google-Smtp-Source: ACHHUZ6W8k4PVy/as8I8u8Zze+cgI00CESukf0Fi8L7Qqk9fUnFLqdraeChi+jaw5noonBKKXhgr/g==
-X-Received: by 2002:a5d:4309:0:b0:306:492c:cdd8 with SMTP id
- h9-20020a5d4309000000b00306492ccdd8mr1596190wrq.15.1683302019226; 
+ bh=v20eKJJJVW047Oo0oTM1wQXqOht2ZgPK9mBl9bJ8pSc=;
+ b=kSkEOUNRDVOU+pspVoPk7HB7u53MuqC7RYfBgQV6gbJJoUT21mL+wfJkNIsMdYpZ6m
+ wPZ3gq+fGXBm6rYUS/fdXzE+qu/aJCuvic1L2+k+RI2qbds1E2fhu4omZE2HNYWKIiZu
+ bE7Rk6IxMy5f5R/am14HHS8vH5HGMbE41SRDrsauOZB1vWIdXOY1aKwoeZWlHIWl0HnP
+ XV42zdMkfC56wvwmrRaO9Qgob/R6zkWd4OrRL21c4dOugRFWEaHcsAOeOb2jhUDI8zJA
+ FUlCRLWkmLv02d3ckwqtbVOQzlRCqHzi5fBWkLFChLiCqbCWe4P1vc3NPu42e/ItZqQU
+ Lckw==
+X-Gm-Message-State: AC+VfDw8IZlAW1ZJVQCFzg6U+jNrQzdMTgYFaaFAql+quyt9hco6bDOl
+ d0fiK4tm1cAWGQCdsuK5WtAMYw==
+X-Google-Smtp-Source: ACHHUZ4zNCPyQq7DcRZnTPcpiLKgVNGNqUmqgx+30CR39ciIkuxnGAozXGeWiJaPzeZaEZxIlW7Zhg==
+X-Received: by 2002:a5d:6711:0:b0:306:39f5:e1a8 with SMTP id
+ o17-20020a5d6711000000b0030639f5e1a8mr1687533wru.14.1683302019526; 
  Fri, 05 May 2023 08:53:39 -0700 (PDT)
 Received: from zen.linaroharston ([85.9.250.243])
  by smtp.gmail.com with ESMTPSA id
- v1-20020adff681000000b003047297a5e8sm2756925wrp.54.2023.05.05.08.53.37
+ n2-20020a05600c294200b003f17eded97bsm8391476wmd.19.2023.05.05.08.53.38
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 05 May 2023 08:53:37 -0700 (PDT)
+ Fri, 05 May 2023 08:53:39 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 0B3851FFBF;
+ by zen.linaroharston (Postfix) with ESMTP id 236B31FFC0;
  Fri,  5 May 2023 16:53:37 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: Stefan Hajnoczi <stefanha@redhat.com>,
@@ -72,18 +72,17 @@ Cc: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
  Richard Henderson <richard.henderson@linaro.org>,
  Markus Armbruster <armbru@redhat.com>, Riku Voipio <riku.voipio@iki.fi>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: [PATCH v3 04/10] scripts/qapi: document the tool that generated the
- file
-Date: Fri,  5 May 2023 16:53:30 +0100
-Message-Id: <20230505155336.137393-5-alex.bennee@linaro.org>
+Subject: [PATCH v3 05/10] qapi: make the vcpu parameters deprecated for 8.1
+Date: Fri,  5 May 2023 16:53:31 +0100
+Message-Id: <20230505155336.137393-6-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230505155336.137393-1-alex.bennee@linaro.org>
 References: <20230505155336.137393-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -106,38 +105,77 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-This makes it a little easier for developers to find where things
-where being generated.
+I don't think I can remove the parameters directly but certainly mark
+them as deprecated.
 
+Message-Id: <20230420150009.1675181-6-alex.bennee@linaro.org>
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20230503091756.1453057-5-alex.bennee@linaro.org>
+Message-Id: <20230503091756.1453057-6-alex.bennee@linaro.org>
 ---
- scripts/qapi/gen.py | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ qapi/trace.json | 22 +++++++---------------
+ 1 file changed, 7 insertions(+), 15 deletions(-)
 
-diff --git a/scripts/qapi/gen.py b/scripts/qapi/gen.py
-index 8f8f784f4a..e724507e1a 100644
---- a/scripts/qapi/gen.py
-+++ b/scripts/qapi/gen.py
-@@ -162,7 +162,7 @@ def __init__(self, fname: str, blurb: str, pydoc: str):
- 
-     def _top(self) -> str:
-         return mcgen('''
--/* AUTOMATICALLY GENERATED, DO NOT MODIFY */
-+/* AUTOMATICALLY GENERATED by QAPIGenC, DO NOT MODIFY */
- 
- /*
- %(blurb)s
-@@ -195,7 +195,7 @@ def _bottom(self) -> str:
- 
- class QAPIGenTrace(QAPIGen):
-     def _top(self) -> str:
--        return super()._top() + '# AUTOMATICALLY GENERATED, DO NOT MODIFY\n\n'
-+        return super()._top() + '# AUTOMATICALLY GENERATED by QAPIGenTrace, DO NOT MODIFY\n\n'
- 
- 
- @contextmanager
+diff --git a/qapi/trace.json b/qapi/trace.json
+index f425d10764..de6b1681aa 100644
+--- a/qapi/trace.json
++++ b/qapi/trace.json
+@@ -33,9 +33,9 @@
+ #
+ # @name: Event name.
+ # @state: Tracing state.
+-# @vcpu: Whether this is a per-vCPU event (since 2.7).
++# @vcpu: Whether this is a per-vCPU event (deprecated since 8.1).
+ #
+-# An event is per-vCPU if it has the "vcpu" property in the "trace-events"
++# There are no longer any events with the "vcpu" property in the "trace-events"
+ # files.
+ #
+ # Since: 2.2
+@@ -49,19 +49,15 @@
+ # Query the state of events.
+ #
+ # @name: Event name pattern (case-sensitive glob).
+-# @vcpu: The vCPU to query (any by default; since 2.7).
++# @vcpu: The vCPU to query (deprecated since 8.1).
+ #
+ # Returns: a list of @TraceEventInfo for the matching events
+ #
+ #          An event is returned if:
+ #
+ #          - its name matches the @name pattern, and
+-#          - if @vcpu is given, the event has the "vcpu" property.
+ #
+-#          Therefore, if @vcpu is given, the operation will only match per-vCPU events,
+-#          returning their state on the specified vCPU. Special case: if @name is an
+-#          exact match, @vcpu is given and the event does not have the "vcpu" property,
+-#          an error is returned.
++#          There are no longer any per-vCPU events
+ #
+ # Since: 2.2
+ #
+@@ -84,17 +80,13 @@
+ # @name: Event name pattern (case-sensitive glob).
+ # @enable: Whether to enable tracing.
+ # @ignore-unavailable: Do not match unavailable events with @name.
+-# @vcpu: The vCPU to act upon (all by default; since 2.7).
++# @vcpu: The vCPU to act upon (deprecated since 8.1).
+ #
+ # An event's state is modified if:
+ #
+-# - its name matches the @name pattern, and
+-# - if @vcpu is given, the event has the "vcpu" property.
++# - its name matches the @name pattern
+ #
+-# Therefore, if @vcpu is given, the operation will only match per-vCPU events,
+-# setting their state on the specified vCPU. Special case: if @name is an exact
+-# match, @vcpu is given and the event does not have the "vcpu" property, an
+-# error is returned.
++# There are no longer and per-vCPU events so specifying it will never match.
+ #
+ # Since: 2.2
+ #
 -- 
 2.39.2
 
