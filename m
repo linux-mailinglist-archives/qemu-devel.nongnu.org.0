@@ -2,104 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 653926F86BE
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 May 2023 18:29:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2FB046F86DC
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 May 2023 18:36:43 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1puyI4-0005w0-7p; Fri, 05 May 2023 12:28:16 -0400
+	id 1puyOZ-0000TO-N7; Fri, 05 May 2023 12:34:59 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from
- <3mi5VZAYKCnUlXTgcVZhhZeX.VhfjXfn-WXoXeghgZgn.hkZ@flex--seanjc.bounces.google.com>)
- id 1puyI1-0005vV-Ts
- for qemu-devel@nongnu.org; Fri, 05 May 2023 12:28:13 -0400
-Received: from mail-yw1-x1149.google.com ([2607:f8b0:4864:20::1149])
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1puyOU-0000SR-BN; Fri, 05 May 2023 12:34:57 -0400
+Received: from mail-ot1-x330.google.com ([2607:f8b0:4864:20::330])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from
- <3mi5VZAYKCnUlXTgcVZhhZeX.VhfjXfn-WXoXeghgZgn.hkZ@flex--seanjc.bounces.google.com>)
- id 1puyI0-0003fJ-4j
- for qemu-devel@nongnu.org; Fri, 05 May 2023 12:28:13 -0400
-Received: by mail-yw1-x1149.google.com with SMTP id
- 00721157ae682-55a3146ed47so19664597b3.2
- for <qemu-devel@nongnu.org>; Fri, 05 May 2023 09:28:10 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1puyOS-0004sZ-JP; Fri, 05 May 2023 12:34:54 -0400
+Received: by mail-ot1-x330.google.com with SMTP id
+ 46e09a7af769-6a5f03551fdso1518371a34.0; 
+ Fri, 05 May 2023 09:34:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20221208; t=1683304090; x=1685896090;
- h=content-transfer-encoding:cc:to:from:subject:message-id:references
- :mime-version:in-reply-to:date:from:to:cc:subject:date:message-id
- :reply-to; bh=tpG4xiqP3mzArRx9Ask1She9PnSIKi9NV0T7HckdUAY=;
- b=R7ZId5oM7hLrX+tcfVm/Bnk2u8JbAC1I8QSh2twc/YutVfGMASmtW7tbm2YP3uHqlk
- RwtPwL861jZAZsMdLif5CXyQc6HVUK4hq+Rsigm7g9H5SwYxxSrPZKroysdphn0wBKMc
- 5pkuhlqCX/BOp4yTuk4h5T1NCQgcpfPZ9KLIiem4KASWPyrgXBR48rcxQa06YhEaqMbn
- orfLSFQcdN2vNomHtco8b3soICbHS5a9W6R91ScgWRyqTuI6OJFa+omcbJE3G4QloJsc
- Zd/UhaIHTp9GBfbJO6BShFyMFzXWMH9S7e+yp/9GzVVu/Y2uZsmKlNFrDjrpY2RYPhtU
- 7R+Q==
+ d=gmail.com; s=20221208; t=1683304491; x=1685896491;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=2PrC6YOLsLcAVwdcgf7zf6r9gkSfkFUlbq4IQ/7Ptbk=;
+ b=BMyHYpXYyTTYXGRiowxQkD0MdB0sYfSBk2q7SoKjhHZqgpdQrXnXhMNYflyYDhNTQg
+ sVdqcbNwLH5q+jllff3WTR26hsOZ6XOkJUe+1+1V10MdbTAkoTbYQouMBS3OwC4mYJQa
+ WgC/1DFo88SezMRIv62l5LP8vRt0wsVN1wseVKuDqgEyL46FkKlmYG8qeHOJLaY+gRCA
+ NP6q1uep/VOrduSJtpUzsieXFOEO27KnQWVw92ryidW1GcnB4cq3B4uwLnuITpibr25Q
+ qPXFWRNwfZKbg4cJ3Bu7XpJi6856jo8B/7lbK70PKVcBKnVknd+r7kaMnQKJk49ahV5/
+ /gSg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683304090; x=1685896090;
- h=content-transfer-encoding:cc:to:from:subject:message-id:references
- :mime-version:in-reply-to:date:x-gm-message-state:from:to:cc:subject
- :date:message-id:reply-to;
- bh=tpG4xiqP3mzArRx9Ask1She9PnSIKi9NV0T7HckdUAY=;
- b=gpGjOJ51Nc6LNJCEci8V6gCdFDjeJ6eLbx543nwi1Zxdf0fx2UPegekJFFXYu2kLiO
- EVC/pVraKJQQkLCbWNrlGgkrhhiymnomR42QvPxAVxl8jezioHG8DPgjcLUVWed1uR9E
- wXSCDoHDcaMwxOUdmL2xbQhOptIG++Uon6CRK+pmINNi0McZICVPb5iJi4CwMBzvIKZ3
- wxLL+bhTIXwA+GkLi6eN+u04uwspiPugABvTU4tIDS4WPTCa1xd2X+ukyGDyKkfCfBgD
- eFmNwLnSo2upZK6J6PHlju44tUnIEGURi3epmeOgOnA6bsLXxv5Au8n8Xis6+hreJ1Nd
- 9+cA==
-X-Gm-Message-State: AC+VfDzQl9n12QpiBL0b6CtWgUqO+nTHywjbBAHHNIBpqg5mkeXDuzSA
- 087DIG1QQc5FMgNCMyXGYwcTLNsyUys=
-X-Google-Smtp-Source: ACHHUZ6MaxIQ4e6CYkENF40G6p9cF+vIn2nNSO3VXw5131N/TbPSwiBkXRT2QEZKyWmorm0BLuruUfs9Bhg=
-X-Received: from zagreus.c.googlers.com
- ([fda3:e722:ac3:cc00:7f:e700:c0a8:5c37])
- (user=seanjc job=sendgmr) by 2002:a81:ac24:0:b0:559:d859:d746 with SMTP id
- k36-20020a81ac24000000b00559d859d746mr1208880ywh.10.1683304090087; Fri, 05
- May 2023 09:28:10 -0700 (PDT)
-Date: Fri, 5 May 2023 09:28:08 -0700
-In-Reply-To: <20230505152046.6575-3-mic@digikod.net>
-Mime-Version: 1.0
-References: <20230505152046.6575-1-mic@digikod.net>
- <20230505152046.6575-3-mic@digikod.net>
-Message-ID: <ZFUumGdZDNs1tkQA@google.com>
-Subject: Re: [PATCH v1 2/9] KVM: x86/mmu: Add support for prewrite page
- tracking
-From: Sean Christopherson <seanjc@google.com>
-To: "=?iso-8859-1?Q?Micka=EBl_Sala=FCn?=" <mic@digikod.net>
-Cc: Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, 
- "H . Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
- Kees Cook <keescook@chromium.org>, 
- Paolo Bonzini <pbonzini@redhat.com>, Thomas Gleixner <tglx@linutronix.de>, 
- Vitaly Kuznetsov <vkuznets@redhat.com>, Wanpeng Li <wanpengli@tencent.com>, 
- Alexander Graf <graf@amazon.com>, Forrest Yuan Yu <yuanyu@google.com>, 
- James Morris <jamorris@linux.microsoft.com>,
- John Andersen <john.s.andersen@intel.com>, 
- Liran Alon <liran.alon@oracle.com>, 
- "Madhavan T . Venkataraman" <madvenka@linux.microsoft.com>,
- Marian Rotariu <marian.c.rotariu@gmail.com>, 
- "Mihai =?utf-8?B?RG9uyJt1?=" <mdontu@bitdefender.com>, 
- "=?utf-8?B?TmljdciZb3IgQ8OuyJt1?=" <nicu.citu@icloud.com>,
- Rick Edgecombe <rick.p.edgecombe@intel.com>, 
- Thara Gopinath <tgopinath@microsoft.com>, Will Deacon <will@kernel.org>, 
- Zahra Tarkhani <ztarkhani@microsoft.com>, 
- "=?utf-8?Q?=C8=98tefan_=C8=98icleru?=" <ssicleru@bitdefender.com>,
- dev@lists.cloudhypervisor.org, 
- kvm@vger.kernel.org, linux-hardening@vger.kernel.org, 
- linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-security-module@vger.kernel.org, qemu-devel@nongnu.org, 
- virtualization@lists.linux-foundation.org, x86@kernel.org, 
- xen-devel@lists.xenproject.org
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1149;
- envelope-from=3mi5VZAYKCnUlXTgcVZhhZeX.VhfjXfn-WXoXeghgZgn.hkZ@flex--seanjc.bounces.google.com;
- helo=mail-yw1-x1149.google.com
-X-Spam_score_int: -95
-X-Spam_score: -9.6
-X-Spam_bar: ---------
-X-Spam_report: (-9.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ d=1e100.net; s=20221208; t=1683304491; x=1685896491;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=2PrC6YOLsLcAVwdcgf7zf6r9gkSfkFUlbq4IQ/7Ptbk=;
+ b=cOeRafTUB+lP6DOGAQHT8W8QeoIK/gmBgerXXqquhdO8r5Z/MsqBNH0GN8+UkBVK8U
+ plz7OLuJymH952bJMER9LcPJXQIZxpPDkKLi9UUWC+kS41yM1+xrM+skLZ5hRK1QXz3n
+ T9Pv4NbEdFphIkKB3pwVnglx9zz1CkGKllGgQt6fU0zD8i59cPKFMLjJhRtqzAbsLJj6
+ qx7zufT0GPczJQnQX9HsY7dEQ7PblazvbwnYgBljKATGqtUg3tHyWtc9GPbudGEMFDCe
+ PJbjvv2HmhCVVVcAUUsv9cet4G173HOv1r/d05+UQM6oFuj5KEtwnmQkgXAM9f5Xno0O
+ MTbg==
+X-Gm-Message-State: AC+VfDwePy+JjfD/9p2cStLpZ5rLYljl9IynxDDiTxYtY2/gOyXLmMQB
+ 9IabridykdJfylKEWYjKpfu8SnUreFM=
+X-Google-Smtp-Source: ACHHUZ5Inx/7MAWKEs7ZRHNELufrm07cXNiJEd4w369xkOKF9xRWwiNhLKpHJgdpdzHj8uxvGpN6Sw==
+X-Received: by 2002:a05:6830:135a:b0:6a5:f8b6:ccd2 with SMTP id
+ r26-20020a056830135a00b006a5f8b6ccd2mr980673otq.16.1683304490785; 
+ Fri, 05 May 2023 09:34:50 -0700 (PDT)
+Received: from grind.. (189-46-207-53.dsl.telesp.net.br. [189.46.207.53])
+ by smtp.gmail.com with ESMTPSA id
+ z3-20020a9d62c3000000b006a43519523fsm1033475otk.1.2023.05.05.09.34.49
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 05 May 2023 09:34:50 -0700 (PDT)
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
+To: qemu-devel@nongnu.org
+Cc: qemu-ppc@nongnu.org,
+	danielhb413@gmail.com,
+	peter.maydell@linaro.org
+Subject: [PULL 0/6] ppc queue
+Date: Fri,  5 May 2023 13:34:38 -0300
+Message-Id: <20230505163444.347006-1-danielhb413@gmail.com>
+X-Mailer: git-send-email 2.40.1
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::330;
+ envelope-from=danielhb413@gmail.com; helo=mail-ot1-x330.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01,
- USER_IN_DEF_DKIM_WL=-7.5 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -115,105 +90,55 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, May 05, 2023, Micka=EF=BF=BDl Sala=EF=BF=BDn wrote:
-> diff --git a/arch/x86/include/asm/kvm_page_track.h b/arch/x86/include/asm=
-/kvm_page_track.h
-> index eb186bc57f6a..a7fb4ff888e6 100644
-> --- a/arch/x86/include/asm/kvm_page_track.h
-> +++ b/arch/x86/include/asm/kvm_page_track.h
-> @@ -3,6 +3,7 @@
->  #define _ASM_X86_KVM_PAGE_TRACK_H
-> =20
->  enum kvm_page_track_mode {
-> +	KVM_PAGE_TRACK_PREWRITE,
+The following changes since commit a9fe9e191b4305b88c356a1ed9ac3baf89eb18aa:
 
-Heh, just when I decide to finally kill off support for multiple modes[1] :=
--)
+  Merge tag 'pull-riscv-to-apply-20230505-1' of https://github.com/alistair23/qemu into staging (2023-05-05 09:25:13 +0100)
 
-My assessment from that changelog still holds true for this case:
+are available in the Git repository at:
 
-  Drop "support" for multiple page-track modes, as there is no evidence
-  that array-based and refcounted metadata is the optimal solution for
-  other modes, nor is there any evidence that other use cases, e.g. for
-  access-tracking, will be a good fit for the page-track machinery in
-  general.
- =20
-  E.g. one potential use case of access-tracking would be to prevent guest
-  access to poisoned memory (from the guest's perspective).  In that case,
-  the number of poisoned pages is likely to be a very small percentage of
-  the guest memory, and there is no need to reference count the number of
-  access-tracking users, i.e. expanding gfn_track[] for a new mode would be
-  grossly inefficient.  And for poisoned memory, host userspace would also
-  likely want to trap accesses, e.g. to inject #MC into the guest, and that
-  isn't currently supported by the page-track framework.
- =20
-  A better alternative for that poisoned page use case is likely a
-  variation of the proposed per-gfn attributes overlay (linked), which
-  would allow efficiently tracking the sparse set of poisoned pages, and by
-  default would exit to userspace on access.
+  https://gitlab.com/danielhb/qemu.git tags/pull-ppc-20230505
 
-Of particular relevance:
+for you to fetch changes up to b35261b1a6c2729fa7e7a6ca34b9489eda62b744:
 
-  - Using the page-track machinery is inefficient because the guest is like=
-ly
-    going to write-protect a minority of its memory.  And this
+  hw/ppc/Kconfig: NVDIMM is a hard requirement for the pseries machine (2023-05-05 12:34:22 -0300)
 
-      select KVM_EXTERNAL_WRITE_TRACKING if KVM
+----------------------------------------------------------------
+ppc patch queue for 2023-05-05:
 
-    is particularly nasty because simply enabling HEKI in the Kconfig will =
-cause
-    KVM to allocate rmaps and gfn tracking.
+This queue includes fixes for ppc and spapr emulation, a build fix for
+the pseries machine and a new reviewer for ppc/spapr.
 
-  - There's no need to reference count the protection, i.e. 15 of the 16 bi=
-ts of
-    gfn_track are dead weight.
+We're also carrying a Coverity fix for the sm501 display.
 
-  - As proposed, adding a second "mode" would double the cost of gfn tracki=
-ng.
+----------------------------------------------------------------
+BALATON Zoltan (1):
+      hw/display/sm501: Remove unneeded increment from loop
 
-  - Tying the protections to the memslots will create an impossible-to-main=
-tain
-    ABI because the protections will be lost if the owning memslot is delet=
-ed and
-    recreated.
+Harsh Prateek Bora (2):
+      ppc: spapr: cleanup cr get/set with helpers.
+      MAINTAINERS: Adding myself in the list for ppc/spapr
 
-  - The page-track framework provides incomplete protection and will lead t=
-o an
-    ongoing game of whack-a-mole, e.g. this patch catches the obvious cases=
- by
-    adding calls to kvm_page_track_prewrite(), but misses things like kvm_v=
-cpu_map().
+Shivaprasad G Bhat (2):
+      tcg: ppc64: Fix mask generation for vextractdm
+      tests: tcg: ppc64: Add tests for Vector Extract Mask Instructions
 
-  - The scaling and maintenance issues will only get worse if/when someone =
-tries
-    to support dropping read and/or execute permissions, e.g. for execute-o=
-nly.
+Thomas Huth (1):
+      hw/ppc/Kconfig: NVDIMM is a hard requirement for the pseries machine
 
-  - The code is x86-only, and is likely to stay that way for the foreseeabl=
-e
-    future.
-
-The proposed alternative is to piggyback the memory attributes implementati=
-on[2]
-that is being added (if all goes according to plan) for confidential VMs.  =
-This
-use case (dropping permissions) came up not too long ago[3], which is why I=
- have
-a ready-made answer).
-
-I have no doubt that we'll need to solve performance and scaling issues wit=
-h the
-memory attributes implementation, e.g. to utilize xarray multi-range suppor=
-t
-instead of storing information on a per-4KiB-page basis, but AFAICT, the co=
-re
-idea is sound.  And a very big positive from a maintenance perspective is t=
-hat
-any optimizations, fixes, etc. for one use case (CoCo vs. hardening) should=
- also
-benefit the other use case.
-
-[1] https://lore.kernel.org/all/20230311002258.852397-22-seanjc@google.com
-[2] https://lore.kernel.org/all/Y2WB48kD0J4VGynX@google.com
-[3] https://lore.kernel.org/all/Y1a1i9vbJ%2FpVmV9r@google.com
+ MAINTAINERS                         |  1 +
+ hw/display/sm501.c                  |  2 +-
+ hw/ppc/Kconfig                      |  2 +-
+ hw/ppc/spapr_hcall.c                | 18 ++-----------
+ linux-user/elfload.c                |  4 +--
+ linux-user/ppc/signal.c             |  9 ++-----
+ target/ppc/cpu.c                    | 17 +++++++++++++
+ target/ppc/cpu.h                    |  2 ++
+ target/ppc/gdbstub.c                | 22 +++-------------
+ target/ppc/kvm.c                    | 13 ++--------
+ target/ppc/ppc-qmp-cmds.c           |  6 +----
+ target/ppc/translate/vmx-impl.c.inc |  2 +-
+ tests/tcg/ppc64/Makefile.target     |  5 +++-
+ tests/tcg/ppc64/vector.c            | 51 +++++++++++++++++++++++++++++++++++++
+ 14 files changed, 90 insertions(+), 64 deletions(-)
+ create mode 100644 tests/tcg/ppc64/vector.c
 
