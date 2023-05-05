@@ -2,110 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 135156F7C81
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 May 2023 07:47:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 197DF6F7CBC
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 May 2023 08:05:00 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1puoGS-0004Um-6C; Fri, 05 May 2023 01:45:56 -0400
+	id 1puoXX-0001pk-W0; Fri, 05 May 2023 02:03:36 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yajunw@nvidia.com>) id 1puoGL-0004R7-OL
- for qemu-devel@nongnu.org; Fri, 05 May 2023 01:45:49 -0400
-Received: from mail-bn8nam11on2041.outbound.protection.outlook.com
- ([40.107.236.41] helo=NAM11-BN8-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yajunw@nvidia.com>) id 1puoGD-0005IB-2n
- for qemu-devel@nongnu.org; Fri, 05 May 2023 01:45:49 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=K9vjY5BsbwNlrD7U+RQDlKdGlt3rb97njKJz4XI70DGKoubJxtRa02Hzgv6AGPIppB8Bpogy7ItTOvr4xTd/xUvMmNJ99I1U77pM+sHAljYdcnSLR4NBXg0sM6Ef/ZmHgoQAJsCKu4ifZHEWqilOdh7CY+EicqFWKGHdPymiC04FFQqGaIlJRnrxhgezaER0gpLSlsE6SLIn+Ve0qB7X+j4exxdvC9lmXqqVK8LYLIjHJFzOvRb2+uE+WFj45tp+Dk9lqa2fna0S8tSJ5/+TH+oBBDAfR90JePbuNfApTyvDSycAYUcc8DrZnG3jhYevwNq5owVyHEbRzlWahekieg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=RB6viYA0niwqHvbytGvVwv2YuHctZkUCbMRu/zsZayI=;
- b=ZX1QXq/eppu5DNQ0mgntJtfTAnE5qszeuLoF5tpMXkO924p/u5s3F9j2BYogm42oI8B2D6q9d3avTg+3TiASSzJunJc3FcTssuF64oa7IFbVQKnbo+EAzTEfWGgkytpAdMz0IWc07GMIGnXH3q/FVnbFa9A7gqXPf4Mvoakbv87PS/FosGft4OdRNHlcy0R4HciQe+01pv5L1TFxePUValRPXdcVIGFeF2Gy29q3hP9miAHzSVwWw8i2hhBCfFXCVVuCbQrNwBgC25ZqIs35nBYOeTUOWqZunL9tv9zaF0MN2P7+45dMr2y4lGVUrGvMaLR+h8+HlNENXK10lv8Lqw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.117.161) smtp.rcpttodomain=nongnu.org smtp.mailfrom=nvidia.com;
- dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=RB6viYA0niwqHvbytGvVwv2YuHctZkUCbMRu/zsZayI=;
- b=nMQIseSekUAaah7TNNCtLee6djqT8i6zsxrz+UFW+02iGHKpERScqtykInKnCzM2td79Nxptpg+THJ6KBp6B8GobLnmAnO3jUsWLgAyGzBgy1pSG40+yj8T3l6aOVO8qonBl2OsVeVyC4YPBC21E0e0tYM0UgR6FunSmFKtDHIdoiVTfgQlk42kpB7Fgo5cz7UimM4upyt1aOePdaN7sxEPCSY/30vYNzB+UUgwYosR4FFwKQXYe2J6sxgkBSal/JQ/5g+97MkesH1e3cDJI0TPi8q06kcyE+dBJ3ocg8K7idzolYPILTCkX9cDkYoBrGHknq7i/8Cr9Y7BKhOXj4g==
-Received: from BYAPR05CA0041.namprd05.prod.outlook.com (2603:10b6:a03:74::18)
- by SA1PR12MB8644.namprd12.prod.outlook.com (2603:10b6:806:384::17)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6363.22; Fri, 5 May
- 2023 05:40:35 +0000
-Received: from DS1PEPF0000E630.namprd02.prod.outlook.com
- (2603:10b6:a03:74:cafe::7a) by BYAPR05CA0041.outlook.office365.com
- (2603:10b6:a03:74::18) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6387.12 via Frontend
- Transport; Fri, 5 May 2023 05:40:34 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.161)
- smtp.mailfrom=nvidia.com;
- dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.117.161 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.117.161; helo=mail.nvidia.com; pr=C
-Received: from mail.nvidia.com (216.228.117.161) by
- DS1PEPF0000E630.mail.protection.outlook.com (10.167.17.134) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.6363.21 via Frontend Transport; Fri, 5 May 2023 05:40:34 +0000
-Received: from rnnvmail201.nvidia.com (10.129.68.8) by mail.nvidia.com
- (10.129.200.67) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.5; Thu, 4 May 2023
- 22:40:15 -0700
-Received: from nvidia.com (10.126.231.37) by rnnvmail201.nvidia.com
- (10.129.68.8) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.37; Thu, 4 May 2023
- 22:40:13 -0700
-From: Yajun Wu <yajunw@nvidia.com>
-To: <qemu-devel@nongnu.org>, <mst@redhat.com>, <yajunw@nvidia.com>
-CC: Maxime Coquelin <maxime.coquelin@redhat.com>
-Subject: [PATCH] docs: vhost-user: VHOST_USER_GET_STATUS require reply
-Date: Fri, 5 May 2023 13:39:41 +0800
-Message-ID: <20230505053941.3597784-1-yajunw@nvidia.com>
-X-Mailer: git-send-email 2.27.0
+ (Exim 4.90_1) (envelope-from <shorne@gmail.com>) id 1puoXU-0001nh-BP
+ for qemu-devel@nongnu.org; Fri, 05 May 2023 02:03:32 -0400
+Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <shorne@gmail.com>) id 1puoXS-0003bs-L6
+ for qemu-devel@nongnu.org; Fri, 05 May 2023 02:03:32 -0400
+Received: by mail-wm1-x329.google.com with SMTP id
+ 5b1f17b1804b1-3f19a7f9424so13537635e9.2
+ for <qemu-devel@nongnu.org>; Thu, 04 May 2023 23:03:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1683266608; x=1685858608;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=erMcGjH/AfRnlWuu6TjU9DHb370xbuRseZpLF+74N84=;
+ b=iYCJFppdVqu+7nVvWKBLbHn1h9LVOhQu9CNPIbVkvzZhN+4wnPqfqaBDG8GQQ8Htl1
+ Az2jEQQd+2b8TRqxQ9kPekQ5tRIYBM493Z1a3R5J/dct64A/fQuJVDRLUeQvQpCg66fT
+ eEQHWpj5cjf6ypZ7SX8VcVPNRf/ZA9lTycPNTkPnxG1oNNJAzpRQ3urykN72HWqcdWuh
+ KCUPsi3PPo6I3DUbWPDcwR3BL4worPw1zQYta6WahqDv8W6SJmPJY7JDG8vMhdgfODOA
+ dex7Wh6cCFOzJTFziKux482A/0rqQ8PoccNzBvnmj39oeFRbGEDLlN6kOq/GXNObHnHm
+ 5SdQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1683266608; x=1685858608;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=erMcGjH/AfRnlWuu6TjU9DHb370xbuRseZpLF+74N84=;
+ b=R8sBBL/XtdcGCXFgHVt8Qh+9IXwMN2fKDEzcb/oG/UYPY7K3MPjSV0Pn50ZnfGusnZ
+ 0VWun2Hg1+HTCHimUkR2HRviuUlZS9iIGfVF1bET5UMV5hu1GzRFKn8lb1vKCRI6Xs63
+ xZHrdwFh96voTUHfMTKLlB6s5kjG6qGPPq51roQzEVn5lj2JxRrXVAVTeHzYOEjdrm4Y
+ 6j2PcsDia9zTwdZzemIIPkyIgzn0DDeP8L3Y+M2JyYg+hzhhrumJTl/quFdrs1AAppPR
+ 9uUiTqC7FwFv1Q1Moo8YUGKXRQw0VGRIoSMFVPUyIir9Jyp/QG42slvyQN3YqYqrj8lX
+ a8cA==
+X-Gm-Message-State: AC+VfDzbLI8Y5WR04gs5GT1BNvQ94YnlEejZlktyGF+LdeaSLrIU8CYB
+ Z4sPK5L5z7w+20MMvwZ4MJo=
+X-Google-Smtp-Source: ACHHUZ6m/Ea9osLy+hV7kqIKKSTUoKDq6BRsym2qJmOhsJY5rFLy7oyXICSj4gS6DULxSeDefsTMFQ==
+X-Received: by 2002:adf:fe51:0:b0:306:42e2:5ec3 with SMTP id
+ m17-20020adffe51000000b0030642e25ec3mr440635wrs.6.1683266607807; 
+ Thu, 04 May 2023 23:03:27 -0700 (PDT)
+Received: from localhost (cpc1-brnt4-2-0-cust862.4-2.cable.virginm.net.
+ [86.9.131.95]) by smtp.gmail.com with ESMTPSA id
+ n9-20020a5d51c9000000b0030635f6949fsm1204920wrv.103.2023.05.04.23.03.27
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 04 May 2023 23:03:27 -0700 (PDT)
+Date: Fri, 5 May 2023 07:03:26 +0100
+From: Stafford Horne <shorne@gmail.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH] scripts/coverity-scan: Add xtensa and openrisc components
+Message-ID: <ZFScLt0DvCqiG6IM@antec>
+References: <20230504134526.2748157-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.126.231.37]
-X-ClientProxiedBy: rnnvmail203.nvidia.com (10.129.68.9) To
- rnnvmail201.nvidia.com (10.129.68.8)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS1PEPF0000E630:EE_|SA1PR12MB8644:EE_
-X-MS-Office365-Filtering-Correlation-Id: 624ef84f-9706-4cb0-d083-08db4d2b3f7e
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: DLUoID7BAdLjh/mVuPluhj9xLpQALs9imGAiCFqTXtkZ1zZodgldy1CSYRpAfQ8Lpn7a2fcKI9RL78NLsZpOMtb06p2+4iPBq4xZc8ts9o4nzo5vr9iYWTMz4kIbO7WLNhJPubM/CtYGf8Sbjz2ecjWBfcd7KhA8F5TS56YVXz5PSbcGnnIWv34REZuGgA77CeIDgkbnlXrW2tZnug7lHpUbkk1zfuf+NOFeDEWs0pCAy81nk5bGcaxeCtU60ll2qAnu3HDruFjzSRP6UpYlqDgkN3+jHeFE3jNrh18U1rpUNTaUQZbqVQ5m7qkK2BKZ5+m1zVOXfsfumvcPgo+vOJ7BeOWu0IT9xapfssU0wZgybp3+EsBh2XHtMwBQwyXvEH9pp/nqMTcf3iYn/1jWutPjv+ljUjAyTj+9OZPBJMJgMPS+EmXVpjRQKLw8jlHpdVbkoS4avSn3AV0qIyHGf2qIPhkEjNlrVqNzBImwyQ2oPqB1yFC9vS3WD7a7kx0tqRsUJFhawoOPcpeh40ac52hS6RnCYY+zg5wjscWsH4pBCgNBTYmb8yElKC62XKF7Fhbu4p3Clab3M0DpSPcyWWW3YDRhPRa3IibtavyLRJsCkYHZWk67RRplc9i1xXWbfJjLXWUFNLL5YAub6z7+cnaxCdEpjGrQzRHf3VivtqE+p6bpwzWkVO5goAvSjpaMk/0iftkeDuBZ9cyWpiPUoQ==
-X-Forefront-Antispam-Report: CIP:216.228.117.161; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:mail.nvidia.com; PTR:dc6edge2.nvidia.com; CAT:NONE;
- SFS:(13230028)(4636009)(136003)(39860400002)(396003)(346002)(376002)(451199021)(40470700004)(36840700001)(46966006)(5660300002)(6666004)(7696005)(7049001)(83380400001)(36756003)(36860700001)(47076005)(426003)(55016003)(186003)(40480700001)(2616005)(7636003)(82310400005)(356005)(86362001)(16526019)(6286002)(336012)(40460700003)(82740400003)(26005)(1076003)(110136005)(2906002)(4326008)(4744005)(70206006)(70586007)(8676002)(316002)(8936002)(478600001)(41300700001);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 May 2023 05:40:34.5702 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 624ef84f-9706-4cb0-d083-08db4d2b3f7e
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a; Ip=[216.228.117.161];
- Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource: DS1PEPF0000E630.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB8644
-Received-SPF: softfail client-ip=40.107.236.41; envelope-from=yajunw@nvidia.com;
- helo=NAM11-BN8-obe.outbound.protection.outlook.com
-X-Spam_score_int: -22
-X-Spam_score: -2.3
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230504134526.2748157-1-peter.maydell@linaro.org>
+Received-SPF: pass client-ip=2a00:1450:4864:20::329;
+ envelope-from=shorne@gmail.com; helo=mail-wm1-x329.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.161,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -121,28 +88,36 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Add VHOST_USER_GET_STATUS to the list of requests that require a reply.
+On Thu, May 04, 2023 at 02:45:26PM +0100, Peter Maydell wrote:
+> We have two target architectures which don't have Coverity components
+> defined for them: xtensa and openrisc. Add them.
+> 
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> ---
+> As usual with coverity components, these will need to be added
+> manually via the scanner UI, since it has no import-from-file...
+> 
+>  scripts/coverity-scan/COMPONENTS.md | 6 ++++++
+>  1 file changed, 6 insertions(+)
+> 
+> diff --git a/scripts/coverity-scan/COMPONENTS.md b/scripts/coverity-scan/COMPONENTS.md
+> index 7c48e0f1d21..add7c5a279c 100644
+> --- a/scripts/coverity-scan/COMPONENTS.md
+> +++ b/scripts/coverity-scan/COMPONENTS.md
+> @@ -143,3 +143,9 @@ loongarch
+>  
+>  riscv
+>    ~ (/qemu)?((/include)?/hw/riscv/.*|/target/riscv/.*|/hw/.*/(riscv_|ibex_|sifive_).*)
+> +
+> +openrisc
+> +  ~ (/qemu)?((/include)?/hw/openrisc/.*|/target/openrisc/.*)
 
-Cc: Maxime Coquelin <maxime.coquelin@redhat.com>
-Cc: Michael S. Tsirkin <mst@redhat.com>
-Signed-off-by: Yajun Wu <yajunw@nvidia.com>
----
- docs/interop/vhost-user.rst | 1 +
- 1 file changed, 1 insertion(+)
+This looks good to me for OpenRISC.  Where can we view the coverity reports?
 
-diff --git a/docs/interop/vhost-user.rst b/docs/interop/vhost-user.rst
-index 8a5924ea75..2d13108284 100644
---- a/docs/interop/vhost-user.rst
-+++ b/docs/interop/vhost-user.rst
-@@ -299,6 +299,7 @@ replies. Here is a list of the ones that do:
- * ``VHOST_USER_GET_VRING_BASE``
- * ``VHOST_USER_SET_LOG_BASE`` (if ``VHOST_USER_PROTOCOL_F_LOG_SHMFD``)
- * ``VHOST_USER_GET_INFLIGHT_FD`` (if ``VHOST_USER_PROTOCOL_F_INFLIGHT_SHMFD``)
-+* ``VHOST_USER_GET_STATUS`` (if ``VHOST_USER_PROTOCOL_F_STATUS``)
- 
- .. seealso::
- 
--- 
-2.27.0
+  Is it this?: https://scan.coverity.com/projects/378
 
+Acked-by: Stafford Horne <shorne@gmail.com>
+
+> +xtensa
+> +  ~ (/qemu)?((/include)?/hw/xtensa/.*|/target/xtensa/.*)
 
