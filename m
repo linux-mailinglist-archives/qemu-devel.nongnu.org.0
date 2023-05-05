@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 525836F7A2A
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 May 2023 02:50:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 934226F7A26
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 May 2023 02:50:12 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pujcf-00044V-C2; Thu, 04 May 2023 20:48:33 -0400
+	id 1pujce-000442-8x; Thu, 04 May 2023 20:48:32 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pujce-000446-4O
- for qemu-devel@nongnu.org; Thu, 04 May 2023 20:48:32 -0400
+ id 1pujcc-00043n-Pf
+ for qemu-devel@nongnu.org; Thu, 04 May 2023 20:48:30 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pujcc-00012j-Jq
- for qemu-devel@nongnu.org; Thu, 04 May 2023 20:48:31 -0400
+ id 1pujcb-00012V-A8
+ for qemu-devel@nongnu.org; Thu, 04 May 2023 20:48:30 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1683247709;
+ s=mimecast20190719; t=1683247708;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=YtKvI1WJzYVsMbE/EK+nBjHl1ilu8w2PMv/EbvE8ANA=;
- b=S6sb26xlpT5mIDTTUv0m9kyvZ3/qbngKyt3KvHdRxLGmvln06I4AbIwGDsQGQaO5Yy2sW9
- diMD6mXalo85VZ1RpxLl2BW7lueokmvXWCfaCZW1yxzKfeA+RxRH8090GaNQ4sGBgMcoVQ
- BcmmYwxaqB6epTStjV6d47YvLaPwGO8=
+ bh=gNm4DW82Z409YsJ9FpFzOwIpuLsjtKWKrcswq7zNp+Y=;
+ b=adiCfZI6FZTnZBgK27OIgRXyerB+0hT7rbZUB4BLfjBdqCwBQNSNsez+c+TdcgtxNU9rZJ
+ pKQfGMWB7w4erkmQrC7h43sQyOCQ/jcE7J6ETttcRUV50BQlE8hWnAJpFTLC7rvu8mTKdt
+ tFIVps9H28aLI6CtbmX6yl1+ujZdev0=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-82-zcvXMxCcOFa5jhuE40G9Aw-1; Thu, 04 May 2023 20:48:25 -0400
-X-MC-Unique: zcvXMxCcOFa5jhuE40G9Aw-1
+ us-mta-96-qxKFEDzVPbmP3eIyIXOaAQ-1; Thu, 04 May 2023 20:48:27 -0400
+X-MC-Unique: qxKFEDzVPbmP3eIyIXOaAQ-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
  [10.11.54.2])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5FE67811E7C;
- Fri,  5 May 2023 00:48:24 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9A50485A588;
+ Fri,  5 May 2023 00:48:26 +0000 (UTC)
 Received: from secure.mitica (unknown [10.39.193.236])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7C659404B24D;
- Fri,  5 May 2023 00:48:22 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A5412404B24D;
+ Fri,  5 May 2023 00:48:24 +0000 (UTC)
 From: Juan Quintela <quintela@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Eric Blake <eblake@redhat.com>,
@@ -49,11 +49,11 @@ Cc: Eric Blake <eblake@redhat.com>,
  Stefan Hajnoczi <stefanha@redhat.com>, John Snow <jsnow@redhat.com>,
  Juan Quintela <quintela@redhat.com>, qemu-block@nongnu.org,
  Leonardo Bras <leobras@redhat.com>, Fam Zheng <fam@euphon.net>,
- Peter Xu <peterx@redhat.com>, David Edmondson <david.edmondson@oracle.com>,
+ Peter Xu <peterx@redhat.com>,
  =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>
-Subject: [PULL 04/16] migration: Put zero_pages in alphabetical order
-Date: Fri,  5 May 2023 02:48:00 +0200
-Message-Id: <20230505004812.31583-5-quintela@redhat.com>
+Subject: [PULL 05/16] migration: Rename xbzrle_enabled xbzrle_started
+Date: Fri,  5 May 2023 02:48:01 +0200
+Message-Id: <20230505004812.31583-6-quintela@redhat.com>
 In-Reply-To: <20230505004812.31583-1-quintela@redhat.com>
 References: <20230505004812.31583-1-quintela@redhat.com>
 MIME-Version: 1.0
@@ -84,42 +84,77 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-I forgot to move it when I rename it from duplicated_pages.
+Otherwise it is confusing with the function xbzrle_enabled().
 
-Message-Id: <20230504103357.22130-3-quintela@redhat.com>
-Reviewed-by: David Edmondson <david.edmondson@oracle.com>
+Suggested-by: Daniel P. Berrangé <berrange@redhat.com>
 Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+Reviewed-by: Peter Xu <peterx@redhat.com>
 Signed-off-by: Juan Quintela <quintela@redhat.com>
+Message-Id: <20230504115323.24407-1-quintela@redhat.com>
 ---
- migration/migration-stats.h | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ migration/ram.c | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
 
-diff --git a/migration/migration-stats.h b/migration/migration-stats.h
-index 50966328b2..cf8a4f0410 100644
---- a/migration/migration-stats.h
-+++ b/migration/migration-stats.h
-@@ -48,10 +48,6 @@ typedef struct {
-      * guest is stopped.
-      */
-     Stat64 downtime_bytes;
--    /*
--     * Number of pages transferred that were full of zeros.
--     */
--    Stat64 zero_pages;
-     /*
-      * Number of bytes sent through multifd channels.
-      */
-@@ -77,6 +73,10 @@ typedef struct {
-      * Total number of bytes transferred.
-      */
-     Stat64 transferred;
-+    /*
-+     * Number of pages transferred that were full of zeros.
-+     */
-+    Stat64 zero_pages;
- } MigrationAtomicStats;
+diff --git a/migration/ram.c b/migration/ram.c
+index 7d81c4a39e..23ba1cefff 100644
+--- a/migration/ram.c
++++ b/migration/ram.c
+@@ -388,8 +388,8 @@ struct RAMState {
+     uint64_t xbzrle_pages_prev;
+     /* Amount of xbzrle encoded bytes since the beginning of the period */
+     uint64_t xbzrle_bytes_prev;
+-    /* Start using XBZRLE (e.g., after the first round). */
+-    bool xbzrle_enabled;
++    /* Are we really using XBZRLE (e.g., after the first round). */
++    bool xbzrle_started;
+     /* Are we on the last stage of migration */
+     bool last_stage;
+     /* compression statistics since the beginning of the period */
+@@ -1420,7 +1420,7 @@ static int ram_save_page(RAMState *rs, PageSearchStatus *pss)
+     trace_ram_save_page(block->idstr, (uint64_t)offset, p);
  
- extern MigrationAtomicStats mig_stats;
+     XBZRLE_cache_lock();
+-    if (rs->xbzrle_enabled && !migration_in_postcopy()) {
++    if (rs->xbzrle_started && !migration_in_postcopy()) {
+         pages = save_xbzrle_page(rs, pss, &p, current_addr,
+                                  block, offset);
+         if (!rs->last_stage) {
+@@ -1636,7 +1636,7 @@ static int find_dirty_block(RAMState *rs, PageSearchStatus *pss)
+             pss->complete_round = true;
+             /* After the first round, enable XBZRLE. */
+             if (migrate_xbzrle()) {
+-                rs->xbzrle_enabled = true;
++                rs->xbzrle_started = true;
+             }
+         }
+         /* Didn't find anything this time, but try again on the new block */
+@@ -2288,7 +2288,7 @@ static bool save_page_use_compression(RAMState *rs)
+      * using the data compression. In theory, xbzrle can do better than
+      * compression.
+      */
+-    if (rs->xbzrle_enabled) {
++    if (rs->xbzrle_started) {
+         return false;
+     }
+ 
+@@ -2357,7 +2357,7 @@ static int ram_save_target_page_legacy(RAMState *rs, PageSearchStatus *pss)
+         /* Must let xbzrle know, otherwise a previous (now 0'd) cached
+          * page would be stale
+          */
+-        if (rs->xbzrle_enabled) {
++        if (rs->xbzrle_started) {
+             XBZRLE_cache_lock();
+             xbzrle_cache_zero_page(rs, block->offset + offset);
+             XBZRLE_cache_unlock();
+@@ -2738,7 +2738,7 @@ static void ram_state_reset(RAMState *rs)
+     rs->last_seen_block = NULL;
+     rs->last_page = 0;
+     rs->last_version = ram_list.version;
+-    rs->xbzrle_enabled = false;
++    rs->xbzrle_started = false;
+ }
+ 
+ #define MAX_WAIT 50 /* ms, half buffered_file limit */
 -- 
 2.40.0
 
