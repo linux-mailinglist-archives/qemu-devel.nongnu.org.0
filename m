@@ -2,80 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 018D46F7A92
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 May 2023 03:18:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 756F46F7A79
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 May 2023 03:15:07 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pujst-0006Z3-1Y; Thu, 04 May 2023 21:05:19 -0400
+	id 1pujsu-0006nJ-Bu; Thu, 04 May 2023 21:05:20 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1pujsn-000619-Ae
- for qemu-devel@nongnu.org; Thu, 04 May 2023 21:05:13 -0400
-Received: from mail-pg1-x532.google.com ([2607:f8b0:4864:20::532])
+ id 1pujsq-0006Oz-Ha
+ for qemu-devel@nongnu.org; Thu, 04 May 2023 21:05:16 -0400
+Received: from mail-pf1-x42b.google.com ([2607:f8b0:4864:20::42b])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1pujsk-00075p-8N
- for qemu-devel@nongnu.org; Thu, 04 May 2023 21:05:12 -0400
-Received: by mail-pg1-x532.google.com with SMTP id
- 41be03b00d2f7-52c62a71541so802419a12.3
- for <qemu-devel@nongnu.org>; Thu, 04 May 2023 18:05:09 -0700 (PDT)
+ id 1pujso-0007MO-7U
+ for qemu-devel@nongnu.org; Thu, 04 May 2023 21:05:16 -0400
+Received: by mail-pf1-x42b.google.com with SMTP id
+ d2e1a72fcca58-6434e263962so980528b3a.2
+ for <qemu-devel@nongnu.org>; Thu, 04 May 2023 18:05:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1683248709; x=1685840709;
+ d=gmail.com; s=20221208; t=1683248712; x=1685840712;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=yYb3jgvp3i5a/4dYFCqa9cduItL8MgsslnPx+itp/mo=;
- b=Zk27MJytHM71Coot1j5pkcVT3UAR5y9NnNYMmHzDsibgF8JEFITQCiS7JDNELF0HXG
- eSbXe2UJvpQ7ZyN+iVqeqSdpB11hxS24CxpS7G98qXXZhdXcDiVOv0czch+ifD+cKFjA
- 9asmTcqc3iw5YYhmbDPrMxoXgcne4l2vg07Cx01tJKEzDfejnDvPn1NI+XziOqup9J60
- 8C8821KVpf2zEVSDGwes3uUUDbV6wVO6KMzkd6+4OzGiJEVOu8As3cr0RE1HPiwbzZag
- DpYUn7ntH4029+cQkI3IhpoJ/znh2gCeWfv6jLclG+4M91ryqdMS0Jj8jxAU+FgzTSUL
- X0+A==
+ bh=8kYPc3zJuRBU7p7Cv5AbI6Y/Hrunw54E5HI30VRK+2Y=;
+ b=IF++k7cogYoTl11CLghfOkYPYUT1ws71FfU/YDWieSTsW/pDsf9mzkDDoinuS2uMfK
+ 4Fpx/oyYGJZMRpZ3Ty+VfaYXHOrUCxzR3eyMuE8TQ1GJ1f+ku3cVd817ivKGUgnsrxjK
+ eN1XLDqAVcp3ioQTDvX4UvQOW6oCx01gd6oycLmRuhzJcaQuCZ4rmx/ZLnT20RHQYs6r
+ Nbdphz6snpiJJSGzd1VvzRuX01c3EvEtvq+UjMNngS6biZyyKHjx9MhawEvesbcR6no8
+ FlSVKUUekGsBieLaSZd68OCRoJtR+tCMzx/W3ksQ6XfGywMpWW4hiJNSaNfmI45Xjhbf
+ SibA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683248709; x=1685840709;
+ d=1e100.net; s=20221208; t=1683248712; x=1685840712;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=yYb3jgvp3i5a/4dYFCqa9cduItL8MgsslnPx+itp/mo=;
- b=IFlBAHriBM6RbETOK1YU8ZbtEAQxiEYPPzdXuqjWuz7OQ3BSIHPEGQnHY+qnCwTMAA
- gZH+PvY8/zuqiKs2vz8kGkRUUCyuOryWx9cXjyPXtpIkDvoJDemeSWuKJHEps+OFHsoC
- SvhT4VvArPftNE1B6T8PfVTl7ZojB7qmu7xqFpy9c/kAOsEKXY3poqm/Ii3pXid9LJhY
- 1KER+wOi9hd4ULLt1AzA1l7spPfJ3Ruu3YBAiHxBUojJmu/CunfFd+3VCoK5A70ic4Dq
- dpVjHAfKt9R7XbBlJILcWyYa5Iws1UFrXSBh+WEqKXZxVW+5NoGJXls0m7/QhOHRmny7
- 53eQ==
-X-Gm-Message-State: AC+VfDwkSZC4lB2sE+AGjjDvksm1JsWCgqvZs1LqKLHqpct5qnV3W7jy
- UtasMiD0CKCGjW9LP2qQe11XWi4Jrn8Mfw==
-X-Google-Smtp-Source: ACHHUZ5nRdg5QPj1i32HxiTmqIrHYHsp6l6h2Wu26+oCqWWx8aFMUz+tksMUCE4OBA5IPx410M5NxQ==
-X-Received: by 2002:a17:903:245:b0:1a9:85f2:5df6 with SMTP id
- j5-20020a170903024500b001a985f25df6mr6540775plh.6.1683248709132; 
- Thu, 04 May 2023 18:05:09 -0700 (PDT)
+ bh=8kYPc3zJuRBU7p7Cv5AbI6Y/Hrunw54E5HI30VRK+2Y=;
+ b=d+BNPpv+g2Pc2jbiFKzmTejVM+VyCYZ2IBlBmSmwHBTrCMeAVF1zRjB0HRu8WVAhrm
+ 4IBjEIHxVzLjF6kRMPQGCsW47/std1Jeoehx5i7JLSJtvFzWhe2nl7Ad2qiJvfCbHMFv
+ gnZHJXLWdmutShW4rEydTka9/Q/bKKg60EXmp3Osto0YJtf5ilyXzCWD3/2w/ngakdsw
+ C0YgqEqWf5wZfppFRhROPSIpLvkb86W3EUUUWjbkIiL4tdSZI5H7eHL4vvrj7yyR2Myt
+ Sv3gjQWFCfWOLO/yfK5iIPR8tebVkNwsjKaKPSzhJVbJe7rNQxL23v7Vnq64yma+Gh9c
+ nICg==
+X-Gm-Message-State: AC+VfDxdF3Tqey6xZ0ozi5ELHlDIlTZbB46MBodIFnqLUvGcNIdOaqao
+ e6SUlqqiRbojZFHNQm1M5AGp0rcspcjDlw==
+X-Google-Smtp-Source: ACHHUZ5MNwzSaAzROaKXzn8/h85Izgwju2j57NElKFZ4bYPY1ErB/xQEeCJzY/4s4dKioQ3H/ablZQ==
+X-Received: by 2002:a17:902:b706:b0:1a8:1c9a:f68 with SMTP id
+ d6-20020a170902b70600b001a81c9a0f68mr5511480pls.36.1683248712523; 
+ Thu, 04 May 2023 18:05:12 -0700 (PDT)
 Received: from toolbox.alistair23.me
  (2403-580b-97e8-0-321-6fb2-58f1-a1b1.ip6.aussiebb.net.
  [2403:580b:97e8:0:321:6fb2:58f1:a1b1])
  by smtp.gmail.com with ESMTPSA id
- l19-20020a170902d35300b0019309be03e7sm218762plk.66.2023.05.04.18.05.06
+ l19-20020a170902d35300b0019309be03e7sm218762plk.66.2023.05.04.18.05.09
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 04 May 2023 18:05:08 -0700 (PDT)
+ Thu, 04 May 2023 18:05:12 -0700 (PDT)
 From: Alistair Francis <alistair23@gmail.com>
 X-Google-Original-From: Alistair Francis <alistair.francis@wdc.com>
 To: qemu-devel@nongnu.org
-Cc: alistair23@gmail.com, Weiwei Li <liweiwei@iscas.ac.cn>,
- Junqiang Wang <wangjunqiang@iscas.ac.cn>,
- LIU Zhiwei <zhiwei_liu@linux.alibaba.com>,
+Cc: alistair23@gmail.com, Daniel Henrique Barboza <dbarboza@ventanamicro.com>,
+ Weiwei Li <liweiwei@iscas.ac.cn>,
  Alistair Francis <alistair.francis@wdc.com>
-Subject: [PULL 32/89] hw/riscv: Add signature dump function for spike to run
- ACT tests
-Date: Fri,  5 May 2023 11:01:44 +1000
-Message-Id: <20230505010241.21812-33-alistair.francis@wdc.com>
+Subject: [PULL 33/89] target/riscv: sync env->misa_ext* with cpu->cfg in
+ realize()
+Date: Fri,  5 May 2023 11:01:45 +1000
+Message-Id: <20230505010241.21812-34-alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.40.0
 In-Reply-To: <20230505010241.21812-1-alistair.francis@wdc.com>
 References: <20230505010241.21812-1-alistair.francis@wdc.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::532;
- envelope-from=alistair23@gmail.com; helo=mail-pg1-x532.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42b;
+ envelope-from=alistair23@gmail.com; helo=mail-pf1-x42b.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -99,148 +98,183 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Weiwei Li <liweiwei@iscas.ac.cn>
+From: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
 
-Add signature and signature-granularity properties in spike to specify the target
-signatrue file and the line size for signature data.
+When riscv_cpu_realize() starts we're guaranteed to have cpu->cfg.ext_N
+properties updated. The same can't be said about env->misa_ext*, since
+the user might enable/disable MISA extensions in the command line, and
+env->misa_ext* won't caught these changes. The current solution is to
+sync everything at the end of validate_set_extensions(), checking every
+cpu->cfg.ext_N value to do a set_misa() in the end.
 
-Recgonize the signature section between begin_signature and end_signature symbols
-when loading elf of ACT tests. Then dump signature data in signature section just
-before the ACT tests exit.
+The last change we're making in the MISA cfg flags are in the G
+extension logic, enabling IMAFG if cpu->cfg_ext.g is enabled. Otherwise
+we're not making any changes in MISA bits ever since realize() starts.
 
-Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
-Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
-Reviewed-by: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
+There's no reason to postpone misa_ext updates until the end of the
+validation. Let's do it earlier, during realize(), in a new helper
+called riscv_cpu_sync_misa_cfg(). If cpu->cfg.ext_g is enabled, do it
+again by updating env->misa_ext* directly.
+
+This is a pre-requisite to allow riscv_cpu_validate_set_extensions() to
+use riscv_has_ext() instead of cpu->cfg.ext_N to validate the MISA
+extensions, which is our end goal here.
+
+Signed-off-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+Reviewed-by: Weiwei Li <liweiwei@iscas.ac.cn>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Message-Id: <20230405095720.75848-2-liweiwei@iscas.ac.cn>
+Message-Id: <20230406180351.570807-2-dbarboza@ventanamicro.com>
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- include/hw/char/riscv_htif.h |  3 +++
- hw/char/riscv_htif.c         | 44 +++++++++++++++++++++++++++++++++++-
- hw/riscv/spike.c             | 13 +++++++++++
- 3 files changed, 59 insertions(+), 1 deletion(-)
+ target/riscv/cpu.c | 94 +++++++++++++++++++++++++++-------------------
+ 1 file changed, 56 insertions(+), 38 deletions(-)
 
-diff --git a/include/hw/char/riscv_htif.h b/include/hw/char/riscv_htif.h
-index 5958c5b986..df493fdf6b 100644
---- a/include/hw/char/riscv_htif.h
-+++ b/include/hw/char/riscv_htif.h
-@@ -40,6 +40,9 @@ typedef struct HTIFState {
-     uint64_t pending_read;
- } HTIFState;
+diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+index cb68916fce..66de3bb33f 100644
+--- a/target/riscv/cpu.c
++++ b/target/riscv/cpu.c
+@@ -811,12 +811,11 @@ static void riscv_cpu_disas_set_info(CPUState *s, disassemble_info *info)
  
-+extern const char *sig_file;
-+extern uint8_t line_size;
+ /*
+  * Check consistency between chosen extensions while setting
+- * cpu->cfg accordingly, doing a set_misa() in the end.
++ * cpu->cfg accordingly.
+  */
+ static void riscv_cpu_validate_set_extensions(RISCVCPU *cpu, Error **errp)
+ {
+     CPURISCVState *env = &cpu->env;
+-    uint32_t ext = 0;
+ 
+     /* Do some ISA extension error checking */
+     if (cpu->cfg.ext_g && !(cpu->cfg.ext_i && cpu->cfg.ext_m &&
+@@ -831,6 +830,9 @@ static void riscv_cpu_validate_set_extensions(RISCVCPU *cpu, Error **errp)
+         cpu->cfg.ext_d = true;
+         cpu->cfg.ext_icsr = true;
+         cpu->cfg.ext_ifencei = true;
 +
- /* HTIF symbol callback */
- void htif_symbol_callback(const char *st_name, int st_info, uint64_t st_value,
-     uint64_t st_size);
-diff --git a/hw/char/riscv_htif.c b/hw/char/riscv_htif.c
-index 098de50e35..37d3ccc76b 100644
---- a/hw/char/riscv_htif.c
-+++ b/hw/char/riscv_htif.c
-@@ -29,6 +29,8 @@
- #include "chardev/char-fe.h"
- #include "qemu/timer.h"
- #include "qemu/error-report.h"
-+#include "exec/address-spaces.h"
-+#include "sysemu/dma.h"
- 
- #define RISCV_DEBUG_HTIF 0
- #define HTIF_DEBUG(fmt, ...)                                                   \
-@@ -51,7 +53,10 @@
- /* PK system call number */
- #define PK_SYS_WRITE            64
- 
--static uint64_t fromhost_addr, tohost_addr;
-+const char *sig_file;
-+uint8_t line_size = 16;
-+
-+static uint64_t fromhost_addr, tohost_addr, begin_sig_addr, end_sig_addr;
- 
- void htif_symbol_callback(const char *st_name, int st_info, uint64_t st_value,
-                           uint64_t st_size)
-@@ -68,6 +73,10 @@ void htif_symbol_callback(const char *st_name, int st_info, uint64_t st_value,
-             error_report("HTIF tohost must be 8 bytes");
-             exit(1);
-         }
-+    } else if (strcmp("begin_signature", st_name) == 0) {
-+        begin_sig_addr = st_value;
-+    } else if (strcmp("end_signature", st_name) == 0) {
-+        end_sig_addr = st_value;
++        env->misa_ext |= RVI | RVM | RVA | RVF | RVD;
++        env->misa_ext_mask = env->misa_ext;
      }
+ 
+     if (cpu->cfg.ext_i && cpu->cfg.ext_e) {
+@@ -1022,39 +1024,8 @@ static void riscv_cpu_validate_set_extensions(RISCVCPU *cpu, Error **errp)
+         cpu->cfg.ext_zksh = true;
+     }
+ 
+-    if (cpu->cfg.ext_i) {
+-        ext |= RVI;
+-    }
+-    if (cpu->cfg.ext_e) {
+-        ext |= RVE;
+-    }
+-    if (cpu->cfg.ext_m) {
+-        ext |= RVM;
+-    }
+-    if (cpu->cfg.ext_a) {
+-        ext |= RVA;
+-    }
+-    if (cpu->cfg.ext_f) {
+-        ext |= RVF;
+-    }
+-    if (cpu->cfg.ext_d) {
+-        ext |= RVD;
+-    }
+-    if (cpu->cfg.ext_c) {
+-        ext |= RVC;
+-    }
+-    if (cpu->cfg.ext_s) {
+-        ext |= RVS;
+-    }
+-    if (cpu->cfg.ext_u) {
+-        ext |= RVU;
+-    }
+-    if (cpu->cfg.ext_h) {
+-        ext |= RVH;
+-    }
+     if (cpu->cfg.ext_v) {
+         int vext_version = VEXT_VERSION_1_00_0;
+-        ext |= RVV;
+         if (!is_power_of_2(cpu->cfg.vlen)) {
+             error_setg(errp,
+                        "Vector extension VLEN must be power of 2");
+@@ -1092,11 +1063,6 @@ static void riscv_cpu_validate_set_extensions(RISCVCPU *cpu, Error **errp)
+         }
+         set_vext_version(env, vext_version);
+     }
+-    if (cpu->cfg.ext_j) {
+-        ext |= RVJ;
+-    }
+-
+-    set_misa(env, env->misa_mxl, ext);
  }
  
-@@ -163,6 +172,39 @@ static void htif_handle_tohost_write(HTIFState *s, uint64_t val_written)
-             if (payload & 0x1) {
-                 /* exit code */
-                 int exit_code = payload >> 1;
-+
-+                /*
-+                 * Dump signature data if sig_file is specified and
-+                 * begin/end_signature symbols exist.
-+                 */
-+                if (sig_file && begin_sig_addr && end_sig_addr) {
-+                    uint64_t sig_len = end_sig_addr - begin_sig_addr;
-+                    char *sig_data = g_malloc(sig_len);
-+                    dma_memory_read(&address_space_memory, begin_sig_addr,
-+                                    sig_data, sig_len, MEMTXATTRS_UNSPECIFIED);
-+                    FILE *signature = fopen(sig_file, "w");
-+                    if (signature == NULL) {
-+                        error_report("Unable to open %s with error %s",
-+                                     sig_file, strerror(errno));
-+                        exit(1);
-+                    }
-+
-+                    for (int i = 0; i < sig_len; i += line_size) {
-+                        for (int j = line_size; j > 0; j--) {
-+                            if (i + j <= sig_len) {
-+                                fprintf(signature, "%02x",
-+                                        sig_data[i + j - 1] & 0xff);
-+                            } else {
-+                                fprintf(signature, "%02x", 0);
-+                            }
-+                        }
-+                        fprintf(signature, "\n");
-+                    }
-+
-+                    fclose(signature);
-+                    g_free(sig_data);
-+                }
-+
-                 exit(exit_code);
-             } else {
-                 uint64_t syscall[8];
-diff --git a/hw/riscv/spike.c b/hw/riscv/spike.c
-index a584d5b3a2..2c5546560a 100644
---- a/hw/riscv/spike.c
-+++ b/hw/riscv/spike.c
-@@ -332,6 +332,11 @@ static void spike_board_init(MachineState *machine)
-                  htif_custom_base);
+ #ifndef CONFIG_USER_ONLY
+@@ -1181,6 +1147,50 @@ static void riscv_cpu_finalize_features(RISCVCPU *cpu, Error **errp)
+ #endif
  }
  
-+static void spike_set_signature(Object *obj, const char *val, Error **errp)
++static void riscv_cpu_sync_misa_cfg(CPURISCVState *env)
 +{
-+    sig_file = g_strdup(val);
++    uint32_t ext = 0;
++
++    if (riscv_cpu_cfg(env)->ext_i) {
++        ext |= RVI;
++    }
++    if (riscv_cpu_cfg(env)->ext_e) {
++        ext |= RVE;
++    }
++    if (riscv_cpu_cfg(env)->ext_m) {
++        ext |= RVM;
++    }
++    if (riscv_cpu_cfg(env)->ext_a) {
++        ext |= RVA;
++    }
++    if (riscv_cpu_cfg(env)->ext_f) {
++        ext |= RVF;
++    }
++    if (riscv_cpu_cfg(env)->ext_d) {
++        ext |= RVD;
++    }
++    if (riscv_cpu_cfg(env)->ext_c) {
++        ext |= RVC;
++    }
++    if (riscv_cpu_cfg(env)->ext_s) {
++        ext |= RVS;
++    }
++    if (riscv_cpu_cfg(env)->ext_u) {
++        ext |= RVU;
++    }
++    if (riscv_cpu_cfg(env)->ext_h) {
++        ext |= RVH;
++    }
++    if (riscv_cpu_cfg(env)->ext_v) {
++        ext |= RVV;
++    }
++    if (riscv_cpu_cfg(env)->ext_j) {
++        ext |= RVJ;
++    }
++
++    env->misa_ext = env->misa_ext_mask = ext;
 +}
 +
- static void spike_machine_instance_init(Object *obj)
+ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
  {
- }
-@@ -350,6 +355,14 @@ static void spike_machine_class_init(ObjectClass *oc, void *data)
-     mc->get_default_cpu_node_id = riscv_numa_get_default_cpu_node_id;
-     mc->numa_mem_supported = true;
-     mc->default_ram_id = "riscv.spike.ram";
-+    object_class_property_add_str(oc, "signature", NULL, spike_set_signature);
-+    object_class_property_set_description(oc, "signature",
-+                                          "File to write ACT test signature");
-+    object_class_property_add_uint8_ptr(oc, "signature-granularity",
-+                                        &line_size, OBJ_PROP_FLAG_WRITE);
-+    object_class_property_set_description(oc, "signature-granularity",
-+                                          "Size of each line in ACT signature "
-+                                          "file");
- }
+     CPUState *cs = CPU(dev);
+@@ -1216,6 +1226,14 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
+         set_priv_version(env, priv_version);
+     }
  
- static const TypeInfo spike_machine_typeinfo = {
++    /*
++     * We can't be sure of whether we set defaults during cpu_init()
++     * or whether the user enabled/disabled some bits via cpu->cfg
++     * flags. Sync env->misa_ext with cpu->cfg now to allow us to
++     * use just env->misa_ext later.
++     */
++    riscv_cpu_sync_misa_cfg(env);
++
+     /* Force disable extensions if priv spec version does not match */
+     for (i = 0; i < ARRAY_SIZE(isa_edata_arr); i++) {
+         if (isa_ext_is_enabled(cpu, &isa_edata_arr[i]) &&
 -- 
 2.40.0
 
