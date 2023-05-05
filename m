@@ -2,77 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 123826F85DE
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 May 2023 17:32:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F7EF6F8597
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 May 2023 17:25:13 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1puxOz-0008AK-La; Fri, 05 May 2023 11:31:21 -0400
+	id 1puxHc-0003m5-3Y; Fri, 05 May 2023 11:23:44 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mic@digikod.net>) id 1puxG8-0003FT-4k
- for qemu-devel@nongnu.org; Fri, 05 May 2023 11:22:12 -0400
-Received: from smtp-bc0d.mail.infomaniak.ch ([45.157.188.13])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mic@digikod.net>) id 1puxG5-0003k2-8q
- for qemu-devel@nongnu.org; Fri, 05 May 2023 11:22:11 -0400
-Received: from smtp-3-0001.mail.infomaniak.ch (unknown [10.4.36.108])
- by smtp-2-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4QCZDH0FZXzMqc7P;
- Fri,  5 May 2023 17:22:07 +0200 (CEST)
-Received: from unknown by smtp-3-0001.mail.infomaniak.ch (Postfix) with ESMTPA
- id 4QCZDG2bp6zMpxBc; Fri,  5 May 2023 17:22:06 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=digikod.net;
- s=20191114; t=1683300126;
- bh=6hEUXV1Yu+QqE06q6YV92ksgcTE4SSVMGFp/YRlUSqM=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=cCom6GYQLGlk2nCbcclR8AZKUkW0AJpZFC6wR92gff0rbAnNjJlFfzBd5J+3y++84
- WAx+LLa8CAjewu98goOyt+2vh84ogydmCURfKSQ02P+jr2VYlfAmiT9Knsjn08r/LT
- Tng2aFdb73PL8bp/dTy6vPMFTznPlq63+NzYf8sI=
-From: =?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@digikod.net>
-To: Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
- "H . Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
- Kees Cook <keescook@chromium.org>, Paolo Bonzini <pbonzini@redhat.com>,
- Sean Christopherson <seanjc@google.com>,
- Thomas Gleixner <tglx@linutronix.de>,
- Vitaly Kuznetsov <vkuznets@redhat.com>, Wanpeng Li <wanpengli@tencent.com>
-Cc: =?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@digikod.net>,
- Alexander Graf <graf@amazon.com>, Forrest Yuan Yu <yuanyu@google.com>,
- James Morris <jamorris@linux.microsoft.com>,
- John Andersen <john.s.andersen@intel.com>,
- Liran Alon <liran.alon@oracle.com>,
- "Madhavan T . Venkataraman" <madvenka@linux.microsoft.com>,
- Marian Rotariu <marian.c.rotariu@gmail.com>,
- =?UTF-8?q?Mihai=20Don=C8=9Bu?= <mdontu@bitdefender.com>,
- =?UTF-8?q?Nicu=C8=99or=20C=C3=AE=C8=9Bu?= <nicu.citu@icloud.com>,
- Rick Edgecombe <rick.p.edgecombe@intel.com>,
- Thara Gopinath <tgopinath@microsoft.com>, Will Deacon <will@kernel.org>,
- Zahra Tarkhani <ztarkhani@microsoft.com>,
- =?UTF-8?q?=C8=98tefan=20=C8=98icleru?= <ssicleru@bitdefender.com>,
- dev@lists.cloudhypervisor.org, kvm@vger.kernel.org,
- linux-hardening@vger.kernel.org, linux-hyperv@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-security-module@vger.kernel.org,
- qemu-devel@nongnu.org, virtualization@lists.linux-foundation.org,
- x86@kernel.org, xen-devel@lists.xenproject.org
-Subject: [PATCH v1 9/9] virt: Add Heki KUnit tests
-Date: Fri,  5 May 2023 17:20:46 +0200
-Message-Id: <20230505152046.6575-10-mic@digikod.net>
-In-Reply-To: <20230505152046.6575-1-mic@digikod.net>
-References: <20230505152046.6575-1-mic@digikod.net>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1puxHY-0003lT-Hz
+ for qemu-devel@nongnu.org; Fri, 05 May 2023 11:23:40 -0400
+Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1puxHW-0004HC-Qi
+ for qemu-devel@nongnu.org; Fri, 05 May 2023 11:23:40 -0400
+Received: by mail-wm1-x332.google.com with SMTP id
+ 5b1f17b1804b1-3f19ab99540so19520405e9.2
+ for <qemu-devel@nongnu.org>; Fri, 05 May 2023 08:23:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1683300217; x=1685892217;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=nULmwqRArJVOlCdKn+vIWt2XipVLnQQrH7mkW2UUhJc=;
+ b=rbWlHY1uCt/Itni7TDf/wr9FHOkpQhBLCjlnVSUCPVuo8/mJInlbd4zegLSBfpLekq
+ VReGpLFCX3hc+PhW9AbNCd2/woIW2WmrS4x6XTsn9pTLIV8zQ+/14yu91xzNmezNOPsq
+ 0iqVpsHCPkR/xBT2qjaKRDcI8h1xjAVeRMvLP9vbsuagjJSD0amJJEKZp84TSKeo8r+J
+ IfMIfiTUqTdB7jK42p20H7U/+tU+7xrr+bRDIp4QtYBamLngRdW0iF/5P7FmuHrc3tak
+ Dxbnp2XDIZ5zDH810t1DsuIewytBRuOnNIs9iVNM3U6HUulmP8QydY/ZM+dOxdEPehGH
+ 0oyA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1683300217; x=1685892217;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=nULmwqRArJVOlCdKn+vIWt2XipVLnQQrH7mkW2UUhJc=;
+ b=UxEyoPKfA7/URD7xo3RDptJFHT29arIQqrQTxD3WKhp+MJzd76HcFbkxSgfLHvj0Ow
+ 1lqf+0E2jaLRdw9A/NvmpWXbOCCdcZBSvnNoFHRDjYYNhPD3e12VBCwu1pwpusVBsOwp
+ E22Cckxq78CIkFqs0GAkmP4Vi7hR7xycNtLHWehFS2vUTPM84QlCTGlCG6QlE0ntGMyC
+ dpT/OtKHc/ihJ5eHUGBXYKOJIs/WUUK1OcX4Ewmput17WkNygxWZvAVqWIvxF/jexNkr
+ ht6hXZH09Trj7QNVKYjA4EZjvsbk8Ocl4NuaMLWgcOlPD6Puj3YVviHMU9bd3LWDwzU0
+ wqDA==
+X-Gm-Message-State: AC+VfDzXq8ETLpPunvxyq/K8fnRqhAPZluLPG7guf9UdampHjMte4yRx
+ HADPWG33zGhsU+YE0CfVWqAyCQ==
+X-Google-Smtp-Source: ACHHUZ7JQt9EqgQZwEKkuubRyF4DMy6nEqLH+McbTD8T8s4CHRNvc/Vti9RSLCl21e5hMHYPNQ/eAw==
+X-Received: by 2002:a1c:ed13:0:b0:3f1:662a:93c4 with SMTP id
+ l19-20020a1ced13000000b003f1662a93c4mr1475711wmh.36.1683300216982; 
+ Fri, 05 May 2023 08:23:36 -0700 (PDT)
+Received: from [192.168.20.44] ([212.241.182.8])
+ by smtp.gmail.com with ESMTPSA id
+ x9-20020adfec09000000b002faaa9a1721sm2679834wrn.58.2023.05.05.08.23.36
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 05 May 2023 08:23:36 -0700 (PDT)
+Message-ID: <bac2a436-c071-0716-c699-21a6a7b59d73@linaro.org>
+Date: Fri, 5 May 2023 16:23:35 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH] target/ppc: Fix fallback to MFSS for MFFSCRN, MFFSCRNI,
+ MFFSCE and MFFSL
+Content-Language: en-US
+To: "Matheus K. Ferst" <matheus.ferst@eldorado.org.br>,
+ Richard Purdie <richard.purdie@linuxfoundation.org>, qemu-devel@nongnu.org
+Cc: =?UTF-8?Q?V=c3=adctor_Colombo?= <victor.colombo@eldorado.org.br>,
+ Daniel Henrique Barboza <danielhb413@gmail.com>
+References: <20230504110150.3044402-1-richard.purdie@linuxfoundation.org>
+ <1f22eb31-7573-cbca-bc9a-6d4ef5d1b71d@eldorado.org.br>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <1f22eb31-7573-cbca-bc9a-6d4ef5d1b71d@eldorado.org.br>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Infomaniak-Routing: alpha
-Received-SPF: pass client-ip=45.157.188.13; envelope-from=mic@digikod.net;
- helo=smtp-bc0d.mail.infomaniak.ch
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::332;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x332.google.com
+X-Spam_score_int: -63
+X-Spam_score: -6.4
+X-Spam_bar: ------
+X-Spam_report: (-6.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-4.28,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Fri, 05 May 2023 11:31:06 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,296 +98,95 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-This adds a new CONFIG_HEKI_TEST option to run tests at boot.  Indeed,
-because this patch series forbids the loading of kernel modules after
-the boot, we need to make built-in tests.  Furthermore, because we use
-some symbols not exported to modules (e.g., kernel_set_to_readonly) this
-could not work as modules.
+On 5/4/23 18:17, Matheus K. Ferst wrote:
+> On 04/05/2023 08:01, Richard Purdie wrote:
+>> The following commits changed the code such that these instructions became invalid
+>> on pre 3.0 ISAs:
+>>
+>>    bf8adfd88b547680aa857c46098f3a1e94373160 - target/ppc: Move mffscrn[i] to decodetree
+>>    394c2e2fda70da722f20fb60412d6c0ca4bfaa03 - target/ppc: Move mffsce to decodetree
+>>    3e5bce70efe6bd1f684efbb21fd2a316cbf0657e - target/ppc: Move mffsl to decodetree
+>>
+>> The hardware will handle them as a MFFS instruction as the code did previously.
+>> Restore that behaviour. This means applications that were segfaulting under qemu
+>> when encountering these instructions now operate correctly. The instruction
+>> is used in glibc libm functions for example.
+>>
+>> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+>> ---
+>>   target/ppc/translate/fp-impl.c.inc | 20 ++++++++++++++++----
+>>   1 file changed, 16 insertions(+), 4 deletions(-)
+>>
+>> diff --git a/target/ppc/translate/fp-impl.c.inc b/target/ppc/translate/fp-impl.c.inc
+>> index 57d8437851..cb86381c3f 100644
+>> --- a/target/ppc/translate/fp-impl.c.inc
+>> +++ b/target/ppc/translate/fp-impl.c.inc
+>> @@ -584,7 +584,10 @@ static bool trans_MFFSCE(DisasContext *ctx, arg_X_t *a)
+>>   {
+>>       TCGv_i64 fpscr;
+>>
+>> -    REQUIRE_INSNS_FLAGS2(ctx, ISA300);
+>> +    if (unlikely(!(ctx->insns_flags2 & PPC2_ISA300))) {
+>> +        return trans_MFFS(ctx, a);
+>> +    }
+>> +
+> 
+> Hi Richard, nice catch!
+> 
+> I believe this may be better addressed by decodetree pattern groups, e.g.:
+> 
+> On insns32.decode:
+> {
+>    # Before Power ISA v3.0, MFFS bits 11~15 were reserved and should be ignored
+>    MFFS_ISA207   111111 ..... ----- ----- 1001000111 .   @X_t_rc
+>    [
+>      MFFS        111111 ..... 00000 ----- 1001000111 .   @X_t_rc
+>      MFFSCE      111111 ..... 00001 ----- 1001000111 -   @X_t
+>      MFFSCRN     111111 ..... 10110 ..... 1001000111 -   @X_tb
+>      MFFSCDRN    111111 ..... 10100 ..... 1001000111 -   @X_tb
+>      MFFSCRNI    111111 ..... 10111 ---.. 1001000111 -   @X_imm2
+>      MFFSCDRNI   111111 ..... 10101 --... 1001000111 -   @X_imm3
+>      MFFSL       111111 ..... 11000 ----- 1001000111 -   @X_t
+>    ]
+> }
+> 
+> And on fp-impl.c.inc:
+> static bool trans_MFFS_ISA207(DisasContext *ctx, arg_X_t_rc *a)
+> {
+>      if (!(ctx->insns_flags2 & PPC2_ISA300)) {
+>          /*
+>           * Before Power ISA v3.0, MFFS bits 11~15 were reserved, any instruction
+>           * with OPCD=63 and XO=583 should be decoded as MFFS.
+>           */
+>          return trans_MFFS(ctx, a);
+>      }
+>      /*
+>       * For Power ISA v3.0+, return false and let the pattern group
+>       * select the correct instruction.
+>       */
+>      return false;
+> }
 
-To run these tests, we need to boot the kernel with the heki_test=N boot
-argument with N selecting a specific test:
-1. heki_test_cr_disable_smep: Check CR pinning and try to disable SMEP.
-2. heki_test_write_to_const: Check .rodata (const) protection.
-3. heki_test_write_to_ro_after_init: Check __ro_after_init protection.
-4. heki_test_exec: Check non-executable kernel memory.
+Not quite.  Should be
 
-This way to select tests should not be required when the kernel will
-properly handle the triggered synthetic page faults.  For now, these
-page faults make the kernel loop.
+{
+   [
+     MFFSCE  111111 ..... 00001 ----- 1001000111 -  @X_t
+     ...
+     MFFSL   111111 ..... 11000 ----- 1001000111 -  @X_t
+   ]
+   MFFS      111111 ..... ----- ----- 1001000111 .  @X_t_rc
+}
 
-All these tests temporarily disable the related kernel self-protections
-and should then failed if Heki doesn't protect the kernel.  They are
-verbose to make it easier to understand what is going on.
+where all of the 3.0 insns do
 
-Cc: Borislav Petkov <bp@alien8.de>
-Cc: Dave Hansen <dave.hansen@linux.intel.com>
-Cc: H. Peter Anvin <hpa@zytor.com>
-Cc: Ingo Molnar <mingo@redhat.com>
-Cc: Kees Cook <keescook@chromium.org>
-Cc: Madhavan T. Venkataraman <madvenka@linux.microsoft.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>
-Cc: Sean Christopherson <seanjc@google.com>
-Cc: Thomas Gleixner <tglx@linutronix.de>
-Cc: Vitaly Kuznetsov <vkuznets@redhat.com>
-Cc: Wanpeng Li <wanpengli@tencent.com>
-Signed-off-by: Mickaël Salaün <mic@digikod.net>
-Link: https://lore.kernel.org/r/20230505152046.6575-10-mic@digikod.net
----
- virt/heki/Kconfig |  12 +++
- virt/heki/heki.c  | 194 +++++++++++++++++++++++++++++++++++++++++++++-
- 2 files changed, 205 insertions(+), 1 deletion(-)
+     if (!(ctx->insns_flags2 & PPC2_ISA300)) {
+         return false;
+     }
 
-diff --git a/virt/heki/Kconfig b/virt/heki/Kconfig
-index 96f18ce03013..806981f2b22d 100644
---- a/virt/heki/Kconfig
-+++ b/virt/heki/Kconfig
-@@ -27,3 +27,15 @@ config HYPERVISOR_SUPPORTS_HEKI
- 	  A hypervisor should select this when it can successfully build
- 	  and run with CONFIG_HEKI. That is, it should provide all of the
- 	  hypervisor support required for the Heki feature.
-+
-+config HEKI_TEST
-+	bool "Tests for Heki" if !KUNIT_ALL_TESTS
-+	depends on HEKI && KUNIT=y
-+	default KUNIT_ALL_TESTS
-+	help
-+	  Run Heki tests at runtime according to the heki_test=N boot
-+	  parameter, with N identifying the test to run (between 1 and 4).
-+
-+	  Before launching the init process, the system might not respond
-+	  because of unhandled kernel page fault.  This will be fixed in a
-+	  next patch series.
-diff --git a/virt/heki/heki.c b/virt/heki/heki.c
-index 142b5dc98a2f..361e7734e950 100644
---- a/virt/heki/heki.c
-+++ b/virt/heki/heki.c
-@@ -5,11 +5,13 @@
-  * Copyright © 2023 Microsoft Corporation
-  */
- 
-+#include <kunit/test.h>
- #include <linux/cache.h>
- #include <linux/heki.h>
- #include <linux/kernel.h>
- #include <linux/mm.h>
- #include <linux/printk.h>
-+#include <linux/set_memory.h>
- #include <linux/types.h>
- #include <linux/vmalloc.h>
- 
-@@ -78,13 +80,201 @@ void __init heki_early_init(void)
- 	heki_arch_init();
- }
- 
-+#ifdef CONFIG_HEKI_TEST
-+
-+/* Heki test data */
-+
-+/* Takes two pages to not change permission of other read-only pages. */
-+const char heki_test_const_buf[PAGE_SIZE * 2] = {};
-+char heki_test_ro_after_init_buf[PAGE_SIZE * 2] __ro_after_init = {};
-+
-+long heki_test_exec_data(long);
-+void _test_exec_data_end(void);
-+
-+/* Used to test ROP execution against the .rodata section. */
-+/* clang-format off */
-+asm(
-+".pushsection .rodata;" // NOT .text section
-+".global heki_test_exec_data;"
-+".type heki_test_exec_data, @function;"
-+"heki_test_exec_data:"
-+ASM_ENDBR
-+"movq %rdi, %rax;"
-+"inc %rax;"
-+ASM_RET
-+".size heki_test_exec_data, .-heki_test_exec_data;"
-+"_test_exec_data_end:"
-+".popsection");
-+/* clang-format on */
-+
-+static void heki_test_cr_disable_smep(struct kunit *test)
-+{
-+	unsigned long cr4;
-+
-+	/* SMEP should be initially enabled. */
-+	KUNIT_ASSERT_TRUE(test, __read_cr4() & X86_CR4_SMEP);
-+
-+	kunit_warn(test,
-+		   "Starting control register pinning tests with SMEP check\n");
-+
-+	/*
-+	 * Trying to disable SMEP, bypassing kernel self-protection by not
-+	 * using cr4_clear_bits(X86_CR4_SMEP).
-+	 */
-+	cr4 = __read_cr4() & ~X86_CR4_SMEP;
-+	asm volatile("mov %0,%%cr4" : "+r"(cr4) : : "memory");
-+
-+	/* SMEP should still be enabled. */
-+	KUNIT_ASSERT_TRUE(test, __read_cr4() & X86_CR4_SMEP);
-+}
-+
-+static inline void print_addr(struct kunit *test, const char *const buf_name,
-+			      void *const buf)
-+{
-+	const pte_t pte = *virt_to_kpte((unsigned long)buf);
-+	const phys_addr_t paddr = slow_virt_to_phys(buf);
-+	bool present = pte_flags(pte) & (_PAGE_PRESENT);
-+	bool accessible = pte_accessible(&init_mm, pte);
-+
-+	kunit_warn(
-+		test,
-+		"%s vaddr:%llx paddr:%llx exec:%d write:%d present:%d accessible:%d\n",
-+		buf_name, (unsigned long long)buf, paddr, !!pte_exec(pte),
-+		!!pte_write(pte), present, accessible);
-+}
-+
-+extern int kernel_set_to_readonly;
-+
-+static void heki_test_write_to_rodata(struct kunit *test,
-+				      const char *const buf_name,
-+				      char *const ro_buf)
-+{
-+	print_addr(test, buf_name, (void *)ro_buf);
-+	KUNIT_EXPECT_EQ(test, 0, *ro_buf);
-+
-+	kunit_warn(
-+		test,
-+		"Bypassing kernel self-protection: mark memory as writable\n");
-+	kernel_set_to_readonly = 0;
-+	/*
-+	 * Removes execute permission that might be set by bugdoor-exec,
-+	 * because change_page_attr_clear() is not use by set_memory_rw().
-+	 * This is required since commit 652c5bf380ad ("x86/mm: Refuse W^X
-+	 * violations").
-+	 */
-+	KUNIT_ASSERT_FALSE(test, set_memory_nx((unsigned long)PTR_ALIGN_DOWN(
-+						       ro_buf, PAGE_SIZE),
-+					       1));
-+	KUNIT_ASSERT_FALSE(test, set_memory_rw((unsigned long)PTR_ALIGN_DOWN(
-+						       ro_buf, PAGE_SIZE),
-+					       1));
-+	kernel_set_to_readonly = 1;
-+
-+	kunit_warn(test, "Trying memory write\n");
-+	*ro_buf = 0x11;
-+	KUNIT_EXPECT_EQ(test, 0, *ro_buf);
-+	kunit_warn(test, "New content: 0x%02x\n", *ro_buf);
-+}
-+
-+static void heki_test_write_to_const(struct kunit *test)
-+{
-+	heki_test_write_to_rodata(test, "const_buf",
-+				  (void *)heki_test_const_buf);
-+}
-+
-+static void heki_test_write_to_ro_after_init(struct kunit *test)
-+{
-+	heki_test_write_to_rodata(test, "ro_after_init_buf",
-+				  (void *)heki_test_ro_after_init_buf);
-+}
-+
-+typedef long test_exec_t(long);
-+
-+static void heki_test_exec(struct kunit *test)
-+{
-+	const size_t exec_size = 7;
-+	unsigned long nx_page_start = (unsigned long)PTR_ALIGN_DOWN(
-+		(const void *const)heki_test_exec_data, PAGE_SIZE);
-+	unsigned long nx_page_end = (unsigned long)PTR_ALIGN(
-+		(const void *const)heki_test_exec_data + exec_size, PAGE_SIZE);
-+	test_exec_t *exec = (test_exec_t *)heki_test_exec_data;
-+	long ret;
-+
-+	/* Starting non-executable memory tests. */
-+	print_addr(test, "test_exec_data", heki_test_exec_data);
-+
-+	kunit_warn(
-+		test,
-+		"Bypassing kernel-self protection: mark memory as executable\n");
-+	kernel_set_to_readonly = 0;
-+	KUNIT_ASSERT_FALSE(test,
-+			   set_memory_rox(nx_page_start,
-+					  PFN_UP(nx_page_end - nx_page_start)));
-+	kernel_set_to_readonly = 1;
-+
-+	kunit_warn(
-+		test,
-+		"Trying to execute data (ROP) in (initially) non-executable memory\n");
-+	ret = exec(3);
-+
-+	/* This should not be reached because of the uncaught page fault. */
-+	KUNIT_EXPECT_EQ(test, 3, ret);
-+	kunit_warn(test, "Result of execution: 3 + 1 = %ld\n", ret);
-+}
-+
-+const struct kunit_case heki_test_cases[] = {
-+	KUNIT_CASE(heki_test_cr_disable_smep),
-+	KUNIT_CASE(heki_test_write_to_const),
-+	KUNIT_CASE(heki_test_write_to_ro_after_init),
-+	KUNIT_CASE(heki_test_exec),
-+	{}
-+};
-+
-+static unsigned long heki_test __ro_after_init;
-+
-+static int __init parse_heki_test_config(char *str)
-+{
-+	if (kstrtoul(str, 10, &heki_test) ||
-+	    heki_test > (ARRAY_SIZE(heki_test_cases) - 1))
-+		pr_warn("Invalid option string for heki_test: '%s'\n", str);
-+	return 1;
-+}
-+
-+__setup("heki_test=", parse_heki_test_config);
-+
-+static void heki_run_test(void)
-+{
-+	struct kunit_case heki_test_case[2] = {};
-+	struct kunit_suite heki_test_suite = {
-+		.name = "heki",
-+		.test_cases = heki_test_case,
-+	};
-+	struct kunit_suite *const test_suite = &heki_test_suite;
-+
-+	if (!kunit_enabled() || heki_test == 0 ||
-+	    heki_test >= ARRAY_SIZE(heki_test_cases))
-+		return;
-+
-+	pr_warn("Running test #%lu\n", heki_test);
-+	heki_test_case[0] = heki_test_cases[heki_test - 1];
-+	__kunit_test_suites_init(&test_suite, 1);
-+}
-+
-+#else /* CONFIG_HEKI_TEST */
-+
-+static inline void heki_run_test(void)
-+{
-+}
-+
-+#endif /* CONFIG_HEKI_TEST */
-+
- void heki_late_init(void)
- {
- 	struct heki_hypervisor *hypervisor = heki.hypervisor;
- 	int ret;
- 
- 	if (!heki_enabled)
--		return;
-+		return heki_run_test();
- 
- 	if (!heki.static_ranges) {
- 		pr_warn("Architecture did not initialize static ranges\n");
-@@ -113,6 +303,8 @@ void heki_late_init(void)
- 		goto out;
- 	pr_warn("Control registers locked\n");
- 
-+	heki_run_test();
-+
- out:
- 	heki_free_pa_ranges(heki.static_ranges, heki.num_static_ranges);
- 	heki.static_ranges = NULL;
--- 
-2.40.1
+I do not believe that v3.0 rejects bits [11:15] = 00010, for example, which would have 
+been accepted and ignored with v2.07.  It should simply treat it as the full MFFS insn.
 
+
+r~
 
