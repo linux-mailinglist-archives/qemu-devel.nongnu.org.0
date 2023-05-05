@@ -2,87 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A0E46F8A19
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 May 2023 22:20:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5439F6F8A4C
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 May 2023 22:42:21 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pv1tl-0003Yb-T6; Fri, 05 May 2023 16:19:25 -0400
+	id 1pv2Ec-0007tH-Ef; Fri, 05 May 2023 16:40:58 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pv1tj-0003XT-OE
- for qemu-devel@nongnu.org; Fri, 05 May 2023 16:19:23 -0400
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436])
+ id 1pv2Ea-0007ss-Ei
+ for qemu-devel@nongnu.org; Fri, 05 May 2023 16:40:56 -0400
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pv1tg-0001Sz-RD
- for qemu-devel@nongnu.org; Fri, 05 May 2023 16:19:23 -0400
-Received: by mail-wr1-x436.google.com with SMTP id
- ffacd0b85a97d-2fc3f1d6f8cso1496567f8f.3
- for <qemu-devel@nongnu.org>; Fri, 05 May 2023 13:19:20 -0700 (PDT)
+ id 1pv2EW-0000Ig-Nc
+ for qemu-devel@nongnu.org; Fri, 05 May 2023 16:40:56 -0400
+Received: by mail-wr1-x42a.google.com with SMTP id
+ ffacd0b85a97d-30644c18072so1535973f8f.2
+ for <qemu-devel@nongnu.org>; Fri, 05 May 2023 13:40:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1683317959; x=1685909959;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=oX2MH8rkUaZwViiqoVzaThFDghPJE//PWA0J+d7lxhE=;
- b=GYYN5xRemSbBNnQKthpte1wMne6s9/zt9WkEUi1kjJsBaJL53D7+zfaTZZgxZGhmZ6
- snV+A1FgjWZE0Ek+CcEzsQSWNhOQCWLsUbZTQKIhUzMwHxwufrKKVCnXXdc+u/xX90+6
- asNmCCnLcQdJratCZF28pFpXkt7Fqhq10FxvYcSnJ5TbuKEB6lf/ggWaHv5+owPjmBzl
- V7CJNlMn6u/0O8k69Ymw3yCOnT71xbw6YsHUtLZn1ywSYiVvOtHeYrGTMqspulgoDJVN
- 6a6NVuVSUvmTcPzsyl4AsRQ8cfV1hheu+Dg45Ldrn1U+U7GTLYOhhUQHhZedYwpZ5j8H
- I2Kw==
+ d=linaro.org; s=google; t=1683319250; x=1685911250;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=04PDWTiVcol9O/kAEE+WF1yegdYTPx6n2A8yUSecuKY=;
+ b=puh/aw1vxxq2Y5ju1L4CcN4BL28vJw6P5h97TSUfSjUQmptCajxGFN8iMVFckAoZUU
+ FGP4cSRT1Ch6RDO3TbNg2cYZK67tSI8ueNUCpc6hinU3X0wNuFLA4VXHUzW42UGFgebm
+ c9Eev8Xo2RLH7jCiASxb7+NyBm5w1J2aw7mNH7F2DNLgIqGNJ2GZAagmZqAPhuIPyZSC
+ XtZpmrFGXVfH5OqFJ+8omMzFDoa4Flhnoo+rf7W1ZcmvX0WgLTqXm5V6doEKXELmnCZH
+ 70t9S/FClNPCjPVtM3pwl7VAfm3BFFYWDkx/zymZa/YasvO7sP4JleX5TE0D++ISEf4W
+ bgPw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683317959; x=1685909959;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=oX2MH8rkUaZwViiqoVzaThFDghPJE//PWA0J+d7lxhE=;
- b=inzrDh7tvXFxca85hj6oczwjTaegZXoRbBphdMHwDHx97RcownFzxGqUFrbplpyNsc
- zhm8C/mM/ZIdeH34VZy8Eh8C6VBY+7w/vQexUbajvOo1eIdgj7yeJ3RP5rkzZy7syLVR
- PmCNQhc+yyG9wHAk6mS2w/CIgVi52wp+Lpoii6MM2Hjft+KV9j3Rld8JlzNdT1fTW14F
- nIlysBzREtQbMfAHRKy4Kc0EZdS0fsVh2BxrgYxdZKDFfmBffFiByq/z9qQJ6oM54+Xp
- mnXj6YEwPpMFZcsPAVFqxJmXCe+hl/k4f2HSjEpOjWXoK0VmRjUPAMg1T8WZ/WBns7SN
- B74w==
-X-Gm-Message-State: AC+VfDxBdlJJjF5zLyuyxND3K8PmR3kqiB+Kd7sJDOEjhxnNZc1Q+kQR
- iDlfCzT4gr+nn7E/vSDhEQUF+A==
-X-Google-Smtp-Source: ACHHUZ5sjyv64Yi7uzozk2+1swrmigzY7Ucoa+aKGhpFxaHqgrkqORUu64nrjA4TqGvky85dALfhNw==
-X-Received: by 2002:adf:e445:0:b0:306:283e:23a with SMTP id
- t5-20020adfe445000000b00306283e023amr2185121wrm.52.1683317958800; 
- Fri, 05 May 2023 13:19:18 -0700 (PDT)
-Received: from [192.168.20.44] ([212.241.182.8])
- by smtp.gmail.com with ESMTPSA id
- v1-20020a5d6101000000b003062b57ffd1sm3321919wrt.50.2023.05.05.13.19.17
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 05 May 2023 13:19:18 -0700 (PDT)
-Message-ID: <8988fc6b-8f07-1ab7-663d-3392ca19f7f8@linaro.org>
-Date: Fri, 5 May 2023 21:19:16 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH v4 06/57] accel/tcg: Honor atomicity of loads
-Content-Language: en-US
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: qemu-devel@nongnu.org, git@xen0n.name, gaosong@loongson.cn,
- philmd@linaro.org, qemu-arm@nongnu.org, qemu-riscv@nongnu.org,
- qemu-s390x@nongnu.org, =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
-References: <20230503070656.1746170-1-richard.henderson@linaro.org>
- <20230503070656.1746170-7-richard.henderson@linaro.org>
- <CAFEAcA8muJ84GMqSBuU0P2YhfERM-kftfq07N8BVO2yG9p6jBw@mail.gmail.com>
+ d=1e100.net; s=20221208; t=1683319250; x=1685911250;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=04PDWTiVcol9O/kAEE+WF1yegdYTPx6n2A8yUSecuKY=;
+ b=H3FzewR+lS1hnkI+wBIULbyv1+BHaO76HLCMKMHRSxSTPSnHfX6F3xqqDNaDIaqNnz
+ PehK3sRxKqon8HihZTIaNyokK8Ed71F/PFjREp3zGhNJfT+dBbncLvAMIZMoEK3XHIei
+ MLRqoFH9mR4UAI5G818/nRSZ4wurhhKMTu3t7RZ0rzs7qnLJaPcjePw0hO2xon6XUFou
+ nFJrvy8KYP8jvwxCMSDr+FBblSy/LLxC7FM8Gre/A6Np19IbF8VbEYV7GsoVWqppo2+g
+ 4OTJ+Hf5cs7iqbXIuTcOQwJM9U50PWsqJPiOt8ZMNf5bBSomSvTfC1xVLjfF7iuvUHDe
+ dbhA==
+X-Gm-Message-State: AC+VfDwrKVkmbMkvSiW3D6dbzeUvAUdLsP6LfwZOKES4nA3W/J3oOvjs
+ wFebvkGJe7sLeO1NLKHloIq/74AZNUBCQwXxNjJjmQ==
+X-Google-Smtp-Source: ACHHUZ5hf97T6sz/9DHjvgu3esUf8tUU2HWJgMAQ8CuMq+UVpHqgD57+H7FenJWmLl6ofCV4qvNCcQ==
+X-Received: by 2002:a05:6000:48:b0:307:7c2d:dc79 with SMTP id
+ k8-20020a056000004800b003077c2ddc79mr2185611wrx.16.1683319250603; 
+ Fri, 05 May 2023 13:40:50 -0700 (PDT)
+Received: from stoup.. ([212.241.182.8]) by smtp.gmail.com with ESMTPSA id
+ l11-20020adfe58b000000b002f22c44e974sm3319045wrm.102.2023.05.05.13.40.49
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 05 May 2023 13:40:50 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <CAFEAcA8muJ84GMqSBuU0P2YhfERM-kftfq07N8BVO2yG9p6jBw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x436.google.com
-X-Spam_score_int: -63
-X-Spam_score: -6.4
-X-Spam_bar: ------
-X-Spam_report: (-6.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-4.28,
+To: qemu-devel@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>
+Subject: [PATCH] accel/tcg: Fix atomic_mmu_lookup for reads
+Date: Fri,  5 May 2023 21:40:49 +0100
+Message-Id: <20230505204049.352469-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.34.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x42a.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -98,96 +87,36 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 5/4/23 18:17, Peter Maydell wrote:
->> +    case MO_ATOM_SUBALIGN:
->> +        tmp = p & -p;
->> +        if (tmp != 0 && tmp < atmax) {
->> +            atmax = tmp;
->> +        }
->> +        break;
-> 
-> I don't understand the bit manipulation going on here.
-> AIUI what we're trying to do is say "if e.g. p is only
-> 2-aligned then we only get 2-alignment". But, suppose
-> p == 0x1002. Then (p & -p) is 0x2. But that's MO_32,
-> not MO_16. Am I missing something ?
+A copy-paste bug had us looking at the victim cache for writes.
 
-You're right, this is missing a ctz32().
+Reported-by: Peter Maydell <peter.maydell@linaro.org>
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+---
 
-> 
-> (Also, it would be nice to have a comment mentioning
-> what (p & -p) does, so readers don't have to try to
-> search for a not very-searchable expression to find out.)
-> 
->> +    case MO_ATOM_WITHIN16:
->> +        tmp = p & 15;
->> +        if (tmp + (1 << size) <= 16) {
->> +            atmax = size;
-> 
-> OK, so this is "whole operation is within 16 bytes,
-> whole operation must be atomic"...
-> 
->> +        } else if (atmax == size) {
->> +            return MO_8;
-> 
-> ...but I don't understand the interaction of WITHIN16
-> and also specifying an ATMAX value that's not ATMAX_SIZE.
+To be inserted before patch 3 in 
 
-I'm trying to describe e.g. LDP, which if not within16 has two 8-byte elements, one or 
-both of which must be atomic.  We will have set MO_ATOM_WITHIN16 | MO_ATMAX_8.
-
-If atmax == size, there is only one element, and since it is not within16, there is no 
-atomicity.
-
->> +        } else if (tmp + (1 << atmax) != 16) {
-> 
-> Why is this doing an exact inequality check?
-> What if you're asking for a load of 8 bytes at
-> MO_ATMAX_2 from a pointer that's at an offset of
-> 10 bytes from a 16-byte boundary? Then tmp is 10,
-> tmp + (1 << atmax) is 12, but we could still do the
-> loads at atomicity 2. This doesn't seem to me to be
-> any different from the case it does catch where
-> the first ATMAX_2-sized unit happens to be the only
-> thing in this 16-byte block.
-
-If the LDP is aligned mod 8, but not aligned mod 16, then both 8-byte operations must be 
-(separately) atomic, and we return MO_64.
-
->> +            /*
->> +             * Paired load/store, where the pairs aren't aligned.
->> +             * One of the two must still be handled atomically.
->> +             */
->> +            atmax = -atmax;
-
-... whereas returning -MO_64 tells the caller that we must handle an unaligned atomic 
-operations.
-
->> +    /*
->> +     * If the page is not writable, then assume the value is immutable
->> +     * and requires no locking.  This ignores the case of MAP_SHARED with
->> +     * another process, because the fallback start_exclusive solution
->> +     * provides no protection across processes.
->> +     */
->> +    if (!page_check_range(h2g(pv), 8, PAGE_WRITE)) {
->> +        uint64_t *p = __builtin_assume_aligned(pv, 8);
->> +        return *p;
->> +    }
-> 
-> This will also do a non-atomic read for the case where
-> the guest has mapped the same memory twice at different
-> addresses, once read-only and once writeable, I think.
-> In theory in that situation we could use start_exclusive.
-> But maybe that's a weird corner case we can ignore?
-
-We don't handle multiple mappings at all well.  There is an outstanding bug report about 
-read+write vs read+execute mappings for a jit -- our write-protect scheme for flushing TBs 
-does not work for that case.
-
-Since we can't detect the multiple mappings at this point, I'm tempted to ignore it.
-But you're correct that we could drop this check and let start_exclusive handle it.
-
-
+https://lore.kernel.org/qemu-devel/45cba357-ba20-399a-27e6-5e99741179d0@linaro.org/T/#m5dc55cf04d564f4a8f97bc95e7f0e427c24a4f0b
 
 r~
+
+---
+ accel/tcg/cputlb.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/accel/tcg/cputlb.c b/accel/tcg/cputlb.c
+index 3117886af1..0b8a5f93d2 100644
+--- a/accel/tcg/cputlb.c
++++ b/accel/tcg/cputlb.c
+@@ -1835,7 +1835,7 @@ static void *atomic_mmu_lookup(CPUArchState *env, target_ulong addr,
+     } else /* if (prot & PAGE_READ) */ {
+         tlb_addr = tlbe->addr_read;
+         if (!tlb_hit(tlb_addr, addr)) {
+-            if (!VICTIM_TLB_HIT(addr_write, addr)) {
++            if (!VICTIM_TLB_HIT(addr_read, addr)) {
+                 tlb_fill(env_cpu(env), addr, size,
+                          MMU_DATA_LOAD, mmu_idx, retaddr);
+                 index = tlb_index(env, mmu_idx, addr);
+-- 
+2.34.1
+
 
