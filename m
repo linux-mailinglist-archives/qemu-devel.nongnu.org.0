@@ -2,76 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A13F66F827C
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 May 2023 14:03:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7BCFA6F8281
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 May 2023 14:03:34 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1puu81-0006Sn-Rq; Fri, 05 May 2023 08:01:37 -0400
+	id 1puu9a-00085c-Sk; Fri, 05 May 2023 08:03:14 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1puu7z-0006RE-P8
- for qemu-devel@nongnu.org; Fri, 05 May 2023 08:01:35 -0400
-Received: from mail-ed1-x529.google.com ([2a00:1450:4864:20::529])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1puu7x-00022f-4u
- for qemu-devel@nongnu.org; Fri, 05 May 2023 08:01:35 -0400
-Received: by mail-ed1-x529.google.com with SMTP id
- 4fb4d7f45d1cf-50bd87539c2so2663927a12.0
- for <qemu-devel@nongnu.org>; Fri, 05 May 2023 05:01:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1683288090; x=1685880090;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=GPizfIbc69JR9QYgpsznlNOg6hZVy8+wQh+66XVuhTg=;
- b=V0lalG9XXtCujSphE2jmcN7CLGLfvn0ySJiaRM3ot9Pozj01nX0C6Z70vzHr0uFV+F
- Fbqxm8wXkpBxsllSId1BPlxw4OlePFCF5oBzdj7paqlFL2itqxrU8aSvn+UHts3BaXys
- h4w/SAKTurLhJDLFVoM0IOg2CNlq2AP1bNDf6WmQWKb8sHUD6aFN1TPj/gI78Cm1Lmaw
- BxaNcazMnodF8SPBCXmtDutjwZ76NsbZ9pxgb05m2aODHOuj7Q/Dn13Z5MXPKyAHMwgl
- xc3DpxT4HYv9BhDd6UZJtV/RPn93hj/4FZfxIQ5jJ1Kp5yEamEKqq5du1dLue6IsDzhO
- Zg8w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683288090; x=1685880090;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=GPizfIbc69JR9QYgpsznlNOg6hZVy8+wQh+66XVuhTg=;
- b=airjZM9FKif3Zpbq/YWBT/nZjTf6wIzfBtKT4ZDr8CxvCF4pKTSg8mehkxTKxnAiC8
- FDAmzZSiaJVc7Np/9MVwlLKUR95LSdX2dVUMGupn7684u1mFz9gcbXQIirbaU5t3yu/b
- TcPeHl6iNWKWa24Nqi0je2pVkocO0nIDAojLgMVJIcxygH6AecISsLy2jLVtMJ8WvAF7
- uyKz+QemB9TlIEiZpBuMqdindGliIiayWIonPI8u6Wovg5aLaPa3q5FCS7f/xG0lBORo
- Nz/SFGpBIC/X7GGtb1C81+/v1ouU6Y47SAblPhp66efXJ1l1p4J0HRpmnknL5rLSeDzO
- 5F3A==
-X-Gm-Message-State: AC+VfDyw2Z54OOnhkQ3b+14MkU5mqsDKO4TfHoqkurVYvIVIPzqyNX/c
- 7xdKmooglDjkChl38yUeF2zawWLIji9EpPWZ0lZ91g==
-X-Google-Smtp-Source: ACHHUZ7pDm7LgnyRLkGask/K4Is9uLtQ3FPEDhcx7+lrIW1zes640dGEGD7JEmSHYCHkdmJrbtZfGwdLdURudUp3gCo=
-X-Received: by 2002:a17:906:ee8e:b0:95e:c549:9ace with SMTP id
- wt14-20020a170906ee8e00b0095ec5499acemr813409ejb.62.1683288090174; Fri, 05
- May 2023 05:01:30 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1puu9U-0007xx-A5
+ for qemu-devel@nongnu.org; Fri, 05 May 2023 08:03:08 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1puu9R-0002Wy-SA
+ for qemu-devel@nongnu.org; Fri, 05 May 2023 08:03:07 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1683288185;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=bJmgY0356kdTnshh7dLASN2k0uzIurBCyyr2dPyT9q0=;
+ b=JcG9lf+F4eX4x9AH/nyaZWtFkQr2yIQquRWevIcWZLtLwdg+J9dPlQNUiqPopmYPvsaSkp
+ SCYNFGDBBDls/5XR/Oe7gBr0k/yrdGvkTdDD1efH9bpuqABnUlntiMcVqKF2ZiKGRAl2f4
+ ckefiKYyEXnilY7QmbXU0xvYc4Aej28=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-26-ToVTv_GUPQ29Ui-trGOGYg-1; Fri, 05 May 2023 08:03:02 -0400
+X-MC-Unique: ToVTv_GUPQ29Ui-trGOGYg-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.10])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id CFDFB1824604;
+ Fri,  5 May 2023 12:03:01 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.194.157])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B973F492C3F;
+ Fri,  5 May 2023 12:03:00 +0000 (UTC)
+Date: Fri, 5 May 2023 14:02:59 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: qemu-block@nongnu.org
+Cc: stefanha@redhat.com, eblake@redhat.com, eesposit@redhat.com,
+ pbonzini@redhat.com, qemu-devel@nongnu.org, qemu-stable@nongnu.org
+Subject: Re: [PATCH v2 04/20] block: Don't call no_coroutine_fns in
+ qmp_block_resize()
+Message-ID: <ZFTwcxUzQIrFybQV@redhat.com>
+References: <20230504115750.54437-1-kwolf@redhat.com>
+ <20230504115750.54437-5-kwolf@redhat.com>
 MIME-Version: 1.0
-References: <20230503070656.1746170-1-richard.henderson@linaro.org>
- <20230503070656.1746170-22-richard.henderson@linaro.org>
-In-Reply-To: <20230503070656.1746170-22-richard.henderson@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 5 May 2023 13:01:19 +0100
-Message-ID: <CAFEAcA_eSG4c1CKgOgOphM2yUZ1pL3AM6muf8Bcyx8zwXX9sSg@mail.gmail.com>
-Subject: Re: [PATCH v4 21/57] tcg/i386: Use full load/store helpers in
- user-only mode
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-devel@nongnu.org, git@xen0n.name, gaosong@loongson.cn, 
- philmd@linaro.org, qemu-arm@nongnu.org, qemu-riscv@nongnu.org, 
- qemu-s390x@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::529;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x529.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230504115750.54437-5-kwolf@redhat.com>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -22
+X-Spam_score: -2.3
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.161,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -88,17 +79,20 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, 3 May 2023 at 08:09, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> Instead of using helper_unaligned_{ld,st}, use the full load/store helpers.
-> This will allow the fast path to increase alignment to implement atomicity
-> while not immediately raising an alignment exception.
->
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+Am 04.05.2023 um 13:57 hat Kevin Wolf geschrieben:
+> This QMP handler runs in a coroutine, so it must use the corresponding
+> no_co_wrappers instead.
+> 
+> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+> Reviewed-by: Eric Blake <eblake@redhat.com>
+> Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+I just noticed that this actually fixes a reported hang in 8.0. So let's
+add:
 
-thanks
--- PMM
+Fixes: https://bugzilla.redhat.com/show_bug.cgi?id=2185688
+Cc: qemu-stable@nongnu.org
+
+Kevin
+
 
