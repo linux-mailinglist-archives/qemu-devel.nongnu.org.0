@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4620F6F8311
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 May 2023 14:36:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8797A6F8310
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 May 2023 14:36:50 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1puuex-00039Y-QG; Fri, 05 May 2023 08:35:39 -0400
+	id 1puuex-00038x-AM; Fri, 05 May 2023 08:35:39 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <farosas@suse.de>)
- id 1puueu-00036q-LT; Fri, 05 May 2023 08:35:36 -0400
+ id 1puuev-00037M-71; Fri, 05 May 2023 08:35:37 -0400
 Received: from smtp-out1.suse.de ([2001:67c:2178:6::1c])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <farosas@suse.de>)
- id 1puuer-000557-7Y; Fri, 05 May 2023 08:35:36 -0400
+ id 1puuet-00057r-LO; Fri, 05 May 2023 08:35:36 -0400
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 84B0022AE4;
- Fri,  5 May 2023 12:35:31 +0000 (UTC)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 0C1E822AE2;
+ Fri,  5 May 2023 12:35:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1683290131; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1683290134; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Ppt0sa0XAwy+XRuOa3p9oGr7/EBACeoA3VT1BgrZHhI=;
- b=MLywpLEikVZVZ/dTKIx8GrtuNLeG81FpJyb0SqvhE7tF3h2KO8B6XwStDjD6VJ/CnEpm/+
- InBj5jCbLIv6QjbS5KVbbw5vHr7AqYDhdVgv/KFkgAvbVJ/uUKniGAGh93qyIO67pQr0Nb
- wYuAF68rxFkKgDlq/a1rHp2aTTxm4BE=
+ bh=6AcepwaYQZJzCLCMuL7Qdisp+94Cje2KJcI1iLK7IHU=;
+ b=pvbs+270X86deJmnBRjBI+wvDQWUq8ok83Vn3GYYl8ne9tEpqfxxAzh1ajzEeznXHvNpQ8
+ 8OKwpP8coz+dbuT//q00jX212i2AsGlvdKANF50IHl5pg7N+K/84LlzMevmdDmrqxhlHsO
+ EsURlBBm03qLjbmJH905Afay2zgFaww=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1683290131;
+ s=susede2_ed25519; t=1683290134;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Ppt0sa0XAwy+XRuOa3p9oGr7/EBACeoA3VT1BgrZHhI=;
- b=uOokQTEprtud4ekXz10WjrWuQzV6lyVpbj/fjBVsWmRH8ygs6scalnMGc7909N1wWgWQaw
- q7uLTc0sEhDaIrDw==
+ bh=6AcepwaYQZJzCLCMuL7Qdisp+94Cje2KJcI1iLK7IHU=;
+ b=AQ2H282z6/CEIg3hWgoA8t1xRCn4ShmOeo/jFoRdSn27Ms4SQpigpghqy/3Etc386/LmfH
+ s3UWB7W5/4XDxDCg==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 7D05B13513;
- Fri,  5 May 2023 12:35:29 +0000 (UTC)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 026F913513;
+ Fri,  5 May 2023 12:35:31 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id cCIqERH4VGTaOgAAMHmgww
- (envelope-from <farosas@suse.de>); Fri, 05 May 2023 12:35:29 +0000
+ by imap2.suse-dmz.suse.de with ESMTPSA id aFrcLhP4VGTaOgAAMHmgww
+ (envelope-from <farosas@suse.de>); Fri, 05 May 2023 12:35:31 +0000
 From: Fabiano Rosas <farosas@suse.de>
 To: qemu-devel@nongnu.org
 Cc: qemu-arm@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
@@ -56,9 +56,9 @@ Cc: qemu-arm@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
  Richard Henderson <richard.henderson@linaro.org>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  Paolo Bonzini <pbonzini@redhat.com>
-Subject: [PATCH v2 1/3] target/arm: Select SEMIHOSTING when using TCG
-Date: Fri,  5 May 2023 09:35:22 -0300
-Message-Id: <20230505123524.23401-2-farosas@suse.de>
+Subject: [PATCH v2 2/3] target/arm: Select CONFIG_ARM_V7M when TCG is enabled
+Date: Fri,  5 May 2023 09:35:23 -0300
+Message-Id: <20230505123524.23401-3-farosas@suse.de>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20230505123524.23401-1-farosas@suse.de>
 References: <20230505123524.23401-1-farosas@suse.de>
@@ -88,37 +88,35 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Semihosting has been made a 'default y' entry in Kconfig, which does
-not work because when building --without-default-devices, the
-semihosting code would not be available.
+We cannot allow this config to be disabled at the moment as not all of
+the relevant code is protected by it.
 
-Make semihosting unconditional when TCG is present.
+Commit 29d9efca16 ("arm/Kconfig: Do not build TCG-only boards on a
+KVM-only build") moved the CONFIGs of several boards to Kconfig, so it
+is now possible that nothing selects ARM_V7M (e.g. when doing a
+--without-default-devices build).
+
+Return the CONFIG_ARM_V7M entry to a state where it is always selected
+whenever TCG is available.
 
 Fixes: 29d9efca16 ("arm/Kconfig: Do not build TCG-only boards on a KVM-only build")
 Signed-off-by: Fabiano Rosas <farosas@suse.de>
 ---
- target/arm/Kconfig | 8 +-------
- 1 file changed, 1 insertion(+), 7 deletions(-)
+ target/arm/Kconfig | 1 +
+ 1 file changed, 1 insertion(+)
 
 diff --git a/target/arm/Kconfig b/target/arm/Kconfig
-index 39f05b6420..3fffdcb61b 100644
+index 3fffdcb61b..5947366f6e 100644
 --- a/target/arm/Kconfig
 +++ b/target/arm/Kconfig
-@@ -1,13 +1,7 @@
+@@ -1,6 +1,7 @@
  config ARM
      bool
-+    select ARM_COMPATIBLE_SEMIHOSTING if TCG
+     select ARM_COMPATIBLE_SEMIHOSTING if TCG
++    select ARM_V7M if TCG
  
  config AARCH64
      bool
-     select ARM
--
--# This config exists just so we can make SEMIHOSTING default when TCG
--# is selected without also changing it for other architectures.
--config ARM_SEMIHOSTING
--    bool
--    default y if TCG && ARM
--    select ARM_COMPATIBLE_SEMIHOSTING
 -- 
 2.35.3
 
