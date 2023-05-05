@@ -2,81 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CF046F84AB
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 May 2023 16:16:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 81D306F84D5
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 May 2023 16:27:42 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1puwDl-0005pO-Lv; Fri, 05 May 2023 10:15:42 -0400
+	id 1puwOb-0007ta-VP; Fri, 05 May 2023 10:26:53 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <tobias.roehmel@rwth-aachen.de>)
- id 1puwDO-0005m2-1X; Fri, 05 May 2023 10:15:18 -0400
-Received: from mail-out-4.itc.rwth-aachen.de ([2a00:8a60:1:e501::5:49])
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1puwOY-0007tG-Et
+ for qemu-devel@nongnu.org; Fri, 05 May 2023 10:26:50 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <tobias.roehmel@rwth-aachen.de>)
- id 1puwDI-0001KR-1i; Fri, 05 May 2023 10:15:17 -0400
-X-IPAS-Result: =?us-ascii?q?A2DwBACqDlVk/5sagoZaHQEBAQEJARIBBQUBQIFPggaBH?=
- =?us-ascii?q?YFaGwGENZE4n1wPAQEBAQEBAQEBCAE5CwQBAYUGAoVGJjgTAQIEAQEBAQMCA?=
- =?us-ascii?q?wEBAQEBAQMBAQYBAQEBAQEGBIEdhS8MCCUNhgUBAQEDIw8BBUEQCxQEAgImA?=
- =?us-ascii?q?gJXBgEMAQUCAQGCegGCXBOtFoEygQGgHoEEHQYJAYEKLYkziCKCT4E8gkw4P?=
- =?us-ascii?q?oJiAoFOg22CZwSOWoEoiF6BMHSBJ4EugQQCCQIRQyiBEAhpgXRAAg1kCwttg?=
- =?us-ascii?q?UCDDQQCETQODBUFVQKBBggUARMDBwcCAYEaEDoHBEAoDAcJHw4lBA4DGSsdQ?=
- =?us-ascii?q?AIBCzs6PTUJCx9LK4FZBC9aewYBJSSYJYQUIg2CDsQeB4IrgVaLdYhIjDgGQ?=
- =?us-ascii?q?pcZBpIpmAAgjTaaKQIEAgQFAhaBeoF+cYM2UhcCD4wugxgBCIJDj3tzPQIHA?=
- =?us-ascii?q?QoBAQMJgjmEDYNrAYETAQE?=
-IronPort-Data: A9a23:AQe7AK2k7docR87eM/bD5ctwkn2cJEfYwER7XKvMYLTBsI5bpzQEz
- 2seUGvXM/vcNDagfYt+PI20pE8D78LTzNJgSwRk3Hw8FHgiRegppDi6BhqqY3nCfpWroGZPt
- Zh2hgzodZhsJpPkjk7xdOKn9xGQ7InQLpLkEunIJyttcgFtTSYlmHpLlvUw6mJSqYHR7zil5
- JWj8qUzBHf/g2Qvaj9MtvrZwP9SlK2aVA0w7wRWic9j4Qe2e0k9VPo3Oay3Jn3kdYhYdsbSq
- zHrlezREsvxpn/BO/v9+lrJWhRiro36YWBivkFrt52K2XCukARviPphZKpEAatgo27hc9hZk
- L2hvHErIOsjFvWkdO81C3G0H8ziVEFL0OevHJSxjSCc5x34WWW8yudfNkARAZc22/hdLEAS8
- NVNfVjhbjjb7w636IiEdslBtoEYdozBepkApnElxD2fAftOrZLrGv6Wo4YDhHFq2IYXQKu2i
- 8kxMFKDaDzcZBdOM0xREpUznOKlglHlbCFY7Vucrqo65S7fwWSd1ZC0b4uPJ4HUFJU9ckCwo
- jjHoXXGUhUmP//A82Gs8Emcq8jBpHauMG4VPPjinhJwu3Wa12UVCwATXHOypPX/gUm7M/pHJ
- lAZ4GwrpLk++UivZt38WRSipziDpBF0c8NdFvB/5AyTx6785QGfCW4ZCDlbZ7QOrcIzWHkjz
- FqhmdTvCjpy9rqPRhq17auZozq0Pm4OMWYIaCsATA0Ey9DmrMc4iRenczp4OLSqkt34CXTrm
- XWA6jIhm7VWhMJN26jTEU37vg9Ab6PhFmYdjjg7lEr8hu+lTOZJv7CV1GU=
-IronPort-HdrOrdr: A9a23:xAlX6KOGNM23ksBcTvWjsMiBIKoaSvp037BL7TEIdfUxSL3/qy
- nAppsmPGDP+VQssR0b8+xoEpPwIk80jKQV3WBJB9eftWrdyRKVxf9Zg7cKqgeIcxEWkNQw6U
- 4KScND4bPLYGSTqK7BkWyF+pkbsb26GQuT9IDj80s=
-X-Talos-CUID: 9a23:+IJwTW+xe+AQpehL9wCVvx4qMN51e2/s9nb3H1WWKHhDZZzJTHbFrQ==
-X-Talos-MUID: 9a23:9GTdYQXzm1Qy+lvq/Du2hW9zC5ds36+NV3pWuJc9i+SjOxUlbg==
-X-IronPort-Anti-Spam-Filtered: true
-X-IronPort-AV: E=Sophos;i="5.99,252,1677538800"; d="scan'208";a="179255698"
-Received: from rwthex-s2-b.rwth-ad.de ([134.130.26.155])
- by mail-in-4.itc.rwth-aachen.de with ESMTP; 05 May 2023 16:15:02 +0200
-Received: from [137.226.252.162] (137.226.252.162) by RWTHEX-S2-B.rwth-ad.de
- (2a00:8a60:1:e500::26:155) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.26; Fri, 5 May
- 2023 16:15:01 +0200
-Message-ID: <28bfa9ad-f8dd-d195-ec66-fbd2d78d170c@rwth-aachen.de>
-Date: Fri, 5 May 2023 16:15:01 +0200
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1puwOU-0005Ft-WB
+ for qemu-devel@nongnu.org; Fri, 05 May 2023 10:26:48 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1683296805;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=E4VhcrIzCruLCRn6+2QtWViRhbprTBJiR5SfBq9TbIw=;
+ b=AMi+ofCcSt8UFCucIZMKbiodaFL9fc2FGghXOlws2/w+qHR2zXb3eEksyu7MozhCPfwLYz
+ Y9xjuDTka6tK2ghfrf6XHZRY9yKHzpi3nz/kly+gzWnLTZ8Yq6Bt731YlwPGfs7e4KPL0l
+ UHi36FtUA6cx7hGRzrhLdnvq3YndXQ8=
+Received: from mail-yb1-f197.google.com (mail-yb1-f197.google.com
+ [209.85.219.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-306-q2geqwnkNGylgyP05HRd4Q-1; Fri, 05 May 2023 10:26:45 -0400
+X-MC-Unique: q2geqwnkNGylgyP05HRd4Q-1
+Received: by mail-yb1-f197.google.com with SMTP id
+ 3f1490d57ef6-b9a77926afbso3381302276.3
+ for <qemu-devel@nongnu.org>; Fri, 05 May 2023 07:26:44 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1683296804; x=1685888804;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=E4VhcrIzCruLCRn6+2QtWViRhbprTBJiR5SfBq9TbIw=;
+ b=UMdQJn9bGk80+n69LFDCPA5UmHe5ZKIF4In3tDmpJO+OLvHjSet1RRdd3BUvkJcV74
+ LVBKtwr8RinZf57F7p7df+Bcbgdk7FJ6smGMMcdhWARO8Z9hE+Qj3R9pihpFfvI5pLel
+ CRlMglmLlvJWJ0/jp70iQv5N1vyK7FQUuWel9vucSD7KsAXtt85wWUk3Sb5cXb4/esaq
+ 42lqn+t7w8ouSAJOoWiNKKYkmQfbz250Cimk4nfJuRljUmsleKZtKRysylrgjpQK0E+4
+ WR9ZoZ0yDyobEIHb5rljMq8eooaEqRbbeO40221/5uQZJhPQ2uxWFI8a54CvruyTn13m
+ EGyg==
+X-Gm-Message-State: AC+VfDzHkWx1HedoqnYJgDcYloCIioEGLdp6+isTCs6dWwBVGL38SSFh
+ +A1Iwb4pBWVgz5G5NApYukHYNe7s7JhdZBqaChQBMlBTRQJ/CoWEHalV4e+FDVWBZcl+Exp6vvA
+ iB6FCeMnR4rctfSYz798wO5TTBu8X3zc=
+X-Received: by 2002:a25:7413:0:b0:ba1:9d86:8df with SMTP id
+ p19-20020a257413000000b00ba19d8608dfmr1957494ybc.8.1683296804355; 
+ Fri, 05 May 2023 07:26:44 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ5vupqSZ5t9WVE9SvG7PYiZEU/s/Qk82gzJYX6q1ZQ39MiGNUNP5ACOFpxVgdeo9PNfV7yhsifqnfG+L+zT5pI=
+X-Received: by 2002:a25:7413:0:b0:ba1:9d86:8df with SMTP id
+ p19-20020a257413000000b00ba19d8608dfmr1957480ybc.8.1683296804094; Fri, 05 May
+ 2023 07:26:44 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.1
-Subject: Re: Cortex-R52 support in Qemu
-Content-Language: en-US
-To: Ayan Kumar Halder <ayankuma@amd.com>, <peter.maydell@linaro.org>
-CC: <qemu-devel@nongnu.org>, <qemu-arm@nongnu.org>, "Stabellini, Stefano"
- <stefano.stabellini@amd.com>
-References: <a1c45644-90d9-0fd2-c87b-f43f16b7e407@amd.com>
-From: =?UTF-8?Q?Tobias_R=c3=b6hmel?= <tobias.roehmel@rwth-aachen.de>
-In-Reply-To: <a1c45644-90d9-0fd2-c87b-f43f16b7e407@amd.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [137.226.252.162]
-X-ClientProxiedBy: rwthex-w1-b.rwth-ad.de (2a00:8a60:1:e500::26:157) To
- RWTHEX-S2-B.rwth-ad.de (2a00:8a60:1:e500::26:155)
-Received-SPF: pass client-ip=2a00:8a60:1:e501::5:49;
- envelope-from=tobias.roehmel@rwth-aachen.de;
- helo=mail-out-4.itc.rwth-aachen.de
-X-Spam_score_int: -84
-X-Spam_score: -8.5
-X-Spam_bar: --------
-X-Spam_report: (-8.5 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-4.28,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01,
- T_SPF_TEMPERROR=0.01 autolearn=ham autolearn_force=no
+References: <20230411150515.14020-1-hreitz@redhat.com>
+ <e8cc4521-50a1-2e38-1fb3-8cfa7b0c967e@redhat.com>
+ <CAJSP0QUFFYWwD5+8+1q41sNErJVNbkfnQ3VtB4z-HZUV8S0=zw@mail.gmail.com>
+ <dfec96a1-84c3-3639-6f09-204c2d12244a@redhat.com>
+ <71e47e3e-880d-38d8-c1b0-3287c60365e4@redhat.com>
+In-Reply-To: <71e47e3e-880d-38d8-c1b0-3287c60365e4@redhat.com>
+From: Eugenio Perez Martin <eperezma@redhat.com>
+Date: Fri, 5 May 2023 16:26:08 +0200
+Message-ID: <CAJaqyWe13QxuC9BNBULJ1xu1saWE9Y3ET8eEef-7qtyL5R73SQ@mail.gmail.com>
+Subject: Re: [PATCH 0/4] vhost-user-fs: Internal migration
+To: Hanna Czenczek <hreitz@redhat.com>
+Cc: Stefan Hajnoczi <stefanha@gmail.com>, qemu-devel@nongnu.org,
+ virtio-fs@redhat.com, 
+ Stefan Hajnoczi <stefanha@redhat.com>, German Maglione <gmaglione@redhat.com>, 
+ Anton Kuchin <antonkuchin@yandex-team.ru>, Juan Quintela <quintela@redhat.com>,
+ "Michael S . Tsirkin" <mst@redhat.com>,
+ Stefano Garzarella <sgarzare@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eperezma@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -22
+X-Spam_score: -2.3
+X-Spam_bar: --
+X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.161,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,41 +102,78 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi Ayan,
+On Fri, May 5, 2023 at 11:51=E2=80=AFAM Hanna Czenczek <hreitz@redhat.com> =
+wrote:
+>
+> (By the way, thanks for the explanations :))
+>
+> On 05.05.23 11:03, Hanna Czenczek wrote:
+> > On 04.05.23 23:14, Stefan Hajnoczi wrote:
+>
+> [...]
+>
+> >> I think it's better to change QEMU's vhost code
+> >> to leave stateful devices suspended (but not reset) across
+> >> vhost_dev_stop() -> vhost_dev_start(), maybe by introducing
+> >> vhost_dev_suspend() and vhost_dev_resume(). Have you thought about
+> >> this aspect?
+> >
+> > Yes and no; I mean, I haven=E2=80=99t in detail, but I thought this is =
+what=E2=80=99s
+> > meant by suspending instead of resetting when the VM is stopped.
+>
+> So, now looking at vhost_dev_stop(), one problem I can see is that
+> depending on the back-end, different operations it does will do
+> different things.
+>
+> It tries to stop the whole device via vhost_ops->vhost_dev_start(),
+> which for vDPA will suspend the device, but for vhost-user will reset it
+> (if F_STATUS is there).
+>
+> It disables all vrings, which doesn=E2=80=99t mean stopping, but may be
+> necessary, too.  (I haven=E2=80=99t yet really understood the use of disa=
+bled
+> vrings, I heard that virtio-net would have a need for it.)
+>
+> It then also stops all vrings, though, so that=E2=80=99s OK.  And because=
+ this
+> will always do GET_VRING_BASE, this is actually always the same
+> regardless of transport.
+>
+> Finally (for this purpose), it resets the device status via
+> vhost_ops->vhost_reset_status().  This is only implemented on vDPA, and
+> this is what resets the device there.
+>
+>
+> So vhost-user resets the device in .vhost_dev_start, but vDPA only does
+> so in .vhost_reset_status.  It would seem better to me if vhost-user
+> would also reset the device only in .vhost_reset_status, not in
+> .vhost_dev_start.  .vhost_dev_start seems precisely like the place to
+> run SUSPEND/RESUME.
+>
 
-as far as I know, there is no board/SoC that uses the Cortex-R52 in Qemu 
-right now. If you want, I can try to find the one that I used
-during development. I was able to run Zephyr in Qemu with that code.
+I think the same. I just saw It's been proposed at [1].
 
-Best regards,
-Tobias
+> Another question I have (but this is basically what I wrote in my last
+> email) is why we even call .vhost_reset_status here.  If the device
+> and/or all of the vrings are already stopped, why do we need to reset
+> it?  Na=C3=AFvely, I had assumed we only really need to reset the device =
+if
+> the guest changes, so that a new guest driver sees a freshly initialized
+> device.
+>
 
-On 05.05.23 14:21, Ayan Kumar Halder wrote:
-> Hi Tobias/Peter,
->
-> Greetings.
->
-> In the following commit, I see you have added R52 support in Qemu.
->
-> commit 5f536d01d1141a56f5057b62c82fa94826d367f0
-> Author: Tobias Röhmel <tobias.roehmel@rwth-aachen.de>
-> Date:   Tue Dec 6 11:25:04 2022 +0100
->
->     target/arm: Add ARM Cortex-R52 CPU
->
->
-> 1. Do you have quick instructions on how to build and test it ? I have 
-> ported Xen for Cortex-R52 (using Arm FVP) and would like to see if it 
-> works with Qemu as well.
->
-> 2. Have you (or planning in near future) to add support for qemu-r52 
-> in Zephyr ? I can see an old ticket
-> https://github.com/zephyrproject-rtos/zephyr/issues/47330 , but don't 
-> know if you have integrated qemu in Zephyr.
->
->
-> Kind regards,
->
-> Ayan
->
+I don't know why we didn't need to call it :). I'm assuming the
+previous vhost-user net did fine resetting vq indexes, using
+VHOST_USER_SET_VRING_BASE. But I don't know about more complex
+devices.
+
+The guest can reset the device, or write 0 to the PCI config status,
+at any time. How does virtiofs handle it, being stateful?
+
+Thanks!
+
+[1] https://lore.kernel.org/qemu-devel/20230501230409.274178-1-stefanha@red=
+hat.com/
+
 
