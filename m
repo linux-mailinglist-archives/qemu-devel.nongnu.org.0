@@ -2,81 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2DAEF6F7B90
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 May 2023 05:31:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED7716F7C22
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 May 2023 06:57:42 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pum8d-0002n5-9P; Thu, 04 May 2023 23:29:43 -0400
+	id 1punUM-0004NP-VQ; Fri, 05 May 2023 00:56:15 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1pum8b-0002kf-Dc
- for qemu-devel@nongnu.org; Thu, 04 May 2023 23:29:41 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1pum8Z-0004lg-CE
- for qemu-devel@nongnu.org; Thu, 04 May 2023 23:29:41 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1683257376;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=2xce8y6ZykJ3t5T5quDtZ3fUqdmHybaE09XNirBllm0=;
- b=RtbhnNQf1/y7hVL6qepxh/VArRiSyiHVj9eFcjPwWtNpG8cfkeBoUmO5KvwrlpS4EeUTVI
- naOtvKJwk1ZBRTy0y7PAHpP1K6ugPnWHqsNCoVbRDs8slThOceUvurGgldDrjt6ZxuNAXR
- SsCw7pTPrGbeDgUBBI+YLsJSID9gNrQ=
-Received: from mail-lf1-f71.google.com (mail-lf1-f71.google.com
- [209.85.167.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-191-VqyFGo8DOMKyf4zqcui_dA-1; Thu, 04 May 2023 23:29:33 -0400
-X-MC-Unique: VqyFGo8DOMKyf4zqcui_dA-1
-Received: by mail-lf1-f71.google.com with SMTP id
- 2adb3069b0e04-4f0176dcc66so681368e87.0
- for <qemu-devel@nongnu.org>; Thu, 04 May 2023 20:29:33 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
+ id 1punUJ-0004NB-JR
+ for qemu-devel@nongnu.org; Fri, 05 May 2023 00:56:11 -0400
+Received: from mail-pj1-x102a.google.com ([2607:f8b0:4864:20::102a])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
+ id 1punUG-0003Dr-W9
+ for qemu-devel@nongnu.org; Fri, 05 May 2023 00:56:10 -0400
+Received: by mail-pj1-x102a.google.com with SMTP id
+ 98e67ed59e1d1-24e5d5782edso1287384a91.0
+ for <qemu-devel@nongnu.org>; Thu, 04 May 2023 21:56:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1683262567; x=1685854567;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=Tb8sjhNLr3yhxpT87IGgU4I6iW7oPEeK1eXi2F8N1Pg=;
+ b=po5pUY3oAZGg2RPARLR6MRRfWJGQ2m+fm5qBh0H4NjfLJz1o3L/M+tOIrLmIAWItg/
+ yx+VJUzv//VoRFlG59sMtzkD2Tq7ZrJ2MKXKpSNFUSQXAl3R+sOfF5tLuTPqUcZSsJx0
+ FA/2p/sVgsWk/6DjlJJmOkjssEqkl3PuUIhjtw1Otzd4ajD8uXNsi9D/HUQKxA0ULjob
+ cqorAFAVhpiCd4fIPWxdS8djBLNgxkSG6sz0kFsuQD5qnEyoGRyC0f/mSXRFv2bpK74o
+ zxBEVS2gmSTbUBTKwMDDe4I1AbJc9MpxyIs5srkyb4OM5Jtr54A1X0s+1ozV0ElKYvMf
+ +elQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683257372; x=1685849372;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=2xce8y6ZykJ3t5T5quDtZ3fUqdmHybaE09XNirBllm0=;
- b=dQKA06mgz/DDw9LtgCLPSC4wUiBo9kknfP5L8+khTAHeKNQDaeRkQ7vRcLLsC9sIc+
- 7OZOhtD5P+rsCXTXPIV/ENHwWBs5G5NhWxoMh5PV+evefaWKAV3unYPu5tj3bvLAa49/
- TTQT4hBBik9VyFEpZoRcpBI4wyIIDl4JYTBkrbkm3DpLbO3iaotEBKUh1kxVT3873Eya
- utgdYAQ3jus8r9vKUnqJJ9s6UX8fovMZTFT/24nYWQjGuluTsm4f9E5HcpbrAnqLB9Hu
- OueRk+F0iieRu+VCxfzrLWFB84mWokdaKSXZrQhhL+d4yl9gNKQ7yMclgcr80IxuihNX
- hWbw==
-X-Gm-Message-State: AC+VfDxXUvQfsd9pj1JKubR8LH0zjSjav6EuqR70Usenb+B7dG+nIRiT
- 0GXMuIxkfXXvHUuN1FbnaG75SxKI5LNSLGWI4Mn5QggiS2wrq4VQkZCn73a8yoxQpHIRP8nfPtf
- fb5RtZSNIV8BeKx66A57lT+MsfnS71us=
-X-Received: by 2002:ac2:5921:0:b0:4db:1bab:98a4 with SMTP id
- v1-20020ac25921000000b004db1bab98a4mr112317lfi.32.1683257372100; 
- Thu, 04 May 2023 20:29:32 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ7ZIc2ihIVkQWL07H3QXlD/Hm9TFTps/5v4f1Xq4w7VzNUU4IHq0fAsTetFoj6M6CKX4E4dbSrwZvFluPasMCk=
-X-Received: by 2002:ac2:5921:0:b0:4db:1bab:98a4 with SMTP id
- v1-20020ac25921000000b004db1bab98a4mr112313lfi.32.1683257371800; Thu, 04 May
- 2023 20:29:31 -0700 (PDT)
+ d=1e100.net; s=20221208; t=1683262567; x=1685854567;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=Tb8sjhNLr3yhxpT87IGgU4I6iW7oPEeK1eXi2F8N1Pg=;
+ b=YjOJlBOMUb5aqHzoO7ekTIZIL23XWxXauZkEBtUTW9Bacy0pkGVr/3szEwO1fMlC3K
+ SE0YwZ+83y1GhFaBcnj4URqYDt2TPQBpaGLqsqAGMe2Q9M5uUI6fLCRS85MeagVC9JvR
+ S3OkA41wuwYTrG+cI3bJwEkqo4DdOyD+XHUW18Tc14sPhVd7Ki1W/v+6btSPcxuIauhV
+ 4NAiWiPvQYmeOrlxiR35VYgDyusDGKyj7uAYhmmVJ6W+AT+vv7WdK0OQMEUKvcPwaW8P
+ tkDFd3mPfYuO+V97RUJBaql7PS/o7NQ84l88meMX2J+B5Mcij2pS6JMggIZdbZbAMmjL
+ 7z1Q==
+X-Gm-Message-State: AC+VfDwIX9NX03sRqQ1YojDtpe66FoO8aCFdZKsgSpewqPRH+WKeIncF
+ 7MOz+F1I+cb75nTF06I2Eo0=
+X-Google-Smtp-Source: ACHHUZ7BLcITVmEv4hymFFwifdDQYt0kwsfgVcXHLBOfonAYwDlPehU0WzuweVVHWCXMkHk6ssdB5w==
+X-Received: by 2002:a17:90b:817:b0:24b:fd8d:536b with SMTP id
+ bk23-20020a17090b081700b0024bfd8d536bmr223646pjb.29.1683262567261; 
+ Thu, 04 May 2023 21:56:07 -0700 (PDT)
+Received: from ?IPV6:2400:4050:a840:1e00:4457:c267:5e09:481b?
+ ([2400:4050:a840:1e00:4457:c267:5e09:481b])
+ by smtp.gmail.com with ESMTPSA id
+ e8-20020a17090a9a8800b0024e227828a9sm3997774pjp.24.2023.05.04.21.56.04
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 04 May 2023 21:56:06 -0700 (PDT)
+Message-ID: <168d3290-1db5-6dda-1464-493c18473760@gmail.com>
+Date: Fri, 5 May 2023 13:56:02 +0900
 MIME-Version: 1.0
-References: <20230503091337.2130631-1-lulu@redhat.com>
-In-Reply-To: <20230503091337.2130631-1-lulu@redhat.com>
-From: Jason Wang <jasowang@redhat.com>
-Date: Fri, 5 May 2023 11:29:20 +0800
-Message-ID: <CACGkMEvssDLX0OAuVE2ZwK_SAdhjUr7fnbH6kbMAOzzJKbsJig@mail.gmail.com>
-Subject: Re: [RFC 0/7] vhost-vdpa: add support for iommufd
-To: Cindy Lu <lulu@redhat.com>
-Cc: mst@redhat.com, qemu-devel@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -22
-X-Spam_score: -2.3
-X-Spam_bar: --
-X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.161,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.1
+Subject: Re: [PATCH v3 0/5] virtio-gpu cleanups and obvious definitions
+To: Gurchetan Singh <gurchetansingh@chromium.org>, qemu-devel@nongnu.org
+Cc: philmd@linaro.org, kraxel@redhat.com, marcandre.lureau@redhat.com,
+ dmitry.osipenko@collabora.com, ray.huang@amd.com, alex.bennee@linaro.org,
+ shentey@gmail.com
+References: <20230504191243.746-1-gurchetansingh@chromium.org>
+Content-Language: en-US
+From: Akihiko Odaki <akihiko.odaki@gmail.com>
+In-Reply-To: <20230504191243.746-1-gurchetansingh@chromium.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
+ envelope-from=akihiko.odaki@gmail.com; helo=mail-pj1-x102a.google.com
+X-Spam_score_int: -63
+X-Spam_score: -6.4
+X-Spam_bar: ------
+X-Spam_report: (-6.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ NICE_REPLY_A=-4.28, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -93,43 +97,44 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi Cindy
+On 2023/05/05 4:12, Gurchetan Singh wrote:
+> From: Gurchetan Singh <gurchetansingh@google.com>
+> 
+> v3 of "virtio-gpu cleanups and obvious definitions"
+> 
+> https://lists.gnu.org/archive/html/qemu-devel/2023-04/msg05392.html
+> 
+> All patches have been reviewed, though there was a question from
+> Bernhard Beschow about patch (3) and how it fits with the QOM:
+> 
+> https://lists.gnu.org/archive/html/qemu-devel/2023-05/msg00057.html
+> 
+> I go into detail in patch 3 commit message, but I think we meet
+> the requirements (which are tricky/fuzzy anyways).  Also, I think
+> this is the cleanest way to add another 3D virtgpu backend.  But
+> if anyone has other ideas, please do reply/review.
+> 
+> Antonio Caggiano (1):
+>    virtio-gpu: CONTEXT_INIT feature
+> 
+> Dr. David Alan Gilbert (1):
+>    virtio: Add shared memory capability
+> 
+> Gurchetan Singh (3):
+>    hw/display/virtio-gpu-virgl: virtio_gpu_gl -> virtio_gpu_virgl
+>    hw/display/virtio-gpu-virgl: make GL device more library agnostic
+>    hw/display/virtio-gpu-virgl: define callbacks in realize function
+> 
+>   hw/display/virtio-gpu-base.c   |   3 +
+>   hw/display/virtio-gpu-gl.c     | 114 +--------------------------
+>   hw/display/virtio-gpu-virgl.c  | 137 +++++++++++++++++++++++++++++++--
+>   hw/virtio/virtio-pci.c         |  18 +++++
+>   include/hw/virtio/virtio-gpu.h |  11 +--
+>   include/hw/virtio/virtio-pci.h |   4 +
+>   6 files changed, 160 insertions(+), 127 deletions(-)
+> 
 
-On Wed, May 3, 2023 at 5:13=E2=80=AFPM Cindy Lu <lulu@redhat.com> wrote:
->
-> Hi All
-> There is the RFC to support the IOMMUFD in vdpa device
-> any comments are welcome
-> Thanks
-> Cindy
+For all patches:
 
-Please post the kernel patch as well as a reference.
-
-Thanks
-
->
-> Cindy Lu (7):
->   vhost: introduce new UAPI to support IOMMUFD
->   qapi: support iommufd in vdpa
->   virtio : add a ptr for vdpa_iommufd in VirtIODevice
->   net/vhost-vdpa: Add the check for iommufd
->   vhost-vdpa: Add the iommufd support in the map/unmap function
->   vhost-vdpa: init iommufd function in vhost_vdpa start
->   vhost-vdpa-iommufd: Add iommufd support for vdpa
->
->  hw/virtio/meson.build          |   2 +-
->  hw/virtio/vhost-vdpa-iommufd.c | 240 +++++++++++++++++++++++++++++++++
->  hw/virtio/vhost-vdpa.c         |  74 +++++++++-
->  include/hw/virtio/vhost-vdpa.h |  47 +++++++
->  include/hw/virtio/virtio.h     |   5 +
->  linux-headers/linux/vhost.h    |  72 ++++++++++
->  net/vhost-vdpa.c               |  31 +++--
->  qapi/net.json                  |   1 +
->  8 files changed, 451 insertions(+), 21 deletions(-)
->  create mode 100644 hw/virtio/vhost-vdpa-iommufd.c
->
-> --
-> 2.34.3
->
-
+Reviewed-by: Akihiko Odaki <akihiko.odaki@daynix.com>
 
