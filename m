@@ -2,77 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94EE16F830D
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 May 2023 14:36:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D9756F830E
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 May 2023 14:36:48 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1puuew-00038R-Gi; Fri, 05 May 2023 08:35:38 -0400
+	id 1puuev-000372-Nb; Fri, 05 May 2023 08:35:37 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1puueu-00036J-0L
- for qemu-devel@nongnu.org; Fri, 05 May 2023 08:35:36 -0400
-Received: from mail-ed1-x52c.google.com ([2a00:1450:4864:20::52c])
+ (Exim 4.90_1) (envelope-from <farosas@suse.de>)
+ id 1puuet-00035Z-IY; Fri, 05 May 2023 08:35:35 -0400
+Received: from smtp-out1.suse.de ([2001:67c:2178:6::1c])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1puuem-00050S-T2
- for qemu-devel@nongnu.org; Fri, 05 May 2023 08:35:35 -0400
-Received: by mail-ed1-x52c.google.com with SMTP id
- 4fb4d7f45d1cf-50b9ef67f35so3079772a12.2
- for <qemu-devel@nongnu.org>; Fri, 05 May 2023 05:35:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1683290126; x=1685882126;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=282qbiXnnduELh7hkBMA30hUmbArrUsj8vwL5LNJ9X4=;
- b=Xfg7o4TS9VJwM5dEFINYVTvNyXTT27KhVLJncaVpsZDNOgR3nde3puo0Tra40CjCQJ
- Ps7UWu3efmuehxBHpJeYlfDL6zHWPnzKd90svHg+dQBnnT4GoCCjCWjb2eOgwmSPhuBH
- tMAHRDASEHLXVVi/qfbRkYF9NXP9o8jgEKcyfXw0PSdbeHz1P8+HbPKQ8qknl0IO5+IK
- yoRp5pgGJtNgmNwGQDPeXhiKm+cymPrPo0GwP/UAdhmF96eamsh1HsF73LDi36By6E/p
- MmGD+jF3dCiQ34G1zJsgdXYEoDuDxHXyQiDiJ/ZJ68RMuJrlY/Dv6obM16KzDePE3tRu
- 4wvw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683290126; x=1685882126;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=282qbiXnnduELh7hkBMA30hUmbArrUsj8vwL5LNJ9X4=;
- b=J6HoBQyAdtumoAURVnjMSJWeExSmfoHZyz6/n+wgk9SDp8FhevSpbVnDLZ5V7aTRhQ
- PgCPnO3x8Nhj2OdGWmKYhc0Ycg9J1F60i4oF2UDh89nSt8yHVMDsh89MC/0yBMfVj12a
- ELOuEtfneEFXQUIOkqc9f0rKzXqqP6U9mfIIe21ejFQHD/jiTU6ToxAUnNa7GGtoXwaa
- Jqc7+Lgb2lUmk00xac+As72e60er/BCBI70rCuYCC5s4UMcBxLNbOS+GgWydvzKjNk2X
- gu9kFYeSLFnh4c5btuEiApqLsaBYDnmqwBQUecj4sxETgkIB1k/956NuKzKCX5GtWOj3
- wx7w==
-X-Gm-Message-State: AC+VfDyUUrvY5Vbvq1Y5fI67oZdUCEzVpDVQ/Q7U8EDZW0C7GGw4AHu4
- p/W/atf2SikTdjV8lOfRVfV3ZD/bdTNgXhBDqmfS8Q==
-X-Google-Smtp-Source: ACHHUZ7S9kVr54gxDqt7ETcqjilJWw7yas4eTD1ngvkQW77UVuCoe3s28q4xC1BoFMNV+MJSqrCzv4On6ZBMvy89/Ik=
-X-Received: by 2002:a05:6402:3456:b0:50c:cde7:285b with SMTP id
- l22-20020a056402345600b0050ccde7285bmr1429278edc.29.1683290126188; Fri, 05
- May 2023 05:35:26 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <farosas@suse.de>)
+ id 1puuep-00051x-Os; Fri, 05 May 2023 08:35:34 -0400
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 1242B22AE6;
+ Fri,  5 May 2023 12:35:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1683290129; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=HzjcJoll4B5xFSKfI7iPIVut4n/G+FBvDwZtC5WuS6A=;
+ b=KDmY29WMLX+Ok/cRES7yRthSt5FbJpDlQGQVrR/0tE2C29D7z62WnHhpQRmH3c+xgKJ7Dw
+ cAF0ltFAyL2vw1W2EpKACzlpKHSRnVFkqlRIiJVzciDQyJo6rhH1bp0opmxLVO6M7ExRMc
+ 30WXkDazfOuvLsXQH6aBOwOHqN/uxyE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1683290129;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=HzjcJoll4B5xFSKfI7iPIVut4n/G+FBvDwZtC5WuS6A=;
+ b=1YpO36J/BCqCDv8d3GyMsdkmpFsUe3sVkVikfbnEKJUt3OYLvR0aR2RVuTGCLWUhu+erlC
+ QjSVato9WxtFOFAA==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 0205713513;
+ Fri,  5 May 2023 12:35:26 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id 8TyjLg74VGTaOgAAMHmgww
+ (envelope-from <farosas@suse.de>); Fri, 05 May 2023 12:35:26 +0000
+From: Fabiano Rosas <farosas@suse.de>
+To: qemu-devel@nongnu.org
+Cc: qemu-arm@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>
+Subject: [PATCH v2 0/3] target/arm: disable-tcg and without-default-devices
+ fixes
+Date: Fri,  5 May 2023 09:35:21 -0300
+Message-Id: <20230505123524.23401-1-farosas@suse.de>
+X-Mailer: git-send-email 2.35.3
 MIME-Version: 1.0
-References: <20230503070656.1746170-1-richard.henderson@linaro.org>
- <20230503070656.1746170-38-richard.henderson@linaro.org>
-In-Reply-To: <20230503070656.1746170-38-richard.henderson@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 5 May 2023 13:35:15 +0100
-Message-ID: <CAFEAcA_K7Nqp-4ovoAtySMY7x4f9LpBMgv6HQtaMvBs4Fz9x5Q@mail.gmail.com>
-Subject: Re: [PATCH v4 37/57] tcg/loongarch64: Support softmmu unaligned
- accesses
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-devel@nongnu.org, git@xen0n.name, gaosong@loongson.cn, 
- philmd@linaro.org, qemu-arm@nongnu.org, qemu-riscv@nongnu.org, 
- qemu-s390x@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::52c;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52c.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2001:67c:2178:6::1c; envelope-from=farosas@suse.de;
+ helo=smtp-out1.suse.de
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -88,20 +83,40 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, 3 May 2023 at 08:25, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> Test the final byte of an unaligned access.
-> Use BSTRINS.D to clear the range of bits, rather than AND.
->
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
+Since v1:
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Used the 'select if TCG' pattern for both build issues.
 
-(at least, it's the same general shape as other architectures;
-I have no loongarch-specific knowledge)
+We don't want to use imply for semihosting because we'd need to
+unpoison* CONFIG_SEMIHOSTING and include CONFIG_DEVICES from helper.c
+when building with '--enable-tcg --without-default-devices'.
 
-thanks
--- PMM
+*- I see the config at build/config-poison.h but the compiler does not
+   complain about the usage. It just gets ignored. Any idea why?
+
+CI run: https://gitlab.com/farosas/qemu/-/pipelines/857704454
+
+v1:
+https://lore.kernel.org/r/20230503193833.29047-1-farosas@suse.de
+
+Here's the fix for the cdrom test failure that we discussed in the
+list, plus 2 fixes for the ---without-default-devices build.
+
+When I moved the boards CONFIGs from default.mak to Kconfig, it became
+possible (due to --without-default-devices) to disable the CONFIGs for
+all the boards that require ARM_V7M. That breaks the build because
+ARM_V7M is required to be always set.
+
+Fabiano Rosas (3):
+  target/arm: Select SEMIHOSTING when using TCG
+  target/arm: Select CONFIG_ARM_V7M when TCG is enabled
+  tests/qtest: Don't run cdrom tests if no accelerator is present
+
+ target/arm/Kconfig       | 9 ++-------
+ tests/qtest/cdrom-test.c | 5 +++++
+ 2 files changed, 7 insertions(+), 7 deletions(-)
+
+-- 
+2.35.3
+
 
