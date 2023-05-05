@@ -2,76 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 635C66F8087
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 May 2023 12:06:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 65AE06F808A
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 May 2023 12:06:31 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pusJ7-0002uT-VD; Fri, 05 May 2023 06:04:58 -0400
+	id 1pusK6-0003SL-FC; Fri, 05 May 2023 06:05:58 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pusJ5-0002t9-Li
- for qemu-devel@nongnu.org; Fri, 05 May 2023 06:04:55 -0400
-Received: from mail-ed1-x529.google.com ([2a00:1450:4864:20::529])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pusJ2-0003a7-V8
- for qemu-devel@nongnu.org; Fri, 05 May 2023 06:04:55 -0400
-Received: by mail-ed1-x529.google.com with SMTP id
- 4fb4d7f45d1cf-50bc0ced1d9so2336535a12.0
- for <qemu-devel@nongnu.org>; Fri, 05 May 2023 03:04:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1683281090; x=1685873090;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=n/n2EIcI4moXmMiPBfU/H5CtT1+XVdcDwK249IVE7Tg=;
- b=NMpn1YsXuYQepR1ccUKYVBB86NWFlQyeWGbIHUZZ6GX5RnlPgOcokPRyc1We5St0Iv
- 7vju6eDccJZp/jeeP18vzFQUv3QMiW/dkmF27Zd3eV3LxO2/u1xbcE3SqKNt3Zs0E79H
- RRwhtAdHLAmFtqQ6J06DmsfgLQu6SeS4AQv7nK+BnhOFv0h6L6v/QOb7QyJmBh63xOEZ
- aRbHMn/zEc7obYAPE1T7jpg/b5n/9MFBkObbvSQ8hd9At1QT/oAToKeiE7PK/+pTJZ91
- yUtrhlkoIEAQNp51kmXiueLv8PkUxxa3MTe6qYbmroteJRh+mlA6fmQhvbL981tqBCiO
- VaSw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683281090; x=1685873090;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=n/n2EIcI4moXmMiPBfU/H5CtT1+XVdcDwK249IVE7Tg=;
- b=QHSmqLkO2CLa6hoI6ti67aCpStvTPGrscAhRewLUhbaxuw+d3YPI2egSNXiiMEFsOS
- ifA+pjc3M2nR30JXHbwHKdArkgjc0QD46rJRZriYVy+7vfjbDItwEEH+bwmGO/zmlpsP
- l7D9WMj1Bi7jBM0lSLMHYRomkYATpS7nhOKp+XNxcFG/e5X4Kfd+OnK4CoF1FVCatvPP
- X2RXixOItpAwKUTULkqbIeDTihERIcjYdxnUvOZzNsNEocOv8bxV0uTtkcv7QXobIPrL
- 9wCVqAydTaGnNF3kIDAZaxGrS0U8WbobKe/wuZawX5+Ui4f4s8+4VGa2hgZ5+i5KDOTY
- ajCA==
-X-Gm-Message-State: AC+VfDyM0G6GvReAOXUr2uBj2pUTuAOt8WYkMZsb2xKebbJ9TbJl7H3S
- A3zwVs2pA1aVtizeqWBBsMpEk3XMeElaZXcPZU76mg==
-X-Google-Smtp-Source: ACHHUZ5JW9krCxZgpM0LpM+8LM00k5WqSlWwHpOvafNVel8kgvf2Lm8+1e8CQKteC/qbJKetA6rjNm8erMtDMDR0+QU=
-X-Received: by 2002:aa7:d954:0:b0:50b:c164:526c with SMTP id
- l20-20020aa7d954000000b0050bc164526cmr923698eds.13.1683281090132; Fri, 05 May
- 2023 03:04:50 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1pusK1-0003QS-IV
+ for qemu-devel@nongnu.org; Fri, 05 May 2023 06:05:54 -0400
+Received: from kylie.crudebyte.com ([5.189.157.229])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1pusJz-0003x9-11
+ for qemu-devel@nongnu.org; Fri, 05 May 2023 06:05:52 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
+ MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+ Content-ID:Content-Description;
+ bh=dQqO1khjEzEoVtLNIOKXHQ3bWHajiFN7+uL2OPfkzMc=; b=mdPsTpwATAWPjUrJsoF9GqrraD
+ ajLSNGDetq1iGmRFud9L4vAHbADCzTD3E3c6yEdaLI3bbNGs1D4uyazX3g9WPHteinNh9oz30GZRE
+ CO8h/8ds1IYxaYm2gkOCo7yB82NJf/CHy//A8XKS7wurt69xdA5mmKgLcqj8/Qjek+I2jKDWt/eP7
+ MUf5+MlWwrg3SzIYfYMzYZF4OBLVHR5ZqxuXqiJPfQAECq80PEl2Kdc0m86pSda+Ppxoi442OEqdO
+ 06GMIvCgnIicQa5eekq+hFLlxYcWoOD6FN3s+7HFtT8nBKvE5J53fQO3t6EsUfKXr8KWuODtgBBxu
+ MlCt7vSu6nU8XxBuAO4oon6qV8IQX7DrKh4D+3O94BsG6OReeTHKqKOzqIBJ4gzvxwD4qSSl9IWZG
+ l7A0qMl3H8rZ+jj80Tx2SrBg+FKrFYd1DJC+iuTaIrnaibk3DWZhOFRDdUNAv5DG+NzAE2Whe0SPF
+ V8rbCFG37AMef1xY+AxMloEZXIOAGM1m3edeEBVnPOQHL9fXA4OtsP17LmZUTqsh/kKAexb2RgY//
+ FwZCdBD4uickZaxI4MJcwFtO/m3AL4f1b0ifFtnUgpStquuZ98puAJ+oPGsAGRWmmJ+TBYYnC2ZEA
+ TNUaF0NX0WSuOJtxSSqcaHEl5uHf4J0kx6/+e/YN4=;
+From: Christian Schoenebeck <qemu_oss@crudebyte.com>
+To: qemu-devel@nongnu.org
+Cc: Jason Andryuk <jandryuk@gmail.com>, Greg Kurz <groug@kaod.org>,
+ Stefano Stabellini <sstabellini@kernel.org>,
+ Anthony Perard <anthony.perard@citrix.com>, Paul Durrant <paul@xen.org>,
+ "open list:X86 Xen CPUs" <xen-devel@lists.xenproject.org>,
+ Jason Andryuk <jandryuk@gmail.com>
+Subject: Re: [PATCH] 9pfs/xen: Fix segfault on shutdown
+Date: Fri, 05 May 2023 12:05:45 +0200
+Message-ID: <43162544.QFhiSxD2Za@silver>
+In-Reply-To: <20230502143722.15613-1-jandryuk@gmail.com>
+References: <20230502143722.15613-1-jandryuk@gmail.com>
 MIME-Version: 1.0
-References: <20230503070656.1746170-1-richard.henderson@linaro.org>
- <20230503070656.1746170-13-richard.henderson@linaro.org>
-In-Reply-To: <20230503070656.1746170-13-richard.henderson@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 5 May 2023 11:04:39 +0100
-Message-ID: <CAFEAcA9oMYYC1FYwqLgHxx5HdxJ4u-h-5f1mfiAF1606JMkAXw@mail.gmail.com>
-Subject: Re: [PATCH v4 12/57] tcg: Add 128-bit guest memory primitives
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-devel@nongnu.org, git@xen0n.name, gaosong@loongson.cn, 
- philmd@linaro.org, qemu-arm@nongnu.org, qemu-riscv@nongnu.org, 
- qemu-s390x@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::529;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x529.google.com
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+Received-SPF: pass client-ip=5.189.157.229;
+ envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -87,112 +70,147 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, 3 May 2023 at 08:17, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+Hi Jason,
+
+as this is a Xen specific change, I would like Stefano or another Xen
+developer to take a look at it, just few things from my side ...
+
+On Tuesday, May 2, 2023 4:37:22 PM CEST Jason Andryuk wrote:
+> xen_9pfs_free can't use gnttabdev since it is already closed and NULL-ed
+
+Where exactly does it do that access? A backtrace or another detailed commit
+log description would help.
+
+> out when free is called.  Do the teardown in _disconnect().  This
+> matches the setup done in _connect().
+> 
+> trace-events are also added for the XenDevOps functions.
+> 
+> Signed-off-by: Jason Andryuk <jandryuk@gmail.com>
 > ---
+>  hw/9pfs/trace-events     |  5 +++++
+>  hw/9pfs/xen-9p-backend.c | 36 +++++++++++++++++++++++-------------
+>  2 files changed, 28 insertions(+), 13 deletions(-)
+> 
+> diff --git a/hw/9pfs/trace-events b/hw/9pfs/trace-events
+> index 6c77966c0b..7b5b0b5a48 100644
+> --- a/hw/9pfs/trace-events
+> +++ b/hw/9pfs/trace-events
+> @@ -48,3 +48,8 @@ v9fs_readlink(uint16_t tag, uint8_t id, int32_t fid) "tag %d id %d fid %d"
+>  v9fs_readlink_return(uint16_t tag, uint8_t id, char* target) "tag %d id %d name %s"
+>  v9fs_setattr(uint16_t tag, uint8_t id, int32_t fid, int32_t valid, int32_t mode, int32_t uid, int32_t gid, int64_t size, int64_t atime_sec, int64_t mtime_sec) "tag %u id %u fid %d iattr={valid %d mode %d uid %d gid %d size %"PRId64" atime=%"PRId64" mtime=%"PRId64" }"
+>  v9fs_setattr_return(uint16_t tag, uint8_t id) "tag %u id %u"
+> +
 
+Nit-picking; missing leading comment:
 
+# xen-9p-backend.c
 
-> +/**
-> + * load_atom_16:
-> + * @p: host address
-> + * @memop: the full memory op
-> + *
-> + * Load 16 bytes from @p, honoring the atomicity of @memop.
-> + */
-> +static Int128 load_atom_16(CPUArchState *env, uintptr_t ra,
-> +                           void *pv, MemOp memop)
+> +xen_9pfs_alloc(char *name) "name %s"
+> +xen_9pfs_connect(char *name) "name %s"
+> +xen_9pfs_disconnect(char *name) "name %s"
+> +xen_9pfs_free(char *name) "name %s"
+> diff --git a/hw/9pfs/xen-9p-backend.c b/hw/9pfs/xen-9p-backend.c
+> index 0e266c552b..c646a0b3d1 100644
+> --- a/hw/9pfs/xen-9p-backend.c
+> +++ b/hw/9pfs/xen-9p-backend.c
+> @@ -25,6 +25,8 @@
+>  #include "qemu/iov.h"
+>  #include "fsdev/qemu-fsdev.h"
+>  
+> +#include "trace.h"
+> +
+>  #define VERSIONS "1"
+>  #define MAX_RINGS 8
+>  #define MAX_RING_ORDER 9
+> @@ -337,6 +339,8 @@ static void xen_9pfs_disconnect(struct XenLegacyDevice *xendev)
+>      Xen9pfsDev *xen_9pdev = container_of(xendev, Xen9pfsDev, xendev);
+>      int i;
+>  
+> +    trace_xen_9pfs_disconnect(xendev->name);
+> +
+>      for (i = 0; i < xen_9pdev->num_rings; i++) {
+>          if (xen_9pdev->rings[i].evtchndev != NULL) {
+>              qemu_set_fd_handler(qemu_xen_evtchn_fd(xen_9pdev->rings[i].evtchndev),
+> @@ -345,40 +349,42 @@ static void xen_9pfs_disconnect(struct XenLegacyDevice *xendev)
+>                                     xen_9pdev->rings[i].local_port);
+>              xen_9pdev->rings[i].evtchndev = NULL;
+>          }
+> -    }
+> -}
+> -
+> -static int xen_9pfs_free(struct XenLegacyDevice *xendev)
+> -{
+> -    Xen9pfsDev *xen_9pdev = container_of(xendev, Xen9pfsDev, xendev);
+> -    int i;
+> -
+> -    if (xen_9pdev->rings[0].evtchndev != NULL) {
+> -        xen_9pfs_disconnect(xendev);
+> -    }
+> -
+> -    for (i = 0; i < xen_9pdev->num_rings; i++) {
+>          if (xen_9pdev->rings[i].data != NULL) {
+>              xen_be_unmap_grant_refs(&xen_9pdev->xendev,
+>                                      xen_9pdev->rings[i].data,
+>                                      xen_9pdev->rings[i].intf->ref,
+>                                      (1 << xen_9pdev->rings[i].ring_order));
+> +            xen_9pdev->rings[i].data = NULL;
+>          }
+>          if (xen_9pdev->rings[i].intf != NULL) {
+>              xen_be_unmap_grant_ref(&xen_9pdev->xendev,
+>                                     xen_9pdev->rings[i].intf,
+>                                     xen_9pdev->rings[i].ref);
+> +            xen_9pdev->rings[i].intf = NULL;
+>          }
+>          if (xen_9pdev->rings[i].bh != NULL) {
+>              qemu_bh_delete(xen_9pdev->rings[i].bh);
+> +            xen_9pdev->rings[i].bh = NULL;
+>          }
+>      }
+>  
+>      g_free(xen_9pdev->id);
+> +    xen_9pdev->id = NULL;
+>      g_free(xen_9pdev->tag);
+> +    xen_9pdev->tag = NULL;
+>      g_free(xen_9pdev->path);
+> +    xen_9pdev->path = NULL;
+>      g_free(xen_9pdev->security_model);
+> +    xen_9pdev->security_model = NULL;
+>      g_free(xen_9pdev->rings);
+> +    xen_9pdev->rings = NULL;
+> +    return;
+> +}
+> +
+> +static int xen_9pfs_free(struct XenLegacyDevice *xendev)
 > +{
-> +    uintptr_t pi = (uintptr_t)pv;
-> +    int atmax;
-> +    Int128 r;
-> +    uint64_t a, b;
+> +    trace_xen_9pfs_free(xendev->name);
 > +
-> +    /*
-> +     * If the host does not support 8-byte atomics, wait until we have
-> +     * examined the atomicity parameters below.
-> +     */
-> +    if (HAVE_al16_fast && likely((pi & 15) == 0)) {
-> +        return load_atomic16(pv);
-> +    }
+>      return 0;
+>  }
 
-Comment says "8-byte atomics" but code is testing for
-existence of 16-byte atomics ?
+xen_9pfs_free() doing nothing, that doesn't look right to me. Wouldn't it make
+sense to turn xen_9pfs_free() idempotent instead?
 
+>  
+> @@ -390,6 +396,8 @@ static int xen_9pfs_connect(struct XenLegacyDevice *xendev)
+>      V9fsState *s = &xen_9pdev->state;
+>      QemuOpts *fsdev;
+>  
+> +    trace_xen_9pfs_connect(xendev->name);
 > +
-> +    atmax = required_atomicity(env, pi, memop);
-> +    switch (atmax) {
-> +    case MO_8:
-> +        memcpy(&r, pv, 16);
-> +        return r;
-> +    case MO_16:
-> +        a = load_atom_8_by_2(pv);
-> +        b = load_atom_8_by_2(pv + 8);
-> +        break;
-> +    case MO_32:
-> +        a = load_atom_8_by_4(pv);
-> +        b = load_atom_8_by_4(pv + 8);
-> +        break;
-> +    case MO_64:
-> +        if (!HAVE_al8) {
-> +            cpu_loop_exit_atomic(env_cpu(env), ra);
-> +        }
-> +        a = load_atomic8(pv);
-> +        b = load_atomic8(pv + 8);
-> +        break;
-> +    case -MO_64:
-> +        if (!HAVE_al8) {
-> +            cpu_loop_exit_atomic(env_cpu(env), ra);
-> +        }
-> +        a = load_atom_extract_al8x2(pv);
-> +        b = load_atom_extract_al8x2(pv + 8);
-> +        break;
-> +    case MO_128:
-> +        return load_atomic16_or_exit(env, ra, pv);
-> +    default:
-> +        g_assert_not_reached();
-> +    }
-> +    return int128_make128(HOST_BIG_ENDIAN ? b : a, HOST_BIG_ENDIAN ? a : b);
-> + }
-
-> +/**
-> + * store_atomic16:
-> + * @pv: host address
-> + * @val: value to store
-> + *
-> + * Atomically store 16 aligned bytes to @pv.
-> + */
-> +static inline void store_atomic16(void *pv, Int128 val)
-> +{
-> +#if defined(CONFIG_ATOMIC128)
-> +    __uint128_t *pu = __builtin_assume_aligned(pv, 16);
-> +    Int128Alias new;
+>      if (xenstore_read_fe_int(&xen_9pdev->xendev, "num-rings",
+>                               &xen_9pdev->num_rings) == -1 ||
+>          xen_9pdev->num_rings > MAX_RINGS || xen_9pdev->num_rings < 1) {
+> @@ -499,6 +507,8 @@ out:
+>  
+>  static void xen_9pfs_alloc(struct XenLegacyDevice *xendev)
+>  {
+> +    trace_xen_9pfs_alloc(xendev->name);
 > +
-> +    new.s = val;
-> +    qatomic_set__nocheck(pu, new.u);
-> +#elif defined(CONFIG_CMPXCHG128)
-> +    __uint128_t *pu = __builtin_assume_aligned(pv, 16);
-> +    __uint128_t o;
-> +    Int128Alias n;
-> +
-> +    /*
-> +     * Without CONFIG_ATOMIC128, __atomic_compare_exchange_n will always
-> +     * defer to libatomic, so we must use __sync_val_compare_and_swap_16
-> +     * and accept the sequential consistency that comes with it.
-> +     */
-> +    n.s = val;
-> +    do {
-> +        o = *pu;
-> +    } while (!__sync_bool_compare_and_swap_16(pu, o, n.u));
-
-Same val vs bool thing as the other patch.
+>      xenstore_write_be_str(xendev, "versions", VERSIONS);
+>      xenstore_write_be_int(xendev, "max-rings", MAX_RINGS);
+>      xenstore_write_be_int(xendev, "max-ring-page-order", MAX_RING_ORDER);
+> 
 
 
-Otherwise
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-
-thanks
--- PMM
 
