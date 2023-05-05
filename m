@@ -2,79 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8889C6F8240
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 May 2023 13:47:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 22F456F824F
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 May 2023 13:52:15 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1puttn-0002Uw-1d; Fri, 05 May 2023 07:46:55 -0400
+	id 1putxx-0003Qo-JI; Fri, 05 May 2023 07:51:13 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1putte-0002UR-8p
- for qemu-devel@nongnu.org; Fri, 05 May 2023 07:46:47 -0400
-Received: from mail-lf1-x12f.google.com ([2a00:1450:4864:20::12f])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1puttc-0003kk-1b
- for qemu-devel@nongnu.org; Fri, 05 May 2023 07:46:45 -0400
-Received: by mail-lf1-x12f.google.com with SMTP id
- 2adb3069b0e04-4efd6e26585so1910977e87.1
- for <qemu-devel@nongnu.org>; Fri, 05 May 2023 04:46:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1683287201; x=1685879201;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=/M6dnLolMuetUo4YFAN/8L2NUwZuBJhWcSP4+XN98xw=;
- b=LU9YFGRmqu4gizYGPID/2Pdy+UGGzLb3o+9OTabdpXUQBQrKJky1oBrpR3ANAF4zBN
- 7l37rhEdjH4O3S41jBvcejZnq64UcQ2LTixT23dbfLJZKFka+4TY1smcVg47/rAeVmt6
- 5XX/KLsChE3z67o1vACJnzcprwwSNyNm7fnBpM4wRjiTfJzkcS/3HWd9rOhbK0ksieOz
- x+KNuSKovg3CWEDDnxJ6UM7TpiFDoI3iv2HWmbWUB6CXQTxzjpUKinZIQ5zgmllnsRo0
- 1HrogpFEm2wI5ruOmyL3RpuWeZGiCMXql6/hCw6ulRfjlW3Rvc1iD1sWi8vzqIPBaIk/
- BwCg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683287201; x=1685879201;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=/M6dnLolMuetUo4YFAN/8L2NUwZuBJhWcSP4+XN98xw=;
- b=ICxWcvOqVEuzClDg9JijXd/kKuO6fihJQJFIJudtc4ci2KubFDjNVptVSf+vRR3wx9
- dVdFnXANp0ZTP9+Jzm22B/Ig5KcLi6xitvMga+rzAbt7jmZ/WeUGL0hH2OtTh6GIFTW2
- 70Rf3T2LIpJjODOjUYXatrRsR8M3zITmyRrib9p3RTxpERMdPtEnjxpOAwubKg0Qt9Xz
- 32L70nE9TnmIYGw3b9+h84WzqEUnbxT8WbnfXpytnRVDHkXz/F40AXKkZYSp3E3E5O/X
- g8d1xrLpNidVcSLlUM+JFFpOOWcPEseT+UY0oyLQM7pRZs7jLn7mp5G56/O+jG034CxV
- EJrA==
-X-Gm-Message-State: AC+VfDy0kEP4kzths6Jz9AhW4v2OAJ0eGBYgeNBpf/7Vm9c/PADSZfIh
- lExmglaT05r8nfgQSOWvdIB0Jn3JPu9xJ2xfGLg=
-X-Google-Smtp-Source: ACHHUZ5edsykZCBe/rCT1hCS4Ixhscns1GNNYHedXTnXxvKH9mT1W7ErRWPKZcVJbjS+aNIiNJMl0iTEUqkiSHN+0xA=
-X-Received: by 2002:ac2:5583:0:b0:4ef:eeea:1b85 with SMTP id
- v3-20020ac25583000000b004efeeea1b85mr454452lfg.18.1683287201235; Fri, 05 May
- 2023 04:46:41 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1putxv-0003Qb-Uo
+ for qemu-devel@nongnu.org; Fri, 05 May 2023 07:51:11 -0400
+Received: from mout.kundenserver.de ([212.227.126.130])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1putxt-0007BH-Jd
+ for qemu-devel@nongnu.org; Fri, 05 May 2023 07:51:11 -0400
+Received: from [192.168.100.1] ([82.142.8.70]) by mrelayeu.kundenserver.de
+ (mreue009 [213.165.67.103]) with ESMTPSA (Nemesis) id
+ 1M6URd-1psz5c0t9F-006yCI; Fri, 05 May 2023 13:51:05 +0200
+Message-ID: <5274e1f0-36f5-7119-ac03-81d59f0ff175@vivier.eu>
+Date: Fri, 5 May 2023 13:51:04 +0200
 MIME-Version: 1.0
-References: <20230505113947.3301944-1-marcandre.lureau@redhat.com>
- <20230505113947.3301944-2-marcandre.lureau@redhat.com>
- <ZFTro47CbUGFrCyq@redhat.com>
-In-Reply-To: <ZFTro47CbUGFrCyq@redhat.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Fri, 5 May 2023 15:46:29 +0400
-Message-ID: <CAJ+F1CL0s-0amwRcNvMLmS8EMYE4pD+NN+r7AjzpGEa0s_sjig@mail.gmail.com>
-Subject: Re: [PULL 1/1] audio/pwaudio.c: Add Pipewire audio backend for QEMU
-To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
-Cc: qemu-devel@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>, 
- Markus Armbruster <armbru@redhat.com>, Thomas Huth <thuth@redhat.com>, 
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
- Eric Blake <eblake@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>, 
- Dorinda Bassey <dbassey@redhat.com>
-Content-Type: multipart/alternative; boundary="000000000000af473805faf0d744"
-Received-SPF: pass client-ip=2a00:1450:4864:20::12f;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-lf1-x12f.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH v3] linux-user: Add /proc/cpuinfo handler for RISC-V
+Content-Language: fr
+To: Palmer Dabbelt <palmer@dabbelt.com>, schwab@suse.de
+Cc: qemu-devel@nongnu.org
+References: <mhng-9a8e79cd-e48e-4b27-a5d9-af5ef2a5cd6c@palmer-ri-x1c9>
+From: Laurent Vivier <laurent@vivier.eu>
+In-Reply-To: <mhng-9a8e79cd-e48e-4b27-a5d9-af5ef2a5cd6c@palmer-ri-x1c9>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:DBh03oK5HKYucx/SFwv8E0xM/5jMA8qvjwC9cy3PDLNiNduxd7X
+ 7RB2Bs8LaqwToL+tG28bGoaG90uLSQyURfXTWfJxDSgpVNhMsR3M2fI+eivIt7A5pjHs+qH
+ Y4xrwHpFrDi+LGsbE2aOnJbTf8J3K++ZzljlYhT7pavvuCCOmXPZDOj4NPwq9HB9jPIAJ0k
+ xdSist8HKlcQ22jzhcR+w==
+UI-OutboundReport: notjunk:1;M01:P0:WnnYNMgF2Ac=;ayMOakQdfYYTa72OZoiwCauqdOo
+ fReoFm8H5ff/9eX72ILG4TGrB+tadDj2FlCzXCzzzWJKmg5i+n9tuVginJmXUAotxU+q5uKWN
+ 2bwCGGdh2w2bb0opEWRjbIx8B8rmO+k4BwSZVISJ2JkcWlA6+yjlCRwHP1jkoeDpyvaT75cVE
+ Hpgy+xK7LDDo6WZRANSJJC+McVxa47RDrt8vfyBT+cXeG7/tARUXfjwt2nR1Lb1JQmhy+XIod
+ 31bey5tjaVHlUblfux2hq1F9Un4ZZMw2+CcCfUG8FdqA/lHXy2aQKUHc01S2Gq6NcGIjXDENn
+ 7Ot44/w7og+F47+9KXPfdhDXCf67RGeBc5vyJfvhDYR78NDW+2fMVshjA9bV592Akqy5QzeUQ
+ fsXIQurA0Wj3KG4ml8TqmWTqom8W+GHzIZ1imcWIl7wlq2T1Wazu+sCt1VAy1OB7/3YM9GS31
+ fJUyAUJMWyLSBwkSjvyJgy5XjhFp5TVZN0emswD1+X3x9Yfdw4J4b5zJ+Ty7fN8IggRDEwdDy
+ WaV01O0YwmD0oHthHnW6XCOsVpqNQvEuxBBm0SWvEstmIemI84kr5R1sqq0CnHf9g0UU6Je3V
+ JhiiKi+KCadPBpvpiZ78nb8QyduxOMzcyYjPKf5jGJ6Vz0/5Ntyo/LTiP/14ccjhzWMoWzEmm
+ /00xWHlfIi6Sqcxmv78sC6ixdY+U6wdf3ismA1BHgg==
+Received-SPF: none client-ip=212.227.126.130; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-Spam_score_int: -61
+X-Spam_score: -6.2
+X-Spam_bar: ------
+X-Spam_report: (-6.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-4.28,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,161 +71,113 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
---000000000000af473805faf0d744
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Le 03/05/2023 à 17:34, Palmer Dabbelt a écrit :
+> On Wed, 03 May 2023 08:30:12 PDT (-0700), schwab@suse.de wrote:
+>> From 912af433fa5d93ce81d2054135ed475ab7462d2d Mon Sep 17 00:00:00 2001
+>> From: Andreas Schwab <schwab@suse.de>
+>> Date: Tue, 18 Apr 2023 11:54:01 +0200
+>>
+>> Signed-off-by: Andreas Schwab <schwab@suse.de>
+>> ---
+>> v3: fix isa order
+>>
+>>  linux-user/syscall.c | 55 ++++++++++++++++++++++++++++++++++++++++++--
+>>  1 file changed, 53 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+>> index 69f740ff98..5207259b56 100644
+>> --- a/linux-user/syscall.c
+>> +++ b/linux-user/syscall.c
+>> @@ -8231,7 +8231,8 @@ void target_exception_dump(CPUArchState *env, const char *fmt, int code)
+>>  }
+>>
+>>  #if HOST_BIG_ENDIAN != TARGET_BIG_ENDIAN || \
+>> -    defined(TARGET_SPARC) || defined(TARGET_M68K) || defined(TARGET_HPPA)
+>> +    defined(TARGET_SPARC) || defined(TARGET_M68K) || defined(TARGET_HPPA) || \
+>> +    defined(TARGET_RISCV)
+>>  static int is_proc(const char *filename, const char *entry)
+>>  {
+>>      return strcmp(filename, entry) == 0;
+>> @@ -8309,6 +8310,56 @@ static int open_cpuinfo(CPUArchState *cpu_env, int fd)
+>>  }
+>>  #endif
+>>
+>> +#if defined(TARGET_RISCV)
+>> +static int open_cpuinfo(CPUArchState *cpu_env, int fd)
+>> +{
+>> +    int i, num_cpus;
+>> +    char isa[32];
+>> +
+>> +#if defined(TARGET_RISCV32)
+>> +    strcpy (isa, "rv32");
+>> +#endif
+>> +#if defined(TARGET_RISCV64)
+>> +    strcpy (isa, "rv64");
+>> +#endif
+>> +    i = strlen (isa);
+>> +    if (riscv_has_ext (cpu_env, RVI))
+>> +        isa[i++] = 'i';
+>> +    if (riscv_has_ext (cpu_env, RVE))
+>> +        isa[i++] = 'e';
+>> +    if (riscv_has_ext (cpu_env, RVM))
+>> +        isa[i++] = 'm';
+>> +    if (riscv_has_ext (cpu_env, RVA))
+>> +        isa[i++] = 'a';
+>> +    if (riscv_has_ext (cpu_env, RVF))
+>> +        isa[i++] = 'f';
+>> +    if (riscv_has_ext (cpu_env, RVD))
+>> +        isa[i++] = 'd';
+>> +    if (riscv_has_ext (cpu_env, RVC))
+>> +        isa[i++] = 'c';
+>> +    if (riscv_has_ext (cpu_env, RVV))
+>> +        isa[i++] = 'v';
+>> +    isa[i] = 0;
+>> +
+>> +    num_cpus = sysconf(_SC_NPROCESSORS_ONLN);
+>> +    for (i = 0; i < num_cpus; i++) {
+>> +        dprintf(fd, "processor\t: %d\n", i);
+>> +        dprintf(fd, "hart\t\t: %d\n", i);
+>> +        dprintf(fd, "isa\t\t: %s\n", isa);
+>> +#if defined(TARGET_RISCV32)
+>> +        dprintf(fd, "mmu\t\t: sv32\n");
+>> +#endif
+>> +#if defined(TARGET_RISCV64)
+>> +        dprintf(fd, "mmu\t\t: sv57\n");
+>> +#endif
+>> +        dprintf(fd, "mvendorid\t: 0x0\n");
+>> +        dprintf(fd, "marchid\t\t: 0x0\n");
+>> +        dprintf(fd, "mimpid\t\t: 0x0\n\n");
+>> +    }
+>> +    return 0;
+>> +}
+>> +#endif
+>> +
+>>  #if defined(TARGET_M68K)
+>>  static int open_hardware(CPUArchState *cpu_env, int fd)
+>>  {
+>> @@ -8333,7 +8384,7 @@ static int do_openat(CPUArchState *cpu_env, int dirfd, const char *pathname, 
+>> int
+>>  #if HOST_BIG_ENDIAN != TARGET_BIG_ENDIAN
+>>          { "/proc/net/route", open_net_route, is_proc },
+>>  #endif
+>> -#if defined(TARGET_SPARC) || defined(TARGET_HPPA)
+>> +#if defined(TARGET_SPARC) || defined(TARGET_HPPA) || defined(TARGET_RISCV)
+>>          { "/proc/cpuinfo", open_cpuinfo, is_proc },
+>>  #endif
+>>  #if defined(TARGET_M68K)
+> 
+> Reviewed-by: Palmer Dabbelt <palmer@rivosinc.com>
+> 
+> Thanks!
+> 
 
-Hi
+In my linux-user branch I have already queued:
 
-On Fri, May 5, 2023 at 3:43=E2=80=AFPM Daniel P. Berrang=C3=A9 <berrange@re=
-dhat.com>
-wrote:
+[PATCH qemu v2] linux-user: Emulate /proc/cpuinfo output for riscv
+https://patchew.org/QEMU/167873059442.9885.15152085316575248452-0@git.sr.ht/
 
-> On Fri, May 05, 2023 at 03:39:47PM +0400, marcandre.lureau@redhat.com
-> wrote:
-> > From: Dorinda Bassey <dbassey@redhat.com>
-> >
-> > This commit adds a new audiodev backend to allow QEMU to use Pipewire a=
-s
-> > both an audio sink and source. This backend is available on most system=
-s
-> >
-> > Add Pipewire entry points for QEMU Pipewire audio backend
-> > Add wrappers for QEMU Pipewire audio backend in qpw_pcm_ops()
-> > qpw_write function returns the current state of the stream to pwaudio
-> > and Writes some data to the server for playback streams using pipewire
-> > spa_ringbuffer implementation.
-> > qpw_read function returns the current state of the stream to pwaudio an=
-d
-> > reads some data from the server for capture streams using pipewire
-> > spa_ringbuffer implementation. These functions qpw_write and qpw_read
-> > are called during playback and capture.
-> > Added some functions that convert pw audio formats to QEMU audio format
-> > and vice versa which would be needed in the pipewire audio sink and
-> > source functions qpw_init_in() & qpw_init_out().
-> > These methods that implement playback and recording will create streams
-> > for playback and capture that will start processing and will result in
-> > the on_process callbacks to be called.
-> > Built a connection to the Pipewire sound system server in the
-> > qpw_audio_init() method.
-> >
-> > Signed-off-by: Dorinda Bassey <dbassey@redhat.com>
-> > Reviewed-by: Volker R=C3=BCmelin <vr_qemu@t-online.de>
-> > Message-Id: <20230417105654.32328-1-dbassey@redhat.com>
-> > Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-> > ---
-> >  meson.build                   |   8 +
-> >  qapi/audio.json               |  44 ++
-> >  audio/audio_template.h        |   4 +
-> >  audio/audio.c                 |   3 +
-> >  audio/pwaudio.c               | 915 ++++++++++++++++++++++++++++++++++
-> >  audio/meson.build             |   1 +
-> >  audio/trace-events            |   8 +
-> >  meson_options.txt             |   4 +-
-> >  qemu-options.hx               |  21 +
-> >  scripts/meson-buildoptions.sh |   8 +-
-> >  10 files changed, 1013 insertions(+), 3 deletions(-)
-> >  create mode 100644 audio/pwaudio.c
->
-> This doesn't add pipewire dev packages to the dockerfiles, so none of
-> this will get built during CI unless something else we have happens to
-> be pulling in pipewire dev packages indirectly.
->
->
-I was working on it, and further cleanups, but they can be added on top to
-avoid having to ask Dorinda and spread the work.
+IS this one better?
 
-
---=20
-Marc-Andr=C3=A9 Lureau
-
---000000000000af473805faf0d744
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr">Hi<br></div><br><div class=3D"gmail_quote=
-"><div dir=3D"ltr" class=3D"gmail_attr">On Fri, May 5, 2023 at 3:43=E2=80=
-=AFPM Daniel P. Berrang=C3=A9 &lt;<a href=3D"mailto:berrange@redhat.com">be=
-rrange@redhat.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote"=
- style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);p=
-adding-left:1ex">On Fri, May 05, 2023 at 03:39:47PM +0400, <a href=3D"mailt=
-o:marcandre.lureau@redhat.com" target=3D"_blank">marcandre.lureau@redhat.co=
-m</a> wrote:<br>
-&gt; From: Dorinda Bassey &lt;<a href=3D"mailto:dbassey@redhat.com" target=
-=3D"_blank">dbassey@redhat.com</a>&gt;<br>
-&gt; <br>
-&gt; This commit adds a new audiodev backend to allow QEMU to use Pipewire =
-as<br>
-&gt; both an audio sink and source. This backend is available on most syste=
-ms<br>
-&gt; <br>
-&gt; Add Pipewire entry points for QEMU Pipewire audio backend<br>
-&gt; Add wrappers for QEMU Pipewire audio backend in qpw_pcm_ops()<br>
-&gt; qpw_write function returns the current state of the stream to pwaudio<=
-br>
-&gt; and Writes some data to the server for playback streams using pipewire=
-<br>
-&gt; spa_ringbuffer implementation.<br>
-&gt; qpw_read function returns the current state of the stream to pwaudio a=
-nd<br>
-&gt; reads some data from the server for capture streams using pipewire<br>
-&gt; spa_ringbuffer implementation. These functions qpw_write and qpw_read<=
-br>
-&gt; are called during playback and capture.<br>
-&gt; Added some functions that convert pw audio formats to QEMU audio forma=
-t<br>
-&gt; and vice versa which would be needed in the pipewire audio sink and<br=
->
-&gt; source functions qpw_init_in() &amp; qpw_init_out().<br>
-&gt; These methods that implement playback and recording will create stream=
-s<br>
-&gt; for playback and capture that will start processing and will result in=
-<br>
-&gt; the on_process callbacks to be called.<br>
-&gt; Built a connection to the Pipewire sound system server in the<br>
-&gt; qpw_audio_init() method.<br>
-&gt; <br>
-&gt; Signed-off-by: Dorinda Bassey &lt;<a href=3D"mailto:dbassey@redhat.com=
-" target=3D"_blank">dbassey@redhat.com</a>&gt;<br>
-&gt; Reviewed-by: Volker R=C3=BCmelin &lt;<a href=3D"mailto:vr_qemu@t-onlin=
-e.de" target=3D"_blank">vr_qemu@t-online.de</a>&gt;<br>
-&gt; Message-Id: &lt;<a href=3D"mailto:20230417105654.32328-1-dbassey@redha=
-t.com" target=3D"_blank">20230417105654.32328-1-dbassey@redhat.com</a>&gt;<=
-br>
-&gt; Reviewed-by: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lu=
-reau@redhat.com" target=3D"_blank">marcandre.lureau@redhat.com</a>&gt;<br>
-&gt; ---<br>
-&gt;=C2=A0 meson.build=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A08 +<br>
-&gt;=C2=A0 qapi/audio.json=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0|=C2=A0 44 ++<br>
-&gt;=C2=A0 audio/audio_template.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=A0=
-4 +<br>
-&gt;=C2=A0 audio/audio.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0|=C2=A0 =C2=A03 +<br>
-&gt;=C2=A0 audio/pwaudio.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0| 915 ++++++++++++++++++++++++++++++++++<br>
-&gt;=C2=A0 audio/meson.build=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0|=C2=A0 =C2=A01 +<br>
-&gt;=C2=A0 audio/trace-events=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=
-=A0 =C2=A08 +<br>
-&gt;=C2=A0 meson_options.txt=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0|=C2=A0 =C2=A04 +-<br>
-&gt;=C2=A0 qemu-options.hx=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0|=C2=A0 21 +<br>
-&gt;=C2=A0 scripts/meson-buildoptions.sh |=C2=A0 =C2=A08 +-<br>
-&gt;=C2=A0 10 files changed, 1013 insertions(+), 3 deletions(-)<br>
-&gt;=C2=A0 create mode 100644 audio/pwaudio.c<br>
-<br>
-This doesn&#39;t add pipewire dev packages to the dockerfiles, so none of<b=
-r>
-this will get built during CI unless something else we have happens to<br>
-be pulling in pipewire dev packages indirectly.<br>
-<br></blockquote><div>=C2=A0</div><div>I was working on it, and further cle=
-anups, but they can be added on top to avoid having to ask Dorinda and spre=
-ad the work.<br></div></div><br clear=3D"all"><br><span class=3D"gmail_sign=
-ature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_signature">Marc=
--Andr=C3=A9 Lureau<br></div></div>
-
---000000000000af473805faf0d744--
+Thanks,
+Laurent
 
