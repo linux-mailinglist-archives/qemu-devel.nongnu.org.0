@@ -2,73 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51FFB6F7CF3
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 May 2023 08:31:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E57C06F7D3A
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 May 2023 08:48:10 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1puoxG-0002tc-MS; Fri, 05 May 2023 02:30:10 -0400
+	id 1pupD4-0006EU-PI; Fri, 05 May 2023 02:46:30 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1puoxD-0002tO-OV
- for qemu-devel@nongnu.org; Fri, 05 May 2023 02:30:07 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1pupD3-0006EE-6j
+ for qemu-devel@nongnu.org; Fri, 05 May 2023 02:46:29 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1puoxB-0003NZ-SE
- for qemu-devel@nongnu.org; Fri, 05 May 2023 02:30:07 -0400
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1pupD1-00011W-CQ
+ for qemu-devel@nongnu.org; Fri, 05 May 2023 02:46:28 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1683268203;
+ s=mimecast20190719; t=1683269186;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=l26vs41RR1DTNs1r0mXPG4SsifTKZebF9IgkUbWUeAQ=;
- b=Jg+HP/Qg1PwbZz31DxuFjSxvKgActFZE15J4MoADfI3TwfLFJYEzYlM81joB7q0lAtery7
- dUm5kp6TdblTl/B3FwsVyXrKwNUUYWhl+tgKkPHADLzQpGuDyIiUh0BmwAuWcZfZuB/bld
- F9ZPlCagSZeKo93Yzbngk4eJvCtmsMo=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=CQjGzc8irknUmSO+s2y49ZSpkqutgyquF0A38kTakJo=;
+ b=AxqeIPen6iJQiF25hExhHMdUeFN13Elnyir7y41ZSdbBFtkcPq9MNjUlXXeX1VHsQ5SmIW
+ ow7BggsxCxedMrzn3xkGvTMm60SHpq4wFZcafYjW9WQGj4aiaux6UU3RpSv5afphyI4m9t
+ Y5l7rjMxy/ZyZ05//prwINY+CveeGcA=
+Received: from mail-lj1-f197.google.com (mail-lj1-f197.google.com
+ [209.85.208.197]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-631-WssHiFyIPaOM9VzLLlMgog-1; Fri, 05 May 2023 02:30:02 -0400
-X-MC-Unique: WssHiFyIPaOM9VzLLlMgog-1
-Received: by mail-wr1-f70.google.com with SMTP id
- ffacd0b85a97d-307814dd87eso17586f8f.0
- for <qemu-devel@nongnu.org>; Thu, 04 May 2023 23:30:02 -0700 (PDT)
+ us-mta-450-yfV1UVDmNgKaJ_JUrm-LzA-1; Fri, 05 May 2023 02:46:24 -0400
+X-MC-Unique: yfV1UVDmNgKaJ_JUrm-LzA-1
+Received: by mail-lj1-f197.google.com with SMTP id
+ 38308e7fff4ca-2ac79d95000so6990541fa.1
+ for <qemu-devel@nongnu.org>; Thu, 04 May 2023 23:46:24 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683268201; x=1685860201;
+ d=1e100.net; s=20221208; t=1683269183; x=1685861183;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=l26vs41RR1DTNs1r0mXPG4SsifTKZebF9IgkUbWUeAQ=;
- b=JbrvN5/+VJKRXxagriDAGGiScaAsjpXFUYIwxGVTxAfC6dlyEqYsRwHa42qY8ZaOJZ
- h7jyGH5vLL4qjIQMoqi8h9NU1Npg02+3sgdLFO136uxNZ6PMJjUB3wPuTj1eiWQ2aKhU
- h+rvd5g4lSdM/fG3kI33O+3tCM8PAezCOFOwTNOKcAPWN+LEQ7D+eUAiDcE9XbE/b6AR
- DScuFQZyG2hDEWQYXbXVj87950ATlD+gv2vDRE2Tm5ValQPLxC0iYCglajcQ+MJr46oH
- 2jkwEfQf9y7oQOEI7GJZBmh2ZH19pYrfmGggLwiDBDH22I+u2gQZ0MlBL/IUvUmBD9JX
- pJIA==
-X-Gm-Message-State: AC+VfDyhK30HYGnR5K4l3e/00lYye4muwPsPq7DFGsdcm42fvuzkvCRc
- R7UyXoButzWoRfB3Wy7cjRSSxS+VbYEomk27ZNbwPtVQM4C7dFZKJT4QjZIA0Q993cg6Hl/GMkH
- sM8WkEKsfPq8hYIvezTtjyHTWleDinlg=
-X-Received: by 2002:a5d:5191:0:b0:2f2:7adf:3c67 with SMTP id
- k17-20020a5d5191000000b002f27adf3c67mr384191wrv.61.1683268201550; 
- Thu, 04 May 2023 23:30:01 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ6Ehb4jUD8VJJENrincHuDkDzto8MjmulsVsd370Pi5aIgcKW95U8beOt7VdGySQ/peBIgwnQsfpFBqFajj6oo=
-X-Received: by 2002:a5d:5191:0:b0:2f2:7adf:3c67 with SMTP id
- k17-20020a5d5191000000b002f27adf3c67mr384184wrv.61.1683268201299; Thu, 04 May
- 2023 23:30:01 -0700 (PDT)
+ bh=CQjGzc8irknUmSO+s2y49ZSpkqutgyquF0A38kTakJo=;
+ b=JdyBqBbachZ6x/lUTR3E6yRqICq4ERjCtxN0QIzGwfGkObQsJKXXe8RqSsumPZu6GG
+ mADb5H2Vx4CgaNpXX5tTMynt8NJHWw3CLE6nYAUrzZZ3BB6edk/eLNIp5X1Ni+SzStel
+ 0ZyFOw5rfCnea3m3QqgO0nPhC54RpSgj3LhVl8HN3dpUT5D1dqmT71VE/Rsx+o25/nBL
+ +xWXJqJnYfj8Qh1eXc0f65V+YqjSP0xQabt6ApkSKxWZuv7enzilUU7QmojJqhLo21WD
+ k8EJqE/UNCP6U9+Q3M1azFUsCO6juUQDdEYcafqmgCdbB9ea+SoP8Fjq5GFm11IXVcOY
+ e97g==
+X-Gm-Message-State: AC+VfDzj/RdQGqR8HnQ2EjHYdvJYe5EyuycafWc6UAJbYt7mARNmdBgY
+ QgiB6c5Q2lZK79UFQ2DdfOTgxEENoVy2BkqbcfSMaCGJrIfD1uc7B9CxDyh9q3MhGynwnoat/Tu
+ jjrritCmPsUhdUK1fYLYoau1xGZVGpnE=
+X-Received: by 2002:a2e:3606:0:b0:2a8:b262:35ee with SMTP id
+ d6-20020a2e3606000000b002a8b26235eemr94704lja.31.1683269182941; 
+ Thu, 04 May 2023 23:46:22 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ4KyDsGYxQnxJTYmu7twT14HnB/3ymZFDXkMxQcTmwCa7KX0eUQYGHHt8Ki4+9wiM6vq8ZbYyCXolmNzylCFCg=
+X-Received: by 2002:a2e:3606:0:b0:2a8:b262:35ee with SMTP id
+ d6-20020a2e3606000000b002a8b26235eemr94701lja.31.1683269182635; Thu, 04 May
+ 2023 23:46:22 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230503091337.2130631-1-lulu@redhat.com>
- <CACGkMEvssDLX0OAuVE2ZwK_SAdhjUr7fnbH6kbMAOzzJKbsJig@mail.gmail.com>
-In-Reply-To: <CACGkMEvssDLX0OAuVE2ZwK_SAdhjUr7fnbH6kbMAOzzJKbsJig@mail.gmail.com>
-From: Cindy Lu <lulu@redhat.com>
-Date: Fri, 5 May 2023 14:29:23 +0800
-Message-ID: <CACLfguXZiErCtA6UN4z8V3x6MSaGga7W86jjg6EYhKb3j8QqiA@mail.gmail.com>
-Subject: Re: [RFC 0/7] vhost-vdpa: add support for iommufd
-To: Jason Wang <jasowang@redhat.com>
-Cc: mst@redhat.com, qemu-devel@nongnu.org
+References: <20230426103716.26279-1-akihiko.odaki@daynix.com>
+ <f176031e-6613-e78b-c8dd-69f13d3a4dcb@daynix.com>
+In-Reply-To: <f176031e-6613-e78b-c8dd-69f13d3a4dcb@daynix.com>
+From: Jason Wang <jasowang@redhat.com>
+Date: Fri, 5 May 2023 14:46:11 +0800
+Message-ID: <CACGkMEuz2ajXGmd-JE_BLTfn9Xu=yq1mZckLLdjucnYfzVX1TA@mail.gmail.com>
+Subject: Re: [PATCH v4 00/48] igb: Fix for DPDK
+To: Akihiko Odaki <akihiko.odaki@daynix.com>
+Cc: Sriram Yagnaraman <sriram.yagnaraman@est.tech>,
+ Dmitry Fleytman <dmitry.fleytman@gmail.com>, 
+ "Michael S . Tsirkin" <mst@redhat.com>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
+ Thomas Huth <thuth@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>, 
+ Cleber Rosa <crosa@redhat.com>, Laurent Vivier <lvivier@redhat.com>, 
+ Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org, 
+ Tomasz Dzieciol <t.dzieciol@partner.samsung.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=lulu@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -22
 X-Spam_score: -2.3
@@ -92,49 +104,151 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, May 5, 2023 at 11:29=E2=80=AFAM Jason Wang <jasowang@redhat.com> wr=
-ote:
+On Thu, May 4, 2023 at 2:45=E2=80=AFPM Akihiko Odaki <akihiko.odaki@daynix.=
+com> wrote:
 >
-> Hi Cindy
+> Hi Jason,
 >
-> On Wed, May 3, 2023 at 5:13=E2=80=AFPM Cindy Lu <lulu@redhat.com> wrote:
-> >
-> > Hi All
-> > There is the RFC to support the IOMMUFD in vdpa device
-> > any comments are welcome
-> > Thanks
-> > Cindy
->
-> Please post the kernel patch as well as a reference.
->
-> Thanks
->
-sure=EF=BC=8Cwill do
+> Can you have a look at this series as well as the patch pointed to by
+> Based-on: tag?
+
+Just come back from vacation, I will have a look at it.
+
 Thanks
-cindy
+
+
+>
+> Regards,
+> Akihiko Odaki
+>
+> On 2023/04/26 19:36, Akihiko Odaki wrote:
+> > Based-on: <366bbcafdb6e0373f0deb105153768a8c0bded87.camel@gmail.com>
+> > ("[PATCH 0/1] e1000e: Fix tx/rx counters")
 > >
-> > Cindy Lu (7):
-> >   vhost: introduce new UAPI to support IOMMUFD
-> >   qapi: support iommufd in vdpa
-> >   virtio : add a ptr for vdpa_iommufd in VirtIODevice
-> >   net/vhost-vdpa: Add the check for iommufd
-> >   vhost-vdpa: Add the iommufd support in the map/unmap function
-> >   vhost-vdpa: init iommufd function in vhost_vdpa start
-> >   vhost-vdpa-iommufd: Add iommufd support for vdpa
+> > This series has fixes and feature additions to pass DPDK Test Suite wit=
+h
+> > igb. It also includes a few minor changes related to networking.
 > >
-> >  hw/virtio/meson.build          |   2 +-
-> >  hw/virtio/vhost-vdpa-iommufd.c | 240 +++++++++++++++++++++++++++++++++
-> >  hw/virtio/vhost-vdpa.c         |  74 +++++++++-
-> >  include/hw/virtio/vhost-vdpa.h |  47 +++++++
-> >  include/hw/virtio/virtio.h     |   5 +
-> >  linux-headers/linux/vhost.h    |  72 ++++++++++
-> >  net/vhost-vdpa.c               |  31 +++--
-> >  qapi/net.json                  |   1 +
-> >  8 files changed, 451 insertions(+), 21 deletions(-)
-> >  create mode 100644 hw/virtio/vhost-vdpa-iommufd.c
+> > Patch [01, 10] are bug fixes.
+> > Patch [11, 14] delete code which is unnecessary.
+> > Patch [15, 33] are minor changes.
+> > Patch [34, 46] implement new features.
+> > Patch [47, 48] update documentations.
 > >
-> > --
-> > 2.34.3
+> > While this includes so many patches, it is not necessary to land them a=
+t
+> > once. Only bug fix patches may be applied first, for example.
+> >
+> > V3 -> V4:
+> > - Renamed "min_buf variable to "buf". (Sriram Yagnaraman)
+> > - Added patch "igb: Clear-on-read ICR when ICR.INTA is set".
+> >    (Sriram Yagnaraman)
+> >
+> > V2 -> V3:
+> > - Fixed parameter name in hw/net/net_tx_pkt. (Philippe Mathieu-Daud=C3=
+=A9)
+> > - Added patch "igb: Clear IMS bits when committing ICR access".
+> > - Added patch "igb: Clear EICR bits for delayed MSI-X interrupts".
+> > - Added patch "e1000e: Rename a variable in e1000e_receive_internal()".
+> > - Added patch "igb: Rename a variable in igb_receive_internal()".
+> > - Added patch "e1000e: Notify only new interrupts".
+> > - Added patch "igb: Notify only new interrupts".
+> >
+> > V1 -> V2:
+> > - Dropped patch "Include the second VLAN tag in the buffer". The second
+> >    VLAN tag is not used at the point and unecessary.
+> > - Added patch "e1000x: Rename TcpIpv6 into TcpIpv6Ex".
+> > - Split patch "hw/net/net_tx_pkt: Decouple from PCI".
+> >    (Philippe Mathieu-Daud=C3=A9)
+> > - Added advanced Rx descriptor packet encoding definitions.
+> >    (Sriram Yagnaraman)
+> > - Added some constants to eth.h to derive packet oversize thresholds.
+> > - Added IGB_TX_FLAGS_VLAN_SHIFT usage.
+> > - Renamed patch "igb: Fix igb_mac_reg_init alignment".
+> >    (Philippe Mathieu-Daud=C3=A9)
+> > - Fixed size check for packets with double VLAN. (Sriram Yagnaraman)
+> > - Fixed timing to timestamp Tx packet.
+> >
+> > Akihiko Odaki (48):
+> >    hw/net/net_tx_pkt: Decouple implementation from PCI
+> >    hw/net/net_tx_pkt: Decouple interface from PCI
+> >    e1000x: Fix BPRC and MPRC
+> >    igb: Fix Rx packet type encoding
+> >    igb: Do not require CTRL.VME for tx VLAN tagging
+> >    igb: Clear IMS bits when committing ICR access
+> >    net/net_rx_pkt: Use iovec for net_rx_pkt_set_protocols()
+> >    e1000e: Always copy ethernet header
+> >    igb: Always copy ethernet header
+> >    Fix references to igb Avocado test
+> >    tests/avocado: Remove unused imports
+> >    tests/avocado: Remove test_igb_nomsi_kvm
+> >    hw/net/net_tx_pkt: Remove net_rx_pkt_get_l4_info
+> >    net/eth: Rename eth_setup_vlan_headers_ex
+> >    e1000x: Share more Rx filtering logic
+> >    e1000x: Take CRC into consideration for size check
+> >    e1000x: Rename TcpIpv6 into TcpIpv6Ex
+> >    e1000e: Always log status after building rx metadata
+> >    igb: Always log status after building rx metadata
+> >    igb: Remove goto
+> >    igb: Read DCMD.VLE of the first Tx descriptor
+> >    e1000e: Reset packet state after emptying Tx queue
+> >    vmxnet3: Reset packet state after emptying Tx queue
+> >    igb: Add more definitions for Tx descriptor
+> >    igb: Share common VF constants
+> >    igb: Fix igb_mac_reg_init coding style alignment
+> >    igb: Clear EICR bits for delayed MSI-X interrupts
+> >    e1000e: Rename a variable in e1000e_receive_internal()
+> >    igb: Rename a variable in igb_receive_internal()
+> >    net/eth: Use void pointers
+> >    net/eth: Always add VLAN tag
+> >    hw/net/net_rx_pkt: Enforce alignment for eth_header
+> >    tests/qtest/libqos/igb: Set GPIE.Multiple_MSIX
+> >    igb: Implement MSI-X single vector mode
+> >    igb: Use UDP for RSS hash
+> >    igb: Implement Rx SCTP CSO
+> >    igb: Implement Tx SCTP CSO
+> >    igb: Strip the second VLAN tag for extended VLAN
+> >    igb: Filter with the second VLAN tag for extended VLAN
+> >    igb: Implement igb-specific oversize check
+> >    igb: Implement Rx PTP2 timestamp
+> >    igb: Implement Tx timestamp
+> >    e1000e: Notify only new interrupts
+> >    igb: Notify only new interrupts
+> >    igb: Clear-on-read ICR when ICR.INTA is set
+> >    vmxnet3: Do not depend on PC
+> >    MAINTAINERS: Add a reviewer for network packet abstractions
+> >    docs/system/devices/igb: Note igb is tested for DPDK
+> >
+> >   MAINTAINERS                                   |   3 +-
+> >   docs/system/devices/igb.rst                   |  14 +-
+> >   hw/net/e1000e_core.h                          |   2 -
+> >   hw/net/e1000x_common.h                        |   9 +-
+> >   hw/net/e1000x_regs.h                          |  24 +-
+> >   hw/net/igb_common.h                           |  24 +-
+> >   hw/net/igb_regs.h                             |  67 +-
+> >   hw/net/net_rx_pkt.h                           |  38 +-
+> >   hw/net/net_tx_pkt.h                           |  46 +-
+> >   include/net/eth.h                             |  29 +-
+> >   include/qemu/crc32c.h                         |   1 +
+> >   hw/net/e1000.c                                |  41 +-
+> >   hw/net/e1000e_core.c                          | 292 +++----
+> >   hw/net/e1000x_common.c                        |  79 +-
+> >   hw/net/igb.c                                  |  10 +-
+> >   hw/net/igb_core.c                             | 717 ++++++++++-------=
+-
+> >   hw/net/igbvf.c                                |   7 -
+> >   hw/net/net_rx_pkt.c                           | 107 ++-
+> >   hw/net/net_tx_pkt.c                           | 101 ++-
+> >   hw/net/virtio-net.c                           |   7 +-
+> >   hw/net/vmxnet3.c                              |  22 +-
+> >   net/eth.c                                     | 100 +--
+> >   tests/qtest/libqos/igb.c                      |   1 +
+> >   util/crc32c.c                                 |   8 +
+> >   hw/net/Kconfig                                |   2 +-
+> >   hw/net/trace-events                           |  19 +-
+> >   .../org.centos/stream/8/x86_64/test-avocado   |   3 +-
+> >   tests/avocado/netdev-ethtool.py               |  17 +-
+> >   28 files changed, 969 insertions(+), 821 deletions(-)
 > >
 >
 
