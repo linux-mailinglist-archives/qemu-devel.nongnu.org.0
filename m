@@ -2,80 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D26A6F7A8F
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 May 2023 03:17:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 765D76F7A87
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 May 2023 03:16:51 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pujuj-0007PI-Ea; Thu, 04 May 2023 21:07:15 -0400
+	id 1pujuQ-0006y3-FH; Thu, 04 May 2023 21:06:54 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1pujuJ-0006rw-DT
- for qemu-devel@nongnu.org; Thu, 04 May 2023 21:06:49 -0400
-Received: from mail-pj1-x102e.google.com ([2607:f8b0:4864:20::102e])
+ id 1pujuK-0006s6-W1
+ for qemu-devel@nongnu.org; Thu, 04 May 2023 21:06:50 -0400
+Received: from mail-pg1-x536.google.com ([2607:f8b0:4864:20::536])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1pujuD-0007rG-LR
- for qemu-devel@nongnu.org; Thu, 04 May 2023 21:06:45 -0400
-Received: by mail-pj1-x102e.google.com with SMTP id
- 98e67ed59e1d1-24df161f84bso867584a91.3
- for <qemu-devel@nongnu.org>; Thu, 04 May 2023 18:06:39 -0700 (PDT)
+ id 1pujuG-0007sl-Rh
+ for qemu-devel@nongnu.org; Thu, 04 May 2023 21:06:48 -0400
+Received: by mail-pg1-x536.google.com with SMTP id
+ 41be03b00d2f7-51fcf5d1e44so1000421a12.3
+ for <qemu-devel@nongnu.org>; Thu, 04 May 2023 18:06:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1683248799; x=1685840799;
+ d=gmail.com; s=20221208; t=1683248802; x=1685840802;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=8+fk9boX5qCCAYEaNmLumPg5ElbWwbOh4WqzIoOmRZQ=;
- b=P8K73q6E3oLB+pE41WmgfMoPlUb1naIVSpA4FZHbQdAet3ySKIkEbbvcziBsXfhL9j
- 7nBw14qoWlurOQ4VxdxKF9l5r+xpczYqi2Y1iqH/A8S3YPSSjh1ac55D5pLwIpMi1Wh7
- c5MVVTkJN/1TUVmsj3I0olPxm7WhB6Dyb9QePSC0l6WbkNzBa54oNa/yfp3hkGQD6Rq6
- Qk40EAUXUO+I0ZaNmYtH4OB+E/1XVLrfXJEq9Qmf/MYowFlBIoX01USLj+/bZygLuaMZ
- N2S1hQMkWyJlecamo4LiEapDO5wbLc8NoP2l+G6ME/PNqRvLhOR9Md16ANK/jefZyP2w
- KIJA==
+ bh=aFpeSydLToeDkFGGhok1argALURBxwBUe50hDHY5hQY=;
+ b=ZfhlxbRSukWRjjhDU0n+Y1CUiASy1rIfoMW/W6zcz5eBjPgDtB5sGulPx5X8b58cK0
+ TVgo9JLHHk1aq+M0n3XfXingM43RmpbJNtajLNSTbePrQGZJuOZD+xLvJJ54i9ZlXtkL
+ tb7RUZZJY6PoOXQP3ZxK4XM59vyNE9QT0uHVSxC7AR/t0nxkC5UBPyDrP5IESe6yov3Z
+ QZXQm15vWE/bOCCEnx41E9OYZ9xWkBUUIIVUvtaYzpwHWd6IgjhkSpdQTVipezf/hEyg
+ SGgrVt7ywaGxiC1cwB+w8sywL2t1qbLMBE92S+mouAHF2h/SqCS3RalaYBdUiyzzcK2b
+ +PuQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683248799; x=1685840799;
+ d=1e100.net; s=20221208; t=1683248802; x=1685840802;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=8+fk9boX5qCCAYEaNmLumPg5ElbWwbOh4WqzIoOmRZQ=;
- b=MQWFGR6epOpMIRDNWyFZObi+KCEdVEcKaWaFOWEs/1nvOC2+D4MJdcXUbEfHC3Daem
- /dXumkC0lfIgoeQjEucEua2zjVx9oLBr1nHn+CyGHqf/NdDD+nmnF/uYq704969wVW39
- yw/foaeCiw6S4ZmyN7HoLcry41gWipyRPpu+u3anlaIYyWPCpC1M1eFQhIZvyt1tdlhE
- uc0djQRsycf+K0CHXKzoQPXUI+2lMPf/faNEBPAlrzYLcafzsPEOlTqOGj66194RIWpT
- ZedUIspil8C0h5SuICsM1+kK6zs5yw+WL+Zn34swQCvwAv108YgEwq/nLkAzngKnD+2S
- uLsw==
-X-Gm-Message-State: AC+VfDzI3kDZqaX5IWhbSelFBoXVQeSzsHfeLwUB4dVXOvs3tpun/klD
- oPmQebAvISwJ6rKA7dr7/enXrxX4tOSILg==
-X-Google-Smtp-Source: ACHHUZ5pBgQzw0HK+TN+FA4v/CRKhvPEANkVxPe3TI98KmOutFCWZJekAAGBp3Ku8Ems/8+xWgB13A==
-X-Received: by 2002:a17:90a:2bc7:b0:24b:290a:fb2e with SMTP id
- n7-20020a17090a2bc700b0024b290afb2emr3751025pje.36.1683248798828; 
- Thu, 04 May 2023 18:06:38 -0700 (PDT)
+ bh=aFpeSydLToeDkFGGhok1argALURBxwBUe50hDHY5hQY=;
+ b=XOfLm24cvJcBfn1GMsstWok1GUzws29gBKTC/Op7TWVMWy0mcoX5r7SfRyHeLadE6E
+ Ae9wVL9uTic86ICOnNvij4GIeAOY806S3LL4NioTSsLIfz8pPUz0uyJOElsSqW6kfHCb
+ emcsLnHFTMWzZYgtHLJzZVl1Br5pL0huTOG4qnXJprjYhIja4OyUmQq2lI+SOG1Dp5jT
+ /hvkmUjxnDUwdKlVIgb9R3s5fvv00jVfnWcu8AVs0YKr9kfV8LI+h+5m/ixOM2v2R8wG
+ sbJYCBO55cH3St1/rZ64k4aAi1c8gITrfoO7DRZCFJ3aWEkKKj0xvP6F0K2R9S06AX4u
+ XFWQ==
+X-Gm-Message-State: AC+VfDyV2fW1g/6fO2qYScNgsxpkW3MPvPmM5JxqmU/8vXjBZhKjQ5ob
+ dSLPaoIb8ecIVwwIRh4br2dgQkD0phf7pw==
+X-Google-Smtp-Source: ACHHUZ467P5cRxilfPTmVDzaSweCng+v3hYPAJQ+78ogkquIhDdht5+BnB33CK88PLRsfYlnRqr10A==
+X-Received: by 2002:a17:902:ec8c:b0:1aa:f3c4:7582 with SMTP id
+ x12-20020a170902ec8c00b001aaf3c47582mr7720516plg.31.1683248802624; 
+ Thu, 04 May 2023 18:06:42 -0700 (PDT)
 Received: from toolbox.alistair23.me
  (2403-580b-97e8-0-321-6fb2-58f1-a1b1.ip6.aussiebb.net.
  [2403:580b:97e8:0:321:6fb2:58f1:a1b1])
  by smtp.gmail.com with ESMTPSA id
- l19-20020a170902d35300b0019309be03e7sm218762plk.66.2023.05.04.18.06.35
+ l19-20020a170902d35300b0019309be03e7sm218762plk.66.2023.05.04.18.06.39
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 04 May 2023 18:06:38 -0700 (PDT)
+ Thu, 04 May 2023 18:06:42 -0700 (PDT)
 From: Alistair Francis <alistair23@gmail.com>
 X-Google-Original-From: Alistair Francis <alistair.francis@wdc.com>
 To: qemu-devel@nongnu.org
 Cc: alistair23@gmail.com, LIU Zhiwei <zhiwei_liu@linux.alibaba.com>,
  Richard Henderson <richard.henderson@linaro.org>,
- Alistair Francis <alistair.francis@wdc.com>,
  Weiwei Li <liweiwei@iscas.ac.cn>,
+ Alistair Francis <alistair.francis@wdc.com>,
  Daniel Henrique Barboza <dbarboza@ventanamicro.com>
-Subject: [PULL 59/89] target/riscv: Add a general status enum for extensions
-Date: Fri,  5 May 2023 11:02:11 +1000
-Message-Id: <20230505010241.21812-60-alistair.francis@wdc.com>
+Subject: [PULL 60/89] target/riscv: Encode the FS and VS on a normal way for
+ tb flags
+Date: Fri,  5 May 2023 11:02:12 +1000
+Message-Id: <20230505010241.21812-61-alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.40.0
 In-Reply-To: <20230505010241.21812-1-alistair.francis@wdc.com>
 References: <20230505010241.21812-1-alistair.francis@wdc.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102e;
- envelope-from=alistair23@gmail.com; helo=mail-pj1-x102e.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::536;
+ envelope-from=alistair23@gmail.com; helo=mail-pg1-x536.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -101,166 +102,234 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
 
-The pointer masking is the only extension that directly use status.
-The vector or float extension uses the status in an indirect way.
+Reuse the MSTATUS_FS and MSTATUS_VS for the tb flags positions is not a
+normal way.
 
-Replace the pointer masking extension special status fields with
-the general status.
+It will make it hard to change the tb flags layout. And even worse, if we
+want to keep tb flags for a same extension togather without a hole.
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
-Message-Id: <20230324143031.1093-3-zhiwei_liu@linux.alibaba.com>
-[rth: Add a typedef for the enum]
+Reviewed-by: Weiwei Li <liweiwei@iscas.ac.cn>
+Message-Id: <20230324143031.1093-4-zhiwei_liu@linux.alibaba.com>
+[rth: Adjust trans_rvf.c.inc as well; use the typedef]
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Reviewed-by: Weiwei Li <liweiwei@iscas.ac.cn>
 Tested-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
-Message-Id: <20230325105429.1142530-3-richard.henderson@linaro.org>
-Message-Id: <20230412114333.118895-3-richard.henderson@linaro.org>
+Message-Id: <20230325105429.1142530-4-richard.henderson@linaro.org>
+Message-Id: <20230412114333.118895-4-richard.henderson@linaro.org>
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- target/riscv/cpu.h      |  8 ++++++++
- target/riscv/cpu_bits.h | 12 ++++--------
- target/riscv/cpu.c      |  2 +-
- target/riscv/csr.c      | 14 +++++++-------
- 4 files changed, 20 insertions(+), 16 deletions(-)
+ target/riscv/cpu.h                      | 15 ++++++------
+ target/riscv/cpu_helper.c               | 11 +++++----
+ target/riscv/translate.c                | 32 +++++++++++--------------
+ target/riscv/insn_trans/trans_rvf.c.inc |  2 +-
+ target/riscv/insn_trans/trans_rvv.c.inc |  8 +++----
+ 5 files changed, 32 insertions(+), 36 deletions(-)
 
 diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-index aa53d0e256..ba11279716 100644
+index ba11279716..51d39687fe 100644
 --- a/target/riscv/cpu.h
 +++ b/target/riscv/cpu.h
-@@ -97,6 +97,14 @@ enum {
-     TRANSLATE_G_STAGE_FAIL
- };
+@@ -631,18 +631,17 @@ void riscv_cpu_set_fflags(CPURISCVState *env, target_ulong);
  
-+/* Extension context status */
-+typedef enum {
-+    EXT_STATUS_DISABLED = 0,
-+    EXT_STATUS_INITIAL,
-+    EXT_STATUS_CLEAN,
-+    EXT_STATUS_DIRTY,
-+} RISCVExtStatus;
-+
- #define MMU_USER_IDX 3
+ #define TB_FLAGS_PRIV_MMU_MASK                3
+ #define TB_FLAGS_PRIV_HYP_ACCESS_MASK   (1 << 2)
+-#define TB_FLAGS_MSTATUS_FS MSTATUS_FS
+-#define TB_FLAGS_MSTATUS_VS MSTATUS_VS
  
- #define MAX_RISCV_PMPS (16)
-diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
-index a16bfaf43f..fb63b8e125 100644
---- a/target/riscv/cpu_bits.h
-+++ b/target/riscv/cpu_bits.h
-@@ -9,6 +9,9 @@
-                  (((uint64_t)(val) * ((mask) & ~((mask) << 1))) & \
-                  (uint64_t)(mask)))
+ #include "exec/cpu-all.h"
  
-+/* Extension context status mask */
-+#define EXT_STATUS_MASK     0x3ULL
-+
- /* Floating point round mode */
- #define FSR_RD_SHIFT        5
- #define FSR_RD              (0x7 << FSR_RD_SHIFT)
-@@ -735,13 +738,6 @@ typedef enum RISCVException {
- #define PM_ENABLE       0x00000001ULL
- #define PM_CURRENT      0x00000002ULL
- #define PM_INSN         0x00000004ULL
--#define PM_XS_MASK      0x00000003ULL
+ FIELD(TB_FLAGS, MEM_IDX, 0, 3)
+-FIELD(TB_FLAGS, LMUL, 3, 3)
+-FIELD(TB_FLAGS, SEW, 6, 3)
+-/* Skip MSTATUS_VS (0x600) bits */
+-FIELD(TB_FLAGS, VL_EQ_VLMAX, 11, 1)
+-FIELD(TB_FLAGS, VILL, 12, 1)
+-/* Skip MSTATUS_FS (0x6000) bits */
++FIELD(TB_FLAGS, FS, 3, 2)
++/* Vector flags */
++FIELD(TB_FLAGS, VS, 5, 2)
++FIELD(TB_FLAGS, LMUL, 7, 3)
++FIELD(TB_FLAGS, SEW, 10, 3)
++FIELD(TB_FLAGS, VL_EQ_VLMAX, 13, 1)
++FIELD(TB_FLAGS, VILL, 14, 1)
+ /* Is a Hypervisor instruction load/store allowed? */
+ FIELD(TB_FLAGS, HLSX, 15, 1)
+ FIELD(TB_FLAGS, MSTATUS_HS_FS, 16, 2)
+diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
+index 1d90977d46..8412ef26ee 100644
+--- a/target/riscv/cpu_helper.c
++++ b/target/riscv/cpu_helper.c
+@@ -79,16 +79,17 @@ void cpu_get_tb_cpu_state(CPURISCVState *env, target_ulong *pc,
+     }
+ 
+ #ifdef CONFIG_USER_ONLY
+-    flags |= TB_FLAGS_MSTATUS_FS;
+-    flags |= TB_FLAGS_MSTATUS_VS;
++    flags = FIELD_DP32(flags, TB_FLAGS, FS, EXT_STATUS_DIRTY);
++    flags = FIELD_DP32(flags, TB_FLAGS, VS, EXT_STATUS_DIRTY);
+ #else
+     flags |= cpu_mmu_index(env, 0);
+     if (riscv_cpu_fp_enabled(env)) {
+-        flags |= env->mstatus & MSTATUS_FS;
++        flags = FIELD_DP32(flags, TB_FLAGS, FS,
++                           get_field(env->mstatus, MSTATUS_FS));
+     }
 -
--/* PointerMasking XS bits values */
--#define PM_EXT_DISABLE  0x00000000ULL
--#define PM_EXT_INITIAL  0x00000001ULL
--#define PM_EXT_CLEAN    0x00000002ULL
--#define PM_EXT_DIRTY    0x00000003ULL
- 
- /* Execution enviornment configuration bits */
- #define MENVCFG_FIOM                       BIT(0)
-@@ -781,7 +777,7 @@ typedef enum RISCVException {
- #define S_OFFSET     5ULL
- #define M_OFFSET     8ULL
- 
--#define PM_XS_BITS   (PM_XS_MASK << XS_OFFSET)
-+#define PM_XS_BITS   (EXT_STATUS_MASK << XS_OFFSET)
- #define U_PM_ENABLE  (PM_ENABLE  << U_OFFSET)
- #define U_PM_CURRENT (PM_CURRENT << U_OFFSET)
- #define U_PM_INSN    (PM_INSN    << U_OFFSET)
-diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index fab38859ec..32c04214a1 100644
---- a/target/riscv/cpu.c
-+++ b/target/riscv/cpu.c
-@@ -759,7 +759,7 @@ static void riscv_cpu_reset_hold(Object *obj)
-         i++;
+     if (riscv_cpu_vector_enabled(env)) {
+-        flags |= env->mstatus & MSTATUS_VS;
++        flags = FIELD_DP32(flags, TB_FLAGS, VS,
++                           get_field(env->mstatus, MSTATUS_VS));
      }
-     /* mmte is supposed to have pm.current hardwired to 1 */
--    env->mmte |= (PM_EXT_INITIAL | MMTE_M_PM_CURRENT);
-+    env->mmte |= (EXT_STATUS_INITIAL | MMTE_M_PM_CURRENT);
- #endif
-     env->xl = riscv_cpu_mxl(env);
-     riscv_cpu_update_mask(env);
-diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-index d2271da137..92ad54411b 100644
---- a/target/riscv/csr.c
-+++ b/target/riscv/csr.c
-@@ -3548,7 +3548,7 @@ static RISCVException write_mmte(CPURISCVState *env, int csrno,
  
-     /* hardwiring pm.instruction bit to 0, since it's not supported yet */
-     wpri_val &= ~(MMTE_M_PM_INSN | MMTE_S_PM_INSN | MMTE_U_PM_INSN);
--    env->mmte = wpri_val | PM_EXT_DIRTY;
-+    env->mmte = wpri_val | EXT_STATUS_DIRTY;
-     riscv_cpu_update_mask(env);
+     if (riscv_has_ext(env, RVH)) {
+diff --git a/target/riscv/translate.c b/target/riscv/translate.c
+index ebd00529ff..411e771e6f 100644
+--- a/target/riscv/translate.c
++++ b/target/riscv/translate.c
+@@ -64,10 +64,10 @@ typedef struct DisasContext {
+     RISCVMXL xl;
+     uint32_t misa_ext;
+     uint32_t opcode;
+-    uint32_t mstatus_fs;
+-    uint32_t mstatus_vs;
+-    uint32_t mstatus_hs_fs;
+-    uint32_t mstatus_hs_vs;
++    RISCVExtStatus mstatus_fs;
++    RISCVExtStatus mstatus_vs;
++    RISCVExtStatus mstatus_hs_fs;
++    RISCVExtStatus mstatus_hs_vs;
+     uint32_t mem_idx;
+     /*
+      * Remember the rounding mode encoded in the previous fp instruction,
+@@ -601,8 +601,6 @@ static TCGv get_address_indexed(DisasContext *ctx, int rs1, TCGv offs)
  
-     /* Set XS and SD bits, since PM CSRs are dirty */
-@@ -3628,7 +3628,7 @@ static RISCVException write_mpmmask(CPURISCVState *env, int csrno,
-     if ((env->priv == PRV_M) && (env->mmte & M_PM_ENABLE)) {
-         env->cur_pmmask = val;
+ #ifndef CONFIG_USER_ONLY
+ /*
+- * The states of mstatus_fs are:
+- * 0 = disabled, 1 = initial, 2 = clean, 3 = dirty
+  * We will have already diagnosed disabled state,
+  * and need to turn initial/clean into dirty.
+  */
+@@ -614,9 +612,9 @@ static void mark_fs_dirty(DisasContext *ctx)
+         return;
      }
--    env->mmte |= PM_EXT_DIRTY;
-+    env->mmte |= EXT_STATUS_DIRTY;
  
-     /* Set XS and SD bits, since PM CSRs are dirty */
-     mstatus = env->mstatus | MSTATUS_XS;
-@@ -3656,7 +3656,7 @@ static RISCVException write_spmmask(CPURISCVState *env, int csrno,
-     if ((env->priv == PRV_S) && (env->mmte & S_PM_ENABLE)) {
-         env->cur_pmmask = val;
+-    if (ctx->mstatus_fs != MSTATUS_FS) {
++    if (ctx->mstatus_fs != EXT_STATUS_DIRTY) {
+         /* Remember the state change for the rest of the TB. */
+-        ctx->mstatus_fs = MSTATUS_FS;
++        ctx->mstatus_fs = EXT_STATUS_DIRTY;
+ 
+         tmp = tcg_temp_new();
+         tcg_gen_ld_tl(tmp, cpu_env, offsetof(CPURISCVState, mstatus));
+@@ -624,9 +622,9 @@ static void mark_fs_dirty(DisasContext *ctx)
+         tcg_gen_st_tl(tmp, cpu_env, offsetof(CPURISCVState, mstatus));
      }
--    env->mmte |= PM_EXT_DIRTY;
-+    env->mmte |= EXT_STATUS_DIRTY;
  
-     /* Set XS and SD bits, since PM CSRs are dirty */
-     mstatus = env->mstatus | MSTATUS_XS;
-@@ -3684,7 +3684,7 @@ static RISCVException write_upmmask(CPURISCVState *env, int csrno,
-     if ((env->priv == PRV_U) && (env->mmte & U_PM_ENABLE)) {
-         env->cur_pmmask = val;
+-    if (ctx->virt_enabled && ctx->mstatus_hs_fs != MSTATUS_FS) {
++    if (ctx->virt_enabled && ctx->mstatus_hs_fs != EXT_STATUS_DIRTY) {
+         /* Remember the stage change for the rest of the TB. */
+-        ctx->mstatus_hs_fs = MSTATUS_FS;
++        ctx->mstatus_hs_fs = EXT_STATUS_DIRTY;
+ 
+         tmp = tcg_temp_new();
+         tcg_gen_ld_tl(tmp, cpu_env, offsetof(CPURISCVState, mstatus_hs));
+@@ -640,8 +638,6 @@ static inline void mark_fs_dirty(DisasContext *ctx) { }
+ 
+ #ifndef CONFIG_USER_ONLY
+ /*
+- * The states of mstatus_vs are:
+- * 0 = disabled, 1 = initial, 2 = clean, 3 = dirty
+  * We will have already diagnosed disabled state,
+  * and need to turn initial/clean into dirty.
+  */
+@@ -649,9 +645,9 @@ static void mark_vs_dirty(DisasContext *ctx)
+ {
+     TCGv tmp;
+ 
+-    if (ctx->mstatus_vs != MSTATUS_VS) {
++    if (ctx->mstatus_vs != EXT_STATUS_DIRTY) {
+         /* Remember the state change for the rest of the TB.  */
+-        ctx->mstatus_vs = MSTATUS_VS;
++        ctx->mstatus_vs = EXT_STATUS_DIRTY;
+ 
+         tmp = tcg_temp_new();
+         tcg_gen_ld_tl(tmp, cpu_env, offsetof(CPURISCVState, mstatus));
+@@ -659,9 +655,9 @@ static void mark_vs_dirty(DisasContext *ctx)
+         tcg_gen_st_tl(tmp, cpu_env, offsetof(CPURISCVState, mstatus));
      }
--    env->mmte |= PM_EXT_DIRTY;
-+    env->mmte |= EXT_STATUS_DIRTY;
  
-     /* Set XS and SD bits, since PM CSRs are dirty */
-     mstatus = env->mstatus | MSTATUS_XS;
-@@ -3708,7 +3708,7 @@ static RISCVException write_mpmbase(CPURISCVState *env, int csrno,
-     if ((env->priv == PRV_M) && (env->mmte & M_PM_ENABLE)) {
-         env->cur_pmbase = val;
+-    if (ctx->virt_enabled && ctx->mstatus_hs_vs != MSTATUS_VS) {
++    if (ctx->virt_enabled && ctx->mstatus_hs_vs != EXT_STATUS_DIRTY) {
+         /* Remember the stage change for the rest of the TB. */
+-        ctx->mstatus_hs_vs = MSTATUS_VS;
++        ctx->mstatus_hs_vs = EXT_STATUS_DIRTY;
+ 
+         tmp = tcg_temp_new();
+         tcg_gen_ld_tl(tmp, cpu_env, offsetof(CPURISCVState, mstatus_hs));
+@@ -1168,8 +1164,8 @@ static void riscv_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
+ 
+     ctx->pc_succ_insn = ctx->base.pc_first;
+     ctx->mem_idx = FIELD_EX32(tb_flags, TB_FLAGS, MEM_IDX);
+-    ctx->mstatus_fs = tb_flags & TB_FLAGS_MSTATUS_FS;
+-    ctx->mstatus_vs = tb_flags & TB_FLAGS_MSTATUS_VS;
++    ctx->mstatus_fs = FIELD_EX32(tb_flags, TB_FLAGS, FS);
++    ctx->mstatus_vs = FIELD_EX32(tb_flags, TB_FLAGS, VS);
+     ctx->priv_ver = env->priv_ver;
+     ctx->virt_enabled = FIELD_EX32(tb_flags, TB_FLAGS, VIRT_ENABLED);
+     ctx->misa_ext = env->misa_ext;
+diff --git a/target/riscv/insn_trans/trans_rvf.c.inc b/target/riscv/insn_trans/trans_rvf.c.inc
+index 9e9fa2087a..b2de4fcf3f 100644
+--- a/target/riscv/insn_trans/trans_rvf.c.inc
++++ b/target/riscv/insn_trans/trans_rvf.c.inc
+@@ -19,7 +19,7 @@
+  */
+ 
+ #define REQUIRE_FPU do {\
+-    if (ctx->mstatus_fs == 0) \
++    if (ctx->mstatus_fs == EXT_STATUS_DISABLED) \
+         if (!ctx->cfg_ptr->ext_zfinx) \
+             return false; \
+ } while (0)
+diff --git a/target/riscv/insn_trans/trans_rvv.c.inc b/target/riscv/insn_trans/trans_rvv.c.inc
+index ca3c4c1a3d..ecbdf1b3d7 100644
+--- a/target/riscv/insn_trans/trans_rvv.c.inc
++++ b/target/riscv/insn_trans/trans_rvv.c.inc
+@@ -29,12 +29,12 @@ static inline bool is_overlapped(const int8_t astart, int8_t asize,
+ 
+ static bool require_rvv(DisasContext *s)
+ {
+-    return s->mstatus_vs != 0;
++    return s->mstatus_vs != EXT_STATUS_DISABLED;
+ }
+ 
+ static bool require_rvf(DisasContext *s)
+ {
+-    if (s->mstatus_fs == 0) {
++    if (s->mstatus_fs == EXT_STATUS_DISABLED) {
+         return false;
      }
--    env->mmte |= PM_EXT_DIRTY;
-+    env->mmte |= EXT_STATUS_DIRTY;
  
-     /* Set XS and SD bits, since PM CSRs are dirty */
-     mstatus = env->mstatus | MSTATUS_XS;
-@@ -3736,7 +3736,7 @@ static RISCVException write_spmbase(CPURISCVState *env, int csrno,
-     if ((env->priv == PRV_S) && (env->mmte & S_PM_ENABLE)) {
-         env->cur_pmbase = val;
+@@ -52,7 +52,7 @@ static bool require_rvf(DisasContext *s)
+ 
+ static bool require_scale_rvf(DisasContext *s)
+ {
+-    if (s->mstatus_fs == 0) {
++    if (s->mstatus_fs == EXT_STATUS_DISABLED) {
+         return false;
      }
--    env->mmte |= PM_EXT_DIRTY;
-+    env->mmte |= EXT_STATUS_DIRTY;
  
-     /* Set XS and SD bits, since PM CSRs are dirty */
-     mstatus = env->mstatus | MSTATUS_XS;
-@@ -3764,7 +3764,7 @@ static RISCVException write_upmbase(CPURISCVState *env, int csrno,
-     if ((env->priv == PRV_U) && (env->mmte & U_PM_ENABLE)) {
-         env->cur_pmbase = val;
+@@ -70,7 +70,7 @@ static bool require_scale_rvf(DisasContext *s)
+ 
+ static bool require_scale_rvfmin(DisasContext *s)
+ {
+-    if (s->mstatus_fs == 0) {
++    if (s->mstatus_fs == EXT_STATUS_DISABLED) {
+         return false;
      }
--    env->mmte |= PM_EXT_DIRTY;
-+    env->mmte |= EXT_STATUS_DIRTY;
  
-     /* Set XS and SD bits, since PM CSRs are dirty */
-     mstatus = env->mstatus | MSTATUS_XS;
 -- 
 2.40.0
 
