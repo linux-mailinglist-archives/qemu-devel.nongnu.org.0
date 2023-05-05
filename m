@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 925D96F82A0
+	by mail.lfdr.de (Postfix) with ESMTPS id 804926F829F
 	for <lists+qemu-devel@lfdr.de>; Fri,  5 May 2023 14:08:37 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1puuDP-0001Cr-Hn; Fri, 05 May 2023 08:07:11 -0400
+	id 1puuDk-0001NL-DT; Fri, 05 May 2023 08:07:32 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1puuDG-0001Aa-74
- for qemu-devel@nongnu.org; Fri, 05 May 2023 08:07:03 -0400
+ id 1puuDa-0001Ju-I7
+ for qemu-devel@nongnu.org; Fri, 05 May 2023 08:07:24 -0400
 Received: from mail-ed1-x52c.google.com ([2a00:1450:4864:20::52c])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1puuDD-0003l3-2J
- for qemu-devel@nongnu.org; Fri, 05 May 2023 08:07:01 -0400
+ id 1puuDV-0003oA-Ld
+ for qemu-devel@nongnu.org; Fri, 05 May 2023 08:07:20 -0400
 Received: by mail-ed1-x52c.google.com with SMTP id
- 4fb4d7f45d1cf-50bcc565280so2547411a12.2
- for <qemu-devel@nongnu.org>; Fri, 05 May 2023 05:06:57 -0700 (PDT)
+ 4fb4d7f45d1cf-50bc570b4a3so3251555a12.1
+ for <qemu-devel@nongnu.org>; Fri, 05 May 2023 05:07:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1683288416; x=1685880416;
+ d=linaro.org; s=google; t=1683288436; x=1685880436;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=Q4Q/M6VkiRnc2u13pK8vm0RS70qXwvGYHSr84nhT/9k=;
- b=qCrvOz2yM6Yvc/27Ca3lvvqoJtZ8boRbw/nPBLetawCiL+oNC5/xNlxkWpWlzpP2K6
- A61O8wcmjsUET7pC1tWH7fZownT7Yfmh2KHjajpKXP2CYB9+73gzE3dXdAbhxFTjp7Cv
- sUEuY5d+8aiKdKN2L2Ge7rRUUOE2slz18kse0JpQ+BXvYS8iaa5mXWersJHBED6oK8Et
- lkVS0xCNuyq1ECjhf9lPPvDJc1Mo6iZQu5/boBshApoEElOqkyXdJCaDrUSwKKXQF9Tw
- 0rpWKx2rVHm6208uwnVMmX7kyTDTBY8d9B1mC9xCW4PHlXpMxZrOqAhJaBR8ABlNHsEN
- g8/Q==
+ bh=w0IaBi6Jr8BoxklZXBMID60jI0oj2n7Ge9iH5OB+DzY=;
+ b=rQvMIOcFBrOBuJx6oP+SZJaCsQyggA25KsA0qCqPq5AP5CnZoiiE/zbgvm1WYrtl56
+ oQQvVp2TLFIsU0rH6Knd23hDc9+PNWwH8GX4kqAuqUeKW6F+FcMLF8AQFiYDo/Kj/vkC
+ h2zoz/xnKDAFJZCRubUnEs5cyyZSRgcYcNfgZjJzR1y5btwyU93YFw1tUxvHUavwvNqW
+ EZjEwWjqSDbbdmLGRw1iuFVCMyqYf9Vj89KkMJWtJN7QldR7VwLlAbLCIkYnb5ZXqLj+
+ kl8xKkipSUA/v9xoPUR9UnZJKn52kWdjc1JtciiVa6L+3J74RQxJc4n5ALtBbR6iZWtz
+ wyFw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683288416; x=1685880416;
+ d=1e100.net; s=20221208; t=1683288436; x=1685880436;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=Q4Q/M6VkiRnc2u13pK8vm0RS70qXwvGYHSr84nhT/9k=;
- b=g/sHU0Hbr8ThL+RgLEM2H75UdiqKnz7qjxc77c2O1opjV/sDXoWYx0nBrfBL0u+JCO
- FRkcfvCKKKU9kkdVqcAUyzh8tFeu3g0TCoSJ2iodWelEcVhcmNsMhrwo31rqJwURdzp8
- GuXiMgejtEkRav9sBWOY1S/W6m13i+GaOmcPvLzn/6l6Tcg5NOOliAf0sMP90/FAtUxV
- 40aYyi+gZi5fHy6PV+CWwASqkOyjWGKREEvsGOI1dCJDdfdspfMgs9o5PN+zVOI1VvNo
- +8Gp9bXZr0Cw5AyPg0AfUaUxVaFA17qb2kbNDnx/R/dATJXx9Tj4KDwktzsnFDfUtzK3
- WXmQ==
-X-Gm-Message-State: AC+VfDxsUOekbtVRjajhAt36pA9NrZh6Mh+WQd2Xa7tbPYrEJ+/e/Tet
- iEY/1qWg6wMChXtPrT7oIIlTxg8/eTGx3BkUq2OOeEiXdFg2YTWX
-X-Google-Smtp-Source: ACHHUZ6YmfAbS2DWLZdyFpGhdG9ShQaHvYqfb7kFJliPX4REGVwRXdQCF/2eXqWAiI4BTKrQpEt1uPcrDdJFuVhdu4I=
-X-Received: by 2002:aa7:d408:0:b0:50c:2215:3193 with SMTP id
- z8-20020aa7d408000000b0050c22153193mr1405048edq.13.1683288416187; Fri, 05 May
- 2023 05:06:56 -0700 (PDT)
+ bh=w0IaBi6Jr8BoxklZXBMID60jI0oj2n7Ge9iH5OB+DzY=;
+ b=hEKtKXmk+V5AbOrJruATw7jcvzs2LGTXSba4mRAFZdpseR6hKlWAbTY1JbDOezmRem
+ QtqzQaVI5d3N1L4y6bGjQF/ApoJBWnDGHgrlP//OnJuVjbY3P9b+dGYPpE5QoFBNyl4g
+ z2soWTFeNN1bPcSEszPwS413YfWxvix3l12qQoCc0QuN8Tm3Y7AhT8eX4L+y0i5k8+Cr
+ kpEB9CMFb/joBq7ZmYFWCR5H4zhP8x6scdp7gjQSBX+4Rts0bcqaYMYZMSAhttDhccZL
+ yznJxcra1E39U8vbKWzjv7Jy6B35B11H2/FaUrB0ai9njAiQwa0Swlb7jVrq+W951hk3
+ qv/w==
+X-Gm-Message-State: AC+VfDx0m1o2Kq9NoWfO148cuWjt4v1BsGsRg8wRRxRiye3lhq/Rm3eU
+ OZUYW7A16eu5osL+NgGYNXA+uvyMwbfxBdOE3r0WYA==
+X-Google-Smtp-Source: ACHHUZ6leE8ngd6GVRvFkRnZSmMHSoCWsUrMHMu8nLDcIipkZN7Hg6f7QvPmLk09KbbN8CaL9m8QtgbcVqtl6kDVKXQ=
+X-Received: by 2002:a50:ed99:0:b0:50b:d30c:c595 with SMTP id
+ h25-20020a50ed99000000b0050bd30cc595mr1213814edr.7.1683288436152; Fri, 05 May
+ 2023 05:07:16 -0700 (PDT)
 MIME-Version: 1.0
 References: <20230503070656.1746170-1-richard.henderson@linaro.org>
- <20230503070656.1746170-23-richard.henderson@linaro.org>
-In-Reply-To: <20230503070656.1746170-23-richard.henderson@linaro.org>
+ <20230503070656.1746170-24-richard.henderson@linaro.org>
+In-Reply-To: <20230503070656.1746170-24-richard.henderson@linaro.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 5 May 2023 13:06:45 +0100
-Message-ID: <CAFEAcA9ffNOA9oKV3e7PbecOzu7yyWAs7ecqKbNrTHtiDKsGTQ@mail.gmail.com>
-Subject: Re: [PATCH v4 22/57] tcg/aarch64: Use full load/store helpers in
+Date: Fri, 5 May 2023 13:07:04 +0100
+Message-ID: <CAFEAcA-Dnct2C_DnYDOT6mTAYXpnY=jN99SWZvMTc3+_0iNDuA@mail.gmail.com>
+Subject: Re: [PATCH v4 23/57] tcg/ppc: Use full load/store helpers in
  user-only mode
 To: Richard Henderson <richard.henderson@linaro.org>
 Cc: qemu-devel@nongnu.org, git@xen0n.name, gaosong@loongson.cn, 
@@ -88,7 +88,7 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, 3 May 2023 at 08:12, Richard Henderson
+On Wed, 3 May 2023 at 08:11, Richard Henderson
 <richard.henderson@linaro.org> wrote:
 >
 > Instead of using helper_unaligned_{ld,st}, use the full load/store helpers.
@@ -96,7 +96,10 @@ On Wed, 3 May 2023 at 08:12, Richard Henderson
 > while not immediately raising an alignment exception.
 >
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> --
+> ---
+>  tcg/ppc/tcg-target.c.inc | 44 ----------------------------------------
+>  1 file changed, 44 deletions(-)
+>
 
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
