@@ -2,79 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84F3C6F8C72
-	for <lists+qemu-devel@lfdr.de>; Sat,  6 May 2023 00:38:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B646B6F8CC5
+	for <lists+qemu-devel@lfdr.de>; Sat,  6 May 2023 01:24:45 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pv42X-00072I-Ls; Fri, 05 May 2023 18:36:37 -0400
+	id 1pv4lr-000889-1M; Fri, 05 May 2023 19:23:27 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <tbarrett@crusoeenergy.com>)
- id 1pv42W-00071r-B4
- for qemu-devel@nongnu.org; Fri, 05 May 2023 18:36:36 -0400
-Received: from us-smtp-delivery-137.mimecast.com ([170.10.133.137])
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1pv4lp-00087q-0S
+ for qemu-devel@nongnu.org; Fri, 05 May 2023 19:23:25 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <tbarrett@crusoeenergy.com>)
- id 1pv42U-00015G-7f
- for qemu-devel@nongnu.org; Fri, 05 May 2023 18:36:35 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crusoeenergy.com;
- s=mimecast20220526; t=1683326192;
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1pv4ln-0004EB-1K
+ for qemu-devel@nongnu.org; Fri, 05 May 2023 19:23:24 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1683329001;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type;
- bh=Ci0VLZpkJHnSH8Uuj2uCFlyo/0eHYUt+YM7h/RNq4vc=;
- b=oVGrao+PnKyyeKITcVs9/SO5UY62vpFOxq0eRupWnpVrlWHd9QyhUwyPok+6W8abM0nb2S
- A+s6TuK8QzBP7cQbJMsjeCNs4rQl4dwgdN0bW9+3j9D7h1h7u5gvfyv35RTftocDxzbZeb
- g1+roYc1GeE2rkjNUY04W8iTo+UljwY=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-90-mMboa90ANlCmuozLRudHvA-1; Fri, 05 May 2023 18:36:31 -0400
-X-MC-Unique: mMboa90ANlCmuozLRudHvA-1
-Received: by mail-wr1-f71.google.com with SMTP id
- ffacd0b85a97d-306311a2b99so938891f8f.1
- for <qemu-devel@nongnu.org>; Fri, 05 May 2023 15:36:30 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683326189; x=1685918189;
- h=to:subject:message-id:date:from:mime-version:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=hSAWzuxeFTC8GRWtZ32oUylx4j4Ng+njzEvu/ZUGkrI=;
- b=GQKbxb2NhZgDKzdz5nGsVVcnOTu7z4EmpRIH3iDVCEkTvi0U0kgYu/setclVCKJQKi
- JAUvht+g+Gn9b3+iX5urYUHWjPzefI+Lke+pCrpOfLBtELay0WJKNo5VhK+oeKq7IAM2
- A/KMfZrJuHIE1vUNZ23GhwMCJlJWiD0hq+ajrxtTASIDrdic+BQhn/jT6sQCvJH6bfyf
- Wr7mKiYfmluFlqAsJZNhNqGE5QnX68igaO4MkFv89plzsywiftCnm7TCq6dHxJojJ+ZH
- t4xN2sF1r7qNAb+ngWX4u+NDze8jW+oRznXGL8nhqGE2MfSnwIEJbPokpcId+ycOVTAM
- FkyQ==
-X-Gm-Message-State: AC+VfDyACu89sUw3712fZty2dJgkY1rbetvO4QDumHNG4eLZB2HO3o6h
- VQ4pCpdDFJJfZAqbWzL6Sz23b3tl8vlXMjWLv6+6gyaaywJmCCjCiNwDBNqA8jIJsCJOmV2JGbi
- xZw6QQ5fQlsSqZ6L0yt9Ix1ZNQ2BfEBnXxtBCkhYwOZzPHUUy7wgAeGGo0EvOfCooHhJOeBv6Ws
- mHNPTVSmock1vuhBxymTAx8HI0i6+GMJKGv80wPJSKEqbKLCE=
-X-Received: by 2002:a5d:688a:0:b0:306:2b53:e7de with SMTP id
- h10-20020a5d688a000000b003062b53e7demr2168063wru.28.1683326189618; 
- Fri, 05 May 2023 15:36:29 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ5FCM8EGwFdWkEjkLref9Lk1x8nkFg6xlJTMGH1Um4574y29KK5i0KOy0I0jGwMAx2zH+98obXsiI6Oudzj4YY=
-X-Received: by 2002:a5d:688a:0:b0:306:2b53:e7de with SMTP id
- h10-20020a5d688a000000b003062b53e7demr2168060wru.28.1683326189222; Fri, 05
- May 2023 15:36:29 -0700 (PDT)
-MIME-Version: 1.0
-From: Thomas Barrett <tbarrett@crusoeenergy.com>
-Date: Fri, 5 May 2023 15:36:18 -0700
-Message-ID: <CAMr20=BiqOWaM0yp7mpt83ODSmtKJD5ueE0zOT8ZAsErC4qgkw@mail.gmail.com>
-Subject: Question: PCIe P2P Guidance
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=rl5HcSkZDieagd3mT3skzzxr+NNN5cBOeWYGffPcTjk=;
+ b=aGmY+QyzhzE72OEZj/+ozrj9XC8hcuZNUKKjppFuvBN4ydd2KGZgh3qLT5pWRJLCA/o5m8
+ RpD+7lLwCZateKDj6767SJyQ3rdOPWXIWiL2TUWQPW2akeThhkPCXVrQn596LZTDIvwJiU
+ aQYsbu3oCldqvfSuNsYgJeG3IpaNz3w=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-43-qko1RICYOjy1Ih4nTcPt8A-1; Fri, 05 May 2023 19:23:19 -0400
+X-MC-Unique: qko1RICYOjy1Ih4nTcPt8A-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.8])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8F1DC80080E
+ for <qemu-devel@nongnu.org>; Fri,  5 May 2023 23:23:19 +0000 (UTC)
+Received: from omen.home.shazbot.org (unknown [10.22.18.185])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 37BFCC15BA0;
+ Fri,  5 May 2023 23:23:19 +0000 (UTC)
+From: Alex Williamson <alex.williamson@redhat.com>
 To: qemu-devel@nongnu.org
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: crusoeenergy.com
-Content-Type: multipart/alternative; boundary="0000000000008cd19205faf9eb53"
-Received-SPF: pass client-ip=170.10.133.137;
- envelope-from=tbarrett@crusoeenergy.com;
- helo=us-smtp-delivery-137.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Cc: clg@redhat.com,
+	Alex Williamson <alex.williamson@redhat.com>
+Subject: [PATCH v2] vfio/pci: Static Resizable BAR capability
+Date: Fri,  5 May 2023 17:23:08 -0600
+Message-Id: <20230505232308.2869912-1-alex.williamson@redhat.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
+Received-SPF: pass client-ip=170.10.129.124;
+ envelope-from=alex.williamson@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -22
+X-Spam_score: -2.3
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.161,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,103 +76,125 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
---0000000000008cd19205faf9eb53
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+The PCI Resizable BAR (ReBAR) capability is currently hidden from the
+VM because the protocol for interacting with the capability does not
+support a mechanism for the device to reject an advertised supported
+BAR size.  However, when assigned to a VM, the act of resizing the
+BAR requires adjustment of host resources for the device, which
+absolutely can fail.  Linux does not currently allow us to reserve
+resources for the device independent of the current usage.
 
-Hi,
+The only writable field within the ReBAR capability is the BAR Size
+register.  The PCIe spec indicates that when written, the device
+should immediately begin to operate with the provided BAR size.  The
+spec however also notes that software must only write values
+corresponding to supported sizes as indicated in the capability and
+control registers.  Writing unsupported sizes produces undefined
+results.  Therefore, if the hypervisor were to virtualize the
+capability and control registers such that the current size is the
+only indicated available size, then a write of anything other than
+the current size falls into the category of undefined behavior,
+where we can essentially expose the modified ReBAR capability as
+read-only.
 
-I have been struggling for a few months now with achieving full bandwidth
-PCIe P2P in a qemu virtual machine. I am working with a number of PCIe
-endpoints (NVIDIA A100 GPUs and Mellanox ConnectX 7 Infiniband NICs) behind
-a PCIe switch. In all configurations I have tried, P2P traffic gets router
-back to the root complex. Does. Anyone have guidance on whether full
-bandwidth PCIe P2P is even supported by qemu?
+This may seem pointless, but users have reported that virtualizing
+the capability in this way not only allows guest software to expose
+related features as available (even if only cosmetic), but in some
+scenarios can resolve guest driver issues.  Additionally, no
+regressions in behavior have been reported for this change.
 
-Through my research, I have found have found two main approaches to solve
-this.
+A caveat here is that the PCIe spec requires for compatibility that
+devices report support for a size in the range of 1MB to 512GB,
+therefore if the current BAR size falls outside that range we revert
+to hiding the capability.
 
-[ 1 ] ATS came up frequently In my research. Unfortunetaly, I do not
-believe that all of my PCIe endpoints support the use of ATS for P2P
-traffic. at the very least, toggling the DirectTrans flag on my PCI switch
-didn=E2=80=99t have any affect on bandwidth on either the host or the guest=
-. I=E2=80=99m
-think that this might be a dead end.
+Signed-off-by: Alex Williamson <alex.williamson@redhat.com>
+---
+v2:
+ - Add spec reference
+ - Use PCI_REBAR_CAP_SIZES to check sizes in range
+ - Try to clarify capability bit generation
+ - Rename s/bars/nbar/ to match #defines
+ - More complete masking of NBAR value
 
-[ 2 ] Another potential option is to disable ACS on the PCIe switch and
-pass all devices on the same switch to a virtual machine. Based on
-everything that I have read, this =E2=80=9Cshould=E2=80=9D work. When toggl=
-ing the
-RequestRedir flag on the PCIe switch using =E2=80=9Csetpci=E2=80=9D, P2P ba=
-ndwidth
-increased and decreased as expected on the host. However, the P2P bandwidth
-did not increase or decrease in the guest.
+ hw/vfio/pci.c | 54 ++++++++++++++++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 53 insertions(+), 1 deletion(-)
 
-I can=E2=80=99t really explain the behavior that I am seeing in approach [ =
-2 ].
-Should disabling the RequestRedir flag on a PCIe switch enable P2P traffic
-between different IOMMU groups? If not, why?
-
-Best,
-Thomas
-
-Disclaimer
-
-The information contained in this communication from the sender is confiden=
-tial. It is intended solely for use by the recipient and others authorized =
-to receive it. If you are not the recipient, you are hereby notified that a=
-ny disclosure, copying, distribution or taking action in relation of the co=
-ntents of this information is strictly prohibited and may be unlawful.
-
-This email has been scanned for viruses and malware, and may have been auto=
-matically archived by Mimecast, a leader in email security and cyber resili=
-ence. Mimecast integrates email defenses with brand protection, security aw=
-areness training, web security, compliance and other essential capabilities=
-. Mimecast helps protect large and small organizations from malicious activ=
-ity, human error and technology failure; and to lead the movement toward bu=
-ilding a more resilient world. To find out more, visit our website.
-
---0000000000008cd19205faf9eb53
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<html><head><style type=3D"text/css">.style1 {font-family: "Times New Roman=
-";}</style></head><body>Hi,<div dir=3D"auto"><br></div><div dir=3D"auto">I =
-have been struggling for a few months now with achieving full bandwidth PCI=
-e P2P in a qemu virtual machine. I am working with a number of PCIe endpoin=
-ts (NVIDIA A100 GPUs and Mellanox ConnectX 7 Infiniband NICs) behind a PCIe=
- switch. In all configurations I have tried, P2P traffic gets router back t=
-o the root complex. Does. Anyone have guidance on whether full bandwidth PC=
-Ie P2P is even supported by qemu?</div><div dir=3D"auto"><br></div><div dir=
-=3D"auto">Through my research, I have found have found two main approaches =
-to solve this.</div><div dir=3D"auto"><br></div><div dir=3D"auto">[ 1 ] ATS=
- came up frequently In my research. Unfortunetaly, I do not believe that al=
-l of my PCIe endpoints support the use of ATS for P2P traffic. at the very =
-least, toggling the DirectTrans flag on my PCI switch didn=E2=80=99t have a=
-ny affect on bandwidth on either the host or the guest. I=E2=80=99m think t=
-hat this might be a dead end.</div><div dir=3D"auto"><br></div><div dir=3D"=
-auto">[ 2 ] Another potential option is to disable ACS on the PCIe switch a=
-nd pass all devices on the same switch to a virtual machine. Based on every=
-thing that I have read, this =E2=80=9Cshould=E2=80=9D work. When toggling t=
-he RequestRedir flag on the PCIe switch using =E2=80=9Csetpci=E2=80=9D, P2P=
- bandwidth increased and decreased as expected on the host. However, the P2=
-P bandwidth did not increase or decrease in the guest.</div><div dir=3D"aut=
-o"><br></div><div dir=3D"auto">I can=E2=80=99t really explain the behavior =
-that I am seeing in approach [ 2 ]. Should disabling the RequestRedir flag =
-on a PCIe switch enable P2P traffic between different IOMMU groups? If not,=
- why?<br></div><div dir=3D"auto"><br></div><div dir=3D"auto">Best,</div><di=
-v dir=3D"auto">Thomas</div><div dir=3D"auto"><br></div><div dir=3D"auto"><b=
-r></div><div dir=3D"auto"><br></div><div dir=3D"auto"><br></div><div dir=3D=
-"auto"><br></div>
-<br><br><p style=3D"font-family: Verdana; font-size:10pt; color:#666666;"><=
-b>Disclaimer</b></p><p style=3D"font-family: Verdana; font-size:8pt; color:=
-#666666;">The information contained in this communication from the sender i=
-s confidential. It is intended solely for use by the recipient and others a=
-uthorized to receive it. If you are not the recipient, you are hereby notif=
-ied that any disclosure, copying, distribution or taking action in relation=
- of the contents of this information is strictly prohibited and may be unla=
-wful.</p></body></html>
-
---0000000000008cd19205faf9eb53--
+diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
+index cf27f28936cb..3ab849767a92 100644
+--- a/hw/vfio/pci.c
++++ b/hw/vfio/pci.c
+@@ -2066,6 +2066,54 @@ static int vfio_add_std_cap(VFIOPCIDevice *vdev, uint8_t pos, Error **errp)
+     return 0;
+ }
+ 
++static int vfio_setup_rebar_ecap(VFIOPCIDevice *vdev, uint16_t pos)
++{
++    uint32_t ctrl;
++    int i, nbar;
++
++    ctrl = pci_get_long(vdev->pdev.config + pos + PCI_REBAR_CTRL);
++    nbar = (ctrl & PCI_REBAR_CTRL_NBAR_MASK) >> PCI_REBAR_CTRL_NBAR_SHIFT;
++
++    for (i = 0; i < nbar; i++) {
++        uint32_t cap;
++        int size;
++
++        ctrl = pci_get_long(vdev->pdev.config + pos + PCI_REBAR_CTRL + (i * 8));
++        size = (ctrl & PCI_REBAR_CTRL_BAR_SIZE) >> PCI_REBAR_CTRL_BAR_SHIFT;
++
++        /* The cap register reports sizes 1MB to 127TB, with 4 reserved bits */
++        cap = size <= 27 ? 1U << (size + 4) : 0;
++
++        /*
++         * The PCIe spec (v6.0.1, 7.8.6) requires HW to support at least one
++         * size in the range 1MB to 512GB.  We intend to mask all sizes except
++         * the one currently enabled in the size field, therefore if it's
++         * outside the range, hide the whole capability as this virtualization
++         * trick won't work.  If >512GB resizable BARs start to appear, we
++         * might need an opt-in or reservation scheme in the kernel.
++         */
++        if (!(cap & PCI_REBAR_CAP_SIZES)) {
++            return -EINVAL;
++        }
++
++        /* Hide all sizes reported in the ctrl reg per above requirement. */
++        ctrl &= (PCI_REBAR_CTRL_BAR_SIZE |
++                 PCI_REBAR_CTRL_NBAR_MASK |
++                 PCI_REBAR_CTRL_BAR_IDX);
++
++        /*
++         * The BAR size field is RW, however we've mangled the capability
++         * register such that we only report a single size, ie. the current
++         * BAR size.  A write of an unsupported value is undefined, therefore
++         * the register field is essentially RO.
++         */
++        vfio_add_emulated_long(vdev, pos + PCI_REBAR_CAP + (i * 8), cap, ~0);
++        vfio_add_emulated_long(vdev, pos + PCI_REBAR_CTRL + (i * 8), ctrl, ~0);
++    }
++
++    return 0;
++}
++
+ static void vfio_add_ext_cap(VFIOPCIDevice *vdev)
+ {
+     PCIDevice *pdev = &vdev->pdev;
+@@ -2139,9 +2187,13 @@ static void vfio_add_ext_cap(VFIOPCIDevice *vdev)
+         case 0: /* kernel masked capability */
+         case PCI_EXT_CAP_ID_SRIOV: /* Read-only VF BARs confuse OVMF */
+         case PCI_EXT_CAP_ID_ARI: /* XXX Needs next function virtualization */
+-        case PCI_EXT_CAP_ID_REBAR: /* Can't expose read-only */
+             trace_vfio_add_ext_cap_dropped(vdev->vbasedev.name, cap_id, next);
+             break;
++        case PCI_EXT_CAP_ID_REBAR:
++            if (!vfio_setup_rebar_ecap(vdev, next)) {
++                pcie_add_capability(pdev, cap_id, cap_ver, next, size);
++            }
++            break;
+         default:
+             pcie_add_capability(pdev, cap_id, cap_ver, next, size);
+         }
+-- 
+2.39.2
 
 
