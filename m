@@ -2,86 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 849D86F84D6
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 May 2023 16:27:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 974D76F84E1
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 May 2023 16:31:59 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1puwO5-0007q8-MI; Fri, 05 May 2023 10:26:21 -0400
+	id 1puwSr-0000yb-PD; Fri, 05 May 2023 10:31:17 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1puwO1-0007py-MI
- for qemu-devel@nongnu.org; Fri, 05 May 2023 10:26:18 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1puwSp-0000xi-A9
+ for qemu-devel@nongnu.org; Fri, 05 May 2023 10:31:15 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1puwNz-0004bl-UE
- for qemu-devel@nongnu.org; Fri, 05 May 2023 10:26:17 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1puwSm-00066L-SF
+ for qemu-devel@nongnu.org; Fri, 05 May 2023 10:31:15 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1683296773;
+ s=mimecast20190719; t=1683297072;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=zIzRbzkK0yZElJIaqAzAqZgxTsRXydhnyZplmG6eNP4=;
- b=ZXXftiunaPjGHs5y/XrbWvP2OjczLHnG0M3recrloo1uTxIY6VeothdiVrZ3LkCJ+zXGdn
- AIRFTpz8xFWhwbnlj9bSQEs2vbMwMJmUoJ+Kd6F4Hl9D4yzJp6QBfffSuAq9183X5M0Gcr
- pg9b8D6zDnXLqeJ+l37aTC5eevE23/E=
-Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
- [209.85.222.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=7IAmzZAVl9Ma5GdYJJCNFIlhk3LLvI5uITg9ilAzfT4=;
+ b=ZH2YD47p+wQLW9H5OkQ/sYulqSxo47s54cG5XmD4fkm9yI5u6lH6lqQ303E9/eDfVgrG83
+ rF6BwhITcyrYBwo6Tgsdpy6SxC0i3f0MUXZeMl92WKTf8mb7ezum1VU268LFgRryvnHlDG
+ cGy9bOZvAdso3MaoAVhGJCvaHfvRJIU=
+Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
+ [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-600-badf_mCIONm6MY-fow-7Rg-1; Fri, 05 May 2023 10:26:12 -0400
-X-MC-Unique: badf_mCIONm6MY-fow-7Rg-1
-Received: by mail-qk1-f200.google.com with SMTP id
- af79cd13be357-74d96c33de9so16113185a.1
- for <qemu-devel@nongnu.org>; Fri, 05 May 2023 07:26:12 -0700 (PDT)
+ us-mta-106-3Il-K03vO1mpfLTKJah93Q-1; Fri, 05 May 2023 10:31:10 -0400
+X-MC-Unique: 3Il-K03vO1mpfLTKJah93Q-1
+Received: by mail-ej1-f70.google.com with SMTP id
+ a640c23a62f3a-9532170e7d3so176698866b.0
+ for <qemu-devel@nongnu.org>; Fri, 05 May 2023 07:31:10 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683296771; x=1685888771;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=zIzRbzkK0yZElJIaqAzAqZgxTsRXydhnyZplmG6eNP4=;
- b=hIPp8njURkrQyli/JtqaMG96Jj8Us/wR7s2GEdAyna5hgSMp4xWX5OGFc3mSzBahhA
- IZmSL8NGUibhLIl9Gk3x6ygJkEn0cyptLA1WmHI+9PPOEemkQEr291ebeXzsHF+FAl0u
- 0qu44SDUzbCd9PS7EDyxVLH5piGwLpQw4OJ43MnqHzteGlRAiUqzU6aUMH3uHbBhwbyY
- qfBuiD7JS7JW6cEsFKmsMy+g1r28Wh8kvOXR1rXJha1hr1/U3OCy1n2V8h4bPWzGbD5q
- l0WdqiDQ25Yqa+fk5C45w90RzqBFPr6V7ORaM5KN3BnwHAGUPIFWAHFFTBL8jqM+VmO3
- 8sgQ==
-X-Gm-Message-State: AC+VfDx6N7H5ABoyJfzBHbjvaS/UwzM8eo06y1f7nj3K+e+Bq13R37tU
- n+HgnVR0pTkZTXZwQSJtVvPv2rTeCqLAywKgkPHpB5to6v5jMEGEbb5VmkTk1qaduPjdPrECfBZ
- lZWchxNulSCBadhI=
-X-Received: by 2002:ad4:5ecf:0:b0:616:73d9:b9d8 with SMTP id
- jm15-20020ad45ecf000000b0061673d9b9d8mr2164578qvb.3.1683296771618; 
- Fri, 05 May 2023 07:26:11 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ5xJ9EPKLCVwLr0TUHPYPKGrwsDer+QXv+zZIfk51g2jFSiD2/g9DGVcn6llAtiCT3f0/OKxw==
-X-Received: by 2002:ad4:5ecf:0:b0:616:73d9:b9d8 with SMTP id
- jm15-20020ad45ecf000000b0061673d9b9d8mr2164556qvb.3.1683296771339; 
- Fri, 05 May 2023 07:26:11 -0700 (PDT)
-Received: from x1n (bras-base-aurron9127w-grc-40-70-52-229-124.dsl.bell.ca.
- [70.52.229.124]) by smtp.gmail.com with ESMTPSA id
- z19-20020a0cda93000000b0061eaef8ff84sm634598qvj.28.2023.05.05.07.26.10
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 05 May 2023 07:26:10 -0700 (PDT)
-Date: Fri, 5 May 2023 10:26:09 -0400
-From: Peter Xu <peterx@redhat.com>
-To: Markus Armbruster <armbru@redhat.com>
-Cc: qemu-devel@nongnu.org, Juan Quintela <quintela@redhat.com>,
- Leonardo Bras <leobras@redhat.com>, Lidong Chen <lidongchen@tencent.com>,
- Li Zhijian <lizhijian@cn.fujitsu.com>
-Subject: Re: migration/rdma.c's macro ERROR()
-Message-ID: <ZFUSAXDMHztKGdlO@x1n>
-References: <87sfcbuk3i.fsf@pond.sub.org>
+ d=1e100.net; s=20221208; t=1683297069; x=1685889069;
+ h=content-transfer-encoding:in-reply-to:subject:from:content-language
+ :references:cc:to:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=7IAmzZAVl9Ma5GdYJJCNFIlhk3LLvI5uITg9ilAzfT4=;
+ b=HYSKz8xyS8RQJ8RbndMgfaR17xzzKUM0UlDZ9EQwCV4pabrZLvR4Ri2QqDNCpVdho4
+ vAUxMgBta77OCfI2Paja0S7WceZTER4dNmOAFO3/n/ELQLJVSv645oICtF4PZLbBXLlW
+ T+MiENAzA8kAu880ITpaC/VxLWpvxefsmD7uqXAH5Akn6gE5Li1wrjioGW829K3DRFb8
+ 7+bqltX6D3hN67/LIkxRr5wwKpvzYQp+8lUqWAJx6T1F6D/+Aef1duEvSKfW6m65cgk/
+ b3gooKCw+XwFabwBHYKnbEi13MY2ltw6Qheg7KhYhLXnsX+RMz4WIKXPo2/s/lRiNg6g
+ zmrA==
+X-Gm-Message-State: AC+VfDzqOBF6nMRrRVYWlyRML6KgohiKuECJRs2deZZL9klRXIfm6C1i
+ //BxBShOLFvYT/xe+AebGMvdIWIlCK3WuWwwZP6egj0ANDVWYTY2U0C4FDq8hV0+w9BO4169igg
+ qMalkzf35QtG7dMs=
+X-Received: by 2002:a17:907:da1:b0:94f:6ca2:e34 with SMTP id
+ go33-20020a1709070da100b0094f6ca20e34mr1523527ejc.66.1683297069162; 
+ Fri, 05 May 2023 07:31:09 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ4bYfNkJd39hcw9H7Ek0BEw1gXffqe/BDvFHlu0WGATa6KfUXbBAOP4ceJqP1uz27nsPcWt+Q==
+X-Received: by 2002:a17:907:da1:b0:94f:6ca2:e34 with SMTP id
+ go33-20020a1709070da100b0094f6ca20e34mr1523495ejc.66.1683297068868; 
+ Fri, 05 May 2023 07:31:08 -0700 (PDT)
+Received: from [192.168.0.3] (ip-109-43-179-91.web.vodafone.de.
+ [109.43.179.91]) by smtp.gmail.com with ESMTPSA id
+ gz5-20020a170907a04500b0094f663bced2sm1020093ejc.33.2023.05.05.07.31.07
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 05 May 2023 07:31:08 -0700 (PDT)
+Message-ID: <5554d26d-b932-c3be-7333-a2e385066ef3@redhat.com>
+Date: Fri, 5 May 2023 16:31:06 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <87sfcbuk3i.fsf@pond.sub.org>
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+To: Fabiano Rosas <farosas@suse.de>, qemu-devel@nongnu.org
+Cc: qemu-arm@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>,
+ Laurent Vivier <lvivier@redhat.com>
+References: <20230505123524.23401-1-farosas@suse.de>
+ <20230505123524.23401-4-farosas@suse.de>
+Content-Language: en-US
+From: Thomas Huth <thuth@redhat.com>
+Subject: Re: [PATCH v2 3/3] tests/qtest: Don't run cdrom tests if no
+ accelerator is present
+In-Reply-To: <20230505123524.23401-4-farosas@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -22
-X-Spam_score: -2.3
-X-Spam_bar: --
-X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.161,
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.161,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-4.28, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -97,45 +107,34 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, May 05, 2023 at 12:51:45PM +0200, Markus Armbruster wrote:
-> migration/rdma.c has
+On 05/05/2023 14.35, Fabiano Rosas wrote:
+> On a build configured with: --disable-tcg --enable-xen it is possible
+> to produce a QEMU binary with no TCG nor KVM support. Skip the test if
+> that's the case.
 > 
->     /*
->      * Print and error on both the Monitor and the Log file.
->      */
->     #define ERROR(errp, fmt, ...) \
->         do { \
->             fprintf(stderr, "RDMA ERROR: " fmt "\n", ## __VA_ARGS__); \
->             if (errp && (*(errp) == NULL)) { \
->                 error_setg(errp, "RDMA ERROR: " fmt, ## __VA_ARGS__); \
->             } \
->         } while (0)
+> Fixes: 0c1ae3ff9d ("tests/qtest: Fix tests when no KVM or TCG are present")
+> Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
+> Signed-off-by: Fabiano Rosas <farosas@suse.de>
+> ---
+>   tests/qtest/cdrom-test.c | 5 +++++
+>   1 file changed, 5 insertions(+)
 > 
-> This is problematic.  The point of error_setg() & friends is detectin
-> errors from handling them.  error.h:
-> 
->  * - Separation of concerns: the function is responsible for detecting
->  *   errors and failing cleanly; handling the error is its caller's
->  *   job.  [...]
-> 
-> Reporting the error to stderr violates this principle.  Consequences
-> include
-> 
-> * When the caller reports the error to stderr, it gets reported there
->   twice, possibly in slightly different form.
-> 
-> * When the caller recovers from the error cleanly without reporting it,
->   it is reported to stderr anyway, even though it is not actually an
->   error.
-> 
-> Mind if I kill the macro?
+> diff --git a/tests/qtest/cdrom-test.c b/tests/qtest/cdrom-test.c
+> index 26a2400181..09655e6ff0 100644
+> --- a/tests/qtest/cdrom-test.c
+> +++ b/tests/qtest/cdrom-test.c
+> @@ -205,6 +205,11 @@ int main(int argc, char **argv)
+>   
+>       g_test_init(&argc, &argv, NULL);
+>   
+> +    if (!qtest_has_accel("tcg") && !qtest_has_accel("kvm")) {
+> +        g_test_skip("No KVM or TCG accelerator available");
+> +        return 0;
+> +    }
 
-Makes sense to me.
+You only nee to skip the test if running with x86 or s390x, all other 
+targets use only "-accel qtest" IIRC, so those shoul be fine.
 
-/me copies the most recent (in past two years) active developers on rdma so
-they're aware.
-
--- 
-Peter Xu
+  Thomas
 
 
