@@ -2,78 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F41FD6F7AC8
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 May 2023 04:01:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C2FB6F7AF5
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 May 2023 04:31:31 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pukju-00040y-Em; Thu, 04 May 2023 22:00:06 -0400
+	id 1pulBM-0004Kq-CE; Thu, 04 May 2023 22:28:28 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1pukjs-00040S-NP; Thu, 04 May 2023 22:00:04 -0400
-Received: from mail-ua1-x929.google.com ([2607:f8b0:4864:20::929])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1pukjq-0005T2-S5; Thu, 04 May 2023 22:00:04 -0400
-Received: by mail-ua1-x929.google.com with SMTP id
- a1e0cc1a2514c-77a8cc70fdeso363049241.2; 
- Thu, 04 May 2023 19:00:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1683252001; x=1685844001;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=PVpi7jnCVd+unREPe7fGXXKh5SiuutFp7mwd8hlQs6U=;
- b=fTe7gi0JAizNZLoB7Djhcno5HSfrxg44SzO3Imd1MiOLEaEykZi9BFMOPh2t2Rzl8W
- haA1aW109X1UwG1lDz0xjURh8oTQw5jpRu4yaMtqm0fZ9RBRPdVjm3kGmwIyCGZHbF8t
- P4TPt6VVok/fyWeUpfy5rYRSXCSufsLvBOaZfmH66a3LbzGwhnVR7NgbtX5Gb7TegxGB
- 3+X01mdSPoPGELvfnbSq5djrRRG3EDKm6p/CR710NdMRyBoU/+w8NR3Ew+z6aR8eGc7S
- 9t1DRdP4jxfMaUrPA4V6prFPpLLi/iHgRMtLJXVDV6JXD3Vk2E9dhH0Crb9ab8AWfMRI
- RFKA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683252001; x=1685844001;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=PVpi7jnCVd+unREPe7fGXXKh5SiuutFp7mwd8hlQs6U=;
- b=VxDpKafUxS+70VPOkQ6ftAS49TEpVHh3rYoyL8YzRj8MOXKnZM60jV2RVMtba+Bd5L
- bqHjiHkuGSrMUr0s3OnBaE29Hqh2GTnoXtYjz12C8zIg3ZCbROKPpRf5x3aHFVBH6bYq
- ltw3Sbe5lCLy0jy/5CSPn/wy6DSD4E5s2smpcBQ6P12sbTbT/rvoFMohk4/GLGYcuTCW
- 0aFALd/9tz/Znm2CglQeOgx967sgY9kmBWWbDalxEdaf7TTM6sCaykjxsURNtxT625Qg
- mSiFDmXRRwQVudBARVFlsLM/sk41KhR6iBBjMEBXIsuqsNYcFnmTGlGCrRwNFVNEIw15
- U5yg==
-X-Gm-Message-State: AC+VfDzqZCWTENz8aEURilbFBDsQICOWi3V/blvSiiewjEg4BT8G0gfK
- UCq+q2TA++JOHUA7a0nqKerkQ8JBbJFrC78chWs=
-X-Google-Smtp-Source: ACHHUZ5cfJbyz8nXiLHTSk1ag7OpP5C4HJtFGwkcH/djMCooUXbL7AToeNLFF6/YiShMMGisB8J903EYjXXnG69IZek=
-X-Received: by 2002:a05:6102:143:b0:434:413a:151b with SMTP id
- a3-20020a056102014300b00434413a151bmr35705vsr.15.1683252000523; Thu, 04 May
- 2023 19:00:00 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
+ id 1pulBH-0004KM-9l
+ for qemu-devel@nongnu.org; Thu, 04 May 2023 22:28:23 -0400
+Received: from mail.loongson.cn ([114.242.206.163] helo=loongson.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <gaosong@loongson.cn>) id 1pulBE-00072A-Eh
+ for qemu-devel@nongnu.org; Thu, 04 May 2023 22:28:23 -0400
+Received: from loongson.cn (unknown [10.2.5.185])
+ by gateway (Coremail) with SMTP id _____8Cx_eq4aVRkoPcEAA--.8088S3;
+ Fri, 05 May 2023 10:28:09 +0800 (CST)
+Received: from localhost.localdomain (unknown [10.2.5.185])
+ by localhost.localdomain (Coremail) with SMTP id
+ AQAAf8Bx8a+2aVRkNw9LAA--.7251S2; 
+ Fri, 05 May 2023 10:28:06 +0800 (CST)
+From: Song Gao <gaosong@loongson.cn>
+To: qemu-devel@nongnu.org
+Cc: richard.henderson@linaro.org
+Subject: [PULL 00/45] loongarch-to-apply queue
+Date: Fri,  5 May 2023 10:27:21 +0800
+Message-Id: <20230505022806.6082-1-gaosong@loongson.cn>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-References: <20230411183511.189632-1-dbarboza@ventanamicro.com>
- <CAKmqyKMhA5=f99rzxp63-vqiUCZwEuWmAZK76=ZKUrni-CTauQ@mail.gmail.com>
- <6946d44f-8b24-de00-7efc-e35d48f62705@ventanamicro.com>
-In-Reply-To: <6946d44f-8b24-de00-7efc-e35d48f62705@ventanamicro.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Fri, 5 May 2023 11:59:34 +1000
-Message-ID: <CAKmqyKOUHKsK27=1PvQr-xM5vMvZ5hj_EzBeeXr-xQ3tdNhw1A@mail.gmail.com>
-Subject: Re: [PATCH v3 0/3] target/riscv: implement query-cpu-definitions
-To: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
-Cc: qemu-devel@nongnu.org, qemu-riscv@nongnu.org, alistair.francis@wdc.com, 
- bmeng@tinylab.org, liweiwei@iscas.ac.cn, zhiwei_liu@linux.alibaba.com, 
- palmer@rivosinc.com, richard.henderson@linaro.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::929;
- envelope-from=alistair23@gmail.com; helo=mail-ua1-x929.google.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: AQAAf8Bx8a+2aVRkNw9LAA--.7251S2
+X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
+X-Coremail-Antispam: 1Uk129KBjvJXoWxur47XFyUtF45KryrCr45Wrg_yoWrXF1fpr
+ y3ZrnrtFW8JrZ7Xr1kXa9xZrn0qr1xG3y2v3Wft348uw43Ar97ZF1kt3s2gFyUXayUGry2
+ qF10kw1DXF45X37anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
+ qI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUIcSsGvfJTRUUU
+ bn8Fc2x0x2IEx4CE42xK8VAvwI8IcIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4
+ AK67xGY2AK021l84ACjcxK6xIIjxv20xvE14v26r4j6ryUM28EF7xvwVC0I7IYx2IY6xkF
+ 7I0E14v26r4j6F4UM28EF7xvwVC2z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIEc7
+ CjxVAFwI0_Gr1j6F4UJwAS0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07AIYIkI8VC2
+ zVCFFI0UMc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VCjz48v1sIEY20_WwAm72CE4IkC6x
+ 0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64vIr41l42xK82IYc2Ij64vIr41l42xK82IY6x8ErcxF
+ aVAv8VWrMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxV
+ Cjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUXVWUAwCIc40Y0x0EwIxGrwCI42IY
+ 6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6x
+ AIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY
+ 1x0267AKxVWUJVW8JbIYCTnIWIevJa73UjIFyTuYvj4RC_MaUUUUU
+Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
+ helo=loongson.cn
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,87 +73,93 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, May 3, 2023 at 7:51=E2=80=AFPM Daniel Henrique Barboza
-<dbarboza@ventanamicro.com> wrote:
->
-> Alistair,
->
-> Patch 2 has a typo right in the commit title:
->
-> "target/riscv: add query-cpy-definitions support"
->
-> it should be 'query-cpu-definitions'. Can you amend it in the tree? Or sh=
-ould
-> I re-send?
+The following changes since commit f6b761bdbd8ba63cee7428d52fb6b46e4224ddab:
 
-I have fixed it in my tree, so no need to resend.
+  Merge tag 'qga-pull-2023-05-04' of https://github.com/kostyanf14/qemu into staging (2023-05-04 12:08:00 +0100)
 
-I did already send the PR though. I don't think it's worth re-sending
-a v2 PR for the typo
+are available in the Git repository at:
 
-Alistair
+  https://gitlab.com/gaosong/qemu.git tags/pull-loongarch-20230505
 
->
->
->
-> Thanks,
->
->
-> Daniel
->
->
->
-> On 4/16/23 23:58, Alistair Francis wrote:
-> > On Wed, Apr 12, 2023 at 4:36=E2=80=AFAM Daniel Henrique Barboza
-> > <dbarboza@ventanamicro.com> wrote:
-> >>
-> >> Hi,
-> >>
-> >> In this v3 I removed patches 3 and 4 of v2.
-> >>
-> >> Patch 3 now implements a new type that the generic CPUs (any, rv32,
-> >> rv64, x-rv128) were converted to. This type will be used by
-> >> query-cpu-definitions to determine if a given cpu is static or not bas=
-ed
-> >> on its type. This approach was suggested by Richard Henderson in the v=
-2
-> >> review.
-> >>
-> >> Patches are based on top of Alistair's riscv-to-apply.next.
-> >>
-> >> Changes from v2:
-> >> - old patches 3 and 4: removed
-> >> - patch 3:
-> >>    - add TYPE_RISCV_DYNAMIC_CPU
-> >>    - use this type to set 'q_static' in riscv_cpu_add_definition()
-> >> - v2 link: https://lists.gnu.org/archive/html/qemu-devel/2023-04/msg01=
-310.html
-> >>
-> >> Daniel Henrique Barboza (3):
-> >>    target/riscv: add CPU QOM header
-> >>    target/riscv: add query-cpy-definitions support
-> >>    target/riscv: add TYPE_RISCV_DYNAMIC_CPU
-> >
-> > Thanks!
-> >
-> > Applied to riscv-to-apply.next
-> >
-> > Alistair
-> >
-> >>
-> >>   qapi/machine-target.json      |  6 ++-
-> >>   target/riscv/cpu-qom.h        | 70 +++++++++++++++++++++++++++++++++=
-++
-> >>   target/riscv/cpu.c            | 20 ++++++++--
-> >>   target/riscv/cpu.h            | 46 +----------------------
-> >>   target/riscv/meson.build      |  3 +-
-> >>   target/riscv/riscv-qmp-cmds.c | 57 ++++++++++++++++++++++++++++
-> >>   6 files changed, 150 insertions(+), 52 deletions(-)
-> >>   create mode 100644 target/riscv/cpu-qom.h
-> >>   create mode 100644 target/riscv/riscv-qmp-cmds.c
-> >>
-> >> --
-> >> 2.39.2
-> >>
-> >>
+for you to fetch changes up to 9dd207d409cc2eb08fe52965b9d1fd4a12a82bd5:
+
+  hw/intc: don't use target_ulong for LoongArch ipi (2023-05-05 10:00:47 +0800)
+
+----------------------------------------------------------------
+Add LoongArch LSX instructions.
+
+----------------------------------------------------------------
+Alex Bennée (1):
+      hw/intc: don't use target_ulong for LoongArch ipi
+
+Song Gao (44):
+      target/loongarch: Add LSX data type VReg
+      target/loongarch: meson.build support build LSX
+      target/loongarch: Add CHECK_SXE maccro for check LSX enable
+      target/loongarch: Implement vadd/vsub
+      target/loongarch: Implement vaddi/vsubi
+      target/loongarch: Implement vneg
+      target/loongarch: Implement vsadd/vssub
+      target/loongarch: Implement vhaddw/vhsubw
+      target/loongarch: Implement vaddw/vsubw
+      target/loongarch: Implement vavg/vavgr
+      target/loongarch: Implement vabsd
+      target/loongarch: Implement vadda
+      target/loongarch: Implement vmax/vmin
+      target/loongarch: Implement vmul/vmuh/vmulw{ev/od}
+      target/loongarch: Implement vmadd/vmsub/vmaddw{ev/od}
+      target/loongarch: Implement vdiv/vmod
+      target/loongarch: Implement vsat
+      target/loongarch: Implement vexth
+      target/loongarch: Implement vsigncov
+      target/loongarch: Implement vmskltz/vmskgez/vmsknz
+      target/loongarch: Implement LSX logic instructions
+      target/loongarch: Implement vsll vsrl vsra vrotr
+      target/loongarch: Implement vsllwil vextl
+      target/loongarch: Implement vsrlr vsrar
+      target/loongarch: Implement vsrln vsran
+      target/loongarch: Implement vsrlrn vsrarn
+      target/loongarch: Implement vssrln vssran
+      target/loongarch: Implement vssrlrn vssrarn
+      target/loongarch: Implement vclo vclz
+      target/loongarch: Implement vpcnt
+      target/loongarch: Implement vbitclr vbitset vbitrev
+      target/loongarch: Implement vfrstp
+      target/loongarch: Implement LSX fpu arith instructions
+      target/loongarch: Implement LSX fpu fcvt instructions
+      target/loongarch: Implement vseq vsle vslt
+      target/loongarch: Implement vfcmp
+      target/loongarch: Implement vbitsel vset
+      target/loongarch: Implement vinsgr2vr vpickve2gr vreplgr2vr
+      target/loongarch: Implement vreplve vpack vpick
+      target/loongarch: Implement vilvl vilvh vextrins vshuf
+      target/loongarch: Implement vld vst
+      target/loongarch: Implement vldi
+      target/loongarch: Use {set/get}_gpr replace to cpu_fpr
+      target/loongarch: CPUCFG support LSX
+
+ hw/intc/loongarch_ipi.c                         |    2 +-
+ linux-user/loongarch64/signal.c                 |    4 +-
+ target/loongarch/cpu.c                          |    5 +-
+ target/loongarch/cpu.h                          |   27 +-
+ target/loongarch/disas.c                        |  911 +++++
+ target/loongarch/fpu_helper.c                   |    2 +-
+ target/loongarch/gdbstub.c                      |    4 +-
+ target/loongarch/helper.h                       |  566 +++
+ target/loongarch/insn_trans/trans_farith.c.inc  |   72 +-
+ target/loongarch/insn_trans/trans_fcmp.c.inc    |   12 +-
+ target/loongarch/insn_trans/trans_fmemory.c.inc |   37 +-
+ target/loongarch/insn_trans/trans_fmov.c.inc    |   31 +-
+ target/loongarch/insn_trans/trans_lsx.c.inc     | 4400 +++++++++++++++++++++++
+ target/loongarch/insns.decode                   |  811 +++++
+ target/loongarch/internals.h                    |   23 +
+ target/loongarch/lsx_helper.c                   | 3004 ++++++++++++++++
+ target/loongarch/machine.c                      |   79 +-
+ target/loongarch/meson.build                    |    1 +
+ target/loongarch/translate.c                    |   55 +-
+ target/loongarch/translate.h                    |    1 +
+ 20 files changed, 9989 insertions(+), 58 deletions(-)
+ create mode 100644 target/loongarch/insn_trans/trans_lsx.c.inc
+ create mode 100644 target/loongarch/lsx_helper.c
+
 
