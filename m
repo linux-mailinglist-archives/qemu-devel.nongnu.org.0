@@ -2,65 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 353106F7AFF
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 May 2023 04:32:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2DAEF6F7B90
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 May 2023 05:31:18 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pulEJ-0006KM-15; Thu, 04 May 2023 22:31:31 -0400
+	id 1pum8d-0002n5-9P; Thu, 04 May 2023 23:29:43 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
- id 1pulEF-0006JW-VU
- for qemu-devel@nongnu.org; Thu, 04 May 2023 22:31:27 -0400
-Received: from mail.loongson.cn ([114.242.206.163] helo=loongson.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <gaosong@loongson.cn>) id 1pulED-0000qV-O6
- for qemu-devel@nongnu.org; Thu, 04 May 2023 22:31:27 -0400
-Received: from loongson.cn (unknown [10.2.5.185])
- by gateway (Coremail) with SMTP id _____8BxrOoHalRkGvgEAA--.8319S3;
- Fri, 05 May 2023 10:29:27 +0800 (CST)
-Received: from localhost.localdomain (unknown [10.2.5.185])
- by localhost.localdomain (Coremail) with SMTP id
- AQAAf8Bx8a+2aVRkNw9LAA--.7251S47; 
- Fri, 05 May 2023 10:29:25 +0800 (CST)
-From: Song Gao <gaosong@loongson.cn>
-To: qemu-devel@nongnu.org
-Cc: richard.henderson@linaro.org,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PULL 45/45] hw/intc: don't use target_ulong for LoongArch ipi
-Date: Fri,  5 May 2023 10:28:06 +0800
-Message-Id: <20230505022806.6082-46-gaosong@loongson.cn>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20230505022806.6082-1-gaosong@loongson.cn>
-References: <20230505022806.6082-1-gaosong@loongson.cn>
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1pum8b-0002kf-Dc
+ for qemu-devel@nongnu.org; Thu, 04 May 2023 23:29:41 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1pum8Z-0004lg-CE
+ for qemu-devel@nongnu.org; Thu, 04 May 2023 23:29:41 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1683257376;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=2xce8y6ZykJ3t5T5quDtZ3fUqdmHybaE09XNirBllm0=;
+ b=RtbhnNQf1/y7hVL6qepxh/VArRiSyiHVj9eFcjPwWtNpG8cfkeBoUmO5KvwrlpS4EeUTVI
+ naOtvKJwk1ZBRTy0y7PAHpP1K6ugPnWHqsNCoVbRDs8slThOceUvurGgldDrjt6ZxuNAXR
+ SsCw7pTPrGbeDgUBBI+YLsJSID9gNrQ=
+Received: from mail-lf1-f71.google.com (mail-lf1-f71.google.com
+ [209.85.167.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-191-VqyFGo8DOMKyf4zqcui_dA-1; Thu, 04 May 2023 23:29:33 -0400
+X-MC-Unique: VqyFGo8DOMKyf4zqcui_dA-1
+Received: by mail-lf1-f71.google.com with SMTP id
+ 2adb3069b0e04-4f0176dcc66so681368e87.0
+ for <qemu-devel@nongnu.org>; Thu, 04 May 2023 20:29:33 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1683257372; x=1685849372;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=2xce8y6ZykJ3t5T5quDtZ3fUqdmHybaE09XNirBllm0=;
+ b=dQKA06mgz/DDw9LtgCLPSC4wUiBo9kknfP5L8+khTAHeKNQDaeRkQ7vRcLLsC9sIc+
+ 7OZOhtD5P+rsCXTXPIV/ENHwWBs5G5NhWxoMh5PV+evefaWKAV3unYPu5tj3bvLAa49/
+ TTQT4hBBik9VyFEpZoRcpBI4wyIIDl4JYTBkrbkm3DpLbO3iaotEBKUh1kxVT3873Eya
+ utgdYAQ3jus8r9vKUnqJJ9s6UX8fovMZTFT/24nYWQjGuluTsm4f9E5HcpbrAnqLB9Hu
+ OueRk+F0iieRu+VCxfzrLWFB84mWokdaKSXZrQhhL+d4yl9gNKQ7yMclgcr80IxuihNX
+ hWbw==
+X-Gm-Message-State: AC+VfDxXUvQfsd9pj1JKubR8LH0zjSjav6EuqR70Usenb+B7dG+nIRiT
+ 0GXMuIxkfXXvHUuN1FbnaG75SxKI5LNSLGWI4Mn5QggiS2wrq4VQkZCn73a8yoxQpHIRP8nfPtf
+ fb5RtZSNIV8BeKx66A57lT+MsfnS71us=
+X-Received: by 2002:ac2:5921:0:b0:4db:1bab:98a4 with SMTP id
+ v1-20020ac25921000000b004db1bab98a4mr112317lfi.32.1683257372100; 
+ Thu, 04 May 2023 20:29:32 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ7ZIc2ihIVkQWL07H3QXlD/Hm9TFTps/5v4f1Xq4w7VzNUU4IHq0fAsTetFoj6M6CKX4E4dbSrwZvFluPasMCk=
+X-Received: by 2002:ac2:5921:0:b0:4db:1bab:98a4 with SMTP id
+ v1-20020ac25921000000b004db1bab98a4mr112313lfi.32.1683257371800; Thu, 04 May
+ 2023 20:29:31 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf8Bx8a+2aVRkNw9LAA--.7251S47
-X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
-X-Coremail-Antispam: 1Uk129KBjvdXoW7Gw1kAF47XFWDZF45Wr1Utrb_yoWDuwb_XF
- ySyry8ur47Jry7Awn3ZFWUCF1rJ3WFvFy3uFn7Xrs3G345Aws5ZFyDGayYvrnIvrWrZ3sx
- Xa1xtrn8ArnxJjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8wcxFpf9Il3svdxBIdaVrn0
- xqx4xG64xvF2IEw4CE5I8CrVC2j2Jv73VFW2AGmfu7bjvjm3AaLaJ3UjIYCTnIWjp_UUU5
- S7CY07I20VC2zVCF04k26cxKx2IYs7xG6rWj6s0DM28lY4IEw2IIxxk0rwA2F7IY1VAKz4
- vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_tr0E3s1l84ACjcxK6xIIjxv20xvEc7Cj
- xVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6x
- kF7I0E14v26r4UJVWxJr1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF0cIa020E
- x4CE44I27wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E74AGY7Cv6cx26rWlOx8S6xCaFV
- Cjc4AY6r1j6r4UM4x0Y48IcxkI7VAKI48JMxAIw28IcxkI7VAKI48JMxAIw28IcVCjz48v
- 1sIEY20_WwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I
- 0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_JF0_Jw1lIxkGc2Ij64vIr41lIxAI
- cVC0I7IYx2IY67AKxVWDJVCq3wCI42IY6xIIjxv20xvEc7CjxVAFwI0_Cr0_Gr1UMIIF0x
- vE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWxJVW8Jr1lIxAIcVC2z280
- aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7xRE6wZ7UUUUU==
-Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
- helo=loongson.cn
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
+References: <20230503091337.2130631-1-lulu@redhat.com>
+In-Reply-To: <20230503091337.2130631-1-lulu@redhat.com>
+From: Jason Wang <jasowang@redhat.com>
+Date: Fri, 5 May 2023 11:29:20 +0800
+Message-ID: <CACGkMEvssDLX0OAuVE2ZwK_SAdhjUr7fnbH6kbMAOzzJKbsJig@mail.gmail.com>
+Subject: Re: [RFC 0/7] vhost-vdpa: add support for iommufd
+To: Cindy Lu <lulu@redhat.com>
+Cc: mst@redhat.com, qemu-devel@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -22
+X-Spam_score: -2.3
+X-Spam_bar: --
+X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.161,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -77,34 +93,43 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Alex Bennée <alex.bennee@linaro.org>
+Hi Cindy
 
-The calling function is already working with hwaddr and uint64_t so
-lets avoid bringing target_ulong in if we don't need to.
+On Wed, May 3, 2023 at 5:13=E2=80=AFPM Cindy Lu <lulu@redhat.com> wrote:
+>
+> Hi All
+> There is the RFC to support the IOMMUFD in vdpa device
+> any comments are welcome
+> Thanks
+> Cindy
 
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-Reviewed-by: Song Gao <gaosong@loongson.cn>
-Message-Id: <20230404132711.2563638-1-alex.bennee@linaro.org>
-Signed-off-by: Song Gao <gaosong@loongson.cn>
----
- hw/intc/loongarch_ipi.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Please post the kernel patch as well as a reference.
 
-diff --git a/hw/intc/loongarch_ipi.c b/hw/intc/loongarch_ipi.c
-index aa4bf9eb74..bdba0f8107 100644
---- a/hw/intc/loongarch_ipi.c
-+++ b/hw/intc/loongarch_ipi.c
-@@ -50,7 +50,7 @@ static uint64_t loongarch_ipi_readl(void *opaque, hwaddr addr, unsigned size)
-     return ret;
- }
- 
--static void send_ipi_data(CPULoongArchState *env, target_ulong val, target_ulong addr)
-+static void send_ipi_data(CPULoongArchState *env, uint64_t val, hwaddr addr)
- {
-     int i, mask = 0, data = 0;
- 
--- 
-2.31.1
+Thanks
+
+>
+> Cindy Lu (7):
+>   vhost: introduce new UAPI to support IOMMUFD
+>   qapi: support iommufd in vdpa
+>   virtio : add a ptr for vdpa_iommufd in VirtIODevice
+>   net/vhost-vdpa: Add the check for iommufd
+>   vhost-vdpa: Add the iommufd support in the map/unmap function
+>   vhost-vdpa: init iommufd function in vhost_vdpa start
+>   vhost-vdpa-iommufd: Add iommufd support for vdpa
+>
+>  hw/virtio/meson.build          |   2 +-
+>  hw/virtio/vhost-vdpa-iommufd.c | 240 +++++++++++++++++++++++++++++++++
+>  hw/virtio/vhost-vdpa.c         |  74 +++++++++-
+>  include/hw/virtio/vhost-vdpa.h |  47 +++++++
+>  include/hw/virtio/virtio.h     |   5 +
+>  linux-headers/linux/vhost.h    |  72 ++++++++++
+>  net/vhost-vdpa.c               |  31 +++--
+>  qapi/net.json                  |   1 +
+>  8 files changed, 451 insertions(+), 21 deletions(-)
+>  create mode 100644 hw/virtio/vhost-vdpa-iommufd.c
+>
+> --
+> 2.34.3
+>
 
 
