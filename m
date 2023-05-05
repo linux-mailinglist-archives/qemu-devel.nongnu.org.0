@@ -2,100 +2,157 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A4406F84EE
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 May 2023 16:39:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 409BC6F8509
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 May 2023 16:46:52 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1puwZU-0003Bv-Of; Fri, 05 May 2023 10:38:08 -0400
+	id 1puwg7-000775-PM; Fri, 05 May 2023 10:44:59 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1puwZM-0003Am-HK
- for qemu-devel@nongnu.org; Fri, 05 May 2023 10:38:01 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <tejus.gk@nutanix.com>)
+ id 1puwg5-00076p-DN
+ for qemu-devel@nongnu.org; Fri, 05 May 2023 10:44:57 -0400
+Received: from mx0b-002c1b01.pphosted.com ([148.163.155.12])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1puwZK-0007Q5-J4
- for qemu-devel@nongnu.org; Fri, 05 May 2023 10:38:00 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1683297477;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Wly7bBshxAvtC5Be+xhqmjmbL+lqyrzBtNlFYh8873c=;
- b=Nq05cfN56zi1aGgkrzoCNQaEaKf8j6Z/rRGXQHBEnDeiHnmS/m5EPCJ3qdZjLkY+z/K/ht
- 3bqj52Nc/LcReZlxIsOTZ4JxsoKmsY/Q5b1Zctp4oBzFiIAk1fS3zKP5MF0FqNuSakwyS2
- 0TGh1trM9PRxNCMSUHYnnh8JxMxqV50=
-Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
- [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-513-2Oob4rR-OfmLBVKPT2ypbQ-1; Fri, 05 May 2023 10:37:55 -0400
-X-MC-Unique: 2Oob4rR-OfmLBVKPT2ypbQ-1
-Received: by mail-ej1-f70.google.com with SMTP id
- a640c23a62f3a-94a341ee4fcso220559266b.0
- for <qemu-devel@nongnu.org>; Fri, 05 May 2023 07:37:55 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683297474; x=1685889474;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Wly7bBshxAvtC5Be+xhqmjmbL+lqyrzBtNlFYh8873c=;
- b=iEWYIiEeQmHypMnyMFcLmAeaPWP49lgWerCIWNQqiLz8jqUmj7bQ+JoknkxGHoBnNL
- xnCGH4eBJ0zkvE73nUaS/+8MPtky9kDKr5r5C9ohyfhr78bnipLEDGY2x89FaiFvL5cs
- iFSv8AWV5W0iXWjrSU016XT20kScIOv8n5uNwht3Z3xWLkBpD3cm1O17zbBN8NvvywVX
- aeiGe8+nG04PvhH/AAIQuUsJVuLTbNT8bzcougT4mEMGT2cxkyo45/qJWwvbSSby3hxw
- 26MHGWP8VRgSMBP2BVeWB7TWIOk8OUQZNsxWNNeKFQ2dJk1N4HRUfBd/8bmw6SBJMML4
- xasw==
-X-Gm-Message-State: AC+VfDw+pBr14ra/kExy9X2mOuzUT4+Lc42IH9yAWl+RelWq5EW1UHjN
- Qau+RO24GGdViLMXKlaV14poR1/aGbJAp6viD4SxHYlQzEHG9ZX4kT1ZiWjYBk2/7cAsj5xcDsm
- erarnVdsoYdl32LA=
-X-Received: by 2002:a17:906:fe0c:b0:961:78c2:1d27 with SMTP id
- wy12-20020a170906fe0c00b0096178c21d27mr1303109ejb.19.1683297474650; 
- Fri, 05 May 2023 07:37:54 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ7+BUbNUKJAftcbX5r7Xgje9m2qFYX5uB2GgPLbHa0MlAGJ+RAAZnYxkf7EXC8WI8BeP4Vq9g==
-X-Received: by 2002:a17:906:fe0c:b0:961:78c2:1d27 with SMTP id
- wy12-20020a170906fe0c00b0096178c21d27mr1303086ejb.19.1683297474359; 
- Fri, 05 May 2023 07:37:54 -0700 (PDT)
-Received: from ?IPV6:2003:cf:d738:349d:9681:f818:3410:5693?
- (p200300cfd738349d9681f81834105693.dip0.t-ipconnect.de.
- [2003:cf:d738:349d:9681:f818:3410:5693])
- by smtp.gmail.com with ESMTPSA id
- w19-20020aa7da53000000b0050b2f588db6sm3031185eds.16.2023.05.05.07.37.53
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 05 May 2023 07:37:53 -0700 (PDT)
-Message-ID: <f04ed41d-39b6-a4e8-dfa5-c3e4936302ca@redhat.com>
-Date: Fri, 5 May 2023 16:37:52 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH 0/4] vhost-user-fs: Internal migration
+ (Exim 4.90_1) (envelope-from <tejus.gk@nutanix.com>)
+ id 1puwg3-0000QU-0D
+ for qemu-devel@nongnu.org; Fri, 05 May 2023 10:44:57 -0400
+Received: from pps.filterd (m0127844.ppops.net [127.0.0.1])
+ by mx0b-002c1b01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 34587Gh7031346; Fri, 5 May 2023 07:44:51 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nutanix.com;
+ h=message-id : date :
+ subject : to : cc : references : from : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=proofpoint20171006;
+ bh=Qnnzih9C3o1+aED7unefZu68AQi64/C8SgImLyZ2eOU=;
+ b=eYoPlh6tXYHdz+nZdCcgzfl5vrOZm9Oyg6vzZtt6lNW1xWRxHY6X/uV24r/KXHwUDN5S
+ qalFV2RTGkAa6r/0u/jx0cGdfpx50JBbAHID4bgTAlBB+FNNc8jPC1h+V6Vpv8ltAJYv
+ YAC2MYhfVf2fylzpDkvHKCimkjbbWFHxbpBeQcYeR+yDxJLnfCQYYGnYe28tr8vL4o1w
+ f5pU6ZC9mZP5fUTtd7uMK/2+Dldmu3kMEnyCtqMwqLX4JN8ghwbq7Syyp6INUalJp4d1
+ V1UgBQW0RlH6hkpBusWJ7VsUlHQsVzMoEIHdKI0fdtig+sSXHr3cJH2FuJ0sjc/ZKG/f 2A== 
+Received: from nam12-bn8-obe.outbound.protection.outlook.com
+ (mail-bn8nam12lp2171.outbound.protection.outlook.com [104.47.55.171])
+ by mx0b-002c1b01.pphosted.com (PPS) with ESMTPS id 3qc03gmbv0-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 05 May 2023 07:44:51 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=kJQOLjFUFzupmEc8oBCQmkz7OAE/Ft28nLqj0aRC1/fOK1RiZTK7DEWwFqmFk6rnVsmpYwoee2xlsjMT62uQWS3a4A/tvP62NSSOTezd/zZKfGs861yzFqdMtFi/Eh/jL2wuxlzY4JWvFHZC9XHUglmf2ZpgNRWEO0lSVG0M+LUEwkgt3bJYmoBkDNN8tn3ktceAN4kZOKyMsYyynHjOgmLom5nBdB9eIk4v7i1rvf4IlaR4+1etlsY92enkYRBJpXvu9AX5hFvBuAREYLWcxSm5z41rDdZl2rvjNtV2a/U+KDSWnynC4/PDoPqCw+SewfNy3UDY5kK2f/jV4sJ+cw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Qnnzih9C3o1+aED7unefZu68AQi64/C8SgImLyZ2eOU=;
+ b=aM2DjbDenpGh4gwruApOfTOhHdXyv2ChyGyVXqbKjBs5I3mrJItBYPkS5uZxfld/7igd5TBFWAHNIlLBxLMBWqzwNXIQzmMowKa8qwYe6C60lDbvi39QhChixd6MHHxlr8P5LB7EaiaNWF2gv0dbXSlUVr00Cctn2URLdtKC4HsHUokIMB/HCFWbDXKEzDRHzpvNl26NCHmczhRwLKLjDoHjShe7E4DY6bTV6ZSlemjyqxCgoGtqab6h6dcRxLqVCq+tQjSqcF11RlEgj5U4y24ZI29iCpOLjH6+9fxt91TPdr6kXy7oOktlI+h95N+8M+N6o9QpXok+seWzSOleIQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nutanix.com; dmarc=pass action=none header.from=nutanix.com;
+ dkim=pass header.d=nutanix.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nutanix.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Qnnzih9C3o1+aED7unefZu68AQi64/C8SgImLyZ2eOU=;
+ b=nNPmfy5Um2H8vxDnNjJ/DYCQ+EIh8Vlkeu06noUHudl4q9Y54gJ6Z+1KVSQVSXGhRn9xt6ywtJ+AyIT6E8c+9jcEtJ1/nmJflVwbrqO0/gB2SWKyO4ylWcji9x47tEhv9fqHtuMk9Uq7tunUNKiCPFzgCHr4+YRl2+etf6wdlrBnzxhc5u3E3RF+8VCh9wxKe3T94W3N5clHFKRzA93NQVARtIhFyOD51CzuaOhXIcaqO8pThT4GoW1MjP6LYefP60sjWxIktSJDlac/kmrMHWSf8w5iFO0skRFpvKxjFGHQ6iHKmNSALOvr08iRjEj7iCplbSic240U6j15TIUPww==
+Received: from BYAPR02MB4806.namprd02.prod.outlook.com (2603:10b6:a03:42::30)
+ by SN4PR0201MB8791.namprd02.prod.outlook.com (2603:10b6:806:202::21)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6363.27; Fri, 5 May
+ 2023 14:44:49 +0000
+Received: from BYAPR02MB4806.namprd02.prod.outlook.com
+ ([fe80::7a30:ca33:20c9:c9d0]) by BYAPR02MB4806.namprd02.prod.outlook.com
+ ([fe80::7a30:ca33:20c9:c9d0%7]) with mapi id 15.20.6363.026; Fri, 5 May 2023
+ 14:44:49 +0000
+Message-ID: <5dda3254-67e5-53ed-ea9f-00a7ed44951a@nutanix.com>
+Date: Fri, 5 May 2023 20:14:38 +0530
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.10.1
+Subject: Re: [RFC 1/1] migration: Update error description whenever migration
+ fails
 Content-Language: en-US
-To: Eugenio Perez Martin <eperezma@redhat.com>
-Cc: Stefan Hajnoczi <stefanha@gmail.com>, qemu-devel@nongnu.org,
- virtio-fs@redhat.com, Stefan Hajnoczi <stefanha@redhat.com>,
- German Maglione <gmaglione@redhat.com>,
- Anton Kuchin <antonkuchin@yandex-team.ru>,
- Juan Quintela <quintela@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>,
- Stefano Garzarella <sgarzare@redhat.com>
-References: <20230411150515.14020-1-hreitz@redhat.com>
- <e8cc4521-50a1-2e38-1fb3-8cfa7b0c967e@redhat.com>
- <CAJSP0QUFFYWwD5+8+1q41sNErJVNbkfnQ3VtB4z-HZUV8S0=zw@mail.gmail.com>
- <dfec96a1-84c3-3639-6f09-204c2d12244a@redhat.com>
- <71e47e3e-880d-38d8-c1b0-3287c60365e4@redhat.com>
- <CAJaqyWe13QxuC9BNBULJ1xu1saWE9Y3ET8eEef-7qtyL5R73SQ@mail.gmail.com>
-From: Hanna Czenczek <hreitz@redhat.com>
-In-Reply-To: <CAJaqyWe13QxuC9BNBULJ1xu1saWE9Y3ET8eEef-7qtyL5R73SQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
+Cc: qemu-devel@nongnu.org, quintela@redhat.com, peterx@redhat.com,
+ leobras@redhat.com, shivam.kumar1@nutanix.com
+References: <20230503203116.42429-1-tejus.gk@nutanix.com>
+ <20230503203116.42429-2-tejus.gk@nutanix.com> <ZFNp6t1DAhhRKc9q@redhat.com>
+From: Tejus GK <tejus.gk@nutanix.com>
+In-Reply-To: <ZFNp6t1DAhhRKc9q@redhat.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=hreitz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+X-ClientProxiedBy: MA0PR01CA0114.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:a01:11d::12) To BYAPR02MB4806.namprd02.prod.outlook.com
+ (2603:10b6:a03:42::30)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BYAPR02MB4806:EE_|SN4PR0201MB8791:EE_
+X-MS-Office365-Filtering-Correlation-Id: 44739df7-4702-4532-ffa8-08db4d774713
+x-proofpoint-crosstenant: true
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: RWjxwCZg+8Zv9DLBzR7BN67z9IXp36QPAH4bQ7HJ8RzIZPBI9GQftzbOkinMKto8Oe4i96ual9Th3EesFEIHc/xk7cQERKOtTvxvhvsO1rnccSF+PGU18vgnUGP9cJUKdt+EJ9iqPJyikBeaqroxje62Bqou93y3Bia8EkUqRMNwknzWJ2tUdPRE+Ug0ffBXFfFXUrka3dwDCTUW8w+nhjCxaZUdOkTzlUjDhriXkc0Mk+Myur4/QB0JVprxr1G6V2bUaSiE32QrGeBOYbpqtvWGqbva2Z1OrKebYLQ2/4wp1div9sZiV29fPVacGTLp9bAwYUW4HSORpKqTbM8T0UuHzSIovDAWotb0BuFdurUFuknV16fxTlheyWYoH4BL2x8nFypeygHYbF8a7+hyIteNs6uKWBtb1muO2/OktqeRlCS71DO6FB4EAtwoh58vztcZjmJIUgbf2L611siBxm/H+TT7jlLv/ApGWWSfNtOh8yscBk9gUCACmgJtQZM0xSyn3risIITaH9QjCsevW1S2mU3O5RB0rcScfDxKPqI0+4Ki25hp+PzGqv9wVG3HsJPWzpfL8CvjeNu2IkgBLGywKehoBAzy+B6XT0Ps2bC80S0Wl9uLA0KNoCsHRI301gLO53ilYfB4mcXTYWm85fOwHemwZonLCm+xtPe0TZG5qqWjd3F/poqYJzsdMN7e
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BYAPR02MB4806.namprd02.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230028)(366004)(136003)(346002)(396003)(39860400002)(376002)(451199021)(86362001)(31696002)(36756003)(316002)(6916009)(4326008)(66946007)(66476007)(52116002)(6486002)(66556008)(6666004)(478600001)(41300700001)(5660300002)(8676002)(8936002)(2906002)(15650500001)(186003)(38100700002)(38350700002)(107886003)(6506007)(53546011)(2616005)(6512007)(26005)(83380400001)(31686004)(43740500002)(45980500001);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?L1ROZTJUWGxvMXRLMmhCeXFjdnExMjZ1ajh0d0YvQm1FV0JXRmFkV0xLUHdQ?=
+ =?utf-8?B?MmJPNnoyc1R2ZG0wcHRMTHRPTU5OSkp6R3lybUlJWU0yUXBmQUc1S0NQRkI2?=
+ =?utf-8?B?alE4RDM1cElYNzVNZk5UWjR6RFhKQzZweFFIRlQ1UW84TWJRMHg4UUhnUlN5?=
+ =?utf-8?B?bVdGMnhCSWZpYjJ1QXoyT0FvdFNkUWdkMFNRLzdjYTcvczBva3VweW5ZVU00?=
+ =?utf-8?B?L1B6b3YxTjZyVWtQQlFSOEJjclZEN09TL1A0RkNWdXp4SER6dWdYYkF3NTRC?=
+ =?utf-8?B?T3phM2dXSm1DNjlzbkt4WS8zSUlIWGUzd0htRG9iQmFBMG1BWXdhR0FEUVFN?=
+ =?utf-8?B?ZEFmUnoxZUJRajhmRnpxVEZEc1J4NzN2TzNFUGRTYWVMZ2RUZm5ETkpFQmxO?=
+ =?utf-8?B?ZXJYeWtIYjR2L2xuSC8wem9RQlVORTFVcFFlVSs0dE41MmVkYVV2SnRQMzEz?=
+ =?utf-8?B?MjhycElyUTM0K01DSnFiMC82cUlSMmcvYmNQY09FUzNmVlFtNjRDUVkzT3Ev?=
+ =?utf-8?B?Wit1UmlwRUVScFM3NE9iRC9zZ3BKQTZFMnRmTURHb2VwNWtzZDN1OW43b2Fl?=
+ =?utf-8?B?c1U3U29aeUJkK1M0d2JNRmFyNVkvMHRYN21DYjZJTFVnZFozazZ1VUZYMThp?=
+ =?utf-8?B?VTBGRnRkdXhjWDMyS2JudjZjbnk4UjAxa2haQVZFNHJycUhQVEcweStEb2ZX?=
+ =?utf-8?B?a0ZuRm5VZThlUnZKS0Y4d1oyTU1GRUxkQ2Y0SlM1MGFUbGFxZkNia3oxclZa?=
+ =?utf-8?B?YnZheU9VL2dMZmxDeldjUXpnSWduSTQ4ekhWa2FUKy9CSHVXd1BKUG1PdUtN?=
+ =?utf-8?B?VG5udFpVd3FJbHJRU1IwZG9HSVkraDNvTTkyNU1pVWtrUVpUbkd4NEpRc3Bj?=
+ =?utf-8?B?MXVKdEczbi8zbkxlTm1iZ0YzajZhcjBRT0dsa0xOZW9XRE5EVkhSeG00SUhl?=
+ =?utf-8?B?aFR3N3ljUWlNeGxzN09yU2xkUzVRaUg2TGxUQ2lRTUpBdmN4Ryt5MW9YMVcw?=
+ =?utf-8?B?NFlkaHdkS0VuVHluZENERG84UDBUMXlYSWh6Z0NhU2dTV01mVEJUNGgyWXJM?=
+ =?utf-8?B?cURUR1NqSGViNWhFck5aSVhDRjdrOGdsRXd6RUt1YVB0N29OSmZiM25HOGNj?=
+ =?utf-8?B?TElCMlZsTGNib2JodlN1YnlLeExqbFJQZ1JBTTc3ZHRqUERLNVV0RktCOEJJ?=
+ =?utf-8?B?TVdMek54VVBVUHh0OUNteU5xRGN4V1BvUElIazdFQnF0dytHVlFQVis5VytN?=
+ =?utf-8?B?NkZhSGF6YUl3Mnd1SG9jZnd6Z0lNQ3hUaDhvQWVwalV1V3FMdGxZYXB0UFNi?=
+ =?utf-8?B?SFNpT1FxYnpid3BDdS9KZGdLak53Q1d5eHBmb1dtd3gyZ2k4YytwSklKRE1Y?=
+ =?utf-8?B?bFp4YjhMN1UyQVpVejRuSUg3bkdHaVdGWm5qSlYvMCtBV3RuQnZNV0pRUHN0?=
+ =?utf-8?B?VS9IZVdxRmhtV1Y1eEgrUUIvM0g0cVBZYnJPMWU0WG85S2pjdkJwT0xNdXFs?=
+ =?utf-8?B?ck91QTdxL0VwYVgrT2h4ZTBESXJJWDFBRUlmMnRCS0VSemtabHBJSDU0ZXJI?=
+ =?utf-8?B?QXZIZXE3ZTFjQlBGOVFXTTNhQVJjY1ZXQVFNaExGZGt4QXpjd1UvS2xQcVpj?=
+ =?utf-8?B?WVdkSXQxWFVoemJWL0ErOWY3TFhxVkpQTTkwZjc5Q2hZMEcwYk4zbEJPMEJy?=
+ =?utf-8?B?aXlRMnlqOENUOW9OK0Q3OU9zQUkrWkhKdWxKOHVGUGM3SnJBRHpQUkVPN2xh?=
+ =?utf-8?B?SURYZm1iTHJzaGx5d1hxa3h3dXVock5ydElKL0R0eS84bWhLMjV1OWZDMWhl?=
+ =?utf-8?B?bzUwMDlJemNyNHE4amZaR0tuN3R5K2hHYk9Mc01TNStNUmxPT3dmTkl1cG9C?=
+ =?utf-8?B?UlF1ZkFzenI5TVQ4QkRMKzZiVUUvanR3bTh2TmVGTGRxSnpEOWs4Vml5clpH?=
+ =?utf-8?B?V054TTB6eUowd1pCVkFVa05laFZDOXE4VHRBZ0FLd1NIczYyQnIvQURZZXVp?=
+ =?utf-8?B?anIwcXFjenRna3UvNTZFcm9lUk9NeWhXYWZCb2NERHlkWFBkck4vellGSDRo?=
+ =?utf-8?B?cjR6QWUrdEZPTytmLzdPVXVobmdONGFKenBwUEgvTUlsMUNJMVo0aUNta1N1?=
+ =?utf-8?Q?mpCExfcjfiDY7mmEdb5E2BfDc?=
+X-OriginatorOrg: nutanix.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 44739df7-4702-4532-ffa8-08db4d774713
+X-MS-Exchange-CrossTenant-AuthSource: BYAPR02MB4806.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 May 2023 14:44:49.5091 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: bb047546-786f-4de1-bd75-24e5b6f79043
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: fS/LHf/q+x4p8LSP7v8Hn7hrBwu3iBfa1lYjIVHDGXcfLN76b75WA3M/9gjCJc/7B827fLfTNwxxDR4BTUF5fg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN4PR0201MB8791
+X-Proofpoint-ORIG-GUID: nMjo-inxMm2ZROrmiCmlzPB8WGpmLGnx
+X-Proofpoint-GUID: nMjo-inxMm2ZROrmiCmlzPB8WGpmLGnx
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-05-05_21,2023-05-05_01,2023-02-09_01
+X-Proofpoint-Spam-Reason: safe
+Received-SPF: pass client-ip=148.163.155.12; envelope-from=tejus.gk@nutanix.com;
+ helo=mx0b-002c1b01.pphosted.com
 X-Spam_score_int: -65
 X-Spam_score: -6.6
 X-Spam_bar: ------
 X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.161,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-4.28, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ NICE_REPLY_A=-4.28, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -112,73 +169,127 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 05.05.23 16:26, Eugenio Perez Martin wrote:
-> On Fri, May 5, 2023 at 11:51 AM Hanna Czenczek <hreitz@redhat.com> wrote:
->> (By the way, thanks for the explanations :))
+On 04/05/23 1:46 pm, Daniel P. Berrangé wrote:
+> On Wed, May 03, 2023 at 08:31:16PM +0000, tejus.gk wrote:
+>> There are places in the code where the migration is marked failed with
+>> MIGRATION_STATUS_FAILED, but the failiure reason is never updated. Hence
+>> libvirt doesn't know why the migration failed when it queries for it.
 >>
->> On 05.05.23 11:03, Hanna Czenczek wrote:
->>> On 04.05.23 23:14, Stefan Hajnoczi wrote:
->> [...]
+>> Signed-off-by: tejus.gk <tejus.gk@nutanix.com>
+>> ---
+>>  migration/migration.c | 8 ++++++++
+>>  1 file changed, 8 insertions(+)
 >>
->>>> I think it's better to change QEMU's vhost code
->>>> to leave stateful devices suspended (but not reset) across
->>>> vhost_dev_stop() -> vhost_dev_start(), maybe by introducing
->>>> vhost_dev_suspend() and vhost_dev_resume(). Have you thought about
->>>> this aspect?
->>> Yes and no; I mean, I haven’t in detail, but I thought this is what’s
->>> meant by suspending instead of resetting when the VM is stopped.
->> So, now looking at vhost_dev_stop(), one problem I can see is that
->> depending on the back-end, different operations it does will do
->> different things.
+>> diff --git a/migration/migration.c b/migration/migration.c
+>> index feb5ab7493..0d7d34bf4d 100644
+>> --- a/migration/migration.c
+>> +++ b/migration/migration.c
+>> @@ -1665,8 +1665,11 @@ void qmp_migrate(const char *uri, bool has_blk, bool blk,
+>>          }
+>>          error_setg(errp, QERR_INVALID_PARAMETER_VALUE, "uri",
+>>                     "a valid migration protocol");
+>> +        error_setg(&local_err, QERR_INVALID_PARAMETER_VALUE, "uri",
+>> +                   "a valid migration protocol");
+>>          migrate_set_state(&s->state, MIGRATION_STATUS_SETUP,
+>>                            MIGRATION_STATUS_FAILED);
+>> +        migrate_set_error(s, local_err);
+>>          block_cleanup_parameters();
+>>          return;
+> 
+> Most of this  "} else {"  block is duplicating what is done in
+> the following "if (local_error)" block. As such I think this
+> should be deleted and replaced with merely
+> 
+>    } else {
+>         error_setg(&local_err, QERR_INVALID_PARAMETER_VALUE, "uri",
+>                    "a valid migration protocol");
+>         block_cleanup_parameters();
+>    }
+> 
+> ...so we just fallthruogh to the local_error cleanup block.
+Ack. Will modify this is in the next patch. 
+> 
+>>      }
+>> @@ -2059,6 +2062,7 @@ static int postcopy_start(MigrationState *ms)
+>>      int64_t bandwidth = migrate_max_postcopy_bandwidth();
+>>      bool restart_block = false;
+>>      int cur_state = MIGRATION_STATUS_ACTIVE;
+>> +    Error *local_err = NULL;
+>>  
+>>      if (migrate_postcopy_preempt()) {
+>>          migration_wait_main_channel(ms);
+>> @@ -2203,8 +2207,10 @@ static int postcopy_start(MigrationState *ms)
+>>      ret = qemu_file_get_error(ms->to_dst_file);
+>>      if (ret) {
+>>          error_report("postcopy_start: Migration stream errored");
+>> +        error_setg(&local_err, "postcopy_start: Migration stream errored");
+> 
+> There is an earlier place in this method which also calls
+> error_report which you've not changed to call migrate_set_error.
+> 
+Ack, will fix this in the next patch. 
+> Even more crazy is that the caller of postcopy_start() also
+> calls error_report() but with a useless error message.
+> 
+> ALso nothing is free'ing the local_err object once set.
+> 
+> IMHO, the postcopy_start() method should be changed to accept
+> an "Error **errp" parameter, and then the caller should be
+> responsible for calling error_report_err and migrate_set_error
+Ack, will modify this in the next patch. 
+> 
+> 
+>>          migrate_set_state(&ms->state, MIGRATION_STATUS_POSTCOPY_ACTIVE,
+>>                                MIGRATION_STATUS_FAILED);
+>> +        migrate_set_error(ms, local_err);
+>>      }
+>>  
+>>      trace_postcopy_preempt_enabled(migrate_postcopy_preempt());
+>> @@ -3233,7 +3239,9 @@ void migrate_fd_connect(MigrationState *s, Error *error_in)
+>>      if (migrate_postcopy_ram() || migrate_return_path()) {
+>>          if (open_return_path_on_source(s, !resume)) {
+>>              error_report("Unable to open return-path for postcopy");
+>> +            error_setg(&local_err, "Unable to open return-path");
+> 
+> Having two different error messages is bad and again nothing free's
+> the local_err object. Remove the error_report call and have it call
+> error_report_err(&local_err) which does free the object
+My bad, missed this. Will fix this in the next patch. 
+> 
+>>              migrate_set_state(&s->state, s->state, MIGRATION_STATUS_FAILED);
+>> +            migrate_set_error(s, local_err);
+>>              migrate_fd_cleanup(s);
+>>              return;
+>>          }
+>> -- 
+>> 2.22.3
 >>
->> It tries to stop the whole device via vhost_ops->vhost_dev_start(),
->> which for vDPA will suspend the device, but for vhost-user will reset it
->> (if F_STATUS is there).
 >>
->> It disables all vrings, which doesn’t mean stopping, but may be
->> necessary, too.  (I haven’t yet really understood the use of disabled
->> vrings, I heard that virtio-net would have a need for it.)
->>
->> It then also stops all vrings, though, so that’s OK.  And because this
->> will always do GET_VRING_BASE, this is actually always the same
->> regardless of transport.
->>
->> Finally (for this purpose), it resets the device status via
->> vhost_ops->vhost_reset_status().  This is only implemented on vDPA, and
->> this is what resets the device there.
->>
->>
->> So vhost-user resets the device in .vhost_dev_start, but vDPA only does
->> so in .vhost_reset_status.  It would seem better to me if vhost-user
->> would also reset the device only in .vhost_reset_status, not in
->> .vhost_dev_start.  .vhost_dev_start seems precisely like the place to
->> run SUSPEND/RESUME.
->>
-> I think the same. I just saw It's been proposed at [1].
->
->> Another question I have (but this is basically what I wrote in my last
->> email) is why we even call .vhost_reset_status here.  If the device
->> and/or all of the vrings are already stopped, why do we need to reset
->> it?  Naïvely, I had assumed we only really need to reset the device if
->> the guest changes, so that a new guest driver sees a freshly initialized
->> device.
->>
-> I don't know why we didn't need to call it :). I'm assuming the
-> previous vhost-user net did fine resetting vq indexes, using
-> VHOST_USER_SET_VRING_BASE. But I don't know about more complex
-> devices.
->
-> The guest can reset the device, or write 0 to the PCI config status,
-> at any time. How does virtiofs handle it, being stateful?
+> 
+> With regards,
+> Daniel
 
-Honestly a good question because virtiofsd implements neither SET_STATUS 
-nor RESET_DEVICE.  I’ll have to investigate that.
+Hi, 
+Thanks for the reviews. I'll be sending a revision with the fixes shortly. Meanwhile I wanted to get something clarified. Apart from the places this patch set is covering, there are also places in the code, where the migration is marked as failed, yet an error_report() call is either not happening or is happening in a different file. An example of the latter can be seen in the function migration_completion() in migration.c, where
 
-I think when the guest resets the device, SET_VRING_BASE always comes 
-along some way or another, so that’s how the vrings are reset.  Maybe 
-the internal state is reset only following more high-level FUSE commands 
-like INIT.
+        ret = qemu_savevm_state_complete_precopy(s->to_dst_file, false,
+                                                         s->block_inactive);
+            }
+        }
+        qemu_mutex_unlock_iothread();
 
-Hanna
+        if (ret < 0) {
+            goto fail;
+        }
 
+and if we take a look at fail:
+
+        fail:
+              migrate_set_state(&s->state, current_active_state,
+                      MIGRATION_STATUS_FAILED);
+
+In this instance, the error_report() call for a possible failure while saving the vmstate is being done in the file vmstate.c. I wanted to ask if doing a migrate_set_error() in a different file (vmstate.c in this case) is permissible?
+
+regards,
+tejus
 
