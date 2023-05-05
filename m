@@ -2,36 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20D006F84A4
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 May 2023 16:15:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1AB5D6F84A7
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 May 2023 16:16:22 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1puwCV-0004tW-Bc; Fri, 05 May 2023 10:14:23 -0400
+	id 1puwCa-0004ur-2n; Fri, 05 May 2023 10:14:28 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <anjo@rev.ng>) id 1puwCS-0004sQ-WC
- for qemu-devel@nongnu.org; Fri, 05 May 2023 10:14:21 -0400
+ (Exim 4.90_1) (envelope-from <anjo@rev.ng>) id 1puwCU-0004tO-BA
+ for qemu-devel@nongnu.org; Fri, 05 May 2023 10:14:22 -0400
 Received: from rev.ng ([5.9.113.41])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <anjo@rev.ng>) id 1puwCO-0000yM-AD
- for qemu-devel@nongnu.org; Fri, 05 May 2023 10:14:20 -0400
+ (Exim 4.90_1) (envelope-from <anjo@rev.ng>) id 1puwCO-0000yU-JQ
+ for qemu-devel@nongnu.org; Fri, 05 May 2023 10:14:22 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=rev.ng;
  s=dkim; h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
  Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
  Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
  :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=kjKy7U6kLgNK8+tOqUmnfQR2wq8lZPq3Y3fztA+Rsow=; b=tADV7+LAJGrhDdxLmfFnJkSaM4
- +UlOI59DYVCanyObmYW1dFGCScH4BlGX9g3mbuRC9J9FqUYLoeOZNO5ZLaq1xlW35g774shdsvUUE
- NwykiSfjZ2vzu0a6VCOR0R6DTyI7izzXh1yfqX8PA0XVTN/zPey04Pe7pUqqkQhvoi8c=;
+ bh=+htCIQ7w4aGVM7u95J+OASj5h6/N/fkJHboFXJOqH4Y=; b=oI4X37NSCFM3+lGzKtaNTBQWOr
+ 6lq8QYwqmi4H7sJvaWFxYVEcwOq/JbfYAqLdD7mb6X5H+AyRfEjZ8iNABrWFe8L76yNSM2KF8MSzi
+ Baq7GSy9xf58pbY4nJ2PJNztkIdtBrvJrpZgHVo2crHWBdrfqew1Fx4K/xFtlXr8qz2A=;
 To: qemu-devel@nongnu.org
 Cc: ale@rev.ng, richard.henderson@linaro.org, pbonzini@redhat.com,
  eduardo@habkost.net, philmd@linaro.org, marcel.apfelbaum@gmail.com,
  wangyanan55@huawei.com
-Subject: [PATCH v2 06/12] accel/tcg/cpu-exec.c: Widen pc to vaddr
-Date: Fri,  5 May 2023 16:13:57 +0200
-Message-Id: <20230505141403.25735-7-anjo@rev.ng>
+Subject: [PATCH v2 07/12] accel/tcg: Widen pc to vaddr in CPUJumpCache
+Date: Fri,  5 May 2023 16:13:58 +0200
+Message-Id: <20230505141403.25735-8-anjo@rev.ng>
 In-Reply-To: <20230505141403.25735-1-anjo@rev.ng>
 References: <20230505141403.25735-1-anjo@rev.ng>
 MIME-Version: 1.0
@@ -60,117 +60,83 @@ From:  Anton Johansson via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+Related functions dealing with the jump cache are also updated.
+
 Signed-off-by: Anton Johansson <anjo@rev.ng>
 ---
- accel/tcg/cpu-exec.c | 34 +++++++++++++++++-----------------
- 1 file changed, 17 insertions(+), 17 deletions(-)
+ accel/tcg/cputlb.c       |  2 +-
+ accel/tcg/tb-hash.h      | 12 ++++++------
+ accel/tcg/tb-jmp-cache.h |  2 +-
+ 3 files changed, 8 insertions(+), 8 deletions(-)
 
-diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
-index 47fbbcb16d..4c56924711 100644
---- a/accel/tcg/cpu-exec.c
-+++ b/accel/tcg/cpu-exec.c
-@@ -169,8 +169,8 @@ uint32_t curr_cflags(CPUState *cpu)
+diff --git a/accel/tcg/cputlb.c b/accel/tcg/cputlb.c
+index d6f8bed9f0..3a400cb0cd 100644
+--- a/accel/tcg/cputlb.c
++++ b/accel/tcg/cputlb.c
+@@ -99,7 +99,7 @@ static void tlb_window_reset(CPUTLBDesc *desc, int64_t ns,
+     desc->window_max_entries = max_entries;
  }
  
- struct tb_desc {
--    target_ulong pc;
--    target_ulong cs_base;
-+    vaddr pc;
-+    uint64_t cs_base;
-     CPUArchState *env;
-     tb_page_addr_t page_addr0;
-     uint32_t flags;
-@@ -195,7 +195,7 @@ static bool tb_lookup_cmp(const void *p, const void *d)
-             return true;
-         } else {
-             tb_page_addr_t phys_page1;
--            target_ulong virt_page1;
-+            vaddr virt_page1;
- 
-             /*
-              * We know that the first page matched, and an otherwise valid TB
-@@ -216,8 +216,8 @@ static bool tb_lookup_cmp(const void *p, const void *d)
-     return false;
- }
- 
--static TranslationBlock *tb_htable_lookup(CPUState *cpu, target_ulong pc,
--                                          target_ulong cs_base, uint32_t flags,
-+static TranslationBlock *tb_htable_lookup(CPUState *cpu, vaddr pc,
-+                                          uint64_t cs_base, uint32_t flags,
-                                           uint32_t cflags)
+-static void tb_jmp_cache_clear_page(CPUState *cpu, target_ulong page_addr)
++static void tb_jmp_cache_clear_page(CPUState *cpu, vaddr page_addr)
  {
-     tb_page_addr_t phys_pc;
-@@ -241,9 +241,9 @@ static TranslationBlock *tb_htable_lookup(CPUState *cpu, target_ulong pc,
+     CPUJumpCache *jc = cpu->tb_jmp_cache;
+     int i, i0;
+diff --git a/accel/tcg/tb-hash.h b/accel/tcg/tb-hash.h
+index 83dc610e4c..f560d3b0bb 100644
+--- a/accel/tcg/tb-hash.h
++++ b/accel/tcg/tb-hash.h
+@@ -35,16 +35,16 @@
+ #define TB_JMP_ADDR_MASK (TB_JMP_PAGE_SIZE - 1)
+ #define TB_JMP_PAGE_MASK (TB_JMP_CACHE_SIZE - TB_JMP_PAGE_SIZE)
+ 
+-static inline unsigned int tb_jmp_cache_hash_page(target_ulong pc)
++static inline unsigned int tb_jmp_cache_hash_page(vaddr pc)
+ {
+-    target_ulong tmp;
++    vaddr tmp;
+     tmp = pc ^ (pc >> (TARGET_PAGE_BITS - TB_JMP_PAGE_BITS));
+     return (tmp >> (TARGET_PAGE_BITS - TB_JMP_PAGE_BITS)) & TB_JMP_PAGE_MASK;
  }
  
- /* Might cause an exception, so have a longjmp destination ready */
--static inline TranslationBlock *tb_lookup(CPUState *cpu, target_ulong pc,
--                                          target_ulong cs_base,
--                                          uint32_t flags, uint32_t cflags)
-+static inline TranslationBlock *tb_lookup(CPUState *cpu, vaddr pc,
-+                                          uint64_t cs_base, uint32_t flags,
-+                                          uint32_t cflags)
+-static inline unsigned int tb_jmp_cache_hash_func(target_ulong pc)
++static inline unsigned int tb_jmp_cache_hash_func(vaddr pc)
  {
-     TranslationBlock *tb;
-     CPUJumpCache *jc;
-@@ -297,13 +297,13 @@ static inline TranslationBlock *tb_lookup(CPUState *cpu, target_ulong pc,
-     return tb;
+-    target_ulong tmp;
++    vaddr tmp;
+     tmp = pc ^ (pc >> (TARGET_PAGE_BITS - TB_JMP_PAGE_BITS));
+     return (((tmp >> (TARGET_PAGE_BITS - TB_JMP_PAGE_BITS)) & TB_JMP_PAGE_MASK)
+            | (tmp & TB_JMP_ADDR_MASK));
+@@ -53,7 +53,7 @@ static inline unsigned int tb_jmp_cache_hash_func(target_ulong pc)
+ #else
+ 
+ /* In user-mode we can get better hashing because we do not have a TLB */
+-static inline unsigned int tb_jmp_cache_hash_func(target_ulong pc)
++static inline unsigned int tb_jmp_cache_hash_func(vaddr pc)
+ {
+     return (pc ^ (pc >> TB_JMP_CACHE_BITS)) & (TB_JMP_CACHE_SIZE - 1);
  }
+@@ -61,7 +61,7 @@ static inline unsigned int tb_jmp_cache_hash_func(target_ulong pc)
+ #endif /* CONFIG_SOFTMMU */
  
--static void log_cpu_exec(target_ulong pc, CPUState *cpu,
-+static void log_cpu_exec(vaddr pc, CPUState *cpu,
-                          const TranslationBlock *tb)
+ static inline
+-uint32_t tb_hash_func(tb_page_addr_t phys_pc, target_ulong pc, uint32_t flags,
++uint32_t tb_hash_func(tb_page_addr_t phys_pc, vaddr pc, uint32_t flags,
+                       uint32_t cf_mask, uint32_t trace_vcpu_dstate)
  {
-     if (qemu_log_in_addr_range(pc)) {
-         qemu_log_mask(CPU_LOG_EXEC,
-                       "Trace %d: %p [%08" PRIx64
--                      "/" TARGET_FMT_lx "/%08x/%08x] %s\n",
-+                      "/%" VADDR_PRIx "/%08x/%08x] %s\n",
-                       cpu->cpu_index, tb->tc.ptr, tb->cs_base, pc,
-                       tb->flags, tb->cflags, lookup_symbol(pc));
- 
-@@ -325,7 +325,7 @@ static void log_cpu_exec(target_ulong pc, CPUState *cpu,
-     }
- }
- 
--static bool check_for_breakpoints_slow(CPUState *cpu, target_ulong pc,
-+static bool check_for_breakpoints_slow(CPUState *cpu, vaddr pc,
-                                        uint32_t *cflags)
- {
-     CPUBreakpoint *bp;
-@@ -391,7 +391,7 @@ static bool check_for_breakpoints_slow(CPUState *cpu, target_ulong pc,
-     return false;
- }
- 
--static inline bool check_for_breakpoints(CPUState *cpu, target_ulong pc,
-+static inline bool check_for_breakpoints(CPUState *cpu, vaddr pc,
-                                          uint32_t *cflags)
- {
-     return unlikely(!QTAILQ_EMPTY(&cpu->breakpoints)) &&
-@@ -487,10 +487,10 @@ cpu_tb_exec(CPUState *cpu, TranslationBlock *itb, int *tb_exit)
-             cc->set_pc(cpu, last_tb->pc);
-         }
-         if (qemu_loglevel_mask(CPU_LOG_EXEC)) {
--            target_ulong pc = log_pc(cpu, last_tb);
-+            vaddr pc = log_pc(cpu, last_tb);
-             if (qemu_log_in_addr_range(pc)) {
--                qemu_log("Stopped execution of TB chain before %p ["
--                         TARGET_FMT_lx "] %s\n",
-+                qemu_log("Stopped execution of TB chain before %p [%"
-+                         VADDR_PRIx "] %s\n",
-                          last_tb->tc.ptr, pc, lookup_symbol(pc));
-             }
-         }
-@@ -884,8 +884,8 @@ static inline bool cpu_handle_interrupt(CPUState *cpu,
- }
- 
- static inline void cpu_loop_exec_tb(CPUState *cpu, TranslationBlock *tb,
--                                    target_ulong pc,
--                                    TranslationBlock **last_tb, int *tb_exit)
-+                                    vaddr pc, TranslationBlock **last_tb,
-+                                    int *tb_exit)
- {
-     int32_t insns_left;
+     return qemu_xxhash7(phys_pc, pc, flags, cf_mask, trace_vcpu_dstate);
+diff --git a/accel/tcg/tb-jmp-cache.h b/accel/tcg/tb-jmp-cache.h
+index bee87eb840..bb424c8a05 100644
+--- a/accel/tcg/tb-jmp-cache.h
++++ b/accel/tcg/tb-jmp-cache.h
+@@ -21,7 +21,7 @@ struct CPUJumpCache {
+     struct rcu_head rcu;
+     struct {
+         TranslationBlock *tb;
+-        target_ulong pc;
++        vaddr pc;
+     } array[TB_JMP_CACHE_SIZE];
+ };
  
 -- 
 2.39.1
