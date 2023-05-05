@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B40A36F7A6D
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 May 2023 03:13:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 11DAD6F7A7B
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 May 2023 03:15:56 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pujwZ-000232-Mk; Thu, 04 May 2023 21:09:08 -0400
+	id 1pujw5-0001BH-1Y; Thu, 04 May 2023 21:08:37 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1pujvL-0000uW-Iu
- for qemu-devel@nongnu.org; Thu, 04 May 2023 21:07:51 -0400
-Received: from mail-pj1-x102e.google.com ([2607:f8b0:4864:20::102e])
+ id 1pujvS-00011C-6S
+ for qemu-devel@nongnu.org; Thu, 04 May 2023 21:07:59 -0400
+Received: from mail-pg1-x52e.google.com ([2607:f8b0:4864:20::52e])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1pujvJ-000860-O3
- for qemu-devel@nongnu.org; Thu, 04 May 2023 21:07:51 -0400
-Received: by mail-pj1-x102e.google.com with SMTP id
- 98e67ed59e1d1-24e015fcf3dso931895a91.3
- for <qemu-devel@nongnu.org>; Thu, 04 May 2023 18:07:49 -0700 (PDT)
+ id 1pujvQ-00086q-AK
+ for qemu-devel@nongnu.org; Thu, 04 May 2023 21:07:57 -0400
+Received: by mail-pg1-x52e.google.com with SMTP id
+ 41be03b00d2f7-52c6f8ba7e3so1040759a12.3
+ for <qemu-devel@nongnu.org>; Thu, 04 May 2023 18:07:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1683248868; x=1685840868;
+ d=gmail.com; s=20221208; t=1683248871; x=1685840871;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=rrHxR+eiZh8W9v/w2e7/d7prgivlc2G2D0PUHvIbg2s=;
- b=EtcBpEpMtqmr2taqIeWkwvrRzZZMETzTadrBFIRkxySiJbOOEAQoI8gZZt0N3otq4A
- p7JlsFO+h+H4dmsIbu+0zMGbssNnnE77beEz1q0eMKVGgnW1smWPBjex9HasmUpazmVZ
- 8aoi54NXQF7RnjfippmHbpqsJCPMfD6blyMdoxHsxdKmStive80NFNuniUGRrs5acdXx
- e9AFGB4m5fReBNC4i/KYI2rivBUkYSzh7FX9sk/fa+u+fxE8yHnxyppgeAZtWyGtZHVx
- R6H5C5suXc2SRmwJL+zyPELbvcdCEYL982ZKmGcd3XrCmdjLeL4ghWVqZgimgDpDhFLX
- xTog==
+ bh=ULqMf+DmHpGYNoo8G2xP3dFFiX1NCkBJ2cATdvrFXCY=;
+ b=UFpTT5t34Xg5CEAuNdq4XtN+GCTTgBcfGpiyVBwva1i1hA9UsLq+P7BNyyp5NqdoHG
+ v6uLEIrH/N+5hm+Jiaar4U0tSdv8YLISPU0uKwd3usLFaU3mPWByL+rJeIypvSeGmBIq
+ Eqa2d/UJlniTTDyu+HWeI3x1TDjyzlCp4Enp1SlKjMSTF950ftgfWM91GAzKeWJxU9hb
+ 0iP6JnvlChy35/Ir4d7ZlH9JWQvqys7cqy+g9kux4kQmZRuqscs4FX2FSHwQcxBm+jNF
+ fDaWmyUbXB74L5NzjQX24CtD950TNEKIQfeLYihdmDn59y1EDzoKODtB4QOYV9sDHF+O
+ l9mg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683248868; x=1685840868;
+ d=1e100.net; s=20221208; t=1683248871; x=1685840871;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=rrHxR+eiZh8W9v/w2e7/d7prgivlc2G2D0PUHvIbg2s=;
- b=R0lB/ftGY9DNbBwpvyUjFOuxWwFhiVPq33pdlhB6FWj7uwReLiR3K97Nam45zUW8zX
- 5erGgwWuYDUnHaJ4yfSeVsojHk8T03ZWiMgSbMxdzoEEtmPID1xwXHSgxVGk7IJynRBX
- U9zrZ/9T0ni5vP4aAe+ll7RbnhjHqD3HlFcn+EctzqgOTiDzmjedg362JQms4n+D/sdR
- kDAbdGdn0Eh8Zbq6f7dOi+xl5R32ebtNhWlIhfgkr0VWyF9kc1uBxSdRUMgevGw3Hck2
- r6wIXu8FdIQ7bfHV32SIG1YAbaTDpUp47rwWyu6dTCVEwVJLyUnV2Z0t4QTSWw+uuyTr
- F/Ug==
-X-Gm-Message-State: AC+VfDwOSSmi/bx3C4L5Afw16sbdS8rTgbQK9xt7N9rMqNzDcJw79cAq
- 2nxzVhSh/kpKcwFBnsW8qk4snCQbq3nuuw==
-X-Google-Smtp-Source: ACHHUZ4yS/+CUbdeDnA+n0pbgimztEEgD9OYwLgLmQ+bx+f59TySAkBI9o7y1d16T553UOdBsXQ+aQ==
-X-Received: by 2002:a17:90a:9dc9:b0:24d:fcc0:1949 with SMTP id
- x9-20020a17090a9dc900b0024dfcc01949mr4503655pjv.12.1683248867979; 
- Thu, 04 May 2023 18:07:47 -0700 (PDT)
+ bh=ULqMf+DmHpGYNoo8G2xP3dFFiX1NCkBJ2cATdvrFXCY=;
+ b=CTl8rTPnee4NmQyk/cLw4hWQ/r3vodLluHFFYJmhUhTLdeN7zQtHlSY7oV/XYOiyhs
+ 3qYEIt/D6SS3irLHNNCmMurhtf8Oep2DXZ0BOwS3Bxz4Fp8z9srgrUd1hqcNrYFIuqL5
+ f4X9ljBZL03nW70fXIEED57e+W0lpxNUclZHkJSzb4xsG6ys6CjyT53METZDj3a78+yC
+ 8YKDz6rph9IKzPVtxWVF7VgTXyX9o3CsV1QiMHeLVX3p9Mgfykn5AB8mnmWUdOJIWzr8
+ DTbk7R6Tg0w9Iss7DQH/45wCdoaWhyygN8VMzsbBjf4sei6zyN5NBnWhFSGQpUUqDClx
+ tfzQ==
+X-Gm-Message-State: AC+VfDxZNhT+djsjzFO5IkeXjZLQVyf4Ox19sEGWaycZ1oysalHxsvH/
+ x6RudDiqGx4sTmFU35Wd1gnzPk+DHIOLlA==
+X-Google-Smtp-Source: ACHHUZ6Qh7X9HxiCTNG91udP0O2/421N8g/BcOeX0F15bCrvbB/bfq/zWBDGRf1RsQGv1mSqVYxEbg==
+X-Received: by 2002:a17:902:e54b:b0:1a6:9f9b:1327 with SMTP id
+ n11-20020a170902e54b00b001a69f9b1327mr6782305plf.45.1683248871524; 
+ Thu, 04 May 2023 18:07:51 -0700 (PDT)
 Received: from toolbox.alistair23.me
  (2403-580b-97e8-0-321-6fb2-58f1-a1b1.ip6.aussiebb.net.
  [2403:580b:97e8:0:321:6fb2:58f1:a1b1])
  by smtp.gmail.com with ESMTPSA id
- l19-20020a170902d35300b0019309be03e7sm218762plk.66.2023.05.04.18.07.44
+ l19-20020a170902d35300b0019309be03e7sm218762plk.66.2023.05.04.18.07.48
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 04 May 2023 18:07:47 -0700 (PDT)
+ Thu, 04 May 2023 18:07:50 -0700 (PDT)
 From: Alistair Francis <alistair23@gmail.com>
 X-Google-Original-From: Alistair Francis <alistair.francis@wdc.com>
 To: qemu-devel@nongnu.org
@@ -65,16 +65,16 @@ Cc: alistair23@gmail.com, Richard Henderson <richard.henderson@linaro.org>,
  Alistair Francis <alistair.francis@wdc.com>,
  Weiwei Li <liweiwei@iscas.ac.cn>,
  Daniel Henrique Barboza <dbarboza@ventanamicro.com>
-Subject: [PULL 78/89] target/riscv: Don't modify SUM with is_debug
-Date: Fri,  5 May 2023 11:02:30 +1000
-Message-Id: <20230505010241.21812-79-alistair.francis@wdc.com>
+Subject: [PULL 79/89] target/riscv: Merge checks for reserved pte flags
+Date: Fri,  5 May 2023 11:02:31 +1000
+Message-Id: <20230505010241.21812-80-alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.40.0
 In-Reply-To: <20230505010241.21812-1-alistair.francis@wdc.com>
 References: <20230505010241.21812-1-alistair.francis@wdc.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102e;
- envelope-from=alistair23@gmail.com; helo=mail-pj1-x102e.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52e;
+ envelope-from=alistair23@gmail.com; helo=mail-pg1-x52e.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -100,34 +100,42 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
-If we want to give the debugger a greater view of memory than
-the cpu, we should simply disable the access check entirely,
-not simply for this one corner case.
-
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 Reviewed-by: Weiwei Li <liweiwei@iscas.ac.cn>
 Tested-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
-Message-Id: <20230325105429.1142530-23-richard.henderson@linaro.org>
-Message-Id: <20230412114333.118895-23-richard.henderson@linaro.org>
+Message-Id: <20230325105429.1142530-24-richard.henderson@linaro.org>
+Message-Id: <20230412114333.118895-24-richard.henderson@linaro.org>
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- target/riscv/cpu_helper.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ target/riscv/cpu_helper.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
 diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
-index 6dc3fdf594..9a2b944990 100644
+index 9a2b944990..c7c384bae3 100644
 --- a/target/riscv/cpu_helper.c
 +++ b/target/riscv/cpu_helper.c
-@@ -823,7 +823,7 @@ static int get_physical_address(CPURISCVState *env, hwaddr *physical,
-         }
-         widened = 2;
+@@ -962,14 +962,14 @@ restart:
+         /* Reserved without Svpbmt. */
+         return TRANSLATE_FAIL;
      }
--    sum = mmuidx_sum(mmu_idx) || is_debug;
-+    sum = mmuidx_sum(mmu_idx);
-     switch (vm) {
-     case VM_1_10_SV32:
-       levels = 2; ptidxbits = 10; ptesize = 4; break;
+-    if ((pte & (PTE_R | PTE_W | PTE_X)) == PTE_W) {
+-        /* Reserved leaf PTE flags: PTE_W */
+-        return TRANSLATE_FAIL;
+-    }
+-    if ((pte & (PTE_R | PTE_W | PTE_X)) == (PTE_W | PTE_X)) {
+-        /* Reserved leaf PTE flags: PTE_W + PTE_X */
++
++    /* Check for reserved combinations of RWX flags. */
++    switch (pte & (PTE_R | PTE_W | PTE_X)) {
++    case PTE_W:
++    case PTE_W | PTE_X:
+         return TRANSLATE_FAIL;
+     }
++
+     if ((pte & PTE_U) &&
+         ((mode != PRV_U) && (!sum || access_type == MMU_INST_FETCH))) {
+         /*
 -- 
 2.40.0
 
