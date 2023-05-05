@@ -2,59 +2,104 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65AE06F808A
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 May 2023 12:06:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 93F0A6F80B4
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 May 2023 12:22:05 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pusK6-0003SL-FC; Fri, 05 May 2023 06:05:58 -0400
+	id 1pusYL-000696-30; Fri, 05 May 2023 06:20:41 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1pusK1-0003QS-IV
- for qemu-devel@nongnu.org; Fri, 05 May 2023 06:05:54 -0400
-Received: from kylie.crudebyte.com ([5.189.157.229])
+ (Exim 4.90_1) (envelope-from <harshpb@linux.ibm.com>)
+ id 1pusYI-00068t-Ud; Fri, 05 May 2023 06:20:38 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1pusJz-0003x9-11
- for qemu-devel@nongnu.org; Fri, 05 May 2023 06:05:52 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
- MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
- Content-ID:Content-Description;
- bh=dQqO1khjEzEoVtLNIOKXHQ3bWHajiFN7+uL2OPfkzMc=; b=mdPsTpwATAWPjUrJsoF9GqrraD
- ajLSNGDetq1iGmRFud9L4vAHbADCzTD3E3c6yEdaLI3bbNGs1D4uyazX3g9WPHteinNh9oz30GZRE
- CO8h/8ds1IYxaYm2gkOCo7yB82NJf/CHy//A8XKS7wurt69xdA5mmKgLcqj8/Qjek+I2jKDWt/eP7
- MUf5+MlWwrg3SzIYfYMzYZF4OBLVHR5ZqxuXqiJPfQAECq80PEl2Kdc0m86pSda+Ppxoi442OEqdO
- 06GMIvCgnIicQa5eekq+hFLlxYcWoOD6FN3s+7HFtT8nBKvE5J53fQO3t6EsUfKXr8KWuODtgBBxu
- MlCt7vSu6nU8XxBuAO4oon6qV8IQX7DrKh4D+3O94BsG6OReeTHKqKOzqIBJ4gzvxwD4qSSl9IWZG
- l7A0qMl3H8rZ+jj80Tx2SrBg+FKrFYd1DJC+iuTaIrnaibk3DWZhOFRDdUNAv5DG+NzAE2Whe0SPF
- V8rbCFG37AMef1xY+AxMloEZXIOAGM1m3edeEBVnPOQHL9fXA4OtsP17LmZUTqsh/kKAexb2RgY//
- FwZCdBD4uickZaxI4MJcwFtO/m3AL4f1b0ifFtnUgpStquuZ98puAJ+oPGsAGRWmmJ+TBYYnC2ZEA
- TNUaF0NX0WSuOJtxSSqcaHEl5uHf4J0kx6/+e/YN4=;
-From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-To: qemu-devel@nongnu.org
-Cc: Jason Andryuk <jandryuk@gmail.com>, Greg Kurz <groug@kaod.org>,
- Stefano Stabellini <sstabellini@kernel.org>,
- Anthony Perard <anthony.perard@citrix.com>, Paul Durrant <paul@xen.org>,
- "open list:X86 Xen CPUs" <xen-devel@lists.xenproject.org>,
- Jason Andryuk <jandryuk@gmail.com>
-Subject: Re: [PATCH] 9pfs/xen: Fix segfault on shutdown
-Date: Fri, 05 May 2023 12:05:45 +0200
-Message-ID: <43162544.QFhiSxD2Za@silver>
-In-Reply-To: <20230502143722.15613-1-jandryuk@gmail.com>
-References: <20230502143722.15613-1-jandryuk@gmail.com>
+ (Exim 4.90_1) (envelope-from <harshpb@linux.ibm.com>)
+ id 1pusYD-0000Qd-RA; Fri, 05 May 2023 06:20:35 -0400
+Received: from pps.filterd (m0356516.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 345AEXIh015565; Fri, 5 May 2023 10:20:30 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=3HDwHs+cs21QvjeRSlSF86YTfk35+AEb1qo7gY+5zvM=;
+ b=iYo8t7l4VrhmYAqS3TXLVO1OdnEgm9hiIOBFtjl6BCU27kOldvfK08reLiJvteByKmPF
+ RR+JYdFTgRI/U5QpL6pScg2OanwqbiCx0f1h+U5o8caJuncz68MlVfGDwUHdg/VDrNMy
+ /om7CPvGyq1W9t+/I9ZRWzrDeX1KRKq+iF9qYLgAjg8fqm9ji5lXD2+P57cyELxwcmFH
+ 6MaadDjOIDaj6FvF0oQWCiG9uziDaHkp699SSeR/3vlF1GITbhsp6AZhUAz7mku/mx0f
+ I7x7BUuAmrlv/CSerrBdnI0TVTYzYyN8HUBOZY6MAO1NNrInjaJSD6iTdU9UFh75mgMi vw== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3qcyv5g4v0-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 05 May 2023 10:20:30 +0000
+Received: from m0356516.ppops.net (m0356516.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 345AFR7Y017647;
+ Fri, 5 May 2023 10:20:29 GMT
+Received: from ppma02dal.us.ibm.com (a.bd.3ea9.ip4.static.sl-reverse.com
+ [169.62.189.10])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3qcyv5g4um-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 05 May 2023 10:20:29 +0000
+Received: from pps.filterd (ppma02dal.us.ibm.com [127.0.0.1])
+ by ppma02dal.us.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 345890IX009976;
+ Fri, 5 May 2023 10:20:28 GMT
+Received: from smtprelay05.dal12v.mail.ibm.com ([9.208.130.101])
+ by ppma02dal.us.ibm.com (PPS) with ESMTPS id 3q8tv8dk78-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 05 May 2023 10:20:28 +0000
+Received: from smtpav05.dal12v.mail.ibm.com (smtpav05.dal12v.mail.ibm.com
+ [10.241.53.104])
+ by smtprelay05.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 345AKR0x48497046
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 5 May 2023 10:20:27 GMT
+Received: from smtpav05.dal12v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id AF92F58065;
+ Fri,  5 May 2023 10:20:27 +0000 (GMT)
+Received: from smtpav05.dal12v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id CAE6058056;
+ Fri,  5 May 2023 10:20:25 +0000 (GMT)
+Received: from [9.43.126.158] (unknown [9.43.126.158])
+ by smtpav05.dal12v.mail.ibm.com (Postfix) with ESMTP;
+ Fri,  5 May 2023 10:20:25 +0000 (GMT)
+Message-ID: <f43c0f86-3a74-e3c5-ab7a-20c719edf5fe@linux.ibm.com>
+Date: Fri, 5 May 2023 15:50:24 +0530
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-Received-SPF: pass client-ip=5.189.157.229;
- envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [RFC PATCH 1/4] spapr: H_ENTER_NESTED should restore host XER ca
+ field
+Content-Language: en-US
+To: Nicholas Piggin <npiggin@gmail.com>, qemu-ppc@nongnu.org
+Cc: qemu-devel@nongnu.org, Harsh Prateek Bora <harshpb@linux.ibm.com>
+References: <20230503003954.128188-1-npiggin@gmail.com>
+ <20230503003954.128188-2-npiggin@gmail.com>
+From: Harsh Prateek Bora <harshpb@linux.ibm.com>
+In-Reply-To: <20230503003954.128188-2-npiggin@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: G2QDjNJZuEoV0TxGOwyG2PQ0zO0CBOLo
+X-Proofpoint-GUID: 1Vo24OLWsAsDjjSk9TQlWR7IerwW2lqO
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-05-05_16,2023-05-04_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0
+ impostorscore=0 phishscore=0 spamscore=0 clxscore=1015 lowpriorityscore=0
+ mlxlogscore=938 priorityscore=1501 mlxscore=0 malwarescore=0 bulkscore=0
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2303200000 definitions=main-2305050083
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=harshpb@linux.ibm.com;
+ helo=mx0b-001b2d01.pphosted.com
+X-Spam_score_int: -62
+X-Spam_score: -6.3
+X-Spam_bar: ------
+X-Spam_report: (-6.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-4.28,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -70,147 +115,29 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi Jason,
+<correcting my email in CC>
 
-as this is a Xen specific change, I would like Stefano or another Xen
-developer to take a look at it, just few things from my side ...
-
-On Tuesday, May 2, 2023 4:37:22 PM CEST Jason Andryuk wrote:
-> xen_9pfs_free can't use gnttabdev since it is already closed and NULL-ed
-
-Where exactly does it do that access? A backtrace or another detailed commit
-log description would help.
-
-> out when free is called.  Do the teardown in _disconnect().  This
-> matches the setup done in _connect().
+On 5/3/23 06:09, Nicholas Piggin wrote:
+> Fix missing env->ca restore when going from L2 back to the host.
 > 
-> trace-events are also added for the XenDevOps functions.
-> 
-> Signed-off-by: Jason Andryuk <jandryuk@gmail.com>
+> Fixes: 120f738a467 ("spapr: implement nested-hv capability for the virtual hypervisor")
+> Signed-off-by: Nicholas Piggin <npiggin@gmail.com>
 > ---
->  hw/9pfs/trace-events     |  5 +++++
->  hw/9pfs/xen-9p-backend.c | 36 +++++++++++++++++++++++-------------
->  2 files changed, 28 insertions(+), 13 deletions(-)
+>   hw/ppc/spapr_hcall.c | 1 +
+>   1 file changed, 1 insertion(+)
 > 
-> diff --git a/hw/9pfs/trace-events b/hw/9pfs/trace-events
-> index 6c77966c0b..7b5b0b5a48 100644
-> --- a/hw/9pfs/trace-events
-> +++ b/hw/9pfs/trace-events
-> @@ -48,3 +48,8 @@ v9fs_readlink(uint16_t tag, uint8_t id, int32_t fid) "tag %d id %d fid %d"
->  v9fs_readlink_return(uint16_t tag, uint8_t id, char* target) "tag %d id %d name %s"
->  v9fs_setattr(uint16_t tag, uint8_t id, int32_t fid, int32_t valid, int32_t mode, int32_t uid, int32_t gid, int64_t size, int64_t atime_sec, int64_t mtime_sec) "tag %u id %u fid %d iattr={valid %d mode %d uid %d gid %d size %"PRId64" atime=%"PRId64" mtime=%"PRId64" }"
->  v9fs_setattr_return(uint16_t tag, uint8_t id) "tag %u id %u"
-> +
+> diff --git a/hw/ppc/spapr_hcall.c b/hw/ppc/spapr_hcall.c
+> index ec4def62f8..be225adaf6 100644
+> --- a/hw/ppc/spapr_hcall.c
+> +++ b/hw/ppc/spapr_hcall.c
+> @@ -1785,6 +1785,7 @@ out_restore_l1:
+>       env->cfar = spapr_cpu->nested_host_state->cfar;
+>       env->xer = spapr_cpu->nested_host_state->xer;
+>       env->so = spapr_cpu->nested_host_state->so;
+> +    env->ca = spapr_cpu->nested_host_state->ca;
+>       env->ov = spapr_cpu->nested_host_state->ov;
+>       env->ov32 = spapr_cpu->nested_host_state->ov32;
+>       env->ca32 = spapr_cpu->nested_host_state->ca32;
 
-Nit-picking; missing leading comment:
-
-# xen-9p-backend.c
-
-> +xen_9pfs_alloc(char *name) "name %s"
-> +xen_9pfs_connect(char *name) "name %s"
-> +xen_9pfs_disconnect(char *name) "name %s"
-> +xen_9pfs_free(char *name) "name %s"
-> diff --git a/hw/9pfs/xen-9p-backend.c b/hw/9pfs/xen-9p-backend.c
-> index 0e266c552b..c646a0b3d1 100644
-> --- a/hw/9pfs/xen-9p-backend.c
-> +++ b/hw/9pfs/xen-9p-backend.c
-> @@ -25,6 +25,8 @@
->  #include "qemu/iov.h"
->  #include "fsdev/qemu-fsdev.h"
->  
-> +#include "trace.h"
-> +
->  #define VERSIONS "1"
->  #define MAX_RINGS 8
->  #define MAX_RING_ORDER 9
-> @@ -337,6 +339,8 @@ static void xen_9pfs_disconnect(struct XenLegacyDevice *xendev)
->      Xen9pfsDev *xen_9pdev = container_of(xendev, Xen9pfsDev, xendev);
->      int i;
->  
-> +    trace_xen_9pfs_disconnect(xendev->name);
-> +
->      for (i = 0; i < xen_9pdev->num_rings; i++) {
->          if (xen_9pdev->rings[i].evtchndev != NULL) {
->              qemu_set_fd_handler(qemu_xen_evtchn_fd(xen_9pdev->rings[i].evtchndev),
-> @@ -345,40 +349,42 @@ static void xen_9pfs_disconnect(struct XenLegacyDevice *xendev)
->                                     xen_9pdev->rings[i].local_port);
->              xen_9pdev->rings[i].evtchndev = NULL;
->          }
-> -    }
-> -}
-> -
-> -static int xen_9pfs_free(struct XenLegacyDevice *xendev)
-> -{
-> -    Xen9pfsDev *xen_9pdev = container_of(xendev, Xen9pfsDev, xendev);
-> -    int i;
-> -
-> -    if (xen_9pdev->rings[0].evtchndev != NULL) {
-> -        xen_9pfs_disconnect(xendev);
-> -    }
-> -
-> -    for (i = 0; i < xen_9pdev->num_rings; i++) {
->          if (xen_9pdev->rings[i].data != NULL) {
->              xen_be_unmap_grant_refs(&xen_9pdev->xendev,
->                                      xen_9pdev->rings[i].data,
->                                      xen_9pdev->rings[i].intf->ref,
->                                      (1 << xen_9pdev->rings[i].ring_order));
-> +            xen_9pdev->rings[i].data = NULL;
->          }
->          if (xen_9pdev->rings[i].intf != NULL) {
->              xen_be_unmap_grant_ref(&xen_9pdev->xendev,
->                                     xen_9pdev->rings[i].intf,
->                                     xen_9pdev->rings[i].ref);
-> +            xen_9pdev->rings[i].intf = NULL;
->          }
->          if (xen_9pdev->rings[i].bh != NULL) {
->              qemu_bh_delete(xen_9pdev->rings[i].bh);
-> +            xen_9pdev->rings[i].bh = NULL;
->          }
->      }
->  
->      g_free(xen_9pdev->id);
-> +    xen_9pdev->id = NULL;
->      g_free(xen_9pdev->tag);
-> +    xen_9pdev->tag = NULL;
->      g_free(xen_9pdev->path);
-> +    xen_9pdev->path = NULL;
->      g_free(xen_9pdev->security_model);
-> +    xen_9pdev->security_model = NULL;
->      g_free(xen_9pdev->rings);
-> +    xen_9pdev->rings = NULL;
-> +    return;
-> +}
-> +
-> +static int xen_9pfs_free(struct XenLegacyDevice *xendev)
-> +{
-> +    trace_xen_9pfs_free(xendev->name);
-> +
->      return 0;
->  }
-
-xen_9pfs_free() doing nothing, that doesn't look right to me. Wouldn't it make
-sense to turn xen_9pfs_free() idempotent instead?
-
->  
-> @@ -390,6 +396,8 @@ static int xen_9pfs_connect(struct XenLegacyDevice *xendev)
->      V9fsState *s = &xen_9pdev->state;
->      QemuOpts *fsdev;
->  
-> +    trace_xen_9pfs_connect(xendev->name);
-> +
->      if (xenstore_read_fe_int(&xen_9pdev->xendev, "num-rings",
->                               &xen_9pdev->num_rings) == -1 ||
->          xen_9pdev->num_rings > MAX_RINGS || xen_9pdev->num_rings < 1) {
-> @@ -499,6 +507,8 @@ out:
->  
->  static void xen_9pfs_alloc(struct XenLegacyDevice *xendev)
->  {
-> +    trace_xen_9pfs_alloc(xendev->name);
-> +
->      xenstore_write_be_str(xendev, "versions", VERSIONS);
->      xenstore_write_be_int(xendev, "max-rings", MAX_RINGS);
->      xenstore_write_be_int(xendev, "max-ring-page-order", MAX_RING_ORDER);
-> 
-
-
+Reviewed-by: Harsh Prateek Bora <harshpb@linux.ibm.com>
 
