@@ -2,79 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36BD86F7A51
-	for <lists+qemu-devel@lfdr.de>; Fri,  5 May 2023 03:05:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 75EB06F7A7D
+	for <lists+qemu-devel@lfdr.de>; Fri,  5 May 2023 03:15:56 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pujsR-0003Vn-FW; Thu, 04 May 2023 21:04:51 -0400
+	id 1pujsW-0004II-NY; Thu, 04 May 2023 21:04:56 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1pujsP-0003IV-JW
- for qemu-devel@nongnu.org; Thu, 04 May 2023 21:04:49 -0400
-Received: from mail-pl1-x635.google.com ([2607:f8b0:4864:20::635])
+ id 1pujsT-00042F-LN
+ for qemu-devel@nongnu.org; Thu, 04 May 2023 21:04:54 -0400
+Received: from mail-pg1-x532.google.com ([2607:f8b0:4864:20::532])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1pujsN-00076S-L8
- for qemu-devel@nongnu.org; Thu, 04 May 2023 21:04:49 -0400
-Received: by mail-pl1-x635.google.com with SMTP id
- d9443c01a7336-1aad5245571so8028165ad.1
- for <qemu-devel@nongnu.org>; Thu, 04 May 2023 18:04:47 -0700 (PDT)
+ id 1pujsR-00077J-PQ
+ for qemu-devel@nongnu.org; Thu, 04 May 2023 21:04:53 -0400
+Received: by mail-pg1-x532.google.com with SMTP id
+ 41be03b00d2f7-51b661097bfso813075a12.0
+ for <qemu-devel@nongnu.org>; Thu, 04 May 2023 18:04:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1683248686; x=1685840686;
+ d=gmail.com; s=20221208; t=1683248690; x=1685840690;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=ByUOlk1RB4HTBv9euthcrclHSXtsLV8170svpbksmdk=;
- b=Xg84NQPP1qUkTklL10h9QNXHgC2GqrLoIG4IAGhmnd7Ks6b86RlQoM3r7c0gR7mC93
- iSPJ9UBGcTDtykb24389FPBjP0rEGgFfV15YBmEkAKBxIYMx6HnZNMOPFvl83FWdyOFe
- /q6xT8w0DzR4JCOGey9dW3OwISIMkUdRPeQbvYfCXHCN97QJ9et31IEwWsCYDU8rHyBj
- Fpk7o/yRMZ3JYw6XioxpT9Pmn1MhIBG8F4d9xJSe98+5lFviH1ziTY+dUOjAqk35BDbH
- BxJKSgBerNZhDN3Y4kV6f3IbTAWfVUhMNtxgnnRGirjAnfj/wkND1yQEyrGubyxBa6zr
- te9Q==
+ bh=UkMty94oAbLIxhqFblM8E1A1z94sOK+vVkAnvNy/KwI=;
+ b=moR80q+omiN3nkg9EaOAAT3oJTDHftZ4IDOnoEHPLBWdY1VHW3J6QTVuonAMNsyf55
+ rUr2mfA9Q/xFzhYmgApFJS+wWVg5w6KUwiOsq6bxU3zk5JL/RWgBY93ev+fR+l5xm7EG
+ VE4m1T1gV+X1uEX7jwMgFTZVQiwF9+cD6wrduP//mSTshs4AYBRiz1sv3VYJYhhmvCqc
+ I+D+fVgHeInst9c5WXX+DtGT9/hx4iO4wScnfMCKENPZfOv1KhuffCXsYW94N+ooo4gK
+ vbtq1lXZ8ygO5luP6aTLVzj5p+jnu36aP2LGxkzoU2hbB+TUus3++vepZxcZ/l3zjPy4
+ rebg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683248686; x=1685840686;
+ d=1e100.net; s=20221208; t=1683248690; x=1685840690;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=ByUOlk1RB4HTBv9euthcrclHSXtsLV8170svpbksmdk=;
- b=JLVZ6X/gzhiL2MVu32VyKsz9XryoJrTA8oRqb6txRGY1wOLfC4oNTVHpd+s3mZMVYV
- ASQridaLVTiWWVbJR8WCP25djanKhasXGRHNep94PZUZOM/1LSpoFdsgfQLsTbEICqYp
- g/qkbp0zYqwufrZGTvtTf6o15N+GM0eD7SdyD8sbuTwQZGL/5J4haBXI/pkYpPJLyJ+K
- TVZQsyF1hoQwNfEgHhdIXX2vtl8Uj3cADs+rZX8oD2tzhePeOqODQqu5XV8PYybViZSM
- sg0VammYGlZd30hDyhWlTXwAqbYk7sRyQIH8Pq2jILY/G4sllhp+u8oAtBeMpy5LKOzU
- j3Zw==
-X-Gm-Message-State: AC+VfDx+aCGj64j6C3zle4gIN8GjbfiL7U84i4opxwHgbU9Bt9SseguC
- C6wFeWSUhkL0bY+0ZBx5l9gPYBMohZ0n7w==
-X-Google-Smtp-Source: ACHHUZ66L5BFzDRNocpKNqh2Jf/5olN3+9jb6LrXQ9QcwK2LAHPqmFANE24mHXO539MJAR+ByX0A/Q==
-X-Received: by 2002:a17:902:c948:b0:1a9:6d25:b2d2 with SMTP id
- i8-20020a170902c94800b001a96d25b2d2mr6195005pla.67.1683248686584; 
- Thu, 04 May 2023 18:04:46 -0700 (PDT)
+ bh=UkMty94oAbLIxhqFblM8E1A1z94sOK+vVkAnvNy/KwI=;
+ b=Hnqwd+W5Pm0SxXCHhoNsz1/lG6m96r6ReQVqOTe4pW4EMKf9N6EYx3/+X9Xm99XmdP
+ AnffdLnWHaD4Y2/uStA6evLcFi0hsV8j6djjHv5VCBMk3W436siCVGw7Fdo9tPEjYg4z
+ xf7cIxU3+wrZodINhNY917v5dYDAJJE7Bfwrtmgnz7X+xQFmaBDePgKkKgQrZOElqxUn
+ wXBCPAwE0bfkYoinLFEWIkyOvdfJZx4e8aORwQegeJw2Xm7MES5yh5Yrn2O5Aq28Whho
+ xViAc+31R2SHzBC+1xSe9nwSnMiZxRAU6wH2zRR3SiGOlA6gkEPTsmAqeFhBtxN4K/hS
+ 8cJA==
+X-Gm-Message-State: AC+VfDz6e6Gfk849NTi4klS4949tygaskK12BFBBZ+KW6US1/gRlXK/Q
+ 05kHvya0wkOJMLzkSzQzI+JeunEDFI0DwA==
+X-Google-Smtp-Source: ACHHUZ6fNO2K08hRTTZ7euXj4VRjNxPv+fTj0O2CF4cSd82SJH2zq3wDwHjso5l07Q7FZP9YsHbNng==
+X-Received: by 2002:a17:902:7048:b0:1ab:1bdd:b307 with SMTP id
+ h8-20020a170902704800b001ab1bddb307mr4896710plt.51.1683248689898; 
+ Thu, 04 May 2023 18:04:49 -0700 (PDT)
 Received: from toolbox.alistair23.me
  (2403-580b-97e8-0-321-6fb2-58f1-a1b1.ip6.aussiebb.net.
  [2403:580b:97e8:0:321:6fb2:58f1:a1b1])
  by smtp.gmail.com with ESMTPSA id
- l19-20020a170902d35300b0019309be03e7sm218762plk.66.2023.05.04.18.04.43
+ l19-20020a170902d35300b0019309be03e7sm218762plk.66.2023.05.04.18.04.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 04 May 2023 18:04:46 -0700 (PDT)
+ Thu, 04 May 2023 18:04:49 -0700 (PDT)
 From: Alistair Francis <alistair23@gmail.com>
 X-Google-Original-From: Alistair Francis <alistair.francis@wdc.com>
 To: qemu-devel@nongnu.org
 Cc: alistair23@gmail.com, Weiwei Li <liweiwei@iscas.ac.cn>,
  Junqiang Wang <wangjunqiang@iscas.ac.cn>,
- Alistair Francis <alistair.francis@wdc.com>,
- Richard Henderson <richard.henderson@linaro.org>
-Subject: [PULL 26/89] target/riscv: Fix addr type for get_physical_address
-Date: Fri,  5 May 2023 11:01:38 +1000
-Message-Id: <20230505010241.21812-27-alistair.francis@wdc.com>
+ Daniel Henrique Barboza <dbarboza@ventanamicro.com>,
+ Alistair Francis <alistair.francis@wdc.com>
+Subject: [PULL 27/89] target/riscv: Set opcode to env->bins for
+ illegal/virtual instruction fault
+Date: Fri,  5 May 2023 11:01:39 +1000
+Message-Id: <20230505010241.21812-28-alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.40.0
 In-Reply-To: <20230505010241.21812-1-alistair.francis@wdc.com>
 References: <20230505010241.21812-1-alistair.francis@wdc.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::635;
- envelope-from=alistair23@gmail.com; helo=mail-pl1-x635.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::532;
+ envelope-from=alistair23@gmail.com; helo=mail-pg1-x532.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -100,42 +101,33 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Weiwei Li <liweiwei@iscas.ac.cn>
 
-Function get_physical_address() translates both virtual address and
-guest physical address, and the latter is 34-bits for Sv32x4. So we
-should use vaddr type for 'addr' parameter.
+decode_save_opc() will not work for generate_exception(), since 0 is passed
+to riscv_raise_exception() as pc in helper_raise_exception(), and bins will
+not be restored in this case.
 
 Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
 Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20230329101928.83856-1-liweiwei@iscas.ac.cn>
+Reviewed-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+Acked-by: Alistair Francis <alistair.francis@wdc.com>
+Message-Id: <20230330034636.44585-1-liweiwei@iscas.ac.cn>
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- target/riscv/cpu_helper.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ target/riscv/insn_trans/trans_rvh.c.inc | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
-index 9e2be29c45..b0e094a933 100644
---- a/target/riscv/cpu_helper.c
-+++ b/target/riscv/cpu_helper.c
-@@ -732,7 +732,7 @@ static int get_physical_address_pmp(CPURISCVState *env, int *prot,
-  * @env: CPURISCVState
-  * @physical: This will be set to the calculated physical address
-  * @prot: The returned protection attributes
-- * @addr: The virtual address to be translated
-+ * @addr: The virtual address or guest physical address to be translated
-  * @fault_pte_addr: If not NULL, this will be set to fault pte address
-  *                  when a error occurs on pte address translation.
-  *                  This will already be shifted to match htval.
-@@ -744,7 +744,7 @@ static int get_physical_address_pmp(CPURISCVState *env, int *prot,
-  * @is_debug: Is this access from a debugger or the monitor?
-  */
- static int get_physical_address(CPURISCVState *env, hwaddr *physical,
--                                int *prot, target_ulong addr,
-+                                int *prot, vaddr addr,
-                                 target_ulong *fault_pte_addr,
-                                 int access_type, int mmu_idx,
-                                 bool first_stage, bool two_stage,
+diff --git a/target/riscv/insn_trans/trans_rvh.c.inc b/target/riscv/insn_trans/trans_rvh.c.inc
+index 9248b48c36..4b730cd492 100644
+--- a/target/riscv/insn_trans/trans_rvh.c.inc
++++ b/target/riscv/insn_trans/trans_rvh.c.inc
+@@ -20,6 +20,8 @@
+ static bool check_access(DisasContext *ctx)
+ {
+     if (!ctx->hlsx) {
++        tcg_gen_st_i32(tcg_constant_i32(ctx->opcode), cpu_env,
++                       offsetof(CPURISCVState, bins));
+         if (ctx->virt_enabled) {
+             generate_exception(ctx, RISCV_EXCP_VIRT_INSTRUCTION_FAULT);
+         } else {
 -- 
 2.40.0
 
