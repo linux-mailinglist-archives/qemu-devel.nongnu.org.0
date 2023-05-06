@@ -2,80 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2D876F9032
-	for <lists+qemu-devel@lfdr.de>; Sat,  6 May 2023 09:34:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B1A3B6F90CC
+	for <lists+qemu-devel@lfdr.de>; Sat,  6 May 2023 11:05:33 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pvCQu-00060S-On; Sat, 06 May 2023 03:34:20 -0400
+	id 1pvDpz-0001c4-3L; Sat, 06 May 2023 05:04:19 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pvCQs-000604-7m
- for qemu-devel@nongnu.org; Sat, 06 May 2023 03:34:18 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pvCQq-0007NT-DV
- for qemu-devel@nongnu.org; Sat, 06 May 2023 03:34:18 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1683358454;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=+9/QgGjs4Ucoq2AHEh7bh3EbX9TByD1fm4d8jnqawi8=;
- b=EGe37mBQNBhlNpcR0sbWL3nxbR4Q574NJgAaDi4vTO9aGs0BNCklnhbXI0yctUFgLZX2T3
- X/Ww2vLtWDlF++kUATwgz0EO9Ozx+YReMQef5pQx3lakZGgWAXPtGDkjKF5uizjuLC7ZbN
- MQ5vCpdnkhGtRIWOY/NjuYy3AQj0xl4=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-517-R5Mm7sXvOcKcvuwtgM152w-1; Sat, 06 May 2023 03:34:10 -0400
-X-MC-Unique: R5Mm7sXvOcKcvuwtgM152w-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
- [10.11.54.8])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 09B6080080E;
- Sat,  6 May 2023 07:34:10 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.39.192.121])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A2508C164E7;
- Sat,  6 May 2023 07:34:09 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 6E42C21E6924; Sat,  6 May 2023 09:34:08 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-Cc: Stefan Hajnoczi <stefanha@redhat.com>,  qemu-devel@nongnu.org,  Marcel
- Apfelbaum <marcel.apfelbaum@gmail.com>,  Christian Schoenebeck
- <qemu_oss@crudebyte.com>,  Michael Roth <michael.roth@amd.com>,  Eric
- Blake <eblake@redhat.com>,  Paolo Bonzini <pbonzini@redhat.com>,  Greg
- Kurz <groug@kaod.org>,  Eduardo Habkost <eduardo@habkost.net>,  Yanan Wang
- <wangyanan55@huawei.com>,  Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?=
- <philmd@linaro.org>,
- Kyle Evans <kevans@freebsd.org>,  Warner Losh <imp@bsdimp.com>,  Richard
- Henderson <richard.henderson@linaro.org>,  Riku Voipio <riku.voipio@iki.fi>
-Subject: Re: [PATCH v3 04/10] scripts/qapi: document the tool that generated
- the file
-References: <20230505155336.137393-1-alex.bennee@linaro.org>
- <20230505155336.137393-5-alex.bennee@linaro.org>
-Date: Sat, 06 May 2023 09:34:08 +0200
-In-Reply-To: <20230505155336.137393-5-alex.bennee@linaro.org> ("Alex
- =?utf-8?Q?Benn=C3=A9e=22's?=
- message of "Fri, 5 May 2023 16:53:30 +0100")
-Message-ID: <87zg6hrk0f.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pvDpx-0001bu-HV
+ for qemu-devel@nongnu.org; Sat, 06 May 2023 05:04:17 -0400
+Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pvDpu-0000RG-Ab
+ for qemu-devel@nongnu.org; Sat, 06 May 2023 05:04:17 -0400
+Received: by mail-wm1-x32d.google.com with SMTP id
+ 5b1f17b1804b1-3f41d087bd3so836345e9.3
+ for <qemu-devel@nongnu.org>; Sat, 06 May 2023 02:04:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1683363851; x=1685955851;
+ h=content-transfer-encoding:in-reply-to:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=l+ghsN54+vplZ4bdD4vovdm7Ky7TXtUJirCitEL/3JI=;
+ b=BHT50SljfYUMbMw6fe1UCiyqiaaI8AgiwPTv2LxAKC9Vy5GAKFLgtpvDOnaIyXJ2bM
+ UPeOl+q6fFUYZw4pFMrd0Xcbs0IOagwU67huZyXuFIrfQeuRl4loEbWr+CSNQ4eE8QcF
+ nMNncQHx2m3ZFgvzQ/Qc5rOlH5fIOlvNaoWQmJBP170IEjIRNG0vrCMfyBUToMykEf73
+ zdIb9006l6oBNvkQAOVykJ+cNyB8+iWCwkeHT+mBXoniaXMe0r2Ud21hiHl1QTZbBT8q
+ 9P7b1+ShJER/C6+aZk/lEg9mJ16V+fhUjpl3tve7Wsd2vBLv84LmBezhGoozoHBru5T6
+ /uBw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1683363851; x=1685955851;
+ h=content-transfer-encoding:in-reply-to:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=l+ghsN54+vplZ4bdD4vovdm7Ky7TXtUJirCitEL/3JI=;
+ b=gQqBVl3fbPVPdZkSKt8JNY1MyNgRYGudW46qM5vPSIZUSQJ3b9yeW0Z2s3Kp9etJmh
+ R/qNUrkri5dfUUYfk/fP9Zy5zF43Dhq3I688KtNKNOjnnc7kMeLwGI2UVgg/bFElolxU
+ lruiGIbFXQzKVj+W0Da/bSsSYrX+rKaA1RMTPooQEx1zy77i4xsBB5/knaOGPRb+8hU5
+ aXW8E74aAPkaHX5Yc34H/uiwczAzmCMVWRt04INJzkNfTSNum7j4Ib39mjk9hCQWAPiM
+ TbCTUTfqObe1nhAS4lAsdxqcI0xvr85osdcn+3iGAEf6m3+H7aU1/JNFDeJJwiDp2cIW
+ KAqQ==
+X-Gm-Message-State: AC+VfDxNstNDDwgJ6EGQdQz/4TEAaDtFeB/9tXqlXQtWMb7rmZrJnuxL
+ utF3Cfpbs5E5aRILr3HEF1HbeA==
+X-Google-Smtp-Source: ACHHUZ5Q8UbnEIUI/KAn4eBjYiv16agM4ymxlNQ9dtnlJ/59N1qNsBBljpKZWCVkWFv7av4I1yoPjA==
+X-Received: by 2002:adf:fe47:0:b0:306:434:f8ef with SMTP id
+ m7-20020adffe47000000b003060434f8efmr2727006wrs.70.1683363851204; 
+ Sat, 06 May 2023 02:04:11 -0700 (PDT)
+Received: from [192.168.20.44] ([212.241.182.8])
+ by smtp.gmail.com with ESMTPSA id
+ p8-20020a056000018800b002f28de9f73bsm4826779wrx.55.2023.05.06.02.04.10
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 06 May 2023 02:04:10 -0700 (PDT)
+Message-ID: <7d340bb8-d863-8ca2-f334-1d60340f6287@linaro.org>
+Date: Sat, 6 May 2023 10:04:09 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -22
-X-Spam_score: -2.3
-X-Spam_bar: --
-X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.161,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PULL v2 00/45] loongarch-to-apply queue
+Content-Language: en-US
+To: Song Gao <gaosong@loongson.cn>, qemu-devel@nongnu.org
+References: <20230506063540.178794-1-gaosong@loongson.cn>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20230506063540.178794-1-gaosong@loongson.cn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x32d.google.com
+X-Spam_score_int: -63
+X-Spam_score: -6.4
+X-Spam_bar: ------
+X-Spam_report: (-6.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-4.28,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -91,46 +93,27 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Alex Benn=C3=A9e <alex.bennee@linaro.org> writes:
+On 5/6/23 07:34, Song Gao wrote:
+> The following changes since commit eb5c3932a383ba1ef3a911232c644f2e053ef66c:
+> 
+>    Merge tag 'pw-pull-request' ofhttps://gitlab.com/marcandre.lureau/qemu  into staging (2023-05-05 19:18:05 +0100)
+> 
+> are available in the Git repository at:
+> 
+>    https://gitlab.com/gaosong/qemu.git  tags/pull-loongarch-20230506
+> 
+> for you to fetch changes up to 725d7e763a802321e1bb303348afc551d564d31e:
+> 
+>    hw/intc: don't use target_ulong for LoongArch ipi (2023-05-06 11:19:50 +0800)
+> 
+> ----------------------------------------------------------------
+> Add LoongArch LSX instructions.
+> 
+> v2: Fixes build error.
 
-> This makes it a little easier for developers to find where things
-> where being generated.
->
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-> Message-Id: <20230503091756.1453057-5-alex.bennee@linaro.org>
-> ---
->  scripts/qapi/gen.py | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/scripts/qapi/gen.py b/scripts/qapi/gen.py
-> index 8f8f784f4a..e724507e1a 100644
-> --- a/scripts/qapi/gen.py
-> +++ b/scripts/qapi/gen.py
-> @@ -162,7 +162,7 @@ def __init__(self, fname: str, blurb: str, pydoc: str=
-):
->=20=20
->      def _top(self) -> str:
->          return mcgen('''
-> -/* AUTOMATICALLY GENERATED, DO NOT MODIFY */
-> +/* AUTOMATICALLY GENERATED by QAPIGenC, DO NOT MODIFY */
->=20=20
->  /*
->  %(blurb)s
-> @@ -195,7 +195,7 @@ def _bottom(self) -> str:
->=20=20
->  class QAPIGenTrace(QAPIGen):
->      def _top(self) -> str:
-> -        return super()._top() + '# AUTOMATICALLY GENERATED, DO NOT MODIF=
-Y\n\n'
-> +        return super()._top() + '# AUTOMATICALLY GENERATED by QAPIGenTra=
-ce, DO NOT MODIFY\n\n'
->=20=20
->=20=20
->  @contextmanager
+Applied, thanks.  Please update https://wiki.qemu.org/ChangeLog/8.1 as appropriate.
 
-Nitpicking...  would "GENERATED BY {os.path.basename(sys.argv[0])}" be
-more useful?  The people who know what QAPIGenC and QAPIGenTrace mean
-are probably the ones that need this warning the least :)
+
+r~
 
 
