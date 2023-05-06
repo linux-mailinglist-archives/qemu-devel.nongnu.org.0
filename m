@@ -2,86 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E63F76F8FFC
-	for <lists+qemu-devel@lfdr.de>; Sat,  6 May 2023 09:28:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2D876F9032
+	for <lists+qemu-devel@lfdr.de>; Sat,  6 May 2023 09:34:53 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pvCKZ-0006V2-6e; Sat, 06 May 2023 03:27:47 -0400
+	id 1pvCQu-00060S-On; Sat, 06 May 2023 03:34:20 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pvCKW-0006Ku-Bw
- for qemu-devel@nongnu.org; Sat, 06 May 2023 03:27:44 -0400
-Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pvCKU-00065o-9p
- for qemu-devel@nongnu.org; Sat, 06 May 2023 03:27:44 -0400
-Received: by mail-wm1-x333.google.com with SMTP id
- 5b1f17b1804b1-3f420618d5bso125385e9.1
- for <qemu-devel@nongnu.org>; Sat, 06 May 2023 00:27:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1683358060; x=1685950060;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=r/+KMc0yGt/i1OCiy83lO9mr5LEwSOLTKvYOXBf7XcA=;
- b=roPh7MFc9t2M2sVxkBBqqFlZ5KSi0GAcQxh2Q3D30Bsf310UiSyDcys/W7+NgKgPup
- jIuULrHNcuhPsQzDx9DCS91cHSmNseTzOV2RgN1bx0kYkd4o69vSEnz0Ou8RkFoh8uHv
- wP7e8a7+2AVmFhUkIQEzzk+JDXo0q4EnNsnqfm1zG/QdtOAkdmqe89Lq2gVKoigcyd4I
- 2K1B5gK610Y206M8Vjcn05Y6p/YydLotGICqZdhoG3oyjUxtslitBhd8hEtLHMEAkLWk
- CGaCupZ+HBLiOhhg8/b2V9ye9swaBMcnfaqWUyBi7XOC1DgSur4Q2soemK8P7XD7cNU0
- yI5w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683358060; x=1685950060;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=r/+KMc0yGt/i1OCiy83lO9mr5LEwSOLTKvYOXBf7XcA=;
- b=QfFVbX4PkwH+W6nG5JRiX0Ejmwd/gLlOVas2iQeb6QIRuMjR8r18NLaWf1+x/Yir3t
- EWKaU0azqzYqIIRd2JxiWxgHAGsruqUgGGegaVqeiyE9ViMWQkkOr9pe4TNdQMlMcLfb
- 1nnf/B6Ws2iCa7y514mjHd+cx040Kr+k20qddP+5FwxXed2GsbXorfxr6x7fTPeZX2ik
- ccJejkgGiBiyRIxtUq6mh4tjPixAutWsKmK0nJ3Oe9VsK8pod742BfCR5CoLKoQhTecT
- lzCws5Q81xN2clkSV1GeWgJVMMs8M1WH89qslgacbeAyglZEgv4tyvay3nY6hab4rc0E
- CJzw==
-X-Gm-Message-State: AC+VfDw4glGCWjfQBbkrscRWougiLEcx6Sl5Xj+1xp6f/ViiRYMuoxSB
- yKKhRU+FvzweTkAXAgrj9J3r6UPUvAyZY+m7aMbznA==
-X-Google-Smtp-Source: ACHHUZ7iHLy8QR/57stezah7emP1gEbosRuSa1OXIaFJa/dBjr+VzsY0OFDW628g49hz7SC2VS57wA==
-X-Received: by 2002:a05:600c:21cf:b0:3f1:987b:7a28 with SMTP id
- x15-20020a05600c21cf00b003f1987b7a28mr2717680wmj.29.1683358060363; 
- Sat, 06 May 2023 00:27:40 -0700 (PDT)
-Received: from [192.168.20.44] ([212.241.182.8])
- by smtp.gmail.com with ESMTPSA id
- l9-20020a1c7909000000b003f193d7c6b7sm9869057wme.41.2023.05.06.00.27.39
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 06 May 2023 00:27:40 -0700 (PDT)
-Message-ID: <d14a5c41-c4a2-3549-e272-1255f6dc79f9@linaro.org>
-Date: Sat, 6 May 2023 08:27:38 +0100
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pvCQs-000604-7m
+ for qemu-devel@nongnu.org; Sat, 06 May 2023 03:34:18 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pvCQq-0007NT-DV
+ for qemu-devel@nongnu.org; Sat, 06 May 2023 03:34:18 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1683358454;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=+9/QgGjs4Ucoq2AHEh7bh3EbX9TByD1fm4d8jnqawi8=;
+ b=EGe37mBQNBhlNpcR0sbWL3nxbR4Q574NJgAaDi4vTO9aGs0BNCklnhbXI0yctUFgLZX2T3
+ X/Ww2vLtWDlF++kUATwgz0EO9Ozx+YReMQef5pQx3lakZGgWAXPtGDkjKF5uizjuLC7ZbN
+ MQ5vCpdnkhGtRIWOY/NjuYy3AQj0xl4=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-517-R5Mm7sXvOcKcvuwtgM152w-1; Sat, 06 May 2023 03:34:10 -0400
+X-MC-Unique: R5Mm7sXvOcKcvuwtgM152w-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.8])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 09B6080080E;
+ Sat,  6 May 2023 07:34:10 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.39.192.121])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A2508C164E7;
+ Sat,  6 May 2023 07:34:09 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 6E42C21E6924; Sat,  6 May 2023 09:34:08 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: Stefan Hajnoczi <stefanha@redhat.com>,  qemu-devel@nongnu.org,  Marcel
+ Apfelbaum <marcel.apfelbaum@gmail.com>,  Christian Schoenebeck
+ <qemu_oss@crudebyte.com>,  Michael Roth <michael.roth@amd.com>,  Eric
+ Blake <eblake@redhat.com>,  Paolo Bonzini <pbonzini@redhat.com>,  Greg
+ Kurz <groug@kaod.org>,  Eduardo Habkost <eduardo@habkost.net>,  Yanan Wang
+ <wangyanan55@huawei.com>,  Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?=
+ <philmd@linaro.org>,
+ Kyle Evans <kevans@freebsd.org>,  Warner Losh <imp@bsdimp.com>,  Richard
+ Henderson <richard.henderson@linaro.org>,  Riku Voipio <riku.voipio@iki.fi>
+Subject: Re: [PATCH v3 04/10] scripts/qapi: document the tool that generated
+ the file
+References: <20230505155336.137393-1-alex.bennee@linaro.org>
+ <20230505155336.137393-5-alex.bennee@linaro.org>
+Date: Sat, 06 May 2023 09:34:08 +0200
+In-Reply-To: <20230505155336.137393-5-alex.bennee@linaro.org> ("Alex
+ =?utf-8?Q?Benn=C3=A9e=22's?=
+ message of "Fri, 5 May 2023 16:53:30 +0100")
+Message-ID: <87zg6hrk0f.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH v2] target/ppc: Fix fallback to MFSS for MFFS*
- instructions on pre 3.0 ISAs
-Content-Language: en-US
-To: Richard Purdie <richard.purdie@linuxfoundation.org>, qemu-devel@nongnu.org
-Cc: =?UTF-8?Q?V=c3=adctor_Colombo?= <victor.colombo@eldorado.org.br>,
- Matheus Ferst <matheus.ferst@eldorado.org.br>,
- Daniel Henrique Barboza <danielhb413@gmail.com>
-References: <20230506065240.3177798-1-richard.purdie@linuxfoundation.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20230506065240.3177798-1-richard.purdie@linuxfoundation.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::333;
- envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x333.google.com
-X-Spam_score_int: -63
-X-Spam_score: -6.4
-X-Spam_bar: ------
-X-Spam_report: (-6.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-4.28,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -22
+X-Spam_score: -2.3
+X-Spam_bar: --
+X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.161,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -97,34 +91,46 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 5/6/23 07:52, Richard Purdie wrote:
-> The following commits changed the code such that the fallback to MFSS for MFFSCRN,
-> MFFSCRNI, MFFSCE and MFFSL on pre 3.0 ISAs was removed and became an illegal instruction:
-> 
->    bf8adfd88b547680aa857c46098f3a1e94373160 - target/ppc: Move mffscrn[i] to decodetree
->    394c2e2fda70da722f20fb60412d6c0ca4bfaa03 - target/ppc: Move mffsce to decodetree
->    3e5bce70efe6bd1f684efbb21fd2a316cbf0657e - target/ppc: Move mffsl to decodetree
-> 
-> The hardware will handle them as a MFFS instruction as the code did previously.
-> This means applications that were segfaulting under qemu when encountering these
-> instructions which is used in glibc libm functions for example.
-> 
-> The fallback for MFFSCDRN and MFFSCDRNI added in a later patch was also missing.
-> 
-> This patch restores the fallback to MFSS for these instructions on pre 3.0s ISAs
-> as the hardware decoder would, fixing the segfaulting libm code. It and also ensures
-> the MFSS instruction is used for currently reserved bits to handle other potential
-> ISA additions more correctly.
-> 
-> Signed-off-by: Richard Purdie<richard.purdie@linuxfoundation.org>
+Alex Benn=C3=A9e <alex.bennee@linaro.org> writes:
+
+> This makes it a little easier for developers to find where things
+> where being generated.
+>
+> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+> Message-Id: <20230503091756.1453057-5-alex.bennee@linaro.org>
 > ---
->   target/ppc/insn32.decode           | 19 ++++++++++++-------
->   target/ppc/translate/fp-impl.c.inc | 30 ++++++++++++++++++++++++------
->   2 files changed, 36 insertions(+), 13 deletions(-)
-> 
-> v2 - switch to use decodetree pattern groups per feedback
+>  scripts/qapi/gen.py | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/scripts/qapi/gen.py b/scripts/qapi/gen.py
+> index 8f8f784f4a..e724507e1a 100644
+> --- a/scripts/qapi/gen.py
+> +++ b/scripts/qapi/gen.py
+> @@ -162,7 +162,7 @@ def __init__(self, fname: str, blurb: str, pydoc: str=
+):
+>=20=20
+>      def _top(self) -> str:
+>          return mcgen('''
+> -/* AUTOMATICALLY GENERATED, DO NOT MODIFY */
+> +/* AUTOMATICALLY GENERATED by QAPIGenC, DO NOT MODIFY */
+>=20=20
+>  /*
+>  %(blurb)s
+> @@ -195,7 +195,7 @@ def _bottom(self) -> str:
+>=20=20
+>  class QAPIGenTrace(QAPIGen):
+>      def _top(self) -> str:
+> -        return super()._top() + '# AUTOMATICALLY GENERATED, DO NOT MODIF=
+Y\n\n'
+> +        return super()._top() + '# AUTOMATICALLY GENERATED by QAPIGenTra=
+ce, DO NOT MODIFY\n\n'
+>=20=20
+>=20=20
+>  @contextmanager
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Nitpicking...  would "GENERATED BY {os.path.basename(sys.argv[0])}" be
+more useful?  The people who know what QAPIGenC and QAPIGenTrace mean
+are probably the ones that need this warning the least :)
 
-r~
 
