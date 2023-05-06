@@ -2,81 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E522A6F8FD2
-	for <lists+qemu-devel@lfdr.de>; Sat,  6 May 2023 09:21:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 333DA6F8FD3
+	for <lists+qemu-devel@lfdr.de>; Sat,  6 May 2023 09:21:52 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pvCDk-0002Vb-67; Sat, 06 May 2023 03:20:44 -0400
+	id 1pvCE5-0002YW-Fq; Sat, 06 May 2023 03:21:05 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <anisinha@redhat.com>)
- id 1pvCDc-0002Uz-Df
- for qemu-devel@nongnu.org; Sat, 06 May 2023 03:20:38 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pvCDy-0002Xm-HV
+ for qemu-devel@nongnu.org; Sat, 06 May 2023 03:20:58 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <anisinha@redhat.com>)
- id 1pvCDa-0003tr-8K
- for qemu-devel@nongnu.org; Sat, 06 May 2023 03:20:36 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pvCDv-00040Y-7E
+ for qemu-devel@nongnu.org; Sat, 06 May 2023 03:20:56 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1683357628;
+ s=mimecast20190719; t=1683357654;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=QnPB2BYU9Iu+jMAG2o2hVEPT1XATPoA6UkH++BNC/EE=;
- b=UULLQkOIGEj4Y67A7Z7evZgKd9TRAfAwK08DbEfqqzh/pQYaJEWtIm50yWkPJAAtpPsBfJ
- n6eWp261LAyB7jW6GJkYCbLiOJhey0ME2H3vdAiBfZeDygq4pTrHCd5kVhVltVvSHAx6gb
- b56TD2e9fDYsmNjOxmItC1KjasD4Ylk=
-Received: from mail-pl1-f200.google.com (mail-pl1-f200.google.com
- [209.85.214.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-356-7F0s7MhnPviFFs1SKth9Rw-1; Sat, 06 May 2023 03:20:27 -0400
-X-MC-Unique: 7F0s7MhnPviFFs1SKth9Rw-1
-Received: by mail-pl1-f200.google.com with SMTP id
- d9443c01a7336-1aae625e57dso12937665ad.1
- for <qemu-devel@nongnu.org>; Sat, 06 May 2023 00:20:27 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683357626; x=1685949626;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=QnPB2BYU9Iu+jMAG2o2hVEPT1XATPoA6UkH++BNC/EE=;
- b=heFGuKI0prJDTvUxzZOQbjZ3RAyjsMbKJekT187bPBKEIndXPbgvhe6Y2Jz7ybmbWp
- ihro/GZm6AUzTLQY/0cuEfjCs/c77mVPzVs3RkFR9SfluZy74iT02S1K0LLBuUAHYwRu
- AvAQ9XmZhlvBUemmw9o3U380fVB1aGuz02HjIXfflZu39rfdXVMeOec5GyQ7bYaCl//i
- /FOF/iCwAH2W5dQnFZcal3jEUsNelhRK6055r2FFW5T3l28YCbZjbdXqxqXGQimHIWdI
- hA6SCWbzmeZfTbhoBJmuEfkHNMZLejC89ehr//dyEzpP0KFAMLEk9pTqpaT2DSbtyv/F
- rZoA==
-X-Gm-Message-State: AC+VfDyhQfqDOmjipXtT8z2x4mg8u15YVzUazcDGsNmcq1gpCxFbsvca
- ZpxSTEfi92tNdUeDMxgS6GBexFo4whdba9PimK+ntDbfmuhsH+Q/+yDuV+V7qZiDW0YlKf4ADvz
- j8PdVVl3LcsepG64=
-X-Received: by 2002:a17:902:bd85:b0:1a6:9ec2:a48f with SMTP id
- q5-20020a170902bd8500b001a69ec2a48fmr3688933pls.34.1683357626242; 
- Sat, 06 May 2023 00:20:26 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ5P19ijFeS7PGafi1GpRc6l5gufXtS4sy4nUgBJy206cjTWKF1y4Nn7DV74gV8LtjFdO4X/lg==
-X-Received: by 2002:a17:902:bd85:b0:1a6:9ec2:a48f with SMTP id
- q5-20020a170902bd8500b001a69ec2a48fmr3688920pls.34.1683357625878; 
- Sat, 06 May 2023 00:20:25 -0700 (PDT)
-Received: from localhost.localdomain ([203.212.242.230])
- by smtp.googlemail.com with ESMTPSA id
- jk1-20020a170903330100b001a216d44440sm2898092plb.200.2023.05.06.00.20.22
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 06 May 2023 00:20:25 -0700 (PDT)
-From: Ani Sinha <anisinha@redhat.com>
-To: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Thomas Huth <thuth@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Beraldo Leal <bleal@redhat.com>
-Cc: berrange@redhat.com, Ani Sinha <anisinha@redhat.com>, qemu-devel@nongnu.org
-Subject: [PATCH] docs/devel: remind developers to run CI container pipeline
- when updating images
-Date: Sat,  6 May 2023 12:50:12 +0530
-Message-Id: <20230506072012.10350-1-anisinha@redhat.com>
-X-Mailer: git-send-email 2.31.1
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=f2OFyotySzWbDUXfIGE5XkS+Cl7lSzaMi0fivddblRw=;
+ b=gYhDkTqy1xhzoQnDU+6MUp4TufVj8z+bKsVZb9sGX342UAWaQ1dRsLsNAWW7cKROBAZCGb
+ pP/AoI4V2LHAmQMR6cN5EEqMDjfdzJBsAFMUQXrJGCCuJwV/xjfk+QLa4+bXu88FlQLCoo
+ waY06DtJaaYpVA+F1yALCvUP8iLeyqs=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-569-lcF5rG_SNkiLwFJfuaDAjA-1; Sat, 06 May 2023 03:20:49 -0400
+X-MC-Unique: lcF5rG_SNkiLwFJfuaDAjA-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.9])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 885801C05AEC;
+ Sat,  6 May 2023 07:20:48 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.39.192.121])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id CEB53492B01;
+ Sat,  6 May 2023 07:20:47 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 9CA0421E6924; Sat,  6 May 2023 09:20:46 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: Stefan Hajnoczi <stefanha@redhat.com>,  qemu-devel@nongnu.org,  Marcel
+ Apfelbaum <marcel.apfelbaum@gmail.com>,  Christian Schoenebeck
+ <qemu_oss@crudebyte.com>,  Michael Roth <michael.roth@amd.com>,  Eric
+ Blake <eblake@redhat.com>,  Paolo Bonzini <pbonzini@redhat.com>,  Greg
+ Kurz <groug@kaod.org>,  Eduardo Habkost <eduardo@habkost.net>,  Yanan Wang
+ <wangyanan55@huawei.com>,  Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?=
+ <philmd@linaro.org>,
+ Kyle Evans <kevans@freebsd.org>,  Warner Losh <imp@bsdimp.com>,  Richard
+ Henderson <richard.henderson@linaro.org>,  Riku Voipio <riku.voipio@iki.fi>
+Subject: Re: [PATCH v3 05/10] qapi: make the vcpu parameters deprecated for 8.1
+References: <20230505155336.137393-1-alex.bennee@linaro.org>
+ <20230505155336.137393-6-alex.bennee@linaro.org>
+Date: Sat, 06 May 2023 09:20:46 +0200
+In-Reply-To: <20230505155336.137393-6-alex.bennee@linaro.org> ("Alex
+ =?utf-8?Q?Benn=C3=A9e=22's?=
+ message of "Fri, 5 May 2023 16:53:31 +0100")
+Message-ID: <87a5yirkmp.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=anisinha@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -22
 X-Spam_score: -2.3
@@ -100,37 +90,131 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-When new dependencies and packages are added to containers, its important to
-run CI container generation pipelines on gitlab to make sure that there are no
-obvious conflicts between packages that are being added and those that are
-already present. Running CI container pipelines will make sure that there are
-no such breakages before we commit the change updating the containers. Add a
-line in the documentation reminding developers to run the pipeline before
-submitting the change. It will also ease the life of the maintainers.
+Alex Benn=C3=A9e <alex.bennee@linaro.org> writes:
 
-Signed-off-by: Ani Sinha <anisinha@redhat.com>
----
- docs/devel/testing.rst | 6 ++++++
- 1 file changed, 6 insertions(+)
+> I don't think I can remove the parameters directly but certainly mark
+> them as deprecated.
+>
+> Message-Id: <20230420150009.1675181-6-alex.bennee@linaro.org>
+> Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+> Message-Id: <20230503091756.1453057-6-alex.bennee@linaro.org>
+> ---
+>  qapi/trace.json | 22 +++++++---------------
+>  1 file changed, 7 insertions(+), 15 deletions(-)
+>
+> diff --git a/qapi/trace.json b/qapi/trace.json
+> index f425d10764..de6b1681aa 100644
+> --- a/qapi/trace.json
+> +++ b/qapi/trace.json
+> @@ -33,9 +33,9 @@
+>  #
+>  # @name: Event name.
+>  # @state: Tracing state.
+> -# @vcpu: Whether this is a per-vCPU event (since 2.7).
+> +# @vcpu: Whether this is a per-vCPU event (deprecated since 8.1).
 
-diff --git a/docs/devel/testing.rst b/docs/devel/testing.rst
-index 4071e72710..203facb417 100644
---- a/docs/devel/testing.rst
-+++ b/docs/devel/testing.rst
-@@ -479,6 +479,12 @@ first to contribute the mapping to the ``libvirt-ci`` project:
-    contains the ``mappings.yml`` update.  Then add the prerequisite and
-    run ``make lcitool-refresh``.
- 
-+ * Please also trigger gitlab container generation pipelines on your change
-+   for as many OS distros as practical to make sure that there are no
-+   obvious breakages when adding the new pre-requisite. Please see
-+   `CI <https://www.qemu.org/docs/master/devel/ci.html>`__ documentation
-+   page on how to trigger gitlab CI pipelines on your change.
-+
- For enterprise distros that default to old, end-of-life versions of the
- Python runtime, QEMU uses a separate set of mappings that work with more
- recent versions.  These can be found in ``tests/lcitool/mappings.yml``.
--- 
-2.31.1
+We don't normally replace the (since ...) when we deprecate.
+
+>  #
+> -# An event is per-vCPU if it has the "vcpu" property in the "trace-event=
+s"
+> +# There are no longer any events with the "vcpu" property in the "trace-=
+events"
+
+Why would a user still need to know what @vcpu used to mean?  Also, long
+line.  See below for a possible alternative.
+
+>  # files.
+>  #
+>  # Since: 2.2
+
+You need to make it official, like so:
+
+   { 'struct': 'TraceEventInfo',
+  -  'data': {'name': 'str', 'state': 'TraceEventState', 'vcpu': 'bool'} }
+  +  'data': {'name': 'str', 'state': 'TraceEventState',
+  +           'vcpu': { 'type': 'bool', 'features': ['deprecated'] } } }
+
+And then the generator will demand you document it formally, so you also
+need something like
+
+ # @state: Tracing state.
+ # @vcpu: Whether this is a per-vCPU event (since 2.7).
+ #
+-# An event is per-vCPU if it has the "vcpu" property in the "trace-events"
+-# files.
++# Features:
++# @deprecated: Member @vcpu is deprecated, and always false.
+ #
+ # Since: 2.2
+ ##
+
+Additionally, update docs/about/deprecated.rst.
+
+> @@ -49,19 +49,15 @@
+>  # Query the state of events.
+>  #
+>  # @name: Event name pattern (case-sensitive glob).
+> -# @vcpu: The vCPU to query (any by default; since 2.7).
+> +# @vcpu: The vCPU to query (deprecated since 8.1).
+
+Again, we don't normally replace the (since ...) when we deprecate.
+
+I suggest to just drop the "any by default" part.
+
+>  #
+>  # Returns: a list of @TraceEventInfo for the matching events
+>  #
+>  #          An event is returned if:
+>  #
+>  #          - its name matches the @name pattern, and
+> -#          - if @vcpu is given, the event has the "vcpu" property.
+>  #
+> -#          Therefore, if @vcpu is given, the operation will only match p=
+er-vCPU events,
+> -#          returning their state on the specified vCPU. Special case: if=
+ @name is an
+> -#          exact match, @vcpu is given and the event does not have the "=
+vcpu" property,
+> -#          an error is returned.
+> +#          There are no longer any per-vCPU events
+>  #
+>  # Since: 2.2
+>  #
+
+Please add 'features': ['deprecated'].
+
+> @@ -84,17 +80,13 @@
+>  # @name: Event name pattern (case-sensitive glob).
+>  # @enable: Whether to enable tracing.
+>  # @ignore-unavailable: Do not match unavailable events with @name.
+> -# @vcpu: The vCPU to act upon (all by default; since 2.7).
+> +# @vcpu: The vCPU to act upon (deprecated since 8.1).
+
+Suggest to just drop the "all by default" part.
+
+>  #
+>  # An event's state is modified if:
+>  #
+> -# - its name matches the @name pattern, and
+> -# - if @vcpu is given, the event has the "vcpu" property.
+> +# - its name matches the @name pattern
+>  #
+> -# Therefore, if @vcpu is given, the operation will only match per-vCPU e=
+vents,
+> -# setting their state on the specified vCPU. Special case: if @name is a=
+n exact
+> -# match, @vcpu is given and the event does not have the "vcpu" property,=
+ an
+> -# error is returned.
+> +# There are no longer and per-vCPU events so specifying it will never ma=
+tch.
+>  #
+>  # Since: 2.2
+>  #
+
+Please add 'features': ['deprecated'].
 
 
