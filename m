@@ -2,65 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B646B6F8CC5
-	for <lists+qemu-devel@lfdr.de>; Sat,  6 May 2023 01:24:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E4C466F8D2B
+	for <lists+qemu-devel@lfdr.de>; Sat,  6 May 2023 02:37:22 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pv4lr-000889-1M; Fri, 05 May 2023 19:23:27 -0400
+	id 1pv5u5-0003IE-8L; Fri, 05 May 2023 20:36:01 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1pv4lp-00087q-0S
- for qemu-devel@nongnu.org; Fri, 05 May 2023 19:23:25 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <sstabellini@kernel.org>)
+ id 1pv5u0-0003Fx-2o
+ for qemu-devel@nongnu.org; Fri, 05 May 2023 20:35:56 -0400
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1pv4ln-0004EB-1K
- for qemu-devel@nongnu.org; Fri, 05 May 2023 19:23:24 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1683329001;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=rl5HcSkZDieagd3mT3skzzxr+NNN5cBOeWYGffPcTjk=;
- b=aGmY+QyzhzE72OEZj/+ozrj9XC8hcuZNUKKjppFuvBN4ydd2KGZgh3qLT5pWRJLCA/o5m8
- RpD+7lLwCZateKDj6767SJyQ3rdOPWXIWiL2TUWQPW2akeThhkPCXVrQn596LZTDIvwJiU
- aQYsbu3oCldqvfSuNsYgJeG3IpaNz3w=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-43-qko1RICYOjy1Ih4nTcPt8A-1; Fri, 05 May 2023 19:23:19 -0400
-X-MC-Unique: qko1RICYOjy1Ih4nTcPt8A-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
- [10.11.54.8])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (Exim 4.90_1) (envelope-from <sstabellini@kernel.org>)
+ id 1pv5tw-0005lH-3n
+ for qemu-devel@nongnu.org; Fri, 05 May 2023 20:35:55 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8F1DC80080E
- for <qemu-devel@nongnu.org>; Fri,  5 May 2023 23:23:19 +0000 (UTC)
-Received: from omen.home.shazbot.org (unknown [10.22.18.185])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 37BFCC15BA0;
- Fri,  5 May 2023 23:23:19 +0000 (UTC)
-From: Alex Williamson <alex.williamson@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: clg@redhat.com,
-	Alex Williamson <alex.williamson@redhat.com>
-Subject: [PATCH v2] vfio/pci: Static Resizable BAR capability
-Date: Fri,  5 May 2023 17:23:08 -0600
-Message-Id: <20230505232308.2869912-1-alex.williamson@redhat.com>
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 0079763C2E;
+ Sat,  6 May 2023 00:35:39 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4DED8C433D2;
+ Sat,  6 May 2023 00:35:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1683333338;
+ bh=bP/3aHvZYOXH3zu8B4TUIjOV1o/FusNOt/78mT12AFw=;
+ h=Date:From:To:cc:Subject:In-Reply-To:References:From;
+ b=FA6qHKtIZCoo7JyMA/TPj5q9THuxlE3xbt1wUPQos+XP7Llr1DVlqSqtI9CtwtEnz
+ ZtUpCdFFsQR/gq0RuBDEBWUmNytLi/26Er/7E5CNzoXvyhvX11CvehWdgMcSyFl5cZ
+ 3HzhQ/SrPomJvST5vkoMFoGPniwB7pf7KCH8NLBEl5KAntmYPPE51DFaGvltpnRcUH
+ HwWJN2Z7vYd8UykRhHmNmOONUvwc3qz1+hw8RfD3ILXha6BvLupOEUlSSxKnAeUsjz
+ p2hwvi5X8C8gabXB+E3EvyS/+uNsd1Knj9l/hxSPto3NSsb+r7k38IJIl4nGDQLUHr
+ o4yTLuUOaVS/w==
+Date: Fri, 5 May 2023 17:35:35 -0700 (PDT)
+From: Stefano Stabellini <sstabellini@kernel.org>
+X-X-Sender: sstabellini@ubuntu-linux-20-04-desktop
+To: Jason Andryuk <jandryuk@gmail.com>
+cc: qemu-devel@nongnu.org, Greg Kurz <groug@kaod.org>, 
+ Christian Schoenebeck <qemu_oss@crudebyte.com>, 
+ Stefano Stabellini <sstabellini@kernel.org>, 
+ Anthony Perard <anthony.perard@citrix.com>, Paul Durrant <paul@xen.org>, 
+ "open list:X86 Xen CPUs" <xen-devel@lists.xenproject.org>
+Subject: Re: [PATCH] 9pfs/xen: Fix segfault on shutdown
+In-Reply-To: <20230502143722.15613-1-jandryuk@gmail.com>
+Message-ID: <alpine.DEB.2.22.394.2305051735020.974517@ubuntu-linux-20-04-desktop>
+References: <20230502143722.15613-1-jandryuk@gmail.com>
+User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
-Received-SPF: pass client-ip=170.10.129.124;
- envelope-from=alex.williamson@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -22
-X-Spam_score: -2.3
-X-Spam_bar: --
-X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.161,
+Content-Type: text/plain; charset=US-ASCII
+Received-SPF: pass client-ip=2604:1380:4641:c500::1;
+ envelope-from=sstabellini@kernel.org; helo=dfw.source.kernel.org
+X-Spam_score_int: -45
+X-Spam_score: -4.6
+X-Spam_bar: ----
+X-Spam_report: (-4.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.161,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -76,125 +75,137 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The PCI Resizable BAR (ReBAR) capability is currently hidden from the
-VM because the protocol for interacting with the capability does not
-support a mechanism for the device to reject an advertised supported
-BAR size.  However, when assigned to a VM, the act of resizing the
-BAR requires adjustment of host resources for the device, which
-absolutely can fail.  Linux does not currently allow us to reserve
-resources for the device independent of the current usage.
+On Tue, 2 May 2023, Jason Andryuk wrote:
+> xen_9pfs_free can't use gnttabdev since it is already closed and NULL-ed
+> out when free is called.  Do the teardown in _disconnect().  This
+> matches the setup done in _connect().
+> 
+> trace-events are also added for the XenDevOps functions.
+> 
+> Signed-off-by: Jason Andryuk <jandryuk@gmail.com>
+> ---
+>  hw/9pfs/trace-events     |  5 +++++
+>  hw/9pfs/xen-9p-backend.c | 36 +++++++++++++++++++++++-------------
+>  2 files changed, 28 insertions(+), 13 deletions(-)
+> 
+> diff --git a/hw/9pfs/trace-events b/hw/9pfs/trace-events
+> index 6c77966c0b..7b5b0b5a48 100644
+> --- a/hw/9pfs/trace-events
+> +++ b/hw/9pfs/trace-events
+> @@ -48,3 +48,8 @@ v9fs_readlink(uint16_t tag, uint8_t id, int32_t fid) "tag %d id %d fid %d"
+>  v9fs_readlink_return(uint16_t tag, uint8_t id, char* target) "tag %d id %d name %s"
+>  v9fs_setattr(uint16_t tag, uint8_t id, int32_t fid, int32_t valid, int32_t mode, int32_t uid, int32_t gid, int64_t size, int64_t atime_sec, int64_t mtime_sec) "tag %u id %u fid %d iattr={valid %d mode %d uid %d gid %d size %"PRId64" atime=%"PRId64" mtime=%"PRId64" }"
+>  v9fs_setattr_return(uint16_t tag, uint8_t id) "tag %u id %u"
+> +
+> +xen_9pfs_alloc(char *name) "name %s"
+> +xen_9pfs_connect(char *name) "name %s"
+> +xen_9pfs_disconnect(char *name) "name %s"
+> +xen_9pfs_free(char *name) "name %s"
+> diff --git a/hw/9pfs/xen-9p-backend.c b/hw/9pfs/xen-9p-backend.c
+> index 0e266c552b..c646a0b3d1 100644
+> --- a/hw/9pfs/xen-9p-backend.c
+> +++ b/hw/9pfs/xen-9p-backend.c
+> @@ -25,6 +25,8 @@
+>  #include "qemu/iov.h"
+>  #include "fsdev/qemu-fsdev.h"
+>  
+> +#include "trace.h"
+> +
+>  #define VERSIONS "1"
+>  #define MAX_RINGS 8
+>  #define MAX_RING_ORDER 9
+> @@ -337,6 +339,8 @@ static void xen_9pfs_disconnect(struct XenLegacyDevice *xendev)
+>      Xen9pfsDev *xen_9pdev = container_of(xendev, Xen9pfsDev, xendev);
+>      int i;
+>  
+> +    trace_xen_9pfs_disconnect(xendev->name);
+> +
+>      for (i = 0; i < xen_9pdev->num_rings; i++) {
+>          if (xen_9pdev->rings[i].evtchndev != NULL) {
+>              qemu_set_fd_handler(qemu_xen_evtchn_fd(xen_9pdev->rings[i].evtchndev),
+> @@ -345,40 +349,42 @@ static void xen_9pfs_disconnect(struct XenLegacyDevice *xendev)
+>                                     xen_9pdev->rings[i].local_port);
+>              xen_9pdev->rings[i].evtchndev = NULL;
+>          }
+> -    }
+> -}
+> -
+> -static int xen_9pfs_free(struct XenLegacyDevice *xendev)
+> -{
+> -    Xen9pfsDev *xen_9pdev = container_of(xendev, Xen9pfsDev, xendev);
+> -    int i;
+> -
+> -    if (xen_9pdev->rings[0].evtchndev != NULL) {
+> -        xen_9pfs_disconnect(xendev);
+> -    }
+> -
+> -    for (i = 0; i < xen_9pdev->num_rings; i++) {
+>          if (xen_9pdev->rings[i].data != NULL) {
+>              xen_be_unmap_grant_refs(&xen_9pdev->xendev,
+>                                      xen_9pdev->rings[i].data,
+>                                      xen_9pdev->rings[i].intf->ref,
+>                                      (1 << xen_9pdev->rings[i].ring_order));
+> +            xen_9pdev->rings[i].data = NULL;
+>          }
+>          if (xen_9pdev->rings[i].intf != NULL) {
+>              xen_be_unmap_grant_ref(&xen_9pdev->xendev,
+>                                     xen_9pdev->rings[i].intf,
+>                                     xen_9pdev->rings[i].ref);
+> +            xen_9pdev->rings[i].intf = NULL;
+>          }
+>          if (xen_9pdev->rings[i].bh != NULL) {
+>              qemu_bh_delete(xen_9pdev->rings[i].bh);
+> +            xen_9pdev->rings[i].bh = NULL;
+>          }
+>      }
+>  
+>      g_free(xen_9pdev->id);
+> +    xen_9pdev->id = NULL;
+>      g_free(xen_9pdev->tag);
+> +    xen_9pdev->tag = NULL;
+>      g_free(xen_9pdev->path);
+> +    xen_9pdev->path = NULL;
+>      g_free(xen_9pdev->security_model);
+> +    xen_9pdev->security_model = NULL;
+>      g_free(xen_9pdev->rings);
+> +    xen_9pdev->rings = NULL;
+> +    return;
 
-The only writable field within the ReBAR capability is the BAR Size
-register.  The PCIe spec indicates that when written, the device
-should immediately begin to operate with the provided BAR size.  The
-spec however also notes that software must only write values
-corresponding to supported sizes as indicated in the capability and
-control registers.  Writing unsupported sizes produces undefined
-results.  Therefore, if the hypervisor were to virtualize the
-capability and control registers such that the current size is the
-only indicated available size, then a write of anything other than
-the current size falls into the category of undefined behavior,
-where we can essentially expose the modified ReBAR capability as
-read-only.
+NIT: this return is redudant.
 
-This may seem pointless, but users have reported that virtualizing
-the capability in this way not only allows guest software to expose
-related features as available (even if only cosmetic), but in some
-scenarios can resolve guest driver issues.  Additionally, no
-regressions in behavior have been reported for this change.
+Aside from that:
 
-A caveat here is that the PCIe spec requires for compatibility that
-devices report support for a size in the range of 1MB to 512GB,
-therefore if the current BAR size falls outside that range we revert
-to hiding the capability.
+Reviewed-by: Stefano Stabellini <sstabellini@kernel.org>
 
-Signed-off-by: Alex Williamson <alex.williamson@redhat.com>
----
-v2:
- - Add spec reference
- - Use PCI_REBAR_CAP_SIZES to check sizes in range
- - Try to clarify capability bit generation
- - Rename s/bars/nbar/ to match #defines
- - More complete masking of NBAR value
 
- hw/vfio/pci.c | 54 ++++++++++++++++++++++++++++++++++++++++++++++++++-
- 1 file changed, 53 insertions(+), 1 deletion(-)
-
-diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
-index cf27f28936cb..3ab849767a92 100644
---- a/hw/vfio/pci.c
-+++ b/hw/vfio/pci.c
-@@ -2066,6 +2066,54 @@ static int vfio_add_std_cap(VFIOPCIDevice *vdev, uint8_t pos, Error **errp)
-     return 0;
- }
- 
-+static int vfio_setup_rebar_ecap(VFIOPCIDevice *vdev, uint16_t pos)
-+{
-+    uint32_t ctrl;
-+    int i, nbar;
-+
-+    ctrl = pci_get_long(vdev->pdev.config + pos + PCI_REBAR_CTRL);
-+    nbar = (ctrl & PCI_REBAR_CTRL_NBAR_MASK) >> PCI_REBAR_CTRL_NBAR_SHIFT;
-+
-+    for (i = 0; i < nbar; i++) {
-+        uint32_t cap;
-+        int size;
-+
-+        ctrl = pci_get_long(vdev->pdev.config + pos + PCI_REBAR_CTRL + (i * 8));
-+        size = (ctrl & PCI_REBAR_CTRL_BAR_SIZE) >> PCI_REBAR_CTRL_BAR_SHIFT;
-+
-+        /* The cap register reports sizes 1MB to 127TB, with 4 reserved bits */
-+        cap = size <= 27 ? 1U << (size + 4) : 0;
-+
-+        /*
-+         * The PCIe spec (v6.0.1, 7.8.6) requires HW to support at least one
-+         * size in the range 1MB to 512GB.  We intend to mask all sizes except
-+         * the one currently enabled in the size field, therefore if it's
-+         * outside the range, hide the whole capability as this virtualization
-+         * trick won't work.  If >512GB resizable BARs start to appear, we
-+         * might need an opt-in or reservation scheme in the kernel.
-+         */
-+        if (!(cap & PCI_REBAR_CAP_SIZES)) {
-+            return -EINVAL;
-+        }
-+
-+        /* Hide all sizes reported in the ctrl reg per above requirement. */
-+        ctrl &= (PCI_REBAR_CTRL_BAR_SIZE |
-+                 PCI_REBAR_CTRL_NBAR_MASK |
-+                 PCI_REBAR_CTRL_BAR_IDX);
-+
-+        /*
-+         * The BAR size field is RW, however we've mangled the capability
-+         * register such that we only report a single size, ie. the current
-+         * BAR size.  A write of an unsupported value is undefined, therefore
-+         * the register field is essentially RO.
-+         */
-+        vfio_add_emulated_long(vdev, pos + PCI_REBAR_CAP + (i * 8), cap, ~0);
-+        vfio_add_emulated_long(vdev, pos + PCI_REBAR_CTRL + (i * 8), ctrl, ~0);
-+    }
-+
-+    return 0;
-+}
-+
- static void vfio_add_ext_cap(VFIOPCIDevice *vdev)
- {
-     PCIDevice *pdev = &vdev->pdev;
-@@ -2139,9 +2187,13 @@ static void vfio_add_ext_cap(VFIOPCIDevice *vdev)
-         case 0: /* kernel masked capability */
-         case PCI_EXT_CAP_ID_SRIOV: /* Read-only VF BARs confuse OVMF */
-         case PCI_EXT_CAP_ID_ARI: /* XXX Needs next function virtualization */
--        case PCI_EXT_CAP_ID_REBAR: /* Can't expose read-only */
-             trace_vfio_add_ext_cap_dropped(vdev->vbasedev.name, cap_id, next);
-             break;
-+        case PCI_EXT_CAP_ID_REBAR:
-+            if (!vfio_setup_rebar_ecap(vdev, next)) {
-+                pcie_add_capability(pdev, cap_id, cap_ver, next, size);
-+            }
-+            break;
-         default:
-             pcie_add_capability(pdev, cap_id, cap_ver, next, size);
-         }
--- 
-2.39.2
-
+> +}
+> +
+> +static int xen_9pfs_free(struct XenLegacyDevice *xendev)
+> +{
+> +    trace_xen_9pfs_free(xendev->name);
+> +
+>      return 0;
+>  }
+>  
+> @@ -390,6 +396,8 @@ static int xen_9pfs_connect(struct XenLegacyDevice *xendev)
+>      V9fsState *s = &xen_9pdev->state;
+>      QemuOpts *fsdev;
+>  
+> +    trace_xen_9pfs_connect(xendev->name);
+> +
+>      if (xenstore_read_fe_int(&xen_9pdev->xendev, "num-rings",
+>                               &xen_9pdev->num_rings) == -1 ||
+>          xen_9pdev->num_rings > MAX_RINGS || xen_9pdev->num_rings < 1) {
+> @@ -499,6 +507,8 @@ out:
+>  
+>  static void xen_9pfs_alloc(struct XenLegacyDevice *xendev)
+>  {
+> +    trace_xen_9pfs_alloc(xendev->name);
+> +
+>      xenstore_write_be_str(xendev, "versions", VERSIONS);
+>      xenstore_write_be_int(xendev, "max-rings", MAX_RINGS);
+>      xenstore_write_be_int(xendev, "max-ring-page-order", MAX_RING_ORDER);
+> -- 
+> 2.40.1
+> 
 
