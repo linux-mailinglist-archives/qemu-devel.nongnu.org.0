@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B24B6F932A
-	for <lists+qemu-devel@lfdr.de>; Sat,  6 May 2023 18:39:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FEF26F9329
+	for <lists+qemu-devel@lfdr.de>; Sat,  6 May 2023 18:39:48 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pvKvY-0000vF-7q; Sat, 06 May 2023 12:38:32 -0400
+	id 1pvKvh-00016j-4C; Sat, 06 May 2023 12:38:41 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1pvKvW-0000ul-3W
- for qemu-devel@nongnu.org; Sat, 06 May 2023 12:38:30 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ id 1pvKvc-00012d-EO
+ for qemu-devel@nongnu.org; Sat, 06 May 2023 12:38:36 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1pvKvU-00045J-N4
- for qemu-devel@nongnu.org; Sat, 06 May 2023 12:38:29 -0400
+ id 1pvKvZ-000470-1F
+ for qemu-devel@nongnu.org; Sat, 06 May 2023 12:38:35 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1683391108;
+ s=mimecast20190719; t=1683391112;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=2i2NASwkEEgV1reJJcJ37RsdEES4PO1+G+0R9iX6+w4=;
- b=BACdJFeoSdCXiJlUzw0S3rg8Tg2Z3EOrcxyBYhe4kwYbpz9rFXtlYmeq4jMH7YKcv84sJO
- WoQ2ls1oQ3chzm0FLRKZEDdsujY4JdmwKnU8Sud2gvb/h0T8+bQcu3q97AG+qQ3fFB80qi
- mE5tTLIB5qiwgZY4NmZSRqsm8HciTv0=
+ bh=sRBsSFPQUNom8zCXwU2PFYMU5zu3L19EbvriFS9BoxI=;
+ b=E6GhWmotVZbbiAb+xA7ftvDimWVkGWCh6BAxaH2iC7y7GZZozoVHU0DmKFDE95ibtOPnXD
+ tvivVRIfmvPizqnGr8NED6T9p0qGC0E/uKNRlaBAy0KZwwMd3iyDlEtRCWz2+iW+CbvJb+
+ Nm2igmv/7de7fFc6C+sqRVfa+XEqKuU=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-227-KIyl1ZKmMiGXBMc53GCVaw-1; Sat, 06 May 2023 12:38:26 -0400
-X-MC-Unique: KIyl1ZKmMiGXBMc53GCVaw-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
- [10.11.54.10])
+ us-mta-588-1E_Pnw7ZNYarNlb5rcP7Jg-1; Sat, 06 May 2023 12:38:31 -0400
+X-MC-Unique: 1E_Pnw7ZNYarNlb5rcP7Jg-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.8])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 62D4085A588;
- Sat,  6 May 2023 16:38:26 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A8C5680080E;
+ Sat,  6 May 2023 16:38:30 +0000 (UTC)
 Received: from localhost (unknown [10.39.208.11])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 40659492C13;
- Sat,  6 May 2023 16:38:24 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6B1B1C15BA0;
+ Sat,  6 May 2023 16:38:29 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
 Cc: Gerd Hoffmann <kraxel@redhat.com>,
@@ -54,16 +54,16 @@ Cc: Gerd Hoffmann <kraxel@redhat.com>,
  dbassey@redhat.com,
  =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
  Eric Blake <eblake@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
-Subject: [PATCH 11/12] audio/pw: remove wrong comment
-Date: Sat,  6 May 2023 20:37:34 +0400
-Message-Id: <20230506163735.3481387-12-marcandre.lureau@redhat.com>
+Subject: [PATCH 12/12] audio/pw: improve channel position code
+Date: Sat,  6 May 2023 20:37:35 +0400
+Message-Id: <20230506163735.3481387-13-marcandre.lureau@redhat.com>
 In-Reply-To: <20230506163735.3481387-1-marcandre.lureau@redhat.com>
 References: <20230506163735.3481387-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
-Received-SPF: pass client-ip=170.10.129.124;
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
+Received-SPF: pass client-ip=170.10.133.124;
  envelope-from=marcandre.lureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -22
@@ -90,25 +90,131 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-The stream is actually created connected.
+Follow PulseAudio backend comment and code, and only implement the
+channels QEMU actually supports at this point, and add the same comment
+about limits and future mappings. Simplify a bit the code.
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 ---
- audio/pwaudio.c | 1 -
- 1 file changed, 1 deletion(-)
+ audio/pwaudio.c | 75 +++++++++++++++++--------------------------------
+ 1 file changed, 26 insertions(+), 49 deletions(-)
 
 diff --git a/audio/pwaudio.c b/audio/pwaudio.c
-index 38905f5be2..f74d506ec6 100644
+index f74d506ec6..062610a704 100644
 --- a/audio/pwaudio.c
 +++ b/audio/pwaudio.c
-@@ -537,7 +537,6 @@ qpw_stream_new(pwaudio *c, PWVoice *v, const char *stream_name,
-         break;
-     }
- 
--    /* create a new unconnected pwstream */
-     return create_stream(c, v, stream_name, name, dir);
+@@ -417,8 +417,8 @@ pw_to_audfmt(enum spa_audio_format fmt, int *endianness,
  }
  
+ static int
+-create_stream(pwaudio *c, PWVoice *v, const char *stream_name,
+-              const char *name, enum spa_direction dir)
++qpw_stream_new(pwaudio *c, PWVoice *v, const char *stream_name,
++               const char *name, enum spa_direction dir)
+ {
+     int res;
+     uint32_t n_params;
+@@ -482,62 +482,37 @@ create_stream(pwaudio *c, PWVoice *v, const char *stream_name,
+     return 0;
+ }
+ 
+-static int
+-qpw_stream_new(pwaudio *c, PWVoice *v, const char *stream_name,
+-               const char *name, enum spa_direction dir)
++static void
++qpw_set_position(uint32_t channels, uint32_t position[SPA_AUDIO_MAX_CHANNELS])
+ {
+-    switch (v->info.channels) {
++    memcpy(position, (uint32_t[SPA_AUDIO_MAX_CHANNELS]) { SPA_AUDIO_CHANNEL_UNKNOWN, },
++           sizeof(uint32_t) * SPA_AUDIO_MAX_CHANNELS);
++    /*
++     * TODO: This currently expects the only frontend supporting more than 2
++     * channels is the usb-audio.  We will need some means to set channel
++     * order when a new frontend gains multi-channel support.
++     */
++    switch (channels) {
+     case 8:
+-        v->info.position[0] = SPA_AUDIO_CHANNEL_FL;
+-        v->info.position[1] = SPA_AUDIO_CHANNEL_FR;
+-        v->info.position[2] = SPA_AUDIO_CHANNEL_FC;
+-        v->info.position[3] = SPA_AUDIO_CHANNEL_LFE;
+-        v->info.position[4] = SPA_AUDIO_CHANNEL_RL;
+-        v->info.position[5] = SPA_AUDIO_CHANNEL_RR;
+-        v->info.position[6] = SPA_AUDIO_CHANNEL_SL;
+-        v->info.position[7] = SPA_AUDIO_CHANNEL_SR;
+-        break;
++        position[6] = SPA_AUDIO_CHANNEL_SL;
++        position[7] = SPA_AUDIO_CHANNEL_SR;
++        /* fallthrough */
+     case 6:
+-        v->info.position[0] = SPA_AUDIO_CHANNEL_FL;
+-        v->info.position[1] = SPA_AUDIO_CHANNEL_FR;
+-        v->info.position[2] = SPA_AUDIO_CHANNEL_FC;
+-        v->info.position[3] = SPA_AUDIO_CHANNEL_LFE;
+-        v->info.position[4] = SPA_AUDIO_CHANNEL_RL;
+-        v->info.position[5] = SPA_AUDIO_CHANNEL_RR;
+-        break;
+-    case 5:
+-        v->info.position[0] = SPA_AUDIO_CHANNEL_FL;
+-        v->info.position[1] = SPA_AUDIO_CHANNEL_FR;
+-        v->info.position[2] = SPA_AUDIO_CHANNEL_FC;
+-        v->info.position[3] = SPA_AUDIO_CHANNEL_LFE;
+-        v->info.position[4] = SPA_AUDIO_CHANNEL_RC;
+-        break;
+-    case 4:
+-        v->info.position[0] = SPA_AUDIO_CHANNEL_FL;
+-        v->info.position[1] = SPA_AUDIO_CHANNEL_FR;
+-        v->info.position[2] = SPA_AUDIO_CHANNEL_FC;
+-        v->info.position[3] = SPA_AUDIO_CHANNEL_RC;
+-        break;
+-    case 3:
+-        v->info.position[0] = SPA_AUDIO_CHANNEL_FL;
+-        v->info.position[1] = SPA_AUDIO_CHANNEL_FR;
+-        v->info.position[2] = SPA_AUDIO_CHANNEL_LFE;
+-        break;
++        position[2] = SPA_AUDIO_CHANNEL_FC;
++        position[3] = SPA_AUDIO_CHANNEL_LFE;
++        position[4] = SPA_AUDIO_CHANNEL_RL;
++        position[5] = SPA_AUDIO_CHANNEL_RR;
++        /* fallthrough */
+     case 2:
+-        v->info.position[0] = SPA_AUDIO_CHANNEL_FL;
+-        v->info.position[1] = SPA_AUDIO_CHANNEL_FR;
++        position[0] = SPA_AUDIO_CHANNEL_FL;
++        position[1] = SPA_AUDIO_CHANNEL_FR;
+         break;
+     case 1:
+-        v->info.position[0] = SPA_AUDIO_CHANNEL_MONO;
++        position[0] = SPA_AUDIO_CHANNEL_MONO;
+         break;
+     default:
+-        for (size_t i = 0; i < v->info.channels; i++) {
+-            v->info.position[i] = SPA_AUDIO_CHANNEL_UNKNOWN;
+-        }
+-        break;
++        dolog("Internal error: unsupported channel count %d\n", channels);
+     }
+-
+-    return create_stream(c, v, stream_name, name, dir);
+ }
+ 
+ static int
+@@ -555,6 +530,7 @@ qpw_init_out(HWVoiceOut *hw, struct audsettings *as, void *drv_opaque)
+ 
+     v->info.format = audfmt_to_pw(as->fmt, as->endianness);
+     v->info.channels = as->nchannels;
++    qpw_set_position(as->nchannels, v->info.position);
+     v->info.rate = as->freq;
+ 
+     obt_as.fmt =
+@@ -601,6 +577,7 @@ qpw_init_in(HWVoiceIn *hw, struct audsettings *as, void *drv_opaque)
+ 
+     v->info.format = audfmt_to_pw(as->fmt, as->endianness);
+     v->info.channels = as->nchannels;
++    qpw_set_position(as->nchannels, v->info.position);
+     v->info.rate = as->freq;
+ 
+     obt_as.fmt =
 -- 
 2.40.1
 
