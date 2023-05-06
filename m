@@ -2,79 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 333DA6F8FD3
-	for <lists+qemu-devel@lfdr.de>; Sat,  6 May 2023 09:21:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 64A086F8FD5
+	for <lists+qemu-devel@lfdr.de>; Sat,  6 May 2023 09:22:53 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pvCE5-0002YW-Fq; Sat, 06 May 2023 03:21:05 -0400
+	id 1pvCFh-0003vT-9d; Sat, 06 May 2023 03:22:45 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pvCDy-0002Xm-HV
- for qemu-devel@nongnu.org; Sat, 06 May 2023 03:20:58 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pvCDv-00040Y-7E
- for qemu-devel@nongnu.org; Sat, 06 May 2023 03:20:56 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1683357654;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=f2OFyotySzWbDUXfIGE5XkS+Cl7lSzaMi0fivddblRw=;
- b=gYhDkTqy1xhzoQnDU+6MUp4TufVj8z+bKsVZb9sGX342UAWaQ1dRsLsNAWW7cKROBAZCGb
- pP/AoI4V2LHAmQMR6cN5EEqMDjfdzJBsAFMUQXrJGCCuJwV/xjfk+QLa4+bXu88FlQLCoo
- waY06DtJaaYpVA+F1yALCvUP8iLeyqs=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-569-lcF5rG_SNkiLwFJfuaDAjA-1; Sat, 06 May 2023 03:20:49 -0400
-X-MC-Unique: lcF5rG_SNkiLwFJfuaDAjA-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
- [10.11.54.9])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 885801C05AEC;
- Sat,  6 May 2023 07:20:48 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.39.192.121])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id CEB53492B01;
- Sat,  6 May 2023 07:20:47 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 9CA0421E6924; Sat,  6 May 2023 09:20:46 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-Cc: Stefan Hajnoczi <stefanha@redhat.com>,  qemu-devel@nongnu.org,  Marcel
- Apfelbaum <marcel.apfelbaum@gmail.com>,  Christian Schoenebeck
- <qemu_oss@crudebyte.com>,  Michael Roth <michael.roth@amd.com>,  Eric
- Blake <eblake@redhat.com>,  Paolo Bonzini <pbonzini@redhat.com>,  Greg
- Kurz <groug@kaod.org>,  Eduardo Habkost <eduardo@habkost.net>,  Yanan Wang
- <wangyanan55@huawei.com>,  Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?=
- <philmd@linaro.org>,
- Kyle Evans <kevans@freebsd.org>,  Warner Losh <imp@bsdimp.com>,  Richard
- Henderson <richard.henderson@linaro.org>,  Riku Voipio <riku.voipio@iki.fi>
-Subject: Re: [PATCH v3 05/10] qapi: make the vcpu parameters deprecated for 8.1
-References: <20230505155336.137393-1-alex.bennee@linaro.org>
- <20230505155336.137393-6-alex.bennee@linaro.org>
-Date: Sat, 06 May 2023 09:20:46 +0200
-In-Reply-To: <20230505155336.137393-6-alex.bennee@linaro.org> ("Alex
- =?utf-8?Q?Benn=C3=A9e=22's?=
- message of "Fri, 5 May 2023 16:53:31 +0100")
-Message-ID: <87a5yirkmp.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pvCFf-0003u2-D8
+ for qemu-devel@nongnu.org; Sat, 06 May 2023 03:22:43 -0400
+Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pvCFc-0004Kc-3p
+ for qemu-devel@nongnu.org; Sat, 06 May 2023 03:22:43 -0400
+Received: by mail-wm1-x336.google.com with SMTP id
+ 5b1f17b1804b1-3f192c23fffso17390795e9.3
+ for <qemu-devel@nongnu.org>; Sat, 06 May 2023 00:22:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1683357758; x=1685949758;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=mjr+dUk/ZkwHWCLTUidpgZMvIzWIcBQNWf0MxO839Yc=;
+ b=K0rPC0wIM5B0iPk9dL7oUNxUPfMNwuSSPEaz3X3bzJVLZPBTIngrIHU6wfUhk6ud04
+ yqlCxKBprPJSdgtz2vl/EPmAX70esqToc+4bsG10ZTo9hbGPgaSsZ5g3MLoaSdeLN3MA
+ adFrigAlyTZLv8DeB2tmtc7MYGUKsj0NfRxCIQraNb6FoaJiZZHDVgHulq0Dik16tIS2
+ bAk0jkHuqJvOpcV1A9YO/nOdL5rxlhWsBBSLZ/LlcAZs6gwhnDUWGO9w7/+d6dIvKQVZ
+ 5hHU8SZeuEcJ9Dv+B9+lspc753CFSXYPgtFjjpcZ4WRgvPA1WKf/J3o5X0AXtd8hvDeJ
+ xvKw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1683357758; x=1685949758;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=mjr+dUk/ZkwHWCLTUidpgZMvIzWIcBQNWf0MxO839Yc=;
+ b=IYLouXRSG9UIX+UX+EXUf/vzkpIBZKxGg+DCNh43HOawS+hTzfj2885FevdW9GHgm3
+ e/HnONRtM6c2lhowiJIvz6VCClEMpcSCv5c1fiqs4w5hB5zRdkxwcSQtbidLs0A4Faj9
+ xjo5MO91OXmXFehCxV2bNVseeKkfXgvP89Z020ZxdvhQ1RdR926L7D2bJbn4L9WM7gua
+ m7MrG222YWJn0D0SEf4Qu7fNXSt7mfPvIxWkg5ADrHqDSb6+JNQA28OvUUJDqYyV1YV/
+ 0DTx6m884DQNTlpl04WJbyOZ+LEvMyqZS7w0E3xZthM4qESyfRt4+MruSecsZP0k/sm0
+ dKpQ==
+X-Gm-Message-State: AC+VfDx3Zd1l3pwYdbHHa3/c9TYS9PYELu01pkNmj/CIf8KSBzufILmd
+ FF7qO+/HX7+qk2WE6byKYKzqI9GPDPH9bticUTpXDw==
+X-Google-Smtp-Source: ACHHUZ53wxupCnuEvEklvsTTFOwo5FBYVmx7ATFl4Ccts44C2+fejk2k2gQCYzLjCbOYyW6CDxNBKw==
+X-Received: by 2002:a1c:ed03:0:b0:3ee:6d55:8b73 with SMTP id
+ l3-20020a1ced03000000b003ee6d558b73mr2556302wmh.29.1683357757066; 
+ Sat, 06 May 2023 00:22:37 -0700 (PDT)
+Received: from stoup.. ([212.241.182.8]) by smtp.gmail.com with ESMTPSA id
+ x9-20020adfec09000000b002faaa9a1721sm4481223wrn.58.2023.05.06.00.22.36
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 06 May 2023 00:22:36 -0700 (PDT)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Cc: git@xen0n.name, gaosong@loongson.cn, philmd@linaro.org,
+ qemu-arm@nongnu.org, qemu-riscv@nongnu.org, qemu-s390x@nongnu.org
+Subject: [PATCH v5 00/30] tcg: Simplify calls to load/store helpers
+Date: Sat,  6 May 2023 08:22:05 +0100
+Message-Id: <20230506072235.597467-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -22
-X-Spam_score: -2.3
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::336;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x336.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.161,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,131 +89,78 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Alex Benn=C3=A9e <alex.bennee@linaro.org> writes:
+There are several changes to the load/store helpers coming, and making
+sure that those changes are properly reflected across all of the backends
+was harrowing.
 
-> I don't think I can remove the parameters directly but certainly mark
-> them as deprecated.
->
-> Message-Id: <20230420150009.1675181-6-alex.bennee@linaro.org>
-> Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-> Message-Id: <20230503091756.1453057-6-alex.bennee@linaro.org>
-> ---
->  qapi/trace.json | 22 +++++++---------------
->  1 file changed, 7 insertions(+), 15 deletions(-)
->
-> diff --git a/qapi/trace.json b/qapi/trace.json
-> index f425d10764..de6b1681aa 100644
-> --- a/qapi/trace.json
-> +++ b/qapi/trace.json
-> @@ -33,9 +33,9 @@
->  #
->  # @name: Event name.
->  # @state: Tracing state.
-> -# @vcpu: Whether this is a per-vCPU event (since 2.7).
-> +# @vcpu: Whether this is a per-vCPU event (deprecated since 8.1).
+I have gone back and restarted by hoisting the code out of the backends
+and into tcg.c.  We already have all of the parameters for the host
+function call abi for "normal" helpers, we simply need to apply that to
+the load/store slow path.
 
-We don't normally replace the (since ...) when we deprecate.
+Changes for v5:
+  * 24 patches upstreamed; 6 of the remaining 30 have reviews, but
+    could not be merged out of order.
 
->  #
-> -# An event is per-vCPU if it has the "vcpu" property in the "trace-event=
-s"
-> +# There are no longer any events with the "vcpu" property in the "trace-=
-events"
 
-Why would a user still need to know what @vcpu used to mean?  Also, long
-line.  See below for a possible alternative.
+r~
 
->  # files.
->  #
->  # Since: 2.2
 
-You need to make it official, like so:
+Richard Henderson (30):
+  tcg/i386: Introduce prepare_host_addr
+  tcg/i386: Use indexed addressing for softmmu fast path
+  tcg/aarch64: Introduce prepare_host_addr
+  tcg/arm: Introduce prepare_host_addr
+  tcg/loongarch64: Introduce prepare_host_addr
+  tcg/mips: Introduce prepare_host_addr
+  tcg/ppc: Introduce prepare_host_addr
+  tcg/riscv: Introduce prepare_host_addr
+  tcg/s390x: Introduce prepare_host_addr
+  tcg: Add routines for calling slow-path helpers
+  tcg/i386: Convert tcg_out_qemu_ld_slow_path
+  tcg/i386: Convert tcg_out_qemu_st_slow_path
+  tcg/aarch64: Convert tcg_out_qemu_{ld,st}_slow_path
+  tcg/arm: Convert tcg_out_qemu_{ld,st}_slow_path
+  tcg/loongarch64: Convert tcg_out_qemu_{ld,st}_slow_path
+  tcg/mips: Convert tcg_out_qemu_{ld,st}_slow_path
+  tcg/ppc: Convert tcg_out_qemu_{ld,st}_slow_path
+  tcg/riscv: Convert tcg_out_qemu_{ld,st}_slow_path
+  tcg/s390x: Convert tcg_out_qemu_{ld,st}_slow_path
+  tcg/loongarch64: Simplify constraints on qemu_ld/st
+  tcg/mips: Remove MO_BSWAP handling
+  tcg/mips: Reorg tlb load within prepare_host_addr
+  tcg/mips: Simplify constraints on qemu_ld/st
+  tcg/ppc: Reorg tcg_out_tlb_read
+  tcg/ppc: Adjust constraints on qemu_ld/st
+  tcg/ppc: Remove unused constraints A, B, C, D
+  tcg/ppc: Remove unused constraint J
+  tcg/riscv: Simplify constraints on qemu_ld/st
+  tcg/s390x: Use ALGFR in constructing softmmu host address
+  tcg/s390x: Simplify constraints on qemu_ld/st
 
-   { 'struct': 'TraceEventInfo',
-  -  'data': {'name': 'str', 'state': 'TraceEventState', 'vcpu': 'bool'} }
-  +  'data': {'name': 'str', 'state': 'TraceEventState',
-  +           'vcpu': { 'type': 'bool', 'features': ['deprecated'] } } }
+ tcg/loongarch64/tcg-target-con-set.h |   2 -
+ tcg/loongarch64/tcg-target-con-str.h |   1 -
+ tcg/mips/tcg-target-con-set.h        |  13 +-
+ tcg/mips/tcg-target-con-str.h        |   2 -
+ tcg/mips/tcg-target.h                |   4 +-
+ tcg/ppc/tcg-target-con-set.h         |  11 +-
+ tcg/ppc/tcg-target-con-str.h         |   7 -
+ tcg/riscv/tcg-target-con-set.h       |   2 -
+ tcg/riscv/tcg-target-con-str.h       |   1 -
+ tcg/s390x/tcg-target-con-set.h       |   2 -
+ tcg/s390x/tcg-target-con-str.h       |   1 -
+ tcg/tcg.c                            | 456 +++++++++++++-
+ tcg/aarch64/tcg-target.c.inc         | 347 +++++------
+ tcg/arm/tcg-target.c.inc             | 455 +++++---------
+ tcg/i386/tcg-target.c.inc            | 451 +++++---------
+ tcg/loongarch64/tcg-target.c.inc     | 313 ++++------
+ tcg/mips/tcg-target.c.inc            | 870 ++++++++-------------------
+ tcg/ppc/tcg-target.c.inc             | 510 +++++++---------
+ tcg/riscv/tcg-target.c.inc           | 304 ++++------
+ tcg/s390x/tcg-target.c.inc           | 314 ++++------
+ 20 files changed, 1766 insertions(+), 2300 deletions(-)
 
-And then the generator will demand you document it formally, so you also
-need something like
-
- # @state: Tracing state.
- # @vcpu: Whether this is a per-vCPU event (since 2.7).
- #
--# An event is per-vCPU if it has the "vcpu" property in the "trace-events"
--# files.
-+# Features:
-+# @deprecated: Member @vcpu is deprecated, and always false.
- #
- # Since: 2.2
- ##
-
-Additionally, update docs/about/deprecated.rst.
-
-> @@ -49,19 +49,15 @@
->  # Query the state of events.
->  #
->  # @name: Event name pattern (case-sensitive glob).
-> -# @vcpu: The vCPU to query (any by default; since 2.7).
-> +# @vcpu: The vCPU to query (deprecated since 8.1).
-
-Again, we don't normally replace the (since ...) when we deprecate.
-
-I suggest to just drop the "any by default" part.
-
->  #
->  # Returns: a list of @TraceEventInfo for the matching events
->  #
->  #          An event is returned if:
->  #
->  #          - its name matches the @name pattern, and
-> -#          - if @vcpu is given, the event has the "vcpu" property.
->  #
-> -#          Therefore, if @vcpu is given, the operation will only match p=
-er-vCPU events,
-> -#          returning their state on the specified vCPU. Special case: if=
- @name is an
-> -#          exact match, @vcpu is given and the event does not have the "=
-vcpu" property,
-> -#          an error is returned.
-> +#          There are no longer any per-vCPU events
->  #
->  # Since: 2.2
->  #
-
-Please add 'features': ['deprecated'].
-
-> @@ -84,17 +80,13 @@
->  # @name: Event name pattern (case-sensitive glob).
->  # @enable: Whether to enable tracing.
->  # @ignore-unavailable: Do not match unavailable events with @name.
-> -# @vcpu: The vCPU to act upon (all by default; since 2.7).
-> +# @vcpu: The vCPU to act upon (deprecated since 8.1).
-
-Suggest to just drop the "all by default" part.
-
->  #
->  # An event's state is modified if:
->  #
-> -# - its name matches the @name pattern, and
-> -# - if @vcpu is given, the event has the "vcpu" property.
-> +# - its name matches the @name pattern
->  #
-> -# Therefore, if @vcpu is given, the operation will only match per-vCPU e=
-vents,
-> -# setting their state on the specified vCPU. Special case: if @name is a=
-n exact
-> -# match, @vcpu is given and the event does not have the "vcpu" property,=
- an
-> -# error is returned.
-> +# There are no longer and per-vCPU events so specifying it will never ma=
-tch.
->  #
->  # Since: 2.2
->  #
-
-Please add 'features': ['deprecated'].
+-- 
+2.34.1
 
 
