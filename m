@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7416E6F8F3E
-	for <lists+qemu-devel@lfdr.de>; Sat,  6 May 2023 08:38:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 800576F8F68
+	for <lists+qemu-devel@lfdr.de>; Sat,  6 May 2023 08:42:22 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pvBWp-0005tR-7A; Sat, 06 May 2023 02:36:23 -0400
+	id 1pvBWt-0005ve-5w; Sat, 06 May 2023 02:36:27 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
- id 1pvBWm-0005rp-9L
- for qemu-devel@nongnu.org; Sat, 06 May 2023 02:36:20 -0400
+ id 1pvBWq-0005uq-AO
+ for qemu-devel@nongnu.org; Sat, 06 May 2023 02:36:24 -0400
 Received: from mail.loongson.cn ([114.242.206.163] helo=loongson.cn)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <gaosong@loongson.cn>) id 1pvBWj-0004LF-GC
- for qemu-devel@nongnu.org; Sat, 06 May 2023 02:36:20 -0400
+ (envelope-from <gaosong@loongson.cn>) id 1pvBWm-0004MK-8P
+ for qemu-devel@nongnu.org; Sat, 06 May 2023 02:36:24 -0400
 Received: from loongson.cn (unknown [10.2.5.185])
- by gateway (Coremail) with SMTP id _____8DxCepV9VVkKqUFAA--.9248S3;
- Sat, 06 May 2023 14:36:05 +0800 (CST)
+ by gateway (Coremail) with SMTP id _____8CxuOlW9VVkMaUFAA--.9253S3;
+ Sat, 06 May 2023 14:36:06 +0800 (CST)
 Received: from localhost.localdomain (unknown [10.2.5.185])
  by localhost.localdomain (Coremail) with SMTP id
- AQAAf8CxDbM89VVkhCNNAA--.9773S41; 
- Sat, 06 May 2023 14:36:04 +0800 (CST)
+ AQAAf8CxDbM89VVkhCNNAA--.9773S42; 
+ Sat, 06 May 2023 14:36:05 +0800 (CST)
 From: Song Gao <gaosong@loongson.cn>
 To: qemu-devel@nongnu.org
 Cc: richard.henderson@linaro.org
-Subject: [PULL v2 39/45] target/loongarch: Implement vreplve vpack vpick
-Date: Sat,  6 May 2023 14:35:34 +0800
-Message-Id: <20230506063540.178794-40-gaosong@loongson.cn>
+Subject: [PULL v2 40/45] target/loongarch: Implement vilvl vilvh vextrins vshuf
+Date: Sat,  6 May 2023 14:35:35 +0800
+Message-Id: <20230506063540.178794-41-gaosong@loongson.cn>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20230506063540.178794-1-gaosong@loongson.cn>
 References: <20230506063540.178794-1-gaosong@loongson.cn>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf8CxDbM89VVkhCNNAA--.9773S41
+X-CM-TRANSID: AQAAf8CxDbM89VVkhCNNAA--.9773S42
 X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
-X-Coremail-Antispam: 1Uk129KBjvAXoW3KrWfZFWrXr1UAr4DuryDKFg_yoW8Gr18Jo
- W3G3y5Jw48GryrCr1j9a4DXF4DJ340yanrJa98Zw4UGFW8Jr17tr1fGw1rAayfZ340gr93
- JwsFkF45tw1Yqw1kn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7KY7ZEXasCq-sGcSsGvf
- J3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU0xBIdaVrnRJU
- UUql1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s1l8cAvFVAK0II2c7xJM28CjxkF64
- kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2IY67AKxVWDJVCq3wA2z4x0Y4vE2Ix0cI8IcVCY
- 1x0267AKxVWxJVW8Jr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aV
+X-Coremail-Antispam: 1Uk129KBjvJXoW3KF4fZr1UKr1DtF1kGr4Durg_yoWDWw18pF
+ sIkFyUtr48JrWxXrnav343Jw1qqrsrKw1xu3WrGr1rWF47tFn8XryvqrZF9F4aga95XFWI
+ g3W3C34qyF98J37anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
+ qI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUIcSsGvfJTRUUU
+ be8Fc2x0x2IEx4CE42xK8VAvwI8IcIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4
+ AK67xGY2AK021l84ACjcxK6xIIjxv20xvE14v26w1j6s0DM28EF7xvwVC0I7IYx2IY6xkF
+ 7I0E14v26r4UJVWxJr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aV
  CY1x0267AKxVWxJr0_GcWle2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF0cIa020E
  x4CE44I27wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E74AGY7Cv6cx26rWlOx8S6xCaFV
  Cjc4AY6r1j6r4UM4x0Y48IcxkI7VAKI48JMxAIw28IcxkI7VAKI48JMxAIw28IcVCjz48v
  1sIEY20_WwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I
  0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jrv_JF1lIxkGc2Ij64vIr41lIxAI
- cVC0I7IYx2IY67AKxVW7JVWDJwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Cr0_Gr1UMIIF0x
+ cVC0I7IYx2IY67AKxVWDJVCq3wCI42IY6xIIjxv20xvEc7CjxVAFwI0_Cr0_Gr1UMIIF0x
  vE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWxJVW8Jr1lIxAIcVC2z280
  aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7xRE6wZ7UUUUU==
 Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
@@ -75,323 +75,165 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 This patch includes:
-- VREPLVE[I].{B/H/W/D};
-- VBSLL.V, VBSRL.V;
-- VPACK{EV/OD}.{B/H/W/D};
-- VPICK{EV/OD}.{B/H/W/D}.
+- VILV{L/H}.{B/H/W/D};
+- VSHUF.{B/H/W/D};
+- VSHUF4I.{B/H/W/D};
+- VPERMI.W;
+- VEXTRINS.{B/H/W/D}.
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Song Gao <gaosong@loongson.cn>
-Message-Id: <20230504122810.4094787-40-gaosong@loongson.cn>
+Message-Id: <20230504122810.4094787-41-gaosong@loongson.cn>
 ---
- target/loongarch/disas.c                    |  35 +++++
- target/loongarch/helper.h                   |  18 +++
- target/loongarch/insn_trans/trans_lsx.c.inc | 144 ++++++++++++++++++++
- target/loongarch/insns.decode               |  34 +++++
- target/loongarch/lsx_helper.c               |  88 ++++++++++++
- 5 files changed, 319 insertions(+)
+ target/loongarch/disas.c                    |  25 ++++
+ target/loongarch/helper.h                   |  25 ++++
+ target/loongarch/insn_trans/trans_lsx.c.inc |  25 ++++
+ target/loongarch/insns.decode               |  25 ++++
+ target/loongarch/lsx_helper.c               | 148 ++++++++++++++++++++
+ 5 files changed, 248 insertions(+)
 
 diff --git a/target/loongarch/disas.c b/target/loongarch/disas.c
-index 7255a2aa4f..c6cf782725 100644
+index c6cf782725..0b62bbb8be 100644
 --- a/target/loongarch/disas.c
 +++ b/target/loongarch/disas.c
-@@ -833,6 +833,11 @@ static void output_vr(DisasContext *ctx, arg_vr *a, const char *mnemonic)
-     output(ctx, mnemonic, "v%d, r%d", a->vd, a->rj);
- }
- 
-+static void output_vvr(DisasContext *ctx, arg_vvr *a, const char *mnemonic)
-+{
-+    output(ctx, mnemonic, "v%d, v%d, r%d", a->vd, a->vj, a->rk);
-+}
+@@ -1629,3 +1629,28 @@ INSN_LSX(vpickod_b,        vvv)
+ INSN_LSX(vpickod_h,        vvv)
+ INSN_LSX(vpickod_w,        vvv)
+ INSN_LSX(vpickod_d,        vvv)
 +
- INSN_LSX(vadd_b,           vvv)
- INSN_LSX(vadd_h,           vvv)
- INSN_LSX(vadd_w,           vvv)
-@@ -1594,3 +1599,33 @@ INSN_LSX(vreplgr2vr_b,     vr)
- INSN_LSX(vreplgr2vr_h,     vr)
- INSN_LSX(vreplgr2vr_w,     vr)
- INSN_LSX(vreplgr2vr_d,     vr)
++INSN_LSX(vilvl_b,          vvv)
++INSN_LSX(vilvl_h,          vvv)
++INSN_LSX(vilvl_w,          vvv)
++INSN_LSX(vilvl_d,          vvv)
++INSN_LSX(vilvh_b,          vvv)
++INSN_LSX(vilvh_h,          vvv)
++INSN_LSX(vilvh_w,          vvv)
++INSN_LSX(vilvh_d,          vvv)
 +
-+INSN_LSX(vreplve_b,        vvr)
-+INSN_LSX(vreplve_h,        vvr)
-+INSN_LSX(vreplve_w,        vvr)
-+INSN_LSX(vreplve_d,        vvr)
-+INSN_LSX(vreplvei_b,       vv_i)
-+INSN_LSX(vreplvei_h,       vv_i)
-+INSN_LSX(vreplvei_w,       vv_i)
-+INSN_LSX(vreplvei_d,       vv_i)
++INSN_LSX(vshuf_b,          vvvv)
++INSN_LSX(vshuf_h,          vvv)
++INSN_LSX(vshuf_w,          vvv)
++INSN_LSX(vshuf_d,          vvv)
++INSN_LSX(vshuf4i_b,        vv_i)
++INSN_LSX(vshuf4i_h,        vv_i)
++INSN_LSX(vshuf4i_w,        vv_i)
++INSN_LSX(vshuf4i_d,        vv_i)
 +
-+INSN_LSX(vbsll_v,          vv_i)
-+INSN_LSX(vbsrl_v,          vv_i)
++INSN_LSX(vpermi_w,         vv_i)
 +
-+INSN_LSX(vpackev_b,        vvv)
-+INSN_LSX(vpackev_h,        vvv)
-+INSN_LSX(vpackev_w,        vvv)
-+INSN_LSX(vpackev_d,        vvv)
-+INSN_LSX(vpackod_b,        vvv)
-+INSN_LSX(vpackod_h,        vvv)
-+INSN_LSX(vpackod_w,        vvv)
-+INSN_LSX(vpackod_d,        vvv)
-+
-+INSN_LSX(vpickev_b,        vvv)
-+INSN_LSX(vpickev_h,        vvv)
-+INSN_LSX(vpickev_w,        vvv)
-+INSN_LSX(vpickev_d,        vvv)
-+INSN_LSX(vpickod_b,        vvv)
-+INSN_LSX(vpickod_h,        vvv)
-+INSN_LSX(vpickod_w,        vvv)
-+INSN_LSX(vpickod_d,        vvv)
++INSN_LSX(vextrins_d,       vv_i)
++INSN_LSX(vextrins_w,       vv_i)
++INSN_LSX(vextrins_h,       vv_i)
++INSN_LSX(vextrins_b,       vv_i)
 diff --git a/target/loongarch/helper.h b/target/loongarch/helper.h
-index 8eb2738cd0..51ad694be2 100644
+index 51ad694be2..b9de77d926 100644
 --- a/target/loongarch/helper.h
 +++ b/target/loongarch/helper.h
-@@ -653,3 +653,21 @@ DEF_HELPER_3(vsetallnez_b, void, env, i32, i32)
- DEF_HELPER_3(vsetallnez_h, void, env, i32, i32)
- DEF_HELPER_3(vsetallnez_w, void, env, i32, i32)
- DEF_HELPER_3(vsetallnez_d, void, env, i32, i32)
+@@ -671,3 +671,28 @@ DEF_HELPER_4(vpickod_b, void, env, i32, i32, i32)
+ DEF_HELPER_4(vpickod_h, void, env, i32, i32, i32)
+ DEF_HELPER_4(vpickod_w, void, env, i32, i32, i32)
+ DEF_HELPER_4(vpickod_d, void, env, i32, i32, i32)
 +
-+DEF_HELPER_4(vpackev_b, void, env, i32, i32, i32)
-+DEF_HELPER_4(vpackev_h, void, env, i32, i32, i32)
-+DEF_HELPER_4(vpackev_w, void, env, i32, i32, i32)
-+DEF_HELPER_4(vpackev_d, void, env, i32, i32, i32)
-+DEF_HELPER_4(vpackod_b, void, env, i32, i32, i32)
-+DEF_HELPER_4(vpackod_h, void, env, i32, i32, i32)
-+DEF_HELPER_4(vpackod_w, void, env, i32, i32, i32)
-+DEF_HELPER_4(vpackod_d, void, env, i32, i32, i32)
++DEF_HELPER_4(vilvl_b, void, env, i32, i32, i32)
++DEF_HELPER_4(vilvl_h, void, env, i32, i32, i32)
++DEF_HELPER_4(vilvl_w, void, env, i32, i32, i32)
++DEF_HELPER_4(vilvl_d, void, env, i32, i32, i32)
++DEF_HELPER_4(vilvh_b, void, env, i32, i32, i32)
++DEF_HELPER_4(vilvh_h, void, env, i32, i32, i32)
++DEF_HELPER_4(vilvh_w, void, env, i32, i32, i32)
++DEF_HELPER_4(vilvh_d, void, env, i32, i32, i32)
 +
-+DEF_HELPER_4(vpickev_b, void, env, i32, i32, i32)
-+DEF_HELPER_4(vpickev_h, void, env, i32, i32, i32)
-+DEF_HELPER_4(vpickev_w, void, env, i32, i32, i32)
-+DEF_HELPER_4(vpickev_d, void, env, i32, i32, i32)
-+DEF_HELPER_4(vpickod_b, void, env, i32, i32, i32)
-+DEF_HELPER_4(vpickod_h, void, env, i32, i32, i32)
-+DEF_HELPER_4(vpickod_w, void, env, i32, i32, i32)
-+DEF_HELPER_4(vpickod_d, void, env, i32, i32, i32)
++DEF_HELPER_5(vshuf_b, void, env, i32, i32, i32, i32)
++DEF_HELPER_4(vshuf_h, void, env, i32, i32, i32)
++DEF_HELPER_4(vshuf_w, void, env, i32, i32, i32)
++DEF_HELPER_4(vshuf_d, void, env, i32, i32, i32)
++DEF_HELPER_4(vshuf4i_b, void, env, i32, i32, i32)
++DEF_HELPER_4(vshuf4i_h, void, env, i32, i32, i32)
++DEF_HELPER_4(vshuf4i_w, void, env, i32, i32, i32)
++DEF_HELPER_4(vshuf4i_d, void, env, i32, i32, i32)
++
++DEF_HELPER_4(vpermi_w, void, env, i32, i32, i32)
++
++DEF_HELPER_4(vextrins_b, void, env, i32, i32, i32)
++DEF_HELPER_4(vextrins_h, void, env, i32, i32, i32)
++DEF_HELPER_4(vextrins_w, void, env, i32, i32, i32)
++DEF_HELPER_4(vextrins_d, void, env, i32, i32, i32)
 diff --git a/target/loongarch/insn_trans/trans_lsx.c.inc b/target/loongarch/insn_trans/trans_lsx.c.inc
-index e722b79bea..1146ace1b7 100644
+index 1146ace1b7..e1eee6bc4c 100644
 --- a/target/loongarch/insn_trans/trans_lsx.c.inc
 +++ b/target/loongarch/insn_trans/trans_lsx.c.inc
-@@ -3933,3 +3933,147 @@ TRANS(vreplgr2vr_b, gvec_dup, MO_8)
- TRANS(vreplgr2vr_h, gvec_dup, MO_16)
- TRANS(vreplgr2vr_w, gvec_dup, MO_32)
- TRANS(vreplgr2vr_d, gvec_dup, MO_64)
+@@ -4077,3 +4077,28 @@ TRANS(vpickod_b, gen_vvv, gen_helper_vpickod_b)
+ TRANS(vpickod_h, gen_vvv, gen_helper_vpickod_h)
+ TRANS(vpickod_w, gen_vvv, gen_helper_vpickod_w)
+ TRANS(vpickod_d, gen_vvv, gen_helper_vpickod_d)
 +
-+static bool trans_vreplvei_b(DisasContext *ctx, arg_vv_i *a)
-+{
-+    CHECK_SXE;
-+    tcg_gen_gvec_dup_mem(MO_8,vec_full_offset(a->vd),
-+                         offsetof(CPULoongArchState,
-+                                  fpr[a->vj].vreg.B((a->imm))),
-+                         16, ctx->vl/8);
-+    return true;
-+}
++TRANS(vilvl_b, gen_vvv, gen_helper_vilvl_b)
++TRANS(vilvl_h, gen_vvv, gen_helper_vilvl_h)
++TRANS(vilvl_w, gen_vvv, gen_helper_vilvl_w)
++TRANS(vilvl_d, gen_vvv, gen_helper_vilvl_d)
++TRANS(vilvh_b, gen_vvv, gen_helper_vilvh_b)
++TRANS(vilvh_h, gen_vvv, gen_helper_vilvh_h)
++TRANS(vilvh_w, gen_vvv, gen_helper_vilvh_w)
++TRANS(vilvh_d, gen_vvv, gen_helper_vilvh_d)
 +
-+static bool trans_vreplvei_h(DisasContext *ctx, arg_vv_i *a)
-+{
-+    CHECK_SXE;
-+    tcg_gen_gvec_dup_mem(MO_16, vec_full_offset(a->vd),
-+                         offsetof(CPULoongArchState,
-+                                  fpr[a->vj].vreg.H((a->imm))),
-+                         16, ctx->vl/8);
-+    return true;
-+}
-+static bool trans_vreplvei_w(DisasContext *ctx, arg_vv_i *a)
-+{
-+    CHECK_SXE;
-+    tcg_gen_gvec_dup_mem(MO_32, vec_full_offset(a->vd),
-+                         offsetof(CPULoongArchState,
-+                                  fpr[a->vj].vreg.W((a->imm))),
-+                        16, ctx->vl/8);
-+    return true;
-+}
-+static bool trans_vreplvei_d(DisasContext *ctx, arg_vv_i *a)
-+{
-+    CHECK_SXE;
-+    tcg_gen_gvec_dup_mem(MO_64, vec_full_offset(a->vd),
-+                         offsetof(CPULoongArchState,
-+                                  fpr[a->vj].vreg.D((a->imm))),
-+                         16, ctx->vl/8);
-+    return true;
-+}
++TRANS(vshuf_b, gen_vvvv, gen_helper_vshuf_b)
++TRANS(vshuf_h, gen_vvv, gen_helper_vshuf_h)
++TRANS(vshuf_w, gen_vvv, gen_helper_vshuf_w)
++TRANS(vshuf_d, gen_vvv, gen_helper_vshuf_d)
++TRANS(vshuf4i_b, gen_vv_i, gen_helper_vshuf4i_b)
++TRANS(vshuf4i_h, gen_vv_i, gen_helper_vshuf4i_h)
++TRANS(vshuf4i_w, gen_vv_i, gen_helper_vshuf4i_w)
++TRANS(vshuf4i_d, gen_vv_i, gen_helper_vshuf4i_d)
 +
-+static bool gen_vreplve(DisasContext *ctx, arg_vvr *a, int vece, int bit,
-+                        void (*func)(TCGv_i64, TCGv_ptr, tcg_target_long))
-+{
-+    TCGv_i64 t0 = tcg_temp_new_i64();
-+    TCGv_ptr t1 = tcg_temp_new_ptr();
-+    TCGv_i64 t2 = tcg_temp_new_i64();
++TRANS(vpermi_w, gen_vv_i, gen_helper_vpermi_w)
 +
-+    CHECK_SXE;
-+
-+    tcg_gen_andi_i64(t0, gpr_src(ctx, a->rk, EXT_NONE), (LSX_LEN/bit) -1);
-+    tcg_gen_shli_i64(t0, t0, vece);
-+    if (HOST_BIG_ENDIAN) {
-+        tcg_gen_xori_i64(t0, t0, vece << ((LSX_LEN/bit) -1));
-+    }
-+
-+    tcg_gen_trunc_i64_ptr(t1, t0);
-+    tcg_gen_add_ptr(t1, t1, cpu_env);
-+    func(t2, t1, vec_full_offset(a->vj));
-+    tcg_gen_gvec_dup_i64(vece, vec_full_offset(a->vd), 16, ctx->vl/8, t2);
-+
-+    return true;
-+}
-+
-+TRANS(vreplve_b, gen_vreplve, MO_8,  8, tcg_gen_ld8u_i64)
-+TRANS(vreplve_h, gen_vreplve, MO_16, 16, tcg_gen_ld16u_i64)
-+TRANS(vreplve_w, gen_vreplve, MO_32, 32, tcg_gen_ld32u_i64)
-+TRANS(vreplve_d, gen_vreplve, MO_64, 64, tcg_gen_ld_i64)
-+
-+static bool trans_vbsll_v(DisasContext *ctx, arg_vv_i *a)
-+{
-+    int ofs;
-+    TCGv_i64 desthigh, destlow, high, low;
-+
-+    CHECK_SXE;
-+
-+    desthigh = tcg_temp_new_i64();
-+    destlow = tcg_temp_new_i64();
-+    high = tcg_temp_new_i64();
-+    low = tcg_temp_new_i64();
-+
-+    get_vreg64(low, a->vj, 0);
-+
-+    ofs = ((a->imm) & 0xf) * 8;
-+    if (ofs < 64) {
-+        get_vreg64(high, a->vj, 1);
-+        tcg_gen_extract2_i64(desthigh, low, high, 64 - ofs);
-+        tcg_gen_shli_i64(destlow, low, ofs);
-+    } else {
-+        tcg_gen_shli_i64(desthigh, low, ofs - 64);
-+        destlow = tcg_constant_i64(0);
-+    }
-+
-+    set_vreg64(desthigh, a->vd, 1);
-+    set_vreg64(destlow, a->vd, 0);
-+
-+    return true;
-+}
-+
-+static bool trans_vbsrl_v(DisasContext *ctx, arg_vv_i *a)
-+{
-+    TCGv_i64 desthigh, destlow, high, low;
-+    int ofs;
-+
-+    CHECK_SXE;
-+
-+    desthigh = tcg_temp_new_i64();
-+    destlow = tcg_temp_new_i64();
-+    high = tcg_temp_new_i64();
-+    low = tcg_temp_new_i64();
-+
-+    get_vreg64(high, a->vj, 1);
-+
-+    ofs = ((a->imm) & 0xf) * 8;
-+    if (ofs < 64) {
-+        get_vreg64(low, a->vj, 0);
-+        tcg_gen_extract2_i64(destlow, low, high, ofs);
-+        tcg_gen_shri_i64(desthigh, high, ofs);
-+    } else {
-+        tcg_gen_shri_i64(destlow, high, ofs - 64);
-+        desthigh = tcg_constant_i64(0);
-+    }
-+
-+    set_vreg64(desthigh, a->vd, 1);
-+    set_vreg64(destlow, a->vd, 0);
-+
-+    return true;
-+}
-+
-+TRANS(vpackev_b, gen_vvv, gen_helper_vpackev_b)
-+TRANS(vpackev_h, gen_vvv, gen_helper_vpackev_h)
-+TRANS(vpackev_w, gen_vvv, gen_helper_vpackev_w)
-+TRANS(vpackev_d, gen_vvv, gen_helper_vpackev_d)
-+TRANS(vpackod_b, gen_vvv, gen_helper_vpackod_b)
-+TRANS(vpackod_h, gen_vvv, gen_helper_vpackod_h)
-+TRANS(vpackod_w, gen_vvv, gen_helper_vpackod_w)
-+TRANS(vpackod_d, gen_vvv, gen_helper_vpackod_d)
-+
-+TRANS(vpickev_b, gen_vvv, gen_helper_vpickev_b)
-+TRANS(vpickev_h, gen_vvv, gen_helper_vpickev_h)
-+TRANS(vpickev_w, gen_vvv, gen_helper_vpickev_w)
-+TRANS(vpickev_d, gen_vvv, gen_helper_vpickev_d)
-+TRANS(vpickod_b, gen_vvv, gen_helper_vpickod_b)
-+TRANS(vpickod_h, gen_vvv, gen_helper_vpickod_h)
-+TRANS(vpickod_w, gen_vvv, gen_helper_vpickod_w)
-+TRANS(vpickod_d, gen_vvv, gen_helper_vpickod_d)
++TRANS(vextrins_b, gen_vv_i, gen_helper_vextrins_b)
++TRANS(vextrins_h, gen_vv_i, gen_helper_vextrins_h)
++TRANS(vextrins_w, gen_vv_i, gen_helper_vextrins_w)
++TRANS(vextrins_d, gen_vv_i, gen_helper_vextrins_d)
 diff --git a/target/loongarch/insns.decode b/target/loongarch/insns.decode
-index d1d255ab82..ab9e9e422f 100644
+index ab9e9e422f..0263bce28e 100644
 --- a/target/loongarch/insns.decode
 +++ b/target/loongarch/insns.decode
-@@ -499,6 +499,7 @@ dbcl             0000 00000010 10101 ...............      @i15
- &vr_i         vd rj imm
- &rv_i         rd vj imm
- &vr           vd rj
-+&vvr          vd vj rk
- 
- #
- # LSX Formats
-@@ -506,6 +507,8 @@ dbcl             0000 00000010 10101 ...............      @i15
- @vv               .... ........ ..... ..... vj:5 vd:5    &vv
- @cv            .... ........ ..... ..... vj:5 .. cd:3    &cv
- @vvv               .... ........ ..... vk:5 vj:5 vd:5    &vvv
-+@vv_ui1      .... ........ ..... .... imm:1 vj:5 vd:5    &vv_i
-+@vv_ui2       .... ........ ..... ... imm:2 vj:5 vd:5    &vv_i
- @vv_ui3        .... ........ ..... .. imm:3 vj:5 vd:5    &vv_i
- @vv_ui4         .... ........ ..... . imm:4 vj:5 vd:5    &vv_i
- @vv_ui5           .... ........ ..... imm:5 vj:5 vd:5    &vv_i
-@@ -524,6 +527,7 @@ dbcl             0000 00000010 10101 ...............      @i15
- @rv_ui2       .... ........ ..... ... imm:2 vj:5 rd:5    &rv_i
- @rv_ui1      .... ........ ..... .... imm:1 vj:5 rd:5    &rv_i
- @vr               .... ........ ..... ..... rj:5 vd:5    &vr
-+@vvr               .... ........ ..... rk:5 vj:5 vd:5    &vvr
- 
- vadd_b           0111 00000000 10100 ..... ..... .....    @vvv
- vadd_h           0111 00000000 10101 ..... ..... .....    @vvv
-@@ -1197,3 +1201,33 @@ vreplgr2vr_b     0111 00101001 11110 00000 ..... .....    @vr
- vreplgr2vr_h     0111 00101001 11110 00001 ..... .....    @vr
- vreplgr2vr_w     0111 00101001 11110 00010 ..... .....    @vr
- vreplgr2vr_d     0111 00101001 11110 00011 ..... .....    @vr
+@@ -1231,3 +1231,28 @@ vpickod_b        0111 00010010 00000 ..... ..... .....    @vvv
+ vpickod_h        0111 00010010 00001 ..... ..... .....    @vvv
+ vpickod_w        0111 00010010 00010 ..... ..... .....    @vvv
+ vpickod_d        0111 00010010 00011 ..... ..... .....    @vvv
 +
-+vreplve_b        0111 00010010 00100 ..... ..... .....    @vvr
-+vreplve_h        0111 00010010 00101 ..... ..... .....    @vvr
-+vreplve_w        0111 00010010 00110 ..... ..... .....    @vvr
-+vreplve_d        0111 00010010 00111 ..... ..... .....    @vvr
-+vreplvei_b       0111 00101111 01111 0 .... ..... .....   @vv_ui4
-+vreplvei_h       0111 00101111 01111 10 ... ..... .....   @vv_ui3
-+vreplvei_w       0111 00101111 01111 110 .. ..... .....   @vv_ui2
-+vreplvei_d       0111 00101111 01111 1110 . ..... .....   @vv_ui1
++vilvl_b          0111 00010001 10100 ..... ..... .....    @vvv
++vilvl_h          0111 00010001 10101 ..... ..... .....    @vvv
++vilvl_w          0111 00010001 10110 ..... ..... .....    @vvv
++vilvl_d          0111 00010001 10111 ..... ..... .....    @vvv
++vilvh_b          0111 00010001 11000 ..... ..... .....    @vvv
++vilvh_h          0111 00010001 11001 ..... ..... .....    @vvv
++vilvh_w          0111 00010001 11010 ..... ..... .....    @vvv
++vilvh_d          0111 00010001 11011 ..... ..... .....    @vvv
 +
-+vbsll_v          0111 00101000 11100 ..... ..... .....    @vv_ui5
-+vbsrl_v          0111 00101000 11101 ..... ..... .....    @vv_ui5
++vshuf_b          0000 11010101 ..... ..... ..... .....    @vvvv
++vshuf_h          0111 00010111 10101 ..... ..... .....    @vvv
++vshuf_w          0111 00010111 10110 ..... ..... .....    @vvv
++vshuf_d          0111 00010111 10111 ..... ..... .....    @vvv
++vshuf4i_b        0111 00111001 00 ........ ..... .....    @vv_ui8
++vshuf4i_h        0111 00111001 01 ........ ..... .....    @vv_ui8
++vshuf4i_w        0111 00111001 10 ........ ..... .....    @vv_ui8
++vshuf4i_d        0111 00111001 11 ........ ..... .....    @vv_ui8
 +
-+vpackev_b        0111 00010001 01100 ..... ..... .....    @vvv
-+vpackev_h        0111 00010001 01101 ..... ..... .....    @vvv
-+vpackev_w        0111 00010001 01110 ..... ..... .....    @vvv
-+vpackev_d        0111 00010001 01111 ..... ..... .....    @vvv
-+vpackod_b        0111 00010001 10000 ..... ..... .....    @vvv
-+vpackod_h        0111 00010001 10001 ..... ..... .....    @vvv
-+vpackod_w        0111 00010001 10010 ..... ..... .....    @vvv
-+vpackod_d        0111 00010001 10011 ..... ..... .....    @vvv
++vpermi_w         0111 00111110 01 ........ ..... .....    @vv_ui8
 +
-+vpickev_b        0111 00010001 11100 ..... ..... .....    @vvv
-+vpickev_h        0111 00010001 11101 ..... ..... .....    @vvv
-+vpickev_w        0111 00010001 11110 ..... ..... .....    @vvv
-+vpickev_d        0111 00010001 11111 ..... ..... .....    @vvv
-+vpickod_b        0111 00010010 00000 ..... ..... .....    @vvv
-+vpickod_h        0111 00010010 00001 ..... ..... .....    @vvv
-+vpickod_w        0111 00010010 00010 ..... ..... .....    @vvv
-+vpickod_d        0111 00010010 00011 ..... ..... .....    @vvv
++vextrins_d       0111 00111000 00 ........ ..... .....    @vv_ui8
++vextrins_w       0111 00111000 01 ........ ..... .....    @vv_ui8
++vextrins_h       0111 00111000 10 ........ ..... .....    @vv_ui8
++vextrins_b       0111 00111000 11 ........ ..... .....    @vv_ui8
 diff --git a/target/loongarch/lsx_helper.c b/target/loongarch/lsx_helper.c
-index 51c4109501..84b8f72515 100644
+index 84b8f72515..9571f0aef0 100644
 --- a/target/loongarch/lsx_helper.c
 +++ b/target/loongarch/lsx_helper.c
-@@ -2766,3 +2766,91 @@ SETALLNEZ(vsetallnez_b, MO_8)
- SETALLNEZ(vsetallnez_h, MO_16)
- SETALLNEZ(vsetallnez_w, MO_32)
- SETALLNEZ(vsetallnez_d, MO_64)
+@@ -2854,3 +2854,151 @@ VPICKOD(vpickod_b, 16, B)
+ VPICKOD(vpickod_h, 32, H)
+ VPICKOD(vpickod_w, 64, W)
+ VPICKOD(vpickod_d, 128, D)
 +
-+#define VPACKEV(NAME, BIT, E)                            \
++#define VILVL(NAME, BIT, E)                              \
 +void HELPER(NAME)(CPULoongArchState *env,                \
 +                  uint32_t vd, uint32_t vj, uint32_t vk) \
 +{                                                        \
@@ -402,18 +244,18 @@ index 51c4109501..84b8f72515 100644
 +    VReg *Vk = &(env->fpr[vk].vreg);                     \
 +                                                         \
 +    for (i = 0; i < LSX_LEN/BIT; i++) {                  \
-+        temp.E(2 * i + 1) = Vj->E(2 * i);                \
-+        temp.E(2 *i) = Vk->E(2 * i);                     \
++        temp.E(2 * i + 1) = Vj->E(i);                    \
++        temp.E(2 * i) = Vk->E(i);                        \
 +    }                                                    \
 +    *Vd = temp;                                          \
 +}
 +
-+VPACKEV(vpackev_b, 16, B)
-+VPACKEV(vpackev_h, 32, H)
-+VPACKEV(vpackev_w, 64, W)
-+VPACKEV(vpackev_d, 128, D)
++VILVL(vilvl_b, 16, B)
++VILVL(vilvl_h, 32, H)
++VILVL(vilvl_w, 64, W)
++VILVL(vilvl_d, 128, D)
 +
-+#define VPACKOD(NAME, BIT, E)                            \
++#define VILVH(NAME, BIT, E)                              \
 +void HELPER(NAME)(CPULoongArchState *env,                \
 +                  uint32_t vd, uint32_t vj, uint32_t vk) \
 +{                                                        \
@@ -424,60 +266,120 @@ index 51c4109501..84b8f72515 100644
 +    VReg *Vk = &(env->fpr[vk].vreg);                     \
 +                                                         \
 +    for (i = 0; i < LSX_LEN/BIT; i++) {                  \
-+        temp.E(2 * i + 1) = Vj->E(2 * i + 1);            \
-+        temp.E(2 * i) = Vk->E(2 * i + 1);                \
++        temp.E(2 * i + 1) = Vj->E(i + LSX_LEN/BIT);      \
++        temp.E(2 * i) = Vk->E(i + LSX_LEN/BIT);          \
 +    }                                                    \
 +    *Vd = temp;                                          \
 +}
 +
-+VPACKOD(vpackod_b, 16, B)
-+VPACKOD(vpackod_h, 32, H)
-+VPACKOD(vpackod_w, 64, W)
-+VPACKOD(vpackod_d, 128, D)
++VILVH(vilvh_b, 16, B)
++VILVH(vilvh_h, 32, H)
++VILVH(vilvh_w, 64, W)
++VILVH(vilvh_d, 128, D)
 +
-+#define VPICKEV(NAME, BIT, E)                            \
++void HELPER(vshuf_b)(CPULoongArchState *env,
++                     uint32_t vd, uint32_t vj, uint32_t vk, uint32_t va)
++{
++    int i, m;
++    VReg temp;
++    VReg *Vd = &(env->fpr[vd].vreg);
++    VReg *Vj = &(env->fpr[vj].vreg);
++    VReg *Vk = &(env->fpr[vk].vreg);
++    VReg *Va = &(env->fpr[va].vreg);
++
++    m = LSX_LEN/8;
++    for (i = 0; i < m ; i++) {
++        uint64_t k = (uint8_t)Va->B(i) % (2 * m);
++        temp.B(i) = k < m ? Vk->B(k) : Vj->B(k - m);
++    }
++    *Vd = temp;
++}
++
++#define VSHUF(NAME, BIT, E)                              \
 +void HELPER(NAME)(CPULoongArchState *env,                \
 +                  uint32_t vd, uint32_t vj, uint32_t vk) \
 +{                                                        \
-+    int i;                                               \
++    int i, m;                                            \
 +    VReg temp;                                           \
 +    VReg *Vd = &(env->fpr[vd].vreg);                     \
 +    VReg *Vj = &(env->fpr[vj].vreg);                     \
 +    VReg *Vk = &(env->fpr[vk].vreg);                     \
 +                                                         \
-+    for (i = 0; i < LSX_LEN/BIT; i++) {                  \
-+        temp.E(i + LSX_LEN/BIT) = Vj->E(2 * i);          \
-+        temp.E(i) = Vk->E(2 * i);                        \
++    m = LSX_LEN/BIT;                                     \
++    for (i = 0; i < m; i++) {                            \
++        uint64_t k  = ((uint8_t) Vd->E(i)) % (2 * m);    \
++        temp.E(i) = k < m ? Vk->E(k) : Vj->E(k - m);     \
 +    }                                                    \
 +    *Vd = temp;                                          \
 +}
 +
-+VPICKEV(vpickev_b, 16, B)
-+VPICKEV(vpickev_h, 32, H)
-+VPICKEV(vpickev_w, 64, W)
-+VPICKEV(vpickev_d, 128, D)
++VSHUF(vshuf_h, 16, H)
++VSHUF(vshuf_w, 32, W)
++VSHUF(vshuf_d, 64, D)
 +
-+#define VPICKOD(NAME, BIT, E)                            \
-+void HELPER(NAME)(CPULoongArchState *env,                \
-+                  uint32_t vd, uint32_t vj, uint32_t vk) \
-+{                                                        \
-+    int i;                                               \
-+    VReg temp;                                           \
-+    VReg *Vd = &(env->fpr[vd].vreg);                     \
-+    VReg *Vj = &(env->fpr[vj].vreg);                     \
-+    VReg *Vk = &(env->fpr[vk].vreg);                     \
-+                                                         \
-+    for (i = 0; i < LSX_LEN/BIT; i++) {                  \
-+        temp.E(i + LSX_LEN/BIT) = Vj->E(2 * i + 1);      \
-+        temp.E(i) = Vk->E(2 * i + 1);                    \
-+    }                                                    \
-+    *Vd = temp;                                          \
++#define VSHUF4I(NAME, BIT, E)                             \
++void HELPER(NAME)(CPULoongArchState *env,                 \
++                  uint32_t vd, uint32_t vj, uint32_t imm) \
++{                                                         \
++    int i;                                                \
++    VReg temp;                                            \
++    VReg *Vd = &(env->fpr[vd].vreg);                      \
++    VReg *Vj = &(env->fpr[vj].vreg);                      \
++                                                          \
++    for (i = 0; i < LSX_LEN/BIT; i++) {                   \
++         temp.E(i) = Vj->E(((i) & 0xfc) + (((imm) >>      \
++                           (2 * ((i) & 0x03))) & 0x03));  \
++    }                                                     \
++    *Vd = temp;                                           \
 +}
 +
-+VPICKOD(vpickod_b, 16, B)
-+VPICKOD(vpickod_h, 32, H)
-+VPICKOD(vpickod_w, 64, W)
-+VPICKOD(vpickod_d, 128, D)
++VSHUF4I(vshuf4i_b, 8, B)
++VSHUF4I(vshuf4i_h, 16, H)
++VSHUF4I(vshuf4i_w, 32, W)
++
++void HELPER(vshuf4i_d)(CPULoongArchState *env,
++                       uint32_t vd, uint32_t vj, uint32_t imm)
++{
++    VReg *Vd = &(env->fpr[vd].vreg);
++    VReg *Vj = &(env->fpr[vj].vreg);
++
++    VReg temp;
++    temp.D(0) = (imm & 2 ? Vj : Vd)->D(imm & 1);
++    temp.D(1) = (imm & 8 ? Vj : Vd)->D((imm >> 2) & 1);
++    *Vd = temp;
++}
++
++void HELPER(vpermi_w)(CPULoongArchState *env,
++                      uint32_t vd, uint32_t vj, uint32_t imm)
++{
++    VReg temp;
++    VReg *Vd = &(env->fpr[vd].vreg);
++    VReg *Vj = &(env->fpr[vj].vreg);
++
++    temp.W(0) = Vj->W(imm & 0x3);
++    temp.W(1) = Vj->W((imm >> 2) & 0x3);
++    temp.W(2) = Vd->W((imm >> 4) & 0x3);
++    temp.W(3) = Vd->W((imm >> 6) & 0x3);
++    *Vd = temp;
++}
++
++#define VEXTRINS(NAME, BIT, E, MASK)                      \
++void HELPER(NAME)(CPULoongArchState *env,                 \
++                  uint32_t vd, uint32_t vj, uint32_t imm) \
++{                                                         \
++    int ins, extr;                                        \
++    VReg *Vd = &(env->fpr[vd].vreg);                      \
++    VReg *Vj = &(env->fpr[vj].vreg);                      \
++                                                          \
++    ins = (imm >> 4) & MASK;                              \
++    extr = imm & MASK;                                    \
++    Vd->E(ins) = Vj->E(extr);                             \
++}
++
++VEXTRINS(vextrins_b, 8, B, 0xf)
++VEXTRINS(vextrins_h, 16, H, 0x7)
++VEXTRINS(vextrins_w, 32, W, 0x3)
++VEXTRINS(vextrins_d, 64, D, 0x1)
 -- 
 2.31.1
 
