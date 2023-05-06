@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1AF546F9326
-	for <lists+qemu-devel@lfdr.de>; Sat,  6 May 2023 18:39:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4284F6F9324
+	for <lists+qemu-devel@lfdr.de>; Sat,  6 May 2023 18:39:04 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pvKuw-0000p9-80; Sat, 06 May 2023 12:37:54 -0400
+	id 1pvKv4-0000q2-SG; Sat, 06 May 2023 12:38:02 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1pvKuu-0000oq-Gv
- for qemu-devel@nongnu.org; Sat, 06 May 2023 12:37:52 -0400
+ id 1pvKv0-0000pX-Vf
+ for qemu-devel@nongnu.org; Sat, 06 May 2023 12:37:58 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1pvKus-0003uG-Oq
- for qemu-devel@nongnu.org; Sat, 06 May 2023 12:37:52 -0400
+ id 1pvKuz-0003uv-8e
+ for qemu-devel@nongnu.org; Sat, 06 May 2023 12:37:58 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1683391070;
+ s=mimecast20190719; t=1683391076;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=xwejv7DYvVSWvwi8Ow5ac4qwO62V0YHQNUH8Kwj5O1g=;
- b=UR5ANLlpbTfKUwXy74ErkQur8nUZDTG0lbfNm/ufhs85PwQXZW9e7X1yLIpzeIO1IZE8Y/
- Qt1xkIPx71XYIHcOEb/lFUwXIOvrx7bztTG4Jh8/rX5eAZBNJglNlwgNuwhoLdARvZcUgV
- UPoODRkgDK0PPhCPuSLtxxpG3x6LgUc=
+ bh=CDtn4bI9tWUbVUdKV9Jvn0quuetWap17IQM/cU2XGLo=;
+ b=SL2Dbs7fzcVU9BVD2ZXmghU2EH1Qsi48zbCvcJaMhev2cY5a9MOJxuPedGKSpqr9zBzqki
+ EaD2GILKjKDQHaVvY0zqtPaWDuJYMhvvYUbQYHIm3WdgoqC5x0ji2IcgaXefqRDYaBvQGt
+ ArYSg5ia/ySUSf8cKM6Lq2Fk/529I34=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-416-NPtXl0kvN5miPmSEVn_RLg-1; Sat, 06 May 2023 12:37:48 -0400
-X-MC-Unique: NPtXl0kvN5miPmSEVn_RLg-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
- [10.11.54.7])
+ us-mta-632-TKmEfzkyOfmSgSh7g_uamQ-1; Sat, 06 May 2023 12:37:53 -0400
+X-MC-Unique: TKmEfzkyOfmSgSh7g_uamQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.4])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 673F4878521;
- Sat,  6 May 2023 16:37:48 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 34955185A78B;
+ Sat,  6 May 2023 16:37:53 +0000 (UTC)
 Received: from localhost (unknown [10.39.208.11])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CCEA41401C51;
- Sat,  6 May 2023 16:37:46 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9F97D2026D25;
+ Sat,  6 May 2023 16:37:51 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
 Cc: Gerd Hoffmann <kraxel@redhat.com>,
@@ -54,15 +54,16 @@ Cc: Gerd Hoffmann <kraxel@redhat.com>,
  dbassey@redhat.com,
  =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
  Eric Blake <eblake@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
-Subject: [PATCH 02/12] tests/lcitool: add pipewire
-Date: Sat,  6 May 2023 20:37:25 +0400
-Message-Id: <20230506163735.3481387-3-marcandre.lureau@redhat.com>
+Subject: [PATCH 03/12] audio/pw: Pipewire->PipeWire case fix for user-visible
+ text
+Date: Sat,  6 May 2023 20:37:26 +0400
+Message-Id: <20230506163735.3481387-4-marcandre.lureau@redhat.com>
 In-Reply-To: <20230506163735.3481387-1-marcandre.lureau@redhat.com>
 References: <20230506163735.3481387-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
 Received-SPF: pass client-ip=170.10.133.124;
  envelope-from=marcandre.lureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
@@ -90,205 +91,161 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
+"PipeWire" is the correct case.
+
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 ---
- tests/docker/dockerfiles/alpine.docker                | 1 +
- tests/docker/dockerfiles/centos8.docker               | 1 +
- tests/docker/dockerfiles/debian-amd64-cross.docker    | 1 +
- tests/docker/dockerfiles/debian-amd64.docker          | 1 +
- tests/docker/dockerfiles/debian-arm64-cross.docker    | 1 +
- tests/docker/dockerfiles/debian-armel-cross.docker    | 1 +
- tests/docker/dockerfiles/debian-armhf-cross.docker    | 1 +
- tests/docker/dockerfiles/debian-mips64el-cross.docker | 1 +
- tests/docker/dockerfiles/debian-mipsel-cross.docker   | 1 +
- tests/docker/dockerfiles/debian-ppc64el-cross.docker  | 1 +
- tests/docker/dockerfiles/debian-s390x-cross.docker    | 1 +
- tests/docker/dockerfiles/fedora.docker                | 1 +
- tests/docker/dockerfiles/opensuse-leap.docker         | 1 +
- tests/docker/dockerfiles/ubuntu2204.docker            | 1 +
- tests/lcitool/projects/qemu.yml                       | 1 +
- 15 files changed, 15 insertions(+)
+ meson.build                   |  2 +-
+ qapi/audio.json               | 12 ++++++------
+ audio/pwaudio.c               | 10 +++++-----
+ audio/trace-events            |  2 +-
+ meson_options.txt             |  2 +-
+ qemu-options.hx               |  4 ++--
+ scripts/meson-buildoptions.sh |  2 +-
+ 7 files changed, 17 insertions(+), 17 deletions(-)
 
-diff --git a/tests/docker/dockerfiles/alpine.docker b/tests/docker/dockerfiles/alpine.docker
-index 81c70aeaf9..d47101e042 100644
---- a/tests/docker/dockerfiles/alpine.docker
-+++ b/tests/docker/dockerfiles/alpine.docker
-@@ -77,6 +77,7 @@ RUN apk update && \
-         numactl-dev \
-         openssh-client \
-         pcre-dev \
-+        pipewire-dev \
-         pixman-dev \
-         pkgconf \
-         pulseaudio-dev \
-diff --git a/tests/docker/dockerfiles/centos8.docker b/tests/docker/dockerfiles/centos8.docker
-index 1a6a9087c1..f7d46ebd9c 100644
---- a/tests/docker/dockerfiles/centos8.docker
-+++ b/tests/docker/dockerfiles/centos8.docker
-@@ -90,6 +90,7 @@ RUN dnf distro-sync -y && \
-         openssh-clients \
-         pam-devel \
-         pcre-static \
-+        pipewire-devel \
-         pixman-devel \
-         pkgconfig \
-         pulseaudio-libs-devel \
-diff --git a/tests/docker/dockerfiles/debian-amd64-cross.docker b/tests/docker/dockerfiles/debian-amd64-cross.docker
-index 2e7eb445f1..26109fe4d6 100644
---- a/tests/docker/dockerfiles/debian-amd64-cross.docker
-+++ b/tests/docker/dockerfiles/debian-amd64-cross.docker
-@@ -114,6 +114,7 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
-                       libnfs-dev:amd64 \
-                       libnuma-dev:amd64 \
-                       libpam0g-dev:amd64 \
-+                      libpipewire-0.3-dev:amd64 \
-                       libpixman-1-dev:amd64 \
-                       libpmem-dev:amd64 \
-                       libpng-dev:amd64 \
-diff --git a/tests/docker/dockerfiles/debian-amd64.docker b/tests/docker/dockerfiles/debian-amd64.docker
-index 28e2fa81b1..8ba1c13d8d 100644
---- a/tests/docker/dockerfiles/debian-amd64.docker
-+++ b/tests/docker/dockerfiles/debian-amd64.docker
-@@ -70,6 +70,7 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
-                       libnuma-dev \
-                       libpam0g-dev \
-                       libpcre2-dev \
-+                      libpipewire-0.3-dev \
-                       libpixman-1-dev \
-                       libpmem-dev \
-                       libpng-dev \
-diff --git a/tests/docker/dockerfiles/debian-arm64-cross.docker b/tests/docker/dockerfiles/debian-arm64-cross.docker
-index f558770f84..f560ed6044 100644
---- a/tests/docker/dockerfiles/debian-arm64-cross.docker
-+++ b/tests/docker/dockerfiles/debian-arm64-cross.docker
-@@ -114,6 +114,7 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
-                       libnfs-dev:arm64 \
-                       libnuma-dev:arm64 \
-                       libpam0g-dev:arm64 \
-+                      libpipewire-0.3-dev:arm64 \
-                       libpixman-1-dev:arm64 \
-                       libpng-dev:arm64 \
-                       libpulse-dev:arm64 \
-diff --git a/tests/docker/dockerfiles/debian-armel-cross.docker b/tests/docker/dockerfiles/debian-armel-cross.docker
-index f3d7e07cce..41f9f67417 100644
---- a/tests/docker/dockerfiles/debian-armel-cross.docker
-+++ b/tests/docker/dockerfiles/debian-armel-cross.docker
-@@ -114,6 +114,7 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
-                       libnfs-dev:armel \
-                       libnuma-dev:armel \
-                       libpam0g-dev:armel \
-+                      libpipewire-0.3-dev:armel \
-                       libpixman-1-dev:armel \
-                       libpng-dev:armel \
-                       libpulse-dev:armel \
-diff --git a/tests/docker/dockerfiles/debian-armhf-cross.docker b/tests/docker/dockerfiles/debian-armhf-cross.docker
-index 531c556ad5..1a095c6506 100644
---- a/tests/docker/dockerfiles/debian-armhf-cross.docker
-+++ b/tests/docker/dockerfiles/debian-armhf-cross.docker
-@@ -114,6 +114,7 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
-                       libnfs-dev:armhf \
-                       libnuma-dev:armhf \
-                       libpam0g-dev:armhf \
-+                      libpipewire-0.3-dev:armhf \
-                       libpixman-1-dev:armhf \
-                       libpng-dev:armhf \
-                       libpulse-dev:armhf \
-diff --git a/tests/docker/dockerfiles/debian-mips64el-cross.docker b/tests/docker/dockerfiles/debian-mips64el-cross.docker
-index 816dbd2911..de001a7532 100644
---- a/tests/docker/dockerfiles/debian-mips64el-cross.docker
-+++ b/tests/docker/dockerfiles/debian-mips64el-cross.docker
-@@ -113,6 +113,7 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
-                       libnfs-dev:mips64el \
-                       libnuma-dev:mips64el \
-                       libpam0g-dev:mips64el \
-+                      libpipewire-0.3-dev:mips64el \
-                       libpixman-1-dev:mips64el \
-                       libpng-dev:mips64el \
-                       libpulse-dev:mips64el \
-diff --git a/tests/docker/dockerfiles/debian-mipsel-cross.docker b/tests/docker/dockerfiles/debian-mipsel-cross.docker
-index b115b29af3..993de380d7 100644
---- a/tests/docker/dockerfiles/debian-mipsel-cross.docker
-+++ b/tests/docker/dockerfiles/debian-mipsel-cross.docker
-@@ -113,6 +113,7 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
-                       libnfs-dev:mipsel \
-                       libnuma-dev:mipsel \
-                       libpam0g-dev:mipsel \
-+                      libpipewire-0.3-dev:mipsel \
-                       libpixman-1-dev:mipsel \
-                       libpng-dev:mipsel \
-                       libpulse-dev:mipsel \
-diff --git a/tests/docker/dockerfiles/debian-ppc64el-cross.docker b/tests/docker/dockerfiles/debian-ppc64el-cross.docker
-index 301bddb536..5120b29634 100644
---- a/tests/docker/dockerfiles/debian-ppc64el-cross.docker
-+++ b/tests/docker/dockerfiles/debian-ppc64el-cross.docker
-@@ -114,6 +114,7 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
-                       libnfs-dev:ppc64el \
-                       libnuma-dev:ppc64el \
-                       libpam0g-dev:ppc64el \
-+                      libpipewire-0.3-dev:ppc64el \
-                       libpixman-1-dev:ppc64el \
-                       libpng-dev:ppc64el \
-                       libpulse-dev:ppc64el \
-diff --git a/tests/docker/dockerfiles/debian-s390x-cross.docker b/tests/docker/dockerfiles/debian-s390x-cross.docker
-index 5d27c91c17..cef629f68d 100644
---- a/tests/docker/dockerfiles/debian-s390x-cross.docker
-+++ b/tests/docker/dockerfiles/debian-s390x-cross.docker
-@@ -114,6 +114,7 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
-                       libnfs-dev:s390x \
-                       libnuma-dev:s390x \
-                       libpam0g-dev:s390x \
-+                      libpipewire-0.3-dev:s390x \
-                       libpixman-1-dev:s390x \
-                       libpng-dev:s390x \
-                       libpulse-dev:s390x \
-diff --git a/tests/docker/dockerfiles/fedora.docker b/tests/docker/dockerfiles/fedora.docker
-index b698b7595d..4e087cc2f9 100644
---- a/tests/docker/dockerfiles/fedora.docker
-+++ b/tests/docker/dockerfiles/fedora.docker
-@@ -98,6 +98,7 @@ exec "$@"\n' > /usr/bin/nosync && \
-                openssh-clients \
-                pam-devel \
-                pcre-static \
-+               pipewire-devel \
-                pixman-devel \
-                pkgconfig \
-                pulseaudio-libs-devel \
-diff --git a/tests/docker/dockerfiles/opensuse-leap.docker b/tests/docker/dockerfiles/opensuse-leap.docker
-index afb9f5419f..2f13d446d2 100644
---- a/tests/docker/dockerfiles/opensuse-leap.docker
-+++ b/tests/docker/dockerfiles/opensuse-leap.docker
-@@ -88,6 +88,7 @@ RUN zypper update -y && \
-            openssh \
-            pam-devel \
-            pcre-devel-static \
-+           pipewire-devel \
-            pkgconfig \
-            python39-base \
-            python39-pip \
-diff --git a/tests/docker/dockerfiles/ubuntu2204.docker b/tests/docker/dockerfiles/ubuntu2204.docker
-index 3f7d30e5d0..8ebb2ee1d6 100644
---- a/tests/docker/dockerfiles/ubuntu2204.docker
-+++ b/tests/docker/dockerfiles/ubuntu2204.docker
-@@ -70,6 +70,7 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
-                       libnuma-dev \
-                       libpam0g-dev \
-                       libpcre2-dev \
-+                      libpipewire-0.3-dev \
-                       libpixman-1-dev \
-                       libpmem-dev \
-                       libpng-dev \
-diff --git a/tests/lcitool/projects/qemu.yml b/tests/lcitool/projects/qemu.yml
-index af3700379a..117c872f62 100644
---- a/tests/lcitool/projects/qemu.yml
-+++ b/tests/lcitool/projects/qemu.yml
-@@ -84,6 +84,7 @@ packages:
-  - pam
-  - pcre-static
-  - pixman
-+ - pipewire
-  - pkg-config
-  - pulseaudio
-  - python3
+diff --git a/meson.build b/meson.build
+index 229eb585f7..4c44736bd4 100644
+--- a/meson.build
++++ b/meson.build
+@@ -3988,7 +3988,7 @@ if targetos == 'linux'
+   summary_info += {'ALSA support':    alsa}
+   summary_info += {'PulseAudio support': pulse}
+ endif
+-summary_info += {'Pipewire support':   pipewire}
++summary_info += {'PipeWire support':   pipewire}
+ summary_info += {'JACK support':      jack}
+ summary_info += {'brlapi support':    brlapi}
+ summary_info += {'vde support':       vde}
+diff --git a/qapi/audio.json b/qapi/audio.json
+index e03396a7bc..b5c1af2b91 100644
+--- a/qapi/audio.json
++++ b/qapi/audio.json
+@@ -327,17 +327,17 @@
+ ##
+ # @AudiodevPipewirePerDirectionOptions:
+ #
+-# Options of the Pipewire backend that are used for both playback and
++# Options of the PipeWire backend that are used for both playback and
+ # recording.
+ #
+ # @name: name of the sink/source to use
+ #
+-# @stream-name: name of the Pipewire stream created by qemu.  Can be
+-#               used to identify the stream in Pipewire when you
+-#               create multiple Pipewire devices or run multiple qemu
++# @stream-name: name of the PipeWire stream created by qemu.  Can be
++#               used to identify the stream in PipeWire when you
++#               create multiple PipeWire devices or run multiple qemu
+ #               instances (default: audiodev's id)
+ #
+-# @latency: latency you want Pipewire to achieve in microseconds
++# @latency: latency you want PipeWire to achieve in microseconds
+ #           (default 46000)
+ #
+ # Since: 8.1
+@@ -352,7 +352,7 @@
+ ##
+ # @AudiodevPipewireOptions:
+ #
+-# Options of the Pipewire audio backend.
++# Options of the PipeWire audio backend.
+ #
+ # @in: options of the capture stream
+ #
+diff --git a/audio/pwaudio.c b/audio/pwaudio.c
+index 1d108bdebb..9eb69bfd18 100644
+--- a/audio/pwaudio.c
++++ b/audio/pwaudio.c
+@@ -1,5 +1,5 @@
+ /*
+- * QEMU Pipewire audio driver
++ * QEMU PipeWire audio driver
+  *
+  * Copyright (c) 2023 Red Hat Inc.
+  *
+@@ -800,21 +800,21 @@ qpw_audio_init(Audiodev *dev)
+     assert(dev->driver == AUDIODEV_DRIVER_PIPEWIRE);
+ 
+     pw->dev = dev;
+-    pw->thread_loop = pw_thread_loop_new("Pipewire thread loop", NULL);
++    pw->thread_loop = pw_thread_loop_new("PipeWire thread loop", NULL);
+     if (pw->thread_loop == NULL) {
+-        error_report("Could not create Pipewire loop");
++        error_report("Could not create PipeWire loop");
+         goto fail;
+     }
+ 
+     pw->context =
+         pw_context_new(pw_thread_loop_get_loop(pw->thread_loop), NULL, 0);
+     if (pw->context == NULL) {
+-        error_report("Could not create Pipewire context");
++        error_report("Could not create PipeWire context");
+         goto fail;
+     }
+ 
+     if (pw_thread_loop_start(pw->thread_loop) < 0) {
+-        error_report("Could not start Pipewire loop");
++        error_report("Could not start PipeWire loop");
+         goto fail;
+     }
+ 
+diff --git a/audio/trace-events b/audio/trace-events
+index 85dbb506b2..ab04f020ce 100644
+--- a/audio/trace-events
++++ b/audio/trace-events
+@@ -24,7 +24,7 @@ pw_read(int32_t avail, uint32_t index, size_t len) "avail=%d index=%u len=%zu"
+ pw_write(int32_t filled, int32_t avail, uint32_t index, size_t len) "filled=%d avail=%d index=%u len=%zu"
+ pw_vol(const char *ret) "set volume: %s"
+ pw_period(uint64_t quantum, uint32_t rate) "period =%" PRIu64 "/%u"
+-pw_audio_init(void) "Initialize Pipewire context"
++pw_audio_init(void) "Initialize PipeWire context"
+ 
+ # audio.c
+ audio_timer_start(int interval) "interval %d ms"
+diff --git a/meson_options.txt b/meson_options.txt
+index ae2017702a..8dd786c1a4 100644
+--- a/meson_options.txt
++++ b/meson_options.txt
+@@ -256,7 +256,7 @@ option('oss', type: 'feature', value: 'auto',
+ option('pa', type: 'feature', value: 'auto',
+        description: 'PulseAudio sound support')
+ option('pipewire', type: 'feature', value: 'auto',
+-       description: 'Pipewire sound support')
++       description: 'PipeWire sound support')
+ option('sndio', type: 'feature', value: 'auto',
+        description: 'sndio sound support')
+ 
+diff --git a/qemu-options.hx b/qemu-options.hx
+index 42b9094c10..be7317d455 100644
+--- a/qemu-options.hx
++++ b/qemu-options.hx
+@@ -963,10 +963,10 @@ SRST
+         to honor this value but actual latencies may be lower or higher.
+ 
+ ``-audiodev pipewire,id=id[,prop[=value][,...]]``
+-    Creates a backend using Pipewire. This backend is available on
++    Creates a backend using PipeWire. This backend is available on
+     most systems.
+ 
+-    Pipewire specific options are:
++    PipeWire specific options are:
+ 
+     ``in|out.latency=usecs``
+         Desired latency in microseconds.
+diff --git a/scripts/meson-buildoptions.sh b/scripts/meson-buildoptions.sh
+index 0e888e6ecd..ba697207f4 100644
+--- a/scripts/meson-buildoptions.sh
++++ b/scripts/meson-buildoptions.sh
+@@ -137,7 +137,7 @@ meson_options_help() {
+   printf "%s\n" '  oss             OSS sound support'
+   printf "%s\n" '  pa              PulseAudio sound support'
+   printf "%s\n" '  parallels       parallels image format support'
+-  printf "%s\n" '  pipewire        Pipewire sound support'
++  printf "%s\n" '  pipewire        PipeWire sound support'
+   printf "%s\n" '  png             PNG support with libpng'
+   printf "%s\n" '  pvrdma          Enable PVRDMA support'
+   printf "%s\n" '  qcow1           qcow1 image format support'
 -- 
 2.40.1
 
