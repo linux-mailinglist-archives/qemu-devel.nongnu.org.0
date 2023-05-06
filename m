@@ -2,78 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82EE76F8F89
-	for <lists+qemu-devel@lfdr.de>; Sat,  6 May 2023 08:53:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 42A866F8FB4
+	for <lists+qemu-devel@lfdr.de>; Sat,  6 May 2023 09:12:23 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pvBmm-0001md-4f; Sat, 06 May 2023 02:52:52 -0400
+	id 1pvC47-00065p-To; Sat, 06 May 2023 03:10:47 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.purdie@linuxfoundation.org>)
- id 1pvBmj-0001lr-Ud
- for qemu-devel@nongnu.org; Sat, 06 May 2023 02:52:49 -0400
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430])
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pvC46-00064N-CH
+ for qemu-devel@nongnu.org; Sat, 06 May 2023 03:10:46 -0400
+Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.purdie@linuxfoundation.org>)
- id 1pvBme-0007SC-P3
- for qemu-devel@nongnu.org; Sat, 06 May 2023 02:52:49 -0400
-Received: by mail-wr1-x430.google.com with SMTP id
- ffacd0b85a97d-306281edf15so2422213f8f.1
- for <qemu-devel@nongnu.org>; Fri, 05 May 2023 23:52:43 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pvC44-0002MB-DB
+ for qemu-devel@nongnu.org; Sat, 06 May 2023 03:10:46 -0400
+Received: by mail-wm1-x32d.google.com with SMTP id
+ 5b1f17b1804b1-3f19a7f9424so26322825e9.2
+ for <qemu-devel@nongnu.org>; Sat, 06 May 2023 00:10:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linuxfoundation.org; s=google; t=1683355962; x=1685947962;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=VjumudQQk/CWLVl1+7rZiix37mmyHi4PACJ/ym2y3PE=;
- b=FCmWhGrf/NogKtZ4vyKRverb/ReawgjpLQXq7006EwL+/4kFqXvrGAoAjMfW89CV1P
- 88xTa/yYBdYNN1qBTF4j5GAdHvXjJykCvOjhdp9py/6qInnk6rEG3aPKvQa/9lukasIf
- xrRcvRFsoaDQ8c80j7oGQOwbPncZdrRsVJvWo=
+ d=linaro.org; s=google; t=1683357042; x=1685949042;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=NUmTuIurQ5gFHtbfeXVurjtW8iGpqkivb10s9jML6Jk=;
+ b=aHgGh5ECABQhw4LR6JUZuN0DbHv6IZbfk3cUaUqJu5QJ6Xn8eXsm4I/Et7WO7Tn5fv
+ 3Gw0fTakBN90lMahPCNmIyZp8trmXQ4Fq7VhlyHLD9hHMYr+PcXauRdocGZ6jaoR8kG2
+ Bipj08c9EsFUg7rm6qUdIU6raLnjVTU67zrOGVNdhbWvtksSM50GM3ORmnNbGnx8ZNkz
+ Ge4RNhVNAEJZrrwHhfU4Y9xG7i6k9rP6nRy0F4X96Sqw24hF7epDSrBsl1Gdt4Lds2XZ
+ 3ByTWaCBvCuYgABFRUnwf+H/q7M0EQcotwks3KFRkDGL/2pGLi4A2aXW5Vi1Tl/nErop
+ IiAA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683355962; x=1685947962;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=VjumudQQk/CWLVl1+7rZiix37mmyHi4PACJ/ym2y3PE=;
- b=WiOTa50mrzNZ91VMNNwc7RgkWCJaiIXe5ncufaBqp0SskVxFbZ7+Yw6AQd8GoG3FKr
- GUc86jKo2O5gTK+laYTV8VGOHaSkkm2q0h7yaCCwKgNK17S3Ia5ywdrWFEjX/NDLXFC4
- OhUrmybcLDJDxBsPPCwqjRVWIeKDv576vWkf1bAyEzRn06UsHmx/RArVLHkXuwgVMuyF
- dIQAZjSCNXaQS13sEvTT8U+d1p6kxAs/36leCb3350HZ5OgiGPKz1pZQNQxlX6iZlFxQ
- m3sdOLy6ByuOyalYqCiwIAo53pFlAbzEE7cE6OL1WU+JW6iHu3p3hKVr7T+PV/ZbNY/F
- 9mMw==
-X-Gm-Message-State: AC+VfDwUBj+3KjZzTLqXSP9z1WL42SQvCkmhvs/Pf/PR7zWDrM1txCo7
- Gdmg+NDkTTsrcwHoHznYtIM93GrxFpEOsUjY7Gw=
-X-Google-Smtp-Source: ACHHUZ6X61HiyM6ixESuIFeDA/Cnge8ozBMTfAx4UUDquaEUH2m1f6T+1jX9UyPEjFBKv0rMrhcLjA==
-X-Received: by 2002:adf:ef4a:0:b0:306:44a9:76a0 with SMTP id
- c10-20020adfef4a000000b0030644a976a0mr3479108wrp.9.1683355962458; 
- Fri, 05 May 2023 23:52:42 -0700 (PDT)
-Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:5ad6:c230:741:f234])
+ d=1e100.net; s=20221208; t=1683357042; x=1685949042;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=NUmTuIurQ5gFHtbfeXVurjtW8iGpqkivb10s9jML6Jk=;
+ b=gEnR9GUwLgByGvMDOytbtLhyDpm0YyYrE0hFmOO9SfO4Lza11iUa6465Xzvn3/GjYs
+ 1swmOoMckZabM5Ctpdiw17TmloRoY4aC8O68sZQL0oVtoaneJyEuKS+rRcHJYG1IYr/X
+ n+IVg1uVsFBfsbEYvLemzNroP8AwGK3VfzjJJXSeZD55FQRscRgOIC4KPmlZKPo1kV8Q
+ m2fztgOGDR2SkTtfjHTqDHBC4o7mrXwV/aCC/lhAFYWgzRKiyIqBT2ZATZikH+AXm/ty
+ +zwqKcF1jndT6MB2wErgiJ1BguX7cUTeFL3k9gFiAJe5EmWHEe1wJg6NuQIkBZlMWWAC
+ ZNUw==
+X-Gm-Message-State: AC+VfDwpyjkHUKusmq00Y9YA6h4Vn6BWx0S9mWJhSXWvCZLXENRw4ngp
+ X52OqtpG6uqZRcUj1eLrBBwhLQ==
+X-Google-Smtp-Source: ACHHUZ5GnipV93u5XRSbWhzXajmFGyQInbnlyxbGt1U+1d9Wcv5+jDuqHISzfFg1Dqruf06xSyohMg==
+X-Received: by 2002:a7b:cb95:0:b0:3f2:557b:453 with SMTP id
+ m21-20020a7bcb95000000b003f2557b0453mr2353925wmi.39.1683357042330; 
+ Sat, 06 May 2023 00:10:42 -0700 (PDT)
+Received: from [192.168.20.44] ([212.241.182.8])
  by smtp.gmail.com with ESMTPSA id
- z4-20020adff744000000b002fbdb797483sm4462803wrp.49.2023.05.05.23.52.41
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 05 May 2023 23:52:42 -0700 (PDT)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: qemu-devel@nongnu.org
-Cc: =?UTF-8?q?V=C3=ADctor=20Colombo?= <victor.colombo@eldorado.org.br>,
- Matheus Ferst <matheus.ferst@eldorado.org.br>,
- Daniel Henrique Barboza <danielhb413@gmail.com>,
- Richard Henderson <richard.henderson@linaro.org>
-Subject: [PATCH v2] target/ppc: Fix fallback to MFSS for MFFS* instructions on
- pre 3.0 ISAs
-Date: Sat,  6 May 2023 07:52:40 +0100
-Message-Id: <20230506065240.3177798-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.39.2
+ y6-20020a1c4b06000000b003f17131952fsm9959564wma.29.2023.05.06.00.10.41
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 06 May 2023 00:10:41 -0700 (PDT)
+Message-ID: <830f1afd-71f5-a305-9298-70b131cf5492@linaro.org>
+Date: Sat, 6 May 2023 08:10:40 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=richard.purdie@linuxfoundation.org;
- helo=mail-wr1-x430.google.com
-X-Spam_score_int: -16
-X-Spam_score: -1.7
-X-Spam_bar: -
-X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
- DKIM_SIGNED=0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PULL 0/6] ppc queue
+Content-Language: en-US
+To: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-devel@nongnu.org
+Cc: qemu-ppc@nongnu.org, peter.maydell@linaro.org
+References: <20230505163444.347006-1-danielhb413@gmail.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20230505163444.347006-1-danielhb413@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x32d.google.com
+X-Spam_score_int: -63
+X-Spam_score: -6.4
+X-Spam_bar: ------
+X-Spam_report: (-6.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-4.28,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,139 +94,30 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The following commits changed the code such that the fallback to MFSS for MFFSCRN,
-MFFSCRNI, MFFSCE and MFFSL on pre 3.0 ISAs was removed and became an illegal instruction:
+On 5/5/23 17:34, Daniel Henrique Barboza wrote:
+> The following changes since commit a9fe9e191b4305b88c356a1ed9ac3baf89eb18aa:
+> 
+>    Merge tag 'pull-riscv-to-apply-20230505-1' ofhttps://github.com/alistair23/qemu  into staging (2023-05-05 09:25:13 +0100)
+> 
+> are available in the Git repository at:
+> 
+>    https://gitlab.com/danielhb/qemu.git  tags/pull-ppc-20230505
+> 
+> for you to fetch changes up to b35261b1a6c2729fa7e7a6ca34b9489eda62b744:
+> 
+>    hw/ppc/Kconfig: NVDIMM is a hard requirement for the pseries machine (2023-05-05 12:34:22 -0300)
+> 
+> ----------------------------------------------------------------
+> ppc patch queue for 2023-05-05:
+> 
+> This queue includes fixes for ppc and spapr emulation, a build fix for
+> the pseries machine and a new reviewer for ppc/spapr.
+> 
+> We're also carrying a Coverity fix for the sm501 display.
 
-  bf8adfd88b547680aa857c46098f3a1e94373160 - target/ppc: Move mffscrn[i] to decodetree
-  394c2e2fda70da722f20fb60412d6c0ca4bfaa03 - target/ppc: Move mffsce to decodetree
-  3e5bce70efe6bd1f684efbb21fd2a316cbf0657e - target/ppc: Move mffsl to decodetree
+Applied, thanks.  Please update https://wiki.qemu.org/ChangeLog/8.1 as appropriate.
 
-The hardware will handle them as a MFFS instruction as the code did previously.
-This means applications that were segfaulting under qemu when encountering these
-instructions which is used in glibc libm functions for example.
 
-The fallback for MFFSCDRN and MFFSCDRNI added in a later patch was also missing.
-
-This patch restores the fallback to MFSS for these instructions on pre 3.0s ISAs
-as the hardware decoder would, fixing the segfaulting libm code. It and also ensures
-the MFSS instruction is used for currently reserved bits to handle other potential
-ISA additions more correctly.
-
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- target/ppc/insn32.decode           | 19 ++++++++++++-------
- target/ppc/translate/fp-impl.c.inc | 30 ++++++++++++++++++++++++------
- 2 files changed, 36 insertions(+), 13 deletions(-)
-
-v2 - switch to use decodetree pattern groups per feedback
-
-diff --git a/target/ppc/insn32.decode b/target/ppc/insn32.decode
-index f8f589e9fd..3c4e2c2fc2 100644
---- a/target/ppc/insn32.decode
-+++ b/target/ppc/insn32.decode
-@@ -390,13 +390,18 @@ SETNBCR         011111 ..... ..... ----- 0111100000 -   @X_bi
- 
- ### Move To/From FPSCR
- 
--MFFS            111111 ..... 00000 ----- 1001000111 .   @X_t_rc
--MFFSCE          111111 ..... 00001 ----- 1001000111 -   @X_t
--MFFSCRN         111111 ..... 10110 ..... 1001000111 -   @X_tb
--MFFSCDRN        111111 ..... 10100 ..... 1001000111 -   @X_tb
--MFFSCRNI        111111 ..... 10111 ---.. 1001000111 -   @X_imm2
--MFFSCDRNI       111111 ..... 10101 --... 1001000111 -   @X_imm3
--MFFSL           111111 ..... 11000 ----- 1001000111 -   @X_t
-+{ 
-+  # Before Power ISA v3.0, MFFS bits 11~15 were reserved and should be ignored
-+  [
-+    MFFSCE          111111 ..... 00001 ----- 1001000111 -   @X_t
-+    MFFSCRN         111111 ..... 10110 ..... 1001000111 -   @X_tb
-+    MFFSCDRN        111111 ..... 10100 ..... 1001000111 -   @X_tb
-+    MFFSCRNI        111111 ..... 10111 ---.. 1001000111 -   @X_imm2
-+    MFFSCDRNI       111111 ..... 10101 --... 1001000111 -   @X_imm3
-+    MFFSL           111111 ..... 11000 ----- 1001000111 -   @X_t
-+  ]
-+  MFFS            111111 ..... ----- ----- 1001000111 .   @X_t_rc
-+}
- 
- ### Decimal Floating-Point Arithmetic Instructions
- 
-diff --git a/target/ppc/translate/fp-impl.c.inc b/target/ppc/translate/fp-impl.c.inc
-index 57d8437851..10dfd91aa4 100644
---- a/target/ppc/translate/fp-impl.c.inc
-+++ b/target/ppc/translate/fp-impl.c.inc
-@@ -584,7 +584,10 @@ static bool trans_MFFSCE(DisasContext *ctx, arg_X_t *a)
- {
-     TCGv_i64 fpscr;
- 
--    REQUIRE_INSNS_FLAGS2(ctx, ISA300);
-+    if (!(ctx->insns_flags2 & PPC2_ISA300)) {
-+        return false;
-+    }
-+
-     REQUIRE_FPU(ctx);
- 
-     gen_reset_fpstatus();
-@@ -597,7 +600,10 @@ static bool trans_MFFSCRN(DisasContext *ctx, arg_X_tb *a)
- {
-     TCGv_i64 t1, fpscr;
- 
--    REQUIRE_INSNS_FLAGS2(ctx, ISA300);
-+    if (!(ctx->insns_flags2 & PPC2_ISA300)) {
-+        return false;
-+    }
-+
-     REQUIRE_FPU(ctx);
- 
-     t1 = tcg_temp_new_i64();
-@@ -614,7 +620,10 @@ static bool trans_MFFSCDRN(DisasContext *ctx, arg_X_tb *a)
- {
-     TCGv_i64 t1, fpscr;
- 
--    REQUIRE_INSNS_FLAGS2(ctx, ISA300);
-+    if (!(ctx->insns_flags2 & PPC2_ISA300)) {
-+        return false;
-+    }
-+
-     REQUIRE_FPU(ctx);
- 
-     t1 = tcg_temp_new_i64();
-@@ -631,7 +640,10 @@ static bool trans_MFFSCRNI(DisasContext *ctx, arg_X_imm2 *a)
- {
-     TCGv_i64 t1, fpscr;
- 
--    REQUIRE_INSNS_FLAGS2(ctx, ISA300);
-+    if (!(ctx->insns_flags2 & PPC2_ISA300)) {
-+        return false;
-+    }
-+
-     REQUIRE_FPU(ctx);
- 
-     t1 = tcg_temp_new_i64();
-@@ -647,7 +659,10 @@ static bool trans_MFFSCDRNI(DisasContext *ctx, arg_X_imm3 *a)
- {
-     TCGv_i64 t1, fpscr;
- 
--    REQUIRE_INSNS_FLAGS2(ctx, ISA300);
-+    if (!(ctx->insns_flags2 & PPC2_ISA300)) {
-+        return false;
-+    }
-+
-     REQUIRE_FPU(ctx);
- 
-     t1 = tcg_temp_new_i64();
-@@ -661,7 +676,10 @@ static bool trans_MFFSCDRNI(DisasContext *ctx, arg_X_imm3 *a)
- 
- static bool trans_MFFSL(DisasContext *ctx, arg_X_t *a)
- {
--    REQUIRE_INSNS_FLAGS2(ctx, ISA300);
-+    if (!(ctx->insns_flags2 & PPC2_ISA300)) {
-+        return false;
-+    }
-+
-     REQUIRE_FPU(ctx);
- 
-     gen_reset_fpstatus();
--- 
-2.39.2
+r~
 
 
