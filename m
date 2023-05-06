@@ -2,61 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58C506F8D69
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A6066F8D6A
 	for <lists+qemu-devel@lfdr.de>; Sat,  6 May 2023 03:14:53 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pv6UQ-0002W8-O7; Fri, 05 May 2023 21:13:34 -0400
+	id 1pv6V6-0002aB-9E; Fri, 05 May 2023 21:14:16 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sstabellini@kernel.org>)
- id 1pv6UO-0002Vt-FJ
- for qemu-devel@nongnu.org; Fri, 05 May 2023 21:13:32 -0400
-Received: from dfw.source.kernel.org ([139.178.84.217])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sstabellini@kernel.org>)
- id 1pv6UM-0007v9-Le
- for qemu-devel@nongnu.org; Fri, 05 May 2023 21:13:32 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 316E4641D3;
- Sat,  6 May 2023 01:13:29 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 803CCC433D2;
- Sat,  6 May 2023 01:13:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1683335608;
- bh=kbfyCZ/OIOcwupFcFbstNbToCUDi6rMZBmq26a28eDA=;
- h=Date:From:To:cc:Subject:In-Reply-To:References:From;
- b=AdAbF1L56MX8vHqQ6MzWKJGRAbRAMP3R1IXMtemOzD2oN9rzpV3BZDxQr7u9YS4Of
- LZIB5myzBjj/w/uKDLFBKVDBSTxK9TRF5Q0arZk1rPDNQ4Xd7nqfWro5SdxegzDF/f
- qkGQU0GRkxngpXz3UmTh1pAgjmrC0dZL8QFUw9IRbSQ80c4F89MBiyeFt645FTgT9E
- 5mYfdiIkLhtesYcnxz37VWLPlPMpa4xMkwiWhhyZtdFTp2yHODj6E22PlQq/JN4vrU
- x6h7+WyyOtXQJZAv521wU6F2lXpPxHuH1N3vrf0iy/p2fq+gumzQMrplu9SrdfYrUQ
- +yvMevRdK6tvA==
-Date: Fri, 5 May 2023 18:13:25 -0700 (PDT)
-From: Stefano Stabellini <sstabellini@kernel.org>
-X-X-Sender: sstabellini@ubuntu-linux-20-04-desktop
-To: Mark Syms <mark.syms@citrix.com>
-cc: qemu-devel@nongnu.org, sstabellini@kernel.org, anthony.perard@citrix.com, 
- paul@xen.org, xen-devel@lists.xenproject.org
-Subject: Re: [PATCH 0/1] Updated: Ensure PV ring is drained on disconenct
-In-Reply-To: <20230420102014.647446-1-mark.syms@citrix.com>
-Message-ID: <alpine.DEB.2.22.394.2305051759260.974517@ubuntu-linux-20-04-desktop>
-References: <20230329105344.3465706-2-mark.syms@citrix.com>
- <20230420102014.647446-1-mark.syms@citrix.com>
-User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
+ (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
+ id 1pv6V4-0002Zp-0m
+ for qemu-devel@nongnu.org; Fri, 05 May 2023 21:14:14 -0400
+Received: from mail.loongson.cn ([114.242.206.163] helo=loongson.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <gaosong@loongson.cn>) id 1pv6V1-0008Ah-6r
+ for qemu-devel@nongnu.org; Fri, 05 May 2023 21:14:13 -0400
+Received: from loongson.cn (unknown [10.20.42.57])
+ by gateway (Coremail) with SMTP id _____8Cx_erdqVVkhIMFAA--.8975S3;
+ Sat, 06 May 2023 09:14:05 +0800 (CST)
+Received: from [10.20.42.57] (unknown [10.20.42.57])
+ by localhost.localdomain (Coremail) with SMTP id
+ AQAAf8CxMuXcqVVkW71MAA--.8702S3; 
+ Sat, 06 May 2023 09:14:04 +0800 (CST)
+Subject: Re: [PULL 00/45] loongarch-to-apply queue
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20230505022806.6082-1-gaosong@loongson.cn>
+ <005cb984-e347-8735-afad-ba23558dd549@linaro.org>
+From: Song Gao <gaosong@loongson.cn>
+Message-ID: <4eb363b8-0594-7dd5-8fe2-4c9e8f57b06c@loongson.cn>
+Date: Sat, 6 May 2023 09:14:04 +0800
+User-Agent: Mozilla/5.0 (X11; Linux loongarch64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Received-SPF: pass client-ip=139.178.84.217;
- envelope-from=sstabellini@kernel.org; helo=dfw.source.kernel.org
-X-Spam_score_int: -72
-X-Spam_score: -7.3
-X-Spam_bar: -------
-X-Spam_report: (-7.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.161,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+In-Reply-To: <005cb984-e347-8735-afad-ba23558dd549@linaro.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+X-CM-TRANSID: AQAAf8CxMuXcqVVkW71MAA--.8702S3
+X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
+X-Coremail-Antispam: 1Uk129KBjvJXoW7WF43GFyDJr15uF17ZF4UXFb_yoW8GryrpF
+ s3CFy2krW5JryxJw48Kr18ZFyjyr48Ja1UZ3W5WFy0kF4DZr9aqr48Wr4Fgry3W3yxCr1F
+ qFyrtw1UZw18Ar7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
+ qI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUIcSsGvfJTRUUU
+ bIxYFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s
+ 1l1IIY67AEw4v_JrI_Jryl8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xv
+ wVC0I7IYx2IY67AKxVW7JVWDJwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVWxJVW8Jr1l84
+ ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x0267AKxVW8Jr0_Cr1U
+ M2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12xvs2x26I8E6xACxx1l5I8CrVACY4
+ xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8
+ JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lc7I2V7IY0VAS07AlzVAYIcxG8w
+ CF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j
+ 6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jrv_JF1lIxkGc2Ij64
+ vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_
+ Gr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0x
+ vEx4A2jsIEc7CjxVAFwI0_Jr0_GrUvcSsGvfC2KfnxnUUI43ZEXa7IU8czVUUUUUU==
+Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
+ helo=loongson.cn
+X-Spam_score_int: -61
+X-Spam_score: -6.2
+X-Spam_bar: ------
+X-Spam_report: (-6.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-4.28,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -73,119 +79,45 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, 20 Apr 2023, Mark Syms wrote:
-> Updated patch to address intermittent SIGSEGV on domain disconnect/shutdown.
-> 
-> Mark Syms (1):
->   Ensure the PV ring is drained on disconnect
-> 
->  hw/block/dataplane/xen-block.c | 31 +++++++++++++++++++++++++------
->  1 file changed, 25 insertions(+), 6 deletions(-)
-> 
-> -- 
-> 2.40.0
-> 
-> >From 21724baa15a72534d98aa2653e9ec39e83559319 Mon Sep 17 00:00:00 2001
-> From: Mark Syms <mark.syms@citrix.com>
-> Date: Thu, 20 Apr 2023 11:08:34 +0100
-> Subject: [PATCH 1/1] Ensure the PV ring is drained on disconnect
-> 
-> Also ensure all pending AIO is complete.
-
-Hi Mark, can you please add more info on the problem you are trying to
-solve? Also add any stacktrace if you get any due to this error.
 
 
-> Signed-off-by: Mark Syms <mark.syms@citrix.com>
-> ---
->  hw/block/dataplane/xen-block.c | 31 +++++++++++++++++++++++++------
->  1 file changed, 25 insertions(+), 6 deletions(-)
-> 
-> diff --git a/hw/block/dataplane/xen-block.c b/hw/block/dataplane/xen-block.c
-> index 734da42ea7..d9da4090bf 100644
-> --- a/hw/block/dataplane/xen-block.c
-> +++ b/hw/block/dataplane/xen-block.c
-> @@ -523,6 +523,10 @@ static bool xen_block_handle_requests(XenBlockDataPlane *dataplane)
->  
->      dataplane->more_work = 0;
->  
-> +    if (dataplane->sring == 0) {
-> +        return done_something;
+在 2023/5/6 上午2:16, Richard Henderson 写道:
+> On 5/5/23 03:27, Song Gao wrote:
+>> The following changes since commit 
+>> f6b761bdbd8ba63cee7428d52fb6b46e4224ddab:
+>>
+>>    Merge tag 'qga-pull-2023-05-04' 
+>> ofhttps://github.com/kostyanf14/qemu  into staging (2023-05-04 
+>> 12:08:00 +0100)
+>>
+>> are available in the Git repository at:
+>>
+>>    https://gitlab.com/gaosong/qemu.git tags/pull-loongarch-20230505
+>>
+>> for you to fetch changes up to 9dd207d409cc2eb08fe52965b9d1fd4a12a82bd5:
+>>
+>>    hw/intc: don't use target_ulong for LoongArch ipi (2023-05-05 
+>> 10:00:47 +0800)
+>>
+>> ----------------------------------------------------------------
+>> Add LoongArch LSX instructions.
+>
+> This has CI failures:
+>
+> https://gitlab.com/qemu-project/qemu/-/pipelines/858609469/failures
+>
+> Importantly, it does not build on 32-bit hosts:
+>
+> https://gitlab.com/qemu-project/qemu/-/jobs/4235054589#L2631
+>
+> ../target/loongarch/lsx_helper.c:1013:17: error: incompatible types 
+> when assigning to type 'int64_t' {aka 'long long int'} from type 'Int128'
+>  1013 |     temp.D(0) = int128_urshift(Vj->Q(0), imm % 128);
+>       |                 ^~~~~~~~~~~~~~
+>
+Sorry about this,   I will fix it,  and test on 32-bit hosts.
 
-done_something cannot be changed by now, so I would just do
+Thanks.
+Song Gao
 
-    return false;
-
-
-> +    }
-> +
->      rc = dataplane->rings.common.req_cons;
->      rp = dataplane->rings.common.sring->req_prod;
->      xen_rmb(); /* Ensure we see queued requests up to 'rp'. */
-> @@ -666,14 +670,35 @@ void xen_block_dataplane_destroy(XenBlockDataPlane *dataplane)
->  void xen_block_dataplane_stop(XenBlockDataPlane *dataplane)
->  {
->      XenDevice *xendev;
-> +    XenBlockRequest *request, *next;
->  
->      if (!dataplane) {
->          return;
->      }
->  
-> +    /* We're about to drain the ring. We can cancel the scheduling of any
-> +     * bottom half now */
-> +    qemu_bh_cancel(dataplane->bh);
-> +
-> +    /* Ensure we have drained the ring */
-> +    aio_context_acquire(dataplane->ctx);
-
-Would it make sense to move the 2 loops below under the existing
-aio_context_acquire also below?
-
-
-> +    do {
-> +        xen_block_handle_requests(dataplane);
-> +    } while (dataplane->more_work);
-> +    aio_context_release(dataplane->ctx);
-> +
-> +    /* Now ensure that all inflight requests are complete */
-> +    while (!QLIST_EMPTY(&dataplane->inflight)) {
-> +        QLIST_FOREACH_SAFE(request, &dataplane->inflight, list, next) {
-> +            blk_aio_flush(request->dataplane->blk, xen_block_complete_aio,
-> +                        request);
-> +        }
-> +    }
-
-especially because I would think that blk_aio_flush needs to be called
-with aio_context_acquired ?
-
-
-
->      xendev = dataplane->xendev;
->  
->      aio_context_acquire(dataplane->ctx);
-> +
-
-move the new code here
-
-
->      if (dataplane->event_channel) {
->          /* Only reason for failure is a NULL channel */
->          xen_device_set_event_channel_context(xendev, dataplane->event_channel,
-> @@ -684,12 +709,6 @@ void xen_block_dataplane_stop(XenBlockDataPlane *dataplane)
->      blk_set_aio_context(dataplane->blk, qemu_get_aio_context(), &error_abort);
->      aio_context_release(dataplane->ctx);
->  
-> -    /*
-> -     * Now that the context has been moved onto the main thread, cancel
-> -     * further processing.
-> -     */
-> -    qemu_bh_cancel(dataplane->bh);
-> -
->      if (dataplane->event_channel) {
->          Error *local_err = NULL;
->  
-> -- 
-> 2.40.0
-> 
 
