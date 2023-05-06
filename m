@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A69E6F9321
-	for <lists+qemu-devel@lfdr.de>; Sat,  6 May 2023 18:39:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B24B6F932A
+	for <lists+qemu-devel@lfdr.de>; Sat,  6 May 2023 18:39:56 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pvKvW-0000uh-5n; Sat, 06 May 2023 12:38:30 -0400
+	id 1pvKvY-0000vF-7q; Sat, 06 May 2023 12:38:32 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1pvKvT-0000tx-Sx
- for qemu-devel@nongnu.org; Sat, 06 May 2023 12:38:27 -0400
+ id 1pvKvW-0000ul-3W
+ for qemu-devel@nongnu.org; Sat, 06 May 2023 12:38:30 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1pvKvS-000449-97
- for qemu-devel@nongnu.org; Sat, 06 May 2023 12:38:27 -0400
+ id 1pvKvU-00045J-N4
+ for qemu-devel@nongnu.org; Sat, 06 May 2023 12:38:29 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1683391105;
+ s=mimecast20190719; t=1683391108;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Pe2s/uDqRflXhELDMB82guoOho7E/nfVEtQ5clZC4uE=;
- b=PRebTJWAW1ZjlzNm2qSy1AGUJx4DpAPnxy7N/IGkvqyinv5imi3v7GPXcfo9lwzhOPxAiO
- J4iWQobM+dX3hTjXqSqAGUMf4T9QYQiF7BxZajvsPVcHnVg6MiDula7HVU0JeQp6ihRbNR
- EHaxT8ixo+rpDJ6wvxDhfhmircwymZI=
+ bh=2i2NASwkEEgV1reJJcJ37RsdEES4PO1+G+0R9iX6+w4=;
+ b=BACdJFeoSdCXiJlUzw0S3rg8Tg2Z3EOrcxyBYhe4kwYbpz9rFXtlYmeq4jMH7YKcv84sJO
+ WoQ2ls1oQ3chzm0FLRKZEDdsujY4JdmwKnU8Sud2gvb/h0T8+bQcu3q97AG+qQ3fFB80qi
+ mE5tTLIB5qiwgZY4NmZSRqsm8HciTv0=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-97-KRVOFcssNX2lc2UdYjVCww-1; Sat, 06 May 2023 12:38:22 -0400
-X-MC-Unique: KRVOFcssNX2lc2UdYjVCww-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
- [10.11.54.9])
+ us-mta-227-KIyl1ZKmMiGXBMc53GCVaw-1; Sat, 06 May 2023 12:38:26 -0400
+X-MC-Unique: KIyl1ZKmMiGXBMc53GCVaw-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.10])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E184B185A79C;
- Sat,  6 May 2023 16:38:21 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 62D4085A588;
+ Sat,  6 May 2023 16:38:26 +0000 (UTC)
 Received: from localhost (unknown [10.39.208.11])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E2707492B00;
- Sat,  6 May 2023 16:38:20 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 40659492C13;
+ Sat,  6 May 2023 16:38:24 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
 Cc: Gerd Hoffmann <kraxel@redhat.com>,
@@ -54,15 +54,15 @@ Cc: Gerd Hoffmann <kraxel@redhat.com>,
  dbassey@redhat.com,
  =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
  Eric Blake <eblake@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
-Subject: [PATCH 10/12] audio/pw: simplify error reporting in stream creation
-Date: Sat,  6 May 2023 20:37:33 +0400
-Message-Id: <20230506163735.3481387-11-marcandre.lureau@redhat.com>
+Subject: [PATCH 11/12] audio/pw: remove wrong comment
+Date: Sat,  6 May 2023 20:37:34 +0400
+Message-Id: <20230506163735.3481387-12-marcandre.lureau@redhat.com>
 In-Reply-To: <20230506163735.3481387-1-marcandre.lureau@redhat.com>
 References: <20230506163735.3481387-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
 Received-SPF: pass client-ip=170.10.129.124;
  envelope-from=marcandre.lureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
@@ -90,57 +90,25 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-create_stream() now reports on all error paths.
+The stream is actually created connected.
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 ---
- audio/pwaudio.c | 12 +-----------
- 1 file changed, 1 insertion(+), 11 deletions(-)
+ audio/pwaudio.c | 1 -
+ 1 file changed, 1 deletion(-)
 
 diff --git a/audio/pwaudio.c b/audio/pwaudio.c
-index 5c706a9fde..38905f5be2 100644
+index 38905f5be2..f74d506ec6 100644
 --- a/audio/pwaudio.c
 +++ b/audio/pwaudio.c
-@@ -486,8 +486,6 @@ static int
- qpw_stream_new(pwaudio *c, PWVoice *v, const char *stream_name,
-                const char *name, enum spa_direction dir)
- {
--    int r;
--
-     switch (v->info.channels) {
-     case 8:
-         v->info.position[0] = SPA_AUDIO_CHANNEL_FL;
-@@ -540,13 +538,7 @@ qpw_stream_new(pwaudio *c, PWVoice *v, const char *stream_name,
+@@ -537,7 +537,6 @@ qpw_stream_new(pwaudio *c, PWVoice *v, const char *stream_name,
+         break;
      }
  
-     /* create a new unconnected pwstream */
--    r = create_stream(c, v, stream_name, name, dir);
--    if (r < 0) {
--        AUD_log(AUDIO_CAP, "Failed to create stream.");
--        return -1;
--    }
--
--    return r;
-+    return create_stream(c, v, stream_name, name, dir);
+-    /* create a new unconnected pwstream */
+     return create_stream(c, v, stream_name, name, dir);
  }
  
- static int
-@@ -577,7 +569,6 @@ qpw_init_out(HWVoiceOut *hw, struct audsettings *as, void *drv_opaque)
-     r = qpw_stream_new(c, v, ppdo->stream_name ? : c->dev->id,
-                        ppdo->name, SPA_DIRECTION_OUTPUT);
-     if (r < 0) {
--        error_report("qpw_stream_new for playback failed");
-         pw_thread_loop_unlock(c->thread_loop);
-         return -1;
-     }
-@@ -621,7 +612,6 @@ qpw_init_in(HWVoiceIn *hw, struct audsettings *as, void *drv_opaque)
-     r = qpw_stream_new(c, v, ppdo->stream_name ? : c->dev->id,
-                        ppdo->name, SPA_DIRECTION_INPUT);
-     if (r < 0) {
--        error_report("qpw_stream_new for recording failed");
-         pw_thread_loop_unlock(c->thread_loop);
-         return -1;
-     }
 -- 
 2.40.1
 
