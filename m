@@ -2,66 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 197D36F8F5F
-	for <lists+qemu-devel@lfdr.de>; Sat,  6 May 2023 08:41:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 82EE76F8F89
+	for <lists+qemu-devel@lfdr.de>; Sat,  6 May 2023 08:53:28 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pvBWs-0005vU-K3; Sat, 06 May 2023 02:36:26 -0400
+	id 1pvBmm-0001md-4f; Sat, 06 May 2023 02:52:52 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
- id 1pvBWq-0005us-Eg
- for qemu-devel@nongnu.org; Sat, 06 May 2023 02:36:24 -0400
-Received: from mail.loongson.cn ([114.242.206.163] helo=loongson.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <gaosong@loongson.cn>) id 1pvBWn-0004Q0-On
- for qemu-devel@nongnu.org; Sat, 06 May 2023 02:36:24 -0400
-Received: from loongson.cn (unknown [10.2.5.185])
- by gateway (Coremail) with SMTP id _____8Dxi+pX9VVkO6UFAA--.9353S3;
- Sat, 06 May 2023 14:36:07 +0800 (CST)
-Received: from localhost.localdomain (unknown [10.2.5.185])
- by localhost.localdomain (Coremail) with SMTP id
- AQAAf8CxDbM89VVkhCNNAA--.9773S47; 
- Sat, 06 May 2023 14:36:07 +0800 (CST)
-From: Song Gao <gaosong@loongson.cn>
+ (Exim 4.90_1) (envelope-from <richard.purdie@linuxfoundation.org>)
+ id 1pvBmj-0001lr-Ud
+ for qemu-devel@nongnu.org; Sat, 06 May 2023 02:52:49 -0400
+Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.purdie@linuxfoundation.org>)
+ id 1pvBme-0007SC-P3
+ for qemu-devel@nongnu.org; Sat, 06 May 2023 02:52:49 -0400
+Received: by mail-wr1-x430.google.com with SMTP id
+ ffacd0b85a97d-306281edf15so2422213f8f.1
+ for <qemu-devel@nongnu.org>; Fri, 05 May 2023 23:52:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linuxfoundation.org; s=google; t=1683355962; x=1685947962;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=VjumudQQk/CWLVl1+7rZiix37mmyHi4PACJ/ym2y3PE=;
+ b=FCmWhGrf/NogKtZ4vyKRverb/ReawgjpLQXq7006EwL+/4kFqXvrGAoAjMfW89CV1P
+ 88xTa/yYBdYNN1qBTF4j5GAdHvXjJykCvOjhdp9py/6qInnk6rEG3aPKvQa/9lukasIf
+ xrRcvRFsoaDQ8c80j7oGQOwbPncZdrRsVJvWo=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1683355962; x=1685947962;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=VjumudQQk/CWLVl1+7rZiix37mmyHi4PACJ/ym2y3PE=;
+ b=WiOTa50mrzNZ91VMNNwc7RgkWCJaiIXe5ncufaBqp0SskVxFbZ7+Yw6AQd8GoG3FKr
+ GUc86jKo2O5gTK+laYTV8VGOHaSkkm2q0h7yaCCwKgNK17S3Ia5ywdrWFEjX/NDLXFC4
+ OhUrmybcLDJDxBsPPCwqjRVWIeKDv576vWkf1bAyEzRn06UsHmx/RArVLHkXuwgVMuyF
+ dIQAZjSCNXaQS13sEvTT8U+d1p6kxAs/36leCb3350HZ5OgiGPKz1pZQNQxlX6iZlFxQ
+ m3sdOLy6ByuOyalYqCiwIAo53pFlAbzEE7cE6OL1WU+JW6iHu3p3hKVr7T+PV/ZbNY/F
+ 9mMw==
+X-Gm-Message-State: AC+VfDwUBj+3KjZzTLqXSP9z1WL42SQvCkmhvs/Pf/PR7zWDrM1txCo7
+ Gdmg+NDkTTsrcwHoHznYtIM93GrxFpEOsUjY7Gw=
+X-Google-Smtp-Source: ACHHUZ6X61HiyM6ixESuIFeDA/Cnge8ozBMTfAx4UUDquaEUH2m1f6T+1jX9UyPEjFBKv0rMrhcLjA==
+X-Received: by 2002:adf:ef4a:0:b0:306:44a9:76a0 with SMTP id
+ c10-20020adfef4a000000b0030644a976a0mr3479108wrp.9.1683355962458; 
+ Fri, 05 May 2023 23:52:42 -0700 (PDT)
+Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:5ad6:c230:741:f234])
+ by smtp.gmail.com with ESMTPSA id
+ z4-20020adff744000000b002fbdb797483sm4462803wrp.49.2023.05.05.23.52.41
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 05 May 2023 23:52:42 -0700 (PDT)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: qemu-devel@nongnu.org
-Cc: richard.henderson@linaro.org,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PULL v2 45/45] hw/intc: don't use target_ulong for LoongArch ipi
-Date: Sat,  6 May 2023 14:35:40 +0800
-Message-Id: <20230506063540.178794-46-gaosong@loongson.cn>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20230506063540.178794-1-gaosong@loongson.cn>
-References: <20230506063540.178794-1-gaosong@loongson.cn>
+Cc: =?UTF-8?q?V=C3=ADctor=20Colombo?= <victor.colombo@eldorado.org.br>,
+ Matheus Ferst <matheus.ferst@eldorado.org.br>,
+ Daniel Henrique Barboza <danielhb413@gmail.com>,
+ Richard Henderson <richard.henderson@linaro.org>
+Subject: [PATCH v2] target/ppc: Fix fallback to MFSS for MFFS* instructions on
+ pre 3.0 ISAs
+Date: Sat,  6 May 2023 07:52:40 +0100
+Message-Id: <20230506065240.3177798-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf8CxDbM89VVkhCNNAA--.9773S47
-X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
-X-Coremail-Antispam: 1Uk129KBjvdXoW7Gw1kAF47XFWDZF45Wr1Utrb_yoWDuwb_XF
- ySyry8ur47Jry7Awn3ZFWUCF1rJ3WFvFy3uFn7Xrs3G345Aws5ZFyDGayYvrnIvrWrZ3sx
- Xa1xtrn8ArnxJjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8wcxFpf9Il3svdxBIdaVrn0
- xqx4xG64xvF2IEw4CE5I8CrVC2j2Jv73VFW2AGmfu7bjvjm3AaLaJ3UjIYCTnIWjp_UUU5
- S7CY07I20VC2zVCF04k26cxKx2IYs7xG6rWj6s0DM28lY4IEw2IIxxk0rwA2F7IY1VAKz4
- vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_tr0E3s1l84ACjcxK6xIIjxv20xvEc7Cj
- xVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6x
- kF7I0E14v26F4UJVW0owAS0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07AIYIkI8VC2
- zVCFFI0UMc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VCjz48v1sIEY20_WwAm72CE4IkC6x
- 0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64vIr41l42xK82IYc2Ij64vIr41l42xK82IY6x8ErcxF
- aVAv8VWrMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxV
- Cjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUAVWUtwCIc40Y0x0EwIxGrwCI42IY
- 6xIIjxv20xvE14v26w1j6s0DMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWxJVW8Jr1lIxAIcV
- CF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26F4j6r4UJwCI42IY6I8E87Iv
- 6xkF7I0E14v26r4UJVWxJrUvcSsGvfC2KfnxnUUI43ZEXa7xRE6wZ7UUUUU==
-Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
- helo=loongson.cn
-X-Spam_score_int: -18
-X-Spam_score: -1.9
+Received-SPF: pass client-ip=2a00:1450:4864:20::430;
+ envelope-from=richard.purdie@linuxfoundation.org;
+ helo=mail-wr1-x430.google.com
+X-Spam_score_int: -16
+X-Spam_score: -1.7
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
+ DKIM_SIGNED=0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -77,34 +89,139 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Alex Bennée <alex.bennee@linaro.org>
+The following commits changed the code such that the fallback to MFSS for MFFSCRN,
+MFFSCRNI, MFFSCE and MFFSL on pre 3.0 ISAs was removed and became an illegal instruction:
 
-The calling function is already working with hwaddr and uint64_t so
-lets avoid bringing target_ulong in if we don't need to.
+  bf8adfd88b547680aa857c46098f3a1e94373160 - target/ppc: Move mffscrn[i] to decodetree
+  394c2e2fda70da722f20fb60412d6c0ca4bfaa03 - target/ppc: Move mffsce to decodetree
+  3e5bce70efe6bd1f684efbb21fd2a316cbf0657e - target/ppc: Move mffsl to decodetree
 
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-Reviewed-by: Song Gao <gaosong@loongson.cn>
-Message-Id: <20230404132711.2563638-1-alex.bennee@linaro.org>
-Signed-off-by: Song Gao <gaosong@loongson.cn>
+The hardware will handle them as a MFFS instruction as the code did previously.
+This means applications that were segfaulting under qemu when encountering these
+instructions which is used in glibc libm functions for example.
+
+The fallback for MFFSCDRN and MFFSCDRNI added in a later patch was also missing.
+
+This patch restores the fallback to MFSS for these instructions on pre 3.0s ISAs
+as the hardware decoder would, fixing the segfaulting libm code. It and also ensures
+the MFSS instruction is used for currently reserved bits to handle other potential
+ISA additions more correctly.
+
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- hw/intc/loongarch_ipi.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ target/ppc/insn32.decode           | 19 ++++++++++++-------
+ target/ppc/translate/fp-impl.c.inc | 30 ++++++++++++++++++++++++------
+ 2 files changed, 36 insertions(+), 13 deletions(-)
 
-diff --git a/hw/intc/loongarch_ipi.c b/hw/intc/loongarch_ipi.c
-index aa4bf9eb74..bdba0f8107 100644
---- a/hw/intc/loongarch_ipi.c
-+++ b/hw/intc/loongarch_ipi.c
-@@ -50,7 +50,7 @@ static uint64_t loongarch_ipi_readl(void *opaque, hwaddr addr, unsigned size)
-     return ret;
- }
+v2 - switch to use decodetree pattern groups per feedback
+
+diff --git a/target/ppc/insn32.decode b/target/ppc/insn32.decode
+index f8f589e9fd..3c4e2c2fc2 100644
+--- a/target/ppc/insn32.decode
++++ b/target/ppc/insn32.decode
+@@ -390,13 +390,18 @@ SETNBCR         011111 ..... ..... ----- 0111100000 -   @X_bi
  
--static void send_ipi_data(CPULoongArchState *env, target_ulong val, target_ulong addr)
-+static void send_ipi_data(CPULoongArchState *env, uint64_t val, hwaddr addr)
+ ### Move To/From FPSCR
+ 
+-MFFS            111111 ..... 00000 ----- 1001000111 .   @X_t_rc
+-MFFSCE          111111 ..... 00001 ----- 1001000111 -   @X_t
+-MFFSCRN         111111 ..... 10110 ..... 1001000111 -   @X_tb
+-MFFSCDRN        111111 ..... 10100 ..... 1001000111 -   @X_tb
+-MFFSCRNI        111111 ..... 10111 ---.. 1001000111 -   @X_imm2
+-MFFSCDRNI       111111 ..... 10101 --... 1001000111 -   @X_imm3
+-MFFSL           111111 ..... 11000 ----- 1001000111 -   @X_t
++{ 
++  # Before Power ISA v3.0, MFFS bits 11~15 were reserved and should be ignored
++  [
++    MFFSCE          111111 ..... 00001 ----- 1001000111 -   @X_t
++    MFFSCRN         111111 ..... 10110 ..... 1001000111 -   @X_tb
++    MFFSCDRN        111111 ..... 10100 ..... 1001000111 -   @X_tb
++    MFFSCRNI        111111 ..... 10111 ---.. 1001000111 -   @X_imm2
++    MFFSCDRNI       111111 ..... 10101 --... 1001000111 -   @X_imm3
++    MFFSL           111111 ..... 11000 ----- 1001000111 -   @X_t
++  ]
++  MFFS            111111 ..... ----- ----- 1001000111 .   @X_t_rc
++}
+ 
+ ### Decimal Floating-Point Arithmetic Instructions
+ 
+diff --git a/target/ppc/translate/fp-impl.c.inc b/target/ppc/translate/fp-impl.c.inc
+index 57d8437851..10dfd91aa4 100644
+--- a/target/ppc/translate/fp-impl.c.inc
++++ b/target/ppc/translate/fp-impl.c.inc
+@@ -584,7 +584,10 @@ static bool trans_MFFSCE(DisasContext *ctx, arg_X_t *a)
  {
-     int i, mask = 0, data = 0;
+     TCGv_i64 fpscr;
  
+-    REQUIRE_INSNS_FLAGS2(ctx, ISA300);
++    if (!(ctx->insns_flags2 & PPC2_ISA300)) {
++        return false;
++    }
++
+     REQUIRE_FPU(ctx);
+ 
+     gen_reset_fpstatus();
+@@ -597,7 +600,10 @@ static bool trans_MFFSCRN(DisasContext *ctx, arg_X_tb *a)
+ {
+     TCGv_i64 t1, fpscr;
+ 
+-    REQUIRE_INSNS_FLAGS2(ctx, ISA300);
++    if (!(ctx->insns_flags2 & PPC2_ISA300)) {
++        return false;
++    }
++
+     REQUIRE_FPU(ctx);
+ 
+     t1 = tcg_temp_new_i64();
+@@ -614,7 +620,10 @@ static bool trans_MFFSCDRN(DisasContext *ctx, arg_X_tb *a)
+ {
+     TCGv_i64 t1, fpscr;
+ 
+-    REQUIRE_INSNS_FLAGS2(ctx, ISA300);
++    if (!(ctx->insns_flags2 & PPC2_ISA300)) {
++        return false;
++    }
++
+     REQUIRE_FPU(ctx);
+ 
+     t1 = tcg_temp_new_i64();
+@@ -631,7 +640,10 @@ static bool trans_MFFSCRNI(DisasContext *ctx, arg_X_imm2 *a)
+ {
+     TCGv_i64 t1, fpscr;
+ 
+-    REQUIRE_INSNS_FLAGS2(ctx, ISA300);
++    if (!(ctx->insns_flags2 & PPC2_ISA300)) {
++        return false;
++    }
++
+     REQUIRE_FPU(ctx);
+ 
+     t1 = tcg_temp_new_i64();
+@@ -647,7 +659,10 @@ static bool trans_MFFSCDRNI(DisasContext *ctx, arg_X_imm3 *a)
+ {
+     TCGv_i64 t1, fpscr;
+ 
+-    REQUIRE_INSNS_FLAGS2(ctx, ISA300);
++    if (!(ctx->insns_flags2 & PPC2_ISA300)) {
++        return false;
++    }
++
+     REQUIRE_FPU(ctx);
+ 
+     t1 = tcg_temp_new_i64();
+@@ -661,7 +676,10 @@ static bool trans_MFFSCDRNI(DisasContext *ctx, arg_X_imm3 *a)
+ 
+ static bool trans_MFFSL(DisasContext *ctx, arg_X_t *a)
+ {
+-    REQUIRE_INSNS_FLAGS2(ctx, ISA300);
++    if (!(ctx->insns_flags2 & PPC2_ISA300)) {
++        return false;
++    }
++
+     REQUIRE_FPU(ctx);
+ 
+     gen_reset_fpstatus();
 -- 
-2.31.1
+2.39.2
 
 
