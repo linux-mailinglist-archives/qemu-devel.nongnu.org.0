@@ -2,83 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35E6D6F8FB3
-	for <lists+qemu-devel@lfdr.de>; Sat,  6 May 2023 09:12:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E522A6F8FD2
+	for <lists+qemu-devel@lfdr.de>; Sat,  6 May 2023 09:21:51 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pvC4S-0006HN-JS; Sat, 06 May 2023 03:11:08 -0400
+	id 1pvCDk-0002Vb-67; Sat, 06 May 2023 03:20:44 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pvC4Q-0006FA-9U
- for qemu-devel@nongnu.org; Sat, 06 May 2023 03:11:06 -0400
-Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pvC4O-0002Ne-K6
- for qemu-devel@nongnu.org; Sat, 06 May 2023 03:11:06 -0400
-Received: by mail-wm1-x334.google.com with SMTP id
- 5b1f17b1804b1-3f315735514so119775675e9.1
- for <qemu-devel@nongnu.org>; Sat, 06 May 2023 00:11:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1683357063; x=1685949063;
- h=content-transfer-encoding:in-reply-to:references:to:from
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=dA4kQEjVxebBCK1LLt65cgJVj+53wSQUWTuWva6Esu4=;
- b=o2G/jyCETl3At9HGrOX1o0UIbooSpGSKyYi7r9OeKdBlstXdF27jb9gcn9weYAW/fW
- Js69cWTpv+Jg/rt4jINr8L7WGnGN81b4TgbC3d5krz2Uv4qAlToVS0WMxlAL2i0IVavi
- 72gRoCNPGCTmuhwC9obZ01I4pFn3ZF+r4/gzzhOyUCQ+zs12a0s1ICGEtltiy/2riVjZ
- f91Z6DSS7d34BMwKCqRy3oGg/6pX5kc3Hm/Q/83dgMzfZADQowRDFRnXA0tVUTu42sF9
- V9wrqd9auEGHiB3hl6WanklAFALnuEb51wKcsYMdqPlrF6pdbDXJLdQq2xl2ipJIZqku
- w8dg==
+ (Exim 4.90_1) (envelope-from <anisinha@redhat.com>)
+ id 1pvCDc-0002Uz-Df
+ for qemu-devel@nongnu.org; Sat, 06 May 2023 03:20:38 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <anisinha@redhat.com>)
+ id 1pvCDa-0003tr-8K
+ for qemu-devel@nongnu.org; Sat, 06 May 2023 03:20:36 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1683357628;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=QnPB2BYU9Iu+jMAG2o2hVEPT1XATPoA6UkH++BNC/EE=;
+ b=UULLQkOIGEj4Y67A7Z7evZgKd9TRAfAwK08DbEfqqzh/pQYaJEWtIm50yWkPJAAtpPsBfJ
+ n6eWp261LAyB7jW6GJkYCbLiOJhey0ME2H3vdAiBfZeDygq4pTrHCd5kVhVltVvSHAx6gb
+ b56TD2e9fDYsmNjOxmItC1KjasD4Ylk=
+Received: from mail-pl1-f200.google.com (mail-pl1-f200.google.com
+ [209.85.214.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-356-7F0s7MhnPviFFs1SKth9Rw-1; Sat, 06 May 2023 03:20:27 -0400
+X-MC-Unique: 7F0s7MhnPviFFs1SKth9Rw-1
+Received: by mail-pl1-f200.google.com with SMTP id
+ d9443c01a7336-1aae625e57dso12937665ad.1
+ for <qemu-devel@nongnu.org>; Sat, 06 May 2023 00:20:27 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683357063; x=1685949063;
- h=content-transfer-encoding:in-reply-to:references:to:from
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=dA4kQEjVxebBCK1LLt65cgJVj+53wSQUWTuWva6Esu4=;
- b=QPUlSiBLHJbc8PMLVxOCZKzQQFsopPHB1y5fK8hBAIZhbuZS9gzux4rH7zBHAl0m6Y
- H6yPaEe5rSbYQxNTqWl4cmIDqjXwSe+1Iace94sTY5r7Ep/LQJBraNaRBw2YCN4lBLSZ
- RN8xgWvMS8Hrz5740d8J6het5Bc1QDdNaDH7+i/fgYP1taMUox8/Gi9DWfv0AIkg2Zw8
- t6VswxHj2lOIbyHyLLc3d3gk1AqvXJzKus8BJ1feTjJPkYBRAvgaNNvGPY4n6iErOwfC
- 1PJwTEIHI9QSXVicP3Bj1YnZT0CUKFLndwMsI2PMC1VHBR/iZUXRXLoCJg+7tkz9drHb
- 2K7w==
-X-Gm-Message-State: AC+VfDwaAqwpOGdk0wThStgKLv3/9ekXMP0VyP1OappiqTNd+IRk7SmV
- OIKeT+0KCwPA3gvF+ta6MivgKT0Qx1HyZ/+yOL4PIg==
-X-Google-Smtp-Source: ACHHUZ4QXWYilAlbGaL1fvRlJQ8/HmgXjtnCvrqZd9Rb7gLS0lPpAIemsUJc+0Wvf0xa7R7eeA1yWQ==
-X-Received: by 2002:adf:f785:0:b0:2f2:79aa:c8b9 with SMTP id
- q5-20020adff785000000b002f279aac8b9mr2582642wrp.35.1683357063271; 
- Sat, 06 May 2023 00:11:03 -0700 (PDT)
-Received: from [192.168.20.44] ([212.241.182.8])
- by smtp.gmail.com with ESMTPSA id
- n6-20020a5d4206000000b0030630de6fbdsm4440181wrq.13.2023.05.06.00.11.02
- for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 06 May 2023 00:11:02 -0700 (PDT)
-Message-ID: <9a8ab6f1-f5aa-4511-84b5-ad95ae0a4835@linaro.org>
-Date: Sat, 6 May 2023 08:11:01 +0100
+ d=1e100.net; s=20221208; t=1683357626; x=1685949626;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=QnPB2BYU9Iu+jMAG2o2hVEPT1XATPoA6UkH++BNC/EE=;
+ b=heFGuKI0prJDTvUxzZOQbjZ3RAyjsMbKJekT187bPBKEIndXPbgvhe6Y2Jz7ybmbWp
+ ihro/GZm6AUzTLQY/0cuEfjCs/c77mVPzVs3RkFR9SfluZy74iT02S1K0LLBuUAHYwRu
+ AvAQ9XmZhlvBUemmw9o3U380fVB1aGuz02HjIXfflZu39rfdXVMeOec5GyQ7bYaCl//i
+ /FOF/iCwAH2W5dQnFZcal3jEUsNelhRK6055r2FFW5T3l28YCbZjbdXqxqXGQimHIWdI
+ hA6SCWbzmeZfTbhoBJmuEfkHNMZLejC89ehr//dyEzpP0KFAMLEk9pTqpaT2DSbtyv/F
+ rZoA==
+X-Gm-Message-State: AC+VfDyhQfqDOmjipXtT8z2x4mg8u15YVzUazcDGsNmcq1gpCxFbsvca
+ ZpxSTEfi92tNdUeDMxgS6GBexFo4whdba9PimK+ntDbfmuhsH+Q/+yDuV+V7qZiDW0YlKf4ADvz
+ j8PdVVl3LcsepG64=
+X-Received: by 2002:a17:902:bd85:b0:1a6:9ec2:a48f with SMTP id
+ q5-20020a170902bd8500b001a69ec2a48fmr3688933pls.34.1683357626242; 
+ Sat, 06 May 2023 00:20:26 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ5P19ijFeS7PGafi1GpRc6l5gufXtS4sy4nUgBJy206cjTWKF1y4Nn7DV74gV8LtjFdO4X/lg==
+X-Received: by 2002:a17:902:bd85:b0:1a6:9ec2:a48f with SMTP id
+ q5-20020a170902bd8500b001a69ec2a48fmr3688920pls.34.1683357625878; 
+ Sat, 06 May 2023 00:20:25 -0700 (PDT)
+Received: from localhost.localdomain ([203.212.242.230])
+ by smtp.googlemail.com with ESMTPSA id
+ jk1-20020a170903330100b001a216d44440sm2898092plb.200.2023.05.06.00.20.22
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 06 May 2023 00:20:25 -0700 (PDT)
+From: Ani Sinha <anisinha@redhat.com>
+To: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Thomas Huth <thuth@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>
+Cc: berrange@redhat.com, Ani Sinha <anisinha@redhat.com>, qemu-devel@nongnu.org
+Subject: [PATCH] docs/devel: remind developers to run CI container pipeline
+ when updating images
+Date: Sat,  6 May 2023 12:50:12 +0530
+Message-Id: <20230506072012.10350-1-anisinha@redhat.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PULL 00/42] tcg patch queue
-Content-Language: en-US
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-References: <20230505212447.374546-1-richard.henderson@linaro.org>
-In-Reply-To: <20230505212447.374546-1-richard.henderson@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::334;
- envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x334.google.com
-X-Spam_score_int: -63
-X-Spam_score: -6.4
-X-Spam_bar: ------
-X-Spam_report: (-6.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-4.28,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=anisinha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -22
+X-Spam_score: -2.3
+X-Spam_bar: --
+X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.161,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,30 +100,37 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 5/5/23 22:24, Richard Henderson wrote:
-> The following changes since commit a9fe9e191b4305b88c356a1ed9ac3baf89eb18aa:
-> 
->    Merge tag 'pull-riscv-to-apply-20230505-1' ofhttps://github.com/alistair23/qemu  into staging (2023-05-05 09:25:13 +0100)
-> 
-> are available in the Git repository at:
-> 
->    https://gitlab.com/rth7680/qemu.git  tags/pull-tcg-20230505
-> 
-> for you to fetch changes up to 35a0bd63b458f30389b6bc6b7471c1665fe7b9d8:
-> 
->    tcg: Widen helper_*_st[bw]_mmu val arguments (2023-05-05 17:21:03 +0100)
-> 
-> ----------------------------------------------------------------
-> softfloat: Fix the incorrect computation in float32_exp2
-> tcg: Remove compatability helpers for qemu ld/st
-> target/alpha: Remove TARGET_ALIGNED_ONLY
-> target/hppa: Remove TARGET_ALIGNED_ONLY
-> target/sparc: Remove TARGET_ALIGNED_ONLY
-> tcg: Cleanups preparing to unify calls to qemu_ld/st helpers
+When new dependencies and packages are added to containers, its important to
+run CI container generation pipelines on gitlab to make sure that there are no
+obvious conflicts between packages that are being added and those that are
+already present. Running CI container pipelines will make sure that there are
+no such breakages before we commit the change updating the containers. Add a
+line in the documentation reminding developers to run the pipeline before
+submitting the change. It will also ease the life of the maintainers.
 
-Applied, thanks.  Please update https://wiki.qemu.org/ChangeLog/8.1 as appropriate.
+Signed-off-by: Ani Sinha <anisinha@redhat.com>
+---
+ docs/devel/testing.rst | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-
-r~
+diff --git a/docs/devel/testing.rst b/docs/devel/testing.rst
+index 4071e72710..203facb417 100644
+--- a/docs/devel/testing.rst
++++ b/docs/devel/testing.rst
+@@ -479,6 +479,12 @@ first to contribute the mapping to the ``libvirt-ci`` project:
+    contains the ``mappings.yml`` update.  Then add the prerequisite and
+    run ``make lcitool-refresh``.
+ 
++ * Please also trigger gitlab container generation pipelines on your change
++   for as many OS distros as practical to make sure that there are no
++   obvious breakages when adding the new pre-requisite. Please see
++   `CI <https://www.qemu.org/docs/master/devel/ci.html>`__ documentation
++   page on how to trigger gitlab CI pipelines on your change.
++
+ For enterprise distros that default to old, end-of-life versions of the
+ Python runtime, QEMU uses a separate set of mappings that work with more
+ recent versions.  These can be found in ``tests/lcitool/mappings.yml``.
+-- 
+2.31.1
 
 
