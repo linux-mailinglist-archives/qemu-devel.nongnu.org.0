@@ -2,28 +2,28 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 684C56F8E02
+	by mail.lfdr.de (Postfix) with ESMTPS id BA9E26F8E04
 	for <lists+qemu-devel@lfdr.de>; Sat,  6 May 2023 04:26:11 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pv7bJ-0008MG-Qt; Fri, 05 May 2023 22:24:45 -0400
+	id 1pv7bL-0008MQ-Ri; Fri, 05 May 2023 22:24:47 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zhaotianrui@loongson.cn>)
- id 1pv7bF-0008KQ-BS
- for qemu-devel@nongnu.org; Fri, 05 May 2023 22:24:41 -0400
+ id 1pv7bE-0008JW-Gg
+ for qemu-devel@nongnu.org; Fri, 05 May 2023 22:24:40 -0400
 Received: from mail.loongson.cn ([114.242.206.163] helo=loongson.cn)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <zhaotianrui@loongson.cn>) id 1pv7bC-00051u-WE
- for qemu-devel@nongnu.org; Fri, 05 May 2023 22:24:41 -0400
+ (envelope-from <zhaotianrui@loongson.cn>) id 1pv7bB-00051s-FF
+ for qemu-devel@nongnu.org; Fri, 05 May 2023 22:24:40 -0400
 Received: from loongson.cn (unknown [10.2.5.185])
- by gateway (Coremail) with SMTP id _____8Ax2elgulVkCIoFAA--.9289S3;
+ by gateway (Coremail) with SMTP id _____8Bx7epgulVkDooFAA--.9243S3;
  Sat, 06 May 2023 10:24:32 +0800 (CST)
 Received: from localhost.localdomain (unknown [10.2.5.185])
  by localhost.localdomain (Coremail) with SMTP id
- AQAAf8DxOLZXulVkj9RMAA--.9112S8; 
- Sat, 06 May 2023 10:24:31 +0800 (CST)
+ AQAAf8DxOLZXulVkj9RMAA--.9112S9; 
+ Sat, 06 May 2023 10:24:32 +0800 (CST)
 From: Tianrui Zhao <zhaotianrui@loongson.cn>
 To: qemu-devel@nongnu.org
 Cc: kvm@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>,
@@ -31,31 +31,31 @@ Cc: kvm@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>,
  Cornelia Huck <cohuck@redhat.com>, maobibo@loongson.cn,
  zhaotianrui@loongson.cn, philmd@linaro.org, richard.henderson@linaro.org,
  peter.maydell@linaro.org
-Subject: [PATCH RFC v3 6/9] target/loongarch: Implement kvm_arch_init_vcpu
-Date: Sat,  6 May 2023 10:24:19 +0800
-Message-Id: <20230506022422.59442-7-zhaotianrui@loongson.cn>
+Subject: [PATCH RFC v3 7/9] target/loongarch: Implement kvm_arch_handle_exit
+Date: Sat,  6 May 2023 10:24:20 +0800
+Message-Id: <20230506022422.59442-8-zhaotianrui@loongson.cn>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20230506022422.59442-1-zhaotianrui@loongson.cn>
 References: <20230506022422.59442-1-zhaotianrui@loongson.cn>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf8DxOLZXulVkj9RMAA--.9112S8
+X-CM-TRANSID: AQAAf8DxOLZXulVkj9RMAA--.9112S9
 X-CM-SenderInfo: p2kd03xldq233l6o00pqjv00gofq/
-X-Coremail-Antispam: 1Uk129KBjvJXoWxGw47uryrWw1DGr47AF4xJFb_yoW5GFW7pr
- Zrurn8Kr48JrZxt3Z3X3Z8Xr1DWr4xGF42vayxK34fAF43J34fZw4kt3s8AF45Jay8XFyv
- q3WY9w4q9ay8Xw7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
+X-Coremail-Antispam: 1Uk129KBjvJXoW7Cw1DXFy8Zw1UZrWxXw45GFg_yoW8urWkpa
+ 9Fyrn0kr48J39rtanIg3Z8Xr1UXrWxWF42qay7t3yfZr43Jry5XF4kK3srZFW5G3y8Xayj
+ q3W8Zr1q9F1jqw7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
  qI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUIcSsGvfJTRUUU
- bnxFc2x0x2IEx4CE42xK8VAvwI8IcIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4
+ bnAFc2x0x2IEx4CE42xK8VAvwI8IcIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4
  AK67xGY2AK021l84ACjcxK6xIIjxv20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF
- 7I0E14v26r4j6F4UM28EF7xvwVC2z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIEc7
- CjxVAFwI0_Gr1j6F4UJwAS0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07AIYIkI8VC2
- zVCFFI0UMc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VCjz48v1sIEY20_WwAm72CE4IkC6x
- 0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64vIr41l42xK82IYc2Ij64vIr41l42xK82IY6x8ErcxF
- aVAv8VWrMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxV
- Cjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY
- 6xIIjxv20xvE14v26ryj6F1UMIIF0xvE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwCI42IY6x
- AIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Gr0_Cr1lIxAIcVC2z280aVCY
- 1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7xRE6wZ7UUUUU==
+ 7I0E14v26F4j6r4UJwA2z4x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6x
+ kF7I0E14v26r4UJVWxJr1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF0cIa020E
+ x4CE44I27wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E74AGY7Cv6cx26rWlOx8S6xCaFV
+ Cjc4AY6r1j6r4UM4x0Y48IcxkI7VAKI48JMxAIw28IcxkI7VAKI48JMxAIw28IcVCjz48v
+ 1sIEY20_WwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I
+ 0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAI
+ cVC0I7IYx2IY67AKxVW5JVW7JwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Cr0_Gr1UMIIF0x
+ vE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVW8JVWxJwCI42IY6I8E87Iv
+ 6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvj4RC_MaUUUUU
 Received-SPF: pass client-ip=114.242.206.163;
  envelope-from=zhaotianrui@loongson.cn; helo=loongson.cn
 X-Spam_score_int: -18
@@ -78,79 +78,62 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Implement kvm_arch_init_vcpu interface for loongarch,
-in this function, we register VM change state handler.
-And when VM state changes to running, the counter value
-should be put into kvm to keep consistent with kvm,
-and when state change to stop, counter value should be
-refreshed from kvm.
+Implement kvm_arch_handle_exit for loongarch. In this
+function, the KVM_EXIT_LOONGARCH_IOCSR is handled,
+we read or write the iocsr address space by the addr,
+length and is_write argument in kvm_run.
 
 Signed-off-by: Tianrui Zhao <zhaotianrui@loongson.cn>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/loongarch/cpu.h        |  2 ++
- target/loongarch/kvm.c        | 23 +++++++++++++++++++++++
- target/loongarch/trace-events |  2 ++
- 3 files changed, 27 insertions(+)
+ target/loongarch/kvm.c        | 24 +++++++++++++++++++++++-
+ target/loongarch/trace-events |  1 +
+ 2 files changed, 24 insertions(+), 1 deletion(-)
 
-diff --git a/target/loongarch/cpu.h b/target/loongarch/cpu.h
-index cf3fce4577..beb070de25 100644
---- a/target/loongarch/cpu.h
-+++ b/target/loongarch/cpu.h
-@@ -350,6 +350,8 @@ struct ArchCPU {
- 
-     /* 'compatible' string for this CPU for Linux device trees */
-     const char *dtb_compatible;
-+    /* used by KVM_REG_LOONGARCH_COUNTER ioctl to access guest time counters */
-+    uint64_t kvm_state_counter;
- };
- 
- #define TYPE_LOONGARCH_CPU "loongarch-cpu"
 diff --git a/target/loongarch/kvm.c b/target/loongarch/kvm.c
-index dac65f546e..5a07cc58c8 100644
+index 5a07cc58c8..6554013a9d 100644
 --- a/target/loongarch/kvm.c
 +++ b/target/loongarch/kvm.c
-@@ -399,8 +399,31 @@ int kvm_arch_put_registers(CPUState *cs, int level)
-     return ret;
- }
+@@ -500,7 +500,29 @@ bool kvm_arch_cpu_check_are_resettable(void)
  
-+static void kvm_loongarch_vm_stage_change(void *opaque, bool running,
-+                                          RunState state)
-+{
-+    int ret;
-+    CPUState *cs = opaque;
-+    LoongArchCPU *cpu = LOONGARCH_CPU(cs);
-+
-+    if (running) {
-+        ret = kvm_larch_putq(cs, KVM_REG_LOONGARCH_COUNTER,
-+                             &cpu->kvm_state_counter);
-+        if (ret < 0) {
-+            trace_kvm_failed_put_counter(strerror(errno));
-+        }
-+    } else {
-+        ret = kvm_larch_getq(cs, KVM_REG_LOONGARCH_COUNTER,
-+                             &cpu->kvm_state_counter);
-+        if (ret < 0) {
-+            trace_kvm_failed_get_counter(strerror(errno));
-+        }
-+    }
-+}
-+
- int kvm_arch_init_vcpu(CPUState *cs)
+ int kvm_arch_handle_exit(CPUState *cs, struct kvm_run *run)
  {
-+    qemu_add_vm_change_state_handler(kvm_loongarch_vm_stage_change, cs);
-     return 0;
+-    return 0;
++    int ret = 0;
++    LoongArchCPU *cpu = LOONGARCH_CPU(cs);
++    CPULoongArchState *env = &cpu->env;
++    MemTxAttrs attrs = {};
++
++    attrs.requester_id = env_cpu(env)->cpu_index;
++
++    trace_kvm_arch_handle_exit(run->exit_reason);
++    switch (run->exit_reason) {
++    case KVM_EXIT_LOONGARCH_IOCSR:
++        address_space_rw(&env->address_space_iocsr,
++                         run->iocsr_io.phys_addr,
++                         attrs,
++                         run->iocsr_io.data,
++                         run->iocsr_io.len,
++                         run->iocsr_io.is_write);
++        break;
++    default:
++        ret = -1;
++        warn_report("KVM: unknown exit reason %d", run->exit_reason);
++        break;
++    }
++    return ret;
  }
  
+ void kvm_arch_accel_class_init(ObjectClass *oc)
 diff --git a/target/loongarch/trace-events b/target/loongarch/trace-events
-index 67817fee67..6926bbe399 100644
+index 6926bbe399..c79e01663a 100644
 --- a/target/loongarch/trace-events
 +++ b/target/loongarch/trace-events
-@@ -9,3 +9,5 @@ kvm_failed_get_fpu(const char *msg) "Failed to get fpu from KVM: %s"
- kvm_failed_put_fpu(const char *msg) "Failed to put fpu into KVM: %s"
- kvm_failed_get_mpstate(const char *msg) "Failed to get mp_state from KVM: %s"
+@@ -11,3 +11,4 @@ kvm_failed_get_mpstate(const char *msg) "Failed to get mp_state from KVM: %s"
  kvm_failed_put_mpstate(const char *msg) "Failed to put mp_state into KVM: %s"
-+kvm_failed_get_counter(const char *msg) "Failed to get counter from KVM: %s"
-+kvm_failed_put_counter(const char *msg) "Failed to put counter into KVM: %s"
+ kvm_failed_get_counter(const char *msg) "Failed to get counter from KVM: %s"
+ kvm_failed_put_counter(const char *msg) "Failed to put counter into KVM: %s"
++kvm_arch_handle_exit(int num) "kvm arch handle exit, the reason number: %d"
 -- 
 2.31.1
 
