@@ -2,50 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB5CC6F8E06
-	for <lists+qemu-devel@lfdr.de>; Sat,  6 May 2023 04:26:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 636726F8E01
+	for <lists+qemu-devel@lfdr.de>; Sat,  6 May 2023 04:26:11 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pv7bh-0008Qo-Or; Fri, 05 May 2023 22:25:09 -0400
+	id 1pv7bR-0008Na-OR; Fri, 05 May 2023 22:24:53 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xuanzhuo@linux.alibaba.com>)
- id 1pv7bb-0008Ou-Hy
- for qemu-devel@nongnu.org; Fri, 05 May 2023 22:25:03 -0400
-Received: from out30-119.freemail.mail.aliyun.com ([115.124.30.119])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xuanzhuo@linux.alibaba.com>)
- id 1pv7bY-00055X-BR
- for qemu-devel@nongnu.org; Fri, 05 May 2023 22:25:03 -0400
-X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R201e4; CH=green; DM=||false|;
- DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=ay29a033018045176;
- MF=xuanzhuo@linux.alibaba.com; NM=1; PH=DS; RN=5; SR=0;
- TI=SMTPD_---0VhrSzSM_1683339887; 
-Received: from localhost(mailfrom:xuanzhuo@linux.alibaba.com
- fp:SMTPD_---0VhrSzSM_1683339887) by smtp.aliyun-inc.com;
- Sat, 06 May 2023 10:24:48 +0800
-Message-ID: <1683339216.3364966-2-xuanzhuo@linux.alibaba.com>
-Subject: Re: [PATCH] virtio-net: not enable vq reset feature unconditionally
-Date: Sat, 6 May 2023 10:13:36 +0800
-From: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
-To: =?utf-8?q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>
-Cc: Jason Wang <jasowang@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Lei Yang <leiyang@redhat.com>, qemu-devel@nongnu.org
-References: <20230504101447.389398-1-eperezma@redhat.com>
-In-Reply-To: <20230504101447.389398-1-eperezma@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=115.124.30.119;
- envelope-from=xuanzhuo@linux.alibaba.com;
- helo=out30-119.freemail.mail.aliyun.com
-X-Spam_score_int: -98
-X-Spam_score: -9.9
-X-Spam_bar: ---------
-X-Spam_report: (-9.9 / 5.0 requ) BAYES_00=-1.9, ENV_AND_HDR_SPF_MATCH=-0.5,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01, UNPARSEABLE_RELAY=0.001,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <zhaotianrui@loongson.cn>)
+ id 1pv7bP-0008Mt-IF
+ for qemu-devel@nongnu.org; Fri, 05 May 2023 22:24:51 -0400
+Received: from mail.loongson.cn ([114.242.206.163] helo=loongson.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <zhaotianrui@loongson.cn>) id 1pv7bA-00051Q-Fz
+ for qemu-devel@nongnu.org; Fri, 05 May 2023 22:24:51 -0400
+Received: from loongson.cn (unknown [10.2.5.185])
+ by gateway (Coremail) with SMTP id _____8AxX+taulVk64kFAA--.9178S3;
+ Sat, 06 May 2023 10:24:26 +0800 (CST)
+Received: from localhost.localdomain (unknown [10.2.5.185])
+ by localhost.localdomain (Coremail) with SMTP id
+ AQAAf8DxOLZXulVkj9RMAA--.9112S2; 
+ Sat, 06 May 2023 10:24:23 +0800 (CST)
+From: Tianrui Zhao <zhaotianrui@loongson.cn>
+To: qemu-devel@nongnu.org
+Cc: kvm@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>,
+ gaosong@loongson.cn, "Michael S . Tsirkin" <mst@redhat.com>,
+ Cornelia Huck <cohuck@redhat.com>, maobibo@loongson.cn,
+ zhaotianrui@loongson.cn, philmd@linaro.org, richard.henderson@linaro.org,
+ peter.maydell@linaro.org
+Subject: [PATCH RFC v3 0/9] Add loongarch kvm accel support
+Date: Sat,  6 May 2023 10:24:13 +0800
+Message-Id: <20230506022422.59442-1-zhaotianrui@loongson.cn>
+X-Mailer: git-send-email 2.31.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: AQAAf8DxOLZXulVkj9RMAA--.9112S2
+X-CM-SenderInfo: p2kd03xldq233l6o00pqjv00gofq/
+X-Coremail-Antispam: 1Uk129KBjvJXoWxXF4DZFykKFWxCF43uw45Wrg_yoWrXF1kpr
+ W7Zrn8Kr48J39rJws5Xas8Xr45Xr4xGr9Fv3Wft34xCrs7Zry8Zr97K39IvFW7Aa4UJFy0
+ qFy0yw1DW3WUX37anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
+ qI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUIcSsGvfJTRUUU
+ bn8Fc2x0x2IEx4CE42xK8VAvwI8IcIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4
+ AK67xGY2AK021l84ACjcxK6xIIjxv20xvE14v26r1j6r1xM28EF7xvwVC0I7IYx2IY6xkF
+ 7I0E14v26r1j6r4UM28EF7xvwVC2z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIEc7
+ CjxVAFwI0_Gr1j6F4UJwAS0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07AIYIkI8VC2
+ zVCFFI0UMc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VCjz48v1sIEY20_WwAm72CE4IkC6x
+ 0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64vIr41l42xK82IYc2Ij64vIr41l42xK82IY6x8ErcxF
+ aVAv8VWrMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxV
+ Cjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY
+ 6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6x
+ AIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY
+ 1x0267AKxVWUJVW8JbIYCTnIWIevJa73UjIFyTuYvj4RC_MaUUUUU
+Received-SPF: pass client-ip=114.242.206.163;
+ envelope-from=zhaotianrui@loongson.cn; helo=loongson.cn
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -61,52 +76,90 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu,  4 May 2023 12:14:47 +0200, =3D?utf-8?q?Eugenio_P=3DC3=3DA9rez?=3D =
-<eperezma@redhat.com> wrote:
-> The commit 93a97dc5200a ("virtio-net: enable vq reset feature") enables
-> unconditionally vq reset feature as long as the device is emulated.
-> This makes impossible to actually disable the feature, and it causes
-> migration problems from qemu version previous than 7.2.
->
-> The entire final commit is unneeded as device system already enable or
-> disable the feature properly.
->
-> This reverts commit 93a97dc5200a95e63b99cb625f20b7ae802ba413.
-> Fixes: 93a97dc5200a ("virtio-net: enable vq reset feature")
-> Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
->
-> ---
-> Tested by checking feature bit at  /sys/devices/pci.../virtio0/features
-> enabling and disabling queue_reset virtio-net feature and vhost=3Don/off
-> on net device backend.
+This series add loongarch kvm support, mainly implement
+some interfaces used by kvm such as kvm_arch_get/set_regs,
+kvm_arch_handle_exit, kvm_loongarch_set_interrupt, etc.
 
-Do you mean that this feature cannot be closed?
+Currently, we are able to boot LoongArch KVM Linux Guests.
+In loongarch VM, mmio devices and iocsr devices are emulated
+in user space such as APIC, IPI, pci devices, etc, other
+hardwares such as MMU, timer and csr are emulated in kernel.
 
-I tried to close in the guest, it was successful.
+It is based on temporarily unaccepted linux kvm:
+https://github.com/loongson/linux-loongarch-kvm
+And We will remove the RFC flag until the linux kvm patches
+are merged.
 
-In addition, in this case, could you try to repair the problem instead of
-directly revert.
+The running environment of LoongArch virt machine:
+1. Get the linux source by the above mentioned link.
+   git checkout kvm-loongarch
+   make ARCH=loongarch CROSS_COMPILE=loongarch64-unknown-linux-gnu- loongson3_defconfig
+   make ARCH=loongarch CROSS_COMPILE=loongarch64-unknown-linux-gnu-
+2. Get the qemu source: https://github.com/loongson/qemu
+   git checkout kvm-loongarch
+   ./configure --target-list="loongarch64-softmmu"  --enable-kvm
+   make
+3. Get uefi bios of LoongArch virt machine:
+   Link: https://github.com/tianocore/edk2-platforms/tree/master/Platform/Loongson/LoongArchQemuPkg#readme
+4. Also you can access the binary files we have already build:
+   https://github.com/yangxiaojuan-loongson/qemu-binary
 
-Thanks.
+The command to boot loongarch virt machine:
+   $ qemu-system-loongarch64 -machine virt -m 4G -cpu la464 \
+   -smp 1 -bios QEMU_EFI.fd -kernel vmlinuz.efi -initrd ramdisk \
+   -serial stdio   -monitor telnet:localhost:4495,server,nowait \
+   -append "root=/dev/ram rdinit=/sbin/init console=ttyS0,115200" \
+   --nographic
 
-> ---
->  hw/net/virtio-net.c | 1 -
->  1 file changed, 1 deletion(-)
->
-> diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
-> index 53e1c32643..4ea33b6e2e 100644
-> --- a/hw/net/virtio-net.c
-> +++ b/hw/net/virtio-net.c
-> @@ -805,7 +805,6 @@ static uint64_t virtio_net_get_features(VirtIODevice =
-*vdev, uint64_t features,
->      }
->
->      if (!get_vhost_net(nc->peer)) {
-> -        virtio_add_feature(&features, VIRTIO_F_RING_RESET);
->          return features;
->      }
->
-> --
-> 2.31.1
->
+Changes for RFC v3:
+1. Move the init mp_state to KVM_MP_STATE_RUNNABLE function into kvm.c.
+2. Fix some unstandard code problems in kvm_get/set_regs_ioctl, such as 
+sort loongarch to keep alphabetic ordering in meson.build, gpr[0] should
+be always 0, remove unnecessary inline statement, etc.
+3. Rename the counter_value variable to kvm_state_counter in cpu_env,
+and add comments for it to explain the meaning.
+
+Changes for RFC v2:
+1. Mark the "Add KVM headers for loongarch" patch as a placeholder,
+as we will use the update-linux-headers.sh to generate the kvm headers
+when the linux loongarch KVM patch series are accepted.
+2. Remove the DPRINTF macro in kvm.c and use trace events to replace
+it, we add some trace functions such as trace_kvm_handle_exit,
+trace_kvm_set_intr, trace_kvm_failed_get_csr, etc.
+3. Remove the unused functions in kvm_stub.c and move stub function into
+the suitable patch.
+
+Tianrui Zhao (9):
+  linux-headers: Add KVM headers for loongarch
+  target/loongarch: Define some kvm_arch interfaces
+  target/loongarch: Supplement vcpu env initial when vcpu reset
+  target/loongarch: Implement kvm get/set registers
+  target/loongarch: Implement kvm_arch_init function
+  target/loongarch: Implement kvm_arch_init_vcpu
+  target/loongarch: Implement kvm_arch_handle_exit
+  target/loongarch: Implement set vcpu intr for kvm
+  target/loongarch: Add loongarch kvm into meson build
+
+ linux-headers/asm-loongarch/kvm.h |  99 ++++++
+ linux-headers/linux/kvm.h         |   9 +
+ meson.build                       |   3 +
+ target/loongarch/cpu.c            |  23 +-
+ target/loongarch/cpu.h            |   5 +
+ target/loongarch/kvm-stub.c       |  11 +
+ target/loongarch/kvm.c            | 546 ++++++++++++++++++++++++++++++
+ target/loongarch/kvm_loongarch.h  |  13 +
+ target/loongarch/meson.build      |   1 +
+ target/loongarch/trace-events     |  15 +
+ target/loongarch/trace.h          |   1 +
+ 11 files changed, 721 insertions(+), 5 deletions(-)
+ create mode 100644 linux-headers/asm-loongarch/kvm.h
+ create mode 100644 target/loongarch/kvm-stub.c
+ create mode 100644 target/loongarch/kvm.c
+ create mode 100644 target/loongarch/kvm_loongarch.h
+ create mode 100644 target/loongarch/trace-events
+ create mode 100644 target/loongarch/trace.h
+
+-- 
+2.31.1
+
 
