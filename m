@@ -2,63 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4C466F8D2B
-	for <lists+qemu-devel@lfdr.de>; Sat,  6 May 2023 02:37:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 58C506F8D69
+	for <lists+qemu-devel@lfdr.de>; Sat,  6 May 2023 03:14:53 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pv5u5-0003IE-8L; Fri, 05 May 2023 20:36:01 -0400
+	id 1pv6UQ-0002W8-O7; Fri, 05 May 2023 21:13:34 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <sstabellini@kernel.org>)
- id 1pv5u0-0003Fx-2o
- for qemu-devel@nongnu.org; Fri, 05 May 2023 20:35:56 -0400
-Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
+ id 1pv6UO-0002Vt-FJ
+ for qemu-devel@nongnu.org; Fri, 05 May 2023 21:13:32 -0400
+Received: from dfw.source.kernel.org ([139.178.84.217])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <sstabellini@kernel.org>)
- id 1pv5tw-0005lH-3n
- for qemu-devel@nongnu.org; Fri, 05 May 2023 20:35:55 -0400
+ id 1pv6UM-0007v9-Le
+ for qemu-devel@nongnu.org; Fri, 05 May 2023 21:13:32 -0400
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 0079763C2E;
- Sat,  6 May 2023 00:35:39 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4DED8C433D2;
- Sat,  6 May 2023 00:35:37 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 316E4641D3;
+ Sat,  6 May 2023 01:13:29 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 803CCC433D2;
+ Sat,  6 May 2023 01:13:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1683333338;
- bh=bP/3aHvZYOXH3zu8B4TUIjOV1o/FusNOt/78mT12AFw=;
+ s=k20201202; t=1683335608;
+ bh=kbfyCZ/OIOcwupFcFbstNbToCUDi6rMZBmq26a28eDA=;
  h=Date:From:To:cc:Subject:In-Reply-To:References:From;
- b=FA6qHKtIZCoo7JyMA/TPj5q9THuxlE3xbt1wUPQos+XP7Llr1DVlqSqtI9CtwtEnz
- ZtUpCdFFsQR/gq0RuBDEBWUmNytLi/26Er/7E5CNzoXvyhvX11CvehWdgMcSyFl5cZ
- 3HzhQ/SrPomJvST5vkoMFoGPniwB7pf7KCH8NLBEl5KAntmYPPE51DFaGvltpnRcUH
- HwWJN2Z7vYd8UykRhHmNmOONUvwc3qz1+hw8RfD3ILXha6BvLupOEUlSSxKnAeUsjz
- p2hwvi5X8C8gabXB+E3EvyS/+uNsd1Knj9l/hxSPto3NSsb+r7k38IJIl4nGDQLUHr
- o4yTLuUOaVS/w==
-Date: Fri, 5 May 2023 17:35:35 -0700 (PDT)
+ b=AdAbF1L56MX8vHqQ6MzWKJGRAbRAMP3R1IXMtemOzD2oN9rzpV3BZDxQr7u9YS4Of
+ LZIB5myzBjj/w/uKDLFBKVDBSTxK9TRF5Q0arZk1rPDNQ4Xd7nqfWro5SdxegzDF/f
+ qkGQU0GRkxngpXz3UmTh1pAgjmrC0dZL8QFUw9IRbSQ80c4F89MBiyeFt645FTgT9E
+ 5mYfdiIkLhtesYcnxz37VWLPlPMpa4xMkwiWhhyZtdFTp2yHODj6E22PlQq/JN4vrU
+ x6h7+WyyOtXQJZAv521wU6F2lXpPxHuH1N3vrf0iy/p2fq+gumzQMrplu9SrdfYrUQ
+ +yvMevRdK6tvA==
+Date: Fri, 5 May 2023 18:13:25 -0700 (PDT)
 From: Stefano Stabellini <sstabellini@kernel.org>
 X-X-Sender: sstabellini@ubuntu-linux-20-04-desktop
-To: Jason Andryuk <jandryuk@gmail.com>
-cc: qemu-devel@nongnu.org, Greg Kurz <groug@kaod.org>, 
- Christian Schoenebeck <qemu_oss@crudebyte.com>, 
- Stefano Stabellini <sstabellini@kernel.org>, 
- Anthony Perard <anthony.perard@citrix.com>, Paul Durrant <paul@xen.org>, 
- "open list:X86 Xen CPUs" <xen-devel@lists.xenproject.org>
-Subject: Re: [PATCH] 9pfs/xen: Fix segfault on shutdown
-In-Reply-To: <20230502143722.15613-1-jandryuk@gmail.com>
-Message-ID: <alpine.DEB.2.22.394.2305051735020.974517@ubuntu-linux-20-04-desktop>
-References: <20230502143722.15613-1-jandryuk@gmail.com>
+To: Mark Syms <mark.syms@citrix.com>
+cc: qemu-devel@nongnu.org, sstabellini@kernel.org, anthony.perard@citrix.com, 
+ paul@xen.org, xen-devel@lists.xenproject.org
+Subject: Re: [PATCH 0/1] Updated: Ensure PV ring is drained on disconenct
+In-Reply-To: <20230420102014.647446-1-mark.syms@citrix.com>
+Message-ID: <alpine.DEB.2.22.394.2305051759260.974517@ubuntu-linux-20-04-desktop>
+References: <20230329105344.3465706-2-mark.syms@citrix.com>
+ <20230420102014.647446-1-mark.syms@citrix.com>
 User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
-Received-SPF: pass client-ip=2604:1380:4641:c500::1;
+Received-SPF: pass client-ip=139.178.84.217;
  envelope-from=sstabellini@kernel.org; helo=dfw.source.kernel.org
-X-Spam_score_int: -45
-X-Spam_score: -4.6
-X-Spam_bar: ----
-X-Spam_report: (-4.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.161,
+X-Spam_score_int: -72
+X-Spam_score: -7.3
+X-Spam_bar: -------
+X-Spam_report: (-7.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.161,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -75,137 +73,119 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, 2 May 2023, Jason Andryuk wrote:
-> xen_9pfs_free can't use gnttabdev since it is already closed and NULL-ed
-> out when free is called.  Do the teardown in _disconnect().  This
-> matches the setup done in _connect().
+On Thu, 20 Apr 2023, Mark Syms wrote:
+> Updated patch to address intermittent SIGSEGV on domain disconnect/shutdown.
 > 
-> trace-events are also added for the XenDevOps functions.
+> Mark Syms (1):
+>   Ensure the PV ring is drained on disconnect
 > 
-> Signed-off-by: Jason Andryuk <jandryuk@gmail.com>
+>  hw/block/dataplane/xen-block.c | 31 +++++++++++++++++++++++++------
+>  1 file changed, 25 insertions(+), 6 deletions(-)
+> 
+> -- 
+> 2.40.0
+> 
+> >From 21724baa15a72534d98aa2653e9ec39e83559319 Mon Sep 17 00:00:00 2001
+> From: Mark Syms <mark.syms@citrix.com>
+> Date: Thu, 20 Apr 2023 11:08:34 +0100
+> Subject: [PATCH 1/1] Ensure the PV ring is drained on disconnect
+> 
+> Also ensure all pending AIO is complete.
+
+Hi Mark, can you please add more info on the problem you are trying to
+solve? Also add any stacktrace if you get any due to this error.
+
+
+> Signed-off-by: Mark Syms <mark.syms@citrix.com>
 > ---
->  hw/9pfs/trace-events     |  5 +++++
->  hw/9pfs/xen-9p-backend.c | 36 +++++++++++++++++++++++-------------
->  2 files changed, 28 insertions(+), 13 deletions(-)
+>  hw/block/dataplane/xen-block.c | 31 +++++++++++++++++++++++++------
+>  1 file changed, 25 insertions(+), 6 deletions(-)
 > 
-> diff --git a/hw/9pfs/trace-events b/hw/9pfs/trace-events
-> index 6c77966c0b..7b5b0b5a48 100644
-> --- a/hw/9pfs/trace-events
-> +++ b/hw/9pfs/trace-events
-> @@ -48,3 +48,8 @@ v9fs_readlink(uint16_t tag, uint8_t id, int32_t fid) "tag %d id %d fid %d"
->  v9fs_readlink_return(uint16_t tag, uint8_t id, char* target) "tag %d id %d name %s"
->  v9fs_setattr(uint16_t tag, uint8_t id, int32_t fid, int32_t valid, int32_t mode, int32_t uid, int32_t gid, int64_t size, int64_t atime_sec, int64_t mtime_sec) "tag %u id %u fid %d iattr={valid %d mode %d uid %d gid %d size %"PRId64" atime=%"PRId64" mtime=%"PRId64" }"
->  v9fs_setattr_return(uint16_t tag, uint8_t id) "tag %u id %u"
-> +
-> +xen_9pfs_alloc(char *name) "name %s"
-> +xen_9pfs_connect(char *name) "name %s"
-> +xen_9pfs_disconnect(char *name) "name %s"
-> +xen_9pfs_free(char *name) "name %s"
-> diff --git a/hw/9pfs/xen-9p-backend.c b/hw/9pfs/xen-9p-backend.c
-> index 0e266c552b..c646a0b3d1 100644
-> --- a/hw/9pfs/xen-9p-backend.c
-> +++ b/hw/9pfs/xen-9p-backend.c
-> @@ -25,6 +25,8 @@
->  #include "qemu/iov.h"
->  #include "fsdev/qemu-fsdev.h"
+> diff --git a/hw/block/dataplane/xen-block.c b/hw/block/dataplane/xen-block.c
+> index 734da42ea7..d9da4090bf 100644
+> --- a/hw/block/dataplane/xen-block.c
+> +++ b/hw/block/dataplane/xen-block.c
+> @@ -523,6 +523,10 @@ static bool xen_block_handle_requests(XenBlockDataPlane *dataplane)
 >  
-> +#include "trace.h"
-> +
->  #define VERSIONS "1"
->  #define MAX_RINGS 8
->  #define MAX_RING_ORDER 9
-> @@ -337,6 +339,8 @@ static void xen_9pfs_disconnect(struct XenLegacyDevice *xendev)
->      Xen9pfsDev *xen_9pdev = container_of(xendev, Xen9pfsDev, xendev);
->      int i;
+>      dataplane->more_work = 0;
 >  
-> +    trace_xen_9pfs_disconnect(xendev->name);
+> +    if (dataplane->sring == 0) {
+> +        return done_something;
+
+done_something cannot be changed by now, so I would just do
+
+    return false;
+
+
+> +    }
 > +
->      for (i = 0; i < xen_9pdev->num_rings; i++) {
->          if (xen_9pdev->rings[i].evtchndev != NULL) {
->              qemu_set_fd_handler(qemu_xen_evtchn_fd(xen_9pdev->rings[i].evtchndev),
-> @@ -345,40 +349,42 @@ static void xen_9pfs_disconnect(struct XenLegacyDevice *xendev)
->                                     xen_9pdev->rings[i].local_port);
->              xen_9pdev->rings[i].evtchndev = NULL;
->          }
-> -    }
-> -}
-> -
-> -static int xen_9pfs_free(struct XenLegacyDevice *xendev)
-> -{
-> -    Xen9pfsDev *xen_9pdev = container_of(xendev, Xen9pfsDev, xendev);
-> -    int i;
-> -
-> -    if (xen_9pdev->rings[0].evtchndev != NULL) {
-> -        xen_9pfs_disconnect(xendev);
-> -    }
-> -
-> -    for (i = 0; i < xen_9pdev->num_rings; i++) {
->          if (xen_9pdev->rings[i].data != NULL) {
->              xen_be_unmap_grant_refs(&xen_9pdev->xendev,
->                                      xen_9pdev->rings[i].data,
->                                      xen_9pdev->rings[i].intf->ref,
->                                      (1 << xen_9pdev->rings[i].ring_order));
-> +            xen_9pdev->rings[i].data = NULL;
->          }
->          if (xen_9pdev->rings[i].intf != NULL) {
->              xen_be_unmap_grant_ref(&xen_9pdev->xendev,
->                                     xen_9pdev->rings[i].intf,
->                                     xen_9pdev->rings[i].ref);
-> +            xen_9pdev->rings[i].intf = NULL;
->          }
->          if (xen_9pdev->rings[i].bh != NULL) {
->              qemu_bh_delete(xen_9pdev->rings[i].bh);
-> +            xen_9pdev->rings[i].bh = NULL;
->          }
+>      rc = dataplane->rings.common.req_cons;
+>      rp = dataplane->rings.common.sring->req_prod;
+>      xen_rmb(); /* Ensure we see queued requests up to 'rp'. */
+> @@ -666,14 +670,35 @@ void xen_block_dataplane_destroy(XenBlockDataPlane *dataplane)
+>  void xen_block_dataplane_stop(XenBlockDataPlane *dataplane)
+>  {
+>      XenDevice *xendev;
+> +    XenBlockRequest *request, *next;
+>  
+>      if (!dataplane) {
+>          return;
 >      }
 >  
->      g_free(xen_9pdev->id);
-> +    xen_9pdev->id = NULL;
->      g_free(xen_9pdev->tag);
-> +    xen_9pdev->tag = NULL;
->      g_free(xen_9pdev->path);
-> +    xen_9pdev->path = NULL;
->      g_free(xen_9pdev->security_model);
-> +    xen_9pdev->security_model = NULL;
->      g_free(xen_9pdev->rings);
-> +    xen_9pdev->rings = NULL;
-> +    return;
-
-NIT: this return is redudant.
-
-Aside from that:
-
-Reviewed-by: Stefano Stabellini <sstabellini@kernel.org>
-
-
-> +}
+> +    /* We're about to drain the ring. We can cancel the scheduling of any
+> +     * bottom half now */
+> +    qemu_bh_cancel(dataplane->bh);
 > +
-> +static int xen_9pfs_free(struct XenLegacyDevice *xendev)
-> +{
-> +    trace_xen_9pfs_free(xendev->name);
+> +    /* Ensure we have drained the ring */
+> +    aio_context_acquire(dataplane->ctx);
+
+Would it make sense to move the 2 loops below under the existing
+aio_context_acquire also below?
+
+
+> +    do {
+> +        xen_block_handle_requests(dataplane);
+> +    } while (dataplane->more_work);
+> +    aio_context_release(dataplane->ctx);
 > +
->      return 0;
->  }
+> +    /* Now ensure that all inflight requests are complete */
+> +    while (!QLIST_EMPTY(&dataplane->inflight)) {
+> +        QLIST_FOREACH_SAFE(request, &dataplane->inflight, list, next) {
+> +            blk_aio_flush(request->dataplane->blk, xen_block_complete_aio,
+> +                        request);
+> +        }
+> +    }
+
+especially because I would think that blk_aio_flush needs to be called
+with aio_context_acquired ?
+
+
+
+>      xendev = dataplane->xendev;
 >  
-> @@ -390,6 +396,8 @@ static int xen_9pfs_connect(struct XenLegacyDevice *xendev)
->      V9fsState *s = &xen_9pdev->state;
->      QemuOpts *fsdev;
->  
-> +    trace_xen_9pfs_connect(xendev->name);
+>      aio_context_acquire(dataplane->ctx);
 > +
->      if (xenstore_read_fe_int(&xen_9pdev->xendev, "num-rings",
->                               &xen_9pdev->num_rings) == -1 ||
->          xen_9pdev->num_rings > MAX_RINGS || xen_9pdev->num_rings < 1) {
-> @@ -499,6 +507,8 @@ out:
+
+move the new code here
+
+
+>      if (dataplane->event_channel) {
+>          /* Only reason for failure is a NULL channel */
+>          xen_device_set_event_channel_context(xendev, dataplane->event_channel,
+> @@ -684,12 +709,6 @@ void xen_block_dataplane_stop(XenBlockDataPlane *dataplane)
+>      blk_set_aio_context(dataplane->blk, qemu_get_aio_context(), &error_abort);
+>      aio_context_release(dataplane->ctx);
 >  
->  static void xen_9pfs_alloc(struct XenLegacyDevice *xendev)
->  {
-> +    trace_xen_9pfs_alloc(xendev->name);
-> +
->      xenstore_write_be_str(xendev, "versions", VERSIONS);
->      xenstore_write_be_int(xendev, "max-rings", MAX_RINGS);
->      xenstore_write_be_int(xendev, "max-ring-page-order", MAX_RING_ORDER);
+> -    /*
+> -     * Now that the context has been moved onto the main thread, cancel
+> -     * further processing.
+> -     */
+> -    qemu_bh_cancel(dataplane->bh);
+> -
+>      if (dataplane->event_channel) {
+>          Error *local_err = NULL;
+>  
 > -- 
-> 2.40.1
+> 2.40.0
 > 
 
