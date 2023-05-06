@@ -2,60 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A6066F8D6A
-	for <lists+qemu-devel@lfdr.de>; Sat,  6 May 2023 03:14:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 78AF36F8DD5
+	for <lists+qemu-devel@lfdr.de>; Sat,  6 May 2023 04:05:03 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pv6V6-0002aB-9E; Fri, 05 May 2023 21:14:16 -0400
+	id 1pv7Gm-0004WE-R6; Fri, 05 May 2023 22:03:32 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
- id 1pv6V4-0002Zp-0m
- for qemu-devel@nongnu.org; Fri, 05 May 2023 21:14:14 -0400
+ id 1pv7Gh-0004VH-JD; Fri, 05 May 2023 22:03:27 -0400
 Received: from mail.loongson.cn ([114.242.206.163] helo=loongson.cn)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <gaosong@loongson.cn>) id 1pv6V1-0008Ah-6r
- for qemu-devel@nongnu.org; Fri, 05 May 2023 21:14:13 -0400
+ (envelope-from <gaosong@loongson.cn>)
+ id 1pv7Ge-0007sR-Vo; Fri, 05 May 2023 22:03:27 -0400
 Received: from loongson.cn (unknown [10.20.42.57])
- by gateway (Coremail) with SMTP id _____8Cx_erdqVVkhIMFAA--.8975S3;
- Sat, 06 May 2023 09:14:05 +0800 (CST)
+ by gateway (Coremail) with SMTP id _____8AxGupjtVVk4oYFAA--.9058S3;
+ Sat, 06 May 2023 10:03:15 +0800 (CST)
 Received: from [10.20.42.57] (unknown [10.20.42.57])
  by localhost.localdomain (Coremail) with SMTP id
- AQAAf8CxMuXcqVVkW71MAA--.8702S3; 
- Sat, 06 May 2023 09:14:04 +0800 (CST)
-Subject: Re: [PULL 00/45] loongarch-to-apply queue
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20230505022806.6082-1-gaosong@loongson.cn>
- <005cb984-e347-8735-afad-ba23558dd549@linaro.org>
+ AQAAf8CxMuVjtVVklMtMAA--.8766S3; 
+ Sat, 06 May 2023 10:03:15 +0800 (CST)
+Subject: Re: [PATCH v4 36/57] tcg/loongarch64: Assert the host supports
+ unaligned accesses
+To: WANG Xuerui <i.qemu@xen0n.name>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+Cc: git@xen0n.name, philmd@linaro.org, qemu-arm@nongnu.org,
+ qemu-riscv@nongnu.org, qemu-s390x@nongnu.org
+References: <20230503070656.1746170-1-richard.henderson@linaro.org>
+ <20230503070656.1746170-37-richard.henderson@linaro.org>
+ <fc71437e-3507-8d29-7b99-e4ba4f0ed7b0@xen0n.name>
 From: Song Gao <gaosong@loongson.cn>
-Message-ID: <4eb363b8-0594-7dd5-8fe2-4c9e8f57b06c@loongson.cn>
-Date: Sat, 6 May 2023 09:14:04 +0800
+Message-ID: <052a2141-3c4c-c8ae-5b66-4231145f8a84@loongson.cn>
+Date: Sat, 6 May 2023 10:03:15 +0800
 User-Agent: Mozilla/5.0 (X11; Linux loongarch64; rv:68.0) Gecko/20100101
  Thunderbird/68.7.0
 MIME-Version: 1.0
-In-Reply-To: <005cb984-e347-8735-afad-ba23558dd549@linaro.org>
+In-Reply-To: <fc71437e-3507-8d29-7b99-e4ba4f0ed7b0@xen0n.name>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
 Content-Language: en-US
-X-CM-TRANSID: AQAAf8CxMuXcqVVkW71MAA--.8702S3
+X-CM-TRANSID: AQAAf8CxMuVjtVVklMtMAA--.8766S3
 X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
-X-Coremail-Antispam: 1Uk129KBjvJXoW7WF43GFyDJr15uF17ZF4UXFb_yoW8GryrpF
- s3CFy2krW5JryxJw48Kr18ZFyjyr48Ja1UZ3W5WFy0kF4DZr9aqr48Wr4Fgry3W3yxCr1F
- qFyrtw1UZw18Ar7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
+X-Coremail-Antispam: 1Uk129KBjvJXoWxJrW3Kr15ZrW5tFWxAw47Arb_yoW8XF1kpF
+ s7CF43GF4rJFZ5JrZrX34Ygr98JrWru3Waqa1xtw18ZrZI934UXrsYgFZagF1Yq3ykWrW7
+ ZFyvgw1fZFWjyFJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
  qI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUIcSsGvfJTRUUU
- bIxYFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s
- 1l1IIY67AEw4v_JrI_Jryl8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xv
- wVC0I7IYx2IY67AKxVW7JVWDJwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVWxJVW8Jr1l84
- ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x0267AKxVW8Jr0_Cr1U
- M2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12xvs2x26I8E6xACxx1l5I8CrVACY4
- xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8
- JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lc7I2V7IY0VAS07AlzVAYIcxG8w
- CF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j
- 6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jrv_JF1lIxkGc2Ij64
- vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_
- Gr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0x
- vEx4A2jsIEc7CjxVAFwI0_Jr0_GrUvcSsGvfC2KfnxnUUI43ZEXa7IU8czVUUUUUU==
+ bI8YFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s
+ 1l1IIY67AEw4v_Jrv_JF1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xv
+ wVC0I7IYx2IY67AKxVWUCVW8JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwA2z4
+ x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6xkF7I0E14v26r4UJVWxJr1l
+ e2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF0cIa020Ex4CE44I27wAqx4xG64xvF2
+ IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_JrI_JrylYx0Ex4A2jsIE14v26r1j6r4U
+ McvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwCYjI0SjxkI62AI1cAE67vIY487Mx
+ AIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_
+ Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwI
+ xGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8
+ JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcV
+ C2z280aVCY1x0267AKxVWUJVW8JbIYCTnIWIevJa73UjIFyTuYvjxU70PfDUUUU
 Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
  helo=loongson.cn
 X-Spam_score_int: -61
@@ -79,43 +83,46 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+Hi,
 
-
-在 2023/5/6 上午2:16, Richard Henderson 写道:
-> On 5/5/23 03:27, Song Gao wrote:
->> The following changes since commit 
->> f6b761bdbd8ba63cee7428d52fb6b46e4224ddab:
->>
->>    Merge tag 'qga-pull-2023-05-04' 
->> ofhttps://github.com/kostyanf14/qemu  into staging (2023-05-04 
->> 12:08:00 +0100)
->>
->> are available in the Git repository at:
->>
->>    https://gitlab.com/gaosong/qemu.git tags/pull-loongarch-20230505
->>
->> for you to fetch changes up to 9dd207d409cc2eb08fe52965b9d1fd4a12a82bd5:
->>
->>    hw/intc: don't use target_ulong for LoongArch ipi (2023-05-05 
->> 10:00:47 +0800)
->>
->> ----------------------------------------------------------------
->> Add LoongArch LSX instructions.
+在 2023/5/5 下午9:24, WANG Xuerui 写道:
+> Hi,
 >
-> This has CI failures:
->
-> https://gitlab.com/qemu-project/qemu/-/pipelines/858609469/failures
->
-> Importantly, it does not build on 32-bit hosts:
->
-> https://gitlab.com/qemu-project/qemu/-/jobs/4235054589#L2631
->
-> ../target/loongarch/lsx_helper.c:1013:17: error: incompatible types 
-> when assigning to type 'int64_t' {aka 'long long int'} from type 'Int128'
->  1013 |     temp.D(0) = int128_urshift(Vj->Q(0), imm % 128);
->       |                 ^~~~~~~~~~~~~~
->
-Sorry about this,   I will fix it,  and test on 32-bit hosts.
+> On 2023/5/3 15:06, Richard Henderson wrote:
+>> This should be true of all server class loongarch64.
+> And desktop-class (i.e. all Loongson-3 series).
+>>
+>> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+>> ---
+>>   tcg/loongarch64/tcg-target.c.inc | 6 ++++++
+>>   1 file changed, 6 insertions(+)
+>>
+>> diff --git a/tcg/loongarch64/tcg-target.c.inc 
+>> b/tcg/loongarch64/tcg-target.c.inc
+>> index e651ec5c71..ccc13ffdb4 100644
+>> --- a/tcg/loongarch64/tcg-target.c.inc
+>> +++ b/tcg/loongarch64/tcg-target.c.inc
+>> @@ -30,6 +30,7 @@
+>>    */
+>>     #include "../tcg-ldst.c.inc"
+>> +#include <asm/hwcap.h>
+>>     #ifdef CONFIG_DEBUG_TCG
+>>   static const char * const tcg_target_reg_names[TCG_TARGET_NB_REGS] = {
+>> @@ -1674,6 +1675,11 @@ static void 
+>> tcg_target_qemu_prologue(TCGContext *s)
+>>     static void tcg_target_init(TCGContext *s)
+>>   {
+>> +    unsigned long hwcap = qemu_getauxval(AT_HWCAP);
+>> +
+>> +    /* All server class loongarch have UAL; only embedded do not. */
+>> +    assert(hwcap & HWCAP_LOONGARCH_UAL);
+>> +
+> It is a bit worrying that a future SoC (the octa-core Loongson 2K3000) 
+> might get used for light desktop use cases (e.g. laptops) where QEMU 
+> is arguably relevant, but it's currently unclear whether its LA364 
+> micro-architecture will have UAL. The Loongson folks may have more to 
+> share.
+'LA364' support UAL.
 
 Thanks.
 Song Gao
