@@ -2,54 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DEE466F9967
-	for <lists+qemu-devel@lfdr.de>; Sun,  7 May 2023 17:33:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 85B7C6F9AC5
+	for <lists+qemu-devel@lfdr.de>; Sun,  7 May 2023 19:58:03 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pvgNt-0003PM-3f; Sun, 07 May 2023 11:33:13 -0400
+	id 1pvich-00068h-Ep; Sun, 07 May 2023 13:56:39 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vr_qemu@t-online.de>)
- id 1pvgNr-0003Od-Cs
- for qemu-devel@nongnu.org; Sun, 07 May 2023 11:33:11 -0400
-Received: from mailout03.t-online.de ([194.25.134.81])
+ (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>) id 1pvicf-00068Z-CY
+ for qemu-devel@nongnu.org; Sun, 07 May 2023 13:56:37 -0400
+Received: from isrv.corpit.ru ([86.62.121.231])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vr_qemu@t-online.de>)
- id 1pvgNp-0006Ie-QG
- for qemu-devel@nongnu.org; Sun, 07 May 2023 11:33:11 -0400
-Received: from fwd71.dcpf.telekom.de (fwd71.aul.t-online.de [10.223.144.97])
- by mailout03.t-online.de (Postfix) with SMTP id C05A724DBA;
- Sun,  7 May 2023 17:33:07 +0200 (CEST)
-Received: from [192.168.211.200] ([79.208.27.89]) by fwd71.t-online.de
- with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
- esmtp id 1pvgNk-0zInzt0; Sun, 7 May 2023 17:33:04 +0200
-Message-ID: <ba44ad60-596c-71f2-f073-10b0bbd8211f@t-online.de>
-Date: Sun, 7 May 2023 17:33:04 +0200
+ (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>) id 1pvicd-0003Aw-NF
+ for qemu-devel@nongnu.org; Sun, 07 May 2023 13:56:37 -0400
+Received: from tsrv.corpit.ru (tsrv.tls.msk.ru [192.168.177.2])
+ by isrv.corpit.ru (Postfix) with ESMTP id E8250400F1;
+ Sun,  7 May 2023 20:56:24 +0300 (MSK)
+Received: from [192.168.177.130] (mjt.wg.tls.msk.ru [192.168.177.130])
+ by tsrv.corpit.ru (Postfix) with ESMTP id 8BA066D;
+ Sun,  7 May 2023 20:56:23 +0300 (MSK)
+Message-ID: <d6f3e06c-ee84-5101-c583-220aa90c0c12@msgid.tls.msk.ru>
+Date: Sun, 7 May 2023 20:56:23 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.1
-From: =?UTF-8?Q?Volker_R=c3=bcmelin?= <vr_qemu@t-online.de>
-Subject: Re: [PATCH 10/12] audio/pw: simplify error reporting in stream
- creation
-To: marcandre.lureau@redhat.com, Gerd Hoffmann <kraxel@redhat.com>
-Cc: dbassey@redhat.com, qemu-devel@nongnu.org
-References: <20230506163735.3481387-1-marcandre.lureau@redhat.com>
- <20230506163735.3481387-11-marcandre.lureau@redhat.com>
-Content-Language: de-DE
-In-Reply-To: <20230506163735.3481387-11-marcandre.lureau@redhat.com>
+ Thunderbird/102.10.0
+Content-Language: en-US
+To: QEMU Developers <qemu-devel@nongnu.org>,
+ Marcel Apfelbaum <marcel.a@redhat.com>, Markus Armbruster <armbru@redhat.com>
+From: Michael Tokarev <mjt@tls.msk.ru>
+Subject: missing boot rom: is it really a fatal error?
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-TOI-EXPURGATEID: 150726::1683473584-8EFFAC12-9EABE27C/0/0 CLEAN NORMAL
-X-TOI-MSGID: 735f3626-f70f-402b-b48e-617f1ac4aa37
-Received-SPF: none client-ip=194.25.134.81; envelope-from=vr_qemu@t-online.de;
- helo=mailout03.t-online.de
-X-Spam_score_int: -55
-X-Spam_score: -5.6
-X-Spam_bar: -----
-X-Spam_report: (-5.6 / 5.0 requ) BAYES_00=-1.9, FREEMAIL_FROM=0.001,
- NICE_REPLY_A=-2.964, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=-0.01,
- RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001, SPF_NONE=0.001,
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=86.62.121.231; envelope-from=mjt@tls.msk.ru;
+ helo=isrv.corpit.ru
+X-Spam_score_int: -68
+X-Spam_score: -6.9
+X-Spam_bar: ------
+X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_HI=-5,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -66,60 +57,32 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-> From: Marc-André Lureau<marcandre.lureau@redhat.com>
->
-> create_stream() now reports on all error paths.
->
-> Signed-off-by: Marc-André Lureau<marcandre.lureau@redhat.com>
-> ---
->   audio/pwaudio.c | 12 +-----------
->   1 file changed, 1 insertion(+), 11 deletions(-)
+Hi!
 
-Reviewed-by: Volker Rümelin <vr_qemu@t-online.de>
+In old good world ;), there was qemu which didn't require boot roms to be present
+for all devices for which bootrom file is defined, missing rom was just a warning.
+But this changed in 2014, 9 years ago, with this commit:
 
-> diff --git a/audio/pwaudio.c b/audio/pwaudio.c
-> index 5c706a9fde..38905f5be2 100644
-> --- a/audio/pwaudio.c
-> +++ b/audio/pwaudio.c
-> @@ -486,8 +486,6 @@ static int
->   qpw_stream_new(pwaudio *c, PWVoice *v, const char *stream_name,
->                  const char *name, enum spa_direction dir)
->   {
-> -    int r;
-> -
->       switch (v->info.channels) {
->       case 8:
->           v->info.position[0] = SPA_AUDIO_CHANNEL_FL;
-> @@ -540,13 +538,7 @@ qpw_stream_new(pwaudio *c, PWVoice *v, const char *stream_name,
->       }
->   
->       /* create a new unconnected pwstream */
-> -    r = create_stream(c, v, stream_name, name, dir);
-> -    if (r < 0) {
-> -        AUD_log(AUDIO_CAP, "Failed to create stream.");
-> -        return -1;
-> -    }
-> -
-> -    return r;
-> +    return create_stream(c, v, stream_name, name, dir);
->   }
->   
->   static int
-> @@ -577,7 +569,6 @@ qpw_init_out(HWVoiceOut *hw, struct audsettings *as, void *drv_opaque)
->       r = qpw_stream_new(c, v, ppdo->stream_name ? : c->dev->id,
->                          ppdo->name, SPA_DIRECTION_OUTPUT);
->       if (r < 0) {
-> -        error_report("qpw_stream_new for playback failed");
->           pw_thread_loop_unlock(c->thread_loop);
->           return -1;
->       }
-> @@ -621,7 +612,6 @@ qpw_init_in(HWVoiceIn *hw, struct audsettings *as, void *drv_opaque)
->       r = qpw_stream_new(c, v, ppdo->stream_name ? : c->dev->id,
->                          ppdo->name, SPA_DIRECTION_INPUT);
->       if (r < 0) {
-> -        error_report("qpw_stream_new for recording failed");
->           pw_thread_loop_unlock(c->thread_loop);
->           return -1;
->       }
+commit 178e785fb4507ec3462dc772bbe08303416ece47
+From: Marcel Apfelbaum <marcel.a@redhat.com>
+Date: Mon, 27 Oct 2014 19:34:41 +0200
+Subject: [PATCH] hw/pci: fixed error flow in pci_qdev_init
 
+   Verify return code for pci_add_option_rom.
+
+where inability to load rom file started being treated as an error.
+Up until now I didn't even know about this change, until today when someone bugged
+me about non-working qemu on debian, due to missing network boot roms (this a
+packaging issue due to me being unaware of the above change).
+
+What is the reason to require boot roms to be present and throw an error if not?
+
+I'm about to revert that old change on debian, to make it just a warning instead
+of an error (the code is different now, but the same principle applies), - because
+I dislike dependencies which are useless 99.9% of the time and are trivial to
+install when actually needed.
+
+Thanks,
+
+/mjt
 
