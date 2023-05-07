@@ -2,72 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 579DB6F9C9E
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 May 2023 01:07:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 78B956F9CAD
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 May 2023 01:17:54 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pvnS2-0008EN-4X; Sun, 07 May 2023 19:05:58 -0400
+	id 1pvncd-0001ME-6X; Sun, 07 May 2023 19:16:55 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1pvnRs-0008Dr-UE; Sun, 07 May 2023 19:05:53 -0400
-Received: from mail-vs1-xe2e.google.com ([2607:f8b0:4864:20::e2e])
+ id 1pvncb-0001M1-Gg
+ for qemu-devel@nongnu.org; Sun, 07 May 2023 19:16:53 -0400
+Received: from mail-vk1-xa34.google.com ([2607:f8b0:4864:20::a34])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1pvnRq-0003sh-0Y; Sun, 07 May 2023 19:05:47 -0400
-Received: by mail-vs1-xe2e.google.com with SMTP id
- ada2fe7eead31-4304f4aea78so1255819137.3; 
- Sun, 07 May 2023 16:05:45 -0700 (PDT)
+ id 1pvnca-0006Gu-22
+ for qemu-devel@nongnu.org; Sun, 07 May 2023 19:16:53 -0400
+Received: by mail-vk1-xa34.google.com with SMTP id
+ 71dfb90a1353d-44fdac26696so1149154e0c.3
+ for <qemu-devel@nongnu.org>; Sun, 07 May 2023 16:16:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1683500743; x=1686092743;
+ d=gmail.com; s=20221208; t=1683501411; x=1686093411;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=ybKjR5K87X8rKvfjrPVWLm4JL1K26Mnv7KUJ2DkA/34=;
- b=DMoK2R5je8XVQIQ+76fX9It0EZDdK1U7X9OiMHNbnUJdpHN6zngmSrqqIF3LV4zats
- TidOzgOO5Q10ILK+Or58CM6TNWWqTglS05SwLj/gnI0IhZPZBWBKAe80eHZaD/d0sYgZ
- bd0klvv5tgwkGiPnfB833+6tpOrhYsz+YHOwKum04/Z6gwrcgpVSHFMbmJ7yHnK1Z5t6
- Avdq1wqV88H7MbPdLLMWFYmWl70dIxirKBcjUUYURm3IyOf9K06joWfJOhbv6aLVkNo+
- uSBPTf+HKwbVsUPh4upyPmRNudUzaGU3kvu+fimW2zxKP9B9+SIqp/GtCAVmwEN5uEFN
- TdIQ==
+ bh=fIZrg6Bd68Cu0nAYrGvzJI1ViWvE5yxGslU1gw/3s7M=;
+ b=OagNk+GFRj+fU3oODb+09GXjv79ulXHzEzDDK3Pa1r3/wUUNWSts7Ui9JrHyL3iImD
+ 2c27U5zdjU35VLB2xFYIZzLidLXC7mapTI49q53CR4LuVRQNgYGZM3B93fJihzBmb4UV
+ eiSLo+nLQrcs0bP/c9n3e5br9IWC+ryjJvPTV+5OM0ksDg3HzLb2YP3DRO+7nU03KdRV
+ mR2Zwd0Kw2Tt2238zls5Vkxq1obw0oQ3rprGArXuzXPJrBCeXKhFcESVJZ7owokBklTL
+ jBL9atmcyJrnHY1AV6GlSJKv9gRpCGhJK0CalvRjGxEfc9dobLKNFJtxR1rSj2vtcWWG
+ 59Uw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683500743; x=1686092743;
+ d=1e100.net; s=20221208; t=1683501411; x=1686093411;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=ybKjR5K87X8rKvfjrPVWLm4JL1K26Mnv7KUJ2DkA/34=;
- b=NqjaMN+WnKu05DFksOir7OrxQZwfxs2YdoHZ/GuOfl6AVXRew9s2/KKKJmMZMnPdQM
- WZJu8XIsPcmHIBglO0Wy8AVN1zTyA61bWcLurBSy8k1nzHhpMlhwiJpMXRhlyJrZuPFb
- MaDbbdpneyRZ+jkUoGAWn6SsFt599bSDmlMQYyfp78yK6XR9D5tytDWtgj86DTxyhKGR
- NmVV0quYdwrFOLu5hxRL1EKKzcP7kZBPSmCM5AtH5pPc9nYNlgQTyO7qGCoWdS7Cnx1A
- yvMO/B0AbBNVBrP+W70RM9rZyfuJfBO2N4RQAkVvkAU2xxerY804ZmTyo9vNt5D8N0zS
- axYA==
-X-Gm-Message-State: AC+VfDxcqOtTwdVuvwr2pIL7CmZmlNDFiYLn4yA4zPBwSaFEeuvmwtHj
- t09fI2qxhLj9ZmfJCO4iSs2caXs9fly9+ar7NltO5wxf3KcClw==
-X-Google-Smtp-Source: ACHHUZ6ufPv+UjrFjyMUyBHHKryoFsyvUC6/m0Feuxva876GxmDuzRQy50dFqnzbUxy6UpzEokYsDaogWrLZS96v+QA=
-X-Received: by 2002:a67:f44b:0:b0:434:8401:beae with SMTP id
- r11-20020a67f44b000000b004348401beaemr2257542vsn.34.1683500743488; Sun, 07
- May 2023 16:05:43 -0700 (PDT)
+ bh=fIZrg6Bd68Cu0nAYrGvzJI1ViWvE5yxGslU1gw/3s7M=;
+ b=MdOyvRYT5tFRatnNkQ6tgx3+vYpVBb8pumZPDGe2oTekVUFLKuic4KX0TOtoRs4q47
+ rqQ3c1syqUJ/pilIgz40XdjwqG6ramaARyDIh0GllvGiVNvaKBiOnknRXTiFdB2bkxXd
+ wT0fRdkXpeSKc8S/Cm1WdRImcqhmDvn5MlsOEGaJUkPD2oIDsCcFPhqb1AtFiewZfl5M
+ tR8KPBkxhDR2GtJdkkYGLBUPSMEUkAhHfzaj3a9h1BWA6AMAijtZRu7dtSegsOVh1+No
+ Zaf6cL3CbC5rwk6WzAJRJMEV75t15cSYsliDoykaeaau/7aSgmqwoJz8qC7qS1HXz3do
+ 8Byw==
+X-Gm-Message-State: AC+VfDzAYWcKCTAjzxoz5d2gPKxr4ngzyJEhrS/rtpL+FaK6SIMZucf3
+ 87Xbp/FmsgeJNdbMFwLa8N95490ThN/VKZ3kahsl6NTXkp4=
+X-Google-Smtp-Source: ACHHUZ7MIanp2OQVcJ+Aadliwm/OaQDVcAkdIvXpZgeNDAtmBSpVI8NobTykBeOZDyGZee16089pwSjAHAgfkBonR9c=
+X-Received: by 2002:a67:de92:0:b0:434:6ea9:2f21 with SMTP id
+ r18-20020a67de92000000b004346ea92f21mr2856440vsk.5.1683501410869; Sun, 07 May
+ 2023 16:16:50 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230425073509.3618388-1-yong.li@intel.com>
-In-Reply-To: <20230425073509.3618388-1-yong.li@intel.com>
+References: <20230428093431.10355-1-peterlin@andestech.com>
+In-Reply-To: <20230428093431.10355-1-peterlin@andestech.com>
 From: Alistair Francis <alistair23@gmail.com>
-Date: Mon, 8 May 2023 09:05:17 +1000
-Message-ID: <CAKmqyKPOuryjYD=c=aJ0n0hfSx29HebGsyKwwUUa9U0GpfwOxg@mail.gmail.com>
-Subject: Re: [PATCH v3] hw/riscv/virt: Add a second UART for secure world
-To: Yong Li <yong.li@intel.com>
-Cc: qemu-devel@nongnu.org, LIU Zhiwei <zhiwei_liu@linux.alibaba.com>, 
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
- Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <alistair.francis@wdc.com>, 
- Bin Meng <bin.meng@windriver.com>, Weiwei Li <liweiwei@iscas.ac.cn>, 
- Daniel Henrique Barboza <dbarboza@ventanamicro.com>, 
- "open list:RISC-V TCG CPUs" <qemu-riscv@nongnu.org>
+Date: Mon, 8 May 2023 09:16:24 +1000
+Message-ID: <CAKmqyKPiCg4V6r89e+71bSPf0wWehdmGpZP7KG8z4m8PCJb1Sg@mail.gmail.com>
+Subject: Re: [PATCH 2/2] hw/riscv: virt: fix pmu subnode paths
+To: Yu Chien Peter Lin <peterlin@andestech.com>
+Cc: qemu-devel@nongnu.org, conor.dooley@microchip.com, ycliang@andestech.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::e2e;
- envelope-from=alistair23@gmail.com; helo=mail-vs1-xe2e.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::a34;
+ envelope-from=alistair23@gmail.com; helo=mail-vk1-xa34.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -91,79 +87,49 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, Apr 25, 2023 at 5:36=E2=80=AFPM Yong Li <yong.li@intel.com> wrote:
+On Fri, Apr 28, 2023 at 7:35=E2=80=AFPM Yu Chien Peter Lin
+<peterlin@andestech.com> wrote:
 >
-> The virt machine can have two UARTs and the second UART
-> can be used by the secure payload, firmware or OS residing
-> in secure world. Will include the UART device to FDT in a
-> seperated patch.
+> The pmu encodes the event to counter mappings and is only used
+> by the SBI firmware. Currently, pmu is a subnode of soc but has
+> no reg properties included, causing the following failure when
+> checked with dt-validate.
 >
-> Signed-off-by: Yong Li <yong.li@intel.com>
-> Reviewed-by: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
-> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
+> /tmp/virt.dtb: soc: pmu: {'riscv,event-to-mhpmcounters': [[1, 1, 524281],=
+ [2, 2, 524284], [65561, 65561, 524280], [65563, 65563, 524280], [65569, 65=
+569, 524280]], 'compatible': ['riscv,pmu']} should not be valid under {'typ=
+e': 'object'}
+>         From schema: /home/peterlin/.local/lib/python3.10/site-packages/d=
+tschema/schemas/simple-bus.yaml
+>
+> This patch moves the pmu to top level to make the dt-validate happy.
+>
+> Signed-off-by: Yu Chien Peter Lin <peterlin@andestech.com>
 
-This has come up before (see
-https://gitlab.com/qemu-project/qemu/-/issues/955) and we decided that
-we don't want to add a second UART. If you would like a second one you
-can attach it via PCIe.
-
-I think we need a really compelling reason to add another UART. There
-was a push recently to move more towards a "PCIe board" where
-everything is attached via PCIe, and this is going in the opposite
-direction.
+Acked-by: Alistair Francis <alistair.francis@wdc.com>
 
 Alistair
 
 > ---
->  hw/riscv/virt.c         | 4 ++++
->  include/hw/riscv/virt.h | 2 ++
->  2 files changed, 6 insertions(+)
+>  hw/riscv/virt.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >
 > diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
-> index 4e3efbee16..8e11c4b9b3 100644
+> index 4e3efbee16..be8f0cb26e 100644
 > --- a/hw/riscv/virt.c
 > +++ b/hw/riscv/virt.c
-> @@ -88,6 +88,7 @@ static const MemMapEntry virt_memmap[] =3D {
->      [VIRT_APLIC_S] =3D      {  0xd000000, APLIC_SIZE(VIRT_CPUS_MAX) },
->      [VIRT_UART0] =3D        { 0x10000000,         0x100 },
->      [VIRT_VIRTIO] =3D       { 0x10001000,        0x1000 },
-> +    [VIRT_UART1] =3D        { 0x10002000,         0x100 },
->      [VIRT_FW_CFG] =3D       { 0x10100000,          0x18 },
->      [VIRT_FLASH] =3D        { 0x20000000,     0x4000000 },
->      [VIRT_IMSIC_M] =3D      { 0x24000000, VIRT_IMSIC_MAX_SIZE },
-> @@ -1506,6 +1507,9 @@ static void virt_machine_init(MachineState *machine=
-)
->      serial_mm_init(system_memory, memmap[VIRT_UART0].base,
->          0, qdev_get_gpio_in(DEVICE(mmio_irqchip), UART0_IRQ), 399193,
->          serial_hd(0), DEVICE_LITTLE_ENDIAN);
-> +    serial_mm_init(system_memory, memmap[VIRT_UART1].base,
-> +        0, qdev_get_gpio_in(DEVICE(mmio_irqchip), UART1_IRQ), 399193,
-> +        serial_hd(1), DEVICE_LITTLE_ENDIAN);
+> @@ -731,7 +731,7 @@ static void create_fdt_pmu(RISCVVirtState *s)
+>      MachineState *ms =3D MACHINE(s);
+>      RISCVCPU hart =3D s->soc[0].harts[0];
 >
->      sysbus_create_simple("goldfish_rtc", memmap[VIRT_RTC].base,
->          qdev_get_gpio_in(DEVICE(mmio_irqchip), RTC_IRQ));
-> diff --git a/include/hw/riscv/virt.h b/include/hw/riscv/virt.h
-> index e5c474b26e..8d2f8f225d 100644
-> --- a/include/hw/riscv/virt.h
-> +++ b/include/hw/riscv/virt.h
-> @@ -74,6 +74,7 @@ enum {
->      VIRT_APLIC_S,
->      VIRT_UART0,
->      VIRT_VIRTIO,
-> +    VIRT_UART1,
->      VIRT_FW_CFG,
->      VIRT_IMSIC_M,
->      VIRT_IMSIC_S,
-> @@ -88,6 +89,7 @@ enum {
->  enum {
->      UART0_IRQ =3D 10,
->      RTC_IRQ =3D 11,
-> +    UART1_IRQ =3D 12,
->      VIRTIO_IRQ =3D 1, /* 1 to 8 */
->      VIRTIO_COUNT =3D 8,
->      PCIE_IRQ =3D 0x20, /* 32 to 35 */
+> -    pmu_name =3D g_strdup_printf("/soc/pmu");
+> +    pmu_name =3D g_strdup_printf("/pmu");
+>      qemu_fdt_add_subnode(ms->fdt, pmu_name);
+>      qemu_fdt_setprop_string(ms->fdt, pmu_name, "compatible", "riscv,pmu"=
+);
+>      riscv_pmu_generate_fdt_node(ms->fdt, hart.cfg.pmu_num, pmu_name);
 > --
-> 2.25.1
+> 2.34.1
 >
 >
 
