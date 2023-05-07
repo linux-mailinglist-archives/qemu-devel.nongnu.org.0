@@ -2,75 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9EC2D6F9C77
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 May 2023 00:24:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3528F6F9C75
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 May 2023 00:23:13 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pvmno-0002h1-Gc; Sun, 07 May 2023 18:24:24 -0400
+	id 1pvmlJ-00017H-FU; Sun, 07 May 2023 18:21:49 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <andrew@daynix.com>) id 1pvmnl-0002gX-HD
- for qemu-devel@nongnu.org; Sun, 07 May 2023 18:24:21 -0400
-Received: from mail-yw1-x1129.google.com ([2607:f8b0:4864:20::1129])
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1pvmlH-00016k-FK; Sun, 07 May 2023 18:21:47 -0400
+Received: from mail-ua1-x930.google.com ([2607:f8b0:4864:20::930])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <andrew@daynix.com>) id 1pvmnj-00015D-Gw
- for qemu-devel@nongnu.org; Sun, 07 May 2023 18:24:21 -0400
-Received: by mail-yw1-x1129.google.com with SMTP id
- 00721157ae682-55b7630a736so58065067b3.1
- for <qemu-devel@nongnu.org>; Sun, 07 May 2023 15:24:19 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1pvmlF-0000VR-B6; Sun, 07 May 2023 18:21:47 -0400
+Received: by mail-ua1-x930.google.com with SMTP id
+ a1e0cc1a2514c-77d50a1c8deso1085070241.3; 
+ Sun, 07 May 2023 15:21:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=daynix-com.20221208.gappssmtp.com; s=20221208; t=1683498258; x=1686090258;
+ d=gmail.com; s=20221208; t=1683498103; x=1686090103;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=mFmtnCFO6pZOFL/qEUGAJZUUJtumflQl9Zx3XikO00E=;
- b=1JIFCNqHEiu5bP+Y0T+JTrgnBQanqiDYgle6+BfDvkMI57frTDRi2LCXAK7bUIHDIV
- 8HrbevJgv89+IvHmw1281G8nCW9rAy5nhP4d/LhlT4c1h3RfBLbGFjjKkLnym5X5y9CX
- 9QEgULXgAp9d4CXftewsc6BOnB4vBRj9Zqtur2TL4zRrlrothDQm9QaIr2Ca79/0e8gc
- 9s/B7DU0VIGqq407FInr5R0xjopdv0rnr8pREpfsoy7qywG8sooq1AhG3f1qDU0jtoea
- mE/yK+4gODr/zJJQSsyzKxHDqiZcTZyZVyK0djH7LIXtI7YA7XiD0HBu6cylf1zrTAQ0
- esdg==
+ bh=H8ZpYsO3B2gpxkbqTviQgLqUAwsslR3XzRSBgIiCcmA=;
+ b=MvwJYCZYRmRdDjNGc803bgvIMVbtSYUyHxsycBVCF3kmgWw9Zsz1CcEKdkwIw6qmrg
+ icWVw6XhUv8SMKJoPYTcg7b1cr08bKxwmXqfTMm+Rui4yT8CcTdZwKurr60TaJC5lCCm
+ lz/RJEks6v2v79BoXjNBcA0ng6HoU3iZoheVpj+frU1AlUtNKY4muoCfU9VbQOzNp2y9
+ JCszY14kY9p7lfWBYxurMLwDwwPs5mFGnXAwspSEmIGS9s0BS78LYSD59fY3uq5p02cn
+ ekgC4MU1dX/FdmWIDnh1TvEam9EhV/IMxb9K8v5MsnJFNVVTLLWBpvo6yUVvp8/RG4jF
+ bVGQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683498258; x=1686090258;
+ d=1e100.net; s=20221208; t=1683498103; x=1686090103;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=mFmtnCFO6pZOFL/qEUGAJZUUJtumflQl9Zx3XikO00E=;
- b=VC9nbTHcu+TKuH5zyLJTV3q6y4JBUxeTmP1uziAmBR7DbuA+opzxFP3MhffgxjPDfA
- 9pPzmlKCBlDUK7rLxjs435Pz0UkbpMN3e6SIHv8yEIHGtSOEYIfkfu1jht/VK1aT5jgv
- o3geDhY5qMlk0wSyx8YU+3ZQie6QCAORUnoZ7tLuBsBcXFIArIZFZTkYQGZisANWxwQw
- KinfGRMb6whfJOBfpArwxXR6kI/o0FtCIgxOKfvD5s89WLtZTWzz5QpneQRQg0W8EHTR
- ba6mmzEcpeWcG91eTDqxBxdW9TL4Tdyq9QuMq7smbIzBpMMM6X9t9uszbmbMQtT5YZOl
- XrzA==
-X-Gm-Message-State: AC+VfDyfTZqig8LbjXYPcO0B8g51po2HitPOnQGqUihVjkztdOiIIK/a
- 5g4EfQBTuhn3bBAkl+g+FbmWRzl+0yum9VA4RZ7szw==
-X-Google-Smtp-Source: ACHHUZ5PpHOQTQR9M77PfK/tV1lzQJMa5yeKQH88W9sjxexnrKU8Y/k9Q8VR7Voc7GB7RWo9/kfVzZNHdc4d5o8/EVI=
-X-Received: by 2002:a0d:ccd8:0:b0:55a:9b5a:1d9f with SMTP id
- o207-20020a0dccd8000000b0055a9b5a1d9fmr9533893ywd.11.1683498258381; Sun, 07
- May 2023 15:24:18 -0700 (PDT)
+ bh=H8ZpYsO3B2gpxkbqTviQgLqUAwsslR3XzRSBgIiCcmA=;
+ b=ff9J643+QRZDONMYRhJtJvZY+Jq5GCDw4rgYU2bojVz3MD9i5HZzKHe5jsDFAhYLUT
+ 5BPO6Z9NHEdaf0aMWMVbfwd5o0u7rMrU5uDkoPTuKu525pqyPpdmxj2IW+vW4agGVt8C
+ FpNfaqpci2vJwDVUTYnGXhhjlZTsW+IsjhnpPQT3AKxIUN/7D9mgq6h/kz41p29N/IiP
+ 0djMbAzUQxMY82dYsVjVEk95NqTYMxTjJIIw9U8mEsQUWiZisDBKihJjvsLqdgHcMSYA
+ YuKLaLcnM/5cmxbifa5FCDZPnuPtMCyeMHpXUh+gUqfko4CfHo6/zhnBYLNnxGMgTCZf
+ Yfww==
+X-Gm-Message-State: AC+VfDx8AoPW18TfGRLDojMkUQenEBcLfJkgM65sxr1rbWuzyrt6MA06
+ cWcVxO+Upbi5Eech25esJ80w+SJN/MOsUWTjthnDgyvRzrM=
+X-Google-Smtp-Source: ACHHUZ4Fvjco4ZXNxjLfvi/LlfsUEqKlntmfvoIwwYlbZLHVkca5FwcpXKmH/N+vk5MaHpLM3AIAej8FLuOBAeAtA3A=
+X-Received: by 2002:a67:fac9:0:b0:426:9120:1dd4 with SMTP id
+ g9-20020a67fac9000000b0042691201dd4mr2461073vsq.2.1683498103233; Sun, 07 May
+ 2023 15:21:43 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230501072101.22890-1-andrew@daynix.com>
- <20230501072101.22890-5-andrew@daynix.com>
- <ZFJA63EuoIHU1uIG@redhat.com>
-In-Reply-To: <ZFJA63EuoIHU1uIG@redhat.com>
-From: Andrew Melnichenko <andrew@daynix.com>
-Date: Mon, 8 May 2023 01:05:39 +0300
-Message-ID: <CABcq3pGs4uPc3JF3Tau2k7gnyaSe4DCayEgAbieAVZkk+zf3Vw@mail.gmail.com>
-Subject: Re: [PATCH 4/5] qmp: Added new command to retrieve eBPF blob.
-To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
-Cc: jasowang@redhat.com, mst@redhat.com, armbru@redhat.com, eblake@redhat.com, 
- qemu-devel@nongnu.org, yuri.benditovich@daynix.com, yan@daynix.com
+References: <20230505010241.21812-1-alistair.francis@wdc.com>
+ <20230505010241.21812-87-alistair.francis@wdc.com>
+In-Reply-To: <20230505010241.21812-87-alistair.francis@wdc.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Mon, 8 May 2023 08:21:17 +1000
+Message-ID: <CAKmqyKM2rpOOG4r0NmbBhU79o4_DQjAD7Y1P-fx7GjTW5Z6DGg@mail.gmail.com>
+Subject: Re: [PULL 86/89] target/riscv: Restore the predicate() NULL check
+ behavior
+To: qemu-devel@nongnu.org, qemu-stable@nongnu.org
+Cc: Bin Meng <bmeng@tinylab.org>, Fei Wu <fei2.wu@intel.com>, 
+ Daniel Henrique Barboza <dbarboza@ventanamicro.com>,
+ Weiwei Li <liweiwei@iscas.ac.cn>, 
+ Alistair Francis <alistair.francis@wdc.com>,
+ LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: none client-ip=2607:f8b0:4864:20::1129;
- envelope-from=andrew@daynix.com; helo=mail-yw1-x1129.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::930;
+ envelope-from=alistair23@gmail.com; helo=mail-ua1-x930.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -86,113 +91,80 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi all,
+On Fri, May 5, 2023 at 11:08=E2=80=AFAM Alistair Francis <alistair23@gmail.=
+com> wrote:
+>
+> From: Bin Meng <bmeng@tinylab.org>
+>
+> When reading a non-existent CSR QEMU should raise illegal instruction
+> exception, but currently it just exits due to the g_assert() check.
+>
+> This actually reverts commit 0ee342256af9205e7388efdf193a6d8f1ba1a617.
+> Some comments are also added to indicate that predicate() must be
+> provided for an implemented CSR.
+>
+> Reported-by: Fei Wu <fei2.wu@intel.com>
+> Signed-off-by: Bin Meng <bmeng@tinylab.org>
+> Reviewed-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+> Reviewed-by: Weiwei Li <liweiwei@iscas.ac.cn>
+> Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+> Reviewed-by: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
+> Message-Id: <20230417043054.3125614-1-bmeng@tinylab.org>
+> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 
-On Wed, May 3, 2023 at 2:09=E2=80=AFPM Daniel P. Berrang=C3=A9 <berrange@re=
-dhat.com> wrote:
->
-> On Mon, May 01, 2023 at 10:21:00AM +0300, Andrew Melnychenko wrote:
-> > Added command "request-ebpf". This command returns
-> > eBPF program encoded base64. The program taken from the
-> > skeleton and essentially is an ELF object that can be
-> > loaded in the future with libbpf.
-> >
-> > Signed-off-by: Andrew Melnychenko <andrew@daynix.com>
-> > ---
-> >  monitor/qmp-cmds.c | 16 ++++++++++++++++
-> >  qapi/misc.json     | 28 ++++++++++++++++++++++++++++
-> >  2 files changed, 44 insertions(+)
-> >
-> > diff --git a/monitor/qmp-cmds.c b/monitor/qmp-cmds.c
-> > index b0f948d3376..f7641bb55b9 100644
-> > --- a/monitor/qmp-cmds.c
-> > +++ b/monitor/qmp-cmds.c
-> > @@ -32,6 +32,7 @@
-> >  #include "hw/mem/memory-device.h"
-> >  #include "hw/intc/intc.h"
-> >  #include "hw/rdma/rdma.h"
-> > +#include "ebpf/ebpf.h"
-> >
-> >  NameInfo *qmp_query_name(Error **errp)
-> >  {
-> > @@ -209,3 +210,18 @@ static void __attribute__((__constructor__)) monit=
-or_init_qmp_commands(void)
-> >                           qmp_marshal_qmp_capabilities,
-> >                           QCO_ALLOW_PRECONFIG, 0);
-> >  }
-> > +
-> > +EbpfObject *qmp_request_ebpf(const char *id, Error **errp)
-> > +{
-> > +    EbpfObject *ret =3D NULL;
-> > +    size_t size =3D 0;
-> > +    const void *data =3D ebpf_find_binary_by_id(id, &size, errp);
-> > +    if (!data) {
-> > +        return NULL;
-> > +    }
-> > +
-> > +    ret =3D g_new0(EbpfObject, 1);
-> > +    ret->object =3D g_base64_encode(data, size);
-> > +
-> > +    return ret;
-> > +}
-> > diff --git a/qapi/misc.json b/qapi/misc.json
-> > index 6ddd16ea283..81613fd1b13 100644
-> > --- a/qapi/misc.json
-> > +++ b/qapi/misc.json
-> > @@ -618,3 +618,31 @@
-> >  { 'event': 'VFU_CLIENT_HANGUP',
-> >    'data': { 'vfu-id': 'str', 'vfu-qom-path': 'str',
-> >              'dev-id': 'str', 'dev-qom-path': 'str' } }
-> > +
-> > +##
-> > +# @EbpfObject:
-> > +#
-> > +# Structure that holds eBPF ELF object encoded in base64.
-> > +#
-> > +# Since: 8.1
-> > +#
-> > +##
-> > +{ 'struct': 'EbpfObject',
-> > +  'data': {'object': 'str'} }
-> > +
-> > +##
-> > +# @request-ebpf:
-> > +#
-> > +# Function returns eBPF object that can be loaded with libbpf.
-> > +# Management applications (g.e. libvirt) may load it and pass file
-> > +# descriptors to QEMU. Which allows running QEMU without BPF capabilit=
-ies.
-> > +#
-> > +# Returns: RSS eBPF object encoded in base64.
-> > +#
-> > +# Since: 8.1
-> > +#
-> > +##
-> > +{ 'command': 'request-ebpf',
-> > +  'data': { 'id': 'str' },
->
-> Since the number of EBPF program IDs is finite and known at build
-> time, I think we'd be better using an enum instead of str. That
-> will let apps introspect the QAPI schema to query whether the
-> particular EBPF program ID is known to this version fo QEMU.
->
+Sorry, I didn't realise I should have done this with the PR, but this
+is a good candidate for going into 8.0.1
 
-I've researched that issue a bit. I'll add the qapi enum.
+Alistair
 
-> > +  'returns': 'EbpfObject' }
-> > +
-> > --
-> > 2.39.1
-> >
+> ---
+>  target/riscv/csr.c | 11 +++++++++--
+>  1 file changed, 9 insertions(+), 2 deletions(-)
 >
-> With regards,
-> Daniel
+> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
+> index 865ee9efda..4451bd1263 100644
+> --- a/target/riscv/csr.c
+> +++ b/target/riscv/csr.c
+> @@ -3826,6 +3826,11 @@ static inline RISCVException riscv_csrrw_check(CPU=
+RISCVState *env,
+>          return RISCV_EXCP_ILLEGAL_INST;
+>      }
+>
+> +    /* ensure CSR is implemented by checking predicate */
+> +    if (!csr_ops[csrno].predicate) {
+> +        return RISCV_EXCP_ILLEGAL_INST;
+> +    }
+> +
+>      /* privileged spec version check */
+>      if (env->priv_ver < csr_min_priv) {
+>          return RISCV_EXCP_ILLEGAL_INST;
+> @@ -3843,7 +3848,6 @@ static inline RISCVException riscv_csrrw_check(CPUR=
+ISCVState *env,
+>       * illegal instruction exception should be triggered instead of virt=
+ual
+>       * instruction exception. Hence this comes after the read / write ch=
+eck.
+>       */
+> -    g_assert(csr_ops[csrno].predicate !=3D NULL);
+>      RISCVException ret =3D csr_ops[csrno].predicate(env, csrno);
+>      if (ret !=3D RISCV_EXCP_NONE) {
+>          return ret;
+> @@ -4032,7 +4036,10 @@ static RISCVException write_jvt(CPURISCVState *env=
+, int csrno,
+>      return RISCV_EXCP_NONE;
+>  }
+>
+> -/* Control and Status Register function table */
+> +/*
+> + * Control and Status Register function table
+> + * riscv_csr_operations::predicate() must be provided for an implemented=
+ CSR
+> + */
+>  riscv_csr_operations csr_ops[CSR_TABLE_SIZE] =3D {
+>      /* User Floating-Point CSRs */
+>      [CSR_FFLAGS]   =3D { "fflags",   fs,     read_fflags,  write_fflags =
+},
 > --
-> |: https://berrange.com      -o-    https://www.flickr.com/photos/dberran=
-ge :|
-> |: https://libvirt.org         -o-            https://fstop138.berrange.c=
-om :|
-> |: https://entangle-photo.org    -o-    https://www.instagram.com/dberran=
-ge :|
+> 2.40.0
 >
 
