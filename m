@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78B956F9CAD
+	by mail.lfdr.de (Postfix) with ESMTPS id 705BE6F9CAC
 	for <lists+qemu-devel@lfdr.de>; Mon,  8 May 2023 01:17:54 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pvncd-0001ME-6X; Sun, 07 May 2023 19:16:55 -0400
+	id 1pvncz-0001NC-3f; Sun, 07 May 2023 19:17:17 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1pvncb-0001M1-Gg
- for qemu-devel@nongnu.org; Sun, 07 May 2023 19:16:53 -0400
-Received: from mail-vk1-xa34.google.com ([2607:f8b0:4864:20::a34])
+ id 1pvncy-0001N4-3o
+ for qemu-devel@nongnu.org; Sun, 07 May 2023 19:17:16 -0400
+Received: from mail-ua1-x929.google.com ([2607:f8b0:4864:20::929])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1pvnca-0006Gu-22
- for qemu-devel@nongnu.org; Sun, 07 May 2023 19:16:53 -0400
-Received: by mail-vk1-xa34.google.com with SMTP id
- 71dfb90a1353d-44fdac26696so1149154e0c.3
- for <qemu-devel@nongnu.org>; Sun, 07 May 2023 16:16:51 -0700 (PDT)
+ id 1pvncw-0006JI-I3
+ for qemu-devel@nongnu.org; Sun, 07 May 2023 19:17:15 -0400
+Received: by mail-ua1-x929.google.com with SMTP id
+ a1e0cc1a2514c-77e80c37af1so1021480241.0
+ for <qemu-devel@nongnu.org>; Sun, 07 May 2023 16:17:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1683501411; x=1686093411;
+ d=gmail.com; s=20221208; t=1683501433; x=1686093433;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=fIZrg6Bd68Cu0nAYrGvzJI1ViWvE5yxGslU1gw/3s7M=;
- b=OagNk+GFRj+fU3oODb+09GXjv79ulXHzEzDDK3Pa1r3/wUUNWSts7Ui9JrHyL3iImD
- 2c27U5zdjU35VLB2xFYIZzLidLXC7mapTI49q53CR4LuVRQNgYGZM3B93fJihzBmb4UV
- eiSLo+nLQrcs0bP/c9n3e5br9IWC+ryjJvPTV+5OM0ksDg3HzLb2YP3DRO+7nU03KdRV
- mR2Zwd0Kw2Tt2238zls5Vkxq1obw0oQ3rprGArXuzXPJrBCeXKhFcESVJZ7owokBklTL
- jBL9atmcyJrnHY1AV6GlSJKv9gRpCGhJK0CalvRjGxEfc9dobLKNFJtxR1rSj2vtcWWG
- 59Uw==
+ bh=HSGD+EiuucVwI+BT6BCzbxfHiNT4JMn74+3qCj0G/jU=;
+ b=mrlbl3j267K/Sx38LOXgv5EJKal91HpXwRBUB6avyvUOuGP8JSbRmo2MZRNVCY3YqO
+ lnaWyqEe5x5mq8VBzawloUIkcmLMWMEUlLO0/31d1dxJalBSEIRi4UkDlkKo4ARNRHmZ
+ FVatUzoas2jRbkIxmB8g5LLy78OOUelKEz6u8RmUomTU4Viy0GVbHozMNxGyHOCqWfZa
+ TyBM6r5vBVj7rwOOqKFY8BTO2/Ng4SLDJGCzM2F9kvdPnCLfiWDJ45FaUo6usOnjVz/3
+ cBX95l/yBsraqClFiOS7UYWfmmiRYRyTK3NR9b7GaPLs/chYwoXxjHS4fQFP+GK3FhZq
+ awqw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683501411; x=1686093411;
+ d=1e100.net; s=20221208; t=1683501433; x=1686093433;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=fIZrg6Bd68Cu0nAYrGvzJI1ViWvE5yxGslU1gw/3s7M=;
- b=MdOyvRYT5tFRatnNkQ6tgx3+vYpVBb8pumZPDGe2oTekVUFLKuic4KX0TOtoRs4q47
- rqQ3c1syqUJ/pilIgz40XdjwqG6ramaARyDIh0GllvGiVNvaKBiOnknRXTiFdB2bkxXd
- wT0fRdkXpeSKc8S/Cm1WdRImcqhmDvn5MlsOEGaJUkPD2oIDsCcFPhqb1AtFiewZfl5M
- tR8KPBkxhDR2GtJdkkYGLBUPSMEUkAhHfzaj3a9h1BWA6AMAijtZRu7dtSegsOVh1+No
- Zaf6cL3CbC5rwk6WzAJRJMEV75t15cSYsliDoykaeaau/7aSgmqwoJz8qC7qS1HXz3do
- 8Byw==
-X-Gm-Message-State: AC+VfDzAYWcKCTAjzxoz5d2gPKxr4ngzyJEhrS/rtpL+FaK6SIMZucf3
- 87Xbp/FmsgeJNdbMFwLa8N95490ThN/VKZ3kahsl6NTXkp4=
-X-Google-Smtp-Source: ACHHUZ7MIanp2OQVcJ+Aadliwm/OaQDVcAkdIvXpZgeNDAtmBSpVI8NobTykBeOZDyGZee16089pwSjAHAgfkBonR9c=
-X-Received: by 2002:a67:de92:0:b0:434:6ea9:2f21 with SMTP id
- r18-20020a67de92000000b004346ea92f21mr2856440vsk.5.1683501410869; Sun, 07 May
- 2023 16:16:50 -0700 (PDT)
+ bh=HSGD+EiuucVwI+BT6BCzbxfHiNT4JMn74+3qCj0G/jU=;
+ b=VBajIEtuf0b1sEq6TLOFDaSqA3clvIF9yq+1tatjs6rPhFx/6W6qV4lPA9XXWvVui7
+ TQAi3T5IYSwfcZ0EHdBbTH63FhtH8x5lnMh0fE12kSSImEeWhi4+6Wl/mO78pdaIeeN1
+ HzriT4gC43tcAMke/UX6IBeKlbRFKDeU+jInWkAicoJYe+M4UDR4P0iiL+e1yAwVlUmq
+ /AOz3MLUmKAbUYWeFwsUmAubqJ+7zBN1bAJ56RZZqy3Z/SO1d8UNRDAxykFAjCREyrRL
+ NnjgYo6rgls1QwzksscLowFbTnkOsdJ2Dg0zcAKW32MwbJbymQWj02WJCbIve4KevNUP
+ 0S4Q==
+X-Gm-Message-State: AC+VfDwDinPZcnID68ZnTC2QC1wd++5UyB3cyvcfwPy5MHeNqkThf/ZV
+ hMNLiKgovzBcXOwIIwGmU3eEP15Ps9b+UyVKFDtJjMbXfwY=
+X-Google-Smtp-Source: ACHHUZ6maCCCpcH1lLZYuYH9M4oLGulZUtUypoECEcRsmp1hvabkjXGl8wDavh/BwxjFp8jdNOJ0ea6ZnGtx8wLyxYY=
+X-Received: by 2002:a05:6102:2ec:b0:434:7734:f7bf with SMTP id
+ j12-20020a05610202ec00b004347734f7bfmr2369210vsj.18.1683501433200; Sun, 07
+ May 2023 16:17:13 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230428093431.10355-1-peterlin@andestech.com>
-In-Reply-To: <20230428093431.10355-1-peterlin@andestech.com>
+References: <20230428093214.10289-1-peterlin@andestech.com>
+In-Reply-To: <20230428093214.10289-1-peterlin@andestech.com>
 From: Alistair Francis <alistair23@gmail.com>
-Date: Mon, 8 May 2023 09:16:24 +1000
-Message-ID: <CAKmqyKPiCg4V6r89e+71bSPf0wWehdmGpZP7KG8z4m8PCJb1Sg@mail.gmail.com>
-Subject: Re: [PATCH 2/2] hw/riscv: virt: fix pmu subnode paths
+Date: Mon, 8 May 2023 09:16:47 +1000
+Message-ID: <CAKmqyKPZ5DKXjhMfEVPa7SWoOvtmfW+q6-V78R7b1ROOxS3GzA@mail.gmail.com>
+Subject: Re: [PATCH 1/2] target: riscv: fix typos
 To: Yu Chien Peter Lin <peterlin@andestech.com>
-Cc: qemu-devel@nongnu.org, conor.dooley@microchip.com, ycliang@andestech.com
+Cc: qemu-devel@nongnu.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::a34;
- envelope-from=alistair23@gmail.com; helo=mail-vk1-xa34.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::929;
+ envelope-from=alistair23@gmail.com; helo=mail-ua1-x929.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -87,22 +87,10 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, Apr 28, 2023 at 7:35=E2=80=AFPM Yu Chien Peter Lin
+On Fri, Apr 28, 2023 at 7:33=E2=80=AFPM Yu Chien Peter Lin
 <peterlin@andestech.com> wrote:
 >
-> The pmu encodes the event to counter mappings and is only used
-> by the SBI firmware. Currently, pmu is a subnode of soc but has
-> no reg properties included, causing the following failure when
-> checked with dt-validate.
->
-> /tmp/virt.dtb: soc: pmu: {'riscv,event-to-mhpmcounters': [[1, 1, 524281],=
- [2, 2, 524284], [65561, 65561, 524280], [65563, 65563, 524280], [65569, 65=
-569, 524280]], 'compatible': ['riscv,pmu']} should not be valid under {'typ=
-e': 'object'}
->         From schema: /home/peterlin/.local/lib/python3.10/site-packages/d=
-tschema/schemas/simple-bus.yaml
->
-> This patch moves the pmu to top level to make the dt-validate happy.
+> Fix a few minor typos for PMU events.
 >
 > Signed-off-by: Yu Chien Peter Lin <peterlin@andestech.com>
 
@@ -111,23 +99,76 @@ Acked-by: Alistair Francis <alistair.francis@wdc.com>
 Alistair
 
 > ---
->  hw/riscv/virt.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  target/riscv/cpu.h        | 2 +-
+>  target/riscv/cpu_helper.c | 2 +-
+>  target/riscv/pmu.c        | 8 ++++----
+>  3 files changed, 6 insertions(+), 6 deletions(-)
 >
-> diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
-> index 4e3efbee16..be8f0cb26e 100644
-> --- a/hw/riscv/virt.c
-> +++ b/hw/riscv/virt.c
-> @@ -731,7 +731,7 @@ static void create_fdt_pmu(RISCVVirtState *s)
->      MachineState *ms =3D MACHINE(s);
->      RISCVCPU hart =3D s->soc[0].harts[0];
+> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+> index 638e47c75a..eab518542c 100644
+> --- a/target/riscv/cpu.h
+> +++ b/target/riscv/cpu.h
+> @@ -812,7 +812,7 @@ enum riscv_pmu_event_idx {
+>      RISCV_PMU_EVENT_HW_INSTRUCTIONS =3D 0x02,
+>      RISCV_PMU_EVENT_CACHE_DTLB_READ_MISS =3D 0x10019,
+>      RISCV_PMU_EVENT_CACHE_DTLB_WRITE_MISS =3D 0x1001B,
+> -    RISCV_PMU_EVENT_CACHE_ITLB_PREFETCH_MISS =3D 0x10021,
+> +    RISCV_PMU_EVENT_CACHE_ITLB_READ_MISS =3D 0x10021,
+>  };
 >
-> -    pmu_name =3D g_strdup_printf("/soc/pmu");
-> +    pmu_name =3D g_strdup_printf("/pmu");
->      qemu_fdt_add_subnode(ms->fdt, pmu_name);
->      qemu_fdt_setprop_string(ms->fdt, pmu_name, "compatible", "riscv,pmu"=
-);
->      riscv_pmu_generate_fdt_node(ms->fdt, hart.cfg.pmu_num, pmu_name);
+>  /* CSR function table */
+> diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
+> index f88c503cf4..5d3e032ec9 100644
+> --- a/target/riscv/cpu_helper.c
+> +++ b/target/riscv/cpu_helper.c
+> @@ -1210,7 +1210,7 @@ static void pmu_tlb_fill_incr_ctr(RISCVCPU *cpu, MM=
+UAccessType access_type)
+>
+>      switch (access_type) {
+>      case MMU_INST_FETCH:
+> -        pmu_event_type =3D RISCV_PMU_EVENT_CACHE_ITLB_PREFETCH_MISS;
+> +        pmu_event_type =3D RISCV_PMU_EVENT_CACHE_ITLB_READ_MISS;
+>          break;
+>      case MMU_DATA_LOAD:
+>          pmu_event_type =3D RISCV_PMU_EVENT_CACHE_DTLB_READ_MISS;
+> diff --git a/target/riscv/pmu.c b/target/riscv/pmu.c
+> index fa1e1484c2..0be0e8027b 100644
+> --- a/target/riscv/pmu.c
+> +++ b/target/riscv/pmu.c
+> @@ -62,17 +62,17 @@ void riscv_pmu_generate_fdt_node(void *fdt, int num_c=
+trs, char *pmu_name)
+>     fdt_event_ctr_map[4] =3D cpu_to_be32(0x00000002);
+>     fdt_event_ctr_map[5] =3D cpu_to_be32(cmask | 1 << 2);
+>
+> -   /* SBI_PMU_HW_CACHE_DTLB : 0x03 READ : 0x00 MISS : 0x00 type(0x01) */
+> +   /* SBI_PMU_HW_CACHE_DTLB : 0x03 READ : 0x00 MISS : 0x01 type(0x01) */
+>     fdt_event_ctr_map[6] =3D cpu_to_be32(0x00010019);
+>     fdt_event_ctr_map[7] =3D cpu_to_be32(0x00010019);
+>     fdt_event_ctr_map[8] =3D cpu_to_be32(cmask);
+>
+> -   /* SBI_PMU_HW_CACHE_DTLB : 0x03 WRITE : 0x01 MISS : 0x00 type(0x01) *=
+/
+> +   /* SBI_PMU_HW_CACHE_DTLB : 0x03 WRITE : 0x01 MISS : 0x01 type(0x01) *=
+/
+>     fdt_event_ctr_map[9] =3D cpu_to_be32(0x0001001B);
+>     fdt_event_ctr_map[10] =3D cpu_to_be32(0x0001001B);
+>     fdt_event_ctr_map[11] =3D cpu_to_be32(cmask);
+>
+> -   /* SBI_PMU_HW_CACHE_ITLB : 0x04 READ : 0x00 MISS : 0x00 type(0x01) */
+> +   /* SBI_PMU_HW_CACHE_ITLB : 0x04 READ : 0x00 MISS : 0x01 type(0x01) */
+>     fdt_event_ctr_map[12] =3D cpu_to_be32(0x00010021);
+>     fdt_event_ctr_map[13] =3D cpu_to_be32(0x00010021);
+>     fdt_event_ctr_map[14] =3D cpu_to_be32(cmask);
+> @@ -317,7 +317,7 @@ int riscv_pmu_update_event_map(CPURISCVState *env, ui=
+nt64_t value,
+>      case RISCV_PMU_EVENT_HW_INSTRUCTIONS:
+>      case RISCV_PMU_EVENT_CACHE_DTLB_READ_MISS:
+>      case RISCV_PMU_EVENT_CACHE_DTLB_WRITE_MISS:
+> -    case RISCV_PMU_EVENT_CACHE_ITLB_PREFETCH_MISS:
+> +    case RISCV_PMU_EVENT_CACHE_ITLB_READ_MISS:
+>          break;
+>      default:
+>          /* We don't support any raw events right now */
 > --
 > 2.34.1
 >
