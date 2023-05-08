@@ -2,84 +2,106 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AAF156FB6D6
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 May 2023 21:42:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 583B06FB6DA
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 May 2023 21:43:13 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pw6jc-0000XS-9G; Mon, 08 May 2023 15:41:24 -0400
+	id 1pw6kx-0001og-5b; Mon, 08 May 2023 15:42:47 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <frasse.iglesias@gmail.com>)
- id 1pw6jZ-0000UA-Pr; Mon, 08 May 2023 15:41:21 -0400
-Received: from mail-lf1-x136.google.com ([2a00:1450:4864:20::136])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <frasse.iglesias@gmail.com>)
- id 1pw6jX-0002RM-UB; Mon, 08 May 2023 15:41:21 -0400
-Received: by mail-lf1-x136.google.com with SMTP id
- 2adb3069b0e04-4f22908a082so2559581e87.1; 
- Mon, 08 May 2023 12:41:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1683574877; x=1686166877;
- h=user-agent:in-reply-to:content-disposition:mime-version:references
- :message-id:subject:cc:to:from:date:from:to:cc:subject:date
- :message-id:reply-to;
- bh=AS9hwBRrLwBVLGSk1mb4Bne5rt3KNvkrXmBGX3oVvjI=;
- b=VPZfiOtQhfi8Nvu9+I6RxDGr0QsuG2c7neu8f05uiJa3707aVP1hFvhIi6CwQR/Uvi
- 3ss54ThRKHlJmM4b3MYYAgr8kQSJdnaezGfbv8dWFE97kUXQSGk21aSoKYFnMmBBchaf
- SAw+jxkpnkWBgDPhLMfz8XbotLevOsFbe1lZV2cvvkvhlAX3Zz2V18EWzDpScSHIRHg1
- N49SZZRm8J/Tl4xOUVK2BkzEzzJBR37fVVe9B5GmqiM3qdMxHvqQr9pBsA1WAK6sg1Xn
- r7pCG9GlpkjqHpQYWqu48pYla7aXMoA2Y6pS9zigflqhvrSTVRqgtveg5w8JXp42L/yZ
- Rlug==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683574877; x=1686166877;
- h=user-agent:in-reply-to:content-disposition:mime-version:references
- :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=AS9hwBRrLwBVLGSk1mb4Bne5rt3KNvkrXmBGX3oVvjI=;
- b=NYNo4pGnU0ocd7xRD6fFi5rLgHLSiwHJzx03mTi8sAaYxTK2WGI5V142RfHlCiSaSl
- BfrM8X2tVXFeyvjdxSTGfZRFAW+U3EyOyKnxOBhvvP3kEGAJAnqQD7dBRihkzhY/Mt+6
- 3TV1dsRx1CGvAAfU4LAOVmf8ekkiIycKXW6yHqIMpggUvZ7W6stk/6Pw+mOvhSdjdG7S
- R3GucY7WKNlAfYQO+2nwMVYW/XZ9Q5uG1TC1jgOeE+7eoCYkCnEEvs6Ov7Pn1P6u3DtV
- vn0xe+g81upJRwZwkD1ZBxB/+j/DkMfDx6okjXQVuk3+yOluuKaqIjoyaLLcBQFBiS6n
- PpFQ==
-X-Gm-Message-State: AC+VfDwIlvIW0oSXgJFK172I1ujTpQqrSI1ZAjEo4Ku3HJicjUC6omZO
- ILDGY4FmVphSO/s7cirfoeU=
-X-Google-Smtp-Source: ACHHUZ6N9/sXtNndJ6nnTbtWMZ1ylvhcNBwOiP/2X3n1qvQbl95ek5kVVv4JE49zfnzVVDsd8RWBmA==
-X-Received: by 2002:a19:760f:0:b0:4ed:d5b0:7fd9 with SMTP id
- c15-20020a19760f000000b004edd5b07fd9mr60675lff.19.1683574877506; 
- Mon, 08 May 2023 12:41:17 -0700 (PDT)
-Received: from fralle-msi (217-76-87-243.cust.bredband2.com. [217.76.87.243])
- by smtp.gmail.com with ESMTPSA id
- b20-20020ac247f4000000b004eb0dcc52ddsm82350lfp.41.2023.05.08.12.41.16
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 08 May 2023 12:41:17 -0700 (PDT)
-Date: Mon, 8 May 2023 21:41:15 +0200
-From: Francisco Iglesias <frasse.iglesias@gmail.com>
-To: Thomas Huth <thuth@redhat.com>
-Cc: qemu-devel@nongnu.org, "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- Alistair Francis <alistair@alistair23.me>,
- Jason Wang <jasowang@redhat.com>, qemu-arm@nongnu.org,
- Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH] hw/net: Move xilinx_ethlite.c to the target-independent
- source set
-Message-ID: <20230508194114.GC6984@fralle-msi>
-References: <20230508120314.59274-1-thuth@redhat.com>
+ (Exim 4.90_1) (envelope-from <nsg@linux.ibm.com>)
+ id 1pw6ku-0001oH-TL; Mon, 08 May 2023 15:42:45 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <nsg@linux.ibm.com>)
+ id 1pw6kf-0002gT-0t; Mon, 08 May 2023 15:42:44 -0400
+Received: from pps.filterd (m0356516.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 348J9YiI026580; Mon, 8 May 2023 19:42:23 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : subject :
+ from : to : cc : date : in-reply-to : references : content-type :
+ content-transfer-encoding : mime-version; s=pp1;
+ bh=/e5/pmzrF3cRemUxy5W3bLRVFYWLNIF21rRD2xLHOE4=;
+ b=fmCIeN1CoXq+9cd0h/hkIVgtE+5mkvuPCUrvMnOMtfpLyWVyE3zJFgvcr5axGTCfQsMu
+ /WfrQTO6WnPZ4+l22SF5PXdnYtCo7FMB80VEYG7q7G9zAEDa/fbjU75Z+uZSyFVSu/Yc
+ HOVjnWCcWGkKEr3LDh+/ax4yuhHvkIrwj+NgFHwCRLKvHybjhpc+rtNcyOBkRtBTBJlK
+ q4O4fDcVx/AntVsxGs2XIml05yTKdD9eF13XRkWGUC6g0n/DMb+vwQ6Q1DuxWkKONZui
+ 5uZRh/BZjqmw2G7Lz6/hAFY7nbHnuuumkE5wGLOPq/f48G0mFKBLnO7wjZ3RB4fbOCoq bA== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3qf6mesw0r-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 08 May 2023 19:42:23 +0000
+Received: from m0356516.ppops.net (m0356516.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 348JWrNR015835;
+ Mon, 8 May 2023 19:42:22 GMT
+Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.99])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3qf6mesvyy-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 08 May 2023 19:42:22 +0000
+Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
+ by ppma04ams.nl.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 3483lTsj002573;
+ Mon, 8 May 2023 19:42:20 GMT
+Received: from smtprelay05.fra02v.mail.ibm.com ([9.218.2.225])
+ by ppma04ams.nl.ibm.com (PPS) with ESMTPS id 3qdeh6ha42-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 08 May 2023 19:42:20 +0000
+Received: from smtpav01.fra02v.mail.ibm.com (smtpav01.fra02v.mail.ibm.com
+ [10.20.54.100])
+ by smtprelay05.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 348JgEVt19464794
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 8 May 2023 19:42:14 GMT
+Received: from smtpav01.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id C58692004D;
+ Mon,  8 May 2023 19:42:14 +0000 (GMT)
+Received: from smtpav01.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id BC4F520040;
+ Mon,  8 May 2023 19:42:13 +0000 (GMT)
+Received: from li-7e0de7cc-2d9d-11b2-a85c-de26c016e5ad.ibm.com (unknown
+ [9.171.71.193]) by smtpav01.fra02v.mail.ibm.com (Postfix) with ESMTP;
+ Mon,  8 May 2023 19:42:13 +0000 (GMT)
+Message-ID: <e1301b4f488df0d84617685a6ee29c4c916c8068.camel@linux.ibm.com>
+Subject: Re: [PATCH v20 08/21] qapi/s390x/cpu topology: set-cpu-topology qmp
+ command
+From: Nina Schoetterl-Glausch <nsg@linux.ibm.com>
+To: Pierre Morel <pmorel@linux.ibm.com>, qemu-s390x@nongnu.org
+Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
+ richard.henderson@linaro.org, david@redhat.com, thuth@redhat.com,
+ cohuck@redhat.com, mst@redhat.com, pbonzini@redhat.com,
+ kvm@vger.kernel.org, ehabkost@redhat.com, marcel.apfelbaum@gmail.com,
+ eblake@redhat.com, armbru@redhat.com, seiden@linux.ibm.com,
+ nrb@linux.ibm.com, frankja@linux.ibm.com, berrange@redhat.com, clg@kaod.org
+Date: Mon, 08 May 2023 21:42:13 +0200
+In-Reply-To: <20230425161456.21031-9-pmorel@linux.ibm.com>
+References: <20230425161456.21031-1-pmorel@linux.ibm.com>
+ <20230425161456.21031-9-pmorel@linux.ibm.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.4 (3.46.4-1.fc37) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230508120314.59274-1-thuth@redhat.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Received-SPF: pass client-ip=2a00:1450:4864:20::136;
- envelope-from=frasse.iglesias@gmail.com; helo=mail-lf1-x136.google.com
-X-Spam_score_int: -1020
-X-Spam_score: -102.1
-X-Spam_bar: ---------------------------------------------------
-X-Spam_report: (-102.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01, USER_IN_WELCOMELIST=-0.01,
- USER_IN_WHITELIST=-100 autolearn=ham autolearn_force=no
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: n1vtpEhW3Sq9avLnCid90WT2jvlUM2n8
+X-Proofpoint-GUID: J6hm0gqISihF0rK5rH1Vv7YvpFnyeR5j
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-05-08_13,2023-05-05_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0
+ priorityscore=1501 mlxlogscore=999 clxscore=1015 mlxscore=0 spamscore=0
+ lowpriorityscore=0 bulkscore=0 suspectscore=0 phishscore=0 impostorscore=0
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2303200000 definitions=main-2305080126
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=nsg@linux.ibm.com;
+ helo=mx0b-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,48 +117,267 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On [2023 May 08] Mon 14:03:14, Thomas Huth wrote:
-> Now that the tswap() functions are available for target-independent
-> code, too, we can move xilinx_ethlite.c from specific_ss to softmmu_ss
-> to avoid that we have to compile this file multiple times.
-> 
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
+On Tue, 2023-04-25 at 18:14 +0200, Pierre Morel wrote:
+> The modification of the CPU attributes are done through a monitor
+> command.
+>=20
+> It allows to move the core inside the topology tree to optimize
+> the cache usage in the case the host's hypervisor previously
+> moved the CPU.
+>=20
+> The same command allows to modify the CPU attributes modifiers
+> like polarization entitlement and the dedicated attribute to notify
+> the guest if the host admin modified scheduling or dedication of a vCPU.
+>=20
+> With this knowledge the guest has the possibility to optimize the
+> usage of the vCPUs.
+>=20
+> The command has a feature unstable for the moment.
+>=20
+> Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
 
-Reviewed-by: Francisco Iglesias <frasse.iglesias@gmail.com>
+Logic is sound, minor stuff below.
 
 > ---
->  hw/net/xilinx_ethlite.c | 2 +-
->  hw/net/meson.build      | 2 +-
->  2 files changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/hw/net/xilinx_ethlite.c b/hw/net/xilinx_ethlite.c
-> index 99c22819ea..89f4f3b254 100644
-> --- a/hw/net/xilinx_ethlite.c
-> +++ b/hw/net/xilinx_ethlite.c
-> @@ -25,7 +25,7 @@
->  #include "qemu/osdep.h"
->  #include "qemu/module.h"
->  #include "qom/object.h"
-> -#include "cpu.h" /* FIXME should not use tswap* */
-> +#include "exec/tswap.h"
->  #include "hw/sysbus.h"
->  #include "hw/irq.h"
->  #include "hw/qdev-properties.h"
-> diff --git a/hw/net/meson.build b/hw/net/meson.build
-> index e2be0654a1..a7860c5efe 100644
-> --- a/hw/net/meson.build
-> +++ b/hw/net/meson.build
-> @@ -43,7 +43,7 @@ softmmu_ss.add(when: 'CONFIG_NPCM7XX', if_true: files('npcm7xx_emc.c'))
->  softmmu_ss.add(when: 'CONFIG_ETRAXFS', if_true: files('etraxfs_eth.c'))
->  softmmu_ss.add(when: 'CONFIG_COLDFIRE', if_true: files('mcf_fec.c'))
->  specific_ss.add(when: 'CONFIG_PSERIES', if_true: files('spapr_llan.c'))
-> -specific_ss.add(when: 'CONFIG_XILINX_ETHLITE', if_true: files('xilinx_ethlite.c'))
-> +softmmu_ss.add(when: 'CONFIG_XILINX_ETHLITE', if_true: files('xilinx_ethlite.c'))
->  
->  softmmu_ss.add(when: 'CONFIG_VIRTIO_NET', if_true: files('net_rx_pkt.c'))
->  specific_ss.add(when: 'CONFIG_VIRTIO_NET', if_true: files('virtio-net.c'))
-> -- 
-> 2.31.1
-> 
-> 
+>  qapi/machine-target.json |  37 +++++++++++
+>  hw/s390x/cpu-topology.c  | 136 +++++++++++++++++++++++++++++++++++++++
+>  2 files changed, 173 insertions(+)
+>=20
+> diff --git a/qapi/machine-target.json b/qapi/machine-target.json
+> index 42a6a40333..3b7a0b77f4 100644
+> --- a/qapi/machine-target.json
+> +++ b/qapi/machine-target.json
+> @@ -4,6 +4,8 @@
+>  # This work is licensed under the terms of the GNU GPL, version 2 or lat=
+er.
+>  # See the COPYING file in the top-level directory.
+> =20
+> +{ 'include': 'machine-common.json' }
+> +
+>  ##
+>  # @CpuModelInfo:
+>  #
+> @@ -354,3 +356,38 @@
+>  { 'enum': 'CpuS390Polarization',
+>    'prefix': 'S390_CPU_POLARIZATION',
+>    'data': [ 'horizontal', 'vertical' ] }
+> +
+> +##
+> +# @set-cpu-topology:
+> +#
+> +# @core-id: the vCPU ID to be moved
+> +# @socket-id: optional destination socket where to move the vCPU
+> +# @book-id: optional destination book where to move the vCPU
+> +# @drawer-id: optional destination drawer where to move the vCPU
+> +# @entitlement: optional entitlement
+> +# @dedicated: optional, if the vCPU is dedicated to a real CPU
+> +#
+> +# Features:
+> +# @unstable: This command may still be modified.
+> +#
+> +# Modifies the topology by moving the CPU inside the topology
+> +# tree or by changing a modifier attribute of a CPU.
+> +# Default value for optional parameter is the current value
+> +# used by the CPU.
+> +#
+> +# Returns: Nothing on success, the reason on failure.
+> +#
+> +# Since: 8.1
+> +##
+> +{ 'command': 'set-cpu-topology',
+> +  'data': {
+> +      'core-id': 'uint16',
+> +      '*socket-id': 'uint16',
+> +      '*book-id': 'uint16',
+> +      '*drawer-id': 'uint16',
+> +      '*entitlement': 'CpuS390Entitlement',
+> +      '*dedicated': 'bool'
+> +  },
+> +  'features': [ 'unstable' ],
+> +  'if': { 'all': [ 'TARGET_S390X' , 'CONFIG_KVM' ] }
+> +}
+> diff --git a/hw/s390x/cpu-topology.c b/hw/s390x/cpu-topology.c
+> index d9cd3dc3ce..e5fb976594 100644
+> --- a/hw/s390x/cpu-topology.c
+> +++ b/hw/s390x/cpu-topology.c
+> @@ -16,6 +16,7 @@
+>  #include "target/s390x/cpu.h"
+>  #include "hw/s390x/s390-virtio-ccw.h"
+>  #include "hw/s390x/cpu-topology.h"
+> +#include "qapi/qapi-commands-machine-target.h"
+> =20
+>  /*
+>   * s390_topology is used to keep the topology information.
+> @@ -261,6 +262,27 @@ static bool s390_topology_check(uint16_t socket_id, =
+uint16_t book_id,
+>      return true;
+>  }
+> =20
+> +/**
+> + * s390_topology_need_report
+> + * @cpu: Current cpu
+> + * @drawer_id: future drawer ID
+> + * @book_id: future book ID
+> + * @socket_id: future socket ID
+
+Entitlement and dedicated are missing here.
+
+> + *
+> + * A modified topology change report is needed if the topology
+> + * tree or the topology attributes change.
+> + */
+> +static int s390_topology_need_report(S390CPU *cpu, int drawer_id,
+
+I'd prefer a bool return type.
+
+> +                                   int book_id, int socket_id,
+> +                                   uint16_t entitlement, bool dedicated)
+> +{
+> +    return cpu->env.drawer_id !=3D drawer_id ||
+> +           cpu->env.book_id !=3D book_id ||
+> +           cpu->env.socket_id !=3D socket_id ||
+> +           cpu->env.entitlement !=3D entitlement ||
+> +           cpu->env.dedicated !=3D dedicated;
+> +}
+> +
+>  /**
+>   * s390_update_cpu_props:
+>   * @ms: the machine state
+> @@ -330,3 +352,117 @@ void s390_topology_setup_cpu(MachineState *ms, S390=
+CPU *cpu, Error **errp)
+>      /* topology tree is reflected in props */
+>      s390_update_cpu_props(ms, cpu);
+>  }
+> +
+> +static void s390_change_topology(uint16_t core_id,
+> +                                 bool has_socket_id, uint16_t socket_id,
+> +                                 bool has_book_id, uint16_t book_id,
+> +                                 bool has_drawer_id, uint16_t drawer_id,
+> +                                 bool has_entitlement, uint16_t entitlem=
+ent,
+
+I would keep the enum type for entitlement.
+
+> +                                 bool has_dedicated, bool dedicated,
+> +                                 Error **errp)
+> +{
+> +    MachineState *ms =3D current_machine;
+> +    int old_socket_entry;
+> +    int new_socket_entry;
+> +    int report_needed;
+> +    S390CPU *cpu;
+> +    ERRP_GUARD();
+> +
+> +    if (core_id >=3D ms->smp.max_cpus) {
+> +        error_setg(errp, "Core-id %d out of range!", core_id);
+> +        return;
+> +    }
+> +
+> +    cpu =3D (S390CPU *)ms->possible_cpus->cpus[core_id].cpu;
+
+You can replace this with
+
+       cpu =3D s390_cpu_addr2state(core_id);
+
+and get rid of the if above that checks for out of range.
+
+> +    if (!cpu) {
+> +        error_setg(errp, "Core-id %d does not exist!", core_id);
+> +        return;
+> +    }
+> +
+> +    /* Get attributes not provided from cpu and verify the new topology =
+*/
+> +    if (!has_socket_id) {
+> +        socket_id =3D cpu->env.socket_id;
+> +    }
+> +    if (!has_book_id) {
+> +        book_id =3D cpu->env.book_id;
+> +    }
+> +    if (!has_drawer_id) {
+> +        drawer_id =3D cpu->env.drawer_id;
+> +    }
+> +    if (!has_dedicated) {
+> +        dedicated =3D cpu->env.dedicated;
+> +    }
+> +
+> +    /*
+> +     * When the user specifies the entitlement as 'auto' on the command =
+line,
+> +     * qemu will set the entitlement as:
+> +     * Medium when the CPU is not dedicated.
+> +     * High when dedicated is true.
+> +     */
+> +    if (!has_entitlement || (entitlement =3D=3D S390_CPU_ENTITLEMENT_AUT=
+O)) {
+> +        if (dedicated) {
+> +            entitlement =3D S390_CPU_ENTITLEMENT_HIGH;
+> +        } else {
+> +            entitlement =3D S390_CPU_ENTITLEMENT_MEDIUM;
+> +        }
+> +    }
+> +
+> +    if (!s390_topology_check(socket_id, book_id, drawer_id,
+> +                             entitlement, dedicated, errp))
+> +        return;
+> +
+> +    /* Check for space on new socket */
+> +    old_socket_entry =3D s390_socket_nb(cpu);
+> +    new_socket_entry =3D __s390_socket_nb(drawer_id, book_id, socket_id)=
+;
+> +
+> +    if (new_socket_entry !=3D old_socket_entry) {
+> +        if (s390_topology.cores_per_socket[new_socket_entry] >=3D
+> +            s390_topology.smp->cores) {
+> +            error_setg(errp, "No more space on this socket");
+> +            return;
+> +        }
+> +        /* Update the count of cores in sockets */
+> +        s390_topology.cores_per_socket[new_socket_entry] +=3D 1;
+> +        s390_topology.cores_per_socket[old_socket_entry] -=3D 1;
+> +    }
+> +
+> +    /* Check if we will need to report the modified topology */
+> +    report_needed =3D s390_topology_need_report(cpu, drawer_id, book_id,
+> +                                              socket_id, entitlement,
+> +                                              dedicated);
+> +
+> +    /* All checks done, report new topology into the vCPU */
+> +    cpu->env.drawer_id =3D drawer_id;
+> +    cpu->env.book_id =3D book_id;
+> +    cpu->env.socket_id =3D socket_id;
+> +    cpu->env.dedicated =3D dedicated;
+> +    cpu->env.entitlement =3D entitlement;
+> +
+> +    /* topology tree is reflected in props */
+> +    s390_update_cpu_props(ms, cpu);
+> +
+> +    /* Advertise the topology change */
+> +    if (report_needed) {
+> +        s390_cpu_topology_set_changed(true);
+> +    }
+> +}
+> +
+> +void qmp_set_cpu_topology(uint16_t core,
+> +                         bool has_socket, uint16_t socket,
+> +                         bool has_book, uint16_t book,
+> +                         bool has_drawer, uint16_t drawer,
+> +                         bool has_entitlement, CpuS390Entitlement entitl=
+ement,
+> +                         bool has_dedicated, bool dedicated,
+> +                         Error **errp)
+> +{
+> +    ERRP_GUARD();
+> +
+> +    if (!s390_has_topology()) {
+> +        error_setg(errp, "This machine doesn't support topology");
+> +        return;
+> +    }
+> +
+> +    s390_change_topology(core, has_socket, socket, has_book, book,
+> +                         has_drawer, drawer, has_entitlement, entitlemen=
+t,
+> +                         has_dedicated, dedicated, errp);
+> +}
+
 
