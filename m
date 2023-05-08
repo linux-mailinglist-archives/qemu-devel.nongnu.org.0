@@ -2,95 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C44546FB6C3
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 May 2023 21:33:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AAF156FB6D6
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 May 2023 21:42:37 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pw6af-00063I-A6; Mon, 08 May 2023 15:32:09 -0400
+	id 1pw6jc-0000XS-9G; Mon, 08 May 2023 15:41:24 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1pw6aW-000631-Dk
- for qemu-devel@nongnu.org; Mon, 08 May 2023 15:32:00 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1pw6aT-0000LC-ST
- for qemu-devel@nongnu.org; Mon, 08 May 2023 15:32:00 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1683574315;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=JySKjJhLT0DcNu325DDuWfuYQb3zIp+KSm/CnAvR0Rg=;
- b=DDrEu++ISGq4MHbhu1OpwOetEr4TwcgRHLSxOfva1F5mZEOW3XAzP7yyAMK6mC+rmuu5gM
- QXq2IiMU6X86rf/mBTT+/fFKPPTrUjXx13h7szYgFxhmlk0YLBGfDLAClNITYroF26mzAs
- Tpoubky+pW0XAOXTVynCBlSiUEj5AE4=
-Received: from mail-yb1-f200.google.com (mail-yb1-f200.google.com
- [209.85.219.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-214-jUtmz9-hNu2vyaGP_RuiHg-1; Mon, 08 May 2023 15:31:54 -0400
-X-MC-Unique: jUtmz9-hNu2vyaGP_RuiHg-1
-Received: by mail-yb1-f200.google.com with SMTP id
- 3f1490d57ef6-b9e50081556so9384011276.3
- for <qemu-devel@nongnu.org>; Mon, 08 May 2023 12:31:54 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <frasse.iglesias@gmail.com>)
+ id 1pw6jZ-0000UA-Pr; Mon, 08 May 2023 15:41:21 -0400
+Received: from mail-lf1-x136.google.com ([2a00:1450:4864:20::136])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <frasse.iglesias@gmail.com>)
+ id 1pw6jX-0002RM-UB; Mon, 08 May 2023 15:41:21 -0400
+Received: by mail-lf1-x136.google.com with SMTP id
+ 2adb3069b0e04-4f22908a082so2559581e87.1; 
+ Mon, 08 May 2023 12:41:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1683574877; x=1686166877;
+ h=user-agent:in-reply-to:content-disposition:mime-version:references
+ :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=AS9hwBRrLwBVLGSk1mb4Bne5rt3KNvkrXmBGX3oVvjI=;
+ b=VPZfiOtQhfi8Nvu9+I6RxDGr0QsuG2c7neu8f05uiJa3707aVP1hFvhIi6CwQR/Uvi
+ 3ss54ThRKHlJmM4b3MYYAgr8kQSJdnaezGfbv8dWFE97kUXQSGk21aSoKYFnMmBBchaf
+ SAw+jxkpnkWBgDPhLMfz8XbotLevOsFbe1lZV2cvvkvhlAX3Zz2V18EWzDpScSHIRHg1
+ N49SZZRm8J/Tl4xOUVK2BkzEzzJBR37fVVe9B5GmqiM3qdMxHvqQr9pBsA1WAK6sg1Xn
+ r7pCG9GlpkjqHpQYWqu48pYla7aXMoA2Y6pS9zigflqhvrSTVRqgtveg5w8JXp42L/yZ
+ Rlug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683574314; x=1686166314;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ d=1e100.net; s=20221208; t=1683574877; x=1686166877;
+ h=user-agent:in-reply-to:content-disposition:mime-version:references
+ :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=JySKjJhLT0DcNu325DDuWfuYQb3zIp+KSm/CnAvR0Rg=;
- b=Kt89Ki2cTW5uzo3tcR4+kcDpmHEnyQM7K6LTxhQJdXWGKJZfGd3Fhbt3SRTLZHb1ih
- xZC/iKfBlt+avD3FpvXs4339ieke/re1zZ2gUWWxJ2BWivM7/+4VTufkh23Ld1OgcwmN
- +3P5yD+Fokv3FymP/SYGamJKyo+Y53jQw/ZbomnqsGvXAHw87hrlbn0f2I68lX1sEqZ+
- w/2otDQb9foOiGdmGF0C1G2kXIu/oyenzB774nnlBRCuk0A95JrydijbAu63AB5Cqtqr
- 8VPcF+knNtvARCInWe3nfw6wM8+egpzNiTL42Xt0olbkYXNz59tobKVUcKOhRr1RfVgz
- ogNw==
-X-Gm-Message-State: AC+VfDxd4JLYWU+PcizVK0Ei49n+qpS8EW772roT1t1U4KLDKgRE4Vxf
- phz+LmAVygKCDhXT8ksiD/+ephwlOIf5bFWB2BGjEW36CrltLBkObWPdQbETLhcGiCVGiF/80gg
- H96re2D6qfvT1ywmc8bVulbcE5BBpXgcXp3roL1k=
-X-Received: by 2002:a05:6902:1242:b0:b99:3821:87b8 with SMTP id
- t2-20020a056902124200b00b99382187b8mr14385920ybu.36.1683574313833; 
- Mon, 08 May 2023 12:31:53 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ4ZWSpt8DAV6HkmBVQtJsYYdODDSwIeMW3DQjI4ADknu6AElBNJekcELPc7kq5JwMxmsPFGswdl8+QEhAltZHw=
-X-Received: by 2002:a05:6902:1242:b0:b99:3821:87b8 with SMTP id
- t2-20020a056902124200b00b99382187b8mr14385904ybu.36.1683574313497; Mon, 08
- May 2023 12:31:53 -0700 (PDT)
+ bh=AS9hwBRrLwBVLGSk1mb4Bne5rt3KNvkrXmBGX3oVvjI=;
+ b=NYNo4pGnU0ocd7xRD6fFi5rLgHLSiwHJzx03mTi8sAaYxTK2WGI5V142RfHlCiSaSl
+ BfrM8X2tVXFeyvjdxSTGfZRFAW+U3EyOyKnxOBhvvP3kEGAJAnqQD7dBRihkzhY/Mt+6
+ 3TV1dsRx1CGvAAfU4LAOVmf8ekkiIycKXW6yHqIMpggUvZ7W6stk/6Pw+mOvhSdjdG7S
+ R3GucY7WKNlAfYQO+2nwMVYW/XZ9Q5uG1TC1jgOeE+7eoCYkCnEEvs6Ov7Pn1P6u3DtV
+ vn0xe+g81upJRwZwkD1ZBxB/+j/DkMfDx6okjXQVuk3+yOluuKaqIjoyaLLcBQFBiS6n
+ PpFQ==
+X-Gm-Message-State: AC+VfDwIlvIW0oSXgJFK172I1ujTpQqrSI1ZAjEo4Ku3HJicjUC6omZO
+ ILDGY4FmVphSO/s7cirfoeU=
+X-Google-Smtp-Source: ACHHUZ6N9/sXtNndJ6nnTbtWMZ1ylvhcNBwOiP/2X3n1qvQbl95ek5kVVv4JE49zfnzVVDsd8RWBmA==
+X-Received: by 2002:a19:760f:0:b0:4ed:d5b0:7fd9 with SMTP id
+ c15-20020a19760f000000b004edd5b07fd9mr60675lff.19.1683574877506; 
+ Mon, 08 May 2023 12:41:17 -0700 (PDT)
+Received: from fralle-msi (217-76-87-243.cust.bredband2.com. [217.76.87.243])
+ by smtp.gmail.com with ESMTPSA id
+ b20-20020ac247f4000000b004eb0dcc52ddsm82350lfp.41.2023.05.08.12.41.16
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 08 May 2023 12:41:17 -0700 (PDT)
+Date: Mon, 8 May 2023 21:41:15 +0200
+From: Francisco Iglesias <frasse.iglesias@gmail.com>
+To: Thomas Huth <thuth@redhat.com>
+Cc: qemu-devel@nongnu.org, "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ Alistair Francis <alistair@alistair23.me>,
+ Jason Wang <jasowang@redhat.com>, qemu-arm@nongnu.org,
+ Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PATCH] hw/net: Move xilinx_ethlite.c to the target-independent
+ source set
+Message-ID: <20230508194114.GC6984@fralle-msi>
+References: <20230508120314.59274-1-thuth@redhat.com>
 MIME-Version: 1.0
-References: <20230411150515.14020-1-hreitz@redhat.com>
- <e8cc4521-50a1-2e38-1fb3-8cfa7b0c967e@redhat.com>
- <CAJSP0QUFFYWwD5+8+1q41sNErJVNbkfnQ3VtB4z-HZUV8S0=zw@mail.gmail.com>
- <dfec96a1-84c3-3639-6f09-204c2d12244a@redhat.com>
- <71e47e3e-880d-38d8-c1b0-3287c60365e4@redhat.com>
- <CAJaqyWe13QxuC9BNBULJ1xu1saWE9Y3ET8eEef-7qtyL5R73SQ@mail.gmail.com>
- <f04ed41d-39b6-a4e8-dfa5-c3e4936302ca@redhat.com>
- <d25a7982-cfca-6c6b-5dff-1a197fa0d262@redhat.com>
- <CAJaqyWcf-U4tB3FxPWBKHh02ZNk7nEfLiZ=cnns8AdHSasv6CA@mail.gmail.com>
-In-Reply-To: <CAJaqyWcf-U4tB3FxPWBKHh02ZNk7nEfLiZ=cnns8AdHSasv6CA@mail.gmail.com>
-From: Eugenio Perez Martin <eperezma@redhat.com>
-Date: Mon, 8 May 2023 21:31:16 +0200
-Message-ID: <CAJaqyWc19cpOx7pFqC3e4fy=NNWVtDKNziLJfTo3p9sT-SvLRw@mail.gmail.com>
-Subject: Re: [PATCH 0/4] vhost-user-fs: Internal migration
-To: Hanna Czenczek <hreitz@redhat.com>
-Cc: Stefan Hajnoczi <stefanha@gmail.com>, qemu-devel@nongnu.org,
- virtio-fs@redhat.com, 
- Stefan Hajnoczi <stefanha@redhat.com>, German Maglione <gmaglione@redhat.com>, 
- Anton Kuchin <antonkuchin@yandex-team.ru>, Juan Quintela <quintela@redhat.com>,
- "Michael S . Tsirkin" <mst@redhat.com>,
- Stefano Garzarella <sgarzare@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eperezma@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230508120314.59274-1-thuth@redhat.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Received-SPF: pass client-ip=2a00:1450:4864:20::136;
+ envelope-from=frasse.iglesias@gmail.com; helo=mail-lf1-x136.google.com
+X-Spam_score_int: -1020
+X-Spam_score: -102.1
+X-Spam_bar: ---------------------------------------------------
+X-Spam_report: (-102.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01, USER_IN_WELCOMELIST=-0.01,
+ USER_IN_WHITELIST=-100 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -106,142 +95,48 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, May 8, 2023 at 7:51=E2=80=AFPM Eugenio Perez Martin <eperezma@redha=
-t.com> wrote:
->
-> On Mon, May 8, 2023 at 7:00=E2=80=AFPM Hanna Czenczek <hreitz@redhat.com>=
- wrote:
-> >
-> > On 05.05.23 16:37, Hanna Czenczek wrote:
-> > > On 05.05.23 16:26, Eugenio Perez Martin wrote:
-> > >> On Fri, May 5, 2023 at 11:51=E2=80=AFAM Hanna Czenczek <hreitz@redha=
-t.com>
-> > >> wrote:
-> > >>> (By the way, thanks for the explanations :))
-> > >>>
-> > >>> On 05.05.23 11:03, Hanna Czenczek wrote:
-> > >>>> On 04.05.23 23:14, Stefan Hajnoczi wrote:
-> > >>> [...]
-> > >>>
-> > >>>>> I think it's better to change QEMU's vhost code
-> > >>>>> to leave stateful devices suspended (but not reset) across
-> > >>>>> vhost_dev_stop() -> vhost_dev_start(), maybe by introducing
-> > >>>>> vhost_dev_suspend() and vhost_dev_resume(). Have you thought abou=
-t
-> > >>>>> this aspect?
-> > >>>> Yes and no; I mean, I haven=E2=80=99t in detail, but I thought thi=
-s is what=E2=80=99s
-> > >>>> meant by suspending instead of resetting when the VM is stopped.
-> > >>> So, now looking at vhost_dev_stop(), one problem I can see is that
-> > >>> depending on the back-end, different operations it does will do
-> > >>> different things.
-> > >>>
-> > >>> It tries to stop the whole device via vhost_ops->vhost_dev_start(),
-> > >>> which for vDPA will suspend the device, but for vhost-user will
-> > >>> reset it
-> > >>> (if F_STATUS is there).
-> > >>>
-> > >>> It disables all vrings, which doesn=E2=80=99t mean stopping, but ma=
-y be
-> > >>> necessary, too.  (I haven=E2=80=99t yet really understood the use o=
-f disabled
-> > >>> vrings, I heard that virtio-net would have a need for it.)
-> > >>>
-> > >>> It then also stops all vrings, though, so that=E2=80=99s OK.  And b=
-ecause this
-> > >>> will always do GET_VRING_BASE, this is actually always the same
-> > >>> regardless of transport.
-> > >>>
-> > >>> Finally (for this purpose), it resets the device status via
-> > >>> vhost_ops->vhost_reset_status().  This is only implemented on vDPA,=
- and
-> > >>> this is what resets the device there.
-> > >>>
-> > >>>
-> > >>> So vhost-user resets the device in .vhost_dev_start, but vDPA only =
-does
-> > >>> so in .vhost_reset_status.  It would seem better to me if vhost-use=
-r
-> > >>> would also reset the device only in .vhost_reset_status, not in
-> > >>> .vhost_dev_start.  .vhost_dev_start seems precisely like the place =
-to
-> > >>> run SUSPEND/RESUME.
-> > >>>
-> > >> I think the same. I just saw It's been proposed at [1].
-> > >>
-> > >>> Another question I have (but this is basically what I wrote in my l=
-ast
-> > >>> email) is why we even call .vhost_reset_status here.  If the device
-> > >>> and/or all of the vrings are already stopped, why do we need to res=
-et
-> > >>> it?  Na=C3=AFvely, I had assumed we only really need to reset the d=
-evice if
-> > >>> the guest changes, so that a new guest driver sees a freshly
-> > >>> initialized
-> > >>> device.
-> > >>>
-> > >> I don't know why we didn't need to call it :). I'm assuming the
-> > >> previous vhost-user net did fine resetting vq indexes, using
-> > >> VHOST_USER_SET_VRING_BASE. But I don't know about more complex
-> > >> devices.
-> > >>
-> > >> The guest can reset the device, or write 0 to the PCI config status,
-> > >> at any time. How does virtiofs handle it, being stateful?
-> > >
-> > > Honestly a good question because virtiofsd implements neither
-> > > SET_STATUS nor RESET_DEVICE.  I=E2=80=99ll have to investigate that.
-> > >
-> > > I think when the guest resets the device, SET_VRING_BASE always comes
-> > > along some way or another, so that=E2=80=99s how the vrings are reset=
-.  Maybe
-> > > the internal state is reset only following more high-level FUSE
-> > > commands like INIT.
-> >
-> > So a meeting and one session of looking-into-the-code later:
-> >
-> > We reset every virt queue on GET_VRING_BASE, which is wrong, but happen=
-s
-> > to serve the purpose.  (German is currently on that.)
-> >
-> > In our meeting, German said the reset would occur when the memory
-> > regions are changed, but I can=E2=80=99t see that in the code.
->
-> That would imply that the status is reset when the guest's memory is
-> added or removed?
->
-> > I think it only
-> > happens implicitly through the SET_VRING_BASE call, which resets the
-> > internal avail/used pointers.
-> >
-> > [This doesn=E2=80=99t seem different from libvhost-user, though, which
-> > implements neither SET_STATUS nor RESET_DEVICE, and which pretends to
-> > reset the device on RESET_OWNER, but really doesn=E2=80=99t (its
-> > vu_reset_device_exec() function just disables all vrings, doesn=E2=80=
-=99t reset
-> > or even stop them).]
-> >
-> > Consequently, the internal state is never reset.  It would be cleared o=
-n
-> > a FUSE Destroy message, but if you just force-reset the system, the
-> > state remains into the next reboot.  Not even FUSE Init clears it, whic=
-h
-> > seems weird.  It happens to work because it=E2=80=99s still the same fi=
-lesystem,
-> > so the existing state fits, but it kind of seems dangerous to keep e.g.
-> > files open.  I don=E2=80=99t think it=E2=80=99s really exploitable beca=
-use everything
-> > still goes through the guest kernel, but, well.  We should clear the
-> > state on Init, and probably also implement SET_STATUS and clear the
-> > state there.
-> >
->
-> I see. That's in the line of assuming GET_VRING_BASE is the last
-> message received from qemu.
->
+On [2023 May 08] Mon 14:03:14, Thomas Huth wrote:
+> Now that the tswap() functions are available for target-independent
+> code, too, we can move xilinx_ethlite.c from specific_ss to softmmu_ss
+> to avoid that we have to compile this file multiple times.
+> 
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
 
-Actually, does it prevent device recovery after a failure in
-migration? Is the same state set for the device?
+Reviewed-by: Francisco Iglesias <frasse.iglesias@gmail.com>
 
-Thanks!
-
+> ---
+>  hw/net/xilinx_ethlite.c | 2 +-
+>  hw/net/meson.build      | 2 +-
+>  2 files changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/hw/net/xilinx_ethlite.c b/hw/net/xilinx_ethlite.c
+> index 99c22819ea..89f4f3b254 100644
+> --- a/hw/net/xilinx_ethlite.c
+> +++ b/hw/net/xilinx_ethlite.c
+> @@ -25,7 +25,7 @@
+>  #include "qemu/osdep.h"
+>  #include "qemu/module.h"
+>  #include "qom/object.h"
+> -#include "cpu.h" /* FIXME should not use tswap* */
+> +#include "exec/tswap.h"
+>  #include "hw/sysbus.h"
+>  #include "hw/irq.h"
+>  #include "hw/qdev-properties.h"
+> diff --git a/hw/net/meson.build b/hw/net/meson.build
+> index e2be0654a1..a7860c5efe 100644
+> --- a/hw/net/meson.build
+> +++ b/hw/net/meson.build
+> @@ -43,7 +43,7 @@ softmmu_ss.add(when: 'CONFIG_NPCM7XX', if_true: files('npcm7xx_emc.c'))
+>  softmmu_ss.add(when: 'CONFIG_ETRAXFS', if_true: files('etraxfs_eth.c'))
+>  softmmu_ss.add(when: 'CONFIG_COLDFIRE', if_true: files('mcf_fec.c'))
+>  specific_ss.add(when: 'CONFIG_PSERIES', if_true: files('spapr_llan.c'))
+> -specific_ss.add(when: 'CONFIG_XILINX_ETHLITE', if_true: files('xilinx_ethlite.c'))
+> +softmmu_ss.add(when: 'CONFIG_XILINX_ETHLITE', if_true: files('xilinx_ethlite.c'))
+>  
+>  softmmu_ss.add(when: 'CONFIG_VIRTIO_NET', if_true: files('net_rx_pkt.c'))
+>  specific_ss.add(when: 'CONFIG_VIRTIO_NET', if_true: files('virtio-net.c'))
+> -- 
+> 2.31.1
+> 
+> 
 
