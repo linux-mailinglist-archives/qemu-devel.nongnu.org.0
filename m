@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31A576FB0EA
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 May 2023 15:11:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 54A3F6FB135
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 May 2023 15:17:42 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pw0d6-0003gn-Js; Mon, 08 May 2023 09:10:17 -0400
+	id 1pw0e7-0004Z6-VA; Mon, 08 May 2023 09:11:20 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pw0d0-0003fy-1m
- for qemu-devel@nongnu.org; Mon, 08 May 2023 09:10:10 -0400
+ id 1pw0d5-0003mS-Px
+ for qemu-devel@nongnu.org; Mon, 08 May 2023 09:10:16 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pw0cu-0000zS-W4
- for qemu-devel@nongnu.org; Mon, 08 May 2023 09:10:09 -0400
+ id 1pw0cx-0000zm-Ok
+ for qemu-devel@nongnu.org; Mon, 08 May 2023 09:10:15 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1683551404;
+ s=mimecast20190719; t=1683551405;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=FD13sygxW3Jcptff0lDq6unYwnKy8R527CfsZIqXBQY=;
- b=AWoL9Y8rReRAf2mfeDg84A6khIrkTM1S6NeAwzB85z3YZMIYHpqyVE59jhEdpWPrHukR5t
- jT7fiZRp77S6UHHt3LBsyLiYu1Ui4V+/SUWYm65kY8TSMzm0Q0vcz69wg5zbeEIG9lBNA9
- Uf05NtG3DIqGwj8zhNaK0OFa4InZ6T0=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=5rp022K/cF/xFfzjk00dh7oy4g2njIAS+QRouSOLaW0=;
+ b=FHoibeN+YZCI1CpAjwXcDGdVBC0/8eiA2fyqSm8UxHiK31g+ocrUQ8GAoJ3jyCuhIiwjuN
+ 1aeO/hgNoIsaE1Wqd9oG6SJelTSgrQgUmJJ1kVyl7eAZAFdiALZxJqSOYYaD2QFoMpx9Xf
+ bd45HzenQLImuss1pgGJEOYAKsqsgZA=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-80-bh_unPGONKmaoXENtLUoUA-1; Mon, 08 May 2023 09:09:57 -0400
-X-MC-Unique: bh_unPGONKmaoXENtLUoUA-1
+ us-mta-348-SYF2vH3yP3GSZ8WsZM4wRg-1; Mon, 08 May 2023 09:10:02 -0400
+X-MC-Unique: SYF2vH3yP3GSZ8WsZM4wRg-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
  [10.11.54.6])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E72C8280605F;
- Mon,  8 May 2023 13:09:56 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 26D5E181E070;
+ Mon,  8 May 2023 13:10:01 +0000 (UTC)
 Received: from secure.mitica (unknown [10.39.193.236])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 275EA2166B40;
- Mon,  8 May 2023 13:09:53 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3B8B32166B40;
+ Mon,  8 May 2023 13:09:57 +0000 (UTC)
 From: Juan Quintela <quintela@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Daniel Henrique Barboza <danielhb413@gmail.com>,
@@ -59,14 +59,15 @@ Cc: Daniel Henrique Barboza <danielhb413@gmail.com>,
  qemu-ppc@nongnu.org, qemu-s390x@nongnu.org, Fam Zheng <fam@euphon.net>,
  Thomas Huth <thuth@redhat.com>,
  =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
- Leonardo Bras <leobras@redhat.com>, Ilya Leoshkevich <iii@linux.ibm.com>
-Subject: [PATCH 04/21] qemu-file: make qemu_file_[sg]et_rate_limit() use an
- uint64_t
-Date: Mon,  8 May 2023 15:08:52 +0200
-Message-Id: <20230508130909.65420-5-quintela@redhat.com>
+ Leonardo Bras <leobras@redhat.com>, Ilya Leoshkevich <iii@linux.ibm.com>,
+ =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>
+Subject: [PATCH 05/21] qemu-file: Make rate_limit_used an uint64_t
+Date: Mon,  8 May 2023 15:08:53 +0200
+Message-Id: <20230508130909.65420-6-quintela@redhat.com>
 In-Reply-To: <20230508130909.65420-1-quintela@redhat.com>
 References: <20230508130909.65420-1-quintela@redhat.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
@@ -94,63 +95,52 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-It is really size_t.  Everything else uses uint64_t, so move this to
-uint64_t as well.  A size can't be negative anyways.
+Change all the functions that use it.  It was already passed as
+uint64_t.
 
 Signed-off-by: Juan Quintela <quintela@redhat.com>
-Message-Id: <20230504113841.23130-4-quintela@redhat.com>
-
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+Message-Id: <20230504113841.23130-5-quintela@redhat.com>
 ---
-
-Don't drop the check if rate_limit_max is zero.
----
- migration/qemu-file.c | 6 +++---
- migration/qemu-file.h | 4 ++--
- 2 files changed, 5 insertions(+), 5 deletions(-)
+ migration/qemu-file.c | 4 ++--
+ migration/qemu-file.h | 2 +-
+ 2 files changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/migration/qemu-file.c b/migration/qemu-file.c
-index 12cf7fb04e..346b683929 100644
+index 346b683929..f3cb0cd94f 100644
 --- a/migration/qemu-file.c
 +++ b/migration/qemu-file.c
-@@ -44,7 +44,7 @@ struct QEMUFile {
-      * Maximum amount of data in bytes to transfer during one
-      * rate limiting time window
-      */
--    int64_t rate_limit_max;
-+    uint64_t rate_limit_max;
-     /*
+@@ -49,7 +49,7 @@ struct QEMUFile {
       * Total amount of data in bytes queued for transfer
       * during this rate limiting time window
-@@ -741,12 +741,12 @@ int qemu_file_rate_limit(QEMUFile *f)
-     return 0;
+      */
+-    int64_t rate_limit_used;
++    uint64_t rate_limit_used;
+ 
+     /* The sum of bytes transferred on the wire */
+     uint64_t total_transferred;
+@@ -759,7 +759,7 @@ void qemu_file_reset_rate_limit(QEMUFile *f)
+     f->rate_limit_used = 0;
  }
  
--int64_t qemu_file_get_rate_limit(QEMUFile *f)
-+uint64_t qemu_file_get_rate_limit(QEMUFile *f)
+-void qemu_file_acct_rate_limit(QEMUFile *f, int64_t len)
++void qemu_file_acct_rate_limit(QEMUFile *f, uint64_t len)
  {
-     return f->rate_limit_max;
+     f->rate_limit_used += len;
  }
- 
--void qemu_file_set_rate_limit(QEMUFile *f, int64_t limit)
-+void qemu_file_set_rate_limit(QEMUFile *f, uint64_t limit)
- {
-     /*
-      * 'limit' is per second.  But we check it each 100 miliseconds.
 diff --git a/migration/qemu-file.h b/migration/qemu-file.h
-index 4f26bf6961..04ca48cbef 100644
+index 04ca48cbef..d758e7f10b 100644
 --- a/migration/qemu-file.h
 +++ b/migration/qemu-file.h
-@@ -138,8 +138,8 @@ void qemu_file_reset_rate_limit(QEMUFile *f);
+@@ -137,7 +137,7 @@ void qemu_file_reset_rate_limit(QEMUFile *f);
+  * out of band from the main file object I/O methods, and
   * need to be applied to the rate limiting calcuations
   */
- void qemu_file_acct_rate_limit(QEMUFile *f, int64_t len);
--void qemu_file_set_rate_limit(QEMUFile *f, int64_t new_rate);
--int64_t qemu_file_get_rate_limit(QEMUFile *f);
-+void qemu_file_set_rate_limit(QEMUFile *f, uint64_t new_rate);
-+uint64_t qemu_file_get_rate_limit(QEMUFile *f);
+-void qemu_file_acct_rate_limit(QEMUFile *f, int64_t len);
++void qemu_file_acct_rate_limit(QEMUFile *f, uint64_t len);
+ void qemu_file_set_rate_limit(QEMUFile *f, uint64_t new_rate);
+ uint64_t qemu_file_get_rate_limit(QEMUFile *f);
  int qemu_file_get_error_obj(QEMUFile *f, Error **errp);
- int qemu_file_get_error_obj_any(QEMUFile *f1, QEMUFile *f2, Error **errp);
- void qemu_file_set_error_obj(QEMUFile *f, int ret, Error *err);
 -- 
 2.40.0
 
