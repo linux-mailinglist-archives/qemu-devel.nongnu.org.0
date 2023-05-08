@@ -2,56 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01C2D6FA1D6
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 May 2023 10:02:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12C126FA1D3
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 May 2023 10:01:44 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pvvmn-0008GL-EB; Mon, 08 May 2023 03:59:57 -0400
+	id 1pvvmp-0008OC-Gv; Mon, 08 May 2023 03:59:59 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <SRS0=5sq4=A5=kaod.org=clg@ozlabs.org>)
- id 1pvvmV-00082U-1y; Mon, 08 May 2023 03:59:39 -0400
-Received: from mail.ozlabs.org ([2404:9400:2221:ea00::3]
- helo=gandalf.ozlabs.org)
+ id 1pvvmf-00087w-BT; Mon, 08 May 2023 03:59:52 -0400
+Received: from gandalf.ozlabs.org ([150.107.74.76])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <SRS0=5sq4=A5=kaod.org=clg@ozlabs.org>)
- id 1pvvmT-0001A5-B5; Mon, 08 May 2023 03:59:38 -0400
+ id 1pvvmc-0001GC-1s; Mon, 08 May 2023 03:59:49 -0400
 Received: from gandalf.ozlabs.org (mail.ozlabs.org
  [IPv6:2404:9400:2221:ea00::3])
- by gandalf.ozlabs.org (Postfix) with ESMTP id 4QFDGJ28FDz4x48;
- Mon,  8 May 2023 17:59:36 +1000 (AEST)
+ by gandalf.ozlabs.org (Postfix) with ESMTP id 4QFDGQ0dxNz4x4C;
+ Mon,  8 May 2023 17:59:42 +1000 (AEST)
 Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4QFDGF61lzz4x49;
- Mon,  8 May 2023 17:59:33 +1000 (AEST)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4QFDGM3wX9z4x44;
+ Mon,  8 May 2023 17:59:39 +1000 (AEST)
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: qemu-arm@nongnu.org
 Cc: qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
  Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>,
  =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
- Alistair Francis <alistair@alistair23.me>
-Subject: [PATCH 09/12] m25p80: Introduce an helper to retrieve the
- BlockBackend of a device
-Date: Mon,  8 May 2023 09:58:56 +0200
-Message-Id: <20230508075859.3326566-10-clg@kaod.org>
+ Abhishek Singh Dagur <abhishek@drut.io>
+Subject: [PATCH 11/12] aspeed: Introduce a "uart" machine option
+Date: Mon,  8 May 2023 09:58:58 +0200
+Message-Id: <20230508075859.3326566-12-clg@kaod.org>
 X-Mailer: git-send-email 2.40.0
 In-Reply-To: <20230508075859.3326566-1-clg@kaod.org>
 References: <20230508075859.3326566-1-clg@kaod.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2404:9400:2221:ea00::3;
+Received-SPF: pass client-ip=150.107.74.76;
  envelope-from=SRS0=5sq4=A5=kaod.org=clg@ozlabs.org; helo=gandalf.ozlabs.org
-X-Spam_score_int: -39
-X-Spam_score: -4.0
-X-Spam_bar: ----
-X-Spam_report: (-4.0 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_score_int: -16
+X-Spam_score: -1.7
+X-Spam_bar: -
+X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -67,50 +64,131 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-It will help in getting rid of some drive_get(IF_MTD) calls by
-retrieving the BlockBackend directly from the m25p80 device.
+Most of the Aspeed machines use the UART5 device for the boot console,
+and QEMU connects the first serial Chardev to this SoC device for this
+purpose. See routine connect_serial_hds_to_uarts().
 
-Cc: Alistair Francis <alistair@alistair23.me>
+Nevertheless, some machines use another boot console, such as the fuji,
+and commit 5d63d0c76c ("hw/arm/aspeed: Allow machine to set UART
+default") introduced a SoC class attribute 'uart_default' and property
+to be able to change the boot console device. It was later changed by
+commit d2b3eaefb4 ("aspeed: Refactor UART init for multi-SoC machines").
+
+The "uart" machine option goes a step further and lets the user define
+the UART device from the QEMU command line without introducing a new
+machine definition. For instance, to use device UART3 (mapped on
+/dev/ttyS2 under Linux) instead of the default UART5, one would use :
+
+  -M ast2500-evb,uart=uart3
+
+Cc: Abhishek Singh Dagur <abhishek@drut.io>
 Signed-off-by: Cédric Le Goater <clg@kaod.org>
 ---
- include/hw/block/flash.h | 4 ++++
- hw/block/m25p80.c        | 6 ++++++
- 2 files changed, 10 insertions(+)
+ docs/system/arm/aspeed.rst | 10 ++++++++++
+ hw/arm/aspeed.c            | 39 ++++++++++++++++++++++++++++++++++++--
+ 2 files changed, 47 insertions(+), 2 deletions(-)
 
-diff --git a/include/hw/block/flash.h b/include/hw/block/flash.h
-index 7198953702..de93756cbe 100644
---- a/include/hw/block/flash.h
-+++ b/include/hw/block/flash.h
-@@ -76,4 +76,8 @@ uint8_t ecc_digest(ECCState *s, uint8_t sample);
- void ecc_reset(ECCState *s);
- extern const VMStateDescription vmstate_ecc_state;
+diff --git a/docs/system/arm/aspeed.rst b/docs/system/arm/aspeed.rst
+index d4e293e7f9..e70f0aeea3 100644
+--- a/docs/system/arm/aspeed.rst
++++ b/docs/system/arm/aspeed.rst
+@@ -122,6 +122,10 @@ Options specific to Aspeed machines are :
  
-+/* m25p80.c */
+  * ``spi-model`` to change the SPI Flash model.
+ 
++ * ``uart`` to change the default console device. Most of the machines
++   use the ``UART5`` device for a boot console, which is mapped on
++   ``/dev/ttyS4`` under Linux, but it is not always the case.
 +
-+BlockBackend *m25p80_get_blk(DeviceState *dev);
+ For instance, to start the ``ast2500-evb`` machine with a different
+ FMC chip and a bigger (64M) SPI chip, use :
+ 
+@@ -129,6 +133,12 @@ FMC chip and a bigger (64M) SPI chip, use :
+ 
+   -M ast2500-evb,fmc-model=mx25l25635e,spi-model=mx66u51235f
+ 
++To change the boot console and use device ``UART3`` (``/dev/ttyS2``
++under Linux), use :
 +
- #endif
-diff --git a/hw/block/m25p80.c b/hw/block/m25p80.c
-index dc5ffbc4ff..afc3fdf4d6 100644
---- a/hw/block/m25p80.c
-+++ b/hw/block/m25p80.c
-@@ -25,6 +25,7 @@
- #include "qemu/units.h"
- #include "sysemu/block-backend.h"
- #include "hw/block/block.h"
-+#include "hw/block/flash.h"
- #include "hw/qdev-properties.h"
- #include "hw/qdev-properties-system.h"
- #include "hw/ssi/ssi.h"
-@@ -1830,3 +1831,8 @@ static void m25p80_register_types(void)
++.. code-block:: bash
++
++  -M ast2500-evb,uart=uart3
+ 
+ Aspeed minibmc family boards (``ast1030-evb``)
+ ==================================================================
+diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
+index 3d5488faf7..6c32f674b9 100644
+--- a/hw/arm/aspeed.c
++++ b/hw/arm/aspeed.c
+@@ -43,6 +43,7 @@ struct AspeedMachineState {
+     AspeedSoCState soc;
+     MemoryRegion boot_rom;
+     bool mmio_exec;
++    uint32_t uart_chosen;
+     char *fmc_model;
+     char *spi_model;
+ };
+@@ -331,10 +332,11 @@ static void connect_serial_hds_to_uarts(AspeedMachineState *bmc)
+     AspeedMachineClass *amc = ASPEED_MACHINE_GET_CLASS(bmc);
+     AspeedSoCState *s = &bmc->soc;
+     AspeedSoCClass *sc = ASPEED_SOC_GET_CLASS(s);
++    int uart_chosen = bmc->uart_chosen ? bmc->uart_chosen : amc->uart_default;
+ 
+-    aspeed_soc_uart_set_chr(s, amc->uart_default, serial_hd(0));
++    aspeed_soc_uart_set_chr(s, uart_chosen, serial_hd(0));
+     for (int i = 1, uart = ASPEED_DEV_UART1; i < sc->uarts_num; i++, uart++) {
+-        if (uart == amc->uart_default) {
++        if (uart == uart_chosen) {
+             continue;
+         }
+         aspeed_soc_uart_set_chr(s, uart, serial_hd(i));
+@@ -1077,6 +1079,35 @@ static void aspeed_set_spi_model(Object *obj, const char *value, Error **errp)
+     bmc->spi_model = g_strdup(value);
  }
  
- type_init(m25p80_register_types)
-+
-+BlockBackend *m25p80_get_blk(DeviceState *dev)
++static char *aspeed_get_uart(Object *obj, Error **errp)
 +{
-+    return M25P80(dev)->blk;
++    AspeedMachineState *bmc = ASPEED_MACHINE(obj);
++    AspeedMachineClass *amc = ASPEED_MACHINE_GET_CLASS(bmc);
++    int uart_chosen = bmc->uart_chosen ? bmc->uart_chosen : amc->uart_default;
++
++    return g_strdup_printf("uart%d", uart_chosen - ASPEED_DEV_UART1 + 1);
 +}
++
++static void aspeed_set_uart(Object *obj, const char *value, Error **errp)
++{
++    AspeedMachineState *bmc = ASPEED_MACHINE(obj);
++    AspeedMachineClass *amc = ASPEED_MACHINE_GET_CLASS(bmc);
++    AspeedSoCClass *sc = ASPEED_SOC_CLASS(object_class_by_name(amc->soc_name));
++    int val;
++
++    if (sscanf(value, "uart%u", &val) != 1) {
++        error_setg(errp, "Bad value for \"uart\" property");
++        return;
++    }
++
++    /* The number of UART depends on the SoC */
++    if (val < 1 || val > sc->uarts_num) {
++        error_setg(errp, "\"uart\" should be in range [1 - %d]", sc->uarts_num);
++        return;
++    }
++    bmc->uart_chosen = ASPEED_DEV_UART1 + val - 1;
++}
++
+ static void aspeed_machine_class_props_init(ObjectClass *oc)
+ {
+     object_class_property_add_bool(oc, "execute-in-place",
+@@ -1085,6 +1116,10 @@ static void aspeed_machine_class_props_init(ObjectClass *oc)
+     object_class_property_set_description(oc, "execute-in-place",
+                            "boot directly from CE0 flash device");
+ 
++    object_class_property_add_str(oc, "uart", aspeed_get_uart, aspeed_set_uart);
++    object_class_property_set_description(oc, "uart",
++                           "Change the default UART to \"uartX\"");
++
+     object_class_property_add_str(oc, "fmc-model", aspeed_get_fmc_model,
+                                    aspeed_set_fmc_model);
+     object_class_property_set_description(oc, "fmc-model",
 -- 
 2.40.0
 
