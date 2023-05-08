@@ -2,91 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DEAEB6FB585
+	by mail.lfdr.de (Postfix) with ESMTPS id DB78A6FB584
 	for <lists+qemu-devel@lfdr.de>; Mon,  8 May 2023 18:51:18 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pw43i-0006Z9-8J; Mon, 08 May 2023 12:49:58 -0400
+	id 1pw44J-0006f1-4U; Mon, 08 May 2023 12:50:35 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pw43g-0006Yz-40
- for qemu-devel@nongnu.org; Mon, 08 May 2023 12:49:56 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pw43c-0001ju-7Q
- for qemu-devel@nongnu.org; Mon, 08 May 2023 12:49:55 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1683564584;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=pLBV4ZGd5IJFAIQTRegpy2fYg211Vxq2tBmnff5AB8I=;
- b=SqlyB1uX7mIZ3b/yWWtfwIPlC2dwiKkHMir/ccq86wwDHS2KailWBLhGcEgYpduYeCAluQ
- 78KJ+4d5pjFarKwefnfIB29q97McThOQleEkeRd1nq1IEk+zQB4W/oTRYLIVDfMXWp/Ty6
- Vvc3Yl5kGLD8xFjyX3y1DBrbMlBAWmc=
-Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
- [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-493-hMqfUUgHN1ims_VFKtZobg-1; Mon, 08 May 2023 12:49:43 -0400
-X-MC-Unique: hMqfUUgHN1ims_VFKtZobg-1
-Received: by mail-ej1-f70.google.com with SMTP id
- a640c23a62f3a-965b9e29579so528273766b.0
- for <qemu-devel@nongnu.org>; Mon, 08 May 2023 09:49:42 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pw44H-0006dm-5G
+ for qemu-devel@nongnu.org; Mon, 08 May 2023 12:50:33 -0400
+Received: from mail-lf1-x12a.google.com ([2a00:1450:4864:20::12a])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pw44D-0002md-6Y
+ for qemu-devel@nongnu.org; Mon, 08 May 2023 12:50:32 -0400
+Received: by mail-lf1-x12a.google.com with SMTP id
+ 2adb3069b0e04-4ec8149907aso5509068e87.1
+ for <qemu-devel@nongnu.org>; Mon, 08 May 2023 09:50:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1683564627; x=1686156627;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=Xb868I+KKMcZ3ak9kzp8WkHnq7Udd4DxF3UnhINTCgg=;
+ b=jMQYZavqRPTCJOki+6biX8eeoqKlwNInFFwGpWuV6y1SBrLTdnPiaLJoOmYgl/jZHY
+ 9FPCf2s6m/a0Al+fZIz7XWOt3wuK36HkVfkvZJEG7BgAi0wluxMYx5cz9iQoMUhU158z
+ EFp2jdtJyuncOIaFTLs9jztlORhUSMXm9zvN2JbvJpMf7ayVsVLytTWO/FfPGMktzmqq
+ Zp+R+6Eojoka64BuvFczkhRC6PtsGohE1aT3rxDlEJ0EEzEB/lgWHkwmknsPD12OCw0p
+ QYbfDz88JNvzTGvH/wTHQKO4Rsa7T6wpJ9jBvPs5uGdT1UtfpJg2zTVy5787xoj0czp1
+ oeTw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683564582; x=1686156582;
+ d=1e100.net; s=20221208; t=1683564627; x=1686156627;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=pLBV4ZGd5IJFAIQTRegpy2fYg211Vxq2tBmnff5AB8I=;
- b=iBvcxAxijh2sHiKQ3wpSpjDBgis7NxIQlzrahhZIulZKcvKxC4M5O4dX4u6ajvB+72
- ZwoQBSGxVEZRwxfS8F6oY4rcQI9ehW4gSZ4t7UWeDONTZJnqbNOLspXjNc/+Z6hSk3NK
- hKZsRxXAMi5UfLl0rrCif4YqPLaIMz0eN0vrMyEAPLyTeg+Tc++gnBW+K6wUsf132lwc
- gQ0qh7X6vstjoO+bInlND4UUbunJhj/K6HinqmvMRyUKLHfrzgz1o33Uh9fRACisf901
- rhcqW6M5Dm5/+1AqMApBGyKy6ao1IJSzDTuZawBI9Jt0uGge8jlw+8Pyrrm07QsZRQkF
- rXHw==
-X-Gm-Message-State: AC+VfDwv9K93fQgiOHD4MzHyoXjF57HhI1zi+jgx7lTb1H5v6ndk9P78
- WfX56SZ+wQ6swRFeOY7EB5HtelQ6y08BplgjZ8v8oGglGEx9E3+8Ltw9g/t91KpVE+F77Pi8cQq
- 2fAfLW8Ocuz+FDE8=
-X-Received: by 2002:a17:907:6da3:b0:969:9118:a991 with SMTP id
- sb35-20020a1709076da300b009699118a991mr1090309ejc.42.1683564581966; 
- Mon, 08 May 2023 09:49:41 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ7n5ah3bKigUJ035Ldd+bOd0yotngd0veopDPHNtLXJPEaIZ4uSghdWVj5Xe9ua31zIqnNrXw==
-X-Received: by 2002:a17:907:6da3:b0:969:9118:a991 with SMTP id
- sb35-20020a1709076da300b009699118a991mr1090291ejc.42.1683564581683; 
- Mon, 08 May 2023 09:49:41 -0700 (PDT)
-Received: from [192.168.8.104] (tmo-124-74.customers.d1-online.com.
- [80.187.124.74]) by smtp.gmail.com with ESMTPSA id
- ze11-20020a170906ef8b00b00965b0eb7b0csm184281ejb.103.2023.05.08.09.49.40
+ bh=Xb868I+KKMcZ3ak9kzp8WkHnq7Udd4DxF3UnhINTCgg=;
+ b=OcE/Foq9ePRLSq/MTL+u0bvHX2pkCcF+bYDqLawKQhuDNfGVVkOod8iYQKygufiZio
+ uFwDJ7tftFgAvdtz10a3CYenCUbMP3pYmyPIRqWB/d/MIVypzMLUIFMKCNm60LvNH4zs
+ 6HdmPzwS/yB5YIQLTjFHmGA+eM3hWg+IvNMjL5LarIZGXUSrNjbcwQpWSoT8mWa/ZZNw
+ YFws6eHXEX/wYKZV1wW31RxkcSFY0EdqS52wOV2NLoxX4ppSC2KYHXd3z6B7oEU38Z44
+ Luo38178DgYSBCQQJ8WgRRvLRh4rm+OxZFHoF7KOLqGm8OP0pOq8iyEKTHQWlIaZp2ZK
+ /hrw==
+X-Gm-Message-State: AC+VfDxxB9PEIhoe8yOy7j1IMtgVMc5kNLbstQPRYlElDAM1Pk8hbql6
+ rbp6sinRMvgbhAZpj5oyCl/2hQ==
+X-Google-Smtp-Source: ACHHUZ4EEkSSDkLyEGrVwG4mDaJy+xQi4YgLuQjmK4FUocV23xnVYpvHWqSIFxGhTfsndqWukUYttQ==
+X-Received: by 2002:ac2:5293:0:b0:4f1:408f:4fa6 with SMTP id
+ q19-20020ac25293000000b004f1408f4fa6mr3102327lfm.49.1683564627022; 
+ Mon, 08 May 2023 09:50:27 -0700 (PDT)
+Received: from [192.168.110.227] ([91.209.212.34])
+ by smtp.gmail.com with ESMTPSA id
+ f15-20020ac2508f000000b004e7d6eb9cbfsm41161lfm.190.2023.05.08.09.50.24
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 08 May 2023 09:49:41 -0700 (PDT)
-Message-ID: <11962c60-475a-31a8-ef55-8da6dacca9d2@redhat.com>
-Date: Mon, 8 May 2023 18:49:39 +0200
+ Mon, 08 May 2023 09:50:26 -0700 (PDT)
+Message-ID: <a597dcd8-f4ec-30ce-ce38-35a2607feb78@linaro.org>
+Date: Mon, 8 May 2023 17:50:21 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [RFC v2 1/1] migration: Update error description whenever
- migration fails
+ Thunderbird/102.10.0
+Subject: Re: [PATCH 00/13] Migration PULL request (20230508 edition)
 Content-Language: en-US
-To: "tejus.gk" <tejus.gk@nutanix.com>, qemu-devel@nongnu.org
-Cc: quintela@redhat.com, peterx@redhat.com, leobras@redhat.com,
- berrange@redhat.com, shivam.kumar1@nutanix.com
-References: <20230508153223.133081-1-tejus.gk@nutanix.com>
- <20230508153223.133081-2-tejus.gk@nutanix.com>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <20230508153223.133081-2-tejus.gk@nutanix.com>
+To: Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org
+Cc: Thomas Huth <thuth@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Peter Xu <peterx@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
+ Leonardo Bras <leobras@redhat.com>
+References: <20230508152657.66701-1-quintela@redhat.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20230508152657.66701-1-quintela@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::12a;
+ envelope-from=richard.henderson@linaro.org; helo=mail-lf1-x12a.google.com
 X-Spam_score_int: -38
 X-Spam_score: -3.9
 X-Spam_bar: ---
-X-Spam_report: (-3.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.802, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-3.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.802,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -102,22 +96,51 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-  Hi!
-
-On 08/05/2023 17.32, tejus.gk wrote:
-> There are places in the code where the migration is marked failed with
-> MIGRATION_STATUS_FAILED, but the failiure reason is never updated. Hence
-
-s/failiure/failure/
-
-> libvirt doesn't know why the migration failed when it queries for it.
+On 5/8/23 16:26, Juan Quintela wrote:
+> Hi
 > 
-> Signed-off-by: tejus.gk <tejus.gk@nutanix.com>
+> This is just the compression bits of the Migration PULL request for
+> 20230428.  Only change is that we don't run the compression tests by
+> default.
+> 
+> The problem already exist with compression code.  The test just show
+> that it don't work.
+> 
+> Please apply, Juan.
 
-The Signed-off-by line should contain the proper name...
-Is "tejus.gk" really the correct spelling of your name (with only lowercase 
-letters and a dot in it)? If not, please update the line, thanks!
+Missing request-pull data.
 
-  Thomas
+
+r~
+
+> 
+> Lukas Straub (13):
+>    qtest/migration-test.c: Add tests with compress enabled
+>    qtest/migration-test.c: Add postcopy tests with compress enabled
+>    ram.c: Let the compress threads return a CompressResult enum
+>    ram.c: Dont change param->block in the compress thread
+>    ram.c: Reset result after sending queued data
+>    ram.c: Do not call save_page_header() from compress threads
+>    ram.c: Call update_compress_thread_counts from
+>      compress_send_queued_data
+>    ram.c: Remove last ram.c dependency from the core compress code
+>    ram.c: Move core compression code into its own file
+>    ram.c: Move core decompression code into its own file
+>    ram compress: Assert that the file buffer matches the result
+>    ram-compress.c: Make target independent
+>    migration: Initialize and cleanup decompression in migration.c
+> 
+>   migration/meson.build        |   6 +-
+>   migration/migration.c        |   9 +
+>   migration/qemu-file.c        |  11 +
+>   migration/qemu-file.h        |   1 +
+>   migration/ram-compress.c     | 485 +++++++++++++++++++++++++++++++++
+>   migration/ram-compress.h     |  70 +++++
+>   migration/ram.c              | 502 +++--------------------------------
+>   tests/qtest/migration-test.c | 134 ++++++++++
+>   8 files changed, 758 insertions(+), 460 deletions(-)
+>   create mode 100644 migration/ram-compress.c
+>   create mode 100644 migration/ram-compress.h
+> 
 
 
