@@ -2,87 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 975D26FA5C5
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 May 2023 12:13:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BCCEC6FA5C6
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 May 2023 12:13:05 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pvxqL-0005RJ-2t; Mon, 08 May 2023 06:11:45 -0400
+	id 1pvxr4-0005c8-EM; Mon, 08 May 2023 06:12:30 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pvxqH-0005QG-01
- for qemu-devel@nongnu.org; Mon, 08 May 2023 06:11:41 -0400
-Received: from mail-ej1-x634.google.com ([2a00:1450:4864:20::634])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pvxqC-0006VU-Gi
- for qemu-devel@nongnu.org; Mon, 08 May 2023 06:11:38 -0400
-Received: by mail-ej1-x634.google.com with SMTP id
- a640c23a62f3a-9660af2499dso448459666b.0
- for <qemu-devel@nongnu.org>; Mon, 08 May 2023 03:11:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1683540693; x=1686132693;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=r7f/fkBATNzqUinvH3w4ndLoZkkktG1Ww8fEUs19hSc=;
- b=OCCLWRprweY2bhfsQGo5cnKbVv3FqujmVlyyux2kPyfH6zQJB/aoDo5mBctZXxj/xd
- WYbzOIVVo+FarsAF96uee7lFG+e7bvyz/7aAZbYFPuFrB0Tg4RgBkyuZKESGL0dSrwbU
- DU683Zyn5jtLL35C2ULRSNKe3k6vuZTEjZdDWcC/+PSG6yygwIxBlkxgdE9e0O7zJuVg
- JwkW85PBx+hQvsSzILDBiN4vVzFgwJMsdO/xpB3/DXwDK+e/zPm9CAIidzWCg5KOE1Q7
- 6nghOoaFDNHc5wC3Q24fsiXHMbM0XrA0yKRhT3oibqfRwHt4a6sLGi2LzqvdIh2jIzHX
- Ei+A==
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pvxqz-0005bd-E3
+ for qemu-devel@nongnu.org; Mon, 08 May 2023 06:12:25 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pvxqx-0007Bh-1O
+ for qemu-devel@nongnu.org; Mon, 08 May 2023 06:12:24 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1683540741;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=0u9gjqKWnT5vfasxqQZsS1j3G6ZsHascY7PG3p3MTSE=;
+ b=cfpEgjgnJwC8OkTtEJAsjvAT2QjJLy1TXzCNaa8pxUc27YIJIuC+nDxid72eqUNTk+r5Hw
+ CiT+lS3Yyg2zE5Sw7HtwbRQ1znhHtPMe3KaTnvltfH/2NaucyUTG1iculn7k3dq0A57WFy
+ RlV9r4WDcZ4SUHT3BJMtBrHcHl2ZdC0=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-537-Lmi1EwNBNY2J7bhPNlAmzQ-1; Mon, 08 May 2023 06:12:20 -0400
+X-MC-Unique: Lmi1EwNBNY2J7bhPNlAmzQ-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ ffacd0b85a97d-30633990a69so1451529f8f.3
+ for <qemu-devel@nongnu.org>; Mon, 08 May 2023 03:12:20 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683540693; x=1686132693;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ d=1e100.net; s=20221208; t=1683540739; x=1686132739;
+ h=content-transfer-encoding:in-reply-to:from:cc:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=r7f/fkBATNzqUinvH3w4ndLoZkkktG1Ww8fEUs19hSc=;
- b=f/kRzwDvvtmvrKJ4CIaHcPboUnOwVd3AmSIIlCZzeiaEq+oLJ0Zi0wdxAINqifN9i2
- lA9ja5R6TJK1v1nGKwBB0sySYu8oD36mQKwdSt4ooQNPHlfyw24xHujVOu6nUc6se7jE
- rmLjmz5V3IF+TdZfHEQepmwLCUrzsMWl2FJjNMUPXp/eb2ZY5M7Z7etfDg5R9CvtWso/
- xlyS9n665oaMNH+ACTE6cK0sNsNTEsaaXGmLddnhJSEFVCofQNjs8ldLXJVGF2f3Gaxg
- GdEa1L8DHv526nYjaE5GZ3NhiCjnsouGWly3qY3H9sV+zsW6jYFt+eWfK2vU7UjDM3Pq
- KYXA==
-X-Gm-Message-State: AC+VfDyug0Q+dPSG+E2jULA6SEzAgTrQ2rO6DFngUdE4PLn7nK7M7l4H
- IJwfN1TtRXJOgV3v7uBQSMuauA==
-X-Google-Smtp-Source: ACHHUZ6xQAjpMdOVprzTd9OkJFtnsobvWsqbYmoiW4VdH1Z3vc4hSJLaXWDqZ9qBt0/tBjw6Mq8/MQ==
-X-Received: by 2002:a17:907:9345:b0:94e:c4b:4d95 with SMTP id
- bv5-20020a170907934500b0094e0c4b4d95mr7629334ejc.69.1683540693491; 
- Mon, 08 May 2023 03:11:33 -0700 (PDT)
-Received: from [192.168.110.227] ([91.223.100.33])
- by smtp.gmail.com with ESMTPSA id
- p25-20020a1709065dd900b0094e4eabb402sm4777421ejv.128.2023.05.08.03.11.28
+ bh=0u9gjqKWnT5vfasxqQZsS1j3G6ZsHascY7PG3p3MTSE=;
+ b=e8s5DGiZLPiFN2JM3RElIyDqG/Si8PTMyKbw0h2nyF3fPaRiag+nAanIKtCfYZwJfK
+ 2SVJo7FaMJakuYi6OThVC94wUlBbEAdVaybu85Xl6rU/2YblRi+edh6PUEJqRWw8WHUa
+ WrHC4LRqAtuzFkw+LroB7fEHSsFWZ5tWN6cGhuQax6NFaywSiwaiJRVfOCldCToZ7SXs
+ bykk+sOti+b/hO0JeQ8X+dGDcQ2vFqMMAKzD3Xtk3ar6Ic7O04yPATLQuOHm6i2IajNp
+ DDlawqUZIiG4qYvkzBefrRFIkQVTdCuHjKc9iDNTRwW9HnTNWKN1NkutGh5BI0VcWFM+
+ ruEw==
+X-Gm-Message-State: AC+VfDy6v90SBx0cf/Pc06tXlPzv3R7DXaTMmTJ9UmZ/22seOctAHmuN
+ 3kW+e79Rd3MZj0e2M8NTnXuY5b2qJ/JX7Uia0gjGtYhwTlZYDtrAT9q30I9NwfyUbr3U2iAM5Xa
+ xzs1e/+CtVUuvtSE=
+X-Received: by 2002:adf:ea85:0:b0:307:834f:7159 with SMTP id
+ s5-20020adfea85000000b00307834f7159mr6447999wrm.4.1683540739537; 
+ Mon, 08 May 2023 03:12:19 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ4zy0vDFIuT9HmQE5KUWzBVCqbHEbvrL9MdrIjmhY15leHrOW89uC2a4zEOGJq87f8v32g+yA==
+X-Received: by 2002:adf:ea85:0:b0:307:834f:7159 with SMTP id
+ s5-20020adfea85000000b00307834f7159mr6447982wrm.4.1683540739226; 
+ Mon, 08 May 2023 03:12:19 -0700 (PDT)
+Received: from [192.168.0.3] (ip-109-43-179-212.web.vodafone.de.
+ [109.43.179.212]) by smtp.gmail.com with ESMTPSA id
+ f15-20020a5d50cf000000b00304adbeeabbsm10814429wrt.99.2023.05.08.03.12.18
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 08 May 2023 03:11:33 -0700 (PDT)
-Message-ID: <483ae5ee-82e7-d964-7f95-ac45ce4bfb46@linaro.org>
-Date: Mon, 8 May 2023 11:11:23 +0100
+ Mon, 08 May 2023 03:12:18 -0700 (PDT)
+Message-ID: <90c49bba-c108-f929-97aa-f954f4226e1b@redhat.com>
+Date: Mon, 8 May 2023 12:12:17 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH v4 07/57] accel/tcg: Honor atomicity of stores
+ Thunderbird/102.9.0
+Subject: Re: missing boot rom: is it really a fatal error?
 Content-Language: en-US
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: qemu-devel@nongnu.org, git@xen0n.name, gaosong@loongson.cn,
- philmd@linaro.org, qemu-arm@nongnu.org, qemu-riscv@nongnu.org,
- qemu-s390x@nongnu.org
-References: <20230503070656.1746170-1-richard.henderson@linaro.org>
- <20230503070656.1746170-8-richard.henderson@linaro.org>
- <CAFEAcA8aqJXGcFSTU1dz6bSeJL5n+cmHq3ATt4xZGZsehJk6Tg@mail.gmail.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <CAFEAcA8aqJXGcFSTU1dz6bSeJL5n+cmHq3ATt4xZGZsehJk6Tg@mail.gmail.com>
+To: Michael Tokarev <mjt@tls.msk.ru>, QEMU Developers
+ <qemu-devel@nongnu.org>, Markus Armbruster <armbru@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+References: <d6f3e06c-ee84-5101-c583-220aa90c0c12@msgid.tls.msk.ru>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <d6f3e06c-ee84-5101-c583-220aa90c0c12@msgid.tls.msk.ru>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::634;
- envelope-from=richard.henderson@linaro.org; helo=mail-ej1-x634.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -50
 X-Spam_score: -5.1
 X-Spam_bar: -----
-X-Spam_report: (-5.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.964,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-5.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-2.964, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -98,56 +101,48 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 5/5/23 10:28, Peter Maydell wrote:
-> On Wed, 3 May 2023 at 08:11, Richard Henderson
-> <richard.henderson@linaro.org> wrote:
->>
->> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
->> ---
->>   accel/tcg/cputlb.c             | 103 +++----
->>   accel/tcg/user-exec.c          |  12 +-
->>   accel/tcg/ldst_atomicity.c.inc | 491 +++++++++++++++++++++++++++++++++
->>   3 files changed, 540 insertions(+), 66 deletions(-)
+On 07/05/2023 19.56, Michael Tokarev wrote:
+> Hi!
 > 
+> In old good world ;), there was qemu which didn't require boot roms to be 
+> present
+> for all devices for which bootrom file is defined, missing rom was just a 
+> warning.
+> But this changed in 2014, 9 years ago, with this commit:
 > 
->> +/**
->> + * store_atom_insert_al16:
->> + * @p: host address
->> + * @val: shifted value to store
->> + * @msk: mask for value to store
->> + *
->> + * Atomically store @val to @p masked by @msk.
->> + */
->> +static void store_atom_insert_al16(Int128 *ps, Int128Alias val, Int128Alias msk)
->> +{
->> +#if defined(CONFIG_ATOMIC128)
->> +    __uint128_t *pu, old, new;
->> +
->> +    /* With CONFIG_ATOMIC128, we can avoid the memory barriers. */
->> +    pu = __builtin_assume_aligned(ps, 16);
->> +    old = *pu;
->> +    do {
->> +        new = (old & ~msk.u) | val.u;
->> +    } while (!__atomic_compare_exchange_n(pu, &old, new, true,
->> +                                          __ATOMIC_RELAXED, __ATOMIC_RELAXED));
->> +#elif defined(CONFIG_CMPXCHG128)
->> +    __uint128_t *pu, old, new;
->> +
->> +    /*
->> +     * Without CONFIG_ATOMIC128, __atomic_compare_exchange_n will always
->> +     * defer to libatomic, so we must use __sync_val_compare_and_swap_16
->> +     * and accept the sequential consistency that comes with it.
->> +     */
->> +    pu = __builtin_assume_aligned(ps, 16);
->> +    do {
->> +        old = *pu;
->> +        new = (old & ~msk.u) | val.u;
->> +    } while (!__sync_bool_compare_and_swap_16(pu, old, new));
-> 
-> Comment says "__sync_val..." but code says "__sync_bool...". Which is right?
+> commit 178e785fb4507ec3462dc772bbe08303416ece47
+> From: Marcel Apfelbaum <marcel.a@redhat.com>
 
-Fixed the comment to __sync_*_compare_and_swap_16
+Marcel left Red Hat a while ago ... CC:-ing him with his current address - 
+maybe he remembers why that fix was needed...
+
+  Thomas
 
 
-r~
+> Date: Mon, 27 Oct 2014 19:34:41 +0200
+> Subject: [PATCH] hw/pci: fixed error flow in pci_qdev_init
+> 
+>    Verify return code for pci_add_option_rom.
+> 
+> where inability to load rom file started being treated as an error.
+> Up until now I didn't even know about this change, until today when someone 
+> bugged
+> me about non-working qemu on debian, due to missing network boot roms (this a
+> packaging issue due to me being unaware of the above change).
+> 
+> What is the reason to require boot roms to be present and throw an error if 
+> not?
+> 
+> I'm about to revert that old change on debian, to make it just a warning 
+> instead
+> of an error (the code is different now, but the same principle applies), - 
+> because
+> I dislike dependencies which are useless 99.9% of the time and are trivial to
+> install when actually needed.
+> 
+> Thanks,
+> 
+> /mjt
+> 
+
 
