@@ -2,57 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A40C46FB7EA
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 May 2023 22:05:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D4B6C6FB82A
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 May 2023 22:11:25 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pw75g-0006GD-VD; Mon, 08 May 2023 16:04:12 -0400
+	id 1pw7C7-0000Xp-0K; Mon, 08 May 2023 16:10:51 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1pw75T-0006Ej-7V
- for qemu-devel@nongnu.org; Mon, 08 May 2023 16:04:00 -0400
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1pw7C3-0000X7-KP
+ for qemu-devel@nongnu.org; Mon, 08 May 2023 16:10:47 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1pw75N-0007KM-VV
- for qemu-devel@nongnu.org; Mon, 08 May 2023 16:03:56 -0400
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1pw7C0-0000ig-LD
+ for qemu-devel@nongnu.org; Mon, 08 May 2023 16:10:47 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1683576233;
+ s=mimecast20190719; t=1683576643;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=MjsYTp4uMPaj6tl4VHV5SOUdxqW2VFNDpjp7ErZwpD0=;
- b=ilI6HyqUjO9eMapCqSq8S3l8oJux/KWOT34YU1S7VZvTkFGNOBw+vNNnGXx/c4hPPuy+m2
- R0DzgIIgsg/3cRFJT/N255XQIHWslkL3qWLCBucICHtmJOOKMMpH3QOEY4azDLPO7u+I5C
- QpBPDCDHLXqWWr0xRCr5iaAhmwSwk0Y=
+ bh=878THwQu7mjoPDpvQT0KVub6RVM8K4hvo8yb8wup4xg=;
+ b=frKz61esPILiW0mSRamyQpxpwP/UIJwTFI7jkYSUsyCcPw4VLciCvlnfPXv0CjrFXrWHFQ
+ bTWDpFEJYyOJLjm2riVS9ssr7UzGZmVuBlR+j2iSZ5KaxjFe5CO7cbTNsaFWs7lXVBz6Ih
+ WHWdNIOItEaqKOYNoMMKwr7v597mlK4=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-629-FrONzesJNoOMq9I_AOzS4g-1; Mon, 08 May 2023 16:03:51 -0400
-X-MC-Unique: FrONzesJNoOMq9I_AOzS4g-1
+ us-mta-385-tOKERVpoMluwEH7UmiYWrQ-1; Mon, 08 May 2023 16:10:40 -0400
+X-MC-Unique: tOKERVpoMluwEH7UmiYWrQ-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
  [10.11.54.3])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 16DDA185A7A2
- for <qemu-devel@nongnu.org>; Mon,  8 May 2023 20:03:51 +0000 (UTC)
-Received: from green.redhat.com (unknown [10.2.16.49])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C8F5F1121314;
- Mon,  8 May 2023 20:03:50 +0000 (UTC)
-From: Eric Blake <eblake@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: hreitz@redhat.com
-Subject: [PATCH 11/11] cutils: Improve qemu_strtosz handling of fractions
-Date: Mon,  8 May 2023 15:03:43 -0500
-Message-Id: <20230508200343.791450-12-eblake@redhat.com>
-In-Reply-To: <20230508200343.791450-1-eblake@redhat.com>
-References: <20230508200343.791450-1-eblake@redhat.com>
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id CE6F5101A531;
+ Mon,  8 May 2023 20:10:39 +0000 (UTC)
+Received: from localhost (unknown [10.39.195.40])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C476F1121314;
+ Mon,  8 May 2023 20:10:38 +0000 (UTC)
+Date: Mon, 8 May 2023 16:10:36 -0400
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Eugenio =?iso-8859-1?Q?P=E9rez?= <eperezma@redhat.com>
+Cc: Stefan Hajnoczi <stefanha@gmail.com>,
+ Hanna Czenczek <hreitz@redhat.com>, qemu-devel@nongnu.org,
+ virtio-fs@redhat.com, German Maglione <gmaglione@redhat.com>,
+ Anton Kuchin <antonkuchin@yandex-team.ru>,
+ Juan Quintela <quintela@redhat.com>,
+ "Michael S . Tsirkin" <mst@redhat.com>,
+ Stefano Garzarella <sgarzare@redhat.com>
+Subject: Re: [PATCH 2/4] vhost-user: Interface for migration state transfer
+Message-ID: <20230508201036.GB926999@fedora>
+References: <20230411150515.14020-3-hreitz@redhat.com>
+ <20230412210641.GC2813183@fedora>
+ <CAJaqyWfm=g_hr9=WpsnwJ4hdpVb7K7p5rirWjvx=PxKYUp8trA@mail.gmail.com>
+ <20230417171405.GA3890522@fedora>
+ <CAJaqyWePywgd11mA5D=SqSyGOjzdhj1kjNHVkjG1iWv9Ox0ytg@mail.gmail.com>
+ <CAJSP0QUriW5D9QNX+=YHYepXVAzOKjL6Dc93zSYihTTZhif0ig@mail.gmail.com>
+ <CAJaqyWc_59dhPcXOQDYh3vpMfV_4uZooYpQnRrcCkBBu1QO8tw@mail.gmail.com>
+ <5620d5c8-a9fb-a65b-74ab-16a1ae12c8e3@redhat.com>
+ <CAJSP0QWbGQ9BaXDGMgasfk=qWt1DKHxcE=rK9BeuotQvQUuomw@mail.gmail.com>
+ <eec2061d62958f3e7872d43b9cb802dfaebbdde4.camel@redhat.com>
 MIME-Version: 1.0
-Content-type: text/plain
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="2vlrdci32WJakQ94"
+Content-Disposition: inline
+In-Reply-To: <eec2061d62958f3e7872d43b9cb802dfaebbdde4.camel@redhat.com>
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=eblake@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -76,305 +93,478 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-We have several limitations and bugs worth fixing; they are
-inter-related enough that it is not worth splitting this patch into
-smaller pieces:
 
-* ".5k" should work to specify 512, just as "0.5k" does
-* "1.9999k" and "1." + "9"*50 + "k" should both produce the same
-  result of 2048 after rounding
-* "1." + "0"*350 + "1B" should not be treated the same as "1.0B";
-  underflow in the fraction should not be lost
-* "7.99e99" and "7.99e999" look similar, but our code was doing a
-  read-out-of-bounds on the latter because it was not expecting ERANGE
-  due to overflow. While we document that scientific notation is not
-  supported, and the previous patch actually fixed
-  qemu_strtod_finite() to no longer return ERANGE overflows, it is
-  easier to pre-filter than to try and determine after the fact if
-  strtod() consumed more than we wanted.  Note that this is a
-  low-level semantic change (when endptr is not NULL, we can now
-  successfully parse with a scale of 'E' and then report trailing
-  junk, instead of failing outright with EINVAL); but an earlier
-  commit already argued that this is not a high-level semantic change
-  since the only caller passing in a non-NULL endptr also checks that
-  the tail is whitespace-only.
+--2vlrdci32WJakQ94
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Fixes: https://gitlab.com/qemu-project/qemu/-/issues/1629
-Signed-off-by: Eric Blake <eblake@redhat.com>
----
- tests/unit/test-cutils.c | 51 +++++++++++------------
- util/cutils.c            | 89 ++++++++++++++++++++++++++++------------
- 2 files changed, 88 insertions(+), 52 deletions(-)
+On Thu, Apr 20, 2023 at 03:29:44PM +0200, Eugenio P=C3=A9rez wrote:
+> On Wed, 2023-04-19 at 07:21 -0400, Stefan Hajnoczi wrote:
+> > On Wed, 19 Apr 2023 at 07:10, Hanna Czenczek <hreitz@redhat.com> wrote:
+> > > On 18.04.23 09:54, Eugenio Perez Martin wrote:
+> > > > On Mon, Apr 17, 2023 at 9:21=E2=80=AFPM Stefan Hajnoczi <stefanha@g=
+mail.com>
+> > > > wrote:
+> > > > > On Mon, 17 Apr 2023 at 15:08, Eugenio Perez Martin <eperezma@redh=
+at.com>
+> > > > > wrote:
+> > > > > > On Mon, Apr 17, 2023 at 7:14=E2=80=AFPM Stefan Hajnoczi <stefan=
+ha@redhat.com>
+> > > > > > wrote:
+> > > > > > > On Thu, Apr 13, 2023 at 12:14:24PM +0200, Eugenio Perez Martin
+> > > > > > > wrote:
+> > > > > > > > On Wed, Apr 12, 2023 at 11:06=E2=80=AFPM Stefan Hajnoczi <
+> > > > > > > > stefanha@redhat.com> wrote:
+> > > > > > > > > On Tue, Apr 11, 2023 at 05:05:13PM +0200, Hanna Czenczek =
+wrote:
+> > > > > > > > > > So-called "internal" virtio-fs migration refers to
+> > > > > > > > > > transporting the
+> > > > > > > > > > back-end's (virtiofsd's) state through qemu's migration
+> > > > > > > > > > stream.  To do
+> > > > > > > > > > this, we need to be able to transfer virtiofsd's intern=
+al
+> > > > > > > > > > state to and
+> > > > > > > > > > from virtiofsd.
+> > > > > > > > > >=20
+> > > > > > > > > > Because virtiofsd's internal state will not be too larg=
+e, we
+> > > > > > > > > > believe it
+> > > > > > > > > > is best to transfer it as a single binary blob after the
+> > > > > > > > > > streaming
+> > > > > > > > > > phase.  Because this method should be useful to other v=
+host-
+> > > > > > > > > > user
+> > > > > > > > > > implementations, too, it is introduced as a general-pur=
+pose
+> > > > > > > > > > addition to
+> > > > > > > > > > the protocol, not limited to vhost-user-fs.
+> > > > > > > > > >=20
+> > > > > > > > > > These are the additions to the protocol:
+> > > > > > > > > > - New vhost-user protocol feature
+> > > > > > > > > > VHOST_USER_PROTOCOL_F_MIGRATORY_STATE:
+> > > > > > > > > >    This feature signals support for transferring state,=
+ and is
+> > > > > > > > > > added so
+> > > > > > > > > >    that migration can fail early when the back-end has =
+no
+> > > > > > > > > > support.
+> > > > > > > > > >=20
+> > > > > > > > > > - SET_DEVICE_STATE_FD function: Front-end and back-end
+> > > > > > > > > > negotiate a pipe
+> > > > > > > > > >    over which to transfer the state.  The front-end sen=
+ds an
+> > > > > > > > > > FD to the
+> > > > > > > > > >    back-end into/from which it can write/read its state=
+, and
+> > > > > > > > > > the back-end
+> > > > > > > > > >    can decide to either use it, or reply with a differe=
+nt FD
+> > > > > > > > > > for the
+> > > > > > > > > >    front-end to override the front-end's choice.
+> > > > > > > > > >    The front-end creates a simple pipe to transfer the =
+state,
+> > > > > > > > > > but maybe
+> > > > > > > > > >    the back-end already has an FD into/from which it ha=
+s to
+> > > > > > > > > > write/read
+> > > > > > > > > >    its state, in which case it will want to override the
+> > > > > > > > > > simple pipe.
+> > > > > > > > > >    Conversely, maybe in the future we find a way to hav=
+e the
+> > > > > > > > > > front-end
+> > > > > > > > > >    get an immediate FD for the migration stream (in some
+> > > > > > > > > > cases), in which
+> > > > > > > > > >    case we will want to send this to the back-end inste=
+ad of
+> > > > > > > > > > creating a
+> > > > > > > > > >    pipe.
+> > > > > > > > > >    Hence the negotiation: If one side has a better idea=
+ than a
+> > > > > > > > > > plain
+> > > > > > > > > >    pipe, we will want to use that.
+> > > > > > > > > >=20
+> > > > > > > > > > - CHECK_DEVICE_STATE: After the state has been transfer=
+red
+> > > > > > > > > > through the
+> > > > > > > > > >    pipe (the end indicated by EOF), the front-end invok=
+es this
+> > > > > > > > > > function
+> > > > > > > > > >    to verify success.  There is no in-band way (through=
+ the
+> > > > > > > > > > pipe) to
+> > > > > > > > > >    indicate failure, so we need to check explicitly.
+> > > > > > > > > >=20
+> > > > > > > > > > Once the transfer pipe has been established via
+> > > > > > > > > > SET_DEVICE_STATE_FD
+> > > > > > > > > > (which includes establishing the direction of transfer =
+and
+> > > > > > > > > > migration
+> > > > > > > > > > phase), the sending side writes its data into the pipe,=
+ and
+> > > > > > > > > > the reading
+> > > > > > > > > > side reads it until it sees an EOF.  Then, the front-en=
+d will
+> > > > > > > > > > check for
+> > > > > > > > > > success via CHECK_DEVICE_STATE, which on the destinatio=
+n side
+> > > > > > > > > > includes
+> > > > > > > > > > checking for integrity (i.e. errors during deserializat=
+ion).
+> > > > > > > > > >=20
+> > > > > > > > > > Suggested-by: Stefan Hajnoczi <stefanha@redhat.com>
+> > > > > > > > > > Signed-off-by: Hanna Czenczek <hreitz@redhat.com>
+> > > > > > > > > > ---
+> > > > > > > > > >   include/hw/virtio/vhost-backend.h |  24 +++++
+> > > > > > > > > >   include/hw/virtio/vhost.h         |  79 +++++++++++++=
++++
+> > > > > > > > > >   hw/virtio/vhost-user.c            | 147
+> > > > > > > > > > ++++++++++++++++++++++++++++++
+> > > > > > > > > >   hw/virtio/vhost.c                 |  37 ++++++++
+> > > > > > > > > >   4 files changed, 287 insertions(+)
+> > > > > > > > > >=20
+> > > > > > > > > > diff --git a/include/hw/virtio/vhost-backend.h
+> > > > > > > > > > b/include/hw/virtio/vhost-backend.h
+> > > > > > > > > > index ec3fbae58d..5935b32fe3 100644
+> > > > > > > > > > --- a/include/hw/virtio/vhost-backend.h
+> > > > > > > > > > +++ b/include/hw/virtio/vhost-backend.h
+> > > > > > > > > > @@ -26,6 +26,18 @@ typedef enum VhostSetConfigType {
+> > > > > > > > > >       VHOST_SET_CONFIG_TYPE_MIGRATION =3D 1,
+> > > > > > > > > >   } VhostSetConfigType;
+> > > > > > > > > >=20
+> > > > > > > > > > +typedef enum VhostDeviceStateDirection {
+> > > > > > > > > > +    /* Transfer state from back-end (device) to front-=
+end */
+> > > > > > > > > > +    VHOST_TRANSFER_STATE_DIRECTION_SAVE =3D 0,
+> > > > > > > > > > +    /* Transfer state from front-end to back-end (devi=
+ce) */
+> > > > > > > > > > +    VHOST_TRANSFER_STATE_DIRECTION_LOAD =3D 1,
+> > > > > > > > > > +} VhostDeviceStateDirection;
+> > > > > > > > > > +
+> > > > > > > > > > +typedef enum VhostDeviceStatePhase {
+> > > > > > > > > > +    /* The device (and all its vrings) is stopped */
+> > > > > > > > > > +    VHOST_TRANSFER_STATE_PHASE_STOPPED =3D 0,
+> > > > > > > > > > +} VhostDeviceStatePhase;
+> > > > > > > > > vDPA has:
+> > > > > > > > >=20
+> > > > > > > > >    /* Suspend a device so it does not process virtqueue r=
+equests
+> > > > > > > > > anymore
+> > > > > > > > >     *
+> > > > > > > > >     * After the return of ioctl the device must preserve =
+all the
+> > > > > > > > > necessary state
+> > > > > > > > >     * (the virtqueue vring base plus the possible device
+> > > > > > > > > specific states) that is
+> > > > > > > > >     * required for restoring in the future. The device mu=
+st not
+> > > > > > > > > change its
+> > > > > > > > >     * configuration after that point.
+> > > > > > > > >     */
+> > > > > > > > >    #define VHOST_VDPA_SUSPEND      _IO(VHOST_VIRTIO, 0x7D)
+> > > > > > > > >=20
+> > > > > > > > >    /* Resume a device so it can resume processing virtque=
+ue
+> > > > > > > > > requests
+> > > > > > > > >     *
+> > > > > > > > >     * After the return of this ioctl the device will have
+> > > > > > > > > restored all the
+> > > > > > > > >     * necessary states and it is fully operational to con=
+tinue
+> > > > > > > > > processing the
+> > > > > > > > >     * virtqueue descriptors.
+> > > > > > > > >     */
+> > > > > > > > >    #define VHOST_VDPA_RESUME       _IO(VHOST_VIRTIO, 0x7E)
+> > > > > > > > >=20
+> > > > > > > > > I wonder if it makes sense to import these into vhost-use=
+r so
+> > > > > > > > > that the
+> > > > > > > > > difference between kernel vhost and vhost-user is minimiz=
+ed.
+> > > > > > > > > It's okay
+> > > > > > > > > if one of them is ahead of the other, but it would be nic=
+e to
+> > > > > > > > > avoid
+> > > > > > > > > overlapping/duplicated functionality.
+> > > > > > > > >=20
+> > > > > > > > That's what I had in mind in the first versions. I proposed
+> > > > > > > > VHOST_STOP
+> > > > > > > > instead of VHOST_VDPA_STOP for this very reason. Later it d=
+id
+> > > > > > > > change
+> > > > > > > > to SUSPEND.
+> > > > > > > >=20
+> > > > > > > > Generally it is better if we make the interface less parame=
+trized
+> > > > > > > > and
+> > > > > > > > we trust in the messages and its semantics in my opinion. I=
+n other
+> > > > > > > > words, instead of
+> > > > > > > > vhost_set_device_state_fd_op(VHOST_TRANSFER_STATE_PHASE_STO=
+PPED),
+> > > > > > > > send
+> > > > > > > > individually the equivalent of VHOST_VDPA_SUSPEND vhost-user
+> > > > > > > > command.
+> > > > > > > >=20
+> > > > > > > > Another way to apply this is with the "direction" parameter=
+=2E Maybe
+> > > > > > > > it
+> > > > > > > > is better to split it into "set_state_fd" and "get_state_fd=
+"?
+> > > > > > > >=20
+> > > > > > > > In that case, reusing the ioctls as vhost-user messages wou=
+ld be
+> > > > > > > > ok.
+> > > > > > > > But that puts this proposal further from the VFIO code, whi=
+ch uses
+> > > > > > > > "migration_set_state(state)", and maybe it is better when t=
+he
+> > > > > > > > number
+> > > > > > > > of states is high.
+> > > > > > > Hi Eugenio,
+> > > > > > > Another question about vDPA suspend/resume:
+> > > > > > >=20
+> > > > > > >    /* Host notifiers must be enabled at this point. */
+> > > > > > >    void vhost_dev_stop(struct vhost_dev *hdev, VirtIODevice *=
+vdev,
+> > > > > > > bool vrings)
+> > > > > > >    {
+> > > > > > >        int i;
+> > > > > > >=20
+> > > > > > >        /* should only be called after backend is connected */
+> > > > > > >        assert(hdev->vhost_ops);
+> > > > > > >        event_notifier_test_and_clear(
+> > > > > > >            &hdev-
+> > > > > > > >vqs[VHOST_QUEUE_NUM_CONFIG_INR].masked_config_notifier);
+> > > > > > >        event_notifier_test_and_clear(&vdev->config_notifier);
+> > > > > > >=20
+> > > > > > >        trace_vhost_dev_stop(hdev, vdev->name, vrings);
+> > > > > > >=20
+> > > > > > >        if (hdev->vhost_ops->vhost_dev_start) {
+> > > > > > >            hdev->vhost_ops->vhost_dev_start(hdev, false);
+> > > > > > >            ^^^ SUSPEND ^^^
+> > > > > > >        }
+> > > > > > >        if (vrings) {
+> > > > > > >            vhost_dev_set_vring_enable(hdev, false);
+> > > > > > >        }
+> > > > > > >        for (i =3D 0; i < hdev->nvqs; ++i) {
+> > > > > > >            vhost_virtqueue_stop(hdev,
+> > > > > > >                                 vdev,
+> > > > > > >                                 hdev->vqs + i,
+> > > > > > >                                 hdev->vq_index + i);
+> > > > > > >          ^^^ fetch virtqueue state from kernel ^^^
+> > > > > > >        }
+> > > > > > >        if (hdev->vhost_ops->vhost_reset_status) {
+> > > > > > >            hdev->vhost_ops->vhost_reset_status(hdev);
+> > > > > > >            ^^^ reset device^^^
+> > > > > > >=20
+> > > > > > > I noticed the QEMU vDPA code resets the device in vhost_dev_s=
+top()
+> > > > > > > ->
+> > > > > > > vhost_reset_status(). The device's migration code runs after
+> > > > > > > vhost_dev_stop() and the state will have been lost.
+> > > > > > >=20
+> > > > > > vhost_virtqueue_stop saves the vq state (indexes, vring base) i=
+n the
+> > > > > > qemu VirtIONet device model. This is for all vhost backends.
+> > > > > >=20
+> > > > > > Regarding the state like mac or mq configuration, SVQ runs for =
+all the
+> > > > > > VM run in the CVQ. So it can track all of that status in the de=
+vice
+> > > > > > model too.
+> > > > > >=20
+> > > > > > When a migration effectively occurs, all the frontend state is
+> > > > > > migrated as a regular emulated device. To route all of the stat=
+e in a
+> > > > > > normalized way for qemu is what leaves open the possibility to =
+do
+> > > > > > cross-backends migrations, etc.
+> > > > > >=20
+> > > > > > Does that answer your question?
+> > > > > I think you're confirming that changes would be necessary in orde=
+r for
+> > > > > vDPA to support the save/load operation that Hanna is introducing.
+> > > > >=20
+> > > > Yes, this first iteration was centered on net, with an eye on block,
+> > > > where state can be routed through classical emulated devices. This =
+is
+> > > > how vhost-kernel and vhost-user do classically. And it allows
+> > > > cross-backend, to not modify qemu migration state, etc.
+> > > >=20
+> > > > To introduce this opaque state to qemu, that must be fetched after =
+the
+> > > > suspend and not before, requires changes in vhost protocol, as
+> > > > discussed previously.
+> > > >=20
+> > > > > > > It looks like vDPA changes are necessary in order to support
+> > > > > > > stateful
+> > > > > > > devices even though QEMU already uses SUSPEND. Is my understa=
+nding
+> > > > > > > correct?
+> > > > > > >=20
+> > > > > > Changes are required elsewhere, as the code to restore the state
+> > > > > > properly in the destination has not been merged.
+> > > > > I'm not sure what you mean by elsewhere?
+> > > > >=20
+> > > > I meant for vdpa *net* devices the changes are not required in vdpa
+> > > > ioctls, but mostly in qemu.
+> > > >=20
+> > > > If you meant stateful as "it must have a state blob that it must be
+> > > > opaque to qemu", then I think the straightforward action is to fetch
+> > > > state blob about the same time as vq indexes. But yes, changes (at
+> > > > least a new ioctl) is needed for that.
+> > > >=20
+> > > > > I'm asking about vDPA ioctls. Right now the sequence is SUSPEND a=
+nd
+> > > > > then VHOST_VDPA_SET_STATUS 0.
+> > > > >=20
+> > > > > In order to save device state from the vDPA device in the future,=
+ it
+> > > > > will be necessary to defer the VHOST_VDPA_SET_STATUS 0 call so th=
+at
+> > > > > the device state can be saved before the device is reset.
+> > > > >=20
+> > > > > Does that sound right?
+> > > > >=20
+> > > > The split between suspend and reset was added recently for that very
+> > > > reason. In all the virtio devices, the frontend is initialized befo=
+re
+> > > > the backend, so I don't think it is a good idea to defer the backend
+> > > > cleanup. Especially if we have already set the state is small enough
+> > > > to not needing iterative migration from virtiofsd point of view.
+> > > >=20
+> > > > If fetching that state at the same time as vq indexes is not valid,
+> > > > could it follow the same model as the "in-flight descriptors"?
+> > > > vhost-user follows them by using a shared memory region where their
+> > > > state is tracked [1]. This allows qemu to survive vhost-user SW
+> > > > backend crashes, and does not forbid the cross-backends live migrat=
+ion
+> > > > as all the information is there to recover them.
+> > > >=20
+> > > > For hw devices this is not convenient as it occupies PCI bandwidth.=
+ So
+> > > > a possibility is to synchronize this memory region after a
+> > > > synchronization point, being the SUSPEND call or GET_VRING_BASE. HW
+> > > > devices are not going to crash in the software sense, so all use ca=
+ses
+> > > > remain the same to qemu. And that shared memory information is
+> > > > recoverable after vhost_dev_stop.
+> > > >=20
+> > > > Does that sound reasonable to virtiofsd? To offer a shared memory
+> > > > region where it dumps the state, maybe only after the
+> > > > set_state(STATE_PHASE_STOPPED)?
+> > >=20
+> > > I don=E2=80=99t think we need the set_state() call, necessarily, if S=
+USPEND is
+> > > mandatory anyway.
+> > >=20
+> > > As for the shared memory, the RFC before this series used shared memo=
+ry,
+> > > so it=E2=80=99s possible, yes.  But =E2=80=9Cshared memory region=E2=
+=80=9D can mean a lot of
+> > > things =E2=80=93 it sounds like you=E2=80=99re saying the back-end (v=
+irtiofsd) should
+> > > provide it to the front-end, is that right?  That could work like thi=
+s:
+> > >=20
+> > > On the source side:
+> > >=20
+> > > S1. SUSPEND goes to virtiofsd
+> > > S2. virtiofsd maybe double-checks that the device is stopped, then
+> > > serializes its state into a newly allocated shared memory area[1]
+> > > S3. virtiofsd responds to SUSPEND
+> > > S4. front-end requests shared memory, virtiofsd responds with a handl=
+e,
+> > > maybe already closes its reference
+> > > S5. front-end saves state, closes its handle, freeing the SHM
+> > >=20
+> > > [1] Maybe virtiofsd can correctly size the serialized state=E2=80=99s=
+ size, then
+> > > it can immediately allocate this area and serialize directly into it;
+> > > maybe it can=E2=80=99t, then we=E2=80=99ll need a bounce buffer.  Not=
+ really a
+> > > fundamental problem, but there are limitations around what you can do
+> > > with serde implementations in Rust=E2=80=A6
+> > >=20
+> > > On the destination side:
+> > >=20
+> > > D1. Optional SUSPEND goes to virtiofsd that hasn=E2=80=99t yet done m=
+uch;
+> > > virtiofsd would serialize its empty state into an SHM area, and respo=
+nd
+> > > to SUSPEND
+> > > D2. front-end reads state from migration stream into an SHM it has al=
+located
+> > > D3. front-end supplies this SHM to virtiofsd, which discards its
+> > > previous area, and now uses this one
+> > > D4. RESUME goes to virtiofsd, which deserializes the state from the S=
+HM
+> > >=20
+> > > Couple of questions:
+> > >=20
+> > > A. Stefan suggested D1, but it does seem wasteful now.  But if SUSPEND
+> > > would imply to deserialize a state, and the state is to be transferred
+> > > through SHM, this is what would need to be done.  So maybe we should
+> > > skip SUSPEND on the destination?
+> > > B. You described that the back-end should supply the SHM, which works
+> > > well on the source.  On the destination, only the front-end knows how
+> > > big the state is, so I=E2=80=99ve decided above that it should alloca=
+te the SHM
+> > > (D2) and provide it to the back-end.  Is that feasible or is it
+> > > important (e.g. for real hardware) that the back-end supplies the SHM?
+> > > (In which case the front-end would need to tell the back-end how big =
+the
+> > > state SHM needs to be.)
+> >=20
+> > How does this work for iterative live migration?
+> >=20
+>=20
+> A pipe will always fit better for iterative from qemu POV, that's for sur=
+e.=20
+> Especially if we want to keep that opaqueness.
+>=20
+> But  we will need to communicate with the HW device using shared memory s=
+ooner
+> or later for big states.  If we don't transform it in qemu, we will need =
+to do
+> it in the kernel.  Also, the pipe will not support daemon crashes.
+>
+> Again I'm just putting this on the table, just in case it fits better or =
+it is
+> convenient.  I missed the previous patch where SHM was proposed too, so m=
+aybe I
+> missed some feedback useful here.  I think the pipe is a better solution =
+in the
+> long run because of the iterative part.
 
-diff --git a/tests/unit/test-cutils.c b/tests/unit/test-cutils.c
-index f781997aef7..1fb9d5323ab 100644
---- a/tests/unit/test-cutils.c
-+++ b/tests/unit/test-cutils.c
-@@ -2693,14 +2693,14 @@ static void test_qemu_strtosz_float(void)
-     g_assert_cmpuint(res, ==, 1024);
-     g_assert_true(endptr == str + 4);
+Pipes and shared memory are conceptually equivalent for building
+streaming interfaces. It's just more complex to design a shared memory
+interface and it reinvents what file descriptors already offer.
 
--    /* FIXME An empty fraction head should be tolerated */
-+    /* An empty fraction head is tolerated */
-     str = " .5k";
-     endptr = str;
-     res = 0xbaadf00d;
-     err = qemu_strtosz(str, &endptr, &res);
--    g_assert_cmpint(err, ==, -EINVAL /* FIXME 0 */);
--    g_assert_cmpuint(res, ==, 0 /* FIXME 512 */);
--    g_assert_true(endptr == str /* FIXME + 4 */);
-+    g_assert_cmpint(err, ==, 0);
-+    g_assert_cmpuint(res, ==, 512);
-+    g_assert_true(endptr == str + 4);
+I have no doubt we could design iterative migration over a shared memory
+interface if we needed to, but I'm not sure why? When you mention
+hardware, are you suggesting defining a standard memory/register layout
+that hardware implements and mapping it to userspace (QEMU)? Is there a
+big advantage to exposing memory versus a file descriptor?
 
-     /* For convenience, we permit values that are not byte-exact */
-     str = "12.345M";
-@@ -2711,16 +2711,16 @@ static void test_qemu_strtosz_float(void)
-     g_assert_cmpuint(res, ==, (uint64_t) (12.345 * MiB + 0.5));
-     g_assert_true(endptr == str + 7);
+Stefan
 
--    /* FIXME Fraction tail should round correctly */
-+    /* Fraction tail can round up */
-     str = "1.9999999999999999999999999999999999999999999999999999k";
-     endptr = str;
-     res = 0xbaadf00d;
-     err = qemu_strtosz(str, &endptr, &res);
-     g_assert_cmpint(err, ==, 0);
--    g_assert_cmpint(res, ==, 1024 /* FIXME 2048 */);
-+    g_assert_cmpuint(res, ==, 2048);
-     g_assert_true(endptr == str + 55);
+--2vlrdci32WJakQ94
+Content-Type: application/pgp-signature; name="signature.asc"
 
--    /* FIXME ERANGE underflow in the fraction tail should not matter for 'k' */
-+    /* ERANGE underflow in the fraction tail does not matter for 'k' */
-     str = "1."
-         "00000000000000000000000000000000000000000000000000"
-         "00000000000000000000000000000000000000000000000000"
-@@ -2734,7 +2734,7 @@ static void test_qemu_strtosz_float(void)
-     res = 0xbaadf00d;
-     err = qemu_strtosz(str, &endptr, &res);
-     g_assert_cmpint(err, ==, 0);
--    g_assert_cmpuint(res, ==, 1 /* FIXME 1024 */);
-+    g_assert_cmpuint(res, ==, 1024);
-     g_assert_true(endptr == str + 354);
- }
+-----BEGIN PGP SIGNATURE-----
 
-@@ -2826,16 +2826,16 @@ static void test_qemu_strtosz_invalid(void)
-     g_assert_cmpuint(res, ==, 0);
-     g_assert_true(endptr == str);
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmRZVzwACgkQnKSrs4Gr
+c8ie9gf+K/fHnq/CWY+8glpO22o2OFV9ItXVPyB7hRbLnzZR05N+RLUX3+VLGGWv
+vMpVbb25KDim/xOPXs4TBK6D1yj4reDIS+R6MQIWTRR1G4q93Kz+BmDqP3ckFaVp
+LMusb2zZH0tOur5C+asLBnmSKY+DNyZkx0H7OpUPoULERSvTo+4UiU9FVPVoGVP4
+kQzqc5SqJlI5nInbkPXn6h5TjjG7iXpjU1N4sajWuIVLGHkK0BjjPS9CjjSRBNkE
+dVxJN9R+jwQ7EXClQoSOtX68rd33oserftuHnXEaRsGA4hAXSDF6m9U6QobjaICV
+Nk1kYrVNXkz/qD1Ct+0mn136+aHgHg==
+=YT3Y
+-----END PGP SIGNATURE-----
 
--    /* FIXME Fraction tail can cause ERANGE overflow */
-+    /* Fraction tail can cause ERANGE overflow */
-     str = "15.9999999999999999999999999999999999999999999999999999E";
-     endptr = str;
-     res = 0xbaadf00d;
-     err = qemu_strtosz(str, &endptr, &res);
--    g_assert_cmpint(err, ==, 0 /* FIXME -ERANGE */);
--    g_assert_cmpuint(res, ==, 15ULL * EiB /* FIXME 0 */);
--    g_assert_true(endptr == str + 56 /* FIXME str */);
-+    g_assert_cmpint(err, ==, -ERANGE);
-+    g_assert_cmpuint(res, ==, 0);
-+    g_assert_true(endptr == str + 56);
-
--    /* FIXME ERANGE underflow in the fraction tail should matter for 'B' */
-+    /* ERANGE underflow in the fraction tail matters for 'B' */
-     str = "1."
-         "00000000000000000000000000000000000000000000000000"
-         "00000000000000000000000000000000000000000000000000"
-@@ -2848,9 +2848,9 @@ static void test_qemu_strtosz_invalid(void)
-     endptr = str;
-     res = 0xbaadf00d;
-     err = qemu_strtosz(str, &endptr, &res);
--    g_assert_cmpint(err, ==, 0 /* FIXME -EINVAL */);
--    g_assert_cmpuint(res, ==, 1 /* FIXME 0 */);
--    g_assert_true(endptr == str + 354 /* FIXME str */);
-+    g_assert_cmpint(err, ==, -EINVAL);
-+    g_assert_cmpuint(res, ==, 0);
-+    g_assert_true(endptr == str);
-
-     /* No hex fractions */
-     str = "0x1.8k";
-@@ -3045,14 +3045,14 @@ static void test_qemu_strtosz_trailing(void)
-     g_assert_cmpint(err, ==, -EINVAL);
-     g_assert_cmpuint(res, ==, 0);
-
--    /* FIXME should stop parse after 'e'. No floating point exponents */
-+    /* Parse stops at 'e', which is not a floating point exponent */
-     str = "1.5e1k";
-     endptr = NULL;
-     res = 0xbaadf00d;
-     err = qemu_strtosz(str, &endptr, &res);
--    g_assert_cmpint(err, ==, -EINVAL /* FIXME 0 */);
--    g_assert_cmpuint(res, ==, 0 /* FIXME EiB * 1.5 */);
--    g_assert_true(endptr == str /* FIXME + 4 */);
-+    g_assert_cmpint(err, ==, 0);
-+    g_assert_cmpuint(res, ==, EiB * 1.5);
-+    g_assert_true(endptr == str + 4);
-
-     res = 0xbaadf00d;
-     err = qemu_strtosz(str, NULL, &res);
-@@ -3063,23 +3063,22 @@ static void test_qemu_strtosz_trailing(void)
-     endptr = NULL;
-     res = 0xbaadf00d;
-     err = qemu_strtosz(str, &endptr, &res);
--    g_assert_cmpint(err, ==, -EINVAL /* FIXME 0 */);
--    g_assert_cmpuint(res, ==, 0 /* FIXME EiB * 1.5 */);
--    g_assert_true(endptr == str /* FIXME + 4 */);
-+    g_assert_cmpint(err, ==, 0);
-+    g_assert_cmpuint(res, ==, EiB * 1.5);
-+    g_assert_true(endptr == str + 4);
-
-     res = 0xbaadf00d;
-     err = qemu_strtosz(str, NULL, &res);
-     g_assert_cmpint(err, ==, -EINVAL);
-     g_assert_cmpuint(res, ==, 0);
-
--    /* FIXME overflow in fraction is buggy */
-     str = "1.5E999";
-     endptr = NULL;
-     res = 0xbaadf00d;
-     err = qemu_strtosz(str, &endptr, &res);
-     g_assert_cmpint(err, ==, 0);
--    g_assert_cmpuint(res, ==, 1 /* FIXME EiB * 1.5 */);
--    g_assert(endptr == str + 2 /* FIXME + 4 */);
-+    g_assert_cmpuint(res, ==, EiB * 1.5);
-+    g_assert_true(endptr == str + 4);
-
-     res = 0xbaadf00d;
-     err = qemu_strtosz(str, NULL, &res);
-diff --git a/util/cutils.c b/util/cutils.c
-index 0e056a27a44..d1dfbc69d16 100644
---- a/util/cutils.c
-+++ b/util/cutils.c
-@@ -194,14 +194,17 @@ static int64_t suffix_mul(char suffix, int64_t unit)
-  * - 12345 - decimal, scale determined by @default_suffix and @unit
-  * - 12345{bBkKmMgGtTpPeE} - decimal, scale determined by suffix and @unit
-  * - 12345.678{kKmMgGtTpPeE} - decimal, scale determined by suffix, and
-- *   fractional portion is truncated to byte
-+ *   fractional portion is truncated to byte, either side of . may be empty
-  * - 0x7fEE - hexadecimal, unit determined by @default_suffix
-  *
-  * The following are intentionally not supported
-- * - hex with scaling suffix, such as 0x20M
-- * - octal, such as 08
-- * - fractional hex, such as 0x1.8
-- * - floating point exponents, such as 1e3
-+ * - hex with scaling suffix, such as 0x20M (0x1b is 27, not 1)
-+ * - octal, such as 08 (parsed as decimal instead)
-+ * - binary, such as 0b1000 (parsed as 0b with trailing garbage "1000")
-+ * - fractional hex, such as 0x1.8 (parsed as 0 with trailing garbage "x1.8")
-+ * - floating point exponents, such as 1e3 (parsed as 1e with trailing
-+ *   garbage "3") or 0x1p3 (parsed as 1 with trailing garbage "p3")
-+ * - non-finite values, such as inf or NaN
-  *
-  * The end pointer will be returned in *end, if not NULL.  If there is
-  * no fraction, the input can be decimal or hexadecimal; if there is a
-@@ -220,22 +223,17 @@ static int do_strtosz(const char *nptr, const char **end,
-                       uint64_t *result)
- {
-     int retval;
--    const char *endptr, *f;
-+    const char *endptr;
-     unsigned char c;
--    uint64_t val, valf = 0;
-+    uint64_t val = 0, valf = 0;
-     int64_t mul;
-
-     /* Parse integral portion as decimal. */
-     retval = qemu_strtou64(nptr, &endptr, 10, &val);
--    if (retval) {
-+    if (retval == -ERANGE || !nptr) {
-         goto out;
-     }
--    if (memchr(nptr, '-', endptr - nptr) != NULL) {
--        endptr = nptr;
--        retval = -EINVAL;
--        goto out;
--    }
--    if (val == 0 && (*endptr == 'x' || *endptr == 'X')) {
-+    if (retval == 0 && val == 0 && (*endptr == 'x' || *endptr == 'X')) {
-         /* Input looks like hex; reparse, and insist on no fraction or suffix. */
-         retval = qemu_strtou64(nptr, &endptr, 16, &val);
-         if (retval) {
-@@ -246,27 +244,66 @@ static int do_strtosz(const char *nptr, const char **end,
-             retval = -EINVAL;
-             goto out;
-         }
--    } else if (*endptr == '.') {
-+    } else if (*endptr == '.' || (endptr == nptr && strchr(nptr, '.'))) {
-         /*
-          * Input looks like a fraction.  Make sure even 1.k works
--         * without fractional digits.  If we see an exponent, treat
--         * the entire input as invalid instead.
-+         * without fractional digits.  strtod tries to treat 'e' as an
-+         * exponent, but we want to treat it as a scaling suffix;
-+         * doing this requires modifying a copy of the fraction.
-          */
--        double fraction;
-+        double fraction = 0.0;
-
--        f = endptr;
--        retval = qemu_strtod_finite(f, &endptr, &fraction);
--        if (retval) {
-+        if (retval == 0 && *endptr == '.' && !isdigit(endptr[1])) {
-+            /* If we got here, we parsed at least one digit already. */
-             endptr++;
--        } else if (memchr(f, 'e', endptr - f) || memchr(f, 'E', endptr - f)) {
--            endptr = nptr;
--            retval = -EINVAL;
--            goto out;
-         } else {
--            /* Extract into a 64-bit fixed-point fraction. */
-+            char *e;
-+            const char *tail;
-+            g_autofree char *copy = g_strdup(endptr);
-+
-+            e = strchr(copy, 'e');
-+            if (e) {
-+                *e = '\0';
-+            }
-+            e = strchr(copy, 'E');
-+            if (e) {
-+                *e = '\0';
-+            }
-+            /*
-+             * If this is a floating point, we are guaranteed that '.'
-+             * appears before any possible digits in copy.  If it is
-+             * not a floating point, strtod will fail.  Either way,
-+             * there is now no exponent in copy, so if it parses, we
-+             * know 0.0 <= abs(result) <= 1.0 (after rounding), and
-+             * ERANGE is only possible on underflow which is okay.
-+             */
-+            retval = qemu_strtod_finite(copy, &tail, &fraction);
-+            endptr += tail - copy;
-+        }
-+
-+        /* Extract into a 64-bit fixed-point fraction. */
-+        if (fraction == 1.0) {
-+            if (val == UINT64_MAX) {
-+                retval = -ERANGE;
-+                goto out;
-+            }
-+            val++;
-+        } else if (retval == -ERANGE) {
-+            /* See comments above about underflow */
-+            valf = 1;
-+            retval = 0;
-+        } else {
-             valf = (uint64_t)(fraction * 0x1p64);
-         }
-     }
-+    if (retval) {
-+        goto out;
-+    }
-+    if (memchr(nptr, '-', endptr - nptr) != NULL) {
-+        endptr = nptr;
-+        retval = -EINVAL;
-+        goto out;
-+    }
-     c = *endptr;
-     mul = suffix_mul(c, unit);
-     if (mul > 0) {
--- 
-2.40.1
+--2vlrdci32WJakQ94--
 
 
