@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 430856F9D18
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 May 2023 02:53:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 327006F9D1E
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 May 2023 02:54:12 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pvp7Q-00071w-Gz; Sun, 07 May 2023 20:52:48 -0400
+	id 1pvp7g-00072n-VZ; Sun, 07 May 2023 20:53:05 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
- id 1pvp7O-00071K-8e
- for qemu-devel@nongnu.org; Sun, 07 May 2023 20:52:46 -0400
+ id 1pvp7Y-00072f-UM
+ for qemu-devel@nongnu.org; Sun, 07 May 2023 20:52:56 -0400
 Received: from mout.web.de ([212.227.15.3])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
- id 1pvp7M-0004bK-M9
- for qemu-devel@nongnu.org; Sun, 07 May 2023 20:52:46 -0400
+ id 1pvp7X-0004cy-9A
+ for qemu-devel@nongnu.org; Sun, 07 May 2023 20:52:56 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de; s=s29768273;
- t=1683507160; i=lukasstraub2@web.de;
- bh=IF2rLFsIMJ/UTQ+z/EK3wC/8lHx5BXBAM9BnhOAPBLc=;
+ t=1683507171; i=lukasstraub2@web.de;
+ bh=5e+xMzjmHT59gTlPxFHHRCM0p3PCapn6o0VgG/pG2i4=;
  h=X-UI-Sender-Class:Date:From:To:Cc:Subject:In-Reply-To:References;
- b=QOFxp/jLKXQ70fvwP1f7Mqwo3CewyWVEVH6NWmhOU5CIYoMIUJbhJGPHVhZ4OXHuU
- C/hITLhwFU0C8P9XQ9ii/0KGYZzTaIREzWQLaj1Mq8c9x8x9LEQwLGKEQzkXeVRHHl
- seHtjgEymIjkctjtpJZPQD/9CVRSrQvxdzrejY48I/sdbhIg/RIp0uowt+b0UkBgnp
- WAh5Ogcu5gxYjOJkZKmiBtw29Wdwp9MP51UVLYR0F9QtcIY296HVS5QW2+euYjnHgj
- m2PZpa1qELE7XqLzUsKGT0Ucwq465oQSxUrqmxzwZ3I/jJVfrQxSz2qawGqaBitN+K
- AJSccUR5WJFow==
+ b=USmHOvmh//Xe+xULCHO6IT2dMnKcsuf7HoUUKoBXt+2RiCJDwRpM8XsjdNk5tvxnN
+ COB+SqHItNwk5fhbpQJGXX5NQjtA4cZ3KHhYpfTWeLdX3qoODi3lrpj9iGNT0FUbeY
+ PTynVYV7UFr//LsF0mf+0yEVU8VoTpMqFxjfNTMjSB8vsTyhJG6EBn+ACZLNNeV9+X
+ tbYrZ0naCIP7vnVVZmQUDff2TkZ8QR3kWFPY+6mI+dF9K7z26IkmPh5ucJumO5bOWE
+ U2V3Ig8jGp6GHeN0jHa2JPM/vrA+Odsp/+3ZxwHjJq3g3SWOqRkbNUGTPl0OqLfn5/
+ dx8BVWYDzdZsA==
 X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from gecko.fritz.box ([82.207.254.115]) by smtp.web.de (mrweb005
- [213.165.67.108]) with ESMTPSA (Nemesis) id 1N8Vsr-1qIDQP1wKv-014VGZ; Mon, 08
- May 2023 02:52:40 +0200
-Date: Mon, 8 May 2023 02:52:39 +0200
+Received: from gecko.fritz.box ([82.207.254.115]) by smtp.web.de (mrweb006
+ [213.165.67.108]) with ESMTPSA (Nemesis) id 1N2SL5-1qM3Aa20b9-013gYG; Mon, 08
+ May 2023 02:52:51 +0200
+Date: Mon, 8 May 2023 02:52:50 +0200
 From: Lukas Straub <lukasstraub2@web.de>
 To: qemu-devel <qemu-devel@nongnu.org>
 Cc: Juan Quintela <quintela@redhat.com>, Peter Xu <peterx@redhat.com>,
  Leonardo Bras <leobras@redhat.com>
-Subject: [PATCH 2/5] ram: Let colo_flush_ram_cache take the bitmap_mutex
-Message-ID: <eff0d3dec168e9e32678a4a5f2d24fcd25645fde.1683506133.git.lukasstraub2@web.de>
+Subject: [PATCH 3/5] multifd: Introduce multifd-internal.h
+Message-ID: <20230508005250.7866d810@gecko.fritz.box>
 In-Reply-To: <cover.1683506133.git.lukasstraub2@web.de>
 References: <cover.1683506133.git.lukasstraub2@web.de>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/8gpWrRVMZCwlNjXxelYuQUI";
+Content-Type: multipart/signed; boundary="Sig_/gMPqQhQVjMS5XYdYnCmcEbD";
  protocol="application/pgp-signature"; micalg=pgp-sha256
-X-Provags-ID: V03:K1:43EvQ0cPrAbJ+gxTI9+sZuUeDDpjymSecUhermJzPgkIKIzIzRm
- UaqbM7q0sNjQfsf2N1kISlHseVEE2Kiqd3S934jZVgewkTTk3Diy9jR1tTXJlc4GoB0uN/d
- bfZg0/MBvc0UBPefSkzPeQuPbh0oEtp6V2SAFuujDU+Uuaec63uX86PKc5gGCBHA/HnJgNY
- veyvPT+hCex2YueUnYwxA==
-UI-OutboundReport: notjunk:1;M01:P0:lY0/pg5DNNo=;Cla8xEX0M58NcwASk6YT7OaEkCr
- 6YMaKmeWfqwTEuhbfwYIpXGmqQ6etMhs1HfHVYhn15ZWqpPENLmChOxHhLiWfoG1+uKmFhr5V
- xB6bTsEjFtEwRgj1B6aFCG3Q9BTrGveWIT0LwizujsCI42+tJ6fPDjiHoQDEXVraTL8JQyC3p
- DwuXZnNqFg2HqY9GusFjwQqVItqS+DxwEI3AF0wHYGy3DM/RvKok+vvLFrGeIxN3pzUD20iqt
- cM5CJeD4yKLTjcIqyO8ixAq8/+wq8Qmn3GLS3NhafUa0WXZYs+Dz/hkbgooSfz8bitTLrPddE
- 2XxGY2NtZ4zmgp+mguLa70pOAsEZub/JhPOds4nPUGXQZ8d+Pzo/h5oFrx2wwCkKzabn+F7bN
- NZCAiW8yUftuCRDbrTXeomurSzMOtFeOH7aU6DJU/cueF7IljyxoaBzCTIXNycGenLCIZRsDi
- 2tANBMtKlLzLpSE5OLvCfOhHomsk1soW976gBcD6xfV/nPqvyZnYcOZjkI76giitJ0LZHhfY4
- s9iNT0ChRQ6uQJ5xj5Wk5JbsMH7TkmhnNVCXt+JWLy0Ms1yYMLyhfxsIt7J7W394/upn1a33i
- fF3EIXQTP1xkL58Hl9EPXESaNwMu7l0yKzqnWnGmAt43sQz8KeHhTCx0xuuB81vcyyolppA3O
- jP36/MAQRy/YcacjPOHI7pwVffmu1q6ZBvCyQ+nQ/Ukk61X2oW+B2ZYcUhy32yxYmPSrjVsdw
- ZkLjzB1DGtIlWXuwurkeViGtxjk9Szqjbw4wQRxNVF2jjXldAOcm7436vs+bjKzGjDvqX+AAm
- QYD75DPARTYfImsgnUPJL1pT8bBy8YiMRc+IxYIyNMYk7kC8VKfyLYG2M5rIVps4USjg+xhuZ
- cQso2Fg+dDRgplaRHFhmJD9lzE1Dl4Cz33vg4hb9cYFFpL0jMFvr/MlhDOjeWPawdH3XJL/Lt
- mtDCpFkd69NG3tSylllJXS/AMVA=
+X-Provags-ID: V03:K1:a/lgCR8yQmMqaZcjcg4MVB1lACvwzMtS/q4vH4ELVCcCTxD81Iy
+ 1TaVNr9YUQfFx8C1UiE+9HO56yxwGnPSD9KSMlHYr7lOL/7MrPg8As6RPAefetdrZbaNZ1i
+ MplSa4+gZdjNqJFy0vIdYvoCajYnvIT+V2O+Bx6yerQPS3sIkDXmq49sg3gv5TwXf/vKi0B
+ bqZX3i3xrOGnPX9lwd4IA==
+UI-OutboundReport: notjunk:1;M01:P0:6KM+BGKgoXg=;dqXEZEr5fjIG+qdmZys1yMrwMgO
+ FG+tvhb1IupttxrtZuqle54/ckFJM9E4PG3Iv0qRjtlmwg61FJYbD9OauQC1F5zkn+vsO3Cj5
+ wPXbVzKQSLJ7UcxdKJPRcyoEz4or/jA7nNHS8AlIJsIRi9bV9adtoqPvCU/kuXhhvZ5DD1QQf
+ ByKSv+uu9IG5cVJ6OfHZCVlcLj0+w41jhYIxqzB5VJypTote0CeuTRhVXU3cL6jSJLkCAbP7D
+ 2vlTdpMTWttiP30YuKY8KLwBY3/RLk+lqA/v0i92UMgzjv6gpSfeJe95D/3PntE8ydA1xWPSS
+ WtMMXwqElzq+Jafg+YRDITDPagSWa2MpujmJyVsd6hKIzdWiuYX7ca4DetXaWYvmJid8A4wAp
+ L58mFXy8nx3Oz13NTI9h1AwR1YKWOuokpqD4821vu/H0s67RgaR8uZLIhPh13Y/X+IaYe2J2l
+ BlSP6fjelYBTfHfufBxEhCHVkrNrwukh6bV7HKEre2VENyrhsa2vzqmWEqQdrVgkSq84g3w2D
+ ZHaQ7P1GLBUVlK4xqwoksocE5RQXBhzm273sCaOh2Q7+TegxdrYqjXDZd/KuGFwjAUX0iJGI8
+ hcJmKVZH4leyx74MmLD6Y7E5hd54ltvkK+2tbr1R7KdC1aSEI79yv1ZYq4Xx9g9SYJQUZJ2Ta
+ A8pMTVXDv9siEkv2eWEejA6ofAlG0D2p7vPDgGfov9faPDQzyDMr0kjUmywo51lZ1M0q8QyDF
+ ypYceEI6+uDvQz44jxQlfnxDpsAFxt/ffqfVAmR2y4g9Je0ryMxzdv3NSHQUpOg93B0ebIvBW
+ eTv7CuhIqIlYvQsUgNHYSjCTObmiOfXZVL5KfP011FBdvSe+i/HzvYFKzj68ewt3g2olN3b+r
+ jNYaS6XYQec+BWB6Mw4NgHAv22kFbTTAgZqXOnMpCoea8GVzoXJ2KUXIa81ZEc+FvkwTmGtR4
+ /EfN/xKozBRq7BMUThP10ISiOVY=
 Received-SPF: pass client-ip=212.227.15.3; envelope-from=lukasstraub2@web.de;
  helo=mout.web.de
 X-Spam_score_int: -25
@@ -88,61 +88,121 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
---Sig_/8gpWrRVMZCwlNjXxelYuQUI
+--Sig_/gMPqQhQVjMS5XYdYnCmcEbD
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
+
+Introduce multifd-internal.h so code that would normally go into
+multifd.c can go into an extra file. This way, multifd.c hopefully
+won't grow to 4000 lines like ram.c
 
 This will be used in the next commits to add colo support to multifd.
 
 Signed-off-by: Lukas Straub <lukasstraub2@web.de>
 ---
- migration/ram.c | 2 ++
- 1 file changed, 2 insertions(+)
+ migration/multifd-internal.h | 34 ++++++++++++++++++++++++++++++++++
+ migration/multifd.c          | 15 ++++-----------
+ 2 files changed, 38 insertions(+), 11 deletions(-)
+ create mode 100644 migration/multifd-internal.h
 
-diff --git a/migration/ram.c b/migration/ram.c
-index 2d3fd2112a..f9e7aeda12 100644
---- a/migration/ram.c
-+++ b/migration/ram.c
-@@ -4230,6 +4230,7 @@ void colo_flush_ram_cache(void)
-     unsigned long offset =3D 0;
+diff --git a/migration/multifd-internal.h b/migration/multifd-internal.h
+new file mode 100644
+index 0000000000..6eeaa028e7
+--- /dev/null
++++ b/migration/multifd-internal.h
+@@ -0,0 +1,34 @@
++/*
++ * Internal Multifd header
++ *
++ * Copyright (c) 2019-2020 Red Hat Inc
++ *
++ * Authors:
++ *  Juan Quintela <quintela@redhat.com>
++ *
++ * This work is licensed under the terms of the GNU GPL, version 2 or late=
+r.
++ * See the COPYING file in the top-level directory.
++ */
++
++#ifdef QEMU_MIGRATION_MULTIFD_INTERNAL_H
++#error Only include this header directly
++#endif
++#define QEMU_MIGRATION_MULTIFD_INTERNAL_H
++
++#ifndef MULTIFD_INTERNAL
++#error This header is internal to multifd
++#endif
++
++struct MultiFDRecvState {
++    MultiFDRecvParams *params;
++    /* number of created threads */
++    int count;
++    /* syncs main thread and channels */
++    QemuSemaphore sem_sync;
++    /* global number of generated multifd packets */
++    uint64_t packet_num;
++    /* multifd ops */
++    MultiFDMethods *ops;
++};
++
++extern struct MultiFDRecvState *multifd_recv_state;
+diff --git a/migration/multifd.c b/migration/multifd.c
+index 4e71c19292..f6bad69b6c 100644
+--- a/migration/multifd.c
++++ b/migration/multifd.c
+@@ -31,6 +31,9 @@
+ #include "io/channel-socket.h"
+ #include "yank_functions.h"
 =20
-     memory_global_dirty_log_sync();
-+    qemu_mutex_lock(&ram_state->bitmap_mutex);
-     WITH_RCU_READ_LOCK_GUARD() {
-         RAMBLOCK_FOREACH_NOT_IGNORED(block) {
-             ramblock_sync_dirty_bitmap(ram_state, block);
-@@ -4264,6 +4265,7 @@ void colo_flush_ram_cache(void)
-             }
-         }
-     }
-+    qemu_mutex_unlock(&ram_state->bitmap_mutex);
-     trace_colo_flush_ram_cache_end();
++#define MULTIFD_INTERNAL
++#include "multifd-internal.h"
++
+ /* Multiple fd's */
+=20
+ #define MULTIFD_MAGIC 0x11223344U
+@@ -967,17 +970,7 @@ int multifd_save_setup(Error **errp)
+     return 0;
  }
 =20
+-struct {
+-    MultiFDRecvParams *params;
+-    /* number of created threads */
+-    int count;
+-    /* syncs main thread and channels */
+-    QemuSemaphore sem_sync;
+-    /* global number of generated multifd packets */
+-    uint64_t packet_num;
+-    /* multifd ops */
+-    MultiFDMethods *ops;
+-} *multifd_recv_state;
++struct MultiFDRecvState *multifd_recv_state;
+=20
+ static void multifd_recv_terminate_threads(Error *err)
+ {
 --=20
 2.39.2
 
 
---Sig_/8gpWrRVMZCwlNjXxelYuQUI
+--Sig_/gMPqQhQVjMS5XYdYnCmcEbD
 Content-Type: application/pgp-signature
 Content-Description: OpenPGP digital signature
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEg/qxWKDZuPtyYo+kNasLKJxdslgFAmRYR9cACgkQNasLKJxd
-slhLeQ/+OzrlEXqJcIImE6nYh3fbEURQMnsr5+YK6XYZljfSwess6od0P36K5WhW
-nR58S8TCxMCe5KsRM7gZZz/OS0zVJCS7FogE0uIVrUGrBQEnKDn77q525cvkg0Ag
-DuvQ3SXhQmk5HJWTvQOFWmpLJWLmk38VI5NC7P5fXA96+59EGbQeFOGFMvRo609p
-izrENiItvkLj7NoLbk9/nY2ICVTm4Ut12DtDjD71Z9Wi5fdK5PshqLwEIi8/iPf7
-+9AHV1rJHnqOi6Cf5R63ykQ7CI+RNhvHlMdb0PHmf8vD+Sdr6NOatwbvr4FzPy8w
-MdnnTA5tYlgMO3J8bTaNzerZgEF0q4NPm1dNd0engQV8LNKUGXLRMI1ilqEh57o7
-hCJ6SNUjSiOfaRDu8HJC1EzJ8lXvbzUs3xuF5MFRdgcaZa9sLkQCkl+oztzrudiC
-NdKyYisvMxxl4cSFRK1Rw7tYyBPkfDZZB1JSyoUDQW1C2LAWNtU7SS6u77W0WN8n
-9u8GjSLKe0+/3odd1S/dyh/0QlZtsS3FtEeHQB3RJ2soa7oahpctGXpkGtVf+Ja8
-VcdCjrmsTi8u0bEvPqC8+o81Ak+Y7Y1AJxyy8a4PImypHOVmYqiGZptnwR509TL6
-Jh3Rb8ZYvlMnv+0p7nYH9+21FU1UBpI76Bu4r5TDCRTQxTGkxEk=
-=5OqQ
+iQIzBAEBCAAdFiEEg/qxWKDZuPtyYo+kNasLKJxdslgFAmRYR+IACgkQNasLKJxd
+slgp0Q/+NfEAD8XYU/j97Wqx+cq80ocqdmdXq0VtEOMfz9ztgJVAtflQ52apWmng
+nSYY2rbGg5LCoVNMAiGW5ov+6OuRlxk1o6BkJjKTU1NaXyNPlPctsumvFn+Edpoh
+KRoh8/9/L0HuKvK2wzpGHwQX1VOoF6NS2LQpEuT4C8hE8b4GynE48NCI+d6WAJG3
+dB9vxMNnxx1bdDil4kChWhfQKFXpL7n+4rEsyDD40weNZx5Mfq2ee6M8rc74s5Ew
+YfKULYuEK/pB+ITh6knBTR+2ZkLwhJtXfUc+4OaZLxPTQ+kTxOgSW4IFwezb4UwV
+FCkB+yrB6if9qjzAdWp3v/vk2RvrEWWAaLWTGF81XDgdcTjZ7a87kzic5XVuf19l
+f1pvcwGO1sKuk2MBWVOKzyV/KGLqI31ODOtu3TO+geSIUOv5yHPFnS3DH0CKHPO3
+ZMZv6aXt5M+qvqErGfD7N+vU/jfu6RmaG9UJ2xbWhCB4FN51RCV94JtDsJ81CgU3
+F66lRECCG2JJ9iVlZkIHOuM6uWbB1vcwx+bN/JpymX/7w4efjd7RYc4OEzy10ecu
+EjDte0LKgBueuGc6+X4rl/WJe+S1xCsLIAOM7VquorOSTCpGR++Y+HEULWWosGe1
+x2miB1KUBXKE9SQJHapIUhP731kY2EmnZc6ZnmYmupZIuKMycGc=
+=FZWo
 -----END PGP SIGNATURE-----
 
---Sig_/8gpWrRVMZCwlNjXxelYuQUI--
+--Sig_/gMPqQhQVjMS5XYdYnCmcEbD--
 
