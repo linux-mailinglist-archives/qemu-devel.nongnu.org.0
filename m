@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6D206FB1CA
+	by mail.lfdr.de (Postfix) with ESMTPS id B2D246FB1C8
 	for <lists+qemu-devel@lfdr.de>; Mon,  8 May 2023 15:38:55 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pw144-0006Lb-0E; Mon, 08 May 2023 09:38:08 -0400
+	id 1pw145-0006Lu-Sg; Mon, 08 May 2023 09:38:09 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pw13y-0006KG-6G
- for qemu-devel@nongnu.org; Mon, 08 May 2023 09:38:03 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pw141-0006L9-6D
+ for qemu-devel@nongnu.org; Mon, 08 May 2023 09:38:05 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pw13w-0008Tn-Br
- for qemu-devel@nongnu.org; Mon, 08 May 2023 09:38:01 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pw13w-0008Tm-F7
+ for qemu-devel@nongnu.org; Mon, 08 May 2023 09:38:04 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1683553079;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=CeJxtyOdeEpb8xbp7HaPPMMJJOZR4N3fC5s2ymY3lXg=;
- b=AE5fsrHnotPw9IRF/dSixfxQ4/fMw0VqNKTzuPm05qEIyaaMccw8Yzat3oDpN58YSkQUOh
- xkzeBJtaCgb2gvmBv/3bYs9PC2WBv+aY/4LdJv9C35eKeMptcBzqAprCCjFJggDsRQLDkC
- USxWa2BNSVnQHKZqoV3QZwelmbfelw8=
+ bh=yMxuOduMsxreILqfhczFco5ffEOowQ/VDaBDf/Bg0sY=;
+ b=b62vBNIDCxQlyz0QgKgcZvoX0NCWo9KvmfVR10eNCGv5kr5Fh6J5U2+5NmBDkgKy1AKYPY
+ AIqR1YKwFnngA6BkXsW7u4QjIOcHvsIZZLfcxuAXSrvk9ckUJNe7cL68KnQtbdIe//jM+A
+ To9Uy6ZqPZOG+v2U+x20udtpSy0J5bQ=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-567-Y3gFGOVyOg-HkzUCzJvvwA-1; Mon, 08 May 2023 09:37:53 -0400
-X-MC-Unique: Y3gFGOVyOg-HkzUCzJvvwA-1
+ us-mta-657-iUyB6VgtP7K8pzG0937fiw-1; Mon, 08 May 2023 09:37:56 -0400
+X-MC-Unique: iUyB6VgtP7K8pzG0937fiw-1
 Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
  [10.11.54.9])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1590D3822DE2;
- Mon,  8 May 2023 13:37:53 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id EC30E2812947;
+ Mon,  8 May 2023 13:37:55 +0000 (UTC)
 Received: from thuth.com (unknown [10.39.195.6])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 287CE492B01;
- Mon,  8 May 2023 13:37:50 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 564A8492B00;
+ Mon,  8 May 2023 13:37:53 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org,
 	Richard Henderson <richard.henderson@linaro.org>
@@ -48,9 +48,10 @@ Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>, Laurent Vivier <laurent@vivier.eu>,
  Kyle Evans <kevans@freebsd.org>, Warner Losh <imp@bsdimp.com>
-Subject: [RFC PATCH 1/2] disas: Move softmmu specific code to separate file
-Date: Mon,  8 May 2023 15:37:44 +0200
-Message-Id: <20230508133745.109463-2-thuth@redhat.com>
+Subject: [RFC PATCH 2/2] disas: Move disas.c into the target-independent
+ source set
+Date: Mon,  8 May 2023 15:37:45 +0200
+Message-Id: <20230508133745.109463-3-thuth@redhat.com>
 In-Reply-To: <20230508133745.109463-1-thuth@redhat.com>
 References: <20230508133745.109463-1-thuth@redhat.com>
 MIME-Version: 1.0
@@ -63,9 +64,8 @@ X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_PDS_OTHER_BAD_TLD=0.01,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01,
+ T_SPF_TEMPERROR=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,280 +81,176 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-We'd like to move disas.c into the common code source set, where
-CONFIG_USER_ONLY is not available anymore. So we have to move
-the related code into a separate file instead.
-
-While doing the movement, change the type of the "pc" parameter of
-the monitor_disas() function to "hwaddr" instead of "target_ulong",
-so we can add the file to the generic softmmu_ss source set instead
-of the specific_ss source set.
+By using hwaddr instead of target_ulong and by tweaking some other
+spots, we can turn this code into target-independent code for
+compiling it only once and not multiple times during the build
+process.
 
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- disas/disas-internal.h | 20 +++++++++++
- include/disas/disas.h  |  6 ++--
- disas.c                | 76 ++++--------------------------------------
- disas/disas-mon.c      | 65 ++++++++++++++++++++++++++++++++++++
- disas/meson.build      |  2 ++
- 5 files changed, 96 insertions(+), 73 deletions(-)
- create mode 100644 disas/disas-internal.h
- create mode 100644 disas/disas-mon.c
+ meson.build           |  4 ++--
+ include/disas/disas.h | 15 +++------------
+ include/hw/elf_ops.h  |  2 +-
+ bsd-user/elfload.c    |  2 +-
+ disas.c               | 22 ++++++++++++----------
+ linux-user/elfload.c  |  2 +-
+ 6 files changed, 20 insertions(+), 27 deletions(-)
 
-diff --git a/disas/disas-internal.h b/disas/disas-internal.h
-new file mode 100644
-index 0000000000..354c01307b
---- /dev/null
-+++ b/disas/disas-internal.h
-@@ -0,0 +1,20 @@
-+/*
-+ * Definitions used internally in the disassembly code
-+ *
-+ * SPDX-License-Identifier: GPL-2.0-or-later
-+ */
-+
-+#ifndef DISAS_INTERNAL_H
-+#define DISAS_INTERNAL_H
-+
-+#include "disas/dis-asm.h"
-+
-+typedef struct CPUDebug {
-+    struct disassemble_info info;
-+    CPUState *cpu;
-+} CPUDebug;
-+
-+void disas_initialize_debug_target(CPUDebug *s, CPUState *cpu);
-+int disas_gstring_printf(FILE *stream, const char *fmt, ...) G_GNUC_PRINTF(2, 3);
-+
-+#endif
+diff --git a/meson.build b/meson.build
+index 229eb585f7..73ceed037f 100644
+--- a/meson.build
++++ b/meson.build
+@@ -3152,8 +3152,8 @@ specific_ss.add(files('cpu.c'))
+ 
+ subdir('softmmu')
+ 
+-common_ss.add(capstone)
+-specific_ss.add(files('disas.c'), capstone)
++common_ss.add(files('disas.c'), capstone)
++specific_ss.add(capstone)
+ 
+ # Work around a gcc bug/misfeature wherein constant propagation looks
+ # through an alias:
 diff --git a/include/disas/disas.h b/include/disas/disas.h
-index d363e95ede..6c04428620 100644
+index 6c04428620..5132ebf982 100644
 --- a/include/disas/disas.h
 +++ b/include/disas/disas.h
-@@ -11,15 +11,15 @@ void disas(FILE *out, const void *code, unsigned long size);
- void target_disas(FILE *out, CPUState *cpu, target_ulong code,
-                   target_ulong size);
+@@ -3,19 +3,14 @@
  
--void monitor_disas(Monitor *mon, CPUState *cpu,
--                   target_ulong pc, int nb_insn, int is_physical);
+ #include "exec/hwaddr.h"
+ 
+-#ifdef NEED_CPU_H
+-#include "cpu.h"
 -
+ /* Disassemble this for me please... (debugging). */
+ void disas(FILE *out, const void *code, unsigned long size);
+-void target_disas(FILE *out, CPUState *cpu, target_ulong code,
+-                  target_ulong size);
++void target_disas(FILE *out, CPUState *cpu, hwaddr code, long size);
+ 
  char *plugin_disas(CPUState *cpu, uint64_t addr, size_t size);
  
  /* Look up symbol for debugging purpose.  Returns "" if unknown. */
- const char *lookup_symbol(target_ulong orig_addr);
- #endif
+-const char *lookup_symbol(target_ulong orig_addr);
+-#endif
++const char *lookup_symbol(hwaddr orig_addr);
  
-+void monitor_disas(Monitor *mon, CPUState *cpu,
-+                   hwaddr pc, int nb_insn, int is_physical);
-+
- struct syminfo;
+ void monitor_disas(Monitor *mon, CPUState *cpu,
+                    hwaddr pc, int nb_insn, int is_physical);
+@@ -24,11 +19,7 @@ struct syminfo;
  struct elf32_sym;
  struct elf64_sym;
+ 
+-#if defined(CONFIG_USER_ONLY)
+-typedef const char *(*lookup_symbol_t)(struct syminfo *s, target_ulong orig_addr);
+-#else
+-typedef const char *(*lookup_symbol_t)(struct syminfo *s, hwaddr orig_addr);
+-#endif
++typedef const char *(*lookup_symbol_t)(struct syminfo *s, uint64_t orig_addr);
+ 
+ struct syminfo {
+     lookup_symbol_t lookup_symbol;
+diff --git a/include/hw/elf_ops.h b/include/hw/elf_ops.h
+index dffb0e73d2..5e2af4d504 100644
+--- a/include/hw/elf_ops.h
++++ b/include/hw/elf_ops.h
+@@ -81,7 +81,7 @@ static int glue(symfind, SZ)(const void *s0, const void *s1)
+ }
+ 
+ static const char *glue(lookup_symbol, SZ)(struct syminfo *s,
+-                                           hwaddr orig_addr)
++                                           uint64_t orig_addr)
+ {
+     struct elf_sym *syms = glue(s->disas_symtab.elf, SZ);
+     struct elf_sym *sym;
+diff --git a/bsd-user/elfload.c b/bsd-user/elfload.c
+index fbcdc94b96..7c784518ed 100644
+--- a/bsd-user/elfload.c
++++ b/bsd-user/elfload.c
+@@ -363,7 +363,7 @@ static int symfind(const void *s0, const void *s1)
+     return result;
+ }
+ 
+-static const char *lookup_symbolxx(struct syminfo *s, target_ulong orig_addr)
++static const char *lookup_symbolxx(struct syminfo *s, uint64_t orig_addr)
+ {
+ #if ELF_CLASS == ELFCLASS32
+     struct elf_sym *syms = s->disas_symtab.elf32;
 diff --git a/disas.c b/disas.c
-index b087c12c47..4f4a07d611 100644
+index 4f4a07d611..31edbd2e70 100644
 --- a/disas.c
 +++ b/disas.c
-@@ -1,17 +1,12 @@
- /* General "disassemble this chunk" code.  Used for debugging. */
- #include "qemu/osdep.h"
--#include "disas/dis-asm.h"
-+#include "disas/disas-internal.h"
+@@ -3,6 +3,9 @@
+ #include "disas/disas-internal.h"
  #include "elf.h"
  #include "qemu/qemu-print.h"
++#include "exec/cpu-common.h"
++#include "exec/memory.h"
++#include "hw/core/cpu.h"
  
  #include "disas/disas.h"
  #include "disas/capstone.h"
+@@ -121,11 +124,11 @@ void disas_initialize_debug_target(CPUDebug *s, CPUState *cpu)
+     s->cpu = cpu;
+     s->info.read_memory_func = target_read_memory;
+     s->info.print_address_func = print_address;
+-#if TARGET_BIG_ENDIAN
+-    s->info.endian = BFD_ENDIAN_BIG;
+-#else
+-    s->info.endian = BFD_ENDIAN_LITTLE;
+-#endif
++    if (target_words_bigendian()) {
++        s->info.endian = BFD_ENDIAN_BIG;
++    } else {
++        s->info.endian =  BFD_ENDIAN_LITTLE;
++    }
  
--typedef struct CPUDebug {
--    struct disassemble_info info;
--    CPUState *cpu;
--} CPUDebug;
--
- /* Filled in by elfload.c.  Simplistic, but will do for now. */
- struct syminfo *syminfos = NULL;
- 
-@@ -119,7 +114,7 @@ static void initialize_debug(CPUDebug *s)
-     s->info.symbol_at_address_func = symbol_at_address;
+     CPUClass *cc = CPU_GET_CLASS(cpu);
+     if (cc->disas_set_info) {
+@@ -199,10 +202,9 @@ static void initialize_debug_host(CPUDebug *s)
  }
  
--static void initialize_debug_target(CPUDebug *s, CPUState *cpu)
-+void disas_initialize_debug_target(CPUDebug *s, CPUState *cpu)
+ /* Disassemble this for me please... (debugging).  */
+-void target_disas(FILE *out, CPUState *cpu, target_ulong code,
+-                  target_ulong size)
++void target_disas(FILE *out, CPUState *cpu, hwaddr code, long size)
  {
-     initialize_debug(s);
- 
-@@ -211,7 +206,7 @@ void target_disas(FILE *out, CPUState *cpu, target_ulong code,
+-    target_ulong pc;
++    hwaddr pc;
      int count;
      CPUDebug s;
  
--    initialize_debug_target(&s, cpu);
-+    disas_initialize_debug_target(&s, cpu);
-     s.info.fprintf_func = fprintf;
-     s.info.stream = out;
-     s.info.buffer_vma = code;
-@@ -241,8 +236,7 @@ void target_disas(FILE *out, CPUState *cpu, target_ulong code,
+@@ -221,7 +223,7 @@ void target_disas(FILE *out, CPUState *cpu, target_ulong code,
      }
+ 
+     for (pc = code; size > 0; pc += count, size -= count) {
+-	fprintf(out, "0x" TARGET_FMT_lx ":  ", pc);
++        fprintf(out, "0x" HWADDR_FMT_plx ":  ", pc);
+ 	count = s.info.print_insn(pc, &s.info);
+ 	fprintf(out, "\n");
+ 	if (count < 0)
+@@ -318,7 +320,7 @@ void disas(FILE *out, const void *code, unsigned long size)
  }
  
--static int G_GNUC_PRINTF(2, 3)
--gstring_printf(FILE *stream, const char *fmt, ...)
-+int disas_gstring_printf(FILE *stream, const char *fmt, ...)
+ /* Look up symbol for debugging purpose.  Returns "" if unknown. */
+-const char *lookup_symbol(target_ulong orig_addr)
++const char *lookup_symbol(hwaddr orig_addr)
  {
-     /* We abuse the FILE parameter to pass a GString. */
-     GString *s = (GString *)stream;
-@@ -272,8 +266,8 @@ char *plugin_disas(CPUState *cpu, uint64_t addr, size_t size)
-     CPUDebug s;
-     GString *ds = g_string_new(NULL);
- 
--    initialize_debug_target(&s, cpu);
--    s.info.fprintf_func = gstring_printf;
-+    disas_initialize_debug_target(&s, cpu);
-+    s.info.fprintf_func = disas_gstring_printf;
-     s.info.stream = (FILE *)ds;  /* abuse this slot */
-     s.info.buffer_vma = addr;
-     s.info.buffer_length = size;
-@@ -338,61 +332,3 @@ const char *lookup_symbol(target_ulong orig_addr)
- 
-     return symbol;
+     const char *symbol = "";
+     struct syminfo *s;
+diff --git a/linux-user/elfload.c b/linux-user/elfload.c
+index 703f7434a0..48c9e910a8 100644
+--- a/linux-user/elfload.c
++++ b/linux-user/elfload.c
+@@ -3338,7 +3338,7 @@ static int symfind(const void *s0, const void *s1)
+     return result;
  }
--
--#if !defined(CONFIG_USER_ONLY)
--
--#include "monitor/monitor.h"
--
--static int
--physical_read_memory(bfd_vma memaddr, bfd_byte *myaddr, int length,
--                     struct disassemble_info *info)
--{
--    CPUDebug *s = container_of(info, CPUDebug, info);
--    MemTxResult res;
--
--    res = address_space_read(s->cpu->as, memaddr, MEMTXATTRS_UNSPECIFIED,
--                             myaddr, length);
--    return res == MEMTX_OK ? 0 : EIO;
--}
--
--/* Disassembler for the monitor.  */
--void monitor_disas(Monitor *mon, CPUState *cpu,
--                   target_ulong pc, int nb_insn, int is_physical)
--{
--    int count, i;
--    CPUDebug s;
--    g_autoptr(GString) ds = g_string_new("");
--
--    initialize_debug_target(&s, cpu);
--    s.info.fprintf_func = gstring_printf;
--    s.info.stream = (FILE *)ds;  /* abuse this slot */
--
--    if (is_physical) {
--        s.info.read_memory_func = physical_read_memory;
--    }
--    s.info.buffer_vma = pc;
--
--    if (s.info.cap_arch >= 0 && cap_disas_monitor(&s.info, pc, nb_insn)) {
--        monitor_puts(mon, ds->str);
--        return;
--    }
--
--    if (!s.info.print_insn) {
--        monitor_printf(mon, "0x" TARGET_FMT_lx
--                       ": Asm output not supported on this arch\n", pc);
--        return;
--    }
--
--    for (i = 0; i < nb_insn; i++) {
--        g_string_append_printf(ds, "0x" TARGET_FMT_lx ":  ", pc);
--        count = s.info.print_insn(pc, &s.info);
--        g_string_append_c(ds, '\n');
--        if (count < 0) {
--            break;
--        }
--        pc += count;
--    }
--
--    monitor_puts(mon, ds->str);
--}
--#endif
-diff --git a/disas/disas-mon.c b/disas/disas-mon.c
-new file mode 100644
-index 0000000000..31b7413c40
---- /dev/null
-+++ b/disas/disas-mon.c
-@@ -0,0 +1,65 @@
-+/*
-+ * Functions related to disassembly from the monitor
-+ *
-+ * SPDX-License-Identifier: GPL-2.0-or-later
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "disas-internal.h"
-+#include "disas/disas.h"
-+#include "exec/memory.h"
-+#include "hw/core/cpu.h"
-+#include "monitor/monitor.h"
-+
-+static int
-+physical_read_memory(bfd_vma memaddr, bfd_byte *myaddr, int length,
-+                     struct disassemble_info *info)
-+{
-+    CPUDebug *s = container_of(info, CPUDebug, info);
-+    MemTxResult res;
-+
-+    res = address_space_read(s->cpu->as, memaddr, MEMTXATTRS_UNSPECIFIED,
-+                             myaddr, length);
-+    return res == MEMTX_OK ? 0 : EIO;
-+}
-+
-+/* Disassembler for the monitor.  */
-+void monitor_disas(Monitor *mon, CPUState *cpu,
-+                   hwaddr pc, int nb_insn, int is_physical)
-+{
-+    int count, i;
-+    CPUDebug s;
-+    g_autoptr(GString) ds = g_string_new("");
-+
-+    disas_initialize_debug_target(&s, cpu);
-+    s.info.fprintf_func = disas_gstring_printf;
-+    s.info.stream = (FILE *)ds;  /* abuse this slot */
-+
-+    if (is_physical) {
-+        s.info.read_memory_func = physical_read_memory;
-+    }
-+    s.info.buffer_vma = pc;
-+
-+    if (s.info.cap_arch >= 0 && cap_disas_monitor(&s.info, pc, nb_insn)) {
-+        monitor_puts(mon, ds->str);
-+        return;
-+    }
-+
-+    if (!s.info.print_insn) {
-+        monitor_printf(mon, "0x" HWADDR_FMT_plx
-+                       ": Asm output not supported on this arch\n", pc);
-+        return;
-+    }
-+
-+    for (i = 0; i < nb_insn; i++) {
-+        g_string_append_printf(ds, "0x" HWADDR_FMT_plx ":  ", pc);
-+        count = s.info.print_insn(pc, &s.info);
-+        g_string_append_c(ds, '\n');
-+        if (count < 0) {
-+            break;
-+        }
-+        pc += count;
-+    }
-+
-+    monitor_puts(mon, ds->str);
-+}
-diff --git a/disas/meson.build b/disas/meson.build
-index c865bdd882..ca6dd81ecf 100644
---- a/disas/meson.build
-+++ b/disas/meson.build
-@@ -11,3 +11,5 @@ common_ss.add(when: 'CONFIG_SH4_DIS', if_true: files('sh4.c'))
- common_ss.add(when: 'CONFIG_SPARC_DIS', if_true: files('sparc.c'))
- common_ss.add(when: 'CONFIG_XTENSA_DIS', if_true: files('xtensa.c'))
- common_ss.add(when: capstone, if_true: files('capstone.c'))
-+
-+softmmu_ss.add(files('disas-mon.c'))
+ 
+-static const char *lookup_symbolxx(struct syminfo *s, target_ulong orig_addr)
++static const char *lookup_symbolxx(struct syminfo *s, uint64_t orig_addr)
+ {
+ #if ELF_CLASS == ELFCLASS32
+     struct elf_sym *syms = s->disas_symtab.elf32;
 -- 
 2.31.1
 
