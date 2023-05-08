@@ -2,96 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6CF86FB364
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 May 2023 17:04:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 61BA96FB373
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 May 2023 17:08:54 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pw2Pd-0008FA-GC; Mon, 08 May 2023 11:04:29 -0400
+	id 1pw2TA-0001A7-4O; Mon, 08 May 2023 11:08:08 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1pw2PW-0008Ec-8z
- for qemu-devel@nongnu.org; Mon, 08 May 2023 11:04:22 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1pw2T2-00018y-Ml
+ for qemu-devel@nongnu.org; Mon, 08 May 2023 11:08:00 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1pw2PU-0006ly-9z
- for qemu-devel@nongnu.org; Mon, 08 May 2023 11:04:21 -0400
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1pw2Sz-0007e4-I6
+ for qemu-devel@nongnu.org; Mon, 08 May 2023 11:07:59 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1683558258;
+ s=mimecast20190719; t=1683558475;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=mosSgfk0RxWT5FMfDKPccTgr2ayEUJ27bmI9PHvK5Bc=;
- b=SwqleBP5ngCM+EIkAVOYaNwYOqXCfk1ov4FAfsSi63dis1PwNeDh4g86x4+eEgsF6bw9Ow
- zJFYMYlYayNYm/2RK6z/N700v7QHzxKwF26js+Kg+ZAFPUyfF4aVXJoiebGaay95tSGSkp
- LziAwxTHoHD+wF+B1P9O+t8jBJybMGw=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-303-tcZ_eEJ4M92H3YBZ-C_B2w-1; Mon, 08 May 2023 11:04:17 -0400
-X-MC-Unique: tcZ_eEJ4M92H3YBZ-C_B2w-1
-Received: by mail-wr1-f69.google.com with SMTP id
- ffacd0b85a97d-306311a2b99so1814772f8f.1
- for <qemu-devel@nongnu.org>; Mon, 08 May 2023 08:04:16 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683558255; x=1686150255;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=mosSgfk0RxWT5FMfDKPccTgr2ayEUJ27bmI9PHvK5Bc=;
- b=QZgCQDSUzfaJVgTrrcKQnSkBv4MOZNpwn4Hf70tt1x7dP2VjmfwMGIeBDWpe8u5gBB
- 0AKBUUe/GJpCt14Z9LyfIUD32gFA49pXxN8jQ/M8TOmi6oQJ4xqst0OHlmeYL9N9Y6b6
- AAtcA/FbWgZCwJNfpk7gi+JLplR+wqQprcga9Xu4lROhQbUFReq6sWe4Oby2dEb91vKi
- K64R7tu3gyZkoRSGjVhE0NnDjS2/8ljhZzhuUadAYpIlJ/hlS0WkmS/yIspkMBr3DGVg
- u5dP0gSbBxjrMbbG9iJwNQRWYU0XsuLMlm/omJi3h6TptNOmqkY7xl/U8O/UPp2KzvTc
- 6ePQ==
-X-Gm-Message-State: AC+VfDzKCMDUVaDHmrBqq9PCieF/Nuc0TMLvaRWPGmsdEir5AD9KpZUf
- NmRByrEWJYYk0alX+I73GGK1jLsbp3dZkntEOM9BUJH5krFIoRj3IuuDg3OKw9pdx1d3F/nRCaH
- 0PmK7kNUt7jDihk81ZAEXqUkvetoCX+M3G2irqj5bCvahrcQIhyd3R8p079rBaJe1dJPj4CaFDx
- U=
-X-Received: by 2002:a5d:560a:0:b0:304:6d32:d589 with SMTP id
- l10-20020a5d560a000000b003046d32d589mr6990070wrv.18.1683558255051; 
- Mon, 08 May 2023 08:04:15 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ6athQdRAk7ORErhtMofWbJY4oFkvhjOOJYgQOUz7c/w2U/za6I98Pdx8Y09UTnfFuKkiGqDw==
-X-Received: by 2002:a5d:560a:0:b0:304:6d32:d589 with SMTP id
- l10-20020a5d560a000000b003046d32d589mr6990051wrv.18.1683558254707; 
- Mon, 08 May 2023 08:04:14 -0700 (PDT)
-Received: from [192.168.149.17]
- (58.254.164.109.static.wline.lns.sme.cust.swisscom.ch. [109.164.254.58])
- by smtp.gmail.com with ESMTPSA id
- k9-20020adfe8c9000000b0030642f5da27sm11556609wrn.37.2023.05.08.08.04.14
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 08 May 2023 08:04:14 -0700 (PDT)
-Message-ID: <54d6c865-d518-e68c-63d6-0175c715556f@redhat.com>
-Date: Mon, 8 May 2023 17:04:13 +0200
+ bh=CJF7XW/Brw1JRbf5bn/sjmHtPoJ7Kk+TXbPTK+fPc7U=;
+ b=N7cUkmNgUDYfbL3t2L+Qcojh0AUsHVb9hT9mQioWjmIUgk4KHp3C4ga1wtKkC/tdh0qWaa
+ e4FeSrA1N54cmme8/KSZ+zhnwKnvPXrAi0Cve5B+3o21ylr5b8CAwZ2+KRf78UCNscwz4o
+ PjXvql478p/NIofNjO90TKTnmBd+uro=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-374-0K2vzMC-NtC3mOsfBSY_Dg-1; Mon, 08 May 2023 11:07:52 -0400
+X-MC-Unique: 0K2vzMC-NtC3mOsfBSY_Dg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B7FC1100F655;
+ Mon,  8 May 2023 15:07:51 +0000 (UTC)
+Received: from localhost (unknown [10.39.195.40])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1E32640C2070;
+ Mon,  8 May 2023 15:07:42 +0000 (UTC)
+Date: Mon, 8 May 2023 11:07:40 -0400
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: John Snow <jsnow@redhat.com>
+Cc: Mads Ynddal <mads@ynddal.dk>, qemu-devel <qemu-devel@nongnu.org>,
+ Cleber Rosa <crosa@redhat.com>, Mads Ynddal <m.ynddal@samsung.com>
+Subject: Re: [PATCH v2 00/12] simpletrace: refactor and general improvements
+Message-ID: <20230508150740.GC581920@fedora>
+References: <20230502092339.27341-1-mads@ynddal.dk>
+ <20230504174816.GA581920@fedora>
+ <CAFn=p-ZhsUgMrK+w+ibP68q-v093SDEfhqxHsfTtFfS3qxD9ow@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH 0/2] target/i386: add support for cpu FLUSH_L1D feature
- and FB_CLEAR capability
-Content-Language: de-CH
-To: qemu-devel@nongnu.org
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Maxim Levitsky <mlevitsk@redhat.com>, Yang Zhong
- <yang.zhong@linux.intel.com>, Vitaly Kuznetsov <vkuznets@redhat.com>,
- Jing Liu <jing2.liu@intel.com>
-References: <20230201135759.555607-1-eesposit@redhat.com>
-From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-In-Reply-To: <20230201135759.555607-1-eesposit@redhat.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=eesposit@redhat.com;
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="EhQJXMjH/AF4eusJ"
+Content-Disposition: inline
+In-Reply-To: <CAFn=p-ZhsUgMrK+w+ibP68q-v093SDEfhqxHsfTtFfS3qxD9ow@mail.gmail.com>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -38
-X-Spam_score: -3.9
-X-Spam_bar: ---
-X-Spam_report: (-3.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.802, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -108,24 +81,69 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Ping?
 
-Am 01/02/2023 um 14:57 schrieb Emanuele Giuseppe Esposito:
-> QEMU should be able to show the guest the above feature/capability,
-> otherwise we risk to have false vulnerability reports in the guest like in
-> /sys/devices/system/cpu/vulnerabilities/mmio_stale_data
-> because the mitigation is present only if the guest supports
-> (FLUSH_L1D and MD_CLEAR) or FB_CLEAR.
-> 
-> Emanuele
-> 
-> Emanuele Giuseppe Esposito (2):
->   target/i386: add support for FLUSH_L1D feature
->   target/i386: add support for FB_CLEAR feature
-> 
->  target/i386/cpu.h | 3 +++
->  target/i386/cpu.c | 4 ++--
->  2 files changed, 5 insertions(+), 2 deletions(-)
-> 
+--EhQJXMjH/AF4eusJ
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Thu, May 04, 2023 at 01:53:38PM -0400, John Snow wrote:
+> On Thu, May 4, 2023, 1:48 PM Stefan Hajnoczi <stefanha@redhat.com> wrote:
+>=20
+> > On Tue, May 02, 2023 at 11:23:27AM +0200, Mads Ynddal wrote:
+> > > From: Mads Ynddal <m.ynddal@samsung.com>
+> > >
+> > > I wanted to use simpletrace.py for an internal project, so I tried to
+> > update
+> > > and polish the code. Some of the commits resolve specific issues, whi=
+le
+> > some
+> > > are more subjective.
+> >
+> > An internal project based on qemu.git or a completely separate codebase?
+> >
+> > Sometimes I've wondered whether tracetool should be extracted from
+> > qemu.git and moved into its own QEMU-independent place. That way other
+> > C/C++ applications and libraries could use it easily.
+> >
+> > Now that Alex Bennee removed the vcpu trace events that were specific to
+> > QEMU, the tracing code is less tightly coupled to QEMU. There are
+> > probably still a number of places that need to be cleaned up in order
+> > for the tracing code to be independent of QEMU though.
+> >
+> > If there is interest in doing this, I support the effort, although I'm
+> > not sure how much time I have to actually do the work myself.
+> >
+>=20
+> I meant internal, but if there's interest in fully extracting it, I have a
+> playbook for that now based on my efforts to do the same for qemu.qmp and=
+ I
+> can offer good stewardship for that process.
+
+I was curious how Mads is using simpletrace for an internal (to
+Samsung?) project.
+
+Maybe only simpletrace.py is needed because Mads' own code emits trace
+logs in the simpletrace binary format, but in the general case we could
+extract most of QEMU's tracing infrastructure (including tracetool).
+
+Stefan
+
+--EhQJXMjH/AF4eusJ
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmRZEDwACgkQnKSrs4Gr
+c8i+Ygf7B9sgOQDI1dnexn6plgndRP1RvxlBDbYwVN3WgEVr0kuEyIdPOVdpPq+j
+tmANFVjE0WMQew8o6y1Pd0d0VnF1+TkJ2HbTQTKAv8YtSVv7Uc2+kIRr/FEciTEo
+KefLnz4br9lpU8ftQPM0cXc4EMNn8vpaPTefW8m7huv1a3z/wok77VKtKVuW4dnU
+2TFlWKcpC7+ec5P9jPT8qdSJTKWZQtNH3uGfx8j7YaZwp4Hxx0KvcEgZyvc/dHqw
+Ux6OykUev85Pk8KLtX1WIZhU3y7fpS+PvJ6ncclBwS+E0mQuRJrmkGdBp3pAwy33
+hTo/BsfFegSru+oGeWiZhs4fBVFduQ==
+=DiSq
+-----END PGP SIGNATURE-----
+
+--EhQJXMjH/AF4eusJ--
 
 
