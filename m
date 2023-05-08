@@ -2,51 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA7C56FB7ED
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 May 2023 22:06:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0ED3F6FB7EB
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 May 2023 22:05:37 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pw75l-0006Gq-MA; Mon, 08 May 2023 16:04:17 -0400
+	id 1pw75r-0006Jx-K3; Mon, 08 May 2023 16:04:23 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1pw75O-0006EY-TI
- for qemu-devel@nongnu.org; Mon, 08 May 2023 16:03:58 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1pw75T-0006Eh-6F
+ for qemu-devel@nongnu.org; Mon, 08 May 2023 16:04:00 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1pw75M-0007Jp-Rs
- for qemu-devel@nongnu.org; Mon, 08 May 2023 16:03:54 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1pw75N-0007Jy-86
+ for qemu-devel@nongnu.org; Mon, 08 May 2023 16:03:56 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1683576231;
+ s=mimecast20190719; t=1683576232;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=5LJfuVrf9CfB89/AOAQief0WsZJTAoI/ADeZuAtvlmM=;
- b=cUF9vut7CzaorBZpl+eCfM/tmi75dc1Cw1V8Rd14LHKPuSbJeduBP5nZ+vHF5WkwBYLQ//
- bRogUIxpGs1A+eySK3s9YCU9tEcTU+XMSrb2K66c62ZxyWw708+n0jwbO1dx2Nc4F/0vyA
- H72ViFVf0ZBKhKv9r8Q7QLoGjHSktsA=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=eSy16GFae7cjXsOqJEmnMXO1oOnGhcIHo44fbM7C1Ho=;
+ b=bghHp4tc1QqAKY/axjsTZTg/Jt3IVYakIY7Gx6YA2JpCGNYneHvskIKtPn7pAxn7p7pGz9
+ ycEyP3Z4GBdGz42UsUsH73Cfu33ql+4V7TgpC7nXUVeYPWoeVg3J5IeVHnOL2MLVLzzKYu
+ DjW5MQUAU8T4nyqGjX5Sv0sXBwtKGO8=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-612-7gF5eys6OaWxbd3h8xu3fQ-1; Mon, 08 May 2023 16:03:50 -0400
-X-MC-Unique: 7gF5eys6OaWxbd3h8xu3fQ-1
+ us-mta-160-BJ4XviapMp-ImP_ectTl3A-1; Mon, 08 May 2023 16:03:50 -0400
+X-MC-Unique: BJ4XviapMp-ImP_ectTl3A-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
  [10.11.54.3])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 27F673C0ED41
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 98F571011579
  for <qemu-devel@nongnu.org>; Mon,  8 May 2023 20:03:50 +0000 (UTC)
 Received: from green.redhat.com (unknown [10.2.16.49])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D8F8D1121314;
- Mon,  8 May 2023 20:03:49 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 565021121314;
+ Mon,  8 May 2023 20:03:50 +0000 (UTC)
 From: Eric Blake <eblake@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: hreitz@redhat.com
-Subject: [PATCH 09/11] cutils: Set value in all integral qemu_strto* error
- paths
-Date: Mon,  8 May 2023 15:03:41 -0500
-Message-Id: <20230508200343.791450-10-eblake@redhat.com>
+Subject: [PATCH 10/11] cutils: Improve qemu_strtod* error paths
+Date: Mon,  8 May 2023 15:03:42 -0500
+Message-Id: <20230508200343.791450-11-eblake@redhat.com>
 In-Reply-To: <20230508200343.791450-1-eblake@redhat.com>
 References: <20230508200343.791450-1-eblake@redhat.com>
 MIME-Version: 1.0
@@ -77,265 +76,279 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Our goal in writing qemu_strtoi() and friends is to have an interface
-harder to abuse than libc's strtol().  Leaving the return value
-initialized on some error paths does not lend itself well to this
-goal; and our documentation wasn't helpful on the matter.
+Previous patches changed all integral qemu_strto*() error paths to
+guarantee that *value is never left uninitialized.  Do likewise for
+qemu_strtod.  Also, tighten qemu_strtod_finite() to never return a
+non-finite value (prior to this patch, we were rejecting "inf" with
+-EINVAL and unspecified result 0.0, but failing "9e999" with -ERANGE
+and HUGE_VAL - which is infinite on IEEE machines - despite our
+function claiming to recognize only finite values).
 
-Note that the previous patch changed all qemu_strtosz() EINVAL error
-paths to slam value to 0 rather than stay uninitialized, even when the
-EINVAL eror occurs because of trailing junk.  But for the remaining
-integral qemu_strto*, it's easier to return the parsed value than to
-force things back to zero, in part because of how check_strtox_error
-works; and doing so creates less churn in the testsuite.
+Auditing callers, we have no external callers of qemu_strtod, and
+among the callers of qemu_strtod_finite:
 
-Here, the list of affected callers is much longer ('git grep
-"qemu_strto[ui]" *.c **/*.c | grep -v tests/ |wc -l' outputs 87,
-although a few of those are the implementation in in cutils.c), so
-touching as little as possible is the wisest course of action.
+- qapi/qobject-input-visitor.c:qobject_input_type_number_keyval() and
+  qapi/string-input-visitor.c:parse_type_number() which reject all
+  errors (does not matter what we store)
+
+- utils/cutils.c:do_strtosz() incorrectly assumes that *endptr points
+  to '.' on all failures (that is, it is not distinguishing between
+  EINVAL and ERANGE; and therefore still does the WRONG THING for
+  "9.9e999".  The change here does not fix that (a later patch will
+  tackle this more systematically), but at least the value of endptr
+  is less likely to be out of bounds on overflow
+
+- our testsuite, which we can update to match what we document
 
 Signed-off-by: Eric Blake <eblake@redhat.com>
 ---
- tests/unit/test-cutils.c | 24 +++++++++++------------
- util/cutils.c            | 42 +++++++++++++++++++++++++---------------
- 2 files changed, 38 insertions(+), 28 deletions(-)
+ tests/unit/test-cutils.c | 57 +++++++++++++++++++++++++---------------
+ util/cutils.c            | 32 +++++++++++++---------
+ 2 files changed, 55 insertions(+), 34 deletions(-)
 
 diff --git a/tests/unit/test-cutils.c b/tests/unit/test-cutils.c
-index 9cf00a810e4..2cb33e41ae4 100644
+index 2cb33e41ae4..f781997aef7 100644
 --- a/tests/unit/test-cutils.c
 +++ b/tests/unit/test-cutils.c
-@@ -250,7 +250,7 @@ static void test_qemu_strtoi_null(void)
-     err = qemu_strtoi(NULL, &endptr, 0, &res);
-
+@@ -2105,6 +2105,7 @@ static void test_qemu_strtod_einval(void)
+     err = qemu_strtod(str, &endptr, &res);
      g_assert_cmpint(err, ==, -EINVAL);
--    g_assert_cmpint(res, ==, 999);
-+    g_assert_cmpint(res, ==, 0);
+     g_assert_cmpfloat(res, ==, 0.0);
++    g_assert_false(signbit(res));
+     g_assert_true(endptr == str);
+
+     /* NULL */
+@@ -2113,7 +2114,8 @@ static void test_qemu_strtod_einval(void)
+     res = 999;
+     err = qemu_strtod(str, &endptr, &res);
+     g_assert_cmpint(err, ==, -EINVAL);
+-    g_assert_cmpfloat(res, ==, 999.0);
++    g_assert_cmpfloat(res, ==, 0.0);
++    g_assert_false(signbit(res));
      g_assert_null(endptr);
+
+     /* not recognizable */
+@@ -2123,6 +2125,7 @@ static void test_qemu_strtod_einval(void)
+     err = qemu_strtod(str, &endptr, &res);
+     g_assert_cmpint(err, ==, -EINVAL);
+     g_assert_cmpfloat(res, ==, 0.0);
++    g_assert_false(signbit(res));
+     g_assert_true(endptr == str);
  }
 
-@@ -479,7 +479,7 @@ static void test_qemu_strtoi_full_null(void)
-     err = qemu_strtoi(NULL, &endptr, 0, &res);
-
+@@ -2309,7 +2312,8 @@ static void test_qemu_strtod_finite_einval(void)
+     res = 999;
+     err = qemu_strtod_finite(str, &endptr, &res);
      g_assert_cmpint(err, ==, -EINVAL);
--    g_assert_cmpint(res, ==, 999);
-+    g_assert_cmpint(res, ==, 0);
+-    g_assert_cmpfloat(res, ==, 999.0);
++    g_assert_cmpfloat(res, ==, 0.0);
++    g_assert_false(signbit(res));
+     g_assert_true(endptr == str);
+
+     /* NULL */
+@@ -2318,7 +2322,8 @@ static void test_qemu_strtod_finite_einval(void)
+     res = 999;
+     err = qemu_strtod_finite(str, &endptr, &res);
+     g_assert_cmpint(err, ==, -EINVAL);
+-    g_assert_cmpfloat(res, ==, 999.0);
++    g_assert_cmpfloat(res, ==, 0.0);
++    g_assert_false(signbit(res));
      g_assert_null(endptr);
- }
 
-@@ -557,7 +557,7 @@ static void test_qemu_strtoui_null(void)
-     err = qemu_strtoui(NULL, &endptr, 0, &res);
-
+     /* not recognizable */
+@@ -2327,7 +2332,8 @@ static void test_qemu_strtod_finite_einval(void)
+     res = 999;
+     err = qemu_strtod_finite(str, &endptr, &res);
      g_assert_cmpint(err, ==, -EINVAL);
--    g_assert_cmpuint(res, ==, 999);
-+    g_assert_cmpuint(res, ==, 0);
-     g_assert_null(endptr);
+-    g_assert_cmpfloat(res, ==, 999.0);
++    g_assert_cmpfloat(res, ==, 0.0);
++    g_assert_false(signbit(res));
+     g_assert_true(endptr == str);
  }
 
-@@ -784,7 +784,7 @@ static void test_qemu_strtoui_full_null(void)
-     err = qemu_strtoui(NULL, NULL, 0, &res);
+@@ -2338,24 +2344,26 @@ static void test_qemu_strtod_finite_erange(void)
+     int err;
+     double res;
 
+-    /* overflow */
++    /* overflow turns into EINVAL */
+     str = "9e999";
+     endptr = NULL;
+     res = 999;
+     err = qemu_strtod_finite(str, &endptr, &res);
+-    g_assert_cmpint(err, ==, -ERANGE);
+-    g_assert_cmpfloat(res, ==, HUGE_VAL);
+-    g_assert_true(endptr == str + 5);
++    g_assert_cmpint(err, ==, -EINVAL);
++    g_assert_cmpfloat(res, ==, 0.0);
++    g_assert_false(signbit(res));
++    g_assert_true(endptr == str);
+
+     str = "-9e+999";
+     endptr = NULL;
+     res = 999;
+     err = qemu_strtod_finite(str, &endptr, &res);
+-    g_assert_cmpint(err, ==, -ERANGE);
+-    g_assert_cmpfloat(res, ==, -HUGE_VAL);
+-    g_assert_true(endptr == str + 7);
++    g_assert_cmpint(err, ==, -EINVAL);
++    g_assert_cmpfloat(res, ==, 0.0);
++    g_assert_false(signbit(res));
++    g_assert_true(endptr == str);
+
+-    /* underflow */
++    /* underflow is still possible */
+     str = "-9e-999";
+     endptr = NULL;
+     res = 999;
+@@ -2380,7 +2388,8 @@ static void test_qemu_strtod_finite_nonfinite(void)
+     res = 999;
+     err = qemu_strtod_finite(str, &endptr, &res);
      g_assert_cmpint(err, ==, -EINVAL);
--    g_assert_cmpuint(res, ==, 999);
-+    g_assert_cmpuint(res, ==, 0);
- }
+-    g_assert_cmpfloat(res, ==, 999.0);
++    g_assert_cmpfloat(res, ==, 0.0);
++    g_assert_false(signbit(res));
+     g_assert_true(endptr == str);
 
- static void test_qemu_strtoui_full_empty(void)
-@@ -860,7 +860,7 @@ static void test_qemu_strtol_null(void)
-     err = qemu_strtol(NULL, &endptr, 0, &res);
-
+     str = "-infinity";
+@@ -2388,7 +2397,8 @@ static void test_qemu_strtod_finite_nonfinite(void)
+     res = 999;
+     err = qemu_strtod_finite(str, &endptr, &res);
      g_assert_cmpint(err, ==, -EINVAL);
--    g_assert_cmpint(res, ==, 999);
-+    g_assert_cmpint(res, ==, 0);
-     g_assert_null(endptr);
- }
+-    g_assert_cmpfloat(res, ==, 999.0);
++    g_assert_cmpfloat(res, ==, 0.0);
++    g_assert_false(signbit(res));
+     g_assert_true(endptr == str);
 
-@@ -1087,7 +1087,7 @@ static void test_qemu_strtol_full_null(void)
-     err = qemu_strtol(NULL, &endptr, 0, &res);
-
+     /* not a number */
+@@ -2397,7 +2407,8 @@ static void test_qemu_strtod_finite_nonfinite(void)
+     res = 999;
+     err = qemu_strtod_finite(str, &endptr, &res);
      g_assert_cmpint(err, ==, -EINVAL);
--    g_assert_cmpint(res, ==, 999);
-+    g_assert_cmpint(res, ==, 0);
-     g_assert_null(endptr);
+-    g_assert_cmpfloat(res, ==, 999.0);
++    g_assert_cmpfloat(res, ==, 0.0);
++    g_assert_false(signbit(res));
+     g_assert_true(endptr == str);
  }
 
-@@ -1165,7 +1165,7 @@ static void test_qemu_strtoul_null(void)
-     err = qemu_strtoul(NULL, &endptr, 0, &res);
-
+@@ -2421,7 +2432,8 @@ static void test_qemu_strtod_finite_trailing(void)
+     res = 999;
+     err = qemu_strtod_finite(str, NULL, &res);
      g_assert_cmpint(err, ==, -EINVAL);
--    g_assert_cmpuint(res, ==, 999);
-+    g_assert_cmpuint(res, ==, 0);
-     g_assert_null(endptr);
- }
+-    g_assert_cmpfloat(res, ==, 999.0);
++    g_assert_cmpfloat(res, ==, 1.0);
++    g_assert_false(signbit(res));
 
-@@ -1390,7 +1390,7 @@ static void test_qemu_strtoul_full_null(void)
-     err = qemu_strtoul(NULL, NULL, 0, &res);
-
+     /* trailing e is not an exponent */
+     str = ".5e";
+@@ -2436,7 +2448,8 @@ static void test_qemu_strtod_finite_trailing(void)
+     res = 999;
+     err = qemu_strtod_finite(str, NULL, &res);
      g_assert_cmpint(err, ==, -EINVAL);
--    g_assert_cmpuint(res, ==, 999);
-+    g_assert_cmpuint(res, ==, 0);
- }
+-    g_assert_cmpfloat(res, ==, 999.0);
++    g_assert_cmpfloat(res, ==, 0.5);
++    g_assert_false(signbit(res));
 
- static void test_qemu_strtoul_full_empty(void)
-@@ -1466,7 +1466,7 @@ static void test_qemu_strtoi64_null(void)
-     err = qemu_strtoi64(NULL, &endptr, 0, &res);
-
+     /* trailing ( not part of long NaN */
+     str = "nan(";
+@@ -2444,14 +2457,16 @@ static void test_qemu_strtod_finite_trailing(void)
+     res = 999;
+     err = qemu_strtod_finite(str, &endptr, &res);
      g_assert_cmpint(err, ==, -EINVAL);
--    g_assert_cmpint(res, ==, 999);
-+    g_assert_cmpint(res, ==, 0);
-     g_assert_null(endptr);
- }
+-    g_assert_cmpfloat(res, ==, 999.0);
++    g_assert_cmpfloat(res, ==, 0.0);
++    g_assert_false(signbit(res));
+     g_assert_true(endptr == str);
 
-@@ -1691,7 +1691,7 @@ static void test_qemu_strtoi64_full_null(void)
-     err = qemu_strtoi64(NULL, NULL, 0, &res);
-
+     endptr = NULL;
+     res = 999;
+     err = qemu_strtod_finite(str, NULL, &res);
      g_assert_cmpint(err, ==, -EINVAL);
--    g_assert_cmpint(res, ==, 999);
-+    g_assert_cmpint(res, ==, 0);
+-    g_assert_cmpfloat(res, ==, 999.0);
++    g_assert_cmpfloat(res, ==, 0.0);
++    g_assert_false(signbit(res));
  }
 
- static void test_qemu_strtoi64_full_empty(void)
-@@ -1769,7 +1769,7 @@ static void test_qemu_strtou64_null(void)
-     err = qemu_strtou64(NULL, &endptr, 0, &res);
+ static void test_qemu_strtosz_simple(void)
+@@ -3063,8 +3078,8 @@ static void test_qemu_strtosz_trailing(void)
+     res = 0xbaadf00d;
+     err = qemu_strtosz(str, &endptr, &res);
+     g_assert_cmpint(err, ==, 0);
+-    g_assert_cmpuint(res, ==, EiB /* FIXME EiB * 1.5 */);
+-    g_assert(endptr == str + 9 /* FIXME + 4 */);
++    g_assert_cmpuint(res, ==, 1 /* FIXME EiB * 1.5 */);
++    g_assert(endptr == str + 2 /* FIXME + 4 */);
 
-     g_assert_cmpint(err, ==, -EINVAL);
--    g_assert_cmpuint(res, ==, 999);
-+    g_assert_cmpuint(res, ==, 0);
-     g_assert_null(endptr);
- }
-
-@@ -1994,7 +1994,7 @@ static void test_qemu_strtou64_full_null(void)
-     err = qemu_strtou64(NULL, NULL, 0, &res);
-
-     g_assert_cmpint(err, ==, -EINVAL);
--    g_assert_cmpuint(res, ==, 999);
-+    g_assert_cmpuint(res, ==, 0);
- }
-
- static void test_qemu_strtou64_full_empty(void)
+     res = 0xbaadf00d;
+     err = qemu_strtosz(str, NULL, &res);
 diff --git a/util/cutils.c b/util/cutils.c
-index 8bacf349383..83948926ec9 100644
+index 83948926ec9..0e056a27a44 100644
 --- a/util/cutils.c
 +++ b/util/cutils.c
-@@ -384,12 +384,13 @@ static int check_strtox_error(const char *nptr, char *ep,
+@@ -649,12 +649,13 @@ int qemu_strtou64(const char *nptr, const char **endptr, int base,
   *
   * @nptr may be null, and no conversion is performed then.
   *
 - * If no conversion is performed, store @nptr in *@endptr and return
 - * -EINVAL.
-+ * If no conversion is performed, store @nptr in *@endptr, 0 in
++ * If no conversion is performed, store @nptr in *@endptr, +0.0 in
 + * @result, and return -EINVAL.
   *
   * If @endptr is null, and the string isn't fully converted, return
-- * -EINVAL.  This is the case when the pointer that would be stored in
+- * -EINVAL. This is the case when the pointer that would be stored in
 - * a non-null @endptr points to a character other than '\0'.
 + * -EINVAL with @result set to the parsed value.  This is the case
 + * when the pointer that would be stored in a non-null @endptr points
 + * to a character other than '\0'.
   *
-  * If the conversion overflows @result, store INT_MAX in @result,
-  * and return -ERANGE.
-@@ -407,6 +408,7 @@ int qemu_strtoi(const char *nptr, const char **endptr, int base,
+  * If the conversion overflows, store +/-HUGE_VAL in @result, depending
+  * on the sign, and return -ERANGE.
+@@ -669,6 +670,7 @@ int qemu_strtod(const char *nptr, const char **endptr, double *result)
+     char *ep;
 
-     assert((unsigned) base <= 36 && base != 1);
      if (!nptr) {
-+        *result = 0;
++        *result = 0.0;
          if (endptr) {
              *endptr = nptr;
          }
-@@ -436,12 +438,13 @@ int qemu_strtoi(const char *nptr, const char **endptr, int base,
+@@ -683,24 +685,28 @@ int qemu_strtod(const char *nptr, const char **endptr, double *result)
+ /**
+  * Convert string @nptr to a finite double.
   *
-  * @nptr may be null, and no conversion is performed then.
-  *
-- * If no conversion is performed, store @nptr in *@endptr and return
-- * -EINVAL.
-+ * If no conversion is performed, store @nptr in *@endptr, 0 in
-+ * @result, and return -EINVAL.
-  *
-  * If @endptr is null, and the string isn't fully converted, return
-- * -EINVAL.  This is the case when the pointer that would be stored in
-- * a non-null @endptr points to a character other than '\0'.
-+ * -EINVAL with @result set to the parsed value.  This is the case
-+ * when the pointer that would be stored in a non-null @endptr points
-+ * to a character other than '\0'.
-  *
-  * If the conversion overflows @result, store UINT_MAX in @result,
-  * and return -ERANGE.
-@@ -460,6 +463,7 @@ int qemu_strtoui(const char *nptr, const char **endptr, int base,
+- * Works like qemu_strtod(), except that "NaN" and "inf" are rejected
+- * with -EINVAL and no conversion is performed.
++ * Works like qemu_strtod(), except that "NaN", "inf", and strings
++ * that cause ERANGE overflow errors are rejected with -EINVAL as if
++ * no conversion is performed, storing 0.0 into @result regardless of
++ * any sign.  -ERANGE failures for underflow still preserve the parsed
++ * sign.
+  */
+ int qemu_strtod_finite(const char *nptr, const char **endptr, double *result)
+ {
+-    double tmp;
++    const char *tmp;
+     int ret;
 
-     assert((unsigned) base <= 36 && base != 1);
-     if (!nptr) {
-+        *result = 0;
+-    ret = qemu_strtod(nptr, endptr, &tmp);
+-    if (!ret && !isfinite(tmp)) {
++    ret = qemu_strtod(nptr, &tmp, result);
++    if (!isfinite(*result)) {
          if (endptr) {
              *endptr = nptr;
          }
-@@ -495,12 +499,13 @@ int qemu_strtoui(const char *nptr, const char **endptr, int base,
-  *
-  * @nptr may be null, and no conversion is performed then.
-  *
-- * If no conversion is performed, store @nptr in *@endptr and return
-- * -EINVAL.
-+ * If no conversion is performed, store @nptr in *@endptr, 0 in
-+ * @result, and return -EINVAL.
-  *
-  * If @endptr is null, and the string isn't fully converted, return
-- * -EINVAL.  This is the case when the pointer that would be stored in
-- * a non-null @endptr points to a character other than '\0'.
-+ * -EINVAL with @result set to the parsed value.  This is the case
-+ * when the pointer that would be stored in a non-null @endptr points
-+ * to a character other than '\0'.
-  *
-  * If the conversion overflows @result, store LONG_MAX in @result,
-  * and return -ERANGE.
-@@ -517,6 +522,7 @@ int qemu_strtol(const char *nptr, const char **endptr, int base,
-
-     assert((unsigned) base <= 36 && base != 1);
-     if (!nptr) {
-+        *result = 0;
-         if (endptr) {
-             *endptr = nptr;
-         }
-@@ -537,12 +543,13 @@ int qemu_strtol(const char *nptr, const char **endptr, int base,
-  *
-  * @nptr may be null, and no conversion is performed then.
-  *
-- * If no conversion is performed, store @nptr in *@endptr and return
-- * -EINVAL.
-+ * If no conversion is performed, store @nptr in *@endptr, 0 in
-+ * @result, and return -EINVAL.
-  *
-  * If @endptr is null, and the string isn't fully converted, return
-- * -EINVAL.  This is the case when the pointer that would be stored in
-- * a non-null @endptr points to a character other than '\0'.
-+ * -EINVAL with @result set to the parsed value.  This is the case
-+ * when the pointer that would be stored in a non-null @endptr points
-+ * to a character other than '\0'.
-  *
-  * If the conversion overflows @result, store ULONG_MAX in @result,
-  * and return -ERANGE.
-@@ -560,6 +567,7 @@ int qemu_strtoul(const char *nptr, const char **endptr, int base,
-
-     assert((unsigned) base <= 36 && base != 1);
-     if (!nptr) {
-+        *result = 0;
-         if (endptr) {
-             *endptr = nptr;
-         }
-@@ -588,6 +596,7 @@ int qemu_strtoi64(const char *nptr, const char **endptr, int base,
-
-     assert((unsigned) base <= 36 && base != 1);
-     if (!nptr) {
-+        *result = 0;
-         if (endptr) {
-             *endptr = nptr;
-         }
-@@ -613,6 +622,7 @@ int qemu_strtou64(const char *nptr, const char **endptr, int base,
-
-     assert((unsigned) base <= 36 && base != 1);
-     if (!nptr) {
-+        *result = 0;
-         if (endptr) {
-             *endptr = nptr;
-         }
++        *result = 0.0;
++        ret = -EINVAL;
++    } else if (endptr) {
++        *endptr = tmp;
++    } else if (*tmp) {
+         ret = -EINVAL;
+-    }
+-
+-    if (ret != -EINVAL) {
+-        *result = tmp;
+     }
+     return ret;
+ }
 -- 
 2.40.1
 
