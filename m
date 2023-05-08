@@ -2,95 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BEC36FB92F
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 May 2023 23:12:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F3D406FB939
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 May 2023 23:16:00 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pw89I-0002Io-KY; Mon, 08 May 2023 17:12:00 -0400
+	id 1pw8Cl-0003gs-4i; Mon, 08 May 2023 17:15:35 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wei.liu.linux@gmail.com>)
- id 1pw89E-0002IW-M2
- for qemu-devel@nongnu.org; Mon, 08 May 2023 17:11:56 -0400
-Received: from mail-pl1-f180.google.com ([209.85.214.180])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <wei.liu.linux@gmail.com>)
- id 1pw89C-0005bI-Mw
- for qemu-devel@nongnu.org; Mon, 08 May 2023 17:11:56 -0400
-Received: by mail-pl1-f180.google.com with SMTP id
- d9443c01a7336-1ab032d9266so47606625ad.0
- for <qemu-devel@nongnu.org>; Mon, 08 May 2023 14:11:52 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683580311; x=1686172311;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=NFnNeAlUj9C+huN2rBEcxkVDG8OipZYXhgLegmZBDMk=;
- b=LFgCbcbih8jGfV0QDwxHBFY3U5eo6NcUUAx0fi5+LonPQEm8/W6XENEYhLhnAF7hsA
- HABo1Dqxq9sBQighLBRYAlN1uPx2E1Js3SWOAQGMC2zffYHQJjKaXd4sMjK4upGijh77
- ZRs8jhHUY8TmOkWDDYi1WUSjy7jsLIHKLwrrkmYVojBDLPLm8T/Yx8lM0wYwj2ukXlR1
- 8qG+a8qJqwrOCloXyot1nDeG96ekWat7g6GfAkGOW6y87pCCLUpwU+Wh15F6mtaeB4UJ
- vyuYOrM9dK6JbbqsT3ITvtcyf7jVEqQ6m9U9LqWrfD+C3yarDMY1nCXUYeitn55WGysX
- obtw==
-X-Gm-Message-State: AC+VfDz0vb1tsJDePnxUqsRu/F1IBh1ajjvryOWTk+ZpR4XCQrEp6Mxy
- mDjexdHQwquaRZSSTpa9wf8=
-X-Google-Smtp-Source: ACHHUZ6BtFvSoF+wcEO4loE9NZdFfCT+I/PFTdAZhqBSeRBB8gma6+CJUbrsA8zRjfVrnuCD3KU/Lw==
-X-Received: by 2002:a17:90a:65cb:b0:248:8399:1f7c with SMTP id
- i11-20020a17090a65cb00b0024883991f7cmr11239406pjs.38.1683580310757; 
- Mon, 08 May 2023 14:11:50 -0700 (PDT)
-Received: from liuwe-devbox-debian-v2 ([20.69.120.36])
- by smtp.gmail.com with ESMTPSA id
- k14-20020a170902760e00b0019aeddce6casm7648553pll.205.2023.05.08.14.11.49
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 08 May 2023 14:11:50 -0700 (PDT)
-Date: Mon, 8 May 2023 21:11:48 +0000
-From: Wei Liu <wei.liu@kernel.org>
-To: =?iso-8859-1?Q?Micka=EBl_Sala=FCn?= <mic@digikod.net>
-Cc: Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
- "H . Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
- Kees Cook <keescook@chromium.org>, Paolo Bonzini <pbonzini@redhat.com>,
- Sean Christopherson <seanjc@google.com>,
- Thomas Gleixner <tglx@linutronix.de>,
- Vitaly Kuznetsov <vkuznets@redhat.com>, Wanpeng Li <wanpengli@tencent.com>,
- Alexander Graf <graf@amazon.com>, Forrest Yuan Yu <yuanyu@google.com>,
- James Morris <jamorris@linux.microsoft.com>,
- John Andersen <john.s.andersen@intel.com>,
- Liran Alon <liran.alon@oracle.com>,
- "Madhavan T . Venkataraman" <madvenka@linux.microsoft.com>,
- Marian Rotariu <marian.c.rotariu@gmail.com>,
- Mihai =?utf-8?B?RG9uyJt1?= <mdontu@bitdefender.com>,
- =?utf-8?B?TmljdciZb3IgQ8OuyJt1?= <nicu.citu@icloud.com>,
- Rick Edgecombe <rick.p.edgecombe@intel.com>,
- Thara Gopinath <tgopinath@microsoft.com>, Will Deacon <will@kernel.org>,
- Zahra Tarkhani <ztarkhani@microsoft.com>,
- =?utf-8?Q?=C8=98tefan_=C8=98icleru?= <ssicleru@bitdefender.com>,
- dev@lists.cloudhypervisor.org, kvm@vger.kernel.org,
- linux-hardening@vger.kernel.org, linux-hyperv@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-security-module@vger.kernel.org,
- qemu-devel@nongnu.org, virtualization@lists.linux-foundation.org,
- x86@kernel.org, xen-devel@lists.xenproject.org,
- Wei Liu <wei.liu@kernel.org>
-Subject: Re: [PATCH v1 5/9] KVM: x86: Add new hypercall to lock control
- registers
-Message-ID: <ZFlllHjntehpthma@liuwe-devbox-debian-v2>
-References: <20230505152046.6575-1-mic@digikod.net>
- <20230505152046.6575-6-mic@digikod.net>
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1pw8Ci-0003gI-C8
+ for qemu-devel@nongnu.org; Mon, 08 May 2023 17:15:32 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1pw8Cg-00068L-Od
+ for qemu-devel@nongnu.org; Mon, 08 May 2023 17:15:32 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1683580529;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=m2NxcKQilumwAgK8Qt8bM2fBEoT5RjhF5U6gaXg2x9Y=;
+ b=En46a+uig/XClS1js1NnOumFsFdkJCK/t74602+nU4+ypdKspGFFdK1l3GpY1FJuz4lNNr
+ o++LQ+ry+EKtSDv5gkDdSA3p99XdJxbpPTAlSDaMkF25py/Xl2mvqYjfqugfa8MhUqlokG
+ mynkNP1TO98qdUNtDXgVASg5GvFMmPY=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-436-3qOHSHpeMIOwS5OZ_4EVww-1; Mon, 08 May 2023 17:15:24 -0400
+X-MC-Unique: 3qOHSHpeMIOwS5OZ_4EVww-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C72E1185A790;
+ Mon,  8 May 2023 21:15:23 +0000 (UTC)
+Received: from redhat.com (unknown [10.2.16.49])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 39E5B40C6F41;
+ Mon,  8 May 2023 21:15:23 +0000 (UTC)
+Date: Mon, 8 May 2023 16:15:21 -0500
+From: Eric Blake <eblake@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: hreitz@redhat.com, Eduardo Habkost <eduardo@habkost.net>, 
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>, 
+ Yanan Wang <wangyanan55@huawei.com>
+Subject: Re: [PATCH 07/11] numa: Check for qemu_strtosz_MiB error
+Message-ID: <cpnkg7tbc3b3rx2dibz72ayin3qrpzznebhdc3tdga2mxccn4w@gmahxychmiwk>
+References: <20230508200343.791450-1-eblake@redhat.com>
+ <20230508200343.791450-8-eblake@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230505152046.6575-6-mic@digikod.net>
-Received-SPF: pass client-ip=209.85.214.180;
- envelope-from=wei.liu.linux@gmail.com; helo=mail-pl1-f180.google.com
-X-Spam_score_int: -13
-X-Spam_score: -1.4
-X-Spam_bar: -
-X-Spam_report: (-1.4 / 5.0 requ) BAYES_00=-1.9,
- FREEMAIL_FORGED_FROMDOMAIN=0.249, FREEMAIL_FROM=0.001,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+In-Reply-To: <20230508200343.791450-8-eblake@redhat.com>
+User-Agent: NeoMutt/20230407
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eblake@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -106,100 +80,25 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, May 05, 2023 at 05:20:42PM +0200, Mickaël Salaün wrote:
-> This enables guests to lock their CR0 and CR4 registers with a subset of
-> X86_CR0_WP, X86_CR4_SMEP, X86_CR4_SMAP, X86_CR4_UMIP, X86_CR4_FSGSBASE
-> and X86_CR4_CET flags.
+On Mon, May 08, 2023 at 03:03:39PM -0500, Eric Blake wrote:
+> As shown in the previous commit, qemu_strtosz_MiB sometimes leaves the
+> result value untoutched (we have to audit further to learn that in
+
+untouched
+
+> that case, the QAPI generator says that visit_type_NumaOptions() will
+> have zero-initialized it), and sometimes leaves it with the value of a
+> partial parse before -EINVAL occurs because of trailing garbage.
+> Rather than blindly treating any string the user may throw at us as
+> valid, we should check for parse failures.
 > 
-> The new KVM_HC_LOCK_CR_UPDATE hypercall takes two arguments.  The first
-> is to identify the control register, and the second is a bit mask to
-> pin (i.e. mark as read-only).
-> 
-> These register flags should already be pinned by Linux guests, but once
-> compromised, this self-protection mechanism could be disabled, which is
-> not the case with this dedicated hypercall.
-> 
-> Cc: Borislav Petkov <bp@alien8.de>
-> Cc: Dave Hansen <dave.hansen@linux.intel.com>
-> Cc: H. Peter Anvin <hpa@zytor.com>
-> Cc: Ingo Molnar <mingo@redhat.com>
-> Cc: Kees Cook <keescook@chromium.org>
-> Cc: Madhavan T. Venkataraman <madvenka@linux.microsoft.com>
-> Cc: Paolo Bonzini <pbonzini@redhat.com>
-> Cc: Sean Christopherson <seanjc@google.com>
-> Cc: Thomas Gleixner <tglx@linutronix.de>
-> Cc: Vitaly Kuznetsov <vkuznets@redhat.com>
-> Cc: Wanpeng Li <wanpengli@tencent.com>
-> Signed-off-by: Mickaël Salaün <mic@digikod.net>
-> Link: https://lore.kernel.org/r/20230505152046.6575-6-mic@digikod.net
-[...]
->  	hw_cr4 = (cr4_read_shadow() & X86_CR4_MCE) | (cr4 & ~X86_CR4_MCE);
->  	if (is_unrestricted_guest(vcpu))
-> diff --git a/arch/x86/kvm/x86.c b/arch/x86/kvm/x86.c
-> index ffab64d08de3..a529455359ac 100644
-> --- a/arch/x86/kvm/x86.c
-> +++ b/arch/x86/kvm/x86.c
-> @@ -7927,11 +7927,77 @@ static unsigned long emulator_get_cr(struct x86_emulate_ctxt *ctxt, int cr)
->  	return value;
->  }
->  
-> +#ifdef CONFIG_HEKI
-> +
-> +extern unsigned long cr4_pinned_mask;
-> +
+> Fiuxes: cc001888 ("numa: fixup parsed NumaNodeOptions earlier", v2.11.0)
+> Signed-off-by: Eric Blake <eblake@redhat.com>
+> ---
 
-Can this be moved to a header file?
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3266
+Virtualization:  qemu.org | libvirt.org
 
-> +static int heki_lock_cr(struct kvm *const kvm, const unsigned long cr,
-> +			unsigned long pin)
-> +{
-> +	if (!pin)
-> +		return -KVM_EINVAL;
-> +
-> +	switch (cr) {
-> +	case 0:
-> +		/* Cf. arch/x86/kernel/cpu/common.c */
-> +		if (!(pin & X86_CR0_WP))
-> +			return -KVM_EINVAL;
-> +
-> +		if ((read_cr0() & pin) != pin)
-> +			return -KVM_EINVAL;
-> +
-> +		atomic_long_or(pin, &kvm->heki_pinned_cr0);
-> +		return 0;
-> +	case 4:
-> +		/* Checks for irrelevant bits. */
-> +		if ((pin & cr4_pinned_mask) != pin)
-> +			return -KVM_EINVAL;
-> +
-
-It is enforcing the host mask on the guest, right? If the guest's set is a
-super set of the host's then it will get rejected.
-
-
-> +		/* Ignores bits not present in host. */
-> +		pin &= __read_cr4();
-> +		atomic_long_or(pin, &kvm->heki_pinned_cr4);
-> +		return 0;
-> +	}
-> +	return -KVM_EINVAL;
-> +}
-> +
-> +int heki_check_cr(const struct kvm *const kvm, const unsigned long cr,
-> +		  const unsigned long val)
-> +{
-> +	unsigned long pinned;
-> +
-> +	switch (cr) {
-> +	case 0:
-> +		pinned = atomic_long_read(&kvm->heki_pinned_cr0);
-> +		if ((val & pinned) != pinned) {
-> +			pr_warn_ratelimited(
-> +				"heki-kvm: Blocked CR0 update: 0x%lx\n", val);
-
-I think if the message contains the VM and VCPU identifier it will
-become more useful.
-
-Thanks,
-Wei.
 
