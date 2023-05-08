@@ -2,78 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 592136FB927
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 May 2023 23:11:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0BEC36FB92F
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 May 2023 23:12:27 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pw87c-0001Ko-Cr; Mon, 08 May 2023 17:10:16 -0400
+	id 1pw89I-0002Io-KY; Mon, 08 May 2023 17:12:00 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1pw87Z-0001Kg-Rv
- for qemu-devel@nongnu.org; Mon, 08 May 2023 17:10:14 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1pw87V-0005IB-2r
- for qemu-devel@nongnu.org; Mon, 08 May 2023 17:10:13 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1683580207;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=Vqq9G2RsH54/RWb0wikQyTqY6Bym3rwJsnVtUtpJixo=;
- b=PQRwCtHNqogr9L72eKuLTatExWzhdOsTpq0uOeeiNrV4yfAJgO2JcbA50Q4KLGOV7HzYNH
- gOvZx2EjeN7Ppn0G2EqrkdL63O8HvxxQ8GX7h040hufIdg3uEoiGoQdSbB/6Vd9IH3941A
- 3aHKf6ZT1tJvprGC4BlhiIbRxFXOlsQ=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-422-IzC-TBTRO867goX9SXuhaQ-1; Mon, 08 May 2023 17:10:05 -0400
-X-MC-Unique: IzC-TBTRO867goX9SXuhaQ-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
- [10.11.54.8])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E03262802284;
- Mon,  8 May 2023 21:10:04 +0000 (UTC)
-Received: from localhost (unknown [10.39.192.9])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2AB70C15BA0;
- Mon,  8 May 2023 21:10:03 +0000 (UTC)
-Date: Mon, 8 May 2023 17:10:02 -0400
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Hanna Czenczek <hreitz@redhat.com>
-Cc: Eugenio Perez Martin <eperezma@redhat.com>,
- Stefan Hajnoczi <stefanha@gmail.com>, qemu-devel@nongnu.org,
- virtio-fs@redhat.com, German Maglione <gmaglione@redhat.com>,
- Anton Kuchin <antonkuchin@yandex-team.ru>,
- Juan Quintela <quintela@redhat.com>,
- "Michael S . Tsirkin" <mst@redhat.com>,
- Stefano Garzarella <sgarzare@redhat.com>
-Subject: Re: [PATCH 0/4] vhost-user-fs: Internal migration
-Message-ID: <20230508211002.GC926999@fedora>
-References: <20230411150515.14020-1-hreitz@redhat.com>
- <e8cc4521-50a1-2e38-1fb3-8cfa7b0c967e@redhat.com>
- <CAJSP0QUFFYWwD5+8+1q41sNErJVNbkfnQ3VtB4z-HZUV8S0=zw@mail.gmail.com>
- <dfec96a1-84c3-3639-6f09-204c2d12244a@redhat.com>
- <CAJaqyWdhBq=0f-Qhbdg3AduS8zkPV5p6-uEEn24p1hRKcA3pOQ@mail.gmail.com>
- <05e9946d-f2be-f594-fea2-d1d03686b644@redhat.com>
+ (Exim 4.90_1) (envelope-from <wei.liu.linux@gmail.com>)
+ id 1pw89E-0002IW-M2
+ for qemu-devel@nongnu.org; Mon, 08 May 2023 17:11:56 -0400
+Received: from mail-pl1-f180.google.com ([209.85.214.180])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <wei.liu.linux@gmail.com>)
+ id 1pw89C-0005bI-Mw
+ for qemu-devel@nongnu.org; Mon, 08 May 2023 17:11:56 -0400
+Received: by mail-pl1-f180.google.com with SMTP id
+ d9443c01a7336-1ab032d9266so47606625ad.0
+ for <qemu-devel@nongnu.org>; Mon, 08 May 2023 14:11:52 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1683580311; x=1686172311;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=NFnNeAlUj9C+huN2rBEcxkVDG8OipZYXhgLegmZBDMk=;
+ b=LFgCbcbih8jGfV0QDwxHBFY3U5eo6NcUUAx0fi5+LonPQEm8/W6XENEYhLhnAF7hsA
+ HABo1Dqxq9sBQighLBRYAlN1uPx2E1Js3SWOAQGMC2zffYHQJjKaXd4sMjK4upGijh77
+ ZRs8jhHUY8TmOkWDDYi1WUSjy7jsLIHKLwrrkmYVojBDLPLm8T/Yx8lM0wYwj2ukXlR1
+ 8qG+a8qJqwrOCloXyot1nDeG96ekWat7g6GfAkGOW6y87pCCLUpwU+Wh15F6mtaeB4UJ
+ vyuYOrM9dK6JbbqsT3ITvtcyf7jVEqQ6m9U9LqWrfD+C3yarDMY1nCXUYeitn55WGysX
+ obtw==
+X-Gm-Message-State: AC+VfDz0vb1tsJDePnxUqsRu/F1IBh1ajjvryOWTk+ZpR4XCQrEp6Mxy
+ mDjexdHQwquaRZSSTpa9wf8=
+X-Google-Smtp-Source: ACHHUZ6BtFvSoF+wcEO4loE9NZdFfCT+I/PFTdAZhqBSeRBB8gma6+CJUbrsA8zRjfVrnuCD3KU/Lw==
+X-Received: by 2002:a17:90a:65cb:b0:248:8399:1f7c with SMTP id
+ i11-20020a17090a65cb00b0024883991f7cmr11239406pjs.38.1683580310757; 
+ Mon, 08 May 2023 14:11:50 -0700 (PDT)
+Received: from liuwe-devbox-debian-v2 ([20.69.120.36])
+ by smtp.gmail.com with ESMTPSA id
+ k14-20020a170902760e00b0019aeddce6casm7648553pll.205.2023.05.08.14.11.49
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 08 May 2023 14:11:50 -0700 (PDT)
+Date: Mon, 8 May 2023 21:11:48 +0000
+From: Wei Liu <wei.liu@kernel.org>
+To: =?iso-8859-1?Q?Micka=EBl_Sala=FCn?= <mic@digikod.net>
+Cc: Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
+ "H . Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
+ Kees Cook <keescook@chromium.org>, Paolo Bonzini <pbonzini@redhat.com>,
+ Sean Christopherson <seanjc@google.com>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Vitaly Kuznetsov <vkuznets@redhat.com>, Wanpeng Li <wanpengli@tencent.com>,
+ Alexander Graf <graf@amazon.com>, Forrest Yuan Yu <yuanyu@google.com>,
+ James Morris <jamorris@linux.microsoft.com>,
+ John Andersen <john.s.andersen@intel.com>,
+ Liran Alon <liran.alon@oracle.com>,
+ "Madhavan T . Venkataraman" <madvenka@linux.microsoft.com>,
+ Marian Rotariu <marian.c.rotariu@gmail.com>,
+ Mihai =?utf-8?B?RG9uyJt1?= <mdontu@bitdefender.com>,
+ =?utf-8?B?TmljdciZb3IgQ8OuyJt1?= <nicu.citu@icloud.com>,
+ Rick Edgecombe <rick.p.edgecombe@intel.com>,
+ Thara Gopinath <tgopinath@microsoft.com>, Will Deacon <will@kernel.org>,
+ Zahra Tarkhani <ztarkhani@microsoft.com>,
+ =?utf-8?Q?=C8=98tefan_=C8=98icleru?= <ssicleru@bitdefender.com>,
+ dev@lists.cloudhypervisor.org, kvm@vger.kernel.org,
+ linux-hardening@vger.kernel.org, linux-hyperv@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-security-module@vger.kernel.org,
+ qemu-devel@nongnu.org, virtualization@lists.linux-foundation.org,
+ x86@kernel.org, xen-devel@lists.xenproject.org,
+ Wei Liu <wei.liu@kernel.org>
+Subject: Re: [PATCH v1 5/9] KVM: x86: Add new hypercall to lock control
+ registers
+Message-ID: <ZFlllHjntehpthma@liuwe-devbox-debian-v2>
+References: <20230505152046.6575-1-mic@digikod.net>
+ <20230505152046.6575-6-mic@digikod.net>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="aTpnGGsPmSuxR1Ft"
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <05e9946d-f2be-f594-fea2-d1d03686b644@redhat.com>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230505152046.6575-6-mic@digikod.net>
+Received-SPF: pass client-ip=209.85.214.180;
+ envelope-from=wei.liu.linux@gmail.com; helo=mail-pl1-f180.google.com
+X-Spam_score_int: -13
+X-Spam_score: -1.4
+X-Spam_bar: -
+X-Spam_report: (-1.4 / 5.0 requ) BAYES_00=-1.9,
+ FREEMAIL_FORGED_FROMDOMAIN=0.249, FREEMAIL_FROM=0.001,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,95 +106,100 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On Fri, May 05, 2023 at 05:20:42PM +0200, Mickaël Salaün wrote:
+> This enables guests to lock their CR0 and CR4 registers with a subset of
+> X86_CR0_WP, X86_CR4_SMEP, X86_CR4_SMAP, X86_CR4_UMIP, X86_CR4_FSGSBASE
+> and X86_CR4_CET flags.
+> 
+> The new KVM_HC_LOCK_CR_UPDATE hypercall takes two arguments.  The first
+> is to identify the control register, and the second is a bit mask to
+> pin (i.e. mark as read-only).
+> 
+> These register flags should already be pinned by Linux guests, but once
+> compromised, this self-protection mechanism could be disabled, which is
+> not the case with this dedicated hypercall.
+> 
+> Cc: Borislav Petkov <bp@alien8.de>
+> Cc: Dave Hansen <dave.hansen@linux.intel.com>
+> Cc: H. Peter Anvin <hpa@zytor.com>
+> Cc: Ingo Molnar <mingo@redhat.com>
+> Cc: Kees Cook <keescook@chromium.org>
+> Cc: Madhavan T. Venkataraman <madvenka@linux.microsoft.com>
+> Cc: Paolo Bonzini <pbonzini@redhat.com>
+> Cc: Sean Christopherson <seanjc@google.com>
+> Cc: Thomas Gleixner <tglx@linutronix.de>
+> Cc: Vitaly Kuznetsov <vkuznets@redhat.com>
+> Cc: Wanpeng Li <wanpengli@tencent.com>
+> Signed-off-by: Mickaël Salaün <mic@digikod.net>
+> Link: https://lore.kernel.org/r/20230505152046.6575-6-mic@digikod.net
+[...]
+>  	hw_cr4 = (cr4_read_shadow() & X86_CR4_MCE) | (cr4 & ~X86_CR4_MCE);
+>  	if (is_unrestricted_guest(vcpu))
+> diff --git a/arch/x86/kvm/x86.c b/arch/x86/kvm/x86.c
+> index ffab64d08de3..a529455359ac 100644
+> --- a/arch/x86/kvm/x86.c
+> +++ b/arch/x86/kvm/x86.c
+> @@ -7927,11 +7927,77 @@ static unsigned long emulator_get_cr(struct x86_emulate_ctxt *ctxt, int cr)
+>  	return value;
+>  }
+>  
+> +#ifdef CONFIG_HEKI
+> +
+> +extern unsigned long cr4_pinned_mask;
+> +
 
---aTpnGGsPmSuxR1Ft
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Can this be moved to a header file?
 
-On Fri, May 05, 2023 at 02:51:55PM +0200, Hanna Czenczek wrote:
-> On 05.05.23 11:53, Eugenio Perez Martin wrote:
-> > On Fri, May 5, 2023 at 11:03=E2=80=AFAM Hanna Czenczek <hreitz@redhat.c=
-om> wrote:
-> > > On 04.05.23 23:14, Stefan Hajnoczi wrote:
-> > > > On Thu, 4 May 2023 at 13:39, Hanna Czenczek <hreitz@redhat.com> wro=
-te:
->=20
-> [...]
->=20
-> > > > All state is lost and the Device Initialization process
-> > > > must be followed to make the device operational again.
-> > > >=20
-> > > > Existing vhost-user backends don't implement SET_STATUS 0 (it's new=
-).
-> > > >=20
-> > > > It's messy and not your fault. I think QEMU should solve this by
-> > > > treating stateful devices differently from non-stateful devices. Th=
-at
-> > > > way existing vhost-user backends continue to work and new stateful
-> > > > devices can also be supported.
-> > > It=E2=80=99s my understanding that SET_STATUS 0/RESET_DEVICE is probl=
-ematic for
-> > > stateful devices.  In a previous email, you wrote that these should
-> > > implement SUSPEND+RESUME so qemu can use those instead.  But those are
-> > > separate things, so I assume we just use SET_STATUS 0 when stopping t=
-he
-> > > VM because this happens to also stop processing vrings as a side effe=
-ct?
-> > >=20
-> > > I.e. I understand =E2=80=9Ctreating stateful devices differently=E2=
-=80=9D to mean that
-> > > qemu should use SUSPEND+RESUME instead of SET_STATUS 0 when the back-=
-end
-> > > supports it, and stateful back-ends should support it.
-> > >=20
-> > Honestly I cannot think of any use case where the vhost-user backend
-> > did not ignore set_status(0) and had to retrieve vq states. So maybe
-> > we can totally remove that call from qemu?
->=20
-> I don=E2=80=99t know so I can=E2=80=99t really say; but I don=E2=80=99t q=
-uite understand why qemu
-> would reset a device at any point but perhaps VM reset (and even then I=
-=E2=80=99d
-> expect the post-reset guest to just reset the device on boot by itself,
-> too).
+> +static int heki_lock_cr(struct kvm *const kvm, const unsigned long cr,
+> +			unsigned long pin)
+> +{
+> +	if (!pin)
+> +		return -KVM_EINVAL;
+> +
+> +	switch (cr) {
+> +	case 0:
+> +		/* Cf. arch/x86/kernel/cpu/common.c */
+> +		if (!(pin & X86_CR0_WP))
+> +			return -KVM_EINVAL;
+> +
+> +		if ((read_cr0() & pin) != pin)
+> +			return -KVM_EINVAL;
+> +
+> +		atomic_long_or(pin, &kvm->heki_pinned_cr0);
+> +		return 0;
+> +	case 4:
+> +		/* Checks for irrelevant bits. */
+> +		if ((pin & cr4_pinned_mask) != pin)
+> +			return -KVM_EINVAL;
+> +
 
-DPDK stores the Device Status field value and uses it later:
-https://github.com/DPDK/dpdk/blob/main/lib/vhost/vhost_user.c#L2791
+It is enforcing the host mask on the guest, right? If the guest's set is a
+super set of the host's then it will get rejected.
 
-While DPDK performs no immediate action upon SET_STATUS 0, omitting the
-message will change the behavior of other DPDK code like
-virtio_is_ready().
 
-Changing the semantics of the vhost-user protocol in a way that's not
-backwards compatible is something we should avoid unless there is no
-other way.
+> +		/* Ignores bits not present in host. */
+> +		pin &= __read_cr4();
+> +		atomic_long_or(pin, &kvm->heki_pinned_cr4);
+> +		return 0;
+> +	}
+> +	return -KVM_EINVAL;
+> +}
+> +
+> +int heki_check_cr(const struct kvm *const kvm, const unsigned long cr,
+> +		  const unsigned long val)
+> +{
+> +	unsigned long pinned;
+> +
+> +	switch (cr) {
+> +	case 0:
+> +		pinned = atomic_long_read(&kvm->heki_pinned_cr0);
+> +		if ((val & pinned) != pinned) {
+> +			pr_warn_ratelimited(
+> +				"heki-kvm: Blocked CR0 update: 0x%lx\n", val);
 
-The fundamental problem is that QEMU's vhost code is designed to reset
-vhost devices because it assumes they are stateless. If an F_SUSPEND
-protocol feature bit is added, then it becomes possible to detect new
-backends and suspend/resume them rather than reset them.
+I think if the message contains the VM and VCPU identifier it will
+become more useful.
 
-That's the solution that I favor because it's backwards compatible and
-the same model can be applied to stateful vDPA devices in the future.
-
-Stefan
-
---aTpnGGsPmSuxR1Ft
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmRZZSoACgkQnKSrs4Gr
-c8hXZQf/em9+DY2ZVNYUT2VD8sp2kxRGmI4ow553rKKvkwPR2I1pndq4ELB9ysdy
-DwUbmayREaMe4XZThcJrZnPjp/PcercjmkwplblClT1L0eZwsj5OTS/+5JOR1e6l
-br9J5pWMIp1f2b7UTDQ1K32WfrlMk2ZN5TTk7m396SgriRea91Ss6V17rTfs+t1Q
-9J9fHbBokJxKqRiXlb+knso5I48HeAENBW4z6C1ov8Yw0xYPFzrnMhMrb7mMuBR3
-r1Eae4DBqd/5SOnmkgDtVDZRJ3loACH2PxPC4bA6l27sSyjkR5W5ZceqNb8oTPWQ
-xf5l4OaH825RzvCzg2wLpokE9T7H1g==
-=NoyL
------END PGP SIGNATURE-----
-
---aTpnGGsPmSuxR1Ft--
-
+Thanks,
+Wei.
 
