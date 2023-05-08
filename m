@@ -2,55 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5E106FB3C2
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E7AF6FB3C1
 	for <lists+qemu-devel@lfdr.de>; Mon,  8 May 2023 17:28:23 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pw2lW-0004Rc-Hv; Mon, 08 May 2023 11:27:06 -0400
+	id 1pw2lY-0004SK-Pb; Mon, 08 May 2023 11:27:08 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pw2lU-0004RL-6K
- for qemu-devel@nongnu.org; Mon, 08 May 2023 11:27:04 -0400
+ id 1pw2lW-0004Rt-JN
+ for qemu-devel@nongnu.org; Mon, 08 May 2023 11:27:06 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pw2lS-0004Xf-KE
- for qemu-devel@nongnu.org; Mon, 08 May 2023 11:27:03 -0400
+ id 1pw2lV-0004Xt-1j
+ for qemu-devel@nongnu.org; Mon, 08 May 2023 11:27:06 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1683559621;
+ s=mimecast20190719; t=1683559624;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=MX9petnKM6/n9TqrEUTsvKHO8OwX+ZV38qtm7JMVaM8=;
- b=cFMZsxE7obXZedBgGpFixuNslGzekfw/NXsDtgQ1OZ6xrHuU4VKac060ftZqwtxAkMbm7R
- HOqU3Org1ccog4gdH0HOiTIeuHwRt73dlS9cHeFBXgn2LFGDXUOTp/quLQP5KZaAw5o6Mq
- r+RRbKiv8vhadj4VqCWPo8QUbFqhIgw=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=mw2gc87GQUfje3cPwRddhZZV2DpPyXBDcUoDgrja9Mg=;
+ b=AgJhJeG30t3dwDwPzQmHAYqwSrsuG7e3n8SCEX0vWZmwqBBhAa5/JRiLesjRR4evu39aNn
+ eLf4m7GswmbE8Fb3d3TTEIoLqgZPhJP5PQGOpFBhdoLz/0a5wWzONECJ4kPmUyP83V/LEm
+ uchcPF5iycJsFAreoeOmA/W7Af1uxQ4=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-600-ZLjcoQSlMA6kscZn_UCYyA-1; Mon, 08 May 2023 11:27:00 -0400
-X-MC-Unique: ZLjcoQSlMA6kscZn_UCYyA-1
+ us-mta-590-ISs7XmjXO1Ktnh0rXXdHCw-1; Mon, 08 May 2023 11:27:03 -0400
+X-MC-Unique: ISs7XmjXO1Ktnh0rXXdHCw-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
  [10.11.54.2])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D222F3C0F44A
- for <qemu-devel@nongnu.org>; Mon,  8 May 2023 15:26:59 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A988384AF35;
+ Mon,  8 May 2023 15:27:01 +0000 (UTC)
 Received: from secure.mitica (unknown [10.39.193.236])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9A82A40C6F41;
- Mon,  8 May 2023 15:26:58 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2105040C6F41;
+ Mon,  8 May 2023 15:26:59 +0000 (UTC)
 From: Juan Quintela <quintela@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Thomas Huth <thuth@redhat.com>, Juan Quintela <quintela@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>, Peter Xu <peterx@redhat.com>,
- Laurent Vivier <lvivier@redhat.com>, Leonardo Bras <leobras@redhat.com>
-Subject: [PATCH 00/13] Migration PULL request (20230508 edition)
-Date: Mon,  8 May 2023 17:26:44 +0200
-Message-Id: <20230508152657.66701-1-quintela@redhat.com>
+ Laurent Vivier <lvivier@redhat.com>, Leonardo Bras <leobras@redhat.com>,
+ Lukas Straub <lukasstraub2@web.de>
+Subject: [PATCH 01/13] qtest/migration-test.c: Add tests with compress enabled
+Date: Mon,  8 May 2023 17:26:45 +0200
+Message-Id: <20230508152657.66701-2-quintela@redhat.com>
+In-Reply-To: <20230508152657.66701-1-quintela@redhat.com>
+References: <20230508152657.66701-1-quintela@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
@@ -77,45 +80,155 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi
+From: Lukas Straub <lukasstraub2@web.de>
 
-This is just the compression bits of the Migration PULL request for
-20230428.  Only change is that we don't run the compression tests by
-default.
+There has never been tests for migration with compress enabled.
 
-The problem already exist with compression code.  The test just show
-that it don't work.
+Add suitable tests, testing with compress-wait-thread = false
+too.
 
-Please apply, Juan.
+Signed-off-by: Lukas Straub <lukasstraub2@web.de>
+Acked-by: Peter Xu <peterx@redhat.com>
+Reviewed-by: Juan Quintela <quintela@redhat.com>
+Signed-off-by: Juan Quintela <quintela@redhat.com>
+---
+ tests/qtest/migration-test.c | 109 +++++++++++++++++++++++++++++++++++
+ 1 file changed, 109 insertions(+)
 
-Lukas Straub (13):
-  qtest/migration-test.c: Add tests with compress enabled
-  qtest/migration-test.c: Add postcopy tests with compress enabled
-  ram.c: Let the compress threads return a CompressResult enum
-  ram.c: Dont change param->block in the compress thread
-  ram.c: Reset result after sending queued data
-  ram.c: Do not call save_page_header() from compress threads
-  ram.c: Call update_compress_thread_counts from
-    compress_send_queued_data
-  ram.c: Remove last ram.c dependency from the core compress code
-  ram.c: Move core compression code into its own file
-  ram.c: Move core decompression code into its own file
-  ram compress: Assert that the file buffer matches the result
-  ram-compress.c: Make target independent
-  migration: Initialize and cleanup decompression in migration.c
-
- migration/meson.build        |   6 +-
- migration/migration.c        |   9 +
- migration/qemu-file.c        |  11 +
- migration/qemu-file.h        |   1 +
- migration/ram-compress.c     | 485 +++++++++++++++++++++++++++++++++
- migration/ram-compress.h     |  70 +++++
- migration/ram.c              | 502 +++--------------------------------
- tests/qtest/migration-test.c | 134 ++++++++++
- 8 files changed, 758 insertions(+), 460 deletions(-)
- create mode 100644 migration/ram-compress.c
- create mode 100644 migration/ram-compress.h
-
+diff --git a/tests/qtest/migration-test.c b/tests/qtest/migration-test.c
+index be73ec3c06..ea0d3fad2a 100644
+--- a/tests/qtest/migration-test.c
++++ b/tests/qtest/migration-test.c
+@@ -406,6 +406,41 @@ static void migrate_set_parameter_str(QTestState *who, const char *parameter,
+     migrate_check_parameter_str(who, parameter, value);
+ }
+ 
++static long long migrate_get_parameter_bool(QTestState *who,
++                                           const char *parameter)
++{
++    QDict *rsp;
++    int result;
++
++    rsp = wait_command(who, "{ 'execute': 'query-migrate-parameters' }");
++    result = qdict_get_bool(rsp, parameter);
++    qobject_unref(rsp);
++    return !!result;
++}
++
++static void migrate_check_parameter_bool(QTestState *who, const char *parameter,
++                                        int value)
++{
++    int result;
++
++    result = migrate_get_parameter_bool(who, parameter);
++    g_assert_cmpint(result, ==, value);
++}
++
++static void migrate_set_parameter_bool(QTestState *who, const char *parameter,
++                                      int value)
++{
++    QDict *rsp;
++
++    rsp = qtest_qmp(who,
++                    "{ 'execute': 'migrate-set-parameters',"
++                    "'arguments': { %s: %i } }",
++                    parameter, value);
++    g_assert(qdict_haskey(rsp, "return"));
++    qobject_unref(rsp);
++    migrate_check_parameter_bool(who, parameter, value);
++}
++
+ static void migrate_ensure_non_converge(QTestState *who)
+ {
+     /* Can't converge with 1ms downtime + 3 mbs bandwidth limit */
+@@ -1524,6 +1559,70 @@ static void test_precopy_unix_xbzrle(void)
+     test_precopy_common(&args);
+ }
+ 
++static void *
++test_migrate_compress_start(QTestState *from,
++                            QTestState *to)
++{
++    migrate_set_parameter_int(from, "compress-level", 1);
++    migrate_set_parameter_int(from, "compress-threads", 4);
++    migrate_set_parameter_bool(from, "compress-wait-thread", true);
++    migrate_set_parameter_int(to, "decompress-threads", 4);
++
++    migrate_set_capability(from, "compress", true);
++    migrate_set_capability(to, "compress", true);
++
++    return NULL;
++}
++
++static void test_precopy_unix_compress(void)
++{
++    g_autofree char *uri = g_strdup_printf("unix:%s/migsocket", tmpfs);
++    MigrateCommon args = {
++        .connect_uri = uri,
++        .listen_uri = uri,
++        .start_hook = test_migrate_compress_start,
++        /*
++         * Test that no invalid thread state is left over from
++         * the previous iteration.
++         */
++        .iterations = 2,
++    };
++
++    test_precopy_common(&args);
++}
++
++static void *
++test_migrate_compress_nowait_start(QTestState *from,
++                                   QTestState *to)
++{
++    migrate_set_parameter_int(from, "compress-level", 9);
++    migrate_set_parameter_int(from, "compress-threads", 1);
++    migrate_set_parameter_bool(from, "compress-wait-thread", false);
++    migrate_set_parameter_int(to, "decompress-threads", 1);
++
++    migrate_set_capability(from, "compress", true);
++    migrate_set_capability(to, "compress", true);
++
++    return NULL;
++}
++
++static void test_precopy_unix_compress_nowait(void)
++{
++    g_autofree char *uri = g_strdup_printf("unix:%s/migsocket", tmpfs);
++    MigrateCommon args = {
++        .connect_uri = uri,
++        .listen_uri = uri,
++        .start_hook = test_migrate_compress_nowait_start,
++        /*
++         * Test that no invalid thread state is left over from
++         * the previous iteration.
++         */
++        .iterations = 2,
++    };
++
++    test_precopy_common(&args);
++}
++
+ static void test_precopy_tcp_plain(void)
+ {
+     MigrateCommon args = {
+@@ -2537,6 +2636,16 @@ int main(int argc, char **argv)
+     qtest_add_func("/migration/bad_dest", test_baddest);
+     qtest_add_func("/migration/precopy/unix/plain", test_precopy_unix_plain);
+     qtest_add_func("/migration/precopy/unix/xbzrle", test_precopy_unix_xbzrle);
++    /*
++     * Compression fails from time to time.
++     * Put test here but don't enable it until everything is fixed.
++     */
++    if (getenv("QEMU_TEST_FLAKY_TESTS")) {
++        qtest_add_func("/migration/precopy/unix/compress/wait",
++                       test_precopy_unix_compress);
++        qtest_add_func("/migration/precopy/unix/compress/nowait",
++                       test_precopy_unix_compress_nowait);
++    }
+ #ifdef CONFIG_GNUTLS
+     qtest_add_func("/migration/precopy/unix/tls/psk",
+                    test_precopy_unix_tls_psk);
 -- 
 2.40.0
 
