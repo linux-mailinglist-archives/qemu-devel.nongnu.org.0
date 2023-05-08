@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A17D6FB111
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 May 2023 15:14:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E4506FB132
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 May 2023 15:17:28 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pw0fU-0000FA-DX; Mon, 08 May 2023 09:12:44 -0400
+	id 1pw0f7-000051-Vt; Mon, 08 May 2023 09:12:22 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pw0e7-0004pp-I5
+ id 1pw0e4-0004jc-Bm
  for qemu-devel@nongnu.org; Mon, 08 May 2023 09:11:19 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pw0dz-0001D8-Ha
- for qemu-devel@nongnu.org; Mon, 08 May 2023 09:11:19 -0400
+ id 1pw0dz-0001Dz-Cc
+ for qemu-devel@nongnu.org; Mon, 08 May 2023 09:11:15 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1683551457;
+ s=mimecast20190719; t=1683551461;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=/lzvT+i/e0GhQATSDEFlzB7LEHZv8Tc7zznWcficXPQ=;
- b=WyhIczYjpAIY1X1G3EoWaLSk9taP4MgKz4Ae+JwuIc9biKPU4Ozy8KAgeGGj5TUvxuB8hs
- jvhIPGmZwJSVVT9VeR3LUmCYOwfl6plqZk3gBivhri+9Bs1lPuJm1l56q6iF282RSOEOqL
- 6uISHQ6GxiJy1PBqcEvl3sXFS6J2Gbg=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=AHCtbJSxzlOY15iuPfGvkQzOQhhBSgMM4kBlxSMibZ4=;
+ b=cFYs+JkzVcZqgoeCFbBQTIxmMBjBu3r8G/sKMlFZ9VjZ3pRXDJNt5ni8CpzHWygd02lsvR
+ brmP4cnU8/a4MLvbJbV+bYi7gdLY8c6MP+M6fjkaG/K6kfI0OlqOaH6qVlXA5oj8Yqlyqb
+ ZVjVxK9zqetyIro6Am7LkEDED5E1F8w=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-479-euG0b-fBMdSLlbXSiWHEMw-1; Mon, 08 May 2023 09:10:53 -0400
-X-MC-Unique: euG0b-fBMdSLlbXSiWHEMw-1
+ us-mta-617-HRWezuDcNJGpaqw5GQ6SiA-1; Mon, 08 May 2023 09:10:57 -0400
+X-MC-Unique: HRWezuDcNJGpaqw5GQ6SiA-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
  [10.11.54.6])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id BE8333813F53;
- Mon,  8 May 2023 13:10:52 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D99F084AF30;
+ Mon,  8 May 2023 13:10:56 +0000 (UTC)
 Received: from secure.mitica (unknown [10.39.193.236])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 26BEE2166B40;
- Mon,  8 May 2023 13:10:48 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0C1BD2166B40;
+ Mon,  8 May 2023 13:10:52 +0000 (UTC)
 From: Juan Quintela <quintela@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Daniel Henrique Barboza <danielhb413@gmail.com>,
@@ -60,9 +60,9 @@ Cc: Daniel Henrique Barboza <danielhb413@gmail.com>,
  Thomas Huth <thuth@redhat.com>,
  =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
  Leonardo Bras <leobras@redhat.com>, Ilya Leoshkevich <iii@linux.ibm.com>
-Subject: [PATCH 17/21] migration/rdma: Remove QEMUFile parameter when not used
-Date: Mon,  8 May 2023 15:09:05 +0200
-Message-Id: <20230508130909.65420-18-quintela@redhat.com>
+Subject: [PATCH 18/21] migration/rdma: Don't use imaginary transfers
+Date: Mon,  8 May 2023 15:09:06 +0200
+Message-Id: <20230508130909.65420-19-quintela@redhat.com>
 In-Reply-To: <20230508130909.65420-1-quintela@redhat.com>
 References: <20230508130909.65420-1-quintela@redhat.com>
 MIME-Version: 1.0
@@ -92,118 +92,48 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+RDMA protocol is completely asynchronous, so in qemu_rdma_save_page()
+they "invent" that a byte has been transferred.  And then they call
+qemu_file_credit_transfer() and ram_transferred_add() with that byte.
+Just remove that calls as nothing has been sent.
+
 Signed-off-by: Juan Quintela <quintela@redhat.com>
 ---
- migration/rdma.c | 23 +++++++++++------------
- 1 file changed, 11 insertions(+), 12 deletions(-)
+ migration/qemu-file.c | 5 +----
+ migration/ram.c       | 1 -
+ 2 files changed, 1 insertion(+), 5 deletions(-)
 
-diff --git a/migration/rdma.c b/migration/rdma.c
-index 941797506a..dac3d91e16 100644
---- a/migration/rdma.c
-+++ b/migration/rdma.c
-@@ -2027,7 +2027,7 @@ static int qemu_rdma_exchange_recv(RDMAContext *rdma, RDMAControlHeader *head,
-  * If we're using dynamic registration on the dest-side, we have to
-  * send a registration command first.
-  */
--static int qemu_rdma_write_one(QEMUFile *f, RDMAContext *rdma,
-+static int qemu_rdma_write_one(RDMAContext *rdma,
-                                int current_index, uint64_t current_addr,
-                                uint64_t length)
- {
-@@ -2263,7 +2263,7 @@ retry:
-  * We support sending out multiple chunks at the same time.
-  * Not all of them need to get signaled in the completion queue.
-  */
--static int qemu_rdma_write_flush(QEMUFile *f, RDMAContext *rdma)
-+static int qemu_rdma_write_flush(RDMAContext *rdma)
- {
-     int ret;
+diff --git a/migration/qemu-file.c b/migration/qemu-file.c
+index 0086d67d83..951f046c39 100644
+--- a/migration/qemu-file.c
++++ b/migration/qemu-file.c
+@@ -346,13 +346,10 @@ size_t ram_control_save_page(QEMUFile *f, ram_addr_t block_offset,
  
-@@ -2271,7 +2271,7 @@ static int qemu_rdma_write_flush(QEMUFile *f, RDMAContext *rdma)
-         return 0;
-     }
- 
--    ret = qemu_rdma_write_one(f, rdma,
-+    ret = qemu_rdma_write_one(rdma,
-             rdma->current_index, rdma->current_addr, rdma->current_length);
- 
-     if (ret < 0) {
-@@ -2344,7 +2344,7 @@ static inline int qemu_rdma_buffer_mergable(RDMAContext *rdma,
-  *    and only require that a batch gets acknowledged in the completion
-  *    queue instead of each individual chunk.
-  */
--static int qemu_rdma_write(QEMUFile *f, RDMAContext *rdma,
-+static int qemu_rdma_write(RDMAContext *rdma,
-                            uint64_t block_offset, uint64_t offset,
-                            uint64_t len)
- {
-@@ -2355,7 +2355,7 @@ static int qemu_rdma_write(QEMUFile *f, RDMAContext *rdma,
- 
-     /* If we cannot merge it, we flush the current buffer first. */
-     if (!qemu_rdma_buffer_mergable(rdma, current_addr, len)) {
--        ret = qemu_rdma_write_flush(f, rdma);
-+        ret = qemu_rdma_write_flush(rdma);
-         if (ret) {
-             return ret;
+         if (ret != RAM_SAVE_CONTROL_DELAYED &&
+             ret != RAM_SAVE_CONTROL_NOT_SUPP) {
+-            if (bytes_sent && *bytes_sent > 0) {
+-                qemu_file_credit_transfer(f, *bytes_sent);
+-            } else if (ret < 0) {
++            if (ret < 0) {
+                 qemu_file_set_error(f, ret);
+             }
          }
-@@ -2377,7 +2377,7 @@ static int qemu_rdma_write(QEMUFile *f, RDMAContext *rdma,
- 
-     /* flush it if buffer is too large */
-     if (rdma->current_length >= RDMA_MERGE_MAX) {
--        return qemu_rdma_write_flush(f, rdma);
-+        return qemu_rdma_write_flush(rdma);
+-
+         return ret;
      }
  
-     return 0;
-@@ -2798,7 +2798,6 @@ static ssize_t qio_channel_rdma_writev(QIOChannel *ioc,
-                                        Error **errp)
- {
-     QIOChannelRDMA *rioc = QIO_CHANNEL_RDMA(ioc);
--    QEMUFile *f = rioc->file;
-     RDMAContext *rdma;
-     int ret;
-     ssize_t done = 0;
-@@ -2819,7 +2818,7 @@ static ssize_t qio_channel_rdma_writev(QIOChannel *ioc,
-      * Push out any writes that
-      * we're queued up for VM's ram.
-      */
--    ret = qemu_rdma_write_flush(f, rdma);
-+    ret = qemu_rdma_write_flush(rdma);
-     if (ret < 0) {
-         rdma->error_state = ret;
-         error_setg(errp, "qemu_rdma_write_flush returned %d", ret);
-@@ -2958,11 +2957,11 @@ static ssize_t qio_channel_rdma_readv(QIOChannel *ioc,
- /*
-  * Block until all the outstanding chunks have been delivered by the hardware.
-  */
--static int qemu_rdma_drain_cq(QEMUFile *f, RDMAContext *rdma)
-+static int qemu_rdma_drain_cq(RDMAContext *rdma)
- {
-     int ret;
- 
--    if (qemu_rdma_write_flush(f, rdma) < 0) {
-+    if (qemu_rdma_write_flush(rdma) < 0) {
-         return -EIO;
+diff --git a/migration/ram.c b/migration/ram.c
+index 558f2ed3b1..f889e39a20 100644
+--- a/migration/ram.c
++++ b/migration/ram.c
+@@ -1349,7 +1349,6 @@ static bool control_save_page(PageSearchStatus *pss, RAMBlock *block,
      }
  
-@@ -3272,7 +3271,7 @@ static size_t qemu_rdma_save_page(QEMUFile *f,
-      * is full, or the page doesn't belong to the current chunk,
-      * an actual RDMA write will occur and a new chunk will be formed.
-      */
--    ret = qemu_rdma_write(f, rdma, block_offset, offset, size);
-+    ret = qemu_rdma_write(rdma, block_offset, offset, size);
-     if (ret < 0) {
-         error_report("rdma migration: write error! %d", ret);
-         goto err;
-@@ -3928,7 +3927,7 @@ static int qemu_rdma_registration_stop(QEMUFile *f,
-     CHECK_ERROR_STATE();
+     if (bytes_xmit) {
+-        ram_transferred_add(bytes_xmit);
+         *pages = 1;
+     }
  
-     qemu_fflush(f);
--    ret = qemu_rdma_drain_cq(f, rdma);
-+    ret = qemu_rdma_drain_cq(rdma);
- 
-     if (ret < 0) {
-         goto err;
 -- 
 2.40.0
 
