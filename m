@@ -2,37 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA4DC6FA1BF
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 May 2023 10:00:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C3C66FA1CE
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 May 2023 10:01:02 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pvvmJ-0007z4-OC; Mon, 08 May 2023 03:59:27 -0400
+	id 1pvvmK-0007zv-Gf; Mon, 08 May 2023 03:59:28 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <SRS0=5sq4=A5=kaod.org=clg@ozlabs.org>)
- id 1pvvmF-0007xc-7k; Mon, 08 May 2023 03:59:23 -0400
+ id 1pvvmG-0007xx-T1; Mon, 08 May 2023 03:59:24 -0400
 Received: from gandalf.ozlabs.org ([150.107.74.76])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <SRS0=5sq4=A5=kaod.org=clg@ozlabs.org>)
- id 1pvvmD-00016d-7a; Mon, 08 May 2023 03:59:22 -0400
+ id 1pvvmD-00016x-81; Mon, 08 May 2023 03:59:24 -0400
 Received: from gandalf.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
- by gandalf.ozlabs.org (Postfix) with ESMTP id 4QFDFv1HrMz4x48;
- Mon,  8 May 2023 17:59:15 +1000 (AEST)
+ by gandalf.ozlabs.org (Postfix) with ESMTP id 4QFDFy4n0wz4x4D;
+ Mon,  8 May 2023 17:59:18 +1000 (AEST)
 Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4QFDFs05yKz4x44;
- Mon,  8 May 2023 17:59:12 +1000 (AEST)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4QFDFv587vz4whj;
+ Mon,  8 May 2023 17:59:15 +1000 (AEST)
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: qemu-arm@nongnu.org
 Cc: qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
  Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>,
- =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
-Subject: [PATCH 02/12] aspeed: Introduce a boot_rom region at the machine level
-Date: Mon,  8 May 2023 09:58:49 +0200
-Message-Id: <20230508075859.3326566-3-clg@kaod.org>
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
+ Peter Delevoryas <peter@pjd.dev>
+Subject: [PATCH 03/12] aspeed: Use the boot_rom region of the fby35 machine
+Date: Mon,  8 May 2023 09:58:50 +0200
+Message-Id: <20230508075859.3326566-4-clg@kaod.org>
 X-Mailer: git-send-email 2.40.0
 In-Reply-To: <20230508075859.3326566-1-clg@kaod.org>
 References: <20230508075859.3326566-1-clg@kaod.org>
@@ -62,56 +63,69 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-This should also avoid Coverity to report a memory leak warning when
-the QEMU process exits. See CID 1508061.
+This change completes commits 5aa281d757 ("aspeed: Introduce a
+spi_boot region under the SoC") and 8b744a6a47 ("aspeed: Add a
+boot_rom overlap region in the SoC spi_boot container") which
+introduced a spi_boot container at the SoC level to map the boot rom
+region as an overlap.
 
+It also fixes a Coverity report (CID 1508061) for a memory leak
+warning when the QEMU process exits by using an bmc_boot_rom
+MemoryRegion available at the machine level.
+
+Cc: Peter Delevoryas <peter@pjd.dev>
 Signed-off-by: Cédric Le Goater <clg@kaod.org>
 ---
- hw/arm/aspeed.c | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+ hw/arm/fby35.c | 29 +++++++++++++++--------------
+ 1 file changed, 15 insertions(+), 14 deletions(-)
 
-diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
-index 0b29028fe1..b654513f35 100644
---- a/hw/arm/aspeed.c
-+++ b/hw/arm/aspeed.c
-@@ -40,6 +40,7 @@ struct AspeedMachineState {
-     /* Public */
+diff --git a/hw/arm/fby35.c b/hw/arm/fby35.c
+index f4600c290b..f2ff6c1abf 100644
+--- a/hw/arm/fby35.c
++++ b/hw/arm/fby35.c
+@@ -70,8 +70,6 @@ static void fby35_bmc_write_boot_rom(DriveInfo *dinfo, MemoryRegion *mr,
  
-     AspeedSoCState soc;
-+    MemoryRegion boot_rom;
-     bool mmio_exec;
-     char *fmc_model;
-     char *spi_model;
-@@ -275,15 +276,15 @@ static void write_boot_rom(BlockBackend *blk, hwaddr addr, size_t rom_size,
-  * Create a ROM and copy the flash contents at the expected address
-  * (0x0). Boots faster than execute-in-place.
-  */
--static void aspeed_install_boot_rom(AspeedSoCState *soc, BlockBackend *blk,
-+static void aspeed_install_boot_rom(AspeedMachineState *bmc, BlockBackend *blk,
-                                     uint64_t rom_size)
+ static void fby35_bmc_init(Fby35State *s)
  {
--    MemoryRegion *boot_rom = g_new(MemoryRegion, 1);
-+    AspeedSoCState *soc = &bmc->soc;
+-    DriveInfo *drive0 = drive_get(IF_MTD, 0, 0);
+-
+     object_initialize_child(OBJECT(s), "bmc", &s->bmc, "ast2600-a3");
  
--    memory_region_init_rom(boot_rom, NULL, "aspeed.boot_rom", rom_size,
-+    memory_region_init_rom(&bmc->boot_rom, NULL, "aspeed.boot_rom", rom_size,
-                            &error_abort);
-     memory_region_add_subregion_overlap(&soc->spi_boot_container, 0,
--                                        boot_rom, 1);
-+                                        &bmc->boot_rom, 1);
-     write_boot_rom(blk, ASPEED_SOC_SPI_BOOT_ADDR, rom_size, &error_abort);
- }
+     memory_region_init(&s->bmc_memory, OBJECT(&s->bmc), "bmc-memory",
+@@ -95,18 +93,21 @@ static void fby35_bmc_init(Fby35State *s)
+     aspeed_board_init_flashes(&s->bmc.fmc, "n25q00", 2, 0);
  
-@@ -431,8 +432,7 @@ static void aspeed_machine_init(MachineState *machine)
- 
-         if (mtd0) {
-             uint64_t rom_size = memory_region_size(&bmc->soc.spi_boot);
--            aspeed_install_boot_rom(&bmc->soc, blk_by_legacy_dinfo(mtd0),
--                                    rom_size);
-+            aspeed_install_boot_rom(bmc, blk_by_legacy_dinfo(mtd0), rom_size);
+     /* Install first FMC flash content as a boot rom. */
+-    if (drive0) {
+-        AspeedSMCFlash *fl = &s->bmc.fmc.flashes[0];
+-        MemoryRegion *boot_rom = g_new(MemoryRegion, 1);
+-        uint64_t size = memory_region_size(&fl->mmio);
+-
+-        if (!s->mmio_exec) {
+-            memory_region_init_rom(boot_rom, NULL, "aspeed.boot_rom",
+-                                   size, &error_abort);
+-            memory_region_add_subregion(&s->bmc_memory, FBY35_BMC_FIRMWARE_ADDR,
+-                                        boot_rom);
+-            fby35_bmc_write_boot_rom(drive0, boot_rom, FBY35_BMC_FIRMWARE_ADDR,
+-                                     size, &error_abort);
++    if (!s->mmio_exec) {
++        DriveInfo *mtd0 = drive_get(IF_MTD, 0, 0);
++
++        if (mtd0) {
++            AspeedSoCState *bmc = &s->bmc;
++            uint64_t rom_size = memory_region_size(&bmc->spi_boot);
++
++            memory_region_init_rom(&s->bmc_boot_rom, NULL, "aspeed.boot_rom",
++                                   rom_size, &error_abort);
++            memory_region_add_subregion_overlap(&bmc->spi_boot_container, 0,
++                                                &s->bmc_boot_rom, 1);
++
++            fby35_bmc_write_boot_rom(mtd0, &s->bmc_boot_rom,
++                                     FBY35_BMC_FIRMWARE_ADDR,
++                                     rom_size, &error_abort);
          }
      }
- 
+ }
 -- 
 2.40.0
 
