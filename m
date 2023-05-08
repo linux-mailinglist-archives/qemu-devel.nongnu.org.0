@@ -2,54 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C8F16FA1DE
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F9FB6FA1DF
 	for <lists+qemu-devel@lfdr.de>; Mon,  8 May 2023 10:04:01 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pvvmo-0008Kh-JX; Mon, 08 May 2023 03:59:58 -0400
+	id 1pvvmo-0008KN-HQ; Mon, 08 May 2023 03:59:58 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <SRS0=5sq4=A5=kaod.org=clg@ozlabs.org>)
- id 1pvvmZ-00086x-F2; Mon, 08 May 2023 03:59:44 -0400
-Received: from mail.ozlabs.org ([2404:9400:2221:ea00::3]
- helo=gandalf.ozlabs.org)
+ id 1pvvmg-00087y-H4; Mon, 08 May 2023 03:59:52 -0400
+Received: from gandalf.ozlabs.org ([150.107.74.76])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <SRS0=5sq4=A5=kaod.org=clg@ozlabs.org>)
- id 1pvvmX-0001E5-NX; Mon, 08 May 2023 03:59:43 -0400
-Received: from gandalf.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
- by gandalf.ozlabs.org (Postfix) with ESMTP id 4QFDGM045wz4x49;
- Mon,  8 May 2023 17:59:39 +1000 (AEST)
+ id 1pvvme-0001IP-31; Mon, 08 May 2023 03:59:50 -0400
+Received: from gandalf.ozlabs.org (mail.ozlabs.org
+ [IPv6:2404:9400:2221:ea00::3])
+ by gandalf.ozlabs.org (Postfix) with ESMTP id 4QFDGS6CCLz4x4D;
+ Mon,  8 May 2023 17:59:44 +1000 (AEST)
 Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4QFDGJ5ydrz4whj;
- Mon,  8 May 2023 17:59:36 +1000 (AEST)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4QFDGQ4V0Hz4whj;
+ Mon,  8 May 2023 17:59:42 +1000 (AEST)
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: qemu-arm@nongnu.org
 Cc: qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
  Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>,
  =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
-Subject: [PATCH 10/12] aspeed: Get the BlockBackend of FMC0 from the flash
- device
-Date: Mon,  8 May 2023 09:58:57 +0200
-Message-Id: <20230508075859.3326566-11-clg@kaod.org>
+Subject: [PATCH 12/12] target/arm: Allow users to set the number of VFP
+ registers
+Date: Mon,  8 May 2023 09:58:59 +0200
+Message-Id: <20230508075859.3326566-13-clg@kaod.org>
 X-Mailer: git-send-email 2.40.0
 In-Reply-To: <20230508075859.3326566-1-clg@kaod.org>
 References: <20230508075859.3326566-1-clg@kaod.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2404:9400:2221:ea00::3;
+Received-SPF: pass client-ip=150.107.74.76;
  envelope-from=SRS0=5sq4=A5=kaod.org=clg@ozlabs.org; helo=gandalf.ozlabs.org
-X-Spam_score_int: -39
-X-Spam_score: -4.0
-X-Spam_bar: ----
-X-Spam_report: (-4.0 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_score_int: -16
+X-Spam_score: -1.7
+X-Spam_bar: -
+X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -65,41 +64,103 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-and get rid of an unnecessary drive_get(IF_MTD) call.
+Cortex A7 CPUs with an FPU implementing VFPv4 without NEON support
+have 16 64-bit FPU registers and not 32 registers. Let users set the
+number of VFP registers with a CPU property.
+
+The primary use case of this property is for the Cortex A7 of the
+Aspeed AST2600 SoC.
 
 Signed-off-by: Cédric Le Goater <clg@kaod.org>
 ---
- hw/arm/aspeed.c | 8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
+ target/arm/cpu.h        |  2 ++
+ hw/arm/aspeed_ast2600.c |  2 ++
+ target/arm/cpu.c        | 32 ++++++++++++++++++++++++++++++++
+ 3 files changed, 36 insertions(+)
 
-diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
-index a8832c0072..3d5488faf7 100644
---- a/hw/arm/aspeed.c
-+++ b/hw/arm/aspeed.c
-@@ -15,6 +15,7 @@
- #include "hw/arm/aspeed.h"
- #include "hw/arm/aspeed_soc.h"
- #include "hw/arm/aspeed_eeprom.h"
-+#include "hw/block/flash.h"
- #include "hw/i2c/i2c_mux_pca954x.h"
- #include "hw/i2c/smbus_eeprom.h"
- #include "hw/misc/pca9552.h"
-@@ -427,11 +428,12 @@ static void aspeed_machine_init(MachineState *machine)
-     }
+diff --git a/target/arm/cpu.h b/target/arm/cpu.h
+index d469a2637b..79f1a96ddf 100644
+--- a/target/arm/cpu.h
++++ b/target/arm/cpu.h
+@@ -916,6 +916,8 @@ struct ArchCPU {
+     bool has_pmu;
+     /* CPU has VFP */
+     bool has_vfp;
++    /* CPU has 32 VFP registers */
++    bool has_vfp_d32;
+     /* CPU has Neon */
+     bool has_neon;
+     /* CPU has M-profile DSP extension */
+diff --git a/hw/arm/aspeed_ast2600.c b/hw/arm/aspeed_ast2600.c
+index 1bf1246148..a8b3a8065a 100644
+--- a/hw/arm/aspeed_ast2600.c
++++ b/hw/arm/aspeed_ast2600.c
+@@ -316,6 +316,8 @@ static void aspeed_soc_ast2600_realize(DeviceState *dev, Error **errp)
+                                 &error_abort);
+         object_property_set_bool(OBJECT(&s->cpu[i]), "neon", false,
+                                 &error_abort);
++        object_property_set_bool(OBJECT(&s->cpu[i]), "vfp-d32", false,
++                                &error_abort);
+         object_property_set_link(OBJECT(&s->cpu[i]), "memory",
+                                  OBJECT(s->memory), &error_abort);
  
-     if (!bmc->mmio_exec) {
--        DriveInfo *mtd0 = drive_get(IF_MTD, 0, 0);
-+        DeviceState *dev = ssi_get_cs(bmc->soc.fmc.spi, 0);
-+        BlockBackend *fmc0 = dev ? m25p80_get_blk(dev) : NULL;
+diff --git a/target/arm/cpu.c b/target/arm/cpu.c
+index 5182ed0c91..74fe6ae781 100644
+--- a/target/arm/cpu.c
++++ b/target/arm/cpu.c
+@@ -1275,6 +1275,9 @@ static Property arm_cpu_cfgend_property =
+ static Property arm_cpu_has_vfp_property =
+             DEFINE_PROP_BOOL("vfp", ARMCPU, has_vfp, true);
  
--        if (mtd0) {
-+        if (fmc0) {
-             uint64_t rom_size = memory_region_size(&bmc->soc.spi_boot);
--            aspeed_install_boot_rom(bmc, blk_by_legacy_dinfo(mtd0), rom_size);
-+            aspeed_install_boot_rom(bmc, fmc0, rom_size);
++static Property arm_cpu_has_vfp_d32_property =
++            DEFINE_PROP_BOOL("vfp-d32", ARMCPU, has_vfp_d32, true);
++
+ static Property arm_cpu_has_neon_property =
+             DEFINE_PROP_BOOL("neon", ARMCPU, has_neon, true);
+ 
+@@ -1406,6 +1409,22 @@ void arm_cpu_post_init(Object *obj)
          }
      }
  
++    if (cpu->has_vfp && cpu_isar_feature(aa32_simd_r32, cpu)) {
++        cpu->has_vfp_d32 = true;
++        if (!kvm_enabled()) {
++            /*
++             * The permitted values of the SIMDReg bits [3:0] on
++             * Armv8-A are either 0b0000 and 0b0010. On such CPUs,
++             * make sure that has_vfp_d32 can not be set to false.
++             */
++            if (!(arm_feature(&cpu->env, ARM_FEATURE_V8) &&
++                  !arm_feature(&cpu->env, ARM_FEATURE_M))) {
++                qdev_property_add_static(DEVICE(obj),
++                                         &arm_cpu_has_vfp_d32_property);
++            }
++        }
++    }
++
+     if (arm_feature(&cpu->env, ARM_FEATURE_NEON)) {
+         cpu->has_neon = true;
+         if (!kvm_enabled()) {
+@@ -1672,6 +1691,19 @@ static void arm_cpu_realizefn(DeviceState *dev, Error **errp)
+         return;
+     }
+ 
++    if (cpu->has_vfp_d32 != cpu->has_neon) {
++        error_setg(errp, "ARM CPUs must have both VFP-D32 and Neon or neither");
++        return;
++    }
++
++   if (!cpu->has_vfp_d32) {
++        uint32_t u;
++
++        u = cpu->isar.mvfr0;
++        u = FIELD_DP32(u, MVFR0, SIMDREG, 1); /* 16 registers */
++        cpu->isar.mvfr0 = u;
++    }
++
+     if (!cpu->has_vfp) {
+         uint64_t t;
+         uint32_t u;
 -- 
 2.40.0
 
