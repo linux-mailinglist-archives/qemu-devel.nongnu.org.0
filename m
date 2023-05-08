@@ -2,108 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CDABB6FB7B9
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 May 2023 21:50:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A7506FB820
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 May 2023 22:09:55 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pw6rT-00033W-9b; Mon, 08 May 2023 15:49:31 -0400
+	id 1pw7Am-0007Q7-Ew; Mon, 08 May 2023 16:09:28 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <nsg@linux.ibm.com>)
- id 1pw6rN-000336-HA; Mon, 08 May 2023 15:49:25 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <nsg@linux.ibm.com>)
- id 1pw6rL-00045F-Qf; Mon, 08 May 2023 15:49:25 -0400
-Received: from pps.filterd (m0353726.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 348Ja39D030678; Mon, 8 May 2023 19:49:12 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : subject :
- from : to : cc : date : in-reply-to : references : content-type :
- content-transfer-encoding : mime-version; s=pp1;
- bh=xpAmPqrHF5oYwlnywRYn7jZcYE6eK61sVouVCB+sObc=;
- b=qkQv7VpLC2rJcDUXGzp8F0ggL1dv9+PvoYjr026igOKatry8+WAGNgvJLxfTN6R1Kh4u
- lLsX7nGPHE+a52/wZYFzf7Zt5tfWaKJG1E1+M+Es2ytRd9CnVinJTm6TmVIbrch9QQDb
- FjrQrO4qnWV6wvlK1h4s2CPyN084J+DyO9RGreCd1Co+GINX0/0oNeqiC0HSSp54gXc3
- KQQDtBJXJzu+VKoCQ1tqx4geRL8qE/eqv69H/0H7w3TAIc8VXgHXv6/rwb9Oo9hnE2m7
- 9FinpubzgAMOAtHduz+2UhjeY9UxspfXUCnzgY5c80Wygpq1rao9YfpKU2Cqy9aCmPiM mw== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3qf7cg8fsr-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 08 May 2023 19:49:11 +0000
-Received: from m0353726.ppops.net (m0353726.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 348Jc0JC003485;
- Mon, 8 May 2023 19:49:11 GMT
-Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.102])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3qf7cg8fq8-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 08 May 2023 19:49:11 +0000
-Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
- by ppma06ams.nl.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 348I5FmR020367;
- Mon, 8 May 2023 19:49:07 GMT
-Received: from smtprelay01.fra02v.mail.ibm.com ([9.218.2.227])
- by ppma06ams.nl.ibm.com (PPS) with ESMTPS id 3qde5fhan4-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 08 May 2023 19:49:07 +0000
-Received: from smtpav04.fra02v.mail.ibm.com (smtpav04.fra02v.mail.ibm.com
- [10.20.54.103])
- by smtprelay01.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 348Jn1b411076120
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 8 May 2023 19:49:02 GMT
-Received: from smtpav04.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id E2EC72004B;
- Mon,  8 May 2023 19:49:01 +0000 (GMT)
-Received: from smtpav04.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id C526620043;
- Mon,  8 May 2023 19:49:00 +0000 (GMT)
-Received: from li-7e0de7cc-2d9d-11b2-a85c-de26c016e5ad.ibm.com (unknown
- [9.171.71.193]) by smtpav04.fra02v.mail.ibm.com (Postfix) with ESMTP;
- Mon,  8 May 2023 19:49:00 +0000 (GMT)
-Message-ID: <12bcbb44bfd2b6708bc74509ec5b6053af8614bc.camel@linux.ibm.com>
-Subject: Re: [PATCH v20 10/21] machine: adding s390 topology to info
- hotpluggable-cpus
-From: Nina Schoetterl-Glausch <nsg@linux.ibm.com>
-To: Pierre Morel <pmorel@linux.ibm.com>, qemu-s390x@nongnu.org
-Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
- richard.henderson@linaro.org, david@redhat.com, thuth@redhat.com,
- cohuck@redhat.com, mst@redhat.com, pbonzini@redhat.com,
- kvm@vger.kernel.org, ehabkost@redhat.com, marcel.apfelbaum@gmail.com,
- eblake@redhat.com, armbru@redhat.com, seiden@linux.ibm.com,
- nrb@linux.ibm.com, frankja@linux.ibm.com, berrange@redhat.com, clg@kaod.org
-Date: Mon, 08 May 2023 21:49:00 +0200
-In-Reply-To: <20230425161456.21031-11-pmorel@linux.ibm.com>
-References: <20230425161456.21031-1-pmorel@linux.ibm.com>
- <20230425161456.21031-11-pmorel@linux.ibm.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.4 (3.46.4-1.fc37) 
+ (Exim 4.90_1) (envelope-from <wei.liu.linux@gmail.com>)
+ id 1pw4gF-0008M1-0Z
+ for qemu-devel@nongnu.org; Mon, 08 May 2023 13:29:47 -0400
+Received: from mail-pf1-f180.google.com ([209.85.210.180])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <wei.liu.linux@gmail.com>)
+ id 1pw4gD-0004ev-Ew
+ for qemu-devel@nongnu.org; Mon, 08 May 2023 13:29:46 -0400
+Received: by mail-pf1-f180.google.com with SMTP id
+ d2e1a72fcca58-6439bbc93b6so3004202b3a.1
+ for <qemu-devel@nongnu.org>; Mon, 08 May 2023 10:29:44 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1683566983; x=1686158983;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=3rfke9qB1DRHiCuMEOyzzXuV8oi0P7zjijqnIYynp3o=;
+ b=DAXdMg0Fg+awVEB+UIKUBF69+aqdne7WNdHtIjDIEiAeQuTRXlDd+AYGG7R+U1OQKs
+ xm1eLrYuwNPTWtPUB2J1L4fqk7ZgoPN4IDAYQI6IRZwlqC3nOXj+QoIM/BX8O2nGOe0L
+ utzvVmhJ21IlsHOV8LSoXcEhfbnf7WYwonDEKN47Ib5qvP7XSm2nN+4XKusSBqtKHVoT
+ RrPO4BB7rRFr4OHtRJSMz/YfET/qSHihB0BpN7l84E5zSSEE8qWMFX1KziHTPtUQLi7s
+ ckX5RBS2ICmGPidDA2HxBJTH+v901BkTgQhFshlKeHpbz2H1EQMah75JpDTbe5+AhKTV
+ xZHQ==
+X-Gm-Message-State: AC+VfDz/6uJuwDapuXQhRKnoPXf8bLHzQ5Af+H26H3okk3W5j2zCT/0m
+ rlEyTiLadbHGz4F09ior9NQ=
+X-Google-Smtp-Source: ACHHUZ75U4lCk4iijzyP5tOZ0JsVrz/EkvkWJ7HQDBXg3iSt23KVdFrierjfNZySz59EZ1uNpntsKQ==
+X-Received: by 2002:a05:6a20:a107:b0:ff:7c74:a799 with SMTP id
+ q7-20020a056a20a10700b000ff7c74a799mr11302220pzk.9.1683566983497; 
+ Mon, 08 May 2023 10:29:43 -0700 (PDT)
+Received: from liuwe-devbox-debian-v2 ([20.69.120.36])
+ by smtp.gmail.com with ESMTPSA id
+ i4-20020aa787c4000000b0063d2d9990ecsm232036pfo.87.2023.05.08.10.29.42
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 08 May 2023 10:29:43 -0700 (PDT)
+Date: Mon, 8 May 2023 17:29:41 +0000
+From: Wei Liu <wei.liu@kernel.org>
+To: =?iso-8859-1?Q?Micka=EBl_Sala=FCn?= <mic@digikod.net>
+Cc: Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
+ "H . Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
+ Kees Cook <keescook@chromium.org>, Paolo Bonzini <pbonzini@redhat.com>,
+ Sean Christopherson <seanjc@google.com>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Vitaly Kuznetsov <vkuznets@redhat.com>, Wanpeng Li <wanpengli@tencent.com>,
+ Alexander Graf <graf@amazon.com>, Forrest Yuan Yu <yuanyu@google.com>,
+ James Morris <jamorris@linux.microsoft.com>,
+ John Andersen <john.s.andersen@intel.com>,
+ Liran Alon <liran.alon@oracle.com>,
+ "Madhavan T . Venkataraman" <madvenka@linux.microsoft.com>,
+ Marian Rotariu <marian.c.rotariu@gmail.com>,
+ Mihai =?utf-8?B?RG9uyJt1?= <mdontu@bitdefender.com>,
+ =?utf-8?B?TmljdciZb3IgQ8OuyJt1?= <nicu.citu@icloud.com>,
+ Rick Edgecombe <rick.p.edgecombe@intel.com>,
+ Thara Gopinath <tgopinath@microsoft.com>, Will Deacon <will@kernel.org>,
+ Zahra Tarkhani <ztarkhani@microsoft.com>,
+ =?utf-8?Q?=C8=98tefan_=C8=98icleru?= <ssicleru@bitdefender.com>,
+ dev@lists.cloudhypervisor.org, kvm@vger.kernel.org,
+ linux-hardening@vger.kernel.org, linux-hyperv@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-security-module@vger.kernel.org,
+ qemu-devel@nongnu.org, virtualization@lists.linux-foundation.org,
+ x86@kernel.org, xen-devel@lists.xenproject.org,
+ Wei Liu <wei.liu@kernel.org>
+Subject: Re: [PATCH v1 3/9] virt: Implement Heki common code
+Message-ID: <ZFkxhWhjyIzrPkt8@liuwe-devbox-debian-v2>
+References: <20230505152046.6575-1-mic@digikod.net>
+ <20230505152046.6575-4-mic@digikod.net>
 MIME-Version: 1.0
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: y3izFwDjGx0qYW0PvJbej3x3vv2m-IMV
-X-Proofpoint-GUID: v_bgneZkB7DR0MKNwQE1AccnsSS9ve71
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-05-08_15,2023-05-05_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 suspectscore=0
- impostorscore=0 spamscore=0 lowpriorityscore=0 bulkscore=0 mlxlogscore=999
- adultscore=0 malwarescore=0 clxscore=1015 phishscore=0 priorityscore=1501
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2304280000
- definitions=main-2305080130
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=nsg@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230505152046.6575-4-mic@digikod.net>
+Received-SPF: pass client-ip=209.85.210.180;
+ envelope-from=wei.liu.linux@gmail.com; helo=mail-pf1-f180.google.com
+X-Spam_score_int: -13
+X-Spam_score: -1.4
+X-Spam_bar: -
+X-Spam_report: (-1.4 / 5.0 requ) BAYES_00=-1.9,
+ FREEMAIL_FORGED_FROMDOMAIN=0.249, FREEMAIL_FROM=0.001,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Mon, 08 May 2023 16:09:26 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -118,46 +106,95 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, 2023-04-25 at 18:14 +0200, Pierre Morel wrote:
-> S390 topology adds books and drawers topology containers.
-> Let's add these to the HMP information for hotpluggable cpus.
->=20
-> Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
+On Fri, May 05, 2023 at 05:20:40PM +0200, Mickaël Salaün wrote:
+> From: Madhavan T. Venkataraman <madvenka@linux.microsoft.com>
+> 
+> Hypervisor Enforced Kernel Integrity (Heki) is a feature that will use
+> the hypervisor to enhance guest virtual machine security.
+> 
+> Configuration
+> =============
+> 
+> Define the config variables for the feature. This feature depends on
+> support from the architecture as well as the hypervisor.
+> 
+> Enabling HEKI
+> =============
+> 
+> Define a kernel command line parameter "heki" to turn the feature on or
+> off. By default, Heki is on.
 
-Reviewed-by: Nina Schoetterl-Glausch <nsg@linux.ibm.com>
+For such a newfangled feature can we have it off by default? Especially
+when there are unsolved issues around dynamically loaded code.
 
-if you fix the nits below.
-> ---
->  hw/core/machine-hmp-cmds.c | 6 ++++++
->  1 file changed, 6 insertions(+)
->=20
-> diff --git a/hw/core/machine-hmp-cmds.c b/hw/core/machine-hmp-cmds.c
-> index c3e55ef9e9..971212242d 100644
-> --- a/hw/core/machine-hmp-cmds.c
-> +++ b/hw/core/machine-hmp-cmds.c
-> @@ -71,6 +71,12 @@ void hmp_hotpluggable_cpus(Monitor *mon, const QDict *=
-qdict)
->          if (c->has_node_id) {
->              monitor_printf(mon, "    node-id: \"%" PRIu64 "\"\n", c->nod=
-e_id);
->          }
-> +        if (c->has_drawer_id) {
-> +            monitor_printf(mon, "    drawer_id: \"%" PRIu64 "\"\n", c->d=
-rawer_id);
+> 
+[...]
+> diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
+> index 3604074a878b..5cf5a7a97811 100644
+> --- a/arch/x86/Kconfig
+> +++ b/arch/x86/Kconfig
+> @@ -297,6 +297,7 @@ config X86
+>  	select FUNCTION_ALIGNMENT_4B
+>  	imply IMA_SECURE_AND_OR_TRUSTED_BOOT    if EFI
+>  	select HAVE_DYNAMIC_FTRACE_NO_PATCHABLE
+> +	select ARCH_SUPPORTS_HEKI		if X86_64
 
-                           use - instead here ^ unless there is some reason=
- to be inconsistent.
-> +        }
-> +        if (c->has_book_id) {
-> +            monitor_printf(mon, "      book_id: \"%" PRIu64 "\"\n", c->b=
-ook_id);
+Why is there a restriction on X86_64?
 
-Same here.
+>  
+>  config INSTRUCTION_DECODER
+>  	def_bool y
+> diff --git a/arch/x86/include/asm/sections.h b/arch/x86/include/asm/sections.h
+> index a6e8373a5170..42ef1e33b8a5 100644
+> --- a/arch/x86/include/asm/sections.h
+> +++ b/arch/x86/include/asm/sections.h
+[...]
+>  
+> +#ifdef CONFIG_HEKI
+> +
+> +/*
+> + * Gather all of the statically defined sections so heki_late_init() can
+> + * protect these sections in the host page table.
+> + *
+> + * The sections are defined under "SECTIONS" in vmlinux.lds.S
+> + * Keep this array in sync with SECTIONS.
+> + */
 
-> +        }
->          if (c->has_socket_id) {
->              monitor_printf(mon, "    socket-id: \"%" PRIu64 "\"\n", c->s=
-ocket_id);
->          }
+This seems a bit fragile, because it requires constant attention from
+people who care about this functionality. Can this table be
+automatically generated?
 
+Thanks,
+Wei.
+
+> +struct heki_va_range __initdata heki_va_ranges[] = {
+> +	{
+> +		.va_start = _stext,
+> +		.va_end = _etext,
+> +		.attributes = HEKI_ATTR_MEM_NOWRITE | HEKI_ATTR_MEM_EXEC,
+> +	},
+> +	{
+> +		.va_start = __start_rodata,
+> +		.va_end = __end_rodata,
+> +		.attributes = HEKI_ATTR_MEM_NOWRITE,
+> +	},
+> +#ifdef CONFIG_UNWINDER_ORC
+> +	{
+> +		.va_start = __start_orc_unwind_ip,
+> +		.va_end = __stop_orc_unwind_ip,
+> +		.attributes = HEKI_ATTR_MEM_NOWRITE,
+> +	},
+> +	{
+> +		.va_start = __start_orc_unwind,
+> +		.va_end = __stop_orc_unwind,
+> +		.attributes = HEKI_ATTR_MEM_NOWRITE,
+> +	},
+> +	{
+> +		.va_start = orc_lookup,
+> +		.va_end = orc_lookup_end,
+> +		.attributes = HEKI_ATTR_MEM_NOWRITE,
+> +	},
+> +#endif /* CONFIG_UNWINDER_ORC */
+> +};
+> +
 
