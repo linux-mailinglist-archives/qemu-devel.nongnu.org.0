@@ -2,63 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33F8C6FAF9C
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 May 2023 14:04:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4EEDA6FAFB3
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 May 2023 14:13:44 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pvzaZ-0005OY-S9; Mon, 08 May 2023 08:03:35 -0400
+	id 1pvzim-0008Og-6c; Mon, 08 May 2023 08:12:04 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pvzaN-0005Km-PA
- for qemu-devel@nongnu.org; Mon, 08 May 2023 08:03:23 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pvzaM-0005Kk-3n
- for qemu-devel@nongnu.org; Mon, 08 May 2023 08:03:23 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1683547400;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=Q5ILRHrMmCfKsgRxnJL6cqWZzJuLqnLejCVQtrE6ims=;
- b=SEy5U4wfacg5SUod6tb6a56KwkC548+75GzR15RR7xFjJDlH3tM/u0UczyasbdFwm/NByF
- NkjnD7aYSK3KnczTbWsj2Alb/Hzn5r52V1Q/IO5gyD1KDQzjxpqjt4UYs7dV9G/gP04gJf
- HOrLUQw+wxNVpqt3s2igROm/35aSTg4=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-399-Q3TDGavWP5GwVqRiWRh6fA-1; Mon, 08 May 2023 08:03:17 -0400
-X-MC-Unique: Q3TDGavWP5GwVqRiWRh6fA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
- [10.11.54.8])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1CE112999B28;
- Mon,  8 May 2023 12:03:17 +0000 (UTC)
-Received: from thuth.com (unknown [10.39.195.6])
- by smtp.corp.redhat.com (Postfix) with ESMTP id EF02EC164E8;
- Mon,  8 May 2023 12:03:15 +0000 (UTC)
-From: Thomas Huth <thuth@redhat.com>
-To: qemu-devel@nongnu.org, "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- Alistair Francis <alistair@alistair23.me>
-Cc: Jason Wang <jasowang@redhat.com>, qemu-arm@nongnu.org,
- Peter Maydell <peter.maydell@linaro.org>
-Subject: [PATCH] hw/net: Move xilinx_ethlite.c to the target-independent
- source set
-Date: Mon,  8 May 2023 14:03:14 +0200
-Message-Id: <20230508120314.59274-1-thuth@redhat.com>
+ (Exim 4.90_1) (envelope-from <matheus.ferst@eldorado.org.br>)
+ id 1pvzij-0008OW-Ve
+ for qemu-devel@nongnu.org; Mon, 08 May 2023 08:12:01 -0400
+Received: from [200.168.210.66] (helo=outlook.eldorado.org.br)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <matheus.ferst@eldorado.org.br>) id 1pvzif-0008KQ-8m
+ for qemu-devel@nongnu.org; Mon, 08 May 2023 08:11:59 -0400
+Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
+ secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
+ Mon, 8 May 2023 09:11:53 -0300
+Received: from [127.0.0.1] (unknown [10.10.70.45])
+ by p9ibm (Postfix) with ESMTPS id EB0508001CA;
+ Mon,  8 May 2023 09:11:52 -0300 (-03)
+Message-ID: <5e24eb88-8ad0-a46d-a571-3965acb4164f@eldorado.org.br>
+Date: Mon, 8 May 2023 09:11:52 -0300
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH v2] target/ppc: Fix fallback to MFSS for MFFS*
+ instructions on pre 3.0 ISAs
+Content-Language: en-US
+To: Richard Purdie <richard.purdie@linuxfoundation.org>, qemu-devel@nongnu.org
+Cc: =?UTF-8?Q?V=c3=adctor_Colombo?= <victor.colombo@eldorado.org.br>,
+ Daniel Henrique Barboza <danielhb413@gmail.com>,
+ Richard Henderson <richard.henderson@linaro.org>
+References: <20230506065240.3177798-1-richard.purdie@linuxfoundation.org>
+From: "Matheus K. Ferst" <matheus.ferst@eldorado.org.br>
+In-Reply-To: <20230506065240.3177798-1-richard.purdie@linuxfoundation.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-OriginalArrivalTime: 08 May 2023 12:11:53.0667 (UTC)
+ FILETIME=[46CF1130:01D981A6]
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 200.168.210.66 (failed)
+Received-SPF: pass client-ip=200.168.210.66;
+ envelope-from=matheus.ferst@eldorado.org.br; helo=outlook.eldorado.org.br
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.802,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -75,43 +66,151 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Now that the tswap() functions are available for target-independent
-code, too, we can move xilinx_ethlite.c from specific_ss to softmmu_ss
-to avoid that we have to compile this file multiple times.
+On 06/05/2023 03:52, Richard Purdie wrote:
+> The following commits changed the code such that the fallback to MFSS for MFFSCRN,
+> MFFSCRNI, MFFSCE and MFFSL on pre 3.0 ISAs was removed and became an illegal instruction:
+> 
+>    bf8adfd88b547680aa857c46098f3a1e94373160 - target/ppc: Move mffscrn[i] to decodetree
+>    394c2e2fda70da722f20fb60412d6c0ca4bfaa03 - target/ppc: Move mffsce to decodetree
+>    3e5bce70efe6bd1f684efbb21fd2a316cbf0657e - target/ppc: Move mffsl to decodetree
+> 
+> The hardware will handle them as a MFFS instruction as the code did previously.
+> This means applications that were segfaulting under qemu when encountering these
+> instructions which is used in glibc libm functions for example.
+> 
+> The fallback for MFFSCDRN and MFFSCDRNI added in a later patch was also missing.
+> 
+> This patch restores the fallback to MFSS for these instructions on pre 3.0s ISAs
+> as the hardware decoder would, fixing the segfaulting libm code. It and also ensures
+> the MFSS instruction is used for currently reserved bits to handle other potential
+> ISA additions more correctly.
+> 
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> ---
+>   target/ppc/insn32.decode           | 19 ++++++++++++-------
+>   target/ppc/translate/fp-impl.c.inc | 30 ++++++++++++++++++++++++------
+>   2 files changed, 36 insertions(+), 13 deletions(-)
+> 
+> v2 - switch to use decodetree pattern groups per feedback
+> 
+> diff --git a/target/ppc/insn32.decode b/target/ppc/insn32.decode
+> index f8f589e9fd..3c4e2c2fc2 100644
+> --- a/target/ppc/insn32.decode
+> +++ b/target/ppc/insn32.decode
+> @@ -390,13 +390,18 @@ SETNBCR         011111 ..... ..... ----- 0111100000 -   @X_bi
+> 
+>   ### Move To/From FPSCR
+> 
+> -MFFS            111111 ..... 00000 ----- 1001000111 .   @X_t_rc
+> -MFFSCE          111111 ..... 00001 ----- 1001000111 -   @X_t
+> -MFFSCRN         111111 ..... 10110 ..... 1001000111 -   @X_tb
+> -MFFSCDRN        111111 ..... 10100 ..... 1001000111 -   @X_tb
+> -MFFSCRNI        111111 ..... 10111 ---.. 1001000111 -   @X_imm2
+> -MFFSCDRNI       111111 ..... 10101 --... 1001000111 -   @X_imm3
+> -MFFSL           111111 ..... 11000 ----- 1001000111 -   @X_t
+> +{
+> +  # Before Power ISA v3.0, MFFS bits 11~15 were reserved and should be ignored
+> +  [
+> +    MFFSCE          111111 ..... 00001 ----- 1001000111 -   @X_t
+> +    MFFSCRN         111111 ..... 10110 ..... 1001000111 -   @X_tb
+> +    MFFSCDRN        111111 ..... 10100 ..... 1001000111 -   @X_tb
+> +    MFFSCRNI        111111 ..... 10111 ---.. 1001000111 -   @X_imm2
+> +    MFFSCDRNI       111111 ..... 10101 --... 1001000111 -   @X_imm3
+> +    MFFSL           111111 ..... 11000 ----- 1001000111 -   @X_t
+> +  ]
+> +  MFFS            111111 ..... ----- ----- 1001000111 .   @X_t_rc
+> +}
+> 
+>   ### Decimal Floating-Point Arithmetic Instructions
+> 
+> diff --git a/target/ppc/translate/fp-impl.c.inc b/target/ppc/translate/fp-impl.c.inc
+> index 57d8437851..10dfd91aa4 100644
+> --- a/target/ppc/translate/fp-impl.c.inc
+> +++ b/target/ppc/translate/fp-impl.c.inc
+> @@ -584,7 +584,10 @@ static bool trans_MFFSCE(DisasContext *ctx, arg_X_t *a)
+>   {
+>       TCGv_i64 fpscr;
+> 
+> -    REQUIRE_INSNS_FLAGS2(ctx, ISA300);
+> +    if (!(ctx->insns_flags2 & PPC2_ISA300)) {
+> +        return false;
+> +    }
+> +
+>       REQUIRE_FPU(ctx);
+> 
+>       gen_reset_fpstatus();
+> @@ -597,7 +600,10 @@ static bool trans_MFFSCRN(DisasContext *ctx, arg_X_tb *a)
+>   {
+>       TCGv_i64 t1, fpscr;
+> 
+> -    REQUIRE_INSNS_FLAGS2(ctx, ISA300);
+> +    if (!(ctx->insns_flags2 & PPC2_ISA300)) {
+> +        return false;
+> +    }
+> +
+>       REQUIRE_FPU(ctx);
+> 
+>       t1 = tcg_temp_new_i64();
+> @@ -614,7 +620,10 @@ static bool trans_MFFSCDRN(DisasContext *ctx, arg_X_tb *a)
+>   {
+>       TCGv_i64 t1, fpscr;
+> 
+> -    REQUIRE_INSNS_FLAGS2(ctx, ISA300);
+> +    if (!(ctx->insns_flags2 & PPC2_ISA300)) {
+> +        return false;
+> +    }
+> +
+>       REQUIRE_FPU(ctx);
+> 
+>       t1 = tcg_temp_new_i64();
+> @@ -631,7 +640,10 @@ static bool trans_MFFSCRNI(DisasContext *ctx, arg_X_imm2 *a)
+>   {
+>       TCGv_i64 t1, fpscr;
+> 
+> -    REQUIRE_INSNS_FLAGS2(ctx, ISA300);
+> +    if (!(ctx->insns_flags2 & PPC2_ISA300)) {
+> +        return false;
+> +    }
+> +
+>       REQUIRE_FPU(ctx);
+> 
+>       t1 = tcg_temp_new_i64();
+> @@ -647,7 +659,10 @@ static bool trans_MFFSCDRNI(DisasContext *ctx, arg_X_imm3 *a)
+>   {
+>       TCGv_i64 t1, fpscr;
+> 
+> -    REQUIRE_INSNS_FLAGS2(ctx, ISA300);
+> +    if (!(ctx->insns_flags2 & PPC2_ISA300)) {
+> +        return false;
+> +    }
+> +
+>       REQUIRE_FPU(ctx);
+> 
+>       t1 = tcg_temp_new_i64();
+> @@ -661,7 +676,10 @@ static bool trans_MFFSCDRNI(DisasContext *ctx, arg_X_imm3 *a)
+> 
+>   static bool trans_MFFSL(DisasContext *ctx, arg_X_t *a)
+>   {
+> -    REQUIRE_INSNS_FLAGS2(ctx, ISA300);
+> +    if (!(ctx->insns_flags2 & PPC2_ISA300)) {
+> +        return false;
+> +    }
+> +
+>       REQUIRE_FPU(ctx);
+> 
+>       gen_reset_fpstatus();
+> --
+> 2.39.2
+> 
 
-Signed-off-by: Thomas Huth <thuth@redhat.com>
----
- hw/net/xilinx_ethlite.c | 2 +-
- hw/net/meson.build      | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+As mention in the v1 thread, we should validate bits 11~15 on Power ISA 
+v3.0+ to follow what the ISA says and keep the same behavior as the 
+hardware. Again, sorry for the delayed response.
 
-diff --git a/hw/net/xilinx_ethlite.c b/hw/net/xilinx_ethlite.c
-index 99c22819ea..89f4f3b254 100644
---- a/hw/net/xilinx_ethlite.c
-+++ b/hw/net/xilinx_ethlite.c
-@@ -25,7 +25,7 @@
- #include "qemu/osdep.h"
- #include "qemu/module.h"
- #include "qom/object.h"
--#include "cpu.h" /* FIXME should not use tswap* */
-+#include "exec/tswap.h"
- #include "hw/sysbus.h"
- #include "hw/irq.h"
- #include "hw/qdev-properties.h"
-diff --git a/hw/net/meson.build b/hw/net/meson.build
-index e2be0654a1..a7860c5efe 100644
---- a/hw/net/meson.build
-+++ b/hw/net/meson.build
-@@ -43,7 +43,7 @@ softmmu_ss.add(when: 'CONFIG_NPCM7XX', if_true: files('npcm7xx_emc.c'))
- softmmu_ss.add(when: 'CONFIG_ETRAXFS', if_true: files('etraxfs_eth.c'))
- softmmu_ss.add(when: 'CONFIG_COLDFIRE', if_true: files('mcf_fec.c'))
- specific_ss.add(when: 'CONFIG_PSERIES', if_true: files('spapr_llan.c'))
--specific_ss.add(when: 'CONFIG_XILINX_ETHLITE', if_true: files('xilinx_ethlite.c'))
-+softmmu_ss.add(when: 'CONFIG_XILINX_ETHLITE', if_true: files('xilinx_ethlite.c'))
- 
- softmmu_ss.add(when: 'CONFIG_VIRTIO_NET', if_true: files('net_rx_pkt.c'))
- specific_ss.add(when: 'CONFIG_VIRTIO_NET', if_true: files('virtio-net.c'))
--- 
-2.31.1
+Thanks,
+Matheus K. Ferst
+Instituto de Pesquisas ELDORADO <http://www.eldorado.org.br/>
+Analista de Software
+Aviso Legal - Disclaimer <https://www.eldorado.org.br/disclaimer.html>
 
 
