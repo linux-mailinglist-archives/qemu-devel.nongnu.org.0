@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E4506FB132
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 May 2023 15:17:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0951F6FB127
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 May 2023 15:16:46 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pw0f7-000051-Vt; Mon, 08 May 2023 09:12:22 -0400
+	id 1pw0fd-0000VD-VQ; Mon, 08 May 2023 09:12:54 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pw0e4-0004jc-Bm
- for qemu-devel@nongnu.org; Mon, 08 May 2023 09:11:19 -0400
+ id 1pw0e2-0004h8-E1
+ for qemu-devel@nongnu.org; Mon, 08 May 2023 09:11:15 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pw0dz-0001Dz-Cc
- for qemu-devel@nongnu.org; Mon, 08 May 2023 09:11:15 -0400
+ id 1pw0dz-0001EH-7P
+ for qemu-devel@nongnu.org; Mon, 08 May 2023 09:11:14 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1683551461;
+ s=mimecast20190719; t=1683551463;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=AHCtbJSxzlOY15iuPfGvkQzOQhhBSgMM4kBlxSMibZ4=;
- b=cFYs+JkzVcZqgoeCFbBQTIxmMBjBu3r8G/sKMlFZ9VjZ3pRXDJNt5ni8CpzHWygd02lsvR
- brmP4cnU8/a4MLvbJbV+bYi7gdLY8c6MP+M6fjkaG/K6kfI0OlqOaH6qVlXA5oj8Yqlyqb
- ZVjVxK9zqetyIro6Am7LkEDED5E1F8w=
+ bh=piyqIYTPSTj4lwnLsvDk2JcXXdmH/6Ki3/rFC0L1iy4=;
+ b=QW2+aSP/Dy8IeaGy4O1wO8ttWHQJFNVIHap7uWBC/QUQo5e/aAH/op/fMpUIvqv/0g8aP4
+ I/C2fq+PT+oDn+R3edkVFBY8FjDz1U4tBxgrqmBTGB7s0zue0EsVu/c5Acf+W94YlsIwn1
+ BIEpOSqaeZPI+2Vbcsbt1TUqz9VwZ5w=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-617-HRWezuDcNJGpaqw5GQ6SiA-1; Mon, 08 May 2023 09:10:57 -0400
-X-MC-Unique: HRWezuDcNJGpaqw5GQ6SiA-1
+ us-mta-561-MqUf5ENCMxWzIQlf4zc04Q-1; Mon, 08 May 2023 09:11:02 -0400
+X-MC-Unique: MqUf5ENCMxWzIQlf4zc04Q-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
  [10.11.54.6])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D99F084AF30;
- Mon,  8 May 2023 13:10:56 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E6112886460;
+ Mon,  8 May 2023 13:11:00 +0000 (UTC)
 Received: from secure.mitica (unknown [10.39.193.236])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0C1BD2166B40;
- Mon,  8 May 2023 13:10:52 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 28B372166B40;
+ Mon,  8 May 2023 13:10:57 +0000 (UTC)
 From: Juan Quintela <quintela@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Daniel Henrique Barboza <danielhb413@gmail.com>,
@@ -60,9 +60,9 @@ Cc: Daniel Henrique Barboza <danielhb413@gmail.com>,
  Thomas Huth <thuth@redhat.com>,
  =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
  Leonardo Bras <leobras@redhat.com>, Ilya Leoshkevich <iii@linux.ibm.com>
-Subject: [PATCH 18/21] migration/rdma: Don't use imaginary transfers
-Date: Mon,  8 May 2023 15:09:06 +0200
-Message-Id: <20230508130909.65420-19-quintela@redhat.com>
+Subject: [PATCH 19/21] migration: Remove unused qemu_file_credit_transfer()
+Date: Mon,  8 May 2023 15:09:07 +0200
+Message-Id: <20230508130909.65420-20-quintela@redhat.com>
 In-Reply-To: <20230508130909.65420-1-quintela@redhat.com>
 References: <20230508130909.65420-1-quintela@redhat.com>
 MIME-Version: 1.0
@@ -92,48 +92,50 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-RDMA protocol is completely asynchronous, so in qemu_rdma_save_page()
-they "invent" that a byte has been transferred.  And then they call
-qemu_file_credit_transfer() and ram_transferred_add() with that byte.
-Just remove that calls as nothing has been sent.
+After this change, nothing abuses QEMUFile to account for data
+transferrefd during migration.
 
 Signed-off-by: Juan Quintela <quintela@redhat.com>
 ---
- migration/qemu-file.c | 5 +----
- migration/ram.c       | 1 -
- 2 files changed, 1 insertion(+), 5 deletions(-)
+ migration/qemu-file.c | 5 -----
+ migration/qemu-file.h | 8 --------
+ 2 files changed, 13 deletions(-)
 
 diff --git a/migration/qemu-file.c b/migration/qemu-file.c
-index 0086d67d83..951f046c39 100644
+index 951f046c39..bfaba840ca 100644
 --- a/migration/qemu-file.c
 +++ b/migration/qemu-file.c
-@@ -346,13 +346,10 @@ size_t ram_control_save_page(QEMUFile *f, ram_addr_t block_offset,
+@@ -411,11 +411,6 @@ static ssize_t coroutine_mixed_fn qemu_fill_buffer(QEMUFile *f)
+     return len;
+ }
  
-         if (ret != RAM_SAVE_CONTROL_DELAYED &&
-             ret != RAM_SAVE_CONTROL_NOT_SUPP) {
--            if (bytes_sent && *bytes_sent > 0) {
--                qemu_file_credit_transfer(f, *bytes_sent);
--            } else if (ret < 0) {
-+            if (ret < 0) {
-                 qemu_file_set_error(f, ret);
-             }
-         }
+-void qemu_file_credit_transfer(QEMUFile *f, size_t size)
+-{
+-    f->total_transferred += size;
+-}
 -
-         return ret;
-     }
- 
-diff --git a/migration/ram.c b/migration/ram.c
-index 558f2ed3b1..f889e39a20 100644
---- a/migration/ram.c
-+++ b/migration/ram.c
-@@ -1349,7 +1349,6 @@ static bool control_save_page(PageSearchStatus *pss, RAMBlock *block,
-     }
- 
-     if (bytes_xmit) {
--        ram_transferred_add(bytes_xmit);
-         *pages = 1;
-     }
- 
+ /** Closes the file
+  *
+  * Returns negative error value if any error happened on previous operations or
+diff --git a/migration/qemu-file.h b/migration/qemu-file.h
+index 46029b951c..9feac5edbc 100644
+--- a/migration/qemu-file.h
++++ b/migration/qemu-file.h
+@@ -121,14 +121,6 @@ int qemu_put_qemu_file(QEMUFile *f_des, QEMUFile *f_src);
+  */
+ int coroutine_mixed_fn qemu_peek_byte(QEMUFile *f, int offset);
+ void qemu_file_skip(QEMUFile *f, int size);
+-/*
+- * qemu_file_credit_transfer:
+- *
+- * Report on a number of bytes that have been transferred
+- * out of band from the main file object I/O methods. This
+- * accounting information tracks the total migration traffic.
+- */
+-void qemu_file_credit_transfer(QEMUFile *f, size_t size);
+ int qemu_file_get_error_obj(QEMUFile *f, Error **errp);
+ int qemu_file_get_error_obj_any(QEMUFile *f1, QEMUFile *f2, Error **errp);
+ void qemu_file_set_error_obj(QEMUFile *f, int ret, Error *err);
 -- 
 2.40.0
 
