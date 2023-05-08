@@ -2,102 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EEDEF6FB59C
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 May 2023 19:02:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 48F266FB5EA
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 May 2023 19:28:07 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pw4EQ-0001KI-Cy; Mon, 08 May 2023 13:01:02 -0400
+	id 1pw4dK-0006uM-89; Mon, 08 May 2023 13:26:46 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1pw4EL-0001K5-I3
- for qemu-devel@nongnu.org; Mon, 08 May 2023 13:00:58 -0400
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1pw4dH-0006tv-VL
+ for qemu-devel@nongnu.org; Mon, 08 May 2023 13:26:43 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1pw4EI-0005xd-G9
- for qemu-devel@nongnu.org; Mon, 08 May 2023 13:00:57 -0400
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1pw4dF-00044S-Vj
+ for qemu-devel@nongnu.org; Mon, 08 May 2023 13:26:43 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1683565253;
+ s=mimecast20190719; t=1683566800;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=sKaLYqNShPYncZEdEzt9+Dehl0y/l/zI3Yehb2Tgj5I=;
- b=DE83ADW2luN+RF5Cenn3yZvSq6EHhq5jNAbaEG0nscyb/9au7iMcb8DnvO3fhNjB/6QFZa
- XEdi5tzTyguEG+mShUZCq/kt24fZQ7+MMkpm+7ZtswVChL33LU0acIAEEdYSxmeLvxpN57
- 1H0RjTbV2iAkAR1g/aycB/otNY49cJA=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=nA9vkAOFJUWtp/QpvGz8fcxHmOMqAahWo3inTYupG3c=;
+ b=KC3aySvCoNSBJm0p8APNRu4zRaaUlcfE7fv1S5AkGZzM4+YvGJ9Mv52a25viBiu1NxfItJ
+ x/Ntg1BTdJK+LSpc46j5px4eqDBoKA8v/lvZeiXuyFABNhHFf6scr6tvga0K8ffhgJUBk7
+ 8omN+t2/Aj4rAU410jYyEzWIyHZRKo8=
+Received: from mail-yb1-f198.google.com (mail-yb1-f198.google.com
+ [209.85.219.198]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-338-509oVDgAMYudlmN6rIGUiw-1; Mon, 08 May 2023 13:00:49 -0400
-X-MC-Unique: 509oVDgAMYudlmN6rIGUiw-1
-Received: by mail-ed1-f71.google.com with SMTP id
- 4fb4d7f45d1cf-50bc6c6b9dbso765009a12.0
- for <qemu-devel@nongnu.org>; Mon, 08 May 2023 10:00:49 -0700 (PDT)
+ us-mta-554-b__2mkPhMZWjGgNuk3pNkQ-1; Mon, 08 May 2023 13:26:39 -0400
+X-MC-Unique: b__2mkPhMZWjGgNuk3pNkQ-1
+Received: by mail-yb1-f198.google.com with SMTP id
+ 3f1490d57ef6-b9a25f6aa0eso9170509276.1
+ for <qemu-devel@nongnu.org>; Mon, 08 May 2023 10:26:39 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683565248; x=1686157248;
- h=content-transfer-encoding:in-reply-to:references:cc:to:from
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=sKaLYqNShPYncZEdEzt9+Dehl0y/l/zI3Yehb2Tgj5I=;
- b=BRPlpaGT7AZGBz5FPGnbQBKV0qMblRTqpGFQ2g/j0L4FHc0DmLpYpZOcJ/HgUJqHJ0
- ehs2IirIRDXCZjXxxoG2OEtHWxJX0PX2Fq0BG5Ap4SR3bi8jmn1QE2QughStyXLmRhs6
- y4dnh0XeiNSNce5KlkrQLptMiXOlPC5O8yHGuNreRjHKuDMQnwYtnqIEsKt3JWNymav2
- ClRJWX0sw6nleKFokE7vqjTOuSLDYcCEfXyUKMuDd53sFycalD4rqTgbVBLfQfDUm1Zx
- ZZ7fAE7l4xsPPFIxoqzcf0GTKfwbz+KuGNTWjxt1hh6vGug7r0jwUa0s/UUDbVUjmo6i
- ghHw==
-X-Gm-Message-State: AC+VfDxNT7B7P2rJmLjgv5mDHBAHRns2wIDz7cg2F/27Hayys55xGa/t
- DLt8OWBl9BQbPHVjSfO2fmwhq7ShT3mvFcGyc0oi9p9gL0vB/W/FAtArD7NYjcosEn8PmhmjRoL
- F9XDErZzOMmJts2g=
-X-Received: by 2002:a17:907:7208:b0:966:550f:9bfe with SMTP id
- dr8-20020a170907720800b00966550f9bfemr3880766ejc.33.1683565248371; 
- Mon, 08 May 2023 10:00:48 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ6RVwOS6UN65OIs8XdWomqvhlDMtNfMSFBiMFHj3WxG46UdpziHJA89yGeEvTozXOFqa6HKeg==
-X-Received: by 2002:a17:907:7208:b0:966:550f:9bfe with SMTP id
- dr8-20020a170907720800b00966550f9bfemr3880741ejc.33.1683565248051; 
- Mon, 08 May 2023 10:00:48 -0700 (PDT)
-Received: from ?IPV6:2003:cf:d738:7fbf:bf54:7947:8c4:60ed?
- (p200300cfd7387fbfbf54794708c460ed.dip0.t-ipconnect.de.
- [2003:cf:d738:7fbf:bf54:7947:8c4:60ed])
- by smtp.gmail.com with ESMTPSA id
- hv6-20020a17090760c600b009693ea7db1esm212777ejc.11.2023.05.08.10.00.47
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 08 May 2023 10:00:47 -0700 (PDT)
-Message-ID: <d25a7982-cfca-6c6b-5dff-1a197fa0d262@redhat.com>
-Date: Mon, 8 May 2023 19:00:46 +0200
+ d=1e100.net; s=20221208; t=1683566798; x=1686158798;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=nA9vkAOFJUWtp/QpvGz8fcxHmOMqAahWo3inTYupG3c=;
+ b=WUIYQU0B0W9+0V5Q1OXEZuwFc3hjX/2qDDl9FxK/FoR3tU3AlM7eOQBQQVHeOMiYal
+ XNxg7ZGbMOU+GIYa2wL3ZczO/oHG6uv3syV41B7zd8xbNKkpm6gUXU6e0D9KM5JCsPG+
+ tXpBOKfmLq9YSl0Kjuo4WmE63b6AuZqjU41pNXP0cChh/Rw7blACTXXM7MxENwUKePcO
+ LofnDJIV0M6+8GWZUQP2iYO+6ooblj0ikYMq/Za/pR81dEXoNJ7WrODMVaITlZIDdiox
+ zdV8AcIdyyWnh5vJxemeSYbgStOuQc89mZuNR+g2HonfkfGLUrefcT8xNgZ2F0D+Iqwv
+ pohg==
+X-Gm-Message-State: AC+VfDxG8vel32hK6Omp74zYcqT5b4KbEYWpxPh0Sa1Gi8ojA0k/wUzA
+ 5+7ddEPxvheh37FDB6ZADIOqtRWz9MVPRc4cqP2XJ1cSq1nBXK6B3Mcyi2ssdk9uNkENtbAJjZh
+ KcQunYbzr1/rBCyWoZluY2AGXWvx79qI=
+X-Received: by 2002:a25:ad93:0:b0:b9d:88a7:dbc with SMTP id
+ z19-20020a25ad93000000b00b9d88a70dbcmr10536600ybi.59.1683566798547; 
+ Mon, 08 May 2023 10:26:38 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ4G9nHkOx+AxSJ6Fg90nzSaOPy7KIft8J+Vro1Kh4pmDuh0xry912XlJi+q2TWBr8YCRt8UlkJwCk1Cmk1gJ+M=
+X-Received: by 2002:a25:ad93:0:b0:b9d:88a7:dbc with SMTP id
+ z19-20020a25ad93000000b00b9d88a70dbcmr10536587ybi.59.1683566798208; Mon, 08
+ May 2023 10:26:38 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH 0/4] vhost-user-fs: Internal migration
-Content-Language: en-US
-From: Hanna Czenczek <hreitz@redhat.com>
-To: Eugenio Perez Martin <eperezma@redhat.com>
-Cc: Stefan Hajnoczi <stefanha@gmail.com>, qemu-devel@nongnu.org,
- virtio-fs@redhat.com, Stefan Hajnoczi <stefanha@redhat.com>,
- German Maglione <gmaglione@redhat.com>,
- Anton Kuchin <antonkuchin@yandex-team.ru>,
- Juan Quintela <quintela@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>,
- Stefano Garzarella <sgarzare@redhat.com>
-References: <20230411150515.14020-1-hreitz@redhat.com>
- <e8cc4521-50a1-2e38-1fb3-8cfa7b0c967e@redhat.com>
- <CAJSP0QUFFYWwD5+8+1q41sNErJVNbkfnQ3VtB4z-HZUV8S0=zw@mail.gmail.com>
- <dfec96a1-84c3-3639-6f09-204c2d12244a@redhat.com>
- <71e47e3e-880d-38d8-c1b0-3287c60365e4@redhat.com>
- <CAJaqyWe13QxuC9BNBULJ1xu1saWE9Y3ET8eEef-7qtyL5R73SQ@mail.gmail.com>
- <f04ed41d-39b6-a4e8-dfa5-c3e4936302ca@redhat.com>
-In-Reply-To: <f04ed41d-39b6-a4e8-dfa5-c3e4936302ca@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=hreitz@redhat.com;
+References: <20230506150111.2496-1-yin31149@gmail.com>
+In-Reply-To: <20230506150111.2496-1-yin31149@gmail.com>
+From: Eugenio Perez Martin <eperezma@redhat.com>
+Date: Mon, 8 May 2023 19:26:02 +0200
+Message-ID: <CAJaqyWfwFx_zhYpJ_o4E7M84255GbNtKGDM9fnqkyBJMTA=k2w@mail.gmail.com>
+Subject: Re: [PATCH RESEND] vhost: fix possible wrap in SVQ descriptor ring
+To: Hawkins Jiawei <yin31149@gmail.com>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>, 18801353760@163.com,
+ qemu-devel@nongnu.org, qemu-stable@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eperezma@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -38
-X-Spam_score: -3.9
-X-Spam_bar: ---
-X-Spam_report: (-3.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.802, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -113,103 +94,126 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 05.05.23 16:37, Hanna Czenczek wrote:
-> On 05.05.23 16:26, Eugenio Perez Martin wrote:
->> On Fri, May 5, 2023 at 11:51 AM Hanna Czenczek <hreitz@redhat.com> 
->> wrote:
->>> (By the way, thanks for the explanations :))
->>>
->>> On 05.05.23 11:03, Hanna Czenczek wrote:
->>>> On 04.05.23 23:14, Stefan Hajnoczi wrote:
->>> [...]
->>>
->>>>> I think it's better to change QEMU's vhost code
->>>>> to leave stateful devices suspended (but not reset) across
->>>>> vhost_dev_stop() -> vhost_dev_start(), maybe by introducing
->>>>> vhost_dev_suspend() and vhost_dev_resume(). Have you thought about
->>>>> this aspect?
->>>> Yes and no; I mean, I haven’t in detail, but I thought this is what’s
->>>> meant by suspending instead of resetting when the VM is stopped.
->>> So, now looking at vhost_dev_stop(), one problem I can see is that
->>> depending on the back-end, different operations it does will do
->>> different things.
->>>
->>> It tries to stop the whole device via vhost_ops->vhost_dev_start(),
->>> which for vDPA will suspend the device, but for vhost-user will 
->>> reset it
->>> (if F_STATUS is there).
->>>
->>> It disables all vrings, which doesn’t mean stopping, but may be
->>> necessary, too.  (I haven’t yet really understood the use of disabled
->>> vrings, I heard that virtio-net would have a need for it.)
->>>
->>> It then also stops all vrings, though, so that’s OK.  And because this
->>> will always do GET_VRING_BASE, this is actually always the same
->>> regardless of transport.
->>>
->>> Finally (for this purpose), it resets the device status via
->>> vhost_ops->vhost_reset_status().  This is only implemented on vDPA, and
->>> this is what resets the device there.
->>>
->>>
->>> So vhost-user resets the device in .vhost_dev_start, but vDPA only does
->>> so in .vhost_reset_status.  It would seem better to me if vhost-user
->>> would also reset the device only in .vhost_reset_status, not in
->>> .vhost_dev_start.  .vhost_dev_start seems precisely like the place to
->>> run SUSPEND/RESUME.
->>>
->> I think the same. I just saw It's been proposed at [1].
->>
->>> Another question I have (but this is basically what I wrote in my last
->>> email) is why we even call .vhost_reset_status here.  If the device
->>> and/or all of the vrings are already stopped, why do we need to reset
->>> it?  Naïvely, I had assumed we only really need to reset the device if
->>> the guest changes, so that a new guest driver sees a freshly 
->>> initialized
->>> device.
->>>
->> I don't know why we didn't need to call it :). I'm assuming the
->> previous vhost-user net did fine resetting vq indexes, using
->> VHOST_USER_SET_VRING_BASE. But I don't know about more complex
->> devices.
->>
->> The guest can reset the device, or write 0 to the PCI config status,
->> at any time. How does virtiofs handle it, being stateful?
+On Sat, May 6, 2023 at 5:01=E2=80=AFPM Hawkins Jiawei <yin31149@gmail.com> =
+wrote:
 >
-> Honestly a good question because virtiofsd implements neither 
-> SET_STATUS nor RESET_DEVICE.  I’ll have to investigate that.
+> QEMU invokes vhost_svq_add() when adding a guest's element into SVQ.
+> In vhost_svq_add(), it uses vhost_svq_available_slots() to check
+> whether QEMU can add the element into the SVQ. If there is
+> enough space, then QEMU combines some out descriptors and
+> some in descriptors into one descriptor chain, and add it into
+> svq->vring.desc by vhost_svq_vring_write_descs().
 >
-> I think when the guest resets the device, SET_VRING_BASE always comes 
-> along some way or another, so that’s how the vrings are reset.  Maybe 
-> the internal state is reset only following more high-level FUSE 
-> commands like INIT.
+> Yet the problem is that, `svq->shadow_avail_idx - svq->shadow_used_idx`
+> in vhost_svq_available_slots() return the number of occupied elements,
+> or the number of descriptor chains, instead of the number of occupied
+> descriptors, which may cause wrapping in SVQ descriptor ring.
+>
+> Here is an example. In vhost_handle_guest_kick(), QEMU forwards
+> as many available buffers to device by virtqueue_pop() and
+> vhost_svq_add_element(). virtqueue_pop() return a guest's element,
+> and use vhost_svq_add_elemnt(), a wrapper to vhost_svq_add(), to
+> add this element into SVQ. If QEMU invokes virtqueue_pop() and
+> vhost_svq_add_element() `svq->vring.num` times, vhost_svq_available_slots=
+()
+> thinks QEMU just ran out of slots and everything should work fine.
+> But in fact, virtqueue_pop() return `svq-vring.num` elements or
+> descriptor chains, more than `svq->vring.num` descriptors, due to
+> guest memory fragmentation, and this cause wrapping in SVQ descriptor rin=
+g.
+>
 
-So a meeting and one session of looking-into-the-code later:
+The bug is valid even before marking the descriptors used. If the
+guest memory is fragmented, SVQ must add chains so it can try to add
+more descriptors than possible.
 
-We reset every virt queue on GET_VRING_BASE, which is wrong, but happens 
-to serve the purpose.  (German is currently on that.)
+> Therefore, this patch adds `num_free` field in VhostShadowVirtqueue
+> structure, updates this field in vhost_svq_add() and
+> vhost_svq_get_buf(), to record the number of free descriptors.
+> Then we can avoid wrap in SVQ descriptor ring by refactoring
+> vhost_svq_available_slots().
+>
+> Fixes: 100890f7ca ("vhost: Shadow virtqueue buffers forwarding")
+> Signed-off-by: Hawkins Jiawei <yin31149@gmail.com>
+> ---
+>  hw/virtio/vhost-shadow-virtqueue.c | 9 ++++++++-
+>  hw/virtio/vhost-shadow-virtqueue.h | 3 +++
+>  2 files changed, 11 insertions(+), 1 deletion(-)
+>
+> diff --git a/hw/virtio/vhost-shadow-virtqueue.c b/hw/virtio/vhost-shadow-=
+virtqueue.c
+> index 8361e70d1b..e1c6952b10 100644
+> --- a/hw/virtio/vhost-shadow-virtqueue.c
+> +++ b/hw/virtio/vhost-shadow-virtqueue.c
+> @@ -68,7 +68,7 @@ bool vhost_svq_valid_features(uint64_t features, Error =
+**errp)
+>   */
+>  static uint16_t vhost_svq_available_slots(const VhostShadowVirtqueue *sv=
+q)
+>  {
+> -    return svq->vring.num - (svq->shadow_avail_idx - svq->shadow_used_id=
+x);
+> +    return svq->num_free;
+>  }
+>
+>  /**
+> @@ -263,6 +263,9 @@ int vhost_svq_add(VhostShadowVirtqueue *svq, const st=
+ruct iovec *out_sg,
+>          return -EINVAL;
+>      }
+>
+> +    /* Update the size of SVQ vring free descriptors */
+> +    svq->num_free -=3D ndescs;
+> +
+>      svq->desc_state[qemu_head].elem =3D elem;
+>      svq->desc_state[qemu_head].ndescs =3D ndescs;
+>      vhost_svq_kick(svq);
+> @@ -450,6 +453,9 @@ static VirtQueueElement *vhost_svq_get_buf(VhostShado=
+wVirtqueue *svq,
+>      svq->desc_next[last_used_chain] =3D svq->free_head;
+>      svq->free_head =3D used_elem.id;
+>
+> +    /* Update the size of SVQ vring free descriptors */
 
-In our meeting, German said the reset would occur when the memory 
-regions are changed, but I can’t see that in the code.  I think it only 
-happens implicitly through the SET_VRING_BASE call, which resets the 
-internal avail/used pointers.
+No need for this comment.
 
-[This doesn’t seem different from libvhost-user, though, which 
-implements neither SET_STATUS nor RESET_DEVICE, and which pretends to 
-reset the device on RESET_OWNER, but really doesn’t (its 
-vu_reset_device_exec() function just disables all vrings, doesn’t reset 
-or even stop them).]
+Apart from that,
 
-Consequently, the internal state is never reset.  It would be cleared on 
-a FUSE Destroy message, but if you just force-reset the system, the 
-state remains into the next reboot.  Not even FUSE Init clears it, which 
-seems weird.  It happens to work because it’s still the same filesystem, 
-so the existing state fits, but it kind of seems dangerous to keep e.g. 
-files open.  I don’t think it’s really exploitable because everything 
-still goes through the guest kernel, but, well.  We should clear the 
-state on Init, and probably also implement SET_STATUS and clear the 
-state there.
+Acked-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
 
-Hanna
+> +    svq->num_free +=3D num;
+> +
+>      *len =3D used_elem.len;
+>      return g_steal_pointer(&svq->desc_state[used_elem.id].elem);
+>  }
+> @@ -659,6 +665,7 @@ void vhost_svq_start(VhostShadowVirtqueue *svq, VirtI=
+ODevice *vdev,
+>      svq->iova_tree =3D iova_tree;
+>
+>      svq->vring.num =3D virtio_queue_get_num(vdev, virtio_get_queue_index=
+(vq));
+> +    svq->num_free =3D svq->vring.num;
+>      driver_size =3D vhost_svq_driver_area_size(svq);
+>      device_size =3D vhost_svq_device_area_size(svq);
+>      svq->vring.desc =3D qemu_memalign(qemu_real_host_page_size(), driver=
+_size);
+> diff --git a/hw/virtio/vhost-shadow-virtqueue.h b/hw/virtio/vhost-shadow-=
+virtqueue.h
+> index 926a4897b1..6efe051a70 100644
+> --- a/hw/virtio/vhost-shadow-virtqueue.h
+> +++ b/hw/virtio/vhost-shadow-virtqueue.h
+> @@ -107,6 +107,9 @@ typedef struct VhostShadowVirtqueue {
+>
+>      /* Next head to consume from the device */
+>      uint16_t last_used_idx;
+> +
+> +    /* Size of SVQ vring free descriptors */
+> +    uint16_t num_free;
+>  } VhostShadowVirtqueue;
+>
+>  bool vhost_svq_valid_features(uint64_t features, Error **errp);
+> --
+> 2.25.1
+>
 
 
