@@ -2,86 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C48E26FAEE8
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 May 2023 13:48:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 327D96FAF51
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 May 2023 13:56:25 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pvzLd-0001en-Dv; Mon, 08 May 2023 07:48:09 -0400
+	id 1pvzSd-00033T-Jh; Mon, 08 May 2023 07:55:23 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pvzLZ-0001ed-4v
- for qemu-devel@nongnu.org; Mon, 08 May 2023 07:48:05 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pvzLX-0000rs-AC
- for qemu-devel@nongnu.org; Mon, 08 May 2023 07:48:04 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1683546482;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=4NU8Ina6CYU3EE/dixRSFMPxF1uBRyqYq6HXZcQeb/w=;
- b=hYivVi/WNg9jQcoyp2Na4wDWfuza3YHX8N7VCwmTUCzvFySZtFSoggRBYINoLOkSl2wRGr
- BQQ4TFxYth1fRkMHTBAZOkiTDW4E0Lyy4KHNM2g2vzB20DH7E9Mq2m3RXTUvFAvMaNVd0r
- 03LmQj0ssej36TyRyMwMOVuFJRzLWTk=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-616-dgKQPpI9NYOy8qTgJGeOGw-1; Mon, 08 May 2023 07:48:01 -0400
-X-MC-Unique: dgKQPpI9NYOy8qTgJGeOGw-1
-Received: by mail-wr1-f69.google.com with SMTP id
- ffacd0b85a97d-307814dd87eso1103078f8f.0
- for <qemu-devel@nongnu.org>; Mon, 08 May 2023 04:48:00 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683546480; x=1686138480;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=4NU8Ina6CYU3EE/dixRSFMPxF1uBRyqYq6HXZcQeb/w=;
- b=OA1T5zcjO0oB5UPXvN7WmKBO/lDTai8qCmgRL6j6Qe9aBuCSputrP5Y05MDAx3BI9W
- NjVPXENcYvy3xdSGO5knpKCVR2V1uM5UXsRULQqRSpre4Q61QfCiM0IB4isVrgWn7DN9
- RDeG5+K+tAHnbxV7KkVWcx2yqdOl1q3BRL8MOocm6INQdDUi9Wj3uktp2rKNebxg7+bp
- Fb0Y5PS2xlB1dAuo94XaU8RBlIoSe8px482LSg9GXp+RPmfWPtI6HVPLL4dGud4tjIyf
- AG4MNzYgLnJ3nOlJtsU7xL2ycyo3nTUEXNTNpiiKXYB3KLwjWfZT/aBXsTvxP8TscXrw
- ZyPQ==
-X-Gm-Message-State: AC+VfDyvchOxuJupRF9bsAMOBm0oVLqWozobIclg8q0xEV9tj0t1DyWz
- h1w6Qx7uA5Lhv/5DIShvLzETfSbn0GPgLqRnXOx5uxEJFYFthv3byum1lPE2QrjjE7CWOp40IfX
- eTLayX8dpAlO0k7w=
-X-Received: by 2002:a05:6000:1a48:b0:306:34e4:be40 with SMTP id
- t8-20020a0560001a4800b0030634e4be40mr6617852wry.33.1683546479985; 
- Mon, 08 May 2023 04:47:59 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ6m4YT07r4alvio77xlZYZfCtmyGvZ2pbaL+WiOATdXlwgIrTeGWGHGGgQhoqk8NVYo0bnSbw==
-X-Received: by 2002:a05:6000:1a48:b0:306:34e4:be40 with SMTP id
- t8-20020a0560001a4800b0030634e4be40mr6617845wry.33.1683546479702; 
- Mon, 08 May 2023 04:47:59 -0700 (PDT)
-Received: from redhat.com ([31.187.78.15]) by smtp.gmail.com with ESMTPSA id
- e13-20020a5d65cd000000b0030789698eebsm7496183wrw.89.2023.05.08.04.47.58
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 08 May 2023 04:47:59 -0700 (PDT)
-Date: Mon, 8 May 2023 07:47:55 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Michael Tokarev <mjt@tls.msk.ru>
-Cc: QEMU Developers <qemu-devel@nongnu.org>,
- Markus Armbruster <armbru@redhat.com>
-Subject: Re: missing boot rom: is it really a fatal error?
-Message-ID: <20230508074529-mutt-send-email-mst@kernel.org>
-References: <d6f3e06c-ee84-5101-c583-220aa90c0c12@msgid.tls.msk.ru>
- <20230508062407-mutt-send-email-mst@kernel.org>
- <5492f69f-021d-cf25-5a92-8310255fddca@msgid.tls.msk.ru>
+ (Exim 4.90_1) (envelope-from <matheus.ferst@eldorado.org.br>)
+ id 1pvzSb-00033G-IQ
+ for qemu-devel@nongnu.org; Mon, 08 May 2023 07:55:21 -0400
+Received: from [200.168.210.66] (helo=outlook.eldorado.org.br)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <matheus.ferst@eldorado.org.br>) id 1pvzSZ-0003SV-8H
+ for qemu-devel@nongnu.org; Mon, 08 May 2023 07:55:21 -0400
+Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
+ secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
+ Mon, 8 May 2023 08:55:13 -0300
+Received: from [127.0.0.1] (unknown [10.10.70.45])
+ by p9ibm (Postfix) with ESMTPS id 0E65B8001CA;
+ Mon,  8 May 2023 08:55:10 -0300 (-03)
+Message-ID: <4f8f9164-45a8-a07e-186f-fb3864615aed@eldorado.org.br>
+Date: Mon, 8 May 2023 08:55:08 -0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <5492f69f-021d-cf25-5a92-8310255fddca@msgid.tls.msk.ru>
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH] target/ppc: Fix fallback to MFSS for MFFSCRN, MFFSCRNI,
+ MFFSCE and MFFSL
+Content-Language: en-US
+To: Richard Henderson <richard.henderson@linaro.org>,
+ Richard Purdie <richard.purdie@linuxfoundation.org>, qemu-devel@nongnu.org
+Cc: =?UTF-8?Q?V=c3=adctor_Colombo?= <victor.colombo@eldorado.org.br>,
+ Daniel Henrique Barboza <danielhb413@gmail.com>
+References: <20230504110150.3044402-1-richard.purdie@linuxfoundation.org>
+ <1f22eb31-7573-cbca-bc9a-6d4ef5d1b71d@eldorado.org.br>
+ <bac2a436-c071-0716-c699-21a6a7b59d73@linaro.org>
+From: "Matheus K. Ferst" <matheus.ferst@eldorado.org.br>
+In-Reply-To: <bac2a436-c071-0716-c699-21a6a7b59d73@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-OriginalArrivalTime: 08 May 2023 11:55:14.0042 (UTC)
+ FILETIME=[F2FC65A0:01D981A3]
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 200.168.210.66 (failed)
+Received-SPF: pass client-ip=200.168.210.66;
+ envelope-from=matheus.ferst@eldorado.org.br; helo=outlook.eldorado.org.br
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.802,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -97,43 +68,172 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, May 08, 2023 at 01:42:04PM +0300, Michael Tokarev wrote:
-> 08.05.2023 13:28, Michael S. Tsirkin wrote:
-> > On Sun, May 07, 2023 at 08:56:23PM +0300, Michael Tokarev wrote:
-> ..
+On 05/05/2023 12:23, Richard Henderson wrote:
+> On 5/4/23 18:17, Matheus K. Ferst wrote:
+>> On 04/05/2023 08:01, Richard Purdie wrote:
+>>> The following commits changed the code such that these instructions 
+>>> became invalid
+>>> on pre 3.0 ISAs:
+>>>
+>>>    bf8adfd88b547680aa857c46098f3a1e94373160 - target/ppc: Move 
+>>> mffscrn[i] to decodetree
+>>>    394c2e2fda70da722f20fb60412d6c0ca4bfaa03 - target/ppc: Move mffsce 
+>>> to decodetree
+>>>    3e5bce70efe6bd1f684efbb21fd2a316cbf0657e - target/ppc: Move mffsl 
+>>> to decodetree
+>>>
+>>> The hardware will handle them as a MFFS instruction as the code did 
+>>> previously.
+>>> Restore that behaviour. This means applications that were segfaulting 
+>>> under qemu
+>>> when encountering these instructions now operate correctly. The 
+>>> instruction
+>>> is used in glibc libm functions for example.
+>>>
+>>> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+>>> ---
+>>>   target/ppc/translate/fp-impl.c.inc | 20 ++++++++++++++++----
+>>>   1 file changed, 16 insertions(+), 4 deletions(-)
+>>>
+>>> diff --git a/target/ppc/translate/fp-impl.c.inc 
+>>> b/target/ppc/translate/fp-impl.c.inc
+>>> index 57d8437851..cb86381c3f 100644
+>>> --- a/target/ppc/translate/fp-impl.c.inc
+>>> +++ b/target/ppc/translate/fp-impl.c.inc
+>>> @@ -584,7 +584,10 @@ static bool trans_MFFSCE(DisasContext *ctx, 
+>>> arg_X_t *a)
+>>>   {
+>>>       TCGv_i64 fpscr;
+>>>
+>>> -    REQUIRE_INSNS_FLAGS2(ctx, ISA300);
+>>> +    if (unlikely(!(ctx->insns_flags2 & PPC2_ISA300))) {
+>>> +        return trans_MFFS(ctx, a);
+>>> +    }
+>>> +
+>>
+>> Hi Richard, nice catch!
+>>
+>> I believe this may be better addressed by decodetree pattern groups, 
+>> e.g.:
+>>
+>> On insns32.decode:
+>> {
+>>    # Before Power ISA v3.0, MFFS bits 11~15 were reserved and should 
+>> be ignored
+>>    MFFS_ISA207   111111 ..... ----- ----- 1001000111 .   @X_t_rc
+>>    [
+>>      MFFS        111111 ..... 00000 ----- 1001000111 .   @X_t_rc
+>>      MFFSCE      111111 ..... 00001 ----- 1001000111 -   @X_t
+>>      MFFSCRN     111111 ..... 10110 ..... 1001000111 -   @X_tb
+>>      MFFSCDRN    111111 ..... 10100 ..... 1001000111 -   @X_tb
+>>      MFFSCRNI    111111 ..... 10111 ---.. 1001000111 -   @X_imm2
+>>      MFFSCDRNI   111111 ..... 10101 --... 1001000111 -   @X_imm3
+>>      MFFSL       111111 ..... 11000 ----- 1001000111 -   @X_t
+>>    ]
+>> }
+>>
+>> And on fp-impl.c.inc:
+>> static bool trans_MFFS_ISA207(DisasContext *ctx, arg_X_t_rc *a)
+>> {
+>>      if (!(ctx->insns_flags2 & PPC2_ISA300)) {
+>>          /*
+>>           * Before Power ISA v3.0, MFFS bits 11~15 were reserved, any 
+>> instruction
+>>           * with OPCD=63 and XO=583 should be decoded as MFFS.
+>>           */
+>>          return trans_MFFS(ctx, a);
+>>      }
+>>      /*
+>>       * For Power ISA v3.0+, return false and let the pattern group
+>>       * select the correct instruction.
+>>       */
+>>      return false;
+>> }
 > 
-> > > I'm about to revert that old change on debian, to make it just a warning instead
-> > > of an error (the code is different now, but the same principle applies), - because
-> > > I dislike dependencies which are useless 99.9% of the time and are trivial to
-> > > install when actually needed.
-> ..
-> > I advise against it.
-> > If you boot guest on a system with boot rom not installed you will not
-> > be able to migrate to a system with boot rom installed.
-> > why not? because we don't know how big to make the rom BAR.
-> > And users will not discover until much much later after they have
-> > painted themselves into a corner.
+> Not quite.  Should be
 > 
-> Yes, I know about the migration. Actually there's an old bug report open
-> against debian qemu package, - the context is similar to the old bios128
-> vs bios256 thing in qemu upstream, - boot roms might change in size too.
+> {
+>    [
+>      MFFSCE  111111 ..... 00001 ----- 1001000111 -  @X_t
+>      ...
+>      MFFSL   111111 ..... 11000 ----- 1001000111 -  @X_t
+>    ]
+>    MFFS      111111 ..... ----- ----- 1001000111 .  @X_t_rc
+> }
 > 
-> In this context though, the talk is not about migration at all. The missing
-> dep is in Xen HVM qemu package, a xen-only build of qemu-system-i386. And
-> this one fails to start unless the boot roms are provided. It is not even
-> capable of migration to begin with :)
+> where all of the 3.0 insns do
 > 
-> Thank you for the reminder, - very useful.
+>      if (!(ctx->insns_flags2 & PPC2_ISA300)) {
+>          return false;
+>      }
 > 
-> /mjt
+> I do not believe that v3.0 rejects bits [11:15] = 00010, for example, 
+> which would have
+> been accepted and ignored with v2.07.  It should simply treat it as the 
+> full MFFS insn.
 
-I guess we decided we'd rather not handle reports from users about net
-boot not working. It's true most users don't need net boot but then
-that's true for most qemu functionality - 99% of users
-probably need 1% of the functionality. It's just a different 1% for each
-user...
+Hi Richard, sorry for the delayed response. Testing on a POWER9, it does 
+reject opcodes with undefined values in [11:15]:
 
--- 
-MST
+$ cat > mffs.c << EOF
+#include <signal.h>
+
+#include <unistd.h>
+
+
+int main(void) {
+         signal(SIGILL, _exit);
+         asm(MFFS_OPCD);
+         return 0;
+}
+EOF
+$ for i in {0..15}; do
+     opc="$(( 0xfc00048e | ($i << 14) ))"
+     gcc -DMFFS_OPCD="\".long $opc\"" mffs.c -o mffs
+     printf "%s " $(echo "obase=2; $opc" | bc)
+     if ./mffs ; then
+         echo "valid"
+     else
+         echo "invalid"
+     fi
+done
+11111100000000000000010010001110 valid  # MFFS
+11111100000000010000010010001110 valid  # MFFSCE
+11111100000000100000010010001110 invalid
+11111100000000110000010010001110 invalid
+11111100000001000000010010001110 invalid
+11111100000001010000010010001110 invalid
+11111100000001100000010010001110 invalid
+11111100000001110000010010001110 invalid
+11111100000010000000010010001110 invalid
+11111100000010010000010010001110 invalid
+11111100000010100000010010001110 invalid
+11111100000010110000010010001110 invalid
+11111100000011000000010010001110 invalid
+11111100000011010000010010001110 invalid
+11111100000011100000010010001110 invalid
+11111100000011110000010010001110 invalid
+11111100000100000000010010001110 invalid
+11111100000100010000010010001110 invalid
+11111100000100100000010010001110 invalid
+11111100000100110000010010001110 invalid
+11111100000101000000010010001110 valid  # MFFSCDRN
+11111100000101010000010010001110 valid  # MFFSCDRNI
+11111100000101100000010010001110 valid  # MFFSCRN
+11111100000101110000010010001110 valid  # MFFSCRNI
+11111100000110000000010010001110 valid  # MFFSL
+11111100000110010000010010001110 invalid
+11111100000110100000010010001110 invalid
+11111100000110110000010010001110 invalid
+11111100000111000000010010001110 invalid
+11111100000111010000010010001110 invalid
+11111100000111100000010010001110 invalid
+11111100000111110000010010001110 invalid
+
+Thanks,
+Matheus K. Ferst
+Instituto de Pesquisas ELDORADO <http://www.eldorado.org.br/>
+Analista de Software
+Aviso Legal - Disclaimer <https://www.eldorado.org.br/disclaimer.html>
 
 
