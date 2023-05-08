@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD1296F9D1D
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 May 2023 02:54:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B74696F9D1F
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 May 2023 02:54:15 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pvp7j-00074W-Us; Sun, 07 May 2023 20:53:07 -0400
+	id 1pvp7r-00074n-7n; Sun, 07 May 2023 20:53:15 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
- id 1pvp7f-00073Q-Hm
- for qemu-devel@nongnu.org; Sun, 07 May 2023 20:53:03 -0400
-Received: from mout.web.de ([212.227.15.4])
+ id 1pvp7i-00074K-EU
+ for qemu-devel@nongnu.org; Sun, 07 May 2023 20:53:06 -0400
+Received: from mout.web.de ([212.227.15.14])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
- id 1pvp7c-0004dc-Cf
- for qemu-devel@nongnu.org; Sun, 07 May 2023 20:53:02 -0400
+ id 1pvp7g-0004e0-Mi
+ for qemu-devel@nongnu.org; Sun, 07 May 2023 20:53:06 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de; s=s29768273;
- t=1683507176; i=lukasstraub2@web.de;
- bh=VzcD1vAT2sl9FLRE5djaiokWkXqOmnEfb7dazRiopis=;
+ t=1683507180; i=lukasstraub2@web.de;
+ bh=QqQu9UpnrMOOeENfQVOCRiuOPULjx7ymu7Dgeocpbcg=;
  h=X-UI-Sender-Class:Date:From:To:Cc:Subject:In-Reply-To:References;
- b=LZ84NMzrdZQXOl6UDmVamp4zFTcP60z+IdYDKyfDU6kTOTiE9cNWtMBTCoM8GlwLC
- oIKsE1dzh9rC831XjY2scXnRT3/kx9itahEhvbA2aDHpJC/oS8FMClU7od2gFFMHEf
- yVSXCw1lVm9mRS4px963I0/7/4TzrgAzfqcZsmPZtAifcYk1jdcOGz3i13JMbQpveJ
- U9wrSxkC1P4PDTbUAAEX/F2p2hjTGK8irwS9jnWeo2OkKxr+qPsWSB5jMe1MSqKFd/
- KaRNtMgrR9yBXvfMW3N99Uhpdwqo2xDIyUcaJ9ohFvLq8rXbh2M2x4kLnYB52SMAHS
- 0LAVBMpWKbNuw==
+ b=lWnrNpqRoTQXwBUZ95y3s3d9CF64iLhr5ilELhUELnftdEJhLQYfiU+uVVwttpZKr
+ +/VlF9sXBxQJ87WFDUAnwgdTk1r/S7DhRvNf8CPAtn985bjoUq28r8lBKaHp+AS7Jv
+ w7+uK4UT7U/rK8KO9yz3PDj8wjzAjG2oOYbJtgqST7JOa/F7mzuOk6ULeOtys1avgt
+ XRdy3CGyd3eeiqw0EbSJuOV/ArH0NxPhjrl3eLsJbnsUdllYbSA6nzLSxNKmQhwlQ7
+ gHMZzYJn/risJ+1t/C06Otpc6td6n4M7fr4gEq/eiIla8GgPAgahHETOiKc3ikGlYU
+ /m4e29sE7EFXQ==
 X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
 Received: from gecko.fritz.box ([82.207.254.115]) by smtp.web.de (mrweb006
- [213.165.67.108]) with ESMTPSA (Nemesis) id 1MdwNW-1qWnle2D5i-00bJoO; Mon, 08
- May 2023 02:52:56 +0200
-Date: Mon, 8 May 2023 02:52:55 +0200
+ [213.165.67.108]) with ESMTPSA (Nemesis) id 1N6Jxd-1qG1Yr1Q2T-016PW0; Mon, 08
+ May 2023 02:53:00 +0200
+Date: Mon, 8 May 2023 02:52:59 +0200
 From: Lukas Straub <lukasstraub2@web.de>
 To: qemu-devel <qemu-devel@nongnu.org>
 Cc: Juan Quintela <quintela@redhat.com>, Peter Xu <peterx@redhat.com>,
  Leonardo Bras <leobras@redhat.com>
-Subject: [PATCH 4/5] multifd: Introduce a overridable revc_pages method
-Message-ID: <bdf9de97cfaa7edf4a664b91b21e21c394672556.1683506133.git.lukasstraub2@web.de>
+Subject: [PATCH 5/5] multifd: Add colo support
+Message-ID: <6461809211524b24210fd4ac2ea6b2593fc7538f.1683506133.git.lukasstraub2@web.de>
 In-Reply-To: <cover.1683506133.git.lukasstraub2@web.de>
 References: <cover.1683506133.git.lukasstraub2@web.de>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/qeBBQnnHi6_H_tu38Z_ESLu";
+Content-Type: multipart/signed; boundary="Sig_/uAkkJE8iJQBkQhm3pEjlxLi";
  protocol="application/pgp-signature"; micalg=pgp-sha256
-X-Provags-ID: V03:K1:dek4LtcPWo+liw2WIGKO0Yg2BShSavyQYR3Cvaezc9Obr2yqAwE
- aNrGsuZoLhT+M7JcjGaqdJs0um/l8SaIIGwA/8f/TGurx4Ztp+Ed4Nbx6MRznq2S+NmU1/S
- eCj+ZqwJ0c2225grqjgnxzJi5Qng3uMPlPANUkdJqGHnkyTE4Z9Pcmzp8PqewsKO7vf0vuM
- 8SNrpPQ6M0WudejmlfMkw==
-UI-OutboundReport: notjunk:1;M01:P0:0r79VP30mgI=;iJdaHxNkAtugZ7glDwGpVzU3rLZ
- XkWayjIW9j96HEFjKO/CWUib/IaBMXuNu1LKt0s3umgOOsAVTj+CqwpnswPYmfzlrYaNNBsKE
- MenclW0Hjiy8XL9tx9wiJtZDbuPFwyVs2yMk6EwfycHu3x0+vjmZlGYYWyfTZQrasHy8HBUoR
- mAsAdx8F8Xeu2TOJs8ZBN1PuSqaAVUMh23wCnT9T6nDafk9PPcZNECZxExazBkdnGxk1Sp6Rb
- ETwoh7KGq+eNu7jgtNr+2mZIOS1Mi0vGjeclC/oksQ7ZLG0kAnUNJkwZwgGzu8TtfUoBbmF2i
- uBGbNogiqSodnnGSgYi6j2e882W/IgVM8lDdPXxkOB10MiCgl4xGI++uTqSrfTySRX4t5W0nf
- rNh8vv4o1dJP3qbzw9hsDHkQkDkVmFmWUo5PMNA8yvA38HCWi6gcn1F+0NQk+70mVTcHm5M01
- NTkSFsZrQwpx1STBjUri3OVfsDJz0DvGfrkasaV7varJdIICz7AsV82PdFWJ6UkbkbMiw8baX
- b8jW9wMmp4GigHBZNoPrtJ5oFaR2c5wy/7u+nI5R0WDBmGWHsCxQ+322G14UrGUC7zB6uRu7U
- gwGGxjswy0h26LWOoxQ71E8vJ6YIlFrj+SH+985wDTyQX9FCbOYUAm3O1ksYjhy+Uqnsp+Ej8
- gZxowcdbuqfIkG5Re64qLyBHgTgEQ5BmY50H21c2QKbzEu3iEeWdrEVS4inznBXFmCEaDP+2b
- AB1ZxHB3NUQhZN4z81wjjF12S+btnOYnjfrlfL8qMbBkcRrU0cmE4aXYkaWjfm9fse57pOZLx
- jargiZuSrqmlUVqisz5/g9Z4uMP//QDHLI9az+ywBnrADuNdXihDXgPj+sfSf+kWqbvJgW18r
- WIpFW9QjTVb8rSFR5thWM33mNz8ywXyaeLR9MU4Z6XV/vPOnyLPkBC+15+SPX4AAj3a7Z8Hv7
- wdz7fg+2U31f/ImESFXuF2zPCB4=
-Received-SPF: pass client-ip=212.227.15.4; envelope-from=lukasstraub2@web.de;
+X-Provags-ID: V03:K1:tZW2VOOupCD3OHINsQ1OyaW7u1OgAR1Qz9Xu8UvpXlkiVcwgx97
+ cz6WbUzXCMKL7dhRNA9crum+fG0Xg7wsX4vWIGsS8fL5g4YSRMMaJ+4o3Cf4Fv6CqwLbHWr
+ FcrdWWFKPugjRxcHEN+xoq7msuH0sEYRN7Pme2uNHRH4B04bM2GCWmny0gwwjKdR0mAPW9H
+ EoqlZbqhMdkwedcmD5SBA==
+UI-OutboundReport: notjunk:1;M01:P0:jN7hdHy0iW8=;yjQO8qvhTXsNKZ9pWQL9wP6K6UX
+ 938Pm8gpTwlNjNeQWZ8Q3l6jIHM5s+/hfFG8IKUJ8UJV0QOTOT7xL5Mj3J1pKiCXd6mpi+e32
+ og3FUHdYdMKrGSXvL96Wq0GrQpHoXZQBmBBL06Iz3PfUw6R4iSrF2LuAXFbVQa1/TNX7s0ttq
+ nCDvibUN5A4Qh1djuk8S4xFNSgUevyxN1ZLC3igeR1qVCMwVrAwlQVYc7DcGq/hSe5AhaIO7D
+ SqsV2ZUnrCIeGMWAjOBJoX51LhRfS/WuXkTzD/T6ocM4TwXQO++yfvmIk1JeVmrLDVIs3pvIr
+ /Vzd6b3LGHOIuzAkKITZZN16Q4QRMNW673uT/+z2FDjK9bVSPs82M0SBetDlQqGvba82jmGHA
+ CtZjTi7aa5HALUTbCXnmBci8Khht51OH/YLTO+jqW9yysnRg4LXxpZxZadEJkK3j/xKGOayHS
+ zSusYantLAcV6SNmAcFL9+R1scbnAMDvLJN/Ch9GlLOfZDxoWS8aQn1lT1Wn9ET6Tl0SMauHc
+ GIEbI11tC1Mj/TIp6t8AFMjSfZFoktOCTeeDzGxzXRlvXgoVMbFhPl8I7y5w253iXEXVkDncT
+ d+CHFZV/N5rtwfK7F8bQG8ZFYICSvfHxQJc7+cFYqEYtH4LgDzGAJG3DuR/Ua1mJkFQ6B+/J2
+ wMP5YdfbRQrVMlAbSEA6FTgj0nDQN8CI7Vq4Vrq3qVZ/mpP5VQSDIE03wpoXEXhfJqVwsXJ6K
+ +Ec8W+LQ59Di1LN029Ov2kH0Sba/Tilp7/s0lLOl0zBNFmNfhJjN8wc82R1UYiGmwFf2wiY1E
+ WbPrm9HNiGFa7z3v+J1nXE1D9nTHZiEW4Aftiz4aX4ZYYc4c3eaPndJRd4QXIb75b+ty68Sq5
+ YTma+R1b7CPbOqtq/7nAEI7086G3wQ0jnx3TvFSHuLvtG8rzC7tty6U5NA0mrn+rjkUikH5EB
+ eQvxPDGUVbbX0z3CPvEju7dFEIY=
+Received-SPF: pass client-ip=212.227.15.14; envelope-from=lukasstraub2@web.de;
  helo=mout.web.de
 X-Spam_score_int: -25
 X-Spam_score: -2.6
@@ -71,8 +71,8 @@ X-Spam_bar: --
 X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -88,200 +88,143 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
---Sig_/qeBBQnnHi6_H_tu38Z_ESLu
+--Sig_/uAkkJE8iJQBkQhm3pEjlxLi
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 
-This allows to override the behaviour around recv_pages. Think of
-it like a "multifd_colo" child class of multifd.
-
-This will be used in the next commits to add colo support to multifd.
-
 Signed-off-by: Lukas Straub <lukasstraub2@web.de>
 ---
- migration/meson.build        |  1 +
- migration/multifd-colo.c     | 39 +++++++++++++++++++++++++++++
- migration/multifd-internal.h |  5 ++++
- migration/multifd.c          | 48 ++++++++++++++++++++++++++++--------
- 4 files changed, 83 insertions(+), 10 deletions(-)
- create mode 100644 migration/multifd-colo.c
+ migration/multifd-colo.c | 30 +++++++++++++++++++++++++++++-
+ migration/multifd.c      | 11 +++++------
+ migration/multifd.h      |  2 ++
+ 3 files changed, 36 insertions(+), 7 deletions(-)
 
-diff --git a/migration/meson.build b/migration/meson.build
-index da1897fadf..22ab6c6d73 100644
---- a/migration/meson.build
-+++ b/migration/meson.build
-@@ -23,6 +23,7 @@ softmmu_ss.add(files(
-   'migration.c',
-   'multifd.c',
-   'multifd-zlib.c',
-+  'multifd-colo.c',
-   'options.c',
-   'postcopy-ram.c',
-   'savevm.c',
 diff --git a/migration/multifd-colo.c b/migration/multifd-colo.c
-new file mode 100644
-index 0000000000..c035d15e87
---- /dev/null
+index c035d15e87..305a1b7000 100644
+--- a/migration/multifd-colo.c
 +++ b/migration/multifd-colo.c
-@@ -0,0 +1,39 @@
-+/*
-+ * multifd colo implementation
-+ *
-+ * Copyright (c) Lukas Straub <lukasstraub2@web.de>
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or late=
-r.
-+ * See the COPYING file in the top-level directory.
-+ */
+@@ -15,13 +15,41 @@
+ #include "ram.h"
+ #include "multifd.h"
+ #include "io/channel-socket.h"
++#include "migration/colo.h"
+=20
+ #define MULTIFD_INTERNAL
+ #include "multifd-internal.h"
+=20
+ static int multifd_colo_recv_pages(MultiFDRecvParams *p, Error **errp)
+ {
+-    return multifd_recv_state->ops->recv_pages(p, errp);
++    int ret =3D 0;
 +
-+#include "qemu/osdep.h"
-+#include "exec/target_page.h"
-+#include "exec/ramblock.h"
-+#include "qemu/error-report.h"
-+#include "qapi/error.h"
-+#include "ram.h"
-+#include "multifd.h"
-+#include "io/channel-socket.h"
++    /*
++     * While we're still in precopy mode, we copy received pages to both g=
+uest
++     * and cache. No need to set dirty bits, since guest and cache memory =
+are
++     * in sync.
++     */
++    if (migration_incoming_in_colo_state()) {
++        colo_record_bitmap(p->block, p->normal, p->normal_num);
++    }
 +
-+#define MULTIFD_INTERNAL
-+#include "multifd-internal.h"
-+
-+static int multifd_colo_recv_pages(MultiFDRecvParams *p, Error **errp)
-+{
-+    return multifd_recv_state->ops->recv_pages(p, errp);
-+}
-+
-+int multifd_colo_load_setup(Error **errp)
-+{
-+    int ret;
-+
-+    ret =3D _multifd_load_setup(errp);
-+    if (ret) {
++    p->host =3D p->block->colo_cache;
++    ret =3D multifd_recv_state->ops->recv_pages(p, errp);
++    if (ret !=3D 0) {
++        p->host =3D p->block->host;
 +        return ret;
 +    }
 +
-+    multifd_recv_state->recv_pages =3D multifd_colo_recv_pages;
++    if (!migration_incoming_in_colo_state()) {
++        for (int i =3D 0; i < p->normal_num; i++) {
++            void *guest =3D p->block->host + p->normal[i];
++            void *cache =3D p->host + p->normal[i];
++            memcpy(guest, cache, p->page_size);
++        }
++    }
 +
-+    return 0;
-+}
-diff --git a/migration/multifd-internal.h b/migration/multifd-internal.h
-index 6eeaa028e7..82357f1d88 100644
---- a/migration/multifd-internal.h
-+++ b/migration/multifd-internal.h
-@@ -29,6 +29,11 @@ struct MultiFDRecvState {
-     uint64_t packet_num;
-     /* multifd ops */
-     MultiFDMethods *ops;
-+    /* overridable recv method */
-+    int (*recv_pages)(MultiFDRecvParams *p, Error **errp);
- };
++    p->host =3D p->block->host;
++    return ret;
+ }
 =20
- extern struct MultiFDRecvState *multifd_recv_state;
-+
-+int _multifd_load_setup(Error **errp);
-+int multifd_colo_load_setup(Error **errp);
+ int multifd_colo_load_setup(Error **errp)
 diff --git a/migration/multifd.c b/migration/multifd.c
-index f6bad69b6c..fb5e8859de 100644
+index fb5e8859de..fddbf86596 100644
 --- a/migration/multifd.c
 +++ b/migration/multifd.c
-@@ -1126,7 +1126,7 @@ static void *multifd_recv_thread(void *opaque)
-         qemu_mutex_unlock(&p->mutex);
-=20
-         if (p->normal_num) {
--            ret =3D multifd_recv_state->ops->recv_pages(p, &local_err);
-+            ret =3D multifd_recv_state->recv_pages(p, &local_err);
-             if (ret !=3D 0) {
-                 break;
-             }
-@@ -1152,20 +1152,12 @@ static void *multifd_recv_thread(void *opaque)
-     return NULL;
- }
-=20
--int multifd_load_setup(Error **errp)
-+int _multifd_load_setup(Error **errp)
+@@ -284,7 +284,6 @@ static void multifd_send_fill_packet(MultiFDSendParams =
+*p)
+ static int multifd_recv_unfill_packet(MultiFDRecvParams *p, Error **errp)
  {
-     int thread_count;
-     uint32_t page_count =3D MULTIFD_PACKET_SIZE / qemu_target_page_size();
-     uint8_t i;
+     MultiFDPacket_t *packet =3D p->packet;
+-    RAMBlock *block;
+     int i;
 =20
--    /*
--     * Return successfully if multiFD recv state is already initialised
--     * or multiFD is not enabled.
--     */
--    if (multifd_recv_state || !migrate_multifd()) {
--        return 0;
--    }
--
-     thread_count =3D migrate_multifd_channels();
-     multifd_recv_state =3D g_malloc0(sizeof(*multifd_recv_state));
-     multifd_recv_state->params =3D g_new0(MultiFDRecvParams, thread_count);
-@@ -1204,6 +1196,42 @@ int multifd_load_setup(Error **errp)
-     return 0;
- }
+     packet->magic =3D be32_to_cpu(packet->magic);
+@@ -334,21 +333,21 @@ static int multifd_recv_unfill_packet(MultiFDRecvPara=
+ms *p, Error **errp)
 =20
-+static int multifd_normal_recv_pages(MultiFDRecvParams *p, Error **errp)
-+{
-+    return multifd_recv_state->ops->recv_pages(p, errp);
-+}
-+
-+static int multifd_normal_load_setup(Error **errp)
-+{
-+    int ret;
-+
-+    ret =3D _multifd_load_setup(errp);
-+    if (ret) {
-+        return ret;
-+    }
-+
-+    multifd_recv_state->recv_pages =3D multifd_normal_recv_pages;
-+
-+    return 0;
-+}
-+
-+int multifd_load_setup(Error **errp)
-+{
-+    /*
-+     * Return successfully if multiFD recv state is already initialised
-+     * or multiFD is not enabled.
-+     */
-+    if (multifd_recv_state || !migrate_multifd()) {
-+        return 0;
-+    }
-+
-+    if (migrate_colo()) {
-+        return multifd_colo_load_setup(errp);
-+    } else {
-+        return multifd_normal_load_setup(errp);
-+    }
-+}
-+
- bool multifd_recv_all_channels_created(void)
- {
-     int thread_count =3D migrate_multifd_channels();
+     /* make sure that ramblock is 0 terminated */
+     packet->ramblock[255] =3D 0;
+-    block =3D qemu_ram_block_by_name(packet->ramblock);
+-    if (!block) {
++    p->block =3D qemu_ram_block_by_name(packet->ramblock);
++    if (!p->block) {
+         error_setg(errp, "multifd: unknown ram block %s",
+                    packet->ramblock);
+         return -1;
+     }
+=20
+-    p->host =3D block->host;
++    p->host =3D p->block->host;
+     for (i =3D 0; i < p->normal_num; i++) {
+         uint64_t offset =3D be64_to_cpu(packet->offset[i]);
+=20
+-        if (offset > (block->used_length - p->page_size)) {
++        if (offset > (p->block->used_length - p->page_size)) {
+             error_setg(errp, "multifd: offset too long %" PRIu64
+                        " (max " RAM_ADDR_FMT ")",
+-                       offset, block->used_length);
++                       offset, p->block->used_length);
+             return -1;
+         }
+         p->normal[i] =3D offset;
+diff --git a/migration/multifd.h b/migration/multifd.h
+index 7cfc265148..a835643b48 100644
+--- a/migration/multifd.h
++++ b/migration/multifd.h
+@@ -175,6 +175,8 @@ typedef struct {
+     uint32_t next_packet_size;
+     /* packets sent through this channel */
+     uint64_t num_packets;
++    /* ramblock */
++    RAMBlock *block;
+     /* ramblock host address */
+     uint8_t *host;
+     /* non zero pages recv through this channel */
 --=20
 2.39.2
 
-
---Sig_/qeBBQnnHi6_H_tu38Z_ESLu
+--Sig_/uAkkJE8iJQBkQhm3pEjlxLi
 Content-Type: application/pgp-signature
 Content-Description: OpenPGP digital signature
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEg/qxWKDZuPtyYo+kNasLKJxdslgFAmRYR+cACgkQNasLKJxd
-slgAGhAAss651RBtH1wSAdC83uI646V6Jk8tF3OSaWjL6mtVyspEKe8uB3trZOsL
-iGliU1KyCi7JPmruZ70PF6Efo+zpKrC0aKF61eEw9Fx/GYUHP7nRtT4ZcsGbJXsU
-4snpF8ceKvaxskbq4UHIILninoRHW/bj9Ci+colkCsDcRFMgij5DuxhyrfFc/VWE
-LAFINAO/fjb37AAm7q9U4JIO5sCgoO6yHcaQ7bdp7rF0YRyHIRrOOzs1cxWPOEeX
-epGi3VXHH7/rQhfWyokP4E27uALgokWspdT+f2+zV9viqJrNSMVCTm8iVnkxb+O4
-QcNuPHUM7cmF2N+s01mFw5XKkRqAG2rMbUS7vnsgeDw1c04xIROvYIR+P2Kz+L1S
-w5g7kHsEQceUnKrNow2zPZwpIFPHtlHnsXL4X4WHOJ9XnBwXgsKCfpVZV13Fqhsi
-69YoKzyHm5ryPHdI3+nEuYahwvSagpXAIUtTPdY2T8/rToDvJH/Cr9POfed/yiYj
-e9sJDKsxt1XTTLQh0NgXYgshZSWQYFZjyf6GhSUBi8XYMhQRQ72QPkpbQMsPWkj/
-2dunq8FzZVqGnqwuAR8oCVNAChyDK+ELTyiTkHGDkmeSxPfxIZNk16z4eoYywvW2
-FXIWe601/pri+6ZstmhJob1P2dW40221N40S8/5CB7hJy/5HZ78=
-=EMhA
+iQIzBAEBCAAdFiEEg/qxWKDZuPtyYo+kNasLKJxdslgFAmRYR+sACgkQNasLKJxd
+slhbiA/5AZcuTVqmqkbIwY8P7HkekgC1wqmMMDRZLoyCKsA/OHZlLiFcZ7oWRRaY
+qADkC9Hoe40m8irCMS55N8OqRmfTLL9WSDy6FlcqCIrx/fq//myyBAUYRDEJ2x+y
+1dWE50WS3ACc0/dYSxLL08cNwqYhNkHQRLhYslumQYfaD4kfKCAi+WgaOCL9oDxB
+H0uLK4li3yrJsJzXMjTum+/k4XUDRZmz4Xz/yzU8afN51cfNJ7fsI1BMErlGnftV
+lM93xc+peib5SwYl7Nkwr43J2KU+dOzkKJkuwkcfBJYxtS03SfcxF+7s4mDazONF
+uV0UpzV/oxjCgoTvuY/K1RAi7GN1ScYptHEXUC15c2Y6zCDYXzn7I0Q+UDSf1jxM
+1An//ky99Toj5FiZdUe0iFpElo7UcUy4BSNv1xdDH+kScXrLTVpNc/bbcZuanAdS
+toMa1kSFSUVxq76300JjLBYiiZEwadQmsMV7+15Y1EqCQE+T7hprwFMPs5Zis4Gk
+ehJjRD7fuGmo9vlNAYcBD+WRfLsv7XmMVXei0rSiZqGQ4DTaLT6OI1785Vf8ca9s
+mkOoN3dT9mICXl2ZNhMLsfmNqj8OcsFLTUMYDTplDLgp2vXkrmpOs/46T0CK1yy1
++ZelKuMMauSQFfzgGqO0sJG/Zpp0X1nI0dV2NdMcz4xczJYM6D4=
+=LAtb
 -----END PGP SIGNATURE-----
 
---Sig_/qeBBQnnHi6_H_tu38Z_ESLu--
+--Sig_/uAkkJE8iJQBkQhm3pEjlxLi--
 
