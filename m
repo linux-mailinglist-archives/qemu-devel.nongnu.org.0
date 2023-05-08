@@ -2,86 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 492A36FB620
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 May 2023 19:54:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D94E46FB63A
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 May 2023 20:13:42 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pw52M-0007Kq-DR; Mon, 08 May 2023 13:52:38 -0400
+	id 1pw5Ks-0000vU-Ro; Mon, 08 May 2023 14:11:46 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1pw52D-0007KZ-Pj
- for qemu-devel@nongnu.org; Mon, 08 May 2023 13:52:29 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pw5Km-0000uY-Eg
+ for qemu-devel@nongnu.org; Mon, 08 May 2023 14:11:42 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1pw52B-0002Vu-ME
- for qemu-devel@nongnu.org; Mon, 08 May 2023 13:52:29 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pw5Kk-0002eR-PM
+ for qemu-devel@nongnu.org; Mon, 08 May 2023 14:11:40 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1683568346;
+ s=mimecast20190719; t=1683569496;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=PVJpKIZKCxVKbve+7dKdCFxCaAcb8H9ogq4MKGDwdsc=;
- b=K0hjvYhVgnXEXFfPrrIWYya6zrTEDcprGMN/l91o8j9p+XhpDErSQ8ZeIXDru2VHQyj4DP
- KuzI0jzBvbIa058boNK6qs7/qPIsMRrbCgnOPpypMrlAsIpgfa4RKy83WthirH4y+DAyo4
- mQ02PNr/QbGRjW6nRRC2CTRoPdnsnIU=
-Received: from mail-yb1-f198.google.com (mail-yb1-f198.google.com
- [209.85.219.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=rOVzPUBJ0Q+BKp+UL3hSIuQnYeoh2ItckY2JMbtMC00=;
+ b=C9EdWzRIRV0d9d4dJ+EJcgDqcWMetfCgA8ZxvmwR2P+D6UfCv1z75Yc0GKHO1LJu689lOh
+ MYkXZ1hQkPi02e9JR54aDZA6aWxS9WCpQlP2s2uQ4fFqUSqedcz7YHYSwFHRaiU9QqUfRk
+ jPjJEg+duNwemobFpBi4htARv6UwKjA=
+Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
+ [209.85.219.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-28-7ytgiFX4Nq-Bd4-O0hn4dQ-1; Mon, 08 May 2023 13:52:22 -0400
-X-MC-Unique: 7ytgiFX4Nq-Bd4-O0hn4dQ-1
-Received: by mail-yb1-f198.google.com with SMTP id
- 3f1490d57ef6-b9a7766d220so6094638276.2
- for <qemu-devel@nongnu.org>; Mon, 08 May 2023 10:52:22 -0700 (PDT)
+ us-mta-668-PE10vANhP9agVM-mtVlalA-1; Mon, 08 May 2023 14:11:34 -0400
+X-MC-Unique: PE10vANhP9agVM-mtVlalA-1
+Received: by mail-qv1-f71.google.com with SMTP id
+ 6a1803df08f44-61a66010dd7so23980236d6.3
+ for <qemu-devel@nongnu.org>; Mon, 08 May 2023 11:11:34 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683568342; x=1686160342;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=PVJpKIZKCxVKbve+7dKdCFxCaAcb8H9ogq4MKGDwdsc=;
- b=Hla4Mq01rpK8FWcc0OkHCIsSKFPN5qSsjWaqFFkkDeFqe6fhXtG9HzyCesA6KUtUTO
- PCteZ3qcnO7lNNxteB4aU2AQouO+AVF1wsozD/xoxMZSP5xdmX2vBnk5SQdJAtXhOyto
- 0KkkYMgI8A+dcisz08KezVtKxyP3byayU0bM946rUT4FGguqeFmhTg8xSZoNuZNin6Tx
- gffRH0Ad80+TnpVTWCOsHQP3X2b/QLn6PngGuoRHEeBeePLYzuFWvSCSgeImOwkJoCa2
- 7hWmcuWXdWlDSoVrH+eOkXa9uAkBsTAt23Iyswe6dlCssv96xLEXM2v0UicOc4dGgZN8
- +H/g==
-X-Gm-Message-State: AC+VfDw0fuekPiRxZEXi/AqCO/9r3kgLJNOav/W7mx1tVwYpbc5ppgqj
- JonhrWtl5OsWVEMUD3bdTr0LRIt+TQ0Ez1plNPbvu6jd9uVlz2QzGES9/t4did5c8lnvxn+ZHKS
- V1yhA5O3HIMGCncK6P9fbbFgMdTQJ/5k=
-X-Received: by 2002:a25:d3c8:0:b0:b92:393a:8ee0 with SMTP id
- e191-20020a25d3c8000000b00b92393a8ee0mr11157265ybf.14.1683568342076; 
- Mon, 08 May 2023 10:52:22 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ6lj6tV9L/5xjwDJn497ww3IR6DFKBMmuX9TXzWH2Ffoc8jxkkXX6nsztQF67vsitXKUakMQtX42OLfxhVmosg=
-X-Received: by 2002:a25:d3c8:0:b0:b92:393a:8ee0 with SMTP id
- e191-20020a25d3c8000000b00b92393a8ee0mr11157251ybf.14.1683568341815; Mon, 08
- May 2023 10:52:21 -0700 (PDT)
+ d=1e100.net; s=20221208; t=1683569494; x=1686161494;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=rOVzPUBJ0Q+BKp+UL3hSIuQnYeoh2ItckY2JMbtMC00=;
+ b=UKpdX6I+K8A2ir5wLHoicPuASp8QfQtITQOlw6BtdObOh4uBuUM5CmB+6Y7XMRtUT2
+ 2fiV/5cf7W79yvt7utJVr2QnXMkyPNMb6XfCm1Bjp9K7K/muMr4x2JCU1EVv0Tpify8B
+ wNLcfSzDVJNxfhEBNKSejGWnAYeGzrcG9frR1SYPFku+0ZUhshm2HBfmBZ/DsjooWU6w
+ FN76TYJfkmMPiQ8D/bKbwqDTqbBgcsyFoj7WemwVXxrc2Gjygca9eR7XpvZhRVe+V9Z2
+ wPI1k4O51m7d/TG5fArHbrOuwJ51qzpDAttcHDI5bUHaUXtshU84lf5xFO+uoYaLnxlo
+ hfPQ==
+X-Gm-Message-State: AC+VfDz3POCQJbG7svGZYGl0yOMqzZca+sSlWRIsFnsY1HeSCj0RPZgA
+ b+5WpRZTrSSC9U6Dv4Maei6Dxb3EvNwR8pLUXWGajzWW47uDYqqkNl+L6dfeWoW8DreUHbhdO+g
+ 5WnPEd3dNcSXxf4A=
+X-Received: by 2002:a05:6214:20e2:b0:61a:281b:9a5d with SMTP id
+ 2-20020a05621420e200b0061a281b9a5dmr13724636qvk.5.1683569494306; 
+ Mon, 08 May 2023 11:11:34 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ5teBtZhj3aQj66OlXwqgDuxvo+cuSzC/XDAv8zAScbWOY44nAAdl/Akgu3hXSdEZoSAlmW9g==
+X-Received: by 2002:a05:6214:20e2:b0:61a:281b:9a5d with SMTP id
+ 2-20020a05621420e200b0061a281b9a5dmr13724611qvk.5.1683569494046; 
+ Mon, 08 May 2023 11:11:34 -0700 (PDT)
+Received: from redhat.com ([185.187.243.116]) by smtp.gmail.com with ESMTPSA id
+ d14-20020a0cdb0e000000b0061b6d792ec2sm144536qvk.113.2023.05.08.11.11.31
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 08 May 2023 11:11:33 -0700 (PDT)
+Date: Mon, 8 May 2023 14:11:28 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Eugenio Perez Martin <eperezma@redhat.com>
+Cc: Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+ Jason Wang <jasowang@redhat.com>, Lei Yang <leiyang@redhat.com>,
+ qemu-devel@nongnu.org
+Subject: Re: [PATCH] virtio-net: not enable vq reset feature unconditionally
+Message-ID: <20230508141103-mutt-send-email-mst@kernel.org>
+References: <20230504101447.389398-1-eperezma@redhat.com>
+ <1683339216.3364966-2-xuanzhuo@linux.alibaba.com>
+ <CAJaqyWfzs00bi5qDHnyHVnf0vEK02hSiC15uJpGVi_eoRTmg7Q@mail.gmail.com>
+ <20230508062210-mutt-send-email-mst@kernel.org>
+ <CAJaqyWfVUJOPOpzibvW8iNtfizYzyCTQOxac-U86520pke3C4Q@mail.gmail.com>
 MIME-Version: 1.0
-References: <20230411150515.14020-1-hreitz@redhat.com>
- <e8cc4521-50a1-2e38-1fb3-8cfa7b0c967e@redhat.com>
- <CAJSP0QUFFYWwD5+8+1q41sNErJVNbkfnQ3VtB4z-HZUV8S0=zw@mail.gmail.com>
- <dfec96a1-84c3-3639-6f09-204c2d12244a@redhat.com>
- <71e47e3e-880d-38d8-c1b0-3287c60365e4@redhat.com>
- <CAJaqyWe13QxuC9BNBULJ1xu1saWE9Y3ET8eEef-7qtyL5R73SQ@mail.gmail.com>
- <f04ed41d-39b6-a4e8-dfa5-c3e4936302ca@redhat.com>
- <d25a7982-cfca-6c6b-5dff-1a197fa0d262@redhat.com>
-In-Reply-To: <d25a7982-cfca-6c6b-5dff-1a197fa0d262@redhat.com>
-From: Eugenio Perez Martin <eperezma@redhat.com>
-Date: Mon, 8 May 2023 19:51:45 +0200
-Message-ID: <CAJaqyWcf-U4tB3FxPWBKHh02ZNk7nEfLiZ=cnns8AdHSasv6CA@mail.gmail.com>
-Subject: Re: [PATCH 0/4] vhost-user-fs: Internal migration
-To: Hanna Czenczek <hreitz@redhat.com>
-Cc: Stefan Hajnoczi <stefanha@gmail.com>, qemu-devel@nongnu.org,
- virtio-fs@redhat.com, 
- Stefan Hajnoczi <stefanha@redhat.com>, German Maglione <gmaglione@redhat.com>, 
- Anton Kuchin <antonkuchin@yandex-team.ru>, Juan Quintela <quintela@redhat.com>,
- "Michael S . Tsirkin" <mst@redhat.com>,
- Stefano Garzarella <sgarzare@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eperezma@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAJaqyWfVUJOPOpzibvW8iNtfizYzyCTQOxac-U86520pke3C4Q@mail.gmail.com>
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -105,128 +102,75 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, May 8, 2023 at 7:00=E2=80=AFPM Hanna Czenczek <hreitz@redhat.com> w=
-rote:
->
-> On 05.05.23 16:37, Hanna Czenczek wrote:
-> > On 05.05.23 16:26, Eugenio Perez Martin wrote:
-> >> On Fri, May 5, 2023 at 11:51=E2=80=AFAM Hanna Czenczek <hreitz@redhat.=
-com>
-> >> wrote:
-> >>> (By the way, thanks for the explanations :))
-> >>>
-> >>> On 05.05.23 11:03, Hanna Czenczek wrote:
-> >>>> On 04.05.23 23:14, Stefan Hajnoczi wrote:
-> >>> [...]
-> >>>
-> >>>>> I think it's better to change QEMU's vhost code
-> >>>>> to leave stateful devices suspended (but not reset) across
-> >>>>> vhost_dev_stop() -> vhost_dev_start(), maybe by introducing
-> >>>>> vhost_dev_suspend() and vhost_dev_resume(). Have you thought about
-> >>>>> this aspect?
-> >>>> Yes and no; I mean, I haven=E2=80=99t in detail, but I thought this =
-is what=E2=80=99s
-> >>>> meant by suspending instead of resetting when the VM is stopped.
-> >>> So, now looking at vhost_dev_stop(), one problem I can see is that
-> >>> depending on the back-end, different operations it does will do
-> >>> different things.
-> >>>
-> >>> It tries to stop the whole device via vhost_ops->vhost_dev_start(),
-> >>> which for vDPA will suspend the device, but for vhost-user will
-> >>> reset it
-> >>> (if F_STATUS is there).
-> >>>
-> >>> It disables all vrings, which doesn=E2=80=99t mean stopping, but may =
-be
-> >>> necessary, too.  (I haven=E2=80=99t yet really understood the use of =
-disabled
-> >>> vrings, I heard that virtio-net would have a need for it.)
-> >>>
-> >>> It then also stops all vrings, though, so that=E2=80=99s OK.  And bec=
-ause this
-> >>> will always do GET_VRING_BASE, this is actually always the same
-> >>> regardless of transport.
-> >>>
-> >>> Finally (for this purpose), it resets the device status via
-> >>> vhost_ops->vhost_reset_status().  This is only implemented on vDPA, a=
-nd
-> >>> this is what resets the device there.
-> >>>
-> >>>
-> >>> So vhost-user resets the device in .vhost_dev_start, but vDPA only do=
-es
-> >>> so in .vhost_reset_status.  It would seem better to me if vhost-user
-> >>> would also reset the device only in .vhost_reset_status, not in
-> >>> .vhost_dev_start.  .vhost_dev_start seems precisely like the place to
-> >>> run SUSPEND/RESUME.
-> >>>
-> >> I think the same. I just saw It's been proposed at [1].
-> >>
-> >>> Another question I have (but this is basically what I wrote in my las=
-t
-> >>> email) is why we even call .vhost_reset_status here.  If the device
-> >>> and/or all of the vrings are already stopped, why do we need to reset
-> >>> it?  Na=C3=AFvely, I had assumed we only really need to reset the dev=
-ice if
-> >>> the guest changes, so that a new guest driver sees a freshly
-> >>> initialized
-> >>> device.
-> >>>
-> >> I don't know why we didn't need to call it :). I'm assuming the
-> >> previous vhost-user net did fine resetting vq indexes, using
-> >> VHOST_USER_SET_VRING_BASE. But I don't know about more complex
-> >> devices.
-> >>
-> >> The guest can reset the device, or write 0 to the PCI config status,
-> >> at any time. How does virtiofs handle it, being stateful?
+On Mon, May 08, 2023 at 07:31:35PM +0200, Eugenio Perez Martin wrote:
+> On Mon, May 8, 2023 at 12:22 PM Michael S. Tsirkin <mst@redhat.com> wrote:
 > >
-> > Honestly a good question because virtiofsd implements neither
-> > SET_STATUS nor RESET_DEVICE.  I=E2=80=99ll have to investigate that.
+> > On Mon, May 08, 2023 at 11:09:46AM +0200, Eugenio Perez Martin wrote:
+> > > On Sat, May 6, 2023 at 4:25 AM Xuan Zhuo <xuanzhuo@linux.alibaba.com> wrote:
+> > > >
+> > > > On Thu,  4 May 2023 12:14:47 +0200, =?utf-8?q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com> wrote:
+> > > > > The commit 93a97dc5200a ("virtio-net: enable vq reset feature") enables
+> > > > > unconditionally vq reset feature as long as the device is emulated.
+> > > > > This makes impossible to actually disable the feature, and it causes
+> > > > > migration problems from qemu version previous than 7.2.
+> > > > >
+> > > > > The entire final commit is unneeded as device system already enable or
+> > > > > disable the feature properly.
+> > > > >
+> > > > > This reverts commit 93a97dc5200a95e63b99cb625f20b7ae802ba413.
+> > > > > Fixes: 93a97dc5200a ("virtio-net: enable vq reset feature")
+> > > > > Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
+> > > > >
+> > > > > ---
+> > > > > Tested by checking feature bit at  /sys/devices/pci.../virtio0/features
+> > > > > enabling and disabling queue_reset virtio-net feature and vhost=on/off
+> > > > > on net device backend.
+> > > >
+> > > > Do you mean that this feature cannot be closed?
+> > > >
+> > > > I tried to close in the guest, it was successful.
+> > > >
+> > >
+> > > I'm not sure what you mean with close. If the device dataplane is
+> > > emulated in qemu (vhost=off), I'm not able to make the device not
+> > > offer it.
+> > >
+> > > > In addition, in this case, could you try to repair the problem instead of
+> > > > directly revert.
+> > > >
+> > >
+> > > I'm not following this. The revert is not to always disable the feature.
+> > >
+> > > By default, the feature is enabled. If cmdline states queue_reset=on,
+> > > the feature is enabled. That is true both before and after applying
+> > > this patch.
+> > >
+> > > However, in qemu master, queue_reset=off keeps enabling this feature
+> > > on the device. It happens that there is a commit explicitly doing
+> > > that, so I'm reverting it.
+> > >
+> > > Let me know if that makes sense to you.
+> > >
+> > > Thanks!
 > >
-> > I think when the guest resets the device, SET_VRING_BASE always comes
-> > along some way or another, so that=E2=80=99s how the vrings are reset. =
- Maybe
-> > the internal state is reset only following more high-level FUSE
-> > commands like INIT.
->
-> So a meeting and one session of looking-into-the-code later:
->
-> We reset every virt queue on GET_VRING_BASE, which is wrong, but happens
-> to serve the purpose.  (German is currently on that.)
->
-> In our meeting, German said the reset would occur when the memory
-> regions are changed, but I can=E2=80=99t see that in the code.
+> >
+> > question is this:
+> >
+> >     DEFINE_PROP_BIT64("queue_reset", _state, _field, \
+> >                       VIRTIO_F_RING_RESET, true)
+> >
+> >
+> >
+> > don't we need compat for 7.2 and back for this property?
+> >
+> 
+> I think that part is already covered by commit 69e1c14aa222 ("virtio:
+> core: vq reset feature negotation support"). In that regard, maybe we
+> can simplify the patch message simply stating that queue_reset=off
+> does not work.
+> 
+> Thanks!
 
-That would imply that the status is reset when the guest's memory is
-added or removed?
-
-> I think it only
-> happens implicitly through the SET_VRING_BASE call, which resets the
-> internal avail/used pointers.
->
-> [This doesn=E2=80=99t seem different from libvhost-user, though, which
-> implements neither SET_STATUS nor RESET_DEVICE, and which pretends to
-> reset the device on RESET_OWNER, but really doesn=E2=80=99t (its
-> vu_reset_device_exec() function just disables all vrings, doesn=E2=80=99t=
- reset
-> or even stop them).]
->
-> Consequently, the internal state is never reset.  It would be cleared on
-> a FUSE Destroy message, but if you just force-reset the system, the
-> state remains into the next reboot.  Not even FUSE Init clears it, which
-> seems weird.  It happens to work because it=E2=80=99s still the same file=
-system,
-> so the existing state fits, but it kind of seems dangerous to keep e.g.
-> files open.  I don=E2=80=99t think it=E2=80=99s really exploitable becaus=
-e everything
-> still goes through the guest kernel, but, well.  We should clear the
-> state on Init, and probably also implement SET_STATUS and clear the
-> state there.
->
-
-I see. That's in the line of assuming GET_VRING_BASE is the last
-message received from qemu.
-
-Thanks!
+that compat for 7.1 and not 7.2 though? is that correct?
 
 
