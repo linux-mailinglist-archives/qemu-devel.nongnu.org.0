@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7EE4D6F9D19
+	by mail.lfdr.de (Postfix) with ESMTPS id 430856F9D18
 	for <lists+qemu-devel@lfdr.de>; Mon,  8 May 2023 02:53:44 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pvp7O-00071R-Vc; Sun, 07 May 2023 20:52:47 -0400
+	id 1pvp7Q-00071w-Gz; Sun, 07 May 2023 20:52:48 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
- id 1pvp7N-000717-60
- for qemu-devel@nongnu.org; Sun, 07 May 2023 20:52:45 -0400
-Received: from mout.web.de ([212.227.15.4])
+ id 1pvp7O-00071K-8e
+ for qemu-devel@nongnu.org; Sun, 07 May 2023 20:52:46 -0400
+Received: from mout.web.de ([212.227.15.3])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
- id 1pvp7K-0004Xg-EA
- for qemu-devel@nongnu.org; Sun, 07 May 2023 20:52:44 -0400
+ id 1pvp7M-0004bK-M9
+ for qemu-devel@nongnu.org; Sun, 07 May 2023 20:52:46 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de; s=s29768273;
- t=1683507155; i=lukasstraub2@web.de;
- bh=8wn4GkQ7/OJiG7CL3mo7ScQO5fAcXwo9fps/8sZHERQ=;
+ t=1683507160; i=lukasstraub2@web.de;
+ bh=IF2rLFsIMJ/UTQ+z/EK3wC/8lHx5BXBAM9BnhOAPBLc=;
  h=X-UI-Sender-Class:Date:From:To:Cc:Subject:In-Reply-To:References;
- b=TxB00nqzyrApdF5k8UAbrFGi7Q6KWeJBJYLgbTjdZlXz4qXU+Zh7C/L0xKb8kMwNI
- sJC1jxbKWAZfH6ekUDneNF3aWuHfV0V0btLyJDdWKenvlPYeFBE81GioKwSvCnaGxL
- hEs8csQt8IEjGymOxGMfoboW+/N7CzJxX9qo4YZbqQ7998zFSNVvaOn6Rb3ZKdoO/R
- 3WjAXDZdkDCjd51kIl5mrdMRP1Zm7epgL2tu8UEEMNgxQXxwTWU/QPwhXK7X3S7Ok7
- DivY1o4p3xFHtn+V6dsTpeXBpxHkQtaAm/KfrQvu7txc4YmdFdLilzuEM8mEfxpYX+
- etIVVdZ44+Fgw==
+ b=QOFxp/jLKXQ70fvwP1f7Mqwo3CewyWVEVH6NWmhOU5CIYoMIUJbhJGPHVhZ4OXHuU
+ C/hITLhwFU0C8P9XQ9ii/0KGYZzTaIREzWQLaj1Mq8c9x8x9LEQwLGKEQzkXeVRHHl
+ seHtjgEymIjkctjtpJZPQD/9CVRSrQvxdzrejY48I/sdbhIg/RIp0uowt+b0UkBgnp
+ WAh5Ogcu5gxYjOJkZKmiBtw29Wdwp9MP51UVLYR0F9QtcIY296HVS5QW2+euYjnHgj
+ m2PZpa1qELE7XqLzUsKGT0Ucwq465oQSxUrqmxzwZ3I/jJVfrQxSz2qawGqaBitN+K
+ AJSccUR5WJFow==
 X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
 Received: from gecko.fritz.box ([82.207.254.115]) by smtp.web.de (mrweb005
- [213.165.67.108]) with ESMTPSA (Nemesis) id 1MY5fd-1phmkJ3uub-00YTAp; Mon, 08
- May 2023 02:52:34 +0200
-Date: Mon, 8 May 2023 02:52:33 +0200
+ [213.165.67.108]) with ESMTPSA (Nemesis) id 1N8Vsr-1qIDQP1wKv-014VGZ; Mon, 08
+ May 2023 02:52:40 +0200
+Date: Mon, 8 May 2023 02:52:39 +0200
 From: Lukas Straub <lukasstraub2@web.de>
 To: qemu-devel <qemu-devel@nongnu.org>
 Cc: Juan Quintela <quintela@redhat.com>, Peter Xu <peterx@redhat.com>,
  Leonardo Bras <leobras@redhat.com>
-Subject: [PATCH 1/5] ram: Add public helper to set colo bitmap
-Message-ID: <ac133fe789e95e23c3faddd2347035fee1dc67d8.1683506133.git.lukasstraub2@web.de>
+Subject: [PATCH 2/5] ram: Let colo_flush_ram_cache take the bitmap_mutex
+Message-ID: <eff0d3dec168e9e32678a4a5f2d24fcd25645fde.1683506133.git.lukasstraub2@web.de>
 In-Reply-To: <cover.1683506133.git.lukasstraub2@web.de>
 References: <cover.1683506133.git.lukasstraub2@web.de>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/I3MFa6umhU/ggOdWlvjgxSS";
+Content-Type: multipart/signed; boundary="Sig_/8gpWrRVMZCwlNjXxelYuQUI";
  protocol="application/pgp-signature"; micalg=pgp-sha256
-X-Provags-ID: V03:K1:chPg89AQaGkjW/sC7RNkKim5n5sZ1UilWxzt/qQLMeThAYRym4d
- g9hpCpeeOjpjPr1wjBTi9DWesw5f2vU7GeqqDjEdV2OJmEh+FmscoZ7YzTjN2c5BfyS+TfA
- YZsPcmw2r8C0LEIMlU94xqJNskBhEwiL/0qOnoyXAEGSFmmWq+Sftm/fVNXRagc86BuiL1T
- Dg2WtBty94zhoEpkrfH4g==
-UI-OutboundReport: notjunk:1;M01:P0:4+kJoJfF8w8=;LZ25wXWBlFC6bIsdwtD6KGHf6/W
- dQoKoyzCaodSXvVRok5GUSOJOFZpdrJz+oKeJW7DvbuhChdKh+NUbqmsTcxB/pT36wlGrFa2w
- QW4qeMNTSrgFnWSZwARLEEy9waZzN4eOineLch4bJ5xhpXE7mnMw1dP5K3XIUAsgYzM69hS41
- Fe7dcTXNaCFsVirr2r9tc9x0Js6jImMKzs+7dE2+vzckEc04yBzlBrB8Sq/cyNT/TIHiC9TCp
- sAHCuhuGa1oLMS4DDoBsF0rFi1HwQ91VWj5PvKjx6PTphBoLIKi6eLzvfWn449SV+j4Fi1MSv
- LjNZFBIwu6c99pEGms5f7brDOfQzrai8QWhLoO5s4x0iAkhzzX9uW0iGaw+RVFpXqdgWWlUGn
- m8+o6SYkMtQZjNHUTke5ZYn9QnnrSODpy4o1D2ac2HrWtZc3X43gHabwFopqrsgeAYsqbcImP
- /bmDkJRWh7tdcHDpbtP5Qbqf1xX7NxKOlVuSrZyvoSVqyNVgrTBdV1QKiAVqJchkaogryioL6
- tYxYsNvfhWo6wtzjpqbzVASvu3vBT9I6bhmpFgWIs6Kdz3T+SOq5f7T9e63l26yekPs/nD80+
- 6shkFc0sM+D/rHQ65acyNQZOGjBGb5u8C39oMP707YtPrTeiILImTsUgG16+zYvM1mL19AmSF
- kvuryqII+39U9IC+v8kFiLtBWRpzFjizsxJA/4rLb/7nyYtw9YWURIhvDlXdlC//kJiuyoxjr
- NQNn8CUtn827kJjpiJVjUbFVTIWg+Gwke4eVs7KP20Mz7cWiPjGw6BEw3bLMyYC+tGulAB0V5
- Fid9YFESRioCe3gVxlYvdXogvqOt8t+GSn5CBALZrsVOdRkZJTMBZIBGbQH8kNj7E3vkkuJwa
- mcsDQWOjG2Hsggd7ltzYbkPEXQ28eDw4q8YH4zjDHJNaPkRNvMpYASMvjtGTkfR0HwTsuE0dP
- p8nesA==
-Received-SPF: pass client-ip=212.227.15.4; envelope-from=lukasstraub2@web.de;
+X-Provags-ID: V03:K1:43EvQ0cPrAbJ+gxTI9+sZuUeDDpjymSecUhermJzPgkIKIzIzRm
+ UaqbM7q0sNjQfsf2N1kISlHseVEE2Kiqd3S934jZVgewkTTk3Diy9jR1tTXJlc4GoB0uN/d
+ bfZg0/MBvc0UBPefSkzPeQuPbh0oEtp6V2SAFuujDU+Uuaec63uX86PKc5gGCBHA/HnJgNY
+ veyvPT+hCex2YueUnYwxA==
+UI-OutboundReport: notjunk:1;M01:P0:lY0/pg5DNNo=;Cla8xEX0M58NcwASk6YT7OaEkCr
+ 6YMaKmeWfqwTEuhbfwYIpXGmqQ6etMhs1HfHVYhn15ZWqpPENLmChOxHhLiWfoG1+uKmFhr5V
+ xB6bTsEjFtEwRgj1B6aFCG3Q9BTrGveWIT0LwizujsCI42+tJ6fPDjiHoQDEXVraTL8JQyC3p
+ DwuXZnNqFg2HqY9GusFjwQqVItqS+DxwEI3AF0wHYGy3DM/RvKok+vvLFrGeIxN3pzUD20iqt
+ cM5CJeD4yKLTjcIqyO8ixAq8/+wq8Qmn3GLS3NhafUa0WXZYs+Dz/hkbgooSfz8bitTLrPddE
+ 2XxGY2NtZ4zmgp+mguLa70pOAsEZub/JhPOds4nPUGXQZ8d+Pzo/h5oFrx2wwCkKzabn+F7bN
+ NZCAiW8yUftuCRDbrTXeomurSzMOtFeOH7aU6DJU/cueF7IljyxoaBzCTIXNycGenLCIZRsDi
+ 2tANBMtKlLzLpSE5OLvCfOhHomsk1soW976gBcD6xfV/nPqvyZnYcOZjkI76giitJ0LZHhfY4
+ s9iNT0ChRQ6uQJ5xj5Wk5JbsMH7TkmhnNVCXt+JWLy0Ms1yYMLyhfxsIt7J7W394/upn1a33i
+ fF3EIXQTP1xkL58Hl9EPXESaNwMu7l0yKzqnWnGmAt43sQz8KeHhTCx0xuuB81vcyyolppA3O
+ jP36/MAQRy/YcacjPOHI7pwVffmu1q6ZBvCyQ+nQ/Ukk61X2oW+B2ZYcUhy32yxYmPSrjVsdw
+ ZkLjzB1DGtIlWXuwurkeViGtxjk9Szqjbw4wQRxNVF2jjXldAOcm7436vs+bjKzGjDvqX+AAm
+ QYD75DPARTYfImsgnUPJL1pT8bBy8YiMRc+IxYIyNMYk7kC8VKfyLYG2M5rIVps4USjg+xhuZ
+ cQso2Fg+dDRgplaRHFhmJD9lzE1Dl4Cz33vg4hb9cYFFpL0jMFvr/MlhDOjeWPawdH3XJL/Lt
+ mtDCpFkd69NG3tSylllJXS/AMVA=
+Received-SPF: pass client-ip=212.227.15.3; envelope-from=lukasstraub2@web.de;
  helo=mout.web.de
 X-Spam_score_int: -25
 X-Spam_score: -2.6
@@ -88,96 +88,61 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
---Sig_/I3MFa6umhU/ggOdWlvjgxSS
+--Sig_/8gpWrRVMZCwlNjXxelYuQUI
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
-
-The overhead of the mutex in non-multifd mode is negligible,
-because in that case its just the single thread taking the mutex.
 
 This will be used in the next commits to add colo support to multifd.
 
 Signed-off-by: Lukas Straub <lukasstraub2@web.de>
 ---
- migration/ram.c | 17 ++++++++++++++---
- migration/ram.h |  1 +
- 2 files changed, 15 insertions(+), 3 deletions(-)
+ migration/ram.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
 diff --git a/migration/ram.c b/migration/ram.c
-index 5e7bf20ca5..2d3fd2112a 100644
+index 2d3fd2112a..f9e7aeda12 100644
 --- a/migration/ram.c
 +++ b/migration/ram.c
-@@ -3633,6 +3633,18 @@ static ram_addr_t host_page_offset_from_ram_block_of=
-fset(RAMBlock *block,
-     return ((uintptr_t)block->host + offset) & (block->page_size - 1);
- }
+@@ -4230,6 +4230,7 @@ void colo_flush_ram_cache(void)
+     unsigned long offset =3D 0;
 =20
-+void colo_record_bitmap(RAMBlock *block, ram_addr_t *normal, uint normal_n=
-um)
-+{
+     memory_global_dirty_log_sync();
 +    qemu_mutex_lock(&ram_state->bitmap_mutex);
-+    for (int i =3D 0; i < normal_num; i++) {
-+        ram_addr_t offset =3D normal[i];
-+        ram_state->migration_dirty_pages +=3D !test_and_set_bit(
-+                                                offset >> TARGET_PAGE_BITS,
-+                                                block->bmap);
-+    }
-+    qemu_mutex_unlock(&ram_state->bitmap_mutex);
-+}
-+
- static inline void *colo_cache_from_block_offset(RAMBlock *block,
-                              ram_addr_t offset, bool record_bitmap)
- {
-@@ -3650,9 +3662,8 @@ static inline void *colo_cache_from_block_offset(RAMB=
-lock *block,
-     * It help us to decide which pages in ram cache should be flushed
-     * into VM's RAM later.
-     */
--    if (record_bitmap &&
--        !test_and_set_bit(offset >> TARGET_PAGE_BITS, block->bmap)) {
--        ram_state->migration_dirty_pages++;
-+    if (record_bitmap) {
-+        colo_record_bitmap(block, &offset, 1);
+     WITH_RCU_READ_LOCK_GUARD() {
+         RAMBLOCK_FOREACH_NOT_IGNORED(block) {
+             ramblock_sync_dirty_bitmap(ram_state, block);
+@@ -4264,6 +4265,7 @@ void colo_flush_ram_cache(void)
+             }
+         }
      }
-     return block->colo_cache + offset;
++    qemu_mutex_unlock(&ram_state->bitmap_mutex);
+     trace_colo_flush_ram_cache_end();
  }
-diff --git a/migration/ram.h b/migration/ram.h
-index 6fffbeb5f1..887d1fbae6 100644
---- a/migration/ram.h
-+++ b/migration/ram.h
-@@ -82,6 +82,7 @@ int colo_init_ram_cache(void);
- void colo_flush_ram_cache(void);
- void colo_release_ram_cache(void);
- void colo_incoming_start_dirty_log(void);
-+void colo_record_bitmap(RAMBlock *block, ram_addr_t *normal, uint normal_n=
-um);
 =20
- /* Background snapshot */
- bool ram_write_tracking_available(void);
 --=20
 2.39.2
 
 
---Sig_/I3MFa6umhU/ggOdWlvjgxSS
+--Sig_/8gpWrRVMZCwlNjXxelYuQUI
 Content-Type: application/pgp-signature
 Content-Description: OpenPGP digital signature
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEg/qxWKDZuPtyYo+kNasLKJxdslgFAmRYR9EACgkQNasLKJxd
-slgizxAAnPToGeBo8BuYUwmb6px8xRhcqxYavf5CaHIvTS7yk7gDBxa579QG4rb6
-Syyoo1n0jIwHXyOoy+8xLZw/FcU5vI4aS74OmNnqqiDX6EVe5LCRRUx8iNoziMIq
-ULjGSsk3I5Wb+X5vwi2O/sXQVwcsqsGSxGPm23qjB+gsYZoE6ZvLfMh6IG4bFNuO
-XmCB/XEKP4fhxW7RiAbTDhHACriZyiyPOPRAKgHIdniUZeLz34VXL2QTIpiqvM0U
-KZmplGCGJEctVNysqIMWlqTEyoXKT+K1ZFm0/HCr8qB9ApGi67YY9vE3HB4P96US
-vRdz84JvcHSiau2ySSWY94U7B+O84GWxH0uOmNK05wSlCVyAf2KI4P8yFfQBSEkv
-wPgV0QaojkY5kDH1H/UNHn4EypcYnWDtjXGxiImS+Ky6YviuShxCC8pARyVPQELx
-y8ZC+0Mv4sZXAdC4sIPN38W2y0FtiOiZakbw/bKkAGMbUHZAg+MlJ6H3vTidv60d
-IRkyHyYzWZgNiF1FzrsF4KzS+a5guxqkaPn4ssc3OsD+VAi3jW1VHvllovKfMzMs
-kkMDjCgntxsBUQqKhYy85Ar+LRz0ofIW8DfPbINAFyWvR11ljc6Vu6KNvbtU3n+N
-QuOm1UotS8DT0RhibWWTXeUuQa8/aMIcYmlRLX4DmHdUjgsTWBo=
-=639H
+iQIzBAEBCAAdFiEEg/qxWKDZuPtyYo+kNasLKJxdslgFAmRYR9cACgkQNasLKJxd
+slhLeQ/+OzrlEXqJcIImE6nYh3fbEURQMnsr5+YK6XYZljfSwess6od0P36K5WhW
+nR58S8TCxMCe5KsRM7gZZz/OS0zVJCS7FogE0uIVrUGrBQEnKDn77q525cvkg0Ag
+DuvQ3SXhQmk5HJWTvQOFWmpLJWLmk38VI5NC7P5fXA96+59EGbQeFOGFMvRo609p
+izrENiItvkLj7NoLbk9/nY2ICVTm4Ut12DtDjD71Z9Wi5fdK5PshqLwEIi8/iPf7
++9AHV1rJHnqOi6Cf5R63ykQ7CI+RNhvHlMdb0PHmf8vD+Sdr6NOatwbvr4FzPy8w
+MdnnTA5tYlgMO3J8bTaNzerZgEF0q4NPm1dNd0engQV8LNKUGXLRMI1ilqEh57o7
+hCJ6SNUjSiOfaRDu8HJC1EzJ8lXvbzUs3xuF5MFRdgcaZa9sLkQCkl+oztzrudiC
+NdKyYisvMxxl4cSFRK1Rw7tYyBPkfDZZB1JSyoUDQW1C2LAWNtU7SS6u77W0WN8n
+9u8GjSLKe0+/3odd1S/dyh/0QlZtsS3FtEeHQB3RJ2soa7oahpctGXpkGtVf+Ja8
+VcdCjrmsTi8u0bEvPqC8+o81Ak+Y7Y1AJxyy8a4PImypHOVmYqiGZptnwR509TL6
+Jh3Rb8ZYvlMnv+0p7nYH9+21FU1UBpI76Bu4r5TDCRTQxTGkxEk=
+=5OqQ
 -----END PGP SIGNATURE-----
 
---Sig_/I3MFa6umhU/ggOdWlvjgxSS--
+--Sig_/8gpWrRVMZCwlNjXxelYuQUI--
 
