@@ -2,76 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B74696F9D1F
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 May 2023 02:54:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D44DD6F9D1C
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 May 2023 02:53:58 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pvp7r-00074n-7n; Sun, 07 May 2023 20:53:15 -0400
+	id 1pvp8B-0007dp-83; Sun, 07 May 2023 20:53:35 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
- id 1pvp7i-00074K-EU
- for qemu-devel@nongnu.org; Sun, 07 May 2023 20:53:06 -0400
-Received: from mout.web.de ([212.227.15.14])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
- id 1pvp7g-0004e0-Mi
- for qemu-devel@nongnu.org; Sun, 07 May 2023 20:53:06 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de; s=s29768273;
- t=1683507180; i=lukasstraub2@web.de;
- bh=QqQu9UpnrMOOeENfQVOCRiuOPULjx7ymu7Dgeocpbcg=;
- h=X-UI-Sender-Class:Date:From:To:Cc:Subject:In-Reply-To:References;
- b=lWnrNpqRoTQXwBUZ95y3s3d9CF64iLhr5ilELhUELnftdEJhLQYfiU+uVVwttpZKr
- +/VlF9sXBxQJ87WFDUAnwgdTk1r/S7DhRvNf8CPAtn985bjoUq28r8lBKaHp+AS7Jv
- w7+uK4UT7U/rK8KO9yz3PDj8wjzAjG2oOYbJtgqST7JOa/F7mzuOk6ULeOtys1avgt
- XRdy3CGyd3eeiqw0EbSJuOV/ArH0NxPhjrl3eLsJbnsUdllYbSA6nzLSxNKmQhwlQ7
- gHMZzYJn/risJ+1t/C06Otpc6td6n4M7fr4gEq/eiIla8GgPAgahHETOiKc3ikGlYU
- /m4e29sE7EFXQ==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from gecko.fritz.box ([82.207.254.115]) by smtp.web.de (mrweb006
- [213.165.67.108]) with ESMTPSA (Nemesis) id 1N6Jxd-1qG1Yr1Q2T-016PW0; Mon, 08
- May 2023 02:53:00 +0200
-Date: Mon, 8 May 2023 02:52:59 +0200
-From: Lukas Straub <lukasstraub2@web.de>
-To: qemu-devel <qemu-devel@nongnu.org>
-Cc: Juan Quintela <quintela@redhat.com>, Peter Xu <peterx@redhat.com>,
- Leonardo Bras <leobras@redhat.com>
-Subject: [PATCH 5/5] multifd: Add colo support
-Message-ID: <6461809211524b24210fd4ac2ea6b2593fc7538f.1683506133.git.lukasstraub2@web.de>
-In-Reply-To: <cover.1683506133.git.lukasstraub2@web.de>
-References: <cover.1683506133.git.lukasstraub2@web.de>
+ (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
+ id 1pvp82-0007W9-8F
+ for qemu-devel@nongnu.org; Sun, 07 May 2023 20:53:26 -0400
+Received: from mail.loongson.cn ([114.242.206.163] helo=loongson.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <gaosong@loongson.cn>) id 1pvp7z-0004gb-TQ
+ for qemu-devel@nongnu.org; Sun, 07 May 2023 20:53:26 -0400
+Received: from loongson.cn (unknown [10.20.42.57])
+ by gateway (Coremail) with SMTP id _____8Ax3er6R1hkHl8GAA--.10337S3;
+ Mon, 08 May 2023 08:53:15 +0800 (CST)
+Received: from [10.20.42.57] (unknown [10.20.42.57])
+ by localhost.localdomain (Coremail) with SMTP id
+ AQAAf8Bxi7b5R1hka2RQAA--.14068S3; 
+ Mon, 08 May 2023 08:53:13 +0800 (CST)
+Subject: Re: [PATCH] loongarch: mark loongarch_ipi_iocsr re-entrnacy safe
+To: Alexander Bulekov <alxndr@bu.edu>, qemu-devel@nongnu.org
+Cc: Thomas Huth <thuth@redhat.com>, Xiaojuan Yang <yangxiaojuan@loongson.cn>
+References: <20230506112145.3563708-1-alxndr@bu.edu>
+From: Song Gao <gaosong@loongson.cn>
+Message-ID: <cf2fb8d0-683f-059b-bf95-f6673936c267@loongson.cn>
+Date: Mon, 8 May 2023 08:53:13 +0800
+User-Agent: Mozilla/5.0 (X11; Linux loongarch64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/uAkkJE8iJQBkQhm3pEjlxLi";
- protocol="application/pgp-signature"; micalg=pgp-sha256
-X-Provags-ID: V03:K1:tZW2VOOupCD3OHINsQ1OyaW7u1OgAR1Qz9Xu8UvpXlkiVcwgx97
- cz6WbUzXCMKL7dhRNA9crum+fG0Xg7wsX4vWIGsS8fL5g4YSRMMaJ+4o3Cf4Fv6CqwLbHWr
- FcrdWWFKPugjRxcHEN+xoq7msuH0sEYRN7Pme2uNHRH4B04bM2GCWmny0gwwjKdR0mAPW9H
- EoqlZbqhMdkwedcmD5SBA==
-UI-OutboundReport: notjunk:1;M01:P0:jN7hdHy0iW8=;yjQO8qvhTXsNKZ9pWQL9wP6K6UX
- 938Pm8gpTwlNjNeQWZ8Q3l6jIHM5s+/hfFG8IKUJ8UJV0QOTOT7xL5Mj3J1pKiCXd6mpi+e32
- og3FUHdYdMKrGSXvL96Wq0GrQpHoXZQBmBBL06Iz3PfUw6R4iSrF2LuAXFbVQa1/TNX7s0ttq
- nCDvibUN5A4Qh1djuk8S4xFNSgUevyxN1ZLC3igeR1qVCMwVrAwlQVYc7DcGq/hSe5AhaIO7D
- SqsV2ZUnrCIeGMWAjOBJoX51LhRfS/WuXkTzD/T6ocM4TwXQO++yfvmIk1JeVmrLDVIs3pvIr
- /Vzd6b3LGHOIuzAkKITZZN16Q4QRMNW673uT/+z2FDjK9bVSPs82M0SBetDlQqGvba82jmGHA
- CtZjTi7aa5HALUTbCXnmBci8Khht51OH/YLTO+jqW9yysnRg4LXxpZxZadEJkK3j/xKGOayHS
- zSusYantLAcV6SNmAcFL9+R1scbnAMDvLJN/Ch9GlLOfZDxoWS8aQn1lT1Wn9ET6Tl0SMauHc
- GIEbI11tC1Mj/TIp6t8AFMjSfZFoktOCTeeDzGxzXRlvXgoVMbFhPl8I7y5w253iXEXVkDncT
- d+CHFZV/N5rtwfK7F8bQG8ZFYICSvfHxQJc7+cFYqEYtH4LgDzGAJG3DuR/Ua1mJkFQ6B+/J2
- wMP5YdfbRQrVMlAbSEA6FTgj0nDQN8CI7Vq4Vrq3qVZ/mpP5VQSDIE03wpoXEXhfJqVwsXJ6K
- +Ec8W+LQ59Di1LN029Ov2kH0Sba/Tilp7/s0lLOl0zBNFmNfhJjN8wc82R1UYiGmwFf2wiY1E
- WbPrm9HNiGFa7z3v+J1nXE1D9nTHZiEW4Aftiz4aX4ZYYc4c3eaPndJRd4QXIb75b+ty68Sq5
- YTma+R1b7CPbOqtq/7nAEI7086G3wQ0jnx3TvFSHuLvtG8rzC7tty6U5NA0mrn+rjkUikH5EB
- eQvxPDGUVbbX0z3CPvEju7dFEIY=
-Received-SPF: pass client-ip=212.227.15.14; envelope-from=lukasstraub2@web.de;
- helo=mout.web.de
-X-Spam_score_int: -25
-X-Spam_score: -2.6
+In-Reply-To: <20230506112145.3563708-1-alxndr@bu.edu>
+Content-Type: text/plain; charset=gbk; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+X-CM-TRANSID: AQAAf8Bxi7b5R1hka2RQAA--.14068S3
+X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
+X-Coremail-Antispam: 1Uk129KBjvdXoWrZw13urW7Zw1xKr43Ww1UGFg_yoWkurX_XF
+ 1xZr95WrsrA3Wjvw10vr1Fyw1rJr4rZFnxCF97ZFW8Ja45Xrn3ZFZ7Xas8ZF1IqryxZ3s8
+ tF47Zrs0yw17AjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8wcxFpf9Il3svdxBIdaVrn0
+ xqx4xG64xvF2IEw4CE5I8CrVC2j2Jv73VFW2AGmfu7bjvjm3AaLaJ3UjIYCTnIWjp_UUUY
+ 27kC6x804xWl14x267AKxVWUJVW8JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0rVWrJVCq3w
+ AFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK
+ 6xIIjxv20xvE14v26r1j6r1xM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r1j6r4UM28EF7
+ xvwVC2z280aVAFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv6xkF7I0E14v26r4j6r4UJwAS0I0E
+ 0xvYzxvE52x082IY62kv0487Mc804VCY07AIYIkI8VC2zVCFFI0UMc02F40EFcxC0VAKzV
+ Aqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S
+ 6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JMxk0xIA0c2IEe2xFo4CEbIxvr21l42xK82
+ IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC2
+ 0s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r126r1DMIIYrxkI7VAKI48JMI
+ IF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF
+ 0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87
+ Iv6xkF7I0E14v26r1j6r4UYxBIdaVFxhVjvjDU0xZFpf9x07UE-erUUUUU=
+Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
+ helo=loongson.cn
+X-Spam_score_int: -23
+X-Spam_score: -2.4
 X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, MIME_CHARSET_FARAWAY=2.45,
+ NICE_REPLY_A=-2.964, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -88,143 +79,35 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
---Sig_/uAkkJE8iJQBkQhm3pEjlxLi
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Lukas Straub <lukasstraub2@web.de>
----
- migration/multifd-colo.c | 30 +++++++++++++++++++++++++++++-
- migration/multifd.c      | 11 +++++------
- migration/multifd.h      |  2 ++
- 3 files changed, 36 insertions(+), 7 deletions(-)
 
-diff --git a/migration/multifd-colo.c b/migration/multifd-colo.c
-index c035d15e87..305a1b7000 100644
---- a/migration/multifd-colo.c
-+++ b/migration/multifd-colo.c
-@@ -15,13 +15,41 @@
- #include "ram.h"
- #include "multifd.h"
- #include "io/channel-socket.h"
-+#include "migration/colo.h"
-=20
- #define MULTIFD_INTERNAL
- #include "multifd-internal.h"
-=20
- static int multifd_colo_recv_pages(MultiFDRecvParams *p, Error **errp)
- {
--    return multifd_recv_state->ops->recv_pages(p, errp);
-+    int ret =3D 0;
-+
-+    /*
-+     * While we're still in precopy mode, we copy received pages to both g=
-uest
-+     * and cache. No need to set dirty bits, since guest and cache memory =
-are
-+     * in sync.
-+     */
-+    if (migration_incoming_in_colo_state()) {
-+        colo_record_bitmap(p->block, p->normal, p->normal_num);
-+    }
-+
-+    p->host =3D p->block->colo_cache;
-+    ret =3D multifd_recv_state->ops->recv_pages(p, errp);
-+    if (ret !=3D 0) {
-+        p->host =3D p->block->host;
-+        return ret;
-+    }
-+
-+    if (!migration_incoming_in_colo_state()) {
-+        for (int i =3D 0; i < p->normal_num; i++) {
-+            void *guest =3D p->block->host + p->normal[i];
-+            void *cache =3D p->host + p->normal[i];
-+            memcpy(guest, cache, p->page_size);
-+        }
-+    }
-+
-+    p->host =3D p->block->host;
-+    return ret;
- }
-=20
- int multifd_colo_load_setup(Error **errp)
-diff --git a/migration/multifd.c b/migration/multifd.c
-index fb5e8859de..fddbf86596 100644
---- a/migration/multifd.c
-+++ b/migration/multifd.c
-@@ -284,7 +284,6 @@ static void multifd_send_fill_packet(MultiFDSendParams =
-*p)
- static int multifd_recv_unfill_packet(MultiFDRecvParams *p, Error **errp)
- {
-     MultiFDPacket_t *packet =3D p->packet;
--    RAMBlock *block;
-     int i;
-=20
-     packet->magic =3D be32_to_cpu(packet->magic);
-@@ -334,21 +333,21 @@ static int multifd_recv_unfill_packet(MultiFDRecvPara=
-ms *p, Error **errp)
-=20
-     /* make sure that ramblock is 0 terminated */
-     packet->ramblock[255] =3D 0;
--    block =3D qemu_ram_block_by_name(packet->ramblock);
--    if (!block) {
-+    p->block =3D qemu_ram_block_by_name(packet->ramblock);
-+    if (!p->block) {
-         error_setg(errp, "multifd: unknown ram block %s",
-                    packet->ramblock);
-         return -1;
-     }
-=20
--    p->host =3D block->host;
-+    p->host =3D p->block->host;
-     for (i =3D 0; i < p->normal_num; i++) {
-         uint64_t offset =3D be64_to_cpu(packet->offset[i]);
-=20
--        if (offset > (block->used_length - p->page_size)) {
-+        if (offset > (p->block->used_length - p->page_size)) {
-             error_setg(errp, "multifd: offset too long %" PRIu64
-                        " (max " RAM_ADDR_FMT ")",
--                       offset, block->used_length);
-+                       offset, p->block->used_length);
-             return -1;
-         }
-         p->normal[i] =3D offset;
-diff --git a/migration/multifd.h b/migration/multifd.h
-index 7cfc265148..a835643b48 100644
---- a/migration/multifd.h
-+++ b/migration/multifd.h
-@@ -175,6 +175,8 @@ typedef struct {
-     uint32_t next_packet_size;
-     /* packets sent through this channel */
-     uint64_t num_packets;
-+    /* ramblock */
-+    RAMBlock *block;
-     /* ramblock host address */
-     uint8_t *host;
-     /* non zero pages recv through this channel */
---=20
-2.39.2
+ÔÚ 2023/5/6 ÏÂÎç7:21, Alexander Bulekov Ð´µÀ:
+> loongarch_ipi_iocsr MRs rely on re-entrant IO through the ipi_send
+> function. As such, mark these MRs re-entrancy-safe.
+>
+> Fixes: a2e1753b80 ("memory: prevent dma-reentracy issues")
+> Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
+> ---
+>   hw/intc/loongarch_ipi.c | 4 ++++
+>   1 file changed, 4 insertions(+)
+Reviewed-by: Song Gao <gaosong@loongson.cn>
 
---Sig_/uAkkJE8iJQBkQhm3pEjlxLi
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
+Thanks.
+Song Gao
+> diff --git a/hw/intc/loongarch_ipi.c b/hw/intc/loongarch_ipi.c
+> index bdba0f8107..9de7c01e11 100644
+> --- a/hw/intc/loongarch_ipi.c
+> +++ b/hw/intc/loongarch_ipi.c
+> @@ -215,6 +215,10 @@ static void loongarch_ipi_init(Object *obj)
+>       for (cpu = 0; cpu < MAX_IPI_CORE_NUM; cpu++) {
+>           memory_region_init_io(&s->ipi_iocsr_mem[cpu], obj, &loongarch_ipi_ops,
+>                               &lams->ipi_core[cpu], "loongarch_ipi_iocsr", 0x48);
+> +
+> +        /* loongarch_ipi_iocsr performs re-entrant IO through ipi_send */
+> +        s->ipi_iocsr_mem[cpu].disable_reentrancy_guard = true;
+> +
+>           sysbus_init_mmio(sbd, &s->ipi_iocsr_mem[cpu]);
+>   
+>           memory_region_init_io(&s->ipi64_iocsr_mem[cpu], obj, &loongarch_ipi64_ops,
 
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEg/qxWKDZuPtyYo+kNasLKJxdslgFAmRYR+sACgkQNasLKJxd
-slhbiA/5AZcuTVqmqkbIwY8P7HkekgC1wqmMMDRZLoyCKsA/OHZlLiFcZ7oWRRaY
-qADkC9Hoe40m8irCMS55N8OqRmfTLL9WSDy6FlcqCIrx/fq//myyBAUYRDEJ2x+y
-1dWE50WS3ACc0/dYSxLL08cNwqYhNkHQRLhYslumQYfaD4kfKCAi+WgaOCL9oDxB
-H0uLK4li3yrJsJzXMjTum+/k4XUDRZmz4Xz/yzU8afN51cfNJ7fsI1BMErlGnftV
-lM93xc+peib5SwYl7Nkwr43J2KU+dOzkKJkuwkcfBJYxtS03SfcxF+7s4mDazONF
-uV0UpzV/oxjCgoTvuY/K1RAi7GN1ScYptHEXUC15c2Y6zCDYXzn7I0Q+UDSf1jxM
-1An//ky99Toj5FiZdUe0iFpElo7UcUy4BSNv1xdDH+kScXrLTVpNc/bbcZuanAdS
-toMa1kSFSUVxq76300JjLBYiiZEwadQmsMV7+15Y1EqCQE+T7hprwFMPs5Zis4Gk
-ehJjRD7fuGmo9vlNAYcBD+WRfLsv7XmMVXei0rSiZqGQ4DTaLT6OI1785Vf8ca9s
-mkOoN3dT9mICXl2ZNhMLsfmNqj8OcsFLTUMYDTplDLgp2vXkrmpOs/46T0CK1yy1
-+ZelKuMMauSQFfzgGqO0sJG/Zpp0X1nI0dV2NdMcz4xczJYM6D4=
-=LAtb
------END PGP SIGNATURE-----
-
---Sig_/uAkkJE8iJQBkQhm3pEjlxLi--
 
