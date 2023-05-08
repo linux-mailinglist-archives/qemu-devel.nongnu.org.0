@@ -2,50 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE0D06FB7F0
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 May 2023 22:07:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF8806FB7E7
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 May 2023 22:05:21 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pw75n-0006HY-Sv; Mon, 08 May 2023 16:04:20 -0400
+	id 1pw75l-0006Gs-MU; Mon, 08 May 2023 16:04:17 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1pw75T-0006Ei-6s
- for qemu-devel@nongnu.org; Mon, 08 May 2023 16:04:00 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1pw75O-0006EX-Sw
+ for qemu-devel@nongnu.org; Mon, 08 May 2023 16:03:58 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1pw75O-0007Kc-Ve
- for qemu-devel@nongnu.org; Mon, 08 May 2023 16:03:57 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1pw75N-0007Jb-2t
+ for qemu-devel@nongnu.org; Mon, 08 May 2023 16:03:54 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1683576234;
+ s=mimecast20190719; t=1683576231;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=qp/JKhOleLZTCNgS4yxWd9K5WDKme5TPewUS1v6PyqA=;
- b=hlj8oyOzyErILaf5hsOJTdyKI2obNZ/RpHCcKVy5HZ9iynJSKGeY+WdxI7T6U41AqcC8BE
- xwqjijcmwiBP7gRHCoBo4tnuaPTXF7ERWeEB8DdK7QR7DkyykZVIzkZNFDE3keEQNKR9b+
- JdulAzuusu0TPk9O1uewIl2XQHbh364=
+ bh=whyBs5mAysxv+XUkFP6xBPNl40iBrpCDWkGw73gqdQM=;
+ b=IsEsEMDzK16zmn1NXR2ut2yFoRi5NSKyXzqcbiH3GZ5rHMVlfuKtNVkVVRalnuuEhAmuHS
+ YSzsJeWpGTuJ9pBVHiWd6S7dIsVFA8mgfcVr0VgLyVGJ1YgNoJeLr+KSctgxH9/MEsur8y
+ jADyajiB7XT5gEp+iLiZqPOuaKSLDXI=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-46-OFcttnTxO3mC-yCIWUvKvg-1; Mon, 08 May 2023 16:03:48 -0400
-X-MC-Unique: OFcttnTxO3mC-yCIWUvKvg-1
+ us-mta-648-3cZGzyyFPEmBmCyftquVQQ-1; Mon, 08 May 2023 16:03:49 -0400
+X-MC-Unique: 3cZGzyyFPEmBmCyftquVQQ-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
  [10.11.54.3])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3F8E41C0513E
- for <qemu-devel@nongnu.org>; Mon,  8 May 2023 20:03:48 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 32FE11C0519E;
+ Mon,  8 May 2023 20:03:49 +0000 (UTC)
 Received: from green.redhat.com (unknown [10.2.16.49])
- by smtp.corp.redhat.com (Postfix) with ESMTP id F0BF31121314;
- Mon,  8 May 2023 20:03:47 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 680161121314;
+ Mon,  8 May 2023 20:03:48 +0000 (UTC)
 From: Eric Blake <eblake@redhat.com>
 To: qemu-devel@nongnu.org
-Cc: hreitz@redhat.com
-Subject: [PATCH 06/11] test-cutils: Add more coverage to qemu_strtosz
-Date: Mon,  8 May 2023 15:03:38 -0500
-Message-Id: <20230508200343.791450-7-eblake@redhat.com>
+Cc: hreitz@redhat.com, Eduardo Habkost <eduardo@habkost.net>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Yanan Wang <wangyanan55@huawei.com>
+Subject: [PATCH 07/11] numa: Check for qemu_strtosz_MiB error
+Date: Mon,  8 May 2023 15:03:39 -0500
+Message-Id: <20230508200343.791450-8-eblake@redhat.com>
 In-Reply-To: <20230508200343.791450-1-eblake@redhat.com>
 References: <20230508200343.791450-1-eblake@redhat.com>
 MIME-Version: 1.0
@@ -76,436 +79,44 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Add some more strings that the user might send our way.  In
-particular, some of these additions include FIXME comments showing
-where our parser doesn't quite behave the way we want.
+As shown in the previous commit, qemu_strtosz_MiB sometimes leaves the
+result value untoutched (we have to audit further to learn that in
+that case, the QAPI generator says that visit_type_NumaOptions() will
+have zero-initialized it), and sometimes leaves it with the value of a
+partial parse before -EINVAL occurs because of trailing garbage.
+Rather than blindly treating any string the user may throw at us as
+valid, we should check for parse failures.
 
+Fiuxes: cc001888 ("numa: fixup parsed NumaNodeOptions earlier", v2.11.0)
 Signed-off-by: Eric Blake <eblake@redhat.com>
 ---
- tests/unit/test-cutils.c | 226 +++++++++++++++++++++++++++++++++++++--
- 1 file changed, 215 insertions(+), 11 deletions(-)
+ hw/core/numa.c | 11 +++++++++--
+ 1 file changed, 9 insertions(+), 2 deletions(-)
 
-diff --git a/tests/unit/test-cutils.c b/tests/unit/test-cutils.c
-index afae2ee5331..9fa6fb042e8 100644
---- a/tests/unit/test-cutils.c
-+++ b/tests/unit/test-cutils.c
-@@ -2478,14 +2478,14 @@ static void test_qemu_strtosz_simple(void)
-     g_assert_cmpuint(res, ==, 8);
-     g_assert_true(endptr == str + 2);
-
--    /* Leading space is ignored */
--    str = " 12345";
-+    /* Leading space and + are ignored */
-+    str = " +12345";
-     endptr = str;
-     res = 0xbaadf00d;
-     err = qemu_strtosz(str, &endptr, &res);
-     g_assert_cmpint(err, ==, 0);
-     g_assert_cmpuint(res, ==, 12345);
--    g_assert_true(endptr == str + 6);
-+    g_assert_true(endptr == str + 7);
-
-     res = 0xbaadf00d;
-     err = qemu_strtosz(str, NULL, &res);
-@@ -2564,13 +2564,13 @@ static void test_qemu_strtosz_hex(void)
-     g_assert_cmpuint(res, ==, 171);
-     g_assert_true(endptr == str + 4);
-
--    str = "0xae";
-+    str = " +0xae";
-     endptr = str;
-     res = 0xbaadf00d;
-     err = qemu_strtosz(str, &endptr, &res);
-     g_assert_cmpint(err, ==, 0);
-     g_assert_cmpuint(res, ==, 174);
--    g_assert_true(endptr == str + 4);
-+    g_assert_true(endptr == str + 6);
- }
-
- static void test_qemu_strtosz_units(void)
-@@ -2669,14 +2669,23 @@ static void test_qemu_strtosz_float(void)
-     g_assert_cmpuint(res, ==, 1);
-     g_assert_true(endptr == str + 4);
-
--    /* An empty fraction is tolerated */
--    str = "1.k";
-+    /* An empty fraction tail is tolerated */
-+    str = " 1.k";
-     endptr = str;
-     res = 0xbaadf00d;
-     err = qemu_strtosz(str, &endptr, &res);
-     g_assert_cmpint(err, ==, 0);
-     g_assert_cmpuint(res, ==, 1024);
--    g_assert_true(endptr == str + 3);
-+    g_assert_true(endptr == str + 4);
+diff --git a/hw/core/numa.c b/hw/core/numa.c
+index d8d36b16d80..f08956ddb0f 100644
+--- a/hw/core/numa.c
++++ b/hw/core/numa.c
+@@ -531,10 +531,17 @@ static int parse_numa(void *opaque, QemuOpts *opts, Error **errp)
+     /* Fix up legacy suffix-less format */
+     if ((object->type == NUMA_OPTIONS_TYPE_NODE) && object->u.node.has_mem) {
+         const char *mem_str = qemu_opt_get(opts, "mem");
+-        qemu_strtosz_MiB(mem_str, NULL, &object->u.node.mem);
++        int ret = qemu_strtosz_MiB(mem_str, NULL, &object->u.node.mem);
 +
-+    /* FIXME An empty fraction head should be tolerated */
-+    str = " .5k";
-+    endptr = str;
-+    res = 0xbaadf00d;
-+    err = qemu_strtosz(str, &endptr, &res);
-+    g_assert_cmpint(err, ==, -EINVAL /* FIXME 0 */);
-+    g_assert_cmpuint(res, ==, 0xbaadf00d /* FIXME 512 */);
-+    g_assert_true(endptr == str /* FIXME + 4 */);
++        if (ret < 0) {
++            error_setg_errno(&err, -ret, "could not parse memory size '%s'",
++                             mem_str);
++        }
+     }
 
-     /* For convenience, we permit values that are not byte-exact */
-     str = "12.345M";
-@@ -2686,6 +2695,32 @@ static void test_qemu_strtosz_float(void)
-     g_assert_cmpint(err, ==, 0);
-     g_assert_cmpuint(res, ==, (uint64_t) (12.345 * MiB + 0.5));
-     g_assert_true(endptr == str + 7);
-+
-+    /* FIXME Fraction tail should round correctly */
-+    str = "1.9999999999999999999999999999999999999999999999999999k";
-+    endptr = str;
-+    res = 0xbaadf00d;
-+    err = qemu_strtosz(str, &endptr, &res);
-+    g_assert_cmpint(err, ==, 0);
-+    g_assert_cmpint(res, ==, 1024 /* FIXME 2048 */);
-+    g_assert_true(endptr == str + 55);
-+
-+    /* FIXME ERANGE underflow in the fraction tail should not matter for 'k' */
-+    str = "1."
-+        "00000000000000000000000000000000000000000000000000"
-+        "00000000000000000000000000000000000000000000000000"
-+        "00000000000000000000000000000000000000000000000000"
-+        "00000000000000000000000000000000000000000000000000"
-+        "00000000000000000000000000000000000000000000000000"
-+        "00000000000000000000000000000000000000000000000000"
-+        "00000000000000000000000000000000000000000000000000"
-+        "1k";
-+    endptr = str;
-+    res = 0xbaadf00d;
-+    err = qemu_strtosz(str, &endptr, &res);
-+    g_assert_cmpint(err, ==, 0);
-+    g_assert_cmpuint(res, ==, 1 /* FIXME 1024 */);
-+    g_assert_true(endptr == str + 354);
- }
+-    set_numa_options(ms, object, &err);
++    if (!err) {
++        set_numa_options(ms, object, &err);
++    }
 
- static void test_qemu_strtosz_invalid(void)
-@@ -2693,10 +2728,20 @@ static void test_qemu_strtosz_invalid(void)
-     const char *str;
-     const char *endptr;
-     int err;
--    uint64_t res = 0xbaadf00d;
-+    uint64_t res;
-+
-+    /* Must parse at least one digit */
-+    str = NULL;
-+    endptr = "somewhere";
-+    res = 0xbaadf00d;
-+    err = qemu_strtosz(str, &endptr, &res);
-+    g_assert_cmpint(err, ==, -EINVAL);
-+    g_assert_cmphex(res, ==, 0xbaadf00d);
-+    g_assert_null(endptr);
-
-     str = "";
-     endptr = NULL;
-+    res = 0xbaadf00d;
-     err = qemu_strtosz(str, &endptr, &res);
-     g_assert_cmpint(err, ==, -EINVAL);
-     g_assert_cmphex(res, ==, 0xbaadf00d);
-@@ -2704,13 +2749,30 @@ static void test_qemu_strtosz_invalid(void)
-
-     str = " \t ";
-     endptr = NULL;
-+    res = 0xbaadf00d;
-     err = qemu_strtosz(str, &endptr, &res);
-     g_assert_cmpint(err, ==, -EINVAL);
-     g_assert_cmphex(res, ==, 0xbaadf00d);
-     g_assert_true(endptr == str);
-
-+    str = ".";
-+    endptr = NULL;
-+    res = 0xbaadf00d;
-+    err = qemu_strtosz(str, &endptr, &res);
-+    g_assert_cmpint(err, ==, -EINVAL);
-+    g_assert_cmphex(res, ==, 0xbaadf00d);
-+    g_assert(endptr == str);
-+
-+    str = " .";
-+    endptr = NULL;
-+    err = qemu_strtosz(str, &endptr, &res);
-+    g_assert_cmpint(err, ==, -EINVAL);
-+    g_assert_cmphex(res, ==, 0xbaadf00d);
-+    g_assert(endptr == str);
-+
-     str = "crap";
-     endptr = NULL;
-+    res = 0xbaadf00d;
-     err = qemu_strtosz(str, &endptr, &res);
-     g_assert_cmpint(err, ==, -EINVAL);
-     g_assert_cmphex(res, ==, 0xbaadf00d);
-@@ -2718,6 +2780,7 @@ static void test_qemu_strtosz_invalid(void)
-
-     str = "inf";
-     endptr = NULL;
-+    res = 0xbaadf00d;
-     err = qemu_strtosz(str, &endptr, &res);
-     g_assert_cmpint(err, ==, -EINVAL);
-     g_assert_cmphex(res, ==, 0xbaadf00d);
-@@ -2725,6 +2788,7 @@ static void test_qemu_strtosz_invalid(void)
-
-     str = "NaN";
-     endptr = NULL;
-+    res = 0xbaadf00d;
-     err = qemu_strtosz(str, &endptr, &res);
-     g_assert_cmpint(err, ==, -EINVAL);
-     g_assert_cmphex(res, ==, 0xbaadf00d);
-@@ -2733,6 +2797,7 @@ static void test_qemu_strtosz_invalid(void)
-     /* Fractional values require scale larger than bytes */
-     str = "1.1B";
-     endptr = NULL;
-+    res = 0xbaadf00d;
-     err = qemu_strtosz(str, &endptr, &res);
-     g_assert_cmpint(err, ==, -EINVAL);
-     g_assert_cmphex(res, ==, 0xbaadf00d);
-@@ -2740,14 +2805,42 @@ static void test_qemu_strtosz_invalid(void)
-
-     str = "1.1";
-     endptr = NULL;
-+    res = 0xbaadf00d;
-     err = qemu_strtosz(str, &endptr, &res);
-     g_assert_cmpint(err, ==, -EINVAL);
-     g_assert_cmphex(res, ==, 0xbaadf00d);
-     g_assert_true(endptr == str);
-
-+    /* FIXME Fraction tail can cause ERANGE overflow */
-+    str = "15.9999999999999999999999999999999999999999999999999999E";
-+    endptr = str;
-+    res = 0xbaadf00d;
-+    err = qemu_strtosz(str, &endptr, &res);
-+    g_assert_cmpint(err, ==, 0 /* FIXME -ERANGE */);
-+    g_assert_cmpuint(res, ==, 15ULL * EiB /* FIXME 0xbaadf00d */);
-+    g_assert_true(endptr == str + 56 /* FIXME str */);
-+
-+    /* FIXME ERANGE underflow in the fraction tail should matter for 'B' */
-+    str = "1."
-+        "00000000000000000000000000000000000000000000000000"
-+        "00000000000000000000000000000000000000000000000000"
-+        "00000000000000000000000000000000000000000000000000"
-+        "00000000000000000000000000000000000000000000000000"
-+        "00000000000000000000000000000000000000000000000000"
-+        "00000000000000000000000000000000000000000000000000"
-+        "00000000000000000000000000000000000000000000000000"
-+        "1B";
-+    endptr = str;
-+    res = 0xbaadf00d;
-+    err = qemu_strtosz(str, &endptr, &res);
-+    g_assert_cmpint(err, ==, 0 /* FIXME -EINVAL */);
-+    g_assert_cmpuint(res, ==, 1 /* FIXME 0xbaadf00d */);
-+    g_assert_true(endptr == str + 354 /* FIXME str */);
-+
-     /* No hex fractions */
-     str = "0x1.8k";
-     endptr = NULL;
-+    res = 0xbaadf00d;
-     err = qemu_strtosz(str, &endptr, &res);
-     g_assert_cmpint(err, ==, -EINVAL);
-     g_assert_cmphex(res, ==, 0xbaadf00d);
-@@ -2756,14 +2849,24 @@ static void test_qemu_strtosz_invalid(void)
-     /* No suffixes */
-     str = "0x18M";
-     endptr = NULL;
-+    res = 0xbaadf00d;
-     err = qemu_strtosz(str, &endptr, &res);
-     g_assert_cmpint(err, ==, -EINVAL);
-     g_assert_cmphex(res, ==, 0xbaadf00d);
-     g_assert_true(endptr == str);
-
-+    str = "0x1p1";
-+    endptr = NULL;
-+    res = 0xbaadf00d;
-+    err = qemu_strtosz(str, &endptr, &res);
-+    g_assert_cmpint(err, ==, -EINVAL);
-+    g_assert_cmphex(res, ==, 0xbaadf00d);
-+    g_assert(endptr == str);
-+
-     /* No negative values */
--    str = "-0";
-+    str = " -0";
-     endptr = NULL;
-+    res = 0xbaadf00d;
-     err = qemu_strtosz(str, &endptr, &res);
-     g_assert_cmpint(err, ==, -EINVAL);
-     g_assert_cmphex(res, ==, 0xbaadf00d);
-@@ -2771,10 +2874,28 @@ static void test_qemu_strtosz_invalid(void)
-
-     str = "-1";
-     endptr = NULL;
-+    res = 0xbaadf00d;
-     err = qemu_strtosz(str, &endptr, &res);
-     g_assert_cmpint(err, ==, -EINVAL);
-     g_assert_cmphex(res, ==, 0xbaadf00d);
-     g_assert_true(endptr == str);
-+
-+    str = "-.0k";
-+    endptr = NULL;
-+    res = 0xbaadf00d;
-+    err = qemu_strtosz(str, &endptr, &res);
-+    g_assert_cmpint(err, ==, -EINVAL);
-+    g_assert_cmphex(res, ==, 0xbaadf00d);
-+    g_assert_true(endptr == str);
-+
-+    /* Too many decimals */
-+    str = "1.1.k";
-+    endptr = NULL;
-+    res = 0xbaadf00d;
-+    err = qemu_strtosz(str, &endptr, &res);
-+    g_assert_cmpint(err, ==, -EINVAL);
-+    g_assert_cmphex(res, ==, 0xbaadf00d);
-+    g_assert(endptr == str);
- }
-
- static void test_qemu_strtosz_trailing(void)
-@@ -2784,6 +2905,21 @@ static void test_qemu_strtosz_trailing(void)
-     int err;
-     uint64_t res;
-
-+    /* Trailing whitespace */
-+    str = "1k ";
-+    endptr = NULL;
-+    res = 0xbaadf00d;
-+    err = qemu_strtosz(str, &endptr, &res);
-+    g_assert_cmpint(err, ==, 0);
-+    g_assert_cmpuint(res, ==, 1024);
-+    g_assert(endptr == str + 2);
-+
-+    res = 0xbaadf00d;
-+    err = qemu_strtosz(str, NULL, &res);
-+    g_assert_cmpint(err, ==, -EINVAL);
-+    g_assert_cmphex(res, ==, 0xbaadf00d);
-+
-+    /* Unknown suffix */
-     str = "123xxx";
-     endptr = NULL;
-     res = 0xbaadf00d;
-@@ -2797,6 +2933,7 @@ static void test_qemu_strtosz_trailing(void)
-     g_assert_cmpint(err, ==, -EINVAL);
-     g_assert_cmphex(res, ==, 0xbaadf00d);
-
-+    /* Junk after one-byte suffix */
-     str = "1kiB";
-     endptr = NULL;
-     res = 0xbaadf00d;
-@@ -2810,6 +2947,7 @@ static void test_qemu_strtosz_trailing(void)
-     g_assert_cmpint(err, ==, -EINVAL);
-     g_assert_cmphex(res, ==, 0xbaadf00d);
-
-+    /* Incomplete hex is an unknown suffix */
-     str = "0x";
-     endptr = NULL;
-     res = 0xbaadf00d;
-@@ -2823,6 +2961,7 @@ static void test_qemu_strtosz_trailing(void)
-     g_assert_cmpint(err, ==, -EINVAL);
-     g_assert_cmphex(res, ==, 0xbaadf00d);
-
-+    /* Junk after decimal */
-     str = "0.NaN";
-     endptr = NULL;
-     res = 0xbaadf00d;
-@@ -2836,6 +2975,35 @@ static void test_qemu_strtosz_trailing(void)
-     g_assert_cmpint(err, ==, -EINVAL);
-     g_assert_cmphex(res, ==, 0xbaadf00d);
-
-+    /* No support for binary literals; 'b' is valid suffix */
-+    str = "0b1000";
-+    endptr = NULL;
-+    res = 0xbaadf00d;
-+    err = qemu_strtosz(str, &endptr, &res);
-+    g_assert_cmpint(err, ==, 0);
-+    g_assert_cmpuint(res, ==, 0);
-+    g_assert(endptr == str + 2);
-+
-+    res = 0xbaadf00d;
-+    err = qemu_strtosz(str, NULL, &res);
-+    g_assert_cmpint(err, ==, -EINVAL);
-+    g_assert_cmphex(res, ==, 0xbaadf00d);
-+
-+    /* Hex literals use only one leading zero */
-+    str = "00x1";
-+    endptr = NULL;
-+    res = 0xbaadf00d;
-+    err = qemu_strtosz(str, &endptr, &res);
-+    g_assert_cmpint(err, ==, 0);
-+    g_assert_cmpuint(res, ==, 0);
-+    g_assert(endptr == str + 2);
-+
-+    res = 0xbaadf00d;
-+    err = qemu_strtosz(str, NULL, &res);
-+    g_assert_cmpint(err, ==, -EINVAL);
-+    g_assert_cmphex(res, ==, 0xbaadf00d);
-+
-+    /* Although negatives are invalid, '-' may be in trailing junk */
-     str = "123-45";
-     endptr = NULL;
-     res = 0xbaadf00d;
-@@ -2849,6 +3017,19 @@ static void test_qemu_strtosz_trailing(void)
-     g_assert_cmpint(err, ==, -EINVAL);
-     g_assert_cmphex(res, ==, 0xbaadf00d);
-
-+    str = " 123 - 45";
-+    endptr = NULL;
-+    res = 0xbaadf00d;
-+    err = qemu_strtosz(str, &endptr, &res);
-+    g_assert_cmpint(err, ==, 0);
-+    g_assert_cmpuint(res, ==, 123);
-+    g_assert(endptr == str + 4);
-+
-+    res = 0xbaadf00d;
-+    err = qemu_strtosz(str, NULL, &res);
-+    g_assert_cmpint(err, ==, -EINVAL);
-+    g_assert_cmphex(res, ==, 0xbaadf00d);
-+
-     /* FIXME should stop parse after 'e'. No floating point exponents */
-     str = "1.5e1k";
-     endptr = NULL;
-@@ -2861,7 +3042,7 @@ static void test_qemu_strtosz_trailing(void)
-     res = 0xbaadf00d;
-     err = qemu_strtosz(str, NULL, &res);
-     g_assert_cmpint(err, ==, -EINVAL);
--    g_assert_cmpint(res, ==, 0xbaadf00d);
-+    g_assert_cmphex(res, ==, 0xbaadf00d);
-
-     str = "1.5E+0k";
-     endptr = NULL;
-@@ -2875,6 +3056,20 @@ static void test_qemu_strtosz_trailing(void)
-     err = qemu_strtosz(str, NULL, &res);
-     g_assert_cmpint(err, ==, -EINVAL);
-     g_assert_cmphex(res, ==, 0xbaadf00d);
-+
-+    /* FIXME overflow in fraction is buggy */
-+    str = "1.5E999";
-+    endptr = NULL;
-+    res = 0xbaadf00d;
-+    err = qemu_strtosz(str, &endptr, &res);
-+    g_assert_cmpint(err, ==, 0);
-+    g_assert_cmpuint(res, ==, EiB /* FIXME EiB * 1.5 */);
-+    g_assert(endptr == str + 9 /* FIXME + 4 */);
-+
-+    res = 0xbaadf00d;
-+    err = qemu_strtosz(str, NULL, &res);
-+    g_assert_cmpint(err, ==, -EINVAL);
-+    g_assert_cmphex(res, ==, 0xbaadf00d);
- }
-
- static void test_qemu_strtosz_erange(void)
-@@ -2921,6 +3116,15 @@ static void test_qemu_strtosz_metric(void)
-     g_assert_cmpint(err, ==, 0);
-     g_assert_cmpuint(res, ==, 12345000);
-     g_assert_true(endptr == str + 7);
-+
-+    /* Fraction is affected by floating-point rounding */
-+    str = "18.446744073709550591E"; /* resembles 0xfffffffffffffbff */
-+    endptr = str;
-+    res = 0xbaadf00d;
-+    err = qemu_strtosz_metric(str, &endptr, &res);
-+    g_assert_cmpint(err, ==, 0);
-+    g_assert_cmpuint(res, ==, 0xfffffffffffffc0c);
-+    g_assert_true(endptr == str + 22);
- }
-
- static void test_freq_to_str(void)
+     qapi_free_NumaOptions(object);
+     if (err) {
 -- 
 2.40.1
 
