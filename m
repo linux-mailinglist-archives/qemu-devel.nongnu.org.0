@@ -2,83 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EAF1C6F9EA0
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 May 2023 06:16:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E26A6F9EA3
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 May 2023 06:24:31 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pvsHL-0002xP-Jd; Mon, 08 May 2023 00:15:15 -0400
+	id 1pvsP0-0004k3-5w; Mon, 08 May 2023 00:23:10 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1pvsHI-0002xE-0j
- for qemu-devel@nongnu.org; Mon, 08 May 2023 00:15:12 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1pvsHG-0001ik-Hf
- for qemu-devel@nongnu.org; Mon, 08 May 2023 00:15:11 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1683519309;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=wq5weGTqO57uwuGcDOxmpc1ZXCHSAe35YmfUtBCuXjk=;
- b=HdPgVXGg8lMl9BBRj+YCV8f8wpg3fI2XemQ5sWBNoTDg8EGlNJtIpFWE2cpJMUHsl/UfNl
- oLCYLI5gtJRIAB6wtfjt0rcsrMbmGoLb4FuuWYnzg8TX2dW/3wLWag+BQ3d3qX6KVjJm8n
- DdvXTb6Y13QTxr65rWoZAdmTsh83kUU=
-Received: from mail-lf1-f71.google.com (mail-lf1-f71.google.com
- [209.85.167.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-651-WvmvC8XZM5K7uTi1ySBJDA-1; Mon, 08 May 2023 00:15:08 -0400
-X-MC-Unique: WvmvC8XZM5K7uTi1ySBJDA-1
-Received: by mail-lf1-f71.google.com with SMTP id
- 2adb3069b0e04-4f12ff2cee7so2066434e87.1
- for <qemu-devel@nongnu.org>; Sun, 07 May 2023 21:15:07 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <sunilvl@ventanamicro.com>)
+ id 1pvsOy-0004jT-5B
+ for qemu-devel@nongnu.org; Mon, 08 May 2023 00:23:08 -0400
+Received: from mail-oa1-x2c.google.com ([2001:4860:4864:20::2c])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <sunilvl@ventanamicro.com>)
+ id 1pvsOw-0003SM-Dd
+ for qemu-devel@nongnu.org; Mon, 08 May 2023 00:23:07 -0400
+Received: by mail-oa1-x2c.google.com with SMTP id
+ 586e51a60fabf-18f4a6d2822so29272269fac.1
+ for <qemu-devel@nongnu.org>; Sun, 07 May 2023 21:23:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ventanamicro.com; s=google; t=1683519785; x=1686111785;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=pC1cFA346ZaSWuITU+3u2TusZVcnD57zyHs/5M5ckz8=;
+ b=HKWRIu5aobAz5UqpPyXo7RDNEx+0h4zlWTNLVbXj/Oq8YzaMnegnRcgNinolF+kfvF
+ 46vh31znfPLGanrGHRUQ+HFdesHrYcOwFf+SWiNKhvD04DBsM7TDaRdCtFU91HD/+985
+ KDiaTHU0gJMW7+DVzDBAL5kntf5laeK+RSISLz0Zwe3DnlwAy/3/nI+R4ToOxvqkMuxl
+ x8iErWXDU9/7z41TR8MD6Q6k6LmpgAsqqySNP/F50zX0AroB/LCH2yzfnXXEt0wxPz0Z
+ zMORZkXq2AKoCd+/1XKFrEPJbCo/bhuOei//oxgumZjUxttoPv2P0xC69+BBMT4OV0DT
+ dgdA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683519306; x=1686111306;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=wq5weGTqO57uwuGcDOxmpc1ZXCHSAe35YmfUtBCuXjk=;
- b=J94tZZ93jF40D0PDxQ8q4z2x8CPAGXEYQNfc4jY6OMyH0rv2N7/+P63uuK92vH4/3q
- IKHHv8h8o0pQjkuJ7uQw14tatox5AKtzYvcaxoyv9TFhsT74XuwWbzzQHDEEnSTBJZ/y
- /EZoDvRZqy+KxFRd7YuQ43ZJNxDJpV4Jbh/cyJXk5HnQePNT5Vho1AbXBQQXsBDpgcP2
- z/CVWSs3iumXArmPHgpEuSXs2WFEU/fkghDMlD8thTQUkJTDY/vDdwh8w9fIOVvc5Xqr
- rNbCZJZ1c35kz02nYMP+MXzyZFdUyPHohoHo5Ajxx236ktLO92pGPa0xPdnl4gVJ6Grt
- SSmw==
-X-Gm-Message-State: AC+VfDwVEFQKgvqKiDoLXa2KmeG8gmypLTC4UsjLrepgI23m5mHjUs74
- +yUUkFT/5kHZKU5BZICkco1jLo6VhArVg5/UOlJrPaY2YjVtr+AV4bJXRD+ZGbURICaZSi3sceY
- iD6ZQ4uhxQjG/Hxsdh0oJv12UMIknZnzjHnpN65v1YUlXKcI=
-X-Received: by 2002:ac2:5dd9:0:b0:4f1:2ebf:5370 with SMTP id
- x25-20020ac25dd9000000b004f12ebf5370mr2270117lfq.23.1683519306269; 
- Sun, 07 May 2023 21:15:06 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ78dDTd6xPDQt6ieqNYyRGPJStkVhf/sApPHQurHjuMje/nnHjFPvCl2qXHHOeRiZn3bRqk8cJ1CgcFgkuH1Hs=
-X-Received: by 2002:ac2:5dd9:0:b0:4f1:2ebf:5370 with SMTP id
- x25-20020ac25dd9000000b004f12ebf5370mr2270109lfq.23.1683519305984; Sun, 07
- May 2023 21:15:05 -0700 (PDT)
+ d=1e100.net; s=20221208; t=1683519785; x=1686111785;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=pC1cFA346ZaSWuITU+3u2TusZVcnD57zyHs/5M5ckz8=;
+ b=Xl7TnpjWYCeAnBZgBwTlBwt3YzV9mLXwR1oOI8xkdxvOmegokLumsc85b5AU9UM9N6
+ 3xS4HxKKhnSRKxAbmD76TUtIlIi0Mh1vSzS7I2aTdmGkqG1qhlQ0QT8Oi1gUt1/fYF6r
+ Vpa2Cg3lYG/6ViM5fjIAf0KVtrMCT90sgrh5qcT8r7wkcYRlLFllmlMr2A5WYFWz0VWw
+ y5bcbxhlQpWS+ek9oj1Mfw+ST5RPldfyWQrrsC9wfylyTbAI7TuupzIgymqop8FoCchR
+ HMk5cy4vwfpZNokA13t1TEpnmuRSsK5VgOdDLuRYlHBukOF7iN1F+3AN50N1c0CZepsC
+ Sn9g==
+X-Gm-Message-State: AC+VfDyn061zQESQ4n3quioXgdqsXg4QaHeWOtqztuXERQTzOj3ZARPu
+ TLbjI/OT4ktjLW53xwJ2HFyOug==
+X-Google-Smtp-Source: ACHHUZ7tZE/HVm2/OdTwbXPyhp2tcVLv6luz3f+8Y97wF/VsaJN2w15T9BPY823KyheCazgJf8SQWA==
+X-Received: by 2002:a05:6808:6343:b0:38e:8df7:423f with SMTP id
+ eb3-20020a056808634300b0038e8df7423fmr4388774oib.5.1683519784757; 
+ Sun, 07 May 2023 21:23:04 -0700 (PDT)
+Received: from sunil-laptop ([106.51.189.144])
+ by smtp.gmail.com with ESMTPSA id
+ ex3-20020a056808298300b0037b6f5d6309sm5250512oib.2.2023.05.07.21.23.00
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 07 May 2023 21:23:04 -0700 (PDT)
+Date: Mon, 8 May 2023 09:52:56 +0530
+From: Sunil V L <sunilvl@ventanamicro.com>
+To: qemu-riscv@nongnu.org
+Cc: qemu-devel@nongnu.org, Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Bin Meng <bin.meng@windriver.com>, Weiwei Li <liweiwei@iscas.ac.cn>,
+ Daniel Henrique Barboza <dbarboza@ventanamicro.com>,
+ Liu Zhiwei <zhiwei_liu@linux.alibaba.com>,
+ Heinrich Schuchardt <xypron.glpk@gmx.de>
+Subject: Re: [PATCH v2] hw/riscv: virt: Assume M-mode FW in pflash0 only when
+ "-bios none"
+Message-ID: <ZFh5IBILrNR5WB4r@sunil-laptop>
+References: <20230425102545.162888-1-sunilvl@ventanamicro.com>
 MIME-Version: 1.0
-References: <20230501020221.188376-1-viktor@daynix.com>
- <20230501020221.188376-3-viktor@daynix.com>
-In-Reply-To: <20230501020221.188376-3-viktor@daynix.com>
-From: Jason Wang <jasowang@redhat.com>
-Date: Mon, 8 May 2023 12:14:54 +0800
-Message-ID: <CACGkMEugx3oPJ2y1Snf0J3PJTzFGOH5ogM+fWaVgpRk9iYWSBQ@mail.gmail.com>
-Subject: Re: [RFC PATCH v2 2/4] virtio-pci: add handling of ATS and Device-TLB
- enable
-To: Viktor Prutyanov <viktor@daynix.com>
-Cc: mst@redhat.com, peterx@redhat.com, marcel.apfelbaum@gmail.com, 
- qemu-devel@nongnu.org, yan@daynix.com, yuri.benditovich@daynix.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230425102545.162888-1-sunilvl@ventanamicro.com>
+Received-SPF: pass client-ip=2001:4860:4864:20::2c;
+ envelope-from=sunilvl@ventanamicro.com; helo=mail-oa1-x2c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -96,85 +96,85 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, May 1, 2023 at 10:02=E2=80=AFAM Viktor Prutyanov <viktor@daynix.com=
-> wrote:
->
-> Guest may enable or disable PCI ATS and, accordingly, Device-TLB for
-> the device. Add a flag and a trigger function to handle Device-TLB
-> enable/disable in VirtIO devices and hook it to ATS enable/disable for
-> PCI transport.
->
-> Signed-off-by: Viktor Prutyanov <viktor@daynix.com>
+Hi Alistair,
+
+On Tue, Apr 25, 2023 at 03:55:45PM +0530, Sunil V L wrote:
+> Currently, virt machine supports two pflash instances each with
+> 32MB size. However, the first pflash is always assumed to
+> contain M-mode firmware and reset vector is set to this if
+> enabled. Hence, for S-mode payloads like EDK2, only one pflash
+> instance is available for use. This means both code and NV variables
+> of EDK2 will need to use the same pflash.
+> 
+> The OS distros keep the EDK2 FW code as readonly. When non-volatile
+> variables also need to share the same pflash, it is not possible
+> to keep it as readonly since variables need write access.
+> 
+> To resolve this issue, the code and NV variables need to be separated.
+> But in that case we need an extra flash. Hence, modify the convention
+> such that pflash0 will contain the M-mode FW only when "-bios none"
+> option is used. Otherwise, pflash0 will contain the S-mode payload FW.
+> This enables both pflash instances available for EDK2 use.
+> 
+> Example usage:
+> 1) pflash0 containing M-mode FW
+> qemu-system-riscv64 -bios none -pflash <mmode_fw> -machine virt
+> or
+> qemu-system-riscv64 -bios none \
+> -drive file=<mmode_fw>,if=pflash,format=raw,unit=0 -machine virt
+> 
+> 2) pflash0 containing S-mode payload like EDK2
+> qemu-system-riscv64 -pflash <smode_fw_vars> -pflash <smode_fw_code> -machine  virt
+> or
+> qemu-system-riscv64 -bios <opensbi_fw> \
+> -pflash <smode_fw_vars> \
+> -pflash <smode_fw_code> \
+> -machine  virt
+> or
+> qemu-system-riscv64 -bios <opensbi_fw> \
+> -drive file=<smode_fw_vars>,if=pflash,format=raw,unit=0 \
+> -drive file=<smode_fw_code>,if=pflash,format=raw,unit=1,readonly=on  \
+> -machine virt
+> 
+> Signed-off-by: Sunil V L <sunilvl@ventanamicro.com>
+> Reported-by: Heinrich Schuchardt <xypron.glpk@gmx.de>
 > ---
->  hw/virtio/virtio-pci.c     | 17 +++++++++++++++++
->  include/hw/virtio/virtio.h |  2 ++
->  2 files changed, 19 insertions(+)
+> The issue is reported at
+> https://salsa.debian.org/qemu-team/edk2/-/commit/c345655a0149f64c5020bfc1e53c619ce60587f6
+> 
+> The patch is based on Alistair's riscv-to-apply.next branch.
+> 
+> Changes since v1:
+> 	1) Simplified the fix such that it doesn't break current EDK2.
 >
-> diff --git a/hw/virtio/virtio-pci.c b/hw/virtio/virtio-pci.c
-> index 247325c193..ccd8c4efa1 100644
-> --- a/hw/virtio/virtio-pci.c
-> +++ b/hw/virtio/virtio-pci.c
-> @@ -716,6 +716,18 @@ virtio_address_space_read(VirtIOPCIProxy *proxy, hwa=
-ddr addr,
+Could you please help reviewing this patch? This was sent when you were
+out of office.
+
+Thanks,
+Sunil 
+>  hw/riscv/virt.c | 7 ++++---
+>  1 file changed, 4 insertions(+), 3 deletions(-)
+> 
+> diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
+> index 4e3efbee16..ca445d3d02 100644
+> --- a/hw/riscv/virt.c
+> +++ b/hw/riscv/virt.c
+> @@ -1296,10 +1296,11 @@ static void virt_machine_done(Notifier *notifier, void *data)
+>          kernel_entry = 0;
 >      }
->  }
->
-> +static void virtio_pci_ats_ctrl_trigger(PCIDevice *pci_dev, bool enable)
-> +{
-> +    VirtIOPCIProxy *proxy =3D VIRTIO_PCI(pci_dev);
-> +    VirtIODevice *vdev =3D virtio_bus_get_device(&proxy->bus);
-> +    VirtioDeviceClass *k =3D VIRTIO_DEVICE_GET_CLASS(vdev);
-> +
-> +    vdev->device_iotlb_enabled =3D enable;
-> +
-> +    if (k->toggle_device_iotlb)
-> +        k->toggle_device_iotlb(vdev, enable);
-> +}
-> +
->  static void virtio_write_config(PCIDevice *pci_dev, uint32_t address,
->                                  uint32_t val, int len)
->  {
-> @@ -729,6 +741,11 @@ static void virtio_write_config(PCIDevice *pci_dev, =
-uint32_t address,
->          pcie_cap_flr_write_config(pci_dev, address, val, len);
+>  
+> -    if (drive_get(IF_PFLASH, 0, 0)) {
+> +    if (drive_get(IF_PFLASH, 0, 0) &&
+> +                 machine->firmware && !strcmp(machine->firmware, "none")) {
+>          /*
+> -         * Pflash was supplied, let's overwrite the address we jump to after
+> -         * reset to the base of the flash.
+> +         * Pflash0 was supplied with "-bios none", let's overwrite the address
+> +         * we jump to after reset to the base of the flash.
+>           */
+>          start_addr = virt_memmap[VIRT_FLASH].base;
 >      }
->
-> +    if (proxy->flags & VIRTIO_PCI_FLAG_ATS) {
-> +        pcie_ats_config_write(pci_dev, address, val, len,
-> +                virtio_pci_ats_ctrl_trigger);
-
-I think we can directly call virtio_pci_ats_ctrl_trigger instead of
-using an indirection like pcie_ats_config_write?
-
-Thanks
-
-> +    }
-> +
->      if (range_covers_byte(address, len, PCI_COMMAND)) {
->          if (!(pci_dev->config[PCI_COMMAND] & PCI_COMMAND_MASTER)) {
->              virtio_set_disabled(vdev, true);
-> diff --git a/include/hw/virtio/virtio.h b/include/hw/virtio/virtio.h
-> index f236e94ca6..83d07bb6b7 100644
-> --- a/include/hw/virtio/virtio.h
-> +++ b/include/hw/virtio/virtio.h
-> @@ -155,6 +155,7 @@ struct VirtIODevice
->      QLIST_HEAD(, VirtQueue) *vector_queues;
->      QTAILQ_ENTRY(VirtIODevice) next;
->      EventNotifier config_notifier;
-> +    bool device_iotlb_enabled;
->  };
->
->  struct VirtioDeviceClass {
-> @@ -212,6 +213,7 @@ struct VirtioDeviceClass {
->      const VMStateDescription *vmsd;
->      bool (*primary_unplug_pending)(void *opaque);
->      struct vhost_dev *(*get_vhost)(VirtIODevice *vdev);
-> +    void (*toggle_device_iotlb)(VirtIODevice *vdev, bool enable);
->  };
->
->  void virtio_instance_init_common(Object *proxy_obj, void *data,
-> --
-> 2.35.1
->
-
+> -- 
+> 2.34.1
+> 
 
