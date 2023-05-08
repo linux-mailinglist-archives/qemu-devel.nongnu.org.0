@@ -2,70 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30C0C6F9E99
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 May 2023 06:11:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EAF1C6F9EA0
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 May 2023 06:16:06 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pvsCT-0001gf-6D; Mon, 08 May 2023 00:10:13 -0400
+	id 1pvsHL-0002xP-Jd; Mon, 08 May 2023 00:15:15 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1pvsCA-0001gM-Ju
- for qemu-devel@nongnu.org; Mon, 08 May 2023 00:09:55 -0400
+ id 1pvsHI-0002xE-0j
+ for qemu-devel@nongnu.org; Mon, 08 May 2023 00:15:12 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1pvsC8-0007nD-Lb
- for qemu-devel@nongnu.org; Mon, 08 May 2023 00:09:54 -0400
+ id 1pvsHG-0001ik-Hf
+ for qemu-devel@nongnu.org; Mon, 08 May 2023 00:15:11 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1683518990;
+ s=mimecast20190719; t=1683519309;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Helst5eORAne0ZkITT6EPq16+6ERJla2bjiAf5/I8kk=;
- b=Xcb5VSTq3+xC08c4thYImQhODCjjYGu3Hb4FYVXWEuXUTuqUe8T+O6KhECrjKeJom3u7TI
- dIbyCG8vWb2uQ7Rt8Gq7krEyPVxqkGk/Kq3vURrZazj5tSbhRgfYRyxwHxRfrDBR2lbb0Y
- PWZDDA/20hKpKfntZyWGxim0IJXQfDw=
-Received: from mail-lf1-f72.google.com (mail-lf1-f72.google.com
- [209.85.167.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=wq5weGTqO57uwuGcDOxmpc1ZXCHSAe35YmfUtBCuXjk=;
+ b=HdPgVXGg8lMl9BBRj+YCV8f8wpg3fI2XemQ5sWBNoTDg8EGlNJtIpFWE2cpJMUHsl/UfNl
+ oLCYLI5gtJRIAB6wtfjt0rcsrMbmGoLb4FuuWYnzg8TX2dW/3wLWag+BQ3d3qX6KVjJm8n
+ DdvXTb6Y13QTxr65rWoZAdmTsh83kUU=
+Received: from mail-lf1-f71.google.com (mail-lf1-f71.google.com
+ [209.85.167.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-91-5Ok4w3w-MT-E722PAAPZvQ-1; Mon, 08 May 2023 00:09:48 -0400
-X-MC-Unique: 5Ok4w3w-MT-E722PAAPZvQ-1
-Received: by mail-lf1-f72.google.com with SMTP id
- 2adb3069b0e04-4f12f45d113so2115498e87.0
- for <qemu-devel@nongnu.org>; Sun, 07 May 2023 21:09:47 -0700 (PDT)
+ us-mta-651-WvmvC8XZM5K7uTi1ySBJDA-1; Mon, 08 May 2023 00:15:08 -0400
+X-MC-Unique: WvmvC8XZM5K7uTi1ySBJDA-1
+Received: by mail-lf1-f71.google.com with SMTP id
+ 2adb3069b0e04-4f12ff2cee7so2066434e87.1
+ for <qemu-devel@nongnu.org>; Sun, 07 May 2023 21:15:07 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683518986; x=1686110986;
+ d=1e100.net; s=20221208; t=1683519306; x=1686111306;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=Helst5eORAne0ZkITT6EPq16+6ERJla2bjiAf5/I8kk=;
- b=DL/6BiaM5EcoWgFLSWnesPUh+OhxPnb9zPWFvGlVFBqrxZoqJ/jx9bw4UWEJoi0EyL
- 4rWGHOA1CTULNR7ffbW3OKslZLgk7nkPwzuL7lteSzvjKzToVzcQ9UBP2NUinSGNot4v
- BKlHN2GFRsOYjr0uJrYCvoKaQH1PYIAiETaAXgoKkIrT6IlHqy1A9ww4vJP8cwLUOJwi
- CZg7WAEAdGAH4DDgDmXg9/9rrSqaPIKNqdWeEbY0Xg+8iQ2YoKRoZYarAF4GXXhTqENI
- yJExIHGqijjDDb3aNYwB+wlUBDNX9H94CJyJm8UD4N91WDirupUzptSRro5ecu/1oF24
- zFCw==
-X-Gm-Message-State: AC+VfDwscbSLGCbOriLEp0WA6fsIdRmOZXdFfl2DwI92RGmqTF9CtNDI
- 6MCNnxjXkHz8kTS3tecBYIp8hubpes/l81XrAFiH95g7xL84uXhbAM38epez3QcS7XCvjDTpVZx
- 6Ar4f+cLX2RJXHDLPnJTd9VwyUbJ3nFw=
-X-Received: by 2002:ac2:5549:0:b0:4ef:f630:5c1e with SMTP id
- l9-20020ac25549000000b004eff6305c1emr2120478lfk.51.1683518986549; 
- Sun, 07 May 2023 21:09:46 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ7ogLJhC5t1/XPfoQrVb8C2+IkYLkOgUpDKAtKUTg0Pl7+1NFaihk5vJkGmTVOLZZeyo0j8QMRMgnx4tt5fY4g=
-X-Received: by 2002:ac2:5549:0:b0:4ef:f630:5c1e with SMTP id
- l9-20020ac25549000000b004eff6305c1emr2120471lfk.51.1683518986243; Sun, 07 May
- 2023 21:09:46 -0700 (PDT)
+ bh=wq5weGTqO57uwuGcDOxmpc1ZXCHSAe35YmfUtBCuXjk=;
+ b=J94tZZ93jF40D0PDxQ8q4z2x8CPAGXEYQNfc4jY6OMyH0rv2N7/+P63uuK92vH4/3q
+ IKHHv8h8o0pQjkuJ7uQw14tatox5AKtzYvcaxoyv9TFhsT74XuwWbzzQHDEEnSTBJZ/y
+ /EZoDvRZqy+KxFRd7YuQ43ZJNxDJpV4Jbh/cyJXk5HnQePNT5Vho1AbXBQQXsBDpgcP2
+ z/CVWSs3iumXArmPHgpEuSXs2WFEU/fkghDMlD8thTQUkJTDY/vDdwh8w9fIOVvc5Xqr
+ rNbCZJZ1c35kz02nYMP+MXzyZFdUyPHohoHo5Ajxx236ktLO92pGPa0xPdnl4gVJ6Grt
+ SSmw==
+X-Gm-Message-State: AC+VfDwVEFQKgvqKiDoLXa2KmeG8gmypLTC4UsjLrepgI23m5mHjUs74
+ +yUUkFT/5kHZKU5BZICkco1jLo6VhArVg5/UOlJrPaY2YjVtr+AV4bJXRD+ZGbURICaZSi3sceY
+ iD6ZQ4uhxQjG/Hxsdh0oJv12UMIknZnzjHnpN65v1YUlXKcI=
+X-Received: by 2002:ac2:5dd9:0:b0:4f1:2ebf:5370 with SMTP id
+ x25-20020ac25dd9000000b004f12ebf5370mr2270117lfq.23.1683519306269; 
+ Sun, 07 May 2023 21:15:06 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ78dDTd6xPDQt6ieqNYyRGPJStkVhf/sApPHQurHjuMje/nnHjFPvCl2qXHHOeRiZn3bRqk8cJ1CgcFgkuH1Hs=
+X-Received: by 2002:ac2:5dd9:0:b0:4f1:2ebf:5370 with SMTP id
+ x25-20020ac25dd9000000b004f12ebf5370mr2270109lfq.23.1683519305984; Sun, 07
+ May 2023 21:15:05 -0700 (PDT)
 MIME-Version: 1.0
 References: <20230501020221.188376-1-viktor@daynix.com>
-In-Reply-To: <20230501020221.188376-1-viktor@daynix.com>
+ <20230501020221.188376-3-viktor@daynix.com>
+In-Reply-To: <20230501020221.188376-3-viktor@daynix.com>
 From: Jason Wang <jasowang@redhat.com>
-Date: Mon, 8 May 2023 12:09:35 +0800
-Message-ID: <CACGkMEutr3KLFqLeOOYEb6apAiDia1qAr8od8Z293XZ=WHLdPw@mail.gmail.com>
-Subject: Re: [RFC PATCH v2 0/4] vhost: register and change IOMMU flag
- depending on ATS state
+Date: Mon, 8 May 2023 12:14:54 +0800
+Message-ID: <CACGkMEugx3oPJ2y1Snf0J3PJTzFGOH5ogM+fWaVgpRk9iYWSBQ@mail.gmail.com>
+Subject: Re: [RFC PATCH v2 2/4] virtio-pci: add handling of ATS and Device-TLB
+ enable
 To: Viktor Prutyanov <viktor@daynix.com>
 Cc: mst@redhat.com, peterx@redhat.com, marcel.apfelbaum@gmail.com, 
  qemu-devel@nongnu.org, yan@daynix.com, yuri.benditovich@daynix.com
@@ -98,53 +99,80 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 On Mon, May 1, 2023 at 10:02=E2=80=AFAM Viktor Prutyanov <viktor@daynix.com=
 > wrote:
 >
-> When IOMMU and vhost are enabled together, QEMU tracks IOTLB or
-> Device-TLB unmap events depending on whether Device-TLB is enabled. But
-> even if Device-TLB and PCI ATS is enabled, the guest can reject to use
-> it. For example, this situation appears when Windows Server 2022 is
-> running with intel-iommu with device-iotlb=3Don and virtio-net-pci with
-> vhost=3Don. The guest implies that no address translation info cached in
-> device IOTLB and doesn't send device IOTLB invalidation commands. So,
-> it leads to irrelevant address translations in vhost-net in the host
-> kernel. Therefore network frames from the guest in host tap interface
-> contains wrong payload data.
+> Guest may enable or disable PCI ATS and, accordingly, Device-TLB for
+> the device. Add a flag and a trigger function to handle Device-TLB
+> enable/disable in VirtIO devices and hook it to ATS enable/disable for
+> PCI transport.
 >
-> This series adds checking of ATS state for proper unmap flag register
-> (IOMMU_NOTIFIER_UNMAP or IOMMU_NOTIFIER_DEVIOTLB_UNMAP).
+> Signed-off-by: Viktor Prutyanov <viktor@daynix.com>
+> ---
+>  hw/virtio/virtio-pci.c     | 17 +++++++++++++++++
+>  include/hw/virtio/virtio.h |  2 ++
+>  2 files changed, 19 insertions(+)
 >
-> Tested on Windows Server 2022, Windows 11 and Fedora guests with
->  -device virtio-net-pci,bus=3Dpci.3,netdev=3Dnd0,iommu_platform=3Don,ats=
-=3Don
->  -netdev tap,id=3Dnd0,ifname=3Dtap1,script=3Dno,downscript=3Dno,vhost=3Do=
-n
->  -device intel-iommu,intremap=3Don,eim=3Don,device-iotlb=3Don/off
+> diff --git a/hw/virtio/virtio-pci.c b/hw/virtio/virtio-pci.c
+> index 247325c193..ccd8c4efa1 100644
+> --- a/hw/virtio/virtio-pci.c
+> +++ b/hw/virtio/virtio-pci.c
+> @@ -716,6 +716,18 @@ virtio_address_space_read(VirtIOPCIProxy *proxy, hwa=
+ddr addr,
+>      }
+>  }
 >
-> Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=3D2001312
+> +static void virtio_pci_ats_ctrl_trigger(PCIDevice *pci_dev, bool enable)
+> +{
+> +    VirtIOPCIProxy *proxy =3D VIRTIO_PCI(pci_dev);
+> +    VirtIODevice *vdev =3D virtio_bus_get_device(&proxy->bus);
+> +    VirtioDeviceClass *k =3D VIRTIO_DEVICE_GET_CLASS(vdev);
+> +
+> +    vdev->device_iotlb_enabled =3D enable;
+> +
+> +    if (k->toggle_device_iotlb)
+> +        k->toggle_device_iotlb(vdev, enable);
+> +}
+> +
+>  static void virtio_write_config(PCIDevice *pci_dev, uint32_t address,
+>                                  uint32_t val, int len)
+>  {
+> @@ -729,6 +741,11 @@ static void virtio_write_config(PCIDevice *pci_dev, =
+uint32_t address,
+>          pcie_cap_flr_write_config(pci_dev, address, val, len);
+>      }
+>
+> +    if (proxy->flags & VIRTIO_PCI_FLAG_ATS) {
+> +        pcie_ats_config_write(pci_dev, address, val, len,
+> +                virtio_pci_ats_ctrl_trigger);
 
-It would be better if we can have a change log here.
+I think we can directly call virtio_pci_ats_ctrl_trigger instead of
+using an indirection like pcie_ats_config_write?
 
 Thanks
 
+> +    }
+> +
+>      if (range_covers_byte(address, len, PCI_COMMAND)) {
+>          if (!(pci_dev->config[PCI_COMMAND] & PCI_COMMAND_MASTER)) {
+>              virtio_set_disabled(vdev, true);
+> diff --git a/include/hw/virtio/virtio.h b/include/hw/virtio/virtio.h
+> index f236e94ca6..83d07bb6b7 100644
+> --- a/include/hw/virtio/virtio.h
+> +++ b/include/hw/virtio/virtio.h
+> @@ -155,6 +155,7 @@ struct VirtIODevice
+>      QLIST_HEAD(, VirtQueue) *vector_queues;
+>      QTAILQ_ENTRY(VirtIODevice) next;
+>      EventNotifier config_notifier;
+> +    bool device_iotlb_enabled;
+>  };
 >
-> Viktor Prutyanov (4):
->   pci: add handling of Enable bit in ATS Control Register
->   virtio-pci: add handling of ATS and Device-TLB enable
->   vhost: register and change IOMMU flag depending on Device-TLB state
->   virtio-net: pass Device-TLB enable/disable events to vhost
+>  struct VirtioDeviceClass {
+> @@ -212,6 +213,7 @@ struct VirtioDeviceClass {
+>      const VMStateDescription *vmsd;
+>      bool (*primary_unplug_pending)(void *opaque);
+>      struct vhost_dev *(*get_vhost)(VirtIODevice *vdev);
+> +    void (*toggle_device_iotlb)(VirtIODevice *vdev, bool enable);
+>  };
 >
->  hw/net/vhost_net.c                | 11 +++++++++++
->  hw/net/virtio-net.c               |  8 ++++++++
->  hw/pci/pcie.c                     | 22 ++++++++++++++++++++++
->  hw/virtio/vhost-backend.c         |  6 ++++++
->  hw/virtio/vhost.c                 | 26 ++++++++++++++++++++++++--
->  hw/virtio/virtio-pci.c            | 17 +++++++++++++++++
->  include/hw/pci/pcie.h             |  5 +++++
->  include/hw/virtio/vhost-backend.h |  4 ++++
->  include/hw/virtio/vhost.h         |  1 +
->  include/hw/virtio/virtio.h        |  2 ++
->  include/net/vhost_net.h           |  2 ++
->  11 files changed, 102 insertions(+), 2 deletions(-)
->
+>  void virtio_instance_init_common(Object *proxy_obj, void *data,
 > --
 > 2.35.1
 >
