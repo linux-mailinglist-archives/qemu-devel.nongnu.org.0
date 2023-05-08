@@ -2,83 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E31F6FB044
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 May 2023 14:39:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 41E6D6FB077
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 May 2023 14:44:55 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pw096-0008Ov-Be; Mon, 08 May 2023 08:39:16 -0400
+	id 1pw0E0-0001aD-G3; Mon, 08 May 2023 08:44:20 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
- id 1pw093-0008Nq-Ku
- for qemu-devel@nongnu.org; Mon, 08 May 2023 08:39:13 -0400
-Received: from mail-ot1-x332.google.com ([2607:f8b0:4864:20::332])
+ id 1pw0Dv-0001Zu-Mj
+ for qemu-devel@nongnu.org; Mon, 08 May 2023 08:44:16 -0400
+Received: from mail-ot1-x32b.google.com ([2607:f8b0:4864:20::32b])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
- id 1pw092-0007OV-0u
- for qemu-devel@nongnu.org; Mon, 08 May 2023 08:39:13 -0400
-Received: by mail-ot1-x332.google.com with SMTP id
- 46e09a7af769-6aaf9092c52so514712a34.1
- for <qemu-devel@nongnu.org>; Mon, 08 May 2023 05:39:11 -0700 (PDT)
+ id 1pw0Dh-0000OH-MX
+ for qemu-devel@nongnu.org; Mon, 08 May 2023 08:44:15 -0400
+Received: by mail-ot1-x32b.google.com with SMTP id
+ 46e09a7af769-6ab0a942f46so350626a34.2
+ for <qemu-devel@nongnu.org>; Mon, 08 May 2023 05:44:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ventanamicro.com; s=google; t=1683549550; x=1686141550;
+ d=ventanamicro.com; s=google; t=1683549840; x=1686141840;
  h=content-transfer-encoding:in-reply-to:from:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=q9TzmsN3M4QgGfCIHSaHGZ5mFRq9DicVe3QIds5PYa4=;
- b=WPhdm6z+mRdzZ7L6hfsBUnwi1JyGFc38Lq5NcJLDGMbfS8b543mRAXQWeyE8hBNBq5
- vIyGIrr15g5ynigJXfLvt1OEXd2R9u61u+M79RJ8/XUs53Ya/6qkSY2Ye2CUm1/fLRXQ
- Z36DstgsKUTazvMoSHyQPaMWZtcjeuQW4TWt5N5V5XdC/0q4QPf38UJKhv+hzFmTI3MN
- QzyjQvnGGgRAaMPjMGrrDjoaejdp2q6CRpV7XljdfTS1p95yQOGAwpIdVEXbjNlLEMI3
- ZvinGDVwg1dNt/qGIT1WdgjFbVjHJu6DVh8Wtf8MJp9QjZ07E8avlvSo8XcQpQWbqIf7
- bM1A==
+ bh=MG81CA4XOMOYowHEHs1CaKU3cUVqWan2GOaz58Z6/6k=;
+ b=FtTHa8bZeMoZ7BfEEhT0UVBoBaxucG/WsambTudDAtTeFCp+7T7zQblovZQ19mAmPP
+ wM2Uvgnkp+zE1fiDbfcLumSb0psYdD4EZzDwklM8qWJLe3BkmWMnciSFlB/yzsb+BNjI
+ dX7jiR3dSKWsl1FNI5XeycF9MSGI4UueoZ9toPv7KQAZS0KJJyChHJSibH6n115Zr/Rr
+ uG0+rFILr49uIzN6NpqeUXou80uCtxaHr/ma9VUq3HYmI570NgxxwQc3gxoE9fmPZMXZ
+ SGhOThz8bNICu07Ii/ud2B9hvAVr9cj/SNI8aD7fN6+FTDkaO8ZO/thPPU8JF5UbjkBQ
+ 7Neg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683549550; x=1686141550;
+ d=1e100.net; s=20221208; t=1683549840; x=1686141840;
  h=content-transfer-encoding:in-reply-to:from:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=q9TzmsN3M4QgGfCIHSaHGZ5mFRq9DicVe3QIds5PYa4=;
- b=cAoeJFzs6UyxlVoKhOrlOzO5E8wEUnI3qCJa1qh9F+lzzgDzUBzakv+V7nAHiChyTB
- I7DeamyGNq34IZjYsaRCcDflb+iD6t2fDHcrApn3u324aKZUtyKcYlbfAwi/8Zto12Ft
- jCt7R/Vn7PTKkHGyRl3B7gmW3hKxQuAWO5193ILsvNerlrYtXUSxmyCpgBTEND13bqnm
- MtWl1IOumFRcXI9bYJclXWKdnrBgt08Z+7juJGwqYeppaQJP+IxIU2M/JtTEO3B3KYV9
- AdQdYmQLnasUe4kjgNNeJsFX679WU1ZxSQmXTetqjeO0Rb4+vnTyatkT2k+NuGDn3WP1
- maHw==
-X-Gm-Message-State: AC+VfDxDRkZzvjvXgUGBMbWyKwk+0tzcupQBJqttiHfAbMgx/LWdc5CE
- 9+Yv2EKh/YmIufjrI13XRYrvMhkXR22E2vXAuzc=
-X-Google-Smtp-Source: ACHHUZ5kWl9y/1TK4J9j/yNOImxFxikjIVNH3vuBFCjB5pj02Pq7Z2Ov8qgTq53HHnKMQhN+YmWIiA==
-X-Received: by 2002:a05:6808:7c6:b0:38e:5f7:daa3 with SMTP id
- f6-20020a05680807c600b0038e05f7daa3mr4697435oij.36.1683549550546; 
- Mon, 08 May 2023 05:39:10 -0700 (PDT)
+ bh=MG81CA4XOMOYowHEHs1CaKU3cUVqWan2GOaz58Z6/6k=;
+ b=aSK4mEb7naEKfJkT8wFfpnW4m+a5PPs0GF9SqpGLgzYMoiDp96ENs7gXB2h9e8dTIT
+ idG3v9IK3sqBzifm2lkv6lPU5KODfX6P+feVmi643UZK9jP2tdNKLWEIyZFzj1qh8yEd
+ VgwEoMiSWw7wxJ2MidDYhoBB+OoioRv3BDZsNVzcKnm3m6Ww5zv1PriipmsECCnLpFjF
+ zKEUTQaebs167tAiH2tCdgo8h4KkqfIbmge0cf7Z9F7EiD4tgtDSaoJy/iDjY2IZbjQs
+ DTzJCAVAnYZKJUFaFlUHvge72mhAQze471y/YqYaL7fJsrWQE/oMCH57xWnF9dwQfBG0
+ SGmw==
+X-Gm-Message-State: AC+VfDyTwvGLbeZZ88NEz0XMLhnIB/WFN8AxddvHw6M72wIIsYumds2B
+ TW/UNovyLBfztWz6Y9+i5WjjBA==
+X-Google-Smtp-Source: ACHHUZ7gYWe7etaC9h4kfRR+amRnakpN9OrG6DQCe4dwDr21gAjQw2Y10G1Tni25lxVgc1F5RxUQjQ==
+X-Received: by 2002:a05:6870:a247:b0:184:57fb:6183 with SMTP id
+ g7-20020a056870a24700b0018457fb6183mr4138573oai.17.1683549840362; 
+ Mon, 08 May 2023 05:44:00 -0700 (PDT)
 Received: from [192.168.68.107] (189-46-207-53.dsl.telesp.net.br.
  [189.46.207.53]) by smtp.gmail.com with ESMTPSA id
- k17-20020a544711000000b0038ebd84ce2bsm5435355oik.19.2023.05.08.05.39.09
+ g6-20020a056870a24600b0017e0c13b29asm4906067oai.36.2023.05.08.05.43.59
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 08 May 2023 05:39:10 -0700 (PDT)
-Message-ID: <84f27dd2-da25-c5f7-e9f4-b8c5852e5b2e@ventanamicro.com>
-Date: Mon, 8 May 2023 09:39:07 -0300
+ Mon, 08 May 2023 05:44:00 -0700 (PDT)
+Message-ID: <7eb28e24-700d-caad-d059-7a59b1a655a1@ventanamicro.com>
+Date: Mon, 8 May 2023 09:43:57 -0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.10.0
-Subject: Re: [PATCH 04/11] tcg/riscv: Support ADD.UW, SEXT.B, SEXT.H, ZEXT.H
- from Zba+Zbb
+Subject: Re: [PATCH 05/11] tcg/riscv: Use ADD.UW for guest address generation
 Content-Language: en-US
 To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
 References: <20230503085657.1814850-1-richard.henderson@linaro.org>
- <20230503085657.1814850-5-richard.henderson@linaro.org>
+ <20230503085657.1814850-6-richard.henderson@linaro.org>
 From: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
-In-Reply-To: <20230503085657.1814850-5-richard.henderson@linaro.org>
+In-Reply-To: <20230503085657.1814850-6-richard.henderson@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::332;
- envelope-from=dbarboza@ventanamicro.com; helo=mail-ot1-x332.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::32b;
+ envelope-from=dbarboza@ventanamicro.com; helo=mail-ot1-x32b.google.com
 X-Spam_score_int: -38
 X-Spam_score: -3.9
 X-Spam_bar: ---
 X-Spam_report: (-3.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.802,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -98,68 +97,76 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 
 On 5/3/23 05:56, Richard Henderson wrote:
+> The instruction is a combined zero-extend and add.
+> Use it for exactly that.
+> 
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
+>   tcg/riscv/tcg-target.c.inc | 33 ++++++++++++++++++++++-----------
+>   1 file changed, 22 insertions(+), 11 deletions(-)
+> 
+> diff --git a/tcg/riscv/tcg-target.c.inc b/tcg/riscv/tcg-target.c.inc
+> index 53a7f97b29..f64eaa8515 100644
+> --- a/tcg/riscv/tcg-target.c.inc
+> +++ b/tcg/riscv/tcg-target.c.inc
+> @@ -1039,14 +1039,18 @@ static TCGLabelQemuLdst *prepare_host_addr(TCGContext *s, TCGReg *pbase,
+>       tcg_out_opc_branch(s, OPC_BNE, TCG_REG_TMP0, TCG_REG_TMP1, 0);
+>   
+>       /* TLB Hit - translate address using addend.  */
+> -    addr_adj = addr_reg;
+> -    if (TARGET_LONG_BITS == 32) {
+> -        addr_adj = TCG_REG_TMP0;
+> -        tcg_out_ext32u(s, addr_adj, addr_reg);
+> +    if (TARGET_LONG_BITS == 64) {
+> +        tcg_out_opc_reg(s, OPC_ADD, TCG_REG_TMP0, addr_reg, TCG_REG_TMP2);
+> +    } else if (have_zba) {
+> +        tcg_out_opc_reg(s, OPC_ADD_UW, TCG_REG_TMP0, addr_reg, TCG_REG_TMP2);
+> +    } else {
+> +        tcg_out_ext32u(s, TCG_REG_TMP0, addr_reg);
+> +        tcg_out_opc_reg(s, OPC_ADD, TCG_REG_TMP0, TCG_REG_TMP0, TCG_REG_TMP2);
+>       }
+> -    tcg_out_opc_reg(s, OPC_ADD, TCG_REG_TMP0, TCG_REG_TMP2, addr_adj);
+>       *pbase = TCG_REG_TMP0;
+>   #else
+> +    TCGReg base;
+> +
+>       if (a_mask) {
+>           ldst = new_ldst_label(s);
+>           ldst->is_ld = is_ld;
+> @@ -1061,14 +1065,21 @@ static TCGLabelQemuLdst *prepare_host_addr(TCGContext *s, TCGReg *pbase,
+>           tcg_out_opc_branch(s, OPC_BNE, TCG_REG_TMP1, TCG_REG_ZERO, 0);
+>       }
+>   
+> -    TCGReg base = addr_reg;
+> -    if (TARGET_LONG_BITS == 32) {
+> -        tcg_out_ext32u(s, TCG_REG_TMP0, base);
+> -        base = TCG_REG_TMP0;
+> -    }
+>       if (guest_base != 0) {
+> -        tcg_out_opc_reg(s, OPC_ADD, TCG_REG_TMP0, TCG_GUEST_BASE_REG, base);
+>           base = TCG_REG_TMP0;
+> +        if (TARGET_LONG_BITS == 64) {
+> +            tcg_out_opc_reg(s, OPC_ADD, base, addr_reg, TCG_GUEST_BASE_REG);
+> +        } else if (have_zba) {
+> +            tcg_out_opc_reg(s, OPC_ADD_UW, base, addr_reg, TCG_GUEST_BASE_REG);
+> +        } else {
+> +            tcg_out_ext32u(s, base, addr_reg);
+> +            tcg_out_opc_reg(s, OPC_ADD, base, base, TCG_GUEST_BASE_REG);
+> +        }
+> +    } else if (TARGET_LONG_BITS == 64) {
+> +        base = addr_reg;
+> +    } else {
+> +        base = TCG_REG_TMP0;
+> +        tcg_out_ext32u(s, base, addr_reg);
+
+I tried to find a way to remove some of these IFs but all my alternatives weren't
+much better.
 
 
 Reviewed-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
 
->   tcg/riscv/tcg-target.c.inc | 32 ++++++++++++++++++++++++--------
->   1 file changed, 24 insertions(+), 8 deletions(-)
-> 
-> diff --git a/tcg/riscv/tcg-target.c.inc b/tcg/riscv/tcg-target.c.inc
-> index c5b060023f..53a7f97b29 100644
-> --- a/tcg/riscv/tcg-target.c.inc
-> +++ b/tcg/riscv/tcg-target.c.inc
-> @@ -593,26 +593,42 @@ static void tcg_out_ext8u(TCGContext *s, TCGReg ret, TCGReg arg)
->   
->   static void tcg_out_ext16u(TCGContext *s, TCGReg ret, TCGReg arg)
->   {
-> -    tcg_out_opc_imm(s, OPC_SLLIW, ret, arg, 16);
-> -    tcg_out_opc_imm(s, OPC_SRLIW, ret, ret, 16);
-> +    if (have_zbb) {
-> +        tcg_out_opc_reg(s, OPC_ZEXT_H, ret, arg, TCG_REG_ZERO);
-> +    } else {
-> +        tcg_out_opc_imm(s, OPC_SLLIW, ret, arg, 16);
-> +        tcg_out_opc_imm(s, OPC_SRLIW, ret, ret, 16);
-> +    }
->   }
->   
->   static void tcg_out_ext32u(TCGContext *s, TCGReg ret, TCGReg arg)
->   {
-> -    tcg_out_opc_imm(s, OPC_SLLI, ret, arg, 32);
-> -    tcg_out_opc_imm(s, OPC_SRLI, ret, ret, 32);
-> +    if (have_zba) {
-> +        tcg_out_opc_reg(s, OPC_ADD_UW, ret, arg, TCG_REG_ZERO);
-> +    } else {
-> +        tcg_out_opc_imm(s, OPC_SLLI, ret, arg, 32);
-> +        tcg_out_opc_imm(s, OPC_SRLI, ret, ret, 32);
-> +    }
->   }
->   
->   static void tcg_out_ext8s(TCGContext *s, TCGType type, TCGReg ret, TCGReg arg)
->   {
-> -    tcg_out_opc_imm(s, OPC_SLLIW, ret, arg, 24);
-> -    tcg_out_opc_imm(s, OPC_SRAIW, ret, ret, 24);
-> +    if (have_zbb) {
-> +        tcg_out_opc_imm(s, OPC_SEXT_B, ret, arg, 0);
-> +    } else {
-> +        tcg_out_opc_imm(s, OPC_SLLIW, ret, arg, 24);
-> +        tcg_out_opc_imm(s, OPC_SRAIW, ret, ret, 24);
-> +    }
->   }
->   
->   static void tcg_out_ext16s(TCGContext *s, TCGType type, TCGReg ret, TCGReg arg)
->   {
-> -    tcg_out_opc_imm(s, OPC_SLLIW, ret, arg, 16);
-> -    tcg_out_opc_imm(s, OPC_SRAIW, ret, ret, 16);
-> +    if (have_zbb) {
-> +        tcg_out_opc_imm(s, OPC_SEXT_H, ret, arg, 0);
-> +    } else {
-> +        tcg_out_opc_imm(s, OPC_SLLIW, ret, arg, 16);
-> +        tcg_out_opc_imm(s, OPC_SRAIW, ret, ret, 16);
-> +    }
->   }
->   
->   static void tcg_out_ext32s(TCGContext *s, TCGReg ret, TCGReg arg)
+
+>       }
+>       *pbase = base;
+>   #endif
 
