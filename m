@@ -2,53 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12C126FA1D3
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 May 2023 10:01:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D76516FA1DA
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 May 2023 10:02:46 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pvvmp-0008OC-Gv; Mon, 08 May 2023 03:59:59 -0400
+	id 1pvvmn-0008Fq-B3; Mon, 08 May 2023 03:59:57 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <SRS0=5sq4=A5=kaod.org=clg@ozlabs.org>)
- id 1pvvmf-00087w-BT; Mon, 08 May 2023 03:59:52 -0400
-Received: from gandalf.ozlabs.org ([150.107.74.76])
+ id 1pvvmR-00082M-JF; Mon, 08 May 2023 03:59:39 -0400
+Received: from mail.ozlabs.org ([2404:9400:2221:ea00::3]
+ helo=gandalf.ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <SRS0=5sq4=A5=kaod.org=clg@ozlabs.org>)
- id 1pvvmc-0001GC-1s; Mon, 08 May 2023 03:59:49 -0400
+ id 1pvvmP-0001A5-DN; Mon, 08 May 2023 03:59:35 -0400
 Received: from gandalf.ozlabs.org (mail.ozlabs.org
  [IPv6:2404:9400:2221:ea00::3])
- by gandalf.ozlabs.org (Postfix) with ESMTP id 4QFDGQ0dxNz4x4C;
- Mon,  8 May 2023 17:59:42 +1000 (AEST)
+ by gandalf.ozlabs.org (Postfix) with ESMTP id 4QFDGB4Fppz4x4D;
+ Mon,  8 May 2023 17:59:30 +1000 (AEST)
 Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4QFDGM3wX9z4x44;
- Mon,  8 May 2023 17:59:39 +1000 (AEST)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4QFDG76LQ7z4whj;
+ Mon,  8 May 2023 17:59:27 +1000 (AEST)
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: qemu-arm@nongnu.org
 Cc: qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
  Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>,
  =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
- Abhishek Singh Dagur <abhishek@drut.io>
-Subject: [PATCH 11/12] aspeed: Introduce a "uart" machine option
-Date: Mon,  8 May 2023 09:58:58 +0200
-Message-Id: <20230508075859.3326566-12-clg@kaod.org>
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ Alistair Francis <alistair@alistair23.me>
+Subject: [PATCH 07/12] hw/ssi: Check for duplicate addresses
+Date: Mon,  8 May 2023 09:58:54 +0200
+Message-Id: <20230508075859.3326566-8-clg@kaod.org>
 X-Mailer: git-send-email 2.40.0
 In-Reply-To: <20230508075859.3326566-1-clg@kaod.org>
 References: <20230508075859.3326566-1-clg@kaod.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=150.107.74.76;
+Received-SPF: pass client-ip=2404:9400:2221:ea00::3;
  envelope-from=SRS0=5sq4=A5=kaod.org=clg@ozlabs.org; helo=gandalf.ozlabs.org
-X-Spam_score_int: -16
-X-Spam_score: -1.7
-X-Spam_bar: -
-X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+X-Spam_score_int: -39
+X-Spam_score: -4.0
+X-Spam_bar: ----
+X-Spam_report: (-4.0 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -64,131 +67,127 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Most of the Aspeed machines use the UART5 device for the boot console,
-and QEMU connects the first serial Chardev to this SoC device for this
-purpose. See routine connect_serial_hds_to_uarts().
+This to avoid address conflicts on the same SSI bus. Adapt machines
+using multiple devices on the same bus to avoid breakage.
 
-Nevertheless, some machines use another boot console, such as the fuji,
-and commit 5d63d0c76c ("hw/arm/aspeed: Allow machine to set UART
-default") introduced a SoC class attribute 'uart_default' and property
-to be able to change the boot console device. It was later changed by
-commit d2b3eaefb4 ("aspeed: Refactor UART init for multi-SoC machines").
-
-The "uart" machine option goes a step further and lets the user define
-the UART device from the QEMU command line without introducing a new
-machine definition. For instance, to use device UART3 (mapped on
-/dev/ttyS2 under Linux) instead of the default UART5, one would use :
-
-  -M ast2500-evb,uart=uart3
-
-Cc: Abhishek Singh Dagur <abhishek@drut.io>
+Cc: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
+Cc: Alistair Francis <alistair@alistair23.me>
 Signed-off-by: Cédric Le Goater <clg@kaod.org>
 ---
- docs/system/arm/aspeed.rst | 10 ++++++++++
- hw/arm/aspeed.c            | 39 ++++++++++++++++++++++++++++++++++++--
- 2 files changed, 47 insertions(+), 2 deletions(-)
+ hw/arm/stellaris.c                  |  4 +++-
+ hw/arm/xilinx_zynq.c                |  1 +
+ hw/arm/xlnx-versal-virt.c           |  1 +
+ hw/arm/xlnx-zcu102.c                |  2 ++
+ hw/microblaze/petalogix_ml605_mmu.c |  1 +
+ hw/ssi/ssi.c                        | 20 ++++++++++++++++++++
+ 6 files changed, 28 insertions(+), 1 deletion(-)
 
-diff --git a/docs/system/arm/aspeed.rst b/docs/system/arm/aspeed.rst
-index d4e293e7f9..e70f0aeea3 100644
---- a/docs/system/arm/aspeed.rst
-+++ b/docs/system/arm/aspeed.rst
-@@ -122,6 +122,10 @@ Options specific to Aspeed machines are :
+diff --git a/hw/arm/stellaris.c b/hw/arm/stellaris.c
+index f7e99baf62..ffa5999a1d 100644
+--- a/hw/arm/stellaris.c
++++ b/hw/arm/stellaris.c
+@@ -1242,7 +1242,9 @@ static void stellaris_init(MachineState *ms, stellaris_board_info *board)
+                                    qdev_get_child_bus(sddev, "sd-bus"),
+                                    &error_fatal);
  
-  * ``spi-model`` to change the SPI Flash model.
+-            ssddev = ssi_create_peripheral(bus, "ssd0323");
++            ssddev = qdev_new("ssd0323");
++            qdev_prop_set_uint32(ssddev, "addr", 1);
++            qdev_realize_and_unref(ssddev, bus, &error_fatal);
  
-+ * ``uart`` to change the default console device. Most of the machines
-+   use the ``UART5`` device for a boot console, which is mapped on
-+   ``/dev/ttyS4`` under Linux, but it is not always the case.
-+
- For instance, to start the ``ast2500-evb`` machine with a different
- FMC chip and a bigger (64M) SPI chip, use :
+             gpio_d_splitter = qdev_new(TYPE_SPLIT_IRQ);
+             qdev_prop_set_uint32(gpio_d_splitter, "num-lines", 2);
+diff --git a/hw/arm/xilinx_zynq.c b/hw/arm/xilinx_zynq.c
+index 3190cc0b8d..91718c5267 100644
+--- a/hw/arm/xilinx_zynq.c
++++ b/hw/arm/xilinx_zynq.c
+@@ -164,6 +164,7 @@ static inline int zynq_init_spi_flashes(uint32_t base_addr, qemu_irq irq,
+                                         blk_by_legacy_dinfo(dinfo),
+                                         &error_fatal);
+             }
++            qdev_prop_set_uint32(flash_dev, "addr", j);
+             qdev_realize_and_unref(flash_dev, BUS(spi), &error_fatal);
  
-@@ -129,6 +133,12 @@ FMC chip and a bigger (64M) SPI chip, use :
- 
-   -M ast2500-evb,fmc-model=mx25l25635e,spi-model=mx66u51235f
- 
-+To change the boot console and use device ``UART3`` (``/dev/ttyS2``
-+under Linux), use :
-+
-+.. code-block:: bash
-+
-+  -M ast2500-evb,uart=uart3
- 
- Aspeed minibmc family boards (``ast1030-evb``)
- ==================================================================
-diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
-index 3d5488faf7..6c32f674b9 100644
---- a/hw/arm/aspeed.c
-+++ b/hw/arm/aspeed.c
-@@ -43,6 +43,7 @@ struct AspeedMachineState {
-     AspeedSoCState soc;
-     MemoryRegion boot_rom;
-     bool mmio_exec;
-+    uint32_t uart_chosen;
-     char *fmc_model;
-     char *spi_model;
- };
-@@ -331,10 +332,11 @@ static void connect_serial_hds_to_uarts(AspeedMachineState *bmc)
-     AspeedMachineClass *amc = ASPEED_MACHINE_GET_CLASS(bmc);
-     AspeedSoCState *s = &bmc->soc;
-     AspeedSoCClass *sc = ASPEED_SOC_GET_CLASS(s);
-+    int uart_chosen = bmc->uart_chosen ? bmc->uart_chosen : amc->uart_default;
- 
--    aspeed_soc_uart_set_chr(s, amc->uart_default, serial_hd(0));
-+    aspeed_soc_uart_set_chr(s, uart_chosen, serial_hd(0));
-     for (int i = 1, uart = ASPEED_DEV_UART1; i < sc->uarts_num; i++, uart++) {
--        if (uart == amc->uart_default) {
-+        if (uart == uart_chosen) {
-             continue;
+             cs_line = qdev_get_gpio_in_named(flash_dev, SSI_GPIO_CS, 0);
+diff --git a/hw/arm/xlnx-versal-virt.c b/hw/arm/xlnx-versal-virt.c
+index 668a9d65a4..ac2ad3fd0d 100644
+--- a/hw/arm/xlnx-versal-virt.c
++++ b/hw/arm/xlnx-versal-virt.c
+@@ -701,6 +701,7 @@ static void versal_virt_init(MachineState *machine)
+             qdev_prop_set_drive_err(flash_dev, "drive",
+                                     blk_by_legacy_dinfo(dinfo), &error_fatal);
          }
-         aspeed_soc_uart_set_chr(s, uart, serial_hd(i));
-@@ -1077,6 +1079,35 @@ static void aspeed_set_spi_model(Object *obj, const char *value, Error **errp)
-     bmc->spi_model = g_strdup(value);
++        qdev_prop_set_uint32(flash_dev, "addr", i);
+         qdev_realize_and_unref(flash_dev, spi_bus, &error_fatal);
+ 
+         cs_line = qdev_get_gpio_in_named(flash_dev, SSI_GPIO_CS, 0);
+diff --git a/hw/arm/xlnx-zcu102.c b/hw/arm/xlnx-zcu102.c
+index 4c84bb932a..70b4e4b320 100644
+--- a/hw/arm/xlnx-zcu102.c
++++ b/hw/arm/xlnx-zcu102.c
+@@ -201,6 +201,7 @@ static void xlnx_zcu102_init(MachineState *machine)
+             qdev_prop_set_drive_err(flash_dev, "drive",
+                                     blk_by_legacy_dinfo(dinfo), &error_fatal);
+         }
++        qdev_prop_set_uint32(flash_dev, "addr", i);
+         qdev_realize_and_unref(flash_dev, spi_bus, &error_fatal);
+ 
+         cs_line = qdev_get_gpio_in_named(flash_dev, SSI_GPIO_CS, 0);
+@@ -224,6 +225,7 @@ static void xlnx_zcu102_init(MachineState *machine)
+             qdev_prop_set_drive_err(flash_dev, "drive",
+                                     blk_by_legacy_dinfo(dinfo), &error_fatal);
+         }
++        qdev_prop_set_uint32(flash_dev, "addr", i);
+         qdev_realize_and_unref(flash_dev, spi_bus, &error_fatal);
+ 
+         cs_line = qdev_get_gpio_in_named(flash_dev, SSI_GPIO_CS, 0);
+diff --git a/hw/microblaze/petalogix_ml605_mmu.c b/hw/microblaze/petalogix_ml605_mmu.c
+index a24fadddca..0ef5b3a02b 100644
+--- a/hw/microblaze/petalogix_ml605_mmu.c
++++ b/hw/microblaze/petalogix_ml605_mmu.c
+@@ -192,6 +192,7 @@ petalogix_ml605_init(MachineState *machine)
+                                         blk_by_legacy_dinfo(dinfo),
+                                         &error_fatal);
+             }
++            qdev_prop_set_uint32(dev, "addr", i);
+             qdev_realize_and_unref(dev, BUS(spi), &error_fatal);
+ 
+             cs_line = qdev_get_gpio_in_named(dev, SSI_GPIO_CS, 0);
+diff --git a/hw/ssi/ssi.c b/hw/ssi/ssi.c
+index a25e064417..685b7678e0 100644
+--- a/hw/ssi/ssi.c
++++ b/hw/ssi/ssi.c
+@@ -42,10 +42,30 @@ DeviceState *ssi_get_cs(SSIBus *bus, int addr)
+     return NULL;
  }
  
-+static char *aspeed_get_uart(Object *obj, Error **errp)
++static bool ssi_bus_check_address(BusState *b, DeviceState *dev, Error **errp)
 +{
-+    AspeedMachineState *bmc = ASPEED_MACHINE(obj);
-+    AspeedMachineClass *amc = ASPEED_MACHINE_GET_CLASS(bmc);
-+    int uart_chosen = bmc->uart_chosen ? bmc->uart_chosen : amc->uart_default;
++    SSIPeripheral *s = SSI_PERIPHERAL(dev);
 +
-+    return g_strdup_printf("uart%d", uart_chosen - ASPEED_DEV_UART1 + 1);
-+}
-+
-+static void aspeed_set_uart(Object *obj, const char *value, Error **errp)
-+{
-+    AspeedMachineState *bmc = ASPEED_MACHINE(obj);
-+    AspeedMachineClass *amc = ASPEED_MACHINE_GET_CLASS(bmc);
-+    AspeedSoCClass *sc = ASPEED_SOC_CLASS(object_class_by_name(amc->soc_name));
-+    int val;
-+
-+    if (sscanf(value, "uart%u", &val) != 1) {
-+        error_setg(errp, "Bad value for \"uart\" property");
-+        return;
++    if (ssi_get_cs(SSI_BUS(b), s->addr)) {
++        error_setg(errp, "addr '0x%x' already in use", s->addr);
++        return false;
 +    }
 +
-+    /* The number of UART depends on the SoC */
-+    if (val < 1 || val > sc->uarts_num) {
-+        error_setg(errp, "\"uart\" should be in range [1 - %d]", sc->uarts_num);
-+        return;
-+    }
-+    bmc->uart_chosen = ASPEED_DEV_UART1 + val - 1;
++    return true;
 +}
 +
- static void aspeed_machine_class_props_init(ObjectClass *oc)
- {
-     object_class_property_add_bool(oc, "execute-in-place",
-@@ -1085,6 +1116,10 @@ static void aspeed_machine_class_props_init(ObjectClass *oc)
-     object_class_property_set_description(oc, "execute-in-place",
-                            "boot directly from CE0 flash device");
++static void ssi_bus_class_init(ObjectClass *klass, void *data)
++{
++    BusClass *k = BUS_CLASS(klass);
++
++    k->check_address = ssi_bus_check_address;
++}
++
+ static const TypeInfo ssi_bus_info = {
+     .name = TYPE_SSI_BUS,
+     .parent = TYPE_BUS,
+     .instance_size = sizeof(SSIBus),
++    .class_init = ssi_bus_class_init,
+ };
  
-+    object_class_property_add_str(oc, "uart", aspeed_get_uart, aspeed_set_uart);
-+    object_class_property_set_description(oc, "uart",
-+                           "Change the default UART to \"uartX\"");
-+
-     object_class_property_add_str(oc, "fmc-model", aspeed_get_fmc_model,
-                                    aspeed_set_fmc_model);
-     object_class_property_set_description(oc, "fmc-model",
+ static void ssi_cs_default(void *opaque, int n, int level)
 -- 
 2.40.0
 
