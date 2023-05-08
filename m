@@ -2,88 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A7F06FAC80
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 May 2023 13:25:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2DB936FAE8D
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 May 2023 13:45:45 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pvyyG-00046p-GA; Mon, 08 May 2023 07:24:00 -0400
+	id 1pvzI5-0008Rg-HV; Mon, 08 May 2023 07:44:30 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sunilvl@ventanamicro.com>)
- id 1pvyyD-00042j-UB
- for qemu-devel@nongnu.org; Mon, 08 May 2023 07:23:57 -0400
-Received: from mail-pf1-x42e.google.com ([2607:f8b0:4864:20::42e])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <sunilvl@ventanamicro.com>)
- id 1pvyyB-0003b0-LV
- for qemu-devel@nongnu.org; Mon, 08 May 2023 07:23:57 -0400
-Received: by mail-pf1-x42e.google.com with SMTP id
- d2e1a72fcca58-6439bbc93b6so2661435b3a.1
- for <qemu-devel@nongnu.org>; Mon, 08 May 2023 04:23:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ventanamicro.com; s=google; t=1683545034; x=1686137034;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=+ofjdLNercVI5LMQNf+jvn8/W3gKUapjH2ZhjUVdFJY=;
- b=DpYHpFGMWweuAyTcJs07t70G6HISPsCHWU/Rbh65bey/G0by507PRnHQZt4ZQVY0Xv
- mw+u4mnpH+8ujBPNbzTFpfueO4BW8oYyLA3p0FQsE50IYXLKLDgf4unOY7BuCushhFVe
- nvttN8GLqr5byMFRiDzGuJLyUYSdlV4sKUcGfFZmGaLEzgphOYoKejI65yv8d7YrzzMC
- Qf3BsSESbmzxaew3KRw3MhEk3QybRQlvdY1nrfjKUywwP+tPbyqOGaqFQ2EUL/yGJxQD
- A+K+MjMOhg93hrCOix1WC364/e4M2ivM6CrMtaeuBVtHZKfFTj+aGAsnfW4zFYwG8+k2
- JXhg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683545034; x=1686137034;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=+ofjdLNercVI5LMQNf+jvn8/W3gKUapjH2ZhjUVdFJY=;
- b=PMNgwDXxLbBM/GTYvhf8+h/AArXwLwZWbTgkm0ON3mNMtAe7kzrSpgAtPGzTyRvK0g
- RqdmB1HP3UzWxZrcgBD7Q9wHSiNiVtc1K70jyV/e1oO1AToHaefJlDFQOvEg3/OqbL3A
- mcjJ2tddEEVO2IwUgTKxzcT15Cw1Wcqsnld/L2PNjEwJZEmrgHHtoeW59/CyZiOOR9WN
- ABWJaFt/Unh5LO+JPzF1yj4YocvBLzaNIk0pvFP6OhOXHyKkcv12eXDhdaW3ToQQLGl7
- 1HxIvtMbqbaIZzaXKtXjI1+lrAd0El9C7K+XUQ4LI4FzbUqB/hBx1Zei1VQnaHKxmyW1
- 9Ehg==
-X-Gm-Message-State: AC+VfDyRryn7YLAGagATDe+O0GAP6Bq/x1Xy918IdLURlfb4b3ZI0sLn
- Mk8mbGNIeEDAJLvhx7J7PMz5JQ==
-X-Google-Smtp-Source: ACHHUZ5A0qLBV4oNnjeaDYQf0btLhRyIyqQGusNyltyvNoSno9kGwON6eSeDn2b7Mqz80UdFswv2Gg==
-X-Received: by 2002:a05:6a00:10d3:b0:63b:5496:7afa with SMTP id
- d19-20020a056a0010d300b0063b54967afamr12024661pfu.11.1683545034032; 
- Mon, 08 May 2023 04:23:54 -0700 (PDT)
-Received: from sunil-laptop ([106.51.189.144])
- by smtp.gmail.com with ESMTPSA id
- 10-20020aa7914a000000b0062e12f945adsm5912519pfi.135.2023.05.08.04.23.49
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 08 May 2023 04:23:53 -0700 (PDT)
-Date: Mon, 8 May 2023 16:53:46 +0530
-From: Sunil V L <sunilvl@ventanamicro.com>
-To: Andrea Bolognani <abologna@redhat.com>
-Cc: Heinrich Schuchardt <heinrich.schuchardt@canonical.com>,
- qemu-devel@nongnu.org, Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- Bin Meng <bin.meng@windriver.com>, Weiwei Li <liweiwei@iscas.ac.cn>,
- Daniel Henrique Barboza <dbarboza@ventanamicro.com>,
- Liu Zhiwei <zhiwei_liu@linux.alibaba.com>, qemu-riscv@nongnu.org
-Subject: Re: [PATCH v2] hw/riscv: virt: Assume M-mode FW in pflash0 only when
- "-bios none"
-Message-ID: <ZFjbwh3CdljaHEZZ@sunil-laptop>
-References: <20230425102545.162888-1-sunilvl@ventanamicro.com>
- <b520d913-27a9-dea5-53c8-af1cdd967ab2@canonical.com>
- <ZFiRr8d2zyAJlZJv@sunil-laptop>
- <CABJz62OTBEOMzcXLYc=DqRwH8N4DP=o0-kCfALwoREZVyOxLPg@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pvzI2-0008RY-9a
+ for qemu-devel@nongnu.org; Mon, 08 May 2023 07:44:26 -0400
+Received: from mout.kundenserver.de ([212.227.126.134])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pvzI0-0008QR-1l
+ for qemu-devel@nongnu.org; Mon, 08 May 2023 07:44:26 -0400
+Received: from [192.168.100.1] ([82.142.8.70]) by mrelayeu.kundenserver.de
+ (mreue009 [213.165.67.103]) with ESMTPSA (Nemesis) id
+ 1N3Kc6-1qMhHn217y-010Jx0; Mon, 08 May 2023 13:44:09 +0200
+Message-ID: <41dc0697-167e-30b2-afd2-a5f5dbbd0a03@vivier.eu>
+Date: Mon, 8 May 2023 13:44:08 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CABJz62OTBEOMzcXLYc=DqRwH8N4DP=o0-kCfALwoREZVyOxLPg@mail.gmail.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42e;
- envelope-from=sunilvl@ventanamicro.com; helo=mail-pf1-x42e.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+Cc: Anton Johansson <anjo@rev.ng>
+References: <20230505212447.374546-1-richard.henderson@linaro.org>
+ <20230505212447.374546-6-richard.henderson@linaro.org>
+Content-Language: fr
+From: Laurent Vivier <laurent@vivier.eu>
+Subject: Re: [PULL 05/42] target/m68k: Finish conversion to tcg_gen_qemu_{ld, 
+ st}_*
+In-Reply-To: <20230505212447.374546-6-richard.henderson@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:ZzVDQjyw6mxsIWMx5zExwvOOzmp6gP798RSiCQZsAd7SXFATjW+
+ HkK4NpF68KvMdpV/Si+wdpt7Ux5SnJAYPqTbjefkhnhbQUTmq/YyCsovXaAKmYgJXcvLuCD
+ Hj+mThlwW6LwNAcelTNj9EaBKahebfSWHDIOMj4eLjTVqysyIQaYQyPlanOsd8+M4UEBIWD
+ x4XUOiOE6Ts31bgVTGJ7A==
+UI-OutboundReport: notjunk:1;M01:P0:afz58AzSw68=;CaYumHiI7H6xQ/H4WQoku2LE0aw
+ vDXmiLTG5w1oVbs02Iot/zULObWUM6q2NDdKTj2L75b0NiV9yao2fchx/uyKVvx79iGmvaf/u
+ 1jUIZhj0Lx4Qy8iGHbMzR2sgnM5aYpUNn0YaUm8c4/1u/0ngGqe9CfRBDYlr45IihtsVIiNQl
+ ZU1PNlpaBdsX94wmmPMEk5ap6/Z/kUPr0/qPU6KxCuKKdThFLvoxUKy1KkzY3xhjvDX3GDzsX
+ 9siTH4g0DlmQoYj2eMYvu/xFfeRe7XHd6436rprNLJwCfclOujs2K0rVVFqcvt6hoL65JmQTD
+ 2HXIit8xjcnUu0h6o6o3zswQZrX2OtzhQe0rxFjRP9mgrxPBP7Qj19zyMzsbWrlC8ja+dbfro
+ YycMkl0aWI29PtxVz5gBVC2TUzT9urp0TvvGQBR8pIPpA+HfWK5nP8y4k3xd3GBMB+Mf1GANX
+ BwWrbrPAF8O6pitz4o/0LhUaofZREwivZMaNXBl/ZO8BinpC/+5xS2UZVCMVKTm3GAsOB1SwV
+ 0I6PqKDnPMjLTx/NTeV0lVXMqyeC4EdF05SJK0TweCRe0ZO5Ao5oOGQQlHkcsNO7tU8WVBxP8
+ iGlKkeaunqnA+Q2Oxs3n4nbUAAjeoRWmnOOyWqyoHmfAOfMbUquV6L4Ji2rmSQcrIasrKafqJ
+ fmVrP275g85FrpaRPbDTtmkfAT33Ao6dt+hX43+INA==
+Received-SPF: none client-ip=212.227.126.134; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-Spam_score_int: -36
+X-Spam_score: -3.7
+X-Spam_bar: ---
+X-Spam_report: (-3.7 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.802,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -99,91 +73,217 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, May 08, 2023 at 03:00:02AM -0700, Andrea Bolognani wrote:
-> On Mon, May 08, 2023 at 11:37:43AM +0530, Sunil V L wrote:
-> > On Mon, May 08, 2023 at 07:37:23AM +0200, Heinrich Schuchardt wrote:
-> > > On 4/25/23 12:25, Sunil V L wrote:
-> > > > Currently, virt machine supports two pflash instances each with
-> > > > 32MB size. However, the first pflash is always assumed to
-> > > > contain M-mode firmware and reset vector is set to this if
-> > > > enabled. Hence, for S-mode payloads like EDK2, only one pflash
-> > > > instance is available for use. This means both code and NV variables
-> > > > of EDK2 will need to use the same pflash.
-> > > >
-> > > > The OS distros keep the EDK2 FW code as readonly. When non-volatile
-> > > > variables also need to share the same pflash, it is not possible
-> > > > to keep it as readonly since variables need write access.
-> > > >
-> > > > To resolve this issue, the code and NV variables need to be separated.
-> > > > But in that case we need an extra flash. Hence, modify the convention
-> > > > such that pflash0 will contain the M-mode FW only when "-bios none"
-> > > > option is used. Otherwise, pflash0 will contain the S-mode payload FW.
-> > > > This enables both pflash instances available for EDK2 use.
-> > > >
-> > > > Example usage:
-> > > > 1) pflash0 containing M-mode FW
-> > > > qemu-system-riscv64 -bios none -pflash <mmode_fw> -machine virt
-> > > > or
-> > > > qemu-system-riscv64 -bios none \
-> > > > -drive file=<mmode_fw>,if=pflash,format=raw,unit=0 -machine virt
-> > > >
-> > > > 2) pflash0 containing S-mode payload like EDK2
-> > > > qemu-system-riscv64 -pflash <smode_fw_vars> -pflash <smode_fw_code> -machine  virt
-> > > > or
-> > > > qemu-system-riscv64 -bios <opensbi_fw> \
-> > > > -pflash <smode_fw_vars> \
-> > > > -pflash <smode_fw_code> \
-> > >
-> > > On amd64 and arm64 unit=0 is used for code and unit=1 is used for variables.
-> > > Shouldn't riscv64 do the same?
+Le 05/05/2023 à 23:24, Richard Henderson a écrit :
+> Convert away from the old interface with the implicit
+> MemOp argument.
 > 
-> Good catch, I had missed that!
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> Reviewed-by: Anton Johansson <anjo@rev.ng>
+> Message-Id: <20230502135741.1158035-5-richard.henderson@linaro.org>
+> ---
+>   target/m68k/translate.c | 76 ++++++++++++++---------------------------
+>   1 file changed, 25 insertions(+), 51 deletions(-)
 > 
-> > Is that a requirement from distros perspective? That was my original v1
-> > design.
-> >
-> > But the reason why I kept unit0 for variables, it helps in keeping current
-> > EDK2 usage model work. Otherwise, current EDK2 will break if we change
-> > the code to unit 0.
-> 
-> I think that it's more important to align with other architectures.
-> 
-> The number of people currently running edk2 on RISC-V is probably
-> vanishingly small, and in my opinion requiring them to tweak their
-> command lines a bit is a fair price to pay to avoid having to carry a
-> subtle difference between architectures for years to come.
-> 
-It is not just tweaking the command line. The current EDK2 will not work
-anymore if code is moved to plfash 0 since EDK2 assumed its entry point
-is in pflash1. I agree there may not be too many users but if we have
-to align with other archs, there will be combinations of qemu and
-edk2 versions which won't work.
+> diff --git a/target/m68k/translate.c b/target/m68k/translate.c
+> index 422f4652f1..744eb3748b 100644
+> --- a/target/m68k/translate.c
+> +++ b/target/m68k/translate.c
+> @@ -304,23 +304,14 @@ static inline void gen_addr_fault(DisasContext *s)
+>   static inline TCGv gen_load(DisasContext *s, int opsize, TCGv addr,
+>                               int sign, int index)
+>   {
+> -    TCGv tmp;
+> -    tmp = tcg_temp_new_i32();
+> -    switch(opsize) {
+> +    TCGv tmp = tcg_temp_new_i32();
+> +
+> +    switch (opsize) {
+>       case OS_BYTE:
+> -        if (sign)
+> -            tcg_gen_qemu_ld8s(tmp, addr, index);
+> -        else
+> -            tcg_gen_qemu_ld8u(tmp, addr, index);
+> -        break;
+>       case OS_WORD:
+> -        if (sign)
+> -            tcg_gen_qemu_ld16s(tmp, addr, index);
+> -        else
+> -            tcg_gen_qemu_ld16u(tmp, addr, index);
+> -        break;
+>       case OS_LONG:
+> -        tcg_gen_qemu_ld32u(tmp, addr, index);
+> +        tcg_gen_qemu_ld_tl(tmp, addr, index,
+> +                           opsize | (sign ? MO_SIGN : 0) | MO_TE);
+>           break;
+>       default:
+>           g_assert_not_reached();
+> @@ -332,15 +323,11 @@ static inline TCGv gen_load(DisasContext *s, int opsize, TCGv addr,
+>   static inline void gen_store(DisasContext *s, int opsize, TCGv addr, TCGv val,
+>                                int index)
+>   {
+> -    switch(opsize) {
+> +    switch (opsize) {
+>       case OS_BYTE:
+> -        tcg_gen_qemu_st8(val, addr, index);
+> -        break;
+>       case OS_WORD:
+> -        tcg_gen_qemu_st16(val, addr, index);
+> -        break;
+>       case OS_LONG:
+> -        tcg_gen_qemu_st32(val, addr, index);
+> +        tcg_gen_qemu_st_tl(val, addr, index, opsize | MO_TE);
+>           break;
+>       default:
+>           g_assert_not_reached();
+> @@ -971,23 +958,16 @@ static void gen_load_fp(DisasContext *s, int opsize, TCGv addr, TCGv_ptr fp,
+>       tmp = tcg_temp_new();
+>       switch (opsize) {
+>       case OS_BYTE:
+> -        tcg_gen_qemu_ld8s(tmp, addr, index);
+> -        gen_helper_exts32(cpu_env, fp, tmp);
+> -        break;
+>       case OS_WORD:
+> -        tcg_gen_qemu_ld16s(tmp, addr, index);
+> -        gen_helper_exts32(cpu_env, fp, tmp);
+> -        break;
+> -    case OS_LONG:
+> -        tcg_gen_qemu_ld32u(tmp, addr, index);
+> +        tcg_gen_qemu_ld_tl(tmp, addr, index, opsize | MO_SIGN | MO_TE);
+>           gen_helper_exts32(cpu_env, fp, tmp);
+>           break;
+>       case OS_SINGLE:
+> -        tcg_gen_qemu_ld32u(tmp, addr, index);
+> +        tcg_gen_qemu_ld_tl(tmp, addr, index, MO_TEUL);
+>           gen_helper_extf32(cpu_env, fp, tmp);
+>           break;
+>       case OS_DOUBLE:
+> -        tcg_gen_qemu_ld64(t64, addr, index);
+> +        tcg_gen_qemu_ld_i64(t64, addr, index, MO_TEUQ);
+>           gen_helper_extf64(cpu_env, fp, t64);
+>           break;
+>       case OS_EXTENDED:
+> @@ -995,11 +975,11 @@ static void gen_load_fp(DisasContext *s, int opsize, TCGv addr, TCGv_ptr fp,
+>               gen_exception(s, s->base.pc_next, EXCP_FP_UNIMP);
+>               break;
+>           }
+> -        tcg_gen_qemu_ld32u(tmp, addr, index);
+> +        tcg_gen_qemu_ld_i32(tmp, addr, index, MO_TEUL);
+>           tcg_gen_shri_i32(tmp, tmp, 16);
+>           tcg_gen_st16_i32(tmp, fp, offsetof(FPReg, l.upper));
+>           tcg_gen_addi_i32(tmp, addr, 4);
+> -        tcg_gen_qemu_ld64(t64, tmp, index);
+> +        tcg_gen_qemu_ld_i64(t64, tmp, index, MO_TEUQ);
+>           tcg_gen_st_i64(t64, fp, offsetof(FPReg, l.lower));
+>           break;
+>       case OS_PACKED:
+> @@ -1024,24 +1004,18 @@ static void gen_store_fp(DisasContext *s, int opsize, TCGv addr, TCGv_ptr fp,
+>       tmp = tcg_temp_new();
+>       switch (opsize) {
+>       case OS_BYTE:
+> -        gen_helper_reds32(tmp, cpu_env, fp);
+> -        tcg_gen_qemu_st8(tmp, addr, index);
+> -        break;
+>       case OS_WORD:
+> -        gen_helper_reds32(tmp, cpu_env, fp);
+> -        tcg_gen_qemu_st16(tmp, addr, index);
+> -        break;
+>       case OS_LONG:
+>           gen_helper_reds32(tmp, cpu_env, fp);
+> -        tcg_gen_qemu_st32(tmp, addr, index);
+> +        tcg_gen_qemu_st_tl(tmp, addr, index, opsize | MO_TE);
+>           break;
+>       case OS_SINGLE:
+>           gen_helper_redf32(tmp, cpu_env, fp);
+> -        tcg_gen_qemu_st32(tmp, addr, index);
+> +        tcg_gen_qemu_st_tl(tmp, addr, index, MO_TEUL);
+>           break;
+>       case OS_DOUBLE:
+>           gen_helper_redf64(t64, cpu_env, fp);
+> -        tcg_gen_qemu_st64(t64, addr, index);
+> +        tcg_gen_qemu_st_i64(t64, addr, index, MO_TEUQ);
+>           break;
+>       case OS_EXTENDED:
+>           if (m68k_feature(s->env, M68K_FEATURE_CF_FPU)) {
+> @@ -1050,10 +1024,10 @@ static void gen_store_fp(DisasContext *s, int opsize, TCGv addr, TCGv_ptr fp,
+>           }
+>           tcg_gen_ld16u_i32(tmp, fp, offsetof(FPReg, l.upper));
+>           tcg_gen_shli_i32(tmp, tmp, 16);
+> -        tcg_gen_qemu_st32(tmp, addr, index);
+> +        tcg_gen_qemu_st_i32(tmp, addr, index, MO_TEUL);
+>           tcg_gen_addi_i32(tmp, addr, 4);
+>           tcg_gen_ld_i64(t64, fp, offsetof(FPReg, l.lower));
+> -        tcg_gen_qemu_st64(t64, tmp, index);
+> +        tcg_gen_qemu_st_i64(t64, tmp, index, MO_TEUQ);
+>           break;
+>       case OS_PACKED:
+>           /*
+> @@ -2079,14 +2053,14 @@ DISAS_INSN(movep)
+>       if (insn & 0x80) {
+>           for ( ; i > 0 ; i--) {
+>               tcg_gen_shri_i32(dbuf, reg, (i - 1) * 8);
+> -            tcg_gen_qemu_st8(dbuf, abuf, IS_USER(s));
+> +            tcg_gen_qemu_st_i32(dbuf, abuf, IS_USER(s), MO_UB);
+>               if (i > 1) {
+>                   tcg_gen_addi_i32(abuf, abuf, 2);
+>               }
+>           }
+>       } else {
+>           for ( ; i > 0 ; i--) {
+> -            tcg_gen_qemu_ld8u(dbuf, abuf, IS_USER(s));
+> +            tcg_gen_qemu_ld_tl(dbuf, abuf, IS_USER(s), MO_UB);
+>               tcg_gen_deposit_i32(reg, reg, dbuf, (i - 1) * 8, 8);
+>               if (i > 1) {
+>                   tcg_gen_addi_i32(abuf, abuf, 2);
+> @@ -4337,14 +4311,14 @@ static void m68k_copy_line(TCGv dst, TCGv src, int index)
+>       t1 = tcg_temp_new_i64();
+>   
+>       tcg_gen_andi_i32(addr, src, ~15);
+> -    tcg_gen_qemu_ld64(t0, addr, index);
+> +    tcg_gen_qemu_ld_i64(t0, addr, index, MO_TEUQ);
+>       tcg_gen_addi_i32(addr, addr, 8);
+> -    tcg_gen_qemu_ld64(t1, addr, index);
+> +    tcg_gen_qemu_ld_i64(t1, addr, index, MO_TEUQ);
+>   
+>       tcg_gen_andi_i32(addr, dst, ~15);
+> -    tcg_gen_qemu_st64(t0, addr, index);
+> +    tcg_gen_qemu_st_i64(t0, addr, index, MO_TEUQ);
+>       tcg_gen_addi_i32(addr, addr, 8);
+> -    tcg_gen_qemu_st64(t1, addr, index);
+> +    tcg_gen_qemu_st_i64(t1, addr, index, MO_TEUQ);
+>   }
+>   
+>   DISAS_INSN(move16_reg)
+> @@ -4767,7 +4741,7 @@ static void gen_qemu_store_fcr(DisasContext *s, TCGv addr, int reg)
+>   
+>       tmp = tcg_temp_new();
+>       gen_load_fcr(s, tmp, reg);
+> -    tcg_gen_qemu_st32(tmp, addr, index);
+> +    tcg_gen_qemu_st_tl(tmp, addr, index, MO_TEUL);
+>   }
+>   
+>   static void gen_qemu_load_fcr(DisasContext *s, TCGv addr, int reg)
+> @@ -4776,7 +4750,7 @@ static void gen_qemu_load_fcr(DisasContext *s, TCGv addr, int reg)
+>       TCGv tmp;
+>   
+>       tmp = tcg_temp_new();
+> -    tcg_gen_qemu_ld32u(tmp, addr, index);
+> +    tcg_gen_qemu_ld_tl(tmp, addr, index, MO_TEUL);
+>       gen_store_fcr(s, tmp, reg);
+>   }
+>   
 
-> With that in mind, my preference would be to go back to v1.
-> 
-Thanks!. If this is the preference,  we can request people to use proper
-versions of EDK2 with different qemu versions.
+This patch introduces a problem:
 
-> > Second, since unit 0 for RISC-V is currently assumed to start in M-mode fw
-> > which is secure, I think it makes sense to keep variables also in unit
-> > 0.
-> 
-> If you're storing variables rather than code in pflash0, does it even
-> make sense to talk about M-mode and S-mode?
->
-> 
-> Taking a step back, what is even the use case for having M-mode code
-> in pflash0? If you want to use an M-mode firmware, can't you just use
-> -bios instead? In other words, can we change the behavior so that
-> pflash being present always mean loading S-mode firmware off it?
->
-TBH, I don't know. I am sure Alistair would know since it was added in
-https://github.com/qemu/qemu/commit/1c20d3ff6004b600336c52cbef9f134fad3ccd94
-I don't think opensbi can be launched from pflash. So, it may be some
-other use case which I am now aware of.
+ERROR:.../target/m68k/translate.c:993:gen_load_fp: code should not be reached
+Bail out! ERROR:.../target/m68k/translate.c:993:gen_load_fp: code should not be reached
 
-I will be happy if this can be avoided by using -bios.
+$ wget http://vivier.eu/debian/ROMS/m68k-virt.petitboot
+$ wget http://vivier.eu/debian/ROMS/m68k-virt.vmlinux
+
+$ qemu-system-m68k -M virt   -m 3399672K   -chardev stdio,signal=off,mux=on,id=char0   -serial 
+chardev:char0   -mon chardev=char0,mode=readline   -device virtio-rng-device  -kernel 
+m68k-virt.vmlinux -initrd m68k-virt.petitboot
 
 Thanks,
-Sunil
+Laurent
 
