@@ -2,89 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9FA936FB37F
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 May 2023 17:14:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 88ED76FB382
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 May 2023 17:14:44 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pw2Y5-00041Y-Sm; Mon, 08 May 2023 11:13:13 -0400
+	id 1pw2Yz-00051M-3a; Mon, 08 May 2023 11:14:10 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pw2Y1-00041P-C2
- for qemu-devel@nongnu.org; Mon, 08 May 2023 11:13:09 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pw2Xz-0000fm-Pq
- for qemu-devel@nongnu.org; Mon, 08 May 2023 11:13:09 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1683558787;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=8QA2ynUlT64v7+dZcyYkXqjCsj0rVaSprSSpMRt3QZc=;
- b=RjyvSW0l7ElKvo2Cfw1Ws92jLxUMqb09+Qj/DhhXYqMag1QQUYIsxY0ALqUnfpu4g0bsnh
- DRALI7GoKeJqQejOSO7YlLsvlFu59ShMYAo3RZTS1aNKNYDoUfvNQCx4QskqX9jDIoh+YT
- 0cjvoAAYNco+8Nc7XWOC/eZYZwhvkfg=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-618-HUsLp35-MCuvXNJhyRCfhg-1; Mon, 08 May 2023 11:13:05 -0400
-X-MC-Unique: HUsLp35-MCuvXNJhyRCfhg-1
-Received: by mail-wm1-f72.google.com with SMTP id
- 5b1f17b1804b1-3f315735edeso114506795e9.1
- for <qemu-devel@nongnu.org>; Mon, 08 May 2023 08:13:05 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pw2Yv-0004yH-4q
+ for qemu-devel@nongnu.org; Mon, 08 May 2023 11:14:05 -0400
+Received: from mail-lf1-x129.google.com ([2a00:1450:4864:20::129])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pw2Yp-00010y-FC
+ for qemu-devel@nongnu.org; Mon, 08 May 2023 11:14:01 -0400
+Received: by mail-lf1-x129.google.com with SMTP id
+ 2adb3069b0e04-4f139de8cefso28377075e87.0
+ for <qemu-devel@nongnu.org>; Mon, 08 May 2023 08:13:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1683558836; x=1686150836;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=/xvjyhabWaICVY4t71aMVSVOMCnu/xhpTBrg9NSrt8c=;
+ b=uhEqrpKLYYPIiKUGN5KI9cbrwRU7JseslWf7hSJkRfbe0X4YOrSud78fRNahh12Wm0
+ ji3qgILmPs67QKtZCuTmIk/FEDpL811pmhNyUVBGvU5z15zOnyp8x9hfmSluJenmEj5H
+ SWVZLYjc5JY16Karn5nm78CZ9WGupxz5yMNby1mBqhI1E0HaynZqG3LYC7LTJgeZ8Cnn
+ EmRhdmAmSHf7WqpRfqcdB9JY4xpkXe8asPH2EMCA5CK4yEHgrVHBjVgpzwgHtR2qYx/a
+ nbizvu1lVQIAumwr/z63FasDoObQlq11oGUXDaNibLKfWhWMq172O3eGNfzVeTTbNDOj
+ 9Szg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683558784; x=1686150784;
- h=mime-version:message-id:date:reply-to:user-agent:references
- :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=8QA2ynUlT64v7+dZcyYkXqjCsj0rVaSprSSpMRt3QZc=;
- b=Rh6HuwUHksf3IwyOWRsunFXkBYvKnMudvmqe7lqeIitKEgqyAdNCWVlV4dEJLfTkWO
- Y+Ca+c/GPXnUQlVCfI9alvRP1G28US7viCxWlkIcP9AcqTD6ndR9ldbVXx3pzIcnbBAb
- Shu2/h2jzbAz/A0d7b8nCP0ySGJ2PjWidRVOIVPfdzTVVxZ0afneoVkq+X7GVPvMYTnv
- B9Q6TqmBvH9dlwV3qf50VCkg46/Cy373OM/54xZrrwSt7zPU2EByNvrgj51TVLULyZRm
- V05287fXV80J3sl3f/4orvIyL9EH8AHLQGHhpt69kN2RD97Eo1Clf65C7nBVZTYPY1aj
- H/Xg==
-X-Gm-Message-State: AC+VfDwpSOCuY2ezOxJTMtfmA+5CiK/G6sh9XJHb66BhNDviUGjjFjKE
- WJymDwvXsqRWgm7Bz+462u3WgAwhDdmtMaBb5slNmRUEs93TCC/uSOUjZvYA9SLy4htVWzy3skO
- 5xWCNfgeET0j0g8g=
-X-Received: by 2002:a1c:f719:0:b0:3f1:70d5:1be8 with SMTP id
- v25-20020a1cf719000000b003f170d51be8mr8605705wmh.15.1683558784480; 
- Mon, 08 May 2023 08:13:04 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ5s16xVgXKeSZCdBaNmEnbXD1d68Th0RqueUHVsFDt72CIqKfm/0I9ybDU+sCUmqGurr9PN4Q==
-X-Received: by 2002:a1c:f719:0:b0:3f1:70d5:1be8 with SMTP id
- v25-20020a1cf719000000b003f170d51be8mr8605688wmh.15.1683558784182; 
- Mon, 08 May 2023 08:13:04 -0700 (PDT)
-Received: from redhat.com (static-213-163-6-89.ipcom.comunitel.net.
- [89.6.163.213]) by smtp.gmail.com with ESMTPSA id
- l9-20020a7bc449000000b003f2390bdd0csm17003756wmi.32.2023.05.08.08.13.03
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 08 May 2023 08:13:03 -0700 (PDT)
-From: Juan Quintela <quintela@redhat.com>
-To: Lukas Straub <lukasstraub2@web.de>
-Cc: qemu-devel <qemu-devel@nongnu.org>,  Peter Xu <peterx@redhat.com>,
- Leonardo Bras <leobras@redhat.com>
-Subject: Re: [PATCH 5/5] multifd: Add colo support
-In-Reply-To: <6461809211524b24210fd4ac2ea6b2593fc7538f.1683506133.git.lukasstraub2@web.de>
- (Lukas Straub's message of "Mon, 8 May 2023 02:52:59 +0200")
-References: <cover.1683506133.git.lukasstraub2@web.de>
- <6461809211524b24210fd4ac2ea6b2593fc7538f.1683506133.git.lukasstraub2@web.de>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
-Date: Mon, 08 May 2023 17:13:01 +0200
-Message-ID: <878rdy6ema.fsf@secure.mitica>
+ d=1e100.net; s=20221208; t=1683558836; x=1686150836;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=/xvjyhabWaICVY4t71aMVSVOMCnu/xhpTBrg9NSrt8c=;
+ b=JFtu5uKBQxcdn+5enTKW7mvwnFTUXNB+JMHqBL3kwnyoLgMcaDt62b3CfIECi4QmR2
+ 9hMVHeuiJ0RNA/kB7ym4r78ll5hzQQ9KbxkKHjKHx1FNp1xzHe1hNIEY9vEYsy0OWQDs
+ Lc5BLS61Ui7qVB5vO71TtzrlAbw8RymsAI5ZMu1JUs3TNTCItWp5G/FGKAxC5ATAroQW
+ dO3yK9cN/Bi7WqKy0RMpfh6l6mpoa6F+6+6cnf7gk6LbT38rkDx/zgKryhXuVlhlJG/P
+ ZYScXsiLl8f8jFblbX2xe6/18oQ48j7PF5mYjUKdhsmbm8R94AtHLqzVRKyMosVwRi6a
+ VHug==
+X-Gm-Message-State: AC+VfDzNYfl5VrT7lFBG0ZyeJ0UYjpS8tBoBawIpAvFSNphD7CsX/jL+
+ NJIBIW89BOw5E6n8fIh5GNHKyw==
+X-Google-Smtp-Source: ACHHUZ63GnFzZZQp49kjgV46SC3qBAGltRoAhKqd2bRXFK2sLjswhg+tHEDA0vQKzOWilYTXJNam5g==
+X-Received: by 2002:a05:651c:10b4:b0:2ad:f82:93d2 with SMTP id
+ k20-20020a05651c10b400b002ad0f8293d2mr1732579ljn.18.1683558836473; 
+ Mon, 08 May 2023 08:13:56 -0700 (PDT)
+Received: from [192.168.110.227] ([91.209.212.42])
+ by smtp.gmail.com with ESMTPSA id
+ a10-20020a2e88ca000000b002a8d01905f7sm1185901ljk.101.2023.05.08.08.13.53
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 08 May 2023 08:13:56 -0700 (PDT)
+Message-ID: <60b7bd48-a22b-b0b5-0499-a0e49ec8b155@linaro.org>
+Date: Mon, 8 May 2023 16:13:49 +0100
 MIME-Version: 1.0
-Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH v4 26/57] tcg/arm: Adjust constraints on qemu_ld/st
+Content-Language: en-US
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: qemu-devel@nongnu.org, git@xen0n.name, gaosong@loongson.cn,
+ philmd@linaro.org, qemu-arm@nongnu.org, qemu-riscv@nongnu.org,
+ qemu-s390x@nongnu.org
+References: <20230503070656.1746170-1-richard.henderson@linaro.org>
+ <20230503070656.1746170-27-richard.henderson@linaro.org>
+ <CAFEAcA_i+XxebX2m448iA-XdbBuN1w0VsEwhAQkP_yQvqnjNhQ@mail.gmail.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <CAFEAcA_i+XxebX2m448iA-XdbBuN1w0VsEwhAQkP_yQvqnjNhQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::129;
+ envelope-from=richard.henderson@linaro.org; helo=mail-lf1-x129.google.com
+X-Spam_score_int: -38
+X-Spam_score: -3.9
+X-Spam_bar: ---
+X-Spam_report: (-3.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.802,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -97,69 +95,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Lukas Straub <lukasstraub2@web.de> wrote:
-> Signed-off-by: Lukas Straub <lukasstraub2@web.de>
-> ---
+On 5/5/23 13:14, Peter Maydell wrote:
+> On Wed, 3 May 2023 at 08:10, Richard Henderson
+> <richard.henderson@linaro.org> wrote:
+>>
+>> Always reserve r3 for tlb softmmu lookup.  Fix a bug in user-only
+>> ALL_QLDST_REGS, in that r14 is clobbered by the BLNE that leads
+>> to the misaligned trap.
+>>
+>> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+>> ---
+> 
+>>   /*
+>> - * r0-r2 will be overwritten when reading the tlb entry (softmmu only)
+>> - * and r0-r1 doing the byte swapping, so don't use these.
+>> - * r3 is removed for softmmu to avoid clashes with helper arguments.
+>> + * r0-r3 will be overwritten when reading the tlb entry (softmmu only);
+>> + * r14 will be overwritten by the BLNE branching to the slow path.
+>>    */
+>>   #ifdef CONFIG_SOFTMMU
+>> -#define ALL_QLOAD_REGS \
+>> +#define ALL_QLDST_REGS \
+>>       (ALL_GENERAL_REGS & ~((1 << TCG_REG_R0) | (1 << TCG_REG_R1) | \
+>>                             (1 << TCG_REG_R2) | (1 << TCG_REG_R3) | \
+>>                             (1 << TCG_REG_R14)))
+>> -#define ALL_QSTORE_REGS \
+>> -    (ALL_GENERAL_REGS & ~((1 << TCG_REG_R0) | (1 << TCG_REG_R1) | \
+>> -                          (1 << TCG_REG_R2) | (1 << TCG_REG_R14) | \
+>> -                          ((TARGET_LONG_BITS == 64) << TCG_REG_R3)))
+>>   #else
+>> -#define ALL_QLOAD_REGS   ALL_GENERAL_REGS
+>> -#define ALL_QSTORE_REGS \
+>> -    (ALL_GENERAL_REGS & ~((1 << TCG_REG_R0) | (1 << TCG_REG_R1)))
+>> +#define ALL_QLDST_REGS   (ALL_GENERAL_REGS & ~(1 << TCG_REG_R14))
+>>   #endif
+> 
+> Why is it OK not to remove r0 and r1 from this any more ?
+> The commit message doesn't say anything about this bit of the change.
 
-Please, split the move the creation of the p->block and the rest of the patch.
+I'm not 100% sure why they were included.  Perhaps bswap, from the old days where that was 
+required of the backend.
 
 
-
-> diff --git a/migration/multifd.c b/migration/multifd.c
-> index fb5e8859de..fddbf86596 100644
-> --- a/migration/multifd.c
-> +++ b/migration/multifd.c
-> @@ -284,7 +284,6 @@ static void multifd_send_fill_packet(MultiFDSendParams *p)
->  static int multifd_recv_unfill_packet(MultiFDRecvParams *p, Error **errp)
->  {
->      MultiFDPacket_t *packet = p->packet;
-> -    RAMBlock *block;
->      int i;
->  
->      packet->magic = be32_to_cpu(packet->magic);
-> @@ -334,21 +333,21 @@ static int multifd_recv_unfill_packet(MultiFDRecvParams *p, Error **errp)
->  
->      /* make sure that ramblock is 0 terminated */
->      packet->ramblock[255] = 0;
-> -    block = qemu_ram_block_by_name(packet->ramblock);
-> -    if (!block) {
-> +    p->block = qemu_ram_block_by_name(packet->ramblock);
-> +    if (!p->block) {
->          error_setg(errp, "multifd: unknown ram block %s",
->                     packet->ramblock);
->          return -1;
->      }
->  
-> -    p->host = block->host;
-> +    p->host = p->block->host;
->      for (i = 0; i < p->normal_num; i++) {
->          uint64_t offset = be64_to_cpu(packet->offset[i]);
->  
-> -        if (offset > (block->used_length - p->page_size)) {
-> +        if (offset > (p->block->used_length - p->page_size)) {
->              error_setg(errp, "multifd: offset too long %" PRIu64
->                         " (max " RAM_ADDR_FMT ")",
-> -                       offset, block->used_length);
-> +                       offset, p->block->used_length);
->              return -1;
->          }
->          p->normal[i] = offset;
-> diff --git a/migration/multifd.h b/migration/multifd.h
-> index 7cfc265148..a835643b48 100644
-> --- a/migration/multifd.h
-> +++ b/migration/multifd.h
-> @@ -175,6 +175,8 @@ typedef struct {
->      uint32_t next_packet_size;
->      /* packets sent through this channel */
->      uint64_t num_packets;
-> +    /* ramblock */
-> +    RAMBlock *block;
->      /* ramblock host address */
->      uint8_t *host;
->      /* non zero pages recv through this channel */
+r~
 
 
