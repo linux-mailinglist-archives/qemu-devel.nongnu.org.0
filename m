@@ -2,80 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B2AC6FA6C2
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 May 2023 12:23:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8BD356FA758
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 May 2023 12:29:39 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pvy0z-0007oF-Rc; Mon, 08 May 2023 06:22:45 -0400
+	id 1pvy6Z-0000kx-4Z; Mon, 08 May 2023 06:28:31 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pvy0u-0007nk-QE
- for qemu-devel@nongnu.org; Mon, 08 May 2023 06:22:43 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pvy6V-0000kW-I2
+ for qemu-devel@nongnu.org; Mon, 08 May 2023 06:28:28 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pvy0r-0000xq-Fx
- for qemu-devel@nongnu.org; Mon, 08 May 2023 06:22:40 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pvy6S-0002hM-Af
+ for qemu-devel@nongnu.org; Mon, 08 May 2023 06:28:26 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1683541356;
+ s=mimecast20190719; t=1683541703;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=nfqskQYslEXrwpAAf1cDzn32BjKtsVks0Tr9H0t/SyI=;
- b=WaZrSazibGBTZ7x90JcsABt5AQgeqpTNGuw9ETK4FWhdnAFkYORqYnMAolO3kUG+BIMuAl
- H7p40a1J4ImRCh3kcACdohRWvaDkYO6qjrznIzvKAwI+//KHvw2D1sWIHityzfz+I8UqiB
- ewq4bqm6o0W7xnxFNgKrxZE94Mxf/R4=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=8CSQU7q8v2C6dLNLtEXDHV7t6O6HfpA/FaJMOy1UMp8=;
+ b=hc5bRbrbfhKpxYPCxYz3uripxxGLHddg5mktG8Y45gGVbsT04H693zcIJaJPVHWZThngiL
+ LonnSwVelEB90/ztqamr0DpPNQUuEV6Dn2OUAIQSPMSYXUrQi2bcsLLvWjcj23a7nqrU5J
+ fCJkYS0PBMCNJXf+6dVIoCKXK67cHaQ=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-612-rgwbbMQdNw-YDM5FHfJiJQ-1; Mon, 08 May 2023 06:22:35 -0400
-X-MC-Unique: rgwbbMQdNw-YDM5FHfJiJQ-1
-Received: by mail-wr1-f70.google.com with SMTP id
- ffacd0b85a97d-306281812d6so1679232f8f.2
- for <qemu-devel@nongnu.org>; Mon, 08 May 2023 03:22:35 -0700 (PDT)
+ us-mta-500-oH3ts2o7NxqldR8FIdXNTQ-1; Mon, 08 May 2023 06:28:22 -0400
+X-MC-Unique: oH3ts2o7NxqldR8FIdXNTQ-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ 5b1f17b1804b1-3f41efd04dfso9214305e9.1
+ for <qemu-devel@nongnu.org>; Mon, 08 May 2023 03:28:21 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683541354; x=1686133354;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=nfqskQYslEXrwpAAf1cDzn32BjKtsVks0Tr9H0t/SyI=;
- b=eeFli9N0wBeIgpF+p/cXRSS9Gsn0SO915X1cg2CV787lakaXDdFm7TJoXYq78RVRj5
- A8ycYWbp1x8x4wDuWV0vokKvVfc3D5t2QpjI8HioYVCGvF1Hdxln6Rdl/Mc61wplmJCW
- 345eBphk9pcpv5JRT44+RvYIIuAaQNS+UfhGS6NVegZB2Fje8jBF2gFXATN1dyaNy5qz
- MvHP+1iVYbuwpr6O+dMGRcJixskjaiwabNkh7HXvLiD03Wtz0dy5urX15B5VUPbMlyJS
- BhTUIduPP4jRmRAI5xS/pXgznsoJpk7a2BfjokJPFwr/Kt0QRug18APJdakK+w7o3pRZ
- UM4A==
-X-Gm-Message-State: AC+VfDxp3WK19CZl16MRlTQn9qIcBnVz9zsu7y1eh/qKDSz7+9uYlRqh
- zQEP1i07LoCPdcoJ26utgHNrPWw0bynxj4u03/7wcRRyMhTxpAkX+mpQJpVjZB21EQ59YVuiBcg
- MT21dyuOn6gc/DVE=
-X-Received: by 2002:a5d:528a:0:b0:307:9702:dfc3 with SMTP id
- c10-20020a5d528a000000b003079702dfc3mr1609210wrv.34.1683541354294; 
- Mon, 08 May 2023 03:22:34 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ5Cu7tX3m2xW+GXV3JYyArUkBpV7ZvKeWa7H6QofaG5xrZTOF9wMICGfsBn0ZG+vvN7XEWcFA==
-X-Received: by 2002:a5d:528a:0:b0:307:9702:dfc3 with SMTP id
- c10-20020a5d528a000000b003079702dfc3mr1609191wrv.34.1683541354013; 
- Mon, 08 May 2023 03:22:34 -0700 (PDT)
+ d=1e100.net; s=20221208; t=1683541701; x=1686133701;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=8CSQU7q8v2C6dLNLtEXDHV7t6O6HfpA/FaJMOy1UMp8=;
+ b=d91BZ5yY8LlrP+lr/fbmgBNNhBbGudHnIgbloYRCms7/efKonwgmGofmFxbYVJV39V
+ /ddZHxTKiGb+BhvluCOJ3lv9oFjqiPH2Xa1Ir0+UtL/ZPlWNav/W878f4K1RKwtdsQ8t
+ Pz/2r9DZMOC5mAh0Ts2lLr//M8bkJB4L2lFEHehdgOAeqV8Y5EqGkSofvit8MWH93pov
+ ttcx+D2yyQMq7iSaZYkfW6jLReTP/CsLMlyj/nrnm4FmIMt/tispboLLoiTHj2pf8ht+
+ SRnUZIrTls1KB7Nsvr7PibzWwpH1SsKFwp/TPtfW3RiMqRZChS2bjNIkGzkh5h5DQldO
+ XR1A==
+X-Gm-Message-State: AC+VfDxeYMdjJVJBhKMbvgZ4gVRQzK5Vf7krFBVJCZkQVibzcnQe9Urd
+ QuMXsmGyZ6bWu5dvWEUqLSvMcHNUahK7lkz7S2SGC31tNsLc5We+SvnPtYhFA+UeMya7E1aD02p
+ rCiTCC7764EFxKNY=
+X-Received: by 2002:a05:600c:2213:b0:3f4:1cd8:3e99 with SMTP id
+ z19-20020a05600c221300b003f41cd83e99mr4114594wml.28.1683541700824; 
+ Mon, 08 May 2023 03:28:20 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ6LrBXlhbK3WGJmJVumBMNzxItSpD7PJFq96Z8VFTd52yyQJFrTO8g+YMyK8+sVcofw6wnWog==
+X-Received: by 2002:a05:600c:2213:b0:3f4:1cd8:3e99 with SMTP id
+ z19-20020a05600c221300b003f41cd83e99mr4114584wml.28.1683541700500; 
+ Mon, 08 May 2023 03:28:20 -0700 (PDT)
 Received: from redhat.com ([31.187.78.15]) by smtp.gmail.com with ESMTPSA id
- k15-20020a5d518f000000b003077a19cf75sm10810026wrv.60.2023.05.08.03.22.31
+ d6-20020a056000114600b00306344eaebfsm10914024wrx.28.2023.05.08.03.28.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 08 May 2023 03:22:33 -0700 (PDT)
-Date: Mon, 8 May 2023 06:22:28 -0400
+ Mon, 08 May 2023 03:28:20 -0700 (PDT)
+Date: Mon, 8 May 2023 06:28:15 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Eugenio Perez Martin <eperezma@redhat.com>
-Cc: Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
- Jason Wang <jasowang@redhat.com>, Lei Yang <leiyang@redhat.com>,
- qemu-devel@nongnu.org
-Subject: Re: [PATCH] virtio-net: not enable vq reset feature unconditionally
-Message-ID: <20230508062210-mutt-send-email-mst@kernel.org>
-References: <20230504101447.389398-1-eperezma@redhat.com>
- <1683339216.3364966-2-xuanzhuo@linux.alibaba.com>
- <CAJaqyWfzs00bi5qDHnyHVnf0vEK02hSiC15uJpGVi_eoRTmg7Q@mail.gmail.com>
+To: Michael Tokarev <mjt@tls.msk.ru>
+Cc: QEMU Developers <qemu-devel@nongnu.org>,
+ Marcel Apfelbaum <marcel.a@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>
+Subject: Re: missing boot rom: is it really a fatal error?
+Message-ID: <20230508062407-mutt-send-email-mst@kernel.org>
+References: <d6f3e06c-ee84-5101-c583-220aa90c0c12@msgid.tls.msk.ru>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAJaqyWfzs00bi5qDHnyHVnf0vEK02hSiC15uJpGVi_eoRTmg7Q@mail.gmail.com>
+In-Reply-To: <d6f3e06c-ee84-5101-c583-220aa90c0c12@msgid.tls.msk.ru>
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
@@ -100,63 +96,43 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, May 08, 2023 at 11:09:46AM +0200, Eugenio Perez Martin wrote:
-> On Sat, May 6, 2023 at 4:25 AM Xuan Zhuo <xuanzhuo@linux.alibaba.com> wrote:
-> >
-> > On Thu,  4 May 2023 12:14:47 +0200, =?utf-8?q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com> wrote:
-> > > The commit 93a97dc5200a ("virtio-net: enable vq reset feature") enables
-> > > unconditionally vq reset feature as long as the device is emulated.
-> > > This makes impossible to actually disable the feature, and it causes
-> > > migration problems from qemu version previous than 7.2.
-> > >
-> > > The entire final commit is unneeded as device system already enable or
-> > > disable the feature properly.
-> > >
-> > > This reverts commit 93a97dc5200a95e63b99cb625f20b7ae802ba413.
-> > > Fixes: 93a97dc5200a ("virtio-net: enable vq reset feature")
-> > > Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
-> > >
-> > > ---
-> > > Tested by checking feature bit at  /sys/devices/pci.../virtio0/features
-> > > enabling and disabling queue_reset virtio-net feature and vhost=on/off
-> > > on net device backend.
-> >
-> > Do you mean that this feature cannot be closed?
-> >
-> > I tried to close in the guest, it was successful.
-> >
+On Sun, May 07, 2023 at 08:56:23PM +0300, Michael Tokarev wrote:
+> Hi!
 > 
-> I'm not sure what you mean with close. If the device dataplane is
-> emulated in qemu (vhost=off), I'm not able to make the device not
-> offer it.
+> In old good world ;), there was qemu which didn't require boot roms to be present
+> for all devices for which bootrom file is defined, missing rom was just a warning.
+> But this changed in 2014, 9 years ago, with this commit:
 > 
-> > In addition, in this case, could you try to repair the problem instead of
-> > directly revert.
-> >
+> commit 178e785fb4507ec3462dc772bbe08303416ece47
+> From: Marcel Apfelbaum <marcel.a@redhat.com>
+> Date: Mon, 27 Oct 2014 19:34:41 +0200
+> Subject: [PATCH] hw/pci: fixed error flow in pci_qdev_init
 > 
-> I'm not following this. The revert is not to always disable the feature.
+>   Verify return code for pci_add_option_rom.
 > 
-> By default, the feature is enabled. If cmdline states queue_reset=on,
-> the feature is enabled. That is true both before and after applying
-> this patch.
+> where inability to load rom file started being treated as an error.
+> Up until now I didn't even know about this change, until today when someone bugged
+> me about non-working qemu on debian, due to missing network boot roms (this a
+> packaging issue due to me being unaware of the above change).
 > 
-> However, in qemu master, queue_reset=off keeps enabling this feature
-> on the device. It happens that there is a commit explicitly doing
-> that, so I'm reverting it.
+> What is the reason to require boot roms to be present and throw an error if not?
 > 
-> Let me know if that makes sense to you.
+> I'm about to revert that old change on debian, to make it just a warning instead
+> of an error (the code is different now, but the same principle applies), - because
+> I dislike dependencies which are useless 99.9% of the time and are trivial to
+> install when actually needed.
 > 
-> Thanks!
+> Thanks,
+> 
+> /mjt
+> 
 
-
-question is this:
-
-    DEFINE_PROP_BIT64("queue_reset", _state, _field, \
-                      VIRTIO_F_RING_RESET, true)
-
-
-
-don't we need compat for 7.2 and back for this property?
+I advise against it.
+If you boot guest on a system with boot rom not installed you will not
+be able to migrate to a system with boot rom installed.
+why not? because we don't know how big to make the rom BAR.
+And users will not discover until much much later after they have
+painted themselves into a corner.
 
 -- 
 MST
