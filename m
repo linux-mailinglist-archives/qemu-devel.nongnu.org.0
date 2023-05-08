@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49EE36FB11F
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 May 2023 15:15:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14ACE6FB128
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 May 2023 15:16:46 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pw0fd-0000Uy-7b; Mon, 08 May 2023 09:12:53 -0400
+	id 1pw0f0-0007qp-ME; Mon, 08 May 2023 09:12:15 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pw0e1-0004h2-Jj
- for qemu-devel@nongnu.org; Mon, 08 May 2023 09:11:15 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ id 1pw0e4-0004jd-CB
+ for qemu-devel@nongnu.org; Mon, 08 May 2023 09:11:19 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pw0dz-0001AB-5T
- for qemu-devel@nongnu.org; Mon, 08 May 2023 09:11:13 -0400
+ id 1pw0dz-0001Ah-FE
+ for qemu-devel@nongnu.org; Mon, 08 May 2023 09:11:15 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1683551445;
+ s=mimecast20190719; t=1683551447;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=G+dw1pC6wZ/5iTwWZa5ifsIIHozBgmQP+Ps8bOHYi+I=;
- b=diOd5mylmwEGMRwqPO75/VxkTk7MUdyUhS6pQ0lp1N30+JA+/kCHixtKDVZyvVk0DrjycG
- nO8gx+chDbjT4TW2tm2MOibs88/3F2kGh34d9FmZ83YbAQtlbx7LDjNTvKcSnsRa5SahTW
- CPhqkYUJVHwd7oLAqMQL3fxETjz47s8=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=TsDj3iX2uWM8XobG5FO5OOcrbCglFSGHSTFJFAtUZPo=;
+ b=bNMB1wLuEV7m7BhYpZyuNyMFj7voAyywKULGfmVNHxFNPOBsrBWA1RzGYOjI2QpCN74spF
+ aNAi+nyPJrs2Bz9klyilJrEXIjgx07fOqlGCTZUzoHM/GzW4mGi1tPXq9x8BVfVR2CFm+3
+ KzoLZpP0oXeiB+n4NlMjHeU2NUnrv9A=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-159-psW2waxuOzOQlFbCwTemPA-1; Mon, 08 May 2023 09:10:40 -0400
-X-MC-Unique: psW2waxuOzOQlFbCwTemPA-1
+ us-mta-138-Mi5HC7vmP1q5HMX8IsJCcA-1; Mon, 08 May 2023 09:10:44 -0400
+X-MC-Unique: Mi5HC7vmP1q5HMX8IsJCcA-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
  [10.11.54.6])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id BC32A100F64F;
- Mon,  8 May 2023 13:10:39 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C78ED2806061;
+ Mon,  8 May 2023 13:10:43 +0000 (UTC)
 Received: from secure.mitica (unknown [10.39.193.236])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 09BCC2166B40;
- Mon,  8 May 2023 13:10:35 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0AE6E2166B40;
+ Mon,  8 May 2023 13:10:39 +0000 (UTC)
 From: Juan Quintela <quintela@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Daniel Henrique Barboza <danielhb413@gmail.com>,
@@ -60,23 +60,23 @@ Cc: Daniel Henrique Barboza <danielhb413@gmail.com>,
  Thomas Huth <thuth@redhat.com>,
  =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
  Leonardo Bras <leobras@redhat.com>, Ilya Leoshkevich <iii@linux.ibm.com>
-Subject: [PATCH 14/21] migration: We don't need the field rate_limit_used
- anymore
-Date: Mon,  8 May 2023 15:09:02 +0200
-Message-Id: <20230508130909.65420-15-quintela@redhat.com>
+Subject: [PATCH 15/21] migration: Don't abuse qemu_file transferred for RDMA
+Date: Mon,  8 May 2023 15:09:03 +0200
+Message-Id: <20230508130909.65420-16-quintela@redhat.com>
 In-Reply-To: <20230508130909.65420-1-quintela@redhat.com>
 References: <20230508130909.65420-1-quintela@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -93,104 +93,104 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Since previous commit, we calculate how much data we have send with
-migration_transferred_bytes() so no need to maintain this counter and
-remember to always update it.
+Just create a variable for it, the same way that multifd does.  This
+way it is safe to use for other thread, etc, etc.
 
 Signed-off-by: Juan Quintela <quintela@redhat.com>
 ---
- migration/migration-stats.c |  6 ------
- migration/migration-stats.h | 14 --------------
- migration/multifd.c         |  1 -
- migration/qemu-file.c       |  4 ----
- 4 files changed, 25 deletions(-)
+ migration/migration-stats.c |  5 +++--
+ migration/migration-stats.h |  4 ++++
+ migration/rdma.c            | 22 ++++++++++++++++++++--
+ migration/trace-events      |  2 +-
+ 4 files changed, 28 insertions(+), 5 deletions(-)
 
 diff --git a/migration/migration-stats.c b/migration/migration-stats.c
-index eb1a2c1ad4..a42b5d953e 100644
+index a42b5d953e..1c2c0b3077 100644
 --- a/migration/migration-stats.c
 +++ b/migration/migration-stats.c
-@@ -59,15 +59,9 @@ void migration_rate_limit_set(uint64_t limit)
- 
- void migration_rate_limit_reset(QEMUFile *f)
- {
--    stat64_set(&mig_stats.rate_limit_used, 0);
-     stat64_set(&mig_stats.rate_limit_start, migration_transferred_bytes(f));
- }
- 
--void migration_rate_limit_account(uint64_t len)
--{
--    stat64_add(&mig_stats.rate_limit_used, len);
--}
--
+@@ -65,8 +65,9 @@ void migration_rate_limit_reset(QEMUFile *f)
  uint64_t migration_transferred_bytes(QEMUFile *f)
  {
      uint64_t multifd = stat64_get(&mig_stats.multifd_bytes);
++    uint64_t rdma = stat64_get(&mig_stats.rdma_bytes);
+     uint64_t qemu_file = qemu_file_transferred(f);
+ 
+-    trace_migration_transferred_bytes(qemu_file, multifd);
+-    return qemu_file + multifd;
++    trace_migration_transferred_bytes(qemu_file, multifd, rdma);
++    return qemu_file + multifd + rdma;
+ }
 diff --git a/migration/migration-stats.h b/migration/migration-stats.h
-index 4029f1deab..ab4cc15a74 100644
+index ab4cc15a74..cbab99cfdc 100644
 --- a/migration/migration-stats.h
 +++ b/migration/migration-stats.h
-@@ -77,10 +77,6 @@ typedef struct {
+@@ -77,6 +77,10 @@ typedef struct {
       * Maximum amount of data we can send in a cycle.
       */
      Stat64 rate_limit_max;
--    /*
--     * Amount of data we have sent in the current cycle.
--     */
--    Stat64 rate_limit_used;
++    /*
++     * Number of bytes sent through RDMA.
++     */
++    Stat64 rdma_bytes;
      /*
       * How long has the setup stage took.
       */
-@@ -108,16 +104,6 @@ extern MigrationAtomicStats mig_stats;
+diff --git a/migration/rdma.c b/migration/rdma.c
+index 2cd8f1cc66..941797506a 100644
+--- a/migration/rdma.c
++++ b/migration/rdma.c
+@@ -2122,9 +2122,18 @@ retry:
+                     return -EIO;
+                 }
  
- void calculate_time_since(Stat64 *val, int64_t since);
- 
--/**
-- * migration_rate_limit_account: Increase the number of bytes transferred.
-- *
-- * Report on a number of bytes the have been transferred that need to
-- * be applied to the rate limiting calcuations.
-- *
-- * @len: amount of bytes transferred
-- */
--void migration_rate_limit_account(uint64_t len);
++                /*
++                 * TODO: Here we are sending something, but we are not
++                 * accounting for anything transferred.  The following is wrong:
++                 *
++                 * stat64_add(&mig_stats.rdma_bytes, sge.length);
++                 *
++                 * because we are using some kind of compression.  I
++                 * would think that head.len would be the more similar
++                 * thing to a correct value.
++                 */
+                 stat64_add(&mig_stats.zero_pages,
+                            sge.length / qemu_target_page_size());
 -
- /**
-  * migration_rate_limit_get: Get the maximum amount that can be transferred.
-  *
-diff --git a/migration/multifd.c b/migration/multifd.c
-index 2efb313be4..9d2ade7abc 100644
---- a/migration/multifd.c
-+++ b/migration/multifd.c
-@@ -432,7 +432,6 @@ static int multifd_send_pages(QEMUFile *f)
-     multifd_send_state->pages = p->pages;
-     p->pages = pages;
-     transferred = ((uint64_t) pages->num) * p->page_size + p->packet_len;
--    migration_rate_limit_account(transferred);
-     qemu_mutex_unlock(&p->mutex);
-     stat64_add(&mig_stats.transferred, transferred);
-     stat64_add(&mig_stats.multifd_bytes, transferred);
-diff --git a/migration/qemu-file.c b/migration/qemu-file.c
-index 3f993e24af..0086d67d83 100644
---- a/migration/qemu-file.c
-+++ b/migration/qemu-file.c
-@@ -292,7 +292,6 @@ void qemu_fflush(QEMUFile *f)
-             qemu_file_set_error_obj(f, -EIO, local_error);
-         } else {
-             uint64_t size = iov_size(f->iov, f->iovcnt);
--            migration_rate_limit_account(size);
-             f->total_transferred += size;
-         }
+                 return 1;
+             }
  
-@@ -344,9 +343,6 @@ size_t ram_control_save_page(QEMUFile *f, ram_addr_t block_offset,
-     if (f->hooks && f->hooks->save_page) {
-         int ret = f->hooks->save_page(f, block_offset,
-                                       offset, size, bytes_sent);
--        if (ret != RAM_SAVE_CONTROL_NOT_SUPP) {
--            migration_rate_limit_account(size);
--        }
+@@ -2232,8 +2241,17 @@ retry:
  
-         if (ret != RAM_SAVE_CONTROL_DELAYED &&
-             ret != RAM_SAVE_CONTROL_NOT_SUPP) {
+     set_bit(chunk, block->transit_bitmap);
+     stat64_add(&mig_stats.normal_pages, sge.length / qemu_target_page_size());
++    /*
++     * We are adding to transferred the amount of data written, but no
++     * overhead at all.  I will asume that RDMA is magicaly and don't
++     * need to transfer (at least) the addresses where it wants to
++     * write the pages.  Here it looks like it should be something
++     * like:
++     *     sizeof(send_wr) + sge.length
++     * but this being RDMA, who knows.
++     */
++    stat64_add(&mig_stats.rdma_bytes, sge.length);
+     ram_transferred_add(sge.length);
+-    qemu_file_credit_transfer(f, sge.length);
+     rdma->total_writes++;
+ 
+     return 0;
+diff --git a/migration/trace-events b/migration/trace-events
+index 4b6e802833..800cfce547 100644
+--- a/migration/trace-events
++++ b/migration/trace-events
+@@ -187,7 +187,7 @@ process_incoming_migration_co_postcopy_end_main(void) ""
+ postcopy_preempt_enabled(bool value) "%d"
+ 
+ # migration-stats
+-migration_transferred_bytes(uint64_t qemu_file, uint64_t multifd) "qemu_file %" PRIu64 " multifd %" PRIu64
++migration_transferred_bytes(uint64_t qemu_file, uint64_t multifd, uint64_t rdma) "qemu_file %" PRIu64 " multifd %" PRIu64 " RDMA %" PRIu64
+ 
+ # channel.c
+ migration_set_incoming_channel(void *ioc, const char *ioctype) "ioc=%p ioctype=%s"
 -- 
 2.40.0
 
