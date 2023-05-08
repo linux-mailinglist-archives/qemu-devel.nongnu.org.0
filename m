@@ -2,60 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC4466FB67C
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 May 2023 20:54:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 82FD06FB682
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 May 2023 20:54:39 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pw5yW-0004Hb-Dz; Mon, 08 May 2023 14:52:44 -0400
+	id 1pw5yb-0004Lc-9m; Mon, 08 May 2023 14:52:49 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pw5yO-0004G8-CF
- for qemu-devel@nongnu.org; Mon, 08 May 2023 14:52:36 -0400
+ id 1pw5yQ-0004Hf-PJ
+ for qemu-devel@nongnu.org; Mon, 08 May 2023 14:52:40 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pw5yK-00061o-3p
- for qemu-devel@nongnu.org; Mon, 08 May 2023 14:52:36 -0400
+ id 1pw5yL-00062A-Qo
+ for qemu-devel@nongnu.org; Mon, 08 May 2023 14:52:37 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1683571951;
+ s=mimecast20190719; t=1683571953;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=RwYOVge2NEBtRUpP8ZC3O8m80kO6lJPkm+g3YsbrJ9s=;
- b=c0y3MQ0IaqzA4+lqHaF3ScP/gRgY6cqRM3ha6O1HUwDNA400RWsGWkqBELMYuDRde9DUC5
- NDty7idPW2XyCxZFJSMnUY2bjUXngPYp1BJ0Lri/MRoISsmDtozmlX9ZtFh1Eq0rI8hekR
- S4PsDV1jlC4IJchNbMUhAWiEyuRQfiw=
+ bh=SYscSa5qs0TT7ug+FUN3WGUBOgborh0kKbtoRyk62KQ=;
+ b=e7ZkQlO/mecLzlinqLDX+87e8ok4GJbYJNwZ4CGcoqTyeT9GVQemnnlti9/ri/3+hkArtV
+ PSHWP3V8/u4Qx74iwBSJA2U/PGHp4DWzbBE6xqEZlrqveFppN7t5fdMPCKmiYM/un9nZLo
+ HiRqH/m8MXUb/rne/JRReh9xq5RV8Vs=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-310-_Yi4tcpQPeqROSEiV_OaWQ-1; Mon, 08 May 2023 14:52:28 -0400
-X-MC-Unique: _Yi4tcpQPeqROSEiV_OaWQ-1
+ us-mta-456-BP_BAbaoO0-BqjE84rnytw-1; Mon, 08 May 2023 14:52:29 -0400
+X-MC-Unique: BP_BAbaoO0-BqjE84rnytw-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
  [10.11.54.7])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 01C37878527;
- Mon,  8 May 2023 18:52:28 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 93F74185A79C;
+ Mon,  8 May 2023 18:52:29 +0000 (UTC)
 Received: from secure.mitica (unknown [10.39.193.236])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7B78014171BC;
- Mon,  8 May 2023 18:52:26 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 471C31410F23;
+ Mon,  8 May 2023 18:52:28 +0000 (UTC)
 From: Juan Quintela <quintela@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Thomas Huth <thuth@redhat.com>, Peter Xu <peterx@redhat.com>,
  Leonardo Bras <leobras@redhat.com>, Juan Quintela <quintela@redhat.com>,
  Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Lukas Straub <lukasstraub2@web.de>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PULL 10/13] ram.c: Move core decompression code into its own file
-Date: Mon,  8 May 2023 20:52:06 +0200
-Message-Id: <20230508185209.68604-11-quintela@redhat.com>
+ Lukas Straub <lukasstraub2@web.de>
+Subject: [PULL 11/13] ram compress: Assert that the file buffer matches the
+ result
+Date: Mon,  8 May 2023 20:52:07 +0200
+Message-Id: <20230508185209.68604-12-quintela@redhat.com>
 In-Reply-To: <20230508185209.68604-1-quintela@redhat.com>
 References: <20230508185209.68604-1-quintela@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
@@ -84,472 +83,110 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Lukas Straub <lukasstraub2@web.de>
 
-No functional changes intended.
+Before this series, "nothing to send" was handled by the file buffer
+being empty. Now it is tracked via param->result.
+
+Assert that the file buffer state matches the result.
 
 Signed-off-by: Lukas Straub <lukasstraub2@web.de>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 Reviewed-by: Juan Quintela <quintela@redhat.com>
 Signed-off-by: Juan Quintela <quintela@redhat.com>
 ---
- migration/ram-compress.c | 203 ++++++++++++++++++++++++++++++++++++++
- migration/ram-compress.h |   5 +
- migration/ram.c          | 204 ---------------------------------------
- 3 files changed, 208 insertions(+), 204 deletions(-)
+ migration/qemu-file.c    | 11 +++++++++++
+ migration/qemu-file.h    |  1 +
+ migration/ram-compress.c |  5 +++++
+ migration/ram.c          |  2 ++
+ 4 files changed, 19 insertions(+)
 
+diff --git a/migration/qemu-file.c b/migration/qemu-file.c
+index f4cfd05c67..61fb580342 100644
+--- a/migration/qemu-file.c
++++ b/migration/qemu-file.c
+@@ -870,6 +870,17 @@ int qemu_put_qemu_file(QEMUFile *f_des, QEMUFile *f_src)
+     return len;
+ }
+ 
++/*
++ * Check if the writable buffer is empty
++ */
++
++bool qemu_file_buffer_empty(QEMUFile *file)
++{
++    assert(qemu_file_is_writable(file));
++
++    return !file->iovcnt;
++}
++
+ /*
+  * Get a string whose length is determined by a single preceding byte
+  * A preallocated 256 byte buffer must be passed in.
+diff --git a/migration/qemu-file.h b/migration/qemu-file.h
+index 4f26bf6961..4ee58a87dd 100644
+--- a/migration/qemu-file.h
++++ b/migration/qemu-file.h
+@@ -113,6 +113,7 @@ size_t coroutine_mixed_fn qemu_get_buffer_in_place(QEMUFile *f, uint8_t **buf, s
+ ssize_t qemu_put_compression_data(QEMUFile *f, z_stream *stream,
+                                   const uint8_t *p, size_t size);
+ int qemu_put_qemu_file(QEMUFile *f_des, QEMUFile *f_src);
++bool qemu_file_buffer_empty(QEMUFile *file);
+ 
+ /*
+  * Note that you can only peek continuous bytes from where the current pointer
 diff --git a/migration/ram-compress.c b/migration/ram-compress.c
-index d9bc67d075..c25562f12d 100644
+index c25562f12d..3d2a4a6329 100644
 --- a/migration/ram-compress.c
 +++ b/migration/ram-compress.c
-@@ -48,6 +48,24 @@ static QemuThread *compress_threads;
- static QemuMutex comp_done_lock;
- static QemuCond comp_done_cond;
+@@ -194,6 +194,8 @@ static CompressResult do_compress_ram_page(QEMUFile *f, z_stream *stream,
+     uint8_t *p = block->host + offset;
+     int ret;
  
-+struct DecompressParam {
-+    bool done;
-+    bool quit;
-+    QemuMutex mutex;
-+    QemuCond cond;
-+    void *des;
-+    uint8_t *compbuf;
-+    int len;
-+    z_stream stream;
-+};
-+typedef struct DecompressParam DecompressParam;
++    assert(qemu_file_buffer_empty(f));
 +
-+static QEMUFile *decomp_file;
-+static DecompressParam *decomp_param;
-+static QemuThread *decompress_threads;
-+static QemuMutex decomp_done_lock;
-+static QemuCond decomp_done_cond;
-+
- static CompressResult do_compress_ram_page(QEMUFile *f, z_stream *stream,
-                                            RAMBlock *block, ram_addr_t offset,
-                                            uint8_t *source_buf);
-@@ -272,3 +290,188 @@ retry:
+     if (buffer_is_zero(p, TARGET_PAGE_SIZE)) {
+         return RES_ZEROPAGE;
+     }
+@@ -208,6 +210,7 @@ static CompressResult do_compress_ram_page(QEMUFile *f, z_stream *stream,
+     if (ret < 0) {
+         qemu_file_set_error(migrate_get_current()->to_dst_file, ret);
+         error_report("compressed data failed!");
++        qemu_fflush(f);
+         return RES_NONE;
+     }
+     return RES_COMPRESS;
+@@ -239,6 +242,7 @@ void flush_compressed_data(int (send_queued_data(CompressParam *)))
+         if (!comp_param[idx].quit) {
+             CompressParam *param = &comp_param[idx];
+             send_queued_data(param);
++            assert(qemu_file_buffer_empty(param->file));
+             compress_reset_result(param);
+         }
+         qemu_mutex_unlock(&comp_param[idx].mutex);
+@@ -268,6 +272,7 @@ retry:
+             qemu_mutex_lock(&param->mutex);
+             param->done = false;
+             send_queued_data(param);
++            assert(qemu_file_buffer_empty(param->file));
+             compress_reset_result(param);
+             set_compress_params(param, block, offset);
  
-     return pages;
- }
-+
-+/* return the size after decompression, or negative value on error */
-+static int
-+qemu_uncompress_data(z_stream *stream, uint8_t *dest, size_t dest_len,
-+                     const uint8_t *source, size_t source_len)
-+{
-+    int err;
-+
-+    err = inflateReset(stream);
-+    if (err != Z_OK) {
-+        return -1;
-+    }
-+
-+    stream->avail_in = source_len;
-+    stream->next_in = (uint8_t *)source;
-+    stream->avail_out = dest_len;
-+    stream->next_out = dest;
-+
-+    err = inflate(stream, Z_NO_FLUSH);
-+    if (err != Z_STREAM_END) {
-+        return -1;
-+    }
-+
-+    return stream->total_out;
-+}
-+
-+static void *do_data_decompress(void *opaque)
-+{
-+    DecompressParam *param = opaque;
-+    unsigned long pagesize;
-+    uint8_t *des;
-+    int len, ret;
-+
-+    qemu_mutex_lock(&param->mutex);
-+    while (!param->quit) {
-+        if (param->des) {
-+            des = param->des;
-+            len = param->len;
-+            param->des = 0;
-+            qemu_mutex_unlock(&param->mutex);
-+
-+            pagesize = TARGET_PAGE_SIZE;
-+
-+            ret = qemu_uncompress_data(&param->stream, des, pagesize,
-+                                       param->compbuf, len);
-+            if (ret < 0 && migrate_get_current()->decompress_error_check) {
-+                error_report("decompress data failed");
-+                qemu_file_set_error(decomp_file, ret);
-+            }
-+
-+            qemu_mutex_lock(&decomp_done_lock);
-+            param->done = true;
-+            qemu_cond_signal(&decomp_done_cond);
-+            qemu_mutex_unlock(&decomp_done_lock);
-+
-+            qemu_mutex_lock(&param->mutex);
-+        } else {
-+            qemu_cond_wait(&param->cond, &param->mutex);
-+        }
-+    }
-+    qemu_mutex_unlock(&param->mutex);
-+
-+    return NULL;
-+}
-+
-+int wait_for_decompress_done(void)
-+{
-+    int idx, thread_count;
-+
-+    if (!migrate_compress()) {
-+        return 0;
-+    }
-+
-+    thread_count = migrate_decompress_threads();
-+    qemu_mutex_lock(&decomp_done_lock);
-+    for (idx = 0; idx < thread_count; idx++) {
-+        while (!decomp_param[idx].done) {
-+            qemu_cond_wait(&decomp_done_cond, &decomp_done_lock);
-+        }
-+    }
-+    qemu_mutex_unlock(&decomp_done_lock);
-+    return qemu_file_get_error(decomp_file);
-+}
-+
-+void compress_threads_load_cleanup(void)
-+{
-+    int i, thread_count;
-+
-+    if (!migrate_compress()) {
-+        return;
-+    }
-+    thread_count = migrate_decompress_threads();
-+    for (i = 0; i < thread_count; i++) {
-+        /*
-+         * we use it as a indicator which shows if the thread is
-+         * properly init'd or not
-+         */
-+        if (!decomp_param[i].compbuf) {
-+            break;
-+        }
-+
-+        qemu_mutex_lock(&decomp_param[i].mutex);
-+        decomp_param[i].quit = true;
-+        qemu_cond_signal(&decomp_param[i].cond);
-+        qemu_mutex_unlock(&decomp_param[i].mutex);
-+    }
-+    for (i = 0; i < thread_count; i++) {
-+        if (!decomp_param[i].compbuf) {
-+            break;
-+        }
-+
-+        qemu_thread_join(decompress_threads + i);
-+        qemu_mutex_destroy(&decomp_param[i].mutex);
-+        qemu_cond_destroy(&decomp_param[i].cond);
-+        inflateEnd(&decomp_param[i].stream);
-+        g_free(decomp_param[i].compbuf);
-+        decomp_param[i].compbuf = NULL;
-+    }
-+    g_free(decompress_threads);
-+    g_free(decomp_param);
-+    decompress_threads = NULL;
-+    decomp_param = NULL;
-+    decomp_file = NULL;
-+}
-+
-+int compress_threads_load_setup(QEMUFile *f)
-+{
-+    int i, thread_count;
-+
-+    if (!migrate_compress()) {
-+        return 0;
-+    }
-+
-+    thread_count = migrate_decompress_threads();
-+    decompress_threads = g_new0(QemuThread, thread_count);
-+    decomp_param = g_new0(DecompressParam, thread_count);
-+    qemu_mutex_init(&decomp_done_lock);
-+    qemu_cond_init(&decomp_done_cond);
-+    decomp_file = f;
-+    for (i = 0; i < thread_count; i++) {
-+        if (inflateInit(&decomp_param[i].stream) != Z_OK) {
-+            goto exit;
-+        }
-+
-+        decomp_param[i].compbuf = g_malloc0(compressBound(TARGET_PAGE_SIZE));
-+        qemu_mutex_init(&decomp_param[i].mutex);
-+        qemu_cond_init(&decomp_param[i].cond);
-+        decomp_param[i].done = true;
-+        decomp_param[i].quit = false;
-+        qemu_thread_create(decompress_threads + i, "decompress",
-+                           do_data_decompress, decomp_param + i,
-+                           QEMU_THREAD_JOINABLE);
-+    }
-+    return 0;
-+exit:
-+    compress_threads_load_cleanup();
-+    return -1;
-+}
-+
-+void decompress_data_with_multi_threads(QEMUFile *f, void *host, int len)
-+{
-+    int idx, thread_count;
-+
-+    thread_count = migrate_decompress_threads();
-+    QEMU_LOCK_GUARD(&decomp_done_lock);
-+    while (true) {
-+        for (idx = 0; idx < thread_count; idx++) {
-+            if (decomp_param[idx].done) {
-+                decomp_param[idx].done = false;
-+                qemu_mutex_lock(&decomp_param[idx].mutex);
-+                qemu_get_buffer(f, decomp_param[idx].compbuf, len);
-+                decomp_param[idx].des = host;
-+                decomp_param[idx].len = len;
-+                qemu_cond_signal(&decomp_param[idx].cond);
-+                qemu_mutex_unlock(&decomp_param[idx].mutex);
-+                break;
-+            }
-+        }
-+        if (idx < thread_count) {
-+            break;
-+        } else {
-+            qemu_cond_wait(&decomp_done_cond, &decomp_done_lock);
-+        }
-+    }
-+}
-diff --git a/migration/ram-compress.h b/migration/ram-compress.h
-index 06570a799c..6f7fe2f472 100644
---- a/migration/ram-compress.h
-+++ b/migration/ram-compress.h
-@@ -62,4 +62,9 @@ void flush_compressed_data(int (send_queued_data(CompressParam *)));
- int compress_page_with_multi_thread(RAMBlock *block, ram_addr_t offset,
-                                 int (send_queued_data(CompressParam *)));
- 
-+int wait_for_decompress_done(void);
-+void compress_threads_load_cleanup(void);
-+int compress_threads_load_setup(QEMUFile *f);
-+void decompress_data_with_multi_threads(QEMUFile *f, void *host, int len);
-+
- #endif
 diff --git a/migration/ram.c b/migration/ram.c
-index d01d1773d0..009681d213 100644
+index 009681d213..ee4ab31f25 100644
 --- a/migration/ram.c
 +++ b/migration/ram.c
-@@ -480,24 +480,6 @@ typedef struct MigrationOps MigrationOps;
+@@ -1321,11 +1321,13 @@ static int send_queued_data(CompressParam *param)
+     assert(block == pss->last_sent_block);
  
- MigrationOps *migration_ops;
- 
--struct DecompressParam {
--    bool done;
--    bool quit;
--    QemuMutex mutex;
--    QemuCond cond;
--    void *des;
--    uint8_t *compbuf;
--    int len;
--    z_stream stream;
--};
--typedef struct DecompressParam DecompressParam;
--
--static QEMUFile *decomp_file;
--static DecompressParam *decomp_param;
--static QemuThread *decompress_threads;
--static QemuMutex decomp_done_lock;
--static QemuCond decomp_done_cond;
--
- static int ram_save_host_page_urgent(PageSearchStatus *pss);
- 
- /* NOTE: page is the PFN not real ram_addr_t. */
-@@ -3465,192 +3447,6 @@ void ram_handle_compressed(void *host, uint8_t ch, uint64_t size)
-     }
- }
- 
--/* return the size after decompression, or negative value on error */
--static int
--qemu_uncompress_data(z_stream *stream, uint8_t *dest, size_t dest_len,
--                     const uint8_t *source, size_t source_len)
--{
--    int err;
--
--    err = inflateReset(stream);
--    if (err != Z_OK) {
--        return -1;
--    }
--
--    stream->avail_in = source_len;
--    stream->next_in = (uint8_t *)source;
--    stream->avail_out = dest_len;
--    stream->next_out = dest;
--
--    err = inflate(stream, Z_NO_FLUSH);
--    if (err != Z_STREAM_END) {
--        return -1;
--    }
--
--    return stream->total_out;
--}
--
--static void *do_data_decompress(void *opaque)
--{
--    DecompressParam *param = opaque;
--    unsigned long pagesize;
--    uint8_t *des;
--    int len, ret;
--
--    qemu_mutex_lock(&param->mutex);
--    while (!param->quit) {
--        if (param->des) {
--            des = param->des;
--            len = param->len;
--            param->des = 0;
--            qemu_mutex_unlock(&param->mutex);
--
--            pagesize = TARGET_PAGE_SIZE;
--
--            ret = qemu_uncompress_data(&param->stream, des, pagesize,
--                                       param->compbuf, len);
--            if (ret < 0 && migrate_get_current()->decompress_error_check) {
--                error_report("decompress data failed");
--                qemu_file_set_error(decomp_file, ret);
--            }
--
--            qemu_mutex_lock(&decomp_done_lock);
--            param->done = true;
--            qemu_cond_signal(&decomp_done_cond);
--            qemu_mutex_unlock(&decomp_done_lock);
--
--            qemu_mutex_lock(&param->mutex);
--        } else {
--            qemu_cond_wait(&param->cond, &param->mutex);
--        }
--    }
--    qemu_mutex_unlock(&param->mutex);
--
--    return NULL;
--}
--
--static int wait_for_decompress_done(void)
--{
--    int idx, thread_count;
--
--    if (!migrate_compress()) {
--        return 0;
--    }
--
--    thread_count = migrate_decompress_threads();
--    qemu_mutex_lock(&decomp_done_lock);
--    for (idx = 0; idx < thread_count; idx++) {
--        while (!decomp_param[idx].done) {
--            qemu_cond_wait(&decomp_done_cond, &decomp_done_lock);
--        }
--    }
--    qemu_mutex_unlock(&decomp_done_lock);
--    return qemu_file_get_error(decomp_file);
--}
--
--static void compress_threads_load_cleanup(void)
--{
--    int i, thread_count;
--
--    if (!migrate_compress()) {
--        return;
--    }
--    thread_count = migrate_decompress_threads();
--    for (i = 0; i < thread_count; i++) {
--        /*
--         * we use it as a indicator which shows if the thread is
--         * properly init'd or not
--         */
--        if (!decomp_param[i].compbuf) {
--            break;
--        }
--
--        qemu_mutex_lock(&decomp_param[i].mutex);
--        decomp_param[i].quit = true;
--        qemu_cond_signal(&decomp_param[i].cond);
--        qemu_mutex_unlock(&decomp_param[i].mutex);
--    }
--    for (i = 0; i < thread_count; i++) {
--        if (!decomp_param[i].compbuf) {
--            break;
--        }
--
--        qemu_thread_join(decompress_threads + i);
--        qemu_mutex_destroy(&decomp_param[i].mutex);
--        qemu_cond_destroy(&decomp_param[i].cond);
--        inflateEnd(&decomp_param[i].stream);
--        g_free(decomp_param[i].compbuf);
--        decomp_param[i].compbuf = NULL;
--    }
--    g_free(decompress_threads);
--    g_free(decomp_param);
--    decompress_threads = NULL;
--    decomp_param = NULL;
--    decomp_file = NULL;
--}
--
--static int compress_threads_load_setup(QEMUFile *f)
--{
--    int i, thread_count;
--
--    if (!migrate_compress()) {
--        return 0;
--    }
--
--    thread_count = migrate_decompress_threads();
--    decompress_threads = g_new0(QemuThread, thread_count);
--    decomp_param = g_new0(DecompressParam, thread_count);
--    qemu_mutex_init(&decomp_done_lock);
--    qemu_cond_init(&decomp_done_cond);
--    decomp_file = f;
--    for (i = 0; i < thread_count; i++) {
--        if (inflateInit(&decomp_param[i].stream) != Z_OK) {
--            goto exit;
--        }
--
--        decomp_param[i].compbuf = g_malloc0(compressBound(TARGET_PAGE_SIZE));
--        qemu_mutex_init(&decomp_param[i].mutex);
--        qemu_cond_init(&decomp_param[i].cond);
--        decomp_param[i].done = true;
--        decomp_param[i].quit = false;
--        qemu_thread_create(decompress_threads + i, "decompress",
--                           do_data_decompress, decomp_param + i,
--                           QEMU_THREAD_JOINABLE);
--    }
--    return 0;
--exit:
--    compress_threads_load_cleanup();
--    return -1;
--}
--
--static void decompress_data_with_multi_threads(QEMUFile *f,
--                                               void *host, int len)
--{
--    int idx, thread_count;
--
--    thread_count = migrate_decompress_threads();
--    QEMU_LOCK_GUARD(&decomp_done_lock);
--    while (true) {
--        for (idx = 0; idx < thread_count; idx++) {
--            if (decomp_param[idx].done) {
--                decomp_param[idx].done = false;
--                qemu_mutex_lock(&decomp_param[idx].mutex);
--                qemu_get_buffer(f, decomp_param[idx].compbuf, len);
--                decomp_param[idx].des = host;
--                decomp_param[idx].len = len;
--                qemu_cond_signal(&decomp_param[idx].cond);
--                qemu_mutex_unlock(&decomp_param[idx].mutex);
--                break;
--            }
--        }
--        if (idx < thread_count) {
--            break;
--        } else {
--            qemu_cond_wait(&decomp_done_cond, &decomp_done_lock);
--        }
--    }
--}
--
- static void colo_init_ram_state(void)
- {
-     ram_state_init(&ram_state);
+     if (param->result == RES_ZEROPAGE) {
++        assert(qemu_file_buffer_empty(param->file));
+         len += save_page_header(pss, file, block, offset | RAM_SAVE_FLAG_ZERO);
+         qemu_put_byte(file, 0);
+         len += 1;
+         ram_release_page(block->idstr, offset);
+     } else if (param->result == RES_COMPRESS) {
++        assert(!qemu_file_buffer_empty(param->file));
+         len += save_page_header(pss, file, block,
+                                 offset | RAM_SAVE_FLAG_COMPRESS_PAGE);
+         len += qemu_put_qemu_file(file, param->file);
 -- 
 2.40.0
 
