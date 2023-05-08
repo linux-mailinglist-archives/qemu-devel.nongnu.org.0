@@ -2,76 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6755C6FB090
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 May 2023 14:48:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8ADFA6FB0AB
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 May 2023 14:54:12 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pw0HZ-0005k3-Dg; Mon, 08 May 2023 08:48:01 -0400
+	id 1pw0Mp-0007Sp-Pd; Mon, 08 May 2023 08:53:27 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
- id 1pw0HV-0005fI-Mz
- for qemu-devel@nongnu.org; Mon, 08 May 2023 08:47:58 -0400
-Received: from mail-oa1-x2a.google.com ([2001:4860:4864:20::2a])
+ id 1pw0Ml-0007SZ-63
+ for qemu-devel@nongnu.org; Mon, 08 May 2023 08:53:25 -0400
+Received: from mail-oa1-x2d.google.com ([2001:4860:4864:20::2d])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
- id 1pw0HO-0001y4-86
- for qemu-devel@nongnu.org; Mon, 08 May 2023 08:47:57 -0400
-Received: by mail-oa1-x2a.google.com with SMTP id
- 586e51a60fabf-192a0aab7dfso3557096fac.3
- for <qemu-devel@nongnu.org>; Mon, 08 May 2023 05:47:49 -0700 (PDT)
+ id 1pw0Mj-00049P-6g
+ for qemu-devel@nongnu.org; Mon, 08 May 2023 08:53:22 -0400
+Received: by mail-oa1-x2d.google.com with SMTP id
+ 586e51a60fabf-192a0aab7dfso3561730fac.3
+ for <qemu-devel@nongnu.org>; Mon, 08 May 2023 05:53:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ventanamicro.com; s=google; t=1683550069; x=1686142069;
+ d=ventanamicro.com; s=google; t=1683550399; x=1686142399;
  h=content-transfer-encoding:in-reply-to:from:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=MTSCktqlM5DlsvDFTnKG+XVaGsF2Zh5JKGn8AcyIels=;
- b=Ee7rpfbEmdnCm/IsU+50HJIyhcRZ0SpHNjALERMVg9SMUhigSOppRvWipuOaDZ7dNP
- HTXc2XgHEkhA+R0lfPLqK2tB4telxzECqwL0ko/+JWCSdnGHwjqRZpKRSLD2hZ8XX7Yd
- I5aZdJ4dLGwl6klss1eRCl0BmoZYoPJMsHaJKLl8U+AtKwy3sFo/sWp8H4jUSF9oqE7e
- SeFjDcBr69edohINj2dKN6cJO3bdKWXJlvwTIltX1emwLH7BMRhYuJ6CgCYs6tlnObUV
- 1v9yP9q03lvGOvUnuWOJqCOpR6JwDzkVTiAQ/z78HDbU+6oXWxmygqA3Ut8PaeLmSfYY
- zhgQ==
+ bh=kudm4YrMUpiVHOcmk9iOvxPnD07hAqhHoOtHrrjTB8g=;
+ b=nFrcDDiwCUeqE7rxHKVhoVkdGXwon4Qve8sdFLlrzvgAsp6pOBVGIfO7aH32OfSojm
+ I3vd/VCQwl79vmapyT2RiQmQDxFzm6RkWHzinWH9UdOXUsRScMnmMm6lfG4WMtzRNaK0
+ TWm14NaaHnxzRQ1L04V/7teqoz8+y3WMMaGD3xuWz1usdVN8qE9uWasGPHat70CZyTYF
+ QdDCZt/iGoR+F4O89e8MbGRcPd+6Pt7TIgWS0z8GAMqPjyIXXaWTiZv/kbcaQ2Zr7I3o
+ 7RrRrqBhQe/uDpxhO9W4H41wB7063Uimnl7qYezsloAOpeLgKq5HB0wTHsYcUGwjvVWQ
+ 1tvw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683550069; x=1686142069;
+ d=1e100.net; s=20221208; t=1683550399; x=1686142399;
  h=content-transfer-encoding:in-reply-to:from:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=MTSCktqlM5DlsvDFTnKG+XVaGsF2Zh5JKGn8AcyIels=;
- b=KxwJVKW7PR86h1jUv+bG2Gfr5urv8Otjp8H3+VXDZSciYt1HQo1zilE466DGegYsFW
- j9ZkaDFLDGVC+xkUhkM7AFPcGTR10iK8wg+Om5a9h9mWDnSY3CpTTt3vb8+Oay1XDk7c
- Mar1WjSb3rcrB+2BEx94kpgIYm3cRgjaVnVB1lW62PihfRj6QR2fFtiQRfs0wBEmHhTR
- WlUwbyAhHru4A6jXbuwwlyORXnSaLIPC+06s/yrsieOmwJ/+zSDWWvPGa6BqNRdXcIp+
- nr+WxWIdJP2BdlMQ1i+MG7HjoqFR0D+iHDtAGRrW3fUL0jJvXJE87iCf8jHu5zR9I9oV
- xoCA==
-X-Gm-Message-State: AC+VfDz7NCGPIS1mdxugYksKzaU5OPEAmPxlbvzQKMQPnTN113PQrsnX
- u75RhBG/GK5WKItk9Yg6Ro5oKw==
-X-Google-Smtp-Source: ACHHUZ5RiB5GOHf3FZ5T7eYcymDthVH0E6SpOFvOEDeBZ6BfEfGBoX6WEEIlmwbPL6iaGCFVWyJdRQ==
-X-Received: by 2002:a05:6870:771d:b0:192:89f3:837c with SMTP id
- dw29-20020a056870771d00b0019289f3837cmr5215844oab.7.1683550068891; 
- Mon, 08 May 2023 05:47:48 -0700 (PDT)
+ bh=kudm4YrMUpiVHOcmk9iOvxPnD07hAqhHoOtHrrjTB8g=;
+ b=D8Z1xiCX9Keq1Z5dr85s/wqnQhCgXHDzoYWODE67puEtSJkW4VJoHsvB57tTuP69Pj
+ X/FBCdqQhESMErGhNx/hgAkkxjcF5hpP+g6/JX8tDPYeBA8o35LOcKBPPT75q/tS4DGm
+ xlDn9u25Dp/+GhjMJvYh/WGrKMhPYVzaegtWd/OrtGt1TLCUtnwL84P1KCCY74Ah47/+
+ 4qlssHPJgSFQh0B8EF+0AyDpu28geu/d0b8q2lTtsEu4ffGbRgDYMvAlX6xPhmmJeNEl
+ lhkVoP/Ft9VzvQPLxTYBYne/92I5yK1VtNGGd5TAT0ZyxX1QMhhZRqjvrVBZ0Q7a4oVt
+ iF8Q==
+X-Gm-Message-State: AC+VfDwRqoc0XyPVkP6bAPHxsS91JNvFeIiQnusNH3ZVubEx4xP3Ef4q
+ EYPlNxafCw/Uh/tYl5IPAlB37A==
+X-Google-Smtp-Source: ACHHUZ6mtES1/58wQBGsfjCtN9g03Vzq+k+6UfDZbjop6HFnOTI06ZWjvQWicTeE75SerZkJXzKUYA==
+X-Received: by 2002:a05:6870:8704:b0:192:5d3c:25fe with SMTP id
+ k4-20020a056870870400b001925d3c25femr5181907oam.29.1683550399676; 
+ Mon, 08 May 2023 05:53:19 -0700 (PDT)
 Received: from [192.168.68.107] (189-46-207-53.dsl.telesp.net.br.
  [189.46.207.53]) by smtp.gmail.com with ESMTPSA id
- j2-20020a056870530200b0017f647294f5sm4923314oan.16.2023.05.08.05.47.47
+ s3-20020a05687087c300b0017243edbe5bsm4883456oam.58.2023.05.08.05.53.18
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 08 May 2023 05:47:48 -0700 (PDT)
-Message-ID: <18123960-0668-31e3-4f4e-7d542515ac3f@ventanamicro.com>
-Date: Mon, 8 May 2023 09:47:45 -0300
+ Mon, 08 May 2023 05:53:19 -0700 (PDT)
+Message-ID: <90c12a52-a2f9-1c13-1aa2-d6362820cb2a@ventanamicro.com>
+Date: Mon, 8 May 2023 09:53:16 -0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.10.0
-Subject: Re: [PATCH 11/11] tcg/riscv: Support CTZ, CLZ from Zbb
+Subject: Re: [PATCH 00/11] tcg/riscv: Support for Zba, Zbb, Zicond extensions
 Content-Language: en-US
 To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
 References: <20230503085657.1814850-1-richard.henderson@linaro.org>
- <20230503085657.1814850-12-richard.henderson@linaro.org>
 From: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
-In-Reply-To: <20230503085657.1814850-12-richard.henderson@linaro.org>
+In-Reply-To: <20230503085657.1814850-1-richard.henderson@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2001:4860:4864:20::2a;
- envelope-from=dbarboza@ventanamicro.com; helo=mail-oa1-x2a.google.com
+Received-SPF: pass client-ip=2001:4860:4864:20::2d;
+ envelope-from=dbarboza@ventanamicro.com; helo=mail-oa1-x2d.google.com
 X-Spam_score_int: -38
 X-Spam_score: -3.9
 X-Spam_bar: ---
@@ -97,111 +96,50 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 
 On 5/3/23 05:56, Richard Henderson wrote:
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
-
-Reviewed-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
-
->   tcg/riscv/tcg-target-con-set.h |  1 +
->   tcg/riscv/tcg-target.h         |  8 ++++----
->   tcg/riscv/tcg-target.c.inc     | 35 ++++++++++++++++++++++++++++++++++
->   3 files changed, 40 insertions(+), 4 deletions(-)
+> Based-on: 20230503070656.1746170-1-richard.henderson@linaro.org
+> ("[PATCH v4 00/57] tcg: Improve atomicity support")
 > 
-> diff --git a/tcg/riscv/tcg-target-con-set.h b/tcg/riscv/tcg-target-con-set.h
-> index a5cadd303f..aac5ceee2b 100644
-> --- a/tcg/riscv/tcg-target-con-set.h
-> +++ b/tcg/riscv/tcg-target-con-set.h
-> @@ -18,5 +18,6 @@ C_O1_I2(r, r, rI)
->   C_O1_I2(r, r, rJ)
->   C_O1_I2(r, rZ, rN)
->   C_O1_I2(r, rZ, rZ)
-> +C_N1_I2(r, r, rM)
->   C_O1_I4(r, r, rI, rM, rM)
->   C_O2_I4(r, r, rZ, rZ, rM, rM)
-> diff --git a/tcg/riscv/tcg-target.h b/tcg/riscv/tcg-target.h
-> index e9e84be9a5..cff5de5c9e 100644
-> --- a/tcg/riscv/tcg-target.h
-> +++ b/tcg/riscv/tcg-target.h
-> @@ -125,8 +125,8 @@ extern bool have_zbb;
->   #define TCG_TARGET_HAS_eqv_i32          have_zbb
->   #define TCG_TARGET_HAS_nand_i32         0
->   #define TCG_TARGET_HAS_nor_i32          0
-> -#define TCG_TARGET_HAS_clz_i32          0
-> -#define TCG_TARGET_HAS_ctz_i32          0
-> +#define TCG_TARGET_HAS_clz_i32          1
-> +#define TCG_TARGET_HAS_ctz_i32          1
->   #define TCG_TARGET_HAS_ctpop_i32        have_zbb
->   #define TCG_TARGET_HAS_brcond2          1
->   #define TCG_TARGET_HAS_setcond2         1
-> @@ -159,8 +159,8 @@ extern bool have_zbb;
->   #define TCG_TARGET_HAS_eqv_i64          have_zbb
->   #define TCG_TARGET_HAS_nand_i64         0
->   #define TCG_TARGET_HAS_nor_i64          0
-> -#define TCG_TARGET_HAS_clz_i64          0
-> -#define TCG_TARGET_HAS_ctz_i64          0
-> +#define TCG_TARGET_HAS_clz_i64          1
-> +#define TCG_TARGET_HAS_ctz_i64          1
->   #define TCG_TARGET_HAS_ctpop_i64        have_zbb
->   #define TCG_TARGET_HAS_add2_i64         1
->   #define TCG_TARGET_HAS_sub2_i64         1
-> diff --git a/tcg/riscv/tcg-target.c.inc b/tcg/riscv/tcg-target.c.inc
-> index 1c57b64182..a1c92b0603 100644
-> --- a/tcg/riscv/tcg-target.c.inc
-> +++ b/tcg/riscv/tcg-target.c.inc
-> @@ -1063,6 +1063,22 @@ static void tcg_out_movcond(TCGContext *s, TCGCond cond, TCGReg ret,
->       }
->   }
->   
-> +static void tcg_out_cltz(TCGContext *s, TCGType type, RISCVInsn insn,
-> +                         TCGReg ret, TCGReg src1, int src2, bool c_src2)
-> +{
-> +    tcg_out_opc_imm(s, insn, ret, src1, 0);
-> +
-> +    if (!c_src2 || src2 != (type == TCG_TYPE_I32 ? 32 : 64)) {
-> +        /*
-> +         * The requested zero result does not match the insn, so adjust.
-> +         * Note that constraints put 'ret' in a new register, so the
-> +         * computation above did not clobber either 'src1' or 'src2'.
-> +         */
-> +        tcg_out_movcond(s, TCG_COND_EQ, ret, src1, 0, true,
-> +                        src2, c_src2, ret, false);
-> +    }
-> +}
-> +
->   static void tcg_out_call_int(TCGContext *s, const tcg_insn_unit *arg, bool tail)
->   {
->       TCGReg link = tail ? TCG_REG_ZERO : TCG_REG_RA;
-> @@ -1724,6 +1740,19 @@ static void tcg_out_op(TCGContext *s, TCGOpcode opc,
->           tcg_out_opc_imm(s, OPC_CPOP, a0, a1, 0);
->           break;
->   
-> +    case INDEX_op_clz_i32:
-> +        tcg_out_cltz(s, TCG_TYPE_I32, OPC_CLZW, a0, a1, a2, c2);
-> +        break;
-> +    case INDEX_op_clz_i64:
-> +        tcg_out_cltz(s, TCG_TYPE_I64, OPC_CLZ, a0, a1, a2, c2);
-> +        break;
-> +    case INDEX_op_ctz_i32:
-> +        tcg_out_cltz(s, TCG_TYPE_I32, OPC_CTZW, a0, a1, a2, c2);
-> +        break;
-> +    case INDEX_op_ctz_i64:
-> +        tcg_out_cltz(s, TCG_TYPE_I64, OPC_CTZ, a0, a1, a2, c2);
-> +        break;
-> +
->       case INDEX_op_add2_i32:
->           tcg_out_addsub2(s, a0, a1, a2, args[3], args[4], args[5],
->                           const_args[4], const_args[5], false, true);
-> @@ -1917,6 +1946,12 @@ static TCGConstraintSetIndex tcg_target_op_def(TCGOpcode op)
->       case INDEX_op_rotr_i64:
->           return C_O1_I2(r, r, ri);
->   
-> +    case INDEX_op_clz_i32:
-> +    case INDEX_op_clz_i64:
-> +    case INDEX_op_ctz_i32:
-> +    case INDEX_op_ctz_i64:
-> +        return C_N1_I2(r, r, rM);
-> +
->       case INDEX_op_brcond_i32:
->       case INDEX_op_brcond_i64:
->           return C_O0_I2(rZ, rZ);
+> I've been vaguely following the __hw_probe syscall progress
+> in the upstream kernel.  The initial version only handled
+> bog standard F+D and C extensions, which everything expects
+> to be present anyway, which was disappointing.  But at least
+> the basis is there for proper extensions.
+> 
+> In the meantime, probe via sigill.  Tested with qemu-on-qemu.
+> I understand the Ventana core has all of these, if you'd be
+> so kind as to test.
+
+I'll run this series with upstream kernel on a real HW as soon as able.
+(hopefully this month).
+
+I think this is good to go regardless of HW testing though.
+
+
+Daniel
+
+> 
+> 
+> r~
+> 
+> 
+> Richard Henderson (11):
+>    disas/riscv: Decode czero.{eqz,nez}
+>    tcg/riscv: Probe for Zba, Zbb, Zicond extensions
+>    tcg/riscv: Support ANDN, ORN, XNOR from Zbb
+>    tcg/riscv: Support ADD.UW, SEXT.B, SEXT.H, ZEXT.H from Zba+Zbb
+>    tcg/riscv: Use ADD.UW for guest address generation
+>    tcg/riscv: Support rotates from Zbb
+>    tcg/riscv: Support REV8 from Zbb
+>    tcg/riscv: Support CPOP from Zbb
+>    tcg/riscv: Improve setcond expansion
+>    tcg/riscv: Implement movcond
+>    tcg/riscv: Support CTZ, CLZ from Zbb
+> 
+>   tcg/riscv/tcg-target-con-set.h |   3 +
+>   tcg/riscv/tcg-target-con-str.h |   1 +
+>   tcg/riscv/tcg-target.h         |  48 +--
+>   disas/riscv.c                  |   8 +-
+>   tcg/riscv/tcg-target.c.inc     | 612 +++++++++++++++++++++++++++++----
+>   5 files changed, 587 insertions(+), 85 deletions(-)
+> 
 
