@@ -2,98 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 673496F9D15
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 May 2023 02:51:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E4186F9D17
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 May 2023 02:53:35 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pvp4Y-00067K-4m; Sun, 07 May 2023 20:49:50 -0400
+	id 1pvp7M-00070q-Cm; Sun, 07 May 2023 20:52:44 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1pvp4U-00067A-Om
- for qemu-devel@nongnu.org; Sun, 07 May 2023 20:49:47 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
+ id 1pvp7K-00070h-LN
+ for qemu-devel@nongnu.org; Sun, 07 May 2023 20:52:42 -0400
+Received: from mout.web.de ([212.227.15.4])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1pvp4S-0003I0-1m
- for qemu-devel@nongnu.org; Sun, 07 May 2023 20:49:46 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1683506980;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=5BG/ex0Ihv5ZZsZdioT6W+7dLFjFDP2nz3JXfQcwxEY=;
- b=gkgcMib/tsLcNoBL32faOXa1suoDd9PWIpDSlyN+UPqhVxuLyqaR5xfX+pxhqKK3MQLNAJ
- lQ5523PKdermz3QDsWlFRKvu5CfTJUiLDbCUu/BApSLC1bp8fnBf+xeBujd3IFhwdpuIJ7
- Ww6bX3dY+dZ6894uCdj5fZK9mjA06bI=
-Received: from mail-pl1-f198.google.com (mail-pl1-f198.google.com
- [209.85.214.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-79-U9zT-nc_NHSMxqwvLUWO2g-1; Sun, 07 May 2023 20:49:39 -0400
-X-MC-Unique: U9zT-nc_NHSMxqwvLUWO2g-1
-Received: by mail-pl1-f198.google.com with SMTP id
- d9443c01a7336-1ab3c41d5ceso5217765ad.1
- for <qemu-devel@nongnu.org>; Sun, 07 May 2023 17:49:39 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683506978; x=1686098978;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=5BG/ex0Ihv5ZZsZdioT6W+7dLFjFDP2nz3JXfQcwxEY=;
- b=U7CwUZjScGK6C+NAPT9Yw723PzOLxH0/ql/e8paEHwayiVbth+n7mdN204qg3U/xTD
- Z7mrTLe2xPu+LV6evbxAcvUSCWcTW5fFWptX2qClGkvS9IsXYRvp1M0ooUZoRiYGJY41
- 6lMhxPTjXPYPgoxIJgOzSVxbJyNlQbol21Mq5iUQD1hDwJRnhUTG1zPdz3nQTu9UOzLC
- y68g9tM4pi1ftoC2khotynLzr0yg060yWw6AF5cW1a729z7WQTct08klgoShyd5Noc5n
- Wk0XGLnIzF5ZnHdqA/PwdeVMLtMwUXl5z6h00NHWnWinC91F71951vRVKeTuM/1FxeG8
- A59w==
-X-Gm-Message-State: AC+VfDzYIN6Vy96GF1ebxVjBadOtlwDw4WAmKALWqDB6K3QvJM3i6jJs
- XtiaJUKwGqmX7s7DHsk3lnmK9Q5xrV7UlitJjX2Gwmn9xcRAHEvvi6KvxkXYP09zKkO+fI9scnU
- 7S0Wzua3mam9HZeI=
-X-Received: by 2002:a17:902:d4c4:b0:1ac:40f7:8b5a with SMTP id
- o4-20020a170902d4c400b001ac40f78b5amr10514852plg.3.1683506977885; 
- Sun, 07 May 2023 17:49:37 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ48/2KaKEj7StnF2DQQ+ONw7BIuRekQxpI9MzHwb+4c/kXPAVWlsbN4N8dsVmKtuS9J4mvgJg==
-X-Received: by 2002:a17:902:d4c4:b0:1ac:40f7:8b5a with SMTP id
- o4-20020a170902d4c400b001ac40f78b5amr10514822plg.3.1683506977455; 
- Sun, 07 May 2023 17:49:37 -0700 (PDT)
-Received: from x1n ([64.114.255.114]) by smtp.gmail.com with ESMTPSA id
- ji15-20020a170903324f00b001a6d4ffc760sm5715897plb.244.2023.05.07.17.49.35
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 07 May 2023 17:49:36 -0700 (PDT)
-Date: Sun, 7 May 2023 20:49:35 -0400
-From: Peter Xu <peterx@redhat.com>
-To: Avihai Horon <avihaih@nvidia.com>
-Cc: qemu-devel@nongnu.org, Alex Williamson <alex.williamson@redhat.com>,
- =?utf-8?Q?C=C3=A9dric?= Le Goater <clg@redhat.com>,
- Juan Quintela <quintela@redhat.com>,
- Leonardo Bras <leobras@redhat.com>, Eric Blake <eblake@redhat.com>,
- Markus Armbruster <armbru@redhat.com>,
- Thomas Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Yishai Hadas <yishaih@nvidia.com>, Jason Gunthorpe <jgg@nvidia.com>,
- Maor Gottlieb <maorg@nvidia.com>, Kirti Wankhede <kwankhede@nvidia.com>,
- Tarun Gupta <targupta@nvidia.com>, Joao Martins <joao.m.martins@oracle.com>
-Subject: Re: [PATCH 0/8] migration: Add precopy initial data capability and
- VFIO precopy support
-Message-ID: <ZFhHHzrIWZbBiIgi@x1n>
-References: <20230501140141.11743-1-avihaih@nvidia.com> <ZFGTerErJWnWHD6/@x1n>
- <72e14c81-a953-c288-c570-4987492b3569@nvidia.com>
- <ZFKCg2xnws2Smchb@x1n>
- <cd16086f-7c82-47ab-d893-b33d64f121d9@nvidia.com>
- <ZFPUOeuICJ1gehNk@x1n>
- <95db8c9d-c649-09b7-843e-215756820bb1@nvidia.com>
+ (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
+ id 1pvp7C-0004Si-CG
+ for qemu-devel@nongnu.org; Sun, 07 May 2023 20:52:38 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de; s=s29768273;
+ t=1683507147; i=lukasstraub2@web.de;
+ bh=AllUWf/hKiAKFGoQyrOy+wa7KNpVnA6iunv1/I/XMZM=;
+ h=X-UI-Sender-Class:Date:From:To:Cc:Subject;
+ b=U9KnRURKCSZ/fXwL4Gf0uurbnuXTbWvLFHZulb76fyKVtSH6I/NBvRJOstZDJung0
+ 8KOopjVIx4bl8C7+WpIhiymMtMlNFvRKlTh2q+VE4aUDCRjNiPyVSRXnQGbGMPDsdx
+ fMLLM7i1E/ClG2qbg05bPbBwk2zQ7PKOzp5JRLsC1/2WRRH0T+12MsALxqVhzkOUj3
+ OcnNjRDYcGwDojVSx0kidK0lSUYXqIP3SfIgZrHSdhSCdmFhiuuMk7BvdTv1K6qKNi
+ j7MgQs+3fTy6+DP2U40Vpmb82IJGOSAiza0y1Q+P8dQELGTtWzR62W2mBIU4Y3Azux
+ HSs8wXzTVt8Jw==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from gecko.fritz.box ([82.207.254.115]) by smtp.web.de (mrweb006
+ [213.165.67.108]) with ESMTPSA (Nemesis) id 1MkEhR-1qc4gt4AZd-00kLCg; Mon, 08
+ May 2023 02:52:27 +0200
+Date: Mon, 8 May 2023 02:51:43 +0200
+From: Lukas Straub <lukasstraub2@web.de>
+To: qemu-devel <qemu-devel@nongnu.org>
+Cc: Juan Quintela <quintela@redhat.com>, Peter Xu <peterx@redhat.com>,
+ Leonardo Bras <leobras@redhat.com>
+Subject: [PATCH 0/5] multifd: Add colo support
+Message-ID: <cover.1683506133.git.lukasstraub2@web.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <95db8c9d-c649-09b7-843e-215756820bb1@nvidia.com>
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: multipart/signed; boundary="Sig_/VF3Lwr4jU=PUdhUU2XnWOaE";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
+X-Provags-ID: V03:K1:VNAH9UcDiBQ6yZZYhWCesWLZsbw3YwFimlj8n+tWJOcRx/zimro
+ aWH5c6kds3D61owL2qhfAHhyCuN3dQCEB92IquyyY+yB07FIck9XsKlUev9vfVSm6p/sVAL
+ O3T9znehUR9obTj2A5ouIqVHMdm718j7MgkHkb5c3GlukUhP+WEusHEvVlU/K8nGHMYQ+YQ
+ x2sRfXMx4OZpAxviq6vsg==
+UI-OutboundReport: notjunk:1;M01:P0:OWWAdacc9eA=;wp6m7f1V/94pYBJ/vHRdFi3MN7S
+ ev7xd8UVRvYv8MI3Dhco+BeXlUoq5mraSNcTX4cwNT4ii0lICAep8yPY/ow0xnFSO5i1FGDso
+ YaOIeOiCEWNQDE4TeG69vxJPZOFs0woDBhJeeQEtFUpg8/TnXTN9UTOlxqP+qvzQIkvIRgUmo
+ ed/hCCt4SDR0cbXPbjCes0aGS3kgvetuV4K1qFIOpN5p8azQaf0+s3oaQRFItzGzkA9UQNUBF
+ od9p2m1Ezkikc+039xL62qByGN0mUhC+6zSbFnOeG5ZA5o3U9NM/Hgz5TG04anqRJuE+lx5u4
+ /lxBDilHAdnZ1FHNKcC3OFgNvuRJbzx42F4nMHcMhAZFdPFhaIU6hG8uhW+jmtODwgTo1+dGz
+ VlAiPGGmTGenNs4ehOCQyVfKEb3cfk5JS6Z1CvV3MwoEm7rc5zDPz1a1hLRkjI7AJ3e+Ve/l4
+ 7Il9LL5+gVC2/OOpk7kEYI0u908WSwm3FOsq4Z5zJns7AkvDaqsxjDatbGYC8z6Fn7BIcDsOK
+ ZIhVE0k8ROmUnZAWQNq8khYxxGYpF5mNL6803L0mnLdqoSXYT3ZkUJ76jqPrjb1N4tkkqonNZ
+ r1QmcYspPsws7A7JCgx1ZT5gOLWIMp76BmtSwSWBxNWh0pAD2LZf2JdkYC49tA3L0OG79ore6
+ BGzOKKzh94LTL6ZuxqLZiQk4bt/bFhNPNeSiKg3kWodbPTnuwt6Oqt2Q7Fnc8syXHR9kjIh8m
+ q/qW8Wlyq0Ikw7czEEBD73UmIHqIk8u/f5VMijSb6lYOY62J+d7CxWqdIVECsaVN+ggjIt5v7
+ MDOv5ATshCDJFnjIm1+ns9C7kNf+4lIq353qwzr6td2vFFyM+b47WqLW5UOrqLCb2I8LrsDoR
+ aneDB4OtTileeZH4dGgYiLWbmnKYOSWNmEG/wWHBRi1zwdl9wsBlO41tgDfjB+2O47coB89pM
+ 5KH0nKNfJa9rD6oYfFrDP/gPu/4=
+Received-SPF: pass client-ip=212.227.15.4; envelope-from=lukasstraub2@web.de;
+ helo=mout.web.de
+X-Spam_score_int: -25
+X-Spam_score: -2.6
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -109,244 +86,54 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Sun, May 07, 2023 at 03:54:00PM +0300, Avihai Horon wrote:
-> 
-> On 04/05/2023 18:50, Peter Xu wrote:
-> > External email: Use caution opening links or attachments
-> > 
-> > 
-> > On Thu, May 04, 2023 at 01:18:04PM +0300, Avihai Horon wrote:
-> > > On 03/05/2023 18:49, Peter Xu wrote:
-> > > > External email: Use caution opening links or attachments
-> > > > 
-> > > > 
-> > > > On Wed, May 03, 2023 at 06:22:59PM +0300, Avihai Horon wrote:
-> > > > > On 03/05/2023 1:49, Peter Xu wrote:
-> > > > > > External email: Use caution opening links or attachments
-> > > > > > 
-> > > > > > 
-> > > > > > On Mon, May 01, 2023 at 05:01:33PM +0300, Avihai Horon wrote:
-> > > > > > > Hello everyone,
-> > > > > > Hi, Avihai,
-> > > > > > 
-> > > > > > > === Flow of operation ===
-> > > > > > > 
-> > > > > > > To use precopy initial data, the capability must be enabled in the
-> > > > > > > source.
-> > > > > > > 
-> > > > > > > As this capability must be supported also in the destination, a
-> > > > > > > handshake is performed during migration setup. The purpose of the
-> > > > > > > handshake is to notify the destination that precopy initial data is used
-> > > > > > > and to check if it's supported.
-> > > > > > > 
-> > > > > > > The handshake is done in two levels. First, a general handshake is done
-> > > > > > > with the destination migration code to notify that precopy initial data
-> > > > > > > is used. Then, for each migration user in the source that supports
-> > > > > > > precopy initial data, a handshake is done with its counterpart in the
-> > > > > > > destination:
-> > > > > > > If both support it, precopy initial data will be used for them.
-> > > > > > > If source doesn't support it, precopy initial data will not be used for
-> > > > > > > them.
-> > > > > > > If source supports it and destination doesn't, migration will be failed.
-> > > > > > > 
-> > > > > > > Assuming the handshake succeeded, migration starts to send precopy data
-> > > > > > > and as part of it also the initial precopy data. Initial precopy data is
-> > > > > > > just like any other precopy data and as such, migration code is not
-> > > > > > > aware of it. Therefore, it's the responsibility of the migration users
-> > > > > > > (such as VFIO devices) to notify their counterparts in the destination
-> > > > > > > that their initial precopy data has been sent (for example, VFIO
-> > > > > > > migration does it when its initial bytes reach zero).
-> > > > > > > 
-> > > > > > > In the destination, migration code will query each migration user that
-> > > > > > > supports precopy initial data and check if its initial data has been
-> > > > > > > loaded. If initial data has been loaded by all of them, an ACK will be
-> > > > > > > sent to the source which will now be able to complete migration when
-> > > > > > > appropriate.
-> > > > > > I can understand why this is useful, what I'm not 100% sure is whether the
-> > > > > > complexity is needed.  The idea seems to be that src never switchover
-> > > > > > unless it receives a READY notification from dst.
-> > > > > > 
-> > > > > > I'm imaging below simplified and more general workflow, not sure whether it
-> > > > > > could work for you:
-> > > > > > 
-> > > > > >      - Introduce a new cap "switchover-ready", it means whether there'll be a
-> > > > > >        ready event sent from dst -> src for "being ready for switchover"
-> > > > > > 
-> > > > > >      - When cap set, a new msg MIG_RP_MSG_SWITCHOVER_READY is defined and
-> > > > > >        handled on src showing that dest is ready for switchover. It'll be sent
-> > > > > >        only if dest is ready for the switchover
-> > > > > > 
-> > > > > >      - Introduce a field SaveVMHandlers.explicit_switchover_needed.  For each
-> > > > > >        special device like vfio that would like to participate in the decision
-> > > > > >        making, device can set its explicit_switchover_needed=1.  This field is
-> > > > > >        ignored if the new cap is not set.
-> > > > > > 
-> > > > > >      - Dst qemu: when new cap set, remember how many special devices are there
-> > > > > >        requesting explicit switchover (count of SaveVMHandlers that has the
-> > > > > >        bit set during load setup) as switch_over_pending=N.
-> > > > > > 
-> > > > > >      - Dst qemu: Once a device thinks its fine to switchover (probably in the
-> > > > > >        load_state() callback), it calls migration_notify_switchover_ready().
-> > > > > >        That decreases switch_over_pending and when it hits zero, one msg
-> > > > > >        MIG_RP_MSG_SWITCHOVER_READY will be sent to src.
-> > > > > > 
-> > > > > > Only until READY msg received on src could src switchover the precopy to
-> > > > > > dst.
-> > > > > > 
-> > > > > > Then it only needs 1 more field in SaveVMHandlers rather than 3, and only 1
-> > > > > > more msg (dst->src).
-> > > > > > 
-> > > > > > This is based on the fact that right now we always set caps on both qemus
-> > > > > > so I suppose it already means either both have or don't have the feature
-> > > > > > (even if one has, not setting the cap means disabled on both).
-> > > > > > 
-> > > > > > Would it work for this case and cleaner?
-> > > > > Hi Peter, thanks for the response!
-> > > > > Your approach is indeed much simpler, however I have a few concerns
-> > > > > regarding compatibility.
-> > > > > 
-> > > > > You are saying that caps are always set both in src and dest.
-> > > > > But what happens if we set the cap only on one side?
-> > > > > Should we care about these scenarios?
-> > > > I think it's not needed for now, but I am aware that this is a problem.
-> > > > It's just that it is a more generic problem to me rather than very special
-> > > > in the current feature being proposed.  At least there're a few times
-> > > > Daniel showed concern on keeping this way and hoped we can have a better
-> > > > handshake in general with migration framework.
-> > > > 
-> > > > I'd be perfectly fine if you want to approach this with a handshake
-> > > > methodology, but I hope if so we should provide a more generic handshake.
-> > > > So potentially that can make this new feature rely on the handshake work,
-> > > > and slower to get into shape.  Your call on how to address this, at least
-> > > > fine by me either way.
-> > > I'd really like this feature to get in, and I'm afraid making it dependent
-> > > on first implementing a general migration handshake may take a long time,
-> > > like you said.
-> > > What about keeping current approach but changing it such that the capability
-> > > will have to be set in both src and dest, to make it similar to other
-> > > capability usages?
-> > > I.e., we will remove the "general" handshake:
-> > > 
-> > >      /* Enable precopy initial data generally in the migration */
-> > >      memset(&buf, 0, sizeof(buf));
-> > >      buf.general_enable = 1;
-> > >      qemu_savevm_command_send(f, MIG_CMD_INITIAL_DATA_ENABLE, sizeof(buf),
-> > >                               (uint8_t *)&buf);
-> > > 
-> > > but keep the per-device handshake, which is not a handshake for migration
-> > > capabilities, but a part of the protocol when the capability is set, like in
-> > > multifd, postcopy, etc.
-> > > This way we can advance with this feature while making the general migration
-> > > handshake an independent effort.
-> > > Will that work for you?
-> > Yes it's fine by me.
-> > 
-> > > BTW, with your suggestion to add a notification mechanism to notify when
-> > > initial data is loaded in dest, I think we can drop these two SaveVMHandlers
-> > > handlers:
-> > >      /*
-> > >       * Checks if precopy initial data is active. If it's inactive,
-> > >       * initial_data_loaded check is skipped.
-> > >       */
-> > >      bool (*is_initial_data_active)(void *opaque);
-> > >      /* Checks if precopy initial data has been loaded in dest */
-> > >      bool (*initial_data_loaded)(void *opaque);
-> > > 
-> > > > In my imagination a generic handshake should happen at the very start of
-> > > > migration and negociate feature bits between src/dst qemu, so they can
-> > > > reach a consensus on what to do next.
-> > > > 
-> > > > > For example, if we set the cap only in src, then src will wait indefinitely
-> > > > > for dest to notify that switchover is ready.
-> > > > > Would you expect migration to fail instead of just keep running
-> > > > > indefinitely?
-> > > > > In current approach we only need to enable the cap in the source, so such
-> > > > > scenario can't happen.
-> > > > > 
-> > > > > Let's look at some other scenario.
-> > > > > Src QEMU supports explicit-switchover for device X but *not* for device Y
-> > > > > (i.e., src QEMU is some older version of QEMU that supports
-> > > > > explicit-switchover for device X but not for Y).
-> > > > > Dest QEMU supports explicit-switchover for device X and device Y.
-> > > > > The capability is set in both src and dest.
-> > > > > In the destination we will have switchover_pending=2 because both X and Y
-> > > > > support explicit-switchover.
-> > > > > We do migration, but switchover_pending will never reach 0 because only X
-> > > > > supports it in the source, so the migration will run indefinitely.
-> > > > > The per-device handshake solves this by making device Y not use
-> > > > > explicit-switchover in this case.
-> > > > Hmm, right.  When I was replying obviously I thought that decision can be
-> > > > made sololy by the dest qemu, then I assumed it's fine.  Because IIUC in
-> > > > that case how many devices that supports switchover_pending on src qemu
-> > > > doesn't really matter but only dest.
-> > > > 
-> > > > But I re-read the last patch and I do see that there's a new bit that will
-> > > > change the device protocol of migration:
-> > > > 
-> > > >     if (migration->initial_data_active && !migration->precopy_init_size &&
-> > > >         !migration->initial_data_sent) {
-> > > >         qemu_put_be64(f, VFIO_MIG_FLAG_DEV_INIT_DATA_SENT);
-> > > >         migration->initial_data_sent = true;
-> > > >     } else {
-> > > >         qemu_put_be64(f, VFIO_MIG_FLAG_END_OF_STATE);
-> > > >     }
-> > > > 
-> > > > With this, I think what you said makes sense because then the src qemu
-> > > > matters on deciding whether to send VFIO_MIG_FLAG_DEV_INIT_DATA_SENT, it
-> > > > also needs to make sure dst qemu will recognize it.
-> > > > 
-> > > > Do you think this new VFIO_MIG_FLAG_DEV_INIT_DATA_SENT is a must to have?
-> > > > Can this decision be made on dest qemu only?
-> > > > 
-> > > > To ask in another way, I saw that precopy_init_size is the fundation to
-> > > > decide whether to send this flag.  Then it's a matter of whether dest qemu
-> > > > is also aware of precopy_init_size, then it can already tell when it's
-> > > > ready to handle the switchover.
-> > > The destination is not aware of precopy_init_size, only the source knows it.
-> > > So the source must send VFIO_MIG_FLAG_DEV_INIT_DATA_SENT to notify dest that
-> > > the initial data was sent.
-> > Then, can the src qemu notify instead?
-> > 
-> > We can have similar notification mechanism on src qemu and if that can work
-> > we can further same the other MIG_RP_MSG.  The counter counts how many
+--Sig_/VF3Lwr4jU=PUdhUU2XnWOaE
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-I meant s/same/save/ here..
+Hello Everyone,
+These patches add support for colo to multifd.
 
-> > special src devices are there and we don't switchover only if all agree.
-> 
-> Do you mean the following:
-> We will have the pending counter and notification mechanism in source
-> instead of destination.
-> The MIG_RP_MSG_INITIAL_DATA_LOADED_ACK message will be sent by each device
-> in the destination that loaded its initial data.
-> Each such RP_MSG will decrease the pending counter in source.
-> When the pending counter in source reaches zero, source can complete
-> migration.
-> 
-> Or did I misunderstand you?
+Lukas Straub (5):
+  ram: Add public helper to set colo bitmap
+  ram: Let colo_flush_ram_cache take the bitmap_mutex
+  multifd: Introduce multifd-internal.h
+  multifd: Introduce a overridable revc_pages method
+  multifd: Add colo support
 
-I meant the notification can come sololy from the src qemu, so src qemu can
-skip the switchover if any of the src relevant device hasn't yet
-acknowledged on the switchover.
+ migration/meson.build        |  1 +
+ migration/multifd-colo.c     | 67 ++++++++++++++++++++++++++++++++
+ migration/multifd-internal.h | 39 +++++++++++++++++++
+ migration/multifd.c          | 74 +++++++++++++++++++++++-------------
+ migration/multifd.h          |  2 +
+ migration/ram.c              | 19 +++++++--
+ migration/ram.h              |  1 +
+ 7 files changed, 173 insertions(+), 30 deletions(-)
+ create mode 100644 migration/multifd-colo.c
+ create mode 100644 migration/multifd-internal.h
 
-Then I think we can avoid introducing a MIG_RP msg?  I'm not sure whether
-I missed something, though.  I stated my understanding on the ordering below.
+--=20
+2.39.2
 
-> 
-> > I know that even if !precopy_init_size on src, it doesn't mean that dest
-> > has already digested all the data in the send buffer.  However since we'll
-> > anyway make sure queued data landed before switch over happens (e.g., when
-> > we only have 1 migration channel data are sent in sequential manner), it
-> > means when switchover the dst qemu should have these loaded?
-> > 
-> > Thanks,
-> > 
-> > --
-> > Peter Xu
-> > 
-> 
+--Sig_/VF3Lwr4jU=PUdhUU2XnWOaE
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
 
--- 
-Peter Xu
+-----BEGIN PGP SIGNATURE-----
 
+iQIzBAEBCAAdFiEEg/qxWKDZuPtyYo+kNasLKJxdslgFAmRYR58ACgkQNasLKJxd
+sliTOhAAulwvvJaUySJSBUvdXl31pEFxE5G1DNL/FxTz/EWXE3hvL5yxWr3v605c
+DZZL5UHFeVVtq061d7NczFw+hzE0AUhgArXJ7Dl8v0aYjNVN3TaankEuvMkGpnO9
+ZOqSVvdtFo7uJlJBRAqPY4mXmvTQQNQZ3vhTbYt7xOXTYh7AIarFN2wsaLSssoEc
+VQ00kvnFcZU/c+EmaH7SBqFjKW4bVZuvjOGmtc8okwUGs3z2NacAHp3M2+3xRrm1
+g+oSVDb41uafwqryIq0o8z0RH6bPCKq5n5PUPrt/sValvPpEKzjDLSuTxuRmrQ8D
+KraY7lBtSRYiNc3nscasgVCG9YIz0LngmxUn4CZVoTsVKLwJuW3EsvP7b6QPZWzV
+mGsT5DDmpURij48Ed7a2ZnrVqs22MbHayXTh9Yqly1cMN/wBi+m9H2SNBRrUj5VJ
+iU87EzQrviq+vaUvlaC8N18P+CSHSCrGDewBxfahEphszF+7olEfh481lmXQ1dDa
+q69k9nvQE/+MFZTj1sdPOnyTD4MRNiiERTU4zTTkscSAmw+sifRBoDOXrY+myn86
+GvK7FYkWTYnCgIvUAo4NxfVBjnNRKTXhe7U86XcmVpTchDuLgWFVGF4T4L8V383e
+jEvk5jwP8nlRJY9C2byGcPqwqBfZuvUpZlLhWxKIZgJr8MKAEYg=
+=DelY
+-----END PGP SIGNATURE-----
+
+--Sig_/VF3Lwr4jU=PUdhUU2XnWOaE--
 
