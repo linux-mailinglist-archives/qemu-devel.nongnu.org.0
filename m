@@ -2,62 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2DB936FAE8D
+	by mail.lfdr.de (Postfix) with ESMTPS id 27DDA6FAE8C
 	for <lists+qemu-devel@lfdr.de>; Mon,  8 May 2023 13:45:45 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pvzI5-0008Rg-HV; Mon, 08 May 2023 07:44:30 -0400
+	id 1pvzI9-0008UR-9Y; Mon, 08 May 2023 07:44:33 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pvzI2-0008RY-9a
- for qemu-devel@nongnu.org; Mon, 08 May 2023 07:44:26 -0400
-Received: from mout.kundenserver.de ([212.227.126.134])
+ (Exim 4.90_1) (envelope-from <abologna@redhat.com>)
+ id 1pvzI7-0008Tp-IU
+ for qemu-devel@nongnu.org; Mon, 08 May 2023 07:44:31 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pvzI0-0008QR-1l
- for qemu-devel@nongnu.org; Mon, 08 May 2023 07:44:26 -0400
-Received: from [192.168.100.1] ([82.142.8.70]) by mrelayeu.kundenserver.de
- (mreue009 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1N3Kc6-1qMhHn217y-010Jx0; Mon, 08 May 2023 13:44:09 +0200
-Message-ID: <41dc0697-167e-30b2-afd2-a5f5dbbd0a03@vivier.eu>
-Date: Mon, 8 May 2023 13:44:08 +0200
+ (Exim 4.90_1) (envelope-from <abologna@redhat.com>)
+ id 1pvzI4-0008R1-Nq
+ for qemu-devel@nongnu.org; Mon, 08 May 2023 07:44:31 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1683546266;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=29ZIZ5JVCd9jLI43OYeE8K+nR3V5p1DK6qO3hiQhkzY=;
+ b=gKOKwnce+J88wEK3l2I57XbuLzLI7+wLuKbZSyBAROaXk+myEDkxMz3ndZG52cT7xBcyS2
+ 1/7l4aU8u6Jmi7b26h3goiFrOKFqyNvws9/Gp6OXtGm6LXzibbB5ktCX1h/JOOsaKxL0sG
+ +CDC0yN4Zv4x25dMp5fCFZ5u7MWgejE=
+Received: from mail-pl1-f200.google.com (mail-pl1-f200.google.com
+ [209.85.214.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-518-zdKcrJrdMz-BYrmEtglGJA-1; Mon, 08 May 2023 07:44:25 -0400
+X-MC-Unique: zdKcrJrdMz-BYrmEtglGJA-1
+Received: by mail-pl1-f200.google.com with SMTP id
+ d9443c01a7336-1aae6179e68so25448705ad.2
+ for <qemu-devel@nongnu.org>; Mon, 08 May 2023 04:44:24 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1683546264; x=1686138264;
+ h=cc:to:subject:message-id:date:in-reply-to:mime-version:references
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=29ZIZ5JVCd9jLI43OYeE8K+nR3V5p1DK6qO3hiQhkzY=;
+ b=TJetWqRb76+3oVY+4bq9mbA6t8DspPjz8SP3Y3lTR6hKP+WQleR/CpNOJz1pUy8ta4
+ UfL5S82C8U2I503OkYkTS7MLvfyBE5I+0Dg71BDklT55EvEXUy4UwsuAWjVVKuRZeyWP
+ 9NkAig+BA/91ZRSjYT/yTX1jnB9DOzoLSzGJr0g0+sPfcuMoTL5lHDI7SY6pq/qgd7Po
+ 726xIKsv8SNQn5HrF0nRuZbnJkUrQdw5nlccTZM/XVVGmh0xfjyQmd2Ocp53lI4WvOik
+ fo3ff/Me0KdhF1g2fglnkx2HkNWCRyF/oZ5aKoL+09hGDCWVQr+zFX35iEuEo4Fz+pCJ
+ Oy6w==
+X-Gm-Message-State: AC+VfDyLQsyyAa9ZyEVhmQl2oJRoGtSPJFWpF2kukcSrc3/Pyzz2eoNA
+ iLmCYIO0S53ZxmPhFX53K43R2SV+Dz/8Ec8hunLPnhm9qKbdp0nWKtqPIJ1LoCk0HI12mPYM7F9
+ LLU4zGYjYWzLA8DehVNYnhxpYekSyyqw=
+X-Received: by 2002:a17:902:dac2:b0:1ac:4d3e:1bf5 with SMTP id
+ q2-20020a170902dac200b001ac4d3e1bf5mr11571730plx.23.1683546263792; 
+ Mon, 08 May 2023 04:44:23 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ41B3sVq5Xu7IdkzggbTpdVqFCbiHFDZ+9gvUuKKaBVwv/AD9WOZ+t/PM5cT5RiERD7d8gHTQ3MRjuSRqRKrbg=
+X-Received: by 2002:a17:902:dac2:b0:1ac:4d3e:1bf5 with SMTP id
+ q2-20020a170902dac200b001ac4d3e1bf5mr11571707plx.23.1683546263501; Mon, 08
+ May 2023 04:44:23 -0700 (PDT)
+Received: from 744723338238 named unknown by gmailapi.google.com with
+ HTTPREST; Mon, 8 May 2023 04:44:22 -0700
+From: Andrea Bolognani <abologna@redhat.com>
+References: <20230425102545.162888-1-sunilvl@ventanamicro.com>
+ <b520d913-27a9-dea5-53c8-af1cdd967ab2@canonical.com>
+ <ZFiRr8d2zyAJlZJv@sunil-laptop>
+ <CABJz62OTBEOMzcXLYc=DqRwH8N4DP=o0-kCfALwoREZVyOxLPg@mail.gmail.com>
+ <ZFjbwh3CdljaHEZZ@sunil-laptop>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-Cc: Anton Johansson <anjo@rev.ng>
-References: <20230505212447.374546-1-richard.henderson@linaro.org>
- <20230505212447.374546-6-richard.henderson@linaro.org>
-Content-Language: fr
-From: Laurent Vivier <laurent@vivier.eu>
-Subject: Re: [PULL 05/42] target/m68k: Finish conversion to tcg_gen_qemu_{ld, 
- st}_*
-In-Reply-To: <20230505212447.374546-6-richard.henderson@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:ZzVDQjyw6mxsIWMx5zExwvOOzmp6gP798RSiCQZsAd7SXFATjW+
- HkK4NpF68KvMdpV/Si+wdpt7Ux5SnJAYPqTbjefkhnhbQUTmq/YyCsovXaAKmYgJXcvLuCD
- Hj+mThlwW6LwNAcelTNj9EaBKahebfSWHDIOMj4eLjTVqysyIQaYQyPlanOsd8+M4UEBIWD
- x4XUOiOE6Ts31bgVTGJ7A==
-UI-OutboundReport: notjunk:1;M01:P0:afz58AzSw68=;CaYumHiI7H6xQ/H4WQoku2LE0aw
- vDXmiLTG5w1oVbs02Iot/zULObWUM6q2NDdKTj2L75b0NiV9yao2fchx/uyKVvx79iGmvaf/u
- 1jUIZhj0Lx4Qy8iGHbMzR2sgnM5aYpUNn0YaUm8c4/1u/0ngGqe9CfRBDYlr45IihtsVIiNQl
- ZU1PNlpaBdsX94wmmPMEk5ap6/Z/kUPr0/qPU6KxCuKKdThFLvoxUKy1KkzY3xhjvDX3GDzsX
- 9siTH4g0DlmQoYj2eMYvu/xFfeRe7XHd6436rprNLJwCfclOujs2K0rVVFqcvt6hoL65JmQTD
- 2HXIit8xjcnUu0h6o6o3zswQZrX2OtzhQe0rxFjRP9mgrxPBP7Qj19zyMzsbWrlC8ja+dbfro
- YycMkl0aWI29PtxVz5gBVC2TUzT9urp0TvvGQBR8pIPpA+HfWK5nP8y4k3xd3GBMB+Mf1GANX
- BwWrbrPAF8O6pitz4o/0LhUaofZREwivZMaNXBl/ZO8BinpC/+5xS2UZVCMVKTm3GAsOB1SwV
- 0I6PqKDnPMjLTx/NTeV0lVXMqyeC4EdF05SJK0TweCRe0ZO5Ao5oOGQQlHkcsNO7tU8WVBxP8
- iGlKkeaunqnA+Q2Oxs3n4nbUAAjeoRWmnOOyWqyoHmfAOfMbUquV6L4Ji2rmSQcrIasrKafqJ
- fmVrP275g85FrpaRPbDTtmkfAT33Ao6dt+hX43+INA==
-Received-SPF: none client-ip=212.227.126.134; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -36
-X-Spam_score: -3.7
-X-Spam_bar: ---
-X-Spam_report: (-3.7 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.802,
+In-Reply-To: <ZFjbwh3CdljaHEZZ@sunil-laptop>
+Date: Mon, 8 May 2023 04:44:22 -0700
+Message-ID: <CABJz62P3u0d-ggQw-B_6AYTNu8Z9-TOs+UOn2vM8NNV0mQKR+Q@mail.gmail.com>
+Subject: Re: [PATCH v2] hw/riscv: virt: Assume M-mode FW in pflash0 only when
+ "-bios none"
+To: Sunil V L <sunilvl@ventanamicro.com>
+Cc: Heinrich Schuchardt <heinrich.schuchardt@canonical.com>,
+ qemu-devel@nongnu.org, Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <alistair.francis@wdc.com>, 
+ Bin Meng <bin.meng@windriver.com>, Weiwei Li <liweiwei@iscas.ac.cn>, 
+ Daniel Henrique Barboza <dbarboza@ventanamicro.com>,
+ Liu Zhiwei <zhiwei_liu@linux.alibaba.com>, qemu-riscv@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=abologna@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -73,217 +102,53 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Le 05/05/2023 à 23:24, Richard Henderson a écrit :
-> Convert away from the old interface with the implicit
-> MemOp argument.
-> 
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> Reviewed-by: Anton Johansson <anjo@rev.ng>
-> Message-Id: <20230502135741.1158035-5-richard.henderson@linaro.org>
-> ---
->   target/m68k/translate.c | 76 ++++++++++++++---------------------------
->   1 file changed, 25 insertions(+), 51 deletions(-)
-> 
-> diff --git a/target/m68k/translate.c b/target/m68k/translate.c
-> index 422f4652f1..744eb3748b 100644
-> --- a/target/m68k/translate.c
-> +++ b/target/m68k/translate.c
-> @@ -304,23 +304,14 @@ static inline void gen_addr_fault(DisasContext *s)
->   static inline TCGv gen_load(DisasContext *s, int opsize, TCGv addr,
->                               int sign, int index)
->   {
-> -    TCGv tmp;
-> -    tmp = tcg_temp_new_i32();
-> -    switch(opsize) {
-> +    TCGv tmp = tcg_temp_new_i32();
-> +
-> +    switch (opsize) {
->       case OS_BYTE:
-> -        if (sign)
-> -            tcg_gen_qemu_ld8s(tmp, addr, index);
-> -        else
-> -            tcg_gen_qemu_ld8u(tmp, addr, index);
-> -        break;
->       case OS_WORD:
-> -        if (sign)
-> -            tcg_gen_qemu_ld16s(tmp, addr, index);
-> -        else
-> -            tcg_gen_qemu_ld16u(tmp, addr, index);
-> -        break;
->       case OS_LONG:
-> -        tcg_gen_qemu_ld32u(tmp, addr, index);
-> +        tcg_gen_qemu_ld_tl(tmp, addr, index,
-> +                           opsize | (sign ? MO_SIGN : 0) | MO_TE);
->           break;
->       default:
->           g_assert_not_reached();
-> @@ -332,15 +323,11 @@ static inline TCGv gen_load(DisasContext *s, int opsize, TCGv addr,
->   static inline void gen_store(DisasContext *s, int opsize, TCGv addr, TCGv val,
->                                int index)
->   {
-> -    switch(opsize) {
-> +    switch (opsize) {
->       case OS_BYTE:
-> -        tcg_gen_qemu_st8(val, addr, index);
-> -        break;
->       case OS_WORD:
-> -        tcg_gen_qemu_st16(val, addr, index);
-> -        break;
->       case OS_LONG:
-> -        tcg_gen_qemu_st32(val, addr, index);
-> +        tcg_gen_qemu_st_tl(val, addr, index, opsize | MO_TE);
->           break;
->       default:
->           g_assert_not_reached();
-> @@ -971,23 +958,16 @@ static void gen_load_fp(DisasContext *s, int opsize, TCGv addr, TCGv_ptr fp,
->       tmp = tcg_temp_new();
->       switch (opsize) {
->       case OS_BYTE:
-> -        tcg_gen_qemu_ld8s(tmp, addr, index);
-> -        gen_helper_exts32(cpu_env, fp, tmp);
-> -        break;
->       case OS_WORD:
-> -        tcg_gen_qemu_ld16s(tmp, addr, index);
-> -        gen_helper_exts32(cpu_env, fp, tmp);
-> -        break;
-> -    case OS_LONG:
-> -        tcg_gen_qemu_ld32u(tmp, addr, index);
-> +        tcg_gen_qemu_ld_tl(tmp, addr, index, opsize | MO_SIGN | MO_TE);
->           gen_helper_exts32(cpu_env, fp, tmp);
->           break;
->       case OS_SINGLE:
-> -        tcg_gen_qemu_ld32u(tmp, addr, index);
-> +        tcg_gen_qemu_ld_tl(tmp, addr, index, MO_TEUL);
->           gen_helper_extf32(cpu_env, fp, tmp);
->           break;
->       case OS_DOUBLE:
-> -        tcg_gen_qemu_ld64(t64, addr, index);
-> +        tcg_gen_qemu_ld_i64(t64, addr, index, MO_TEUQ);
->           gen_helper_extf64(cpu_env, fp, t64);
->           break;
->       case OS_EXTENDED:
-> @@ -995,11 +975,11 @@ static void gen_load_fp(DisasContext *s, int opsize, TCGv addr, TCGv_ptr fp,
->               gen_exception(s, s->base.pc_next, EXCP_FP_UNIMP);
->               break;
->           }
-> -        tcg_gen_qemu_ld32u(tmp, addr, index);
-> +        tcg_gen_qemu_ld_i32(tmp, addr, index, MO_TEUL);
->           tcg_gen_shri_i32(tmp, tmp, 16);
->           tcg_gen_st16_i32(tmp, fp, offsetof(FPReg, l.upper));
->           tcg_gen_addi_i32(tmp, addr, 4);
-> -        tcg_gen_qemu_ld64(t64, tmp, index);
-> +        tcg_gen_qemu_ld_i64(t64, tmp, index, MO_TEUQ);
->           tcg_gen_st_i64(t64, fp, offsetof(FPReg, l.lower));
->           break;
->       case OS_PACKED:
-> @@ -1024,24 +1004,18 @@ static void gen_store_fp(DisasContext *s, int opsize, TCGv addr, TCGv_ptr fp,
->       tmp = tcg_temp_new();
->       switch (opsize) {
->       case OS_BYTE:
-> -        gen_helper_reds32(tmp, cpu_env, fp);
-> -        tcg_gen_qemu_st8(tmp, addr, index);
-> -        break;
->       case OS_WORD:
-> -        gen_helper_reds32(tmp, cpu_env, fp);
-> -        tcg_gen_qemu_st16(tmp, addr, index);
-> -        break;
->       case OS_LONG:
->           gen_helper_reds32(tmp, cpu_env, fp);
-> -        tcg_gen_qemu_st32(tmp, addr, index);
-> +        tcg_gen_qemu_st_tl(tmp, addr, index, opsize | MO_TE);
->           break;
->       case OS_SINGLE:
->           gen_helper_redf32(tmp, cpu_env, fp);
-> -        tcg_gen_qemu_st32(tmp, addr, index);
-> +        tcg_gen_qemu_st_tl(tmp, addr, index, MO_TEUL);
->           break;
->       case OS_DOUBLE:
->           gen_helper_redf64(t64, cpu_env, fp);
-> -        tcg_gen_qemu_st64(t64, addr, index);
-> +        tcg_gen_qemu_st_i64(t64, addr, index, MO_TEUQ);
->           break;
->       case OS_EXTENDED:
->           if (m68k_feature(s->env, M68K_FEATURE_CF_FPU)) {
-> @@ -1050,10 +1024,10 @@ static void gen_store_fp(DisasContext *s, int opsize, TCGv addr, TCGv_ptr fp,
->           }
->           tcg_gen_ld16u_i32(tmp, fp, offsetof(FPReg, l.upper));
->           tcg_gen_shli_i32(tmp, tmp, 16);
-> -        tcg_gen_qemu_st32(tmp, addr, index);
-> +        tcg_gen_qemu_st_i32(tmp, addr, index, MO_TEUL);
->           tcg_gen_addi_i32(tmp, addr, 4);
->           tcg_gen_ld_i64(t64, fp, offsetof(FPReg, l.lower));
-> -        tcg_gen_qemu_st64(t64, tmp, index);
-> +        tcg_gen_qemu_st_i64(t64, tmp, index, MO_TEUQ);
->           break;
->       case OS_PACKED:
->           /*
-> @@ -2079,14 +2053,14 @@ DISAS_INSN(movep)
->       if (insn & 0x80) {
->           for ( ; i > 0 ; i--) {
->               tcg_gen_shri_i32(dbuf, reg, (i - 1) * 8);
-> -            tcg_gen_qemu_st8(dbuf, abuf, IS_USER(s));
-> +            tcg_gen_qemu_st_i32(dbuf, abuf, IS_USER(s), MO_UB);
->               if (i > 1) {
->                   tcg_gen_addi_i32(abuf, abuf, 2);
->               }
->           }
->       } else {
->           for ( ; i > 0 ; i--) {
-> -            tcg_gen_qemu_ld8u(dbuf, abuf, IS_USER(s));
-> +            tcg_gen_qemu_ld_tl(dbuf, abuf, IS_USER(s), MO_UB);
->               tcg_gen_deposit_i32(reg, reg, dbuf, (i - 1) * 8, 8);
->               if (i > 1) {
->                   tcg_gen_addi_i32(abuf, abuf, 2);
-> @@ -4337,14 +4311,14 @@ static void m68k_copy_line(TCGv dst, TCGv src, int index)
->       t1 = tcg_temp_new_i64();
->   
->       tcg_gen_andi_i32(addr, src, ~15);
-> -    tcg_gen_qemu_ld64(t0, addr, index);
-> +    tcg_gen_qemu_ld_i64(t0, addr, index, MO_TEUQ);
->       tcg_gen_addi_i32(addr, addr, 8);
-> -    tcg_gen_qemu_ld64(t1, addr, index);
-> +    tcg_gen_qemu_ld_i64(t1, addr, index, MO_TEUQ);
->   
->       tcg_gen_andi_i32(addr, dst, ~15);
-> -    tcg_gen_qemu_st64(t0, addr, index);
-> +    tcg_gen_qemu_st_i64(t0, addr, index, MO_TEUQ);
->       tcg_gen_addi_i32(addr, addr, 8);
-> -    tcg_gen_qemu_st64(t1, addr, index);
-> +    tcg_gen_qemu_st_i64(t1, addr, index, MO_TEUQ);
->   }
->   
->   DISAS_INSN(move16_reg)
-> @@ -4767,7 +4741,7 @@ static void gen_qemu_store_fcr(DisasContext *s, TCGv addr, int reg)
->   
->       tmp = tcg_temp_new();
->       gen_load_fcr(s, tmp, reg);
-> -    tcg_gen_qemu_st32(tmp, addr, index);
-> +    tcg_gen_qemu_st_tl(tmp, addr, index, MO_TEUL);
->   }
->   
->   static void gen_qemu_load_fcr(DisasContext *s, TCGv addr, int reg)
-> @@ -4776,7 +4750,7 @@ static void gen_qemu_load_fcr(DisasContext *s, TCGv addr, int reg)
->       TCGv tmp;
->   
->       tmp = tcg_temp_new();
-> -    tcg_gen_qemu_ld32u(tmp, addr, index);
-> +    tcg_gen_qemu_ld_tl(tmp, addr, index, MO_TEUL);
->       gen_store_fcr(s, tmp, reg);
->   }
->   
+On Mon, May 08, 2023 at 04:53:46PM +0530, Sunil V L wrote:
+> On Mon, May 08, 2023 at 03:00:02AM -0700, Andrea Bolognani wrote:
+> > I think that it's more important to align with other architectures.
+> >
+> > The number of people currently running edk2 on RISC-V is probably
+> > vanishingly small, and in my opinion requiring them to tweak their
+> > command lines a bit is a fair price to pay to avoid having to carry a
+> > subtle difference between architectures for years to come.
+>
+> It is not just tweaking the command line. The current EDK2 will not work
+> anymore if code is moved to plfash 0 since EDK2 assumed its entry point
+> is in pflash1. I agree there may not be too many users but if we have
+> to align with other archs, there will be combinations of qemu and
+> edk2 versions which won't work.
 
-This patch introduces a problem:
+Right.
 
-ERROR:.../target/m68k/translate.c:993:gen_load_fp: code should not be reached
-Bail out! ERROR:.../target/m68k/translate.c:993:gen_load_fp: code should not be reached
+> > With that in mind, my preference would be to go back to v1.
+>
+> Thanks!. If this is the preference,  we can request people to use proper
+> versions of EDK2 with different qemu versions.
 
-$ wget http://vivier.eu/debian/ROMS/m68k-virt.petitboot
-$ wget http://vivier.eu/debian/ROMS/m68k-virt.vmlinux
+Yeah, in the (not so) long run this will just not matter, as the
+versions of edk2 and QEMU available to people will all implement the
+new behavior. Better to optimize for the long future ahead of us
+rather than causing ongoing pain for the sake of the few users of a
+work-in-progress board.
 
-$ qemu-system-m68k -M virt   -m 3399672K   -chardev stdio,signal=off,mux=on,id=char0   -serial 
-chardev:char0   -mon chardev=char0,mode=readline   -device virtio-rng-device  -kernel 
-m68k-virt.vmlinux -initrd m68k-virt.petitboot
+> > Taking a step back, what is even the use case for having M-mode code
+> > in pflash0? If you want to use an M-mode firmware, can't you just use
+> > -bios instead? In other words, can we change the behavior so that
+> > pflash being present always mean loading S-mode firmware off it?
+>
+> TBH, I don't know. I am sure Alistair would know since it was added in
+> https://github.com/qemu/qemu/commit/1c20d3ff6004b600336c52cbef9f134fad3ccd94
+> I don't think opensbi can be launched from pflash. So, it may be some
+> other use case which I am now aware of.
+>
+> I will be happy if this can be avoided by using -bios.
 
-Thanks,
-Laurent
+The actual commit would be [1], from late 2019. Things might have
+changed in the intervening ~3.5 years. Let's wait to hear from
+Alistair :)
+
+
+[1] https://github.com/qemu/qemu/commit/2738b3b555efaf206b814677966e8e3510c64a8a
+-- 
+Andrea Bolognani / Red Hat / Virtualization
+
 
