@@ -2,83 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27DDA6FAE8C
-	for <lists+qemu-devel@lfdr.de>; Mon,  8 May 2023 13:45:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C48E26FAEE8
+	for <lists+qemu-devel@lfdr.de>; Mon,  8 May 2023 13:48:51 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pvzI9-0008UR-9Y; Mon, 08 May 2023 07:44:33 -0400
+	id 1pvzLd-0001en-Dv; Mon, 08 May 2023 07:48:09 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <abologna@redhat.com>)
- id 1pvzI7-0008Tp-IU
- for qemu-devel@nongnu.org; Mon, 08 May 2023 07:44:31 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pvzLZ-0001ed-4v
+ for qemu-devel@nongnu.org; Mon, 08 May 2023 07:48:05 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <abologna@redhat.com>)
- id 1pvzI4-0008R1-Nq
- for qemu-devel@nongnu.org; Mon, 08 May 2023 07:44:31 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pvzLX-0000rs-AC
+ for qemu-devel@nongnu.org; Mon, 08 May 2023 07:48:04 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1683546266;
+ s=mimecast20190719; t=1683546482;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=29ZIZ5JVCd9jLI43OYeE8K+nR3V5p1DK6qO3hiQhkzY=;
- b=gKOKwnce+J88wEK3l2I57XbuLzLI7+wLuKbZSyBAROaXk+myEDkxMz3ndZG52cT7xBcyS2
- 1/7l4aU8u6Jmi7b26h3goiFrOKFqyNvws9/Gp6OXtGm6LXzibbB5ktCX1h/JOOsaKxL0sG
- +CDC0yN4Zv4x25dMp5fCFZ5u7MWgejE=
-Received: from mail-pl1-f200.google.com (mail-pl1-f200.google.com
- [209.85.214.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=4NU8Ina6CYU3EE/dixRSFMPxF1uBRyqYq6HXZcQeb/w=;
+ b=hYivVi/WNg9jQcoyp2Na4wDWfuza3YHX8N7VCwmTUCzvFySZtFSoggRBYINoLOkSl2wRGr
+ BQQ4TFxYth1fRkMHTBAZOkiTDW4E0Lyy4KHNM2g2vzB20DH7E9Mq2m3RXTUvFAvMaNVd0r
+ 03LmQj0ssej36TyRyMwMOVuFJRzLWTk=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-518-zdKcrJrdMz-BYrmEtglGJA-1; Mon, 08 May 2023 07:44:25 -0400
-X-MC-Unique: zdKcrJrdMz-BYrmEtglGJA-1
-Received: by mail-pl1-f200.google.com with SMTP id
- d9443c01a7336-1aae6179e68so25448705ad.2
- for <qemu-devel@nongnu.org>; Mon, 08 May 2023 04:44:24 -0700 (PDT)
+ us-mta-616-dgKQPpI9NYOy8qTgJGeOGw-1; Mon, 08 May 2023 07:48:01 -0400
+X-MC-Unique: dgKQPpI9NYOy8qTgJGeOGw-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ ffacd0b85a97d-307814dd87eso1103078f8f.0
+ for <qemu-devel@nongnu.org>; Mon, 08 May 2023 04:48:00 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683546264; x=1686138264;
- h=cc:to:subject:message-id:date:in-reply-to:mime-version:references
- :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=29ZIZ5JVCd9jLI43OYeE8K+nR3V5p1DK6qO3hiQhkzY=;
- b=TJetWqRb76+3oVY+4bq9mbA6t8DspPjz8SP3Y3lTR6hKP+WQleR/CpNOJz1pUy8ta4
- UfL5S82C8U2I503OkYkTS7MLvfyBE5I+0Dg71BDklT55EvEXUy4UwsuAWjVVKuRZeyWP
- 9NkAig+BA/91ZRSjYT/yTX1jnB9DOzoLSzGJr0g0+sPfcuMoTL5lHDI7SY6pq/qgd7Po
- 726xIKsv8SNQn5HrF0nRuZbnJkUrQdw5nlccTZM/XVVGmh0xfjyQmd2Ocp53lI4WvOik
- fo3ff/Me0KdhF1g2fglnkx2HkNWCRyF/oZ5aKoL+09hGDCWVQr+zFX35iEuEo4Fz+pCJ
- Oy6w==
-X-Gm-Message-State: AC+VfDyLQsyyAa9ZyEVhmQl2oJRoGtSPJFWpF2kukcSrc3/Pyzz2eoNA
- iLmCYIO0S53ZxmPhFX53K43R2SV+Dz/8Ec8hunLPnhm9qKbdp0nWKtqPIJ1LoCk0HI12mPYM7F9
- LLU4zGYjYWzLA8DehVNYnhxpYekSyyqw=
-X-Received: by 2002:a17:902:dac2:b0:1ac:4d3e:1bf5 with SMTP id
- q2-20020a170902dac200b001ac4d3e1bf5mr11571730plx.23.1683546263792; 
- Mon, 08 May 2023 04:44:23 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ41B3sVq5Xu7IdkzggbTpdVqFCbiHFDZ+9gvUuKKaBVwv/AD9WOZ+t/PM5cT5RiERD7d8gHTQ3MRjuSRqRKrbg=
-X-Received: by 2002:a17:902:dac2:b0:1ac:4d3e:1bf5 with SMTP id
- q2-20020a170902dac200b001ac4d3e1bf5mr11571707plx.23.1683546263501; Mon, 08
- May 2023 04:44:23 -0700 (PDT)
-Received: from 744723338238 named unknown by gmailapi.google.com with
- HTTPREST; Mon, 8 May 2023 04:44:22 -0700
-From: Andrea Bolognani <abologna@redhat.com>
-References: <20230425102545.162888-1-sunilvl@ventanamicro.com>
- <b520d913-27a9-dea5-53c8-af1cdd967ab2@canonical.com>
- <ZFiRr8d2zyAJlZJv@sunil-laptop>
- <CABJz62OTBEOMzcXLYc=DqRwH8N4DP=o0-kCfALwoREZVyOxLPg@mail.gmail.com>
- <ZFjbwh3CdljaHEZZ@sunil-laptop>
+ d=1e100.net; s=20221208; t=1683546480; x=1686138480;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=4NU8Ina6CYU3EE/dixRSFMPxF1uBRyqYq6HXZcQeb/w=;
+ b=OA1T5zcjO0oB5UPXvN7WmKBO/lDTai8qCmgRL6j6Qe9aBuCSputrP5Y05MDAx3BI9W
+ NjVPXENcYvy3xdSGO5knpKCVR2V1uM5UXsRULQqRSpre4Q61QfCiM0IB4isVrgWn7DN9
+ RDeG5+K+tAHnbxV7KkVWcx2yqdOl1q3BRL8MOocm6INQdDUi9Wj3uktp2rKNebxg7+bp
+ Fb0Y5PS2xlB1dAuo94XaU8RBlIoSe8px482LSg9GXp+RPmfWPtI6HVPLL4dGud4tjIyf
+ AG4MNzYgLnJ3nOlJtsU7xL2ycyo3nTUEXNTNpiiKXYB3KLwjWfZT/aBXsTvxP8TscXrw
+ ZyPQ==
+X-Gm-Message-State: AC+VfDyvchOxuJupRF9bsAMOBm0oVLqWozobIclg8q0xEV9tj0t1DyWz
+ h1w6Qx7uA5Lhv/5DIShvLzETfSbn0GPgLqRnXOx5uxEJFYFthv3byum1lPE2QrjjE7CWOp40IfX
+ eTLayX8dpAlO0k7w=
+X-Received: by 2002:a05:6000:1a48:b0:306:34e4:be40 with SMTP id
+ t8-20020a0560001a4800b0030634e4be40mr6617852wry.33.1683546479985; 
+ Mon, 08 May 2023 04:47:59 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ6m4YT07r4alvio77xlZYZfCtmyGvZ2pbaL+WiOATdXlwgIrTeGWGHGGgQhoqk8NVYo0bnSbw==
+X-Received: by 2002:a05:6000:1a48:b0:306:34e4:be40 with SMTP id
+ t8-20020a0560001a4800b0030634e4be40mr6617845wry.33.1683546479702; 
+ Mon, 08 May 2023 04:47:59 -0700 (PDT)
+Received: from redhat.com ([31.187.78.15]) by smtp.gmail.com with ESMTPSA id
+ e13-20020a5d65cd000000b0030789698eebsm7496183wrw.89.2023.05.08.04.47.58
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 08 May 2023 04:47:59 -0700 (PDT)
+Date: Mon, 8 May 2023 07:47:55 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Michael Tokarev <mjt@tls.msk.ru>
+Cc: QEMU Developers <qemu-devel@nongnu.org>,
+ Markus Armbruster <armbru@redhat.com>
+Subject: Re: missing boot rom: is it really a fatal error?
+Message-ID: <20230508074529-mutt-send-email-mst@kernel.org>
+References: <d6f3e06c-ee84-5101-c583-220aa90c0c12@msgid.tls.msk.ru>
+ <20230508062407-mutt-send-email-mst@kernel.org>
+ <5492f69f-021d-cf25-5a92-8310255fddca@msgid.tls.msk.ru>
 MIME-Version: 1.0
-In-Reply-To: <ZFjbwh3CdljaHEZZ@sunil-laptop>
-Date: Mon, 8 May 2023 04:44:22 -0700
-Message-ID: <CABJz62P3u0d-ggQw-B_6AYTNu8Z9-TOs+UOn2vM8NNV0mQKR+Q@mail.gmail.com>
-Subject: Re: [PATCH v2] hw/riscv: virt: Assume M-mode FW in pflash0 only when
- "-bios none"
-To: Sunil V L <sunilvl@ventanamicro.com>
-Cc: Heinrich Schuchardt <heinrich.schuchardt@canonical.com>,
- qemu-devel@nongnu.org, Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <alistair.francis@wdc.com>, 
- Bin Meng <bin.meng@windriver.com>, Weiwei Li <liweiwei@iscas.ac.cn>, 
- Daniel Henrique Barboza <dbarboza@ventanamicro.com>,
- Liu Zhiwei <zhiwei_liu@linux.alibaba.com>, qemu-riscv@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=abologna@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <5492f69f-021d-cf25-5a92-8310255fddca@msgid.tls.msk.ru>
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -102,53 +97,43 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, May 08, 2023 at 04:53:46PM +0530, Sunil V L wrote:
-> On Mon, May 08, 2023 at 03:00:02AM -0700, Andrea Bolognani wrote:
-> > I think that it's more important to align with other architectures.
-> >
-> > The number of people currently running edk2 on RISC-V is probably
-> > vanishingly small, and in my opinion requiring them to tweak their
-> > command lines a bit is a fair price to pay to avoid having to carry a
-> > subtle difference between architectures for years to come.
->
-> It is not just tweaking the command line. The current EDK2 will not work
-> anymore if code is moved to plfash 0 since EDK2 assumed its entry point
-> is in pflash1. I agree there may not be too many users but if we have
-> to align with other archs, there will be combinations of qemu and
-> edk2 versions which won't work.
+On Mon, May 08, 2023 at 01:42:04PM +0300, Michael Tokarev wrote:
+> 08.05.2023 13:28, Michael S. Tsirkin wrote:
+> > On Sun, May 07, 2023 at 08:56:23PM +0300, Michael Tokarev wrote:
+> ..
+> 
+> > > I'm about to revert that old change on debian, to make it just a warning instead
+> > > of an error (the code is different now, but the same principle applies), - because
+> > > I dislike dependencies which are useless 99.9% of the time and are trivial to
+> > > install when actually needed.
+> ..
+> > I advise against it.
+> > If you boot guest on a system with boot rom not installed you will not
+> > be able to migrate to a system with boot rom installed.
+> > why not? because we don't know how big to make the rom BAR.
+> > And users will not discover until much much later after they have
+> > painted themselves into a corner.
+> 
+> Yes, I know about the migration. Actually there's an old bug report open
+> against debian qemu package, - the context is similar to the old bios128
+> vs bios256 thing in qemu upstream, - boot roms might change in size too.
+> 
+> In this context though, the talk is not about migration at all. The missing
+> dep is in Xen HVM qemu package, a xen-only build of qemu-system-i386. And
+> this one fails to start unless the boot roms are provided. It is not even
+> capable of migration to begin with :)
+> 
+> Thank you for the reminder, - very useful.
+> 
+> /mjt
 
-Right.
+I guess we decided we'd rather not handle reports from users about net
+boot not working. It's true most users don't need net boot but then
+that's true for most qemu functionality - 99% of users
+probably need 1% of the functionality. It's just a different 1% for each
+user...
 
-> > With that in mind, my preference would be to go back to v1.
->
-> Thanks!. If this is the preference,  we can request people to use proper
-> versions of EDK2 with different qemu versions.
-
-Yeah, in the (not so) long run this will just not matter, as the
-versions of edk2 and QEMU available to people will all implement the
-new behavior. Better to optimize for the long future ahead of us
-rather than causing ongoing pain for the sake of the few users of a
-work-in-progress board.
-
-> > Taking a step back, what is even the use case for having M-mode code
-> > in pflash0? If you want to use an M-mode firmware, can't you just use
-> > -bios instead? In other words, can we change the behavior so that
-> > pflash being present always mean loading S-mode firmware off it?
->
-> TBH, I don't know. I am sure Alistair would know since it was added in
-> https://github.com/qemu/qemu/commit/1c20d3ff6004b600336c52cbef9f134fad3ccd94
-> I don't think opensbi can be launched from pflash. So, it may be some
-> other use case which I am now aware of.
->
-> I will be happy if this can be avoided by using -bios.
-
-The actual commit would be [1], from late 2019. Things might have
-changed in the intervening ~3.5 years. Let's wait to hear from
-Alistair :)
-
-
-[1] https://github.com/qemu/qemu/commit/2738b3b555efaf206b814677966e8e3510c64a8a
 -- 
-Andrea Bolognani / Red Hat / Virtualization
+MST
 
 
