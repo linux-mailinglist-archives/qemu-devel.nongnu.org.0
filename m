@@ -2,71 +2,100 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83D1B6FC303
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 May 2023 11:43:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B0D7A6FC339
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 May 2023 11:52:44 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pwJri-0001OB-18; Tue, 09 May 2023 05:42:38 -0400
+	id 1pwK0I-0004Xf-1w; Tue, 09 May 2023 05:51:30 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <slp@redhat.com>) id 1pwJrb-0001NU-7C
- for qemu-devel@nongnu.org; Tue, 09 May 2023 05:42:31 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <harshpb@linux.ibm.com>)
+ id 1pwK0F-0004XQ-NW; Tue, 09 May 2023 05:51:27 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <slp@redhat.com>) id 1pwJrZ-0003xa-Dc
- for qemu-devel@nongnu.org; Tue, 09 May 2023 05:42:30 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1683625348;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=/kkFsoVk90suBF732mvT2fQ4LKdCXBmXhmOjzJEvsFQ=;
- b=X6yOpArn+mdEYAqL0v2rL4nlBvBnMl+mWuGEAp22opeJwVW7p+Ls9OoY5XeEQKB4YDE3bz
- n5OFpUiaMTcXsQ7kwUQZwTPrmIUyWpgX3Wf23KXvBpQYbfvErXuqn9mNgV3F4zHF447xku
- /muSJQ+2opqp7+/tQeyAS3r1aR2r7sc=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-32-GZKFmiF_OOWH5w8dApELMA-1; Tue, 09 May 2023 05:42:26 -0400
-X-MC-Unique: GZKFmiF_OOWH5w8dApELMA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
- [10.11.54.3])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 319471C08795;
- Tue,  9 May 2023 09:42:26 +0000 (UTC)
-Received: from localhost (unknown [10.42.28.197])
- by smtp.corp.redhat.com (Postfix) with ESMTP id BA22E1121314;
- Tue,  9 May 2023 09:42:25 +0000 (UTC)
-Date: Tue, 9 May 2023 11:43:45 +0200
-From: Sergio Lopez <slp@redhat.com>
-To: Markus Armbruster <armbru@redhat.com>
-Cc: qemu-devel@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>, 
- Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>, 
- Paolo Bonzini <pbonzini@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>, 
- Eric Blake <eblake@redhat.com>
-Subject: Re: [PATCH v3 2/6] ui: add the infrastructure to support MT events
-Message-ID: <rjkw62vfvujpsgmtjak7sqccewmnpc4q2oizfmqlpliyuhjgrj@rku5pxt33ihn>
-References: <20230413152120.53967-1-slp@redhat.com>
- <20230413152120.53967-3-slp@redhat.com>
- <87sfcybwu3.fsf@pond.sub.org>
+ (Exim 4.90_1) (envelope-from <harshpb@linux.ibm.com>)
+ id 1pwK0D-0005jE-Pz; Tue, 09 May 2023 05:51:27 -0400
+Received: from pps.filterd (m0353726.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 3499To4p000446; Tue, 9 May 2023 09:51:23 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=date : from : to : cc :
+ subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=pp1; bh=AeYuuT5syceWlJOKkFsLWqGSXq/t1My6a3+CF+Dt1Dc=;
+ b=jX+hMF/TpD+fQRgNk/CSPeeor0hdOVF9TSY4uxW1RkbnI0UWnZGnj2sTHUAtBl97F/IJ
+ xSOxi29ysNWZlcTCmXXx5nZngfT9RG9KmbAZtMa7xY7Fin8tl6FRW7QSeWkVCoQlULPm
+ re46NyYVM55O9O/a0CnFChLMkoyJ+gpxe3dQ/hP1iY6GEfbyKpwBCHrNEkrnh93EC8QP
+ kPRFJmetE0QvaEwuAxgNr8iyEtxaNoeIOnS9D4b099TRTlW9xaLpBtSpCehIYp/lFXvW
+ cCDlNv26ZlFXs4QHQI921hPcc+Yaduqd1YZcUV8lrHInuyg7l2jJ2Zw/tGQtyR+NJo6B 0A== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3qfjnhadv6-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 09 May 2023 09:51:22 +0000
+Received: from m0353726.ppops.net (m0353726.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 3499gar5000562;
+ Tue, 9 May 2023 09:51:21 GMT
+Received: from ppma03fra.de.ibm.com (6b.4a.5195.ip4.static.sl-reverse.com
+ [149.81.74.107])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3qfjnhadtr-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 09 May 2023 09:51:21 +0000
+Received: from pps.filterd (ppma03fra.de.ibm.com [127.0.0.1])
+ by ppma03fra.de.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 3494FEWf011950;
+ Tue, 9 May 2023 09:51:19 GMT
+Received: from smtprelay01.fra02v.mail.ibm.com ([9.218.2.227])
+ by ppma03fra.de.ibm.com (PPS) with ESMTPS id 3qf7s8g9fx-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 09 May 2023 09:51:19 +0000
+Received: from smtpav06.fra02v.mail.ibm.com (smtpav06.fra02v.mail.ibm.com
+ [10.20.54.105])
+ by smtprelay01.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 3499pGJR30868132
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 9 May 2023 09:51:16 GMT
+Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 926E520049;
+ Tue,  9 May 2023 09:51:16 +0000 (GMT)
+Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 7323420040;
+ Tue,  9 May 2023 09:51:15 +0000 (GMT)
+Received: from li-1901474c-32f3-11b2-a85c-fc5ff2c001f3.ibm.com (unknown
+ [9.109.242.129])
+ by smtpav06.fra02v.mail.ibm.com (Postfix) with ESMTPS;
+ Tue,  9 May 2023 09:51:15 +0000 (GMT)
+Date: Tue, 9 May 2023 15:21:08 +0530
+From: Harsh Prateek Bora <harshpb@linux.ibm.com>
+To: Nicholas Piggin <npiggin@gmail.com>
+Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org, harshpb@linux.ibm.com
+Subject: Re: [PATCH 6/6] target/ppc: Implement HEIR SPR
+Message-ID: <ZFoXjN/PUyDhMDG1@li-1901474c-32f3-11b2-a85c-fc5ff2c001f3.ibm.com>
+References: <20230323022237.1807512-1-npiggin@gmail.com>
+ <20230323022237.1807512-6-npiggin@gmail.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="7ue7uy2rywjancj2"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <87sfcybwu3.fsf@pond.sub.org>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=slp@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+In-Reply-To: <20230323022237.1807512-6-npiggin@gmail.com>
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: j7aB0s83u_i91oss7MCtY_g2ePoz2Z0o
+X-Proofpoint-ORIG-GUID: pRdG0bQTQkePXmXLknKJrvwiZulw9L1N
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-05-09_06,2023-05-05_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 malwarescore=0
+ clxscore=1015 adultscore=0 mlxlogscore=786 suspectscore=0 phishscore=0
+ priorityscore=1501 lowpriorityscore=0 mlxscore=0 spamscore=0
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2304280000 definitions=main-2305090074
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=harshpb@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -82,263 +111,69 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On Thu, Mar 23, 2023 at 12:22:37PM +1000, Nicholas Piggin wrote:
+> The hypervisor emulation assistance interrupt modifies HEIR to
+> contain the value of the instruction which caused the exception.
+> 
+> Signed-off-by: Nicholas Piggin <npiggin@gmail.com>
+> ---
+>  target/ppc/cpu.h         |  1 +
+>  target/ppc/cpu_init.c    | 23 +++++++++++++++++++++++
+>  target/ppc/excp_helper.c | 12 +++++++++++-
+>  3 files changed, 35 insertions(+), 1 deletion(-)
+> 
 
---7ue7uy2rywjancj2
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+<snip>
 
-On Mon, Apr 17, 2023 at 12:57:08PM +0200, Markus Armbruster wrote:
-> Sergio Lopez <slp@redhat.com> writes:
->=20
-> > Add the required infrastructure to support generating multitouch events.
-> >
-> > Signed-off-by: Sergio Lopez <slp@redhat.com>
-> > Reviewed-by: Marc-Andr=E9 Lureau <marcandre.lureau@redhat.com>
-> > ---
-> >  include/ui/input.h    |  3 +++
-> >  qapi/ui.json          | 46 ++++++++++++++++++++++++++++++++++++++++---
-> >  replay/replay-input.c | 18 +++++++++++++++++
-> >  ui/input.c            |  6 ++++++
-> >  ui/trace-events       |  1 +
-> >  5 files changed, 71 insertions(+), 3 deletions(-)
-> >
-> > diff --git a/include/ui/input.h b/include/ui/input.h
-> > index c86219a1c1..2a3dffd417 100644
-> > --- a/include/ui/input.h
-> > +++ b/include/ui/input.h
-> > @@ -8,9 +8,12 @@
-> >  #define INPUT_EVENT_MASK_BTN   (1<<INPUT_EVENT_KIND_BTN)
-> >  #define INPUT_EVENT_MASK_REL   (1<<INPUT_EVENT_KIND_REL)
-> >  #define INPUT_EVENT_MASK_ABS   (1<<INPUT_EVENT_KIND_ABS)
-> > +#define INPUT_EVENT_MASK_MTT   (1<<INPUT_EVENT_KIND_MTT)
-> > =20
-> >  #define INPUT_EVENT_ABS_MIN    0x0000
-> >  #define INPUT_EVENT_ABS_MAX    0x7FFF
-> > +#define INPUT_EVENT_SLOTS_MIN  0x0
-> > +#define INPUT_EVENT_SLOTS_MAX  0xa
-> > =20
-> >  typedef struct QemuInputHandler QemuInputHandler;
-> >  typedef struct QemuInputHandlerState QemuInputHandlerState;
-> > diff --git a/qapi/ui.json b/qapi/ui.json
-> > index 98322342f7..83369bdae8 100644
-> > --- a/qapi/ui.json
-> > +++ b/qapi/ui.json
-> > @@ -1014,7 +1014,7 @@
-> >  ##
-> >  { 'enum'  : 'InputButton',
-> >    'data'  : [ 'left', 'middle', 'right', 'wheel-up', 'wheel-down', 'si=
-de',
-> > -  'extra', 'wheel-left', 'wheel-right' ] }
-> > +  'extra', 'wheel-left', 'wheel-right', 'touch' ] }
-> > =20
-> >  ##
-> >  # @InputAxis:
-> > @@ -1026,6 +1026,17 @@
-> >  { 'enum'  : 'InputAxis',
-> >    'data'  : [ 'x', 'y' ] }
-> > =20
-> > +##
-> > +# @InputMultitouchType:
->=20
-> Suggest InputMultiTouchType, because...
->=20
-> > +#
-> > +# Type of a multitouch event.
->=20
-> ... the common spelling is multi-touch.
->=20
-> More of the same below.
+> diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
+> index 2e0321ab69..d206903562 100644
+> --- a/target/ppc/excp_helper.c
+> +++ b/target/ppc/excp_helper.c
+> @@ -1614,13 +1614,23 @@ static void powerpc_excp_books(PowerPCCPU *cpu, int excp)
+>      case POWERPC_EXCP_HDECR:     /* Hypervisor decrementer exception         */
+>      case POWERPC_EXCP_HDSI:      /* Hypervisor data storage exception        */
+>      case POWERPC_EXCP_SDOOR_HV:  /* Hypervisor Doorbell interrupt            */
+> -    case POWERPC_EXCP_HV_EMU:
+>      case POWERPC_EXCP_HVIRT:     /* Hypervisor virtualization                */
+>          srr0 = SPR_HSRR0;
+>          srr1 = SPR_HSRR1;
+>          new_msr |= (target_ulong)MSR_HVB;
+>          new_msr |= env->msr & ((target_ulong)1 << MSR_RI);
+>          break;
+> +    case POWERPC_EXCP_HV_EMU:
+> +        env->spr[SPR_HEIR] = insn;
+> +        if (is_prefix_excp(env, insn)) {
+> +            uint32_t insn2 = ppc_ldl_code(env, env->nip + 4);
+> +            env->spr[SPR_HEIR] |= (uint64_t)insn2 << 32;
+> +        }
+> +        srr0 = SPR_HSRR0;
+> +        srr1 = SPR_HSRR1;
+> +        new_msr |= (target_ulong)MSR_HVB;
+> +        new_msr |= env->msr & ((target_ulong)1 << MSR_RI);
+> +        break;
 
-Ack, let's use this in v4.
+Since there is a common code, this could be better written like:
+    case POWERPC_EXCP_HV_EMU:
+        env->spr[SPR_HEIR] = insn;
+        if (is_prefix_excp(env, insn)) {
+            uint32_t insn2 = ppc_ldl_code(env, env->nip + 4);
+            env->spr[SPR_HEIR] |= (uint64_t)insn2 << 32;
+        }
+	/* fall through below common code for EXCP_HVIRT */
+    case POWERPC_EXCP_HVIRT:     /* Hypervisor virtualization                */
+        srr0 = SPR_HSRR0;
+        srr1 = SPR_HSRR1;
+        new_msr |= (target_ulong)MSR_HVB;
+        new_msr |= env->msr & ((target_ulong)1 << MSR_RI);
+        break;
 
-> > +#
-> > +# Since: 8.1
-> > +##
-> > +{ 'enum'  : 'InputMultitouchType',
-> > +  'data'  : [ 'begin', 'update', 'end', 'cancel', 'data' ] }
-> > +
-> > +
-> >  ##
-> >  # @InputKeyEvent:
-> >  #
-> > @@ -1069,13 +1080,32 @@
-> >    'data'  : { 'axis'    : 'InputAxis',
-> >                'value'   : 'int' } }
-> > =20
-> > +##
-> > +# @InputMultitouchEvent:
-> > +#
-> > +# Multitouch input event.
-> > +#
-> > +# @slot: Which slot has generated the event.
->=20
-> Ignorant question: what's a "slot"?
-
-The Multi-touch protocol [1] talks about them without describing them in mu=
-ch
-detail. In my understanding, the HW has as many slots as simultaneous conta=
-ct
-points is able to track. When a new contact is detected is assigned a
-particular slot, and keeps using that one until the contact is released.
-
-> > +# @tracking-id: ID to correlate this event with previously generated e=
-vents.
-> > +# @axis: Which axis is referenced by @value.
-> > +# @value: Contact position.
-> > +#
-> > +# Since: 8.1
-> > +##
-> > +{ 'struct'  : 'InputMultitouchEvent',
-> > +  'data'  : { 'type'       : 'InputMultitouchType',
-> > +              'slot'       : 'int',
-> > +              'tracking-id': 'int',
-> > +              'axis'       : 'InputAxis',
-> > +              'value'      : 'int' } }
-> > +
-> >  ##
-> >  # @InputEventKind:
-> >  #
-> >  # Since: 2.0
-> >  ##
-> >  { 'enum': 'InputEventKind',
-> > -  'data': [ 'key', 'btn', 'rel', 'abs' ] }
-> > +  'data': [ 'key', 'btn', 'rel', 'abs', 'mtt' ] }
->=20
-> While we generally avoid abbreviations in QAPI, local consistency is a
-> strong argument for this one.  Okay.
->=20
-> > =20
-> >  ##
-> >  # @InputKeyEventWrapper:
-> > @@ -1101,6 +1131,14 @@
-> >  { 'struct': 'InputMoveEventWrapper',
-> >    'data': { 'data': 'InputMoveEvent' } }
-> > =20
-> > +##
-> > +# @InputMultitouchEventWrapper:
-> > +#
-> > +# Since: 8.1
-> > +##
-> > +{ 'struct': 'InputMultitouchEventWrapper',
-> > +  'data': { 'data': 'InputMultitouchEvent' } }
->=20
-> The only reason for wrapping is consistency with the other branches.
-> Okay.
->=20
-> > +
-> >  ##
-> >  # @InputEvent:
-> >  #
-> > @@ -1112,6 +1150,7 @@
->    # @type: the input type, one of:
->    #
->    #        - 'key': Input event of Keyboard
-> >  #        - 'btn': Input event of pointer buttons
-> >  #        - 'rel': Input event of relative pointer motion
-> >  #        - 'abs': Input event of absolute pointer motion
-> > +#        - 'mtt': Input event of Multitouch
->=20
-> You're imitating the existing "Input event of" pattern, which is fair.
-> But the pattern is bad.  The phrasing awkward, and so is the place.  By
-> documenting the values of InputEventKind only here, and not in
-> InputEventKind's doc comment, the generated documentation for
-> InputEventKind looks like this:
->=20
->     "InputEventKind" (Enum)
->     -----------------------
->=20
->     Values
->     ~~~~~~
->=20
->     "key"
->        Not documented
->=20
->     "btn"
->        Not documented
->=20
->     "rel"
->        Not documented
->=20
->     "abs"
->        Not documented
->=20
->     "mtt"
->        Not documented
->=20
->=20
->     Since
->     ~~~~~
->=20
->     2.0
->=20
-> We should document them right in InputEventKind's doc comment, roughly
-> like this:
->=20
->    ##
->    # @InputEventKind:
->    #
->    # @key: a keyboard input event
->    # @btn: a pointer button input event
->    # @rel: a relative pointer motion input event
->    # @abs: an absolute pointer motion input event
->    # @mtt: a multi-touch input event
->    #
->    # Since: 2.0
->    ##
->=20
-> We can then dumb down the documentation of InputEvent member @type to
-> just
->=20
->    # @type: the type of input event
->=20
-> What do you think?
-
-Yeah, this definitely looks better. Fixed in v4.
-
-Thanks,
-Sergio.
-
-> Many more doc comments neglect to document members in this file, and in
-> others.  I'm not asking you to fix them all.
->=20
-> >  #
-> >  # Since: 2.0
-> >  ##
-> > @@ -1121,7 +1160,8 @@
-> >    'data'  : { 'key'     : 'InputKeyEventWrapper',
-> >                'btn'     : 'InputBtnEventWrapper',
-> >                'rel'     : 'InputMoveEventWrapper',
-> > -              'abs'     : 'InputMoveEventWrapper' } }
-> > +              'abs'     : 'InputMoveEventWrapper',
-> > +              'mtt'     : 'InputMultitouchEventWrapper' } }
-> > =20
-> >  ##
-> >  # @input-send-event:
->=20
-> [...]
->=20
-
---7ue7uy2rywjancj2
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEvtX891EthoCRQuii9GknjS8MAjUFAmRaFdAACgkQ9GknjS8M
-AjXNtg//RuM+HwLCCdCy8+Fg1bhHpuflJmNvkoTVL1Mj4/5zMx4D/TZzQQAj0fmN
-WJfapgahilzEhf67mbjpumPE/bbsGxHrJBT28U5FIkM+8lXf48msFsGYp3bh6qro
-jE/xCkWf7+G+B/F/sbAFOJ3ZI9Ze8TKsLgAInHn72A0Mm6a5WVWX4fIyiC8SUco+
-+wXaioYh6no2Fn7l2/DsxIVeyw1wYtND4I2xfAf8NuMyIO7YSzLGq0+WWC8EeR7m
-Rvle+78aMCxbrg4Z/8wfb/uiTyQRJuCmyb5W/Q3VkFmG1COwXfLF/ItM/NfmSjGc
-piR18R2GBWkkQr1j9Io2kV3u/lqFqVMCoIwTNis2liZehNT+y+4q0a/hPwcTJ154
-oci8UrYTr+wgwLNZOwjPHXXiO0GRjzivjxd52XPpJhuvhAtiE5soljZz3yCXTiOl
-AyLnAn1mqNjgKxdWKJJf8dVKS3nC4oaj7EZS2OlEcsZIkUk2bT243m6iSGnBfoxy
-HizjECOm3xSQ5yOkQ+GKbtJiKdNdk6grbpnhEMmRg9J5zvwdRx0qGygyYSEz+Jc0
-ky7E0GxpB1sJ5krtAUi29nb7/qobh4DPF1Nro9noeZW8M9EFt9/lIduxtXtkushZ
-Q8Eg6ZEb/Xf4fJsQ53IQXet7RMcGI7sr6RZDovarkproU5udgfg=
-=Lrs6
------END PGP SIGNATURE-----
-
---7ue7uy2rywjancj2--
-
+regards,
+Harsh
+>      case POWERPC_EXCP_VPU:       /* Vector unavailable exception             */
+>      case POWERPC_EXCP_VSXU:       /* VSX unavailable exception               */
+>      case POWERPC_EXCP_FU:         /* Facility unavailable exception          */
+> -- 
+> 2.37.2
+> 
+> 
 
