@@ -2,84 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0A216FC918
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 May 2023 16:34:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF1FD6FC91B
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 May 2023 16:35:03 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pwOPV-0007Rk-4V; Tue, 09 May 2023 10:33:49 -0400
+	id 1pwOPr-0007gy-GD; Tue, 09 May 2023 10:34:11 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pwOPM-0007Qg-F9
- for qemu-devel@nongnu.org; Tue, 09 May 2023 10:33:40 -0400
-Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334])
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pwOPo-0007g1-2b
+ for qemu-devel@nongnu.org; Tue, 09 May 2023 10:34:09 -0400
+Received: from mail-ed1-x52b.google.com ([2a00:1450:4864:20::52b])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pwOPK-00073N-CU
- for qemu-devel@nongnu.org; Tue, 09 May 2023 10:33:40 -0400
-Received: by mail-wm1-x334.google.com with SMTP id
- 5b1f17b1804b1-3f315735514so210977265e9.1
- for <qemu-devel@nongnu.org>; Tue, 09 May 2023 07:33:37 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pwOPk-00076w-0l
+ for qemu-devel@nongnu.org; Tue, 09 May 2023 10:34:07 -0400
+Received: by mail-ed1-x52b.google.com with SMTP id
+ 4fb4d7f45d1cf-50b37f3e664so10805807a12.1
+ for <qemu-devel@nongnu.org>; Tue, 09 May 2023 07:34:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1683642816; x=1686234816;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=uGBWhvMNS+axjsrzLLzmOBLHUotS7AxairZM5Agq5RQ=;
- b=t+VBg8PYQksG6UJJRbyKV0MTGv8MGF//qs8zpTNU80iRJCOLa4+zO8xd3SchG5mUEc
- sf1hjEJ0hwx4qNLghmhbaAub5ZAhZOiDCWhvLA2GtXdjDioq9rnJtOtyXjv4eJS9lDZk
- jYyi5i/s8rfCXWHSBfwkHsp6x3u0KEi8+VugEHFYV52C3kErsCAST6+Y64u1ylR63ZH3
- gsNNBJ922FH8EmII9Mf6oMmxnyXl5Vrr23ysTmlcN7fRSwdsPEnLJPKIVnBQO/r2bS21
- XSjzlbfMj6xauSsgKQhb+jRXy4sp7ntc0UXCdcRoelvKI4dmmPfmzKNVnjdEmIkAzVYY
- V0CQ==
+ d=linaro.org; s=google; t=1683642842; x=1686234842;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=yitkHOatw+41xMWb2v58gR45bgh1aVCxP3+JcDGrWe4=;
+ b=MnNBtGc1IyZ8dmNyzJgev0mvjZq/P8QhS1375O0BJxNDCBUIPjb0gChZOStI2gCE4r
+ +7zTWrWV2y+KSTHRYvNgK1jtzP0VmTm6ijzeRQloVstXuiDWn25s12Yp+3gAHqYMOnk2
+ IVY6ieJvyvI7Q1tlkxPGMOX66LhkFyXLJyhN+HHzbR9FGTTBV97ZKhL26oQqkIOfEqzC
+ ojr4tae5nuNWQk6bRA084fAfdVbxifDy+EdQQkgVK93XAQUi+M5e0lMj+IfafNl7Qxms
+ tuYVzEz6pld29nRqU+MXjErsmGOkIqsjmKpzvclLjUGqedcH2tNfx2wej1gWMsd7Kca8
+ Vh8w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683642816; x=1686234816;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=uGBWhvMNS+axjsrzLLzmOBLHUotS7AxairZM5Agq5RQ=;
- b=Wdm+0Yt5DcK8lH+No5FPTVKiCNOXmZa02rM6oAgvrzsqpx1iKo14W0FF75AvIBEJ+z
- WhG9/IKf9Q/MYkjtJDhjFg1xu0bSO1Cxqg09kWAFVYBaXmqcIUru0Bd+X2t+1+ID4oVE
- Qmxd+D1tzlrT4iucCvBiMju9RKOaXgj5L7Ro6WV79fkfrvCJxqtJUpcX850fOJjVzwud
- aKdmBKZKYSxys8FsFKPvNSZt234SGGEbls/isy9NNks1Ti5VQz0fLRLWBsgDPOtIOUrY
- mt6AND47DXctLrDanZBjvVxOHYosM7yYyzexr0oCVhK3DyH8UXvC4n2yVdeRG3Qqj3de
- x+cg==
-X-Gm-Message-State: AC+VfDwJwAhSWNr1XMxLkxFpMqJpdHzlwxWL/uOwPHf4DvHjo8Dx/L3r
- cIif6f7qBp4WaqYP/xn7NB75bQja+XjxbPitzT4=
-X-Google-Smtp-Source: ACHHUZ5xSavnGpUbmDiRcfq0rGwaL5WOG+NOahATrdqwc8F2ugtqURhDhF9UwUcn6XQ6e5fGfeSbRA==
-X-Received: by 2002:adf:fdd1:0:b0:306:2ff1:5227 with SMTP id
- i17-20020adffdd1000000b003062ff15227mr8677698wrs.23.1683642816592; 
- Tue, 09 May 2023 07:33:36 -0700 (PDT)
-Received: from [192.168.69.115] ([176.187.211.62])
- by smtp.gmail.com with ESMTPSA id
- q12-20020a05600000cc00b0030795b2be15sm6954311wrx.103.2023.05.09.07.33.35
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 09 May 2023 07:33:36 -0700 (PDT)
-Message-ID: <00958ee1-4c47-20e9-bcd0-ed92179ee831@linaro.org>
-Date: Tue, 9 May 2023 16:33:34 +0200
+ d=1e100.net; s=20221208; t=1683642842; x=1686234842;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=yitkHOatw+41xMWb2v58gR45bgh1aVCxP3+JcDGrWe4=;
+ b=PqRvX6ZAd74lF/l9DU4SHBphOVub5/Snu72jXgZTCY3figEmXODudhEo6AhqxQ5sGY
+ JD3N+usURIECYaklEHIdzeeUjST24fT+ADDbWhtUcoxuBIQ2iYVoICpnJOItaV9sMMqZ
+ oJyEMBh/xC841vFfBpfrR4swlALORKbiSM6Zf6E6z2xHPEdOqJj2z6nddOSH8MEuJM5o
+ ewOMfu77w/byH60UkkUy0Y3DtMQIVE5EJo3PQ1TckGvHd8G2B6+AMp64ee/ePNwWCx9M
+ 7+3sotbUGBHwvVewpbnh7QD37lOLGyDYfeAs20gYNYgT8//TRYvVvupxjtZinIgbsB+6
+ YleA==
+X-Gm-Message-State: AC+VfDyyPWdYEpuT9Eyxt6CYRHuK5YXw7VIppWvYcKsM704rpksglS5s
+ 00w56eiqD+EBWeIo7KFpxdNW1n3d+HZ0Aij9OYqlVw==
+X-Google-Smtp-Source: ACHHUZ5gD5BJH4YVtu+jFcFneKbKmXftdOcOs3lBAEDCP44UNh+UXADB4yovPKbuR/9Anutb0u7Jz/5bveQVBBMIzUA=
+X-Received: by 2002:a05:6402:194:b0:50d:9b59:4330 with SMTP id
+ r20-20020a056402019400b0050d9b594330mr7632788edv.4.1683642842430; Tue, 09 May
+ 2023 07:34:02 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.10.1
-Subject: Re: [PATCH] ui/dbus: Implement damage regions for GL
-Content-Language: en-US
-To: Bilal Elmoussaoui <belmouss@redhat.com>, qemu-devel@nongnu.org
-Cc: Thomas Huth <thuth@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- chergert@redhat.com, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>
-References: <20230509115940.114033-1-belmouss@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230509115940.114033-1-belmouss@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::334;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x334.google.com
-X-Spam_score_int: -24
-X-Spam_score: -2.5
+References: <20230503070656.1746170-1-richard.henderson@linaro.org>
+ <20230503070656.1746170-7-richard.henderson@linaro.org>
+ <CAFEAcA8muJ84GMqSBuU0P2YhfERM-kftfq07N8BVO2yG9p6jBw@mail.gmail.com>
+ <8988fc6b-8f07-1ab7-663d-3392ca19f7f8@linaro.org>
+ <CAFEAcA-79iL8=+143w1jxTG1WM-8NODqqgF4droY=avopm4a7g@mail.gmail.com>
+ <434236ad-8348-1e42-23e6-3ed7d6c21366@linaro.org>
+In-Reply-To: <434236ad-8348-1e42-23e6-3ed7d6c21366@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 9 May 2023 15:33:51 +0100
+Message-ID: <CAFEAcA8hXYK=o98FSG+X9Q4PyamPePaYvoSYdN3jHt4V0qikmw@mail.gmail.com>
+Subject: Re: [PATCH v4 06/57] accel/tcg: Honor atomicity of loads
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: qemu-devel@nongnu.org, git@xen0n.name, gaosong@loongson.cn, 
+ philmd@linaro.org, qemu-arm@nongnu.org, qemu-riscv@nongnu.org, 
+ qemu-s390x@nongnu.org, =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::52b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52b.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.421,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,83 +91,28 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi,
+On Tue, 9 May 2023 at 15:27, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> On 5/9/23 13:04, Peter Maydell wrote:
+> >> If the LDP is aligned mod 8, but not aligned mod 16, then both 8-byte operations must be
+> >> (separately) atomic, and we return MO_64.
+> >
+> > So there's an implicit "at most 2 atomic sub-operations
+> > inside a WITHIN16 load" restriction? i.e. you can't
+> > use WITHIN16 to say "do this 8 byte load atomically but
+> > if it's not in a 16-byte region do it with 4 2-byte loads",
+> > even though in theory MO_ATOM_WITHIN16 | MO_ATMAX_2 | MO_8
+> > would describe that ?
+>
+> Correct on both counts.  While you're right that this is a valid generalization, it's not
+> something for which I've found a use case.
 
-On 9/5/23 13:59, Bilal Elmoussaoui wrote:
-> From: Christian Hergert <chergert@redhat.com>
-> 
-> Currently, when using `-display dbus,gl=on` all updates to the client
-> become "full scanout" updates, meaning there is no way for the client to
-> limit damage regions to the display server.
-> 
-> Instead of using an "update count", this patch tracks the damage region
-> and propagates it to the client.
-> 
-> This was less of an issue when clients were using GtkGLArea for
-> rendering,
-> as you'd be doing full-surface redraw. To be efficient, the client needs
-> both a DMA-BUF and the damage region to be updated.
-> 
-> In the future, when additional methods are allowed on the D-Bus
-> interface,
-> this should likely be updated to send damage regions as a single RPC to
-> avoid additional message processing.
-> 
-> Currently, Linux does not propagate damage rectangles when using the
-> virtio-gpu drm driver. That means compositors such as Mutter which
-> utilize
-> drmModePageFlip() will be sending full or near-full surface damages.
-> 
-> https://lists.freedesktop.org/archives/dri-devel/2023-March/395164.html
-> contains a patch to fix that too.
-> 
-> Signed-off-by: Bilal Elmoussaoui <belmouss@redhat.com>
-> ---
->   meson.build        |  8 ++++++++
->   ui/dbus-listener.c | 25 +++++++++++++++++++------
->   ui/meson.build     |  2 +-
->   3 files changed, 28 insertions(+), 7 deletions(-)
-> 
-> diff --git a/meson.build b/meson.build
-> index 229eb585f7..72678ef78e 100644
-> --- a/meson.build
-> +++ b/meson.build
-> @@ -1761,6 +1761,14 @@ dbus_display = get_option('dbus_display') \
->              error_message: '-display dbus is not available on Windows') \
->     .allowed()
+Yeah, that's fine -- but we should note the restrictions/
+requirements in the doc comment for WITHIN16. (And maybe
+an assert somewhere if there's somewhere convenient to
+put it?)
 
-^ dbus strictly required deps, ...
-
-> +cairo = not_found
-> +if dbus_display
-> +  cairo = dependency('cairo',
-> +                     kwargs: static_kwargs,
-> +                     method: 'pkg-config',
-> +                    )
-
-cairo declared as optional dep, ...
-
-> +endif
-> +
->   have_virtfs = get_option('virtfs') \
->       .require(targetos == 'linux' or targetos == 'darwin',
->                error_message: 'virtio-9p (virtfs) requires Linux or macOS') \
-> diff --git a/ui/dbus-listener.c b/ui/dbus-listener.c
-> index 911acdc529..047be5cb3a 100644
-> --- a/ui/dbus-listener.c
-> +++ b/ui/dbus-listener.c
-> @@ -25,6 +25,7 @@
->   #include "qemu/error-report.h"
->   #include "sysemu/sysemu.h"
->   #include "dbus.h"
-> +#include <cairo.h>
-
-cairo used unconditionally.
-
-Shouldn't we now declared it as a strict dependency in meson?
-
->   #include <gio/gunixfdlist.h>
->   
->   #ifdef CONFIG_OPENGL
-
+thanks
+-- PMM
 
