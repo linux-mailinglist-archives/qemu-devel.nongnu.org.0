@@ -2,78 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F1306FC5CB
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 May 2023 14:06:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D6F186FC5D8
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 May 2023 14:08:25 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pwM63-0004Vp-Ho; Tue, 09 May 2023 08:05:35 -0400
+	id 1pwM7b-0006Gn-36; Tue, 09 May 2023 08:07:11 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pwM5a-0004Nw-T5
- for qemu-devel@nongnu.org; Tue, 09 May 2023 08:05:09 -0400
-Received: from mail-ed1-x535.google.com ([2a00:1450:4864:20::535])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pwM5X-0006rK-5u
- for qemu-devel@nongnu.org; Tue, 09 May 2023 08:05:06 -0400
-Received: by mail-ed1-x535.google.com with SMTP id
- 4fb4d7f45d1cf-50bc5197d33so10923383a12.1
- for <qemu-devel@nongnu.org>; Tue, 09 May 2023 05:05:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1683633901; x=1686225901;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=FtnmDLDOsU/IlqLkId45Pc72BUE73jMq14qxm6Cd1EE=;
- b=yR7/qZTB67ODJ0NoKg2I6B/z1+lFfNr2ne62xC3BLLw+ImFoNK+6mycBPsEpg8xdXR
- JW5v1GrL8+aSia4pjVa1HEMnqZviKq/OVB5zN6jwo62DPUyLed8mFGH6OytNbfYcG3Hv
- rW7yvvZ97xi4Ee73aF3adhehUq7vriyPCWXOn9+VD7C4s4/COFR1a05NHTw7Ib1MEJzR
- 43tJm5vtuG0gXcTENhzSZS2+qU82MpW8f/4exoBVVRT6wakhzwF309YvyVZ7fXOME3st
- blV6IQW/b9v4oXpfsGqkQxycc38S8s8quy33b8+AK+q03V5JWkAx8Gl6JgErOo9qGXSC
- 8aFg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683633901; x=1686225901;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=FtnmDLDOsU/IlqLkId45Pc72BUE73jMq14qxm6Cd1EE=;
- b=Av1xdSLyGifqiylDMHDV+8UHy9bAom2KOQQeSYHcQe+9uBKb/whVxPIRWjLXUCllMU
- yojtfQF6SnwCBdyqkYLsQZmNclQhBwMQBVVCSSrK9pwg1xtS7ZTxCOUHkI4SDQcBk+0/
- YGs/3kErN1hK5mr5QEvxj9E0hlGDDukAC6hDlPR52HTUBSkug5J4Y9JKcHhc5d8bhmxn
- iKra5VoNvU/EkxtrxDHBtuNmzEwQqb1DgP69Sg6LQJM/pX1WTVZAKkyAZkgAb+Vl2OFx
- akGOVJ9rxuOSZyZZN3qIT9lxDGXIDGMNxegoXc2sz8HUxswp7OFHZ01PHRRDU4e3nZ/m
- EuuQ==
-X-Gm-Message-State: AC+VfDyYVgKEs30lWmiYDHwsBcRG3KuDI05eJpkRIcabeZrGPri7tteU
- 86EjkaXFjzpKUKrZaKNUHDK8IIbBrDLzT9Upazp/Bg==
-X-Google-Smtp-Source: ACHHUZ4PXzzo1tBSSpSH16ChRsRSnhs7CS5tMXlene/zGGeZG0tYWK9Po8orbMwLsITROZStog4r5f0KdbWZH9Mn1GA=
-X-Received: by 2002:aa7:d64d:0:b0:50c:3dc:2262 with SMTP id
- v13-20020aa7d64d000000b0050c03dc2262mr10014803edr.39.1683633901517; Tue, 09
- May 2023 05:05:01 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1pwM7Y-0006GD-Jy
+ for qemu-devel@nongnu.org; Tue, 09 May 2023 08:07:08 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1pwM7W-0007LD-MX
+ for qemu-devel@nongnu.org; Tue, 09 May 2023 08:07:08 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1683634026;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=qEFenDTZBHZmrsByWInDma/XHct/iUvjajYu2b8iTLQ=;
+ b=D2nIqa2FvsIHGNqDiluN4RaQrQNa6Yw5uH1uVEKBRxr4wBseT5vCA5Vdv67ZH0a2Bonoa2
+ hJimpWcpK/8H3mfsMEx4GP6UmQQwUCJJpO7H5V31WabuTiTV4I+UvnoOQYaD1WJ5wpTuab
+ 22eDGPG16NILDDsboyoc3Aef3lRr1Y0=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-60-1UMgPooEPKiu33Z1Zq_ZsA-1; Tue, 09 May 2023 08:07:02 -0400
+X-MC-Unique: 1UMgPooEPKiu33Z1Zq_ZsA-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.5])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A40A53C025AC
+ for <qemu-devel@nongnu.org>; Tue,  9 May 2023 12:07:02 +0000 (UTC)
+Received: from secure.mitica (unknown [10.39.193.236])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B6C2F63F84;
+ Tue,  9 May 2023 12:07:01 +0000 (UTC)
+From: Juan Quintela <quintela@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: Leonardo Bras <leobras@redhat.com>, Juan Quintela <quintela@redhat.com>,
+ Peter Xu <peterx@redhat.com>
+Subject: [PATCH v3 00/10] migration: Remove QEMUFileHooks
+Date: Tue,  9 May 2023 14:06:50 +0200
+Message-Id: <20230509120700.78359-1-quintela@redhat.com>
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-References: <20230503070656.1746170-1-richard.henderson@linaro.org>
- <20230503070656.1746170-7-richard.henderson@linaro.org>
- <CAFEAcA8muJ84GMqSBuU0P2YhfERM-kftfq07N8BVO2yG9p6jBw@mail.gmail.com>
- <8988fc6b-8f07-1ab7-663d-3392ca19f7f8@linaro.org>
-In-Reply-To: <8988fc6b-8f07-1ab7-663d-3392ca19f7f8@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 9 May 2023 13:04:50 +0100
-Message-ID: <CAFEAcA-79iL8=+143w1jxTG1WM-8NODqqgF4droY=avopm4a7g@mail.gmail.com>
-Subject: Re: [PATCH v4 06/57] accel/tcg: Honor atomicity of loads
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-devel@nongnu.org, git@xen0n.name, gaosong@loongson.cn, 
- philmd@linaro.org, qemu-arm@nongnu.org, qemu-riscv@nongnu.org, 
- qemu-s390x@nongnu.org, =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::535;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x535.google.com
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,52 +76,71 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, 5 May 2023 at 21:19, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> On 5/4/23 18:17, Peter Maydell wrote:
-> >> +    case MO_ATOM_WITHIN16:
-> >> +        tmp = p & 15;
-> >> +        if (tmp + (1 << size) <= 16) {
-> >> +            atmax = size;
-> >
-> > OK, so this is "whole operation is within 16 bytes,
-> > whole operation must be atomic"...
-> >
-> >> +        } else if (atmax == size) {
-> >> +            return MO_8;
-> >
-> > ...but I don't understand the interaction of WITHIN16
-> > and also specifying an ATMAX value that's not ATMAX_SIZE.
->
-> I'm trying to describe e.g. LDP, which if not within16 has two 8-byte elements, one or
-> both of which must be atomic.  We will have set MO_ATOM_WITHIN16 | MO_ATMAX_8.
->
-> If atmax == size, there is only one element, and since it is not within16, there is no
-> atomicity.
->
-> >> +        } else if (tmp + (1 << atmax) != 16) {
-> >
-> > Why is this doing an exact inequality check?
-> > What if you're asking for a load of 8 bytes at
-> > MO_ATMAX_2 from a pointer that's at an offset of
-> > 10 bytes from a 16-byte boundary? Then tmp is 10,
-> > tmp + (1 << atmax) is 12, but we could still do the
-> > loads at atomicity 2. This doesn't seem to me to be
-> > any different from the case it does catch where
-> > the first ATMAX_2-sized unit happens to be the only
-> > thing in this 16-byte block.
->
-> If the LDP is aligned mod 8, but not aligned mod 16, then both 8-byte operations must be
-> (separately) atomic, and we return MO_64.
+Hi
 
-So there's an implicit "at most 2 atomic sub-operations
-inside a WITHIN16 load" restriction? i.e. you can't
-use WITHIN16 to say "do this 8 byte load atomically but
-if it's not in a 16-byte region do it with 4 2-byte loads",
-even though in theory MO_ATOM_WITHIN16 | MO_ATMAX_2 | MO_8
-would describe that ?
+Changes in v3:
+- fix rdma_migration to reset clearly (thanks danp)
+- redo the cherks for migration/rdma
+- rebased on top of the counters series:
+[PATCH 00/21] Migration: More migration atomic counters
+Based-on: Message-Id: <20230508130909.65420-1-quintela@redhat.com>
 
-thanks
--- PMM
+Please, review.
+
+Changes in v2:
+- rebased on top of migration-20230428 pull (second try)
+- several of the patches on the PULL request
+- make clean that we don't use rdma code when we don't use rdma
+- create migrate_rdma() to check if we are in rdma migration.
+
+There is no hope for this code. I am trying to cleanup the rest of
+rdma calls, but the code is convoluted as hell.  And it lies with the
+ram counters as crazy.
+
+Please review.
+
+In this series (v1):
+- QEMUFileHooks only had a single user, RDMA migration.  Just remove the
+  hooks and create stubs for when RDMA is not compiled in.
+
+- This implies that we have to move all the operations from
+  migration/qemu-file.c to migration/rdma.c.
+
+- I now we can still simplify rdma_control_save_page(), but I don't
+  have an easy setup for testing.
+
+- Yes, the goal of the whole operations is to be able to move
+  ram_file_limit from qemu-file to migration.c.
+
+Please review.
+
+Thanks, Juan.
+
+Juan Quintela (10):
+  migration: Create migrate_rdma()
+  migration/rdma: Unfold ram_control_before_iterate()
+  migration/rdma: Unfold ram_control_after_iterate()
+  migration/rdma: Remove all uses of RAM_CONTROL_HOOK
+  migration/rdma: Unfold hook_ram_load()
+  migration/rdma: Create rdma_control_save_page()
+  qemu-file: Remove QEMUFileHooks
+  migration/rdma: Move rdma constants from qemu-file.h to rdma.h
+  migration/rdma: Remove qemu_ prefix from exported functions
+  migration/rdma: Check sooner if we are in postcopy for save_page()
+
+ migration/migration.c  |   1 +
+ migration/migration.h  |   3 +
+ migration/options.c    |   7 +++
+ migration/options.h    |   1 +
+ migration/qemu-file.c  |  61 +--------------------
+ migration/qemu-file.h  |  49 -----------------
+ migration/ram.c        |  50 +++++++++++++----
+ migration/rdma.c       | 121 +++++++++++++++++++----------------------
+ migration/rdma.h       |  34 ++++++++++++
+ migration/trace-events |  28 +++++-----
+ 10 files changed, 155 insertions(+), 200 deletions(-)
+
+-- 
+2.40.0
+
 
