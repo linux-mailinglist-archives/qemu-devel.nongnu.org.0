@@ -2,80 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6FF66FC903
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 May 2023 16:30:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D71846FC919
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 May 2023 16:34:53 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pwOLT-0005Rw-UA; Tue, 09 May 2023 10:29:39 -0400
+	id 1pwOPg-0007Uf-HV; Tue, 09 May 2023 10:34:00 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pwOLR-0005RM-Is
- for qemu-devel@nongnu.org; Tue, 09 May 2023 10:29:37 -0400
-Received: from mail-ed1-x530.google.com ([2a00:1450:4864:20::530])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pwOLP-00064t-UF
- for qemu-devel@nongnu.org; Tue, 09 May 2023 10:29:37 -0400
-Received: by mail-ed1-x530.google.com with SMTP id
- 4fb4d7f45d1cf-50bc040c7b8so9224208a12.2
- for <qemu-devel@nongnu.org>; Tue, 09 May 2023 07:29:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1683642573; x=1686234573;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=ow33TceIB4jgP6+8+OoXouGJl3NIHZGJQepJGuh0FxQ=;
- b=o74zftUZHnEJD4TcBFZMjBTUCjpb8XfKtTmL+XHI59ehzvH+zVKC9Q/GMQalq96SKo
- OX6R/tqDfEbpULITPhfKDbju5966aNtRgw30IFDcvEJsbndBtv2oYzPL1YewlZ5KfnZg
- P2mnc90E98zHPSxbU6vqP1/iFxNBJvGJJ12m35yR/N17qV8UBdgqkZUPHWRcBa8yKAZv
- 5NH70VFj521PL6x//HQB3TqPnsE0d3pT4MI4rUrh6jDuma/bfYCeuxmLLQVzwHHDV0dk
- xL4MnGrUQ/4ezh746KIAHzf4Wn9Vtaafi4SgRRM6VGnoPY6/j9gIvjI2eMnQ4xf2ah/h
- zIcg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683642573; x=1686234573;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=ow33TceIB4jgP6+8+OoXouGJl3NIHZGJQepJGuh0FxQ=;
- b=JpMTvpe5BUHj8MaE6k9NP5NhJmzGczrfgLfoLvbxoT+gBm35llPhZ8VftT6dUh8F1P
- FCe31lo8sJMuCsgDdAf3ZCZCUyHVNMuuAfqfrf7R9xq3RvbR6rCWpHGkBjL/BmLHRWMk
- 1M+9UpbrzkTbqQWvI4mkV7EsyZgEidP1KurGTqMyGw6f0r+DjSVCIfnMlz2Fucd+JYaF
- ALpRalXXIg+1dvAU0BIqNJS2YTwFWIX9vdQbwVeK+xnl9kVH3j7IZoOjIgRvoeAiilrR
- G8Ad7N61QleOspiTrynwILjqp0/iZSJ4Mj49yF59PiQjwC5HNzw7Bfycz0F4O9HBK3Ie
- Kicw==
-X-Gm-Message-State: AC+VfDyFnw9iNIQipkdAyaOmdNYOca9kTaZuhVjibd1ND+iy88638CKd
- /Hu4EdyrBnKXcGMQJPP04Ap1O8J2iKaj3ARdeyzHhA==
-X-Google-Smtp-Source: ACHHUZ5P0KBnnmb4GdjsZClIEaWah9OS9HMfGBmSkFY2G5Gi2yoVKTZl1OKSaT9FXAcBz2eR1g+Lcx9GaLeRlDlX3as=
-X-Received: by 2002:a50:ee97:0:b0:504:b177:3ef3 with SMTP id
- f23-20020a50ee97000000b00504b1773ef3mr9742606edr.3.1683642573383; Tue, 09 May
- 2023 07:29:33 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1pwOPZ-0007Tb-34
+ for qemu-devel@nongnu.org; Tue, 09 May 2023 10:33:53 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1pwOPX-00075v-6S
+ for qemu-devel@nongnu.org; Tue, 09 May 2023 10:33:52 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1683642830;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=Smz+3aqz8/6edHmqvTH+7+adlR4FNekAfxJ4AtKUj8w=;
+ b=WBdFVDYxIBfWJSC2jWpykwj/rmlhCgPZ6E2GIwq5qxBM6GhrW85GCnE6NIHbMKa/eEzgzv
+ H4p5MO5cY+b/fyoNCD4zt41rtCuQ5wWD+Me9WumU4NXmCRc2mwNlHi1qAcg5YSWW2Mq7B2
+ gkCWcCic7aSbpTFA8/GXDC3NJfDrxWo=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-9-X-QX-0UkNkW3sJrI8fwH3w-1; Tue, 09 May 2023 10:33:40 -0400
+X-MC-Unique: X-QX-0UkNkW3sJrI8fwH3w-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.10])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 63EED10AF919;
+ Tue,  9 May 2023 14:33:07 +0000 (UTC)
+Received: from localhost (unknown [10.39.195.128])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id DF760492B08;
+ Tue,  9 May 2023 14:33:06 +0000 (UTC)
+Date: Tue, 9 May 2023 10:33:05 -0400
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Mads Ynddal <mads@ynddal.dk>
+Cc: John Snow <jsnow@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
+ Cleber Rosa <crosa@redhat.com>
+Subject: Re: [PATCH v2 00/12] simpletrace: refactor and general improvements
+Message-ID: <20230509143305.GD1008478@fedora>
+References: <20230502092339.27341-1-mads@ynddal.dk>
+ <20230504174816.GA581920@fedora>
+ <CAFn=p-ZhsUgMrK+w+ibP68q-v093SDEfhqxHsfTtFfS3qxD9ow@mail.gmail.com>
+ <20230508150740.GC581920@fedora>
+ <49EAD96A-8AE2-4F2A-9931-DC026A3F974F@ynddal.dk>
 MIME-Version: 1.0
-References: <20230403191600.43487-1-fcagnin@quarkslab.com>
- <20230403191600.43487-3-fcagnin@quarkslab.com>
- <4bcb801d-7a16-765d-730a-ba2bc882fbeb@linaro.org>
- <CAF8_6K=dO7xUM76ZzuBz=kQvnqh3gV=5NNrNz9BCMfQn+DncCw@mail.gmail.com>
-In-Reply-To: <CAF8_6K=dO7xUM76ZzuBz=kQvnqh3gV=5NNrNz9BCMfQn+DncCw@mail.gmail.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 9 May 2023 15:29:22 +0100
-Message-ID: <CAFEAcA8RifuJamf04p+AXN457-bd-s6eyxOWjCzbssfuEcyfvg@mail.gmail.com>
-Subject: Re: [PATCH v4 2/2] hvf: implement guest debugging on Apple Silicon
- hosts
-To: Francesco Cagnin <francesco.cagnin@gmail.com>
-Cc: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
- qemu-devel@nongnu.org, mads@ynddal.dk, dirty@apple.com, qemu-arm@nongnu.org, 
- agraf@csgraf.de, pbonzini@redhat.com, alex.bennee@linaro.org, 
- Francesco Cagnin <fcagnin@quarkslab.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::530;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x530.google.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="WKZH2uuDzHK7TEiY"
+Content-Disposition: inline
+In-Reply-To: <49EAD96A-8AE2-4F2A-9931-DC026A3F974F@ynddal.dk>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -93,57 +83,43 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Sun, 30 Apr 2023 at 20:45, Francesco Cagnin
-<francesco.cagnin@gmail.com> wrote:
->
-> > Other than that, the structure of the patch looks OK, but
-> > I think you need to identify the cause of the problems
-> > with SMP setups that you mention in the cover letter,
-> > since they suggest that there's a bug lurking in here
-> > somewhere.
->
-> In the current patch, in `hvf_arch_update_guest_debug()` I'm enabling
-> exiting the guest on debug exceptions only for the vCPUs that have insert=
-ed
-> software/hardware breakpoint or are singlestepping. In SMP setups this lo=
-gic
-> looks flawed, since for example if vCPU #1 sets a software breakpoint and
-> vCPU #2 hits it, the generated debug exception for vCPU #2 will not exit =
-the
-> guest and lead to panic for unexpected BRK. A possible fix is enabling
-> exiting the guest on debug exceptions for all vCPUs (and not just the one=
-s
-> that have inserted breakpoints)=E2=80=94is this the way to go?
 
-Yes, I think that makes sense. We treat breakpoints as
-VM-wide (and writing a brk instruction into guest memory is
-by definition VM-wide), so we should put all the vCPUs into
-"we're debugging the VM mode", not just one.
+--WKZH2uuDzHK7TEiY
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> There's also a second analogous issue for which it feels like I'm missing
-> something. If through GDB a software breakpoint is inserted from vCPU #1 =
-and
-> later vCPU #2 hits it, then when trying to resume execution after the hit
-> GDB fails with 'Cannot remove breakpoints', due to
-> `hvf_find_sw_breakpoint()` returning error because it (correctly) doesn't
-> find any software breakpoint for vCPU #2 (queue
-> `cpu->hvf->hvf_sw_breakpoints`). A possible fix seems to be modifying
-> `hvf_find_sw_breakpoint()` so that it searches for the breakpoint on all
-> vCPUs' queues; but I've skimmed through the analogous routines for TCG an=
-d
-> KVM and there's nothing resembling this fix, so I wonder why TCG and KVM
-> don't fail on my example GDB scenario?
+On Mon, May 08, 2023 at 06:50:58PM +0200, Mads Ynddal wrote:
+>=20
+> >=20
+> > I was curious how Mads is using simpletrace for an internal (to
+> > Samsung?) project.
+> >=20
+>=20
+> I was just tracing the NVMe emulation to get some metrics. The code is all
+> upstream or a part of this patchset. The rest is tracing configs.
 
-For KVM the sw breakpoint list is in cpu->kvm_state, and
-we share a single kvm_state across every vCPU in the VM
-(kvm_init_vcpu() initializes cpu->kvm_state to be a pointer
-to the singleton global kvm_state).
-Isn't cpu->hvf shared between vCPUs in the same way?
+I see, not a different codebase from QEMU. In that case what I said
+about extracting tracetool and simpletrace from qemu.git won't be
+useful.
 
-For TCG breakpoints are effectively always hw breakpoints,
-regardless of whether gdb asks for a sw bp or a hw bp;
-the code path is different from how KVM and HVF do things.
+Stefan
 
-thanks
--- PMM
+--WKZH2uuDzHK7TEiY
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmRaWaEACgkQnKSrs4Gr
+c8igwQf/VwU9gRRjxwyqLPThkUzjMRPmA79jReG6GwikZ7qvF8Fdnw8wi/RycBON
+qWxw5zm/hx+glHnsDIb37zeZ7zYxWFq/i6kV4g4bjlIozPwQtZInAG+g/ZtaJ8Aw
+FltQClHhvCXts179/bnbUhxpHGGWQEtzf3+5ogYJkotNs15ap68ccZpBtWhylRNg
+upjdQk9FkNJZAEZtSjX8f/rGW8OsRrtYwpQ7IWSqKajxumUZeqsWEd//REe7svFM
+3tyLVWQD1MVHedeUFMEOXSiChZmL9x80v9Y4hfMLaAPzarK3342G4KzU1ST4liNE
+PaODgpQTMmUmF+iXg2ZFnvDLIdcBkA==
+=V0Qa
+-----END PGP SIGNATURE-----
+
+--WKZH2uuDzHK7TEiY--
+
 
