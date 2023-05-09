@@ -2,75 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38D4E6FBCE2
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 May 2023 04:10:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3AAAD6FBCEC
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 May 2023 04:14:14 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pwCn0-00016c-Lg; Mon, 08 May 2023 22:09:18 -0400
+	id 1pwCrA-00027H-Qe; Mon, 08 May 2023 22:13:36 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <venture@google.com>)
- id 1pwCmz-00016M-1U
- for qemu-devel@nongnu.org; Mon, 08 May 2023 22:09:17 -0400
-Received: from mail-ed1-x534.google.com ([2a00:1450:4864:20::534])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <venture@google.com>)
- id 1pwCmx-0007YY-5p
- for qemu-devel@nongnu.org; Mon, 08 May 2023 22:09:16 -0400
-Received: by mail-ed1-x534.google.com with SMTP id
- 4fb4d7f45d1cf-50dba8a52dcso390a12.0
- for <qemu-devel@nongnu.org>; Mon, 08 May 2023 19:09:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20221208; t=1683598150; x=1686190150;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=Q9FvaIq7UOkDYrO7XnNFs9bH2cY/9kAYddaGuinHiLk=;
- b=uP0NSUw2Cv7kpt3WnOUnw54sLI2jCiPJe5jCed+QNvQeBx14brzBXqLRwwL7mV8tIe
- +PrN/diPXwF7PmOu0i+2GPSnhcSbCBrHAVg8Y/k4csBBpn5xU3o9wqILunaaZILRpnjj
- oJHetn6G6WUYnsS/UcZgVIj96bVBcWhTi7JizKhI3DqYZaeiuYx6kts2RQebEenjOebi
- jPfE4GTVd6UOSq1708dESjqKDmvbSoP6jFCArPcU4XtBlvXfR9Es2/W2hLXBtjAlDjbe
- OYhwheliyoogKKH8l1Q9/OERCdBPisL9IKsTgwA2CyaIS7C0Xkk6NCsrfAzSu736nNbz
- V6og==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683598150; x=1686190150;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=Q9FvaIq7UOkDYrO7XnNFs9bH2cY/9kAYddaGuinHiLk=;
- b=ClacFGLl/SoF6MwgssC0IQ1Ub5CW5Rnv5PUXie+00v0ssiByCqgQFi6VgTP2/kQqbu
- Mp+C8D8hMiFPMt8ni5xUi9FIwvdt32AGludOWNSDx1vdM3XMvqhgVDcKnmN8ud+gZ+zv
- 5d36gPwrVqQgRI9wqvODwjFb4X0XUHYfIn9O5fN/7MvumrkPZTrRwimHCX35wBqN/kBF
- SQo/CRnRCZpHAYR9M1xxnJ8Fwzmskm0GhQw9x/963b6O9V1l5SnA7nRmxfdLZ7JLuomt
- mx3CST252Tw82XMKMbtxGHmkLiJcPMCImaEcjNq0VWn9yWKVV/4FTw521K8OB8ORqgDV
- mGNg==
-X-Gm-Message-State: AC+VfDxdqookd4dhz8Q6UjnzjbZQpfH6rOt1GIEBMOjvOnx67wdB6Jrd
- NWCJYNjzYiAKosZNju/mW+bqDq4+BfrNT5Dqs39pJxkyWbX6l6IZzZEdHQ==
-X-Google-Smtp-Source: ACHHUZ72rJSfwiezmycVSph5+zEfyFYuN4Hwxtgcod31IzepYAqACPg5I893AUZLoGKwuNM5jY91SSCj3CrROp2LrE4=
-X-Received: by 2002:a05:6402:5414:b0:501:d395:972c with SMTP id
- ev20-20020a056402541400b00501d395972cmr15493edb.5.1683598150371; Mon, 08 May
- 2023 19:09:10 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
+ id 1pwCr8-000278-Cp
+ for qemu-devel@nongnu.org; Mon, 08 May 2023 22:13:34 -0400
+Received: from mail.loongson.cn ([114.242.206.163] helo=loongson.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <gaosong@loongson.cn>) id 1pwCr5-0008Qp-LD
+ for qemu-devel@nongnu.org; Mon, 08 May 2023 22:13:33 -0400
+Received: from loongson.cn (unknown [10.20.42.57])
+ by gateway (Coremail) with SMTP id _____8BxRPA9rFlk49IGAA--.11385S3;
+ Tue, 09 May 2023 10:13:17 +0800 (CST)
+Received: from [10.20.42.57] (unknown [10.20.42.57])
+ by localhost.localdomain (Coremail) with SMTP id
+ AQAAf8BxLL46rFlk2QdSAA--.16351S3; 
+ Tue, 09 May 2023 10:13:14 +0800 (CST)
+Subject: Re: [PATCH v10 1/8] memory: prevent dma-reentracy issues
+To: Thomas Huth <thuth@redhat.com>, Alexander Bulekov <alxndr@bu.edu>
+Cc: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ qemu-devel@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ Mauro Matteo Cascella <mcascell@redhat.com>, Peter Xu <peterx@redhat.com>,
+ Jason Wang <jasowang@redhat.com>, David Hildenbrand <david@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
+ Bandan Das <bsd@redhat.com>, "Edgar E . Iglesias"
+ <edgar.iglesias@gmail.com>, Darren Kenny <darren.kenny@oracle.com>,
+ Bin Meng <bin.meng@windriver.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ "Michael S . Tsirkin" <mst@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Eduardo Habkost <eduardo@habkost.net>, Jon Maloy <jmaloy@redhat.com>,
+ Siqi Chen <coc.cyqh@gmail.com>, Michael Tokarev <mjt@tls.msk.ru>,
+ Richard Henderson <richard.henderson@linaro.org>, maobibo@loongson.cn,
+ Tianrui Zhao <zhaotianrui@loongson.cn>,
+ Peter Maydell <peter.maydell@linaro.org>
+References: <20230427211013.2994127-1-alxndr@bu.edu>
+ <20230427211013.2994127-2-alxndr@bu.edu> <ZEt/3RwtL/jePTTv@redhat.com>
+ <828514c6-44f0-32f0-1eb1-a49f21617585@redhat.com>
+ <20230428091159.haydefdtq4m6z2tz@mozz.bu.edu>
+ <b151ecf7-0544-86ac-a182-1112a4dd7dca@redhat.com>
+ <c01a2b87-27be-e92a-3a5b-d561eadbc516@loongson.cn>
+ <981cdcd7-7326-08f0-9882-e66840175205@redhat.com>
+ <c4919eb6-74f1-7699-f924-6917cdf435bb@loongson.cn>
+ <faa1c6e0-abc2-f108-cc25-2b2cf71bd3d0@redhat.com>
+From: Song Gao <gaosong@loongson.cn>
+Message-ID: <8bb27e02-7295-626c-8f28-2d6c9d796d1b@loongson.cn>
+Date: Tue, 9 May 2023 10:13:14 +0800
+User-Agent: Mozilla/5.0 (X11; Linux loongarch64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-References: <CAO=notxJzdsy6S_f64f1nXGMGU-ZSr01iRDwc1-EyT5Lj9p1Dg@mail.gmail.com>
-In-Reply-To: <CAO=notxJzdsy6S_f64f1nXGMGU-ZSr01iRDwc1-EyT5Lj9p1Dg@mail.gmail.com>
-From: Patrick Venture <venture@google.com>
-Date: Mon, 8 May 2023 19:08:59 -0700
-Message-ID: <CAO=notw3-Hhqyr=w-zRbCn=_yNp+r5WYeMd=-3JP3j+MJvfg0w@mail.gmail.com>
-Subject: Re: ssl fips self check fails with 7.2.0 on x86 TCG
-To: QEMU Developers <qemu-devel@nongnu.org>
-Cc: Peter Foley <pefoley@google.com>
-Content-Type: multipart/alternative; boundary="000000000000b32b2505fb393df2"
-Received-SPF: pass client-ip=2a00:1450:4864:20::534;
- envelope-from=venture@google.com; helo=mail-ed1-x534.google.com
-X-Spam_score_int: -175
-X-Spam_score: -17.6
-X-Spam_bar: -----------------
-X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- ENV_AND_HDR_SPF_MATCH=-0.5, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01,
- USER_IN_DEF_DKIM_WL=-7.5,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
+In-Reply-To: <faa1c6e0-abc2-f108-cc25-2b2cf71bd3d0@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+X-CM-TRANSID: AQAAf8BxLL46rFlk2QdSAA--.16351S3
+X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
+X-Coremail-Antispam: 1Uk129KBjvJXoWxur18JrWfZw18tr1kCFy3urg_yoW5Gr48pr
+ WFyFyYkrWkJF4kAr4kt348WryYyr1xG34UWFn8JF1rJFWqvr1Y9r47Xw1jgF9rtw48CF1j
+ vFW0qa4fZ3WUXw7anT9S1TB71UUUUUDqnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
+ qI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUIcSsGvfJTRUUU
+ bIxYFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s
+ 1l1IIY67AEw4v_Jrv_JF1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xv
+ wVC0I7IYx2IY67AKxVW7JVWDJwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVWxJVW8Jr1l84
+ ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x0267AKxVW8Jr0_Cr1U
+ M2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12xvs2x26I8E6xACxx1l5I8CrVACY4
+ xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1Y6r17McIj6I8E87Iv67AKxVWUJVW8
+ JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lc7I2V7IY0VAS07AlzVAYIcxG8w
+ CF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j
+ 6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_GFv_WrylIxkGc2Ij64
+ vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_
+ Gr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0x
+ vEx4A2jsIEc7CjxVAFwI0_Jr0_GrUvcSsGvfC2KfnxnUUI43ZEXa7IU8zwZ7UUUUU==
+Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
+ helo=loongson.cn
+X-Spam_score_int: -36
+X-Spam_score: -3.7
+X-Spam_bar: ---
+X-Spam_report: (-3.7 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.802,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -86,58 +102,70 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
---000000000000b32b2505fb393df2
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-Verified it was https://gitlab.com/qemu-project/qemu/-/issues/1471
 
-On Thu, May 4, 2023 at 12:03=E2=80=AFPM Patrick Venture <venture@google.com=
-> wrote:
+在 2023/5/8 下午9:12, Thomas Huth 写道:
+> On 08/05/2023 15.03, Song Gao wrote:
+>> Hi, Thomas
+>>
+>> 在 2023/5/8 下午5:33, Thomas Huth 写道:
+>>> On 06/05/2023 11.25, Song Gao wrote:
+>>>>   Hi Alexander
+>>>>
+>>>> 在 2023/4/28 下午5:14, Thomas Huth 写道:
+>>>>> On 28/04/2023 11.11, Alexander Bulekov wrote:
+>>>>>> On 230428 1015, Thomas Huth wrote:
+>>>>>>> On 28/04/2023 10.12, Daniel P. Berrangé wrote:
+>>>>>>>> On Thu, Apr 27, 2023 at 05:10:06PM -0400, Alexander Bulekov wrote:
+>>>>>>>>> Add a flag to the DeviceState, when a device is engaged in 
+>>>>>>>>> PIO/MMIO/DMA.
+> ...
+>>>> This patch causes the loongarch virtual machine to fail to start 
+>>>> the slave cpu.
+>>>>
+>>>>      ./build/qemu-system-loongarch64 -machine virt -m 8G -cpu la464 \
+>>>>               -smp 4 -bios QEMU_EFI.fd -kernel vmlinuz.efi -initrd 
+>>>> ramdisk   \
+>>>>                 -serial stdio   -monitor 
+>>>> telnet:localhost:4495,server,nowait  \
+>>>>                 -append "root=/dev/ram rdinit=/sbin/init 
+>>>> console=ttyS0,115200"   --nographic
+>>>>
+>>>>
+>>>> ....
+>>>> qemu-system-loongarch64: warning: Blocked re-entrant IO on 
+>>>> MemoryRegion: loongarch_ipi_iocsr at addr: 0x24
+>>>
+>>> Oh, another spot that needs special handling ... I see Alexander 
+>>> already sent a patch (thanks!), but anyway, this is a good 
+>>> indication that we're missing some test coverage in the CI.
+>>>
+>>> Are there any loongarch kernel images available for public download 
+>>> somewhere? If so, we really should add an avocado regression test 
+>>> for this - since as far as I can see, we don't have any  tests for 
+>>> loongarch in tests/avocado yet?
+>>>
+>> we can get  some binarys  at:
+>> https://github.com/yangxiaojuan-loongson/qemu-binary
+> >
+>> I'm not sure that avacodo testing can be done using just the kernel.
+>>
+>> Is a full loongarch system required?
+>
+> No, you don't need a full distro installation, just a kernel with 
+> ramdisk (which is also available there) is good enough for a basic 
+> test, e.g. just check whether the kernel boots to a certain point is 
+> good enough to provide a basic sanity test. If you then can also get 
+> even into a shell (of the ramdisk), you can check some additional 
+> stuff in the sysfs or "dmesg" output, see for example 
+> tests/avocado/machine_s390_ccw_virtio.py which does such checks with a 
+> kernel and initrd on s390x.
+>
+Thanks for you suggestion .
 
-> Hi,
->
-> I just finished rebasing my team onto 7.2.0 and now I'm seeing
-> https://boringssl.googlesource.com/boringssl/+/master/crypto/fipsmodule/s=
-elf_check/self_check.c#361
-> fail.
->
-> I applied
-> https://lists.gnu.org/archive/html/qemu-devel/2023-05/msg00260.html and
-> it's still failing.
->
-> Is anyone else seeing this issue or have suggestions on how to debug it?
->
-> I haven't yet tried with 8.0.0 but that's my next step, although it also
-> needs the float32_exp3 patch.
->
-> Patrick
->
+We will add a loongarch basic test  on tests/avacode.
 
---000000000000b32b2505fb393df2
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Thanks.
+Song Gao
 
-<div dir=3D"ltr">Verified it was=C2=A0<a href=3D"https://gitlab.com/qemu-pr=
-oject/qemu/-/issues/1471">https://gitlab.com/qemu-project/qemu/-/issues/147=
-1</a></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_a=
-ttr">On Thu, May 4, 2023 at 12:03=E2=80=AFPM Patrick Venture &lt;<a href=3D=
-"mailto:venture@google.com">venture@google.com</a>&gt; wrote:<br></div><blo=
-ckquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left=
-:1px solid rgb(204,204,204);padding-left:1ex"><div dir=3D"ltr">Hi,<div><br>=
-</div><div>I just finished rebasing my team onto 7.2.0 and now I&#39;m seei=
-ng=C2=A0<a href=3D"https://boringssl.googlesource.com/boringssl/+/master/cr=
-ypto/fipsmodule/self_check/self_check.c#361" target=3D"_blank">https://bori=
-ngssl.googlesource.com/boringssl/+/master/crypto/fipsmodule/self_check/self=
-_check.c#361</a> fail.</div><div><br></div><div>I applied=C2=A0<a href=3D"h=
-ttps://lists.gnu.org/archive/html/qemu-devel/2023-05/msg00260.html" target=
-=3D"_blank">https://lists.gnu.org/archive/html/qemu-devel/2023-05/msg00260.=
-html</a> and it&#39;s still failing.</div><div><br></div><div>Is anyone els=
-e seeing this issue or have suggestions on how to debug it?</div><div><br><=
-/div><div>I haven&#39;t yet tried with 8.0.0 but that&#39;s my next step, a=
-lthough it also needs the float32_exp3 patch.</div><div><br></div><div>Patr=
-ick</div></div>
-</blockquote></div>
-
---000000000000b32b2505fb393df2--
 
