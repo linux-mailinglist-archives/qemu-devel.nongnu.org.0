@@ -2,85 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4D966FC8F3
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 May 2023 16:27:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 943996FC8F4
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 May 2023 16:27:34 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pwOIw-00024v-3t; Tue, 09 May 2023 10:27:02 -0400
+	id 1pwOJ9-0002Cb-1n; Tue, 09 May 2023 10:27:16 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1pwOIp-00024B-HK
- for qemu-devel@nongnu.org; Tue, 09 May 2023 10:26:55 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1pwOIm-0005VW-SA
- for qemu-devel@nongnu.org; Tue, 09 May 2023 10:26:55 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1683642412;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=DU4Qzxhp2XkuGZfqX/6z51krYVRKY7+fuJh3idHBquQ=;
- b=DLQ3dwIiwaZKrVtqGJv2szqa/2MR9Rm7x42DhupTnlNPM6+PdWVk1MdfRG2CNL0RLTsYvB
- bHsWK5ln8vM4xmDdpgoz3wS9ddz9NBQIs57kKV2smZ0ysacHcAvLQ/dHqTCtKG10UN42Sc
- ljhFH7ZwWNrJHnXUu2HZ5x/SjkwNDsc=
-Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
- [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-7-62fGGqO7Pjaddmu8ibWfSQ-1; Tue, 09 May 2023 10:26:46 -0400
-X-MC-Unique: 62fGGqO7Pjaddmu8ibWfSQ-1
-Received: by mail-ej1-f69.google.com with SMTP id
- a640c23a62f3a-969c36898d4so129495666b.3
- for <qemu-devel@nongnu.org>; Tue, 09 May 2023 07:26:42 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pwOIr-00024u-C3
+ for qemu-devel@nongnu.org; Tue, 09 May 2023 10:26:57 -0400
+Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pwOIp-0005Vx-Qa
+ for qemu-devel@nongnu.org; Tue, 09 May 2023 10:26:57 -0400
+Received: by mail-wm1-x32f.google.com with SMTP id
+ 5b1f17b1804b1-3f4000ec6ecso59676885e9.0
+ for <qemu-devel@nongnu.org>; Tue, 09 May 2023 07:26:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1683642414; x=1686234414;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=57QG+zDHMepkrmnymVj8E6KY+lrLCZL3UlUw+EW4kkk=;
+ b=OKM7fJLnQlBOble1NfxvpF4PYISEpar7uGn+qMYPSkkCW/7/zWkkCh54t10KItbff2
+ wDOf8BEhQNTxwo5R5RQD8eNgNUzVtiLzysYysTQGQYt7hsPiv0qT5UcESrqMQCbm/g4j
+ NENI3Pu2sjD/d4fm6z0L//nlsOGYoN5TtNuysvmwrd94R3aqiZSm/rT7nrBjU7lwYh9K
+ EKTIVBNQ/hha132wyXWKKukvnb3umpqSuVFBTKbyeKjwuhoGK1R8scFgPiX5WWuDl1jt
+ 3IkfFzyrrQp0lj4IivxHu8LjPuJsWJfzlktXcH2K/h7yG0H7nMCYPy1432oDbWRbSJJr
+ Z3Xw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683642401; x=1686234401;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=DU4Qzxhp2XkuGZfqX/6z51krYVRKY7+fuJh3idHBquQ=;
- b=WqEvK/jrQZhLhylSgVSTwoVMarDc7d7hhrsBpQ77Z9XCLpxzenpuQ5BzwqRJeQishE
- eyZxaFGPbQcMLwUpx/mQpce6WY8/C/8sppp8rdElesgkHwRwOMZ2ASbOd9ufbAt0npLB
- eFcddzVlYbsl2FFpT85opq22I9YYQCimND+LqAfi8lG2oB59LkvCHepOSzd7Y6UzX271
- PmpFKgZL8RGl4aUhBxoUTfJy1p07Q0jZIbER8ZoUWzXXFUSRezc1fRL2hSi+MlUhPIrb
- 06fc3Vo7Bz94GqDmkHL1BaYVbD3QnZEcc5rbGOMrAp2/r1xq3OQf3ezTb3QeYAPYCIEl
- kFZA==
-X-Gm-Message-State: AC+VfDxNVwHBNX0lXyqwgMAWvaNb8xpyoIuGBzHjGeC9TW3q1aUvqI4p
- roccZL6XJUM1w1ukCH4tYUVJENHLL3Ir9ztCOGgMl8BmPPFnVIdtwo/o6wkVdcNkBIyn6hUAHnL
- i4/Mi6Uaa4swWJbfTOPPJnG4CtszE2plTnDUJTaA2DaX4fX7rrB2Kz+k+Ph+waSfpvUhycl+Nm1
- w=
-X-Received: by 2002:a17:907:d1e:b0:965:66dd:78f8 with SMTP id
- gn30-20020a1709070d1e00b0096566dd78f8mr14040494ejc.56.1683642400958; 
- Tue, 09 May 2023 07:26:40 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ64gyADUF81NHJnYmFve3czfAaGZoxtjNermzRWfRwS86XtNxTqHQtcNPAzcST5y/NB2xUvDw==
-X-Received: by 2002:a17:907:d1e:b0:965:66dd:78f8 with SMTP id
- gn30-20020a1709070d1e00b0096566dd78f8mr14040464ejc.56.1683642400490; 
- Tue, 09 May 2023 07:26:40 -0700 (PDT)
-Received: from [192.168.10.118] ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
+ d=1e100.net; s=20221208; t=1683642414; x=1686234414;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=57QG+zDHMepkrmnymVj8E6KY+lrLCZL3UlUw+EW4kkk=;
+ b=gwx3zUe9rFSBaFkuW+34obI3ybyixy6cXdYATfIXR+bsDPrwzcC5OmaQLA0iLBCFUU
+ SPaNZfshIQJsbewe2axf7eQ+xCBeoT9OuiVlxQm6kk2fNyVT/yeQG9NEEVHLtyQilmaN
+ b4zeKXgKPB7U2Pt2H5ksh1A6O0AnW45ffhZJCvJfILZRzExGi87C/+KRjOE8LgI5KmWq
+ DCylqdPSd8U8LFDS6c2nPrR711KrIHDAfnXoYm6z8dZb18nBrFFTjT1cb/zzThy4Czim
+ 2kiaF+19PitS6AMojdKVvHBQQKq94IIgWlfCuD/W9JY3+LdnaNiFVN+deEXYN8ePu0J4
+ LG8g==
+X-Gm-Message-State: AC+VfDw0MjcgbcoHQTtjzFM/WG9bfVVhTQ40rXl6HrjdZnQ04XXFRdcF
+ lSm2jQs6iEr91MENNIglMYqjBw==
+X-Google-Smtp-Source: ACHHUZ7UBBYbTUnSt6XZQyqEnCoXPKGOOAqZsRQrzdW8X4fzZAD+pw8/KHgUXC3nt7WsDW2VkPftHg==
+X-Received: by 2002:a1c:7c0a:0:b0:3ef:561d:255d with SMTP id
+ x10-20020a1c7c0a000000b003ef561d255dmr8794966wmc.41.1683642413932; 
+ Tue, 09 May 2023 07:26:53 -0700 (PDT)
+Received: from [192.168.69.115] ([176.187.211.62])
  by smtp.gmail.com with ESMTPSA id
- nr1-20020a1709068b8100b0094f1b8901e1sm1407806ejc.68.2023.05.09.07.26.39
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 09 May 2023 07:26:40 -0700 (PDT)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: ricky@rzhou.org,
-	Gabriele Svelto <gsvelto@mozilla.com>
-Subject: [PATCH] target/i386: fix operand size for VCOMI/VUCOMI instructions
-Date: Tue,  9 May 2023 16:26:39 +0200
-Message-Id: <20230509142639.253947-1-pbonzini@redhat.com>
-X-Mailer: git-send-email 2.40.1
+ q3-20020a1cf303000000b003f3157988f8sm19988241wmq.26.2023.05.09.07.26.53
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 09 May 2023 07:26:53 -0700 (PDT)
+Message-ID: <47a73c1c-bfbc-752a-c52a-0262b6554a5a@linaro.org>
+Date: Tue, 9 May 2023 16:26:52 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.10.1
+Subject: Re: [PATCH 0/2] target/arm: Move more files to tcg/
+Content-Language: en-US
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+Cc: qemu-arm@nongnu.org
+References: <20230504110412.1892411-1-richard.henderson@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20230504110412.1892411-1-richard.henderson@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x32f.google.com
+X-Spam_score_int: -24
+X-Spam_score: -2.5
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.421,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -98,59 +92,17 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Compared to other SSE instructions, VUCOMISx and VCOMISx are different:
-the single and double precision versions are distinguished through a
-prefix, however they use no-prefix and 0x66 for SS and SD respectively.
-Scalar values usually are associated with 0xF2 and 0xF3.
+On 4/5/23 13:04, Richard Henderson wrote:
+> Move 7 files to tcg/.
+> 
+> r~
+> 
+> 
+> Richard Henderson (2):
+>    target/arm: Move translate-a32.h, arm_ldst.h, sve_ldst_internal.h to
+>      tcg/
+>    target/arm: Move helper-{a64,mve,sme,sve}.h to tcg/
 
-Because of these, they incorrectly perform a 128-bit memory load instead
-of a 32- or 64-bit load.  Fix this by writing a custom decoding function.
-
-I tested that the reproducer is fixed and the test-avx output does not
-change.
-
-Reported-by: Gabriele Svelto <gsvelto@mozilla.com>
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1637
-Fixes: f8d19eec0d53 ("target/i386: reimplement 0x0f 0x28-0x2f, add AVX", 2022-10-18)
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- target/i386/tcg/decode-new.c.inc | 15 +++++++++++++--
- 1 file changed, 13 insertions(+), 2 deletions(-)
-
-diff --git a/target/i386/tcg/decode-new.c.inc b/target/i386/tcg/decode-new.c.inc
-index 4fdd87750bea..48fefaffdf63 100644
---- a/target/i386/tcg/decode-new.c.inc
-+++ b/target/i386/tcg/decode-new.c.inc
-@@ -783,6 +783,17 @@ static void decode_0F2D(DisasContext *s, CPUX86State *env, X86OpEntry *entry, ui
-     *entry = *decode_by_prefix(s, opcodes_0F2D);
- }
- 
-+static void decode_VxCOMISx(DisasContext *s, CPUX86State *env, X86OpEntry *entry, uint8_t *b)
-+{
-+    /*
-+     * VUCOMISx and VCOMISx are different and use no-prefix and 0x66 for SS and SD
-+     * respectively.  Scalar values usually are associated with 0xF2 and 0xF3, for
-+     * which X86_VEX_REPScalar exists, but here it has to be decoded by hand.
-+     */
-+    entry->s1 = entry->s2 = (s->prefix & PREFIX_DATA ? X86_SIZE_sd : X86_SIZE_ss);
-+    entry->gen = (*b == 0x2E ? gen_VUCOMI : gen_VCOMI);
-+}
-+
- static void decode_sse_unary(DisasContext *s, CPUX86State *env, X86OpEntry *entry, uint8_t *b)
- {
-     if (!(s->prefix & (PREFIX_REPZ | PREFIX_REPNZ))) {
-@@ -871,8 +882,8 @@ static const X86OpEntry opcodes_0F[256] = {
-     [0x2B] = X86_OP_GROUP0(0F2B),
-     [0x2C] = X86_OP_GROUP0(0F2C),
-     [0x2D] = X86_OP_GROUP0(0F2D),
--    [0x2E] = X86_OP_ENTRY3(VUCOMI,     None,None, V,x, W,x,  vex4 p_00_66),
--    [0x2F] = X86_OP_ENTRY3(VCOMI,      None,None, V,x, W,x,  vex4 p_00_66),
-+    [0x2E] = X86_OP_GROUP3(VxCOMISx,   None,None, V,x, W,x,  vex3 p_00_66), /* VUCOMISS/SD */
-+    [0x2F] = X86_OP_GROUP3(VxCOMISx,   None,None, V,x, W,x,  vex3 p_00_66), /* VCOMISS/SD */
- 
-     [0x38] = X86_OP_GROUP0(0F38),
-     [0x3a] = X86_OP_GROUP0(0F3A),
--- 
-2.40.1
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
 
