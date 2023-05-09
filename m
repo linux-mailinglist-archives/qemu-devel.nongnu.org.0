@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 544306FC248
+	by mail.lfdr.de (Postfix) with ESMTPS id 89B666FC249
 	for <lists+qemu-devel@lfdr.de>; Tue,  9 May 2023 11:06:17 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pwJHh-0005OI-PA; Tue, 09 May 2023 05:05:25 -0400
+	id 1pwJHj-0005Xs-Bx; Tue, 09 May 2023 05:05:27 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1pwJHe-0005Hb-Nu
- for qemu-devel@nongnu.org; Tue, 09 May 2023 05:05:22 -0400
+ id 1pwJHg-0005L1-Ac
+ for qemu-devel@nongnu.org; Tue, 09 May 2023 05:05:24 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1pwJHc-0004xz-TP
- for qemu-devel@nongnu.org; Tue, 09 May 2023 05:05:22 -0400
+ id 1pwJHe-0004zE-GU
+ for qemu-devel@nongnu.org; Tue, 09 May 2023 05:05:23 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1683623120;
+ s=mimecast20190719; t=1683623122;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version: content-type:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=60z7QDVoGzUjcssJ/mfMWVookWfEKvlV0VDno7yPxD0=;
- b=exYW0D9GMT08Hrgvgyz1HHiqvXVW7cf3kzIcgXAy0QZNmfvuIsK6RsZl1hFL4/DkhEfRd3
- ESw+H+Ne4bZfGp7y2Bde3NVPzMc2eW5Oj9zPi8zyftMN1/nY01tXxZNzo0eLJaPDiY7vaN
- 2WvgC8I4hsCXAUMz1XlaoQWXBOdOJj4=
-Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
- [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=vABqxpGYsTTWZVtBOVdSZcGNrfMPV3ooC0Onx2+aiSs=;
+ b=BNYkwxJzRAg6Q6Yjf0KpVfy4IyElDxc+gIPET/eIwYRAAUJB3Xjwk9gd1mbHYQnhHQ+5PU
+ +pCniSJXeMizWcw7/DRwHggMXoK8tAPqaWfTkYJQDtTpFQVgc9homoTGdvLlul+LzF0zdH
+ AxzMLEBO2EEiUrlyRSP/J9oZjl++AQ0=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-550-Xd53IMGaPbyO65MH4lNUnQ-1; Tue, 09 May 2023 05:05:19 -0400
-X-MC-Unique: Xd53IMGaPbyO65MH4lNUnQ-1
-Received: by mail-ej1-f70.google.com with SMTP id
- a640c23a62f3a-94f7a2b21fdso693671666b.2
- for <qemu-devel@nongnu.org>; Tue, 09 May 2023 02:05:19 -0700 (PDT)
+ us-mta-444-kQzBl_eANmGxGA8yg3i2Gg-1; Tue, 09 May 2023 05:05:20 -0400
+X-MC-Unique: kQzBl_eANmGxGA8yg3i2Gg-1
+Received: by mail-ed1-f70.google.com with SMTP id
+ 4fb4d7f45d1cf-50bf9e97bdbso6438325a12.0
+ for <qemu-devel@nongnu.org>; Tue, 09 May 2023 02:05:20 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683623117; x=1686215117;
+ d=1e100.net; s=20221208; t=1683623119; x=1686215119;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=60z7QDVoGzUjcssJ/mfMWVookWfEKvlV0VDno7yPxD0=;
- b=PxpEHt40SrgOlpUlPGVBTzbhVo2IScJmd2hy0r/Ndp9qwYtOx0hdRJri+udMdmvkmZ
- J/353B9bH8d19j7wF1BwaJ/orBwGgMrCWT3jr7BucLpRe/81t42NMXEp2UPXIHOcbQIK
- 2Oj4UGXcZX9XoLpQuRD5E6iR4J1GvrBGQaGjGAaUP0cqWe5YNH/33sOfgaGxGPheoQCA
- xwckLAXpzYTH1koD59c6qDA6JBd4EljdgHvKbxo4rG5MB/ri+3G/62vx3GRCXv70yxjE
- mHJhq1+KD2RAvtw2+Hgbm3BvlSwxTnrarv2KOt7v5mAocqU1QYrXF5w08PB5xQ0NeT9n
- BmTA==
-X-Gm-Message-State: AC+VfDyghHMUvdv23YlAWO/bep2h4t6lHcOWquIHEIcv/oai6ImKbvnU
- Fn0TQC/OjFCjezhlXhGqx/Hpf6dJMm3obWo3xTug2N6gKy6P33P3vuAnhDT8jt2AUwINisIdjf7
- 08se3j6K3a/7EewbxMuGzj2q4IyATulrr11AYaL7A0URebamB/F3mTfEidmgk8eyRBucyhpC5pg
- A=
-X-Received: by 2002:a17:907:36c8:b0:961:b589:d07b with SMTP id
- bj8-20020a17090736c800b00961b589d07bmr11015728ejc.46.1683623117727; 
- Tue, 09 May 2023 02:05:17 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ40u9Xxi5y0AXJwvzrxB0B8QKimpODhZHi7vsSzztiqmPTCjTao/JiwDFjElPfN6UaYOgTrzg==
-X-Received: by 2002:a17:907:36c8:b0:961:b589:d07b with SMTP id
- bj8-20020a17090736c800b00961b589d07bmr11015710ejc.46.1683623117439; 
- Tue, 09 May 2023 02:05:17 -0700 (PDT)
+ bh=vABqxpGYsTTWZVtBOVdSZcGNrfMPV3ooC0Onx2+aiSs=;
+ b=ZDhmMovg+tGCUEGjbpw67gB5kjUQIlMtejqftrSiOxtzzC/FPhCf6zoUdFwlFlwXPh
+ GbpC6vN+CvcgcLUPfJe9P1WNxg7JZGfQPgM5/8Tiv3ihfQmn18yU6mvaqY7KndLi5g+5
+ uJ3MHQomQWtXLzpBuigs0ynh9xyQcgWZL30Ul0gFYi+zzWrXDY3cMtv3ZL6/wkgn6MiX
+ ItewJVnJwjIsTiGitPANRtQkovptltEXI79mY95AC0u01qAD3w8tMCNliy8dYT4tQ+lG
+ WNV99KrEJbUnczZCN0NaKNHXCFH9HtF8owecz5zovQ2SpXPjy+6eJ35uAR6dQddV//4G
+ N5gQ==
+X-Gm-Message-State: AC+VfDxREqg0AOP+knhSJHo9FUCz8Z8CbNfT854YMbgoqTYwl7rD8jXp
+ s3HVpKI6ko7a956/I0yxOJfVkX421DDgReo+NL/f2eNOuGets4QShLhR+wKqgGIM0kLmBmhu0Uf
+ +a8kE4WDwx+pMRjrYMtdAZe9IUUteilSIoJoO5VXuotOesWRHaqUuOPNGJCGNU+bGz39YeFaBPR
+ s=
+X-Received: by 2002:a05:6402:28d:b0:506:fcd5:6159 with SMTP id
+ l13-20020a056402028d00b00506fcd56159mr10820271edv.21.1683623119416; 
+ Tue, 09 May 2023 02:05:19 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ6je9gcXHKFQCZh5YyQD8hKA1Rb25fYHLcX1c93BYk+hJL2ZxZK4aWbc5P7yitdz6H4knM/Eg==
+X-Received: by 2002:a05:6402:28d:b0:506:fcd5:6159 with SMTP id
+ l13-20020a056402028d00b00506fcd56159mr10820256edv.21.1683623119096; 
+ Tue, 09 May 2023 02:05:19 -0700 (PDT)
 Received: from [192.168.10.118] ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
  by smtp.gmail.com with ESMTPSA id
- n5-20020a1709065da500b0096616adc0d5sm1064303ejv.104.2023.05.09.02.05.16
+ c4-20020a056402100400b0050bc41352d9sm515107edu.46.2023.05.09.02.05.17
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 09 May 2023 02:05:16 -0700 (PDT)
+ Tue, 09 May 2023 02:05:18 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Cc: Babu Moger <babu.moger@amd.com>,
-	"Michael S . Tsirkin" <mst@redhat.com>
-Subject: [PULL 12/16] target/i386: Add missing feature bits in EPYC-Milan model
-Date: Tue,  9 May 2023 11:04:49 +0200
-Message-Id: <20230509090453.37884-13-pbonzini@redhat.com>
+Cc: Babu Moger <babu.moger@amd.com>, Santosh Shukla <santosh.shukla@amd.com>,
+ Kim Phillips <kim.phillips@amd.com>
+Subject: [PULL 13/16] target/i386: Add VNMI and automatic IBRS feature bits
+Date: Tue,  9 May 2023 11:04:50 +0200
+Message-Id: <20230509090453.37884-14-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.40.1
 In-Reply-To: <20230509090453.37884-1-pbonzini@redhat.com>
 References: <20230509090453.37884-1-pbonzini@redhat.com>
@@ -104,130 +104,83 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Babu Moger <babu.moger@amd.com>
 
-Add the following feature bits for EPYC-Milan model and bump the version.
-vaes            : Vector VAES(ENC|DEC), VAES(ENC|DEC)LAST instruction support
-vpclmulqdq	: Vector VPCLMULQDQ instruction support
-stibp-always-on : Single Thread Indirect Branch Prediction Mode has enhanced
-                  performance and may be left Always on
-amd-psfd	: Predictive Store Forward Disable
-no-nested-data-bp         : Processor ignores nested data breakpoints
-lfence-always-serializing : LFENCE instruction is always serializing
-null-sel-clr-base         : Null Selector Clears Base. When this bit is
-                            set, a null segment load clears the segment base
+Add the following featute bits.
 
-These new features will be added in EPYC-Milan-v2. The "-cpu help" output
-after the change will be.
+vnmi: Virtual NMI (VNMI) allows the hypervisor to inject the NMI into the
+      guest without using Event Injection mechanism meaning not required to
+      track the guest NMI and intercepting the IRET.
+      The presence of this feature is indicated via the CPUID function
+      0x8000000A_EDX[25].
 
-    x86 EPYC-Milan             (alias configured by machine type)
-    x86 EPYC-Milan-v1          AMD EPYC-Milan Processor
-    x86 EPYC-Milan-v2          AMD EPYC-Milan Processor
+automatic-ibrs :
+      The AMD Zen4 core supports a new feature called Automatic IBRS.
+      It is a "set-and-forget" feature that means that, unlike e.g.,
+      s/w-toggled SPEC_CTRL.IBRS, h/w manages its IBRS mitigation
+      resources automatically across CPL transitions.
+      The presence of this feature is indicated via the CPUID function
+      0x80000021_EAX[8].
 
-The documentation for the features are available in the links below.
+The documention for the features are available in the links below.
 a. Processor Programming Reference (PPR) for AMD Family 19h Model 01h,
    Revision B1 Processors
-b. SECURITY ANALYSIS OF AMD PREDICTIVE STORE FORWARDING
-c. AMD64 Architecture Programmer’s Manual Volumes 1–5 Publication No. Revision
-    40332 4.05 Date October 2022
+b. AMD64 Architecture Programmer’s Manual Volumes 1–5 Publication No. Revision
+   40332 4.05 Date October 2022
 
+Signed-off-by: Santosh Shukla <santosh.shukla@amd.com>
+Signed-off-by: Kim Phillips <kim.phillips@amd.com>
 Signed-off-by: Babu Moger <babu.moger@amd.com>
-Acked-by: Michael S. Tsirkin <mst@redhat.com>
 Link: https://www.amd.com/system/files/TechDocs/55898_B1_pub_0.50.zip
-Link: https://www.amd.com/system/files/documents/security-analysis-predictive-store-forwarding.pdf
 Link: https://www.amd.com/system/files/TechDocs/40332_4.05.pdf
-Message-Id: <20230504205313.225073-6-babu.moger@amd.com>
+Message-Id: <20230504205313.225073-7-babu.moger@amd.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- target/i386/cpu.c | 70 +++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 70 insertions(+)
+ target/i386/cpu.c | 4 ++--
+ target/i386/cpu.h | 3 +++
+ 2 files changed, 5 insertions(+), 2 deletions(-)
 
 diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index fd3909b5a357..3970463114d3 100644
+index 3970463114d3..6836d7fd1cb9 100644
 --- a/target/i386/cpu.c
 +++ b/target/i386/cpu.c
-@@ -1945,6 +1945,56 @@ static const CPUCaches epyc_milan_cache_info = {
-     },
- };
+@@ -809,7 +809,7 @@ FeatureWordInfo feature_word_info[FEATURE_WORDS] = {
+             "pfthreshold", "avic", NULL, "v-vmsave-vmload",
+             "vgif", NULL, NULL, NULL,
+             NULL, NULL, NULL, NULL,
+-            NULL, NULL, NULL, NULL,
++            NULL, "vnmi", NULL, NULL,
+             "svme-addr-chk", NULL, NULL, NULL,
+         },
+         .cpuid = { .eax = 0x8000000A, .reg = R_EDX, },
+@@ -947,7 +947,7 @@ FeatureWordInfo feature_word_info[FEATURE_WORDS] = {
+         .feat_names = {
+             "no-nested-data-bp", NULL, "lfence-always-serializing", NULL,
+             NULL, NULL, "null-sel-clr-base", NULL,
+-            NULL, NULL, NULL, NULL,
++            "auto-ibrs", NULL, NULL, NULL,
+             NULL, NULL, NULL, NULL,
+             NULL, NULL, NULL, NULL,
+             NULL, NULL, NULL, NULL,
+diff --git a/target/i386/cpu.h b/target/i386/cpu.h
+index b8c56936bdd5..8ade71ab555d 100644
+--- a/target/i386/cpu.h
++++ b/target/i386/cpu.h
+@@ -774,6 +774,7 @@ uint64_t x86_cpu_get_supported_feature_word(FeatureWord w,
+ #define CPUID_SVM_AVIC            (1U << 13)
+ #define CPUID_SVM_V_VMSAVE_VMLOAD (1U << 15)
+ #define CPUID_SVM_VGIF            (1U << 16)
++#define CPUID_SVM_VNMI            (1U << 25)
+ #define CPUID_SVM_SVME_ADDR_CHK   (1U << 28)
  
-+static const CPUCaches epyc_milan_v2_cache_info = {
-+    .l1d_cache = &(CPUCacheInfo) {
-+        .type = DATA_CACHE,
-+        .level = 1,
-+        .size = 32 * KiB,
-+        .line_size = 64,
-+        .associativity = 8,
-+        .partitions = 1,
-+        .sets = 64,
-+        .lines_per_tag = 1,
-+        .self_init = 1,
-+        .no_invd_sharing = true,
-+    },
-+    .l1i_cache = &(CPUCacheInfo) {
-+        .type = INSTRUCTION_CACHE,
-+        .level = 1,
-+        .size = 32 * KiB,
-+        .line_size = 64,
-+        .associativity = 8,
-+        .partitions = 1,
-+        .sets = 64,
-+        .lines_per_tag = 1,
-+        .self_init = 1,
-+        .no_invd_sharing = true,
-+    },
-+    .l2_cache = &(CPUCacheInfo) {
-+        .type = UNIFIED_CACHE,
-+        .level = 2,
-+        .size = 512 * KiB,
-+        .line_size = 64,
-+        .associativity = 8,
-+        .partitions = 1,
-+        .sets = 1024,
-+        .lines_per_tag = 1,
-+    },
-+    .l3_cache = &(CPUCacheInfo) {
-+        .type = UNIFIED_CACHE,
-+        .level = 3,
-+        .size = 32 * MiB,
-+        .line_size = 64,
-+        .associativity = 16,
-+        .partitions = 1,
-+        .sets = 32768,
-+        .lines_per_tag = 1,
-+        .self_init = true,
-+        .inclusive = true,
-+        .complex_indexing = false,
-+    },
-+};
-+
- /* The following VMX features are not supported by KVM and are left out in the
-  * CPU definitions:
-  *
-@@ -4423,6 +4473,26 @@ static const X86CPUDefinition builtin_x86_defs[] = {
-         .xlevel = 0x8000001E,
-         .model_id = "AMD EPYC-Milan Processor",
-         .cache_info = &epyc_milan_cache_info,
-+        .versions = (X86CPUVersionDefinition[]) {
-+            { .version = 1 },
-+            {
-+                .version = 2,
-+                .props = (PropValue[]) {
-+                    { "model-id",
-+                      "AMD EPYC-Milan-v2 Processor" },
-+                    { "vaes", "on" },
-+                    { "vpclmulqdq", "on" },
-+                    { "stibp-always-on", "on" },
-+                    { "amd-psfd", "on" },
-+                    { "no-nested-data-bp", "on" },
-+                    { "lfence-always-serializing", "on" },
-+                    { "null-sel-clr-base", "on" },
-+                    { /* end of list */ }
-+                },
-+                .cache_info = &epyc_milan_v2_cache_info
-+            },
-+            { /* end of list */ }
-+        }
-     },
- };
+ /* Support RDFSBASE/RDGSBASE/WRFSBASE/WRGSBASE */
+@@ -960,6 +961,8 @@ uint64_t x86_cpu_get_supported_feature_word(FeatureWord w,
+ #define CPUID_8000_0021_EAX_LFENCE_ALWAYS_SERIALIZING    (1U << 2)
+ /* Null Selector Clears Base */
+ #define CPUID_8000_0021_EAX_NULL_SEL_CLR_BASE    (1U << 6)
++/* Automatic IBRS */
++#define CPUID_8000_0021_EAX_AUTO_IBRS   (1U << 8)
  
+ #define CPUID_XSAVE_XSAVEOPT   (1U << 0)
+ #define CPUID_XSAVE_XSAVEC     (1U << 1)
 -- 
 2.40.1
 
