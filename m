@@ -2,78 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6EC46FC601
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 May 2023 14:12:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 153976FC606
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 May 2023 14:13:44 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pwMCf-0007g6-8R; Tue, 09 May 2023 08:12:25 -0400
+	id 1pwMDQ-0000if-FR; Tue, 09 May 2023 08:13:12 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pwMCc-0007fm-QO
- for qemu-devel@nongnu.org; Tue, 09 May 2023 08:12:22 -0400
-Received: from mail-ed1-x52f.google.com ([2a00:1450:4864:20::52f])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pwMCa-00007U-Sx
- for qemu-devel@nongnu.org; Tue, 09 May 2023 08:12:22 -0400
-Received: by mail-ed1-x52f.google.com with SMTP id
- 4fb4d7f45d1cf-50bc075d6b2so10973627a12.0
- for <qemu-devel@nongnu.org>; Tue, 09 May 2023 05:12:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1683634337; x=1686226337;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=SoinHz6iMwjXA3ffGSWaQONYfahVOdpHtjkPj73402Y=;
- b=zpZ81hiq3j3RKKgMY/xYC/pM26SqCtgLvwh3d3hadsNFbeNytiVurVGdhelh5vf7Vk
- 2jbF/yTntCgnAJssV+JtXF4anwqQYOPzb4QG9KLizL0MJ988xhVZFM0HWDolXoA+06MN
- ZNX0bwAGS4/PZw8tt6uuG086fUHUdy87RtTYbRxYIj0pnnRdgmTBs58Y1NoLhtxm7aeh
- h/OvshLw+kGJA6HwOUWsHOWA/6N0A/pIbaaUjM9dkzydD34gameLM34ijEroToJO+Mxt
- DHrCc2Si7Ozg+Zl7rLEk9tbORhDZ6ShguDqWR+ObAbsZWocc2ePh01xEHvfU4QQAvRni
- +1DQ==
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1pwMDN-0000eN-JO
+ for qemu-devel@nongnu.org; Tue, 09 May 2023 08:13:09 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1pwMDL-0000Ae-8c
+ for qemu-devel@nongnu.org; Tue, 09 May 2023 08:13:08 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1683634368;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=jgrJCwIHZrTDIzT2nevEbjtqD1oXGX9E6nKEzACdZqs=;
+ b=hi6o5y5aKJf4gF3Fd17VLrbPSTT+67L/NkGV4nS1Uzuxezwuxc2imMPCqWnwmEoMRYnEHs
+ W5r6B/s0e/tekqY+034hnIOLbsP7QWq0cmATq0T2YndAlD8Voa1g4NhvJ5PP2i8tYoElT1
+ 0HuF+3Z2mtivAskrz/797YyJCemjVaA=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-113-8U8WZj_uN9m49iZb50iM0w-1; Tue, 09 May 2023 08:12:46 -0400
+X-MC-Unique: 8U8WZj_uN9m49iZb50iM0w-1
+Received: by mail-ed1-f71.google.com with SMTP id
+ 4fb4d7f45d1cf-50bc6c6b9dbso6089885a12.0
+ for <qemu-devel@nongnu.org>; Tue, 09 May 2023 05:12:46 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683634337; x=1686226337;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ d=1e100.net; s=20221208; t=1683634365; x=1686226365;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=SoinHz6iMwjXA3ffGSWaQONYfahVOdpHtjkPj73402Y=;
- b=TqmMkYmx3paQl/XFHQZ25EwWns1R74FbsqLz99AJFsxqGuDEmSWQY8TkQuVP0lmKSd
- rP2mQIaxh9a0ETI6lhqa5g5k0Gg79eth/Gna8qKjtGpyvULULX/cm8u8thZTLRivrQuj
- CHZj1m5LoZHh/HAVVgf1Crweoz8pqwmGZC91HaHA+bc1P/r94CiOallfYwb524RSuZ/s
- lmkWDrsfBqIM2DkhIVidVxWM0Srrn/kQPg13y4I24AcUZWwcaCWkVv+b3xI6j0nwyLkq
- 0fxA3/AszLkzRWA96IiNIpeUFcIMdWdph7SCVgpsHS7gHyR3yQfNAI6BFzbgLQ3h85wg
- PBRQ==
-X-Gm-Message-State: AC+VfDx7n6lJ0aYxivorM3WX1cO+GagTIeM/0pknb4qvwETc5oNtd+1G
- knJGIsgYK4Dd3Tqdds7wwZn/qZHH8FO7wH3qsIWnEQ==
-X-Google-Smtp-Source: ACHHUZ4DI7eLnQow5PrFCSNW53n7ZaVoxx8JgxjRHc5GNXqu5QcXQVOlxHyhxiTT5Oley0HWMkH+q7mtg7aXTJ1z7Ws=
-X-Received: by 2002:aa7:cf92:0:b0:50b:c3a3:be7c with SMTP id
- z18-20020aa7cf92000000b0050bc3a3be7cmr9828039edx.30.1683634337613; Tue, 09
- May 2023 05:12:17 -0700 (PDT)
+ bh=jgrJCwIHZrTDIzT2nevEbjtqD1oXGX9E6nKEzACdZqs=;
+ b=Yj/RlSACv52Sw/OZQNd75PJxcOf4/Qxr6oS/LHVguZvgH9teHhGEyaUpzEBO1pxJmU
+ Bcg9ewh0kBdDWXtAWWCi4gpF3WN7b7god5SPnkB7Y9BldsrhJzCCS+JdvQs0IXQ1pMCY
+ AdgD3JuEdEy429fXRbi0PxO6lhBtlsgcHlPw6yPaXJIcC4hdS63+zMdNt1xIjZgWrO29
+ 24zzurQvB90b+1kSWJNI+kV7yZD3M7aJ4D1aL8rIumaLc1xG+ufVjzzX0qmZmY+YO+Z0
+ 66zBefVvfTftSG82iuDPAdPv5sgvQsTwz0eEccd7eTscjvfF0UCGU6f5JuEcPTI1qd9A
+ fmsA==
+X-Gm-Message-State: AC+VfDyq8lhsYzSU7RSRGxvTFKf9NntMYn+ZEd4SgeqBnLEH7lM3nKXy
+ T8m/UwjejaAlPWNd2x10cP7ji0YsRhJ9UVs6rloRclGp5gOsoDJ/qaAYwizEnd0piesa7u7K1M5
+ +poeg+2KL2xMa00M=
+X-Received: by 2002:a17:907:6d22:b0:965:d7c7:24db with SMTP id
+ sa34-20020a1709076d2200b00965d7c724dbmr12273469ejc.32.1683634365727; 
+ Tue, 09 May 2023 05:12:45 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ7Cxp97HNfBIrCnx0QXvfraAdhYJucZD0Jke0/GtV7rBTB9CyegWeMO9+bfk/o9vYInb21EbA==
+X-Received: by 2002:a17:907:6d22:b0:965:d7c7:24db with SMTP id
+ sa34-20020a1709076d2200b00965d7c724dbmr12273442ejc.32.1683634365294; 
+ Tue, 09 May 2023 05:12:45 -0700 (PDT)
+Received: from imammedo.users.ipa.redhat.com (nat-pool-brq-t.redhat.com.
+ [213.175.37.10]) by smtp.gmail.com with ESMTPSA id
+ w13-20020a170907270d00b0095fbb1b72c2sm1268862ejk.63.2023.05.09.05.12.44
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 09 May 2023 05:12:44 -0700 (PDT)
+Date: Tue, 9 May 2023 14:12:43 +0200
+From: Igor Mammedov <imammedo@redhat.com>
+To: Yin Wang <yin.wang@intel.com>
+Cc: qemu-devel@nongnu.org, Eduardo Habkost <eduardo@habkost.net>, Marcel
+ Apfelbaum <marcel.apfelbaum@gmail.com>, Philippe =?UTF-8?B?TWF0aGlldS1E?=
+ =?UTF-8?B?YXVkw6k=?= <philmd@linaro.org>, Yanan Wang
+ <wangyanan55@huawei.com>
+Subject: Re: [PATCH] Fix QEMU crash caused when NUMA nodes exceed available
+ CPUs
+Message-ID: <20230509141243.7ce34dd0@imammedo.users.ipa.redhat.com>
+In-Reply-To: <20230509064452.759834-1-yin.wang@intel.com>
+References: <20230509064452.759834-1-yin.wang@intel.com>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.37; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-References: <11bf324.342.187b3418349.Coremail.wangyuquan1236@phytium.com.cn>
- <CAFEAcA9pa+uHGk34uCGX1ZHiCBDeDHXFLDFyVDAVvDxQScEChg@mail.gmail.com>
- <70009a13.15f.187bc308951.Coremail.wangyuquan1236@phytium.com.cn>
-In-Reply-To: <70009a13.15f.187bc308951.Coremail.wangyuquan1236@phytium.com.cn>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 9 May 2023 13:12:06 +0100
-Message-ID: <CAFEAcA-jZBiSL8vNzgcwUT2Lqtgf9JyyaQx7kD4j=Tc9neD_OQ@mail.gmail.com>
-Subject: Re: Re: Problem of initialization of platform-ehci-usb in sbsa-ref
-To: Yuquan Wang <wangyuquan1236@phytium.com.cn>
-Cc: qemu-arm@nongnu.org, rad@semihalf.com, quic_llindhol@quicinc.com, 
- Gerd Hoffmann <kraxel@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::52f;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52f.google.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=imammedo@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,51 +103,43 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, 26 Apr 2023 at 07:11, Yuquan Wang <wangyuquan1236@phytium.com.cn> w=
-rote:
->
-> > On 2023-04-25 16:34:04, Peter Maydell replied:
-> >
-> > On Mon, 24 Apr 2023 at 13:33, =E7=8E=8B=E5=AE=87=E6=B3=89 <wangyuquan12=
-36@phytium.com.cn> wrote:
-> > > As a junior OS engineer, I met a problem of initialization of platfor=
-m-ehci-usb in sbsa-ref recently.
-> > >
-> > > The result of sbsa-acs(UEFI Shell application) on sbsa-ref shows that=
- "Peripheral: Num of USB controllers: 0".
-> > >
-> > > And I found that the platform-ehci-usb in qemu is a 32-bits DMA devic=
-e while our sbsa-ref machine does not own
-> > >
-> > > DRAM memory below 4G. It seems like a contradiction point.
-> >
-> > This definitely doesn't seem like an intentional thing.
-> > What specifically do you mean by "32-bits DMA device" ?
-> > Is our implementation of this device accidentally not
-> > handling addresses above 4GB? Or is the specification of
-> > the device itself limited to 4GB addresses? Or is this a
-> > guest driver problem?
+On Tue,  9 May 2023 14:44:52 +0800
+Yin Wang <yin.wang@intel.com> wrote:
 
-> Maybe the specific explanation is that qemu implements that:
-> In hw/usb/hcd-ehci.c:
-> void usb_ehci_init(EHCIState *s, DeviceState *dev)
-> {
-> ...
-> "s->caps[0x08] =3D 0x80;"
->
-> According to EHCI spec version 1.0 Section 2.2.4,
-> the set of "0x80" on Host Controller Capability Parameters
-> Register means this(qemu) EHCI Host Controller does not have
-> 64-bit Addressing Capability.
+> command "qemu-system-riscv64 -machine virt
+> -m 2G -smp 1 -numa node,mem=1G -numa node,mem=1G"
+> would trigger this problem.
+> This commit fixes the issue by adding parameter checks.
 
-Ah, I see; thanks for providing the reference to the spec
-and the source code.
+It seems wrong to apply this to all targets (that
+potentially excludes CPU-less nodes in some cases).
 
-Gerd, is there a particular reason our EHCI controller only
-claims to be able to do 32-bit DMA ? Should we give it a QOM
-property so boards that only have RAM above the 4GB mark can
-use it ? (Would the x86 PC benefit from allowing >4GB DMA?)
+PS:
+Crash backtrace should be mentioned in commit message.
 
-thanks
--- PMM
+> 
+> Signed-off-by: Yin Wang <yin.wang@intel.com>
+> ---
+>  hw/core/numa.c | 7 +++++++
+>  1 file changed, 7 insertions(+)
+> 
+> diff --git a/hw/core/numa.c b/hw/core/numa.c
+> index d8d36b16d8..ff249369be 100644
+> --- a/hw/core/numa.c
+> +++ b/hw/core/numa.c
+> @@ -168,6 +168,13 @@ static void parse_numa_node(MachineState *ms, NumaNodeOptions *node,
+>      numa_info[nodenr].present = true;
+>      max_numa_nodeid = MAX(max_numa_nodeid, nodenr + 1);
+>      ms->numa_state->num_nodes++;
+> +    if (ms->smp.max_cpus < ms->numa_state->num_nodes) {
+> +        error_setg(errp,
+> +                   "Number of NUMA nodes:(%d)"
+> +                   " is larger than number of CPUs:(%d)",
+> +                   ms->numa_state->num_nodes, ms->smp.max_cpus);
+> +        return;
+> +    }
+>  }
+>  
+>  static
+
 
