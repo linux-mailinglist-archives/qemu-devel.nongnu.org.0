@@ -2,71 +2,114 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA2986FC921
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 May 2023 16:35:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 798AD6FCA7A
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 May 2023 17:46:12 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pwORF-0002f6-N7; Tue, 09 May 2023 10:35:37 -0400
+	id 1pwPXA-0006MB-HE; Tue, 09 May 2023 11:45:48 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1pwORE-0002ct-4D
- for qemu-devel@nongnu.org; Tue, 09 May 2023 10:35:36 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1pwORC-0007dF-FS
- for qemu-devel@nongnu.org; Tue, 09 May 2023 10:35:35 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1683642933;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=DVPzI4iGy5o7O9qYL6QWMwTtoZf0XiRqNW+IhMfYJFA=;
- b=ercBfQ99ODgl8vZgF+vFPjPZxj+LxVi522/2mokO6NYqUS8jqQ/TQmQI6Lz5NlaLClsP4H
- fpXgX1y/xA32g3dazG2H2qj780joQkMxZe/XS87NtNrMf6QUGH5F818pv0YBQpr8D5KMOp
- DpXSu7fv8PM7N5dotSzuKBAp2DceWgc=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-210-KQtPEFODO1uCFD7o1SGe6Q-1; Tue, 09 May 2023 10:35:21 -0400
-X-MC-Unique: KQtPEFODO1uCFD7o1SGe6Q-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
- [10.11.54.9])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id BA98E1857F1D;
- Tue,  9 May 2023 14:34:56 +0000 (UTC)
-Received: from localhost (unknown [10.39.195.128])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1FC5E492B00;
- Tue,  9 May 2023 14:34:55 +0000 (UTC)
-Date: Tue, 9 May 2023 10:34:54 -0400
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Mads Ynddal <mads@ynddal.dk>
-Cc: qemu-devel@nongnu.org, Cleber Rosa <crosa@redhat.com>,
- John Snow <jsnow@redhat.com>, Mads Ynddal <m.ynddal@samsung.com>
-Subject: Re: [PATCH v2 02/12] simpletrace: Annotate magic constants from QEMU
- code
-Message-ID: <20230509143454.GE1008478@fedora>
-References: <20230502092339.27341-1-mads@ynddal.dk>
- <20230502092339.27341-3-mads@ynddal.dk>
+ (Exim 4.90_1) (envelope-from <juan.quintela@gmail.com>)
+ id 1pwOQo-0000xy-Qw
+ for qemu-devel@nongnu.org; Tue, 09 May 2023 10:35:10 -0400
+Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <juan.quintela@gmail.com>)
+ id 1pwOQm-0007IG-Eq
+ for qemu-devel@nongnu.org; Tue, 09 May 2023 10:35:09 -0400
+Received: by mail-wm1-x332.google.com with SMTP id
+ 5b1f17b1804b1-3f37a36b713so60097335e9.1
+ for <qemu-devel@nongnu.org>; Tue, 09 May 2023 07:35:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1683642907; x=1686234907;
+ h=content-transfer-encoding:mime-version:message-id:date:reply-to
+ :user-agent:references:in-reply-to:subject:cc:to:from:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=Q1YdxCB85DjavEkSSztecs/1uZiFEj5gdNIdoSOu2jU=;
+ b=JjwcIBMfH+BKJVT6FcDztOmongSI6w+OBJ3K9dqquNYFHFhfY1nBfCuSiaQvTio+3q
+ wPer1OGk4WFag7yRr2sj4GG65I2c5wIpn4I7aRYIzWj/EHyEDaIf0JOGLNMYI7akj0q0
+ r4JRt7SZUYifZc8eNv8nzcGzuwNFB8emQ3EzaTBg5IzyWjMKUUv3lskT6TwhaU9i3oX/
+ nb5NfU4EOSHOEoLNn/VrzvMT2SCtToGbf1BihltZYcPw4li7nhDS9qPJN6UvVBQNkD/V
+ yRNbK4OdCUdyDJWZnal2bHI0gJ621BCZO/ZcpL3Z8Ue+ES23pD8QXdzBx5EW1z2ccpkE
+ ci8A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1683642907; x=1686234907;
+ h=content-transfer-encoding:mime-version:message-id:date:reply-to
+ :user-agent:references:in-reply-to:subject:cc:to:from
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=Q1YdxCB85DjavEkSSztecs/1uZiFEj5gdNIdoSOu2jU=;
+ b=Pb4OePTs1uv2iSf4X1fYEDkTzxnmh0q+8XUqo+N1qSAaue+Qpf6TqbNfbxoguJ2fnb
+ ZF4PtuF80hqYHVDq/ovGpzSZlbmJFZoJZHdKFReNYeOsVz/mRmIFNbxDT/muMxT81WFc
+ +3vJJ+yCczLTAZwHTH6REHZrHf279qA2qTjNvJV/95HeQoI/VUOqY1g5r+8OlZXsIbPx
+ KZXiXKmOk/fKYMnpEpIlIgFHIkx2vWAyV0iQy1p+xA2wruuVEY1LzkggjoZXSY3nRU5g
+ H+7c+uEUixGKQwNVqXiaIAD26rE4wOWgxHolQH8CK+045E6jwIl6Y/HfC58gsuzRQ/vT
+ I6VA==
+X-Gm-Message-State: AC+VfDxIuFefwwwyggvypD72eIiUWS0G4bKJCCr46kprU6EiHoBFUk7W
+ RQRowG4t+DZghy4JopEMm5A=
+X-Google-Smtp-Source: ACHHUZ5CsIMAIYa0KMYVoSFLvRU9hT596yzswoHdUDGZmpOnYS1VpOcagpzLja7w4fJycoNIhgFXXA==
+X-Received: by 2002:adf:fa50:0:b0:307:a3e9:8b93 with SMTP id
+ y16-20020adffa50000000b00307a3e98b93mr1960264wrr.2.1683642906530; 
+ Tue, 09 May 2023 07:35:06 -0700 (PDT)
+Received: from gmail.com (static-92-120-85-188.ipcom.comunitel.net.
+ [188.85.120.92]) by smtp.gmail.com with ESMTPSA id
+ n3-20020a7bc5c3000000b003f0b1b8cd9bsm20181621wmk.4.2023.05.09.07.35.05
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 09 May 2023 07:35:06 -0700 (PDT)
+From: Juan Quintela <juan.quintela@gmail.com>
+To: Mark Burton <mburton@qti.qualcomm.com>
+Cc: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,  Philippe
+ =?utf-8?Q?Mathieu-Daud=C3=A9?=
+ <philmd@linaro.org>,  "afaerber@suse.de" <afaerber@suse.de>,  Alessandro
+ Di Federico <ale@rev.ng>,  "anjo@rev.ng" <anjo@rev.ng>,
+ "bazulay@redhat.com" <bazulay@redhat.com>,  "bbauman@redhat.com"
+ <bbauman@redhat.com>,  "chao.p.peng@linux.intel.com"
+ <chao.p.peng@linux.intel.com>,  "cjia@nvidia.com" <cjia@nvidia.com>,
+ "cw@f00f.org" <cw@f00f.org>,  "david.edmondson@oracle.com"
+ <david.edmondson@oracle.com>,  "dustin.kirkland@canonical.com"
+ <dustin.kirkland@canonical.com>,  "eblake@redhat.com" <eblake@redhat.com>,
+ "edgar.iglesias@gmail.com" <edgar.iglesias@gmail.com>,
+ "elena.ufimtseva@oracle.com" <elena.ufimtseva@oracle.com>,
+ "eric.auger@redhat.com" <eric.auger@redhat.com>,  "f4bug@amsat.org"
+ <f4bug@amsat.org>,  Felipe Franciosi <felipe.franciosi@nutanix.com>,
+ "iggy@theiggy.com" <iggy@kws1.com>,  Warner Losh <wlosh@bsdimp.com>,
+ "jan.kiszka@web.de" <jan.kiszka@web.de>,  "jgg@nvidia.com"
+ <jgg@nvidia.com>,  "jidong.xiao@gmail.com" <jidong.xiao@gmail.com>,
+ "jjherne@linux.vnet.ibm.com" <jjherne@linux.vnet.ibm.com>,
+ "joao.m.martins@oracle.com" <joao.m.martins@oracle.com>,
+ "konrad.wilk@oracle.com" <konrad.wilk@oracle.com>,  "kvm@vger.kernel.org"
+ <kvm@vger.kernel.org>,  "mdean@redhat.com" <mdean@redhat.com>,
+ "mimu@linux.vnet.ibm.com" <mimu@linux.vnet.ibm.com>,
+ "peter.maydell@linaro.org" <peter.maydell@linaro.org>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "richard.henderson@linaro.org" <richard.henderson@linaro.org>,
+ "shameerali.kolothum.thodi@huawei.com"
+ <shameerali.kolothum.thodi@huawei.com>,  "stefanha@gmail.com"
+ <stefanha@gmail.com>,  "wei.w.wang@intel.com" <wei.w.wang@intel.com>,
+ "z.huo@139.com" <z.huo@139.com>,  "zwu.kernel@gmail.com"
+ <zwu.kernel@gmail.com>
+Subject: Re: QEMU developers fortnightly call for agenda for 2023-05-16
+In-Reply-To: <70D7039C-F950-421C-A3A8-D5559DDD6E0C@qti.qualcomm.com> (Mark
+ Burton's message of "Tue, 9 May 2023 14:25:41 +0000")
+References: <calendar-f9e06ce0-8972-4775-9a3d-7269ec566398@google.com>
+ <70D7039C-F950-421C-A3A8-D5559DDD6E0C@qti.qualcomm.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
+Date: Tue, 09 May 2023 16:35:05 +0200
+Message-ID: <87zg6dd146.fsf@secure.mitica>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="/WH/OIJ1mVRYsktf"
-Content-Disposition: inline
-In-Reply-To: <20230502092339.27341-3-mads@ynddal.dk>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::332;
+ envelope-from=juan.quintela@gmail.com; helo=mail-wm1-x332.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Tue, 09 May 2023 11:45:33 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,86 +121,18 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: juan.quintela@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+Mark Burton <mburton@qti.qualcomm.com> wrote:
+> I=E2=80=99d appreciate an update on single binary.
+> Also, What=E2=80=99s the status on the =E2=80=9Cicount=E2=80=9D plugin ?
 
---/WH/OIJ1mVRYsktf
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Annotated.
 
-On Tue, May 02, 2023 at 11:23:29AM +0200, Mads Ynddal wrote:
-> From: Mads Ynddal <m.ynddal@samsung.com>
->=20
-> It wasn't clear where the constants and structs came from, so I added
-> comments to help.
->=20
-> Signed-off-by: Mads Ynddal <m.ynddal@samsung.com>
-> ---
->  scripts/simpletrace.py | 14 +++++++-------
->  1 file changed, 7 insertions(+), 7 deletions(-)
->=20
-> diff --git a/scripts/simpletrace.py b/scripts/simpletrace.py
-> index 9211caaec1..7ba805443d 100755
-> --- a/scripts/simpletrace.py
-> +++ b/scripts/simpletrace.py
-> @@ -15,15 +15,15 @@
->  from tracetool import read_events, Event
->  from tracetool.backend.simple import is_string
-> =20
-> -header_event_id =3D 0xffffffffffffffff
-> -header_magic    =3D 0xf2b177cb0aa429b4
-> -dropped_event_id =3D 0xfffffffffffffffe
-> +header_event_id =3D 0xffffffffffffffff # trace/simple.c::HEADER_EVENT_ID
-> +header_magic    =3D 0xf2b177cb0aa429b4 # trace/simple.c::HEADER_MAGIC
-> +dropped_event_id =3D 0xfffffffffffffffe # trace/simple.c::DROPPED_EVENT_=
-ID
-> =20
-> -record_type_mapping =3D 0
-> -record_type_event =3D 1
-> +record_type_mapping =3D 0 # trace/simple.c::TRACE_RECORD_TYPE_MAPPING
-> +record_type_event =3D 1 # trace/simple.c::TRACE_RECORD_TYPE_EVENT
-> =20
-> -log_header_fmt =3D '=3DQQQ'
-> -rec_header_fmt =3D '=3DQQII'
-> +log_header_fmt =3D '=3DQQQ' # trace/simple.c::TraceLogHeader
-> +rec_header_fmt =3D '=3DQQII' # trace/simple.c::TraceRecord
+BTW, if people are interested I can expose the "idea" of all the
+migration patches going on the tree.
 
-=46rom my reply to v1 of this patch series:
-
-This is fragile since this information will be outdated if the C source
-code changes (e.g. renaming files or variables).
-
-Instead I would add the following comment:
-
-  # This is the binary format that the QEMU "simple" trace backend
-  # emits. There is no specification documentation because the format is
-  # not guaranteed to be stable. Trace files must be parsed with the
-  # same trace-events-all file and the same simpletrace.py file that
-  # QEMU was built with.
-
-I hope that clarifies the scope of the binary format and someone wishing
-to look into the format would then know to look at the "simple" trace
-backend.
-
-Stefan
-
---/WH/OIJ1mVRYsktf
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmRaWg4ACgkQnKSrs4Gr
-c8izpAf/eK7qyeuw181erbZX/lFJdnLNFMigGUFxGX/hg6n4VSzcxpl+axJPVo5+
-UyzJaqvxVx5CgoWBncPiv7w+M4m2h62huAdc831EQDZfZ9lq49BeV7WigYQLGAmG
-8P6piQoO453aPzCDUfjsFdeyEqMFTyf3ZPKiiKw70Oi0ecK+GBKh/2p8MyUj9UKq
-5LS++YIjSNf7OpOqZeGM/YMqOrZvWLvR/fSaKwg9DzkHMd1YY+38omZ4iwYjolFW
-1IONlLH+8UVy3QRprfkohQHR1UEW+Nnw+gtrDhqweA0MB6nP2R88fGM6bunqW0tK
-BmuO/9hgjipKLWYP3TwL6cBPGrHiwQ==
-=6HP9
------END PGP SIGNATURE-----
-
---/WH/OIJ1mVRYsktf--
-
+Later, Juan.
 
