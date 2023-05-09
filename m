@@ -2,83 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 001EC6FC059
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 May 2023 09:24:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 075506FC062
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 May 2023 09:26:39 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pwHfW-0003oa-He; Tue, 09 May 2023 03:21:54 -0400
+	id 1pwHjK-0005r8-Aw; Tue, 09 May 2023 03:25:50 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <aesteve@redhat.com>)
- id 1pwHfT-0003o0-UP
- for qemu-devel@nongnu.org; Tue, 09 May 2023 03:21:51 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pwHjH-0005ql-Vs
+ for qemu-devel@nongnu.org; Tue, 09 May 2023 03:25:48 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <aesteve@redhat.com>)
- id 1pwHfS-0000gM-0t
- for qemu-devel@nongnu.org; Tue, 09 May 2023 03:21:51 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pwHjG-0001ht-AY
+ for qemu-devel@nongnu.org; Tue, 09 May 2023 03:25:47 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1683616908;
+ s=mimecast20190719; t=1683617145;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=0KVlAUrwtuSs3qOFqg2YnDc9pLw+A1nC0KQ0Nx0ajF4=;
- b=fAZ99d35Tr42UDVxvRrIm+AdDctEAD+czSC03CgQ2Ah8ddfuZMqI8B1ldwPtp7WVZQ1aKt
- RzsfRiEN5asJy8E+zeJmNUg8dLWHg6c+zH9/OlHUG7otSJvKWyg/rt/1OZTDbaMno1kHT7
- 2lqkKzQhIQ3AWYGKW3pxFzr/Xdc4zsk=
-Received: from mail-pg1-f198.google.com (mail-pg1-f198.google.com
- [209.85.215.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-518-4dIpy1qZMee2pENEDgpzAg-1; Tue, 09 May 2023 03:21:47 -0400
-X-MC-Unique: 4dIpy1qZMee2pENEDgpzAg-1
-Received: by mail-pg1-f198.google.com with SMTP id
- 41be03b00d2f7-520f3f18991so2903783a12.3
- for <qemu-devel@nongnu.org>; Tue, 09 May 2023 00:21:46 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683616906; x=1686208906;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=0KVlAUrwtuSs3qOFqg2YnDc9pLw+A1nC0KQ0Nx0ajF4=;
- b=ee96XLW1QJmEAMkzY5fA+vkcbUYtCbS2RTWURJyBFV87ZHTH99xPf4X4awgYtQYx8/
- Kq7g+CD4QElRg6jZFoiFmK3TzUBsbvhF5AGqaMPk9G/s/Xg736ptOjHZBtrH849ZOWKF
- oi7Nd7YRCP44Zbz5pLuO6L9AnkZvJsfECdtAKjWdjAX4i8+D3P3fiCJBEzJDbjHYeOEZ
- vHVzFt1Cl5+2xLn0vNZ2F3pYjSEOW6Bfmk0NL44/kv8B0osYfNYTzIx5vENOzSU6grOK
- SLR1pKSg9MZNv2Adf3PKVD7ZEk/oBBzmExdB3jWdXKOymN5yT6/j/Qmtpnl2bSMp7Ea5
- heHA==
-X-Gm-Message-State: AC+VfDzwO/SDB0pmorwnmxlUvNv6TVKx1/ZqKBbmLpj/DXpj4hFlkeUN
- QZZEp5vKFdWG8MyXi8hshf0/dOGZLUaa60+Va2eTAL3wW//jGp5bH6gWr4dii1vVLVVOaO+BboY
- N3qN+Ej/dGviwVdqTTnAoH0SbOv6EnDU=
-X-Received: by 2002:a05:6a20:4408:b0:101:6be3:f675 with SMTP id
- ce8-20020a056a20440800b001016be3f675mr618969pzb.17.1683616906076; 
- Tue, 09 May 2023 00:21:46 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ652e28enrvIX73yoedOYOxCl5R2A3a5WDW0buRYfyyFI5k0Eu3YxdfLby3FzvNe0M7lLEXptoqGmHlyhPPzvw=
-X-Received: by 2002:a05:6a20:4408:b0:101:6be3:f675 with SMTP id
- ce8-20020a056a20440800b001016be3f675mr618955pzb.17.1683616905772; Tue, 09 May
- 2023 00:21:45 -0700 (PDT)
+ bh=62s07icVezcB3RwthJA/z3lDKXfv8LZ7iSEzqm2gmvE=;
+ b=bhmviIjPzNiEiuYAjZe0UWsV/fIxtQ76iiwXVKtRSzlcHeJq+sPKoCDEtXcoILunixT4dR
+ 90TQV4w9jCgHMbPDQdDTWdlsGArnAvoFbuSLtTv9yCYRXwmwhpVqS8myBVPtiSnPPtSONM
+ cDdRh2C3quX7EsVVZQveuUtd/I4Tb3M=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-624-XifXAIixN_2w7kfqP8rF7g-1; Tue, 09 May 2023 03:25:41 -0400
+X-MC-Unique: XifXAIixN_2w7kfqP8rF7g-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.8])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 039E61854CA7;
+ Tue,  9 May 2023 07:25:41 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.39.192.121])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D9782C15BA0;
+ Tue,  9 May 2023 07:25:39 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 8D99421E6924; Tue,  9 May 2023 09:25:38 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Juan Quintela <quintela@redhat.com>
+Cc: qemu-devel@nongnu.org,  michael.roth@amd.com,  peter.maydell@linaro.org,
+ pbonzini@redhat.com,  marcandre.lureau@redhat.com,  berrange@redhat.com,
+ thuth@redhat.com,  philmd@linaro.org,  mst@redhat.com,
+ imammedo@redhat.com,  anisinha@redhat.com,  eblake@redhat.com,
+ kraxel@redhat.com,  kwolf@redhat.com,  hreitz@redhat.com,
+ arei.gonglei@huawei.com,  pizhenwei@bytedance.com,  jsnow@redhat.com,
+ vsementsov@yandex-team.ru,  eduardo@habkost.net,
+ marcel.apfelbaum@gmail.com,  wangyanan55@huawei.com,  peterx@redhat.com,
+ leobras@redhat.com,  jasowang@redhat.com,  yuval.shaia.ml@gmail.com,
+ pavel.dovgaluk@ispras.ru,  jiri@resnulli.us,  stefanb@linux.vnet.ibm.com,
+ stefanha@redhat.com,  lukasstraub2@web.de,  kkostiuk@redhat.com,
+ qemu-block@nongnu.org,  victortoso@redhat.com
+Subject: Re: [PATCH 10/17] tests/qapi-schema/doc-good: Improve argument
+ description tests
+References: <20230428105429.1687850-1-armbru@redhat.com>
+ <20230428105429.1687850-11-armbru@redhat.com>
+ <87edo37ubz.fsf@secure.mitica>
+Date: Tue, 09 May 2023 09:25:38 +0200
+In-Reply-To: <87edo37ubz.fsf@secure.mitica> (Juan Quintela's message of "Fri, 
+ 28 Apr 2023 20:08:48 +0200")
+Message-ID: <87mt2ej79p.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
 MIME-Version: 1.0
-References: <20230503081911.119168-1-aesteve@redhat.com>
- <20230503081911.119168-2-aesteve@redhat.com>
- <87o7mvc6hi.fsf@redhat.com>
-In-Reply-To: <87o7mvc6hi.fsf@redhat.com>
-From: Albert Esteve <aesteve@redhat.com>
-Date: Tue, 9 May 2023 09:21:34 +0200
-Message-ID: <CADSE00+TF7m-DM8Z_QEtUa356GkiCCgtjE8a=-78OEFuhvzKAg@mail.gmail.com>
-Subject: Re: [PATCH 1/4] virtio-dmabuf: introduce virtio-dmabuf
-To: Cornelia Huck <cohuck@redhat.com>
-Cc: qemu-devel@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>
-Content-Type: multipart/alternative; boundary="0000000000009b591405fb3d9b29"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=aesteve@redhat.com;
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,180 +92,66 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
---0000000000009b591405fb3d9b29
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Juan Quintela <quintela@redhat.com> writes:
 
-On Mon, May 8, 2023 at 3:12=E2=80=AFPM Cornelia Huck <cohuck@redhat.com> wr=
-ote:
+> Markus Armbruster <armbru@redhat.com> wrote:
+>> Improve the comments to better describe what they test.
+>>
+>> Cover argument description starting on a new line indented.  This
+>> style isn't documented in docs/devel/qapi-code-gen.rst.  qapi-gen.py
+>> accepts it, but messes up indentation: it's stripped from the first
+>> line, not subsequent ones.  The next commit will fix this.
+>>
+>> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+>
+> Reviewed-by: Juan Quintela <quintela@redhat.com>
+>
+>>  ##
+>>  # @Alternate:
+>>  #
+>> -# @i: an integer
+>> +# @i: description starts on the same line
+>> +#     remainder indented the same
+>>  #     @b is undocumented
+>>  #
+>>  # Features:
+>
+> Just curious, what is trying to convey this
+>    @b is undocumented
+> At the same indentation that the description of @i?
 
-> On Wed, May 03 2023, Albert Esteve <aesteve@redhat.com> wrote:
->
-> > This API manages objects (in this iteration,
-> > dmabuf fds) that can be shared along different
-> > virtio devices.
-> >
-> > The API allows the different devices to add,
-> > remove and/or retrieve the objects by simply
-> > invoking the public functions that reside in the
-> > virtio-dmabuf file.
-> >
-> > Signed-off-by: Albert Esteve <aesteve@redhat.com>
-> > ---
-> >  hw/display/meson.build            |   1 +
-> >  hw/display/virtio-dmabuf.c        |  88 +++++++++++++++++++++++
-> >  include/hw/virtio/virtio-dmabuf.h |  58 ++++++++++++++++
-> >  tests/unit/meson.build            |   1 +
-> >  tests/unit/test-virtio-dmabuf.c   | 112 ++++++++++++++++++++++++++++++
-> >  5 files changed, 260 insertions(+)
-> >  create mode 100644 hw/display/virtio-dmabuf.c
-> >  create mode 100644 include/hw/virtio/virtio-dmabuf.h
-> >  create mode 100644 tests/unit/test-virtio-dmabuf.c
-> >
-> > diff --git a/hw/display/meson.build b/hw/display/meson.build
-> > index 17165bd536..62a27395c0 100644
-> > --- a/hw/display/meson.build
-> > +++ b/hw/display/meson.build
-> > @@ -37,6 +37,7 @@ softmmu_ss.add(when: 'CONFIG_MACFB', if_true:
-> files('macfb.c'))
-> >  softmmu_ss.add(when: 'CONFIG_NEXTCUBE', if_true: files('next-fb.c'))
-> >
-> >  softmmu_ss.add(when: 'CONFIG_VGA', if_true: files('vga.c'))
-> > +softmmu_ss.add(when: 'CONFIG_VIRTIO', if_true: files('virtio-dmabuf.c'=
-))
-> >
-> >  if (config_all_devices.has_key('CONFIG_VGA_CIRRUS') or
-> >      config_all_devices.has_key('CONFIG_VGA_PCI') or
-> > diff --git a/hw/display/virtio-dmabuf.c b/hw/display/virtio-dmabuf.c
-> > new file mode 100644
->
-> General comment: new files should be covered in MAINTAINERS; not sure if
-> there is any generic section that could match it, or if this should go
-> into a new section.
->
+Writing it like
 
-You are right. I thought the entire folder would have an owner already, but
-I see
-it is split by features. I guess this would make sense under a new section
-then.
+    # @i: description starts on the same line
+    #     remainder indented the same
+    # @b is undocumented
+    #
+    # Features:
+    # @alt-feat: a feature
+
+fails with "unexpected de-indent (expected at least 4 spaces)".  That's
+because the @b line is part of the argument section @i, and the doc
+parser insists its indented consistently.  Guards against some editing
+accidents, like forgetting the ':'.
+
+Writing it like
+
+    # @i: description starts on the same line
+    #     remainder indented the same
+    #
+    # @b is undocumented
+    #
+    # Features:
+    # @alt-feat: a feature
+
+fails with "'@alt-feat:' can't follow 'None' section".  That's because
+the @b line is now a section of its own, and the doc parser requires
+sections to be in a certain order.  Similar guard against editing
+accidents.  Not foolproof; it only works here because a feature section
+follows.  If we wanted sane syntax, we would've stuck to TexInfo.
+
+The error message is bad; I'll improve it.
+
 Thanks!
-
-
->
-> > index 0000000000..3db939a2e3
-> > --- /dev/null
-> > +++ b/hw/display/virtio-dmabuf.c
->
-> Is virtio-dmabuf only useful for stuff under display/, or could it go
-> into a more generic section?
->
->
-I hesitated myself and I wouldn't be against changing the location.
-In this first version of the infrastructure, it is introduced with dma-buf
-sharing in mind, and virtio-gpu -> virtio-video as the main usecase.
-Both these devices are/will be at display/, hence I ended up adding
-the infrastructure in the same folder, close from where it is going to be
-used.
-
-However, in the future other devices may want to use the shared table
-for other object types, the virtio specs seem to leave that door open.
-In that case, it may be more interesting in another folder.
-I had ui/ or hw/virtio/ as candidates myself. Depends on whether
-we want to plan ahead for future uses or keep it closer to where it
-is being to be used now.
-
---0000000000009b591405fb3d9b29
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><div><div dir=3D"ltr" class=3D"gmail_sign=
-ature"><div dir=3D"ltr"><br></div></div></div></div><br><div class=3D"gmail=
-_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Mon, May 8, 2023 at 3:12=
-=E2=80=AFPM Cornelia Huck &lt;<a href=3D"mailto:cohuck@redhat.com">cohuck@r=
-edhat.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=
-=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
--left:1ex">On Wed, May 03 2023, Albert Esteve &lt;<a href=3D"mailto:aesteve=
-@redhat.com" target=3D"_blank">aesteve@redhat.com</a>&gt; wrote:<br>
-<br>
-&gt; This API manages objects (in this iteration,<br>
-&gt; dmabuf fds) that can be shared along different<br>
-&gt; virtio devices.<br>
-&gt;<br>
-&gt; The API allows the different devices to add,<br>
-&gt; remove and/or retrieve the objects by simply<br>
-&gt; invoking the public functions that reside in the<br>
-&gt; virtio-dmabuf file.<br>
-&gt;<br>
-&gt; Signed-off-by: Albert Esteve &lt;<a href=3D"mailto:aesteve@redhat.com"=
- target=3D"_blank">aesteve@redhat.com</a>&gt;<br>
-&gt; ---<br>
-&gt;=C2=A0 hw/display/meson.build=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-|=C2=A0 =C2=A01 +<br>
-&gt;=C2=A0 hw/display/virtio-dmabuf.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 88=
- +++++++++++++++++++++++<br>
-&gt;=C2=A0 include/hw/virtio/virtio-dmabuf.h |=C2=A0 58 ++++++++++++++++<br=
->
-&gt;=C2=A0 tests/unit/meson.build=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-|=C2=A0 =C2=A01 +<br>
-&gt;=C2=A0 tests/unit/test-virtio-dmabuf.c=C2=A0 =C2=A0| 112 ++++++++++++++=
-++++++++++++++++<br>
-&gt;=C2=A0 5 files changed, 260 insertions(+)<br>
-&gt;=C2=A0 create mode 100644 hw/display/virtio-dmabuf.c<br>
-&gt;=C2=A0 create mode 100644 include/hw/virtio/virtio-dmabuf.h<br>
-&gt;=C2=A0 create mode 100644 tests/unit/test-virtio-dmabuf.c<br>
-&gt;<br>
-&gt; diff --git a/hw/display/meson.build b/hw/display/meson.build<br>
-&gt; index 17165bd536..62a27395c0 100644<br>
-&gt; --- a/hw/display/meson.build<br>
-&gt; +++ b/hw/display/meson.build<br>
-&gt; @@ -37,6 +37,7 @@ softmmu_ss.add(when: &#39;CONFIG_MACFB&#39;, if_true=
-: files(&#39;macfb.c&#39;))<br>
-&gt;=C2=A0 softmmu_ss.add(when: &#39;CONFIG_NEXTCUBE&#39;, if_true: files(&=
-#39;next-fb.c&#39;))<br>
-&gt;=C2=A0 <br>
-&gt;=C2=A0 softmmu_ss.add(when: &#39;CONFIG_VGA&#39;, if_true: files(&#39;v=
-ga.c&#39;))<br>
-&gt; +softmmu_ss.add(when: &#39;CONFIG_VIRTIO&#39;, if_true: files(&#39;vir=
-tio-dmabuf.c&#39;))<br>
-&gt;=C2=A0 <br>
-&gt;=C2=A0 if (config_all_devices.has_key(&#39;CONFIG_VGA_CIRRUS&#39;) or<b=
-r>
-&gt;=C2=A0 =C2=A0 =C2=A0 config_all_devices.has_key(&#39;CONFIG_VGA_PCI&#39=
-;) or<br>
-&gt; diff --git a/hw/display/virtio-dmabuf.c b/hw/display/virtio-dmabuf.c<b=
-r>
-&gt; new file mode 100644<br>
-<br>
-General comment: new files should be covered in MAINTAINERS; not sure if<br=
->
-there is any generic section that could match it, or if this should go<br>
-into a new section.<br></blockquote><div><br></div><div>You are right. I th=
-ought the entire folder would have an owner already, but I see</div><div>it=
- is split by features. I guess this would make sense under a new section th=
-en.</div><div>Thanks!</div><div>=C2=A0</div><blockquote class=3D"gmail_quot=
-e" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204)=
-;padding-left:1ex">
-<br>
-&gt; index 0000000000..3db939a2e3<br>
-&gt; --- /dev/null<br>
-&gt; +++ b/hw/display/virtio-dmabuf.c<br>
-<br>
-Is virtio-dmabuf only useful for stuff under display/, or could it go<br>
-into a more generic section?<br>
-<br></blockquote><div><br></div><div>I hesitated myself and I wouldn&#39;t =
-be against changing the location.</div><div>In this first version of the in=
-frastructure, it is introduced with dma-buf</div><div>sharing in mind, and =
-virtio-gpu -&gt; virtio-video as the main usecase.</div><div>Both these dev=
-ices are/will be at display/, hence I ended up adding</div><div>the infrast=
-ructure in the same folder, close from where it is going to be</div><div>us=
-ed.</div><div><br></div><div>However, in the future other devices may want =
-to use the shared table</div><div>for other object types, the virtio specs =
-seem to leave that door open.</div><div>In that case, it may be more intere=
-sting in another folder.</div><div>I had ui/ or hw/virtio/ as candidates my=
-self. Depends on whether</div><div>we want to plan ahead for future uses or=
- keep it closer to where it</div><div>is being to be used now.=C2=A0</div><=
-/div></div>
-
---0000000000009b591405fb3d9b29--
 
 
