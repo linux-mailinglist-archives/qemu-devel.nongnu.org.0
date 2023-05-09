@@ -2,80 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ADC596FC998
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 May 2023 16:54:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A86816FC9A1
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 May 2023 16:54:52 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pwOik-00050v-SE; Tue, 09 May 2023 10:53:42 -0400
+	id 1pwOja-0005cw-MR; Tue, 09 May 2023 10:54:34 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1pwOii-00050f-RV
- for qemu-devel@nongnu.org; Tue, 09 May 2023 10:53:40 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1pwOig-00032j-Es
- for qemu-devel@nongnu.org; Tue, 09 May 2023 10:53:40 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1683644017;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=7VJPthYvzIBF9vkmwmlAdrpHb4PikeTDJHkYlyRuttw=;
- b=RXRGS3X1Nif45+Y9lVT9H18qBAcTg5iBCtRaVsTZI3M5VR2P6bexe4VK0JXPscEUO6/wgZ
- 87EAfatkLKOMWsvPkP5pqUgYdEEINLoCvC+vJLrZTg8KnjRb5ZIDuk0YdiGx2z6cciWOYl
- QgcqrysPSJj66JG7lUxK/tPqmIPVCug=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-56-SpSRyeFDMgW-ZGrmZvAvWg-1; Tue, 09 May 2023 10:53:35 -0400
-X-MC-Unique: SpSRyeFDMgW-ZGrmZvAvWg-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
- [10.11.54.5])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7A6A23C14AA1;
- Tue,  9 May 2023 14:53:35 +0000 (UTC)
-Received: from localhost (unknown [10.39.195.128])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B8E2A63F86;
- Tue,  9 May 2023 14:53:34 +0000 (UTC)
-Date: Tue, 9 May 2023 10:53:32 -0400
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Hanna Czenczek <hreitz@redhat.com>
-Cc: Eugenio Perez Martin <eperezma@redhat.com>,
- Stefan Hajnoczi <stefanha@gmail.com>, qemu-devel@nongnu.org,
- virtio-fs@redhat.com, German Maglione <gmaglione@redhat.com>,
- Anton Kuchin <antonkuchin@yandex-team.ru>,
- Juan Quintela <quintela@redhat.com>,
- "Michael S . Tsirkin" <mst@redhat.com>,
- Stefano Garzarella <sgarzare@redhat.com>
-Subject: Re: [PATCH 0/4] vhost-user-fs: Internal migration
-Message-ID: <20230509145332.GD926999@fedora>
-References: <20230411150515.14020-1-hreitz@redhat.com>
- <e8cc4521-50a1-2e38-1fb3-8cfa7b0c967e@redhat.com>
- <CAJSP0QUFFYWwD5+8+1q41sNErJVNbkfnQ3VtB4z-HZUV8S0=zw@mail.gmail.com>
- <dfec96a1-84c3-3639-6f09-204c2d12244a@redhat.com>
- <CAJaqyWdhBq=0f-Qhbdg3AduS8zkPV5p6-uEEn24p1hRKcA3pOQ@mail.gmail.com>
- <05e9946d-f2be-f594-fea2-d1d03686b644@redhat.com>
- <20230508211002.GC926999@fedora>
- <a2e87bab-41c3-0402-927e-54d0a0e67d43@redhat.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pwOjY-0005cj-TG
+ for qemu-devel@nongnu.org; Tue, 09 May 2023 10:54:32 -0400
+Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pwOjU-00038j-HZ
+ for qemu-devel@nongnu.org; Tue, 09 May 2023 10:54:31 -0400
+Received: by mail-wr1-x42b.google.com with SMTP id
+ ffacd0b85a97d-30639daee76so3889632f8f.1
+ for <qemu-devel@nongnu.org>; Tue, 09 May 2023 07:54:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1683644066; x=1686236066;
+ h=content-transfer-encoding:in-reply-to:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=l01PzqK6Yg+ex5qQvjE2vUEBY3ZMERozalix5kHaMls=;
+ b=uLLcSgVFUwJBLwiogDfvruRd7Lq+16ltiND/jG3d1IJt49zhvSdaoyCMkbi5Ucg6xb
+ Yk+V5hsoVrTQQYXrqTHif2FN+Ci4JxNVk5Q6RWq7jJYn9gpEMzOZ3fD9fxHG+5HP5om3
+ dxwBvMvFyIOpciToaICCVl73CGbWIZWiqywdwK+li6QmCa9msj5BnGBgpMZZjuqQLct0
+ OEwvzMEyqJT3P4pVJ4W9cz1BX4Z21ofaYTCorZ1A6udCsGO1A7fRI3FQKWpL/A006vQ0
+ XM5xXyYkFWDQURaqPWiuFbAeFnJmzUm+vQ33EF8o9j9p7V7ZobgmWctXduRxzc4XSsGU
+ H0Mg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1683644066; x=1686236066;
+ h=content-transfer-encoding:in-reply-to:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=l01PzqK6Yg+ex5qQvjE2vUEBY3ZMERozalix5kHaMls=;
+ b=I6YiC9qlDpOhFdT2Tke3boPaeJhknaCvnY4o1+/iAFduP9bnqz3JIFmn5NbsVuIWHC
+ SjfR0JimbE2cM/1KlUJ+o2W5nv+Jb5+gn1F5df2gDtJiwriVD3/A1ZhKgoH+g59mbzPT
+ TJjIrwULWe7FEEo7DEAwxHfJRWT6pTn38Tl7HMJDWOyXMYj+EsKF4vr54k8jmDV1C8vs
+ lTsRnlmaXoyN7n66U7pxqAAUhL/LeXVoHQGM+N2kArC31DpZeQaULa/idZ8Qwjz9wBNY
+ Mzxh4QHJaOUe3NhEAN4X3PBOW0928JdzBx5iLoXxe+LLBt+M8dUMozPE2kT6onsF62fC
+ mttA==
+X-Gm-Message-State: AC+VfDxtnZs0CX5fxC1I+tv7ppX/fVoMQvk0QFPESqnNcy1ouwX90/MF
+ qLyKqMmc0+3/NioON71UcTA4yaHWzvLnN7QVNEOfVQ==
+X-Google-Smtp-Source: ACHHUZ7JXbZ5/+of0rjrSB4XEfxxVxYAEgz8UCQMuSuJb7MOq+AyhHya2NfzXWKZINbtF0I6kBkaTw==
+X-Received: by 2002:adf:dbc8:0:b0:307:8b3e:2858 with SMTP id
+ e8-20020adfdbc8000000b003078b3e2858mr7107895wrj.45.1683644066323; 
+ Tue, 09 May 2023 07:54:26 -0700 (PDT)
+Received: from [192.168.11.23] ([85.9.250.243])
+ by smtp.gmail.com with ESMTPSA id
+ z22-20020a7bc7d6000000b003f42813b315sm4726785wmk.32.2023.05.09.07.54.25
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 09 May 2023 07:54:25 -0700 (PDT)
+Message-ID: <441121dd-9a8a-38b3-ac88-f040aab1b385@linaro.org>
+Date: Tue, 9 May 2023 15:54:24 +0100
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="tGVhIo4KYIiSUs8I"
-Content-Disposition: inline
-In-Reply-To: <a2e87bab-41c3-0402-927e-54d0a0e67d43@redhat.com>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH] target/m68k: Fix gen_load_fp for OS_LONG
+Content-Language: en-US
+To: Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org
+References: <20230508140857.137405-1-richard.henderson@linaro.org>
+ <2586a5d3-d944-59e9-07c6-0e638f5a679f@vivier.eu>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <2586a5d3-d944-59e9-07c6-0e638f5a679f@vivier.eu>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x42b.google.com
+X-Spam_score_int: -24
+X-Spam_score: -2.5
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.421,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -91,143 +94,34 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On 5/8/23 17:06, Laurent Vivier wrote:
+> Le 08/05/2023 à 16:08, Richard Henderson a écrit :
+>> Case was accidentally dropped in b7a94da9550b.
+>>
+>> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+>> ---
+>>   target/m68k/translate.c | 1 +
+>>   1 file changed, 1 insertion(+)
+>>
+>> diff --git a/target/m68k/translate.c b/target/m68k/translate.c
+>> index 744eb3748b..44d852b106 100644
+>> --- a/target/m68k/translate.c
+>> +++ b/target/m68k/translate.c
+>> @@ -959,6 +959,7 @@ static void gen_load_fp(DisasContext *s, int opsize, TCGv addr, 
+>> TCGv_ptr fp,
+>>       switch (opsize) {
+>>       case OS_BYTE:
+>>       case OS_WORD:
+>> +    case OS_LONG:
+>>           tcg_gen_qemu_ld_tl(tmp, addr, index, opsize | MO_SIGN | MO_TE);
+>>           gen_helper_exts32(cpu_env, fp, tmp);
+>>           break;
+> 
+> Tested-by: Laurent Vivier <laurent@vivier.eu>
+> Reviewed-by: Laurent Vivier <laurent@vivier.eu>
 
---tGVhIo4KYIiSUs8I
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Queued to tcg-next.
 
-On Tue, May 09, 2023 at 10:53:35AM +0200, Hanna Czenczek wrote:
-> On 08.05.23 23:10, Stefan Hajnoczi wrote:
-> > On Fri, May 05, 2023 at 02:51:55PM +0200, Hanna Czenczek wrote:
-> > > On 05.05.23 11:53, Eugenio Perez Martin wrote:
-> > > > On Fri, May 5, 2023 at 11:03=E2=80=AFAM Hanna Czenczek <hreitz@redh=
-at.com> wrote:
-> > > > > On 04.05.23 23:14, Stefan Hajnoczi wrote:
-> > > > > > On Thu, 4 May 2023 at 13:39, Hanna Czenczek <hreitz@redhat.com>=
- wrote:
-> > > [...]
-> > >=20
-> > > > > > All state is lost and the Device Initialization process
-> > > > > > must be followed to make the device operational again.
-> > > > > >=20
-> > > > > > Existing vhost-user backends don't implement SET_STATUS 0 (it's=
- new).
-> > > > > >=20
-> > > > > > It's messy and not your fault. I think QEMU should solve this by
-> > > > > > treating stateful devices differently from non-stateful devices=
-=2E That
-> > > > > > way existing vhost-user backends continue to work and new state=
-ful
-> > > > > > devices can also be supported.
-> > > > > It=E2=80=99s my understanding that SET_STATUS 0/RESET_DEVICE is p=
-roblematic for
-> > > > > stateful devices.  In a previous email, you wrote that these shou=
-ld
-> > > > > implement SUSPEND+RESUME so qemu can use those instead.  But thos=
-e are
-> > > > > separate things, so I assume we just use SET_STATUS 0 when stoppi=
-ng the
-> > > > > VM because this happens to also stop processing vrings as a side =
-effect?
-> > > > >=20
-> > > > > I.e. I understand =E2=80=9Ctreating stateful devices differently=
-=E2=80=9D to mean that
-> > > > > qemu should use SUSPEND+RESUME instead of SET_STATUS 0 when the b=
-ack-end
-> > > > > supports it, and stateful back-ends should support it.
-> > > > >=20
-> > > > Honestly I cannot think of any use case where the vhost-user backend
-> > > > did not ignore set_status(0) and had to retrieve vq states. So maybe
-> > > > we can totally remove that call from qemu?
-> > > I don=E2=80=99t know so I can=E2=80=99t really say; but I don=E2=80=
-=99t quite understand why qemu
-> > > would reset a device at any point but perhaps VM reset (and even then=
- I=E2=80=99d
-> > > expect the post-reset guest to just reset the device on boot by itsel=
-f,
-> > > too).
-> > DPDK stores the Device Status field value and uses it later:
-> > https://github.com/DPDK/dpdk/blob/main/lib/vhost/vhost_user.c#L2791
-> >=20
-> > While DPDK performs no immediate action upon SET_STATUS 0, omitting the
-> > message will change the behavior of other DPDK code like
-> > virtio_is_ready().
-> >=20
-> > Changing the semantics of the vhost-user protocol in a way that's not
-> > backwards compatible is something we should avoid unless there is no
-> > other way.
->=20
-> Well, I have two opinions on this:
->=20
-> First, that in DPDK sounds wrong.=C2=A0 vhost_dev_stop() is called mostly=
- by
-> devices that call it when set_status is called on them.=C2=A0 But they do=
-n=E2=80=99t call
-> it if status =3D=3D 0, they call it if virtio_device_should_start() retur=
-ns
-> false, which is the case when the VM is stopped.=C2=A0 So basically we se=
-t a
-> status value on the back-end device that is not the status value that is =
-set
-> in qemu. If DPDK makes actual use of this status value that differs from
-> that of the front-end in qemu, that sounds like it probably actually wron=
-g.
->=20
-> Second, it=E2=80=99s entirely possible and probably probable that DPDK do=
-esn=E2=80=99t make
-> =E2=80=9Cactual use of this status value=E2=80=9D; the only use it probab=
-ly has is to
-> determine whether the device is supposed to be stopped, which is exactly
-> what qemu has tried to confer by setting it to 0.=C2=A0 So it=E2=80=99s b=
-asically two
-> implementations that have agreed on abusing a value to emulate behavior t=
-hat
-> isn=E2=80=99t otherwise implement (SUSPEND), and that works because all d=
-evices are
-> stateless.=C2=A0 Then, I agree, we can=E2=80=99t change this until it get=
-s SUSPEND
-> support.
->=20
-> > The fundamental problem is that QEMU's vhost code is designed to reset
-> > vhost devices because it assumes they are stateless. If an F_SUSPEND
-> > protocol feature bit is added, then it becomes possible to detect new
-> > backends and suspend/resume them rather than reset them.
-> >=20
-> > That's the solution that I favor because it's backwards compatible and
-> > the same model can be applied to stateful vDPA devices in the future.
->=20
-> So basically the idea is the following: vhost_dev_stop() should just susp=
-end
-> the device, not reset it.=C2=A0 For devices that don=E2=80=99t support SU=
-SPEND, we still
-> need to do something, and just calling GET_VRING_BASE on all vrings is
-> deemed inadequate, so they are reset (SET_STATUS 0) as a work-around,
-> assuming that stateful devices that care (i.e. implement SET_STATUS) will
-> also implement SUSPEND to not have this =E2=80=9Clegacy reset=E2=80=9D ha=
-ppen to them.
->=20
-> Sounds good to me.=C2=A0 (If I understood that right. :))
 
-Yes.
-
-Stefan
-
---tGVhIo4KYIiSUs8I
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmRaXmwACgkQnKSrs4Gr
-c8g+EggAw5qZaO/U8zNYOrgoZ2fi2uB9Yz8d2xku7SQU5QZD1en32Jp9C+RmgEFb
-YGSQ+GwYU+H0vgObSkoK8j26bwSl9vL4QrpnTsWqAZKiMczxiAhIX9qP1Shktt4/
-Zl6d6bC5X9eBQIk5nhAfiJJFZulHXBdOMACDsqW99uZGxEFnapPhzu/ULrnB+c4+
-FfIHn7eRKIOXMSHPnfJGcMQv6BFVetVETlmoQAb48dq36GsTG2V2sGTB4pCHj7hk
-1PCd1cOumubcYTrjUDjmXV0b2qCy0bw5+IM/GiA8PSjryj5IKOZ2bJvorDEgJMAh
-XVjJW7B/frnKgzDtPqYYnWXHz3zffQ==
-=gSjc
------END PGP SIGNATURE-----
-
---tGVhIo4KYIiSUs8I--
-
+r~
 
