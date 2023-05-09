@@ -2,80 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D8B26FC03E
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 May 2023 09:13:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0452A6FC043
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 May 2023 09:13:55 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pwHWZ-0001cK-Fq; Tue, 09 May 2023 03:12:40 -0400
+	id 1pwHXQ-0002Gy-Pr; Tue, 09 May 2023 03:13:32 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pwHWT-0001aR-Cw
- for qemu-devel@nongnu.org; Tue, 09 May 2023 03:12:33 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pwHWR-0007UC-TI
- for qemu-devel@nongnu.org; Tue, 09 May 2023 03:12:33 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1683616351;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=30NVaWRi/+oZ2QUGwoNO97PXlaAzgUjlw9640EZQe6w=;
- b=J650EL5NyQtSg4sLyp1drWuERtUp4AHutmnHywgRi+5qr7do2Wvl6OsaqlM+5TKpzysh3W
- XUGufPHlzhSUKSOd1La9i5n1t9Tq1ntqx5h9wMyvMDClAP+1QX/ZkesOA6k72VomUhbDU6
- d+ucEzNiqC0Jp1MHZ6njoXgYKgFTR1M=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-237-_2MwlNySN2OkOnMsvRSJFw-1; Tue, 09 May 2023 03:12:25 -0400
-X-MC-Unique: _2MwlNySN2OkOnMsvRSJFw-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id F00FF868C95;
- Tue,  9 May 2023 07:12:24 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.39.192.121])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C7E2C40C6E67;
- Tue,  9 May 2023 07:12:24 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 8BB5821E6924; Tue,  9 May 2023 09:12:23 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Juan Quintela <quintela@redhat.com>
-Cc: qemu-devel@nongnu.org,  michael.roth@amd.com,  peter.maydell@linaro.org,
- pbonzini@redhat.com,  marcandre.lureau@redhat.com,  berrange@redhat.com,
- thuth@redhat.com,  philmd@linaro.org,  mst@redhat.com,
- imammedo@redhat.com,  anisinha@redhat.com,  eblake@redhat.com,
- kraxel@redhat.com,  kwolf@redhat.com,  hreitz@redhat.com,
- arei.gonglei@huawei.com,  pizhenwei@bytedance.com,  jsnow@redhat.com,
- vsementsov@yandex-team.ru,  eduardo@habkost.net,
- marcel.apfelbaum@gmail.com,  wangyanan55@huawei.com,  peterx@redhat.com,
- leobras@redhat.com,  jasowang@redhat.com,  yuval.shaia.ml@gmail.com,
- pavel.dovgaluk@ispras.ru,  jiri@resnulli.us,  stefanb@linux.vnet.ibm.com,
- stefanha@redhat.com,  lukasstraub2@web.de,  kkostiuk@redhat.com,
- qemu-block@nongnu.org,  victortoso@redhat.com
-Subject: Re: [PATCH 07/17] qapi: Tidy up a slightly awkward TODO comment
-References: <20230428105429.1687850-1-armbru@redhat.com>
- <20230428105429.1687850-8-armbru@redhat.com>
- <87sfcj7ulo.fsf@secure.mitica>
-Date: Tue, 09 May 2023 09:12:23 +0200
-In-Reply-To: <87sfcj7ulo.fsf@secure.mitica> (Juan Quintela's message of "Fri, 
- 28 Apr 2023 20:02:59 +0200")
-Message-ID: <87ttwmj7vs.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1pwHXO-0002Gq-16
+ for qemu-devel@nongnu.org; Tue, 09 May 2023 03:13:30 -0400
+Received: from mail-lf1-x12f.google.com ([2a00:1450:4864:20::12f])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1pwHXM-0007YI-4G
+ for qemu-devel@nongnu.org; Tue, 09 May 2023 03:13:29 -0400
+Received: by mail-lf1-x12f.google.com with SMTP id
+ 2adb3069b0e04-4f139de8cefso32079163e87.0
+ for <qemu-devel@nongnu.org>; Tue, 09 May 2023 00:13:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1683616406; x=1686208406;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=FIyTP7AukarRyl8gsJmhNEZpUZONeJ7pjrAlan7onqw=;
+ b=ScAlQvkeku3yPAPbChjorn769FdC0P/VMhO3If9PLpBouRaDMO+OkkDqJcatVsVnRR
+ +tuTaIk/C73nwTs/Wex1oQUeqOMJXUE7L7YUZsRD41FSSJC2SiPfWzAYpGfXPnqPu+vZ
+ Dd3d4xA9TKBlvpONupsgW377jItkbtDx52GweKbXzpNzb4CVGgvybzWAVPpLxesvcgD4
+ KtVjatCZpCidEdkwqU8XsXpnC+a5maVTg78Cb5K1FtJBovnmk/YrQyGLjSy0ZsTN31YV
+ F4DERuLSJVjixRo33IbnhRdm0aYkZVXuaUgSzQGCTCM9TmshqCCVme6MdR7cneD/+5Az
+ N9/Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1683616406; x=1686208406;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=FIyTP7AukarRyl8gsJmhNEZpUZONeJ7pjrAlan7onqw=;
+ b=LlV9lPfcVtVP7PRTsZrpg70RTeUBNrE/3wJWK7UTbK8a3lcOewaX9UkhqLSHRZPzGK
+ v7SQdyHJ4s7mzdgIzVj/+lUkAaIxRaohLtalTpD4HT6OwShMOsylxw/rd1DNVYLoVYF7
+ PRoFhexrHR3WIt+cqDK8ie497sQAfNluQB0s0EBjNjNDHq31wivVQyEW0C5YKCTsDmsy
+ IXtNSxKl2JKQ9VX7p/MnDxYYncP5s86lHuX0lki8MSNfVCzTb6R4RSBZz4XxZIwlkqbi
+ upejzcv5IwhyZgCpqqVFL0eMJW+v3jLfqzd+yJSMCfz/FU5H0BaAbeGiQGSuJNVxcOSr
+ HIYw==
+X-Gm-Message-State: AC+VfDyEHrO7s8C+Gx05KdYuM8tnLe9shqKq/x6U2lU5/petMiN24KNM
+ sa2arkyhcs1BNUn8r7TtxNWO/Vz42EQJE9I26aI=
+X-Google-Smtp-Source: ACHHUZ46pXu9d9AUIiZ2poU1kIdcBU3P6olCDxwv8jBjYVt0ebaNCUoW3xBjTuDn0BgNeUMEjHGlCfj66HwPNwmP2qo=
+X-Received: by 2002:a05:6512:b95:b0:4f1:4a14:d97c with SMTP id
+ b21-20020a0565120b9500b004f14a14d97cmr587050lfv.16.1683616405513; Tue, 09 May
+ 2023 00:13:25 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+References: <20230508141813.1086562-1-mcascell@redhat.com>
+In-Reply-To: <20230508141813.1086562-1-mcascell@redhat.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Tue, 9 May 2023 11:13:14 +0400
+Message-ID: <CAJ+F1CK2V22PMYP4PQwH+VYKhR32GKxFK5eRODE928iu3LVodA@mail.gmail.com>
+Subject: Re: [PATCH] ui/cursor: incomplete check for integer overflow in
+ cursor_alloc
+To: Mauro Matteo Cascella <mcascell@redhat.com>
+Cc: qemu-devel@nongnu.org, kraxel@redhat.com, jacek.halon@gmail.com
+Content-Type: multipart/alternative; boundary="000000000000c9eb1d05fb3d7d20"
+Received-SPF: pass client-ip=2a00:1450:4864:20::12f;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-lf1-x12f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -91,43 +85,168 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Juan Quintela <quintela@redhat.com> writes:
+--000000000000c9eb1d05fb3d7d20
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-> Markus Armbruster <armbru@redhat.com> wrote:
->> MigrateSetParameters has a TODO comment sitting right behind its doc
->> comment.  I wrote it this way to keep it out of the manual, but that
->> reason is not obvious.
->>
->> The previous commit (sphinx/qapidoc: Do not emit TODO sections into
->> user manuals) lets me move it into the doc comment as a TODO section.
->>
->> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+Hi
+
+On Mon, May 8, 2023 at 6:21=E2=80=AFPM Mauro Matteo Cascella <mcascell@redh=
+at.com>
+wrote:
+
+> The cursor_alloc function still accepts a signed integer for both the
+> cursor
+> width and height. A specially crafted negative width/height could make
+> datasize
+> wrap around and cause the next allocation to be 0, potentially leading to=
+ a
+> heap buffer overflow. Modify QEMUCursor struct and cursor_alloc prototype
+> to
+> accept unsigned ints.
 >
-> Reviewed-by: Juan Quintela <quintela@redhat.com>
+> Fixes: CVE-2023-1601
+> Fixes: fa892e9a ("ui/cursor: fix integer overflow in cursor_alloc
+> (CVE-2021-4206)")
+> Signed-off-by: Mauro Matteo Cascella <mcascell@redhat.com>
+> Reported-by: Jacek Halon <jacek.halon@gmail.com>
 >
->> ---
->>  qapi/migration.json | 5 +++--
->>  1 file changed, 3 insertions(+), 2 deletions(-)
->>
->> diff --git a/qapi/migration.json b/qapi/migration.json
->> index 82000adce4..11c09800c2 100644
->> --- a/qapi/migration.json
->> +++ b/qapi/migration.json
->> @@ -945,10 +945,11 @@
->>  # Features:
->>  # @unstable: Member @x-checkpoint-delay is experimental.
->>  #
->> +# TODO: either fuse back into MigrationParameters, or make
->> +#       MigrationParameters members mandatory
->> +#
->>  # Since: 2.4
+
+Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+
+It looks like this is not exploitable, QXL code uses u16 types, and VMWare
+VGA checks for values > 256. Other paths use fixed size.
+
+---
+>  include/ui/console.h | 4 ++--
+>  ui/cursor.c          | 2 +-
+>  2 files changed, 3 insertions(+), 3 deletions(-)
 >
-> 2.4 was released in 2015-08-11
-> There is no hope for something that has been experimental since then.
+> diff --git a/include/ui/console.h b/include/ui/console.h
+> index 2a8fab091f..92a4d90a1b 100644
+> --- a/include/ui/console.h
+> +++ b/include/ui/console.h
+> @@ -144,13 +144,13 @@ typedef struct QemuUIInfo {
+>
+>  /* cursor data format is 32bit RGBA */
+>  typedef struct QEMUCursor {
+> -    int                 width, height;
+> +    uint32_t            width, height;
+>      int                 hot_x, hot_y;
+>      int                 refcount;
+>      uint32_t            data[];
+>  } QEMUCursor;
+>
+> -QEMUCursor *cursor_alloc(int width, int height);
+> +QEMUCursor *cursor_alloc(uint32_t width, uint32_t height);
+>  QEMUCursor *cursor_ref(QEMUCursor *c);
+>  void cursor_unref(QEMUCursor *c);
+>  QEMUCursor *cursor_builtin_hidden(void);
+> diff --git a/ui/cursor.c b/ui/cursor.c
+> index 6fe67990e2..b5fcb64839 100644
+> --- a/ui/cursor.c
+> +++ b/ui/cursor.c
+> @@ -90,7 +90,7 @@ QEMUCursor *cursor_builtin_left_ptr(void)
+>      return cursor_parse_xpm(cursor_left_ptr_xpm);
+>  }
+>
+> -QEMUCursor *cursor_alloc(int width, int height)
+> +QEMUCursor *cursor_alloc(uint32_t width, uint32_t height)
+>  {
+>      QEMUCursor *c;
+>      size_t datasize =3D width * height * sizeof(uint32_t);
+> --
+> 2.40.1
+>
+>
+>
 
-I wish it was experimental!  It's actually awfully stable technical
-debt.
+--=20
+Marc-Andr=C3=A9 Lureau
 
-Thanks!
+--000000000000c9eb1d05fb3d7d20
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div dir=3D"ltr">Hi<br></div><br><div class=3D"gmail_quote=
+"><div dir=3D"ltr" class=3D"gmail_attr">On Mon, May 8, 2023 at 6:21=E2=80=
+=AFPM Mauro Matteo Cascella &lt;<a href=3D"mailto:mcascell@redhat.com">mcas=
+cell@redhat.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" s=
+tyle=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);pad=
+ding-left:1ex">The cursor_alloc function still accepts a signed integer for=
+ both the cursor<br>
+width and height. A specially crafted negative width/height could make data=
+size<br>
+wrap around and cause the next allocation to be 0, potentially leading to a=
+<br>
+heap buffer overflow. Modify QEMUCursor struct and cursor_alloc prototype t=
+o<br>
+accept unsigned ints.<br>
+<br>
+Fixes: CVE-2023-1601<br>
+Fixes: fa892e9a (&quot;ui/cursor: fix integer overflow in cursor_alloc (CVE=
+-2021-4206)&quot;)<br>
+Signed-off-by: Mauro Matteo Cascella &lt;<a href=3D"mailto:mcascell@redhat.=
+com" target=3D"_blank">mcascell@redhat.com</a>&gt;<br>
+Reported-by: Jacek Halon &lt;<a href=3D"mailto:jacek.halon@gmail.com" targe=
+t=3D"_blank">jacek.halon@gmail.com</a>&gt;<br></blockquote><div><br></div><=
+div>Reviewed-by: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lur=
+eau@redhat.com">marcandre.lureau@redhat.com</a>&gt;</div><div><br></div><di=
+v>It looks like this is not exploitable, QXL code uses u16 types, and VMWar=
+e VGA checks for values &gt; 256. Other paths use fixed size.</div><div><br=
+></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;=
+border-left:1px solid rgb(204,204,204);padding-left:1ex">
+---<br>
+=C2=A0include/ui/console.h | 4 ++--<br>
+=C2=A0ui/cursor.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | 2 +-<br>
+=C2=A02 files changed, 3 insertions(+), 3 deletions(-)<br>
+<br>
+diff --git a/include/ui/console.h b/include/ui/console.h<br>
+index 2a8fab091f..92a4d90a1b 100644<br>
+--- a/include/ui/console.h<br>
++++ b/include/ui/console.h<br>
+@@ -144,13 +144,13 @@ typedef struct QemuUIInfo {<br>
+<br>
+=C2=A0/* cursor data format is 32bit RGBA */<br>
+=C2=A0typedef struct QEMUCursor {<br>
+-=C2=A0 =C2=A0 int=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0width, height;<br>
++=C2=A0 =C2=A0 uint32_t=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 width, hei=
+ght;<br>
+=C2=A0 =C2=A0 =C2=A0int=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0hot_x, hot_y;<br>
+=C2=A0 =C2=A0 =C2=A0int=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0refcount;<br>
+=C2=A0 =C2=A0 =C2=A0uint32_t=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 data[=
+];<br>
+=C2=A0} QEMUCursor;<br>
+<br>
+-QEMUCursor *cursor_alloc(int width, int height);<br>
++QEMUCursor *cursor_alloc(uint32_t width, uint32_t height);<br>
+=C2=A0QEMUCursor *cursor_ref(QEMUCursor *c);<br>
+=C2=A0void cursor_unref(QEMUCursor *c);<br>
+=C2=A0QEMUCursor *cursor_builtin_hidden(void);<br>
+diff --git a/ui/cursor.c b/ui/cursor.c<br>
+index 6fe67990e2..b5fcb64839 100644<br>
+--- a/ui/cursor.c<br>
++++ b/ui/cursor.c<br>
+@@ -90,7 +90,7 @@ QEMUCursor *cursor_builtin_left_ptr(void)<br>
+=C2=A0 =C2=A0 =C2=A0return cursor_parse_xpm(cursor_left_ptr_xpm);<br>
+=C2=A0}<br>
+<br>
+-QEMUCursor *cursor_alloc(int width, int height)<br>
++QEMUCursor *cursor_alloc(uint32_t width, uint32_t height)<br>
+=C2=A0{<br>
+=C2=A0 =C2=A0 =C2=A0QEMUCursor *c;<br>
+=C2=A0 =C2=A0 =C2=A0size_t datasize =3D width * height * sizeof(uint32_t);<=
+br>
+-- <br>
+2.40.1<br>
+<br>
+<br>
+</blockquote></div><br clear=3D"all"><br><span class=3D"gmail_signature_pre=
+fix">-- </span><br><div dir=3D"ltr" class=3D"gmail_signature">Marc-Andr=C3=
+=A9 Lureau<br></div></div>
+
+--000000000000c9eb1d05fb3d7d20--
 
