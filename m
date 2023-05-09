@@ -2,106 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D7346FC23E
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 May 2023 11:02:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 249846FC255
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 May 2023 11:07:12 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pwJE0-0003o9-Sh; Tue, 09 May 2023 05:01:36 -0400
+	id 1pwJHP-0005Dk-32; Tue, 09 May 2023 05:05:07 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1pwJDz-0003nh-5F
- for qemu-devel@nongnu.org; Tue, 09 May 2023 05:01:35 -0400
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1pwJHM-0005DM-82
+ for qemu-devel@nongnu.org; Tue, 09 May 2023 05:05:04 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1pwJDw-0004CG-I4
- for qemu-devel@nongnu.org; Tue, 09 May 2023 05:01:34 -0400
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1pwJHJ-0004iH-JV
+ for qemu-devel@nongnu.org; Tue, 09 May 2023 05:05:03 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1683622891;
+ s=mimecast20190719; t=1683623100;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=UfP42Mjc1WWX/gAD4vVXKRie9Vu+gTTBukgNA4aZP0I=;
- b=Jm8s99akcFJpvX0h47j3xPc4agAHpMZfXferkm2+V4D+P81bheIWM87mXs1kbIpxghOZpO
- +Q4Wuboi3JAaqqAwbHdiKE1CVgzq51Ob8qNHo6XD+ii66xP1+sW4d0bkqe0c8Fe7mNGcGX
- Plb9V/IXnbasgpiUnPUTz1gRlBrYguM=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ to:to:cc:mime-version:mime-version:  content-type:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=T3lUxASRRZiDAjXLHzjrGoyMWaICe5bjD1E3Dk0IgHM=;
+ b=bhQJtydKPTII1xwCcsNpnASzxPXjDHDZ+rRHMk/c1dWX5S7x3PicFHmXXNUdOVdPVaryXN
+ aLG+f69hFl/I8bHvIeIQpDsZA826pt1J05WEs/Vqzat18rGJ55WDWH5N1uikhwaP2VdcXO
+ NS3LibMVZ6xrmXkpnedbvn4tAJUAj1E=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-77-IMDwHw5LP3aOcCxPwHP_gg-1; Tue, 09 May 2023 05:01:30 -0400
-X-MC-Unique: IMDwHw5LP3aOcCxPwHP_gg-1
-Received: by mail-ej1-f71.google.com with SMTP id
- a640c23a62f3a-9663552473fso351191066b.1
- for <qemu-devel@nongnu.org>; Tue, 09 May 2023 02:01:30 -0700 (PDT)
+ us-mta-209-1MSjNLJlO5u5Ki7kNY9I-w-1; Tue, 09 May 2023 05:04:59 -0400
+X-MC-Unique: 1MSjNLJlO5u5Ki7kNY9I-w-1
+Received: by mail-ed1-f72.google.com with SMTP id
+ 4fb4d7f45d1cf-50d89279d95so5129409a12.1
+ for <qemu-devel@nongnu.org>; Tue, 09 May 2023 02:04:59 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683622889; x=1686214889;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=UfP42Mjc1WWX/gAD4vVXKRie9Vu+gTTBukgNA4aZP0I=;
- b=W9BddZFjNyqQeZJl6t6F1Li38d6dGo60tdBAdPyIOg2OKvjz+QOqW8f2DfUPV9/1ik
- XFf3/BLyX7fo/3yP4Mg7rYN4WVzI7YvbntL/tMqlmYDHZW+EMbh+9KdOfIAgS/0IGwRQ
- u0wkRJB8TSyECEg66vd53Iropnb/3rApDu6Q3BKu7oWeWTUYeIOvLBIBQXsAGOPLmn12
- iclT6yIq2MQO93QGXwJzej3edbUcYZUi1eJsJcXG1yMOjvxdQN314TN2/T3YgZRi7K4b
- J38D4zoJwB1I0HO1UqKW+2Q2y+4xA8GvO9B726rQfULZOn7GFkWKj7D/53z3CBRM3MtS
- WICA==
-X-Gm-Message-State: AC+VfDxBb4EJVdhpSIXA2kae727pS5JY9iiaC44/4NefqtYy8SsD5+yq
- 21R24DldaBJN+6g8pGe7hQqBec4eh439IAQ10TsrHKJ8vWRUSOhTy0j0phLtG7iBwg9mJ/MBRZU
- tOsfGvxjFApF1KF8=
-X-Received: by 2002:a17:907:a0c:b0:966:2123:e0ca with SMTP id
- bb12-20020a1709070a0c00b009662123e0camr7585163ejc.34.1683622889278; 
- Tue, 09 May 2023 02:01:29 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ6kR8uV1h51F5M6R3Hd+b6Jez+nK61PwR2HOGY9rglkx3H0tvZyzuO33NrXoD43gvIhTNtgjg==
-X-Received: by 2002:a17:907:a0c:b0:966:2123:e0ca with SMTP id
- bb12-20020a1709070a0c00b009662123e0camr7585141ejc.34.1683622888954; 
- Tue, 09 May 2023 02:01:28 -0700 (PDT)
-Received: from ?IPV6:2003:cf:d738:7fbf:bf54:7947:8c4:60ed?
- (p200300cfd7387fbfbf54794708c460ed.dip0.t-ipconnect.de.
- [2003:cf:d738:7fbf:bf54:7947:8c4:60ed])
+ d=1e100.net; s=20221208; t=1683623098; x=1686215098;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=T3lUxASRRZiDAjXLHzjrGoyMWaICe5bjD1E3Dk0IgHM=;
+ b=SysczUwn6dKU/tzGNCOHyH0zi+WYHQ0icODe7uKFFWZfgMihLbq2bDSVtzB6buLkiJ
+ hnezMMqLJ95VqSFtbewJp4IJ6+iE10H+qk4Q4nxW2TTnRdsq1TYoFJWeCzPKPXtimbMp
+ TaNbetSCDmhamgYpIjoPFyKx+/2TPmO3xo5AqsNCLl3c4ZXDL1hvKNBNDCLlVx5e3n2a
+ zizDvzyB46CMDg9pEPLbWCdtJBo2V8nII7twkV6TagNQcIfBzH5UAF4c/cVuHGXObN5H
+ KxPdLIjf9Kv68UtX1IBmyTVYofXYfdC2Kkkrshz9pugeZZ/1s2XzM2pnPRmPNHY/G75J
+ IEsQ==
+X-Gm-Message-State: AC+VfDxX0n92kWmEp/U8mbRRh/RqPkdJ8TzpKF5/YQNlhmhNvtTvRZO8
+ u/8IPO3dwhqrAAXe10oG1+goqJLwE+sXa8scp9uGkEkJhc+P+l7j5OVqGfMkS4V5aldY2VmwwCv
+ rUaTTzQJjioJWBFmKgmyLWYivBR7tRMiS+T4gWjF4rqwUGJkPKJuw6pxgaP9EVkbfhjjidMRTcV
+ s=
+X-Received: by 2002:a05:6402:27d2:b0:506:71bd:3931 with SMTP id
+ c18-20020a05640227d200b0050671bd3931mr12541143ede.2.1683623097808; 
+ Tue, 09 May 2023 02:04:57 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ6rahnd0X8NjFORgWvZICgkIlC+ghXzvl20izQGmOllFrbQeg6u+6l0L9rtlzvhYY4PssOgPw==
+X-Received: by 2002:a05:6402:27d2:b0:506:71bd:3931 with SMTP id
+ c18-20020a05640227d200b0050671bd3931mr12541112ede.2.1683623097336; 
+ Tue, 09 May 2023 02:04:57 -0700 (PDT)
+Received: from [192.168.10.118] ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
  by smtp.gmail.com with ESMTPSA id
- h22-20020a1709070b1600b0094f07545d40sm1051041ejl.220.2023.05.09.02.01.27
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 09 May 2023 02:01:28 -0700 (PDT)
-Message-ID: <c082fe16-6c83-3445-67fc-26da718d5479@redhat.com>
-Date: Tue, 9 May 2023 11:01:27 +0200
+ dy28-20020a05640231fc00b0050d8b5757d1sm511581edb.54.2023.05.09.02.04.54
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 09 May 2023 02:04:54 -0700 (PDT)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PULL 00/16] Misc patches for 2023-05-09
+Date: Tue,  9 May 2023 11:04:37 +0200
+Message-Id: <20230509090453.37884-1-pbonzini@redhat.com>
+X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH 2/4] vhost-user: Interface for migration state transfer
-Content-Language: en-US
-To: Eugenio Perez Martin <eperezma@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>
-Cc: Stefan Hajnoczi <stefanha@gmail.com>, qemu-devel@nongnu.org,
- virtio-fs@redhat.com, German Maglione <gmaglione@redhat.com>,
- Anton Kuchin <antonkuchin@yandex-team.ru>,
- Juan Quintela <quintela@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>,
- Stefano Garzarella <sgarzare@redhat.com>
-References: <20230412210641.GC2813183@fedora>
- <CAJaqyWfm=g_hr9=WpsnwJ4hdpVb7K7p5rirWjvx=PxKYUp8trA@mail.gmail.com>
- <20230417153810.GE3852722@fedora>
- <CAJaqyWePM_a7AafP9qS40hmYXKHDyMsvn5g24zk=cH8L6s-kUw@mail.gmail.com>
- <CAJSP0QWUfxzad3EmT3r1hhaWmXDQt9Nj1LRPhPs_w79S9GAb1A@mail.gmail.com>
- <CAJaqyWfaDVZDJtMvPUhdRE283e80rB3WFd3RF9i=buaBYG=PKA@mail.gmail.com>
- <20230418175924.GB4041499@fedora>
- <CAJaqyWd9Ec7hpfv_NUDxOuwK4weyRTm-cVNOuv8VTiGVzyYjHQ@mail.gmail.com>
- <CAJSP0QWx_9TJa_0QRfhNg6JQemAWCc0ZagvkSxj15bbM5tGD4w@mail.gmail.com>
- <a95c1ad494ce5f8d7f27af788708966e7ba1925a.camel@redhat.com>
- <20230508191235.GA926999@fedora>
- <CAJaqyWdAyVaLJykLEkHwK3BpcvP2RPJQ1ok02F9LRe26QT75Aw@mail.gmail.com>
-From: Hanna Czenczek <hreitz@redhat.com>
-In-Reply-To: <CAJaqyWdAyVaLJykLEkHwK3BpcvP2RPJQ1ok02F9LRe26QT75Aw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=hreitz@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -38
-X-Spam_score: -3.9
-X-Spam_bar: ---
-X-Spam_report: (-3.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.802, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -117,31 +97,61 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 09.05.23 08:31, Eugenio Perez Martin wrote:
-> On Mon, May 8, 2023 at 9:12 PM Stefan Hajnoczi <stefanha@redhat.com> wrote:
+The following changes since commit 792f77f376adef944f9a03e601f6ad90c2f891b2:
 
-[...]
+  Merge tag 'pull-loongarch-20230506' of https://gitlab.com/gaosong/qemu into staging (2023-05-06 08:11:52 +0100)
 
->> VHOST_USER_GET_VRING_BASE itself isn't really enough because it stops a
->> specific virtqueue but not the whole device. Unfortunately stopping all
->> virtqueues is not the same as SUSPEND since spontaneous device activity
->> is possible independent of any virtqueue (e.g. virtio-scsi events and
->> maybe virtio-net link status).
->>
->> That's why I think SUSPEND is necessary for a solution that's generic
->> enough to cover all device types.
->>
-> I agree.
->
-> In particular virtiofsd is already resetting all the device at
-> VHOST_USER_GET_VRING_BASE if I'm not wrong, so that's even more of a
-> reason to implement suspend call.
+are available in the Git repository at:
 
-Oh, no, just the vring in question.  Not the whole device.
+  https://gitlab.com/bonzini/qemu.git tags/for-upstream
 
-In addition, we still need the GET_VRING_BASE call anyway, because, 
-well, we want to restore the vring on the destination via SET_VRING_BASE.
+for you to fetch changes up to ef709860ea12ec59c4cd7373bd2fd7a4e50143ee:
 
-Hanna
+  meson: leave unnecessary modules out of the build (2023-05-08 19:04:52 +0200)
+
+----------------------------------------------------------------
+* target/i386: improved EPYC models
+* more removal of mb_read/mb_set
+* bump _WIN32_WINNT to the Windows 8 API
+* fix for modular builds with --disable-system
+
+----------------------------------------------------------------
+Babu Moger (5):
+      target/i386: Add a couple of feature bits in 8000_0008_EBX
+      target/i386: Add feature bits for CPUID_Fn80000021_EAX
+      target/i386: Add missing feature bits in EPYC-Milan model
+      target/i386: Add VNMI and automatic IBRS feature bits
+      target/i386: Add EPYC-Genoa model to support Zen 4 processor series
+
+Michael Roth (2):
+      target/i386: allow versioned CPUs to specify new cache_info
+      target/i386: Add new EPYC CPU versions with updated cache_info
+
+Paolo Bonzini (8):
+      rcu: remove qatomic_mb_set, expand comments
+      test-aio-multithread: do not use mb_read/mb_set for simple flags
+      test-aio-multithread: simplify test_multi_co_schedule
+      call_rcu: stop using mb_set/mb_read
+      tb-maint: do not use mb_read/mb_set
+      MAINTAINERS: add stanza for Kconfig files
+      docs: clarify --without-default-devices
+      meson: leave unnecessary modules out of the build
+
+Thomas Huth (1):
+      include/qemu/osdep.h: Bump _WIN32_WINNT to the Windows 8 API
+
+ MAINTAINERS                       |  10 +
+ accel/tcg/tb-maint.c              |   4 +-
+ docs/devel/kconfig.rst            |  16 +-
+ include/qemu/osdep.h              |   2 +-
+ include/qemu/rcu.h                |   5 +-
+ meson.build                       |   4 +
+ target/i386/cpu.c                 | 375 +++++++++++++++++++++++++++++++++++++-
+ target/i386/cpu.h                 |  15 ++
+ tests/unit/test-aio-multithread.c |  30 +--
+ util/rcu.c                        |  69 ++++---
+ 10 files changed, 479 insertions(+), 51 deletions(-)
+-- 
+2.40.1
 
 
