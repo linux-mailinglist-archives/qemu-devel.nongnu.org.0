@@ -2,70 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D71846FC919
+	by mail.lfdr.de (Postfix) with ESMTPS id C0A216FC918
 	for <lists+qemu-devel@lfdr.de>; Tue,  9 May 2023 16:34:53 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pwOPg-0007Uf-HV; Tue, 09 May 2023 10:34:00 -0400
+	id 1pwOPV-0007Rk-4V; Tue, 09 May 2023 10:33:49 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1pwOPZ-0007Tb-34
- for qemu-devel@nongnu.org; Tue, 09 May 2023 10:33:53 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1pwOPX-00075v-6S
- for qemu-devel@nongnu.org; Tue, 09 May 2023 10:33:52 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1683642830;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=Smz+3aqz8/6edHmqvTH+7+adlR4FNekAfxJ4AtKUj8w=;
- b=WBdFVDYxIBfWJSC2jWpykwj/rmlhCgPZ6E2GIwq5qxBM6GhrW85GCnE6NIHbMKa/eEzgzv
- H4p5MO5cY+b/fyoNCD4zt41rtCuQ5wWD+Me9WumU4NXmCRc2mwNlHi1qAcg5YSWW2Mq7B2
- gkCWcCic7aSbpTFA8/GXDC3NJfDrxWo=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-9-X-QX-0UkNkW3sJrI8fwH3w-1; Tue, 09 May 2023 10:33:40 -0400
-X-MC-Unique: X-QX-0UkNkW3sJrI8fwH3w-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
- [10.11.54.10])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 63EED10AF919;
- Tue,  9 May 2023 14:33:07 +0000 (UTC)
-Received: from localhost (unknown [10.39.195.128])
- by smtp.corp.redhat.com (Postfix) with ESMTP id DF760492B08;
- Tue,  9 May 2023 14:33:06 +0000 (UTC)
-Date: Tue, 9 May 2023 10:33:05 -0400
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Mads Ynddal <mads@ynddal.dk>
-Cc: John Snow <jsnow@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
- Cleber Rosa <crosa@redhat.com>
-Subject: Re: [PATCH v2 00/12] simpletrace: refactor and general improvements
-Message-ID: <20230509143305.GD1008478@fedora>
-References: <20230502092339.27341-1-mads@ynddal.dk>
- <20230504174816.GA581920@fedora>
- <CAFn=p-ZhsUgMrK+w+ibP68q-v093SDEfhqxHsfTtFfS3qxD9ow@mail.gmail.com>
- <20230508150740.GC581920@fedora>
- <49EAD96A-8AE2-4F2A-9931-DC026A3F974F@ynddal.dk>
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pwOPM-0007Qg-F9
+ for qemu-devel@nongnu.org; Tue, 09 May 2023 10:33:40 -0400
+Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pwOPK-00073N-CU
+ for qemu-devel@nongnu.org; Tue, 09 May 2023 10:33:40 -0400
+Received: by mail-wm1-x334.google.com with SMTP id
+ 5b1f17b1804b1-3f315735514so210977265e9.1
+ for <qemu-devel@nongnu.org>; Tue, 09 May 2023 07:33:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1683642816; x=1686234816;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=uGBWhvMNS+axjsrzLLzmOBLHUotS7AxairZM5Agq5RQ=;
+ b=t+VBg8PYQksG6UJJRbyKV0MTGv8MGF//qs8zpTNU80iRJCOLa4+zO8xd3SchG5mUEc
+ sf1hjEJ0hwx4qNLghmhbaAub5ZAhZOiDCWhvLA2GtXdjDioq9rnJtOtyXjv4eJS9lDZk
+ jYyi5i/s8rfCXWHSBfwkHsp6x3u0KEi8+VugEHFYV52C3kErsCAST6+Y64u1ylR63ZH3
+ gsNNBJ922FH8EmII9Mf6oMmxnyXl5Vrr23ysTmlcN7fRSwdsPEnLJPKIVnBQO/r2bS21
+ XSjzlbfMj6xauSsgKQhb+jRXy4sp7ntc0UXCdcRoelvKI4dmmPfmzKNVnjdEmIkAzVYY
+ V0CQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1683642816; x=1686234816;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=uGBWhvMNS+axjsrzLLzmOBLHUotS7AxairZM5Agq5RQ=;
+ b=Wdm+0Yt5DcK8lH+No5FPTVKiCNOXmZa02rM6oAgvrzsqpx1iKo14W0FF75AvIBEJ+z
+ WhG9/IKf9Q/MYkjtJDhjFg1xu0bSO1Cxqg09kWAFVYBaXmqcIUru0Bd+X2t+1+ID4oVE
+ Qmxd+D1tzlrT4iucCvBiMju9RKOaXgj5L7Ro6WV79fkfrvCJxqtJUpcX850fOJjVzwud
+ aKdmBKZKYSxys8FsFKPvNSZt234SGGEbls/isy9NNks1Ti5VQz0fLRLWBsgDPOtIOUrY
+ mt6AND47DXctLrDanZBjvVxOHYosM7yYyzexr0oCVhK3DyH8UXvC4n2yVdeRG3Qqj3de
+ x+cg==
+X-Gm-Message-State: AC+VfDwJwAhSWNr1XMxLkxFpMqJpdHzlwxWL/uOwPHf4DvHjo8Dx/L3r
+ cIif6f7qBp4WaqYP/xn7NB75bQja+XjxbPitzT4=
+X-Google-Smtp-Source: ACHHUZ5xSavnGpUbmDiRcfq0rGwaL5WOG+NOahATrdqwc8F2ugtqURhDhF9UwUcn6XQ6e5fGfeSbRA==
+X-Received: by 2002:adf:fdd1:0:b0:306:2ff1:5227 with SMTP id
+ i17-20020adffdd1000000b003062ff15227mr8677698wrs.23.1683642816592; 
+ Tue, 09 May 2023 07:33:36 -0700 (PDT)
+Received: from [192.168.69.115] ([176.187.211.62])
+ by smtp.gmail.com with ESMTPSA id
+ q12-20020a05600000cc00b0030795b2be15sm6954311wrx.103.2023.05.09.07.33.35
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 09 May 2023 07:33:36 -0700 (PDT)
+Message-ID: <00958ee1-4c47-20e9-bcd0-ed92179ee831@linaro.org>
+Date: Tue, 9 May 2023 16:33:34 +0200
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="WKZH2uuDzHK7TEiY"
-Content-Disposition: inline
-In-Reply-To: <49EAD96A-8AE2-4F2A-9931-DC026A3F974F@ynddal.dk>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.10.1
+Subject: Re: [PATCH] ui/dbus: Implement damage regions for GL
+Content-Language: en-US
+To: Bilal Elmoussaoui <belmouss@redhat.com>, qemu-devel@nongnu.org
+Cc: Thomas Huth <thuth@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ chergert@redhat.com, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>
+References: <20230509115940.114033-1-belmouss@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20230509115940.114033-1-belmouss@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::334;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x334.google.com
+X-Spam_score_int: -24
+X-Spam_score: -2.5
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.421,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -83,43 +95,83 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+Hi,
 
---WKZH2uuDzHK7TEiY
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 9/5/23 13:59, Bilal Elmoussaoui wrote:
+> From: Christian Hergert <chergert@redhat.com>
+> 
+> Currently, when using `-display dbus,gl=on` all updates to the client
+> become "full scanout" updates, meaning there is no way for the client to
+> limit damage regions to the display server.
+> 
+> Instead of using an "update count", this patch tracks the damage region
+> and propagates it to the client.
+> 
+> This was less of an issue when clients were using GtkGLArea for
+> rendering,
+> as you'd be doing full-surface redraw. To be efficient, the client needs
+> both a DMA-BUF and the damage region to be updated.
+> 
+> In the future, when additional methods are allowed on the D-Bus
+> interface,
+> this should likely be updated to send damage regions as a single RPC to
+> avoid additional message processing.
+> 
+> Currently, Linux does not propagate damage rectangles when using the
+> virtio-gpu drm driver. That means compositors such as Mutter which
+> utilize
+> drmModePageFlip() will be sending full or near-full surface damages.
+> 
+> https://lists.freedesktop.org/archives/dri-devel/2023-March/395164.html
+> contains a patch to fix that too.
+> 
+> Signed-off-by: Bilal Elmoussaoui <belmouss@redhat.com>
+> ---
+>   meson.build        |  8 ++++++++
+>   ui/dbus-listener.c | 25 +++++++++++++++++++------
+>   ui/meson.build     |  2 +-
+>   3 files changed, 28 insertions(+), 7 deletions(-)
+> 
+> diff --git a/meson.build b/meson.build
+> index 229eb585f7..72678ef78e 100644
+> --- a/meson.build
+> +++ b/meson.build
+> @@ -1761,6 +1761,14 @@ dbus_display = get_option('dbus_display') \
+>              error_message: '-display dbus is not available on Windows') \
+>     .allowed()
 
-On Mon, May 08, 2023 at 06:50:58PM +0200, Mads Ynddal wrote:
->=20
-> >=20
-> > I was curious how Mads is using simpletrace for an internal (to
-> > Samsung?) project.
-> >=20
->=20
-> I was just tracing the NVMe emulation to get some metrics. The code is all
-> upstream or a part of this patchset. The rest is tracing configs.
+^ dbus strictly required deps, ...
 
-I see, not a different codebase from QEMU. In that case what I said
-about extracting tracetool and simpletrace from qemu.git won't be
-useful.
+> +cairo = not_found
+> +if dbus_display
+> +  cairo = dependency('cairo',
+> +                     kwargs: static_kwargs,
+> +                     method: 'pkg-config',
+> +                    )
 
-Stefan
+cairo declared as optional dep, ...
 
---WKZH2uuDzHK7TEiY
-Content-Type: application/pgp-signature; name="signature.asc"
+> +endif
+> +
+>   have_virtfs = get_option('virtfs') \
+>       .require(targetos == 'linux' or targetos == 'darwin',
+>                error_message: 'virtio-9p (virtfs) requires Linux or macOS') \
+> diff --git a/ui/dbus-listener.c b/ui/dbus-listener.c
+> index 911acdc529..047be5cb3a 100644
+> --- a/ui/dbus-listener.c
+> +++ b/ui/dbus-listener.c
+> @@ -25,6 +25,7 @@
+>   #include "qemu/error-report.h"
+>   #include "sysemu/sysemu.h"
+>   #include "dbus.h"
+> +#include <cairo.h>
 
------BEGIN PGP SIGNATURE-----
+cairo used unconditionally.
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmRaWaEACgkQnKSrs4Gr
-c8igwQf/VwU9gRRjxwyqLPThkUzjMRPmA79jReG6GwikZ7qvF8Fdnw8wi/RycBON
-qWxw5zm/hx+glHnsDIb37zeZ7zYxWFq/i6kV4g4bjlIozPwQtZInAG+g/ZtaJ8Aw
-FltQClHhvCXts179/bnbUhxpHGGWQEtzf3+5ogYJkotNs15ap68ccZpBtWhylRNg
-upjdQk9FkNJZAEZtSjX8f/rGW8OsRrtYwpQ7IWSqKajxumUZeqsWEd//REe7svFM
-3tyLVWQD1MVHedeUFMEOXSiChZmL9x80v9Y4hfMLaAPzarK3342G4KzU1ST4liNE
-PaODgpQTMmUmF+iXg2ZFnvDLIdcBkA==
-=V0Qa
------END PGP SIGNATURE-----
+Shouldn't we now declared it as a strict dependency in meson?
 
---WKZH2uuDzHK7TEiY--
+>   #include <gio/gunixfdlist.h>
+>   
+>   #ifdef CONFIG_OPENGL
 
 
