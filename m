@@ -2,73 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC2856FC9A7
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 May 2023 16:56:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 15D346FC9C4
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 May 2023 17:01:08 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pwOlH-0006Yc-Fk; Tue, 09 May 2023 10:56:19 -0400
+	id 1pwOpH-0008As-PU; Tue, 09 May 2023 11:00:27 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pwOlC-0006UL-G9
- for qemu-devel@nongnu.org; Tue, 09 May 2023 10:56:14 -0400
-Received: from mail-ed1-x536.google.com ([2a00:1450:4864:20::536])
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pwOpD-0008A9-Cy
+ for qemu-devel@nongnu.org; Tue, 09 May 2023 11:00:24 -0400
+Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pwOlA-0003bo-8T
- for qemu-devel@nongnu.org; Tue, 09 May 2023 10:56:14 -0400
-Received: by mail-ed1-x536.google.com with SMTP id
- 4fb4d7f45d1cf-50db7f0a1b4so1536996a12.3
- for <qemu-devel@nongnu.org>; Tue, 09 May 2023 07:56:10 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pwOpB-0004O2-J3
+ for qemu-devel@nongnu.org; Tue, 09 May 2023 11:00:22 -0400
+Received: by mail-wm1-x330.google.com with SMTP id
+ 5b1f17b1804b1-3f42769a0c1so20709655e9.2
+ for <qemu-devel@nongnu.org>; Tue, 09 May 2023 08:00:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1683644169; x=1686236169;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=TFaaj/6Ld8vJKoqN7Y7ch6XzfEfl83cBt43HKwvW+0U=;
- b=jSiEZz5IXZXr20jqdPiR5wS43Bt3mvJANb+NRfHJyamvsc1bJ3Z+mcjNR59Oj9jMKR
- naMCRsaO5m0sD4rLmY7QCNGAU3kUsd6AtzyYPtCkgpozalPglF/MY8wF92/gexNwZw5u
- ozWiXDiafTfiqll/RcTRm/PDfCDhWP+/6zFTxChlOyScuO1PXKyyKEQGUuaWg5gF/la5
- 1durNKwAUkqPivzpKLdD9crxf6qiV7iPcLEj2iO9xSxkHWrZZrGxmyGCtklqW096NupC
- taJ8MW/ZiBCJE5RmIHf3L2K8ZthQ2+c+n91afMKAF58JhzI61SlPh/f6PIzZr5ou42Sc
- aTng==
+ d=linaro.org; s=google; t=1683644420; x=1686236420;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=11Eih0nRa4OM9V/ZBjRQ1TbCEUUHW4pYY3eSa7TcXmI=;
+ b=gIPb2LBMEEMDeKp13ch96mjn7nChM+2VEV7UdSd6ejPET0w1raQE0o8gVgSfkL7HQf
+ bTbXWSSkd/QSVuZfxh2ASCf0SK1ccHm8tGH2BUewl2XF7lvxYnrx1ba2wpZA1OsKWle1
+ ATTJE9HWXmk+3HHdmmj/ryMYjnZhNOxyCqoGdoB2dswyQEyHFBy+EQCX9GkiAAKI3neH
+ P9KKGN7QQnpcu8kpUhnoacgr3CUshv4Uh1b3unRDK//R2rAn2cG5euDR0g1P6cvAuqbR
+ xE8mTBXgFqJo5XVHF2e6kJ1KQmePrMZZtWE1d9EKLbzyX1G6/L5bOUCgJY54wxjkYST0
+ Z94Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683644169; x=1686236169;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=TFaaj/6Ld8vJKoqN7Y7ch6XzfEfl83cBt43HKwvW+0U=;
- b=Jp2aN6KZTSs2UcnywXALY+/NQOiKTtiqMV+PAHRLm69Oq4nVn16Rry/KnExBvt+g30
- h3oHh0rI+aywXmUMnLK77nSM+K+o2Ep/cljJw6Hq9ge/JgjZaf21UhwqJbSVRz6fi6rf
- 0i5IHJjW9x3D2H3vcRvLjkj/LA022g0UusHb5JkO6VJ67AKUk4UumS3HjkmnztkkFYCL
- xgenyNralGYOKP/+CCerOxUYrt65qmQ5C+ZRzrX6mi5lKeaqm8+wH/hJxNRw9WwGWiOH
- /D2hXc7ZrGM9RsG8Y2yn7pRZ6TdAaCRFSHDsViXHfHHKB6zg97Upjw4t2PW+YANfbm2N
- Cf4w==
-X-Gm-Message-State: AC+VfDxDrFur+5ZSZlel/juWojwwNW/NmYG9zdZxfvfqhIpuV7QFelWQ
- 0k6YygREPbXJUzGJ/33/j8wNY1+MzKmCOvGwnMB4yQ==
-X-Google-Smtp-Source: ACHHUZ7TXCGjY2fHWJTUXKqo0cUXLdaO7H7/rxfmcTTQGmlTtGz2hj/9UZ+GDTV6RwDDa2L8u4aKMIe6Tq0WWlE7GbU=
-X-Received: by 2002:a50:fe8c:0:b0:506:ba8d:c317 with SMTP id
- d12-20020a50fe8c000000b00506ba8dc317mr10646376edt.40.1683644169156; Tue, 09
- May 2023 07:56:09 -0700 (PDT)
+ d=1e100.net; s=20221208; t=1683644420; x=1686236420;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=11Eih0nRa4OM9V/ZBjRQ1TbCEUUHW4pYY3eSa7TcXmI=;
+ b=kYWyB3hQVhljwkpkuDclQ9P3c3f9oJiVAZ2B4pP9QTwkzMaUiqNifrawaMhdFs7TLr
+ vDBjCKIxmivjeRNhhrXKa7m+vut9/y+/ranP2oH7hkqpmqPHtSFTJnJgQ0P5K3LqW+dR
+ 2xqbH0291po+rr+C1nONUtooMYWjWIdhIqKWq8Wgawt9UHuUxZsBjglcwnBBaK7T8fz1
+ X3v4394zC9ZxwUp3vWJsZsKFkthl3i4kqyWE8D3DYPEhVdPLUoWhgtX2SVDyHHSFis+t
+ wG5NpnaVburEKY8BMNYqXRZubu3iHtySEl7i7wkA5rKAHK4TzdsDpnyRke8Q5pitFj5P
+ 0ycg==
+X-Gm-Message-State: AC+VfDzE1N8tM3Me8XuNitO2cznmO0H5qDL5wgYdInq9u//TOeeYcn0B
+ E3Pv0Ki2UKzu25TGRXu2GyxQ7Q==
+X-Google-Smtp-Source: ACHHUZ4r269D/HZaRIIwpgxvQQEz/kAV9jC7fTbwgTnucaf5ZrEPAeqzoym1jc/EPwLuel7dBMbqAg==
+X-Received: by 2002:a05:600c:2108:b0:3f4:22ff:812 with SMTP id
+ u8-20020a05600c210800b003f422ff0812mr5806756wml.26.1683644419663; 
+ Tue, 09 May 2023 08:00:19 -0700 (PDT)
+Received: from [192.168.11.23] ([85.9.250.243])
+ by smtp.gmail.com with ESMTPSA id
+ k14-20020a7bc40e000000b003f4272c2d0csm5285662wmi.36.2023.05.09.08.00.18
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 09 May 2023 08:00:19 -0700 (PDT)
+Message-ID: <83d9c36a-2e85-46b0-0b5d-7674a3cb584b@linaro.org>
+Date: Tue, 9 May 2023 16:00:17 +0100
 MIME-Version: 1.0
-References: <20230302123029.153265-1-pbonzini@redhat.com>
- <20230302123029.153265-33-pbonzini@redhat.com>
-In-Reply-To: <20230302123029.153265-33-pbonzini@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 9 May 2023 15:55:58 +0100
-Message-ID: <CAFEAcA-s+sNDn4z_kXd70koFGSLXqjMUXB5Gn9VzTnaSbr2B_Q@mail.gmail.com>
-Subject: Re: [PULL 32/62] hw/xen: Implement EVTCHNOP_bind_virq
-To: Paolo Bonzini <pbonzini@redhat.com>
-Cc: qemu-devel@nongnu.org, David Woodhouse <dwmw@amazon.co.uk>,
- Paul Durrant <paul@xen.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::536;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x536.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH] target/i386: fix operand size for VCOMI/VUCOMI
+ instructions
+Content-Language: en-US
+To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
+Cc: ricky@rzhou.org, Gabriele Svelto <gsvelto@mozilla.com>
+References: <20230509142639.253947-1-pbonzini@redhat.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20230509142639.253947-1-pbonzini@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::330;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x330.google.com
+X-Spam_score_int: -24
+X-Spam_score: -2.5
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.421,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -86,60 +95,27 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, 2 Mar 2023 at 12:39, Paolo Bonzini <pbonzini@redhat.com> wrote:
->
-> From: David Woodhouse <dwmw@amazon.co.uk>
->
-> Add the array of virq ports to each vCPU so that we can deliver timers,
-> debug ports, etc. Global virqs are allocated against vCPU 0 initially,
-> but can be migrated to other vCPUs (when we implement that).
->
-> The kernel needs to know about VIRQ_TIMER in order to accelerate timers,
-> so tell it via KVM_XEN_VCPU_ATTR_TYPE_TIMER. Also save/restore the value
-> of the singleshot timer across migration, as the kernel will handle the
-> hypercalls automatically now.
->
-> Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
-> Reviewed-by: Paul Durrant <paul@xen.org>
+On 5/9/23 15:26, Paolo Bonzini wrote:
+> Compared to other SSE instructions, VUCOMISx and VCOMISx are different:
+> the single and double precision versions are distinguished through a
+> prefix, however they use no-prefix and 0x66 for SS and SD respectively.
+> Scalar values usually are associated with 0xF2 and 0xF3.
+> 
+> Because of these, they incorrectly perform a 128-bit memory load instead
+> of a 32- or 64-bit load.  Fix this by writing a custom decoding function.
+> 
+> I tested that the reproducer is fixed and the test-avx output does not
+> change.
+> 
+> Reported-by: Gabriele Svelto<gsvelto@mozilla.com>
+> Resolves:https://gitlab.com/qemu-project/qemu/-/issues/1637
+> Fixes: f8d19eec0d53 ("target/i386: reimplement 0x0f 0x28-0x2f, add AVX", 2022-10-18)
+> Signed-off-by: Paolo Bonzini<pbonzini@redhat.com>
+> ---
+>   target/i386/tcg/decode-new.c.inc | 15 +++++++++++++--
+>   1 file changed, 13 insertions(+), 2 deletions(-)
 
-Hi; Coverity points out (CID 1507534) that we seem to sometimes
-access env->xen_singleshot_timer_ns under the protection of
-env->xen_timers_lock (eg in xen_vcpu_singleshot_timer_event())
-and sometimes not (the specific case Coverity complains about is
-in do_vcpu_soft_reset()). Is this a false positive, or is there
-missing locking here ?
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
->  /* The x86 has a strong memory model with some store-after-load re-ordering */
->  #define TCG_GUEST_DEFAULT_MO      (TCG_MO_ALL & ~TCG_MO_ST_LD)
->
-> @@ -1806,6 +1808,8 @@ typedef struct CPUArchState {
->      uint64_t xen_vcpu_time_info_gpa;
->      uint64_t xen_vcpu_runstate_gpa;
->      uint8_t xen_vcpu_callback_vector;
-> +    uint16_t xen_virq[XEN_NR_VIRQS];
-> +    uint64_t xen_singleshot_timer_ns;
->  #endif
->  #if defined(CONFIG_HVF)
->      HVFX86LazyFlags hvf_lflags;
-
-> @@ -387,6 +434,8 @@ static void do_vcpu_soft_reset(CPUState *cs, run_on_cpu_data data)
->      env->xen_vcpu_time_info_gpa = INVALID_GPA;
->      env->xen_vcpu_runstate_gpa = INVALID_GPA;
->      env->xen_vcpu_callback_vector = 0;
-> +    env->xen_singleshot_timer_ns = 0;
-> +    memset(env->xen_virq, 0, sizeof(env->xen_virq));
->
->      set_vcpu_info(cs, INVALID_GPA);
->      kvm_xen_set_vcpu_attr(cs, KVM_XEN_VCPU_ATTR_TYPE_VCPU_TIME_INFO,
-> @@ -395,6 +444,7 @@ static void do_vcpu_soft_reset(CPUState *cs, run_on_cpu_data data)
->                            INVALID_GPA);
->      if (kvm_xen_has_cap(EVTCHN_SEND)) {
->          kvm_xen_set_vcpu_callback_vector(cs);
-> +        kvm_xen_set_vcpu_timer(cs);
->      }
->
->  }
-
-thanks
--- PMM
+r~
 
