@@ -2,119 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D1266FC5C5
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 May 2023 14:04:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F1306FC5CB
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 May 2023 14:06:27 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pwM4I-0002YW-D0; Tue, 09 May 2023 08:03:46 -0400
+	id 1pwM63-0004Vp-Ho; Tue, 09 May 2023 08:05:35 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <harshpb@linux.ibm.com>)
- id 1pwM4F-0002XZ-8g; Tue, 09 May 2023 08:03:43 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <harshpb@linux.ibm.com>)
- id 1pwM4C-0006Zr-PH; Tue, 09 May 2023 08:03:42 -0400
-Received: from pps.filterd (m0353725.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 349BoDbo018874; Tue, 9 May 2023 12:03:29 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=EOyorRkaXbKHTkgxIl1i+Z6VLvLWPGm9rqVgkUYMezE=;
- b=pzlbympj6RAYdWPM7tJLnSR+dRQtSQw48HpirnHyorIn3fvA1WjE0FgFoKK0eJGAsWq+
- 4ogM+7GNEHwUugguebZvf+lF5GlnelPFi/x5OBZplw0fGFNwyToytCi6vxMSAJhDO6VR
- bHUE7vMpQePGbXSMG8X0IzIvITUiuz3h0NrRRhe1b+WV/g2K1MKVPgVDCwllXkwAQ+Sp
- FaXKdoDSqjBGFuJgLXGjStFehfbNgWZgfnq6z0u1hSo8sJ22YoPWHaxlYxacukJxWoEH
- bO01CASRxN4MYFw5D3qPE27E8RD7YbF5ZAZ5BrY1YMEUaRuA9y031PHkBHuALhG3y+ET hg== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3qfnn4gbpv-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 09 May 2023 12:03:27 +0000
-Received: from m0353725.ppops.net (m0353725.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 349BsJgc032259;
- Tue, 9 May 2023 12:03:25 GMT
-Received: from ppma01wdc.us.ibm.com (fd.55.37a9.ip4.static.sl-reverse.com
- [169.55.85.253])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3qfnn4gbca-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 09 May 2023 12:03:25 +0000
-Received: from pps.filterd (ppma01wdc.us.ibm.com [127.0.0.1])
- by ppma01wdc.us.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 3498nTdh014991;
- Tue, 9 May 2023 12:03:13 GMT
-Received: from smtprelay04.wdc07v.mail.ibm.com ([9.208.129.114])
- by ppma01wdc.us.ibm.com (PPS) with ESMTPS id 3qf7ptk9qm-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 09 May 2023 12:03:13 +0000
-Received: from smtpav01.wdc07v.mail.ibm.com (smtpav01.wdc07v.mail.ibm.com
- [10.39.53.228])
- by smtprelay04.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 349C3CGL34734720
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 9 May 2023 12:03:12 GMT
-Received: from smtpav01.wdc07v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 1E16958059;
- Tue,  9 May 2023 12:03:12 +0000 (GMT)
-Received: from smtpav01.wdc07v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 604BC58055;
- Tue,  9 May 2023 12:03:01 +0000 (GMT)
-Received: from [9.43.112.58] (unknown [9.43.112.58])
- by smtpav01.wdc07v.mail.ibm.com (Postfix) with ESMTP;
- Tue,  9 May 2023 12:03:01 +0000 (GMT)
-Message-ID: <689a5594-9877-1e4c-5471-d7423e00cd8e@linux.ibm.com>
-Date: Tue, 9 May 2023 17:32:59 +0530
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pwM5a-0004Nw-T5
+ for qemu-devel@nongnu.org; Tue, 09 May 2023 08:05:09 -0400
+Received: from mail-ed1-x535.google.com ([2a00:1450:4864:20::535])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pwM5X-0006rK-5u
+ for qemu-devel@nongnu.org; Tue, 09 May 2023 08:05:06 -0400
+Received: by mail-ed1-x535.google.com with SMTP id
+ 4fb4d7f45d1cf-50bc5197d33so10923383a12.1
+ for <qemu-devel@nongnu.org>; Tue, 09 May 2023 05:05:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1683633901; x=1686225901;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=FtnmDLDOsU/IlqLkId45Pc72BUE73jMq14qxm6Cd1EE=;
+ b=yR7/qZTB67ODJ0NoKg2I6B/z1+lFfNr2ne62xC3BLLw+ImFoNK+6mycBPsEpg8xdXR
+ JW5v1GrL8+aSia4pjVa1HEMnqZviKq/OVB5zN6jwo62DPUyLed8mFGH6OytNbfYcG3Hv
+ rW7yvvZ97xi4Ee73aF3adhehUq7vriyPCWXOn9+VD7C4s4/COFR1a05NHTw7Ib1MEJzR
+ 43tJm5vtuG0gXcTENhzSZS2+qU82MpW8f/4exoBVVRT6wakhzwF309YvyVZ7fXOME3st
+ blV6IQW/b9v4oXpfsGqkQxycc38S8s8quy33b8+AK+q03V5JWkAx8Gl6JgErOo9qGXSC
+ 8aFg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1683633901; x=1686225901;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=FtnmDLDOsU/IlqLkId45Pc72BUE73jMq14qxm6Cd1EE=;
+ b=Av1xdSLyGifqiylDMHDV+8UHy9bAom2KOQQeSYHcQe+9uBKb/whVxPIRWjLXUCllMU
+ yojtfQF6SnwCBdyqkYLsQZmNclQhBwMQBVVCSSrK9pwg1xtS7ZTxCOUHkI4SDQcBk+0/
+ YGs/3kErN1hK5mr5QEvxj9E0hlGDDukAC6hDlPR52HTUBSkug5J4Y9JKcHhc5d8bhmxn
+ iKra5VoNvU/EkxtrxDHBtuNmzEwQqb1DgP69Sg6LQJM/pX1WTVZAKkyAZkgAb+Vl2OFx
+ akGOVJ9rxuOSZyZZN3qIT9lxDGXIDGMNxegoXc2sz8HUxswp7OFHZ01PHRRDU4e3nZ/m
+ EuuQ==
+X-Gm-Message-State: AC+VfDyYVgKEs30lWmiYDHwsBcRG3KuDI05eJpkRIcabeZrGPri7tteU
+ 86EjkaXFjzpKUKrZaKNUHDK8IIbBrDLzT9Upazp/Bg==
+X-Google-Smtp-Source: ACHHUZ4PXzzo1tBSSpSH16ChRsRSnhs7CS5tMXlene/zGGeZG0tYWK9Po8orbMwLsITROZStog4r5f0KdbWZH9Mn1GA=
+X-Received: by 2002:aa7:d64d:0:b0:50c:3dc:2262 with SMTP id
+ v13-20020aa7d64d000000b0050c03dc2262mr10014803edr.39.1683633901517; Tue, 09
+ May 2023 05:05:01 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH 02/21] migration: Don't use INT64_MAX for unlimited rate
-Content-Language: en-US
-To: quintela@redhat.com
-Cc: qemu-devel@nongnu.org, Daniel Henrique Barboza <danielhb413@gmail.com>,
- Christian Borntraeger <borntraeger@linux.ibm.com>,
- David Hildenbrand <david@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, qemu-block@nongnu.org,
- Eric Blake <eblake@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
- John Snow <jsnow@redhat.com>, Halil Pasic <pasic@linux.ibm.com>,
- Peter Xu <peterx@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- David Gibson <david@gibson.dropbear.id.au>,
- Eric Farman <farman@linux.ibm.com>, Greg Kurz <groug@kaod.org>,
- qemu-ppc@nongnu.org, qemu-s390x@nongnu.org, Fam Zheng <fam@euphon.net>,
- Thomas Huth <thuth@redhat.com>, =?UTF-8?Q?C=c3=a9dric_Le_Goater?=
- <clg@kaod.org>, Leonardo Bras <leobras@redhat.com>,
- Ilya Leoshkevich <iii@linux.ibm.com>
-References: <20230508130909.65420-1-quintela@redhat.com>
- <20230508130909.65420-3-quintela@redhat.com>
- <9ab54244-b804-e066-580f-3d4e89fb7862@linux.ibm.com>
- <87cz39en8j.fsf@secure.mitica>
-From: Harsh Prateek Bora <harshpb@linux.ibm.com>
-In-Reply-To: <87cz39en8j.fsf@secure.mitica>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: 98JSlkeciW_eJ2RDtBbG_UeE95gXZz46
-X-Proofpoint-ORIG-GUID: YsiP-jPeBXhVXYHmmX5becxEb-3zXLrE
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-05-09_07,2023-05-05_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 clxscore=1015
- mlxlogscore=845 mlxscore=0 adultscore=0 priorityscore=1501 spamscore=0
- phishscore=0 suspectscore=0 lowpriorityscore=0 bulkscore=0 malwarescore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2304280000
- definitions=main-2305090092
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=harshpb@linux.ibm.com;
- helo=mx0b-001b2d01.pphosted.com
-X-Spam_score_int: -23
-X-Spam_score: -2.4
+References: <20230503070656.1746170-1-richard.henderson@linaro.org>
+ <20230503070656.1746170-7-richard.henderson@linaro.org>
+ <CAFEAcA8muJ84GMqSBuU0P2YhfERM-kftfq07N8BVO2yG9p6jBw@mail.gmail.com>
+ <8988fc6b-8f07-1ab7-663d-3392ca19f7f8@linaro.org>
+In-Reply-To: <8988fc6b-8f07-1ab7-663d-3392ca19f7f8@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 9 May 2023 13:04:50 +0100
+Message-ID: <CAFEAcA-79iL8=+143w1jxTG1WM-8NODqqgF4droY=avopm4a7g@mail.gmail.com>
+Subject: Re: [PATCH v4 06/57] accel/tcg: Honor atomicity of loads
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: qemu-devel@nongnu.org, git@xen0n.name, gaosong@loongson.cn, 
+ philmd@linaro.org, qemu-arm@nongnu.org, qemu-riscv@nongnu.org, 
+ qemu-s390x@nongnu.org, =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::535;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x535.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.421,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -130,69 +89,52 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On Fri, 5 May 2023 at 21:19, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> On 5/4/23 18:17, Peter Maydell wrote:
+> >> +    case MO_ATOM_WITHIN16:
+> >> +        tmp = p & 15;
+> >> +        if (tmp + (1 << size) <= 16) {
+> >> +            atmax = size;
+> >
+> > OK, so this is "whole operation is within 16 bytes,
+> > whole operation must be atomic"...
+> >
+> >> +        } else if (atmax == size) {
+> >> +            return MO_8;
+> >
+> > ...but I don't understand the interaction of WITHIN16
+> > and also specifying an ATMAX value that's not ATMAX_SIZE.
+>
+> I'm trying to describe e.g. LDP, which if not within16 has two 8-byte elements, one or
+> both of which must be atomic.  We will have set MO_ATOM_WITHIN16 | MO_ATMAX_8.
+>
+> If atmax == size, there is only one element, and since it is not within16, there is no
+> atomicity.
+>
+> >> +        } else if (tmp + (1 << atmax) != 16) {
+> >
+> > Why is this doing an exact inequality check?
+> > What if you're asking for a load of 8 bytes at
+> > MO_ATMAX_2 from a pointer that's at an offset of
+> > 10 bytes from a 16-byte boundary? Then tmp is 10,
+> > tmp + (1 << atmax) is 12, but we could still do the
+> > loads at atomicity 2. This doesn't seem to me to be
+> > any different from the case it does catch where
+> > the first ATMAX_2-sized unit happens to be the only
+> > thing in this 16-byte block.
+>
+> If the LDP is aligned mod 8, but not aligned mod 16, then both 8-byte operations must be
+> (separately) atomic, and we return MO_64.
 
+So there's an implicit "at most 2 atomic sub-operations
+inside a WITHIN16 load" restriction? i.e. you can't
+use WITHIN16 to say "do this 8 byte load atomically but
+if it's not in a 16-byte region do it with 4 2-byte loads",
+even though in theory MO_ATOM_WITHIN16 | MO_ATMAX_2 | MO_8
+would describe that ?
 
-On 5/9/23 17:21, Juan Quintela wrote:
-> Harsh Prateek Bora <harshpb@linux.ibm.com> wrote:
->> On 5/8/23 18:38, Juan Quintela wrote:
->>> Use 0 instead.
->>> Signed-off-by: Juan Quintela <quintela@redhat.com>
->>> ---
->>>    migration/migration.c | 4 ++--
->>>    migration/qemu-file.c | 3 +++
->>>    2 files changed, 5 insertions(+), 2 deletions(-)
->>> diff --git a/migration/migration.c b/migration/migration.c
->>> index 1192f1ebf1..3979a98949 100644
->>> --- a/migration/migration.c
->>> +++ b/migration/migration.c
->>> @@ -2296,7 +2296,7 @@ static void migration_completion(MigrationState *s)
->>>                }
->>>                if (ret >= 0) {
->>>                    s->block_inactive = !migrate_colo();
->>> -                qemu_file_set_rate_limit(s->to_dst_file, INT64_MAX);
->>> +                qemu_file_set_rate_limit(s->to_dst_file, 0);
->>
->> #define RATE_LIMIT_MAX 0
->>
->> How about having a macro and use that which conveys the meaning in all
->> call instances wherever it is getting passed ?
-> 
-> I almost preffer the macro.
-> 
->        qemu_file_set_rate_limit(s->to_dst_file, RATE_LIMIT_MAX);
-> 
-> seems quite explanatory?
-> 
-Yes, definitely.
-
-Thanks
-Harsh
-> Thanks, Juan.
-> 
->>
->>>                    ret = qemu_savevm_state_complete_precopy(s->to_dst_file, false,
->>>                                                             s->block_inactive);
->>>                }
->>> @@ -3044,7 +3044,7 @@ static void *bg_migration_thread(void *opaque)
->>>        rcu_register_thread();
->>>        object_ref(OBJECT(s));
->>>    -    qemu_file_set_rate_limit(s->to_dst_file, INT64_MAX);
->>> +    qemu_file_set_rate_limit(s->to_dst_file, 0);
->>>          setup_start = qemu_clock_get_ms(QEMU_CLOCK_HOST);
->>>        /*
->>> diff --git a/migration/qemu-file.c b/migration/qemu-file.c
->>> index f4cfd05c67..745361d238 100644
->>> --- a/migration/qemu-file.c
->>> +++ b/migration/qemu-file.c
->>> @@ -731,6 +731,9 @@ int qemu_file_rate_limit(QEMUFile *f)
->>>        if (qemu_file_get_error(f)) {
->>>            return 1;
->>>        }
->>> +    /*
->>> +     *  rate_limit_max == 0 means no rate_limit enfoncement.
->>> +     */
->>>        if (f->rate_limit_max > 0 && f->rate_limit_used > f->rate_limit_max) {
->>>            return 1;
->>>        }
-> 
+thanks
+-- PMM
 
