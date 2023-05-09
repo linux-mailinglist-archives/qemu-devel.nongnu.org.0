@@ -2,89 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9470E6FC257
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 May 2023 11:07:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C0FFE6FC24C
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 May 2023 11:06:41 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pwJHZ-0005Fh-4X; Tue, 09 May 2023 05:05:17 -0400
+	id 1pwJHc-0005GK-Kx; Tue, 09 May 2023 05:05:20 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1pwJHW-0005Er-TA
- for qemu-devel@nongnu.org; Tue, 09 May 2023 05:05:14 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ id 1pwJHa-0005Fo-ES
+ for qemu-devel@nongnu.org; Tue, 09 May 2023 05:05:18 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1pwJHR-0004uO-5b
- for qemu-devel@nongnu.org; Tue, 09 May 2023 05:05:12 -0400
+ id 1pwJHV-0004up-Jw
+ for qemu-devel@nongnu.org; Tue, 09 May 2023 05:05:18 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1683623108;
+ s=mimecast20190719; t=1683623109;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=7G0JGRJuNzOy08wxI94uhJe0IVFxaXWeMU7b25jAV+E=;
- b=WPsYeXPAOfC4VpF16RGMRY3wXOrYX88bqLAI6qP3KkV8C/pje3CrUc9gqFxGekp5dFavT8
- LYzk9Pxr0axi6nQ9Hd0VOHgo5EWVXUlEGrMk3C3nzGatwzaogUmps7n8dm/dfcrzmQQt60
- YaDXaAPwgPSzbdGGgvct0WT5fULsUrY=
-Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
- [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=k+Hy7863bVVg2b9P3/Vu2bssKtfYLZ8Nym6z4eY/5m0=;
+ b=W++dyYLF3kAwMfWehG37SwBu8bdHJxkWsX9v5feohkL/5HVJNBQH10zqjs5CMoMZYbqKOk
+ HMw78SnS9u7CXoXXr019qXkZ6xPhAAHB4IKk3WpaQCKITlUkmlgdfJuLVj3iEhmAmy9AdF
+ lUmsLnhOE1i16F01kcKsD/smS1odFOg=
+Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
+ [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-381-0KkK-_LAMIevSfmMp0YZhA-1; Tue, 09 May 2023 05:05:07 -0400
-X-MC-Unique: 0KkK-_LAMIevSfmMp0YZhA-1
-Received: by mail-ej1-f70.google.com with SMTP id
- a640c23a62f3a-94a355cf318so646341566b.2
- for <qemu-devel@nongnu.org>; Tue, 09 May 2023 02:05:07 -0700 (PDT)
+ us-mta-630-EO7W7GGhOqmt5Ym0KlHNoQ-1; Tue, 09 May 2023 05:05:08 -0400
+X-MC-Unique: EO7W7GGhOqmt5Ym0KlHNoQ-1
+Received: by mail-ej1-f71.google.com with SMTP id
+ a640c23a62f3a-94a341ee4fcso694836866b.0
+ for <qemu-devel@nongnu.org>; Tue, 09 May 2023 02:05:08 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683623105; x=1686215105;
+ d=1e100.net; s=20221208; t=1683623107; x=1686215107;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=7G0JGRJuNzOy08wxI94uhJe0IVFxaXWeMU7b25jAV+E=;
- b=PJU0mUvLo4Us+is/YQARfgPjeAHKTZb7YT4rwvxTPyjBc7c4S/7HQarrIT0YoWBLHG
- UmW8jAFsSMsCcFAhfrMlJSxfX0X4b5wmp/3hLC7fJKjKS3+hvWHuQOb1rHpZUO5lfm2y
- LSSH6ALlPIzP0hNsBSVQmz5FSgf1u3KjSVKfc9r5QgE1dJE/tjXvuyY6fdTaDS8PCnQ+
- mAL7f12HbVJiAvaIQMk7ntniJajI3gLCcbWtP21cfne7cMARRMykHfGNhmDPm8yRm/JU
- 6jPd2Q6bzs9M5eDju44Eim1BsOvKM6Yy8LrkRFjVJAA2bbjTVXJ+leF3gmiPr5z1GbQS
- FaKQ==
-X-Gm-Message-State: AC+VfDygQd/pWT17r6smfY4U3rD4xZXvrGtVDw6V/Da5CAlv3rfqKpRc
- ZzgLXyo/Z/F72w3TV0rD1ziujOsLHwlxG3wknuy5WvflP0jUd4EpFHhE+Z2nIw3a97B3I0znPv/
- k+IFiBtq6Fo3Qomq/v0fuCiXMWQXjLmAILzgBrLNBy1lEvbsDXT/XFwAHlgs457qH5SARSqh76s
- I=
-X-Received: by 2002:a17:907:9718:b0:966:c09:1c57 with SMTP id
- jg24-20020a170907971800b009660c091c57mr10250180ejc.65.1683623105598; 
- Tue, 09 May 2023 02:05:05 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ5bMef7WgTQWa7iaG3to+nl5dibZJ8I3YSiY55JUrhGJovmTRs03E0ddAVAvSH4gXeA6NcldQ==
-X-Received: by 2002:a17:907:9718:b0:966:c09:1c57 with SMTP id
- jg24-20020a170907971800b009660c091c57mr10250146ejc.65.1683623105216; 
- Tue, 09 May 2023 02:05:05 -0700 (PDT)
+ bh=k+Hy7863bVVg2b9P3/Vu2bssKtfYLZ8Nym6z4eY/5m0=;
+ b=h6H8X/UooAMAL8ZvW8rVCedYA8EoWwcl5gi7pAzvVms50vJ4ayEQ172HISPiiTkaZV
+ nRuqxpReFGBkxirQr5UznNjoko5L3H4z2ucy03SJr1VZXgrwIdn7Sz+17+kG/ez6MHlF
+ LCnY2RvZ4ksmWJtJoQFmwylUlLPqwtPQpJCO9Eanp3xmJ9ctA0Wwxbskjwn5otcKgv3h
+ SfMJof6/BjjBc/nMFkHCd8IIib8NS9s10qYOAP5mNWHka3twzF3Ce0NjsjuMRPNibkXw
+ v5FD3jbIqAYnr+EkW1h8hlul4CLtB4d60ewIaIXqJrB2h3qzfceAUk25nUzGZ60zHPxn
+ NWxw==
+X-Gm-Message-State: AC+VfDy35sziqFTSqNLfGr4d2fIRyMyGnWYGMnbMF+Lr/iCbA5HQaPt0
+ BD77vB1lyrErWCf7LiSHhmson5e5swsgwZ8VK7buWL+7tHzG7tmMVk0ZDEkRdfCvDQSxa/xHb9C
+ HcHT449j1fGquOI5zRMEX538ZZDuBckd+1b7dj5cRjwy0V8tI+/W8Ewne4kId5699AmQHZSWQ/o
+ 8=
+X-Received: by 2002:a17:906:ef04:b0:94a:4eba:45d3 with SMTP id
+ f4-20020a170906ef0400b0094a4eba45d3mr10165701ejs.30.1683623106971; 
+ Tue, 09 May 2023 02:05:06 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ67d4TBaODHtMI5WYC56BF/VYtiKygmHpPL5b1yn38xffVG5L3iOQdBrTFDzm3pmAjLFz+pWQ==
+X-Received: by 2002:a17:906:ef04:b0:94a:4eba:45d3 with SMTP id
+ f4-20020a170906ef0400b0094a4eba45d3mr10165690ejs.30.1683623106724; 
+ Tue, 09 May 2023 02:05:06 -0700 (PDT)
 Received: from [192.168.10.118] ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
  by smtp.gmail.com with ESMTPSA id
- e19-20020a056402089300b0050bd9d3ddf3sm515052edy.42.2023.05.09.02.05.04
+ ia6-20020a170907a06600b00969c3a9769csm891938ejc.201.2023.05.09.02.05.05
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 09 May 2023 02:05:04 -0700 (PDT)
+ Tue, 09 May 2023 02:05:05 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Richard Henderson <richard.henderson@linaro.org>
-Subject: [PULL 04/16] call_rcu: stop using mb_set/mb_read
-Date: Tue,  9 May 2023 11:04:41 +0200
-Message-Id: <20230509090453.37884-5-pbonzini@redhat.com>
+Subject: [PULL 05/16] tb-maint: do not use mb_read/mb_set
+Date: Tue,  9 May 2023 11:04:42 +0200
+Message-Id: <20230509090453.37884-6-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.40.1
 In-Reply-To: <20230509090453.37884-1-pbonzini@redhat.com>
 References: <20230509090453.37884-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_score_int: -16
+X-Spam_score: -1.7
+X-Spam_bar: -
+X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
+ DKIM_SIGNED=0.1, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -100,89 +100,38 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Use a store-release when enqueuing a new call_rcu, and a load-acquire
-when dequeuing; and read the tail after checking that node->next is
-consistent, which is the standard message passing pattern and it is
-clearer than mb_read/mb_set.
+The load side can use a relaxed load, which will surely happen before
+the work item is run by async_safe_run_on_cpu() or before double-checking
+under mmap_lock.  The store side can use an atomic RMW operation.
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- util/rcu.c | 45 ++++++++++++++++++++++++++++++++-------------
- 1 file changed, 32 insertions(+), 13 deletions(-)
+ accel/tcg/tb-maint.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/util/rcu.c b/util/rcu.c
-index e5b6e52be6f8..30a7e220264a 100644
---- a/util/rcu.c
-+++ b/util/rcu.c
-@@ -189,8 +189,22 @@ static void enqueue(struct rcu_head *node)
-     struct rcu_head **old_tail;
+diff --git a/accel/tcg/tb-maint.c b/accel/tcg/tb-maint.c
+index cb1f806f00d4..0dd173fbf048 100644
+--- a/accel/tcg/tb-maint.c
++++ b/accel/tcg/tb-maint.c
+@@ -746,7 +746,7 @@ static void do_tb_flush(CPUState *cpu, run_on_cpu_data tb_flush_count)
  
-     node->next = NULL;
-+
-+    /*
-+     * Make this node the tail of the list.  The node will be
-+     * used by further enqueue operations, but it will not
-+     * be dequeued yet...
-+     */
-     old_tail = qatomic_xchg(&tail, &node->next);
--    qatomic_mb_set(old_tail, node);
-+
-+    /*
-+     * ... until it is pointed to from another item in the list.
-+     * In the meantime, try_dequeue() will find a NULL next pointer
-+     * and loop.
-+     *
-+     * Synchronizes with qatomic_load_acquire() in try_dequeue().
-+     */
-+    qatomic_store_release(old_tail, node);
- }
+     tcg_region_reset_all();
+     /* XXX: flush processor icache at this point if cache flush is expensive */
+-    qatomic_mb_set(&tb_ctx.tb_flush_count, tb_ctx.tb_flush_count + 1);
++    qatomic_inc(&tb_ctx.tb_flush_count);
  
- static struct rcu_head *try_dequeue(void)
-@@ -198,26 +212,31 @@ static struct rcu_head *try_dequeue(void)
-     struct rcu_head *node, *next;
+ done:
+     mmap_unlock();
+@@ -758,7 +758,7 @@ done:
+ void tb_flush(CPUState *cpu)
+ {
+     if (tcg_enabled()) {
+-        unsigned tb_flush_count = qatomic_mb_read(&tb_ctx.tb_flush_count);
++        unsigned tb_flush_count = qatomic_read(&tb_ctx.tb_flush_count);
  
- retry:
--    /* Test for an empty list, which we do not expect.  Note that for
-+    /* Head is only written by this thread, so no need for barriers.  */
-+    node = head;
-+
-+    /*
-+     * If the head node has NULL in its next pointer, the value is
-+     * wrong and we need to wait until its enqueuer finishes the update.
-+     */
-+    next = qatomic_load_acquire(&node->next);
-+    if (!next) {
-+        return NULL;
-+    }
-+
-+    /*
-+     * Test for an empty list, which we do not expect.  Note that for
-      * the consumer head and tail are always consistent.  The head
-      * is consistent because only the consumer reads/writes it.
-      * The tail, because it is the first step in the enqueuing.
-      * It is only the next pointers that might be inconsistent.
-      */
--    if (head == &dummy && qatomic_mb_read(&tail) == &dummy.next) {
-+    if (head == &dummy && qatomic_read(&tail) == &dummy.next) {
-         abort();
-     }
- 
--    /* If the head node has NULL in its next pointer, the value is
--     * wrong and we need to wait until its enqueuer finishes the update.
--     */
--    node = head;
--    next = qatomic_mb_read(&head->next);
--    if (!next) {
--        return NULL;
--    }
--
--    /* Since we are the sole consumer, and we excluded the empty case
-+    /*
-+     * Since we are the sole consumer, and we excluded the empty case
-      * above, the queue will always have at least two nodes: the
-      * dummy node, and the one being removed.  So we do not need to update
-      * the tail pointer.
+         if (cpu_in_exclusive_context(cpu)) {
+             do_tb_flush(cpu, RUN_ON_CPU_HOST_INT(tb_flush_count));
 -- 
 2.40.1
 
