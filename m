@@ -2,79 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19B636FC97E
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 May 2023 16:51:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9AC1E6FC992
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 May 2023 16:53:23 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pwOf3-0002qf-Q7; Tue, 09 May 2023 10:49:53 -0400
+	id 1pwOi2-0004Jm-7E; Tue, 09 May 2023 10:52:58 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pwOes-0002oH-Hd
- for qemu-devel@nongnu.org; Tue, 09 May 2023 10:49:46 -0400
-Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435])
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pwOhz-0004J4-SR
+ for qemu-devel@nongnu.org; Tue, 09 May 2023 10:52:55 -0400
+Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pwOee-00026r-IR
- for qemu-devel@nongnu.org; Tue, 09 May 2023 10:49:30 -0400
-Received: by mail-wr1-x435.google.com with SMTP id
- ffacd0b85a97d-30639daee76so3884523f8f.1
- for <qemu-devel@nongnu.org>; Tue, 09 May 2023 07:49:28 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pwOhx-0002lE-Fq
+ for qemu-devel@nongnu.org; Tue, 09 May 2023 10:52:55 -0400
+Received: by mail-wr1-x436.google.com with SMTP id
+ ffacd0b85a97d-3077d134028so3149725f8f.3
+ for <qemu-devel@nongnu.org>; Tue, 09 May 2023 07:52:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1683643767; x=1686235767;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ d=linaro.org; s=google; t=1683643972; x=1686235972;
+ h=content-transfer-encoding:in-reply-to:from:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=dK5ac7kkFz/UOnHQVKeOY33TI5jVnA/U63q0XWmNm/0=;
- b=IvZ99HMMiYUa/XaTYS4SLk3GgO03yCxVLzgmrGXrFA6fTOvB3uL3bAXjukr6eJER9r
- j2zG5vb78pnAHvvxlLoowtUYgowhxc0eJqhhZDsvilfPg/xyKkemZjnUV74wOu4Y3dKK
- IvLpgvEKURhHRh8XBzY2zSTapvxn6dXLMDPSZwgY14UIlok89lokE7gr6kAnlgUcfdRh
- TW9QNvLTuj3u+2xtP8OANkzGn7d3zjk9dbeQTAV06GfeBxpcO1n1Zrvn+dU9fjVADZXf
- uOS0WvhclfcIxohUB2CHr5UkYS76tDIAp8vAkbOnSgu3M+PP//jFCyt46n2YwCdlMnFs
- AqHw==
+ bh=6q5dcj20VdG+ResSqRCQ8wjaFZk71lyYKIG9sYhRXWs=;
+ b=hmria/Ibp/9OF6YgtXlL1KsC5WNbROLUOocuykpLTQeJ7MmTfj2b8z30JCm+VkQE2w
+ DaELp7lYRfGEt+WZdc2c5VeOc+w2b2xceQWOqG/VChoChcsAHLKfYXOZX/9ogHDRt1gs
+ Lu8RkvAtkgeEqDtV5GrMOvq1G0OHgtyeZ4YgYuXRjAJckxZ05M1DvXrA0kUunYUPZiEk
+ UhIMz4n1UGshwhMSjRIRgVYiH2UN5nD47EwvPejDMLhkYJFGequ2bebddDNRCFFesSDF
+ spCAvKFL7C34Y4nYmNPdPMLWeIPjrwiouDtrrhHP1562uRJuWGxIhvfrOEoQXLFS32/f
+ bRIQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683643767; x=1686235767;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ d=1e100.net; s=20221208; t=1683643972; x=1686235972;
+ h=content-transfer-encoding:in-reply-to:from:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=dK5ac7kkFz/UOnHQVKeOY33TI5jVnA/U63q0XWmNm/0=;
- b=PiTgg+qpPOOvhuRp8XyIekNdTAwgAfZWsFUT12NtLGZqrUE5YOdjIKuHrORL38KygN
- GISwQTAGzBP7nA1R1ftdL//0Zs44ZGD+QOfKAneQZmmnbwfDs7sQnnuUzjGLyMMCdSua
- FMrjPdbn1VFMb2cLu1P+2MerGTX1SCchJaStbQVsY8dIKZAPrJ3ks/ASF4ke90xRMqYa
- +ykJGCikfdX1aVCe9foUK7SYV6au2n9VeMGf9VlQrfX4+ShuHF4ptvi8vlmvk2c9xcxl
- ckXuAKnQgnKWr43cP/p6f/g4H+BI+XG/UioFbgO3fACQqIO1HqMENelzugZPy07+xHMD
- O9XQ==
-X-Gm-Message-State: AC+VfDx6c5FXHJaBv7ra19Z9wQfE8H9Q1keufheo2Mk78lMWwkEvtSXm
- JOLFXwfgIzETeGmGTK3iZUrdvg==
-X-Google-Smtp-Source: ACHHUZ4Hes/u25N4RLNIHrCBYePMNuD3TeiE2hG2eAY7ofEONI9ljNVQjRGZlhibduouIgQnjPIMLg==
-X-Received: by 2002:a5d:678d:0:b0:307:95d1:d7d0 with SMTP id
- v13-20020a5d678d000000b0030795d1d7d0mr5118601wru.39.1683643766875; 
- Tue, 09 May 2023 07:49:26 -0700 (PDT)
-Received: from [192.168.69.115] ([176.187.211.62])
+ bh=6q5dcj20VdG+ResSqRCQ8wjaFZk71lyYKIG9sYhRXWs=;
+ b=BHTSaIJ6HEGwk2kyEGCG4p7iAuKgJDNxuhx190L/wZ2G3vMJSLf2dtKZ96hz7O1hJF
+ uJexTbuxE4+jInmA6SEFE0qt5hXpfyQHQCw8ny4wEecucc/3v+T/sNdJCTAVbRgJsuU5
+ AgY9R8frwguxjo4QS96oWyu69PD+3DNu6qpg4HOUFQo8M7w/+dTGDSB+UImBIVOvZaxo
+ kXovA7JeoWBri57vvRydiNCfwJ8EVE1c8TxRSks47/PumcPJ07rsKTC7LfrLpViokzhR
+ Tnbtbm97RHEizl5Wlh0zb/9Oz0J2ZlIKkM/fXGR1C7WOR7ABSD/xvM3ktYESvi0+Mh8H
+ AzIQ==
+X-Gm-Message-State: AC+VfDyoDLT7Gm0po8ysJP7NNDf6ltesLmovcbZ+hw1A71hd2k34MZjd
+ ETsGsO06Gn3CKQJVADxqxE8n9YvyuQCHXas5BzCU4Q==
+X-Google-Smtp-Source: ACHHUZ6UNU2b+OjiiGo0wzdZrK/hA2uKwatZ1d0sUJ5/HDHXvs7dNjmv4P9adms5H7B2lifXHZFCDg==
+X-Received: by 2002:a5d:68c1:0:b0:306:28fa:16a7 with SMTP id
+ p1-20020a5d68c1000000b0030628fa16a7mr10065602wrw.43.1683643971745; 
+ Tue, 09 May 2023 07:52:51 -0700 (PDT)
+Received: from [192.168.11.23] ([85.9.250.243])
  by smtp.gmail.com with ESMTPSA id
- o17-20020a5d4091000000b003078a3f3a24sm10806359wrp.114.2023.05.09.07.49.25
+ o4-20020a5d4a84000000b003062b6a522bsm14691469wrq.96.2023.05.09.07.52.51
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 09 May 2023 07:49:26 -0700 (PDT)
-Message-ID: <d51de29f-a23f-be79-049a-f15df2be7ac6@linaro.org>
-Date: Tue, 9 May 2023 16:49:24 +0200
+ Tue, 09 May 2023 07:52:51 -0700 (PDT)
+Message-ID: <eda69f90-3223-3c0a-e791-4e651009dc0e@linaro.org>
+Date: Tue, 9 May 2023 15:52:49 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.10.1
-Subject: Re: [PATCH v3 2/3] target/arm: Select CONFIG_ARM_V7M when TCG is
- enabled
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH] target/arm: Correct AArch64.S2MinTxSZ 32-bit EL1 input
+ size check
 Content-Language: en-US
-To: Fabiano Rosas <farosas@suse.de>, qemu-devel@nongnu.org
-Cc: qemu-arm@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>
-References: <20230508181611.2621-1-farosas@suse.de>
- <20230508181611.2621-3-farosas@suse.de>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230508181611.2621-3-farosas@suse.de>
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org
+References: <20230509092059.3176487-1-peter.maydell@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20230509092059.3176487-1-peter.maydell@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::435;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x435.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::436;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x436.google.com
 X-Spam_score_int: -24
 X-Spam_score: -2.5
 X-Spam_bar: --
@@ -97,40 +95,58 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 8/5/23 20:16, Fabiano Rosas wrote:
-> We cannot allow this config to be disabled at the moment as not all of
-> the relevant code is protected by it.
+On 5/9/23 10:20, Peter Maydell wrote:
+> In check_s2_mmu_setup() we have a check that is attempting to
+> implement the part of AArch64.S2MinTxSZ that is specific to when EL1
+> is AArch32:
 > 
-> Commit 29d9efca16 ("arm/Kconfig: Do not build TCG-only boards on a
-> KVM-only build") moved the CONFIGs of several boards to Kconfig, so it
-> is now possible that nothing selects ARM_V7M (e.g. when doing a
-> --without-default-devices build).
+>      if !s1aarch64 then
+>          // EL1 is AArch32
+>          min_txsz = Min(min_txsz, 24);
 > 
-> Return the CONFIG_ARM_V7M entry to a state where it is always selected
-> whenever TCG is available.
+> Unfortunately we got this wrong in two ways:
 > 
-> Fixes: 29d9efca16 ("arm/Kconfig: Do not build TCG-only boards on a KVM-only build")
-> Signed-off-by: Fabiano Rosas <farosas@suse.de>
+> (1) The minimum txsz corresponds to a maximum inputsize, but we got
+> the sense of the comparison wrong and were faulting for all
+> inputsizes less than 40 bits
+> 
+> (2) We try to implement this as an extra check that happens after
+> we've done the same txsz checks we would do for an AArch64 EL1, but
+> in fact the pseudocode is*loosening*  the requirements, so that txsz
+> values that would fault for an AArch64 EL1 do not fault for AArch32
+> EL1, because it does Min(old_min, 24), not Max(old_min, 24).
+> 
+> You can see this also in the text of the Arm ARM in table D8-8, which
+> shows that where the implemented PA size is less than 40 bits an
+> AArch32 EL1 is still OK with a configured stage2 T0SZ for a 40 bit
+> IPA, whereas if EL1 is AArch64 then the T0SZ must be big enough to
+> constrain the IPA to the implemented PA size.
+> 
+> Because of part (2), we can't do this as a separate check, but
+> have to integrate it into aa64_va_parameters(). Add a new argument
+> to that function to indicate that EL1 is 32-bit. All the existing
+> callsites except the one in get_phys_addr_lpae() can pass 'false',
+> because they are either doing a lookup for a stage 1 regime or
+> else they don't care about the tsz/tsz_oob fields.
+> 
+> Cc:qemu-stable@nongnu.org
+> Resolves:https://gitlab.com/qemu-project/qemu/-/issues/1627
+> Signed-off-by: Peter Maydell<peter.maydell@linaro.org>
 > ---
->   target/arm/Kconfig | 1 +
->   1 file changed, 1 insertion(+)
-> 
-> diff --git a/target/arm/Kconfig b/target/arm/Kconfig
-> index 3fffdcb61b..5947366f6e 100644
-> --- a/target/arm/Kconfig
-> +++ b/target/arm/Kconfig
-> @@ -1,6 +1,7 @@
->   config ARM
->       bool
->       select ARM_COMPATIBLE_SEMIHOSTING if TCG
-> +    select ARM_V7M if TCG
+> Since we pass the CPUARMState to aa64_va_parameters(), it would be
+> possible to have that function call arm_el_is_aa64(env, 1) itself;
+> but since that seems a rather non-obvious thing for the function to
+> be doing and a potentially more transient (or at least "not
+> configured yet") bit of CPU state than the translation regime
+> configuration, I preferred to have the callers pass in the
+> information explicitly.  I don't feel super strongly about this
+> though, so we could do it the other way if you prefer.
+> ---
 
-Probably worth a comment mentioning this is temporarily
-required until <some magic happens>, so we won't forgot
-to remove it.
+I prefer the extra argument, as you've done.
 
->   
->   config AARCH64
->       bool
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
+
+r~
 
