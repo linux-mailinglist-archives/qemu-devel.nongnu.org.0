@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B88E76FCB62
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 May 2023 18:35:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BFA9A6FCB5D
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 May 2023 18:34:49 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pwQHO-0004gj-Tv; Tue, 09 May 2023 12:33:34 -0400
+	id 1pwQHP-0004gr-Tb; Tue, 09 May 2023 12:33:36 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pwQHM-0004g6-He
+ id 1pwQHM-0004gG-RP
  for qemu-devel@nongnu.org; Tue, 09 May 2023 12:33:32 -0400
 Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pwQHJ-0007W4-UD
+ id 1pwQHK-0007W8-PP
  for qemu-devel@nongnu.org; Tue, 09 May 2023 12:33:32 -0400
 Received: by mail-wr1-x42d.google.com with SMTP id
- ffacd0b85a97d-3062b101ae1so3922549f8f.2
- for <qemu-devel@nongnu.org>; Tue, 09 May 2023 09:33:29 -0700 (PDT)
+ ffacd0b85a97d-30771c68a9eso5397087f8f.2
+ for <qemu-devel@nongnu.org>; Tue, 09 May 2023 09:33:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1683650008; x=1686242008;
+ d=linaro.org; s=google; t=1683650009; x=1686242009;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=tk/Olu2Bf85J93sQfImDeFqS8c5LlV3FpMEjcgGhhmo=;
- b=eGCKOfeiqbtPsifTphZYfQauUGLIJZYYRwJbi4KDonDeSbGSz+g0XdLaYQPGcZFqSC
- jbloXOO9BmEl01/gd1yl63TCQzRVQfKoGvRMlokGvsFPJqM2g0kgYXEaLFk8oEzoS7zb
- Gm5cIidv+QJNFhZenOmeB+DxdDJpOaNjFMF/blWqVBNQCqNrh8I9cSlbvBdDaMMvP8o6
- AzcuFwsTtpMNXP5J1dSgEqMweDQdwQdidjDECqfpHGIbxR7IN7udkAOLxSAJOt5vKIni
- zJNdAL9eJCMVkTW78RgofXPYY/7T1gSzpP2t13DgZepYjjOB5FsvpKAR+Jswgog1whdA
- PG6Q==
+ bh=rGlQDLvqKUT4+MDaEXLHZhgv8xrgNwzz15sJXDY+k8U=;
+ b=n9gQkaJUio5C9LeNKNDVP3HadzEUExANS2bxUS4+BhYwFv5dj2IwA0JJxpK4TT3+2a
+ TklcGADdrko/17VcRub4nGTrzKkJ4bTDrDbETCGvn89q4WJEss5Q+oJkMCbykZRJUrhA
+ MjKo4LtLT2KA6J+XXUWw5MJziVwA116099jaKm8I6/RHktTtF2DqjMnb95xascM/hIL2
+ Nx+J4FZyb7k8Ts5fuQSraT102dcpVsuvEC4yBXZyQQyzFwJpDMyJBFGklPtpyEvClBv5
+ f3YI/++l55krloSau3pSzMlR89DkAHX74dQ93aF8kAmsytchbwWhwOebdo9I2Fk0fxhT
+ Vugw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683650008; x=1686242008;
+ d=1e100.net; s=20221208; t=1683650009; x=1686242009;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=tk/Olu2Bf85J93sQfImDeFqS8c5LlV3FpMEjcgGhhmo=;
- b=WV3LStnObpqdf6qlT66pcG9ZNT+LmNvdSLQ3zYjC5XXhQXf14MrznUF/Q1nY8gOf/f
- 0m6rv836IlWnFuXzzq+Ru+24ew2XyLBox2hS8NbXa1g2jGDmG7nOq3qa0dQJV/kUSUZ/
- x4KFsJ4Fvs7MZez5QAn6aPBJCP0nkrZGNpZ8G+MvjbR2N4v+ET45vOIcQ1GN0n4gkwrD
- bYttrqErq1ONSUzl3YQCAGV+zJoWmlct1ehxy2W701PsSCakteVKC9USXLi8VUMZy6W4
- zP8cH0xfd2UwjszhjPn8SjMRXFsxx+dO1GQh4cRhSNGeQcdFCr+uaXr1YnoYyKEpFSIB
- 7mGA==
-X-Gm-Message-State: AC+VfDxKA4tdrpllJyC50+dSqyU3nf9bymsPo1Mlq4uHYiXIBMcgJLxs
- 7tEhKVAtORht3oIw829SaA05sJX1gvcb6mIHISvuKQ==
-X-Google-Smtp-Source: ACHHUZ7AImXL/d+ISao7ILFDt3aDEFwAV2kNJ1dHcKUORAPYBKLxptlgZaUspUFUe5PJ5WMcrnhibQ==
-X-Received: by 2002:a05:6000:1148:b0:306:36e7:db27 with SMTP id
- d8-20020a056000114800b0030636e7db27mr10225513wrx.16.1683650008443; 
- Tue, 09 May 2023 09:33:28 -0700 (PDT)
+ bh=rGlQDLvqKUT4+MDaEXLHZhgv8xrgNwzz15sJXDY+k8U=;
+ b=KrFOE64Gt7ZPRByxSj0/N7ZCM6YsrioDCOf9ssOC39PMKDUCRsYztagh6Ux6opB+8K
+ TDvO+jISkXyC5oTuWv/KOzkGGoNCe8Ry8f1MYwWneDTOFxVT70k9TxI8qHuSyKgvFmAF
+ NE5Q8F1wBlvKKvCRYJrUXd+QNLY154wKhZ/XpHrZDthIUitDaW8mADWoxqT61QyDNKMx
+ xW1SZgBCeAyU1SChbYV/85dRhGEIF2iDeYT+NhZj0Sxt4YEtxV7fTWhSCn5jjFgE2i2A
+ AstRd58T+MtzmMpw16HuE3q8pn2I2CFVftAwhSpR2LUtB+9A8LmbHY6BaSNJV0aMSoBb
+ cjDw==
+X-Gm-Message-State: AC+VfDy3UEUxGQSkF4U7kT/ViXHpZ3NakxfTNOQ82oRGffr8QI17U2BG
+ scM0IxCXE59xUgSf5m7pk4eqQNVUGUIe23IUOSAicw==
+X-Google-Smtp-Source: ACHHUZ6m3GYcC5XniH4TzRIVGDGZFcCPZ1EIFXdfc+P6D2WgUDi8773P+LAERrsMEKNP0gBhntdB3A==
+X-Received: by 2002:adf:ff85:0:b0:307:92e8:ec60 with SMTP id
+ j5-20020adfff85000000b0030792e8ec60mr5630096wrr.39.1683650009133; 
+ Tue, 09 May 2023 09:33:29 -0700 (PDT)
 Received: from stoup.. ([85.9.250.243]) by smtp.gmail.com with ESMTPSA id
- e1-20020adfdbc1000000b0030795249ffasm7393298wrj.92.2023.05.09.09.33.27
+ e1-20020adfdbc1000000b0030795249ffasm7393298wrj.92.2023.05.09.09.33.28
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Tue, 09 May 2023 09:33:28 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
@@ -60,9 +60,9 @@ To: qemu-devel@nongnu.org
 Cc: anjo@rev.ng,
 	philmd@linaro.org,
 	thuth@redhat.com
-Subject: [PATCH v2 1/5] disas: Move disas.c to disas/
-Date: Tue,  9 May 2023 17:33:22 +0100
-Message-Id: <20230509163326.121090-2-richard.henderson@linaro.org>
+Subject: [PATCH v2 2/5] disas: Remove target_ulong from the interface
+Date: Tue,  9 May 2023 17:33:23 +0100
+Message-Id: <20230509163326.121090-3-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230509163326.121090-1-richard.henderson@linaro.org>
 References: <20230509163326.121090-1-richard.henderson@linaro.org>
@@ -92,46 +92,177 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Reviewed-by: Thomas Huth <thuth@redhat.com>
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20230503072331.1747057-80-richard.henderson@linaro.org>
----
- meson.build              | 3 ---
- disas.c => disas/disas.c | 0
- disas/meson.build        | 4 +++-
- 3 files changed, 3 insertions(+), 4 deletions(-)
- rename disas.c => disas/disas.c (100%)
+Use uint64_t for the pc, and size_t for the size.
 
-diff --git a/meson.build b/meson.build
-index 229eb585f7..d56358b65f 100644
---- a/meson.build
-+++ b/meson.build
-@@ -3152,9 +3152,6 @@ specific_ss.add(files('cpu.c'))
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+Message-Id: <20230503072331.1747057-81-richard.henderson@linaro.org>
+---
+ include/disas/disas.h | 17 ++++++-----------
+ bsd-user/elfload.c    |  5 +++--
+ disas/disas.c         | 19 +++++++++----------
+ linux-user/elfload.c  |  5 +++--
+ 4 files changed, 21 insertions(+), 25 deletions(-)
+
+diff --git a/include/disas/disas.h b/include/disas/disas.h
+index d363e95ede..6c394e0b09 100644
+--- a/include/disas/disas.h
++++ b/include/disas/disas.h
+@@ -7,28 +7,23 @@
+ #include "cpu.h"
  
- subdir('softmmu')
+ /* Disassemble this for me please... (debugging). */
+-void disas(FILE *out, const void *code, unsigned long size);
+-void target_disas(FILE *out, CPUState *cpu, target_ulong code,
+-                  target_ulong size);
++void disas(FILE *out, const void *code, size_t size);
++void target_disas(FILE *out, CPUState *cpu, uint64_t code, size_t size);
  
--common_ss.add(capstone)
--specific_ss.add(files('disas.c'), capstone)
--
- # Work around a gcc bug/misfeature wherein constant propagation looks
- # through an alias:
- #   https://gcc.gnu.org/bugzilla/show_bug.cgi?id=99696
-diff --git a/disas.c b/disas/disas.c
-similarity index 100%
-rename from disas.c
-rename to disas/disas.c
-diff --git a/disas/meson.build b/disas/meson.build
-index c865bdd882..cbf6315f25 100644
---- a/disas/meson.build
-+++ b/disas/meson.build
-@@ -10,4 +10,6 @@ common_ss.add(when: 'CONFIG_RISCV_DIS', if_true: files('riscv.c'))
- common_ss.add(when: 'CONFIG_SH4_DIS', if_true: files('sh4.c'))
- common_ss.add(when: 'CONFIG_SPARC_DIS', if_true: files('sparc.c'))
- common_ss.add(when: 'CONFIG_XTENSA_DIS', if_true: files('xtensa.c'))
--common_ss.add(when: capstone, if_true: files('capstone.c'))
-+common_ss.add(when: capstone, if_true: [files('capstone.c'), capstone])
+-void monitor_disas(Monitor *mon, CPUState *cpu,
+-                   target_ulong pc, int nb_insn, int is_physical);
++void monitor_disas(Monitor *mon, CPUState *cpu, uint64_t pc,
++                   int nb_insn, bool is_physical);
+ 
+ char *plugin_disas(CPUState *cpu, uint64_t addr, size_t size);
+ 
+ /* Look up symbol for debugging purpose.  Returns "" if unknown. */
+-const char *lookup_symbol(target_ulong orig_addr);
++const char *lookup_symbol(uint64_t orig_addr);
+ #endif
+ 
+ struct syminfo;
+ struct elf32_sym;
+ struct elf64_sym;
+ 
+-#if defined(CONFIG_USER_ONLY)
+-typedef const char *(*lookup_symbol_t)(struct syminfo *s, target_ulong orig_addr);
+-#else
+-typedef const char *(*lookup_symbol_t)(struct syminfo *s, hwaddr orig_addr);
+-#endif
++typedef const char *(*lookup_symbol_t)(struct syminfo *s, uint64_t orig_addr);
+ 
+ struct syminfo {
+     lookup_symbol_t lookup_symbol;
+diff --git a/bsd-user/elfload.c b/bsd-user/elfload.c
+index fbcdc94b96..2e76f0d3b5 100644
+--- a/bsd-user/elfload.c
++++ b/bsd-user/elfload.c
+@@ -352,9 +352,10 @@ static abi_ulong load_elf_interp(struct elfhdr *interp_elf_ex,
+ 
+ static int symfind(const void *s0, const void *s1)
+ {
+-    target_ulong addr = *(target_ulong *)s0;
++    __typeof(sym->st_value) addr = *(uint64_t *)s0;
+     struct elf_sym *sym = (struct elf_sym *)s1;
+     int result = 0;
 +
-+specific_ss.add(files('disas.c'), capstone)
+     if (addr < sym->st_value) {
+         result = -1;
+     } else if (addr >= sym->st_value + sym->st_size) {
+@@ -363,7 +364,7 @@ static int symfind(const void *s0, const void *s1)
+     return result;
+ }
+ 
+-static const char *lookup_symbolxx(struct syminfo *s, target_ulong orig_addr)
++static const char *lookup_symbolxx(struct syminfo *s, uint64_t orig_addr)
+ {
+ #if ELF_CLASS == ELFCLASS32
+     struct elf_sym *syms = s->disas_symtab.elf32;
+diff --git a/disas/disas.c b/disas/disas.c
+index b087c12c47..f5e95043cf 100644
+--- a/disas/disas.c
++++ b/disas/disas.c
+@@ -204,10 +204,9 @@ static void initialize_debug_host(CPUDebug *s)
+ }
+ 
+ /* Disassemble this for me please... (debugging).  */
+-void target_disas(FILE *out, CPUState *cpu, target_ulong code,
+-                  target_ulong size)
++void target_disas(FILE *out, CPUState *cpu, uint64_t code, size_t size)
+ {
+-    target_ulong pc;
++    uint64_t pc;
+     int count;
+     CPUDebug s;
+ 
+@@ -226,7 +225,7 @@ void target_disas(FILE *out, CPUState *cpu, target_ulong code,
+     }
+ 
+     for (pc = code; size > 0; pc += count, size -= count) {
+-	fprintf(out, "0x" TARGET_FMT_lx ":  ", pc);
++	fprintf(out, "0x%08" PRIx64 ":  ", pc);
+ 	count = s.info.print_insn(pc, &s.info);
+ 	fprintf(out, "\n");
+ 	if (count < 0)
+@@ -292,7 +291,7 @@ char *plugin_disas(CPUState *cpu, uint64_t addr, size_t size)
+ }
+ 
+ /* Disassemble this for me please... (debugging). */
+-void disas(FILE *out, const void *code, unsigned long size)
++void disas(FILE *out, const void *code, size_t size)
+ {
+     uintptr_t pc;
+     int count;
+@@ -324,7 +323,7 @@ void disas(FILE *out, const void *code, unsigned long size)
+ }
+ 
+ /* Look up symbol for debugging purpose.  Returns "" if unknown. */
+-const char *lookup_symbol(target_ulong orig_addr)
++const char *lookup_symbol(uint64_t orig_addr)
+ {
+     const char *symbol = "";
+     struct syminfo *s;
+@@ -356,8 +355,8 @@ physical_read_memory(bfd_vma memaddr, bfd_byte *myaddr, int length,
+ }
+ 
+ /* Disassembler for the monitor.  */
+-void monitor_disas(Monitor *mon, CPUState *cpu,
+-                   target_ulong pc, int nb_insn, int is_physical)
++void monitor_disas(Monitor *mon, CPUState *cpu, uint64_t pc,
++                   int nb_insn, bool is_physical)
+ {
+     int count, i;
+     CPUDebug s;
+@@ -378,13 +377,13 @@ void monitor_disas(Monitor *mon, CPUState *cpu,
+     }
+ 
+     if (!s.info.print_insn) {
+-        monitor_printf(mon, "0x" TARGET_FMT_lx
++        monitor_printf(mon, "0x%08" PRIx64
+                        ": Asm output not supported on this arch\n", pc);
+         return;
+     }
+ 
+     for (i = 0; i < nb_insn; i++) {
+-        g_string_append_printf(ds, "0x" TARGET_FMT_lx ":  ", pc);
++        g_string_append_printf(ds, "0x%08" PRIx64 ":  ", pc);
+         count = s.info.print_insn(pc, &s.info);
+         g_string_append_c(ds, '\n');
+         if (count < 0) {
+diff --git a/linux-user/elfload.c b/linux-user/elfload.c
+index 703f7434a0..80085b8a30 100644
+--- a/linux-user/elfload.c
++++ b/linux-user/elfload.c
+@@ -3327,9 +3327,10 @@ static void load_elf_interp(const char *filename, struct image_info *info,
+ 
+ static int symfind(const void *s0, const void *s1)
+ {
+-    target_ulong addr = *(target_ulong *)s0;
+     struct elf_sym *sym = (struct elf_sym *)s1;
++    __typeof(sym->st_value) addr = *(uint64_t *)s0;
+     int result = 0;
++
+     if (addr < sym->st_value) {
+         result = -1;
+     } else if (addr >= sym->st_value + sym->st_size) {
+@@ -3338,7 +3339,7 @@ static int symfind(const void *s0, const void *s1)
+     return result;
+ }
+ 
+-static const char *lookup_symbolxx(struct syminfo *s, target_ulong orig_addr)
++static const char *lookup_symbolxx(struct syminfo *s, uint64_t orig_addr)
+ {
+ #if ELF_CLASS == ELFCLASS32
+     struct elf_sym *syms = s->disas_symtab.elf32;
 -- 
 2.34.1
 
