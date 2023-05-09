@@ -2,89 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB1F06FCA84
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 May 2023 17:49:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 639A56FCA89
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 May 2023 17:50:25 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pwPZr-0002h1-Fz; Tue, 09 May 2023 11:48:35 -0400
+	id 1pwPbO-0003Nw-Ss; Tue, 09 May 2023 11:50:10 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pwPZp-0002gZ-5r
- for qemu-devel@nongnu.org; Tue, 09 May 2023 11:48:33 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1pwPbM-0003Nn-G9
+ for qemu-devel@nongnu.org; Tue, 09 May 2023 11:50:08 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pwPZn-0006dW-Ni
- for qemu-devel@nongnu.org; Tue, 09 May 2023 11:48:32 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1pwPbK-0007AL-Sl
+ for qemu-devel@nongnu.org; Tue, 09 May 2023 11:50:08 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1683647311;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=JsJpSlLA2NwIZr/Hbd53DzNSwBo26FKdTD1r7pXMxcg=;
- b=Hns+VR5NnpkHYraWprGEqwj/iheVHRxtze6f0Yr9tVEcnsxdXVxC8U1/HyL1YdRtaXUS8Q
- iBSJVvHVVxf9FQ+RpZTcK41nqecL8HgAtG0RaKfUpBnGsdsSGKSOP5Z02vtd5CaAI8rlOy
- icWCYHoJ6dwKACTmKsRcVUEHrd/K11o=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-453-misRrGjlOlCmigQoIfqfKQ-1; Tue, 09 May 2023 11:48:29 -0400
-X-MC-Unique: misRrGjlOlCmigQoIfqfKQ-1
-Received: by mail-wm1-f71.google.com with SMTP id
- 5b1f17b1804b1-3f42d18a079so3598285e9.2
- for <qemu-devel@nongnu.org>; Tue, 09 May 2023 08:48:29 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683647309; x=1686239309;
- h=mime-version:message-id:date:reply-to:user-agent:references
- :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=JsJpSlLA2NwIZr/Hbd53DzNSwBo26FKdTD1r7pXMxcg=;
- b=EFVpXwXhQ9NXRhOJwTuMMPPKpXW6uQX4AXyuqNqPES0tPqSuaWPTfXsB5LNac9JMlo
- AUI+gysYAvkDFv+n0fLnLJeoxagsIxIdaeIZuTSI/9Cy/ffpta2LOykMe2KkcjVEkV1a
- P1TtNmQL3CpWoYMdIOc8UKcdJIl65zm6uLQZ6/9mPo/Z4fsAMWsMMWTYUdmInNZFhzN6
- mjyEAO1ZUtpli3u5AHwSCsMsBlzZh40/pbI22kiBcVfHY35vituPPzoL1Pd5yA5HNzI4
- jz1YAjlfSXIUsmcMxLRo1pZDCheE9DY+pMsrYvHCj4hEn7NDnXx/pzIG2cv6n1hpGdsT
- 6bew==
-X-Gm-Message-State: AC+VfDz+pyMry5wHHE1yIenSpSQjskoASyXSp+mTf3S7R9LWmlwa6fVc
- aj8yHrB39Rnj8wXXl5GgNLKieTmYnM/mzsCfmJzYpPcDrYyPagg2Ait0xv2hLwQijqDAT5A2rlV
- GdlCTpx1Xlv1GEM4=
-X-Received: by 2002:a7b:c5c3:0:b0:3f3:2ba9:94e1 with SMTP id
- n3-20020a7bc5c3000000b003f32ba994e1mr9977839wmk.25.1683647308839; 
- Tue, 09 May 2023 08:48:28 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ6CUkLhH9DS+PNboOoX++yXCEvpvISSizMf1qWrP4UZG+EKYEZ2vY92TvU2I8SZ99KpLAZe5g==
-X-Received: by 2002:a7b:c5c3:0:b0:3f3:2ba9:94e1 with SMTP id
- n3-20020a7bc5c3000000b003f32ba994e1mr9977819wmk.25.1683647308486; 
- Tue, 09 May 2023 08:48:28 -0700 (PDT)
-Received: from redhat.com (static-92-120-85-188.ipcom.comunitel.net.
- [188.85.120.92]) by smtp.gmail.com with ESMTPSA id
- n6-20020a7bcbc6000000b003f33f8f0a05sm20288214wmi.9.2023.05.09.08.48.27
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 09 May 2023 08:48:27 -0700 (PDT)
-From: Juan Quintela <quintela@redhat.com>
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Cc: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
- qemu-devel@nongnu.org,  marcel.apfelbaum@gmail.com,  philmd@linaro.org,
- david@redhat.com,  peterx@redhat.com,  pbonzini@redhat.com,
- den-plotnikov@yandex-team.ru,  lersek@redhat.com,  kraxel@redhat.com,
- dgilbert@redhat.com,  armbru@redhat.com
-Subject: Re: [PATCH v2 3/3] pci: ROM preallocation for incoming migration
-In-Reply-To: <20230502072501-mutt-send-email-mst@kernel.org> (Michael
- S. Tsirkin's message of "Tue, 2 May 2023 07:26:43 -0400")
-References: <20230425161434.173022-1-vsementsov@yandex-team.ru>
- <20230425161434.173022-4-vsementsov@yandex-team.ru>
- <20230426002135-mutt-send-email-mst@kernel.org>
- <bf295d76-9c33-4eca-4b88-2d1a299c8b94@yandex-team.ru>
- <20230502054519-mutt-send-email-mst@kernel.org>
- <875y9bujol.fsf@secure.mitica>
- <20230502072501-mutt-send-email-mst@kernel.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
-Date: Tue, 09 May 2023 17:48:27 +0200
-Message-ID: <87cz39cxpw.fsf@secure.mitica>
+ s=mimecast20190719; t=1683647406;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=DLtdbCBLqqOw3rVHNJTCxLup5q/fO5YwKuIgd8rhJYg=;
+ b=U5ICnEhp9Hbp4tgoGK/pSeuoBbeE4jN/GxghvvgI1zO9lJ2G/ayOhBkRjnvRtMy88feaXW
+ NK2UlA0gFW4gl5mKQM1SSGjY8HRxPwKLiGC73dWZa0dcSL2DyzbY5oE/3gDvHAy9plj1ej
+ YI4EXESuHHw7o4k+zpEkMt4dv9b1QBU=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-247-4p0IdwneMBmS3kEp-kxigA-1; Tue, 09 May 2023 11:50:04 -0400
+X-MC-Unique: 4p0IdwneMBmS3kEp-kxigA-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.5])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3B9EE3C17C61
+ for <qemu-devel@nongnu.org>; Tue,  9 May 2023 15:50:04 +0000 (UTC)
+Received: from redhat.com (unknown [10.2.16.49])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 65EDE63F5F;
+ Tue,  9 May 2023 15:50:03 +0000 (UTC)
+Date: Tue, 9 May 2023 10:50:01 -0500
+From: Eric Blake <eblake@redhat.com>
+To: Hanna Czenczek <hreitz@redhat.com>
+Cc: qemu-devel@nongnu.org
+Subject: Re: [PATCH 06/11] test-cutils: Add more coverage to qemu_strtosz
+Message-ID: <5wbzj4uo7wmgtzdlkj2emljhgho6vz5tt2v4u7zb7r6nzpkrne@cnb536ywhnkx>
+References: <20230508200343.791450-1-eblake@redhat.com>
+ <20230508200343.791450-7-eblake@redhat.com>
+ <e2aca275-8a19-b0b7-8939-aefd29ce270b@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <e2aca275-8a19-b0b7-8939-aefd29ce270b@redhat.com>
+User-Agent: NeoMutt/20230407
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=eblake@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -105,63 +77,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-"Michael S. Tsirkin" <mst@redhat.com> wrote:
-> On Tue, May 02, 2023 at 12:11:38PM +0200, Juan Quintela wrote:
->> "Michael S. Tsirkin" <mst@redhat.com> wrote:
->> 
->> >> > CC pbonzini,dgilbert,quintela,armbru : guys, is poking at runstate_check like
->> >> > this the right way to figure out we are not going to use the
->> >> > device locally before incoming migration will overwrite ROM contents?
->> >> 
->> >> RUN_STATE_INMIGRATE is set in the only one place in qemu_init() when
->> >> we parse cmdline option -incoming. VM is not running for sure. And
->> >> starting the VM comes with changing the state. So it's OK.
->> >> 
->> >> The possible problem, if we add netcard on target which we didn't
->> >> have on source. I now checked, this works.. But that doesn't seem
->> >> correct to add device that was not present on source - how would it
->> >> work - it's not guaranteed anyway.
->> >
->> > You can add it on source too while migration is in progress, no?
->> 
->> DeviceState *qdev_device_add_from_qdict(const QDict *opts,
->>                                         bool from_json, Error **errp)
->> {
->>     ....
->>     if (!migration_is_idle()) {
->>         error_setg(errp, "device_add not allowed while migrating");
->>         return NULL;
->>     }
->> 
->> It should be similar for unplug.
->> 
->> We only support hotplug for some devices during migration, and we
->> shouldn't need any.
->> 
->> What I think he means is that you can add a device on the command line
->> on destination that don't exist on the source machine, and that will
->> confuse things.
->> 
->> In that case, I would say that the problem is that you are doing
->> something not supported.  You are expected that when you run migration
->> you use the same command line that on source, module whatever
->> hot[un]plug operations you have done before migration.
->> 
->> Anything else is not supported.
->> And for instance, if you are using libvirt, it will do the right thing.
->> 
->> Later, Juan.
->
-> OK, so you ack this patch?
+On Tue, May 09, 2023 at 05:15:04PM +0200, Hanna Czenczek wrote:
+> On 08.05.23 22:03, Eric Blake wrote:
+> > Add some more strings that the user might send our way.  In
+> > particular, some of these additions include FIXME comments showing
+> > where our parser doesn't quite behave the way we want.
+> > 
+> > Signed-off-by: Eric Blake <eblake@redhat.com>
+> > ---
+> >   tests/unit/test-cutils.c | 226 +++++++++++++++++++++++++++++++++++++--
+> >   1 file changed, 215 insertions(+), 11 deletions(-)
+> > 
+> > diff --git a/tests/unit/test-cutils.c b/tests/unit/test-cutils.c
+> > index afae2ee5331..9fa6fb042e8 100644
+> > --- a/tests/unit/test-cutils.c
+> > +++ b/tests/unit/test-cutils.c
+> 
+> [...]
+> 
+> > @@ -2875,6 +3056,20 @@ static void test_qemu_strtosz_trailing(void)
+> >       err = qemu_strtosz(str, NULL, &res);
+> >       g_assert_cmpint(err, ==, -EINVAL);
+> >       g_assert_cmphex(res, ==, 0xbaadf00d);
+> > +
+> > +    /* FIXME overflow in fraction is buggy */
+> > +    str = "1.5E999";
+> > +    endptr = NULL;
+> > +    res = 0xbaadf00d;
+> > +    err = qemu_strtosz(str, &endptr, &res);
+> > +    g_assert_cmpint(err, ==, 0);
+> > +    g_assert_cmpuint(res, ==, EiB /* FIXME EiB * 1.5 */);
+> > +    g_assert(endptr == str + 9 /* FIXME + 4 */);
+> > +
+> > +    res = 0xbaadf00d;
+> > +    err = qemu_strtosz(str, NULL, &res);
+> > +    g_assert_cmpint(err, ==, -EINVAL);
+> > +    g_assert_cmphex(res, ==, 0xbaadf00d);
+> 
+> Got it now!
+> 
+> Our problem is that `endptr` is beyond the end of the string, precisely as
+> gcc complains.  The data there is undefined, and depending on the value in
+> the g_assert_cmpuint() (which is converted to strings for the potential
+> error message) it sometimes is "endptr == str + 9" (the one in the
+> g_assert()) and sometimes isn’t.
+> 
+> If it is "endptr == str + 9", then the 'e' is taken as a suffix, which makes
+> `res == EiB`, and `endptr == "ndptr == str + 9"`.
+> 
+> If it isn’t, well, it might be anything, so there often is no valid suffix,
+> making `res == 1`.
+> 
+> So the solution is to set `str = "1.5E999\0\0"`, so we don’t get out of
+> bounds and know exactly what will be parsed.  Then, at str[8] there is no
+> valid suffix (it’s \0), so `res == 1` and `endptr == str + 8`.  This will
+> then lead to the qemu_strtosz(str, NULL, &res) below succeed, because, well,
+> it’s a valid number.  I suppose it failed on your end because the
+> out-of-bounds `str[9]` value was not '\0'.
+> 
+> That was a fun debugging session.
 
-Reviewed-by: Juan Quintela <quintela@redhat.com>
+Wow, yeah, that's a mess.  The very test proving that we have a
+read-out-of-bounds bug is super-sensitive to what is at that location.
+Your hack of passing in extra \0 is awesome; I'll fold that in whether
+we need a v2 for other reasons, or in-place if we can take the rest of
+this series as-is.  It all goes away at the end of the series,
+anyways, once the out-of-bounds read is fixed.
 
-It is ok, or should I do it at toplevel?
-
-Later, Juan.
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3266
+Virtualization:  qemu.org | libvirt.org
 
 
