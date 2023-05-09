@@ -2,82 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD7D36FC4C8
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 May 2023 13:19:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A165F6FC51F
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 May 2023 13:37:37 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pwLLf-0006Em-KG; Tue, 09 May 2023 07:17:39 -0400
+	id 1pwLdh-0002DP-VA; Tue, 09 May 2023 07:36:17 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <aesteve@redhat.com>)
- id 1pwLLZ-0006EU-3g
- for qemu-devel@nongnu.org; Tue, 09 May 2023 07:17:35 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <aesteve@redhat.com>)
- id 1pwLLW-0005P8-VX
- for qemu-devel@nongnu.org; Tue, 09 May 2023 07:17:32 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1683631049;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=NLXVr8QC1fl4UR5J0/eba398dC1viQsY862z4Uy5QxA=;
- b=JuJ1j49Y4QrOYpyrJ+flMMq2NT1LCOgilUKHP6sdFU60ZAD/swWa9ahExugSerjlfnY8UW
- PEk6DZz1RLObH3ocWPgfvKgHtDTeyQy7sZqNNWqk/9t7mU2vshVo5JZhEcQQlVAo4BaZfA
- Sb3/FBvgQxJH0PUyKSB01sYTRLhgH7c=
-Received: from mail-pj1-f72.google.com (mail-pj1-f72.google.com
- [209.85.216.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-554-1gNlf0LDOXihuWdmprj6zA-1; Tue, 09 May 2023 07:17:26 -0400
-X-MC-Unique: 1gNlf0LDOXihuWdmprj6zA-1
-Received: by mail-pj1-f72.google.com with SMTP id
- 98e67ed59e1d1-24e3e52228cso3206750a91.1
- for <qemu-devel@nongnu.org>; Tue, 09 May 2023 04:17:26 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1pwLdf-0002Cl-8e
+ for qemu-devel@nongnu.org; Tue, 09 May 2023 07:36:15 -0400
+Received: from mail-yb1-xb36.google.com ([2607:f8b0:4864:20::b36])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1pwLdd-00017I-9x
+ for qemu-devel@nongnu.org; Tue, 09 May 2023 07:36:15 -0400
+Received: by mail-yb1-xb36.google.com with SMTP id
+ 3f1490d57ef6-b99f0a0052fso7617985276.3
+ for <qemu-devel@nongnu.org>; Tue, 09 May 2023 04:36:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1683632172; x=1686224172;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=GMW84uHKpDg0uFDFMpaX4KTsOAKUPX1cJvjk2MMLmqY=;
+ b=MHhjvNMRv+6mpL9lP7Hm9Q4Fn3Y172OQkdqwxDNcB8lTMCARqMJncRaBjFVt+CiUAp
+ TBGF++3u5GaxL+smllkgLuY6lGegwhLUiGXg8rhtYoVsuGJzCnGf9bYFHp8+GKQb/9uk
+ SGkVx9EWkOsNC0iFvuV1+Er2PWePAjJ6pewd164KUTZ2188xhEjoprxPXQAOHFN78W3U
+ PXDzJHND5NMxZOeeUjhfuxfl8PxiXNpjIWxrptCn8SnSiVfRYBlwH2MQH01LstX9xFyW
+ 9JTGPpZQt2XMqlW7Hkng6SRqaReYh2Zy3p04YNTYEFeC616iG5l4kIWExZEcDOvwO+ON
+ RniA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683631045; x=1686223045;
+ d=1e100.net; s=20221208; t=1683632172; x=1686224172;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=NLXVr8QC1fl4UR5J0/eba398dC1viQsY862z4Uy5QxA=;
- b=Ih+8Np7tFcuzJ3aM28dfxVTagSM2nu9lDcjYNXVrrALi861uqr2W30f4xYH/g1K6+h
- Y+i2uvy/e7Z6XbEyBPUwTDZg719AtDYiUKnPb05XB8yk/AaLVNuC4DKfMvq2lwepwL7q
- 7Mb2Bp7zSRQV2YNve5qO1NuOyDT29hqVRipaUhCqh7ZYGQV4XIUnZiHEf9E3sqc90SZc
- K4za7dNLe9Y5/ultbX7ZkJ9YJ0rYO1d81zVvO0oc0kiXYIqCg3uwzWKOaDT/9Zd+teSH
- 3u8n8cTnzYpOc30r52umNit0+Jhe735EfxnatgCJUSFQiTk5MWIbYy89LpHBNJ5JfeNI
- l3yQ==
-X-Gm-Message-State: AC+VfDxbaOlPKYyriIla6PqUXirytxzm+v1KWdMLhDfo3U0FAbc3HdzL
- LuAzR6vmygMILYZdACU9auUN2zgVrMw42vkYM/Aeh+19L3Alp+DlPbXXux3dYZG3s5v3GerO7py
- QWvql5VxWz55BjPKPiuzTypvXqER5mFQ=
-X-Received: by 2002:a17:90a:eb12:b0:24e:9e6:7067 with SMTP id
- j18-20020a17090aeb1200b0024e09e67067mr13024967pjz.7.1683631045680; 
- Tue, 09 May 2023 04:17:25 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ6wqCiHNu1kSFxXEcgnTe+DzSuTikJ6jvLTdv5x9bUVeSyZShTWoO3RJ64kUF/ysAzLjvy2SZwcWUdByWs7voE=
-X-Received: by 2002:a17:90a:eb12:b0:24e:9e6:7067 with SMTP id
- j18-20020a17090aeb1200b0024e09e67067mr13024960pjz.7.1683631045391; Tue, 09
- May 2023 04:17:25 -0700 (PDT)
+ bh=GMW84uHKpDg0uFDFMpaX4KTsOAKUPX1cJvjk2MMLmqY=;
+ b=DaVjiouljZIv2nqCwzSHxvQH+oDtvy4msJOiVHJkauLfA8fHN6GoUjXpxJQW3o0Wa5
+ u2twFl9zk6n77D9kruTMYI+Rt2ky/xIoeh+ptjL+0Jf80diRK+m/mRRnBT0arsAPpfT+
+ ufCK6kEeXQJjsmEPS0Erz1fzo8GWRQHDhPUsShMkc6mE550Z9LwKC7R53UN2VdVfrSce
+ C86CpVv9hoF5CdiRgfZlMRrFJXCdY6bLAAdNvT3p96NiXqn0cEKq0yPSmJ9VRbr8+/It
+ 1SiPNbpryPYy8URfL23qA5/Z0cDUNSHsRHHB5DfqE1O8bvElQ594DpRqZTADs94b8XIx
+ yRoA==
+X-Gm-Message-State: AC+VfDz0hPStblKUSOeFrkQZLhtd940MBeCbsk5NtKT7kB+dEqWTEZQQ
+ PzfafSPquWYupEEvkg3PqdxMXwBe8U6U4oMWpMk=
+X-Google-Smtp-Source: ACHHUZ652ZrinCTG+iDg7IaahP6uxbr3U1C1HbHIyGoh3e2XoDTfjBU2FXEAStCUw7HAttdvqmFIZ09Kv4RLOP9Wi30=
+X-Received: by 2002:a25:c1c3:0:b0:b9a:8324:a492 with SMTP id
+ r186-20020a25c1c3000000b00b9a8324a492mr11747474ybf.41.1683632171940; Tue, 09
+ May 2023 04:36:11 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230503081911.119168-1-aesteve@redhat.com>
- <20230503081911.119168-5-aesteve@redhat.com>
- <CAJ+F1CJd_wdTuQgspE7=mPhgbvx9VDrd3iejcTDLquC8PBjj1A@mail.gmail.com>
-In-Reply-To: <CAJ+F1CJd_wdTuQgspE7=mPhgbvx9VDrd3iejcTDLquC8PBjj1A@mail.gmail.com>
-From: Albert Esteve <aesteve@redhat.com>
-Date: Tue, 9 May 2023 13:17:14 +0200
-Message-ID: <CADSE00JpwVFQqshm-XyMzmQ4_hciavsKox6sj8AAeBTQbk=Kxg@mail.gmail.com>
-Subject: Re: [PATCH 4/4] libvhost-user: add write_msg cb to dev struct
-To: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Cc: qemu-devel@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>
-Content-Type: multipart/alternative; boundary="00000000000064d20605fb40e647"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=aesteve@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+References: <20230509102652.705859-1-nsoffer@redhat.com>
+In-Reply-To: <20230509102652.705859-1-nsoffer@redhat.com>
+From: Stefan Hajnoczi <stefanha@gmail.com>
+Date: Tue, 9 May 2023 07:35:59 -0400
+Message-ID: <CAJSP0QUD-T80PEuMS8wJ-OVtsWGVSLqcEsz6i8dvYr-AeSnxDA@mail.gmail.com>
+Subject: Re: [PATCH] libvhost-user: Fix update of signalled_used
+To: Nir Soffer <nsoffer@redhat.com>
+Cc: qemu-devel@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>, 
+ "Michael S. Tsirkin" <mst@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b36;
+ envelope-from=stefanha@gmail.com; helo=mail-yb1-xb36.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -94,310 +85,204 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
---00000000000064d20605fb40e647
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-Hi!
-
-On Tue, May 9, 2023 at 12:12=E2=80=AFPM Marc-Andr=C3=A9 Lureau <
-marcandre.lureau@gmail.com> wrote:
-
-> Hi
+On Tue, 9 May 2023 at 06:28, Nir Soffer <nsoffer@redhat.com> wrote:
 >
-> On Wed, May 3, 2023 at 12:21=E2=80=AFPM Albert Esteve <aesteve@redhat.com=
-> wrote:
+> When we check if a driver needs a signal, we compare:
 >
->> Add vu_write_msg_cb type as a member of the VuDev
->> struct.
->>
->> In order to interact with the virtio-dmabuf
->> API, vhost-user backends have available a special
->> message type that can be sent to the frontend
->> in Qemu, in order to add, lookup, or remove
->> entries.
->>
->> To send these messages and avoid code replication,
->> backends will need the write_msg method to be exposed
->> to them, similarly to how the read_msg is for
->> receiving messages.
->>
+> - used_event: written by the driver each time it consumes an item
+
+In practice drivers tend to update it as you described, but devices
+cannot make that assumption.
+
+used_event is simply the index at which the driver wishes to receive
+the next used buffer notification. It does not need to be updated each
+time a used buffer is consumed.
+
+> - new: current idx written to the used ring, updated by us
+> - old: last idx we signaled about
 >
-> I think read_msg was introduced to blend libvhost-user IO to qemu mainloo=
-p
-> & coroutine. Is that what you have in mind for write_msg?
+> We call vring_need_event() which does:
 >
-
-Uhm, after grep'ing, it seems that read_msg is only used within
-libvhost-user source, so I guess it is mainly used to
-allow backends to provide custom methods? Maybe I am misunderstanding.
-
-But my idea for adding `write_msg` is exposing the write method (i.e.,
-vu_message_write) to the backends,
-without having the function signature in the header. This way, vhost-user
-backends that want to write a message,
-can just use `dev->write_msg(args...)`. Which would be equivalent to
-`vu_message_write(args...)` if this
-was visible for others.
-
-Another option could be to have a specific public method sending the
-requests to the frontend, that
-internally, would use `vu_message_write`. But since we introduce three new
-message types that
-backends can send, I thought adding different methods would be a bit too
-verbose.
-
-
+>     return (__u16)(new_idx - event_idx - 1) < (__u16)(new_idx - old);
 >
->> Signed-off-by: Albert Esteve <aesteve@redhat.com>
->> ---
->>  subprojects/libvhost-user/libvhost-user.c |  1 +
->>  subprojects/libvhost-user/libvhost-user.h | 16 ++++++++++++++++
->>  2 files changed, 17 insertions(+)
->>
->> diff --git a/subprojects/libvhost-user/libvhost-user.c
->> b/subprojects/libvhost-user/libvhost-user.c
->> index 6b4b721225..c50b353915 100644
->> --- a/subprojects/libvhost-user/libvhost-user.c
->> +++ b/subprojects/libvhost-user/libvhost-user.c
->> @@ -2115,6 +2115,7 @@ vu_init(VuDev *dev,
->>      dev->sock =3D socket;
->>      dev->panic =3D panic;
->>      dev->read_msg =3D read_msg ? read_msg : vu_message_read_default;
->> +    dev->write_msg =3D vu_message_write;
->>
+> Previously we updated signalled_used on every check, so old was always
+> new - 1.
+
+libvhost-user leaves it up to the application to decide when to call
+vu_queue_notify(). It might be called once after pushing multiple used
+buffers. We cannot assume it is always new - 1.
+
+> Because used_event cannot bigger than new_idx, this check
+> becomes (ignoring wrapping):
 >
-> You are not making it customizable? And the callback is not used.
+>     return new_idx == event_idx + 1;
+
+This is not true. used_event is an arbitrary index value that can be
+larger than new_idx. For example, if the driver wants to be notified
+after 5 completions, it will set it to a future value that is greater
+than new_idx.
+
+> Since the driver consumes items at the same time the device produces
+> items, it is very likely (and seen in logs) that the driver used_event
+> is too far behind new_idx and we don't signal the driver.
+
+This is expected and must be handled by the driver. Here is the Rust
+virtio-driver code:
+
+impl<'a, T: Clone> VirtqueueRing<'a, T> {
+...
+    fn pop(&mut self) -> Option<T> {
+        if self.has_next() {
+            let result = unsafe { (*self.ptr).ring[self.ring_idx()].clone() };
+            self.next_idx += Wrapping(1);
+            Some(result)
+        } else {
+            None
+        }
+    }
+...
+}
+
+impl<'a, 'queue, R: Copy> Iterator for VirtqueueIter<'a, 'queue, R> {
+    type Item = VirtqueueCompletion<R>;
+
+    fn next(&mut self) -> Option<Self::Item> {
+        if let Some(next) = self.virtqueue.used.pop() {
+            let idx = (next.idx.to_native() %
+(self.virtqueue.queue_size as u32)) as u16;
+            self.virtqueue.free_desc(idx);
+            if self.virtqueue.event_idx_enabled &&
+self.virtqueue.used_notif_enabled {
+                self.virtqueue.update_used_event();
+            }
+
+            let req = unsafe { *self.virtqueue.req.offset(idx as isize) };
+            Some(VirtqueueCompletion { idx, req })
+        } else {
+            if self.virtqueue.event_idx_enabled &&
+!self.virtqueue.used_notif_enabled {
+                self.virtqueue.update_used_event();
+            }
+            None
+        }
+    }
+
+When the caller uses VirtqueueIter to iterate over completed requests,
+the race is automatically handled:
+
+1. If the device sees the updated used_event value, then a Used Buffer
+   Notification is sent. No notification is missed.
+
+2. If the device sees the outdated used_event value, then no Used Buffer
+   Notification is sent. Keep in mind that the device placed the Used
+   Buffer into the Used Ring *before* checking used_event. The driver
+   updates used_event before calling VirtqueueIter.next() again. Therefore,
+   VirtqueueIter.next() is guaranteed to see the Used Buffer although no
+   Used Buffer Notification was sent for it.
+
+There is no scenario where VirtqueueIter does not see the new Used
+Buffer and there is no Used Buffer Notification.
+
+However, this relies on the driver always fully iterating - if it stops early
+then notifications might be dropped.
+
+> With libblkio virtio-blk-vhost-user driver, if the driver does not get a
+> signal, the libblkio client can hang polling the completion fd. This
+> is very easy to reproduce on some machines and impossible to reproduce
+> on others.
 >
+> Fixed by updating signalled_used only when we signal the driver.
+> Tested using blkio-bench and libblkio client application that used to
+> hang randomly without this change.
 
-Making it customizable would require changing the signature of `vu_init`,
-and I did not see
-the need for this usecase. I just want to expose the static method to the
-backends.
+QEMU works fine with the same code as libvhost-user though:
 
-The callback is not used because there is still no virtio device to use it.
-But this whole
-infrastructure will be nice to have for the next device that would require
-it (e.g., virtio-video).
+static bool virtio_split_should_notify(VirtIODevice *vdev, VirtQueue *vq)
+{
+    uint16_t old, new;
+    bool v;
+    /* We need to expose used array entries before checking used event. */
+    smp_mb();
+    /* Always notify when queue is empty (when feature acknowledge) */
+    if (virtio_vdev_has_feature(vdev, VIRTIO_F_NOTIFY_ON_EMPTY) &&
+        !vq->inuse && virtio_queue_empty(vq)) {
+        return true;
+    }
 
-In that regard, this commit could be skipped from the PATCH and just change
-it once there
-is a virtio device that needs to send a `VHOST_USER_BACKEND_SHARED_OBJECT`
-message. Basically, I needed it for testing (just had a dummy vhost-user
-backend that I used for
-sending messages), and then decided to keep it. But maybe having a simpler
-patch is better.
+    if (!virtio_vdev_has_feature(vdev, VIRTIO_RING_F_EVENT_IDX)) {
+        return !(vring_avail_flags(vq) & VRING_AVAIL_F_NO_INTERRUPT);
+    }
 
+    v = vq->signalled_used_valid;
+    vq->signalled_used_valid = true;
+    old = vq->signalled_used;
+    new = vq->signalled_used = vq->used_idx;
+    return !v || vring_need_event(vring_get_used_event(vq), new, old);
+}
 
->
->
->>      dev->set_watch =3D set_watch;
->>      dev->remove_watch =3D remove_watch;
->>      dev->iface =3D iface;
->> diff --git a/subprojects/libvhost-user/libvhost-user.h
->> b/subprojects/libvhost-user/libvhost-user.h
->> index 784db65f7c..f5d7162886 100644
->> --- a/subprojects/libvhost-user/libvhost-user.h
->> +++ b/subprojects/libvhost-user/libvhost-user.h
->> @@ -242,6 +242,7 @@ typedef void (*vu_set_features_cb) (VuDev *dev,
->> uint64_t features);
->>  typedef int (*vu_process_msg_cb) (VuDev *dev, VhostUserMsg *vmsg,
->>                                    int *do_reply);
->>  typedef bool (*vu_read_msg_cb) (VuDev *dev, int sock, VhostUserMsg
->> *vmsg);
->> +typedef bool (*vu_write_msg_cb) (VuDev *dev, int sock, VhostUserMsg
->> *vmsg);
->>  typedef void (*vu_queue_set_started_cb) (VuDev *dev, int qidx, bool
->> started);
->>  typedef bool (*vu_queue_is_processed_in_order_cb) (VuDev *dev, int qidx=
-);
->>  typedef int (*vu_get_config_cb) (VuDev *dev, uint8_t *config, uint32_t
->> len);
->> @@ -429,6 +430,21 @@ struct VuDev {
->>       */
->>      vu_read_msg_cb read_msg;
->>
->> +    /*
->> +     * @write_msg: custom method to write vhost-user message
->> +     *
->> +     * Write data to vhost_user socket fd from the passed
->> +     * VhostUserMsg *vmsg struct.
->> +     *
->> +     * For the details, please refer to vu_message_write in
->> libvhost-user.c
->> +     * which will be used by default when calling vu_unit.
->> +     * No custom method is allowed.
->>
->
-> "No custom method is allowed"?
->
-
-I meant that I am not making it customizable (from your previous point),
-as opposed to the `read_msg` method.
-
+I suspect there is a bug in the libblkio or virtio-driver code.
+Unfortunately I've looked at the code a few times and couldn't spot
+the issue :(.
 
 >
+> Buglink: https://gitlab.com/libblkio/libblkio/-/issues/68
+> Signed-off-by: Nir Soffer <nsoffer@redhat.com>
+> ---
+>  subprojects/libvhost-user/libvhost-user.c | 23 +++++++++++++++++------
+>  1 file changed, 17 insertions(+), 6 deletions(-)
 >
->> +     *
->> +     * Returns: true if vhost-user message successfully sent, false
->> otherwise.
->> +     *
->> +     */
->> +    vu_write_msg_cb write_msg;
->> +
->>
+> diff --git a/subprojects/libvhost-user/libvhost-user.c b/subprojects/libvhost-user/libvhost-user.c
+> index 8fb61e2df2..5f26d2d378 100644
+> --- a/subprojects/libvhost-user/libvhost-user.c
+> +++ b/subprojects/libvhost-user/libvhost-user.c
+> @@ -2382,12 +2382,11 @@ vu_queue_empty(VuDev *dev, VuVirtq *vq)
+>  }
 >
+>  static bool
+>  vring_notify(VuDev *dev, VuVirtq *vq)
+>  {
+> -    uint16_t old, new;
+> -    bool v;
+> +    uint16_t old, new, used;
 >
+>      /* We need to expose used array entries before checking used event. */
+>      smp_mb();
+>
+>      /* Always notify when queue is empty (when feature acknowledge) */
+> @@ -2398,15 +2397,27 @@ vring_notify(VuDev *dev, VuVirtq *vq)
+>
+>      if (!vu_has_feature(dev, VIRTIO_RING_F_EVENT_IDX)) {
+>          return !(vring_avail_flags(vq) & VRING_AVAIL_F_NO_INTERRUPT);
+>      }
+>
+> -    v = vq->signalled_used_valid;
+> -    vq->signalled_used_valid = true;
+> +    if (!vq->signalled_used_valid) {
+> +        vq->signalled_used_valid = true;
+> +        vq->signalled_used = vq->used_idx;
+> +        return true;
+> +    }
+> +
+> +    used = vring_get_used_event(vq);
+> +    new = vq->used_idx;
+>      old = vq->signalled_used;
+> -    new = vq->signalled_used = vq->used_idx;
+> -    return !v || vring_need_event(vring_get_used_event(vq), new, old);
+> +
+> +    if (vring_need_event(used, new, old)) {
+> +        vq->signalled_used_valid = true;
+> +        vq->signalled_used = vq->used_idx;
+> +        return true;
+> +    }
+> +
+> +    return false;
+>  }
+>
+>  static void _vu_queue_notify(VuDev *dev, VuVirtq *vq, bool sync)
+>  {
+>      if (unlikely(dev->broken) ||
 > --
-> Marc-Andr=C3=A9 Lureau
+> 2.40.1
 >
-
---00000000000064d20605fb40e647
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br clear=3D"all"><div><div dir=3D"ltr" c=
-lass=3D"gmail_signature"><div dir=3D"ltr"><p style=3D"color:rgb(0,0,0);font=
--family:RedHatText,sans-serif;margin:0px;padding:0px;font-size:14px">Hi!</p=
-></div></div></div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" cl=
-ass=3D"gmail_attr">On Tue, May 9, 2023 at 12:12=E2=80=AFPM Marc-Andr=C3=A9 =
-Lureau &lt;<a href=3D"mailto:marcandre.lureau@gmail.com">marcandre.lureau@g=
-mail.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D=
-"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-le=
-ft:1ex"><div dir=3D"ltr"><div dir=3D"ltr">Hi<br></div><br><div class=3D"gma=
-il_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, May 3, 2023 at 12:2=
-1=E2=80=AFPM Albert Esteve &lt;<a href=3D"mailto:aesteve@redhat.com" target=
-=3D"_blank">aesteve@redhat.com</a>&gt; wrote:<br></div><blockquote class=3D=
-"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(2=
-04,204,204);padding-left:1ex">Add vu_write_msg_cb type as a member of the V=
-uDev<br>
-struct.<br>
-<br>
-In order to interact with the virtio-dmabuf<br>
-API, vhost-user backends have available a special<br>
-message type that can be sent to the frontend<br>
-in Qemu, in order to add, lookup, or remove<br>
-entries.<br>
-<br>
-To send these messages and avoid code replication,<br>
-backends will need the write_msg method to be exposed<br>
-to them, similarly to how the read_msg is for<br>
-receiving messages.<br></blockquote><div><br></div><div>I think read_msg wa=
-s introduced to blend libvhost-user IO to qemu mainloop &amp; coroutine. Is=
- that what you have in mind for write_msg?<br></div></div></div></blockquot=
-e><div><br></div><div>Uhm, after grep&#39;ing, it seems that read_msg is on=
-ly used within libvhost-user source, so I guess it is mainly used to</div><=
-div>allow backends to provide custom methods? Maybe I am misunderstanding.<=
-/div><div><br></div><div>But my idea for adding `write_msg` is exposing the=
- write method (i.e., vu_message_write) to the backends,</div><div>without h=
-aving the function signature in the header. This way, vhost-user backends t=
-hat want to write a message,</div><div>can just use `dev-&gt;write_msg(args=
-...)`. Which would be equivalent to `vu_message_write(args...)` if this</di=
-v><div>was visible for others.</div><div><br></div><div>Another option coul=
-d be to have a specific public method sending the requests to the frontend,=
- that</div><div>internally, would use `vu_message_write`. But since we intr=
-oduce three new message types that</div><div>backends can send, I thought a=
-dding different methods would be a bit too verbose.</div><div><br></div><bl=
-ockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-lef=
-t:1px solid rgb(204,204,204);padding-left:1ex"><div dir=3D"ltr"><div class=
-=3D"gmail_quote"><div></div><div><br></div><blockquote class=3D"gmail_quote=
-" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);=
-padding-left:1ex">
-<br>
-Signed-off-by: Albert Esteve &lt;<a href=3D"mailto:aesteve@redhat.com" targ=
-et=3D"_blank">aesteve@redhat.com</a>&gt;<br>
----<br>
-=C2=A0subprojects/libvhost-user/libvhost-user.c |=C2=A0 1 +<br>
-=C2=A0subprojects/libvhost-user/libvhost-user.h | 16 ++++++++++++++++<br>
-=C2=A02 files changed, 17 insertions(+)<br>
-<br>
-diff --git a/subprojects/libvhost-user/libvhost-user.c b/subprojects/libvho=
-st-user/libvhost-user.c<br>
-index 6b4b721225..c50b353915 100644<br>
---- a/subprojects/libvhost-user/libvhost-user.c<br>
-+++ b/subprojects/libvhost-user/libvhost-user.c<br>
-@@ -2115,6 +2115,7 @@ vu_init(VuDev *dev,<br>
-=C2=A0 =C2=A0 =C2=A0dev-&gt;sock =3D socket;<br>
-=C2=A0 =C2=A0 =C2=A0dev-&gt;panic =3D panic;<br>
-=C2=A0 =C2=A0 =C2=A0dev-&gt;read_msg =3D read_msg ? read_msg : vu_message_r=
-ead_default;<br>
-+=C2=A0 =C2=A0 dev-&gt;write_msg =3D vu_message_write;<br></blockquote><div=
-><br></div><div>You are not making it customizable? And the callback is not=
- used.<br></div></div></div></blockquote><div><br></div><div>Making it cust=
-omizable would require changing the signature of `vu_init`, and I did not s=
-ee</div><div>the need for this usecase. I just want to expose the static me=
-thod to the backends.</div><div><br></div><div>The callback is not used bec=
-ause there is still no virtio device to use it. But this whole</div><div>in=
-frastructure will be nice to have for the next device that would require it=
- (e.g., virtio-video).</div><div><br></div><div>In that regard, this commit=
- could be skipped from the PATCH and just change it once there</div><div>is=
- a virtio device that needs to send a `VHOST_USER_BACKEND_SHARED_OBJECT`</d=
-iv><div>message. Basically, I needed it for testing (just had a dummy vhost=
--user backend that I used for</div><div>sending messages), and then decided=
- to keep it. But maybe having a simpler patch is better.</div><div>=C2=A0<b=
-r></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex=
-;border-left:1px solid rgb(204,204,204);padding-left:1ex"><div dir=3D"ltr">=
-<div class=3D"gmail_quote"><div></div><div>=C2=A0<br></div><blockquote clas=
-s=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid r=
-gb(204,204,204);padding-left:1ex">
-=C2=A0 =C2=A0 =C2=A0dev-&gt;set_watch =3D set_watch;<br>
-=C2=A0 =C2=A0 =C2=A0dev-&gt;remove_watch =3D remove_watch;<br>
-=C2=A0 =C2=A0 =C2=A0dev-&gt;iface =3D iface;<br>
-diff --git a/subprojects/libvhost-user/libvhost-user.h b/subprojects/libvho=
-st-user/libvhost-user.h<br>
-index 784db65f7c..f5d7162886 100644<br>
---- a/subprojects/libvhost-user/libvhost-user.h<br>
-+++ b/subprojects/libvhost-user/libvhost-user.h<br>
-@@ -242,6 +242,7 @@ typedef void (*vu_set_features_cb) (VuDev *dev, uint64_=
-t features);<br>
-=C2=A0typedef int (*vu_process_msg_cb) (VuDev *dev, VhostUserMsg *vmsg,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0int *do_reply);<br>
-=C2=A0typedef bool (*vu_read_msg_cb) (VuDev *dev, int sock, VhostUserMsg *v=
-msg);<br>
-+typedef bool (*vu_write_msg_cb) (VuDev *dev, int sock, VhostUserMsg *vmsg)=
-;<br>
-=C2=A0typedef void (*vu_queue_set_started_cb) (VuDev *dev, int qidx, bool s=
-tarted);<br>
-=C2=A0typedef bool (*vu_queue_is_processed_in_order_cb) (VuDev *dev, int qi=
-dx);<br>
-=C2=A0typedef int (*vu_get_config_cb) (VuDev *dev, uint8_t *config, uint32_=
-t len);<br>
-@@ -429,6 +430,21 @@ struct VuDev {<br>
-=C2=A0 =C2=A0 =C2=A0 */<br>
-=C2=A0 =C2=A0 =C2=A0vu_read_msg_cb read_msg;<br>
-<br>
-+=C2=A0 =C2=A0 /*<br>
-+=C2=A0 =C2=A0 =C2=A0* @write_msg: custom method to write vhost-user messag=
-e<br>
-+=C2=A0 =C2=A0 =C2=A0*<br>
-+=C2=A0 =C2=A0 =C2=A0* Write data to vhost_user socket fd from the passed<b=
-r>
-+=C2=A0 =C2=A0 =C2=A0* VhostUserMsg *vmsg struct.<br>
-+=C2=A0 =C2=A0 =C2=A0*<br>
-+=C2=A0 =C2=A0 =C2=A0* For the details, please refer to vu_message_write in=
- libvhost-user.c<br>
-+=C2=A0 =C2=A0 =C2=A0* which will be used by default when calling vu_unit.<=
-br>
-+=C2=A0 =C2=A0 =C2=A0* No custom method is allowed.<br></blockquote><div><b=
-r></div><div>&quot;No custom method is allowed&quot;?</div></div></div></bl=
-ockquote><div><br></div><div>I meant that I am not making it customizable (=
-from your previous point),</div><div>as opposed to the `read_msg` method.</=
-div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px =
-0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><div=
- dir=3D"ltr"><div class=3D"gmail_quote"><div>=C2=A0<br></div><blockquote cl=
-ass=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid=
- rgb(204,204,204);padding-left:1ex">
-+=C2=A0 =C2=A0 =C2=A0*<br>
-+=C2=A0 =C2=A0 =C2=A0* Returns: true if vhost-user message successfully sen=
-t, false otherwise.<br>
-+=C2=A0 =C2=A0 =C2=A0*<br>
-+=C2=A0 =C2=A0 =C2=A0*/<br>
-+=C2=A0 =C2=A0 vu_write_msg_cb write_msg;<br>
-+<br></blockquote><div><br></div></div><br><span>-- </span><br><div dir=3D"=
-ltr">Marc-Andr=C3=A9 Lureau<br></div></div>
-</blockquote></div></div>
-
---00000000000064d20605fb40e647--
-
+>
 
