@@ -2,72 +2,117 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A165F6FC51F
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 May 2023 13:37:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A855A6FC527
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 May 2023 13:40:08 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pwLdh-0002DP-VA; Tue, 09 May 2023 07:36:17 -0400
+	id 1pwLgx-000398-JN; Tue, 09 May 2023 07:39:39 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1pwLdf-0002Cl-8e
- for qemu-devel@nongnu.org; Tue, 09 May 2023 07:36:15 -0400
-Received: from mail-yb1-xb36.google.com ([2607:f8b0:4864:20::b36])
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1pwLgt-00038g-5t
+ for qemu-devel@nongnu.org; Tue, 09 May 2023 07:39:35 -0400
+Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1pwLdd-00017I-9x
- for qemu-devel@nongnu.org; Tue, 09 May 2023 07:36:15 -0400
-Received: by mail-yb1-xb36.google.com with SMTP id
- 3f1490d57ef6-b99f0a0052fso7617985276.3
- for <qemu-devel@nongnu.org>; Tue, 09 May 2023 04:36:12 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1pwLgr-0001Ti-8g
+ for qemu-devel@nongnu.org; Tue, 09 May 2023 07:39:34 -0400
+Received: by mail-wr1-x42f.google.com with SMTP id
+ ffacd0b85a97d-3078c092056so2023491f8f.1
+ for <qemu-devel@nongnu.org>; Tue, 09 May 2023 04:39:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1683632172; x=1686224172;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=GMW84uHKpDg0uFDFMpaX4KTsOAKUPX1cJvjk2MMLmqY=;
- b=MHhjvNMRv+6mpL9lP7Hm9Q4Fn3Y172OQkdqwxDNcB8lTMCARqMJncRaBjFVt+CiUAp
- TBGF++3u5GaxL+smllkgLuY6lGegwhLUiGXg8rhtYoVsuGJzCnGf9bYFHp8+GKQb/9uk
- SGkVx9EWkOsNC0iFvuV1+Er2PWePAjJ6pewd164KUTZ2188xhEjoprxPXQAOHFN78W3U
- PXDzJHND5NMxZOeeUjhfuxfl8PxiXNpjIWxrptCn8SnSiVfRYBlwH2MQH01LstX9xFyW
- 9JTGPpZQt2XMqlW7Hkng6SRqaReYh2Zy3p04YNTYEFeC616iG5l4kIWExZEcDOvwO+ON
- RniA==
+ d=linaro.org; s=google; t=1683632371; x=1686224371;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=rARTuEDLmGFICGAYuQKc50jHSttlE+cUw6tbbQAYke0=;
+ b=g1tSN+GL37Ez80PRpdKeRrK51v2fXA7c8iNtcOF9sbOV1gYaPA72yneKRRVxc38BHH
+ mTAbY+aa9RtXmx0hSytQRRgIJ/Ode3cpffLNNud1a+D6Vcu1C1UnVaTzkJQqzO+1gA9d
+ kkmngDOFXaFwGkNvFdvr2uucVCSIpX0RiUCAL0i2QQ/gdH3K65OslvsDgpMzOJOXwZtY
+ KNowz75pgrMQfe0u1eiFpJr5WWEEhw024zOM830G4zU0eG2tR7kSqvxnAB2rpLuPiHW9
+ Y7FEZLkwkrxtF2mOgU5Vm8CXK6nWp2/QBd0GnWQ5PpDTsy9SbTlfps94S6CDNO1tWJca
+ HITA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683632172; x=1686224172;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=GMW84uHKpDg0uFDFMpaX4KTsOAKUPX1cJvjk2MMLmqY=;
- b=DaVjiouljZIv2nqCwzSHxvQH+oDtvy4msJOiVHJkauLfA8fHN6GoUjXpxJQW3o0Wa5
- u2twFl9zk6n77D9kruTMYI+Rt2ky/xIoeh+ptjL+0Jf80diRK+m/mRRnBT0arsAPpfT+
- ufCK6kEeXQJjsmEPS0Erz1fzo8GWRQHDhPUsShMkc6mE550Z9LwKC7R53UN2VdVfrSce
- C86CpVv9hoF5CdiRgfZlMRrFJXCdY6bLAAdNvT3p96NiXqn0cEKq0yPSmJ9VRbr8+/It
- 1SiPNbpryPYy8URfL23qA5/Z0cDUNSHsRHHB5DfqE1O8bvElQ594DpRqZTADs94b8XIx
- yRoA==
-X-Gm-Message-State: AC+VfDz0hPStblKUSOeFrkQZLhtd940MBeCbsk5NtKT7kB+dEqWTEZQQ
- PzfafSPquWYupEEvkg3PqdxMXwBe8U6U4oMWpMk=
-X-Google-Smtp-Source: ACHHUZ652ZrinCTG+iDg7IaahP6uxbr3U1C1HbHIyGoh3e2XoDTfjBU2FXEAStCUw7HAttdvqmFIZ09Kv4RLOP9Wi30=
-X-Received: by 2002:a25:c1c3:0:b0:b9a:8324:a492 with SMTP id
- r186-20020a25c1c3000000b00b9a8324a492mr11747474ybf.41.1683632171940; Tue, 09
- May 2023 04:36:11 -0700 (PDT)
+ d=1e100.net; s=20221208; t=1683632371; x=1686224371;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=rARTuEDLmGFICGAYuQKc50jHSttlE+cUw6tbbQAYke0=;
+ b=e/zPFbE7cm4zZ/w73kbbNxwVB41sh5gxFiEGrFG6UJW9bXJPzs3v6ebXAPdpFqZNrQ
+ c/9ef55dqudSbV1RONWRospZ6ZA5tKI579fix/Dkuiakjgra8JLY2NBtdP6n28LC1rEN
+ Mrd1LZ3R50v8dXmAB87LawguqQpb1inwR9oziUZP0NcDZUb+PFJZ00dexj9O1j0bHZnY
+ AZtZL/G2jgs0Flhpad8c/Pz28xRnEy0zuvLt4qTc2zzjYY7axIEJFDlIhKV2js0bX8cd
+ 4tm6tLO4QmoC08Jyay6E7eVCXK06ybT7p95G2OQqpitWoNlpJg4ZNxuwdPDQ6rgq0i3U
+ sCFA==
+X-Gm-Message-State: AC+VfDy0Tomy096dCIa6xGcJqa0HK5xDX/Edt7w2kOwiquvsLzl3DGs/
+ iNLawlW2hfKDPRRc+7wGm7+EeA==
+X-Google-Smtp-Source: ACHHUZ7ECH6pxLJ8Vhz+Nh3XJUMMKrFSWZsbEhA4IuD45LQymB3bfKoQefHmoH5GNCCd1p8Xf8VWyA==
+X-Received: by 2002:adf:ee84:0:b0:306:b48:3fc4 with SMTP id
+ b4-20020adfee84000000b003060b483fc4mr9325080wro.31.1683632371029; 
+ Tue, 09 May 2023 04:39:31 -0700 (PDT)
+Received: from zen.linaroharston ([85.9.250.243])
+ by smtp.gmail.com with ESMTPSA id
+ n23-20020a7bc5d7000000b003ee74c25f12sm19634231wmk.35.2023.05.09.04.39.30
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 09 May 2023 04:39:30 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 288D41FFBB;
+ Tue,  9 May 2023 12:39:30 +0100 (BST)
+References: <20230503091244.1450613-1-alex.bennee@linaro.org>
+ <20230503091244.1450613-6-alex.bennee@linaro.org>
+ <531a2eab-f0e6-46a5-c021-c82746c1ae38@redhat.com>
+ <87y1m5s9yl.fsf@linaro.org>
+ <5fb214d8-4a54-f896-f23f-fe9e646e4b2d@redhat.com>
+ <CAFEAcA-Cfz8CkNeTQodoSitocBmm4ddk25Dq8x=5FiiGvaS34Q@mail.gmail.com>
+ <e7185f74-f041-05b1-0f76-bab6d724e796@redhat.com> <878re4cl1u.fsf@suse.de>
+ <CABgObfYYFfGk2X6M5MxbEbVqCYOp1Km53xkTNrfHwkK=aZOpyw@mail.gmail.com>
+ <CAFEAcA91kfdgP3GD8OzgpePX6yXxsLZgARfsNhjY8WyEtKwUuA@mail.gmail.com>
+ <c4545a92-8e37-a916-9f1e-ef537dcb1e06@redhat.com>
+ <CAFEAcA9h2JKPeMinDFqsJ_5wN1rtAfr6YSSbfyf6JK9ohdxXmA@mail.gmail.com>
+ <70da6b28-d731-7e3b-b5a6-7d9983389d57@redhat.com>
+User-agent: mu4e 1.11.4; emacs 29.0.90
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Fabiano Rosas
+ <farosas@suse.de>, qemu-devel <qemu-devel@nongnu.org>, Laurent Vivier
+ <lvivier@redhat.com>, Artyom Tarasenko <atar4qemu@gmail.com>, "Edgar E.
+ Iglesias" <edgar.iglesias@gmail.com>, Wainer dos Santos Moschetta
+ <wainersm@redhat.com>, Thomas Huth <thuth@redhat.com>, Leif Lindholm
+ <quic_llindhol@quicinc.com>, Gerd Hoffmann <kraxel@redhat.com>, Helge
+ Deller <deller@gmx.de>, Xiaojuan Yang <yangxiaojuan@loongson.cn>, Stefan
+ Hajnoczi <stefanha@redhat.com>, Cleber Rosa <crosa@redhat.com>, Eduardo
+ Habkost <eduardo@habkost.net>, Juan Quintela <quintela@redhat.com>, John
+ Snow <jsnow@redhat.com>, Yoshinori Sato <ysato@users.sourceforge.jp>,
+ =?utf-8?Q?C=C3=A9dric?= Le Goater <clg@kaod.org>, Ilya Leoshkevich
+ <iii@linux.ibm.com>,
+ Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>, Andrew Jeffery
+ <andrew@aj.id.au>, qemu-s390x <qemu-s390x@nongnu.org>, Richard Henderson
+ <richard.henderson@linaro.org>, qemu-arm <qemu-arm@nongnu.org>, Bastian
+ Koppelmann <kbastian@mail.uni-paderborn.de>, Beraldo Leal
+ <bleal@redhat.com>, Max Filippov <jcmvbkbc@gmail.com>, =?utf-8?Q?Marc-And?=
+ =?utf-8?Q?r=C3=A9?= Lureau <marcandre.lureau@redhat.com>, Mark Cave-Ayland
+ <mark.cave-ayland@ilande.co.uk>, Jiaxun Yang <jiaxun.yang@flygoat.com>,
+ Radoslaw Biernacki <rad@semihalf.com>, Aurelien Jarno
+ <aurelien@aurel32.net>, David Hildenbrand <david@redhat.com>, Markus
+ Armbruster <armbru@redhat.com>, Song Gao <gaosong@loongson.cn>, Joel
+ Stanley <joel@jms.id.au>, =?utf-8?Q?Daniel_P=2E_Berrang=C3=A9?=
+ <berrange@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+Subject: Re: [PATCH 05/22] hw/arm: Select VIRTIO_NET for virt machine
+Date: Tue, 09 May 2023 12:37:15 +0100
+In-reply-to: <70da6b28-d731-7e3b-b5a6-7d9983389d57@redhat.com>
+Message-ID: <878rdxbuoe.fsf@linaro.org>
 MIME-Version: 1.0
-References: <20230509102652.705859-1-nsoffer@redhat.com>
-In-Reply-To: <20230509102652.705859-1-nsoffer@redhat.com>
-From: Stefan Hajnoczi <stefanha@gmail.com>
-Date: Tue, 9 May 2023 07:35:59 -0400
-Message-ID: <CAJSP0QUD-T80PEuMS8wJ-OVtsWGVSLqcEsz6i8dvYr-AeSnxDA@mail.gmail.com>
-Subject: Re: [PATCH] libvhost-user: Fix update of signalled_used
-To: Nir Soffer <nsoffer@redhat.com>
-Cc: qemu-devel@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>, 
- "Michael S. Tsirkin" <mst@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b36;
- envelope-from=stefanha@gmail.com; helo=mail-yb1-xb36.google.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -85,204 +130,50 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, 9 May 2023 at 06:28, Nir Soffer <nsoffer@redhat.com> wrote:
+
+Paolo Bonzini <pbonzini@redhat.com> writes:
+
+> On 5/9/23 12:00, Peter Maydell wrote:
+>> On Tue, 9 May 2023 at 10:42, Paolo Bonzini <pbonzini@redhat.com> wrote:
+>>>
+>>> On 5/9/23 11:27, Peter Maydell wrote:
+>>>> On Mon, 8 May 2023 at 23:24, Paolo Bonzini <pbonzini@redhat.com> wrote:
+>>>>> --without-default-devices is not about choosing to not build
+>>>>> some devices; it is about making non-selected devices opt-in
+>>>>> rather than opt-out.
+>>>>
+>>>> Hmm, so it's basically "the person doing the configuration needs
+>>>> to know what they're doing, the Kconfig system will give them
+>>>> no hints about what devices might or might not be needed to
+>>>> make machine type M functional" ?
+>>>
+>>> It depends on what you mean by functional.  I would say you do get what
+>>> is needed to have a functional machine, but not what is needed to have a
+>>> useful machine.
+>> If you need to pass '-nodefaults' to get the thing to start up at
+>> all, that seems to be stretching the definition of "functional"
+>> to me.
 >
-> When we check if a driver needs a signal, we compare:
+> Then, an accurate description that uses "functional" in that sense
+> could be as follows:
 >
-> - used_event: written by the driver each time it consumes an item
+> The Kconfig system will include any devices and subsystems that are
+> mandatory for a given machine type, and will flag any configuration
+> conflicts. However, the person doing the configuration still needs to
+> know which devices are needed (on top of the mandatory ones) to obtain
+> a functional guest, and Kconfig will not provide any hints in this
+> respect.
 
-In practice drivers tend to update it as you described, but devices
-cannot make that assumption.
-
-used_event is simply the index at which the driver wishes to receive
-the next used buffer notification. It does not need to be updated each
-time a used buffer is consumed.
-
-> - new: current idx written to the used ring, updated by us
-> - old: last idx we signaled about
->
-> We call vring_need_event() which does:
->
->     return (__u16)(new_idx - event_idx - 1) < (__u16)(new_idx - old);
->
-> Previously we updated signalled_used on every check, so old was always
-> new - 1.
-
-libvhost-user leaves it up to the application to decide when to call
-vu_queue_notify(). It might be called once after pushing multiple used
-buffers. We cannot assume it is always new - 1.
-
-> Because used_event cannot bigger than new_idx, this check
-> becomes (ignoring wrapping):
->
->     return new_idx == event_idx + 1;
-
-This is not true. used_event is an arbitrary index value that can be
-larger than new_idx. For example, if the driver wants to be notified
-after 5 completions, it will set it to a future value that is greater
-than new_idx.
-
-> Since the driver consumes items at the same time the device produces
-> items, it is very likely (and seen in logs) that the driver used_event
-> is too far behind new_idx and we don't signal the driver.
-
-This is expected and must be handled by the driver. Here is the Rust
-virtio-driver code:
-
-impl<'a, T: Clone> VirtqueueRing<'a, T> {
-...
-    fn pop(&mut self) -> Option<T> {
-        if self.has_next() {
-            let result = unsafe { (*self.ptr).ring[self.ring_idx()].clone() };
-            self.next_idx += Wrapping(1);
-            Some(result)
-        } else {
-            None
-        }
-    }
-...
-}
-
-impl<'a, 'queue, R: Copy> Iterator for VirtqueueIter<'a, 'queue, R> {
-    type Item = VirtqueueCompletion<R>;
-
-    fn next(&mut self) -> Option<Self::Item> {
-        if let Some(next) = self.virtqueue.used.pop() {
-            let idx = (next.idx.to_native() %
-(self.virtqueue.queue_size as u32)) as u16;
-            self.virtqueue.free_desc(idx);
-            if self.virtqueue.event_idx_enabled &&
-self.virtqueue.used_notif_enabled {
-                self.virtqueue.update_used_event();
-            }
-
-            let req = unsafe { *self.virtqueue.req.offset(idx as isize) };
-            Some(VirtqueueCompletion { idx, req })
-        } else {
-            if self.virtqueue.event_idx_enabled &&
-!self.virtqueue.used_notif_enabled {
-                self.virtqueue.update_used_event();
-            }
-            None
-        }
-    }
-
-When the caller uses VirtqueueIter to iterate over completed requests,
-the race is automatically handled:
-
-1. If the device sees the updated used_event value, then a Used Buffer
-   Notification is sent. No notification is missed.
-
-2. If the device sees the outdated used_event value, then no Used Buffer
-   Notification is sent. Keep in mind that the device placed the Used
-   Buffer into the Used Ring *before* checking used_event. The driver
-   updates used_event before calling VirtqueueIter.next() again. Therefore,
-   VirtqueueIter.next() is guaranteed to see the Used Buffer although no
-   Used Buffer Notification was sent for it.
-
-There is no scenario where VirtqueueIter does not see the new Used
-Buffer and there is no Used Buffer Notification.
-
-However, this relies on the driver always fully iterating - if it stops early
-then notifications might be dropped.
-
-> With libblkio virtio-blk-vhost-user driver, if the driver does not get a
-> signal, the libblkio client can hang polling the completion fd. This
-> is very easy to reproduce on some machines and impossible to reproduce
-> on others.
->
-> Fixed by updating signalled_used only when we signal the driver.
-> Tested using blkio-bench and libblkio client application that used to
-> hang randomly without this change.
-
-QEMU works fine with the same code as libvhost-user though:
-
-static bool virtio_split_should_notify(VirtIODevice *vdev, VirtQueue *vq)
-{
-    uint16_t old, new;
-    bool v;
-    /* We need to expose used array entries before checking used event. */
-    smp_mb();
-    /* Always notify when queue is empty (when feature acknowledge) */
-    if (virtio_vdev_has_feature(vdev, VIRTIO_F_NOTIFY_ON_EMPTY) &&
-        !vq->inuse && virtio_queue_empty(vq)) {
-        return true;
-    }
-
-    if (!virtio_vdev_has_feature(vdev, VIRTIO_RING_F_EVENT_IDX)) {
-        return !(vring_avail_flags(vq) & VRING_AVAIL_F_NO_INTERRUPT);
-    }
-
-    v = vq->signalled_used_valid;
-    vq->signalled_used_valid = true;
-    old = vq->signalled_used;
-    new = vq->signalled_used = vq->used_idx;
-    return !v || vring_need_event(vring_get_used_event(vq), new, old);
-}
-
-I suspect there is a bug in the libblkio or virtio-driver code.
-Unfortunately I've looked at the code a few times and couldn't spot
-the issue :(.
+So I thought that was the model I was following in adding devices but it
+seems I don't understand the no-defaults behaviour. What is the
+difference between a device that is added in the machine.c that makes it
+required or expendable with -nodefaults?
 
 >
-> Buglink: https://gitlab.com/libblkio/libblkio/-/issues/68
-> Signed-off-by: Nir Soffer <nsoffer@redhat.com>
-> ---
->  subprojects/libvhost-user/libvhost-user.c | 23 +++++++++++++++++------
->  1 file changed, 17 insertions(+), 6 deletions(-)
->
-> diff --git a/subprojects/libvhost-user/libvhost-user.c b/subprojects/libvhost-user/libvhost-user.c
-> index 8fb61e2df2..5f26d2d378 100644
-> --- a/subprojects/libvhost-user/libvhost-user.c
-> +++ b/subprojects/libvhost-user/libvhost-user.c
-> @@ -2382,12 +2382,11 @@ vu_queue_empty(VuDev *dev, VuVirtq *vq)
->  }
->
->  static bool
->  vring_notify(VuDev *dev, VuVirtq *vq)
->  {
-> -    uint16_t old, new;
-> -    bool v;
-> +    uint16_t old, new, used;
->
->      /* We need to expose used array entries before checking used event. */
->      smp_mb();
->
->      /* Always notify when queue is empty (when feature acknowledge) */
-> @@ -2398,15 +2397,27 @@ vring_notify(VuDev *dev, VuVirtq *vq)
->
->      if (!vu_has_feature(dev, VIRTIO_RING_F_EVENT_IDX)) {
->          return !(vring_avail_flags(vq) & VRING_AVAIL_F_NO_INTERRUPT);
->      }
->
-> -    v = vq->signalled_used_valid;
-> -    vq->signalled_used_valid = true;
-> +    if (!vq->signalled_used_valid) {
-> +        vq->signalled_used_valid = true;
-> +        vq->signalled_used = vq->used_idx;
-> +        return true;
-> +    }
-> +
-> +    used = vring_get_used_event(vq);
-> +    new = vq->used_idx;
->      old = vq->signalled_used;
-> -    new = vq->signalled_used = vq->used_idx;
-> -    return !v || vring_need_event(vring_get_used_event(vq), new, old);
-> +
-> +    if (vring_need_event(used, new, old)) {
-> +        vq->signalled_used_valid = true;
-> +        vq->signalled_used = vq->used_idx;
-> +        return true;
-> +    }
-> +
-> +    return false;
->  }
->
->  static void _vu_queue_notify(VuDev *dev, VuVirtq *vq, bool sync)
->  {
->      if (unlikely(dev->broken) ||
-> --
-> 2.40.1
->
->
+> Paolo
+
+
+--=20
+Alex Benn=C3=A9e
+Virtualisation Tech Lead @ Linaro
 
