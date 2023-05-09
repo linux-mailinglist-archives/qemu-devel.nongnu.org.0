@@ -2,92 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 336C36FC6F7
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A1086FC6F6
 	for <lists+qemu-devel@lfdr.de>; Tue,  9 May 2023 14:44:14 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pwMgM-0000az-MG; Tue, 09 May 2023 08:43:06 -0400
+	id 1pwMgr-0000mY-BC; Tue, 09 May 2023 08:43:37 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1pwMgK-0000aO-BL
- for qemu-devel@nongnu.org; Tue, 09 May 2023 08:43:04 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1pwMgI-0006eR-GW
- for qemu-devel@nongnu.org; Tue, 09 May 2023 08:43:04 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1683636181;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=oIxDtlfMpEooVwBFht+kv0kZoTHf6yz+viLM0CQ/XiM=;
- b=gMP2D9OG+Zjz4G1CZgKEwlzfXsIEE/AtgKEfIswiECDUH7TnHKtwRERh03V4OPwbuN/zp/
- T1VUNny0hEmG4rS1ng9wWZm42eaf54t/YqKynOBTKzTyG+l5NxbIic5mCFJ4KUG5ZG3fxj
- R5yKBvoSBhQfx2XL01ly93Mi4xUnOcw=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-644-mLoJTbuCOJOtr8BnzFpJKQ-1; Tue, 09 May 2023 08:43:00 -0400
-X-MC-Unique: mLoJTbuCOJOtr8BnzFpJKQ-1
-Received: by mail-ed1-f69.google.com with SMTP id
- 4fb4d7f45d1cf-506beab6a73so6690587a12.1
- for <qemu-devel@nongnu.org>; Tue, 09 May 2023 05:42:59 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1pwMgp-0000ln-Nx
+ for qemu-devel@nongnu.org; Tue, 09 May 2023 08:43:35 -0400
+Received: from mail-lf1-x130.google.com ([2a00:1450:4864:20::130])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1pwMgn-0006lQ-T4
+ for qemu-devel@nongnu.org; Tue, 09 May 2023 08:43:35 -0400
+Received: by mail-lf1-x130.google.com with SMTP id
+ 2adb3069b0e04-4f11d267d8bso6512370e87.2
+ for <qemu-devel@nongnu.org>; Tue, 09 May 2023 05:43:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1683636212; x=1686228212;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=t4SSkMFeRI7vcsk/OuLYo/BkRGO+WCbZQgx5Hu0hptI=;
+ b=EytDEZHbtPpISjhugFAP/SRAKXLd9nZPYtovJ+5eFHpO9GB6dogmtE6HAJ609LW5eH
+ 3PZVSaiDT9bMMFKd8I14IcrzEkNVCxdLqH6R9yQvo6or/1NFbBL1LzSBFw6+Ng+7p74u
+ P0wiNnHBUG/Y83ZzYiK+iA6sDd5+L3DlndFF6ZMKxu1crUmdRgfNz4BBIUrDSDgGiXiH
+ NGKWCKtYrwBRDl6NDn+jnZBborUvpvuPyqaHJXbgUSzDG8wTyPp91RkB+T81XdbVwqT+
+ sLZMI0coE38f3e8vpCcw2+7A/X03Pv4cr981b11mjz5jSdjLiC3qHIRJovSnSzmja06a
+ voFQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683636179; x=1686228179;
- h=content-transfer-encoding:in-reply-to:references:to:from
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=oIxDtlfMpEooVwBFht+kv0kZoTHf6yz+viLM0CQ/XiM=;
- b=N4wJYyfvFeAk5RqYKGyczrq9zYHoFoVtB3Z/GSf+R6X1wBXPLSSd8hrSsTEEMyoaEH
- s/L3FHBk4cpFDJcmNxg24v1Yxiqa1/luvB7a4SGxShPHs0kn0naTIl2VZOEkB/mEXWe1
- 7J4+/R1zWIRXQ5mCTbbfUisDghTpzkQASd6bOtu1qF47CeU66OgS3BRsWSVYnWBA2wzL
- Q+489YjQkye2OOqOiLKKUAoqy9PGI5OmxLcIImNneabI32TJBSS3ANXONTNBNBHI0YvB
- nk1cAzPS+izQWj0Tcqs/XUMq80kDncKPfHsgW2XnfUKz/k8kg8XoHxW3kUpzF3SVgcQs
- Cz8Q==
-X-Gm-Message-State: AC+VfDx9+2J6HbVVsTYCVynfv8DE9ViOIVCg4uqROrNSZ+iA48uP0Aw9
- zF1lDuw3p7JJSg6VIYtxLMdju26H4B4VadcMnrE1jR9HjCiOoTHFquzU0jR3KYhBk8nCfEghV8Q
- dgjO/Z7GhMRA3fHc=
-X-Received: by 2002:a05:6402:14d3:b0:508:4120:202a with SMTP id
- f19-20020a05640214d300b005084120202amr11950933edx.10.1683636178883; 
- Tue, 09 May 2023 05:42:58 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ75h+G6wk16FyJbyNudBjakqgdbuRakWlWgAoDnQZkCqt7COqyBrasuFYv5hPvDlZ+X2bJxjA==
-X-Received: by 2002:a05:6402:14d3:b0:508:4120:202a with SMTP id
- f19-20020a05640214d300b005084120202amr11950919edx.10.1683636178498; 
- Tue, 09 May 2023 05:42:58 -0700 (PDT)
-Received: from ?IPV6:2003:cf:d738:7fbf:bf54:7947:8c4:60ed?
- (p200300cfd7387fbfbf54794708c460ed.dip0.t-ipconnect.de.
- [2003:cf:d738:7fbf:bf54:7947:8c4:60ed])
- by smtp.gmail.com with ESMTPSA id
- d4-20020aa7c1c4000000b00504a356b149sm718292edp.25.2023.05.09.05.42.57
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 09 May 2023 05:42:58 -0700 (PDT)
-Message-ID: <6fc90413-8f2b-f8e9-763d-83c87a605218@redhat.com>
-Date: Tue, 9 May 2023 14:42:57 +0200
+ d=1e100.net; s=20221208; t=1683636212; x=1686228212;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=t4SSkMFeRI7vcsk/OuLYo/BkRGO+WCbZQgx5Hu0hptI=;
+ b=bPmqsUmFOLpT7nAEl6FNGGAOi/IVYsiQJDAEJ7x38sD3fOGvqUJAPHZ3EN5AMmNpVI
+ 2QFKZhPIVrkMgdRVT1r2JGdZ1v9sNIKrW6YZslsHKKSZzecrtqyaC21jnq6sTONqGNNW
+ tXfMCu9k8AxrwqbZ9cjNa7sDYDSxe8PeRgGKpXpOEPU6dhl8L0NQK7vkDirxhPg7SSPi
+ raX4CTDKH6U8HN8TIQNrO0tMIoWBKHczl/DLWxO8TT5Al2eeRfmvMwOI6S8Bq9NFV36E
+ l2QPQQ4WT7Lgek9Z1oPJxilRVOlxSDGbEmhhJUyWK4dBw5dpyjVtd+2Kz6E0JYJmY9m9
+ 1J2w==
+X-Gm-Message-State: AC+VfDw7xEWj3+YRcIRtbpyrFtc2o/piMDldNm06Kiv/wCh+TIvFhEa8
+ 5QBfkUTkKAoCbRFr1yh3mbb05w+dwiqnEN00vDk=
+X-Google-Smtp-Source: ACHHUZ716yHThwDi+4tLGhm/z8ZwkRu5TlytIKSvQ9oNAdKPoOLN+WIlWLEtkQyEMuVrVhlTusebIbaNyNKkt22dxJY=
+X-Received: by 2002:ac2:4571:0:b0:4e8:61ea:509a with SMTP id
+ k17-20020ac24571000000b004e861ea509amr767101lfm.7.1683636211802; Tue, 09 May
+ 2023 05:43:31 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH 06/11] test-cutils: Add more coverage to qemu_strtosz
-Content-Language: en-US
-From: Hanna Czenczek <hreitz@redhat.com>
-To: Eric Blake <eblake@redhat.com>, qemu-devel@nongnu.org
-References: <20230508200343.791450-1-eblake@redhat.com>
- <20230508200343.791450-7-eblake@redhat.com>
- <a9216c0d-86df-410d-d32e-6d6fd65acc30@redhat.com>
-In-Reply-To: <a9216c0d-86df-410d-d32e-6d6fd65acc30@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=hreitz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -24
-X-Spam_score: -2.5
+References: <20230504191243.746-1-gurchetansingh@chromium.org>
+In-Reply-To: <20230504191243.746-1-gurchetansingh@chromium.org>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Tue, 9 May 2023 16:43:20 +0400
+Message-ID: <CAJ+F1CK+myw2n3bvT9Ys-heDr8W-CatJcroR=cPOpJUv_VDNwQ@mail.gmail.com>
+Subject: Re: [PATCH v3 0/5] virtio-gpu cleanups and obvious definitions
+To: Gurchetan Singh <gurchetansingh@chromium.org>
+Cc: qemu-devel@nongnu.org, philmd@linaro.org, kraxel@redhat.com, 
+ akihiko.odaki@gmail.com, dmitry.osipenko@collabora.com, ray.huang@amd.com, 
+ alex.bennee@linaro.org, shentey@gmail.com
+Content-Type: multipart/alternative; boundary="00000000000055e80805fb421a50"
+Received-SPF: pass client-ip=2a00:1450:4864:20::130;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-lf1-x130.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.421, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -103,76 +86,135 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 09.05.23 14:31, Hanna Czenczek wrote:
-> On 08.05.23 22:03, Eric Blake wrote:
->> Add some more strings that the user might send our way.  In
->> particular, some of these additions include FIXME comments showing
->> where our parser doesn't quite behave the way we want.
->>
->> Signed-off-by: Eric Blake <eblake@redhat.com>
->> ---
->>   tests/unit/test-cutils.c | 226 +++++++++++++++++++++++++++++++++++++--
->>   1 file changed, 215 insertions(+), 11 deletions(-)
+--00000000000055e80805fb421a50
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+Hi
+
+On Thu, May 4, 2023 at 11:13=E2=80=AFPM Gurchetan Singh <gurchetansingh@chr=
+omium.org>
+wrote:
+
+> From: Gurchetan Singh <gurchetansingh@google.com>
 >
-> I wonder: The plan is to have "1.5e+1k" be parsed as "1.5e" + endptr 
-> == "+1k"; but "0x1p1" is not parsed at all (could be "0x1" + "p1"). Is 
-> that fully intentional?
+> v3 of "virtio-gpu cleanups and obvious definitions"
 >
-> (Similarly, "1.1.k" is also not parsed at all, but the problem there 
-> is not just two decimal points, but also that "1.1" would be an 
-> invalid size in itself, so it really shouldn’t be parsed at all.)
+> https://lists.gnu.org/archive/html/qemu-devel/2023-04/msg05392.html
 >
-> I don’t think it matters to users, really, but I still wonder.
+> All patches have been reviewed, though there was a question from
+> Bernhard Beschow about patch (3) and how it fits with the QOM:
 >
->> diff --git a/tests/unit/test-cutils.c b/tests/unit/test-cutils.c
->> index afae2ee5331..9fa6fb042e8 100644
->> --- a/tests/unit/test-cutils.c
->> +++ b/tests/unit/test-cutils.c
+> https://lists.gnu.org/archive/html/qemu-devel/2023-05/msg00057.html
 >
-> [...]
+> I go into detail in patch 3 commit message, but I think we meet
+> the requirements (which are tricky/fuzzy anyways).  Also, I think
+> this is the cleanest way to add another 3D virtgpu backend.  But
+> if anyone has other ideas, please do reply/review.
 >
->> @@ -2875,6 +3056,20 @@ static void test_qemu_strtosz_trailing(void)
->>       err = qemu_strtosz(str, NULL, &res);
->>       g_assert_cmpint(err, ==, -EINVAL);
->>       g_assert_cmphex(res, ==, 0xbaadf00d);
->> +
->> +    /* FIXME overflow in fraction is buggy */
->> +    str = "1.5E999";
->> +    endptr = NULL;
->> +    res = 0xbaadf00d;
->> +    err = qemu_strtosz(str, &endptr, &res);
->> +    g_assert_cmpint(err, ==, 0);
->> +    g_assert_cmpuint(res, ==, EiB /* FIXME EiB * 1.5 */);
-
-So…  I have no idea what happens here but this always fails with 
-“assertion failed (res == EiB): (1 == 1152921504606846976)”.  But when I 
-replace the EiB by 1, it suddenly fails with “assertion failed (res == 
-1): (1152921504606846976 == 1)” instead.  Replacing the EiB by anything 
-but 1 also tells me that res is 1.
-
-Now, here’s the kicker.  I put an `fprintf(stderr, "res == %" PRIu64 
-"\n", res);` before this g_assert_cmpuint() (changed to (res, ==, 1))…  
-And it passes.
-
-Sometimes I really want to change professions.
-
-(Of note is that changing the g_assert() below into a g_assert_true() 
-also has g_assert_cmpuint(res, ==, 1) pass.)
-
->> +    g_assert(endptr == str + 9 /* FIXME + 4 */);
+> Antonio Caggiano (1):
+>   virtio-gpu: CONTEXT_INIT feature
 >
-> This is “correct” (i.e. it’s the value we’ll get right now, which is 
-> the wrong one), but gcc complains that the array index is out of 
-> bounds (well...), which breaks the build.
+> Dr. David Alan Gilbert (1):
+>   virtio: Add shared memory capability
+>
+> Gurchetan Singh (3):
+>   hw/display/virtio-gpu-virgl: virtio_gpu_gl -> virtio_gpu_virgl
+>   hw/display/virtio-gpu-virgl: make GL device more library agnostic
+>   hw/display/virtio-gpu-virgl: define callbacks in realize function
+>
+>  hw/display/virtio-gpu-base.c   |   3 +
+>  hw/display/virtio-gpu-gl.c     | 114 +--------------------------
+>  hw/display/virtio-gpu-virgl.c  | 137 +++++++++++++++++++++++++++++++--
+>  hw/virtio/virtio-pci.c         |  18 +++++
+>  include/hw/virtio/virtio-gpu.h |  11 +--
+>  include/hw/virtio/virtio-pci.h |   4 +
+>  6 files changed, 160 insertions(+), 127 deletions(-)
+>
+> --
+> 2.40.1.521.gf1e218fcd8-goog
+>
+>
+>
+This looks fine to me:
+Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 
-Oh, it also isn’t correct, I think it needs to be str + 8.  As a bonus, 
-the compiler doesn’t complain then (for some reason…?  it still seems 
-out of bounds).
+however, do you have a series rebased on top that makes use of those
+changes? (I think we may want to delay merging this one until it's actually
+needed)
 
-(Otherwise, to get around the complaint, I used 
-g_assert_cmphex((uintptr_t)endptr, ==, (uintptr_t)str + 8).  Which is 
-another thing, patch 1 explained to me that we shouldn’t use g_assert() :))
 
-Hanna
+--=20
+Marc-Andr=C3=A9 Lureau
 
+--00000000000055e80805fb421a50
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr">Hi<br></div><br><div class=3D"gmail_quote=
+"><div dir=3D"ltr" class=3D"gmail_attr">On Thu, May 4, 2023 at 11:13=E2=80=
+=AFPM Gurchetan Singh &lt;<a href=3D"mailto:gurchetansingh@chromium.org">gu=
+rchetansingh@chromium.org</a>&gt; wrote:<br></div><blockquote class=3D"gmai=
+l_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,20=
+4,204);padding-left:1ex">From: Gurchetan Singh &lt;<a href=3D"mailto:gurche=
+tansingh@google.com" target=3D"_blank">gurchetansingh@google.com</a>&gt;<br=
+>
+<br>
+v3 of &quot;virtio-gpu cleanups and obvious definitions&quot;<br>
+<br>
+<a href=3D"https://lists.gnu.org/archive/html/qemu-devel/2023-04/msg05392.h=
+tml" rel=3D"noreferrer" target=3D"_blank">https://lists.gnu.org/archive/htm=
+l/qemu-devel/2023-04/msg05392.html</a><br>
+<br>
+All patches have been reviewed, though there was a question from<br>
+Bernhard Beschow about patch (3) and how it fits with the QOM:<br>
+<br>
+<a href=3D"https://lists.gnu.org/archive/html/qemu-devel/2023-05/msg00057.h=
+tml" rel=3D"noreferrer" target=3D"_blank">https://lists.gnu.org/archive/htm=
+l/qemu-devel/2023-05/msg00057.html</a><br>
+<br>
+I go into detail in patch 3 commit message, but I think we meet<br>
+the requirements (which are tricky/fuzzy anyways).=C2=A0 Also, I think<br>
+this is the cleanest way to add another 3D virtgpu backend.=C2=A0 But<br>
+if anyone has other ideas, please do reply/review.<br>
+<br>
+Antonio Caggiano (1):<br>
+=C2=A0 virtio-gpu: CONTEXT_INIT feature<br>
+<br>
+Dr. David Alan Gilbert (1):<br>
+=C2=A0 virtio: Add shared memory capability<br>
+<br>
+Gurchetan Singh (3):<br>
+=C2=A0 hw/display/virtio-gpu-virgl: virtio_gpu_gl -&gt; virtio_gpu_virgl<br=
+>
+=C2=A0 hw/display/virtio-gpu-virgl: make GL device more library agnostic<br=
+>
+=C2=A0 hw/display/virtio-gpu-virgl: define callbacks in realize function<br=
+>
+<br>
+=C2=A0hw/display/virtio-gpu-base.c=C2=A0 =C2=A0|=C2=A0 =C2=A03 +<br>
+=C2=A0hw/display/virtio-gpu-gl.c=C2=A0 =C2=A0 =C2=A0| 114 +----------------=
+----------<br>
+=C2=A0hw/display/virtio-gpu-virgl.c=C2=A0 | 137 +++++++++++++++++++++++++++=
+++++--<br>
+=C2=A0hw/virtio/virtio-pci.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 18 ++=
++++<br>
+=C2=A0include/hw/virtio/virtio-gpu.h |=C2=A0 11 +--<br>
+=C2=A0include/hw/virtio/virtio-pci.h |=C2=A0 =C2=A04 +<br>
+=C2=A06 files changed, 160 insertions(+), 127 deletions(-)<br>
+<br>
+-- <br>
+2.40.1.521.gf1e218fcd8-goog<br>
+<br>
+<br>
+</blockquote></div><div><br></div><div>This looks fine to me:</div><div>Rev=
+iewed-by: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lureau@red=
+hat.com">marcandre.lureau@redhat.com</a>&gt;</div><div><br></div><div>howev=
+er, do you have a series rebased on top that makes use of those changes? (I=
+ think we may want to delay merging this one until it&#39;s actually needed=
+)</div><div><br></div><br><span class=3D"gmail_signature_prefix">-- </span>=
+<br><div dir=3D"ltr" class=3D"gmail_signature">Marc-Andr=C3=A9 Lureau<br></=
+div></div>
+
+--00000000000055e80805fb421a50--
 
