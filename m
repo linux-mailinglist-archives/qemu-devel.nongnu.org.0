@@ -2,86 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1DDD6FCD0C
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 May 2023 19:54:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BE566FCD0D
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 May 2023 19:55:20 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pwRWl-00047M-88; Tue, 09 May 2023 13:53:31 -0400
+	id 1pwRXt-0004lm-Rq; Tue, 09 May 2023 13:54:41 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gurchetansingh@chromium.org>)
- id 1pwRWj-000475-1n
- for qemu-devel@nongnu.org; Tue, 09 May 2023 13:53:29 -0400
-Received: from mail-ej1-x634.google.com ([2a00:1450:4864:20::634])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <gurchetansingh@chromium.org>)
- id 1pwRWg-0007x2-W3
- for qemu-devel@nongnu.org; Tue, 09 May 2023 13:53:28 -0400
-Received: by mail-ej1-x634.google.com with SMTP id
- a640c23a62f3a-956ff2399b1so1161943966b.3
- for <qemu-devel@nongnu.org>; Tue, 09 May 2023 10:53:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1683654804; x=1686246804;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=Eo0Zj9h5ft1LgkAp33nH/Es7FnZaylUJpYAGNuruPLA=;
- b=EikC22AN1OShbvsGtq6+i/CHCEcm9sp9h0FpGhA0RsNkkQxGpBlXDJqddsX2yOcH8K
- reWb2TxHIIX+BubrTwERFs1Zb2cM8+RzZaxxlIVK6bqi19b5ZPjJ4w4dAgbaXhzcpSG5
- rc2T7BpD6GRRPvBU5Kh2YTI5Gb9ONdLeLRiW0=
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1pwRXq-0004lI-Ju
+ for qemu-devel@nongnu.org; Tue, 09 May 2023 13:54:38 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1pwRXo-00083M-TG
+ for qemu-devel@nongnu.org; Tue, 09 May 2023 13:54:38 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1683654875;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=htAAoIOorxX9dywSuxYflalLwAotsxSpOXtfAKEkzz8=;
+ b=HkZe+tpwmrxAEuqXAvNCxxvw0EPtjWUukCeWYp4QipKkoQObNZNkKayE+LPn1QbkGpMdms
+ 4yvzA9JtErVCvrnR7IKdXzOFDi30TqaRbPVZObh55QQR56gqLJL7lwmbwFZUVvKN4MJ5lL
+ 0qz3Cqt+V+WoFIwwgj3fUWjaNlzgQaY=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-632--hyJP3SRM7eBIdAzb0Yimw-1; Tue, 09 May 2023 13:54:34 -0400
+X-MC-Unique: -hyJP3SRM7eBIdAzb0Yimw-1
+Received: by mail-ed1-f69.google.com with SMTP id
+ 4fb4d7f45d1cf-50d89279d95so7997504a12.1
+ for <qemu-devel@nongnu.org>; Tue, 09 May 2023 10:54:34 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683654804; x=1686246804;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=Eo0Zj9h5ft1LgkAp33nH/Es7FnZaylUJpYAGNuruPLA=;
- b=Tzvrh1dzE3mwyu6ZP+aPxCQ7and2sDSTZVHC0VCef+JwX0fOPqx5y4Y2ENIdrAyVD8
- XVIomYXHqJe1DynjRghzkq9tVHGfzQuN/qcyHXHB/nMocYKDvUOgm0v/DFCE6XeUUZwP
- IK98+6WKg8VSk9fyG/aJDoUU/HLHyKQMxjVAoZEYJP7Mki2YMVmF47YHMPjWBxvc9hF/
- w688vOxaC/kGh2rRip+BsY7rvrqV/uOs5n5fhQqcEbG42ddX1mJSyFW9+xxaEsy6Y0Sv
- Mpan8ffldrP1XhmF2hrvNe1Qv+Xy6qXT3poXzE1yaBIzYxRTjw/LrwZvNSxCaYOkPJYc
- q49g==
-X-Gm-Message-State: AC+VfDyYxPdmkuMxn313yrfS7MKxipngjw9SO94P5tUzS/AcJ3HvVI5V
- ZgiNuFJ2GO9Tty12txrHrKxuebb7sgVgvDRoFn0xHg==
-X-Google-Smtp-Source: ACHHUZ67gEiOGiknBj1JBy/Dso2i3ySwMJXgM5XtyqXiXUizzRbHrmZ9f6oAP+GAUTgZGjYrbs6dNg==
-X-Received: by 2002:a17:906:da87:b0:966:3c82:4a95 with SMTP id
- xh7-20020a170906da8700b009663c824a95mr9028525ejb.19.1683654804643; 
- Tue, 09 May 2023 10:53:24 -0700 (PDT)
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com.
- [209.85.208.44]) by smtp.gmail.com with ESMTPSA id
- gf25-20020a170906e21900b0094edfbd475csm1556761ejb.127.2023.05.09.10.53.24
- for <qemu-devel@nongnu.org>
+ d=1e100.net; s=20221208; t=1683654873; x=1686246873;
+ h=content-transfer-encoding:in-reply-to:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=htAAoIOorxX9dywSuxYflalLwAotsxSpOXtfAKEkzz8=;
+ b=h/F01uGTyHWVlGL0y1cwL6bPoGfQV5ShnRh7I9tCBTZYsEvonZVJRNI+PimCal4qQP
+ QaJ8mtGOJG1pXKCAA2/8VgURz/6p4PIQSgJ44FONK5GQqisCMtxEhbdRM974826RkMfM
+ dQTe0JgcRypJZnsIZwDimQH7wWxWtd/9hILKTgio2D6pexDPAQoDfoAXYPJqeBPd4GJn
+ 9QrqRWwwjsQbpNgSssD005NwjFgrHVfGiL0gPQbs6lsFOCCwW2Qti7SZNEFbbYcYzgHz
+ /fggEC6XeUdzNvjaATvR5rVGzMx7sW5K1vvat4CrTl+8zyMVABanL6VDFDKb9gXcSo/m
+ KCcw==
+X-Gm-Message-State: AC+VfDzdt219XU6D2Pbff8Icb7rBLCL/9g6KJ9AE1cU6okk7d+I5PtWi
+ ifSRxjPKqGeTeKGfXilG4S9q27OJcOfCWIhJyNYfX5LWv1vEGv9ScMaXSHi7O+U+sjcDshe/r18
+ ZnVINNYKmMtkrZkJWX7Rtzfc=
+X-Received: by 2002:aa7:ccc6:0:b0:50b:dfe2:91 with SMTP id
+ y6-20020aa7ccc6000000b0050bdfe20091mr12680156edt.7.1683654872786; 
+ Tue, 09 May 2023 10:54:32 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ51QdzVPcKarGL0rN8mrC3lQ0ZXFFyGfjqXVWDxZGGD+toxorIHI/ji4AndhuZPloLEvr9htA==
+X-Received: by 2002:aa7:ccc6:0:b0:50b:dfe2:91 with SMTP id
+ y6-20020aa7ccc6000000b0050bdfe20091mr12680143edt.7.1683654872418; 
+ Tue, 09 May 2023 10:54:32 -0700 (PDT)
+Received: from ?IPV6:2003:cf:d706:2e02:6e14:9279:969b:d328?
+ (p200300cfd7062e026e149279969bd328.dip0.t-ipconnect.de.
+ [2003:cf:d706:2e02:6e14:9279:969b:d328])
+ by smtp.gmail.com with ESMTPSA id
+ w17-20020aa7d291000000b0050c524253dasm1050312edq.20.2023.05.09.10.54.31
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 09 May 2023 10:53:24 -0700 (PDT)
-Received: by mail-ed1-f44.google.com with SMTP id
- 4fb4d7f45d1cf-50dba8a52dcso6603a12.0
- for <qemu-devel@nongnu.org>; Tue, 09 May 2023 10:53:24 -0700 (PDT)
-X-Received: by 2002:a05:6402:2744:b0:506:90c4:b63b with SMTP id
- z4-20020a056402274400b0050690c4b63bmr6139edd.4.1683654804020; Tue, 09 May
- 2023 10:53:24 -0700 (PDT)
+ Tue, 09 May 2023 10:54:31 -0700 (PDT)
+Message-ID: <40919a58-2bb2-f156-ddc0-49c117a8f031@redhat.com>
+Date: Tue, 9 May 2023 19:54:30 +0200
 MIME-Version: 1.0
-References: <20230504191243.746-1-gurchetansingh@chromium.org>
- <CAJ+F1CK+myw2n3bvT9Ys-heDr8W-CatJcroR=cPOpJUv_VDNwQ@mail.gmail.com>
-In-Reply-To: <CAJ+F1CK+myw2n3bvT9Ys-heDr8W-CatJcroR=cPOpJUv_VDNwQ@mail.gmail.com>
-From: Gurchetan Singh <gurchetansingh@chromium.org>
-Date: Tue, 9 May 2023 10:53:10 -0700
-X-Gmail-Original-Message-ID: <CAAfnVBnakdA+q=+GDv0gFxFrQHTutsw=C=rPYm8vSSsNwhg1ag@mail.gmail.com>
-Message-ID: <CAAfnVBnakdA+q=+GDv0gFxFrQHTutsw=C=rPYm8vSSsNwhg1ag@mail.gmail.com>
-Subject: Re: [PATCH v3 0/5] virtio-gpu cleanups and obvious definitions
-To: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Cc: qemu-devel@nongnu.org, philmd@linaro.org, kraxel@redhat.com, 
- akihiko.odaki@gmail.com, dmitry.osipenko@collabora.com, ray.huang@amd.com, 
- alex.bennee@linaro.org, shentey@gmail.com
-Content-Type: multipart/alternative; boundary="00000000000084e3cd05fb466ead"
-Received-SPF: pass client-ip=2a00:1450:4864:20::634;
- envelope-from=gurchetansingh@chromium.org; helo=mail-ej1-x634.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH 11/11] cutils: Improve qemu_strtosz handling of fractions
+Content-Language: en-US
+To: Eric Blake <eblake@redhat.com>, qemu-devel@nongnu.org
+References: <20230508200343.791450-1-eblake@redhat.com>
+ <20230508200343.791450-12-eblake@redhat.com>
+From: Hanna Czenczek <hreitz@redhat.com>
+In-Reply-To: <20230508200343.791450-12-eblake@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=hreitz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -24
+X-Spam_score: -2.5
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.421, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -97,170 +102,141 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
---00000000000084e3cd05fb466ead
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-On Tue, May 9, 2023 at 5:43=E2=80=AFAM Marc-Andr=C3=A9 Lureau <marcandre.lu=
-reau@gmail.com>
-wrote:
-
-> Hi
+On 08.05.23 22:03, Eric Blake wrote:
+> We have several limitations and bugs worth fixing; they are
+> inter-related enough that it is not worth splitting this patch into
+> smaller pieces:
 >
-> On Thu, May 4, 2023 at 11:13=E2=80=AFPM Gurchetan Singh <
-> gurchetansingh@chromium.org> wrote:
+> * ".5k" should work to specify 512, just as "0.5k" does
+> * "1.9999k" and "1." + "9"*50 + "k" should both produce the same
+>    result of 2048 after rounding
+> * "1." + "0"*350 + "1B" should not be treated the same as "1.0B";
+>    underflow in the fraction should not be lost
+> * "7.99e99" and "7.99e999" look similar, but our code was doing a
+>    read-out-of-bounds on the latter because it was not expecting ERANGE
+>    due to overflow. While we document that scientific notation is not
+>    supported, and the previous patch actually fixed
+>    qemu_strtod_finite() to no longer return ERANGE overflows, it is
+>    easier to pre-filter than to try and determine after the fact if
+>    strtod() consumed more than we wanted.  Note that this is a
+>    low-level semantic change (when endptr is not NULL, we can now
+>    successfully parse with a scale of 'E' and then report trailing
+>    junk, instead of failing outright with EINVAL); but an earlier
+>    commit already argued that this is not a high-level semantic change
+>    since the only caller passing in a non-NULL endptr also checks that
+>    the tail is whitespace-only.
 >
->> From: Gurchetan Singh <gurchetansingh@google.com>
->>
->> v3 of "virtio-gpu cleanups and obvious definitions"
->>
->> https://lists.gnu.org/archive/html/qemu-devel/2023-04/msg05392.html
->>
->> All patches have been reviewed, though there was a question from
->> Bernhard Beschow about patch (3) and how it fits with the QOM:
->>
->> https://lists.gnu.org/archive/html/qemu-devel/2023-05/msg00057.html
->>
->> I go into detail in patch 3 commit message, but I think we meet
->> the requirements (which are tricky/fuzzy anyways).  Also, I think
->> this is the cleanest way to add another 3D virtgpu backend.  But
->> if anyone has other ideas, please do reply/review.
->>
->> Antonio Caggiano (1):
->>   virtio-gpu: CONTEXT_INIT feature
->>
->> Dr. David Alan Gilbert (1):
->>   virtio: Add shared memory capability
->>
->> Gurchetan Singh (3):
->>   hw/display/virtio-gpu-virgl: virtio_gpu_gl -> virtio_gpu_virgl
->>   hw/display/virtio-gpu-virgl: make GL device more library agnostic
->>   hw/display/virtio-gpu-virgl: define callbacks in realize function
->>
->>  hw/display/virtio-gpu-base.c   |   3 +
->>  hw/display/virtio-gpu-gl.c     | 114 +--------------------------
->>  hw/display/virtio-gpu-virgl.c  | 137 +++++++++++++++++++++++++++++++--
->>  hw/virtio/virtio-pci.c         |  18 +++++
->>  include/hw/virtio/virtio-gpu.h |  11 +--
->>  include/hw/virtio/virtio-pci.h |   4 +
->>  6 files changed, 160 insertions(+), 127 deletions(-)
->>
->> --
->> 2.40.1.521.gf1e218fcd8-goog
->>
->>
->>
-> This looks fine to me:
-> Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
->
-> however, do you have a series rebased on top that makes use of those
-> changes? (I think we may want to delay merging this one until it's actual=
-ly
-> needed)
->
+> Fixes: https://gitlab.com/qemu-project/qemu/-/issues/1629
+> Signed-off-by: Eric Blake <eblake@redhat.com>
+> ---
+>   tests/unit/test-cutils.c | 51 +++++++++++------------
+>   util/cutils.c            | 89 ++++++++++++++++++++++++++++------------
+>   2 files changed, 88 insertions(+), 52 deletions(-)
 
-Got it.  Bernhard actually recommended a separate virtio-gpu-rutabaga
-device instead of virtio-gpu-gl.  I went with that approach:
+[...]
 
-https://lists.gnu.org/archive/html/qemu-devel/2023-05/msg01571.html
-https://gitlab.freedesktop.org/gurchetansingh/qemu-gfxstream/-/commits/qemu=
--gfxstream-3
+> diff --git a/util/cutils.c b/util/cutils.c
+> index 0e056a27a44..d1dfbc69d16 100644
+> --- a/util/cutils.c
+> +++ b/util/cutils.c
 
-I'll send out a new full-featured series once testing/hack cleanups are
-complete -- so no further action is needed on your part.
+[...]
 
+> @@ -246,27 +244,66 @@ static int do_strtosz(const char *nptr, const char **end,
+>               retval = -EINVAL;
+>               goto out;
+>           }
+> -    } else if (*endptr == '.') {
+> +    } else if (*endptr == '.' || (endptr == nptr && strchr(nptr, '.'))) {
 
+What case is there where we have a fraction but *endptr != '.'?
+
+>           /*
+>            * Input looks like a fraction.  Make sure even 1.k works
+> -         * without fractional digits.  If we see an exponent, treat
+> -         * the entire input as invalid instead.
+> +         * without fractional digits.  strtod tries to treat 'e' as an
+> +         * exponent, but we want to treat it as a scaling suffix;
+> +         * doing this requires modifying a copy of the fraction.
+>            */
+> -        double fraction;
+> +        double fraction = 0.0;
 >
->
-> --
-> Marc-Andr=C3=A9 Lureau
->
+> -        f = endptr;
+> -        retval = qemu_strtod_finite(f, &endptr, &fraction);
+> -        if (retval) {
+> +        if (retval == 0 && *endptr == '.' && !isdigit(endptr[1])) {
+> +            /* If we got here, we parsed at least one digit already. */
+>               endptr++;
+> -        } else if (memchr(f, 'e', endptr - f) || memchr(f, 'E', endptr - f)) {
+> -            endptr = nptr;
+> -            retval = -EINVAL;
+> -            goto out;
+>           } else {
+> -            /* Extract into a 64-bit fixed-point fraction. */
+> +            char *e;
+> +            const char *tail;
+> +            g_autofree char *copy = g_strdup(endptr);
+> +
+> +            e = strchr(copy, 'e');
+> +            if (e) {
+> +                *e = '\0';
+> +            }
+> +            e = strchr(copy, 'E');
+> +            if (e) {
+> +                *e = '\0';
+> +            }
+> +            /*
+> +             * If this is a floating point, we are guaranteed that '.'
+> +             * appears before any possible digits in copy.  If it is
+> +             * not a floating point, strtod will fail.  Either way,
+> +             * there is now no exponent in copy, so if it parses, we
+> +             * know 0.0 <= abs(result) <= 1.0 (after rounding), and
+> +             * ERANGE is only possible on underflow which is okay.
+> +             */
+> +            retval = qemu_strtod_finite(copy, &tail, &fraction);
+> +            endptr += tail - copy;
+> +        }
+> +
+> +        /* Extract into a 64-bit fixed-point fraction. */
+> +        if (fraction == 1.0) {
+> +            if (val == UINT64_MAX) {
+> +                retval = -ERANGE;
+> +                goto out;
+> +            }
+> +            val++;
+> +        } else if (retval == -ERANGE) {
+> +            /* See comments above about underflow */
+> +            valf = 1;
 
---00000000000084e3cd05fb466ead
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+It doesn’t really matter because even an EiB is just 2^60, and so 1 EiB 
+* 2^-64 (the resolution of our fractional part) is still less than 1, but:
 
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Tue, May 9, 2023 at 5:43=E2=80=AFA=
-M Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lureau@gmail.com">=
-marcandre.lureau@gmail.com</a>&gt; wrote:<br></div><blockquote class=3D"gma=
-il_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,2=
-04,204);padding-left:1ex"><div dir=3D"ltr"><div dir=3D"ltr">Hi<br></div><br=
-><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Thu, M=
-ay 4, 2023 at 11:13=E2=80=AFPM Gurchetan Singh &lt;<a href=3D"mailto:gurche=
-tansingh@chromium.org" target=3D"_blank">gurchetansingh@chromium.org</a>&gt=
-; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px=
- 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">From: G=
-urchetan Singh &lt;<a href=3D"mailto:gurchetansingh@google.com" target=3D"_=
-blank">gurchetansingh@google.com</a>&gt;<br>
-<br>
-v3 of &quot;virtio-gpu cleanups and obvious definitions&quot;<br>
-<br>
-<a href=3D"https://lists.gnu.org/archive/html/qemu-devel/2023-04/msg05392.h=
-tml" rel=3D"noreferrer" target=3D"_blank">https://lists.gnu.org/archive/htm=
-l/qemu-devel/2023-04/msg05392.html</a><br>
-<br>
-All patches have been reviewed, though there was a question from<br>
-Bernhard Beschow about patch (3) and how it fits with the QOM:<br>
-<br>
-<a href=3D"https://lists.gnu.org/archive/html/qemu-devel/2023-05/msg00057.h=
-tml" rel=3D"noreferrer" target=3D"_blank">https://lists.gnu.org/archive/htm=
-l/qemu-devel/2023-05/msg00057.html</a><br>
-<br>
-I go into detail in patch 3 commit message, but I think we meet<br>
-the requirements (which are tricky/fuzzy anyways).=C2=A0 Also, I think<br>
-this is the cleanest way to add another 3D virtgpu backend.=C2=A0 But<br>
-if anyone has other ideas, please do reply/review.<br>
-<br>
-Antonio Caggiano (1):<br>
-=C2=A0 virtio-gpu: CONTEXT_INIT feature<br>
-<br>
-Dr. David Alan Gilbert (1):<br>
-=C2=A0 virtio: Add shared memory capability<br>
-<br>
-Gurchetan Singh (3):<br>
-=C2=A0 hw/display/virtio-gpu-virgl: virtio_gpu_gl -&gt; virtio_gpu_virgl<br=
->
-=C2=A0 hw/display/virtio-gpu-virgl: make GL device more library agnostic<br=
->
-=C2=A0 hw/display/virtio-gpu-virgl: define callbacks in realize function<br=
->
-<br>
-=C2=A0hw/display/virtio-gpu-base.c=C2=A0 =C2=A0|=C2=A0 =C2=A03 +<br>
-=C2=A0hw/display/virtio-gpu-gl.c=C2=A0 =C2=A0 =C2=A0| 114 +----------------=
-----------<br>
-=C2=A0hw/display/virtio-gpu-virgl.c=C2=A0 | 137 +++++++++++++++++++++++++++=
-++++--<br>
-=C2=A0hw/virtio/virtio-pci.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 18 ++=
-+++<br>
-=C2=A0include/hw/virtio/virtio-gpu.h |=C2=A0 11 +--<br>
-=C2=A0include/hw/virtio/virtio-pci.h |=C2=A0 =C2=A04 +<br>
-=C2=A06 files changed, 160 insertions(+), 127 deletions(-)<br>
-<br>
--- <br>
-2.40.1.521.gf1e218fcd8-goog<br>
-<br>
-<br>
-</blockquote></div><div><br></div><div>This looks fine to me:</div><div>Rev=
-iewed-by: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lureau@red=
-hat.com" target=3D"_blank">marcandre.lureau@redhat.com</a>&gt;</div><div><b=
-r></div><div>however, do you have a series rebased on top that makes use of=
- those changes? (I think we may want to delay merging this one until it&#39=
-;s actually needed)</div></div></blockquote><div><br></div><div>Got it.=C2=
-=A0 Bernhard actually recommended a separate virtio-gpu-rutabaga device ins=
-tead of virtio-gpu-gl.=C2=A0 I went with that approach:</div><div><br></div=
-><div><a href=3D"https://lists.gnu.org/archive/html/qemu-devel/2023-05/msg0=
-1571.html">https://lists.gnu.org/archive/html/qemu-devel/2023-05/msg01571.h=
-tml</a></div><div><a href=3D"https://gitlab.freedesktop.org/gurchetansingh/=
-qemu-gfxstream/-/commits/qemu-gfxstream-3">https://gitlab.freedesktop.org/g=
-urchetansingh/qemu-gfxstream/-/commits/qemu-gfxstream-3</a><br></div><div><=
-br></div><div>I&#39;ll send out a new full-featured series once testing/hac=
-k cleanups are complete -- so no further action is needed on your part.</di=
-v><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0p=
-x 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><div d=
-ir=3D"ltr"><div><br></div><br><span>-- </span><br><div dir=3D"ltr">Marc-And=
-r=C3=A9 Lureau<br></div></div>
-</blockquote></div></div>
+DBL_MIN * 0x1p64 is 2^-(1022-64) == 2^-958, i.e. much less than 1, so 
+I’d set valf to 0 here.
 
---00000000000084e3cd05fb466ead--
+(If you put “.00000000000000000001” into this, there won’t be an 
+underflow, but the value is so small that valf ends up 0.  But if you 
+put `.$(yes 0 | head -n 307 | tr -d '\n')1` into this, there will be an 
+underflow, setting valf to 1, even though the value is smaller.)
+
+Hanna
+
+> +            retval = 0;
+> +        } else {
+>               valf = (uint64_t)(fraction * 0x1p64);
+>           }
+>       }
+> +    if (retval) {
+> +        goto out;
+> +    }
+> +    if (memchr(nptr, '-', endptr - nptr) != NULL) {
+> +        endptr = nptr;
+> +        retval = -EINVAL;
+> +        goto out;
+> +    }
+>       c = *endptr;
+>       mul = suffix_mul(c, unit);
+>       if (mul > 0) {
+
 
