@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A1086FC6F6
+	by mail.lfdr.de (Postfix) with ESMTPS id 10C746FC6F5
 	for <lists+qemu-devel@lfdr.de>; Tue,  9 May 2023 14:44:14 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pwMgr-0000mY-BC; Tue, 09 May 2023 08:43:37 -0400
+	id 1pwMhA-00016B-6N; Tue, 09 May 2023 08:43:56 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1pwMgp-0000ln-Nx
- for qemu-devel@nongnu.org; Tue, 09 May 2023 08:43:35 -0400
-Received: from mail-lf1-x130.google.com ([2a00:1450:4864:20::130])
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pwMh7-0000uT-Tp
+ for qemu-devel@nongnu.org; Tue, 09 May 2023 08:43:53 -0400
+Received: from mail-ed1-x52c.google.com ([2a00:1450:4864:20::52c])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1pwMgn-0006lQ-T4
- for qemu-devel@nongnu.org; Tue, 09 May 2023 08:43:35 -0400
-Received: by mail-lf1-x130.google.com with SMTP id
- 2adb3069b0e04-4f11d267d8bso6512370e87.2
- for <qemu-devel@nongnu.org>; Tue, 09 May 2023 05:43:33 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pwMh6-0006mU-5a
+ for qemu-devel@nongnu.org; Tue, 09 May 2023 08:43:53 -0400
+Received: by mail-ed1-x52c.google.com with SMTP id
+ 4fb4d7f45d1cf-50bc3088b7aso11308432a12.3
+ for <qemu-devel@nongnu.org>; Tue, 09 May 2023 05:43:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1683636212; x=1686228212;
+ d=linaro.org; s=google; t=1683636230; x=1686228230;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=t4SSkMFeRI7vcsk/OuLYo/BkRGO+WCbZQgx5Hu0hptI=;
- b=EytDEZHbtPpISjhugFAP/SRAKXLd9nZPYtovJ+5eFHpO9GB6dogmtE6HAJ609LW5eH
- 3PZVSaiDT9bMMFKd8I14IcrzEkNVCxdLqH6R9yQvo6or/1NFbBL1LzSBFw6+Ng+7p74u
- P0wiNnHBUG/Y83ZzYiK+iA6sDd5+L3DlndFF6ZMKxu1crUmdRgfNz4BBIUrDSDgGiXiH
- NGKWCKtYrwBRDl6NDn+jnZBborUvpvuPyqaHJXbgUSzDG8wTyPp91RkB+T81XdbVwqT+
- sLZMI0coE38f3e8vpCcw2+7A/X03Pv4cr981b11mjz5jSdjLiC3qHIRJovSnSzmja06a
- voFQ==
+ bh=Nk4TEHNOs90iwHkFOwbA6BuB3e1X3a2ozmlu8smgHQs=;
+ b=qnJZ55WYIB61+M9ppgaVHXvvY3UHcVELqGi9cX0SAtYIpGuIgn4aqlGfmQG+k34qOo
+ fYL0vGyC8cQ0bi/bcnEDcXaQWIPHEK7VwfsJzI+jlls1tz3KKiHeiARnzGQGEZAV6JW2
+ Aq5+z3unUNXuAIuTP38SCTEd0ekvYK6Fu6SrYLp3AT174jKns4XG7t3GOual5sLAmZ6i
+ ontFU4lQRW6THPiVv/Pl69SNwLfRvAbJu9Ipc3rOsevw4jTME31fCEza4U2jsZjFsguu
+ 9zd0jf2whlTOwN3lGqdRqTThxtGD/HkkjCJI8haZajinM5cd9J0zCb9Dch80/BAWRhLM
+ SoDQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683636212; x=1686228212;
+ d=1e100.net; s=20221208; t=1683636230; x=1686228230;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=t4SSkMFeRI7vcsk/OuLYo/BkRGO+WCbZQgx5Hu0hptI=;
- b=bPmqsUmFOLpT7nAEl6FNGGAOi/IVYsiQJDAEJ7x38sD3fOGvqUJAPHZ3EN5AMmNpVI
- 2QFKZhPIVrkMgdRVT1r2JGdZ1v9sNIKrW6YZslsHKKSZzecrtqyaC21jnq6sTONqGNNW
- tXfMCu9k8AxrwqbZ9cjNa7sDYDSxe8PeRgGKpXpOEPU6dhl8L0NQK7vkDirxhPg7SSPi
- raX4CTDKH6U8HN8TIQNrO0tMIoWBKHczl/DLWxO8TT5Al2eeRfmvMwOI6S8Bq9NFV36E
- l2QPQQ4WT7Lgek9Z1oPJxilRVOlxSDGbEmhhJUyWK4dBw5dpyjVtd+2Kz6E0JYJmY9m9
- 1J2w==
-X-Gm-Message-State: AC+VfDw7xEWj3+YRcIRtbpyrFtc2o/piMDldNm06Kiv/wCh+TIvFhEa8
- 5QBfkUTkKAoCbRFr1yh3mbb05w+dwiqnEN00vDk=
-X-Google-Smtp-Source: ACHHUZ716yHThwDi+4tLGhm/z8ZwkRu5TlytIKSvQ9oNAdKPoOLN+WIlWLEtkQyEMuVrVhlTusebIbaNyNKkt22dxJY=
-X-Received: by 2002:ac2:4571:0:b0:4e8:61ea:509a with SMTP id
- k17-20020ac24571000000b004e861ea509amr767101lfm.7.1683636211802; Tue, 09 May
- 2023 05:43:31 -0700 (PDT)
+ bh=Nk4TEHNOs90iwHkFOwbA6BuB3e1X3a2ozmlu8smgHQs=;
+ b=c5/cvlH/jINRWNFlhG+XFMPhT08z0PfqtbNJ/H3I8oZXExKb/1HcZUlzAeuRaBaLc7
+ VUl64T6BmN44vM0m7g3v930F5xUpQiC6pMow4JaQ4efOOzRxq1Ds+DrT5bz7owf3yF6r
+ 9kTvhSBY7ibVVvQ5l6XipMvtnCYYE6Hs6wYnULdj5i9wDbPcdVS7SCKTg0f5rvbyisah
+ qsvboXbUJb6Pn9M5Idg6GZiq8o7ol0s/yK8aRPNwa8LwJ3wxoy5hAboMNJ1j/+CFwADG
+ zYEQrRzfgF5jtuAzkeG/7QfUYq/nLVdoTAR+jMe/gqs4sIay85um85AEjOTVoOWqx4DO
+ R5og==
+X-Gm-Message-State: AC+VfDw7UFW9VjpFXRJc0lXPSfZPsymHk3LV54tAoXs5AxOC93+dcYRv
+ +fYCJjTItTNeWjnoDu2lqEkCWggmQk981YVjCE28bNFTJPCQccx9
+X-Google-Smtp-Source: ACHHUZ5QFuLFQaRBwzwrplJBHVmE3gokDvZG8KMu+1TXvylnPSdqgGOY3z9GI0lfurzhMxf7dFz75/PBz+Zt2GISRdE=
+X-Received: by 2002:a05:6402:1a48:b0:506:7385:9653 with SMTP id
+ bf8-20020a0564021a4800b0050673859653mr11540286edb.39.1683636230522; Tue, 09
+ May 2023 05:43:50 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230504191243.746-1-gurchetansingh@chromium.org>
-In-Reply-To: <20230504191243.746-1-gurchetansingh@chromium.org>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Tue, 9 May 2023 16:43:20 +0400
-Message-ID: <CAJ+F1CK+myw2n3bvT9Ys-heDr8W-CatJcroR=cPOpJUv_VDNwQ@mail.gmail.com>
-Subject: Re: [PATCH v3 0/5] virtio-gpu cleanups and obvious definitions
-To: Gurchetan Singh <gurchetansingh@chromium.org>
-Cc: qemu-devel@nongnu.org, philmd@linaro.org, kraxel@redhat.com, 
- akihiko.odaki@gmail.com, dmitry.osipenko@collabora.com, ray.huang@amd.com, 
- alex.bennee@linaro.org, shentey@gmail.com
-Content-Type: multipart/alternative; boundary="00000000000055e80805fb421a50"
-Received-SPF: pass client-ip=2a00:1450:4864:20::130;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-lf1-x130.google.com
+References: <CAP5Nno6LjKpvwmvFXoAo3bNpCSkVJTKe+ENxjGf8kt4ENAEMyg@mail.gmail.com>
+In-Reply-To: <CAP5Nno6LjKpvwmvFXoAo3bNpCSkVJTKe+ENxjGf8kt4ENAEMyg@mail.gmail.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 9 May 2023 13:43:39 +0100
+Message-ID: <CAFEAcA-qVPABh-B8D7Ds20NwT_zGq9t_za9xFR-x2mfNjUMuYg@mail.gmail.com>
+Subject: Re: [PATCH risu] --group option to allow all instructions in the
+ specified groups.
+To: Jun Sun <jsun@junsun.net>
+Cc: qemu-devel@nongnu.org,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::52c;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -86,135 +86,57 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
---00000000000055e80805fb421a50
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On Wed, 3 May 2023 at 17:35, Jun Sun <jsun@junsun.net> wrote:
+>
+>
+> Current semantic is a little strange when multiple --group options are specified.
+> In this case,  only instructions in *all* these groups (i.e., intersection) are used for
+> generation, which is not very useful at all.  This patch changes the semantic to
+> include all instructions in these groups (i.e., union) for sequence generation.
 
-Hi
+The commit message which added the --group option specifically
+documents a case where it is useful:
 
-On Thu, May 4, 2023 at 11:13=E2=80=AFPM Gurchetan Singh <gurchetansingh@chr=
-omium.org>
-wrote:
+      ./risugen --group v8.2,Cryptographic aarch64.risu v8.2-crypto.bin
 
-> From: Gurchetan Singh <gurchetansingh@google.com>
->
-> v3 of "virtio-gpu cleanups and obvious definitions"
->
-> https://lists.gnu.org/archive/html/qemu-devel/2023-04/msg05392.html
->
-> All patches have been reviewed, though there was a question from
-> Bernhard Beschow about patch (3) and how it fits with the QOM:
->
-> https://lists.gnu.org/archive/html/qemu-devel/2023-05/msg00057.html
->
-> I go into detail in patch 3 commit message, but I think we meet
-> the requirements (which are tricky/fuzzy anyways).  Also, I think
-> this is the cleanest way to add another 3D virtgpu backend.  But
-> if anyone has other ideas, please do reply/review.
->
-> Antonio Caggiano (1):
->   virtio-gpu: CONTEXT_INIT feature
->
-> Dr. David Alan Gilbert (1):
->   virtio: Add shared memory capability
->
-> Gurchetan Singh (3):
->   hw/display/virtio-gpu-virgl: virtio_gpu_gl -> virtio_gpu_virgl
->   hw/display/virtio-gpu-virgl: make GL device more library agnostic
->   hw/display/virtio-gpu-virgl: define callbacks in realize function
->
->  hw/display/virtio-gpu-base.c   |   3 +
->  hw/display/virtio-gpu-gl.c     | 114 +--------------------------
->  hw/display/virtio-gpu-virgl.c  | 137 +++++++++++++++++++++++++++++++--
->  hw/virtio/virtio-pci.c         |  18 +++++
->  include/hw/virtio/virtio-gpu.h |  11 +--
->  include/hw/virtio/virtio-pci.h |   4 +
->  6 files changed, 160 insertions(+), 127 deletions(-)
->
-> --
-> 2.40.1.521.gf1e218fcd8-goog
->
->
->
-This looks fine to me:
-Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+where you want to say "only test the v8.2 crypto insns"
+(i.e. not any crypto insns from other architecture versions,
+and not any non-crypto insns).
+Changing the semantics to union would break this.
 
-however, do you have a series rebased on top that makes use of those
-changes? (I think we may want to delay merging this one until it's actually
-needed)
+Being able to specify that you want insns from multiple
+groups seems like it would be useful, but we should add
+it in a way that doesn't break the existing uses.
 
+One idea that occurs to me is that you could allow
+multiple --group options to mean "union of these"
+and multiple groups within a --group to mean "intersection".
+So for instance
+ --group v8.2,Cryptographic --group v8_3_compnum
+would select all the insns that are
+   (v8.2 AND cryptographic) OR v8_3_compnum
 
---=20
-Marc-Andr=C3=A9 Lureau
+(This does technically break some existing commandlines
+because the current code makes "--group A --group B"
+do the same thing as "--group A,B".)
 
---00000000000055e80805fb421a50
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Alex, you added the --group option -- what do you think?
 
-<div dir=3D"ltr"><div dir=3D"ltr">Hi<br></div><br><div class=3D"gmail_quote=
-"><div dir=3D"ltr" class=3D"gmail_attr">On Thu, May 4, 2023 at 11:13=E2=80=
-=AFPM Gurchetan Singh &lt;<a href=3D"mailto:gurchetansingh@chromium.org">gu=
-rchetansingh@chromium.org</a>&gt; wrote:<br></div><blockquote class=3D"gmai=
-l_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,20=
-4,204);padding-left:1ex">From: Gurchetan Singh &lt;<a href=3D"mailto:gurche=
-tansingh@google.com" target=3D"_blank">gurchetansingh@google.com</a>&gt;<br=
+> diff --git a/risugen_arm.pm b/risugen_arm.pm
+> index 2dc144d..dc08ec0 100644
+> --- a/risugen_arm.pm
+> +++ b/risugen_arm.pm
+> @@ -1112,6 +1112,7 @@ sub write_test_code($$$$$$$$$)
+>      }
 >
-<br>
-v3 of &quot;virtio-gpu cleanups and obvious definitions&quot;<br>
-<br>
-<a href=3D"https://lists.gnu.org/archive/html/qemu-devel/2023-04/msg05392.h=
-tml" rel=3D"noreferrer" target=3D"_blank">https://lists.gnu.org/archive/htm=
-l/qemu-devel/2023-04/msg05392.html</a><br>
-<br>
-All patches have been reviewed, though there was a question from<br>
-Bernhard Beschow about patch (3) and how it fits with the QOM:<br>
-<br>
-<a href=3D"https://lists.gnu.org/archive/html/qemu-devel/2023-05/msg00057.h=
-tml" rel=3D"noreferrer" target=3D"_blank">https://lists.gnu.org/archive/htm=
-l/qemu-devel/2023-05/msg00057.html</a><br>
-<br>
-I go into detail in patch 3 commit message, but I think we meet<br>
-the requirements (which are tricky/fuzzy anyways).=C2=A0 Also, I think<br>
-this is the cleanest way to add another 3D virtgpu backend.=C2=A0 But<br>
-if anyone has other ideas, please do reply/review.<br>
-<br>
-Antonio Caggiano (1):<br>
-=C2=A0 virtio-gpu: CONTEXT_INIT feature<br>
-<br>
-Dr. David Alan Gilbert (1):<br>
-=C2=A0 virtio: Add shared memory capability<br>
-<br>
-Gurchetan Singh (3):<br>
-=C2=A0 hw/display/virtio-gpu-virgl: virtio_gpu_gl -&gt; virtio_gpu_virgl<br=
+>      print "Generating code using patterns: @keys...\n";
+> +    print "Total insn patterns : " . $#keys . "\n";
+>      progress_start(78, $numinsns);
 >
-=C2=A0 hw/display/virtio-gpu-virgl: make GL device more library agnostic<br=
->
-=C2=A0 hw/display/virtio-gpu-virgl: define callbacks in realize function<br=
->
-<br>
-=C2=A0hw/display/virtio-gpu-base.c=C2=A0 =C2=A0|=C2=A0 =C2=A03 +<br>
-=C2=A0hw/display/virtio-gpu-gl.c=C2=A0 =C2=A0 =C2=A0| 114 +----------------=
-----------<br>
-=C2=A0hw/display/virtio-gpu-virgl.c=C2=A0 | 137 +++++++++++++++++++++++++++=
-++++--<br>
-=C2=A0hw/virtio/virtio-pci.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 18 ++=
-+++<br>
-=C2=A0include/hw/virtio/virtio-gpu.h |=C2=A0 11 +--<br>
-=C2=A0include/hw/virtio/virtio-pci.h |=C2=A0 =C2=A04 +<br>
-=C2=A06 files changed, 160 insertions(+), 127 deletions(-)<br>
-<br>
--- <br>
-2.40.1.521.gf1e218fcd8-goog<br>
-<br>
-<br>
-</blockquote></div><div><br></div><div>This looks fine to me:</div><div>Rev=
-iewed-by: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lureau@red=
-hat.com">marcandre.lureau@redhat.com</a>&gt;</div><div><br></div><div>howev=
-er, do you have a series rebased on top that makes use of those changes? (I=
- think we may want to delay merging this one until it&#39;s actually needed=
-)</div><div><br></div><br><span class=3D"gmail_signature_prefix">-- </span>=
-<br><div dir=3D"ltr" class=3D"gmail_signature">Marc-Andr=C3=A9 Lureau<br></=
-div></div>
+>      if ($fp_enabled) {
 
---00000000000055e80805fb421a50--
+These changes seem unrelated to the --group option.
+
+thanks
+-- PMM
 
