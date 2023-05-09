@@ -2,71 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E63D6FC79F
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 May 2023 15:13:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E57BE6FC7A3
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 May 2023 15:15:03 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pwN9J-0001LA-L4; Tue, 09 May 2023 09:13:01 -0400
+	id 1pwNB2-0003w9-Q3; Tue, 09 May 2023 09:14:48 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pwN9G-0001J5-5X
- for qemu-devel@nongnu.org; Tue, 09 May 2023 09:12:58 -0400
-Received: from mail-ed1-x52f.google.com ([2a00:1450:4864:20::52f])
+ id 1pwNB0-0003va-OA
+ for qemu-devel@nongnu.org; Tue, 09 May 2023 09:14:46 -0400
+Received: from mail-ed1-x52e.google.com ([2a00:1450:4864:20::52e])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pwN9E-0005gm-MM
- for qemu-devel@nongnu.org; Tue, 09 May 2023 09:12:57 -0400
-Received: by mail-ed1-x52f.google.com with SMTP id
- 4fb4d7f45d1cf-50bc25f0c7dso10956530a12.3
- for <qemu-devel@nongnu.org>; Tue, 09 May 2023 06:12:56 -0700 (PDT)
+ id 1pwNAz-00065Q-1G
+ for qemu-devel@nongnu.org; Tue, 09 May 2023 09:14:46 -0400
+Received: by mail-ed1-x52e.google.com with SMTP id
+ 4fb4d7f45d1cf-50bc1612940so10983960a12.2
+ for <qemu-devel@nongnu.org>; Tue, 09 May 2023 06:14:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1683637975; x=1686229975;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=tOiQFatwQ447mPutCz8qrRS4iLU0wpnrxUxJDkF0KiY=;
- b=pcdvjj9xvHzdDWdRkvFMrj8GLvC4t7BO2TPirIDbG8taWNBeVk7Ip7OeW/JytHxIl7
- zMT1qbmw4LMHZ2Z+l7t9qxNVjaEo2g0VWinvfVm4eA/i3sLrARjcfhhLoRkkUHwUto/4
- w1m7vkALMyBpYZFqvBHL/VPRq+CG85FWE0iOicNQgVDJmlx/4ap7gAkheHZgMyw1Q2KS
- tu2ZRVEyl7PLRp4Q0AtvcT3i5vrhMSBGuCWSkxqDy7yrQpt2IoarxGhCiNI9cvjjtL5E
- R4j2Zhpj59K77DgDs+ozp/DqgHekTc0ug+PUVM4xCWfAPCwNwfW5bFTWKGXCOh0oZ5SW
- bO5A==
+ d=linaro.org; s=google; t=1683638083; x=1686230083;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=lJTLn0PX+cLxPGBhHyz4EBgRSKfqtlwrLA/4WgJIkbY=;
+ b=pr/fsjyzJR1beTDHMfKzBJIZKu37xxJfg5Pf+GV2J4Hs3fMpKB/QsilvHkqDA5W5A3
+ u1ezd7G8w0HZOScGu63xI3eyzbcu3IKI0HsV1KVaxT9iEJb/uhtJTzvVm7bByEaCZxZc
+ I6OOl8hAQOg006ljyNZ67pTmjaqTl4V2c+VoCRuvOOucUCMBhoZ3HYkCmn8aujIPfIUj
+ +uW2e9fRWVWohIZK6TXTlmi/T/pHm58kv1vf52qaDW19fhNM1VGy+jpP9DbevbINVd4z
+ xAcqDfnrTUGYuHkvhWZGyI+dQ452NP+mDyfcuPNJ1eiQj9dWC3L5e67dQ71lOe8CP0Rb
+ 57aQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683637975; x=1686229975;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=tOiQFatwQ447mPutCz8qrRS4iLU0wpnrxUxJDkF0KiY=;
- b=EJfAnnEHk7OmWX3BjmmtqClJxSCkQuAUSFFIW3kBLDVY7DaG+mCcX1KHUekhCIufBm
- ewDAREGlxg6fP7DfFkjxd1x5nRIi5ZHdjztwxADlSSNsYYdzqnnLfEhIOptXuEBN7Usb
- /wlUa8aSMzzfRzdRfLDHRM9uBTWdiu9YlNtxDA7N0Hv7CyCG/L2/W1nYBzC4IIAEovTQ
- VKP7bRT4MTTZXcJXJXQgjV2lFCHwFAQ2h/lVzSiaa0ooasCaDrRzcHor1zcnnHzD6fUW
- a6yQOC57iW50iR84ziP0ll8OWuHXVRRXivRdizzhZmB11m5hlrW/lNH0xb5pCGy4UWSr
- Y+9A==
-X-Gm-Message-State: AC+VfDyzBxm6MHGfd5T6xL4ZCyrCz4L17XqxJUyt8rtw9tYgCpa0yyn3
- 1PUP3RV4qfuYYbVYLOjcZfYSSIOAKNCf+G8heqBnjg==
-X-Google-Smtp-Source: ACHHUZ4NYDzCoy8SZ3ijb5HE17sLi94n7N7SisvMF1fYObKrvd9D9GHfOpUMQNtUsXuMz1DCM3eKilYs7wy6dGUra64=
-X-Received: by 2002:a05:6402:685:b0:50b:f7b2:79d0 with SMTP id
- f5-20020a056402068500b0050bf7b279d0mr11873761edy.31.1683637975144; Tue, 09
- May 2023 06:12:55 -0700 (PDT)
+ d=1e100.net; s=20221208; t=1683638083; x=1686230083;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=lJTLn0PX+cLxPGBhHyz4EBgRSKfqtlwrLA/4WgJIkbY=;
+ b=N9PmGG2STzU5I+jaR5xGwqm09SX9w1u3b2jT0tpyzHLViPnwZEjfYFl6xetk9rBqMa
+ UT9SqLR6cbmROC0xr/PU4XCGZdy0Ugn2SFH9Ht71Czur5zdj0Z2QhF6nMo7v+pb9KHFh
+ 883Mi2pZET9FQMbXUkMCQCZkxXXAM/TPd8KHUhmmYLnodvf/efrm55DDpIjUgihpAc9U
+ aq/+wDWbAs7Ziu2WZX37wq/ioOxUMsrUuPwDo3gcO+GguGoJfvEexGqwEGGZYFZDeqNx
+ /o46fnnUOnpm4NfhSQ66R+pcEmPEeriYBWcrqY58MofCbpuk+mlLgoDKXdxsCeJx7gTV
+ 7aDQ==
+X-Gm-Message-State: AC+VfDzG5ljO6wTmV6MxMSLQQ+zXAjLj3P1CojPihqpX75+jP++vr+dM
+ SXtguDdmojlKgOtXxq5uf3D75OjNUspjHr3L5sHVDg==
+X-Google-Smtp-Source: ACHHUZ7+uGGCktZtQ8EQaCRrE13AWDYzNtuqhS87Pie2etj2ZrYBu/Re11d1jvS0//uLN+6CyPRz17i21bmNlNvMG8w=
+X-Received: by 2002:a17:906:fe44:b0:969:faf3:7dba with SMTP id
+ wz4-20020a170906fe4400b00969faf37dbamr1246689ejb.52.1683638083200; Tue, 09
+ May 2023 06:14:43 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230506072333.32510-1-akihiko.odaki@daynix.com>
-In-Reply-To: <20230506072333.32510-1-akihiko.odaki@daynix.com>
+References: <20230505204049.352469-1-richard.henderson@linaro.org>
+In-Reply-To: <20230505204049.352469-1-richard.henderson@linaro.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 9 May 2023 14:12:44 +0100
-Message-ID: <CAFEAcA_2m8NyVMe_iBkFrfNZX8NkiBXBnZfqEbcUcT3GpHhwTw@mail.gmail.com>
-Subject: Re: [PATCH v2] MAINTAINERS: Update Akihiko Odaki's email address
-To: Akihiko Odaki <akihiko.odaki@daynix.com>
-Cc: Gerd Hoffmann <kraxel@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>, 
- qemu-devel@nongnu.org, Akihiko Odaki <akihiko.odaki@gmail.com>, 
- =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
+Date: Tue, 9 May 2023 14:14:32 +0100
+Message-ID: <CAFEAcA8+R1B3kDTU+5xiigAVA9QYVEeHxv+1F6MDEsvT+=0zig@mail.gmail.com>
+Subject: Re: [PATCH] accel/tcg: Fix atomic_mmu_lookup for reads
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: qemu-devel@nongnu.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::52f;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::52e;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,23 +84,25 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Sat, 6 May 2023 at 08:23, Akihiko Odaki <akihiko.odaki@daynix.com> wrote=
-:
+On Fri, 5 May 2023 at 21:40, Richard Henderson
+<richard.henderson@linaro.org> wrote:
 >
-> From: Akihiko Odaki <akihiko.odaki@gmail.com>
+> A copy-paste bug had us looking at the victim cache for writes.
 >
-> I am now employed by Daynix. Although my role as a reviewer of
-> macOS-related change is not very relevant to the employment, I decided
-> to use the company email address to avoid confusions from different
-> addresses.
->
-> Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
-> Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+> Reported-by: Peter Maydell <peter.maydell@linaro.org>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
-> V1 -> V2: This patch got missed so I rebased it and am resubmitting.
+>
+> To be inserted before patch 3 in
+>
+> https://lore.kernel.org/qemu-devel/45cba357-ba20-399a-27e6-5e99741179d0@linaro.org/T/#m5dc55cf04d564f4a8f97bc95e7f0e427c24a4f0b
+>
+> r~
 
-Oops, sorry about that. I'll take this via target-arm.next.
+Should we cc qemu-stable on this one?
 
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+
+thanks
 -- PMM
 
