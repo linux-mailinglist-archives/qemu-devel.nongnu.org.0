@@ -2,66 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DDDF6FC942
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 May 2023 16:41:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7746B6FC946
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 May 2023 16:41:22 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pwOW5-0006KL-Ud; Tue, 09 May 2023 10:40:37 -0400
+	id 1pwOWH-0006kN-42; Tue, 09 May 2023 10:40:49 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pwOW4-0006JL-0t
- for qemu-devel@nongnu.org; Tue, 09 May 2023 10:40:36 -0400
-Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e])
+ id 1pwOWB-0006Sj-Lb
+ for qemu-devel@nongnu.org; Tue, 09 May 2023 10:40:46 -0400
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pwOW0-0000hP-0J
- for qemu-devel@nongnu.org; Tue, 09 May 2023 10:40:34 -0400
-Received: by mail-wm1-x32e.google.com with SMTP id
- 5b1f17b1804b1-3f42bcf5df1so8136295e9.3
- for <qemu-devel@nongnu.org>; Tue, 09 May 2023 07:40:31 -0700 (PDT)
+ id 1pwOWA-0000iH-5y
+ for qemu-devel@nongnu.org; Tue, 09 May 2023 10:40:43 -0400
+Received: by mail-wr1-x42c.google.com with SMTP id
+ ffacd0b85a97d-306dbad5182so3820870f8f.1
+ for <qemu-devel@nongnu.org>; Tue, 09 May 2023 07:40:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1683643230; x=1686235230;
+ d=linaro.org; s=google; t=1683643238; x=1686235238;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=sNPlmCEXFQpje3H4hu0/8e2jihhR+IgU30AifxYCDVM=;
- b=qYqTexInUFPbwi2OQnroKXlJY/UTHXNa/TmHGcGnHe8LhLA2/hxYJOS5zXNFgx2RkB
- lrobwW7mLHRNJdOHXkBXbWZd9j+zg7Y5dFeSgoN6ab27wGuG37ztXQFpk35V2qGLT4XH
- NELC1HYKBAHCn8OTdFJFu8h0QGk8JO4Z7kvb8RjeHRTGXWmRQ4EYcUTxWYJbz27bvJ30
- epwSHe5EEHhnNO5JWIhf3od+sa04+4wCDQrrsjR+qDck9AJG0HOdxXGTola2wQsq5kVg
- 7eWtzb+HPtl4UEBgygLQa3b+QYWsKX8zehj7N/Nuf7LZHxkpdAHeeeAM+iryk/fq/ZuL
- rNPw==
+ bh=vCvRusGfcWdrz96aV7B9WcqfyYwNN+N/9pd6x/tT/xE=;
+ b=G/RvIxdcTSu/WB8gzqxA3LTifn5D42XRVVpbFebPinGxiGjX5ANxD+v12xVNN7Z8Mi
+ 3LmekJ9sSpAiK6eZJRQnoWkP3nImJJnpkdk8V0OU40J3n5OWP6De4TBJBPAi6CiDe5Jy
+ noZUcdmWQL6engtpyfEKIQ5EbSjFbDkFENa2es1nhBEftdxm3P+nVuUcfLaV1vk7uvPx
+ PB/x6lI2kL5Xtg8gaZtDcuCCKNZAVwALyS2Kef5GF9m1j9wl8spCvJIVA0Ola2mUeZHU
+ LvbPJjLoxDaCodAzzRbOuDzYBX+8ytIBCLV3T5qyzQKfkfT3D4NGVsrNrNKg8W5GiWh2
+ DlQQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683643230; x=1686235230;
+ d=1e100.net; s=20221208; t=1683643238; x=1686235238;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=sNPlmCEXFQpje3H4hu0/8e2jihhR+IgU30AifxYCDVM=;
- b=JjjOIMNPP5imwCT6GmLJmTDt2+NbgkVo0kOygzIDc13Hzzphp3lEvHvaJKq345qL4l
- xXvNYV7WBlgWcGBGrvVZiDfsZIGw9GAvdMeFZvxcoNhW8qmcSHmzFGqMDe02H3dHlsd1
- ShZxoI9Ji3gAxFlpAjq9JisPpYijcQDoWO6SAVNbSMtQGSkdlfl/W/tACZL9rBdifT2H
- cffMhnGEWhbNBQ/iLStaFnV8cmKGUCLWC67G1nMvRiI+iFz4/9TY/7j3Skq48r+Q484z
- RAwlIZ/q4SKmSuxYN4cW2t8e3Ik4h9I/GBMzqQx1HiCYdIxB8WVeyuS1kpxrKmLDZTCZ
- HAKQ==
-X-Gm-Message-State: AC+VfDzbUvz9Cxjkg/aB9uwGR5rpAjwCqZVLs9r51oEpJuGqrsjfps+S
- MC32yIkB3mt32IhrGCOkoWPyfg==
-X-Google-Smtp-Source: ACHHUZ5rcmDCY5zZwxhUxUEHiXBJdVKeYWsJ4ZQxafbGn13u1DkSz67M045/P6tRcnUg9yr+HP/l8A==
-X-Received: by 2002:adf:ff85:0:b0:307:92e8:ec60 with SMTP id
- j5-20020adfff85000000b0030792e8ec60mr5403503wrr.39.1683643230231; 
- Tue, 09 May 2023 07:40:30 -0700 (PDT)
+ bh=vCvRusGfcWdrz96aV7B9WcqfyYwNN+N/9pd6x/tT/xE=;
+ b=fxnpO+M74wc/S1VQeT2PG2QBx2Vm3F5NBjO7KpJh5FvxabCPTujIASAaSxIfv66Shw
+ FTiGLutpxejiEgLtRmyzIf+mbCB+MGoL4F4yzS1Bkdfa9gCQ34eHBjv1mK8P7+T14MLO
+ XHYE/rtkAp6TB7OHFiGzv8gQibRkVbpvPv1JfKWmHaARtEnwcWDUi0tPgOGlZ7u9zbr9
+ J9ZZU6g9X3JyuXmGSSXaz5gdZpuoGyZwbBgQR7wfyL7SZkn/2sX1A10gMKZTcTYu7tF7
+ AN6CSgXGS7rHUPSywwNYajOp96WElH8YH3Mw/nDd2yw4f7Ey96L4xZ19Xwipz3p3zBNF
+ HJCg==
+X-Gm-Message-State: AC+VfDzRSQLbEgjYWTiligPOTBGDUPsLssLlZvSUKyH49GTcdvTVfrzu
+ q9bJLf8dTX7JCS/fcTDkcn6VEw==
+X-Google-Smtp-Source: ACHHUZ54nhTBKiY0pKdSAQILSqyS/76klJMztLlj9TMdFufaReiRCcjH5IZSqZoJ5d1sTusCmGe2XA==
+X-Received: by 2002:a05:6000:d2:b0:306:3afd:ed8f with SMTP id
+ q18-20020a05600000d200b003063afded8fmr9389943wrx.25.1683643238476; 
+ Tue, 09 May 2023 07:40:38 -0700 (PDT)
 Received: from [192.168.11.23] ([85.9.250.243])
  by smtp.gmail.com with ESMTPSA id
- p1-20020a5d4581000000b0030639a86f9dsm14489880wrq.51.2023.05.09.07.40.29
+ a15-20020adff7cf000000b002f6176cc6desm14614071wrq.110.2023.05.09.07.40.37
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 09 May 2023 07:40:29 -0700 (PDT)
-Message-ID: <38880262-7702-7653-ec79-791019b7fd88@linaro.org>
-Date: Tue, 9 May 2023 15:40:28 +0100
+ Tue, 09 May 2023 07:40:38 -0700 (PDT)
+Message-ID: <44d12192-6083-1064-1871-8e8ca6c76034@linaro.org>
+Date: Tue, 9 May 2023 15:40:36 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.10.0
-Subject: Re: [PATCH v3 1/3] target/arm: Select SEMIHOSTING when using TCG
+Subject: Re: [PATCH v3 2/3] target/arm: Select CONFIG_ARM_V7M when TCG is
+ enabled
 Content-Language: en-US
 To: Fabiano Rosas <farosas@suse.de>, qemu-devel@nongnu.org
 Cc: qemu-arm@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
@@ -69,13 +70,13 @@ Cc: qemu-arm@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
  =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
  Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>
 References: <20230508181611.2621-1-farosas@suse.de>
- <20230508181611.2621-2-farosas@suse.de>
+ <20230508181611.2621-3-farosas@suse.de>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20230508181611.2621-2-farosas@suse.de>
+In-Reply-To: <20230508181611.2621-3-farosas@suse.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
- envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x32e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x42c.google.com
 X-Spam_score_int: -24
 X-Spam_score: -2.5
 X-Spam_bar: --
@@ -99,17 +100,22 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On 5/8/23 19:16, Fabiano Rosas wrote:
-> Semihosting has been made a 'default y' entry in Kconfig, which does
-> not work because when building --without-default-devices, the
-> semihosting code would not be available.
+> We cannot allow this config to be disabled at the moment as not all of
+> the relevant code is protected by it.
 > 
-> Make semihosting unconditional when TCG is present.
+> Commit 29d9efca16 ("arm/Kconfig: Do not build TCG-only boards on a
+> KVM-only build") moved the CONFIGs of several boards to Kconfig, so it
+> is now possible that nothing selects ARM_V7M (e.g. when doing a
+> --without-default-devices build).
+> 
+> Return the CONFIG_ARM_V7M entry to a state where it is always selected
+> whenever TCG is available.
 > 
 > Fixes: 29d9efca16 ("arm/Kconfig: Do not build TCG-only boards on a KVM-only build")
 > Signed-off-by: Fabiano Rosas<farosas@suse.de>
 > ---
->   target/arm/Kconfig | 8 +-------
->   1 file changed, 1 insertion(+), 7 deletions(-)
+>   target/arm/Kconfig | 1 +
+>   1 file changed, 1 insertion(+)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
