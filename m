@@ -2,73 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10C746FC6F5
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 May 2023 14:44:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 282F66FC71F
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 May 2023 14:53:55 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pwMhA-00016B-6N; Tue, 09 May 2023 08:43:56 -0400
+	id 1pwMpV-0005tn-Ni; Tue, 09 May 2023 08:52:33 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pwMh7-0000uT-Tp
- for qemu-devel@nongnu.org; Tue, 09 May 2023 08:43:53 -0400
-Received: from mail-ed1-x52c.google.com ([2a00:1450:4864:20::52c])
+ (Exim 4.90_1) (envelope-from <pizhenwei@bytedance.com>)
+ id 1pwMpQ-0005tV-5Z
+ for qemu-devel@nongnu.org; Tue, 09 May 2023 08:52:28 -0400
+Received: from mail-pl1-x630.google.com ([2607:f8b0:4864:20::630])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pwMh6-0006mU-5a
- for qemu-devel@nongnu.org; Tue, 09 May 2023 08:43:53 -0400
-Received: by mail-ed1-x52c.google.com with SMTP id
- 4fb4d7f45d1cf-50bc3088b7aso11308432a12.3
- for <qemu-devel@nongnu.org>; Tue, 09 May 2023 05:43:51 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <pizhenwei@bytedance.com>)
+ id 1pwMpM-00010O-Ri
+ for qemu-devel@nongnu.org; Tue, 09 May 2023 08:52:27 -0400
+Received: by mail-pl1-x630.google.com with SMTP id
+ d9443c01a7336-1aaf706768cso44448495ad.0
+ for <qemu-devel@nongnu.org>; Tue, 09 May 2023 05:52:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1683636230; x=1686228230;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=Nk4TEHNOs90iwHkFOwbA6BuB3e1X3a2ozmlu8smgHQs=;
- b=qnJZ55WYIB61+M9ppgaVHXvvY3UHcVELqGi9cX0SAtYIpGuIgn4aqlGfmQG+k34qOo
- fYL0vGyC8cQ0bi/bcnEDcXaQWIPHEK7VwfsJzI+jlls1tz3KKiHeiARnzGQGEZAV6JW2
- Aq5+z3unUNXuAIuTP38SCTEd0ekvYK6Fu6SrYLp3AT174jKns4XG7t3GOual5sLAmZ6i
- ontFU4lQRW6THPiVv/Pl69SNwLfRvAbJu9Ipc3rOsevw4jTME31fCEza4U2jsZjFsguu
- 9zd0jf2whlTOwN3lGqdRqTThxtGD/HkkjCJI8haZajinM5cd9J0zCb9Dch80/BAWRhLM
- SoDQ==
+ d=bytedance.com; s=google; t=1683636740; x=1686228740;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=I7s8o5EEDmJ2uvUic8000AIZXZjFrkt/6VNUDVkNpWM=;
+ b=kljUYj+C3OF/btYKzpS8exuMCKDZUyCSBK4g11ECGExZM5RTBdIv+vxLdN3bp6YFFv
+ ebtjnjReyzibnlGaH+2NqMy8GOx3KE+pKTs7BWXD20hbF5OHnbwfZehaO8w8FgxOcGpY
+ 79t7UoNITrrasx2dX6tNXyTYtZUlouDthpXjd+iR79p0LzZc9UGpV4Aoc2QSr2UJqpWF
+ IxCpBXBADqPz+zHz/NizoigwCRM+svQC9IdmhJFM7ZF6Rpqelhj4TJMWD1upAGkehA7i
+ h5u/52N/5DVcfcLMePTtIVYDu9Du3cL0H9S5mUAtJB/6WQ2Qh4uNzvSXygGlmLx9lNdk
+ 2OrA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683636230; x=1686228230;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=Nk4TEHNOs90iwHkFOwbA6BuB3e1X3a2ozmlu8smgHQs=;
- b=c5/cvlH/jINRWNFlhG+XFMPhT08z0PfqtbNJ/H3I8oZXExKb/1HcZUlzAeuRaBaLc7
- VUl64T6BmN44vM0m7g3v930F5xUpQiC6pMow4JaQ4efOOzRxq1Ds+DrT5bz7owf3yF6r
- 9kTvhSBY7ibVVvQ5l6XipMvtnCYYE6Hs6wYnULdj5i9wDbPcdVS7SCKTg0f5rvbyisah
- qsvboXbUJb6Pn9M5Idg6GZiq8o7ol0s/yK8aRPNwa8LwJ3wxoy5hAboMNJ1j/+CFwADG
- zYEQrRzfgF5jtuAzkeG/7QfUYq/nLVdoTAR+jMe/gqs4sIay85um85AEjOTVoOWqx4DO
- R5og==
-X-Gm-Message-State: AC+VfDw7UFW9VjpFXRJc0lXPSfZPsymHk3LV54tAoXs5AxOC93+dcYRv
- +fYCJjTItTNeWjnoDu2lqEkCWggmQk981YVjCE28bNFTJPCQccx9
-X-Google-Smtp-Source: ACHHUZ5QFuLFQaRBwzwrplJBHVmE3gokDvZG8KMu+1TXvylnPSdqgGOY3z9GI0lfurzhMxf7dFz75/PBz+Zt2GISRdE=
-X-Received: by 2002:a05:6402:1a48:b0:506:7385:9653 with SMTP id
- bf8-20020a0564021a4800b0050673859653mr11540286edb.39.1683636230522; Tue, 09
- May 2023 05:43:50 -0700 (PDT)
+ d=1e100.net; s=20221208; t=1683636740; x=1686228740;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=I7s8o5EEDmJ2uvUic8000AIZXZjFrkt/6VNUDVkNpWM=;
+ b=jpElK45xko6bhYcmgSCcogP3bbN4rk+iu+So4IEX5bU7yODRZlHR5gGy+XwOafB4Mw
+ 0KP8lATQHAFc6O0jk+YVm8NEnm/hQgR0b4pHLM8zPjH/qqqTAO1sC+lfNHpkCb7mZ1Bh
+ Zxxo7XEFL7/Zv9D8rQEh8fwjALOU7uahhijA39Y/sQ4Dou51ohq6UtkGl2Czl1wl9w9g
+ URnSyL0I6SSyftos9p6ygbWYAzuV264yWn08PsNLl2DjgLWboMAb5gJQJYYdRUjsIeZP
+ 7sYvvA3HKMD3DrN2KYpRhfufKFR54TXaAGTwctvg09XQiXlQ3FQNwQAp+h3lSNMTqdqv
+ 7DQg==
+X-Gm-Message-State: AC+VfDxg94/gxPlkAcqY0EfpJN/X+RpLc6ojcy+wViGeEHyMsbzCht+Q
+ 9xUdweFCekVjyVkCiIQmfHGgIg==
+X-Google-Smtp-Source: ACHHUZ61h1pqAKzjVAQZxE2g/rG8rqlQtlWIfYxQ5fzstgGA+S/ZZTtbbOX+Hga5ZfqpShIiKAK75g==
+X-Received: by 2002:a17:902:d4d0:b0:1ab:c4e:de87 with SMTP id
+ o16-20020a170902d4d000b001ab0c4ede87mr15960346plg.10.1683636739987; 
+ Tue, 09 May 2023 05:52:19 -0700 (PDT)
+Received: from [10.4.210.50] ([139.177.225.245])
+ by smtp.gmail.com with ESMTPSA id
+ bd8-20020a170902830800b001a967558656sm1482679plb.42.2023.05.09.05.52.17
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 09 May 2023 05:52:19 -0700 (PDT)
+Message-ID: <20b5cb57-aa5f-452d-2c51-0d1751931b49@bytedance.com>
+Date: Tue, 9 May 2023 20:52:15 +0800
 MIME-Version: 1.0
-References: <CAP5Nno6LjKpvwmvFXoAo3bNpCSkVJTKe+ENxjGf8kt4ENAEMyg@mail.gmail.com>
-In-Reply-To: <CAP5Nno6LjKpvwmvFXoAo3bNpCSkVJTKe+ENxjGf8kt4ENAEMyg@mail.gmail.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 9 May 2023 13:43:39 +0100
-Message-ID: <CAFEAcA-qVPABh-B8D7Ds20NwT_zGq9t_za9xFR-x2mfNjUMuYg@mail.gmail.com>
-Subject: Re: [PATCH risu] --group option to allow all instructions in the
- specified groups.
-To: Jun Sun <jsun@junsun.net>
-Cc: qemu-devel@nongnu.org,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::52c;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52c.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH v2] virtio-crypto: fix NULL pointer dereference in
+ virtio_crypto_free_request
+To: Mauro Matteo Cascella <mcascell@redhat.com>, qemu-devel@nongnu.org
+Cc: mst@redhat.com, arei.gonglei@huawei.com, taoym@zju.edu.cn
+References: <20230509075317.1132301-1-mcascell@redhat.com>
+Content-Language: en-US
+From: zhenwei pi <pizhenwei@bytedance.com>
+In-Reply-To: <20230509075317.1132301-1-mcascell@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::630;
+ envelope-from=pizhenwei@bytedance.com; helo=mail-pl1-x630.google.com
+X-Spam_score_int: -24
+X-Spam_score: -2.5
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.421,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -86,57 +95,55 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, 3 May 2023 at 17:35, Jun Sun <jsun@junsun.net> wrote:
->
->
-> Current semantic is a little strange when multiple --group options are specified.
-> In this case,  only instructions in *all* these groups (i.e., intersection) are used for
-> generation, which is not very useful at all.  This patch changes the semantic to
-> include all instructions in these groups (i.e., union) for sequence generation.
+LGTM. Thanks!
 
-The commit message which added the --group option specifically
-documents a case where it is useful:
+Reviewed-by: zhenwei pi<pizhenwei@bytedance.com>
 
-      ./risugen --group v8.2,Cryptographic aarch64.risu v8.2-crypto.bin
+On 5/9/23 15:53, Mauro Matteo Cascella wrote:
+> Ensure op_info is not NULL in case of QCRYPTODEV_BACKEND_ALG_SYM algtype.
+> 
+> Fixes: 0e660a6f90a ("crypto: Introduce RSA algorithm")
+> Signed-off-by: Mauro Matteo Cascella <mcascell@redhat.com>
+> Reported-by: Yiming Tao <taoym@zju.edu.cn>
+> ---
+> v2:
+> - updated 'Fixes:' tag
+> 
+>   hw/virtio/virtio-crypto.c | 20 +++++++++++---------
+>   1 file changed, 11 insertions(+), 9 deletions(-)
+> 
+> diff --git a/hw/virtio/virtio-crypto.c b/hw/virtio/virtio-crypto.c
+> index 2fe804510f..c729a1f79e 100644
+> --- a/hw/virtio/virtio-crypto.c
+> +++ b/hw/virtio/virtio-crypto.c
+> @@ -476,15 +476,17 @@ static void virtio_crypto_free_request(VirtIOCryptoReq *req)
+>           size_t max_len;
+>           CryptoDevBackendSymOpInfo *op_info = req->op_info.u.sym_op_info;
+>   
+> -        max_len = op_info->iv_len +
+> -                  op_info->aad_len +
+> -                  op_info->src_len +
+> -                  op_info->dst_len +
+> -                  op_info->digest_result_len;
+> -
+> -        /* Zeroize and free request data structure */
+> -        memset(op_info, 0, sizeof(*op_info) + max_len);
+> -        g_free(op_info);
+> +        if (op_info) {
+> +            max_len = op_info->iv_len +
+> +                      op_info->aad_len +
+> +                      op_info->src_len +
+> +                      op_info->dst_len +
+> +                      op_info->digest_result_len;
+> +
+> +            /* Zeroize and free request data structure */
+> +            memset(op_info, 0, sizeof(*op_info) + max_len);
+> +            g_free(op_info);
+> +        }
+>       } else if (req->flags == QCRYPTODEV_BACKEND_ALG_ASYM) {
+>           CryptoDevBackendAsymOpInfo *op_info = req->op_info.u.asym_op_info;
+>           if (op_info) {
 
-where you want to say "only test the v8.2 crypto insns"
-(i.e. not any crypto insns from other architecture versions,
-and not any non-crypto insns).
-Changing the semantics to union would break this.
-
-Being able to specify that you want insns from multiple
-groups seems like it would be useful, but we should add
-it in a way that doesn't break the existing uses.
-
-One idea that occurs to me is that you could allow
-multiple --group options to mean "union of these"
-and multiple groups within a --group to mean "intersection".
-So for instance
- --group v8.2,Cryptographic --group v8_3_compnum
-would select all the insns that are
-   (v8.2 AND cryptographic) OR v8_3_compnum
-
-(This does technically break some existing commandlines
-because the current code makes "--group A --group B"
-do the same thing as "--group A,B".)
-
-Alex, you added the --group option -- what do you think?
-
-> diff --git a/risugen_arm.pm b/risugen_arm.pm
-> index 2dc144d..dc08ec0 100644
-> --- a/risugen_arm.pm
-> +++ b/risugen_arm.pm
-> @@ -1112,6 +1112,7 @@ sub write_test_code($$$$$$$$$)
->      }
->
->      print "Generating code using patterns: @keys...\n";
-> +    print "Total insn patterns : " . $#keys . "\n";
->      progress_start(78, $numinsns);
->
->      if ($fp_enabled) {
-
-These changes seem unrelated to the --group option.
-
-thanks
--- PMM
+-- 
+zhenwei pi
 
