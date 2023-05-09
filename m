@@ -2,117 +2,133 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 404666FC3DF
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 May 2023 12:28:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 229DA6FC3E8
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 May 2023 12:32:00 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pwKa4-0004kj-TI; Tue, 09 May 2023 06:28:28 -0400
+	id 1pwKdG-0006J4-8g; Tue, 09 May 2023 06:31:46 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <harshpb@linux.ibm.com>)
- id 1pwKZx-0004iI-EZ; Tue, 09 May 2023 06:28:21 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
+ (Exim 4.90_1) (envelope-from <ayan.kumar.halder@amd.com>)
+ id 1pwKdC-0006IJ-Rg; Tue, 09 May 2023 06:31:42 -0400
+Received: from mail-bn8nam11on20601.outbound.protection.outlook.com
+ ([2a01:111:f400:7eae::601]
+ helo=NAM11-BN8-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <harshpb@linux.ibm.com>)
- id 1pwKZt-0004J5-EP; Tue, 09 May 2023 06:28:20 -0400
-Received: from pps.filterd (m0353723.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 349A9l1m002972; Tue, 9 May 2023 10:27:54 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=2HDhjFuVd6JIEM5+7+/4YS1TxdF9g4FJM0zuKESeZqk=;
- b=J8u0r0P1dcTmJlDHZ+md+rVMg5oIPyZbfDYp0yYWlZt6eYx9/5xaqAIQishnZK3JKoHn
- vvTMuDWZJEgonj31Njl4D8myeNjS30CstL85xyH52wozyNinGMuqw8AyoYDVp8JPNIZP
- 9MR164YfjHPrfo+G9CVHh+voMErLq2HjTnUGA96roQq5T6PXMAJgaEmdcun9NramQWx5
- ZgUFtLuIn8qfGh8+szMMKa0CJJE19k/ROoGrL8HOmZo+DW1FkqpDYfO3bc0MYHmIq+vr
- +qXefKegYUokIPn9ApQTCUyCVL7GTTX042tFlDt+Hkm/Stcw8DdD8hLLqN2nh6iUk4Ia og== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3qfeqn2fmn-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 09 May 2023 10:27:53 +0000
-Received: from m0353723.ppops.net (m0353723.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 349AB6vT009011;
- Tue, 9 May 2023 10:27:52 GMT
-Received: from ppma05wdc.us.ibm.com (1b.90.2fa9.ip4.static.sl-reverse.com
- [169.47.144.27])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3qfeqn2fm8-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 09 May 2023 10:27:52 +0000
-Received: from pps.filterd (ppma05wdc.us.ibm.com [127.0.0.1])
- by ppma05wdc.us.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 3499YQvs002580;
- Tue, 9 May 2023 10:27:51 GMT
-Received: from smtprelay05.dal12v.mail.ibm.com ([9.208.130.101])
- by ppma05wdc.us.ibm.com (PPS) with ESMTPS id 3qf88u2tc2-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 09 May 2023 10:27:51 +0000
-Received: from smtpav02.wdc07v.mail.ibm.com (smtpav02.wdc07v.mail.ibm.com
- [10.39.53.229])
- by smtprelay05.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 349ARoU75833354
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 9 May 2023 10:27:50 GMT
-Received: from smtpav02.wdc07v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id E01FF58058;
- Tue,  9 May 2023 10:27:49 +0000 (GMT)
-Received: from smtpav02.wdc07v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 7557A58059;
- Tue,  9 May 2023 10:27:41 +0000 (GMT)
-Received: from [9.109.242.129] (unknown [9.109.242.129])
- by smtpav02.wdc07v.mail.ibm.com (Postfix) with ESMTP;
- Tue,  9 May 2023 10:27:41 +0000 (GMT)
-Message-ID: <303c2198-c7a5-0f3c-496b-eed7b931e51a@linux.ibm.com>
-Date: Tue, 9 May 2023 15:57:40 +0530
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH 10/21] migration: Move rate_limit_max and rate_limit_used
- to migration_stats
-Content-Language: en-US
-To: Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org
-Cc: Daniel Henrique Barboza <danielhb413@gmail.com>,
- Christian Borntraeger <borntraeger@linux.ibm.com>,
- David Hildenbrand <david@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, qemu-block@nongnu.org,
- Eric Blake <eblake@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
- John Snow <jsnow@redhat.com>, Halil Pasic <pasic@linux.ibm.com>,
- Peter Xu <peterx@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- David Gibson <david@gibson.dropbear.id.au>,
- Eric Farman <farman@linux.ibm.com>, Greg Kurz <groug@kaod.org>,
- qemu-ppc@nongnu.org, qemu-s390x@nongnu.org, Fam Zheng <fam@euphon.net>,
- Thomas Huth <thuth@redhat.com>, =?UTF-8?Q?C=c3=a9dric_Le_Goater?=
- <clg@kaod.org>, Leonardo Bras <leobras@redhat.com>,
- Ilya Leoshkevich <iii@linux.ibm.com>
-References: <20230508130909.65420-1-quintela@redhat.com>
- <20230508130909.65420-11-quintela@redhat.com>
-From: Harsh Prateek Bora <harshpb@linux.ibm.com>
-In-Reply-To: <20230508130909.65420-11-quintela@redhat.com>
+ (Exim 4.90_1) (envelope-from <ayan.kumar.halder@amd.com>)
+ id 1pwKdA-0004wk-6u; Tue, 09 May 2023 06:31:42 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=O0CmnJ8RfR7S7v63L1ye2RrGOZWYYvMlb6hWLa8Vhgm3K9Me7rWAAmKLdRK6HEDzAAmmr0FAEFPQePDzkscuXrmhSTrzicUnsH9q1NfkMIBwO7IO7e6I14u4WqMqLHO7ChkhkR43cWF2wxfHJWDOvRrnK7OR7M9KLiUWYzjUb3lb9R7PDo6S1D8CTOxmBYod3kHGNXc3ogzE2aUsWnrOW3q/AQUGBGTC+Yj5/EKHfSQ2ba5k7a/2myygDP2l223wIykDdkeJktkJd4IdvDBzXxe0Y1N/f8NEQ9HTN3QJEQ2zHWQN03zY8cOfoWRu/Gy83Mm1TQaP7yQJJA7pcy+nSg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=optCiWEqV3Q7H4m2jf8VGxOZLl1GOW5NcPrXGEWDq7Q=;
+ b=ilQNcCzFZcni+HX7rNtihbeBKHKUnBow+OKUYXKm1PQeRxtCkNbs3GIIx6WPgoBM06tzi2CVp/2oueEOqIcy/Oac/U4LWbi8OrvUfJkPpWPHxKdalQ3vw0ZLa+odRE/IxnwLlYMINRveBBpngoRI0yINzGUu0oGRLueqGkV64xlnrHOnK5BrVLa9NpOeDJFHjLedufKd8rpccwCbUrEPDdazVpeu7UvVfa8DjQh8TZDnWsziaCD503rMTkWYBH8jBjVvliQ1T3PI5weVf8Cfgvql//ZSBUHP0MN53aFCnFgukhy1rXWuDZxuI1C2EKE8EFmKXlaXpnwps9wfK8K0xQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=optCiWEqV3Q7H4m2jf8VGxOZLl1GOW5NcPrXGEWDq7Q=;
+ b=qYFNk+cHAr3pG6cxEhA6C4oxDhP48qBEa1hPT4nEcL0F2/GfeAPDP7sB4SmNpEsN8mdOKwS9XrCmBqy0HOx3pMTt1bKiQsM/yDOegFovDLKgoGHFkjuftBSFLQNpcu+1MfdAD/fTQ+JXVdQ7CweYScUPvrKvejy9XOSDT15zme0=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from SN6PR12MB2621.namprd12.prod.outlook.com (2603:10b6:805:73::15)
+ by SN7PR12MB6838.namprd12.prod.outlook.com (2603:10b6:806:266::18)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6363.32; Tue, 9 May
+ 2023 10:31:34 +0000
+Received: from SN6PR12MB2621.namprd12.prod.outlook.com
+ ([fe80::ef8d:bf8a:d296:ec2c]) by SN6PR12MB2621.namprd12.prod.outlook.com
+ ([fe80::ef8d:bf8a:d296:ec2c%7]) with mapi id 15.20.6363.033; Tue, 9 May 2023
+ 10:31:34 +0000
+Message-ID: <1d148c52-1ac5-3694-4ffc-bac632a7bbfb@amd.com>
+Date: Tue, 9 May 2023 11:31:28 +0100
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.10.1
+Subject: Re: Cortex-R52 support in Qemu
+To: =?UTF-8?Q?Tobias_R=c3=b6hmel?= <tobias.roehmel@rwth-aachen.de>,
+ peter.maydell@linaro.org
+Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org,
+ "Stabellini, Stefano" <stefano.stabellini@amd.com>
+References: <a1c45644-90d9-0fd2-c87b-f43f16b7e407@amd.com>
+ <28bfa9ad-f8dd-d195-ec66-fbd2d78d170c@rwth-aachen.de>
+From: Ayan Kumar Halder <ayankuma@amd.com>
+In-Reply-To: <28bfa9ad-f8dd-d195-ec66-fbd2d78d170c@rwth-aachen.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: lenQlakTjRKXjJFzZB364Im66z5qTsbx
-X-Proofpoint-GUID: Dr6bci077FVWbWdypKsuD9xT0sFnxjlt
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-05-09_06,2023-05-05_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0
- priorityscore=1501 malwarescore=0 bulkscore=0 suspectscore=0
- lowpriorityscore=0 phishscore=0 spamscore=0 mlxscore=0 impostorscore=0
- clxscore=1011 mlxlogscore=999 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2304280000 definitions=main-2305090079
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=harshpb@linux.ibm.com;
- helo=mx0b-001b2d01.pphosted.com
-X-Spam_score_int: -37
-X-Spam_score: -3.8
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: LO4P123CA0036.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:600:151::23) To SN6PR12MB2621.namprd12.prod.outlook.com
+ (2603:10b6:805:73::15)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SN6PR12MB2621:EE_|SN7PR12MB6838:EE_
+X-MS-Office365-Filtering-Correlation-Id: 946691fb-975f-4304-84b7-08db50788fd9
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: qP0D6OI4PwzgHpKVOYL0ZLaoFnK16Q7M9Vix5Agw52OMIQr3LPC4/DGezWk7uGnVnJleK/VI5m0FinqEYSqhklRGbnUW6MxI0zwVu6vcnb3nckHePNpqxZHBrhHjGvMtFhWzOGy9KONpmaLCl5tWVuqAiGPeg01na1waij64lWxNTWAM7G/9Ha2Ua+mt+VrWxnVaBcutyGrtuT0KJx7CiqlnIvJuBsWz0JV3CooCujeSUal5BNsWr+F3S97pj/cBEl6TTIYyJYaLrguDOhdi0E4lsbymIDpOHrwFQng3n/Hym8KqSbtPVA7+YYZVC4SmdiLSoZhlxs9eEoOCJ4e/4s+uIpq8mWywRg+aULamfQ5HhtVRHCAlj7V9hQnhnTBqhcebUnaC1f/7HjWvB/Mg5v9mikpQIaC8zMbhl7iWcb9HAq1tWQiqm+LhZZ2iFYn8j01QnYFF2sAjxYOVvJhYd+Qtbjy+J5lV0uXEa07NmjdGoVeoYnUURYw2UEBKylNQq+0a/az72jZ4BWWz9jGxOAeij7Mv9CXmBpIPKqrbe7D5J+dQXl9KveEj4iKoGrh0WPpbrSVC6TzTbCmMcYwf7zUTlJ7mlYP5iszJAuGvf9sUUKUb3rzJQZzoNMePcBTKUmfZER6IyNspl1lAXfD9Iw==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SN6PR12MB2621.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230028)(4636009)(376002)(366004)(396003)(136003)(39860400002)(346002)(451199021)(31686004)(966005)(66556008)(4326008)(316002)(478600001)(66946007)(6486002)(66476007)(36756003)(31696002)(66574015)(83380400001)(26005)(2616005)(53546011)(6506007)(6512007)(6666004)(2906002)(5660300002)(41300700001)(8936002)(8676002)(38100700002)(186003)(45980500001)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?c0FoUFJQR2hYUUZNZjdvRWFnSU9kOFRreHpvL20zQ2hpZ2RTbFJKd2lzd1No?=
+ =?utf-8?B?SHhVcXNOOU0wUE9wcUN3YmFVSnZ3QTJtOWdkRVd5WnhpTzc1bWNTUDNvU2pr?=
+ =?utf-8?B?S2V2MzZEZXpSOXRRZStuTzNLK2FUSS91YURhZVZHcm9sMjVibG1DWVBoejEx?=
+ =?utf-8?B?SDQ1V25taXpsZHFUdEJGS2FpbUFKU2FUWnErSU9TN1FKV3hLakVFOU9JTENi?=
+ =?utf-8?B?NXZDSHNZTTBubFJ0Sll1MDRPYzFpdkM3TjlzSlZ4c2Q4Vjdpc2EwOGRUUjZy?=
+ =?utf-8?B?SXBxaG90ZWFuN0puWDMzeXdFcEZ6eHdnTG9WTjVpdkVNbFFtRityUHo1V1hh?=
+ =?utf-8?B?SnpuUksydHpjZmFHN2l2dnRaTEt1Qmg3L1NVdGVmSy9kUWtVbnZJSzVrNHB3?=
+ =?utf-8?B?VDhaNWtMSHYzc0k4WlpVVGRIQ0Zad3A2am5sWCtYOW4wZCt6bUl5WjBWa1Ar?=
+ =?utf-8?B?Z3RQQlFWTTlWSnprY284bWl5cWNqanVVNkdBUEg1TWVNWm4vK2JkREpoem1V?=
+ =?utf-8?B?OENOMUtnd2tJSGtwOHVNamJmR05GVDhra1VVVEF5aWpYYkhPUEFjWWkvTUhC?=
+ =?utf-8?B?eGtydlpQVGdyRVMraWxCb2NCWFRPaVIraDdCVlNtYjJIMDRpMzFUUkVvWkd2?=
+ =?utf-8?B?djBGSzYycktRQkUzRDdpTVBKdWRaV0o2MWljbFlweEk0emxhS1E5bFlraE82?=
+ =?utf-8?B?cnBMUE82MFZmMkJIc2p6VHBTV28waFd0Ni9kM0FYb3lZckkwTFZEc01xTmIw?=
+ =?utf-8?B?N0ZzMUJGa0xrM0pDQ3h4ZVduelhHcjB1SXNvUG93VnhVaTRKRWNnbmk1WVVs?=
+ =?utf-8?B?NE9qeGlJODBXTTlkVVJwZ2VIUCtNZ1lWbkUrdlZwTmhYbjNDd1ZaaU9qVXRC?=
+ =?utf-8?B?bFErTnZmQ1JTMHpOMERFWmRCd3U1REM1SWhWNHRCbUZuNnBKZ1NCRW0welZv?=
+ =?utf-8?B?SkxyaFBLMDVzLzY5bGR1djc1Q0dqZThNUzBSQUQzTzNQZGxIeHlhTFlwUmVi?=
+ =?utf-8?B?RHZTdmVZTUlxMWRJVDZiL2JiY1FXazBtaXpZUzA5UXU5ektZVEs4R0U3djdG?=
+ =?utf-8?B?WlNVQWhOendYdzdlS2VLUFBLOHZ6V01UKys1ZWFZZ1ZlaGthQWpMWUdxVEJz?=
+ =?utf-8?B?ZE1mdGttanUyOTBRejBBUldVc3hLUEZITFVyNlVOeHoxd2s0YllYYXJxMmQw?=
+ =?utf-8?B?QnFxdmNkdDY0MG15QU1GR3Bncmkyc1lDd1c4cVlVTG9uc3RpT3lBem84SmRX?=
+ =?utf-8?B?YXF5WXcxRUFsZHJYRnFNWEdvQVlPMm03dERwQUExYmZqc0ZoLzFTNXlwNlJn?=
+ =?utf-8?B?aFZNc05hQ1J3MFppZmVSbmdsUnFwUmVYcGdGQWxBdjlEYWNaWktYdU1zZ0sw?=
+ =?utf-8?B?dTNuTHNOL2liSUdnc2lIMEQrbytITkw0NlJvOGFaUndWUExWQ1crVTI5cExU?=
+ =?utf-8?B?L0l4azdYYjlRL2xRZE13dDlxNGhRalpZd0lQMHVuWGpRNGlQbjM2VmlNOXZK?=
+ =?utf-8?B?WWRMVW9SUkhDK2dXSGZ3S0VOT2pYUjZkMHJhdEFOZWE3anVVZS9sT1NsVHF3?=
+ =?utf-8?B?L1E4eTc0Zy9BVzgxaHlpY0xxODBHbHh5enlsQ0Vhb0k2aENHK1RvdHMwcTJ4?=
+ =?utf-8?B?aWlFeDJlNUhhYkY3aHR0Q2dsV2M4ZWozUmg2WVVhZDFtbTg5Y1RLOExlVTZq?=
+ =?utf-8?B?RVpINExJZTZxdENqOTArRkpWR1pRdHhuNUNrZ3I5S1ZaQ0FvZTVDZGtiQ0c5?=
+ =?utf-8?B?Wi9kSjFPVExvaHBqbkN1S00weDJlY3VtZ3l2SldYMm4yT0laRS9jbFBRY3Zq?=
+ =?utf-8?B?SXZONmVxSUFURjdaTTZyaGcxaXQ1WDl0SWVCWEV6V0U1RHErS2xPMEt4M3Vu?=
+ =?utf-8?B?S1dnYW1qSGpzSkpiUHZYc0NaZG0rSlBOQXdqbzBLQlFlekVGd0o3YjU1WG9s?=
+ =?utf-8?B?bit6bGlKWWxiNENmQWJ1VmpXZGpncjZMSUhlSDY2Nm9VL3dWR3NHS05kZFUy?=
+ =?utf-8?B?QUxiVnF3V3k1U2pIR3dnd2JERytndG9JMXRkUE55MGpidEVhVjZUV2pNOEYy?=
+ =?utf-8?B?UjRNczZxTE5QOWF0SGV4QnVjbnhyNlBQeEdyKzltc1loanlveVJ6dHdwK08r?=
+ =?utf-8?Q?9addtzkWnUK0JHpfMOj58rXzT?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 946691fb-975f-4304-84b7-08db50788fd9
+X-MS-Exchange-CrossTenant-AuthSource: SN6PR12MB2621.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 May 2023 10:31:34.7320 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 4JvrULn95oJ3rUHERWMKe90duQxKJvIb5d9+xwItuN8Q6PKgtyN0TEHtvQVsfNgqMBq+wzvenOpIQM0Z9vC4QQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB6838
+Received-SPF: softfail client-ip=2a01:111:f400:7eae::601;
+ envelope-from=ayan.kumar.halder@amd.com;
+ helo=NAM11-BN8-obe.outbound.protection.outlook.com
+X-Spam_score_int: -38
+X-Spam_score: -3.9
 X-Spam_bar: ---
-X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.802,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-3.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.802,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -130,508 +146,50 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 
+On 05/05/2023 15:15, Tobias Röhmel wrote:
+> Hi Ayan,
+Hi Tobias,
+>
+> as far as I know, there is no board/SoC that uses the Cortex-R52 in 
+> Qemu right now. If you want, I can try to find the one that I used
+> during development. I was able to run Zephyr in Qemu with that code.
+Appreciate your pointers. If you can tell me the steps to run Zephyr in 
+Qemu with R52, this will be really helpful.
+>
+> Best regards,
+> Tobias
 
-On 5/8/23 18:38, Juan Quintela wrote:
-> This way we can make them atomic and use this functions from any
+- Kind regards,
 
-s/this/these
+Ayan
 
-> place.  I also moved all functions that use rate_limit to
-> migration-stats.
-> 
-> Functions got renamed, they are not qemu_file anymore.
-> 
-> qemu_file_rate_limit -> migration_rate_limit_exceeded
-> qemu_file_set_rate_limit -> migration_rate_limit_set
-> qemu_file_get_rate_limit -> migration_rate_limit_get
-> qemu_file_reset_rate_limit -> migration_rate_limit_reset
-> qemu_file_acct_rate_limit -> migration_rate_limit_account.
-> 
-> Signed-off-by: Juan Quintela <quintela@redhat.com>
-> 
-> ---
-> 
-> If you have any good suggestion for better names, I am all ears.
-> ---
->   hw/ppc/spapr.c                      |  5 +--
->   hw/s390x/s390-stattrib.c            |  2 +-
->   include/migration/qemu-file-types.h |  2 +-
->   migration/block-dirty-bitmap.c      |  2 +-
->   migration/block.c                   |  5 +--
->   migration/migration-stats.c         | 41 ++++++++++++++++++++++
->   migration/migration-stats.h         | 42 +++++++++++++++++++++++
->   migration/migration.c               | 14 ++++----
->   migration/multifd.c                 |  2 +-
->   migration/options.c                 |  7 ++--
->   migration/qemu-file.c               | 53 ++---------------------------
->   migration/qemu-file.h               | 11 ------
->   migration/ram.c                     |  2 +-
->   migration/savevm.c                  |  2 +-
->   14 files changed, 108 insertions(+), 82 deletions(-)
-> 
-> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-> index ddc9c7b1a1..dbd2753278 100644
-> --- a/hw/ppc/spapr.c
-> +++ b/hw/ppc/spapr.c
-> @@ -2166,7 +2166,7 @@ static void htab_save_first_pass(QEMUFile *f, SpaprMachineState *spapr,
->                   break;
->               }
->           }
-> -    } while ((index < htabslots) && !qemu_file_rate_limit(f));
-> +    } while ((index < htabslots) && !migration_rate_limit_exceeded(f));
->   
->       if (index >= htabslots) {
->           assert(index == htabslots);
-> @@ -2237,7 +2237,8 @@ static int htab_save_later_pass(QEMUFile *f, SpaprMachineState *spapr,
->               assert(index == htabslots);
->               index = 0;
->           }
-> -    } while ((examined < htabslots) && (!qemu_file_rate_limit(f) || final));
-> +    } while ((examined < htabslots) &&
-> +             (!migration_rate_limit_exceeded(f) || final));
->   
->       if (index >= htabslots) {
->           assert(index == htabslots);
-> diff --git a/hw/s390x/s390-stattrib.c b/hw/s390x/s390-stattrib.c
-> index aed919ad7d..fb0a20f2e1 100644
-> --- a/hw/s390x/s390-stattrib.c
-> +++ b/hw/s390x/s390-stattrib.c
-> @@ -209,7 +209,7 @@ static int cmma_save(QEMUFile *f, void *opaque, int final)
->           return -ENOMEM;
->       }
->   
-> -    while (final ? 1 : qemu_file_rate_limit(f) == 0) {
-> +    while (final ? 1 : migration_rate_limit_exceeded(f) == 0) {
-        while (final ? 1 : !migration_rate_limit_exceeded(f)) {
->           reallen = sac->get_stattr(sas, &start_gfn, buflen, buf);
->           if (reallen < 0) {
->               g_free(buf);
-> diff --git a/include/migration/qemu-file-types.h b/include/migration/qemu-file-types.h
-> index 1436f9ce92..0354f45198 100644
-> --- a/include/migration/qemu-file-types.h
-> +++ b/include/migration/qemu-file-types.h
-> @@ -165,6 +165,6 @@ size_t coroutine_mixed_fn qemu_get_counted_string(QEMUFile *f, char buf[256]);
->   
->   void qemu_put_counted_string(QEMUFile *f, const char *name);
->   
-> -int qemu_file_rate_limit(QEMUFile *f);
-> +bool migration_rate_limit_exceeded(QEMUFile *f);
-> return type is also getting changed, could be mentioned in commit log.
-
->   #endif
-> diff --git a/migration/block-dirty-bitmap.c b/migration/block-dirty-bitmap.c
-> index 20f36e6bd8..a815678926 100644
-> --- a/migration/block-dirty-bitmap.c
-> +++ b/migration/block-dirty-bitmap.c
-> @@ -706,7 +706,7 @@ static void bulk_phase(QEMUFile *f, DBMSaveState *s, bool limit)
->       QSIMPLEQ_FOREACH(dbms, &s->dbms_list, entry) {
->           while (!dbms->bulk_completed) {
->               bulk_phase_send_chunk(f, s, dbms);
-> -            if (limit && qemu_file_rate_limit(f)) {
-> +            if (limit && migration_rate_limit_exceeded(f)) {
->                   return;
->               }
->           }
-> diff --git a/migration/block.c b/migration/block.c
-> index 12617b4152..fc1caa9ca6 100644
-> --- a/migration/block.c
-> +++ b/migration/block.c
-> @@ -23,6 +23,7 @@
->   #include "block/dirty-bitmap.h"
->   #include "migration/misc.h"
->   #include "migration.h"
-> +#include "migration-stats.h"
->   #include "migration/register.h"
->   #include "qemu-file.h"
->   #include "migration/vmstate.h"
-> @@ -625,7 +626,7 @@ static int flush_blks(QEMUFile *f)
->   
->       blk_mig_lock();
->       while ((blk = QSIMPLEQ_FIRST(&block_mig_state.blk_list)) != NULL) {
-> -        if (qemu_file_rate_limit(f)) {
-> +        if (migration_rate_limit_exceeded(f)) {
->               break;
->           }
->           if (blk->ret < 0) {
-> @@ -762,7 +763,7 @@ static int block_save_iterate(QEMUFile *f, void *opaque)
->       /* control the rate of transfer */
->       blk_mig_lock();
->       while (block_mig_state.read_done * BLK_MIG_BLOCK_SIZE <
-> -           qemu_file_get_rate_limit(f) &&
-> +           migration_rate_limit_get() &&
->              block_mig_state.submitted < MAX_PARALLEL_IO &&
->              (block_mig_state.submitted + block_mig_state.read_done) <
->              MAX_IO_BUFFERS) {
-> diff --git a/migration/migration-stats.c b/migration/migration-stats.c
-> index 5278c6c821..e01842cabc 100644
-> --- a/migration/migration-stats.c
-> +++ b/migration/migration-stats.c
-> @@ -13,6 +13,7 @@
->   #include "qemu/osdep.h"
->   #include "qemu/stats64.h"
->   #include "qemu/timer.h"
-> +#include "qemu-file.h"
->   #include "migration-stats.h"
->   
->   MigrationAtomicStats mig_stats;
-> @@ -22,3 +23,43 @@ void calculate_time_since(Stat64 *val, int64_t since)
->       int64_t now = qemu_clock_get_ms(QEMU_CLOCK_HOST);
->       stat64_set(val, now - since);
->   }
-> +
-> +bool migration_rate_limit_exceeded(QEMUFile *f)
-> +{
-> +    if (qemu_file_get_error(f)) {
-> +        return true;
-> +    }
-> +
-> +    uint64_t rate_limit_used = stat64_get(&mig_stats.rate_limit_used);
-> +    uint64_t rate_limit_max = stat64_get(&mig_stats.rate_limit_max);
-> +    /*
-> +     *  rate_limit_max == 0 means no rate_limit enfoncement.
-> +     */
-> +    if (rate_limit_max > 0 && rate_limit_used > rate_limit_max) {
-> +        return true;
-> +    }
-> +    return false;
-> +}
-> +
-> +uint64_t migration_rate_limit_get(void)
-> +{
-> +    return stat64_get(&mig_stats.rate_limit_max);
-> +}
-> +
-> +void migration_rate_limit_set(uint64_t limit)
-> +{
-> +    /*
-> +     * 'limit' is per second.  But we check it each BUFER_DELAY miliseconds.
-> +     */
-> +    stat64_set(&mig_stats.rate_limit_max, limit);
-> +}
-> +
-> +void migration_rate_limit_reset(void)
-> +{
-> +    stat64_set(&mig_stats.rate_limit_used, 0);
-> +}
-> +
-> +void migration_rate_limit_account(uint64_t len)
-> +{
-> +    stat64_add(&mig_stats.rate_limit_used, len);
-> +}
-> diff --git a/migration/migration-stats.h b/migration/migration-stats.h
-> index 73c73d75b9..65f11ec7d1 100644
-> --- a/migration/migration-stats.h
-> +++ b/migration/migration-stats.h
-> @@ -69,6 +69,14 @@ typedef struct {
->        * Number of bytes sent during precopy stage.
->        */
->       Stat64 precopy_bytes;
-> +    /*
-> +     * Maximum amount of data we can send in a cycle.
-> +     */
-> +    Stat64 rate_limit_max;
-> +    /*
-> +     * Amount of data we have sent in the current cycle.
-> +     */
-> +    Stat64 rate_limit_used;
->       /*
->        * How long has the setup stage took.
->        */
-> @@ -95,4 +103,38 @@ extern MigrationAtomicStats mig_stats;
->    */
->   
->   void calculate_time_since(Stat64 *val, int64_t since);
-> +
-> +/**
-> + * migration_rate_limit_account: Increase the number of bytes transferred.
-> + *
-> + * Report on a number of bytes the have been transferred that need to
-> + * be applied to the rate limiting calcuations.
-> + *
-> + * @len: amount of bytes transferred
-> + */
-> +void migration_rate_limit_account(uint64_t len);
-> +
-> +/**
-> + * migration_rate_limit_get: Get the maximum amount that can be transferred.
-> + *
-> + * Returns the maximum number of bytes that can be transferred in a cycle.
-> + */
-> +uint64_t migration_rate_limit_get(void);
-> +
-> +/**
-> + * migration_rate_limit_reset: Reset the rate limit counter.
-> + *
-> + * This is called when we know we start a new transfer cycle.
-> + */
-> +void migration_rate_limit_reset(void);
-> +
-> +/**
-> + * migration_rate_limit_set: Set the maximum amount that can be transferred.
-> + *
-> + * Sets the maximum amount of bytes that can be transferred in one cycle.
-> + *
-> + * @new_rate: new maximum amount
-> + */
-> +void migration_rate_limit_set(uint64_t new_rate);
-> +
->   #endif
-> diff --git a/migration/migration.c b/migration/migration.c
-> index 72286de969..370998600e 100644
-> --- a/migration/migration.c
-> +++ b/migration/migration.c
-> @@ -2116,7 +2116,7 @@ static int postcopy_start(MigrationState *ms)
->        * will notice we're in POSTCOPY_ACTIVE and not actually
->        * wrap their state up here
->        */
-> -    qemu_file_set_rate_limit(ms->to_dst_file, bandwidth);
-> +    migration_rate_limit_set(bandwidth);
->       if (migrate_postcopy_ram()) {
->           /* Ping just for debugging, helps line traces up */
->           qemu_savevm_send_ping(ms->to_dst_file, 2);
-> @@ -2295,7 +2295,7 @@ static void migration_completion(MigrationState *s)
->               }
->               if (ret >= 0) {
->                   s->block_inactive = !migrate_colo();
-> -                qemu_file_set_rate_limit(s->to_dst_file, 0);
-> +                migration_rate_limit_set(0);
->                   ret = qemu_savevm_state_complete_precopy(s->to_dst_file, false,
->                                                            s->block_inactive);
->               }
-> @@ -2691,7 +2691,7 @@ static void migration_update_counters(MigrationState *s,
->               stat64_get(&mig_stats.dirty_bytes_last_sync) / bandwidth;
->       }
->   
-> -    qemu_file_reset_rate_limit(s->to_dst_file);
-> +    migration_rate_limit_reset();
->   
->       update_iteration_initial_status(s);
->   
-> @@ -2847,7 +2847,7 @@ bool migration_rate_limit(void)
->   
->       bool urgent = false;
->       migration_update_counters(s, now);
-> -    if (qemu_file_rate_limit(s->to_dst_file)) {
-> +    if (migration_rate_limit_exceeded(s->to_dst_file)) {
->   
->           if (qemu_file_get_error(s->to_dst_file)) {
->               return false;
-> @@ -2969,7 +2969,7 @@ static void *migration_thread(void *opaque)
->       trace_migration_thread_setup_complete();
->   
->       while (migration_is_active(s)) {
-> -        if (urgent || !qemu_file_rate_limit(s->to_dst_file)) {
-> +        if (urgent || !migration_rate_limit_exceeded(s->to_dst_file)) {
->               MigIterateState iter_state = migration_iteration_run(s);
->               if (iter_state == MIG_ITERATE_SKIP) {
->                   continue;
-> @@ -3043,7 +3043,7 @@ static void *bg_migration_thread(void *opaque)
->       rcu_register_thread();
->       object_ref(OBJECT(s));
->   
-> -    qemu_file_set_rate_limit(s->to_dst_file, 0);
-> +    migration_rate_limit_set(0);
->   
->       setup_start = qemu_clock_get_ms(QEMU_CLOCK_HOST);
->       /*
-> @@ -3215,7 +3215,7 @@ void migrate_fd_connect(MigrationState *s, Error *error_in)
->           notifier_list_notify(&migration_state_notifiers, s);
->       }
->   
-> -    qemu_file_set_rate_limit(s->to_dst_file, rate_limit);
-> +    migration_rate_limit_set(rate_limit);
->       qemu_file_set_blocking(s->to_dst_file, true);
->   
->       /*
-> diff --git a/migration/multifd.c b/migration/multifd.c
-> index 4e71c19292..2efb313be4 100644
-> --- a/migration/multifd.c
-> +++ b/migration/multifd.c
-> @@ -432,7 +432,7 @@ static int multifd_send_pages(QEMUFile *f)
->       multifd_send_state->pages = p->pages;
->       p->pages = pages;
->       transferred = ((uint64_t) pages->num) * p->page_size + p->packet_len;
-> -    qemu_file_acct_rate_limit(f, transferred);
-> +    migration_rate_limit_account(transferred);
->       qemu_mutex_unlock(&p->mutex);
->       stat64_add(&mig_stats.transferred, transferred);
->       stat64_add(&mig_stats.multifd_bytes, transferred);
-> diff --git a/migration/options.c b/migration/options.c
-> index d04b5fbc3a..a024fa3ce6 100644
-> --- a/migration/options.c
-> +++ b/migration/options.c
-> @@ -23,6 +23,7 @@
->   #include "migration/colo.h"
->   #include "migration/misc.h"
->   #include "migration.h"
-> +#include "migration-stats.h"
->   #include "qemu-file.h"
->   #include "ram.h"
->   #include "options.h"
-> @@ -1242,8 +1243,7 @@ static void migrate_params_apply(MigrateSetParameters *params, Error **errp)
->       if (params->has_max_bandwidth) {
->           s->parameters.max_bandwidth = params->max_bandwidth;
->           if (s->to_dst_file && !migration_in_postcopy()) {
-> -            qemu_file_set_rate_limit(s->to_dst_file,
-> -                                s->parameters.max_bandwidth);
-> +            migration_rate_limit_set(s->parameters.max_bandwidth);
->           }
->       }
->   
-> @@ -1274,8 +1274,7 @@ static void migrate_params_apply(MigrateSetParameters *params, Error **errp)
->       if (params->has_max_postcopy_bandwidth) {
->           s->parameters.max_postcopy_bandwidth = params->max_postcopy_bandwidth;
->           if (s->to_dst_file && migration_in_postcopy()) {
-> -            qemu_file_set_rate_limit(s->to_dst_file,
-> -                    s->parameters.max_postcopy_bandwidth);
-> +            migration_rate_limit_set(s->parameters.max_postcopy_bandwidth);
->           }
->       }
->       if (params->has_max_cpu_throttle) {
-> diff --git a/migration/qemu-file.c b/migration/qemu-file.c
-> index 8de1ecd082..3f993e24af 100644
-> --- a/migration/qemu-file.c
-> +++ b/migration/qemu-file.c
-> @@ -27,6 +27,7 @@
->   #include "qemu/error-report.h"
->   #include "qemu/iov.h"
->   #include "migration.h"
-> +#include "migration-stats.h"
->   #include "qemu-file.h"
->   #include "trace.h"
->   #include "options.h"
-> @@ -40,17 +41,6 @@ struct QEMUFile {
->       QIOChannel *ioc;
->       bool is_writable;
->   
-> -    /*
-> -     * Maximum amount of data in bytes to transfer during one
-> -     * rate limiting time window
-> -     */
-> -    uint64_t rate_limit_max;
-> -    /*
-> -     * Total amount of data in bytes queued for transfer
-> -     * during this rate limiting time window
-> -     */
-> -    uint64_t rate_limit_used;
-> -
->       /* The sum of bytes transferred on the wire */
->       uint64_t total_transferred;
->   
-> @@ -302,7 +292,7 @@ void qemu_fflush(QEMUFile *f)
->               qemu_file_set_error_obj(f, -EIO, local_error);
->           } else {
->               uint64_t size = iov_size(f->iov, f->iovcnt);
-> -            qemu_file_acct_rate_limit(f, size);
-> +            migration_rate_limit_account(size);
->               f->total_transferred += size;
->           }
->   
-> @@ -355,7 +345,7 @@ size_t ram_control_save_page(QEMUFile *f, ram_addr_t block_offset,
->           int ret = f->hooks->save_page(f, block_offset,
->                                         offset, size, bytes_sent);
->           if (ret != RAM_SAVE_CONTROL_NOT_SUPP) {
-> -            qemu_file_acct_rate_limit(f, size);
-> +            migration_rate_limit_account(size);
->           }
->   
->           if (ret != RAM_SAVE_CONTROL_DELAYED &&
-> @@ -726,43 +716,6 @@ uint64_t qemu_file_transferred(QEMUFile *f)
->       return f->total_transferred;
->   }
->   
-> -int qemu_file_rate_limit(QEMUFile *f)
-> -{
-> -    if (qemu_file_get_error(f)) {
-> -        return 1;
-> -    }
-> -    /*
-> -     *  rate_limit_max == 0 means no rate_limit enfoncement.
-> -     */
-> -    if (f->rate_limit_max > 0 && f->rate_limit_used > f->rate_limit_max) {
-> -        return 1;
-> -    }
-> -    return 0;
-> -}
-> -
-> -uint64_t qemu_file_get_rate_limit(QEMUFile *f)
-> -{
-> -    return f->rate_limit_max;
-> -}
-> -
-> -void qemu_file_set_rate_limit(QEMUFile *f, uint64_t limit)
-> -{
-> -    /*
-> -     * 'limit' is per second.  But we check it each 100 miliseconds.
-> -     */
-> -    f->rate_limit_max = limit / XFER_LIMIT_RATIO;
-> -}
-> -
-> -void qemu_file_reset_rate_limit(QEMUFile *f)
-> -{
-> -    f->rate_limit_used = 0;
-> -}
-> -
-> -void qemu_file_acct_rate_limit(QEMUFile *f, uint64_t len)
-> -{
-> -    f->rate_limit_used += len;
-> -}
-> -
->   void qemu_put_be16(QEMUFile *f, unsigned int v)
->   {
->       qemu_put_byte(f, v >> 8);
-> diff --git a/migration/qemu-file.h b/migration/qemu-file.h
-> index ab164a58d0..46029b951c 100644
-> --- a/migration/qemu-file.h
-> +++ b/migration/qemu-file.h
-> @@ -129,17 +129,6 @@ void qemu_file_skip(QEMUFile *f, int size);
->    * accounting information tracks the total migration traffic.
->    */
->   void qemu_file_credit_transfer(QEMUFile *f, size_t size);
-> -void qemu_file_reset_rate_limit(QEMUFile *f);
-> -/*
-> - * qemu_file_acct_rate_limit:
-> - *
-> - * Report on a number of bytes the have been transferred
-> - * out of band from the main file object I/O methods, and
-> - * need to be applied to the rate limiting calcuations
-> - */
-> -void qemu_file_acct_rate_limit(QEMUFile *f, uint64_t len);
-> -void qemu_file_set_rate_limit(QEMUFile *f, uint64_t new_rate);
-> -uint64_t qemu_file_get_rate_limit(QEMUFile *f);
->   int qemu_file_get_error_obj(QEMUFile *f, Error **errp);
->   int qemu_file_get_error_obj_any(QEMUFile *f1, QEMUFile *f2, Error **errp);
->   void qemu_file_set_error_obj(QEMUFile *f, int ret, Error *err);
-> diff --git a/migration/ram.c b/migration/ram.c
-> index 5ae1fdba45..2339a99932 100644
-> --- a/migration/ram.c
-> +++ b/migration/ram.c
-> @@ -3351,7 +3351,7 @@ static int ram_save_iterate(QEMUFile *f, void *opaque)
->   
->           t0 = qemu_clock_get_ns(QEMU_CLOCK_REALTIME);
->           i = 0;
-> -        while ((ret = qemu_file_rate_limit(f)) == 0 ||
-> +        while ((ret = migration_rate_limit_exceeded(f)) == 0 ||
-            while (!(ret = migration_rate_limit_exceeded(f))) ||
-
-Otherwise, looks fine.
-
-regards,
-Harsh
->                  postcopy_has_request(rs)) {
->               int pages;
->   
-> diff --git a/migration/savevm.c b/migration/savevm.c
-> index c7af9050c2..376118bc98 100644
-> --- a/migration/savevm.c
-> +++ b/migration/savevm.c
-> @@ -1345,7 +1345,7 @@ int qemu_savevm_state_iterate(QEMUFile *f, bool postcopy)
->               !(se->ops->has_postcopy && se->ops->has_postcopy(se->opaque))) {
->               continue;
->           }
-> -        if (qemu_file_rate_limit(f)) {
-> +        if (migration_rate_limit_exceeded(f)) {
->               return 0;
->           }
->           trace_savevm_section_start(se->idstr, se->section_id);
+>
+> On 05.05.23 14:21, Ayan Kumar Halder wrote:
+>> Hi Tobias/Peter,
+>>
+>> Greetings.
+>>
+>> In the following commit, I see you have added R52 support in Qemu.
+>>
+>> commit 5f536d01d1141a56f5057b62c82fa94826d367f0
+>> Author: Tobias Röhmel <tobias.roehmel@rwth-aachen.de>
+>> Date:   Tue Dec 6 11:25:04 2022 +0100
+>>
+>>     target/arm: Add ARM Cortex-R52 CPU
+>>
+>>
+>> 1. Do you have quick instructions on how to build and test it ? I 
+>> have ported Xen for Cortex-R52 (using Arm FVP) and would like to see 
+>> if it works with Qemu as well.
+>>
+>> 2. Have you (or planning in near future) to add support for qemu-r52 
+>> in Zephyr ? I can see an old ticket
+>> https://github.com/zephyrproject-rtos/zephyr/issues/47330 , but don't 
+>> know if you have integrated qemu in Zephyr.
+>>
+>>
+>> Kind regards,
+>>
+>> Ayan
+>>
 
