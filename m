@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F5B46FCE6E
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 May 2023 21:19:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 535C56FCE71
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 May 2023 21:19:35 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pwSqL-00047P-HK; Tue, 09 May 2023 15:17:49 -0400
+	id 1pwSqP-000494-RH; Tue, 09 May 2023 15:17:54 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pwSqH-00046O-W4
- for qemu-devel@nongnu.org; Tue, 09 May 2023 15:17:46 -0400
+ id 1pwSqN-000482-H1
+ for qemu-devel@nongnu.org; Tue, 09 May 2023 15:17:51 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pwSqG-0006Yu-HB
- for qemu-devel@nongnu.org; Tue, 09 May 2023 15:17:45 -0400
+ id 1pwSqK-0006Zk-3P
+ for qemu-devel@nongnu.org; Tue, 09 May 2023 15:17:51 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1683659863;
+ s=mimecast20190719; t=1683659867;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ImCQ+Y4FYqkgMFc7wGSlxrvJOlIh84jvmaO/wR4Nyjs=;
- b=jIGqbGuMO2gCLFE6sHWULfD3PQtfNz5/Zr66Lu3m2Q9SabBsPhzatCPG86zxpOu7J3feV7
- ovF2uardF2X1Y8KxbaSZNN1gVDjpzudumz7S9Ka+3owIGXu9FB93TsOKX9q8TFan7OBF6N
- rgGdo5RH3Et0BOB2iwULqFRpD9zEej4=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=ilDhpVAXmU3raGA2w7Bqg/c/YOK1TBF6wrbFuLI6gPc=;
+ b=FMKgG3n3dX0dJKSq1gwXp/zRmPvZ/hv6TYw9EmsKnAeBb1FbJ9lpjzIHbGXLVbq37+C6gR
+ gMCUB2rsrygFVr1np/IqBPt4dmrKdfQWHd4VGbih9LVFWoP0GCkFBjZ5hKEgSJcDSH8+dK
+ tAvXbaXfFvMW9AGK33dD7T6X2zn/Xys=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-471-WjeNkoKgNbS4QrvhH5SU3g-1; Tue, 09 May 2023 15:17:42 -0400
-X-MC-Unique: WjeNkoKgNbS4QrvhH5SU3g-1
+ us-mta-29-xdP4JW6BOCaAER6Em56Y2w-1; Tue, 09 May 2023 15:17:44 -0400
+X-MC-Unique: xdP4JW6BOCaAER6Em56Y2w-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
  [10.11.54.5])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id DD9E7380673B;
- Tue,  9 May 2023 19:17:40 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 584BF101A55C;
+ Tue,  9 May 2023 19:17:43 +0000 (UTC)
 Received: from secure.mitica (unknown [10.39.193.236])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9554963F84;
- Tue,  9 May 2023 19:17:38 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 30B3E63F89;
+ Tue,  9 May 2023 19:17:41 +0000 (UTC)
 From: Juan Quintela <quintela@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: "Dr. David Alan Gilbert" <dave@treblig.org>,
@@ -50,12 +50,10 @@ Cc: "Dr. David Alan Gilbert" <dave@treblig.org>,
  Hailiang Zhang <zhanghailiang@xfusion.com>, Eric Blake <eblake@redhat.com>,
  Juan Quintela <quintela@redhat.com>, qemu-block@nongnu.org,
  Peter Xu <peterx@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
- Zhang Chen <chen.zhang@intel.com>
-Subject: [PULL 05/10] colo: make colo_checkpoint_notify static and provide
- simpler API
-Date: Tue,  9 May 2023 21:17:19 +0200
-Message-Id: <20230509191724.86159-6-quintela@redhat.com>
+ Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+Subject: [PULL 06/10] build: move COLO under CONFIG_REPLICATION
+Date: Tue,  9 May 2023 21:17:20 +0200
+Message-Id: <20230509191724.86159-7-quintela@redhat.com>
 In-Reply-To: <20230509191724.86159-1-quintela@redhat.com>
 References: <20230509191724.86159-1-quintela@redhat.com>
 MIME-Version: 1.0
@@ -69,7 +67,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -87,107 +85,342 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
 
-colo_checkpoint_notify() is mostly used in colo.c. Outside we use it
-once when x-checkpoint-delay migration parameter is set. So, let's
-simplify the external API to only that function - notify COLO that
-parameter was set. This make external API more robust and hides
-implementation details from external callers. Also this helps us to
-make COLO module optional in further patch (i.e. we are going to add
-possibility not build the COLO module).
+We don't allow to use x-colo capability when replication is not
+configured. So, no reason to build COLO when replication is disabled,
+it's unusable in this case.
+
+Note also that the check in migrate_caps_check() is not the only
+restriction: some functions in migration/colo.c will just abort if
+called with not defined CONFIG_REPLICATION, for example:
+
+    migration_iteration_finish()
+       case MIGRATION_STATUS_COLO:
+           migrate_start_colo_process()
+               colo_process_checkpoint()
+                   abort()
+
+It could probably make sense to have possibility to enable COLO without
+REPLICATION, but this requires deeper audit of colo & replication code,
+which may be done later if needed.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+Acked-by: Dr. David Alan Gilbert <dave@treblig.org>
 Reviewed-by: Juan Quintela <quintela@redhat.com>
-Reviewed-by: Peter Xu <peterx@redhat.com>
-Reviewed-by: Zhang Chen <chen.zhang@intel.com>
-Message-Id: <20230428194928.1426370-3-vsementsov@yandex-team.ru>
+Message-Id: <20230428194928.1426370-4-vsementsov@yandex-team.ru>
 Signed-off-by: Juan Quintela <quintela@redhat.com>
 ---
- include/migration/colo.h |  9 ++++++++-
- migration/colo.c         | 29 ++++++++++++++++++-----------
- migration/options.c      |  4 +---
- 3 files changed, 27 insertions(+), 15 deletions(-)
+ hmp-commands.hx                |  2 ++
+ migration/colo.c               | 28 ------------------------
+ migration/meson.build          |  6 ++++--
+ migration/migration-hmp-cmds.c |  2 ++
+ migration/migration.c          |  6 ++++++
+ qapi/migration.json            |  9 +++++---
+ stubs/colo.c                   | 39 ++++++++++++++++++++++++++++++++++
+ stubs/meson.build              |  1 +
+ 8 files changed, 60 insertions(+), 33 deletions(-)
+ create mode 100644 stubs/colo.c
 
-diff --git a/include/migration/colo.h b/include/migration/colo.h
-index 5fbe1a6d5d..7ef315473e 100644
---- a/include/migration/colo.h
-+++ b/include/migration/colo.h
-@@ -36,6 +36,13 @@ COLOMode get_colo_mode(void);
- /* failover */
- void colo_do_failover(void);
+diff --git a/hmp-commands.hx b/hmp-commands.hx
+index 9afbb54a51..2cbd0f77a0 100644
+--- a/hmp-commands.hx
++++ b/hmp-commands.hx
+@@ -1052,6 +1052,7 @@ SRST
+   migration (or once already in postcopy).
+ ERST
  
--void colo_checkpoint_notify(void *opaque);
-+/*
-+ * colo_checkpoint_delay_set
-+ *
-+ * Handles change of x-checkpoint-delay migration parameter, called from
-+ * migrate_params_apply() to notify COLO module about the change.
-+ */
-+void colo_checkpoint_delay_set(void);
-+
- void colo_shutdown(void);
- #endif
++#ifdef CONFIG_REPLICATION
+     {
+         .name       = "x_colo_lost_heartbeat",
+         .args_type  = "",
+@@ -1060,6 +1061,7 @@ ERST
+                       "a failover or takeover is needed.",
+         .cmd = hmp_x_colo_lost_heartbeat,
+     },
++#endif
+ 
+ SRST
+ ``x_colo_lost_heartbeat``
 diff --git a/migration/colo.c b/migration/colo.c
-index 07bfa21fea..c9e0b909b9 100644
+index c9e0b909b9..6c7c313956 100644
 --- a/migration/colo.c
 +++ b/migration/colo.c
-@@ -65,6 +65,24 @@ static bool colo_runstate_is_stopped(void)
-     return runstate_check(RUN_STATE_COLO) || !runstate_is_running();
+@@ -26,9 +26,7 @@
+ #include "qemu/rcu.h"
+ #include "migration/failover.h"
+ #include "migration/ram.h"
+-#ifdef CONFIG_REPLICATION
+ #include "block/replication.h"
+-#endif
+ #include "net/colo-compare.h"
+ #include "net/colo.h"
+ #include "block/block.h"
+@@ -86,7 +84,6 @@ void colo_checkpoint_delay_set(void)
+ static void secondary_vm_do_failover(void)
+ {
+ /* COLO needs enable block-replication */
+-#ifdef CONFIG_REPLICATION
+     int old_state;
+     MigrationIncomingState *mis = migration_incoming_get_current();
+     Error *local_err = NULL;
+@@ -151,14 +148,10 @@ static void secondary_vm_do_failover(void)
+     if (mis->migration_incoming_co) {
+         qemu_coroutine_enter(mis->migration_incoming_co);
+     }
+-#else
+-    abort();
+-#endif
  }
  
-+static void colo_checkpoint_notify(void *opaque)
-+{
-+    MigrationState *s = opaque;
-+    int64_t next_notify_time;
+ static void primary_vm_do_failover(void)
+ {
+-#ifdef CONFIG_REPLICATION
+     MigrationState *s = migrate_get_current();
+     int old_state;
+     Error *local_err = NULL;
+@@ -199,9 +192,6 @@ static void primary_vm_do_failover(void)
+ 
+     /* Notify COLO thread that failover work is finished */
+     qemu_sem_post(&s->colo_exit_sem);
+-#else
+-    abort();
+-#endif
+ }
+ 
+ COLOMode get_colo_mode(void)
+@@ -235,7 +225,6 @@ void colo_do_failover(void)
+     }
+ }
+ 
+-#ifdef CONFIG_REPLICATION
+ void qmp_xen_set_replication(bool enable, bool primary,
+                              bool has_failover, bool failover,
+                              Error **errp)
+@@ -289,7 +278,6 @@ void qmp_xen_colo_do_checkpoint(Error **errp)
+     /* Notify all filters of all NIC to do checkpoint */
+     colo_notify_filters_event(COLO_EVENT_CHECKPOINT, errp);
+ }
+-#endif
+ 
+ COLOStatus *qmp_query_colo_status(Error **errp)
+ {
+@@ -453,15 +441,11 @@ static int colo_do_checkpoint_transaction(MigrationState *s,
+     }
+     qemu_mutex_lock_iothread();
+ 
+-#ifdef CONFIG_REPLICATION
+     replication_do_checkpoint_all(&local_err);
+     if (local_err) {
+         qemu_mutex_unlock_iothread();
+         goto out;
+     }
+-#else
+-        abort();
+-#endif
+ 
+     colo_send_message(s->to_dst_file, COLO_MESSAGE_VMSTATE_SEND, &local_err);
+     if (local_err) {
+@@ -579,15 +563,11 @@ static void colo_process_checkpoint(MigrationState *s)
+     object_unref(OBJECT(bioc));
+ 
+     qemu_mutex_lock_iothread();
+-#ifdef CONFIG_REPLICATION
+     replication_start_all(REPLICATION_MODE_PRIMARY, &local_err);
+     if (local_err) {
+         qemu_mutex_unlock_iothread();
+         goto out;
+     }
+-#else
+-        abort();
+-#endif
+ 
+     vm_start();
+     qemu_mutex_unlock_iothread();
+@@ -755,7 +735,6 @@ static void colo_incoming_process_checkpoint(MigrationIncomingState *mis,
+         return;
+     }
+ 
+-#ifdef CONFIG_REPLICATION
+     replication_get_error_all(&local_err);
+     if (local_err) {
+         error_propagate(errp, local_err);
+@@ -772,9 +751,6 @@ static void colo_incoming_process_checkpoint(MigrationIncomingState *mis,
+         qemu_mutex_unlock_iothread();
+         return;
+     }
+-#else
+-    abort();
+-#endif
+     /* Notify all filters of all NIC to do checkpoint */
+     colo_notify_filters_event(COLO_EVENT_CHECKPOINT, &local_err);
+ 
+@@ -881,15 +857,11 @@ void *colo_process_incoming_thread(void *opaque)
+     object_unref(OBJECT(bioc));
+ 
+     qemu_mutex_lock_iothread();
+-#ifdef CONFIG_REPLICATION
+     replication_start_all(REPLICATION_MODE_SECONDARY, &local_err);
+     if (local_err) {
+         qemu_mutex_unlock_iothread();
+         goto out;
+     }
+-#else
+-        abort();
+-#endif
+     vm_start();
+     qemu_mutex_unlock_iothread();
+     trace_colo_vm_state_change("stop", "run");
+diff --git a/migration/meson.build b/migration/meson.build
+index 75de868bb7..eb41b77db9 100644
+--- a/migration/meson.build
++++ b/migration/meson.build
+@@ -13,8 +13,6 @@ softmmu_ss.add(files(
+   'block-dirty-bitmap.c',
+   'channel.c',
+   'channel-block.c',
+-  'colo-failover.c',
+-  'colo.c',
+   'exec.c',
+   'fd.c',
+   'global_state.c',
+@@ -33,6 +31,10 @@ softmmu_ss.add(files(
+   'threadinfo.c',
+ ), gnutls)
+ 
++if get_option('replication').allowed()
++  softmmu_ss.add(files('colo-failover.c', 'colo.c'))
++endif
 +
-+    qemu_event_set(&s->colo_checkpoint_event);
-+    s->colo_checkpoint_time = qemu_clock_get_ms(QEMU_CLOCK_HOST);
-+    next_notify_time = s->colo_checkpoint_time + migrate_checkpoint_delay();
-+    timer_mod(s->colo_delay_timer, next_notify_time);
+ softmmu_ss.add(when: rdma, if_true: files('rdma.c'))
+ if get_option('live_block_migration').allowed()
+   softmmu_ss.add(files('block.c'))
+diff --git a/migration/migration-hmp-cmds.c b/migration/migration-hmp-cmds.c
+index 4e9f00e7dc..9885d7c9f7 100644
+--- a/migration/migration-hmp-cmds.c
++++ b/migration/migration-hmp-cmds.c
+@@ -643,6 +643,7 @@ void hmp_migrate_start_postcopy(Monitor *mon, const QDict *qdict)
+     hmp_handle_error(mon, err);
+ }
+ 
++#ifdef CONFIG_REPLICATION
+ void hmp_x_colo_lost_heartbeat(Monitor *mon, const QDict *qdict)
+ {
+     Error *err = NULL;
+@@ -650,6 +651,7 @@ void hmp_x_colo_lost_heartbeat(Monitor *mon, const QDict *qdict)
+     qmp_x_colo_lost_heartbeat(&err);
+     hmp_handle_error(mon, err);
+ }
++#endif
+ 
+ typedef struct HMPMigrationStatus {
+     QEMUTimer *timer;
+diff --git a/migration/migration.c b/migration/migration.c
+index 0ee07802a5..01ee92e699 100644
+--- a/migration/migration.c
++++ b/migration/migration.c
+@@ -392,6 +392,12 @@ void migration_incoming_disable_colo(void)
+ 
+ int migration_incoming_enable_colo(void)
+ {
++#ifndef CONFIG_REPLICATION
++    error_report("ENABLE_COLO command come in migration stream, but COLO "
++                 "module is not built in");
++    return -ENOTSUP;
++#endif
++
+     if (ram_block_discard_disable(true)) {
+         error_report("COLO: cannot disable RAM discard");
+         return -EBUSY;
+diff --git a/qapi/migration.json b/qapi/migration.json
+index 82000adce4..30e2542f1b 100644
+--- a/qapi/migration.json
++++ b/qapi/migration.json
+@@ -1383,7 +1383,8 @@
+ #
+ ##
+ { 'command': 'x-colo-lost-heartbeat',
+-  'features': [ 'unstable' ] }
++  'features': [ 'unstable' ],
++  'if': 'CONFIG_REPLICATION' }
+ 
+ ##
+ # @migrate_cancel:
+@@ -1659,7 +1660,8 @@
+ ##
+ { 'struct': 'COLOStatus',
+   'data': { 'mode': 'COLOMode', 'last-mode': 'COLOMode',
+-            'reason': 'COLOExitReason' } }
++            'reason': 'COLOExitReason' },
++  'if': 'CONFIG_REPLICATION' }
+ 
+ ##
+ # @query-colo-status:
+@@ -1676,7 +1678,8 @@
+ # Since: 3.1
+ ##
+ { 'command': 'query-colo-status',
+-  'returns': 'COLOStatus' }
++  'returns': 'COLOStatus',
++  'if': 'CONFIG_REPLICATION' }
+ 
+ ##
+ # @migrate-recover:
+diff --git a/stubs/colo.c b/stubs/colo.c
+new file mode 100644
+index 0000000000..cf9816d368
+--- /dev/null
++++ b/stubs/colo.c
+@@ -0,0 +1,39 @@
++#include "qemu/osdep.h"
++#include "qemu/notify.h"
++#include "net/colo-compare.h"
++#include "migration/colo.h"
++#include "migration/migration.h"
++#include "qemu/error-report.h"
++#include "qapi/qapi-commands-migration.h"
++
++void colo_shutdown(void)
++{
++}
++
++void *colo_process_incoming_thread(void *opaque)
++{
++    error_report("Impossible happend: trying to start COLO thread when COLO "
++                 "module is not built in");
++    abort();
 +}
 +
 +void colo_checkpoint_delay_set(void)
 +{
-+    if (migration_in_colo_state()) {
-+        colo_checkpoint_notify(migrate_get_current());
-+    }
 +}
 +
- static void secondary_vm_do_failover(void)
- {
- /* COLO needs enable block-replication */
-@@ -644,17 +662,6 @@ out:
-     }
- }
- 
--void colo_checkpoint_notify(void *opaque)
--{
--    MigrationState *s = opaque;
--    int64_t next_notify_time;
--
--    qemu_event_set(&s->colo_checkpoint_event);
--    s->colo_checkpoint_time = qemu_clock_get_ms(QEMU_CLOCK_HOST);
--    next_notify_time = s->colo_checkpoint_time + migrate_checkpoint_delay();
--    timer_mod(s->colo_delay_timer, next_notify_time);
--}
--
- void migrate_start_colo_process(MigrationState *s)
- {
-     qemu_mutex_unlock_iothread();
-diff --git a/migration/options.c b/migration/options.c
-index 2e759cc306..9d92b15b76 100644
---- a/migration/options.c
-+++ b/migration/options.c
-@@ -1253,9 +1253,7 @@ static void migrate_params_apply(MigrateSetParameters *params, Error **errp)
- 
-     if (params->has_x_checkpoint_delay) {
-         s->parameters.x_checkpoint_delay = params->x_checkpoint_delay;
--        if (migration_in_colo_state()) {
--            colo_checkpoint_notify(s);
--        }
-+        colo_checkpoint_delay_set();
-     }
- 
-     if (params->has_block_incremental) {
++void migrate_start_colo_process(MigrationState *s)
++{
++    error_report("Impossible happend: trying to start COLO when COLO "
++                 "module is not built in");
++    abort();
++}
++
++bool migration_in_colo_state(void)
++{
++    return false;
++}
++
++bool migration_incoming_in_colo_state(void)
++{
++    return false;
++}
+diff --git a/stubs/meson.build b/stubs/meson.build
+index b2b5956d97..8412cad15f 100644
+--- a/stubs/meson.build
++++ b/stubs/meson.build
+@@ -45,6 +45,7 @@ stub_ss.add(files('target-get-monitor-def.c'))
+ stub_ss.add(files('target-monitor-defs.c'))
+ stub_ss.add(files('trace-control.c'))
+ stub_ss.add(files('uuid.c'))
++stub_ss.add(files('colo.c'))
+ stub_ss.add(files('vmstate.c'))
+ stub_ss.add(files('vm-stop.c'))
+ stub_ss.add(files('win32-kbd-hook.c'))
 -- 
 2.40.0
 
