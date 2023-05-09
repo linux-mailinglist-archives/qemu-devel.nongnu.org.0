@@ -2,87 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0405E6FC103
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 May 2023 09:55:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E04786FC117
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 May 2023 10:01:51 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pwIB7-0005CW-69; Tue, 09 May 2023 03:54:34 -0400
+	id 1pwIGk-0008Ti-BM; Tue, 09 May 2023 04:00:22 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mcascell@redhat.com>)
- id 1pwIB4-0005Bk-Rk
- for qemu-devel@nongnu.org; Tue, 09 May 2023 03:54:30 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pwIGi-0008Sx-Ls
+ for qemu-devel@nongnu.org; Tue, 09 May 2023 04:00:20 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mcascell@redhat.com>)
- id 1pwIB2-0006nY-Dl
- for qemu-devel@nongnu.org; Tue, 09 May 2023 03:54:30 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pwIGg-0008TP-FK
+ for qemu-devel@nongnu.org; Tue, 09 May 2023 04:00:20 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1683618867;
+ s=mimecast20190719; t=1683619217;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=lWVkETvqxui2L6JEGelYr7ZQK6Q0j4GyfaZIGcMpQ1Y=;
- b=f8LqaWxJ2cN6ftH7uHrNZxfZLehjCOYeDDaEeuWWQkf4CZWrT3y3s2r+VmpaLWjUcMTMS3
- vF3OQGyyUEpGxpw/p5x1S954KGg8LU/jJjDvvcy3561R8YVlGpR+gtj31llo54GWCC0uvx
- 09HYT2iqYySYcoebNmjMQe9o6lfrrdY=
-Received: from mail-ua1-f70.google.com (mail-ua1-f70.google.com
- [209.85.222.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-316-2dpbk-23PjiwIslf7u0-hA-1; Tue, 09 May 2023 03:54:19 -0400
-X-MC-Unique: 2dpbk-23PjiwIslf7u0-hA-1
-Received: by mail-ua1-f70.google.com with SMTP id
- a1e0cc1a2514c-77d4add38e0so1348630241.0
- for <qemu-devel@nongnu.org>; Tue, 09 May 2023 00:54:18 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683618858; x=1686210858;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=lWVkETvqxui2L6JEGelYr7ZQK6Q0j4GyfaZIGcMpQ1Y=;
- b=dlTAskAZwNXQU6RrZ6lgll3eVN1tuvcHRilzGnyoaMM7BP3bnmaOej8XL4W7fJZjDl
- /rVELLoCvDBsWQGTe9ypUX6PoeY9kAFoA8Lo0RXWYx+qqRYzKqghbqoV806tYlyIie+X
- UkAKykqE/NV7JAS1bC1kwRXhK9JC0h3cfxGKKhHX+eAkBVQ2mdoSiVJTh83KNyDL4WfE
- MEIs+mAxWPJC+ojoUdrQQVeuvoPg7j+eBUpfOItTWFZsYAyN9GEwsTwkdW9dfWWL72UY
- 3Az+6Qon7l6IzSx3+jvOwkKp1qEGqz5+ZMrXdIsyw3NVhpCicmEuLpBsW8Ycomooka5M
- 559A==
-X-Gm-Message-State: AC+VfDzypvxU9v6iDN85cXd8/M0uQrnUP2ebkFJYLTsDWinwCLjfzkHV
- jJgMgbCShRlsLhnZ4slolzDk5bVG2qj4ozzsW5r92z848wws19m64auv3MFg38TTZcqdQz/BXhB
- L+P1s11Y1S9uqLKlvv5N4yMcP8Hcgq5w=
-X-Received: by 2002:a67:ec47:0:b0:42e:65a6:d445 with SMTP id
- z7-20020a67ec47000000b0042e65a6d445mr4138971vso.5.1683618858559; 
- Tue, 09 May 2023 00:54:18 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ5VrrrZ4RZm2d49L9E7A7I/GWfBE+eApgwPqLiv0FZyg9inUoKtGdKlxUB78Ad7AJLJ21PysKzSuLIW87KIa9o=
-X-Received: by 2002:a67:ec47:0:b0:42e:65a6:d445 with SMTP id
- z7-20020a67ec47000000b0042e65a6d445mr4138966vso.5.1683618858349; Tue, 09 May
- 2023 00:54:18 -0700 (PDT)
+ bh=T9povUrV+u+bm1chm5LE+rb8/h+Aqq4hnzCyP0W5Wes=;
+ b=Nr0v7Q2sNoolV9wy1ZSo/4zrDaL3rNBi/46LtBigY79SIaLRSkEUWyFa2/ROCQnO0moeKs
+ JHx8vmcZ0Mu1UswYqvPTyf9cXaPz+XeahRbp4ptGB9Kqu8h4I0B4WpS38WqF3B+x+hHT32
+ DopbQk+qBi7G0A3p5i6KW/7X9Snn+zw=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-351-e92iRWAjNjuNp42ZJW-gBg-1; Tue, 09 May 2023 04:00:15 -0400
+X-MC-Unique: e92iRWAjNjuNp42ZJW-gBg-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.4])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 72F3B28237E2;
+ Tue,  9 May 2023 08:00:15 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.39.192.121])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 501FE2026D16;
+ Tue,  9 May 2023 08:00:15 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 2016821E692E; Tue,  9 May 2023 10:00:11 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: richard.henderson@linaro.org,
+	Juan Quintela <quintela@redhat.com>
+Subject: [PULL 01/17] docs/devel/qapi-code-gen: Clean up use of quotes a bit
+Date: Tue,  9 May 2023 09:59:55 +0200
+Message-Id: <20230509080011.3231661-2-armbru@redhat.com>
+In-Reply-To: <20230509080011.3231661-1-armbru@redhat.com>
+References: <20230509080011.3231661-1-armbru@redhat.com>
 MIME-Version: 1.0
-References: <20230508150146.1092355-1-mcascell@redhat.com>
- <f443c6c7ec2d4d2e88afeb586d5653ed@huawei.com>
- <8b7e9ad5-b4f3-8b24-c4a6-5ae6c4fcb27b@bytedance.com>
-In-Reply-To: <8b7e9ad5-b4f3-8b24-c4a6-5ae6c4fcb27b@bytedance.com>
-From: Mauro Matteo Cascella <mcascell@redhat.com>
-Date: Tue, 9 May 2023 09:54:07 +0200
-Message-ID: <CAA8xKjXnX26cfK+yyiCGinHRP0PhPWQ_S8r+VA3axXMpa1bgDQ@mail.gmail.com>
-Subject: Re: RE: [PATCH] virtio-crypto: fix NULL pointer dereference in
- virtio_crypto_free_request
-To: zhenwei pi <pizhenwei@bytedance.com>
-Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "mst@redhat.com" <mst@redhat.com>, "taoym@zju.edu.cn" <taoym@zju.edu.cn>,
- "Gonglei (Arei)" <arei.gonglei@huawei.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mcascell@redhat.com;
+Content-type: text/plain
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -98,52 +79,53 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, May 9, 2023 at 3:47=E2=80=AFAM zhenwei pi <pizhenwei@bytedance.com>=
- wrote:
->
->
->
-> On 5/9/23 09:02, Gonglei (Arei) wrote:
-> >
-> >
-> >> -----Original Message-----
-> >> From: Mauro Matteo Cascella [mailto:mcascell@redhat.com]
-> >> Sent: Monday, May 8, 2023 11:02 PM
-> >> To: qemu-devel@nongnu.org
-> >> Cc: mst@redhat.com; Gonglei (Arei) <arei.gonglei@huawei.com>;
-> >> pizhenwei@bytedance.com; taoym@zju.edu.cn; mcascell@redhat.com
-> >> Subject: [PATCH] virtio-crypto: fix NULL pointer dereference in
-> >> virtio_crypto_free_request
-> >>
-> >> Ensure op_info is not NULL in case of QCRYPTODEV_BACKEND_ALG_SYM
-> >> algtype.
-> >>
-> >> Fixes: 02ed3e7c ("virtio-crypto: zeroize the key material before free"=
-)
-> >
-> > I have to say the fixes is incorrect. The bug was introduced by commit =
-0e660a6f90a, which
-> > changed the semantic meaning of request-> flag.
-> >
-> > Regards,
-> > -Gonglei
-> >
->
-> Hi Mauro
->
-> Agree with Lei, could you please change the Fixes as Lei suggested?
+Section "Definition documentation" uses both single and double quotes
+around doc text snippets.  Stick to double quotes.
 
-Sent v2.
+Signed-off-by: Markus Armbruster <armbru@redhat.com>
+Message-Id: <20230428105429.1687850-2-armbru@redhat.com>
+Reviewed-by: Juan Quintela <quintela@redhat.com>
+---
+ docs/devel/qapi-code-gen.rst | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
-Thanks!
-
-> --
-> zhenwei pi
->
-
---=20
-Mauro Matteo Cascella
-Red Hat Product Security
-PGP-Key ID: BB3410B0
+diff --git a/docs/devel/qapi-code-gen.rst b/docs/devel/qapi-code-gen.rst
+index af1986f33e..289869c53b 100644
+--- a/docs/devel/qapi-code-gen.rst
++++ b/docs/devel/qapi-code-gen.rst
+@@ -989,7 +989,7 @@ The number of spaces between the ':' and the text is not significant.
+    union branches should be described, too.
+ 
+ Extensions added after the definition was first released carry a
+-'(since x.y.z)' comment.
++"(since x.y.z)" comment.
+ 
+ The feature descriptions must be preceded by a line "Features:", like
+ this::
+@@ -1003,17 +1003,17 @@ The section ends with the start of a new section.
+ 
+ The text of a section can start on a new line, in
+ which case it must not be indented at all.  It can also start
+-on the same line as the 'Note:', 'Returns:', etc tag.  In this
++on the same line as the "Note:", "Returns:", etc tag.  In this
+ case if it spans multiple lines then second and subsequent
+ lines must be indented to match the first, in the same way as
+ multiline argument descriptions.
+ 
+-A 'Since: x.y.z' tagged section lists the release that introduced the
++A "Since: x.y.z" tagged section lists the release that introduced the
+ definition.
+ 
+-An 'Example' or 'Examples' section is automatically rendered
+-entirely as literal fixed-width text.  In other sections,
+-the text is formatted, and rST markup can be used.
++An "Example" or "Examples" section is automatically rendered entirely
++as literal fixed-width text.  In other sections, the text is
++formatted, and rST markup can be used.
+ 
+ For example::
+ 
+-- 
+2.39.2
 
 
