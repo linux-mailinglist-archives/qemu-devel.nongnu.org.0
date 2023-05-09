@@ -2,56 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA0C26FC102
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 May 2023 09:55:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0405E6FC103
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 May 2023 09:55:47 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pwIA8-0004eh-Or; Tue, 09 May 2023 03:53:32 -0400
+	id 1pwIB7-0005CW-69; Tue, 09 May 2023 03:54:34 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mcascell@redhat.com>)
- id 1pwIA4-0004cN-Ru
- for qemu-devel@nongnu.org; Tue, 09 May 2023 03:53:29 -0400
+ id 1pwIB4-0005Bk-Rk
+ for qemu-devel@nongnu.org; Tue, 09 May 2023 03:54:30 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mcascell@redhat.com>)
- id 1pwIA2-0006X0-Hq
- for qemu-devel@nongnu.org; Tue, 09 May 2023 03:53:28 -0400
+ id 1pwIB2-0006nY-Dl
+ for qemu-devel@nongnu.org; Tue, 09 May 2023 03:54:30 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1683618805;
+ s=mimecast20190719; t=1683618867;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=VEvtKRYBjsblfazOfiGmgPF0gMEXrgIo/R+yAE9LqZ0=;
- b=eeY2EO2CyWqmw8M1rdanj+rhlHiNbc/+2RPddy2xVeRXcFsJoSdxxzkJQiqZxtvG+HmyQU
- jfDfKluCwcIwF6JlX4lny08B/TVaTCh+LeHUdXQMpXROx9FGs97qAd7d+r258z5yC4xpDl
- 3Yl6DeoGfR+YcJjOZZn2ZnUlbaSmeTg=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-52-s2aNukQCMXSBjTgeO248zg-1; Tue, 09 May 2023 03:53:22 -0400
-X-MC-Unique: s2aNukQCMXSBjTgeO248zg-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
- [10.11.54.9])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 98444802A95;
- Tue,  9 May 2023 07:53:21 +0000 (UTC)
-Received: from f37-work.redhat.com (unknown [10.39.194.81])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id CAD31492B00;
- Tue,  9 May 2023 07:53:19 +0000 (UTC)
-From: Mauro Matteo Cascella <mcascell@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: mst@redhat.com, arei.gonglei@huawei.com, pizhenwei@bytedance.com,
- taoym@zju.edu.cn, mcascell@redhat.com
-Subject: [PATCH v2] virtio-crypto: fix NULL pointer dereference in
- virtio_crypto_free_request
-Date: Tue,  9 May 2023 09:53:17 +0200
-Message-Id: <20230509075317.1132301-1-mcascell@redhat.com>
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=lWVkETvqxui2L6JEGelYr7ZQK6Q0j4GyfaZIGcMpQ1Y=;
+ b=f8LqaWxJ2cN6ftH7uHrNZxfZLehjCOYeDDaEeuWWQkf4CZWrT3y3s2r+VmpaLWjUcMTMS3
+ vF3OQGyyUEpGxpw/p5x1S954KGg8LU/jJjDvvcy3561R8YVlGpR+gtj31llo54GWCC0uvx
+ 09HYT2iqYySYcoebNmjMQe9o6lfrrdY=
+Received: from mail-ua1-f70.google.com (mail-ua1-f70.google.com
+ [209.85.222.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-316-2dpbk-23PjiwIslf7u0-hA-1; Tue, 09 May 2023 03:54:19 -0400
+X-MC-Unique: 2dpbk-23PjiwIslf7u0-hA-1
+Received: by mail-ua1-f70.google.com with SMTP id
+ a1e0cc1a2514c-77d4add38e0so1348630241.0
+ for <qemu-devel@nongnu.org>; Tue, 09 May 2023 00:54:18 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1683618858; x=1686210858;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=lWVkETvqxui2L6JEGelYr7ZQK6Q0j4GyfaZIGcMpQ1Y=;
+ b=dlTAskAZwNXQU6RrZ6lgll3eVN1tuvcHRilzGnyoaMM7BP3bnmaOej8XL4W7fJZjDl
+ /rVELLoCvDBsWQGTe9ypUX6PoeY9kAFoA8Lo0RXWYx+qqRYzKqghbqoV806tYlyIie+X
+ UkAKykqE/NV7JAS1bC1kwRXhK9JC0h3cfxGKKhHX+eAkBVQ2mdoSiVJTh83KNyDL4WfE
+ MEIs+mAxWPJC+ojoUdrQQVeuvoPg7j+eBUpfOItTWFZsYAyN9GEwsTwkdW9dfWWL72UY
+ 3Az+6Qon7l6IzSx3+jvOwkKp1qEGqz5+ZMrXdIsyw3NVhpCicmEuLpBsW8Ycomooka5M
+ 559A==
+X-Gm-Message-State: AC+VfDzypvxU9v6iDN85cXd8/M0uQrnUP2ebkFJYLTsDWinwCLjfzkHV
+ jJgMgbCShRlsLhnZ4slolzDk5bVG2qj4ozzsW5r92z848wws19m64auv3MFg38TTZcqdQz/BXhB
+ L+P1s11Y1S9uqLKlvv5N4yMcP8Hcgq5w=
+X-Received: by 2002:a67:ec47:0:b0:42e:65a6:d445 with SMTP id
+ z7-20020a67ec47000000b0042e65a6d445mr4138971vso.5.1683618858559; 
+ Tue, 09 May 2023 00:54:18 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ5VrrrZ4RZm2d49L9E7A7I/GWfBE+eApgwPqLiv0FZyg9inUoKtGdKlxUB78Ad7AJLJ21PysKzSuLIW87KIa9o=
+X-Received: by 2002:a67:ec47:0:b0:42e:65a6:d445 with SMTP id
+ z7-20020a67ec47000000b0042e65a6d445mr4138966vso.5.1683618858349; Tue, 09 May
+ 2023 00:54:18 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
+References: <20230508150146.1092355-1-mcascell@redhat.com>
+ <f443c6c7ec2d4d2e88afeb586d5653ed@huawei.com>
+ <8b7e9ad5-b4f3-8b24-c4a6-5ae6c4fcb27b@bytedance.com>
+In-Reply-To: <8b7e9ad5-b4f3-8b24-c4a6-5ae6c4fcb27b@bytedance.com>
+From: Mauro Matteo Cascella <mcascell@redhat.com>
+Date: Tue, 9 May 2023 09:54:07 +0200
+Message-ID: <CAA8xKjXnX26cfK+yyiCGinHRP0PhPWQ_S8r+VA3axXMpa1bgDQ@mail.gmail.com>
+Subject: Re: RE: [PATCH] virtio-crypto: fix NULL pointer dereference in
+ virtio_crypto_free_request
+To: zhenwei pi <pizhenwei@bytedance.com>
+Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "mst@redhat.com" <mst@redhat.com>, "taoym@zju.edu.cn" <taoym@zju.edu.cn>,
+ "Gonglei (Arei)" <arei.gonglei@huawei.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=mcascell@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
@@ -76,50 +98,52 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Ensure op_info is not NULL in case of QCRYPTODEV_BACKEND_ALG_SYM algtype.
+On Tue, May 9, 2023 at 3:47=E2=80=AFAM zhenwei pi <pizhenwei@bytedance.com>=
+ wrote:
+>
+>
+>
+> On 5/9/23 09:02, Gonglei (Arei) wrote:
+> >
+> >
+> >> -----Original Message-----
+> >> From: Mauro Matteo Cascella [mailto:mcascell@redhat.com]
+> >> Sent: Monday, May 8, 2023 11:02 PM
+> >> To: qemu-devel@nongnu.org
+> >> Cc: mst@redhat.com; Gonglei (Arei) <arei.gonglei@huawei.com>;
+> >> pizhenwei@bytedance.com; taoym@zju.edu.cn; mcascell@redhat.com
+> >> Subject: [PATCH] virtio-crypto: fix NULL pointer dereference in
+> >> virtio_crypto_free_request
+> >>
+> >> Ensure op_info is not NULL in case of QCRYPTODEV_BACKEND_ALG_SYM
+> >> algtype.
+> >>
+> >> Fixes: 02ed3e7c ("virtio-crypto: zeroize the key material before free"=
+)
+> >
+> > I have to say the fixes is incorrect. The bug was introduced by commit =
+0e660a6f90a, which
+> > changed the semantic meaning of request-> flag.
+> >
+> > Regards,
+> > -Gonglei
+> >
+>
+> Hi Mauro
+>
+> Agree with Lei, could you please change the Fixes as Lei suggested?
 
-Fixes: 0e660a6f90a ("crypto: Introduce RSA algorithm")
-Signed-off-by: Mauro Matteo Cascella <mcascell@redhat.com>
-Reported-by: Yiming Tao <taoym@zju.edu.cn>
----
-v2:
-- updated 'Fixes:' tag
+Sent v2.
 
- hw/virtio/virtio-crypto.c | 20 +++++++++++---------
- 1 file changed, 11 insertions(+), 9 deletions(-)
+Thanks!
 
-diff --git a/hw/virtio/virtio-crypto.c b/hw/virtio/virtio-crypto.c
-index 2fe804510f..c729a1f79e 100644
---- a/hw/virtio/virtio-crypto.c
-+++ b/hw/virtio/virtio-crypto.c
-@@ -476,15 +476,17 @@ static void virtio_crypto_free_request(VirtIOCryptoReq *req)
-         size_t max_len;
-         CryptoDevBackendSymOpInfo *op_info = req->op_info.u.sym_op_info;
- 
--        max_len = op_info->iv_len +
--                  op_info->aad_len +
--                  op_info->src_len +
--                  op_info->dst_len +
--                  op_info->digest_result_len;
--
--        /* Zeroize and free request data structure */
--        memset(op_info, 0, sizeof(*op_info) + max_len);
--        g_free(op_info);
-+        if (op_info) {
-+            max_len = op_info->iv_len +
-+                      op_info->aad_len +
-+                      op_info->src_len +
-+                      op_info->dst_len +
-+                      op_info->digest_result_len;
-+
-+            /* Zeroize and free request data structure */
-+            memset(op_info, 0, sizeof(*op_info) + max_len);
-+            g_free(op_info);
-+        }
-     } else if (req->flags == QCRYPTODEV_BACKEND_ALG_ASYM) {
-         CryptoDevBackendAsymOpInfo *op_info = req->op_info.u.asym_op_info;
-         if (op_info) {
--- 
-2.40.1
+> --
+> zhenwei pi
+>
+
+--=20
+Mauro Matteo Cascella
+Red Hat Product Security
+PGP-Key ID: BB3410B0
 
 
