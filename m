@@ -2,91 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5FFF6FCA38
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 May 2023 17:28:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB9426FCA40
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 May 2023 17:31:11 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pwPF5-0003er-Q7; Tue, 09 May 2023 11:27:07 -0400
+	id 1pwPII-00055D-76; Tue, 09 May 2023 11:30:26 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1pwPF2-0003dJ-Tu
- for qemu-devel@nongnu.org; Tue, 09 May 2023 11:27:04 -0400
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1pwPIG-00054P-HI
+ for qemu-devel@nongnu.org; Tue, 09 May 2023 11:30:24 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1pwPF0-0001S4-JJ
- for qemu-devel@nongnu.org; Tue, 09 May 2023 11:27:04 -0400
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1pwPIE-00025C-KF
+ for qemu-devel@nongnu.org; Tue, 09 May 2023 11:30:24 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1683646021;
+ s=mimecast20190719; t=1683646221;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=8m7PEmzgaBL/JhjaqwQjQ12qDIfaWyKl1eItT5WEFPA=;
- b=NPq3xPusMypdo7OflB4sV5uHAiH3yHdEQTOTuuJakAInuqlqZNPc4v4B3qOEBIsHP9lbJF
- sMHLWrw7TR0372GqVLEt50En37YFJpbeTvw5vl/C3/unThKyj3Lm6wlTXqz9SNYLuaASHh
- ClNgRFZMbLyh6OjyDNii1T3goKxIwyE=
-Received: from mail-yb1-f198.google.com (mail-yb1-f198.google.com
- [209.85.219.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-581-eA2uvvNNNPm_QoQdh3lxwg-1; Tue, 09 May 2023 11:26:59 -0400
-X-MC-Unique: eA2uvvNNNPm_QoQdh3lxwg-1
-Received: by mail-yb1-f198.google.com with SMTP id
- 3f1490d57ef6-b9a7553f95dso12063508276.2
- for <qemu-devel@nongnu.org>; Tue, 09 May 2023 08:26:59 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683646018; x=1686238018;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=8m7PEmzgaBL/JhjaqwQjQ12qDIfaWyKl1eItT5WEFPA=;
- b=DPyGalS4I3UIrlHv3Jk+d7cOF+d8Lmv/6IdFQonDF1CeB7Ppu+VMVqdNvOeZNqy5+8
- AcNg/r+rMM3Dj7CGxIMohIRKUTnPXWs9r054/qx09y0SJ9EswYrXSNainYiGTtpAcQKv
- eZ1dCOH/gmUpceId4ub97/EsYmI1uFpy8SJYIuVhK9Uuss+gRqer+YKAxI7a0oakNm+V
- s7HJRWqSjNMdv3GOah+d1EZ5IIy574ycui5fzJ3hdujiFT2br2ilcd12eHyjkFn2wfx1
- YHrtrmZbvMxDL9ZcCxd56rnNVVEuathq41sWNMo40/bUfMFmvo5mtGXL3shfg+Qd8/DA
- jB2w==
-X-Gm-Message-State: AC+VfDxLCqlCYzzf1IDkDZ9CYnicUeaCtK5CCunZktRPrxlJUBy8gZdE
- 21JsLdRfdTUdlFaT5wB5MkBusDXky5RvxKGxuRXUu1jGukM66B0c0nIHb0E5bW5R5+UvlJvV2PM
- ZgeNMf2mi3JfGjDx2EorXWB2g8Bx63mo=
-X-Received: by 2002:a25:3a87:0:b0:b95:630:1de1 with SMTP id
- h129-20020a253a87000000b00b9506301de1mr14376990yba.46.1683646018762; 
- Tue, 09 May 2023 08:26:58 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ5MB0lavUFHXYiGgwGv5dXKrf4gYZvZP2BURz1GN812Ouk9IXvNKBFzFPX0JsGrCdZJS1xjIF74aCdpp9oGxdU=
-X-Received: by 2002:a25:3a87:0:b0:b95:630:1de1 with SMTP id
- h129-20020a253a87000000b00b9506301de1mr14376967yba.46.1683646018460; Tue, 09
- May 2023 08:26:58 -0700 (PDT)
-MIME-Version: 1.0
-References: <20230412210641.GC2813183@fedora>
- <CAJaqyWfm=g_hr9=WpsnwJ4hdpVb7K7p5rirWjvx=PxKYUp8trA@mail.gmail.com>
- <20230417153810.GE3852722@fedora>
- <CAJaqyWePM_a7AafP9qS40hmYXKHDyMsvn5g24zk=cH8L6s-kUw@mail.gmail.com>
- <CAJSP0QWUfxzad3EmT3r1hhaWmXDQt9Nj1LRPhPs_w79S9GAb1A@mail.gmail.com>
- <CAJaqyWfaDVZDJtMvPUhdRE283e80rB3WFd3RF9i=buaBYG=PKA@mail.gmail.com>
- <20230418175924.GB4041499@fedora>
- <CAJaqyWd9Ec7hpfv_NUDxOuwK4weyRTm-cVNOuv8VTiGVzyYjHQ@mail.gmail.com>
- <CAJSP0QWx_9TJa_0QRfhNg6JQemAWCc0ZagvkSxj15bbM5tGD4w@mail.gmail.com>
- <a95c1ad494ce5f8d7f27af788708966e7ba1925a.camel@redhat.com>
- <20230508191235.GA926999@fedora>
- <CAJaqyWdAyVaLJykLEkHwK3BpcvP2RPJQ1ok02F9LRe26QT75Aw@mail.gmail.com>
- <c082fe16-6c83-3445-67fc-26da718d5479@redhat.com>
-In-Reply-To: <c082fe16-6c83-3445-67fc-26da718d5479@redhat.com>
-From: Eugenio Perez Martin <eperezma@redhat.com>
-Date: Tue, 9 May 2023 17:26:21 +0200
-Message-ID: <CAJaqyWf3JdGucdpH2Xd7f-W1vuFB2QdLfBX+skzfy9Dv-ZwdNQ@mail.gmail.com>
-Subject: Re: [PATCH 2/4] vhost-user: Interface for migration state transfer
-To: Hanna Czenczek <hreitz@redhat.com>
-Cc: Stefan Hajnoczi <stefanha@redhat.com>, Stefan Hajnoczi <stefanha@gmail.com>,
- qemu-devel@nongnu.org, 
- virtio-fs@redhat.com, German Maglione <gmaglione@redhat.com>, 
- Anton Kuchin <antonkuchin@yandex-team.ru>, Juan Quintela <quintela@redhat.com>,
+ bh=qVuG7Q0kD3ydZxJyVv5TrfWZBqj/XRzVFfa34nOMkSs=;
+ b=YeW5J+uyySnbML8scVhFaahNyMI2gl/fimy4ATjkBV00fdaiKEzjNqd+csjj3FOEPrt2EB
+ eUSgVP8dcw2TZamtQJBWwA/pXW0MoCkDp/Qb0+OY3pBQh1eadxbliTctiWiDLcKmCreQj4
+ 0DxrhKtQmnSOU9hWx5CU/Sp1MYd/poc=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-241-Zxr7fF_pM-2GCp1ww8uWRw-1; Tue, 09 May 2023 11:30:19 -0400
+X-MC-Unique: Zxr7fF_pM-2GCp1ww8uWRw-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.8])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 72725800047;
+ Tue,  9 May 2023 15:30:19 +0000 (UTC)
+Received: from localhost (unknown [10.39.195.128])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 97E13C084BB;
+ Tue,  9 May 2023 15:30:18 +0000 (UTC)
+Date: Tue, 9 May 2023 11:30:16 -0400
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Eugenio Perez Martin <eperezma@redhat.com>
+Cc: Hanna Czenczek <hreitz@redhat.com>,
+ Stefan Hajnoczi <stefanha@gmail.com>, qemu-devel@nongnu.org,
+ virtio-fs@redhat.com, German Maglione <gmaglione@redhat.com>,
+ Anton Kuchin <antonkuchin@yandex-team.ru>,
+ Juan Quintela <quintela@redhat.com>,
  "Michael S . Tsirkin" <mst@redhat.com>,
  Stefano Garzarella <sgarzare@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=eperezma@redhat.com;
+Subject: Re: [PATCH 0/4] vhost-user-fs: Internal migration
+Message-ID: <20230509153016.GF926999@fedora>
+References: <20230411150515.14020-1-hreitz@redhat.com>
+ <e8cc4521-50a1-2e38-1fb3-8cfa7b0c967e@redhat.com>
+ <CAJSP0QUFFYWwD5+8+1q41sNErJVNbkfnQ3VtB4z-HZUV8S0=zw@mail.gmail.com>
+ <dfec96a1-84c3-3639-6f09-204c2d12244a@redhat.com>
+ <71e47e3e-880d-38d8-c1b0-3287c60365e4@redhat.com>
+ <CAJaqyWe13QxuC9BNBULJ1xu1saWE9Y3ET8eEef-7qtyL5R73SQ@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="2EkKTlwdzUwJ7VKV"
+Content-Disposition: inline
+In-Reply-To: <CAJaqyWe13QxuC9BNBULJ1xu1saWE9Y3ET8eEef-7qtyL5R73SQ@mail.gmail.com>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -110,41 +89,146 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, May 9, 2023 at 11:01=E2=80=AFAM Hanna Czenczek <hreitz@redhat.com> =
-wrote:
->
-> On 09.05.23 08:31, Eugenio Perez Martin wrote:
-> > On Mon, May 8, 2023 at 9:12=E2=80=AFPM Stefan Hajnoczi <stefanha@redhat=
-.com> wrote:
->
-> [...]
->
-> >> VHOST_USER_GET_VRING_BASE itself isn't really enough because it stops =
-a
-> >> specific virtqueue but not the whole device. Unfortunately stopping al=
-l
-> >> virtqueues is not the same as SUSPEND since spontaneous device activit=
-y
-> >> is possible independent of any virtqueue (e.g. virtio-scsi events and
-> >> maybe virtio-net link status).
-> >>
-> >> That's why I think SUSPEND is necessary for a solution that's generic
-> >> enough to cover all device types.
-> >>
-> > I agree.
+
+--2EkKTlwdzUwJ7VKV
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Fri, May 05, 2023 at 04:26:08PM +0200, Eugenio Perez Martin wrote:
+> On Fri, May 5, 2023 at 11:51=E2=80=AFAM Hanna Czenczek <hreitz@redhat.com=
+> wrote:
 > >
-> > In particular virtiofsd is already resetting all the device at
-> > VHOST_USER_GET_VRING_BASE if I'm not wrong, so that's even more of a
-> > reason to implement suspend call.
->
-> Oh, no, just the vring in question.  Not the whole device.
->
-> In addition, we still need the GET_VRING_BASE call anyway, because,
-> well, we want to restore the vring on the destination via SET_VRING_BASE.
->
+> > (By the way, thanks for the explanations :))
+> >
+> > On 05.05.23 11:03, Hanna Czenczek wrote:
+> > > On 04.05.23 23:14, Stefan Hajnoczi wrote:
+> >
+> > [...]
+> >
+> > >> I think it's better to change QEMU's vhost code
+> > >> to leave stateful devices suspended (but not reset) across
+> > >> vhost_dev_stop() -> vhost_dev_start(), maybe by introducing
+> > >> vhost_dev_suspend() and vhost_dev_resume(). Have you thought about
+> > >> this aspect?
+> > >
+> > > Yes and no; I mean, I haven=E2=80=99t in detail, but I thought this i=
+s what=E2=80=99s
+> > > meant by suspending instead of resetting when the VM is stopped.
+> >
+> > So, now looking at vhost_dev_stop(), one problem I can see is that
+> > depending on the back-end, different operations it does will do
+> > different things.
+> >
+> > It tries to stop the whole device via vhost_ops->vhost_dev_start(),
+> > which for vDPA will suspend the device, but for vhost-user will reset it
+> > (if F_STATUS is there).
+> >
+> > It disables all vrings, which doesn=E2=80=99t mean stopping, but may be
+> > necessary, too.  (I haven=E2=80=99t yet really understood the use of di=
+sabled
+> > vrings, I heard that virtio-net would have a need for it.)
+> >
+> > It then also stops all vrings, though, so that=E2=80=99s OK.  And becau=
+se this
+> > will always do GET_VRING_BASE, this is actually always the same
+> > regardless of transport.
+> >
+> > Finally (for this purpose), it resets the device status via
+> > vhost_ops->vhost_reset_status().  This is only implemented on vDPA, and
+> > this is what resets the device there.
+> >
+> >
+> > So vhost-user resets the device in .vhost_dev_start, but vDPA only does
+> > so in .vhost_reset_status.  It would seem better to me if vhost-user
+> > would also reset the device only in .vhost_reset_status, not in
+> > .vhost_dev_start.  .vhost_dev_start seems precisely like the place to
+> > run SUSPEND/RESUME.
+> >
+>=20
+> I think the same. I just saw It's been proposed at [1].
+>=20
+> > Another question I have (but this is basically what I wrote in my last
+> > email) is why we even call .vhost_reset_status here.  If the device
+> > and/or all of the vrings are already stopped, why do we need to reset
+> > it?  Na=C3=AFvely, I had assumed we only really need to reset the devic=
+e if
+> > the guest changes, so that a new guest driver sees a freshly initialized
+> > device.
+> >
+>=20
+> I don't know why we didn't need to call it :). I'm assuming the
+> previous vhost-user net did fine resetting vq indexes, using
+> VHOST_USER_SET_VRING_BASE. But I don't know about more complex
+> devices.
 
-Ok, that makes sense, sorry for the confusion!
+It was added so DPDK can batch rx virtqueue RSS updates:
 
-Thanks!
+commit 923b8921d210763359e96246a58658ac0db6c645
+Author: Yajun Wu <yajunw@nvidia.com>
+Date:   Mon Oct 17 14:44:52 2022 +0800
+
+    vhost-user: Support vhost_dev_start
+   =20
+    The motivation of adding vhost-user vhost_dev_start support is to
+    improve backend configuration speed and reduce live migration VM
+    downtime.
+   =20
+    Today VQ configuration is issued one by one. For virtio net with
+    multi-queue support, backend needs to update RSS (Receive side
+    scaling) on every rx queue enable. Updating RSS is time-consuming
+    (typical time like 7ms).
+   =20
+    Implement already defined vhost status and message in the vhost
+    specification [1].
+    (a) VHOST_USER_PROTOCOL_F_STATUS
+    (b) VHOST_USER_SET_STATUS
+    (c) VHOST_USER_GET_STATUS
+   =20
+    Send message VHOST_USER_SET_STATUS with VIRTIO_CONFIG_S_DRIVER_OK for
+    device start and reset(0) for device stop.
+   =20
+    On reception of the DRIVER_OK message, backend can apply the needed set=
+ting
+    only once (instead of incremental) and also utilize parallelism on enab=
+ling
+    queues.
+   =20
+    This improves QEMU's live migration downtime with vhost user backend
+    implementation by great margin, specially for the large number of VQs o=
+f 64
+    from 800 msec to 250 msec.
+   =20
+    [1] https://qemu-project.gitlab.io/qemu/interop/vhost-user.html
+   =20
+    Signed-off-by: Yajun Wu <yajunw@nvidia.com>
+    Acked-by: Parav Pandit <parav@nvidia.com>
+    Message-Id: <20221017064452.1226514-3-yajunw@nvidia.com>
+    Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+    Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+
+>=20
+> Thanks!
+>=20
+> [1] https://lore.kernel.org/qemu-devel/20230501230409.274178-1-stefanha@r=
+edhat.com/
+>=20
+
+--2EkKTlwdzUwJ7VKV
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmRaZwgACgkQnKSrs4Gr
+c8gm+Qf/ecSeC69gNSQL1xhG9u/YOOykC6I4/VD3pBSyU/Nk9Fag4QJ3BE0D8ns1
+PUzQE0tGptwjGIc29qAFbrAjz3DNI6RaXEx9MAvs9hI3xrh4lFmYM1+lp6LINGrI
+GXEoXbQKoyuywVr62iSRtJYWwzWs6CoNjujdi69rpmADzKdJBK3TpcO7EXZW93kS
+L09koT2pW7SWItRPcD7xh2DNN92MR6utwnfL5NDVFdBklKJjlPvkLpzSBPQGIq26
+S1PP3mI1yqWeK/3CMdjekZB2e5QqM7cOJwNFOeUykDl6RrnpkfKATvtnySsLLVKx
+p73lzMXxwito+FKzvCISfcr7fKe5Pg==
+=v7nP
+-----END PGP SIGNATURE-----
+
+--2EkKTlwdzUwJ7VKV--
 
 
