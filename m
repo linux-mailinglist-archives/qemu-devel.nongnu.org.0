@@ -2,125 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E2906FC302
+	by mail.lfdr.de (Postfix) with ESMTPS id 83D1B6FC303
 	for <lists+qemu-devel@lfdr.de>; Tue,  9 May 2023 11:43:31 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pwJrj-0001Pz-Gt; Tue, 09 May 2023 05:42:39 -0400
+	id 1pwJri-0001OB-18; Tue, 09 May 2023 05:42:38 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1pwJri-0001PK-4q
- for qemu-devel@nongnu.org; Tue, 09 May 2023 05:42:38 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <slp@redhat.com>) id 1pwJrb-0001NU-7C
+ for qemu-devel@nongnu.org; Tue, 09 May 2023 05:42:31 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1pwJrg-0003yJ-MD
- for qemu-devel@nongnu.org; Tue, 09 May 2023 05:42:37 -0400
+ (Exim 4.90_1) (envelope-from <slp@redhat.com>) id 1pwJrZ-0003xa-Dc
+ for qemu-devel@nongnu.org; Tue, 09 May 2023 05:42:30 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1683625356;
+ s=mimecast20190719; t=1683625348;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=pzyzsRyc9yht/HJanfsUPJ0wkeEzXXSIdJZxKgl9dkA=;
- b=So2hkLd+thyYq9+dd3dFnaxJPfmX2UYKsbqITkovGV2K7qC/dKpZmfcujDZjqNN8TrOdgG
- qc2XrgHJI6DHonqSixsNUgD7Tm/RsvfzWVlTdJ7drDFiSxNM/HxxZfaHHnRfTdynfHep6k
- PkWEJ9n5AHOcBMoASZMgSfC5Lh6Ytcg=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-395-Lw1CPnKyNPeL-KZVKgpjDQ-1; Tue, 09 May 2023 05:42:34 -0400
-X-MC-Unique: Lw1CPnKyNPeL-KZVKgpjDQ-1
-Received: by mail-ej1-f71.google.com with SMTP id
- a640c23a62f3a-94a341ee4fcso700070366b.0
- for <qemu-devel@nongnu.org>; Tue, 09 May 2023 02:42:34 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683625353; x=1686217353;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=pzyzsRyc9yht/HJanfsUPJ0wkeEzXXSIdJZxKgl9dkA=;
- b=UT1oKqhQ6i06PjyJO+OAPzcK9CMmcDOLwfF1kz2H0BzLad3PMkFZcDjIr2yJQq7hr7
- k3LOcOLMyWgh1IW8S9sraCydfQxWzZgYMfCbX2wVltohduCYiQ3kuXH0IpPEDF0XGSOS
- 0oiz6nf8X/vrVm0sgzZ526z3E7sVjwHrHoMYt5/LwIUoKHrXUuVCVkroTaprZ4C4AK9t
- ZNX/Xt/iVnupRz9HUHnWFHwU86BydFwUIj3/PwdNqgXuwPw3gPKi9n8dt2mkYtBLZCXi
- KZsFDXPvSvi2kjahuUPP1p9138yz8CeBWWOEBWarKRXdxFV/cGlSMsUj2RgXEg7nLEZI
- 9FjQ==
-X-Gm-Message-State: AC+VfDzZYlroJ+sgOak6wAMqDxLbLeaEJSmBHUXt7qHtIlpyTkqYXSfl
- jcuZHvxZ6CXVfvLDM3xANlam3LNczz5+xWmEC/qPysxa3vEXOAVEzucxQr0UUnftRBjCYQcHZDq
- 9vWCMgAZhKiU3er4=
-X-Received: by 2002:a17:907:7d8e:b0:94f:19b5:bafd with SMTP id
- oz14-20020a1709077d8e00b0094f19b5bafdmr12929614ejc.42.1683625353687; 
- Tue, 09 May 2023 02:42:33 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ4kvN4wIUwFWzeAMy75kdILN4njpJmeQFZ4B4MvOg2pwbbbXEXnIhSF3By2Aucp5dSqB4u49Q==
-X-Received: by 2002:a17:907:7d8e:b0:94f:19b5:bafd with SMTP id
- oz14-20020a1709077d8e00b0094f19b5bafdmr12929573ejc.42.1683625353292; 
- Tue, 09 May 2023 02:42:33 -0700 (PDT)
-Received: from ?IPV6:2001:b07:6468:f312:9af8:e5f5:7516:fa89?
- ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
- by smtp.googlemail.com with ESMTPSA id
- z6-20020a17090665c600b00968382ebf40sm1100404ejn.40.2023.05.09.02.42.31
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 09 May 2023 02:42:32 -0700 (PDT)
-Message-ID: <c4545a92-8e37-a916-9f1e-ef537dcb1e06@redhat.com>
-Date: Tue, 9 May 2023 11:42:30 +0200
+ bh=/kkFsoVk90suBF732mvT2fQ4LKdCXBmXhmOjzJEvsFQ=;
+ b=X6yOpArn+mdEYAqL0v2rL4nlBvBnMl+mWuGEAp22opeJwVW7p+Ls9OoY5XeEQKB4YDE3bz
+ n5OFpUiaMTcXsQ7kwUQZwTPrmIUyWpgX3Wf23KXvBpQYbfvErXuqn9mNgV3F4zHF447xku
+ /muSJQ+2opqp7+/tQeyAS3r1aR2r7sc=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-32-GZKFmiF_OOWH5w8dApELMA-1; Tue, 09 May 2023 05:42:26 -0400
+X-MC-Unique: GZKFmiF_OOWH5w8dApELMA-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.3])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 319471C08795;
+ Tue,  9 May 2023 09:42:26 +0000 (UTC)
+Received: from localhost (unknown [10.42.28.197])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id BA22E1121314;
+ Tue,  9 May 2023 09:42:25 +0000 (UTC)
+Date: Tue, 9 May 2023 11:43:45 +0200
+From: Sergio Lopez <slp@redhat.com>
+To: Markus Armbruster <armbru@redhat.com>
+Cc: qemu-devel@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>, 
+ Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>, 
+ Paolo Bonzini <pbonzini@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>, 
+ Eric Blake <eblake@redhat.com>
+Subject: Re: [PATCH v3 2/6] ui: add the infrastructure to support MT events
+Message-ID: <rjkw62vfvujpsgmtjak7sqccewmnpc4q2oizfmqlpliyuhjgrj@rku5pxt33ihn>
+References: <20230413152120.53967-1-slp@redhat.com>
+ <20230413152120.53967-3-slp@redhat.com>
+ <87sfcybwu3.fsf@pond.sub.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH 05/22] hw/arm: Select VIRTIO_NET for virt machine
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: Fabiano Rosas <farosas@suse.de>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
- <alex.bennee@linaro.org>, qemu-devel <qemu-devel@nongnu.org>,
- Laurent Vivier <lvivier@redhat.com>, Artyom Tarasenko <atar4qemu@gmail.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Thomas Huth <thuth@redhat.com>, Leif Lindholm <quic_llindhol@quicinc.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Helge Deller <deller@gmx.de>,
- Xiaojuan Yang <yangxiaojuan@loongson.cn>,
- Stefan Hajnoczi <stefanha@redhat.com>, Cleber Rosa <crosa@redhat.com>,
- Eduardo Habkost <eduardo@habkost.net>, Juan Quintela <quintela@redhat.com>,
- John Snow <jsnow@redhat.com>, Yoshinori Sato <ysato@users.sourceforge.jp>,
- =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
- Ilya Leoshkevich <iii@linux.ibm.com>,
- Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>, Andrew Jeffery
- <andrew@aj.id.au>, qemu-s390x <qemu-s390x@nongnu.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- qemu-arm <qemu-arm@nongnu.org>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Beraldo Leal <bleal@redhat.com>, Max Filippov <jcmvbkbc@gmail.com>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Jiaxun Yang <jiaxun.yang@flygoat.com>, Radoslaw Biernacki
- <rad@semihalf.com>, Aurelien Jarno <aurelien@aurel32.net>,
- David Hildenbrand <david@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Song Gao <gaosong@loongson.cn>, Joel Stanley <joel@jms.id.au>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-References: <20230503091244.1450613-1-alex.bennee@linaro.org>
- <20230503091244.1450613-6-alex.bennee@linaro.org>
- <531a2eab-f0e6-46a5-c021-c82746c1ae38@redhat.com> <87y1m5s9yl.fsf@linaro.org>
- <5fb214d8-4a54-f896-f23f-fe9e646e4b2d@redhat.com>
- <CAFEAcA-Cfz8CkNeTQodoSitocBmm4ddk25Dq8x=5FiiGvaS34Q@mail.gmail.com>
- <e7185f74-f041-05b1-0f76-bab6d724e796@redhat.com> <878re4cl1u.fsf@suse.de>
- <CABgObfYYFfGk2X6M5MxbEbVqCYOp1Km53xkTNrfHwkK=aZOpyw@mail.gmail.com>
- <CAFEAcA91kfdgP3GD8OzgpePX6yXxsLZgARfsNhjY8WyEtKwUuA@mail.gmail.com>
-Content-Language: en-US
-From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <CAFEAcA91kfdgP3GD8OzgpePX6yXxsLZgARfsNhjY8WyEtKwUuA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="7ue7uy2rywjancj2"
+Content-Disposition: inline
+In-Reply-To: <87sfcybwu3.fsf@pond.sub.org>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=slp@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -38
-X-Spam_score: -3.9
-X-Spam_bar: ---
-X-Spam_report: (-3.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.802, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -136,24 +82,263 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 5/9/23 11:27, Peter Maydell wrote:
-> On Mon, 8 May 2023 at 23:24, Paolo Bonzini <pbonzini@redhat.com> wrote:
->> --without-default-devices is not about choosing to not build
->> some devices; it is about making non-selected devices opt-in
->> rather than opt-out.
-> 
-> Hmm, so it's basically "the person doing the configuration needs
-> to know what they're doing, the Kconfig system will give them
-> no hints about what devices might or might not be needed to
-> make machine type M functional" ?
 
-It depends on what you mean by functional.  I would say you do get what 
-is needed to have a functional machine, but not what is needed to have a 
-useful machine.
+--7ue7uy2rywjancj2
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-But typically the latter is the easier of the two, because you should 
-have an idea of what -devices are useful *to you*.
+On Mon, Apr 17, 2023 at 12:57:08PM +0200, Markus Armbruster wrote:
+> Sergio Lopez <slp@redhat.com> writes:
+>=20
+> > Add the required infrastructure to support generating multitouch events.
+> >
+> > Signed-off-by: Sergio Lopez <slp@redhat.com>
+> > Reviewed-by: Marc-Andr=E9 Lureau <marcandre.lureau@redhat.com>
+> > ---
+> >  include/ui/input.h    |  3 +++
+> >  qapi/ui.json          | 46 ++++++++++++++++++++++++++++++++++++++++---
+> >  replay/replay-input.c | 18 +++++++++++++++++
+> >  ui/input.c            |  6 ++++++
+> >  ui/trace-events       |  1 +
+> >  5 files changed, 71 insertions(+), 3 deletions(-)
+> >
+> > diff --git a/include/ui/input.h b/include/ui/input.h
+> > index c86219a1c1..2a3dffd417 100644
+> > --- a/include/ui/input.h
+> > +++ b/include/ui/input.h
+> > @@ -8,9 +8,12 @@
+> >  #define INPUT_EVENT_MASK_BTN   (1<<INPUT_EVENT_KIND_BTN)
+> >  #define INPUT_EVENT_MASK_REL   (1<<INPUT_EVENT_KIND_REL)
+> >  #define INPUT_EVENT_MASK_ABS   (1<<INPUT_EVENT_KIND_ABS)
+> > +#define INPUT_EVENT_MASK_MTT   (1<<INPUT_EVENT_KIND_MTT)
+> > =20
+> >  #define INPUT_EVENT_ABS_MIN    0x0000
+> >  #define INPUT_EVENT_ABS_MAX    0x7FFF
+> > +#define INPUT_EVENT_SLOTS_MIN  0x0
+> > +#define INPUT_EVENT_SLOTS_MAX  0xa
+> > =20
+> >  typedef struct QemuInputHandler QemuInputHandler;
+> >  typedef struct QemuInputHandlerState QemuInputHandlerState;
+> > diff --git a/qapi/ui.json b/qapi/ui.json
+> > index 98322342f7..83369bdae8 100644
+> > --- a/qapi/ui.json
+> > +++ b/qapi/ui.json
+> > @@ -1014,7 +1014,7 @@
+> >  ##
+> >  { 'enum'  : 'InputButton',
+> >    'data'  : [ 'left', 'middle', 'right', 'wheel-up', 'wheel-down', 'si=
+de',
+> > -  'extra', 'wheel-left', 'wheel-right' ] }
+> > +  'extra', 'wheel-left', 'wheel-right', 'touch' ] }
+> > =20
+> >  ##
+> >  # @InputAxis:
+> > @@ -1026,6 +1026,17 @@
+> >  { 'enum'  : 'InputAxis',
+> >    'data'  : [ 'x', 'y' ] }
+> > =20
+> > +##
+> > +# @InputMultitouchType:
+>=20
+> Suggest InputMultiTouchType, because...
+>=20
+> > +#
+> > +# Type of a multitouch event.
+>=20
+> ... the common spelling is multi-touch.
+>=20
+> More of the same below.
 
-Paolo
+Ack, let's use this in v4.
+
+> > +#
+> > +# Since: 8.1
+> > +##
+> > +{ 'enum'  : 'InputMultitouchType',
+> > +  'data'  : [ 'begin', 'update', 'end', 'cancel', 'data' ] }
+> > +
+> > +
+> >  ##
+> >  # @InputKeyEvent:
+> >  #
+> > @@ -1069,13 +1080,32 @@
+> >    'data'  : { 'axis'    : 'InputAxis',
+> >                'value'   : 'int' } }
+> > =20
+> > +##
+> > +# @InputMultitouchEvent:
+> > +#
+> > +# Multitouch input event.
+> > +#
+> > +# @slot: Which slot has generated the event.
+>=20
+> Ignorant question: what's a "slot"?
+
+The Multi-touch protocol [1] talks about them without describing them in mu=
+ch
+detail. In my understanding, the HW has as many slots as simultaneous conta=
+ct
+points is able to track. When a new contact is detected is assigned a
+particular slot, and keeps using that one until the contact is released.
+
+> > +# @tracking-id: ID to correlate this event with previously generated e=
+vents.
+> > +# @axis: Which axis is referenced by @value.
+> > +# @value: Contact position.
+> > +#
+> > +# Since: 8.1
+> > +##
+> > +{ 'struct'  : 'InputMultitouchEvent',
+> > +  'data'  : { 'type'       : 'InputMultitouchType',
+> > +              'slot'       : 'int',
+> > +              'tracking-id': 'int',
+> > +              'axis'       : 'InputAxis',
+> > +              'value'      : 'int' } }
+> > +
+> >  ##
+> >  # @InputEventKind:
+> >  #
+> >  # Since: 2.0
+> >  ##
+> >  { 'enum': 'InputEventKind',
+> > -  'data': [ 'key', 'btn', 'rel', 'abs' ] }
+> > +  'data': [ 'key', 'btn', 'rel', 'abs', 'mtt' ] }
+>=20
+> While we generally avoid abbreviations in QAPI, local consistency is a
+> strong argument for this one.  Okay.
+>=20
+> > =20
+> >  ##
+> >  # @InputKeyEventWrapper:
+> > @@ -1101,6 +1131,14 @@
+> >  { 'struct': 'InputMoveEventWrapper',
+> >    'data': { 'data': 'InputMoveEvent' } }
+> > =20
+> > +##
+> > +# @InputMultitouchEventWrapper:
+> > +#
+> > +# Since: 8.1
+> > +##
+> > +{ 'struct': 'InputMultitouchEventWrapper',
+> > +  'data': { 'data': 'InputMultitouchEvent' } }
+>=20
+> The only reason for wrapping is consistency with the other branches.
+> Okay.
+>=20
+> > +
+> >  ##
+> >  # @InputEvent:
+> >  #
+> > @@ -1112,6 +1150,7 @@
+>    # @type: the input type, one of:
+>    #
+>    #        - 'key': Input event of Keyboard
+> >  #        - 'btn': Input event of pointer buttons
+> >  #        - 'rel': Input event of relative pointer motion
+> >  #        - 'abs': Input event of absolute pointer motion
+> > +#        - 'mtt': Input event of Multitouch
+>=20
+> You're imitating the existing "Input event of" pattern, which is fair.
+> But the pattern is bad.  The phrasing awkward, and so is the place.  By
+> documenting the values of InputEventKind only here, and not in
+> InputEventKind's doc comment, the generated documentation for
+> InputEventKind looks like this:
+>=20
+>     "InputEventKind" (Enum)
+>     -----------------------
+>=20
+>     Values
+>     ~~~~~~
+>=20
+>     "key"
+>        Not documented
+>=20
+>     "btn"
+>        Not documented
+>=20
+>     "rel"
+>        Not documented
+>=20
+>     "abs"
+>        Not documented
+>=20
+>     "mtt"
+>        Not documented
+>=20
+>=20
+>     Since
+>     ~~~~~
+>=20
+>     2.0
+>=20
+> We should document them right in InputEventKind's doc comment, roughly
+> like this:
+>=20
+>    ##
+>    # @InputEventKind:
+>    #
+>    # @key: a keyboard input event
+>    # @btn: a pointer button input event
+>    # @rel: a relative pointer motion input event
+>    # @abs: an absolute pointer motion input event
+>    # @mtt: a multi-touch input event
+>    #
+>    # Since: 2.0
+>    ##
+>=20
+> We can then dumb down the documentation of InputEvent member @type to
+> just
+>=20
+>    # @type: the type of input event
+>=20
+> What do you think?
+
+Yeah, this definitely looks better. Fixed in v4.
+
+Thanks,
+Sergio.
+
+> Many more doc comments neglect to document members in this file, and in
+> others.  I'm not asking you to fix them all.
+>=20
+> >  #
+> >  # Since: 2.0
+> >  ##
+> > @@ -1121,7 +1160,8 @@
+> >    'data'  : { 'key'     : 'InputKeyEventWrapper',
+> >                'btn'     : 'InputBtnEventWrapper',
+> >                'rel'     : 'InputMoveEventWrapper',
+> > -              'abs'     : 'InputMoveEventWrapper' } }
+> > +              'abs'     : 'InputMoveEventWrapper',
+> > +              'mtt'     : 'InputMultitouchEventWrapper' } }
+> > =20
+> >  ##
+> >  # @input-send-event:
+>=20
+> [...]
+>=20
+
+--7ue7uy2rywjancj2
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEvtX891EthoCRQuii9GknjS8MAjUFAmRaFdAACgkQ9GknjS8M
+AjXNtg//RuM+HwLCCdCy8+Fg1bhHpuflJmNvkoTVL1Mj4/5zMx4D/TZzQQAj0fmN
+WJfapgahilzEhf67mbjpumPE/bbsGxHrJBT28U5FIkM+8lXf48msFsGYp3bh6qro
+jE/xCkWf7+G+B/F/sbAFOJ3ZI9Ze8TKsLgAInHn72A0Mm6a5WVWX4fIyiC8SUco+
++wXaioYh6no2Fn7l2/DsxIVeyw1wYtND4I2xfAf8NuMyIO7YSzLGq0+WWC8EeR7m
+Rvle+78aMCxbrg4Z/8wfb/uiTyQRJuCmyb5W/Q3VkFmG1COwXfLF/ItM/NfmSjGc
+piR18R2GBWkkQr1j9Io2kV3u/lqFqVMCoIwTNis2liZehNT+y+4q0a/hPwcTJ154
+oci8UrYTr+wgwLNZOwjPHXXiO0GRjzivjxd52XPpJhuvhAtiE5soljZz3yCXTiOl
+AyLnAn1mqNjgKxdWKJJf8dVKS3nC4oaj7EZS2OlEcsZIkUk2bT243m6iSGnBfoxy
+HizjECOm3xSQ5yOkQ+GKbtJiKdNdk6grbpnhEMmRg9J5zvwdRx0qGygyYSEz+Jc0
+ky7E0GxpB1sJ5krtAUi29nb7/qobh4DPF1Nro9noeZW8M9EFt9/lIduxtXtkushZ
+Q8Eg6ZEb/Xf4fJsQ53IQXet7RMcGI7sr6RZDovarkproU5udgfg=
+=Lrs6
+-----END PGP SIGNATURE-----
+
+--7ue7uy2rywjancj2--
 
 
