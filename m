@@ -2,72 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3183F6FBFD0
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 May 2023 09:02:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 052596FBFE0
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 May 2023 09:04:44 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pwHLm-0004Wa-Pj; Tue, 09 May 2023 03:01:31 -0400
+	id 1pwHO9-0006Ai-Gh; Tue, 09 May 2023 03:03:57 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1pwHLY-0004Tc-14
- for qemu-devel@nongnu.org; Tue, 09 May 2023 03:01:22 -0400
-Received: from mail-lf1-x130.google.com ([2a00:1450:4864:20::130])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1pwHLU-0005LV-AW
- for qemu-devel@nongnu.org; Tue, 09 May 2023 03:01:14 -0400
-Received: by mail-lf1-x130.google.com with SMTP id
- 2adb3069b0e04-4f24ceae142so2674605e87.3
- for <qemu-devel@nongnu.org>; Tue, 09 May 2023 00:01:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1683615669; x=1686207669;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=qxZQiJsdIjLsJJxwjIAvAx7UVp4TL/C7+6lbUkKZ3uM=;
- b=bGvnCYt0mglBwrtTYT/XqLjxTt1fGsRyiHGOWjXan2/qnSaJlQcono8lcZsnH5/J3H
- exIM4QTO+SjNUao5m1sqzpB6noDP55bD9J8KlCTwCLrJ0oL2+7z2Sk7lWGebw37ROIJO
- YpYxHqXx7G0O6EeQnc5WkNVQJTeFqczNcG3SYuDeo72hWDx3BZQdH+9xpaIRIKlISOVe
- 2aVq8Stzwv/gumaLl40FOctHK0TkLk9PrF2V9ZNinKbvV2mvkmCBRACWgOPjtlfvmXkq
- CTbbE1pJcvufcHwEmdZOP9tivvsoltKuDgG/QdDpCEW+pfo04KbgWAexB+kR7VGLGpQ3
- Rq7A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683615669; x=1686207669;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=qxZQiJsdIjLsJJxwjIAvAx7UVp4TL/C7+6lbUkKZ3uM=;
- b=i1flLQw1YVV8BDjGMu3uCXtkxnb6CwzlhWJ/bARNfqZ/tYZy1C5nttmHBU2rcIDh1M
- UiegTFuyhctqZeayuu4onbUGhTCYzJQkOvCl+q1F92v+ktPqmtZ1Upu/gU4OFbnJC75r
- /tDgEhmVDyYbyOoFHlL1qlY7UfVGcp68Lc0OTjO3ZlTbbbVihT95+PnoQ6i3k2Fh4hD6
- 6X43GXhikDkBGpAAhrz55yaykx1lULKTVfgleb/mCAXIC9b/sy+ViqljiGloSb28gMQW
- Ey2bvqx6MhXGVdNJI59lEgbmbGq4aG8/MI5BvyKQ+E4XkYcOuBrlNfVifuw95DpduLRP
- N6Wg==
-X-Gm-Message-State: AC+VfDyhY50ceDc/DzXMn3sQjbmziI5HgkZC5Oc/WDKBxY+e+cn3IlgM
- gKgAl8BKlphTsdrW9+oBcCURar1jPMLbqseGZlMrHiNgvyggDw==
-X-Google-Smtp-Source: ACHHUZ5kIIVukJVnXTWYiUaybD3QKA6MmhufVeKPeUI9VRpPcBervoUuM1hNd3svVsohD7fCAp9zfUZBI55dEWVpA5Q=
-X-Received: by 2002:ac2:547c:0:b0:4f2:5aae:937 with SMTP id
- e28-20020ac2547c000000b004f25aae0937mr319299lfn.64.1683615669413; Tue, 09 May
- 2023 00:01:09 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pwHO7-0006A5-3T
+ for qemu-devel@nongnu.org; Tue, 09 May 2023 03:03:55 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pwHO5-0005z0-Dj
+ for qemu-devel@nongnu.org; Tue, 09 May 2023 03:03:54 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1683615829;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=HA59Wx+uPOEJled3+DgDGjKpxi743TLhRZ9PPB+P3Aw=;
+ b=fdLJ6wy3CBpG56m1u/QBWXmBNE3wFA5o3enjaX8t2KBSG6agIV03AlN/oRMpd7kNJirXBk
+ oIREFyuT1Vaf5kpxgB1HVO2uWPXcgQRedduHxgMJWoGKMzme7PYJ/g2QpJ++0W2wIKgVNB
+ vhlArbLW+fw2y8cP18cqpwXTLhX0WFQ=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-668-l9RrEdJAPsq3AKGzrKvFLQ-1; Tue, 09 May 2023 03:03:45 -0400
+X-MC-Unique: l9RrEdJAPsq3AKGzrKvFLQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.8])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 34CA118E0AC4;
+ Tue,  9 May 2023 07:03:44 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.39.192.121])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A30C8C16024;
+ Tue,  9 May 2023 07:03:43 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 6B43421E6924; Tue,  9 May 2023 09:03:42 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Juan Quintela <quintela@redhat.com>
+Cc: qemu-devel@nongnu.org,  michael.roth@amd.com,  peter.maydell@linaro.org,
+ pbonzini@redhat.com,  marcandre.lureau@redhat.com,  berrange@redhat.com,
+ thuth@redhat.com,  philmd@linaro.org,  mst@redhat.com,
+ imammedo@redhat.com,  anisinha@redhat.com,  eblake@redhat.com,
+ kraxel@redhat.com,  kwolf@redhat.com,  hreitz@redhat.com,
+ arei.gonglei@huawei.com,  pizhenwei@bytedance.com,  jsnow@redhat.com,
+ vsementsov@yandex-team.ru,  eduardo@habkost.net,
+ marcel.apfelbaum@gmail.com,  wangyanan55@huawei.com,  peterx@redhat.com,
+ leobras@redhat.com,  jasowang@redhat.com,  yuval.shaia.ml@gmail.com,
+ pavel.dovgaluk@ispras.ru,  jiri@resnulli.us,  stefanb@linux.vnet.ibm.com,
+ stefanha@redhat.com,  lukasstraub2@web.de,  kkostiuk@redhat.com,
+ qemu-block@nongnu.org,  victortoso@redhat.com
+Subject: Re: [PATCH 03/17] qapi: Fix crash on stray double quote character
+References: <20230428105429.1687850-1-armbru@redhat.com>
+ <20230428105429.1687850-4-armbru@redhat.com>
+ <87bkj799kn.fsf@secure.mitica>
+Date: Tue, 09 May 2023 09:03:42 +0200
+In-Reply-To: <87bkj799kn.fsf@secure.mitica> (Juan Quintela's message of "Fri, 
+ 28 Apr 2023 19:54:16 +0200")
+Message-ID: <873546kmup.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
 MIME-Version: 1.0
-References: <CAJSP0QUccstoX1EBBB=snA+g7xTc4Wr4Hf+-x-k9dbbd2iahnA@mail.gmail.com>
-In-Reply-To: <CAJSP0QUccstoX1EBBB=snA+g7xTc4Wr4Hf+-x-k9dbbd2iahnA@mail.gmail.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Tue, 9 May 2023 11:00:57 +0400
-Message-ID: <CAJ+F1CJXaE+1O_93QuAiZ8Zddhc9hRp2X3Umc1whSqrPDXxEyg@mail.gmail.com>
-Subject: Re: Your clang TSA patches
-To: Stefan Hajnoczi <stefanha@gmail.com>
-Cc: qemu-devel <qemu-devel@nongnu.org>, Kevin Wolf <kwolf@redhat.com>
-Content-Type: multipart/alternative; boundary="000000000000e9ec6405fb3d5135"
-Received-SPF: pass client-ip=2a00:1450:4864:20::130;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-lf1-x130.google.com
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,79 +91,39 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
---000000000000e9ec6405fb3d5135
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Juan Quintela <quintela@redhat.com> writes:
 
-Hi Stefan
-
-On Mon, May 8, 2023 at 6:54=E2=80=AFPM Stefan Hajnoczi <stefanha@gmail.com>=
- wrote:
-
-> Hi Marc-Andr=C3=A9,
-> clang's Thread Safety Analysis is being used more in the QEMU block
-> layer and a few limitations have been hit:
-> 1. Mutexes that are struct fields are not supported (only global mutexes
-> work).
-> 2. Analysis does not extend across function pointers. See
-> GRAPH_RDLOCK_PTR for a workaround that is currently used.
+> Markus Armbruster <armbru@redhat.com> wrote:
+>> When the lexer chokes on a stray character, its shows the characters
+>> until the next structural character in the error message.
 >
-> (There was a third limitation that I don't remember. Maybe Kevin
-> remembers.)
+> You have a problem
 >
-> I heard you had clang or LLVM patches in that past that improve TSA.
-> Did your patches address these things? Any idea how hard it is to fix
-> these limitations?
+>> It uses a regular expression
 >
+> You use regular expresions.
+>
+> Now you have two problems.
+>
+> Yes, I had to do it.
 
+:)
 
-I don't remember much about that work, I didn't spend that much time on it,
-and it was 5y ago already!
+Regular expressions go bad when pushed too far.
 
-My WIP branch is still available:
-https://github.com/elmarco/clang/commits/qemu-ta
+Lexers are a perfect fit for them.  However, the bug I fix here isn't in
+the lexer proper, it's in "make the error message nice" code.
 
-it seems I was trying to modify clang to support TSA annotations on typedef
-and function pointers, and warn on unmatching. I have no idea if this is
-still relevant. I remember dropping the effort at that time because of lack
-of interest or help in both projects.
+>> to match a non-empty string of non-structural
+>> characters.  Bug: the regular expression treats '"' as structural.
+>> When the lexer chokes on '"', the match fails, and trips
+>> must_match()'s assertion.  Fix the regular expression.
+>>
+>> Fixes: 14c32795024c (qapi: Improve reporting of lexical errors)
+>> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+>
+> Reviewed-by: Juan Quintela <quintela@redhat.com>
 
---=20
-Marc-Andr=C3=A9 Lureau
+Thanks!
 
---000000000000e9ec6405fb3d5135
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr">Hi Stefan<br></div><br><div class=3D"gmai=
-l_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Mon, May 8, 2023 at 6:54=
-=E2=80=AFPM Stefan Hajnoczi &lt;<a href=3D"mailto:stefanha@gmail.com">stefa=
-nha@gmail.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" sty=
-le=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);paddi=
-ng-left:1ex">Hi Marc-Andr=C3=A9,<br>
-clang&#39;s Thread Safety Analysis is being used more in the QEMU block<br>
-layer and a few limitations have been hit:<br>
-1. Mutexes that are struct fields are not supported (only global mutexes wo=
-rk).<br>
-2. Analysis does not extend across function pointers. See<br>
-GRAPH_RDLOCK_PTR for a workaround that is currently used.<br>
-<br>
-(There was a third limitation that I don&#39;t remember. Maybe Kevin rememb=
-ers.)<br>
-<br>
-I heard you had clang or LLVM patches in that past that improve TSA.<br>
-Did your patches address these things? Any idea how hard it is to fix<br>
-these limitations?<br></blockquote><div><br></div><div><br></div><div>I don=
-&#39;t remember much about that work, I didn&#39;t spend that much time on =
-it, and it was 5y ago already! <br></div></div><div><br></div><div>My WIP b=
-ranch is still available: <a href=3D"https://github.com/elmarco/clang/commi=
-ts/qemu-ta">https://github.com/elmarco/clang/commits/qemu-ta</a></div><div>=
-<br></div><div>it seems I was trying to modify clang to support TSA annotat=
-ions on typedef and function pointers, and warn on unmatching. I have no id=
-ea if this is still relevant. I remember dropping the effort at that time b=
-ecause of lack of interest or help in both projects.<br></div><br><span cla=
-ss=3D"gmail_signature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail=
-_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
-
---000000000000e9ec6405fb3d5135--
 
