@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 507076FCE6B
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 May 2023 21:19:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 16F356FCE67
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 May 2023 21:18:35 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pwSqE-00043t-M1; Tue, 09 May 2023 15:17:42 -0400
+	id 1pwSqJ-000476-F5; Tue, 09 May 2023 15:17:47 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pwSqD-000437-1j
- for qemu-devel@nongnu.org; Tue, 09 May 2023 15:17:41 -0400
+ id 1pwSqG-00045w-Pu
+ for qemu-devel@nongnu.org; Tue, 09 May 2023 15:17:44 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pwSqB-0006Uj-Fh
- for qemu-devel@nongnu.org; Tue, 09 May 2023 15:17:40 -0400
+ id 1pwSqF-0006Xv-Bs
+ for qemu-devel@nongnu.org; Tue, 09 May 2023 15:17:44 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1683659858;
+ s=mimecast20190719; t=1683659862;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=bCIQ+gyew/5doBamjimo636wJ5lxtyiSG+aPsHSQQEw=;
- b=iEj7TvsS8l5zVbPsSKGNIRKj7fegKKic/8bcQ/eTm1TJqVreEjdjG/7uhTdbsC6nTvoUR1
- 8UHw0gjxGZNK4fHuKU0DriSBkJ3LAcf0HuYuWXuXmKefoIpi6GlwXyuA2N8fhxsl8N3ulh
- peFhYr4kjT9JJyBkdVwclf2jKtDp2tY=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=iI6oWetrlZ8mPaEGRhEP0KH20gw4XCVgMaYYbERpVJ8=;
+ b=ONiGdQj5DTpnfSCj+oACOLE77Z10bvXhRpVg9IpYYXq0MUP92qlQ4TiN9ZgZOMHpvgu7Zc
+ Lt+8NaNJDhxUAPhgUtCPYZI32YFH2z1rbWfHjfRByHzzpzsBumM0DVxR45oGmaboUe5nTE
+ vtv+Di25th8hvkvl21g/S7ouetQBh0s=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-428-CxQO4dh2NtaQPTEAqiln_w-1; Tue, 09 May 2023 15:17:35 -0400
-X-MC-Unique: CxQO4dh2NtaQPTEAqiln_w-1
+ us-mta-624-HN4VjpyXNf6SIHiSO2poog-1; Tue, 09 May 2023 15:17:39 -0400
+X-MC-Unique: HN4VjpyXNf6SIHiSO2poog-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
  [10.11.54.5])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1263829AA2CF;
- Tue,  9 May 2023 19:17:35 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4E0BA100F64F;
+ Tue,  9 May 2023 19:17:38 +0000 (UTC)
 Received: from secure.mitica (unknown [10.39.193.236])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0BA1363F84;
- Tue,  9 May 2023 19:17:32 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5A7C663F84;
+ Tue,  9 May 2023 19:17:35 +0000 (UTC)
 From: Juan Quintela <quintela@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: "Dr. David Alan Gilbert" <dave@treblig.org>,
@@ -50,13 +50,17 @@ Cc: "Dr. David Alan Gilbert" <dave@treblig.org>,
  Hailiang Zhang <zhanghailiang@xfusion.com>, Eric Blake <eblake@redhat.com>,
  Juan Quintela <quintela@redhat.com>, qemu-block@nongnu.org,
  Peter Xu <peterx@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Lukas Straub <lukasstraub2@web.de>
-Subject: [PULL 03/10] multifd: Add the ramblock to MultiFDRecvParams
-Date: Tue,  9 May 2023 21:17:17 +0200
-Message-Id: <20230509191724.86159-4-quintela@redhat.com>
+ Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Lukas Straub <lukasstraub2@web.de>, Zhang Chen <chen.zhang@intel.com>
+Subject: [PULL 04/10] block/meson.build: prefer positive condition for
+ replication
+Date: Tue,  9 May 2023 21:17:18 +0200
+Message-Id: <20230509191724.86159-5-quintela@redhat.com>
 In-Reply-To: <20230509191724.86159-1-quintela@redhat.com>
 References: <20230509191724.86159-1-quintela@redhat.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
@@ -67,7 +71,8 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,71 +88,32 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Lukas Straub <lukasstraub2@web.de>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
 
-This will be used in the next commits to add colo support to multifd.
-
-Signed-off-by: Lukas Straub <lukasstraub2@web.de>
+Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
 Reviewed-by: Juan Quintela <quintela@redhat.com>
-Message-Id: <88135197411df1a71d7832962b39abf60faf0021.1683572883.git.lukasstraub2@web.de>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Reviewed-by: Lukas Straub <lukasstraub2@web.de>
+Reviewed-by: Zhang Chen <chen.zhang@intel.com>
+Message-Id: <20230428194928.1426370-2-vsementsov@yandex-team.ru>
 Signed-off-by: Juan Quintela <quintela@redhat.com>
 ---
- migration/multifd.c | 11 +++++------
- migration/multifd.h |  2 ++
- 2 files changed, 7 insertions(+), 6 deletions(-)
+ block/meson.build | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/migration/multifd.c b/migration/multifd.c
-index 4e71c19292..5c4298eadf 100644
---- a/migration/multifd.c
-+++ b/migration/multifd.c
-@@ -281,7 +281,6 @@ static void multifd_send_fill_packet(MultiFDSendParams *p)
- static int multifd_recv_unfill_packet(MultiFDRecvParams *p, Error **errp)
- {
-     MultiFDPacket_t *packet = p->packet;
--    RAMBlock *block;
-     int i;
- 
-     packet->magic = be32_to_cpu(packet->magic);
-@@ -331,21 +330,21 @@ static int multifd_recv_unfill_packet(MultiFDRecvParams *p, Error **errp)
- 
-     /* make sure that ramblock is 0 terminated */
-     packet->ramblock[255] = 0;
--    block = qemu_ram_block_by_name(packet->ramblock);
--    if (!block) {
-+    p->block = qemu_ram_block_by_name(packet->ramblock);
-+    if (!p->block) {
-         error_setg(errp, "multifd: unknown ram block %s",
-                    packet->ramblock);
-         return -1;
-     }
- 
--    p->host = block->host;
-+    p->host = p->block->host;
-     for (i = 0; i < p->normal_num; i++) {
-         uint64_t offset = be64_to_cpu(packet->offset[i]);
- 
--        if (offset > (block->used_length - p->page_size)) {
-+        if (offset > (p->block->used_length - p->page_size)) {
-             error_setg(errp, "multifd: offset too long %" PRIu64
-                        " (max " RAM_ADDR_FMT ")",
--                       offset, block->used_length);
-+                       offset, p->block->used_length);
-             return -1;
-         }
-         p->normal[i] = offset;
-diff --git a/migration/multifd.h b/migration/multifd.h
-index 7cfc265148..a835643b48 100644
---- a/migration/multifd.h
-+++ b/migration/multifd.h
-@@ -175,6 +175,8 @@ typedef struct {
-     uint32_t next_packet_size;
-     /* packets sent through this channel */
-     uint64_t num_packets;
-+    /* ramblock */
-+    RAMBlock *block;
-     /* ramblock host address */
-     uint8_t *host;
-     /* non zero pages recv through this channel */
+diff --git a/block/meson.build b/block/meson.build
+index 382bec0e7d..b9a72e219b 100644
+--- a/block/meson.build
++++ b/block/meson.build
+@@ -84,7 +84,7 @@ block_ss.add(when: 'CONFIG_WIN32', if_true: files('file-win32.c', 'win32-aio.c')
+ block_ss.add(when: 'CONFIG_POSIX', if_true: [files('file-posix.c'), coref, iokit])
+ block_ss.add(when: libiscsi, if_true: files('iscsi-opts.c'))
+ block_ss.add(when: 'CONFIG_LINUX', if_true: files('nvme.c'))
+-if not get_option('replication').disabled()
++if get_option('replication').allowed()
+   block_ss.add(files('replication.c'))
+ endif
+ block_ss.add(when: libaio, if_true: files('linux-aio.c'))
 -- 
 2.40.0
 
