@@ -2,66 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F5076FC1E7
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 May 2023 10:46:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5301A6FC1F2
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 May 2023 10:49:33 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pwIyg-0003AT-V8; Tue, 09 May 2023 04:45:47 -0400
+	id 1pwJ1Y-0006Ee-Sd; Tue, 09 May 2023 04:48:45 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pwIyV-00039x-9E
- for qemu-devel@nongnu.org; Tue, 09 May 2023 04:45:35 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pwIyT-0000u2-9a
- for qemu-devel@nongnu.org; Tue, 09 May 2023 04:45:34 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1683621931;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=fYaqksX1TvsI6pE3ge2K745LEY1idxnVBDE0clmmKOA=;
- b=dj909KjbsHknJJX8NK8nTospCKbpHXwUOhX8TJcJG4Rtf/sW9jn8WJoJ2JomGq/kgIu6va
- PIm6QJ9c3+unay/bKJx96RfjVIuAqR4qs3sfXNe8kMqr9OFza0phl2FGjKS5HI9a49fg+V
- TLmbBpsgrhbaGvOh/uYm2SCClg1hedk=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-5-85PpIixCNMat3uypboE9pg-1; Tue, 09 May 2023 04:45:28 -0400
-X-MC-Unique: 85PpIixCNMat3uypboE9pg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
- [10.11.54.3])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C271B100F64F;
- Tue,  9 May 2023 08:45:27 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.194.192])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id F2AAF1121314;
- Tue,  9 May 2023 08:45:26 +0000 (UTC)
-Date: Tue, 9 May 2023 10:45:25 +0200
-From: Kevin Wolf <kwolf@redhat.com>
-To: =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@gmail.com>
-Cc: Stefan Hajnoczi <stefanha@gmail.com>,
-	qemu-devel <qemu-devel@nongnu.org>
-Subject: Re: Your clang TSA patches
-Message-ID: <ZFoIJRIqpwZAVlDY@redhat.com>
-References: <CAJSP0QUccstoX1EBBB=snA+g7xTc4Wr4Hf+-x-k9dbbd2iahnA@mail.gmail.com>
- <CAJ+F1CJXaE+1O_93QuAiZ8Zddhc9hRp2X3Umc1whSqrPDXxEyg@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <yin31149@gmail.com>)
+ id 1pwJ1I-0006DM-5m; Tue, 09 May 2023 04:48:28 -0400
+Received: from mail-pf1-x433.google.com ([2607:f8b0:4864:20::433])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <yin31149@gmail.com>)
+ id 1pwJ1G-0001pT-7q; Tue, 09 May 2023 04:48:27 -0400
+Received: by mail-pf1-x433.google.com with SMTP id
+ d2e1a72fcca58-644d9bf05b7so2038550b3a.3; 
+ Tue, 09 May 2023 01:48:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1683622104; x=1686214104;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=8YWZznxekCGHOUt9lsXJL5/9fhxPUNXrQOeDoRF7DHg=;
+ b=BbgDSusJ/aY04Qil4N2hgDAI6euzxUUBUR9NC2X2m//RDiVcthhkgeNAw0rPHBFApr
+ UK/0UILjD6/ekspaX1YIoigBhCRwH03uLtpWEQduoqNMSCZdByXxtRBL7l0vHcf+D0Wk
+ Co3dXLVHTBkDttX8U3E9dPatNIWqjflVRYcfGH/fb5P73pxCoXjeWtESS1HXeeRZaEcJ
+ PER7DWcE3rohteuEfjX9mZVLszPvLEVspx6dUZZUI6ghRbp2hXjoOGe4z4eTV3+rGob8
+ Jnvgb6T2/AjbWLeJEtlYts/N7x1tGTZh6kFmol83PWU37vQM3DZ/PgiHSHCANajM0uWS
+ kXFg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1683622104; x=1686214104;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=8YWZznxekCGHOUt9lsXJL5/9fhxPUNXrQOeDoRF7DHg=;
+ b=HwkqzvnTVM9P2KQqWVxCa5X9fv6w+JvQRNSBjriJGJyga0pxCXUyu0G1863R3OUIl9
+ w/n/4Bp0yuJKyAIfHR/e11pQACGmadsFaoANWoAE29Ow7el+aueON4B2MT8eTCdHbkim
+ MJ24YY5VrPs6vceS4/8WmsICG9YW4Pgz17hNoPZBeJBIpGJG+o59xpoQMGHPFo0QVtkO
+ gjd3MN1muT5ZDRQkNaqnbfDZDpHJ0IVAf0gNBE2+wGRMTcR+3caGLX6a9NZ/tx83GIUY
+ fBSVNg35kzLtzhcFrRxZU82i0IVJtJop5whKzEOTwNtptqYmENbUE4nTnJcx11I3SsXS
+ x7Jg==
+X-Gm-Message-State: AC+VfDzbkSVC9O4WrrXhFxGWP404fNv7WrTYPG60z0j39exZaGE6PS7f
+ ZAS0/jQL/fSXvcOQYzinnTo=
+X-Google-Smtp-Source: ACHHUZ6po4dT3ZVKyiAPNG8P7pI1iGHlse9Jywed8G0fYCKhy0hFu/JNnE/nj3IzpRxN+YNEZY0+UA==
+X-Received: by 2002:a05:6a20:e308:b0:f3:4de2:dd60 with SMTP id
+ nb8-20020a056a20e30800b000f34de2dd60mr15386933pzb.61.1683622103929; 
+ Tue, 09 May 2023 01:48:23 -0700 (PDT)
+Received: from localhost ([183.242.254.166]) by smtp.gmail.com with ESMTPSA id
+ t23-20020a634457000000b0051afa49e07asm832852pgk.50.2023.05.09.01.48.22
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 09 May 2023 01:48:23 -0700 (PDT)
+From: Hawkins Jiawei <yin31149@gmail.com>
+To: "Michael S. Tsirkin" <mst@redhat.com>,
+ =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>
+Cc: yin31149@gmail.com, 18801353760@163.com, qemu-devel@nongnu.org,
+ qemu-stable@nongnu.org
+Subject: [PATCH v2] vhost: fix possible wrap in SVQ descriptor ring
+Date: Tue,  9 May 2023 16:48:17 +0800
+Message-Id: <20230509084817.3973-1-yin31149@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAJ+F1CJXaE+1O_93QuAiZ8Zddhc9hRp2X3Umc1whSqrPDXxEyg@mail.gmail.com>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::433;
+ envelope-from=yin31149@gmail.com; helo=mail-pf1-x433.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -79,60 +89,106 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Am 09.05.2023 um 09:00 hat Marc-André Lureau geschrieben:
-> Hi Stefan
-> 
-> On Mon, May 8, 2023 at 6:54 PM Stefan Hajnoczi <stefanha@gmail.com> wrote:
-> 
-> > Hi Marc-André,
-> > clang's Thread Safety Analysis is being used more in the QEMU block
-> > layer and a few limitations have been hit:
-> > 1. Mutexes that are struct fields are not supported (only global mutexes
-> > work).
-> > 2. Analysis does not extend across function pointers. See
-> > GRAPH_RDLOCK_PTR for a workaround that is currently used.
-> >
-> > (There was a third limitation that I don't remember. Maybe Kevin
-> > remembers.)
-> >
-> > I heard you had clang or LLVM patches in that past that improve TSA.
-> > Did your patches address these things? Any idea how hard it is to fix
-> > these limitations?
-> 
-> I don't remember much about that work, I didn't spend that much time on it,
-> and it was 5y ago already!
-> 
-> My WIP branch is still available:
-> https://github.com/elmarco/clang/commits/qemu-ta
-> 
-> it seems I was trying to modify clang to support TSA annotations on
-> typedef and function pointers, and warn on unmatching. I have no idea
-> if this is still relevant. I remember dropping the effort at that time
-> because of lack of interest or help in both projects.
+QEMU invokes vhost_svq_add() when adding a guest's element
+into SVQ. In vhost_svq_add(), it uses vhost_svq_available_slots()
+to check whether QEMU can add the element into SVQ. If there is
+enough space, then QEMU combines some out descriptors and some
+in descriptors into one descriptor chain, and adds it into
+`svq->vring.desc` by vhost_svq_vring_write_descs().
 
-TSA support for functions pointers would be very helpful for the work
-we're currently doing in the context of multiqueue support. Function
-pointers are essentially where the compiler checks break down for us and
-we have to cover these parts manually during review. And we have
-function pointers in almost every call path (mostly those in BlockDriver
-these days, but also some callbacks passed to functions, like BHs).
+Yet the problem is that, `svq->shadow_avail_idx - svq->shadow_used_idx`
+in vhost_svq_available_slots() returns the number of occupied elements,
+or the number of descriptor chains, instead of the number of occupied
+descriptors, which may cause wrapping in SVQ descriptor ring.
 
-Does "unmatching" mean that it checks that the TSA annotations in
-prototypes and the actual function declaration agree? If so, that would
-be nice, too. For now, I've settled on annotating only the header file
-for public functions, which works, but it's harder to read.
+Here is an example. In vhost_handle_guest_kick(), QEMU forwards
+as many available buffers to device by virtqueue_pop() and
+vhost_svq_add_element(). virtqueue_pop() returns a guest's element,
+and then this element is added into SVQ by vhost_svq_add_element(),
+a wrapper to vhost_svq_add(). If QEMU invokes virtqueue_pop() and
+vhost_svq_add_element() `svq->vring.num` times,
+vhost_svq_available_slots() thinks QEMU just ran out of slots and
+everything should work fine. But in fact, virtqueue_pop() returns
+`svq->vring.num` elements or descriptor chains, more than
+`svq->vring.num` descriptors due to guest memory fragmentation,
+and this causes wrapping in SVQ descriptor ring.
 
-The third limitation Stefan couldn't remember is lack of support for
-__attribute__((cleanup)), which is used by the lock guard macros. This
-one is pretty annoying and means that I'm using the guards less than I
-would like.
+This bug is valid even before marking the descriptors used.
+If the guest memory is fragmented, SVQ must add chains
+so it can try to add more descriptors than possible.
 
-Stefan's first point, not supporting mutexes in struct fields, is a
-major limitation of TSA with C, too, but it doesn't actually affect the
-current work in QEMU where we're dealing with a single global lock. Of
-course, if it were supported, we would certainly have uses for that,
-too.
+This patch solves it by adding `num_free` field in
+VhostShadowVirtqueue structure and updating this field
+in vhost_svq_add() and vhost_svq_get_buf(), to record
+the number of free descriptors.
 
-Kevin
+Fixes: 100890f7ca ("vhost: Shadow virtqueue buffers forwarding")
+Signed-off-by: Hawkins Jiawei <yin31149@gmail.com>
+Acked-by: Eugenio Pérez <eperezma@redhat.com>
+---
+v2:
+  - update the commit message
+  - remove the unnecessary comment
+  - add the Acked-by tag
+
+v1: https://lists.gnu.org/archive/html/qemu-devel/2023-05/msg01727.html
+
+ hw/virtio/vhost-shadow-virtqueue.c | 5 ++++-
+ hw/virtio/vhost-shadow-virtqueue.h | 3 +++
+ 2 files changed, 7 insertions(+), 1 deletion(-)
+
+diff --git a/hw/virtio/vhost-shadow-virtqueue.c b/hw/virtio/vhost-shadow-virtqueue.c
+index 8361e70d1b..bd7c12b6d3 100644
+--- a/hw/virtio/vhost-shadow-virtqueue.c
++++ b/hw/virtio/vhost-shadow-virtqueue.c
+@@ -68,7 +68,7 @@ bool vhost_svq_valid_features(uint64_t features, Error **errp)
+  */
+ static uint16_t vhost_svq_available_slots(const VhostShadowVirtqueue *svq)
+ {
+-    return svq->vring.num - (svq->shadow_avail_idx - svq->shadow_used_idx);
++    return svq->num_free;
+ }
+ 
+ /**
+@@ -263,6 +263,7 @@ int vhost_svq_add(VhostShadowVirtqueue *svq, const struct iovec *out_sg,
+         return -EINVAL;
+     }
+ 
++    svq->num_free -= ndescs;
+     svq->desc_state[qemu_head].elem = elem;
+     svq->desc_state[qemu_head].ndescs = ndescs;
+     vhost_svq_kick(svq);
+@@ -449,6 +450,7 @@ static VirtQueueElement *vhost_svq_get_buf(VhostShadowVirtqueue *svq,
+     last_used_chain = vhost_svq_last_desc_of_chain(svq, num, used_elem.id);
+     svq->desc_next[last_used_chain] = svq->free_head;
+     svq->free_head = used_elem.id;
++    svq->num_free += num;
+ 
+     *len = used_elem.len;
+     return g_steal_pointer(&svq->desc_state[used_elem.id].elem);
+@@ -659,6 +661,7 @@ void vhost_svq_start(VhostShadowVirtqueue *svq, VirtIODevice *vdev,
+     svq->iova_tree = iova_tree;
+ 
+     svq->vring.num = virtio_queue_get_num(vdev, virtio_get_queue_index(vq));
++    svq->num_free = svq->vring.num;
+     driver_size = vhost_svq_driver_area_size(svq);
+     device_size = vhost_svq_device_area_size(svq);
+     svq->vring.desc = qemu_memalign(qemu_real_host_page_size(), driver_size);
+diff --git a/hw/virtio/vhost-shadow-virtqueue.h b/hw/virtio/vhost-shadow-virtqueue.h
+index 926a4897b1..6efe051a70 100644
+--- a/hw/virtio/vhost-shadow-virtqueue.h
++++ b/hw/virtio/vhost-shadow-virtqueue.h
+@@ -107,6 +107,9 @@ typedef struct VhostShadowVirtqueue {
+ 
+     /* Next head to consume from the device */
+     uint16_t last_used_idx;
++
++    /* Size of SVQ vring free descriptors */
++    uint16_t num_free;
+ } VhostShadowVirtqueue;
+ 
+ bool vhost_svq_valid_features(uint64_t features, Error **errp);
+-- 
+2.25.1
 
 
