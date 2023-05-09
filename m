@@ -2,85 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4DEC6FCB01
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 May 2023 18:17:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A0FC76FCB3D
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 May 2023 18:21:35 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pwQ0j-00078C-I4; Tue, 09 May 2023 12:16:21 -0400
+	id 1pwQ5A-0001QR-Nj; Tue, 09 May 2023 12:20:56 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pwQ0d-00077Z-HD
- for qemu-devel@nongnu.org; Tue, 09 May 2023 12:16:17 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pwQ0c-00045a-0s
- for qemu-devel@nongnu.org; Tue, 09 May 2023 12:16:15 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1683648972;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=zlKJm2iMMUwgTmFrvhLDc76oWES8vqz7c7+DLuVUYQo=;
- b=jL6IN9+UfItXNWJSi06V8ZVtp/+fuYWgMS8L/1LI3scTgV7F5Fvva5obKj/xCSANVnTeXS
- nGeFYGwsy4/S9BiuXP9tB3iEaLO39rWapGSH86tZg5byTIJtyV42TBTX+diTylrbaMjMZ9
- 31RVQ06bcyxB1XINiHRVo/xxxyIV2dY=
-Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
- [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-646-nGmIfApMM56pUBatXRoSNQ-1; Tue, 09 May 2023 12:16:09 -0400
-X-MC-Unique: nGmIfApMM56pUBatXRoSNQ-1
-Received: by mail-ej1-f72.google.com with SMTP id
- a640c23a62f3a-94a34d3e5ebso550388866b.3
- for <qemu-devel@nongnu.org>; Tue, 09 May 2023 09:16:09 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pwQ57-0001QA-7s
+ for qemu-devel@nongnu.org; Tue, 09 May 2023 12:20:55 -0400
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pwQ54-0004qN-Vn
+ for qemu-devel@nongnu.org; Tue, 09 May 2023 12:20:52 -0400
+Received: by mail-wr1-x42a.google.com with SMTP id
+ ffacd0b85a97d-305f0491e62so5777078f8f.3
+ for <qemu-devel@nongnu.org>; Tue, 09 May 2023 09:20:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1683649249; x=1686241249;
+ h=content-transfer-encoding:in-reply-to:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=So9/Di8NwgMCd35yeKZTabaZE1y+DUwVngwL6wjTyl0=;
+ b=KWqa5hx5Z3MYdPd432bjQFKoqJubdbORUeGr4o5wMCP5wJjJs+qi6Fs0US9ejrlueN
+ iRG2NkQplwvCXk7k4XPHdM7CpBvlGH7h/YvMJAg9w0Yj1Rgh2cRklnVGBEOU3rjyhCG/
+ qenboL9KeOOOXQMhx0YZolukdqt4i8s+87YeQ7yQ5MJO5RPO6lLje4oIFAB+TLJEHMNc
+ 0yIHWrt0zjoxRKNj0CYMrfA4dI3yEATjG6BblhK5nNmnYxqtbMXcD2qXew4NA10NW+WJ
+ uwv/DmWJ++SpvArI+0Zrz2lvjanWAyuHv/LySw3n04AxZYbFnJF/QfdR2kz35MMOZweo
+ w2lA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683648968; x=1686240968;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=zlKJm2iMMUwgTmFrvhLDc76oWES8vqz7c7+DLuVUYQo=;
- b=Ddpo1oos17scaKRfT1ecTogVEKO3tZu7YZvxfQF/8bpagSIm64YOEjkfJ8RiXLYuzz
- lWs1goNLZdrTCnJyt1DB6qdOT1S9ezbIOSnPoc3u6HtLLOlF14tzVFfsXt/CC6N7Om2T
- Jshj0JMef5ZWXpJdugKCp1U75/c6Bm57VImI27Cy1obQg+IsXm0UZDo+JHn3SrZpp4wv
- DNFKlHTow9V27wjyEoKBWQObkAAMUDzm+SbvjFkYmCKAgY8qX3hyebCl2jc3bKTRgwDF
- l6yqXHlC8x3pyZex2Sn1ySHz9gv90F1k5rWQeM0O6ApWJJ3EiOJIWsYCRlwHeF6aCMav
- OvVQ==
-X-Gm-Message-State: AC+VfDyTIRj1xcKHz9Bw93DxUIYrO+dDvmHgzTutSZTnmnlr4o8c3kyu
- ibTzp3O4CvA2haS4NqZOMWNlVqvQVWq9aT+lpvFmLECKAY6rGKZPuxTzXUOYiS/8FUS04oCMpkM
- FzpchJbUYuEYdPZA=
-X-Received: by 2002:a17:907:c1f:b0:961:ba6c:e949 with SMTP id
- ga31-20020a1709070c1f00b00961ba6ce949mr15182780ejc.68.1683648968254; 
- Tue, 09 May 2023 09:16:08 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ44mc/V2CTiO93b+linKWP3bY2tWRaHNriHGNUQlcZDc5qsENaUgFw7Akc9buW1eu1WwjwFJw==
-X-Received: by 2002:a17:907:c1f:b0:961:ba6c:e949 with SMTP id
- ga31-20020a1709070c1f00b00961ba6ce949mr15182744ejc.68.1683648967873; 
- Tue, 09 May 2023 09:16:07 -0700 (PDT)
-Received: from redhat.com ([82.180.150.238]) by smtp.gmail.com with ESMTPSA id
- la17-20020a170907781100b00957dad777c1sm1496379ejc.107.2023.05.09.09.16.05
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 09 May 2023 09:16:07 -0700 (PDT)
-Date: Tue, 9 May 2023 12:16:02 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Ani Sinha <anisinha@redhat.com>
-Cc: qemu-devel@nongnu.org, berrange@redhat.com, alex.bennee@linaro.org,
- philmd@linaro.org, wainersm@redhat.com, bleal@redhat.com, thuth@redhat.com
-Subject: Re: [PATCH v2 0/2] tests/lcitool: Add mtools and xorriso and remove
- genisoimage as dependencies
-Message-ID: <20230509121552-mutt-send-email-mst@kernel.org>
-References: <20230504154611.85854-1-anisinha@redhat.com>
+ d=1e100.net; s=20221208; t=1683649249; x=1686241249;
+ h=content-transfer-encoding:in-reply-to:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=So9/Di8NwgMCd35yeKZTabaZE1y+DUwVngwL6wjTyl0=;
+ b=EOciRWsMEsNS8CHRmlGJwWtAB9EuFOHM60ZW4/sTEA1lmxonW2MZxu6JaCbJ+q9Mzr
+ jtKThDYhvFxjvif6mbwfDYf4dSmnWa9ydDiNg82dJkQ84zf9l2PBLwuRQ55kETJ/rrGH
+ DNJaJMF7IwC/cwzXbrgPSUCfF8maPwu8KldcU2IilCCeVKHb2Gjo+GK2zNeNrif9eNZC
+ g13EK9wJKOCXhjR/zHwjAt3FQuBY5k3IFJBX+99n2wzclV//ATz132h/TzOxjIBZ1DJy
+ eWqvPbrYC4+pQg2efDuXnbWf7DCMArIwoipbRVwO87glzyOCspuON+UjfP05BVz2ub5v
+ KOxA==
+X-Gm-Message-State: AC+VfDwfdptfVWWRmtuRRegWDQsEGPMpfbsUYpVQ1FzQHgtyJe6iNbga
+ FW/YkGhR/Ly/ktWH0VhDFeNahQ==
+X-Google-Smtp-Source: ACHHUZ6JPUoOZJDy3Zgt8fBIvh7Zm4znHwlih26LWvtOPO/8YBngnkT0Xb0VWw4bjiEF2zZJTDPaNQ==
+X-Received: by 2002:adf:ff85:0:b0:307:92e8:ec60 with SMTP id
+ j5-20020adfff85000000b0030792e8ec60mr5605530wrr.39.1683649249152; 
+ Tue, 09 May 2023 09:20:49 -0700 (PDT)
+Received: from [192.168.11.23] ([85.9.250.243])
+ by smtp.gmail.com with ESMTPSA id
+ c17-20020a5d4f11000000b003079986fd71sm5698784wru.88.2023.05.09.09.20.48
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 09 May 2023 09:20:48 -0700 (PDT)
+Message-ID: <874d3ef2-0b6f-526d-fc81-e2d1f5cce104@linaro.org>
+Date: Tue, 9 May 2023 17:20:47 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230504154611.85854-1-anisinha@redhat.com>
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PULL 00/17] QAPI patches patches for 2023-05-09
+Content-Language: en-US
+To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
+References: <20230509080011.3231661-1-armbru@redhat.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20230509080011.3231661-1-armbru@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x42a.google.com
+X-Spam_score_int: -24
+X-Spam_score: -2.5
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.421,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,75 +93,48 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, May 04, 2023 at 09:16:09PM +0530, Ani Sinha wrote:
-> mformat and xorriso tools are needed by biosbits avocado tests. This patchset
-> adds those two tools in the docker container images.
-> xorriso package conflicts with genisoimage package on some distributions.
-> Therefore, it is not possible to have both the packages at the same time
-> in the container image uniformly for all distribution flavors. Further,
-> on some distributions like RHEL, both xorriso and genisoimage
-> packages provide /usr/bin/genisoimage and on some other distributions like
-> Fedora, only genisoimage package provides the same utility.
-> Therefore, this change removes the dependency on geninsoimage for building
-> container images altogether keeping only xorriso package. At the same time,
-> cdrom-test.c is updated to use and check for existence of only xorrisofs.
+On 5/9/23 08:59, Markus Armbruster wrote:
+> The following changes since commit 792f77f376adef944f9a03e601f6ad90c2f891b2:
 > 
-> Patch 1 pulls in the latest changes in lcitool in order to add mappings
-> for these packages in various distros.
-> Patch 2 updates all Dockerfiles in QEMU repository to add these two
-> tools. It also removed genisoimage package and updated cdrom-test to not
-> use genisoimage but xorrisofs.
+>    Merge tag 'pull-loongarch-20230506' of https://gitlab.com/gaosong/qemu into staging (2023-05-06 08:11:52 +0100)
 > 
-> CC: mst@redhat.com
-> CC: berrange@redhat.com
-> CC: alex.bennee@linaro.org
-> CC: philmd@linaro.org
-> CC: wainersm@redhat.com
-> CC: bleal@redhat.com
-> CC: thuth@redhat.com
-> TO: qemu-devel@nongnu.org
+> are available in the Git repository at:
 > 
-> Changelog:
-> v2: remove genisoimage package and update Dockerfile. Also update cdrom-test.c
-> so that it uses xorrisofs and not genisoimage. I have tested patch #2 on both
-> Fedora 37 and RHEL 9.1. cdrom-test passed on both.
+>    https://repo.or.cz/qemu/armbru.git tags/pull-qapi-2023-05-09
+> 
+> for you to fetch changes up to ddd37ae995acacfd858d2ee090c3fa61e33b986b:
+> 
+>    qapi: Reformat doc comments to conform to current conventions (2023-05-09 09:57:15 +0200)
+> 
+> ----------------------------------------------------------------
+> QAPI patches patches for 2023-05-09
+> 
+> ----------------------------------------------------------------
+> Markus Armbruster (17):
+>        docs/devel/qapi-code-gen: Clean up use of quotes a bit
+>        docs/devel/qapi-code-gen: Turn FIXME admonitions into comments
+>        qapi: Fix crash on stray double quote character
+>        meson: Fix to make QAPI generator output depend on main.py
+>        Revert "qapi: BlockExportRemoveMode: move comments to TODO"
+>        sphinx/qapidoc: Do not emit TODO sections into user manuals
+>        qapi: Tidy up a slightly awkward TODO comment
+>        qapi/dump: Indent bulleted lists consistently
+>        tests/qapi-schema/doc-good: Improve a comment
+>        tests/qapi-schema/doc-good: Improve argument description tests
+>        qapi: Fix argument description indentation stripping
+>        qapi: Rewrite parsing of doc comment section symbols and tags
+>        qapi: Relax doc string @name: description indentation rules
+>        qapi: Section parameter @indent is no longer used, drop
+>        docs/devel/qapi-code-gen: Update doc comment conventions
+>        qga/qapi-schema: Reformat doc comments to conform to current conventions
+>        qapi: Reformat doc comments to conform to current conventions
+
+This has a number of CI failures, including
+
+https://gitlab.com/qemu-project/qemu/-/jobs/4252925621#L4673
+../docs/meson.build:27:6: ERROR: Problem encountered: Install a Python 3 version of 
+python-sphinx and the readthedoc theme
 
 
-Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-
-who's merging this?
-
-> Ani Sinha (2):
->   tests: libvirt-ci: Update to commit 'c8971e90ac' to pull in mformat
->     and xorriso
->   tests/lcitool: Add mtools and xorriso and remove genisoimage as
->     dependencies
-> 
->  .gitlab-ci.d/cirrus/freebsd-13.vars                |  2 +-
->  .gitlab-ci.d/cirrus/macos-12.vars                  |  2 +-
->  tests/docker/dockerfiles/alpine.docker             |  3 ++-
->  tests/docker/dockerfiles/centos8.docker            |  3 ++-
->  tests/docker/dockerfiles/debian-amd64-cross.docker |  3 ++-
->  tests/docker/dockerfiles/debian-amd64.docker       |  3 ++-
->  tests/docker/dockerfiles/debian-arm64-cross.docker |  3 ++-
->  tests/docker/dockerfiles/debian-armel-cross.docker |  3 ++-
->  tests/docker/dockerfiles/debian-armhf-cross.docker |  3 ++-
->  .../dockerfiles/debian-mips64el-cross.docker       |  3 ++-
->  .../docker/dockerfiles/debian-mipsel-cross.docker  |  3 ++-
->  .../docker/dockerfiles/debian-ppc64el-cross.docker |  3 ++-
->  tests/docker/dockerfiles/debian-s390x-cross.docker |  3 ++-
->  tests/docker/dockerfiles/fedora-win32-cross.docker |  3 ++-
->  tests/docker/dockerfiles/fedora-win64-cross.docker |  3 ++-
->  tests/docker/dockerfiles/fedora.docker             |  3 ++-
->  tests/docker/dockerfiles/opensuse-leap.docker      |  3 ++-
->  tests/docker/dockerfiles/ubuntu2004.docker         |  3 ++-
->  tests/docker/dockerfiles/ubuntu2204.docker         |  3 ++-
->  tests/lcitool/libvirt-ci                           |  2 +-
->  tests/lcitool/projects/qemu.yml                    |  3 ++-
->  tests/qtest/cdrom-test.c                           | 14 +++++++-------
->  22 files changed, 46 insertions(+), 28 deletions(-)
-> 
-> -- 
-> 2.31.1
-
+r~
 
