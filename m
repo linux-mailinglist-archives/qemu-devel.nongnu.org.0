@@ -2,153 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72AA96FD08F
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 May 2023 23:10:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C2C06FD16E
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 May 2023 23:29:40 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pwUaH-0005E0-QX; Tue, 09 May 2023 17:09:21 -0400
+	id 1pwUsc-0008Jc-5S; Tue, 09 May 2023 17:28:18 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <tsimpson@quicinc.com>)
- id 1pwUaF-0005Dd-S7
- for qemu-devel@nongnu.org; Tue, 09 May 2023 17:09:19 -0400
-Received: from mx0a-0031df01.pphosted.com ([205.220.168.131])
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1pwUsZ-0008JB-GI
+ for qemu-devel@nongnu.org; Tue, 09 May 2023 17:28:15 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <tsimpson@quicinc.com>)
- id 1pwUaD-0003PU-Nx
- for qemu-devel@nongnu.org; Tue, 09 May 2023 17:09:19 -0400
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 349K76JN018512
- for <qemu-devel@nongnu.org>; Tue, 9 May 2023 21:09:15 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=from : to : cc :
- subject : date : message-id : references : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=qcppdkim1;
- bh=JDvN3W5mgm0vGXkxIOR05jbZ1uYb2NIp08mrQotWeow=;
- b=TgfxSQ20NEW7mjFzf214mD5q3Ew43mMw2uMw0B9evTxJe3sGm1Irelhb7IDgDUYeeGes
- xLXjzVGq30Vq/ITxDYxEaMIJr90930lv+Cm0cJqcCBPdSmDIf/yC1Mx28m1HJ0rghhAu
- 7snbBpeNjDHRq4BehGrwAT9kBFOWWGtp1UgKUdnghP2pel2ZhXzwjUKcyfahb8OEZBpz
- hAGjSnkH4cpB9qeDbH4ditbYis79hF8n4Jo24YwvP8kH7m32n6JWBI8AUozXY3w3t1CP
- AWQcE97UHgQD3fMKdJD2xlrFkrCoCiKKMUD7JdJVc+1cZzjsam7kwqT+DgQmZqqLl7AY hA== 
-Received: from nam04-dm6-obe.outbound.protection.outlook.com
- (mail-dm6nam04lp2048.outbound.protection.outlook.com [104.47.73.48])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3qfr508uc2-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Tue, 09 May 2023 21:09:15 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=NXRT5AXpYiR+hMVR6sxAOPCI5qFOVNGzgRuozMU+SO/ygeojbdvQkyShY5+rAW1QZo9rq62WVZK7yLHNouqQJezWvTUSVslLJJBbXz5Z4VaQ8M3CO5MX6FOGk4l4V/jO02Nb/VK8KYhhkjTNy19Cdz25EbPXhUExqnnY/UYYC7b2Z3NVaJPLK+zsqojdUuumyaQipG7IHriLAXD3zeSgsl4jwomXFs6G7pOjlYqFFQdIxKjUxTn6mkL+BD9YguE1HvNb61MQB0/jOt4MDNX8zex+osfgQRVT+FoMrAkOUAWTl6oo11dPWdldde+9ob2kAcutjIDgR5onx0+52IqNmQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=JDvN3W5mgm0vGXkxIOR05jbZ1uYb2NIp08mrQotWeow=;
- b=Cq7gj3zq/lUh5GIzlEPSam+7HtwCh38ciWur3cALc2VullxVSoyzusrA89dU9eUoweVsPAcMzpkh+u/5xI6OIfvUWkoTFLlMJBIh1gTvo16LNE1uYe47fYV/Xyb0d3QLMkPqKyWZH4hQ5ksi02A6W9/5phWccIeF1QWjw5BBovbBVhYPfxsjjYmh4Vk8LdGiI+4SL2rUx26Vee9h6GzWv28WxXv1eeF5bENwjcYg+M/IvgHowuLmeBduSZANSqYWuhr+PLZ4bW2nYZjkm7fP08S8FWzazDZWY8xjTpw0hYdmE9RNG/T/ir0hCXpxH+9VaYB+BaxcTLi7aUM5Oi9zkg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=quicinc.com; dmarc=pass action=none header.from=quicinc.com;
- dkim=pass header.d=quicinc.com; arc=none
-Received: from SN4PR0201MB8808.namprd02.prod.outlook.com
- (2603:10b6:806:203::12) by IA1PR02MB8971.namprd02.prod.outlook.com
- (2603:10b6:208:3ac::5) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6363.32; Tue, 9 May
- 2023 21:09:04 +0000
-Received: from SN4PR0201MB8808.namprd02.prod.outlook.com
- ([fe80::eb63:d1c0:28de:72f5]) by SN4PR0201MB8808.namprd02.prod.outlook.com
- ([fe80::eb63:d1c0:28de:72f5%8]) with mapi id 15.20.6363.032; Tue, 9 May 2023
- 21:09:03 +0000
-From: Taylor Simpson <tsimpson@quicinc.com>
-To: Brian Cain <bcain@quicinc.com>, "Marco Liebel (QUIC)"
- <quic_mliebel@quicinc.com>, "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-CC: "Matheus Bernardino (QUIC)" <quic_mathbern@quicinc.com>
-Subject: RE: [PATCH] Remove test_vshuff from hvx_misc tests
-Thread-Topic: [PATCH] Remove test_vshuff from hvx_misc tests
-Thread-Index: AQHZgqYRveCUq/4llku/sxuerSm3vq9SU1tQgAAJOICAABLXAA==
-Date: Tue, 9 May 2023 21:09:03 +0000
-Message-ID: <SN4PR0201MB880894A6D70E0952214BC02CDE769@SN4PR0201MB8808.namprd02.prod.outlook.com>
-References: <20230509184231.2467626-1-quic_mliebel@quicinc.com>
- <SN4PR0201MB8808DC3221D2D5FC8F6530C2DE769@SN4PR0201MB8808.namprd02.prod.outlook.com>
- <SN6PR02MB4205E963C4443B22808CC939B8769@SN6PR02MB4205.namprd02.prod.outlook.com>
-In-Reply-To: <SN6PR02MB4205E963C4443B22808CC939B8769@SN6PR02MB4205.namprd02.prod.outlook.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: SN4PR0201MB8808:EE_|IA1PR02MB8971:EE_
-x-ms-office365-filtering-correlation-id: 128578d6-de9f-4d2a-dc2a-08db50d19e65
-x-ld-processed: 98e9ba89-e1a1-4e38-9007-8bdabc25de1d,ExtAddr
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: CJdKmx8vCcGIzBmE9h3KGCeh44BQahlBKIhZfgpydhG8+C93V7Fv8S4FGWrflQ8VwTogz7CF7yiEFOrcUNf2uq6augis6OkXqrqpCp4KnigB1TZRm5id2afLBep9vbyHtfKcQd8hX9CH7CkPFpc2sqySIDiyWHzh/O0ROGEj55ekMvWn42U/9KuNeDuqg/SR0SuwQeoLOqqEyl4gJWga8WMwX6GYVme46JnwRK5yJI17nVT8WjVDGFxeQgHclclDAUGl92aRH7kxLL3tKZZdWgLTrxrOIiw/CS20m9x0aJ0ituZ2v6PwLqdHicKGcGn+L0x8tnRwG/WW9VN0eezKqXiYfe1g8Pdr9fSpBYaZp/p16Gbg9MZw6/wqI4w8sWRLfYQEoW2gHRHLeK6UpHT4iMhKuzUqofiE6Ryzo8tDO1yZU3r62Uj2GB/0RtVx0pGbuZz6dhBnHKJnWU/wTXavaFl/0vmOCSoDOqenqWhu8kRAkRbx7CIwvu8NhXuIK2rQ/H2OhrW5+Q8vhFKIhy37z9syfiVQuojdwzEvOIdr8H0zMqsWLYSfg3V8afBnxPoogyOXwcnp/V9sj0hiABgjpvX1zFEX6b1ayjVZximGsbYQCi7Gqwm+7JyNEE0IBJwC
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SN4PR0201MB8808.namprd02.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230028)(4636009)(136003)(376002)(396003)(39860400002)(366004)(346002)(451199021)(4326008)(478600001)(76116006)(316002)(66946007)(7696005)(66556008)(64756008)(110136005)(66446008)(66476007)(33656002)(86362001)(83380400001)(107886003)(53546011)(26005)(6506007)(9686003)(71200400001)(8936002)(5660300002)(41300700001)(52536014)(8676002)(55016003)(186003)(38100700002)(122000001)(2906002)(38070700005);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?ri33EuFokYqZ0cj4mAX+s6ofD/o4aEe/Ps29NiaCygdq+BpfNrCX7GRn33ih?=
- =?us-ascii?Q?2RTrAUXFcOVl/HHpB0iNS44S2oL8Uhkpq5BtZFMMTraMWvkK5TbU5LFL7OQy?=
- =?us-ascii?Q?+9pcS34lGS1aOFFc+IWzYCzwRt1nlu4vwazQ3vnBtx7dm6TfmNA86WWD+/Gr?=
- =?us-ascii?Q?d2ouYDLyt27vyNFX3e+XWYmCOWNh88VedsWTW6pWJs56B8UykblRZMiENW9r?=
- =?us-ascii?Q?HxfILJP0CVgstyoiJP5AA4z0nUbTFLNSbQF1YYWAD8cu25Nx/K+ERfCJvMD5?=
- =?us-ascii?Q?dycd/t91BDP8sPiOhWYzrG2w0OzKfyt9HCdLz+lv0pTZr5RaZGgTaVgdc7Pc?=
- =?us-ascii?Q?NGOS0niHbl2jj0uc9S0I3fevtEwEQH7kaG7uKUL7UoP0x31tjn5I5FNf6t9f?=
- =?us-ascii?Q?lJX+Iulgu6x7XpTfzQO7A8BCUYsHCkW5Tjm9nYlCi48WHjXWn1RrxTUO3hEK?=
- =?us-ascii?Q?2UrMcCIIGA0LC3LY1ym9njL6R/K61sw5PpfjdZAhbDqWfzghk35o9aD9z4QK?=
- =?us-ascii?Q?1FAj2FBIvii7XnK627iXnzNQhj0Czot3Tqgjhrdexk9Xpfg5++1d4pObhlxU?=
- =?us-ascii?Q?6JSQUkk5EqgqVof1VPoH7ED/1FW6ToZxpQvtTvJ1mJkZITucwtUXXN7Buve1?=
- =?us-ascii?Q?JypTaMlqwuAJb+bQbT6RM2Tu17pcTiw0CiQ5Us3aQgnNpIzOMw3CvgcZGFS/?=
- =?us-ascii?Q?CQMiXkXDG8hAJlCAKTXWXYdwaJsbKm4/3EC+pJvKiOsiKssv2z61/GbwZ8/G?=
- =?us-ascii?Q?YhJVIy3DGZX0BIVzZ1vEURRanNww8LF5vySl4ydAz+giNoFlt4YoEyRZ4WRh?=
- =?us-ascii?Q?rUfRItOOliqBtQXbYXI4j7wqqY40V0HGrSc7o2shkYXcAOnlA4rLCV2Q5SlE?=
- =?us-ascii?Q?UlCj9/0ZsDaKOdGb+Yew6oTt7v8pcMZPS2FNRRTfNV3uf1KMhphyyd01K+fc?=
- =?us-ascii?Q?jqT116lhEeG+0FWsghI7AH6ngr9As4yNsVUY9p/tEvUqkcXDhkl1uxmHwZI4?=
- =?us-ascii?Q?PULGI2/Rdqs/NZrYxCE0UAY/57KJ+z8vjmqGhiTSrtNYbD//njvVJoNwRgZ1?=
- =?us-ascii?Q?XKFKz/7ziAZtaQkcqqQIctbNdcCrpx1NzQ8QaFPxZJhFlyAVyH7YRl4chD1Z?=
- =?us-ascii?Q?E50RLkGNlg+iNKrNJTFhzOpV9IVIPEDk4QHq3ejeldt/oax2SdRj8Ceo8cz/?=
- =?us-ascii?Q?ilsD2jNaK/+5+shUMqqU8ukwZ016gGikDsPWmmeOyLxotSqO0Llp5t6ueePN?=
- =?us-ascii?Q?8oqMGroSFKKA+bdrKCyan3T61UgiTl24r4q6oYKW3GmEyV5hLnPDgwkZZf3t?=
- =?us-ascii?Q?w8CXpM1gO8td/e6HJX2J6JsUEAyCOZE8GvaiIISQD7PWdSywTRASS4CR9Z22?=
- =?us-ascii?Q?7eInxARKQgq67kLwljsoAYq3yIqb8nZVQh7D6ssE8OldPXfJMcdqJdXP15tB?=
- =?us-ascii?Q?1zJp8ZR84wSxgDqw3/RD2wlq2bDJyCt1tdC/sVeuIdzoxBa0Oh8UCFrXifD4?=
- =?us-ascii?Q?kh7/fkIp+sp/40tsAZQeqZ9Bjx4UnuwOBJhosj/okzImkB+vwI6X0vNxJbX3?=
- =?us-ascii?Q?uTnib7kq/seHqcXGvHv15VmkAVSLl150OfQC6HF/?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1pwUsX-0006dh-0f
+ for qemu-devel@nongnu.org; Tue, 09 May 2023 17:28:15 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1683667691;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=BtI7GdfFYTCWiIFK4K3Fvvuh8d3qBWm8LZjNIY9ky2k=;
+ b=TiF/coJhUKB8KZc+IMf/OOD7IA8lRYf/NjGKdNnnqrSR+CXTj0pTKGtt4icoHcr1g45VYK
+ VsE4GY0jj73Xn/UW52KMqa/egfLKDrqooz5ppKSOHjXgTa7T973/U/WsU5l2w3YAWAU6tY
+ 6HaE+VyEK0vFLGwYEpASXP57rZ393tw=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-194-XMC2hxAUOPek7R_aAlMCyw-1; Tue, 09 May 2023 17:28:10 -0400
+X-MC-Unique: XMC2hxAUOPek7R_aAlMCyw-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.4])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E4B0D857DD7
+ for <qemu-devel@nongnu.org>; Tue,  9 May 2023 21:28:09 +0000 (UTC)
+Received: from redhat.com (unknown [10.2.16.49])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E8F562026D25;
+ Tue,  9 May 2023 21:28:08 +0000 (UTC)
+Date: Tue, 9 May 2023 16:28:07 -0500
+From: Eric Blake <eblake@redhat.com>
+To: Hanna Czenczek <hreitz@redhat.com>
+Cc: qemu-devel@nongnu.org
+Subject: Re: [PATCH 11/11] cutils: Improve qemu_strtosz handling of fractions
+Message-ID: <bmvo2jg7jb2jmr3ezvqa3ymvuldon54cy3gv5mugplwd542rnk@lhr7d5ulqc5d>
+References: <20230508200343.791450-1-eblake@redhat.com>
+ <20230508200343.791450-12-eblake@redhat.com>
+ <40919a58-2bb2-f156-ddc0-49c117a8f031@redhat.com>
 MIME-Version: 1.0
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: I44yraWkdhqHeURGlblSqePwi7ZdeUjeouSeT8tnm3FZl130MNju27zsotVkfpOVHyjDnAFzkxoXI0T2j+SjcowHoYdcsLh69sbXG/EgXqQo7x4b9welCHw73Pr5BNpZ6zaebFOgCbwildhLMKgy9tPKogJeWnRYSDxK4esz65KrREsSZcNcIiPdkqPPVz4wY893Vz9F4MI33g6tV1mZzR8sqcjnEfJyDBwBmbSw8lwMxlDe3SDZkCKsgFtatDABNRO4HPmes2KOryEY/Uny/ovw25/SWRkAYAQWEFnkmPPDI1BSigtX71yRw0G0iZ7RKmgl9c+GJFTq28EkSNFScWuuSB86eugzpskJ9T98ucL+tQwff0Fyxmhtie0IgNCGA8nlcOfMwXe43SWXtSP985RCKjj064dE/rEpzntwckzf+QidjPWfVP23I922g7OIlY94WflHu6F+JscTAV3ttrGg3kumofed5LUyig7Dl3MwmLotCJRKOm53x4ckeMJJ/W6QAl5i8+jFdHk4UslaJA8CGCv702+0+G4zw1w0hM30Bgxh4OwqBn4FygkDt35fjwYbj0XycPx/9GaoERXAm/h/xHYK5g9qpHCdtpcEemaFjYzOFNP21Pae25pJU9+QXx0auS8Ga/NN72PLOAvhnhMfUKsNMXntc2vPHBeZEqB34EL8P1GJoQPsA9vxqSHNFEusZnIuSMjpnloLdyBpqrlN5pAEEGYM+UNWGs66YK0G+k8/sVEvteyxshDygg4UBmOQjntfylIklu+5Qft22Q==
-X-OriginatorOrg: quicinc.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SN4PR0201MB8808.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 128578d6-de9f-4d2a-dc2a-08db50d19e65
-X-MS-Exchange-CrossTenant-originalarrivaltime: 09 May 2023 21:09:03.8327 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 98e9ba89-e1a1-4e38-9007-8bdabc25de1d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: VDES2gmyIkKqCjc8g3EJL37xpECQUtQeP3N09dLjYV1BNCsyigzILKYYBDUNFgEnecWesIuFfDShU9Ayh+afwQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR02MB8971
-X-Proofpoint-GUID: yMywvI4CoIUVG_4GNo6XjtGnojQFPro5
-X-Proofpoint-ORIG-GUID: yMywvI4CoIUVG_4GNo6XjtGnojQFPro5
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-05-09_14,2023-05-05_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0
- priorityscore=1501 mlxscore=0 mlxlogscore=685 bulkscore=0
- lowpriorityscore=0 malwarescore=0 clxscore=1015 impostorscore=0
- adultscore=0 phishscore=0 suspectscore=0 classifier=spam adjust=0
- reason=mlx scancount=1 engine=8.12.0-2304280000
- definitions=main-2305090173
-Received-SPF: pass client-ip=205.220.168.131;
- envelope-from=tsimpson@quicinc.com; helo=mx0a-0031df01.pphosted.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <40919a58-2bb2-f156-ddc0-49c117a8f031@redhat.com>
+User-Agent: NeoMutt/20230407
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eblake@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -164,60 +80,210 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On Tue, May 09, 2023 at 07:54:30PM +0200, Hanna Czenczek wrote:
+> On 08.05.23 22:03, Eric Blake wrote:
+> > We have several limitations and bugs worth fixing; they are
+> > inter-related enough that it is not worth splitting this patch into
+> > smaller pieces:
+> > 
+> > * ".5k" should work to specify 512, just as "0.5k" does
+> > * "1.9999k" and "1." + "9"*50 + "k" should both produce the same
+> >    result of 2048 after rounding
+> > * "1." + "0"*350 + "1B" should not be treated the same as "1.0B";
+> >    underflow in the fraction should not be lost
+> > * "7.99e99" and "7.99e999" look similar, but our code was doing a
+> >    read-out-of-bounds on the latter because it was not expecting ERANGE
+> >    due to overflow. While we document that scientific notation is not
+> >    supported, and the previous patch actually fixed
+> >    qemu_strtod_finite() to no longer return ERANGE overflows, it is
+> >    easier to pre-filter than to try and determine after the fact if
+> >    strtod() consumed more than we wanted.  Note that this is a
+> >    low-level semantic change (when endptr is not NULL, we can now
+> >    successfully parse with a scale of 'E' and then report trailing
+> >    junk, instead of failing outright with EINVAL); but an earlier
+> >    commit already argued that this is not a high-level semantic change
+> >    since the only caller passing in a non-NULL endptr also checks that
+> >    the tail is whitespace-only.
+> > 
+> > Fixes: https://gitlab.com/qemu-project/qemu/-/issues/1629
+> > Signed-off-by: Eric Blake <eblake@redhat.com>
+> > ---
+> >   tests/unit/test-cutils.c | 51 +++++++++++------------
+> >   util/cutils.c            | 89 ++++++++++++++++++++++++++++------------
+> >   2 files changed, 88 insertions(+), 52 deletions(-)
+> 
+> [...]
+> 
+> > diff --git a/util/cutils.c b/util/cutils.c
+> > index 0e056a27a44..d1dfbc69d16 100644
+> > --- a/util/cutils.c
+> > +++ b/util/cutils.c
+> 
+> [...]
+> 
+> > @@ -246,27 +244,66 @@ static int do_strtosz(const char *nptr, const char **end,
+> >               retval = -EINVAL;
+> >               goto out;
+> >           }
+> > -    } else if (*endptr == '.') {
+> > +    } else if (*endptr == '.' || (endptr == nptr && strchr(nptr, '.'))) {
+> 
+> What case is there where we have a fraction but *endptr != '.'?
 
+Bigger context:
 
-> -----Original Message-----
-> From: Brian Cain <bcain@quicinc.com>
-> Sent: Tuesday, May 9, 2023 3:01 PM
-> To: Taylor Simpson <tsimpson@quicinc.com>; Marco Liebel (QUIC)
-> <quic_mliebel@quicinc.com>; qemu-devel@nongnu.org
-> Cc: Matheus Bernardino (QUIC) <quic_mathbern@quicinc.com>
-> Subject: RE: [PATCH] Remove test_vshuff from hvx_misc tests
->=20
->=20
->=20
-> > -----Original Message-----
-> > From: Taylor Simpson <tsimpson@quicinc.com>
-> > Sent: Tuesday, May 9, 2023 2:28 PM
-> > To: Marco Liebel (QUIC) <quic_mliebel@quicinc.com>; qemu-
-> > devel@nongnu.org
-> > Cc: Brian Cain <bcain@quicinc.com>; Matheus Bernardino (QUIC)
-> > <quic_mathbern@quicinc.com>
-> > Subject: RE: [PATCH] Remove test_vshuff from hvx_misc tests
-> >
-> >
-> >
-> > > -----Original Message-----
-> > > From: Marco Liebel (QUIC) <quic_mliebel@quicinc.com>
-> > > Sent: Tuesday, May 9, 2023 1:43 PM
-> > > To: qemu-devel@nongnu.org
-> > > Cc: Taylor Simpson <tsimpson@quicinc.com>; Brian Cain
-> > > <bcain@quicinc.com>; Matheus Bernardino (QUIC)
-> > > <quic_mathbern@quicinc.com>; Marco Liebel (QUIC)
-> > > <quic_mliebel@quicinc.com>
-> > > Subject: [PATCH] Remove test_vshuff from hvx_misc tests
-> > >
-> > > test_vshuff checks that the vshuff instruction works correctly when
-> > > both vector registers are the same. Using vshuff in this way is
-> > > undefined and will be rejected by the compiler in a future version of=
- the
-> toolchain.
-> > >
-> > > Signed-off-by: Marco Liebel <quic_mliebel@quicinc.com>
-> > > ---
-> > >  tests/tcg/hexagon/hvx_misc.c | 45
-> > > ------------------------------------
-> > >  1 file changed, 45 deletions(-)
-> >
-> > Let's not remove the test completely.  Just change it to use different
-> registers.
->=20
-> I'm fine either way.  But IIRC we added this test particularly in order t=
-o verify
-> the potentially ambiguous behavior of the same operand here.  It may be
-> well tested otherwise.
+result = qemu_strtou64(nptr, &endptr, 10, &val);
+// at this point, result is one of:
+//  a. 0 - we parsed a decimal string, endptr points to any slop
+//  b. -EINVAL - we could not recognize a decimal string: multiple reasons
+//  b.1. nptr was NULL (endptr is NULL)
+//  b.2. nptr was "" or otherwise whitespace only (endptr is nptr)
+//  b.3. the first non-whitespace in nptr was not a sign or digit (endptr is nptr)
+//  c. -ERANGE - we saw a decimal string, but it didn't fit in uint64 (endptr is
+//    past first digit)
+if (retval == -ERANGE || !nptr) {
+    // filter out c. and b.1
+    goto out;
+}
+if (retval == 0 && val == 0 && (*endptr == 'x' || *endptr == 'X')) {
+    // a, where we must decipher between "0x", "00x", "0xjunk", "0x1", ...
+    // not changed by this patch, and where we give -EINVAL if we see any trailing
+    // slop like "0x1." or "0x1p"
+} else  if (*endptr == '.' || (endptr == nptr && strchr(nptr, '.'))) {
+    // The left half is possible in both a. (such as "1.5k")
+    // and b.3. when '.' was the first slop byte (such as ".5k")
+    // The right half is possible only for b.3 when '.' was not the first slop
+    // (needed for covering " +.5k")
+    // At this point, b.2. has been filtered out
 
-I confirmed the hvx_histogram test executes this instruction, so
-Reviewed-by: Taylor Simpson <tsimpson@quicinc.com>
+...
+
+> 
+> >           /*
+> >            * Input looks like a fraction.  Make sure even 1.k works
+> > -         * without fractional digits.  If we see an exponent, treat
+> > -         * the entire input as invalid instead.
+> > +         * without fractional digits.  strtod tries to treat 'e' as an
+> > +         * exponent, but we want to treat it as a scaling suffix;
+> > +         * doing this requires modifying a copy of the fraction.
+> >            */
+> > -        double fraction;
+> > +        double fraction = 0.0;
+> > 
+> > -        f = endptr;
+> > -        retval = qemu_strtod_finite(f, &endptr, &fraction);
+> > -        if (retval) {
+> > +        if (retval == 0 && *endptr == '.' && !isdigit(endptr[1])) {
+> > +            /* If we got here, we parsed at least one digit already. */
+> >               endptr++;
+
+The 'retval == 0' check could equally be written 'endptr > nptr' (the
+two are synonymous based on the conditions of a.; we cannot get here
+under b.3); the '*endptr == '.' is necessary so that if nptr=="1junk",
+we use 'j' as the scaling suffix rather than trying to skip past a
+non-present '.'; and the '!isdigit(endptr[1])' is necessary so that
+"1.k" does not result in us trying to call strtod(".k") which would
+fail for an unexpected EINVAL.  Basically, this branch handles all
+cases where we've seen at least one digit and the only thing between
+digits and a possible scaling suffix is a single '.', so strtod is not
+worth using.
+
+> > -        } else if (memchr(f, 'e', endptr - f) || memchr(f, 'E', endptr - f)) {
+> > -            endptr = nptr;
+> > -            retval = -EINVAL;
+> > -            goto out;
+> >           } else {
+> > -            /* Extract into a 64-bit fixed-point fraction. */
+> > +            char *e;
+> > +            const char *tail;
+> > +            g_autofree char *copy = g_strdup(endptr);
+> > +
+
+If we get into this branch, we could be in condition a. (such as
+"1.1k" where endptr is ".1k") or in b.3 (such as ".5k" where endptr is
+".5k", but also thinks like " junk." where endptr is " junk." or even
+".k").  But we've already proven we don't need to worry about "0x1p1"
+(filtered above in the hex code), and at this point we strip all
+exponents (if endptr is ".9e999", copy is ".9")...
+
+> > +            e = strchr(copy, 'e');
+> > +            if (e) {
+> > +                *e = '\0';
+> > +            }
+> > +            e = strchr(copy, 'E');
+> > +            if (e) {
+> > +                *e = '\0';
+> > +            }
+> > +            /*
+> > +             * If this is a floating point, we are guaranteed that '.'
+> > +             * appears before any possible digits in copy.  If it is
+> > +             * not a floating point, strtod will fail.  Either way,
+> > +             * there is now no exponent in copy, so if it parses, we
+> > +             * know 0.0 <= abs(result) <= 1.0 (after rounding), and
+> > +             * ERANGE is only possible on underflow which is okay.
+> > +             */
+> > +            retval = qemu_strtod_finite(copy, &tail, &fraction);
+
+...so that by the time we do try qemu_strtod_finite(), it is either a
+valid floating point fraction with at least one digit and no exponent
+and possibly some slop (such as ".5k" or " +.5" - will produce retval
+= 0 or -ERANGE for underflow, based on the previous patch to
+qemu_strtod_finite) or complete junk with retval = -EINVAL where there
+was a '.' but other characters appeared first (such as " junk.") or
+where there are no digits but also no scaling suffix (such as ". ";
+hmm, looks like I could get more coverage if I add ". " and ".k" to my
+unit tests in v2).
+
+> > +            endptr += tail - copy;
+> > +        }
+> > +
+> > +        /* Extract into a 64-bit fixed-point fraction. */
+> > +        if (fraction == 1.0) {
+> > +            if (val == UINT64_MAX) {
+> > +                retval = -ERANGE;
+> > +                goto out;
+> > +            }
+> > +            val++;
+> > +        } else if (retval == -ERANGE) {
+> > +            /* See comments above about underflow */
+> > +            valf = 1;
+> 
+> It doesn’t really matter because even an EiB is just 2^60, and so 1 EiB *
+> 2^-64 (the resolution of our fractional part) is still less than 1, but:
+> 
+> DBL_MIN * 0x1p64 is 2^-(1022-64) == 2^-958, i.e. much less than 1, so I’d
+> set valf to 0 here.
+> 
+> (If you put “.00000000000000000001” into this, there won’t be an underflow,
+> but the value is so small that valf ends up 0.  But if you put `.$(yes 0 |
+> head -n 307 | tr -d '\n')1` into this, there will be an underflow, setting
+> valf to 1, even though the value is smaller.)
+
+Oh, good point.  I was trying to say that "1.000B" (for any amount of
+zeroes) is okay (all zeroes in the fraction is needless typing but not
+an ambiguous value regardless of rounding), while "1.0001B" (for any
+amount of zeroes) is not (you can't request a non-zero fraction
+without a scale larger than bytes, even if the fraction you do request
+rounds to zero at your chosen scale).  But you have come up with a
+counter-case where I didn't quite achieve that.
+
+But I think the solution to that is not to treat underflow as valf =
+0, but rather to alter this snippet:
+
+-            valf = (uint64_t)(fraction * 0x1p64);
++            /*
++             * If fraction was non-zero, add slop small enough that it doesn't
++             * impact rounding, but does let us reject "1..00000000000000000001B".
++             */
++            valf = (uint64_t)(fraction * 0x1p64) | !fraction;
+
+so that between the ERANGE branch and this slop, valf is guaranteed
+non-zero if fraction contained any non-zero digits.  It looks like I
+need to add yet another unit test before posting v2.
+
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3266
+Virtualization:  qemu.org | libvirt.org
 
 
