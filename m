@@ -2,76 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 124EC6FCDE4
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 May 2023 20:37:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7920A6FCDF4
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 May 2023 20:43:02 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pwSBM-0000Jp-65; Tue, 09 May 2023 14:35:28 -0400
+	id 1pwSIC-0002At-UF; Tue, 09 May 2023 14:42:32 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pwSBI-0000Is-Os
- for qemu-devel@nongnu.org; Tue, 09 May 2023 14:35:25 -0400
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1pwSIA-0002Ag-V0
+ for qemu-devel@nongnu.org; Tue, 09 May 2023 14:42:31 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pwSBH-0007Eh-AR
- for qemu-devel@nongnu.org; Tue, 09 May 2023 14:35:24 -0400
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1pwSI9-0008U6-Al
+ for qemu-devel@nongnu.org; Tue, 09 May 2023 14:42:30 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1683657322;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ s=mimecast20190719; t=1683657747;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=hK66GgZK4oBJTlqAp6Gt40la0pcXeIc5sZ5w97pfWSM=;
- b=RRrImq8ktygF1ownIkfpGlx5Ub1v/H/Hxi6UXbWCtEo7YLUSJyCRtkvaEqO3cRlIcFkVT8
- gKAFY+gvCAiHAlsarfqJjEa+O1O4XMWyfohTrXgoN2XSjkfVktYqaYzpvTVClXGSQkLboj
- Sw1vBJSf+Sf8OOgKnpV+DMpi0M92pDY=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-393-DaIJTyJ1OoywXMxBU_OwCg-1; Tue, 09 May 2023 14:35:19 -0400
-X-MC-Unique: DaIJTyJ1OoywXMxBU_OwCg-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
- [10.11.54.1])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6CB1E38184E0;
- Tue,  9 May 2023 18:35:18 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.194.192])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0084140C2063;
- Tue,  9 May 2023 18:35:13 +0000 (UTC)
-Date: Tue, 9 May 2023 20:35:12 +0200
-From: Kevin Wolf <kwolf@redhat.com>
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Cc: qemu-devel@nongnu.org, Ronnie Sahlberg <ronniesahlberg@gmail.com>,
- Aarushi Mehta <mehta.aaru20@gmail.com>, qemu-block@nongnu.org,
- Paul Durrant <paul@xen.org>, Anthony Perard <anthony.perard@citrix.com>,
- Peter Lieven <pl@kamp.de>, Stefan Weil <sw@weilnetz.de>,
- Xie Yongji <xieyongji@bytedance.com>, Paolo Bonzini <pbonzini@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Leonardo Bras <leobras@redhat.com>, Peter Xu <peterx@redhat.com>,
- Hanna Reitz <hreitz@redhat.com>,
- Stefano Stabellini <sstabellini@kernel.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- David Woodhouse <dwmw2@infradead.org>, Coiby Xu <Coiby.Xu@gmail.com>,
- Eduardo Habkost <eduardo@habkost.net>,
- Stefano Garzarella <sgarzare@redhat.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>,
- Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
- Julia Suvorova <jusual@redhat.com>, xen-devel@lists.xenproject.org,
- eesposit@redhat.com, Juan Quintela <quintela@redhat.com>,
- "Richard W.M. Jones" <rjones@redhat.com>, Fam Zheng <fam@euphon.net>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-Subject: Re: [PATCH v5 00/21] block: remove aio_disable_external() API
-Message-ID: <ZFqSYJaOeKwU1DIo@redhat.com>
-References: <20230504195327.695107-1-stefanha@redhat.com>
- <ZFQnSjGiEWuSFWTh@redhat.com> <20230509175138.GC1018047@fedora>
+ bh=mFtGutuf7lSh6IYYwZDwuvd6TfscIfgxio8yW31r3Ys=;
+ b=KPenTEW6RQPh5ILXvhR/TqM3tX849zNc4YHOUZEGdaiEdHUNGdO9XB12F0uChyZ6IuX3SS
+ etZ4yt6+A7nHkVt+6f0Hq2+EIdWdykCAbtu6XfWodKlpyHTy7qskxZG1nVaAbh/1RaUTlO
+ WcHjtTrdU3QmuS2IYWh9cX/CLxzgeBY=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-39-WTuv3gTZMJeui1GP7e6W-w-1; Tue, 09 May 2023 14:42:26 -0400
+X-MC-Unique: WTuv3gTZMJeui1GP7e6W-w-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ 5b1f17b1804b1-3f41efd04dfso19551595e9.1
+ for <qemu-devel@nongnu.org>; Tue, 09 May 2023 11:42:26 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1683657745; x=1686249745;
+ h=content-transfer-encoding:mime-version:message-id:date:reply-to
+ :user-agent:references:in-reply-to:subject:cc:to:from
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=mFtGutuf7lSh6IYYwZDwuvd6TfscIfgxio8yW31r3Ys=;
+ b=DxW1Sb/RE7uk+YAtu8JF3zlfKAKFM9Nu2Dk0o0Wy32AZ5xUrs9ZPZ4CcQGhq2l1/Lv
+ GegW+5TQFRhK/Pw1E7cl67Hi/L3pQGr6hnf0Y9QBUZsNNcgsE0zb81SA5ucEknic41fZ
+ lHSZM2FEEbgrbwqxRyGvXz2c1ugY/eogPI/GSXYPBgmrLQdfvgxqxSO/4aMR4NBmzs61
+ QPsP7KtYkYsAquYn09mFJylhSJTwdUCOhvem8yAhaYC+Coob7yUeuJA2ltKd7n/xS79h
+ qNo7TEbh6yY7NO5OuH2Q9zsG/mfbp9nypB3hw+woAdZto2ykTIH1+qR5lX12lTJ5OOqs
+ ryzA==
+X-Gm-Message-State: AC+VfDwg1/9ooiFTxeVDAF+OgcEm9JlVT/Y5aAIWoPKshJz6Q4Mk0lo2
+ gLykxKGZYQmEx7H8N+p4Je9kBIWLJwfO7UsFXZmcMqrPg8Mqtsic7diFoKWfWbznIt+zRt0nKeh
+ sInMEp4+0vbeVROs=
+X-Received: by 2002:a1c:ed13:0:b0:3f1:662a:93c4 with SMTP id
+ l19-20020a1ced13000000b003f1662a93c4mr10627994wmh.36.1683657745328; 
+ Tue, 09 May 2023 11:42:25 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ75pNfCbYLa+SF8NaEVghJcMRkMZOaFWKlMRjW1mE+KQfY/DGGwXJgaQd6MHfdw4yzhy/KwTw==
+X-Received: by 2002:a1c:ed13:0:b0:3f1:662a:93c4 with SMTP id
+ l19-20020a1ced13000000b003f1662a93c4mr10627977wmh.36.1683657744982; 
+ Tue, 09 May 2023 11:42:24 -0700 (PDT)
+Received: from redhat.com (static-92-120-85-188.ipcom.comunitel.net.
+ [188.85.120.92]) by smtp.gmail.com with ESMTPSA id
+ u4-20020a05600c00c400b003f4290720d0sm4385272wmm.47.2023.05.09.11.42.24
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 09 May 2023 11:42:24 -0700 (PDT)
+From: Juan Quintela <quintela@redhat.com>
+To: "Zhang, Chen" <chen.zhang@intel.com>
+Cc: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,  "lukasstraub2@web.de"
+ <lukasstraub2@web.de>,  Paolo Bonzini <pbonzini@redhat.com>,  =?utf-8?Q?M?=
+ =?utf-8?Q?arc-Andr=C3=A9?=
+ Lureau <marcandre.lureau@redhat.com>,  Daniel P. =?utf-8?Q?Berrang=C3=A9?=
+ <berrange@redhat.com>,  Thomas Huth <thuth@redhat.com>,  Philippe
+ =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,  Jason Wang
+ <jasowang@redhat.com>
+Subject: Re: [PATCH v4 04/10] configure: add --disable-colo-proxy option
+In-Reply-To: <MWHPR11MB0031A6901E847CA3ED49E9AF9B6D9@MWHPR11MB0031.namprd11.prod.outlook.com>
+ (Chen Zhang's message of "Thu, 4 May 2023 07:45:35 +0000")
+References: <20230428194928.1426370-1-vsementsov@yandex-team.ru>
+ <20230428194928.1426370-5-vsementsov@yandex-team.ru>
+ <MWHPR11MB0031A6901E847CA3ED49E9AF9B6D9@MWHPR11MB0031.namprd11.prod.outlook.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
+Date: Tue, 09 May 2023 20:42:23 +0200
+Message-ID: <87mt2dbb3k.fsf@secure.mitica>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="+wtMkZiYhpfvLEAI"
-Content-Disposition: inline
-In-Reply-To: <20230509175138.GC1018047@fedora>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=kwolf@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -92,74 +107,94 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+"Zhang, Chen" <chen.zhang@intel.com> wrote:
+>> -----Original Message-----
+>> From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+>> Sent: Saturday, April 29, 2023 3:49 AM
+>> To: qemu-devel@nongnu.org
+>> Cc: lukasstraub2@web.de; quintela@redhat.com; Zhang, Chen
+>> <chen.zhang@intel.com>; vsementsov@yandex-team.ru; Paolo Bonzini
+>> <pbonzini@redhat.com>; Marc-Andr=C3=A9 Lureau
+>> <marcandre.lureau@redhat.com>; Daniel P. Berrang=C3=A9
+>> <berrange@redhat.com>; Thomas Huth <thuth@redhat.com>; Philippe
+>> Mathieu-Daud=C3=A9 <philmd@linaro.org>; Jason Wang <jasowang@redhat.com>
+>> Subject: [PATCH v4 04/10] configure: add --disable-colo-proxy option
+>>=20
+>> Add option to not build filter-mirror, filter-rewriter and colo-compare =
+when
+>> they are not needed.
+>
+> Typo: This patch still build the filter-mirror/filter-redirector in filte=
+r-mirror.c.
+> Please remove the "filter-mirror" here.
+> Other code look good to me.
 
---+wtMkZiYhpfvLEAI
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Vladimir, I was doing this myself, with the bit attached.
 
-Am 09.05.2023 um 19:51 hat Stefan Hajnoczi geschrieben:
-> On Thu, May 04, 2023 at 11:44:42PM +0200, Kevin Wolf wrote:
-> > Am 04.05.2023 um 21:53 hat Stefan Hajnoczi geschrieben:
-> > > v5:
-> > > - Use atomic accesses for in_flight counter in vhost-user-server.c [K=
-evin]
-> > > - Stash SCSIDevice id/lun values for VIRTIO_SCSI_T_TRANSPORT_RESET ev=
-ent
-> > >   before unrealizing the SCSIDevice [Kevin]
-> > > - Keep vhost-user-blk export .detach() callback so ctx is set to NULL=
- [Kevin]
-> > > - Narrow BdrvChildClass and BlockDriver drained_{begin/end/poll} call=
-backs from
-> > >   IO_OR_GS_CODE() to GLOBAL_STATE_CODE() [Kevin]
-> > > - Include Kevin's "block: Fix use after free in blockdev_mark_auto_de=
-l()" to
-> > >   fix a latent bug that was exposed by this series
-> >=20
-> > I only just finished reviewing v4 when you had already sent v5, but it
-> > hadn't arrived yet. I had a few more comments on what are now patches
-> > 17, 18, 19 and 21 in v5. I think they all still apply.
->=20
-> I'm not sure which comments from v4 still apply. In my email client all
-> your replies were already read when I sent v5.
+But then I noticed that one needs to also disable
+tests/qtest/test-filter-mirror and test-filter-rewriter.
 
-Yes, but I added some more replies after you had sent v5 (and before I
-fetched mail again to actually see v5).
+Can you resend with that fixed?  Or I am missing something more
+fundamental.
 
-> Maybe you can share the Message-Id of something I still need to address?
+Thanks, Juan.
 
-I thought the patch numbers identified them and were easier, but sure:
+>> --- a/net/meson.build
+>> +++ b/net/meson.build
+>> @@ -1,13 +1,10 @@
+>>  softmmu_ss.add(files(
+>>    'announce.c',
+>>    'checksum.c',
+>> -  'colo-compare.c',
+>> -  'colo.c',
+>>    'dump.c',
+>>    'eth.c',
+>>    'filter-buffer.c',
+>>    'filter-mirror.c',
+>> -  'filter-rewriter.c',
+>>    'filter.c',
+>>    'hub.c',
+>>    'net-hmp-cmds.c',
+>> @@ -19,6 +16,16 @@ softmmu_ss.add(files(
+>>    'util.c',
+>>  ))
+>>=20
+>> +if get_option('replication').allowed() or \
+>> +    get_option('colo_proxy').allowed()
+>> +  softmmu_ss.add(files('colo-compare.c'))
+>> +  softmmu_ss.add(files('colo.c'))
+>> +endif
+>> +
+>> +if get_option('colo_proxy').allowed()
+>> +  softmmu_ss.add(files('filter-rewriter.c'))
+>> +endif
+>> +
+>>  softmmu_ss.add(when: 'CONFIG_TCG', if_true: files('filter-replay.c'))
 
-Message-ID: <ZFQc89cFJuoGF+qI@redhat.com>
-Message-ID: <ZFQgBvWShB4NCymj@redhat.com>
-Message-ID: <ZFQivbkVPcX3nECA@redhat.com>
-Message-ID: <ZFQk2TdhZ6DiwM4t@redhat.com>
+This is the change needed, right?
 
-Kevin
-
---+wtMkZiYhpfvLEAI
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEE3D3rFZqa+V09dFb+fwmycsiPL9YFAmRakmAACgkQfwmycsiP
-L9aOzw//eu0aqw74PsvIWZfWFl7KSwRHbJx2OOazG9pWzqezZB/pFVvTwtGHL4+Q
-ltXsY1aWDqysXFihI1AGxyqK16v0o8oSdxIk+dDAdU8FGgqJu70yk1nH7fYJUnW4
-CYITZ0TE4w8OESRt4E219tfd/JsZmKzHnmY5cULkogXGhwSRZlekD3BTB5rXAhGh
-gOOR97HNmyWa5/syO1Z5XNd6G79z6AWUg1es9IxEaYziuViRPjTPMVfpbm0BiF8I
-O46S+Iz9S2yFAT18pOdnp5Vq51qerrNQzuhJZ++SktVRgUIjLoHtwxnGTf2eB7Jk
-Rf9K9rBu0H2Yoj0Lgt7uOvNSGqnH+9gcYiZltqseArCwsozeJhZDwMnYpEe/USYP
-PROvYwT7il2VsqYgKIvVuUcw3ev3tH9aoreHe1e6uYjfBFpVDKL0yCc3SLZ/Kezw
-hd8Vpa0Hff0zf8cbhb3IEkP0wr0W4I6ccMSzvTvJoG8hC+YVHu0vSqZ9eQYLFhnf
-P8R9xnNDt5RaLyzNcCAuD2D4NAOK/D2tnJ7BpDhaxqqT1AoQPHvBj3vIW8b56/rk
-PWJ1h6qNz524X617jMUKC8cMoyUuVFt5mghZyT3krbT49IIteY2H2vS0AnRrLSSs
-+qsNnB6Ol7zV2j/aFK+IqKsc6rFIRnFm6LiI/JBhIdbduWMpv3c=
-=67t7
------END PGP SIGNATURE-----
-
---+wtMkZiYhpfvLEAI--
+diff --git a/net/meson.build b/net/meson.build
+index 6f4ecde57f..e623bb9acb 100644
+--- a/net/meson.build
++++ b/net/meson.build
+@@ -4,7 +4,6 @@ softmmu_ss.add(files(
+   'dump.c',
+   'eth.c',
+   'filter-buffer.c',
+-  'filter-mirror.c',
+   'filter.c',
+   'hub.c',
+   'net-hmp-cmds.c',
+@@ -23,7 +22,7 @@ if get_option('replication').allowed() or \
+ endif
+=20
+ if get_option('colo_proxy').allowed()
+-  softmmu_ss.add(files('filter-rewriter.c'))
++  softmmu_ss.add(files('filter-rewriter.c', 'filter-mirror.c'))
+ endif
 
 
