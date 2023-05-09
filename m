@@ -2,98 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1C866FCB4E
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 May 2023 18:29:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E3A86FCB5A
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 May 2023 18:34:24 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pwQC0-0003IA-Lh; Tue, 09 May 2023 12:28:00 -0400
+	id 1pwQHS-0004iO-7Z; Tue, 09 May 2023 12:33:38 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imbrenda@linux.ibm.com>)
- id 1pwQBx-0003HE-MY; Tue, 09 May 2023 12:27:58 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imbrenda@linux.ibm.com>)
- id 1pwQBu-0006KP-Ej; Tue, 09 May 2023 12:27:56 -0400
-Received: from pps.filterd (m0353727.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 349FnqaN003837; Tue, 9 May 2023 16:27:48 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : date : message-id : mime-version : content-transfer-encoding; s=pp1;
- bh=AZ2mXYuNmNsXtbOFIZ6ilqULOBV+EOo8ZzfJqVBBkew=;
- b=F3nQG/T9NRk0IEKTTBxiFk/M11hFB7YEHaGGHU354KJZb6zbsE7c+Ke7ehaX60GVKKww
- zC5C8PQIyFSlgW92ccAUjnJoriYAgThiA9A99sI3HACrcSva/YhOSMuOOz8KWMHeQ79q
- h39boWFchIQGiQ2UvdrUQFQyBI9PPmLt81wm99SnswKSSd04wMwy1m7iAxTpdnwU56nD
- Ykd4WpE8XNEsvVNF+OWk+raWRFxP5n/eZiQpL1XqF5QCu1DCjho2VErAs3sKwF0EFatW
- JRJ0U+PLz3QtG0R55OOa6fJAX7cVTZLWzNpJj5Y6ytH9OpKvo2LQyYEPhw6fDxXqyvUR vg== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3qfrbav37a-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 09 May 2023 16:27:47 +0000
-Received: from m0353727.ppops.net (m0353727.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 349GOSom007060;
- Tue, 9 May 2023 16:27:47 GMT
-Received: from ppma06fra.de.ibm.com (48.49.7a9f.ip4.static.sl-reverse.com
- [159.122.73.72])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3qfrbav35y-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 09 May 2023 16:27:47 +0000
-Received: from pps.filterd (ppma06fra.de.ibm.com [127.0.0.1])
- by ppma06fra.de.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 349Brrtb031277;
- Tue, 9 May 2023 16:27:45 GMT
-Received: from smtprelay05.fra02v.mail.ibm.com ([9.218.2.225])
- by ppma06fra.de.ibm.com (PPS) with ESMTPS id 3qf7e0rf53-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 09 May 2023 16:27:44 +0000
-Received: from smtpav07.fra02v.mail.ibm.com (smtpav07.fra02v.mail.ibm.com
- [10.20.54.106])
- by smtprelay05.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 349GRfC325952752
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 9 May 2023 16:27:41 GMT
-Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 28C2C20043;
- Tue,  9 May 2023 16:27:41 +0000 (GMT)
-Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id E25BA20040;
- Tue,  9 May 2023 16:27:40 +0000 (GMT)
-Received: from p-imbrenda.boeblingen.de.ibm.com (unknown [9.152.224.56])
- by smtpav07.fra02v.mail.ibm.com (Postfix) with ESMTP;
- Tue,  9 May 2023 16:27:40 +0000 (GMT)
-From: Claudio Imbrenda <imbrenda@linux.ibm.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pwQHM-0004g4-5Y
+ for qemu-devel@nongnu.org; Tue, 09 May 2023 12:33:32 -0400
+Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pwQHJ-0007Vx-Kq
+ for qemu-devel@nongnu.org; Tue, 09 May 2023 12:33:31 -0400
+Received: by mail-wm1-x32e.google.com with SMTP id
+ 5b1f17b1804b1-3f315712406so216446005e9.0
+ for <qemu-devel@nongnu.org>; Tue, 09 May 2023 09:33:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1683650008; x=1686242008;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=ExpUnsutUcznaqEfCAYFk3vD9+opdFGnpzbfU0RjCCc=;
+ b=bkm/5gD4rfh+ry6jaGyKlv7Ksw8Woirb0J9VjUTu5rc3bTZ8Qg/BPbiwbHNHI1I/1d
+ cTcMGIKr9qdwrbTEQY3/4CVsAogEF/xpmeiSA2yUciZkraaQ9zuIUoLT8turd3a8GMyh
+ ke47xx9vFO9tlk/ZsFPUzjoyaMxtKK5I6gTQ/hYnqB+EPSZ5HKkc6kB1YlWxLk/vIKXr
+ rv9P1k3dVrLSjMfT9ccJi7ljje4hIukjDvEAsTc4+Zt2osOtkqRdlMpix5kSjGuHivXN
+ pe/ASdCAtqZXMtJZTYIE0hL2q1V5MYJNCRrvPeIzBEM0109SmRbccLg9uQJV1Sf8ACZ1
+ dalQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1683650008; x=1686242008;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=ExpUnsutUcznaqEfCAYFk3vD9+opdFGnpzbfU0RjCCc=;
+ b=TJdoKuojO9fsYnSv+s0s5qGogwQmtbkWYl5XZqP7tjr6tccXxLAreeaHVjWa4+4qr6
+ YCuROdatiMiE2AYogQ7a7OtHMOt0z2PLDZgIbOQwH0Dhv3xMLqXzM4G1x66kKFUfSr6W
+ o04PbrOSjsMMamKmW0vXhjw3/EpIoLPT8wsRET49kk/BVodowaqA0LXcGrJFSrgef6SX
+ zKpjGdL0ERrLNa/rQRugHv+iI0u3wOtba4baYCeG22AV/AbELurT9z17RjfcgH8tsDZh
+ h42amhrWOvII4Y3J/VVzoWbKQ1x5a1lXu/F38y37PkKLGq04l94nlwhxxX7ZRvRa7TeF
+ MoOA==
+X-Gm-Message-State: AC+VfDxBf15QwjKSIhAQMRPv5J5jQ7mK9EXpSfYvwKZl2w/isM0MdW0N
+ 9SqhSTyJXz34C8b6eWepWuM9IgUV6D7LtF7GpNhISg==
+X-Google-Smtp-Source: ACHHUZ7WnbTdAUuUnlItvQrr0krDSf98a0tsuS/6Cv7Io+CWTjb3uO8IRW0iyrXK34c0m3HIv1s4bg==
+X-Received: by 2002:a5d:4292:0:b0:2ef:d0de:e8a4 with SMTP id
+ k18-20020a5d4292000000b002efd0dee8a4mr10523124wrq.25.1683650007836; 
+ Tue, 09 May 2023 09:33:27 -0700 (PDT)
+Received: from stoup.. ([85.9.250.243]) by smtp.gmail.com with ESMTPSA id
+ e1-20020adfdbc1000000b0030795249ffasm7393298wrj.92.2023.05.09.09.33.27
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 09 May 2023 09:33:27 -0700 (PDT)
+From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Cc: qemu-s390x@nongnu.org, borntraeger@de.ibm.com, nsg@linux.ibm.com,
- nrb@linux.ibm.com, frankja@linux.ibm.com, pasic@linux.ibm.com,
- mhartmay@linux.ibm.com, thuth@redhat.com
-Subject: [PATCH v1 1/1] s390x/pv: Fix spurious warning with asynchronous
- teardown
-Date: Tue,  9 May 2023 18:27:40 +0200
-Message-Id: <20230509162740.58081-1-imbrenda@linux.ibm.com>
-X-Mailer: git-send-email 2.40.1
+Cc: anjo@rev.ng,
+	philmd@linaro.org,
+	thuth@redhat.com
+Subject: [PATCH v2 0/5] Make the core disassembler functions target-independent
+Date: Tue,  9 May 2023 17:33:21 +0100
+Message-Id: <20230509163326.121090-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: enA3VjTaNfg_G211p7ZPIHYuKsO-iXz6
-X-Proofpoint-ORIG-GUID: hK72GOGhc_hV3VANDpagKKNYsyIIPJME
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-05-09_09,2023-05-05_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- spamscore=0 malwarescore=0 mlxscore=0 suspectscore=0 clxscore=1011
- phishscore=0 lowpriorityscore=0 impostorscore=0 mlxlogscore=938
- adultscore=0 bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2304280000 definitions=main-2305090132
-Received-SPF: pass client-ip=148.163.156.1;
- envelope-from=imbrenda@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x32e.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -110,52 +89,36 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-When rebooting a small VM using asynchronous teardown, a spurious
-warning is emitted when the KVM_PV_ASYNC_CLEANUP_PREPARE ioctl fails.
+Merges Thomas' RFC patch set with part of my "build-tcg-once" patch set.
+The only real change from Thomas' is to use uint64_t instead of hwaddr.
 
-Avoid using asynchronous teardown altogether when the VM is small
-enough; the cutoff is set at 4GiB. This will avoid triggering the
-warning and also avoid pointless overhead; normal teardown is fast
-enough for small VMs.
 
-Reported-by: Marc Hartmayer <mhartmay@linux.ibm.com>
-Fixes: c3a073c610 ("s390x/pv: Add support for asynchronous teardown for reboot")
-Signed-off-by: Claudio Imbrenda <imbrenda@linux.ibm.com>
----
- hw/s390x/pv.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+r~
 
-diff --git a/hw/s390x/pv.c b/hw/s390x/pv.c
-index 49ea38236c..17c5556319 100644
---- a/hw/s390x/pv.c
-+++ b/hw/s390x/pv.c
-@@ -13,6 +13,7 @@
- 
- #include <linux/kvm.h>
- 
-+#include "qemu/units.h"
- #include "qapi/error.h"
- #include "qemu/error-report.h"
- #include "sysemu/kvm.h"
-@@ -117,13 +118,16 @@ static void *s390_pv_do_unprot_async_fn(void *p)
- 
- bool s390_pv_vm_try_disable_async(void)
- {
-+    MachineState *machine = MACHINE(qdev_get_machine());
-     /*
-      * t is only needed to create the thread; once qemu_thread_create
-      * returns, it can safely be discarded.
-      */
-     QemuThread t;
- 
--    if (!kvm_check_extension(kvm_state, KVM_CAP_S390_PROTECTED_ASYNC_DISABLE)) {
-+    /* Avoid the overhead of asynchronous teardown for small machines */
-+    if ((machine->maxram_size < 4 * GiB) ||
-+        !kvm_check_extension(kvm_state, KVM_CAP_S390_PROTECTED_ASYNC_DISABLE)) {
-         return false;
-     }
-     if (s390_pv_cmd(KVM_PV_ASYNC_CLEANUP_PREPARE, NULL) != 0) {
+
+Richard Henderson (3):
+  disas: Move disas.c to disas/
+  disas: Remove target_ulong from the interface
+  disas: Remove target-specific headers
+
+Thomas Huth (2):
+  disas: Move softmmu specific code to separate file
+  disas: Move disas.c into the target-independent source set
+
+ meson.build              |   3 --
+ disas/disas-internal.h   |  21 ++++++++
+ include/disas/disas.h    |  23 +++------
+ bsd-user/elfload.c       |   5 +-
+ disas/disas-mon.c        |  65 +++++++++++++++++++++++++
+ disas.c => disas/disas.c | 100 +++++++--------------------------------
+ linux-user/elfload.c     |   5 +-
+ disas/meson.build        |   6 ++-
+ 8 files changed, 121 insertions(+), 107 deletions(-)
+ create mode 100644 disas/disas-internal.h
+ create mode 100644 disas/disas-mon.c
+ rename disas.c => disas/disas.c (79%)
+
 -- 
-2.40.1
+2.34.1
 
 
