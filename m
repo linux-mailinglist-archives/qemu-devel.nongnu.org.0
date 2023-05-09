@@ -2,70 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BD506FC941
+	by mail.lfdr.de (Postfix) with ESMTPS id 4DDDF6FC942
 	for <lists+qemu-devel@lfdr.de>; Tue,  9 May 2023 16:41:02 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pwOVw-0006Du-Hq; Tue, 09 May 2023 10:40:28 -0400
+	id 1pwOW5-0006KL-Ud; Tue, 09 May 2023 10:40:37 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1pwOVo-00064H-Oz
- for qemu-devel@nongnu.org; Tue, 09 May 2023 10:40:24 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1pwOVe-0000RJ-5C
- for qemu-devel@nongnu.org; Tue, 09 May 2023 10:40:18 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1683643208;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=yRGdnBrikD5zWXjOu9JsNKjklL6n2i81Q1Bg9k0ULUc=;
- b=cMTVQZl6mSk/mSaazTu+X/hMGi83gsVvaXHgIDnJFVhxoLUHW+f/XBR0//DQLh2B1x2XOs
- GATBVO0FURyDvACQG/VBdXewO780vPLHfBVmW8qlzfpxd/Jd8zvNVDMEHQjrms3YwbRxMg
- MYlfyVg/4RMo2PCkvxxCgmFDJYYHvjc=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-98-u0IoEXHIPiCBCG3Xb2kN3A-1; Tue, 09 May 2023 10:40:07 -0400
-X-MC-Unique: u0IoEXHIPiCBCG3Xb2kN3A-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
- [10.11.54.5])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B220A885628;
- Tue,  9 May 2023 14:40:06 +0000 (UTC)
-Received: from localhost (unknown [10.39.195.128])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1775263F84;
- Tue,  9 May 2023 14:40:05 +0000 (UTC)
-Date: Tue, 9 May 2023 10:40:04 -0400
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Mads Ynddal <mads@ynddal.dk>
-Cc: qemu-devel@nongnu.org, Cleber Rosa <crosa@redhat.com>,
- John Snow <jsnow@redhat.com>, Mads Ynddal <m.ynddal@samsung.com>
-Subject: Re: [PATCH v2 05/12] simpletrace: Changed Analyzer class to become
- context-manager
-Message-ID: <20230509144004.GH1008478@fedora>
-References: <20230502092339.27341-1-mads@ynddal.dk>
- <20230502092339.27341-6-mads@ynddal.dk>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pwOW4-0006JL-0t
+ for qemu-devel@nongnu.org; Tue, 09 May 2023 10:40:36 -0400
+Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pwOW0-0000hP-0J
+ for qemu-devel@nongnu.org; Tue, 09 May 2023 10:40:34 -0400
+Received: by mail-wm1-x32e.google.com with SMTP id
+ 5b1f17b1804b1-3f42bcf5df1so8136295e9.3
+ for <qemu-devel@nongnu.org>; Tue, 09 May 2023 07:40:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1683643230; x=1686235230;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=sNPlmCEXFQpje3H4hu0/8e2jihhR+IgU30AifxYCDVM=;
+ b=qYqTexInUFPbwi2OQnroKXlJY/UTHXNa/TmHGcGnHe8LhLA2/hxYJOS5zXNFgx2RkB
+ lrobwW7mLHRNJdOHXkBXbWZd9j+zg7Y5dFeSgoN6ab27wGuG37ztXQFpk35V2qGLT4XH
+ NELC1HYKBAHCn8OTdFJFu8h0QGk8JO4Z7kvb8RjeHRTGXWmRQ4EYcUTxWYJbz27bvJ30
+ epwSHe5EEHhnNO5JWIhf3od+sa04+4wCDQrrsjR+qDck9AJG0HOdxXGTola2wQsq5kVg
+ 7eWtzb+HPtl4UEBgygLQa3b+QYWsKX8zehj7N/Nuf7LZHxkpdAHeeeAM+iryk/fq/ZuL
+ rNPw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1683643230; x=1686235230;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=sNPlmCEXFQpje3H4hu0/8e2jihhR+IgU30AifxYCDVM=;
+ b=JjjOIMNPP5imwCT6GmLJmTDt2+NbgkVo0kOygzIDc13Hzzphp3lEvHvaJKq345qL4l
+ xXvNYV7WBlgWcGBGrvVZiDfsZIGw9GAvdMeFZvxcoNhW8qmcSHmzFGqMDe02H3dHlsd1
+ ShZxoI9Ji3gAxFlpAjq9JisPpYijcQDoWO6SAVNbSMtQGSkdlfl/W/tACZL9rBdifT2H
+ cffMhnGEWhbNBQ/iLStaFnV8cmKGUCLWC67G1nMvRiI+iFz4/9TY/7j3Skq48r+Q484z
+ RAwlIZ/q4SKmSuxYN4cW2t8e3Ik4h9I/GBMzqQx1HiCYdIxB8WVeyuS1kpxrKmLDZTCZ
+ HAKQ==
+X-Gm-Message-State: AC+VfDzbUvz9Cxjkg/aB9uwGR5rpAjwCqZVLs9r51oEpJuGqrsjfps+S
+ MC32yIkB3mt32IhrGCOkoWPyfg==
+X-Google-Smtp-Source: ACHHUZ5rcmDCY5zZwxhUxUEHiXBJdVKeYWsJ4ZQxafbGn13u1DkSz67M045/P6tRcnUg9yr+HP/l8A==
+X-Received: by 2002:adf:ff85:0:b0:307:92e8:ec60 with SMTP id
+ j5-20020adfff85000000b0030792e8ec60mr5403503wrr.39.1683643230231; 
+ Tue, 09 May 2023 07:40:30 -0700 (PDT)
+Received: from [192.168.11.23] ([85.9.250.243])
+ by smtp.gmail.com with ESMTPSA id
+ p1-20020a5d4581000000b0030639a86f9dsm14489880wrq.51.2023.05.09.07.40.29
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 09 May 2023 07:40:29 -0700 (PDT)
+Message-ID: <38880262-7702-7653-ec79-791019b7fd88@linaro.org>
+Date: Tue, 9 May 2023 15:40:28 +0100
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="HaUXuIZmA7wrgRZO"
-Content-Disposition: inline
-In-Reply-To: <20230502092339.27341-6-mads@ynddal.dk>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH v3 1/3] target/arm: Select SEMIHOSTING when using TCG
+Content-Language: en-US
+To: Fabiano Rosas <farosas@suse.de>, qemu-devel@nongnu.org
+Cc: qemu-arm@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>
+References: <20230508181611.2621-1-farosas@suse.de>
+ <20230508181611.2621-2-farosas@suse.de>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20230508181611.2621-2-farosas@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x32e.google.com
+X-Spam_score_int: -24
+X-Spam_score: -2.5
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.421,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,126 +98,20 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-
---HaUXuIZmA7wrgRZO
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Tue, May 02, 2023 at 11:23:32AM +0200, Mads Ynddal wrote:
-> From: Mads Ynddal <m.ynddal@samsung.com>
->=20
-> Instead of explicitly calling `begin` and `end`, we can change the class
-> to use the context-manager paradigm. This is mostly a styling choice,
-> used in modern Python code. But it also allows for more advanced analyzers
-> to handle exceptions gracefully in the `__exit__` method (not
-> demonstrated here).
->=20
-> Signed-off-by: Mads Ynddal <m.ynddal@samsung.com>
+On 5/8/23 19:16, Fabiano Rosas wrote:
+> Semihosting has been made a 'default y' entry in Kconfig, which does
+> not work because when building --without-default-devices, the
+> semihosting code would not be available.
+> 
+> Make semihosting unconditional when TCG is present.
+> 
+> Fixes: 29d9efca16 ("arm/Kconfig: Do not build TCG-only boards on a KVM-only build")
+> Signed-off-by: Fabiano Rosas<farosas@suse.de>
 > ---
->  scripts/simpletrace.py | 40 +++++++++++++++++++++++-----------------
->  1 file changed, 23 insertions(+), 17 deletions(-)
->=20
-> diff --git a/scripts/simpletrace.py b/scripts/simpletrace.py
-> index 7444a6e090..10ca093046 100755
-> --- a/scripts/simpletrace.py
-> +++ b/scripts/simpletrace.py
-> @@ -121,12 +121,12 @@ def read_trace_records(event_mapping, event_id_to_n=
-ame, fobj):
-> =20
->              yield rec
-> =20
-> -class Analyzer(object):
-> +class Analyzer:
->      """A trace file analyzer which processes trace records.
-> =20
-> -    An analyzer can be passed to run() or process().  The begin() method=
- is
-> -    invoked, then each trace record is processed, and finally the end() =
-method
-> -    is invoked.
-> +    An analyzer can be passed to run() or process().  The __enter__() me=
-thod is
-> +    invoked when opening the analyzer using the `with` statement, then e=
-ach trace
-> +    record is processed, and finally the __exit__() method is invoked.
+>   target/arm/Kconfig | 8 +-------
+>   1 file changed, 1 insertion(+), 7 deletions(-)
 
-Bearing in mind compatibility with existing simpletrace analysis
-scripts, how about the following default method implementations?
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-  def __enter__(self):
-      self.begin()
-
-  def __exit__(self, exc_type, exc_val, exc_tb):
-      if exc_type is None:
-          self.end()
-      return False
-
-Now simpletrace.py can switch to using the context manager and new
-scripts can implement __enter__()/__exit__(), while old scripts continue
-to work.
-
-> =20
->      If a method matching a trace event name exists, it is invoked to pro=
-cess
->      that trace record.  Otherwise the catchall() method is invoked.
-> @@ -152,19 +152,25 @@ def runstate_set(self, timestamp, pid, new_state):
->            ...
->      """
-> =20
-> -    def begin(self):
-> +    def __enter__(self):
->          """Called at the start of the trace."""
-> -        pass
-> +        return self
-> =20
->      def catchall(self, event, rec):
->          """Called if no specific method for processing a trace event has=
- been found."""
->          pass
-> =20
-> -    def end(self):
-> +    def __exit__(self, _type, value, traceback):
->          """Called at the end of the trace."""
->          pass
-> =20
-> -def process(events, log, analyzer, read_header=3DTrue):
-> +    def __call__(self):
-> +        """Fix for legacy use without context manager.
-> +        We call the provided object in `process` regardless of it being =
-the object-type or instance.
-> +        With this function, it will work in both cases."""
-> +        return self
-> +
-> +def process(events, log, analyzer_class, read_header=3DTrue):
-
-Please don't change the function signature since this is a public method
-and we should avoid breaking existing callers when possible.
-
-Instead of:
-
-  with analyzer_class() as analyzer:
-
-we can use:
-
-  with analyzer:
-      ...
-
---HaUXuIZmA7wrgRZO
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmRaW0QACgkQnKSrs4Gr
-c8hZiAgAvbQmHjIzu4I0OHHhSJUL9XqXrkO+2irnc1HRV5EEOpe+zk+B8OO+Uq10
-2w8Hsg3ONlnADFyPkvTQQJZFep8j2TEUvWyo5t6pxyr3fGr7Gn4A7vdgo3rSKfrx
-S/LIIRfnV6HLN9wudy8GkAjb1tCzASyAD59v113CxA5PO5BmYqInap+qZReCBs9k
-lZffTGOBJMGd2Te2PejPcCamv3oQqlXpc7bShmmmy2QYDOYPTIcP0fS1Tr62FYP6
-azu5zr8BIthvawp8ZtT6gNqj1bC4tLzcsdgyAzGR02nIomxZ79QqE4IczY6/sgjc
-qkiqssSPgntxrHMU9hV3SNV92/88DQ==
-=AEE9
------END PGP SIGNATURE-----
-
---HaUXuIZmA7wrgRZO--
-
+r~
 
