@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16F356FCE67
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 May 2023 21:18:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F5B46FCE6E
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 May 2023 21:19:17 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pwSqJ-000476-F5; Tue, 09 May 2023 15:17:47 -0400
+	id 1pwSqL-00047P-HK; Tue, 09 May 2023 15:17:49 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pwSqG-00045w-Pu
- for qemu-devel@nongnu.org; Tue, 09 May 2023 15:17:44 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ id 1pwSqH-00046O-W4
+ for qemu-devel@nongnu.org; Tue, 09 May 2023 15:17:46 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pwSqF-0006Xv-Bs
- for qemu-devel@nongnu.org; Tue, 09 May 2023 15:17:44 -0400
+ id 1pwSqG-0006Yu-HB
+ for qemu-devel@nongnu.org; Tue, 09 May 2023 15:17:45 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1683659862;
+ s=mimecast20190719; t=1683659863;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=iI6oWetrlZ8mPaEGRhEP0KH20gw4XCVgMaYYbERpVJ8=;
- b=ONiGdQj5DTpnfSCj+oACOLE77Z10bvXhRpVg9IpYYXq0MUP92qlQ4TiN9ZgZOMHpvgu7Zc
- Lt+8NaNJDhxUAPhgUtCPYZI32YFH2z1rbWfHjfRByHzzpzsBumM0DVxR45oGmaboUe5nTE
- vtv+Di25th8hvkvl21g/S7ouetQBh0s=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=ImCQ+Y4FYqkgMFc7wGSlxrvJOlIh84jvmaO/wR4Nyjs=;
+ b=jIGqbGuMO2gCLFE6sHWULfD3PQtfNz5/Zr66Lu3m2Q9SabBsPhzatCPG86zxpOu7J3feV7
+ ovF2uardF2X1Y8KxbaSZNN1gVDjpzudumz7S9Ka+3owIGXu9FB93TsOKX9q8TFan7OBF6N
+ rgGdo5RH3Et0BOB2iwULqFRpD9zEej4=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-624-HN4VjpyXNf6SIHiSO2poog-1; Tue, 09 May 2023 15:17:39 -0400
-X-MC-Unique: HN4VjpyXNf6SIHiSO2poog-1
+ us-mta-471-WjeNkoKgNbS4QrvhH5SU3g-1; Tue, 09 May 2023 15:17:42 -0400
+X-MC-Unique: WjeNkoKgNbS4QrvhH5SU3g-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
  [10.11.54.5])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4E0BA100F64F;
- Tue,  9 May 2023 19:17:38 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id DD9E7380673B;
+ Tue,  9 May 2023 19:17:40 +0000 (UTC)
 Received: from secure.mitica (unknown [10.39.193.236])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5A7C663F84;
- Tue,  9 May 2023 19:17:35 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9554963F84;
+ Tue,  9 May 2023 19:17:38 +0000 (UTC)
 From: Juan Quintela <quintela@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: "Dr. David Alan Gilbert" <dave@treblig.org>,
@@ -51,28 +51,25 @@ Cc: "Dr. David Alan Gilbert" <dave@treblig.org>,
  Juan Quintela <quintela@redhat.com>, qemu-block@nongnu.org,
  Peter Xu <peterx@redhat.com>, Markus Armbruster <armbru@redhat.com>,
  Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Lukas Straub <lukasstraub2@web.de>, Zhang Chen <chen.zhang@intel.com>
-Subject: [PULL 04/10] block/meson.build: prefer positive condition for
- replication
-Date: Tue,  9 May 2023 21:17:18 +0200
-Message-Id: <20230509191724.86159-5-quintela@redhat.com>
+ Zhang Chen <chen.zhang@intel.com>
+Subject: [PULL 05/10] colo: make colo_checkpoint_notify static and provide
+ simpler API
+Date: Tue,  9 May 2023 21:17:19 +0200
+Message-Id: <20230509191724.86159-6-quintela@redhat.com>
 In-Reply-To: <20230509191724.86159-1-quintela@redhat.com>
 References: <20230509191724.86159-1-quintela@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,30 +87,107 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
 
+colo_checkpoint_notify() is mostly used in colo.c. Outside we use it
+once when x-checkpoint-delay migration parameter is set. So, let's
+simplify the external API to only that function - notify COLO that
+parameter was set. This make external API more robust and hides
+implementation details from external callers. Also this helps us to
+make COLO module optional in further patch (i.e. we are going to add
+possibility not build the COLO module).
+
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
 Reviewed-by: Juan Quintela <quintela@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-Reviewed-by: Lukas Straub <lukasstraub2@web.de>
+Reviewed-by: Peter Xu <peterx@redhat.com>
 Reviewed-by: Zhang Chen <chen.zhang@intel.com>
-Message-Id: <20230428194928.1426370-2-vsementsov@yandex-team.ru>
+Message-Id: <20230428194928.1426370-3-vsementsov@yandex-team.ru>
 Signed-off-by: Juan Quintela <quintela@redhat.com>
 ---
- block/meson.build | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ include/migration/colo.h |  9 ++++++++-
+ migration/colo.c         | 29 ++++++++++++++++++-----------
+ migration/options.c      |  4 +---
+ 3 files changed, 27 insertions(+), 15 deletions(-)
 
-diff --git a/block/meson.build b/block/meson.build
-index 382bec0e7d..b9a72e219b 100644
---- a/block/meson.build
-+++ b/block/meson.build
-@@ -84,7 +84,7 @@ block_ss.add(when: 'CONFIG_WIN32', if_true: files('file-win32.c', 'win32-aio.c')
- block_ss.add(when: 'CONFIG_POSIX', if_true: [files('file-posix.c'), coref, iokit])
- block_ss.add(when: libiscsi, if_true: files('iscsi-opts.c'))
- block_ss.add(when: 'CONFIG_LINUX', if_true: files('nvme.c'))
--if not get_option('replication').disabled()
-+if get_option('replication').allowed()
-   block_ss.add(files('replication.c'))
- endif
- block_ss.add(when: libaio, if_true: files('linux-aio.c'))
+diff --git a/include/migration/colo.h b/include/migration/colo.h
+index 5fbe1a6d5d..7ef315473e 100644
+--- a/include/migration/colo.h
++++ b/include/migration/colo.h
+@@ -36,6 +36,13 @@ COLOMode get_colo_mode(void);
+ /* failover */
+ void colo_do_failover(void);
+ 
+-void colo_checkpoint_notify(void *opaque);
++/*
++ * colo_checkpoint_delay_set
++ *
++ * Handles change of x-checkpoint-delay migration parameter, called from
++ * migrate_params_apply() to notify COLO module about the change.
++ */
++void colo_checkpoint_delay_set(void);
++
+ void colo_shutdown(void);
+ #endif
+diff --git a/migration/colo.c b/migration/colo.c
+index 07bfa21fea..c9e0b909b9 100644
+--- a/migration/colo.c
++++ b/migration/colo.c
+@@ -65,6 +65,24 @@ static bool colo_runstate_is_stopped(void)
+     return runstate_check(RUN_STATE_COLO) || !runstate_is_running();
+ }
+ 
++static void colo_checkpoint_notify(void *opaque)
++{
++    MigrationState *s = opaque;
++    int64_t next_notify_time;
++
++    qemu_event_set(&s->colo_checkpoint_event);
++    s->colo_checkpoint_time = qemu_clock_get_ms(QEMU_CLOCK_HOST);
++    next_notify_time = s->colo_checkpoint_time + migrate_checkpoint_delay();
++    timer_mod(s->colo_delay_timer, next_notify_time);
++}
++
++void colo_checkpoint_delay_set(void)
++{
++    if (migration_in_colo_state()) {
++        colo_checkpoint_notify(migrate_get_current());
++    }
++}
++
+ static void secondary_vm_do_failover(void)
+ {
+ /* COLO needs enable block-replication */
+@@ -644,17 +662,6 @@ out:
+     }
+ }
+ 
+-void colo_checkpoint_notify(void *opaque)
+-{
+-    MigrationState *s = opaque;
+-    int64_t next_notify_time;
+-
+-    qemu_event_set(&s->colo_checkpoint_event);
+-    s->colo_checkpoint_time = qemu_clock_get_ms(QEMU_CLOCK_HOST);
+-    next_notify_time = s->colo_checkpoint_time + migrate_checkpoint_delay();
+-    timer_mod(s->colo_delay_timer, next_notify_time);
+-}
+-
+ void migrate_start_colo_process(MigrationState *s)
+ {
+     qemu_mutex_unlock_iothread();
+diff --git a/migration/options.c b/migration/options.c
+index 2e759cc306..9d92b15b76 100644
+--- a/migration/options.c
++++ b/migration/options.c
+@@ -1253,9 +1253,7 @@ static void migrate_params_apply(MigrateSetParameters *params, Error **errp)
+ 
+     if (params->has_x_checkpoint_delay) {
+         s->parameters.x_checkpoint_delay = params->x_checkpoint_delay;
+-        if (migration_in_colo_state()) {
+-            colo_checkpoint_notify(s);
+-        }
++        colo_checkpoint_delay_set();
+     }
+ 
+     if (params->has_block_incremental) {
 -- 
 2.40.0
 
