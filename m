@@ -2,81 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A86816FC9A1
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 May 2023 16:54:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC2856FC9A7
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 May 2023 16:56:46 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pwOja-0005cw-MR; Tue, 09 May 2023 10:54:34 -0400
+	id 1pwOlH-0006Yc-Fk; Tue, 09 May 2023 10:56:19 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pwOjY-0005cj-TG
- for qemu-devel@nongnu.org; Tue, 09 May 2023 10:54:32 -0400
-Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b])
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pwOlC-0006UL-G9
+ for qemu-devel@nongnu.org; Tue, 09 May 2023 10:56:14 -0400
+Received: from mail-ed1-x536.google.com ([2a00:1450:4864:20::536])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pwOjU-00038j-HZ
- for qemu-devel@nongnu.org; Tue, 09 May 2023 10:54:31 -0400
-Received: by mail-wr1-x42b.google.com with SMTP id
- ffacd0b85a97d-30639daee76so3889632f8f.1
- for <qemu-devel@nongnu.org>; Tue, 09 May 2023 07:54:27 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pwOlA-0003bo-8T
+ for qemu-devel@nongnu.org; Tue, 09 May 2023 10:56:14 -0400
+Received: by mail-ed1-x536.google.com with SMTP id
+ 4fb4d7f45d1cf-50db7f0a1b4so1536996a12.3
+ for <qemu-devel@nongnu.org>; Tue, 09 May 2023 07:56:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1683644066; x=1686236066;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=l01PzqK6Yg+ex5qQvjE2vUEBY3ZMERozalix5kHaMls=;
- b=uLLcSgVFUwJBLwiogDfvruRd7Lq+16ltiND/jG3d1IJt49zhvSdaoyCMkbi5Ucg6xb
- Yk+V5hsoVrTQQYXrqTHif2FN+Ci4JxNVk5Q6RWq7jJYn9gpEMzOZ3fD9fxHG+5HP5om3
- dxwBvMvFyIOpciToaICCVl73CGbWIZWiqywdwK+li6QmCa9msj5BnGBgpMZZjuqQLct0
- OEwvzMEyqJT3P4pVJ4W9cz1BX4Z21ofaYTCorZ1A6udCsGO1A7fRI3FQKWpL/A006vQ0
- XM5xXyYkFWDQURaqPWiuFbAeFnJmzUm+vQ33EF8o9j9p7V7ZobgmWctXduRxzc4XSsGU
- H0Mg==
+ d=linaro.org; s=google; t=1683644169; x=1686236169;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=TFaaj/6Ld8vJKoqN7Y7ch6XzfEfl83cBt43HKwvW+0U=;
+ b=jSiEZz5IXZXr20jqdPiR5wS43Bt3mvJANb+NRfHJyamvsc1bJ3Z+mcjNR59Oj9jMKR
+ naMCRsaO5m0sD4rLmY7QCNGAU3kUsd6AtzyYPtCkgpozalPglF/MY8wF92/gexNwZw5u
+ ozWiXDiafTfiqll/RcTRm/PDfCDhWP+/6zFTxChlOyScuO1PXKyyKEQGUuaWg5gF/la5
+ 1durNKwAUkqPivzpKLdD9crxf6qiV7iPcLEj2iO9xSxkHWrZZrGxmyGCtklqW096NupC
+ taJ8MW/ZiBCJE5RmIHf3L2K8ZthQ2+c+n91afMKAF58JhzI61SlPh/f6PIzZr5ou42Sc
+ aTng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683644066; x=1686236066;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=l01PzqK6Yg+ex5qQvjE2vUEBY3ZMERozalix5kHaMls=;
- b=I6YiC9qlDpOhFdT2Tke3boPaeJhknaCvnY4o1+/iAFduP9bnqz3JIFmn5NbsVuIWHC
- SjfR0JimbE2cM/1KlUJ+o2W5nv+Jb5+gn1F5df2gDtJiwriVD3/A1ZhKgoH+g59mbzPT
- TJjIrwULWe7FEEo7DEAwxHfJRWT6pTn38Tl7HMJDWOyXMYj+EsKF4vr54k8jmDV1C8vs
- lTsRnlmaXoyN7n66U7pxqAAUhL/LeXVoHQGM+N2kArC31DpZeQaULa/idZ8Qwjz9wBNY
- Mzxh4QHJaOUe3NhEAN4X3PBOW0928JdzBx5iLoXxe+LLBt+M8dUMozPE2kT6onsF62fC
- mttA==
-X-Gm-Message-State: AC+VfDxtnZs0CX5fxC1I+tv7ppX/fVoMQvk0QFPESqnNcy1ouwX90/MF
- qLyKqMmc0+3/NioON71UcTA4yaHWzvLnN7QVNEOfVQ==
-X-Google-Smtp-Source: ACHHUZ7JXbZ5/+of0rjrSB4XEfxxVxYAEgz8UCQMuSuJb7MOq+AyhHya2NfzXWKZINbtF0I6kBkaTw==
-X-Received: by 2002:adf:dbc8:0:b0:307:8b3e:2858 with SMTP id
- e8-20020adfdbc8000000b003078b3e2858mr7107895wrj.45.1683644066323; 
- Tue, 09 May 2023 07:54:26 -0700 (PDT)
-Received: from [192.168.11.23] ([85.9.250.243])
- by smtp.gmail.com with ESMTPSA id
- z22-20020a7bc7d6000000b003f42813b315sm4726785wmk.32.2023.05.09.07.54.25
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 09 May 2023 07:54:25 -0700 (PDT)
-Message-ID: <441121dd-9a8a-38b3-ac88-f040aab1b385@linaro.org>
-Date: Tue, 9 May 2023 15:54:24 +0100
+ d=1e100.net; s=20221208; t=1683644169; x=1686236169;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=TFaaj/6Ld8vJKoqN7Y7ch6XzfEfl83cBt43HKwvW+0U=;
+ b=Jp2aN6KZTSs2UcnywXALY+/NQOiKTtiqMV+PAHRLm69Oq4nVn16Rry/KnExBvt+g30
+ h3oHh0rI+aywXmUMnLK77nSM+K+o2Ep/cljJw6Hq9ge/JgjZaf21UhwqJbSVRz6fi6rf
+ 0i5IHJjW9x3D2H3vcRvLjkj/LA022g0UusHb5JkO6VJ67AKUk4UumS3HjkmnztkkFYCL
+ xgenyNralGYOKP/+CCerOxUYrt65qmQ5C+ZRzrX6mi5lKeaqm8+wH/hJxNRw9WwGWiOH
+ /D2hXc7ZrGM9RsG8Y2yn7pRZ6TdAaCRFSHDsViXHfHHKB6zg97Upjw4t2PW+YANfbm2N
+ Cf4w==
+X-Gm-Message-State: AC+VfDxDrFur+5ZSZlel/juWojwwNW/NmYG9zdZxfvfqhIpuV7QFelWQ
+ 0k6YygREPbXJUzGJ/33/j8wNY1+MzKmCOvGwnMB4yQ==
+X-Google-Smtp-Source: ACHHUZ7TXCGjY2fHWJTUXKqo0cUXLdaO7H7/rxfmcTTQGmlTtGz2hj/9UZ+GDTV6RwDDa2L8u4aKMIe6Tq0WWlE7GbU=
+X-Received: by 2002:a50:fe8c:0:b0:506:ba8d:c317 with SMTP id
+ d12-20020a50fe8c000000b00506ba8dc317mr10646376edt.40.1683644169156; Tue, 09
+ May 2023 07:56:09 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH] target/m68k: Fix gen_load_fp for OS_LONG
-Content-Language: en-US
-To: Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org
-References: <20230508140857.137405-1-richard.henderson@linaro.org>
- <2586a5d3-d944-59e9-07c6-0e638f5a679f@vivier.eu>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <2586a5d3-d944-59e9-07c6-0e638f5a679f@vivier.eu>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
- envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x42b.google.com
-X-Spam_score_int: -24
-X-Spam_score: -2.5
+References: <20230302123029.153265-1-pbonzini@redhat.com>
+ <20230302123029.153265-33-pbonzini@redhat.com>
+In-Reply-To: <20230302123029.153265-33-pbonzini@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 9 May 2023 15:55:58 +0100
+Message-ID: <CAFEAcA-s+sNDn4z_kXd70koFGSLXqjMUXB5Gn9VzTnaSbr2B_Q@mail.gmail.com>
+Subject: Re: [PULL 32/62] hw/xen: Implement EVTCHNOP_bind_virq
+To: Paolo Bonzini <pbonzini@redhat.com>
+Cc: qemu-devel@nongnu.org, David Woodhouse <dwmw@amazon.co.uk>,
+ Paul Durrant <paul@xen.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::536;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x536.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.421,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -94,34 +86,60 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 5/8/23 17:06, Laurent Vivier wrote:
-> Le 08/05/2023 à 16:08, Richard Henderson a écrit :
->> Case was accidentally dropped in b7a94da9550b.
->>
->> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
->> ---
->>   target/m68k/translate.c | 1 +
->>   1 file changed, 1 insertion(+)
->>
->> diff --git a/target/m68k/translate.c b/target/m68k/translate.c
->> index 744eb3748b..44d852b106 100644
->> --- a/target/m68k/translate.c
->> +++ b/target/m68k/translate.c
->> @@ -959,6 +959,7 @@ static void gen_load_fp(DisasContext *s, int opsize, TCGv addr, 
->> TCGv_ptr fp,
->>       switch (opsize) {
->>       case OS_BYTE:
->>       case OS_WORD:
->> +    case OS_LONG:
->>           tcg_gen_qemu_ld_tl(tmp, addr, index, opsize | MO_SIGN | MO_TE);
->>           gen_helper_exts32(cpu_env, fp, tmp);
->>           break;
-> 
-> Tested-by: Laurent Vivier <laurent@vivier.eu>
-> Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+On Thu, 2 Mar 2023 at 12:39, Paolo Bonzini <pbonzini@redhat.com> wrote:
+>
+> From: David Woodhouse <dwmw@amazon.co.uk>
+>
+> Add the array of virq ports to each vCPU so that we can deliver timers,
+> debug ports, etc. Global virqs are allocated against vCPU 0 initially,
+> but can be migrated to other vCPUs (when we implement that).
+>
+> The kernel needs to know about VIRQ_TIMER in order to accelerate timers,
+> so tell it via KVM_XEN_VCPU_ATTR_TYPE_TIMER. Also save/restore the value
+> of the singleshot timer across migration, as the kernel will handle the
+> hypercalls automatically now.
+>
+> Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
+> Reviewed-by: Paul Durrant <paul@xen.org>
 
-Queued to tcg-next.
+Hi; Coverity points out (CID 1507534) that we seem to sometimes
+access env->xen_singleshot_timer_ns under the protection of
+env->xen_timers_lock (eg in xen_vcpu_singleshot_timer_event())
+and sometimes not (the specific case Coverity complains about is
+in do_vcpu_soft_reset()). Is this a false positive, or is there
+missing locking here ?
 
+>  /* The x86 has a strong memory model with some store-after-load re-ordering */
+>  #define TCG_GUEST_DEFAULT_MO      (TCG_MO_ALL & ~TCG_MO_ST_LD)
+>
+> @@ -1806,6 +1808,8 @@ typedef struct CPUArchState {
+>      uint64_t xen_vcpu_time_info_gpa;
+>      uint64_t xen_vcpu_runstate_gpa;
+>      uint8_t xen_vcpu_callback_vector;
+> +    uint16_t xen_virq[XEN_NR_VIRQS];
+> +    uint64_t xen_singleshot_timer_ns;
+>  #endif
+>  #if defined(CONFIG_HVF)
+>      HVFX86LazyFlags hvf_lflags;
 
-r~
+> @@ -387,6 +434,8 @@ static void do_vcpu_soft_reset(CPUState *cs, run_on_cpu_data data)
+>      env->xen_vcpu_time_info_gpa = INVALID_GPA;
+>      env->xen_vcpu_runstate_gpa = INVALID_GPA;
+>      env->xen_vcpu_callback_vector = 0;
+> +    env->xen_singleshot_timer_ns = 0;
+> +    memset(env->xen_virq, 0, sizeof(env->xen_virq));
+>
+>      set_vcpu_info(cs, INVALID_GPA);
+>      kvm_xen_set_vcpu_attr(cs, KVM_XEN_VCPU_ATTR_TYPE_VCPU_TIME_INFO,
+> @@ -395,6 +444,7 @@ static void do_vcpu_soft_reset(CPUState *cs, run_on_cpu_data data)
+>                            INVALID_GPA);
+>      if (kvm_xen_has_cap(EVTCHN_SEND)) {
+>          kvm_xen_set_vcpu_callback_vector(cs);
+> +        kvm_xen_set_vcpu_timer(cs);
+>      }
+>
+>  }
+
+thanks
+-- PMM
 
