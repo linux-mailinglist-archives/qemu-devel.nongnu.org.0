@@ -2,70 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD6CF6FC945
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 May 2023 16:41:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 19B636FC97E
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 May 2023 16:51:35 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pwOWQ-0007Ww-Sa; Tue, 09 May 2023 10:40:58 -0400
+	id 1pwOf3-0002qf-Q7; Tue, 09 May 2023 10:49:53 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1pwOWN-0007Ns-7d
- for qemu-devel@nongnu.org; Tue, 09 May 2023 10:40:55 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1pwOWL-0000nD-B7
- for qemu-devel@nongnu.org; Tue, 09 May 2023 10:40:54 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1683643252;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=OFb6MU4VWIZg91LVYtec+Jbi7KtmBaVAzpeQsKK0cDE=;
- b=Y6c1mtrVZieQxsSImXivEIBh2Gc26wMEiiDfgWKFhj7YxjIhVMl68k5lS+PjSPKHwBvskz
- WCJ3xh+vfmJMfNsMEpLSAZf9JF9B46pz/pK9aJyocILKZNODZk45S2ZUbOhR2PeacwCdBD
- jAGTv4ftmKTXVrTl2WW44pO1hMxRaXw=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-131-hAV8_nmUPp-d2E5Frj3_NA-1; Tue, 09 May 2023 10:40:49 -0400
-X-MC-Unique: hAV8_nmUPp-d2E5Frj3_NA-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
- [10.11.54.4])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9F2BC18A6463;
- Tue,  9 May 2023 14:40:48 +0000 (UTC)
-Received: from localhost (unknown [10.39.195.128])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2F71C2026D16;
- Tue,  9 May 2023 14:40:46 +0000 (UTC)
-Date: Tue, 9 May 2023 10:40:45 -0400
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Mads Ynddal <mads@ynddal.dk>
-Cc: qemu-devel@nongnu.org, Cleber Rosa <crosa@redhat.com>,
- John Snow <jsnow@redhat.com>, Mads Ynddal <m.ynddal@samsung.com>
-Subject: Re: [PATCH v2 06/12] simpletrace: Simplify construction of tracing
- methods
-Message-ID: <20230509144045.GI1008478@fedora>
-References: <20230502092339.27341-1-mads@ynddal.dk>
- <20230502092339.27341-7-mads@ynddal.dk>
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pwOes-0002oH-Hd
+ for qemu-devel@nongnu.org; Tue, 09 May 2023 10:49:46 -0400
+Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pwOee-00026r-IR
+ for qemu-devel@nongnu.org; Tue, 09 May 2023 10:49:30 -0400
+Received: by mail-wr1-x435.google.com with SMTP id
+ ffacd0b85a97d-30639daee76so3884523f8f.1
+ for <qemu-devel@nongnu.org>; Tue, 09 May 2023 07:49:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1683643767; x=1686235767;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=dK5ac7kkFz/UOnHQVKeOY33TI5jVnA/U63q0XWmNm/0=;
+ b=IvZ99HMMiYUa/XaTYS4SLk3GgO03yCxVLzgmrGXrFA6fTOvB3uL3bAXjukr6eJER9r
+ j2zG5vb78pnAHvvxlLoowtUYgowhxc0eJqhhZDsvilfPg/xyKkemZjnUV74wOu4Y3dKK
+ IvLpgvEKURhHRh8XBzY2zSTapvxn6dXLMDPSZwgY14UIlok89lokE7gr6kAnlgUcfdRh
+ TW9QNvLTuj3u+2xtP8OANkzGn7d3zjk9dbeQTAV06GfeBxpcO1n1Zrvn+dU9fjVADZXf
+ uOS0WvhclfcIxohUB2CHr5UkYS76tDIAp8vAkbOnSgu3M+PP//jFCyt46n2YwCdlMnFs
+ AqHw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1683643767; x=1686235767;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=dK5ac7kkFz/UOnHQVKeOY33TI5jVnA/U63q0XWmNm/0=;
+ b=PiTgg+qpPOOvhuRp8XyIekNdTAwgAfZWsFUT12NtLGZqrUE5YOdjIKuHrORL38KygN
+ GISwQTAGzBP7nA1R1ftdL//0Zs44ZGD+QOfKAneQZmmnbwfDs7sQnnuUzjGLyMMCdSua
+ FMrjPdbn1VFMb2cLu1P+2MerGTX1SCchJaStbQVsY8dIKZAPrJ3ks/ASF4ke90xRMqYa
+ +ykJGCikfdX1aVCe9foUK7SYV6au2n9VeMGf9VlQrfX4+ShuHF4ptvi8vlmvk2c9xcxl
+ ckXuAKnQgnKWr43cP/p6f/g4H+BI+XG/UioFbgO3fACQqIO1HqMENelzugZPy07+xHMD
+ O9XQ==
+X-Gm-Message-State: AC+VfDx6c5FXHJaBv7ra19Z9wQfE8H9Q1keufheo2Mk78lMWwkEvtSXm
+ JOLFXwfgIzETeGmGTK3iZUrdvg==
+X-Google-Smtp-Source: ACHHUZ4Hes/u25N4RLNIHrCBYePMNuD3TeiE2hG2eAY7ofEONI9ljNVQjRGZlhibduouIgQnjPIMLg==
+X-Received: by 2002:a5d:678d:0:b0:307:95d1:d7d0 with SMTP id
+ v13-20020a5d678d000000b0030795d1d7d0mr5118601wru.39.1683643766875; 
+ Tue, 09 May 2023 07:49:26 -0700 (PDT)
+Received: from [192.168.69.115] ([176.187.211.62])
+ by smtp.gmail.com with ESMTPSA id
+ o17-20020a5d4091000000b003078a3f3a24sm10806359wrp.114.2023.05.09.07.49.25
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 09 May 2023 07:49:26 -0700 (PDT)
+Message-ID: <d51de29f-a23f-be79-049a-f15df2be7ac6@linaro.org>
+Date: Tue, 9 May 2023 16:49:24 +0200
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="WqCZwgTgs/MPQ860"
-Content-Disposition: inline
-In-Reply-To: <20230502092339.27341-7-mads@ynddal.dk>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.10.1
+Subject: Re: [PATCH v3 2/3] target/arm: Select CONFIG_ARM_V7M when TCG is
+ enabled
+Content-Language: en-US
+To: Fabiano Rosas <farosas@suse.de>, qemu-devel@nongnu.org
+Cc: qemu-arm@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>
+References: <20230508181611.2621-1-farosas@suse.de>
+ <20230508181611.2621-3-farosas@suse.de>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20230508181611.2621-3-farosas@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x435.google.com
+X-Spam_score_int: -24
+X-Spam_score: -2.5
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.421,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,195 +97,40 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-
---WqCZwgTgs/MPQ860
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Tue, May 02, 2023 at 11:23:33AM +0200, Mads Ynddal wrote:
-> From: Mads Ynddal <m.ynddal@samsung.com>
->=20
-> By moving the dynamic argument construction to keyword-arguments,
-> we can remove all of the specialized handling, and streamline it.
-> If a tracing method wants to access these, they can define the
-> kwargs, or ignore it be placing `**kwargs` at the end of the
-> function's arguments list.
->=20
-> Signed-off-by: Mads Ynddal <m.ynddal@samsung.com>
+On 8/5/23 20:16, Fabiano Rosas wrote:
+> We cannot allow this config to be disabled at the moment as not all of
+> the relevant code is protected by it.
+> 
+> Commit 29d9efca16 ("arm/Kconfig: Do not build TCG-only boards on a
+> KVM-only build") moved the CONFIGs of several boards to Kconfig, so it
+> is now possible that nothing selects ARM_V7M (e.g. when doing a
+> --without-default-devices build).
+> 
+> Return the CONFIG_ARM_V7M entry to a state where it is always selected
+> whenever TCG is available.
+> 
+> Fixes: 29d9efca16 ("arm/Kconfig: Do not build TCG-only boards on a KVM-only build")
+> Signed-off-by: Fabiano Rosas <farosas@suse.de>
 > ---
->  scripts/simpletrace.py | 84 ++++++++++++++++--------------------------
->  1 file changed, 32 insertions(+), 52 deletions(-)
+>   target/arm/Kconfig | 1 +
+>   1 file changed, 1 insertion(+)
+> 
+> diff --git a/target/arm/Kconfig b/target/arm/Kconfig
+> index 3fffdcb61b..5947366f6e 100644
+> --- a/target/arm/Kconfig
+> +++ b/target/arm/Kconfig
+> @@ -1,6 +1,7 @@
+>   config ARM
+>       bool
+>       select ARM_COMPATIBLE_SEMIHOSTING if TCG
+> +    select ARM_V7M if TCG
 
-This is nice but breaking existing analysis scripts should be avoided.
+Probably worth a comment mentioning this is temporarily
+required until <some magic happens>, so we won't forgot
+to remove it.
 
-I suggest preserving the Analyzer class the way it is and adding a new
-Analyzer2 class that follows the new method signature for trace event
-methods.
-
->=20
-> diff --git a/scripts/simpletrace.py b/scripts/simpletrace.py
-> index 10ca093046..f6b40d56f6 100755
-> --- a/scripts/simpletrace.py
-> +++ b/scripts/simpletrace.py
-> @@ -131,16 +131,25 @@ class Analyzer:
->      If a method matching a trace event name exists, it is invoked to pro=
-cess
->      that trace record.  Otherwise the catchall() method is invoked.
-> =20
-> +    The methods are called with a set of keyword-arguments. These can be=
- ignored
-> +    using `**kwargs` or defined like any keyword-argument.
-> +
-> +    The following keyword-arguments are available:
-> +        event: Event object of current trace
-> +        event_id: The id of the event in the current trace file
-> +        timestamp_ns: The timestamp in nanoseconds of the trace
-> +        pid: The process id recorded for the given trace
-> +
->      Example:
->      The following method handles the runstate_set(int new_state) trace e=
-vent::
-> =20
-> -      def runstate_set(self, new_state):
-> +      def runstate_set(self, new_state, **kwargs):
->            ...
-> =20
-> -    The method can also take a timestamp argument before the trace event
-> -    arguments::
-> +    The method can also explicitly take a timestamp keyword-argument wit=
-h the
-> +    trace event arguments::
-> =20
-> -      def runstate_set(self, timestamp, new_state):
-> +      def runstate_set(self, new_state, *, timestamp, **kwargs):
->            ...
-> =20
->      Timestamps have the uint64_t type and are in nanoseconds.
-> @@ -148,7 +157,7 @@ def runstate_set(self, timestamp, new_state):
->      The pid can be included in addition to the timestamp and is useful w=
-hen
->      dealing with traces from multiple processes::
-> =20
-> -      def runstate_set(self, timestamp, pid, new_state):
-> +      def runstate_set(self, new_state, *, timestamp, pid, **kwargs):
->            ...
->      """
-> =20
-> @@ -156,7 +165,7 @@ def __enter__(self):
->          """Called at the start of the trace."""
->          return self
-> =20
-> -    def catchall(self, event, rec):
-> +    def catchall(self, *rec_args, event, timestamp_ns, pid, event_id):
->          """Called if no specific method for processing a trace event has=
- been found."""
->          pass
-> =20
-> @@ -189,34 +198,11 @@ def process(events, log, analyzer_class, read_heade=
-r=3DTrue):
->          for event_id, event in enumerate(events):
->              event_id_to_name[event_id] =3D event.name
-> =20
-> -    def build_fn(analyzer, event):
-> -        if isinstance(event, str):
-> -            return analyzer.catchall
-> -
-> -        fn =3D getattr(analyzer, event.name, None)
-> -        if fn is None:
-> -            return analyzer.catchall
-> -
-> -        event_argcount =3D len(event.args)
-> -        fn_argcount =3D len(inspect.getfullargspec(fn)[0]) - 1
-> -        if fn_argcount =3D=3D event_argcount + 1:
-> -            # Include timestamp as first argument
-> -            return lambda _, rec: fn(*(rec[1:2] + rec[3:3 + event_argcou=
-nt]))
-> -        elif fn_argcount =3D=3D event_argcount + 2:
-> -            # Include timestamp and pid
-> -            return lambda _, rec: fn(*rec[1:3 + event_argcount])
-> -        else:
-> -            # Just arguments, no timestamp or pid
-> -            return lambda _, rec: fn(*rec[3:3 + event_argcount])
-> -
->      with analyzer_class() as analyzer:
-> -        fn_cache =3D {}
-> -        for rec in read_trace_records(event_mapping, event_id_to_name, l=
-og):
-> -            event_num =3D rec[0]
-> -            event =3D event_mapping[event_num]
-> -            if event_num not in fn_cache:
-> -                fn_cache[event_num] =3D build_fn(analyzer, event)
-> -            fn_cache[event_num](event, rec)
-> +        for event_id, timestamp_ns, record_pid, *rec_args in read_trace_=
-records(event_mapping, event_id_to_name, log):
-> +            event =3D event_mapping[event_id]
-> +            fn =3D getattr(analyzer, event.name, analyzer.catchall)
-> +            fn(*rec_args, event=3Devent, event_id=3Devent_id, timestamp_=
-ns=3Dtimestamp_ns, pid=3Drecord_pid)
-> =20
-> =20
->  def run(analyzer):
-> @@ -240,24 +226,18 @@ def run(analyzer):
->  if __name__ =3D=3D '__main__':
->      class Formatter(Analyzer):
->          def __init__(self):
-> -            self.last_timestamp =3D None
-> -
-> -        def catchall(self, event, rec):
-> -            timestamp =3D rec[1]
-> -            if self.last_timestamp is None:
-> -                self.last_timestamp =3D timestamp
-> -            delta_ns =3D timestamp - self.last_timestamp
-> -            self.last_timestamp =3D timestamp
-> -
-> -            fields =3D [event.name, '%0.3f' % (delta_ns / 1000.0),
-> -                      'pid=3D%d' % rec[2]]
-> -            i =3D 3
-> -            for type, name in event.args:
-> -                if is_string(type):
-> -                    fields.append('%s=3D%s' % (name, rec[i]))
-> -                else:
-> -                    fields.append('%s=3D0x%x' % (name, rec[i]))
-> -                i +=3D 1
-> -            print(' '.join(fields))
-> +            self.last_timestamp_ns =3D None
-> +
-> +        def catchall(self, *rec_args, event, timestamp_ns, pid, event_id=
-):
-> +            if self.last_timestamp_ns is None:
-> +                self.last_timestamp_ns =3D timestamp_ns
-> +            delta_ns =3D timestamp_ns - self.last_timestamp_ns
-> +            self.last_timestamp_ns =3D timestamp_ns
-> +
-> +            fields =3D [
-> +                f'{name}=3D{r}' if is_string(type) else f'{name}=3D0x{r:=
-x}'
-> +                for r, (type, name) in zip(rec_args, event.args)
-> +            ]
-> +            print(f'{event.name} {delta_ns / 1000:0.3f} {pid=3D} ' + ' '=
-=2Ejoin(fields))
-> =20
->      run(Formatter())
-> --=20
-> 2.38.1
->=20
-
---WqCZwgTgs/MPQ860
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmRaW20ACgkQnKSrs4Gr
-c8gs/QgAikGy/W2aJjnMP5xoH0SU7jccBQQh4fcTDhlUjfWAXZPtyICYALN7xovl
-4NVYybQnUqidPNGbYbXE2ZHl/pJ8nQ5Xeh8Bm3+DNgPbG31YoBh6uf+46zoTd8Rp
-wU8eciu0qvaDB4dKPLeJ5yowW2k6KZuw6sSnIISlHqxK058NW7fjD0l0kNFNLe+/
-YuWGKVn6XvJ0j03FEcocFhbTe4tdCDhjifHAFbIe9g7DrDj4T/AanDwzsVXIMFDp
-GnyYgNuVFuVpSBMCAcQwlRAdMWF9YoJ+Pp3xkqCVIhbn4Rkp6EUd8PAHGr22dcmC
-+coWlQh+4tJb6YmnWcg19u4NhAjpHA==
-=5Kk/
------END PGP SIGNATURE-----
-
---WqCZwgTgs/MPQ860--
+>   
+>   config AARCH64
+>       bool
 
 
