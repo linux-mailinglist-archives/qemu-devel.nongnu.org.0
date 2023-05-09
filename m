@@ -2,59 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CDBE56FCCFE
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 May 2023 19:49:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DE6F6FCD07
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 May 2023 19:52:40 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pwRRh-00023l-UV; Tue, 09 May 2023 13:48:17 -0400
+	id 1pwRVB-0003NU-Nw; Tue, 09 May 2023 13:51:53 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1pwRRf-00023T-I1
- for qemu-devel@nongnu.org; Tue, 09 May 2023 13:48:15 -0400
+ id 1pwRV7-0003Mc-LG
+ for qemu-devel@nongnu.org; Tue, 09 May 2023 13:51:50 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1pwRRd-0006uq-TN
- for qemu-devel@nongnu.org; Tue, 09 May 2023 13:48:15 -0400
+ id 1pwRV5-0007e4-Hp
+ for qemu-devel@nongnu.org; Tue, 09 May 2023 13:51:49 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1683654492;
+ s=mimecast20190719; t=1683654706;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=CBEoZpD+eGT2yzkQdwAuFsN4Z2azfJNE6Ti4DWpdLAM=;
- b=gD9WiQ2wACBNwT9rANM5dit/mBaYCID230Ercl2h7VAsWUZV74DNAP6Sh8JN4+VqtdgEV4
- 30ufaUCmplnMAGgAbx+9zver3ZDTuOqx8GxvuL1sJyx6MiSf3cMLPbLSvaZ7LSCKBMsZw8
- uHw6sb/CiouwHRvzJ7P2xER4yqZqaVM=
+ bh=YSdkeye67d1BrBNCM3zk98YAc8rNSrDW0Ne/KD+GhLE=;
+ b=RuUuBnZ8/uaugvHwjatCC2QIusedYHGMZMZQfVXVNLqop2xkVvV6bYvb+mh42UhyPE754I
+ JpJqCRXS2QuOqISJEnYLtGxxkAe4NxxGbe0vUq5jPWRWGVlv9Y6q39bm5Ut8hUqtKoYihk
+ YQlE5MVLl2KVKSbz4Fj0aQToZ0foEw0=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-591-XAwOfRllPKq3xILj5K3GBA-1; Tue, 09 May 2023 13:48:10 -0400
-X-MC-Unique: XAwOfRllPKq3xILj5K3GBA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
- [10.11.54.8])
+ us-mta-59-PpY0sT0QMaWcAjHy4w3mDQ-1; Tue, 09 May 2023 13:51:42 -0400
+X-MC-Unique: PpY0sT0QMaWcAjHy4w3mDQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B1E13101A55C;
- Tue,  9 May 2023 17:48:09 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 92D92100F651;
+ Tue,  9 May 2023 17:51:41 +0000 (UTC)
 Received: from localhost (unknown [10.39.195.128])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3518DC16024;
- Tue,  9 May 2023 17:48:08 +0000 (UTC)
-Date: Tue, 9 May 2023 13:48:07 -0400
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2336840C6E67;
+ Tue,  9 May 2023 17:51:39 +0000 (UTC)
+Date: Tue, 9 May 2023 13:51:38 -0400
 From: Stefan Hajnoczi <stefanha@redhat.com>
 To: Kevin Wolf <kwolf@redhat.com>
-Cc: qemu-block@nongnu.org, eblake@redhat.com, eesposit@redhat.com,
- pbonzini@redhat.com, qemu-devel@nongnu.org
-Subject: Re: [PATCH v2 00/20] Graph locking, part 3 (more block drivers)
-Message-ID: <20230509174807.GB1018047@fedora>
-References: <20230504115750.54437-1-kwolf@redhat.com>
+Cc: qemu-devel@nongnu.org, Ronnie Sahlberg <ronniesahlberg@gmail.com>,
+ Aarushi Mehta <mehta.aaru20@gmail.com>, qemu-block@nongnu.org,
+ Paul Durrant <paul@xen.org>, Anthony Perard <anthony.perard@citrix.com>,
+ Peter Lieven <pl@kamp.de>, Stefan Weil <sw@weilnetz.de>,
+ Xie Yongji <xieyongji@bytedance.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Leonardo Bras <leobras@redhat.com>, Peter Xu <peterx@redhat.com>,
+ Hanna Reitz <hreitz@redhat.com>,
+ Stefano Stabellini <sstabellini@kernel.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ David Woodhouse <dwmw2@infradead.org>, Coiby Xu <Coiby.Xu@gmail.com>,
+ Eduardo Habkost <eduardo@habkost.net>,
+ Stefano Garzarella <sgarzare@redhat.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>,
+ Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+ Julia Suvorova <jusual@redhat.com>, xen-devel@lists.xenproject.org,
+ eesposit@redhat.com, Juan Quintela <quintela@redhat.com>,
+ "Richard W.M. Jones" <rjones@redhat.com>, Fam Zheng <fam@euphon.net>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+Subject: Re: [PATCH v5 00/21] block: remove aio_disable_external() API
+Message-ID: <20230509175138.GC1018047@fedora>
+References: <20230504195327.695107-1-stefanha@redhat.com>
+ <ZFQnSjGiEWuSFWTh@redhat.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="yjFtqMn+KhB3NXYU"
+ protocol="application/pgp-signature"; boundary="zYR6uqo+9eG5ZY9J"
 Content-Disposition: inline
-In-Reply-To: <20230504115750.54437-1-kwolf@redhat.com>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
+In-Reply-To: <ZFQnSjGiEWuSFWTh@redhat.com>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
@@ -80,50 +98,54 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 
---yjFtqMn+KhB3NXYU
+--zYR6uqo+9eG5ZY9J
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, May 04, 2023 at 01:57:30PM +0200, Kevin Wolf wrote:
-> The first few patches in this series fix coroutine correctness problems
-> that have existed for a while, but only actually start to make things
-> fail in practice with stricter checks that we're going to introduce with
-> the graph locking work.
+On Thu, May 04, 2023 at 11:44:42PM +0200, Kevin Wolf wrote:
+> Am 04.05.2023 um 21:53 hat Stefan Hajnoczi geschrieben:
+> > v5:
+> > - Use atomic accesses for in_flight counter in vhost-user-server.c [Kev=
+in]
+> > - Stash SCSIDevice id/lun values for VIRTIO_SCSI_T_TRANSPORT_RESET event
+> >   before unrealizing the SCSIDevice [Kevin]
+> > - Keep vhost-user-blk export .detach() callback so ctx is set to NULL [=
+Kevin]
+> > - Narrow BdrvChildClass and BlockDriver drained_{begin/end/poll} callba=
+cks from
+> >   IO_OR_GS_CODE() to GLOBAL_STATE_CODE() [Kevin]
+> > - Include Kevin's "block: Fix use after free in blockdev_mark_auto_del(=
+)" to
+> >   fix a latent bug that was exposed by this series
 >=20
-> The rest of the series makes sure that the graph lock is held in more
-> block driver functions that access the children or parents list of a
-> block node. This is incremental work and more patches are yet to come.
->=20
-> v2:
-> - Rebased on current git master
-> - Improved some commit messages
-> - Patch 5: Added missing coroutine_fn annotations in test
-> - Patch 7: Updated comments, too
->=20
-> I didn't remove the assertion in patch 13 yet which Stefan was
-> questioning. I can remove it while applying if we decide that we really
-> don't want it.
+> I only just finished reviewing v4 when you had already sent v5, but it
+> hadn't arrived yet. I had a few more comments on what are now patches
+> 17, 18, 19 and 21 in v5. I think they all still apply.
 
-That's fine, we can leave them for now.
+I'm not sure which comments from v4 still apply. In my email client all
+your replies were already read when I sent v5.
 
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+Maybe you can share the Message-Id of something I still need to address?
 
---yjFtqMn+KhB3NXYU
+Thanks,
+Stefan
+
+--zYR6uqo+9eG5ZY9J
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmRah1cACgkQnKSrs4Gr
-c8ia0Af+JzoH9Ol85gmIjMXszVA/kvnnGY2E+0dBbYe7T4T9KZXsCkEM3C57HcG1
-V5G+ZM7ds7cHtq3uOsvE9DywUD3OZOLg3GcKhlniFu6vGU9aHESC1b4fSGigyrWn
-CHwFHlDwtxr75NiRJzMG3+7ca5g6JkrUD8g7mzafd60PeIFhlDeqzsXCfXGG9OE9
-O8vACaNOuMfYRjLKNS4h+TZLXpamBHctiRZoKfJS5UCjJunhxha45do7LwKMvCu+
-Sz0VSXxLL1flsMbpORn3le16W6EdaT9llsoGobPniiZaamTeVBROYDxxBMXk2cg7
-WXG5uqR3IdO38pLBowF04VUSMsEwqg==
-=HyN4
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmRaiCoACgkQnKSrs4Gr
+c8jaCggAiPAw+aTVrrMgYTa8ZedRV1wLjpV5lST53EB62gJPS57Ru3GedV9WCoBj
+l/s8rZSmlc+p/iO4BTaYSoonSePjzs81JlhDXB3WRYVAFUYplCHGdlOfhkOfueND
+T/OCXMkwooUDcUgSJKUCM+gjFw52J2Xppw1HlzOSOxSGmuyJsNPPUlrfjiNDwxGq
+THTaMGzpNPvLEQLhw9cLzrg1eE6W6z3vNeJULIYIwYfQE9cIbeo2Hx8c1rmFhasF
+mjL0+4PXOjH2CcotBw8EfyUsx3GV1BbjB/RhbEzr7SG4YCC748WCx2xatAIorzZd
+Vf68V/bHVGXLlN2FDniw5dFCdMSzUA==
+=Vtb2
 -----END PGP SIGNATURE-----
 
---yjFtqMn+KhB3NXYU--
+--zYR6uqo+9eG5ZY9J--
 
 
