@@ -2,67 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 639A56FCA89
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 May 2023 17:50:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E9E0B6FCA8F
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 May 2023 17:55:34 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pwPbO-0003Nw-Ss; Tue, 09 May 2023 11:50:10 -0400
+	id 1pwPfl-0004pv-62; Tue, 09 May 2023 11:54:41 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1pwPbM-0003Nn-G9
- for qemu-devel@nongnu.org; Tue, 09 May 2023 11:50:08 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1pwPbK-0007AL-Sl
- for qemu-devel@nongnu.org; Tue, 09 May 2023 11:50:08 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1683647406;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=DLtdbCBLqqOw3rVHNJTCxLup5q/fO5YwKuIgd8rhJYg=;
- b=U5ICnEhp9Hbp4tgoGK/pSeuoBbeE4jN/GxghvvgI1zO9lJ2G/ayOhBkRjnvRtMy88feaXW
- NK2UlA0gFW4gl5mKQM1SSGjY8HRxPwKLiGC73dWZa0dcSL2DyzbY5oE/3gDvHAy9plj1ej
- YI4EXESuHHw7o4k+zpEkMt4dv9b1QBU=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-247-4p0IdwneMBmS3kEp-kxigA-1; Tue, 09 May 2023 11:50:04 -0400
-X-MC-Unique: 4p0IdwneMBmS3kEp-kxigA-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
- [10.11.54.5])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3B9EE3C17C61
- for <qemu-devel@nongnu.org>; Tue,  9 May 2023 15:50:04 +0000 (UTC)
-Received: from redhat.com (unknown [10.2.16.49])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 65EDE63F5F;
- Tue,  9 May 2023 15:50:03 +0000 (UTC)
-Date: Tue, 9 May 2023 10:50:01 -0500
-From: Eric Blake <eblake@redhat.com>
-To: Hanna Czenczek <hreitz@redhat.com>
-Cc: qemu-devel@nongnu.org
-Subject: Re: [PATCH 06/11] test-cutils: Add more coverage to qemu_strtosz
-Message-ID: <5wbzj4uo7wmgtzdlkj2emljhgho6vz5tt2v4u7zb7r6nzpkrne@cnb536ywhnkx>
-References: <20230508200343.791450-1-eblake@redhat.com>
- <20230508200343.791450-7-eblake@redhat.com>
- <e2aca275-8a19-b0b7-8939-aefd29ce270b@redhat.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pwPfj-0004pV-8G
+ for qemu-devel@nongnu.org; Tue, 09 May 2023 11:54:39 -0400
+Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pwPfg-0007nj-NT
+ for qemu-devel@nongnu.org; Tue, 09 May 2023 11:54:39 -0400
+Received: by mail-wm1-x330.google.com with SMTP id
+ 5b1f17b1804b1-3f4000ec71dso41133235e9.2
+ for <qemu-devel@nongnu.org>; Tue, 09 May 2023 08:54:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1683647675; x=1686239675;
+ h=content-transfer-encoding:in-reply-to:content-language:references
+ :cc:to:from:subject:user-agent:mime-version:date:message-id:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=zmAUQjwJipc3mizLsZdlli0Tus1iOD3CndWqOPP88rY=;
+ b=gjzEm3j09VCklo5gMEhc+x46wuz/s1dWN3PMG/RbCZ+7HvzwNgb30xI1qORrRJh2g/
+ 5jTlgpjvQjsbli0H95HX1842l2CP8EWTrQm1E4WDEbnX8Kzgohlp3DLFOpUYXNR7/3Ih
+ +VwPLCglPZCHGnCVDASjNpWRqniyzSEmUkFA1MrauIP0KWu0xVUnJVmfhs4wvqvC4pcJ
+ 63vM8lYPwqITk46YZUAYp7c7YKzAbZEHt8sLYqm2nVXOhxYPsGDOohso60L85HX169e+
+ Q58np5YjmQry36J+DTqLCd2aez16JVVWY8c+ZZhF89pC2LIOOHYXkx8JOUi7jAdpxloE
+ Hd4A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1683647675; x=1686239675;
+ h=content-transfer-encoding:in-reply-to:content-language:references
+ :cc:to:from:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=zmAUQjwJipc3mizLsZdlli0Tus1iOD3CndWqOPP88rY=;
+ b=EB46C3htc9+Gc8bbVECRu4o62sCHn8Hha8WzrRdrsrma4JHyKv2Crng88+T5CELyYH
+ JBPhqb9cYZNufG7GjP85NaKu0RMPoOxwg3ZJ4q5R9olpFKS3s/VikiNZvlb2gopCvif7
+ OWcchjH82U9RPM3eUm3ZXQBl9Ju/ieed7UaokeoPLNcagW9GwdzU702A7GQMsVlf6BwG
+ RkzmfeCvwXnzoD7OLiKnYhZL6pxTfN/4XkWZsb8NoPfSozLQOKGJHByYOSAWa/7PDHJx
+ G1zzntli5/z2wecHpd5aWiO6f2TfMzVyvHPBja6sUsTsRT2SlbECBI2UMk0uswjaA+iH
+ 8iBg==
+X-Gm-Message-State: AC+VfDxHmEXW6slzby3prTJoV1vNo9mrD56JNA4jjTpGq6s+NemjFUZA
+ 5kFUr38t0XEHzAW+tTjHbkQepA==
+X-Google-Smtp-Source: ACHHUZ7YuVCwUZbBfLs02ofPgKCs2xgBASHDKzDhD7coNdRKS5B3qKrM43zLAEEX9ng+PO/nNjMLdA==
+X-Received: by 2002:a7b:cb8c:0:b0:3f4:2572:225f with SMTP id
+ m12-20020a7bcb8c000000b003f42572225fmr4689340wmi.29.1683647675127; 
+ Tue, 09 May 2023 08:54:35 -0700 (PDT)
+Received: from [192.168.11.23] ([85.9.250.243])
+ by smtp.gmail.com with ESMTPSA id
+ a22-20020a1cf016000000b003f42d8dd7ffsm909055wmb.19.2023.05.09.08.54.34
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 09 May 2023 08:54:34 -0700 (PDT)
+Message-ID: <c9fd9714-ee8d-10d4-2592-eddfb4314d78@linaro.org>
+Date: Tue, 9 May 2023 16:54:32 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [RFC PATCH 0/2] Make the core disassembler functions
+ target-independent
+From: Richard Henderson <richard.henderson@linaro.org>
+To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
+Cc: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Laurent Vivier <laurent@vivier.eu>,
+ Kyle Evans <kevans@freebsd.org>, Warner Losh <imp@bsdimp.com>
+References: <20230508133745.109463-1-thuth@redhat.com>
+ <5b21cdb6-fbc6-b9fd-edcc-6ca7e4c88885@linaro.org>
+Content-Language: en-US
+In-Reply-To: <5b21cdb6-fbc6-b9fd-edcc-6ca7e4c88885@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <e2aca275-8a19-b0b7-8939-aefd29ce270b@redhat.com>
-User-Agent: NeoMutt/20230407
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Received-SPF: pass client-ip=2a00:1450:4864:20::330;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x330.google.com
+X-Spam_score_int: -24
+X-Spam_score: -2.5
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.421,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -80,76 +100,32 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, May 09, 2023 at 05:15:04PM +0200, Hanna Czenczek wrote:
-> On 08.05.23 22:03, Eric Blake wrote:
-> > Add some more strings that the user might send our way.  In
-> > particular, some of these additions include FIXME comments showing
-> > where our parser doesn't quite behave the way we want.
-> > 
-> > Signed-off-by: Eric Blake <eblake@redhat.com>
-> > ---
-> >   tests/unit/test-cutils.c | 226 +++++++++++++++++++++++++++++++++++++--
-> >   1 file changed, 215 insertions(+), 11 deletions(-)
-> > 
-> > diff --git a/tests/unit/test-cutils.c b/tests/unit/test-cutils.c
-> > index afae2ee5331..9fa6fb042e8 100644
-> > --- a/tests/unit/test-cutils.c
-> > +++ b/tests/unit/test-cutils.c
+On 5/8/23 15:04, Richard Henderson wrote:
+> On 5/8/23 14:37, Thomas Huth wrote:
+>> Move disas.c into the target-independent source set, so that we
+>> only have to compile this code once instead multiple times (one
+>> time for each target).
+>>
+>> Marked as RFC since we have to replace the target_ulongs here
+>> with hwaddr, and the TARGET_FMT_lx with HWADDR_FMT_plx, which is
+>> a little bit ugly ... what's your opinion?
+>>
+>> Thomas Huth (2):
+>>    disas: Move softmmu specific code to separate file
+>>    disas: Move disas.c into the target-independent source set
 > 
-> [...]
+> Patches 79-83 from
 > 
-> > @@ -2875,6 +3056,20 @@ static void test_qemu_strtosz_trailing(void)
-> >       err = qemu_strtosz(str, NULL, &res);
-> >       g_assert_cmpint(err, ==, -EINVAL);
-> >       g_assert_cmphex(res, ==, 0xbaadf00d);
-> > +
-> > +    /* FIXME overflow in fraction is buggy */
-> > +    str = "1.5E999";
-> > +    endptr = NULL;
-> > +    res = 0xbaadf00d;
-> > +    err = qemu_strtosz(str, &endptr, &res);
-> > +    g_assert_cmpint(err, ==, 0);
-> > +    g_assert_cmpuint(res, ==, EiB /* FIXME EiB * 1.5 */);
-> > +    g_assert(endptr == str + 9 /* FIXME + 4 */);
-> > +
-> > +    res = 0xbaadf00d;
-> > +    err = qemu_strtosz(str, NULL, &res);
-> > +    g_assert_cmpint(err, ==, -EINVAL);
-> > +    g_assert_cmphex(res, ==, 0xbaadf00d);
+> https://patchew.org/QEMU/20230503072331.1747057-1-richard.henderson@linaro.org/
 > 
-> Got it now!
-> 
-> Our problem is that `endptr` is beyond the end of the string, precisely as
-> gcc complains.  The data there is undefined, and depending on the value in
-> the g_assert_cmpuint() (which is converted to strings for the potential
-> error message) it sometimes is "endptr == str + 9" (the one in the
-> g_assert()) and sometimes isn’t.
-> 
-> If it is "endptr == str + 9", then the 'e' is taken as a suffix, which makes
-> `res == EiB`, and `endptr == "ndptr == str + 9"`.
-> 
-> If it isn’t, well, it might be anything, so there often is no valid suffix,
-> making `res == 1`.
-> 
-> So the solution is to set `str = "1.5E999\0\0"`, so we don’t get out of
-> bounds and know exactly what will be parsed.  Then, at str[8] there is no
-> valid suffix (it’s \0), so `res == 1` and `endptr == str + 8`.  This will
-> then lead to the qemu_strtosz(str, NULL, &res) below succeed, because, well,
-> it’s a valid number.  I suppose it failed on your end because the
-> out-of-bounds `str[9]` value was not '\0'.
-> 
-> That was a fun debugging session.
+> do the same thing, using uint64_t instead of hwaddr (it's not).
 
-Wow, yeah, that's a mess.  The very test proving that we have a
-read-out-of-bounds bug is super-sensitive to what is at that location.
-Your hack of passing in extra \0 is awesome; I'll fold that in whether
-we need a v2 for other reasons, or in-place if we can take the rest of
-this series as-is.  It all goes away at the end of the series,
-anyways, once the out-of-bounds read is fixed.
+I've just realized that only the choice of hwaddr/uint64_t overlap; I failed to take this 
+all of the way to building disas once.
 
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3266
-Virtualization:  qemu.org | libvirt.org
+I will integrate our two sets.
+
+
+r~
 
 
