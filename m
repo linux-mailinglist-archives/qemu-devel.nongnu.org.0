@@ -2,61 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA5A86FC787
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 May 2023 15:09:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 49DFE6FC78A
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 May 2023 15:09:47 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pwN56-0006wN-Gh; Tue, 09 May 2023 09:08:40 -0400
+	id 1pwN5w-00085h-Az; Tue, 09 May 2023 09:09:32 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pwN53-0006um-8c
- for qemu-devel@nongnu.org; Tue, 09 May 2023 09:08:37 -0400
+ id 1pwN5u-00085S-As
+ for qemu-devel@nongnu.org; Tue, 09 May 2023 09:09:30 -0400
 Received: from mail-ed1-x530.google.com ([2a00:1450:4864:20::530])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pwN50-0004fZ-DZ
- for qemu-devel@nongnu.org; Tue, 09 May 2023 09:08:36 -0400
+ id 1pwN5r-0004ox-BC
+ for qemu-devel@nongnu.org; Tue, 09 May 2023 09:09:30 -0400
 Received: by mail-ed1-x530.google.com with SMTP id
- 4fb4d7f45d1cf-50bd2d7ba74so58636567a12.1
- for <qemu-devel@nongnu.org>; Tue, 09 May 2023 06:08:34 -0700 (PDT)
+ 4fb4d7f45d1cf-50db7ec8188so1323426a12.2
+ for <qemu-devel@nongnu.org>; Tue, 09 May 2023 06:09:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1683637713; x=1686229713;
- h=to:subject:message-id:date:from:in-reply-to:references:mime-version
- :from:to:cc:subject:date:message-id:reply-to;
- bh=q8uSEboWHed3UmO+hirF6Srz0bB/o10NyzAhbiK3VQU=;
- b=PO72igLYOqtMDT8QXe7Wz5UfN/4VW2jgWCH6/DYFuX69zG69MD5YU/BFgw1/BobAme
- ktkjGPvhUAvPuFx3scy3Wr4tuYtMn+b+uROT9QaQfBs3yVrR+WZ1KVu2oLSroJ3/puOo
- oUQLXBuvQWWlo47lKJLMGSu855IBG2+gg0jdfC41sEjSnXaXRmnXUS1EcM8E3w1I1TiE
- umtzwctA1QoiFSh36hHvlnsf//TZbidGQiu5yXsW4dV65meg6MTY1V5XQ1M2kHl/a2+q
- LX0h3SxR3+Ajpj2yKvcBTPs+Qvm9Yfs50rKSKq6b3xGRrE3cXfMUyEm2TWqYV8Kxjzy5
- QiZQ==
+ d=linaro.org; s=google; t=1683637766; x=1686229766;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=mZeLJgQI3/hHjwUiusQ1k8tjn2JhOq5B3wXRjAT89Z0=;
+ b=lTQlE2SeTsQQ0K2LtS/CaFBvGxf7U0+Qb6tE+3Cs66HcaCTkf2l9a/D++p2Itc86uF
+ 5fd6DqEkBWievs4oe3RbXXGtsyLv7h5bl882eCMAGr9z7hc8+URzauhlKkC0nlFOT93w
+ Emn+MqL3qglvWw2LTywXgRSuSa9/eKPywquCdOMYBEvFDt7rS+v/pI2UVnzZAzB16Nl3
+ G+VXLyUFDzE8QCgNo8qFDuIdLh8umw+rlaQGJWLHoLCp0EfDDWeKVN93H9vwgmF4eoKI
+ lRUsfH6CPvdVW3x5+YX+I7BJr4zuKTR1pR9uKmPGqsL28MbHMpy8A4M6IFwsyCTCssOQ
+ a5fQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683637713; x=1686229713;
- h=to:subject:message-id:date:from:in-reply-to:references:mime-version
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=q8uSEboWHed3UmO+hirF6Srz0bB/o10NyzAhbiK3VQU=;
- b=PoDICSEfsoP34lKyzpOZM6Q+u6VudlKBOfdhNHNKkFVIuRoM10NevpYrs7q/E1ljJ0
- 4YA1Ld1q2iepmsO+wIOr+Jt041SvNbC8I5W+M+GwPugprYZxW7MBwX/RbmGT25BX1dSL
- aT33cNEfgW9L9d/OnVtbLJXChzl9Tw0Xr1DXdRCfPPfQsm9Jm371cykNAuMUFkHRjuSm
- Kh3KNGZf6Yk+YEl6k1Z87R5Iq7AHSUTqUtlM2VIo/byC/3TpPk+MqreX5jdsd10j29/Y
- syYik1xOJLuehxrTsskKTOAFfEPOnwvRnzx3CkJiE4k5paVzcopTse9w8DtTO5eNk4ou
- UFoA==
-X-Gm-Message-State: AC+VfDz0JCXXFYOOUrS1oFLY6n99jGGvamoERDk/TL0PHnUZy9SX7oVm
- rKVJyUrkwIDKoMWyWzu8HD6/sT2+Vz1+KO58CQuxNuEJnCZfsDSX
-X-Google-Smtp-Source: ACHHUZ7U5AwU8E8zR2NvjXAa/pDWQWC6StnIElrCJJdpaz4T1qqnBuwJ9DmEzwxEjWcXXQucK2ZKTxHyEEJyb++vC/A=
-X-Received: by 2002:a05:6402:42c6:b0:506:b94f:3d8f with SMTP id
- i6-20020a05640242c600b00506b94f3d8fmr13245161edc.5.1683637712677; Tue, 09 May
- 2023 06:08:32 -0700 (PDT)
+ d=1e100.net; s=20221208; t=1683637766; x=1686229766;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=mZeLJgQI3/hHjwUiusQ1k8tjn2JhOq5B3wXRjAT89Z0=;
+ b=USh+pQGBnCxl8lJ9iYtZRuJd9UiHUiwTU1KHOOV63rnuQatcFs2DQstNwBQhQs1qAl
+ 28w0wxjIszXk8piXREcstK+o9RfbJBxIidDJFssNpqvSS5FnadaAs4MkCi/apsgAZaF3
+ XNMRNA2Dd38V5e66xrPnH8XYcNxO2lb6TDK4pw+/MoyqIQtoO+ph09vszkoT4RDZMWTd
+ 731odgOwdQg8Uw5oh0AeZYABwti4kSiHngMtFB3AZkj9WL2dSk+gGECWPoo3L546oDLI
+ 2jiTdh47NP/5l3jrbzBsK+e12Qxwf0ZwGwpEkquDIzF+TqCFXNwq4Jz5xEX1wL1mJKod
+ /wyQ==
+X-Gm-Message-State: AC+VfDwT/2btK5kcWp8VZK69+lCg5p9H//ItvAThJCaL7v2Ohs15YbBX
+ WL76vGZVLeY0ypIimXxqHEUKKfYxaGZ+4fygl1KymLwtZ7CcTb1u
+X-Google-Smtp-Source: ACHHUZ4jYq6kTQM9UFu7djFHdjbaI8Cf8/60ZmCZUzcPKPF7DibHJTJS/211STO5H3q6DMqo6F2wTfhcYIz9HWMW8Ek=
+X-Received: by 2002:a05:6402:3d9:b0:50b:c45d:5808 with SMTP id
+ t25-20020a05640203d900b0050bc45d5808mr12590994edw.41.1683637765486; Tue, 09
+ May 2023 06:09:25 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230421163642.1151904-1-peter.maydell@linaro.org>
-In-Reply-To: <20230421163642.1151904-1-peter.maydell@linaro.org>
+References: <20230421163734.1152076-1-peter.maydell@linaro.org>
+In-Reply-To: <20230421163734.1152076-1-peter.maydell@linaro.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 9 May 2023 14:08:21 +0100
-Message-ID: <CAFEAcA8BSo_cv_GoSgzAEAR-_xd5e7qw0Tc9A3UnZFeNJfFgRQ@mail.gmail.com>
-Subject: Re: [PATCH] docs: Remove unused weirdly-named cross-reference targets
-To: qemu-devel@nongnu.org, qemu-trivial@nongnu.org
+Date: Tue, 9 May 2023 14:09:14 +0100
+Message-ID: <CAFEAcA93yaLBAyj=TOzqjzAN2Y6M376UrV_bC8rHxHz_tj7phg@mail.gmail.com>
+Subject: Re: [PATCH] docs: Convert u2f.txt to rST
+To: qemu-devel@nongnu.org
+Cc: Gerd Hoffmann <kraxel@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
 Received-SPF: pass client-ip=2a00:1450:4864:20::530;
  envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x530.google.com
@@ -82,118 +84,277 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Ping for code review?
+Ping for review, please?
 
 thanks
 -- PMM
 
-On Fri, 21 Apr 2023 at 17:36, Peter Maydell <peter.maydell@linaro.org> wrote:
+On Fri, 21 Apr 2023 at 17:37, Peter Maydell <peter.maydell@linaro.org> wrote:
 >
-> In the doc sources, we have a few cross-reference targets with odd
-> names "pcsys_005fxyz".  These are the legacy of the semi-automated
-> conversion of the old info docs to rST (the '005f' is because ASCII
-> 0x5f is '_' and the old info link names had underscores in them).
+> Convert the u2f.txt file to rST, and place it in the right place
+> in our manual layout. The old text didn't fit very well into our
+> manual style, so the new version ends up looking like a rewrite,
+> although some of the original text is preserved:
 >
-> Remove the targets which nothing links to, and rename the two targets
-> which are used to something a bit more descriptive.
+>  * the 'building' section of the old file is removed, since we
+>    generally assume that users have already built QEMU
+>  * some rather verbose text has been cut back
+>  * document the passthrough device first, on the assumption
+>    that's most likely to be of interest to users
+>  * cut back on the duplication of text between sections
+>  * format example command lines etc with rST
+>
+> As it's a short document it seemed simplest to do this all
+> in one go rather than try to do a minimal syntactic conversion
+> and then clean up the wording and layout.
 >
 > Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 > ---
->  docs/system/devices/igb.rst     | 2 +-
->  docs/system/devices/ivshmem.rst | 2 --
->  docs/system/devices/net.rst     | 2 +-
->  docs/system/devices/usb.rst     | 2 --
->  docs/system/keys.rst            | 2 +-
->  docs/system/linuxboot.rst       | 2 +-
->  docs/system/target-i386.rst     | 4 ----
->  7 files changed, 4 insertions(+), 12 deletions(-)
+>  docs/system/device-emulation.rst |   1 +
+>  docs/system/devices/usb-u2f.rst  |  93 ++++++++++++++++++++++++++
+>  docs/system/devices/usb.rst      |   2 +-
+>  docs/u2f.txt                     | 110 -------------------------------
+>  4 files changed, 95 insertions(+), 111 deletions(-)
+>  create mode 100644 docs/system/devices/usb-u2f.rst
+>  delete mode 100644 docs/u2f.txt
 >
-> diff --git a/docs/system/devices/igb.rst b/docs/system/devices/igb.rst
-> index 70edadd5743..0bcdd857473 100644
-> --- a/docs/system/devices/igb.rst
-> +++ b/docs/system/devices/igb.rst
-> @@ -29,7 +29,7 @@ Using igb
->  =========
->
->  Using igb should be nothing different from using another network device. See
-> -:ref:`pcsys_005fnetwork` in general.
-> +:ref:`Network_emulation` in general.
->
->  However, you may also need to perform additional steps to activate SR-IOV
->  feature on your guest. For Linux, refer to [4]_.
-> diff --git a/docs/system/devices/ivshmem.rst b/docs/system/devices/ivshmem.rst
-> index b03a48afa3a..e7aaf34c200 100644
-> --- a/docs/system/devices/ivshmem.rst
-> +++ b/docs/system/devices/ivshmem.rst
-> @@ -1,5 +1,3 @@
-> -.. _pcsys_005fivshmem:
-> -
->  Inter-VM Shared Memory device
->  -----------------------------
->
-> diff --git a/docs/system/devices/net.rst b/docs/system/devices/net.rst
-> index 4b2640c448e..2ab516d4b09 100644
-> --- a/docs/system/devices/net.rst
-> +++ b/docs/system/devices/net.rst
-> @@ -1,4 +1,4 @@
-> -.. _pcsys_005fnetwork:
-> +.. _Network_Emulation:
->
->  Network emulation
->  -----------------
+> diff --git a/docs/system/device-emulation.rst b/docs/system/device-emulation.rst
+> index c1b1934e3d3..8d4a1821fa7 100644
+> --- a/docs/system/device-emulation.rst
+> +++ b/docs/system/device-emulation.rst
+> @@ -93,4 +93,5 @@ Emulated Devices
+>     devices/virtio-pmem.rst
+>     devices/vhost-user-rng.rst
+>     devices/canokey.rst
+> +   devices/usb-u2f.rst
+>     devices/igb.rst
+> diff --git a/docs/system/devices/usb-u2f.rst b/docs/system/devices/usb-u2f.rst
+> new file mode 100644
+> index 00000000000..4f57d5c8c34
+> --- /dev/null
+> +++ b/docs/system/devices/usb-u2f.rst
+> @@ -0,0 +1,93 @@
+> +Universal Second Factor (U2F) USB Key Device
+> +============================================
+> +
+> +U2F is an open authentication standard that enables relying parties
+> +exposed to the internet to offer a strong second factor option for end
+> +user authentication.
+> +
+> +The second factor is provided by a device implementing the U2F
+> +protocol. In case of a USB U2F security key, it is a USB HID device
+> +that implements the U2F protocol.
+> +
+> +QEMU supports both pass-through of a host U2F key device to a VM,
+> +and software emulation of a U2F key.
+> +
+> +``u2f-passthru``
+> +----------------
+> +
+> +The ``u2f-passthru`` device allows you to connect a real hardware
+> +U2F key on your host to a guest VM. All requests made from the guest
+> +are passed through to the physical security key connected to the
+> +host machine and vice versa.
+> +
+> +In addition, the dedicated pass-through allows you to share a single
+> +U2F security key with several guest VMs, which is not possible with a
+> +simple host device assignment pass-through.
+> +
+> +You can specify the host U2F key to use with the ``hidraw``
+> +option, which takes the host path to a Linux ``/dev/hidrawN`` device:
+> +
+> +.. parsed-literal::
+> +   |qemu_system| -usb -device u2f-passthru,hidraw=/dev/hidraw0
+> +
+> +If you don't specify the device, the ``u2f-passthru`` device will
+> +autoscan to take the first U2F device it finds on the host (this
+> +requires a working libudev):
+> +
+> +.. parsed-literal::
+> +   |qemu_system| -usb -device u2f-passthru
+> +
+> +``u2f-emulated``
+> +----------------
+> +
+> +``u2f-emulated`` is a completely software emulated U2F device.
+> +It uses `libu2f-emu <https://github.com/MattGorko/libu2f-emu>`__
+> +for the U2F key emulation. libu2f-emu
+> +provides a complete implementation of the U2F protocol device part for
+> +all specified transports given by the FIDO Alliance.
+> +
+> +To work, an emulated U2F device must have four elements:
+> +
+> + * ec x509 certificate
+> + * ec private key
+> + * counter (four bytes value)
+> + * 48 bytes of entropy (random bits)
+> +
+> +To use this type of device, these have to be configured, and these
+> +four elements must be passed one way or another.
+> +
+> +Assuming that you have a working libu2f-emu installed on the host,
+> +there are three possible ways to configure the ``u2f-emulated`` device:
+> +
+> + * ephemeral
+> + * setup directory
+> + * manual
+> +
+> +Ephemeral is the simplest way to configure; it lets the device generate
+> +all the elements it needs for a single use of the lifetime of the device.
+> +It is the default if you do not pass any other options to the device.
+> +
+> +.. parsed-literal::
+> +   |qemu_system| -usb -device u2f-emulated
+> +
+> +You can pass the device the path of a setup directory on the host
+> +using the ``dir`` option; the directory must contain these four files:
+> +
+> + * ``certificate.pem``: ec x509 certificate
+> + * ``private-key.pem``: ec private key
+> + * ``counter``: counter value
+> + * ``entropy``: 48 bytes of entropy
+> +
+> +.. parsed-literal::
+> +   |qemu_system| -usb -device u2f-emulated,dir=$dir
+> +
+> +You can also manually pass the device the paths to each of these files,
+> +if you don't want them all to be in the same directory, using the options
+> +
+> + * ``cert``
+> + * ``priv``
+> + * ``counter``
+> + * ``entropy``
+> +
+> +.. parsed-literal::
+> +   |qemu_system| -usb -device u2f-emulated,cert=$DIR1/$FILE1,priv=$DIR2/$FILE2,counter=$DIR3/$FILE3,entropy=$DIR4/$FILE4
 > diff --git a/docs/system/devices/usb.rst b/docs/system/devices/usb.rst
-> index 37cb9b33aea..74166810731 100644
+> index 74166810731..a6ca7b0c375 100644
 > --- a/docs/system/devices/usb.rst
 > +++ b/docs/system/devices/usb.rst
-> @@ -1,5 +1,3 @@
-> -.. _pcsys_005fusb:
+> @@ -207,7 +207,7 @@ option or the ``device_add`` monitor command. Available devices are:
+>     USB audio device
+>
+>  ``u2f-{emulated,passthru}``
+> -   Universal Second Factor device
+> +   :doc:`usb-u2f`
+>
+>  ``canokey``
+>     An Open-source Secure Key implementing FIDO2, OpenPGP, PIV and more.
+> diff --git a/docs/u2f.txt b/docs/u2f.txt
+> deleted file mode 100644
+> index 7f5813a0b72..00000000000
+> --- a/docs/u2f.txt
+> +++ /dev/null
+> @@ -1,110 +0,0 @@
+> -QEMU U2F Key Device Documentation.
 > -
->  USB emulation
->  -------------
->
-> diff --git a/docs/system/keys.rst b/docs/system/keys.rst
-> index e596ae6c4e7..0fc17b994d3 100644
-> --- a/docs/system/keys.rst
-> +++ b/docs/system/keys.rst
-> @@ -1,4 +1,4 @@
-> -.. _pcsys_005fkeys:
-> +.. _GUI_keys:
->
->  Keys in the graphical frontends
->  -------------------------------
-> diff --git a/docs/system/linuxboot.rst b/docs/system/linuxboot.rst
-> index 228650abc5e..5db2e560dc5 100644
-> --- a/docs/system/linuxboot.rst
-> +++ b/docs/system/linuxboot.rst
-> @@ -27,4 +27,4 @@ virtual serial port and the QEMU monitor to the console with the
->                      -append "root=/dev/hda console=ttyS0" -nographic
->
->  Use Ctrl-a c to switch between the serial console and the monitor (see
-> -:ref:`pcsys_005fkeys`).
-> +:ref:`GUI_keys`).
-> diff --git a/docs/system/target-i386.rst b/docs/system/target-i386.rst
-> index 77c2f3b9799..1b8a1f248ab 100644
-> --- a/docs/system/target-i386.rst
-> +++ b/docs/system/target-i386.rst
-> @@ -3,8 +3,6 @@
->  x86 System emulator
->  -------------------
->
-> -.. _pcsys_005fdevices:
+> -Contents
+> -1. USB U2F key device
+> -2. Building
+> -3. Using u2f-emulated
+> -4. Using u2f-passthru
+> -5. Libu2f-emu
 > -
->  Board-specific documentation
->  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->
-> @@ -32,8 +30,6 @@ Architectural features
->     i386/sgx
->     i386/amd-memory-encryption
->
-> -.. _pcsys_005freq:
+> -1. USB U2F key device
 > -
->  OS requirements
->  ~~~~~~~~~~~~~~~
->
+> -U2F is an open authentication standard that enables relying parties
+> -exposed to the internet to offer a strong second factor option for end
+> -user authentication.
+> -
+> -The standard brings many advantages to both parties, client and server,
+> -allowing to reduce over-reliance on passwords, it increases authentication
+> -security and simplifies passwords.
+> -
+> -The second factor is materialized by a device implementing the U2F
+> -protocol. In case of a USB U2F security key, it is a USB HID device
+> -that implements the U2F protocol.
+> -
+> -In QEMU, the USB U2F key device offers a dedicated support of U2F, allowing
+> -guest USB FIDO/U2F security keys operating in two possible modes:
+> -pass-through and emulated.
+> -
+> -The pass-through mode consists of passing all requests made from the guest
+> -to the physical security key connected to the host machine and vice versa.
+> -In addition, the dedicated pass-through allows to have a U2F security key
+> -shared on several guests which is not possible with a simple host device
+> -assignment pass-through.
+> -
+> -The emulated mode consists of completely emulating the behavior of an
+> -U2F device through software part. Libu2f-emu is used for that.
+> -
+> -
+> -2. Building
+> -
+> -To ensure the build of the u2f-emulated device variant which depends
+> -on libu2f-emu: configuring and building:
+> -
+> -    ./configure --enable-u2f && make
+> -
+> -The pass-through mode is built by default on Linux. To take advantage
+> -of the autoscan option it provides, make sure you have a working libudev
+> -installed on the host.
+> -
+> -
+> -3. Using u2f-emulated
+> -
+> -To work, an emulated U2F device must have four elements:
+> - * ec x509 certificate
+> - * ec private key
+> - * counter (four bytes value)
+> - * 48 bytes of entropy (random bits)
+> -
+> -To use this type of device, this one has to be configured, and these
+> -four elements must be passed one way or another.
+> -
+> -Assuming that you have a working libu2f-emu installed on the host.
+> -There are three possible ways of configurations:
+> - * ephemeral
+> - * setup directory
+> - * manual
+> -
+> -Ephemeral is the simplest way to configure, it lets the device generate
+> -all the elements it needs for a single use of the lifetime of the device.
+> -
+> -    qemu -usb -device u2f-emulated
+> -
+> -Setup directory allows to configure the device from a directory containing
+> -four files:
+> - * certificate.pem: ec x509 certificate
+> - * private-key.pem: ec private key
+> - * counter: counter value
+> - * entropy: 48 bytes of entropy
+> -
+> -    qemu -usb -device u2f-emulated,dir=$dir
+> -
+> -Manual allows to configure the device more finely by specifying each
+> -of the elements necessary for the device:
+> - * cert
+> - * priv
+> - * counter
+> - * entropy
+> -
+> -    qemu -usb -device u2f-emulated,cert=$DIR1/$FILE1,priv=$DIR2/$FILE2,counter=$DIR3/$FILE3,entropy=$DIR4/$FILE4
+> -
+> -
+> -4. Using u2f-passthru
+> -
+> -On the host specify the u2f-passthru device with a suitable hidraw:
+> -
+> -    qemu -usb -device u2f-passthru,hidraw=/dev/hidraw0
+> -
+> -Alternately, the u2f-passthru device can autoscan to take the first
+> -U2F device it finds on the host (this requires a working libudev):
+> -
+> -    qemu -usb -device u2f-passthru
+> -
+> -
+> -5. Libu2f-emu
+> -
+> -The u2f-emulated device uses libu2f-emu for the U2F key emulation. Libu2f-emu
+> -implements completely the U2F protocol device part for all specified
+> -transport given by the FIDO Alliance.
+> -
+> -For more information about libu2f-emu see this page:
+> -https://github.com/MattGorko/libu2f-emu.
 > --
-> 2.34.1
->
 
