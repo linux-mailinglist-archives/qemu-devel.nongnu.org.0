@@ -2,66 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F4156FC79B
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 May 2023 15:12:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E63D6FC79F
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 May 2023 15:13:37 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pwN8X-0000c7-L4; Tue, 09 May 2023 09:12:13 -0400
+	id 1pwN9J-0001LA-L4; Tue, 09 May 2023 09:13:01 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pwN8V-0000bs-MY
- for qemu-devel@nongnu.org; Tue, 09 May 2023 09:12:11 -0400
+ id 1pwN9G-0001J5-5X
+ for qemu-devel@nongnu.org; Tue, 09 May 2023 09:12:58 -0400
 Received: from mail-ed1-x52f.google.com ([2a00:1450:4864:20::52f])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pwN8T-0005Y5-VH
- for qemu-devel@nongnu.org; Tue, 09 May 2023 09:12:11 -0400
+ id 1pwN9E-0005gm-MM
+ for qemu-devel@nongnu.org; Tue, 09 May 2023 09:12:57 -0400
 Received: by mail-ed1-x52f.google.com with SMTP id
- 4fb4d7f45d1cf-50bc040c7b8so9062789a12.2
- for <qemu-devel@nongnu.org>; Tue, 09 May 2023 06:12:09 -0700 (PDT)
+ 4fb4d7f45d1cf-50bc25f0c7dso10956530a12.3
+ for <qemu-devel@nongnu.org>; Tue, 09 May 2023 06:12:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1683637927; x=1686229927;
+ d=linaro.org; s=google; t=1683637975; x=1686229975;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=WyG5C3MIu5Xhk+l/oQE5Wy8FhM0P6J7U1YJSlfe9Jvw=;
- b=OWspDKpqx+kDAxJMUAWIGTDMrNV8p71K8zOqyaiWomA60pCakSwksRT/vostS3032v
- qgXvkxwvyiFfxVaabjou+LrkeN4E+LOv6CuYNbEf8m/YUXWOs8lPnbfRICWpNE6WtLC5
- CbGbuBNqZyP/9H6BdCvdpkVo8/wpazLnfqSZ4MdkyZlM7VwnfDT+7GWM+DZsqsNgmrDZ
- XZXORXFMm3tRNCdxNGBP9G2AWiB86rsSCGKa783XHxnTFxSF3l8JA0d2TjIdERDSFRvY
- Zi2s2oyJgrcGjIqkyFTrSSZImP3pf3Wvu9/0naVFgF4Pcwmbc9rP5D3WJv9LFKmXeqJe
- QOBg==
+ bh=tOiQFatwQ447mPutCz8qrRS4iLU0wpnrxUxJDkF0KiY=;
+ b=pcdvjj9xvHzdDWdRkvFMrj8GLvC4t7BO2TPirIDbG8taWNBeVk7Ip7OeW/JytHxIl7
+ zMT1qbmw4LMHZ2Z+l7t9qxNVjaEo2g0VWinvfVm4eA/i3sLrARjcfhhLoRkkUHwUto/4
+ w1m7vkALMyBpYZFqvBHL/VPRq+CG85FWE0iOicNQgVDJmlx/4ap7gAkheHZgMyw1Q2KS
+ tu2ZRVEyl7PLRp4Q0AtvcT3i5vrhMSBGuCWSkxqDy7yrQpt2IoarxGhCiNI9cvjjtL5E
+ R4j2Zhpj59K77DgDs+ozp/DqgHekTc0ug+PUVM4xCWfAPCwNwfW5bFTWKGXCOh0oZ5SW
+ bO5A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683637927; x=1686229927;
+ d=1e100.net; s=20221208; t=1683637975; x=1686229975;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=WyG5C3MIu5Xhk+l/oQE5Wy8FhM0P6J7U1YJSlfe9Jvw=;
- b=NIYCUp5j+cvrAsPz+9JxkPpxh2lq02g46Wc43HOmWPPstncC2e68m+l4YRYWHGf6vT
- roxkYVBpjit/roybl0uQA8fIrwHRHSJb3xtKyx78SofUEIvXQXLfb8Adc0AbzI9tkvji
- D4putCO6hdIOJ5ZvbevFwsBD4q4R1/QhroLx2GMkzW9kU1MgYoBkvhGVmOmsOyeTDL1a
- gx/qIuuJNoEat0RU4l9wLpdA7TN7kj29i89vK5LA1tcEuD4ZFh2PGcYI/vUXrpH6mEBC
- aaiP2q4GL4gqq6IApafHEDUooOc0ssPbjXQbGDlFesN4IQ/lo6rR3DihYc6pLjt3uOPL
- yhvw==
-X-Gm-Message-State: AC+VfDzDsePqwW7iPrjS3+1KBNLBCWjzRU4IsjW/b7MM4jGd474bxYbq
- +SWPCK7ZWQq4PLG6wDymjaTZHEnJ53nHNsiilmediewhVPOsSmSE
-X-Google-Smtp-Source: ACHHUZ4PwN6CE7AFUmLcBzuJU3/M7pZygpMvT3oVPQac3ASSlQHONzzATYOr5c3z/u6o0wiISX+7fAWmHEQIW0uiOeU=
-X-Received: by 2002:aa7:cd84:0:b0:50c:2215:317e with SMTP id
- x4-20020aa7cd84000000b0050c2215317emr11224921edv.15.1683637927222; Tue, 09
- May 2023 06:12:07 -0700 (PDT)
+ bh=tOiQFatwQ447mPutCz8qrRS4iLU0wpnrxUxJDkF0KiY=;
+ b=EJfAnnEHk7OmWX3BjmmtqClJxSCkQuAUSFFIW3kBLDVY7DaG+mCcX1KHUekhCIufBm
+ ewDAREGlxg6fP7DfFkjxd1x5nRIi5ZHdjztwxADlSSNsYYdzqnnLfEhIOptXuEBN7Usb
+ /wlUa8aSMzzfRzdRfLDHRM9uBTWdiu9YlNtxDA7N0Hv7CyCG/L2/W1nYBzC4IIAEovTQ
+ VKP7bRT4MTTZXcJXJXQgjV2lFCHwFAQ2h/lVzSiaa0ooasCaDrRzcHor1zcnnHzD6fUW
+ a6yQOC57iW50iR84ziP0ll8OWuHXVRRXivRdizzhZmB11m5hlrW/lNH0xb5pCGy4UWSr
+ Y+9A==
+X-Gm-Message-State: AC+VfDyzBxm6MHGfd5T6xL4ZCyrCz4L17XqxJUyt8rtw9tYgCpa0yyn3
+ 1PUP3RV4qfuYYbVYLOjcZfYSSIOAKNCf+G8heqBnjg==
+X-Google-Smtp-Source: ACHHUZ4NYDzCoy8SZ3ijb5HE17sLi94n7N7SisvMF1fYObKrvd9D9GHfOpUMQNtUsXuMz1DCM3eKilYs7wy6dGUra64=
+X-Received: by 2002:a05:6402:685:b0:50b:f7b2:79d0 with SMTP id
+ f5-20020a056402068500b0050bf7b279d0mr11873761edy.31.1683637975144; Tue, 09
+ May 2023 06:12:55 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230502135548.2451309-1-peter.maydell@linaro.org>
- <CAMxuvayLKQAaRyZZXdgKvAJtgwRcxsFUnQ-S5yB8qBRvJrgrRg@mail.gmail.com>
-In-Reply-To: <CAMxuvayLKQAaRyZZXdgKvAJtgwRcxsFUnQ-S5yB8qBRvJrgrRg@mail.gmail.com>
+References: <20230506072333.32510-1-akihiko.odaki@daynix.com>
+In-Reply-To: <20230506072333.32510-1-akihiko.odaki@daynix.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 9 May 2023 14:11:56 +0100
-Message-ID: <CAFEAcA8OBka2yGWpktMRyW2fNaLjg7PtPd7F=+C6EGc6uKVetw@mail.gmail.com>
-Subject: Re: [PATCH] ui: Fix pixel colour channel order for PNG screenshots
-To: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
-Cc: qemu-devel@nongnu.org, qemu-stable@nongnu.org, 
- Gerd Hoffmann <kraxel@redhat.com>, Kshitij Suri <kshitij.suri@nutanix.com>
+Date: Tue, 9 May 2023 14:12:44 +0100
+Message-ID: <CAFEAcA_2m8NyVMe_iBkFrfNZX8NkiBXBnZfqEbcUcT3GpHhwTw@mail.gmail.com>
+Subject: Re: [PATCH v2] MAINTAINERS: Update Akihiko Odaki's email address
+To: Akihiko Odaki <akihiko.odaki@daynix.com>
+Cc: Gerd Hoffmann <kraxel@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>, 
+ qemu-devel@nongnu.org, Akihiko Odaki <akihiko.odaki@gmail.com>, 
+ =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 Received-SPF: pass client-ip=2a00:1450:4864:20::52f;
@@ -88,62 +89,23 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, 2 May 2023 at 20:36, Marc-Andr=C3=A9 Lureau
-<marcandre.lureau@redhat.com> wrote:
+On Sat, 6 May 2023 at 08:23, Akihiko Odaki <akihiko.odaki@daynix.com> wrote=
+:
 >
+> From: Akihiko Odaki <akihiko.odaki@gmail.com>
 >
+> I am now employed by Daynix. Although my role as a reviewer of
+> macOS-related change is not very relevant to the employment, I decided
+> to use the company email address to avoid confusions from different
+> addresses.
 >
-> On Tue, May 2, 2023 at 5:56=E2=80=AFPM Peter Maydell <peter.maydell@linar=
-o.org> wrote:
->>
->> When we take a PNG screenshot the ordering of the colour channels in
->> the data is not correct, resulting in the image having weird
->> colouring compared to the actual display.  (Specifically, on a
->> little-endian host the blue and red channels are swapped; on
->> big-endian everything is wrong.)
->>
->> This happens because the pixman idea of the pixel data and the libpng
->> idea differ.  PIXMAN_a9r8g8b8 defines that pixels are 32-bit values,
->> with A in bits 24-31, R in bits 16-23, G in bits 8-15 and B in bits
->> 0-7.  This means that on little-endian systems the bytes in memory
->> are
->>    B G R A
->> and on big-endian systems they are
->>    A R G B
->>
->> libpng, on the other hand, thinks of pixels as being a series of
->> values for each channel, so its format PNG_COLOR_TYPE_RGB_ALPHA
->> always wants bytes in the order
->>    R G B A
->>
->> This isn't the same as the pixman order for either big or little
->> endian hosts.
->>
->> The alpha channel is also unnecessary bulk in the output PNG file,
->> because there is no alpha information in a screenshot.
->>
->> To handle the endianness issue, we already define in ui/qemu-pixman.h
->> various PIXMAN_BE_* and PIXMAN_LE_* values that give consistent
->> byte-order pixel channel formats.  So we can use PIXMAN_BE_r8g8b8 and
->> PNG_COLOR_TYPE_RGB, which both have an in-memory byte order of
->>     R G B
->> and 3 bytes per pixel.
->>
->> (PPM format screenshots get this right; they already use the
->> PIXMAN_BE_r8g8b8 format.)
->>
->> Cc: qemu-stable@nongnu.org
->> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1622
->> Fixes: 9a0a119a382867 ("Added parameter to take screenshot with screendu=
-mp as PNG")
->> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
->
->
+> Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
 > Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+> ---
+> V1 -> V2: This patch got missed so I rebased it and am resubmitting.
 
-Thanks; shall I take this via target-arm.next, or would you
-prefer to take it via the UI queue (with the commit message
-typo fixed) ?
+Oops, sorry about that. I'll take this via target-arm.next.
 
 -- PMM
 
