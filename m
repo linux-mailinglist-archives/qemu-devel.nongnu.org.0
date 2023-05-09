@@ -2,108 +2,101 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A72ED6FC35B
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 May 2023 12:01:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 495BB6FC37C
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 May 2023 12:08:11 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pwK9i-0004e7-39; Tue, 09 May 2023 06:01:14 -0400
+	id 1pwKFQ-0006AS-AR; Tue, 09 May 2023 06:07:08 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pwK9X-0004cb-Ut
- for qemu-devel@nongnu.org; Tue, 09 May 2023 06:01:05 -0400
-Received: from mail-ed1-x52e.google.com ([2a00:1450:4864:20::52e])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pwK9V-0007Zf-93
- for qemu-devel@nongnu.org; Tue, 09 May 2023 06:01:03 -0400
-Received: by mail-ed1-x52e.google.com with SMTP id
- 4fb4d7f45d1cf-50b383222f7so8542947a12.3
- for <qemu-devel@nongnu.org>; Tue, 09 May 2023 03:01:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1683626459; x=1686218459;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=0waNw8QfZtGvUnFAHT6nFszZ8Xke2PavESgDWvCj1hE=;
- b=M8bH2cgN3T89nEhZqBFKzLD5ZP1GGUpSpeve9pK8T6xBuHnBSW9UXefPlxu8oXXn+S
- Fc5kV0VGWRxXgKXsKBAiyR77/KXrlNjL66PXx9QidYbRFHgv8VeFAuPTdm6xq/e06JqG
- DjmGsS297VcfKeLsA11NKaenofLIz9utYCVEMkyvyAcdAd8F+pYJurRyy7H/F6C4UiQ6
- P+nUPXrij7D3wwlAbCuyj0DhRhG+rSuoVzWkNxFQmzJZhUDqPS8Uevxu3pDGVEIzbXVm
- 0RZ1fc0n5JY+qBQ5IWtyGaTUZQfKtVcIiCW5g7L9odfKpUuHzO6yvlP7cTCcD863+SoN
- QVJQ==
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1pwKFO-00069j-L9
+ for qemu-devel@nongnu.org; Tue, 09 May 2023 06:07:06 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1pwKFM-0000BH-Vq
+ for qemu-devel@nongnu.org; Tue, 09 May 2023 06:07:06 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1683626823;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=2z54dPYkP+kjA9FpOb9Z38I7w70eCMMwdsXQh4U6QMs=;
+ b=NiU28pQetypMAAUM9PoSh+MIbLgw/TWWFy4XT+kXWVtlld/SohHwH6Icwvr70Gn3R3dHS3
+ a1BBTRZWOP5pyD5J67gdjxwpVmhQt2RWcF/ZBhATinKp26CpkTpf8O7sltWlwKE0Wk+hWo
+ IWiO5Qc0zanoo+Qbno72ynbVXA+KCEo=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-288-gJzd09jAP3G6Lu1uLmO-qg-1; Tue, 09 May 2023 06:07:02 -0400
+X-MC-Unique: gJzd09jAP3G6Lu1uLmO-qg-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ ffacd0b85a97d-30629b36d9bso2162064f8f.0
+ for <qemu-devel@nongnu.org>; Tue, 09 May 2023 03:07:02 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683626459; x=1686218459;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=0waNw8QfZtGvUnFAHT6nFszZ8Xke2PavESgDWvCj1hE=;
- b=gncXc7AGQbPIqx1s0wAUKQxOZ1cCWX30MlRsQzPFe34UIepJ88bb5GgyNFt3r3APx1
- OPugoND3y6n+X551caxKC27DtZI8gsPFOSXNCL2iYFPjLDlZ9Ylenw/jvX0N5qPhAy8c
- dWfZL0Iw8tZQ/22oxkIVLj0TchzTshuvlL0daj6thfnG9Q0g2MkWLae1T4EdEmMKBVCG
- Pm94nFLitiWin4uiMMtkBPe2KUcfRNLiFVnxplxU0gYu68frcVJe5u3SOyZ2jPrRM5y7
- quMnDyw424FFSkrngQPvLZ80PooUhiPu87P8a8HAbHs7WgPcy9r5w4uFhEWV38jHdTmp
- 50SQ==
-X-Gm-Message-State: AC+VfDy9YQ9RgB3hG+QtLI6xG0fd4LgifUkKifWd4nYMvvWfjL0wWMC0
- HnngQxIfUBWPl+dNml5M9tUuUG2n6F/1gkiR4IdHWA==
-X-Google-Smtp-Source: ACHHUZ5hqEMKV9p/wUJ4Yv6gIy5d3/cmUVuwNMnKbqIOZbUWHQxO0PvBpk7bEBwMP2jMS6S7SZD2YesuKGgizyZE64E=
-X-Received: by 2002:aa7:c7d0:0:b0:50b:c62f:9ff0 with SMTP id
- o16-20020aa7c7d0000000b0050bc62f9ff0mr9977432eds.30.1683626459393; Tue, 09
- May 2023 03:00:59 -0700 (PDT)
+ d=1e100.net; s=20221208; t=1683626821; x=1686218821;
+ h=mime-version:message-id:date:reply-to:user-agent:references
+ :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=2z54dPYkP+kjA9FpOb9Z38I7w70eCMMwdsXQh4U6QMs=;
+ b=W8T8Ysl2CXlgXxQNCrMRxlmPuFWc3dl9IGUQQy0o6tPSEIe0TmzhZFwUTusCX5X/1q
+ OsYKumkc8W13a64TS1RW7VMidVz5Eqe7I4lMx8xsWBbmZypQsalOXYQjH7mZqtEO82xM
+ vkVZ3/RsKyaVy25fQjOYEMw6JBSPxOMqvOd0H1SknKH4g1s5x/OX5OewPxIlpAxfaPUf
+ NIVY4wKWt/MoTkkezCyQaO/xGXLQnOh/FYDa6HArxbcO+VO2cZ8XmxNxjMyUxIvvMCwl
+ 4Ddso7zkYu4NiFixgbYZ4zhUVj9Ld1+SNSS0JB2zV2BYd1HxfXLi/gd/GhamTGdrUdAI
+ g5sA==
+X-Gm-Message-State: AC+VfDwfcjtBPD1IkHk1YT+xvyDz3I4LTLSnifXmmYTnmdZDuj0PQ2pt
+ oUspg0n5brLUvhW8bLvTQGBEZAhXix2uTODcSYbE7H+9VmpwmxoLvt6gBCPbX5/uZf0nNtY83ea
+ buzQDPA161a6t2l4=
+X-Received: by 2002:adf:e787:0:b0:2f0:6192:92db with SMTP id
+ n7-20020adfe787000000b002f0619292dbmr8362831wrm.46.1683626821192; 
+ Tue, 09 May 2023 03:07:01 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ6LHoxACTSlm1Cn49UKZUruem5A+F99GJDWEka1vSeAr3EsUL5kc/Xjezenwf/8DfyMm/i0Tw==
+X-Received: by 2002:adf:e787:0:b0:2f0:6192:92db with SMTP id
+ n7-20020adfe787000000b002f0619292dbmr8362783wrm.46.1683626820830; 
+ Tue, 09 May 2023 03:07:00 -0700 (PDT)
+Received: from redhat.com (static-92-120-85-188.ipcom.comunitel.net.
+ [188.85.120.92]) by smtp.gmail.com with ESMTPSA id
+ c17-20020a5d4f11000000b003079986fd71sm4788366wru.88.2023.05.09.03.06.59
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 09 May 2023 03:06:59 -0700 (PDT)
+From: Juan Quintela <quintela@redhat.com>
+To: Markus Armbruster <armbru@redhat.com>
+Cc: qemu-devel@nongnu.org,  michael.roth@amd.com,  peter.maydell@linaro.org,
+ pbonzini@redhat.com,  marcandre.lureau@redhat.com,  berrange@redhat.com,
+ thuth@redhat.com,  philmd@linaro.org,  mst@redhat.com,
+ imammedo@redhat.com,  anisinha@redhat.com,  eblake@redhat.com,
+ kraxel@redhat.com,  kwolf@redhat.com,  hreitz@redhat.com,
+ arei.gonglei@huawei.com,  pizhenwei@bytedance.com,  jsnow@redhat.com,
+ vsementsov@yandex-team.ru,  eduardo@habkost.net,
+ marcel.apfelbaum@gmail.com,  wangyanan55@huawei.com,  peterx@redhat.com,
+ leobras@redhat.com,  jasowang@redhat.com,  yuval.shaia.ml@gmail.com,
+ pavel.dovgaluk@ispras.ru,  jiri@resnulli.us,  stefanb@linux.vnet.ibm.com,
+ stefanha@redhat.com,  lukasstraub2@web.de,  kkostiuk@redhat.com,
+ qemu-block@nongnu.org,  victortoso@redhat.com
+Subject: Re: [PATCH 10/17] tests/qapi-schema/doc-good: Improve argument
+ description tests
+In-Reply-To: <87mt2ej79p.fsf@pond.sub.org> (Markus Armbruster's message of
+ "Tue, 09 May 2023 09:25:38 +0200")
+References: <20230428105429.1687850-1-armbru@redhat.com>
+ <20230428105429.1687850-11-armbru@redhat.com>
+ <87edo37ubz.fsf@secure.mitica> <87mt2ej79p.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
+Date: Tue, 09 May 2023 12:06:59 +0200
+Message-ID: <878rdxg6nw.fsf@secure.mitica>
 MIME-Version: 1.0
-References: <20230503091244.1450613-1-alex.bennee@linaro.org>
- <20230503091244.1450613-6-alex.bennee@linaro.org>
- <531a2eab-f0e6-46a5-c021-c82746c1ae38@redhat.com>
- <87y1m5s9yl.fsf@linaro.org> <5fb214d8-4a54-f896-f23f-fe9e646e4b2d@redhat.com>
- <CAFEAcA-Cfz8CkNeTQodoSitocBmm4ddk25Dq8x=5FiiGvaS34Q@mail.gmail.com>
- <e7185f74-f041-05b1-0f76-bab6d724e796@redhat.com> <878re4cl1u.fsf@suse.de>
- <CABgObfYYFfGk2X6M5MxbEbVqCYOp1Km53xkTNrfHwkK=aZOpyw@mail.gmail.com>
- <CAFEAcA91kfdgP3GD8OzgpePX6yXxsLZgARfsNhjY8WyEtKwUuA@mail.gmail.com>
- <c4545a92-8e37-a916-9f1e-ef537dcb1e06@redhat.com>
-In-Reply-To: <c4545a92-8e37-a916-9f1e-ef537dcb1e06@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 9 May 2023 11:00:48 +0100
-Message-ID: <CAFEAcA9h2JKPeMinDFqsJ_5wN1rtAfr6YSSbfyf6JK9ohdxXmA@mail.gmail.com>
-Subject: Re: [PATCH 05/22] hw/arm: Select VIRTIO_NET for virt machine
-To: Paolo Bonzini <pbonzini@redhat.com>
-Cc: Fabiano Rosas <farosas@suse.de>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
- qemu-devel <qemu-devel@nongnu.org>, Laurent Vivier <lvivier@redhat.com>, 
- Artyom Tarasenko <atar4qemu@gmail.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>, 
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Thomas Huth <thuth@redhat.com>, 
- Leif Lindholm <quic_llindhol@quicinc.com>, Gerd Hoffmann <kraxel@redhat.com>, 
- Helge Deller <deller@gmx.de>, Xiaojuan Yang <yangxiaojuan@loongson.cn>, 
- Stefan Hajnoczi <stefanha@redhat.com>, Cleber Rosa <crosa@redhat.com>, 
- Eduardo Habkost <eduardo@habkost.net>, Juan Quintela <quintela@redhat.com>,
- John Snow <jsnow@redhat.com>, Yoshinori Sato <ysato@users.sourceforge.jp>,
- =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>, 
- Ilya Leoshkevich <iii@linux.ibm.com>,
- Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>, 
- Andrew Jeffery <andrew@aj.id.au>, qemu-s390x <qemu-s390x@nongnu.org>, 
- Richard Henderson <richard.henderson@linaro.org>,
- qemu-arm <qemu-arm@nongnu.org>, 
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Beraldo Leal <bleal@redhat.com>, Max Filippov <jcmvbkbc@gmail.com>,
- =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>, 
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Jiaxun Yang <jiaxun.yang@flygoat.com>, 
- Radoslaw Biernacki <rad@semihalf.com>, Aurelien Jarno <aurelien@aurel32.net>, 
- David Hildenbrand <david@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Song Gao <gaosong@loongson.cn>, Joel Stanley <joel@jms.id.au>,
- =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::52e;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52e.google.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -116,30 +109,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, 9 May 2023 at 10:42, Paolo Bonzini <pbonzini@redhat.com> wrote:
+Markus Armbruster <armbru@redhat.com> wrote:
+> Juan Quintela <quintela@redhat.com> writes:
 >
-> On 5/9/23 11:27, Peter Maydell wrote:
-> > On Mon, 8 May 2023 at 23:24, Paolo Bonzini <pbonzini@redhat.com> wrote:
-> >> --without-default-devices is not about choosing to not build
-> >> some devices; it is about making non-selected devices opt-in
-> >> rather than opt-out.
-> >
-> > Hmm, so it's basically "the person doing the configuration needs
-> > to know what they're doing, the Kconfig system will give them
-> > no hints about what devices might or might not be needed to
-> > make machine type M functional" ?
+>> Markus Armbruster <armbru@redhat.com> wrote:
+>>> Improve the comments to better describe what they test.
+>>>
+>>> Cover argument description starting on a new line indented.  This
+>>> style isn't documented in docs/devel/qapi-code-gen.rst.  qapi-gen.py
+>>> accepts it, but messes up indentation: it's stripped from the first
+>>> line, not subsequent ones.  The next commit will fix this.
+>>>
+>>> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+>>
+>> Reviewed-by: Juan Quintela <quintela@redhat.com>
+>>
+>>>  ##
+>>>  # @Alternate:
+>>>  #
+>>> -# @i: an integer
+>>> +# @i: description starts on the same line
+>>> +#     remainder indented the same
+>>>  #     @b is undocumented
+>>>  #
+>>>  # Features:
+>>
+>> Just curious, what is trying to convey this
+>>    @b is undocumented
+>> At the same indentation that the description of @i?
 >
-> It depends on what you mean by functional.  I would say you do get what
-> is needed to have a functional machine, but not what is needed to have a
-> useful machine.
+> Writing it like
+>
+>     # @i: description starts on the same line
+>     #     remainder indented the same
+>     # @b is undocumented
+>     #
+>     # Features:
+>     # @alt-feat: a feature
+>
+> fails with "unexpected de-indent (expected at least 4 spaces)".  That's
+> because the @b line is part of the argument section @i, and the doc
+> parser insists its indented consistently.  Guards against some editing
+> accidents, like forgetting the ':'.
+>
+> Writing it like
+>
+>     # @i: description starts on the same line
+>     #     remainder indented the same
+>     #
+>     # @b is undocumented
+>     #
+>     # Features:
+>     # @alt-feat: a feature
+>
+> fails with "'@alt-feat:' can't follow 'None' section".  That's because
+> the @b line is now a section of its own, and the doc parser requires
+> sections to be in a certain order.  Similar guard against editing
+> accidents.  Not foolproof; it only works here because a feature section
+> follows.  If we wanted sane syntax, we would've stuck to TexInfo.
+>
+> The error message is bad; I'll improve it.
 
-If you need to pass '-nodefaults' to get the thing to start up at
-all, that seems to be stretching the definition of "functional"
-to me.
+Thanks for the explanation.
 
-thanks
--- PMM
 
