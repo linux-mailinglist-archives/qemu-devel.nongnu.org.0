@@ -2,79 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92E156FCFB2
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 May 2023 22:41:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 338926FCFC7
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 May 2023 22:44:39 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pwU86-0008Qg-Io; Tue, 09 May 2023 16:40:14 -0400
+	id 1pwUBT-0001Di-Sg; Tue, 09 May 2023 16:43:43 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <venture@google.com>)
- id 1pwU84-0008QT-QO
- for qemu-devel@nongnu.org; Tue, 09 May 2023 16:40:12 -0400
-Received: from mail-ed1-x530.google.com ([2a00:1450:4864:20::530])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <venture@google.com>)
- id 1pwU83-0006uK-AM
- for qemu-devel@nongnu.org; Tue, 09 May 2023 16:40:12 -0400
-Received: by mail-ed1-x530.google.com with SMTP id
- 4fb4d7f45d1cf-50bc3a5f462so8238a12.1
- for <qemu-devel@nongnu.org>; Tue, 09 May 2023 13:40:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20221208; t=1683664808; x=1686256808;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=PNMAAzWHtJQ1iH1LUqvg2qY09UO1u5+34sf76VinOlY=;
- b=OcQLCvN4wZzxsJS5CftP8BJUpTI4YzYhhtYbxeogvJhnC6S2JYosWBPJ6MiyH9b76O
- kmne2C81of5Fxh9FAuSK2Y49Nna8xzQ9Whup7A8rgYyrVbeAt/cmYadFpa1FM+zKce9b
- 1ImjSowrQ6B59QK2hynsZVaG1l6VPKXIKdCIZhddWT0Po42DXwACPb53JTNx0XDw884Y
- 5przufdwCq+ECvO0SCYNSiO3VpHGqOe8LUUnnx7fK0fO+xJ+eT/2Tkm1/5/MBgoYi7WY
- aOw9CToi2ELVOX/3V+tUJM42Qabyvs9nCgoEzUdnx/HvLVa0buvAKqKojFG9XWDtmnit
- t0lQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683664808; x=1686256808;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=PNMAAzWHtJQ1iH1LUqvg2qY09UO1u5+34sf76VinOlY=;
- b=kfPQNCq3AjgO6e4PcCIBfVZ99/7zhPRCtLQB350t14FVfXTNnnsL2kZ7ZVERDTsxm5
- 2fsUVifWc1hYYgYPFVih5rw0MOA1GwzT4fjZjCBVs62c4dbu0P7tFpTwO6Abb13FJM1D
- mU5EyOj2rES2FQ3dS6umSrqJA5/F1FNYnoy9kMlfqD4oW3jV/gT28ieMSkCKDvB6S3Zg
- OU72nA7DuAIQok9FMgydk7g9JHmN+zoii+NH0jYX5KKrYGfEAhLxyB/1HvjQN6Hx0rt1
- lEAG7yhuivZuGowhEJ5GuhK6LSgrmswlAFo8jvvjQpTnf8jMVdgnzTxSL8sS0p7zZ6T3
- T7yA==
-X-Gm-Message-State: AC+VfDyCirJJNyigxdYiOh3OI8dhaZKHVZ9nDJYRGBjVDzrdfO7SnZYC
- fnwkhnu2xI1RHY2v1Dkrla5HZTiJcAAtBUUoWhHaXzw8oj8wr2RMzMU=
-X-Google-Smtp-Source: ACHHUZ5dgLCqb7RsxtRmOnzzb6LuK41TkuNcs/mJ/cJPL/pDmppZpY9XRjgbYHZva08/WpZlohFeJsgmNUWmxlmAZR8=
-X-Received: by 2002:a05:6402:321a:b0:4bc:dee8:94ca with SMTP id
- g26-20020a056402321a00b004bcdee894camr20307eda.7.1683664808413; Tue, 09 May
- 2023 13:40:08 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1pwUBS-0001DZ-0j
+ for qemu-devel@nongnu.org; Tue, 09 May 2023 16:43:42 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1pwUBQ-0007Ni-Jk
+ for qemu-devel@nongnu.org; Tue, 09 May 2023 16:43:41 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1683665019;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=73rXAUSbDMMD9aLijjtyw6szEUieY4YD79d0W2REdQU=;
+ b=JdltbhtyPtZpUTxq+FUe7F1Pl4hU/F0+3zOkt4niyRjJ8BhDMqtnQJbZXuuEa9iY0nqSJg
+ OJ7lBdq9HM6BkhBJARaQMeoHuCCGnzNNBGsmXgHpq1V2jTrYr7ksOBr3XMfXdLUigRYkhy
+ FWMkqEr9j/vuxJ2OU9FUs+vSxXX5pUI=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-467-h2450ozEN8ukawalTzR5Sg-1; Tue, 09 May 2023 16:43:36 -0400
+X-MC-Unique: h2450ozEN8ukawalTzR5Sg-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.3])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 42C0F80C8C4;
+ Tue,  9 May 2023 20:43:35 +0000 (UTC)
+Received: from localhost (unknown [10.39.192.39])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 394F41121314;
+ Tue,  9 May 2023 20:43:34 +0000 (UTC)
+Date: Tue, 9 May 2023 16:43:32 -0400
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Kevin Wolf <kwolf@redhat.com>
+Cc: qemu-devel@nongnu.org, Ronnie Sahlberg <ronniesahlberg@gmail.com>,
+ Aarushi Mehta <mehta.aaru20@gmail.com>, qemu-block@nongnu.org,
+ Paul Durrant <paul@xen.org>, Anthony Perard <anthony.perard@citrix.com>,
+ Peter Lieven <pl@kamp.de>, Stefan Weil <sw@weilnetz.de>,
+ Xie Yongji <xieyongji@bytedance.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Leonardo Bras <leobras@redhat.com>, Peter Xu <peterx@redhat.com>,
+ Hanna Reitz <hreitz@redhat.com>,
+ Stefano Stabellini <sstabellini@kernel.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ David Woodhouse <dwmw2@infradead.org>, Coiby Xu <Coiby.Xu@gmail.com>,
+ Eduardo Habkost <eduardo@habkost.net>,
+ Stefano Garzarella <sgarzare@redhat.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>,
+ Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+ Julia Suvorova <jusual@redhat.com>, xen-devel@lists.xenproject.org,
+ eesposit@redhat.com, Juan Quintela <quintela@redhat.com>,
+ "Richard W.M. Jones" <rjones@redhat.com>, Fam Zheng <fam@euphon.net>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Zhengui Li <lizhengui@huawei.com>,
+ Daniil Tatianin <d-tatianin@yandex-team.ru>
+Subject: Re: [PATCH v5 05/21] virtio-scsi: stop using aio_disable_external()
+ during unplug
+Message-ID: <20230509204332.GB1165676@fedora>
+References: <20230504195327.695107-1-stefanha@redhat.com>
+ <20230504195327.695107-6-stefanha@redhat.com>
+ <ZFqXEihzG18me26X@redhat.com>
 MIME-Version: 1.0
-References: <CAO=notxJzdsy6S_f64f1nXGMGU-ZSr01iRDwc1-EyT5Lj9p1Dg@mail.gmail.com>
- <CAO=notw3-Hhqyr=w-zRbCn=_yNp+r5WYeMd=-3JP3j+MJvfg0w@mail.gmail.com>
- <059dbadb-c7be-2491-e644-1118c2cd8c76@linaro.org>
- <3f0779e1-d939-f7e4-f3a8-e3e9e6a90e51@msgid.tls.msk.ru>
-In-Reply-To: <3f0779e1-d939-f7e4-f3a8-e3e9e6a90e51@msgid.tls.msk.ru>
-From: Patrick Venture <venture@google.com>
-Date: Tue, 9 May 2023 13:39:57 -0700
-Message-ID: <CAO=notwUQUMkv1EssOpNT4UK8Ei29E10eJ=SQcc_HqN32ikS7w@mail.gmail.com>
-Subject: Re: ssl fips self check fails with 7.2.0 on x86 TCG
-To: mjt@tls.msk.ru
-Cc: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
- QEMU Developers <qemu-devel@nongnu.org>, Peter Foley <pefoley@google.com>
-Content-Type: multipart/alternative; boundary="000000000000d41cb405fb48c268"
-Received-SPF: pass client-ip=2a00:1450:4864:20::530;
- envelope-from=venture@google.com; helo=mail-ed1-x530.google.com
-X-Spam_score_int: -175
-X-Spam_score: -17.6
-X-Spam_bar: -----------------
-X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="pP+x37X0vy9h+g7D"
+Content-Disposition: inline
+In-Reply-To: <ZFqXEihzG18me26X@redhat.com>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- ENV_AND_HDR_SPF_MATCH=-0.5, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01,
- USER_IN_DEF_DKIM_WL=-7.5,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,61 +101,60 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
---000000000000d41cb405fb48c268
-Content-Type: text/plain; charset="UTF-8"
+
+--pP+x37X0vy9h+g7D
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, May 9, 2023 at 9:51=E2=80=AFAM Michael Tokarev <mjt@tls.msk.ru> wro=
-te:
+On Tue, May 09, 2023 at 08:55:14PM +0200, Kevin Wolf wrote:
+> Am 04.05.2023 um 21:53 hat Stefan Hajnoczi geschrieben:
+> > This patch is part of an effort to remove the aio_disable_external()
+> > API because it does not fit in a multi-queue block layer world where
+> > many AioContexts may be submitting requests to the same disk.
+> >=20
+> > The SCSI emulation code is already in good shape to stop using
+> > aio_disable_external(). It was only used by commit 9c5aad84da1c
+> > ("virtio-scsi: fixed virtio_scsi_ctx_check failed when detaching scsi
+> > disk") to ensure that virtio_scsi_hotunplug() works while the guest
+> > driver is submitting I/O.
+> >=20
+> > Ensure virtio_scsi_hotunplug() is safe as follows:
+> >=20
+> > 1. qdev_simple_device_unplug_cb() -> qdev_unrealize() ->
+> >    device_set_realized() calls qatomic_set(&dev->realized, false) so
+> >    that future scsi_device_get() calls return NULL because they exclude
+> >    SCSIDevices with realized=3Dfalse.
+> >=20
+> >    That means virtio-scsi will reject new I/O requests to this
+> >    SCSIDevice with VIRTIO_SCSI_S_BAD_TARGET even while
+> >    virtio_scsi_hotunplug() is still executing. We are protected against
+> >    new requests!
+> >=20
+> > 2. scsi_device_unrealize() already contains a call to
+>=20
+> I think you mean scsi_qdev_unrealize(). Can be fixed while applying.
 
-> 09.05.2023 17:39, Philippe Mathieu-Daud=C3=A9 =D0=BF=D0=B8=D1=88=D0=B5=D1=
-=82:
-> ..> Should be fixed in v7.2-stable:
-> >
-> > $ git log --oneline --grep=3D1d0b9261 v7.2.2
-> > c45d10f655 target/i386: fix ADOX followed by ADCX
-> > 6809dbc5c5 target/i386: Fix C flag for BLSI, BLSMSK, BLSR
-> > 8d3c9fc439 target/i386: Fix BEXTR instruction
->
-> Unfortunately it is still not released, -
-> I haven't heard anything from Michael Roth since Apr-22 (when 7.2.2
-> planned).
->
+Yes, it should be scsi_qdev_unrealize(). I'll review your other comments
+and fix this if I need to respin.
 
-Thanks, I have it cherry-picked into our repo. :)
+Stefan
 
+--pP+x37X0vy9h+g7D
+Content-Type: application/pgp-signature; name="signature.asc"
 
->
-> /mjt
->
+-----BEGIN PGP SIGNATURE-----
 
---000000000000d41cb405fb48c268
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmRasHQACgkQnKSrs4Gr
+c8idhggAxwT1miphed6iDRzm0lcoIB+ERb0L9uu4SUcMFT6DDuoxIYBkdVwfzFye
+/+ZEEQZrR0wW4GassEZR0evyH6N86XQCcbxZieYhvMS4vOlMtn6TLPOBO1kuV7bk
+P/c4/aESmuRlERwSQ2xzmc3NsVc6jZI0onjQLNuC4wmEuWszLPfVNJ/oH46QjMOd
+n9/RU5gOM/yajjrNHCnCE71xPsWQaP608ibSbsCzLbq9ByeaEqivhU7knUEQFcCC
+KWWLL57nVhG2Lvvrjb1NiYDxq4NmadDxVFMQNm8jcqzuxLhZOwTqn1oxQk6A8P/x
+A4btIkywXTRHK/EuAXKBCrBh+/7lSw==
+=776u
+-----END PGP SIGNATURE-----
 
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Tue, May 9, 2023 at 9:51=E2=80=AFA=
-M Michael Tokarev &lt;<a href=3D"mailto:mjt@tls.msk.ru">mjt@tls.msk.ru</a>&=
-gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0=
-px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">09.05=
-.2023 17:39, Philippe Mathieu-Daud=C3=A9 =D0=BF=D0=B8=D1=88=D0=B5=D1=82:<br=
->
-..&gt; Should be fixed in v7.2-stable:<br>
-&gt; <br>
-&gt; $ git log --oneline --grep=3D1d0b9261 v7.2.2<br>
-&gt; c45d10f655 target/i386: fix ADOX followed by ADCX<br>
-&gt; 6809dbc5c5 target/i386: Fix C flag for BLSI, BLSMSK, BLSR<br>
-&gt; 8d3c9fc439 target/i386: Fix BEXTR instruction<br>
-<br>
-Unfortunately it is still not released, -<br>
-I haven&#39;t heard anything from Michael Roth since Apr-22 (when 7.2.2 pla=
-nned).<br></blockquote><div><br></div><div>Thanks, I have it cherry-picked =
-into our repo. :)</div><div>=C2=A0</div><blockquote class=3D"gmail_quote" s=
-tyle=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);pad=
-ding-left:1ex">
-<br>
-/mjt<br>
-</blockquote></div></div>
+--pP+x37X0vy9h+g7D--
 
---000000000000d41cb405fb48c268--
 
