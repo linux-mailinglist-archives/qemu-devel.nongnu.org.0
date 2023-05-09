@@ -2,74 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09E296FC250
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 May 2023 11:06:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 17CDA6FC24D
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 May 2023 11:06:42 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pwJHR-0005EQ-PV; Tue, 09 May 2023 05:05:09 -0400
+	id 1pwJHQ-0005E9-Fb; Tue, 09 May 2023 05:05:08 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1pwJHN-0005DU-2U
- for qemu-devel@nongnu.org; Tue, 09 May 2023 05:05:05 -0400
+ id 1pwJHP-0005E0-32
+ for qemu-devel@nongnu.org; Tue, 09 May 2023 05:05:07 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1pwJHL-0004ip-8i
- for qemu-devel@nongnu.org; Tue, 09 May 2023 05:05:04 -0400
+ id 1pwJHN-0004tZ-BF
+ for qemu-devel@nongnu.org; Tue, 09 May 2023 05:05:06 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1683623102;
+ s=mimecast20190719; t=1683623104;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=kbuSBHr1MC6PAa/zfDpEwyHM5lMDqO3acWiR6BPy9jk=;
- b=Y9LzrMerE9CJw+UNXwzhXZ+caHRh4lCSmWWPR6O+iq10cf3LrFH7OxZR7TFZvvqvjcWdYx
- B7OEnv5iErS0CUvpupbOh0v1+I7CzTpl/kLNLHhwH7qP0XwylXioUuaE0Pxrm3tUmvyvrN
- ZTZZ+GUMPIpk6B763Vw0R98Oni/xpt0=
-Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
- [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=2AXNk+ndwJjysIemRlvuC+YOxR25apRxDcvjMuMZg/k=;
+ b=X9yC+E26zlozM/+EJRPxPR4MaenMcV1vubD86zGZRAk7bFP3VXC16/DMIfsPlOT1INMSPf
+ jAY4kOf44hDE8u8GFabFi/iOn0mBRlFpd9BPXio5EotxtHdNlq8S8QT1kUHucc7Y4ZJi0Z
+ z1AaWT8lliw31q+T0Ln9PvJD6STFZRQ=
+Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
+ [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-497-xrKvDfkBO7eOCGd77_-8WQ-1; Tue, 09 May 2023 05:05:01 -0400
-X-MC-Unique: xrKvDfkBO7eOCGd77_-8WQ-1
-Received: by mail-ej1-f72.google.com with SMTP id
- a640c23a62f3a-969ea6699fdso70885466b.3
- for <qemu-devel@nongnu.org>; Tue, 09 May 2023 02:05:01 -0700 (PDT)
+ us-mta-93-KxSB7CSOPmu67gB9uvxGeQ-1; Tue, 09 May 2023 05:05:03 -0400
+X-MC-Unique: KxSB7CSOPmu67gB9uvxGeQ-1
+Received: by mail-ej1-f70.google.com with SMTP id
+ a640c23a62f3a-94a348facbbso691896066b.1
+ for <qemu-devel@nongnu.org>; Tue, 09 May 2023 02:05:03 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683623099; x=1686215099;
+ d=1e100.net; s=20221208; t=1683623101; x=1686215101;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=kbuSBHr1MC6PAa/zfDpEwyHM5lMDqO3acWiR6BPy9jk=;
- b=E7ahUv3gw9wjFdhAMQz0PO9319LfgxDxGz7c8/4I+5JbnfEAHN+rfktEhWa2sp9E7r
- K6wbvwtWNzFV35nPnquT3cDrkLn3APKJhGTcMiVozbu86MQ4eAO0HvarxiF9BFEolTXb
- wEbAZGT3GEjMFayoKfTXHf4Kfu8rs8j2LHmx8wnKlBSU4BbhkX7AORXcqjeJ0XDAXljA
- woVioKropENKQghTOWJj84SwpUKesMakYLAYqyJ5+VRC3Y3n+l+z5o+uiBK1odYuqFd4
- lFCXVAYuErHCtFpde5V239kqB6GDQO+kWn1qb6+qPEo/W3pyc21urOBNb4D8ialjVfoT
- WXxg==
-X-Gm-Message-State: AC+VfDzx1QU1eULHbEydOeyaFbcnsefofE5FZrgNU75tA7zL2qmUH1uQ
- Jzg2RiazkldCGTrDEAk4geCdmywU/TUKkJpMPAbUee6RAggiqJzS5si6lWZkaBgCxW2froXAna5
- eisE7+zj9fnP9WsqMhBACQhzbYqmSRTUeQZMX9+29htW23z3UeFHHXDaZYcgLC93sQVPQkh/SWH
- 0=
-X-Received: by 2002:a17:907:6d0b:b0:965:5cba:4a16 with SMTP id
- sa11-20020a1709076d0b00b009655cba4a16mr11999489ejc.77.1683623099564; 
- Tue, 09 May 2023 02:04:59 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ5LWxvhnVXExdpEpRa5LmpZydZ0TKL8B5LRAuqbFL3lgh5w83DCZuU7JBz1YJNTpSiJnMi/BQ==
-X-Received: by 2002:a17:907:6d0b:b0:965:5cba:4a16 with SMTP id
- sa11-20020a1709076d0b00b009655cba4a16mr11999466ejc.77.1683623099196; 
- Tue, 09 May 2023 02:04:59 -0700 (PDT)
+ bh=2AXNk+ndwJjysIemRlvuC+YOxR25apRxDcvjMuMZg/k=;
+ b=LJ40nZYbE1k8c2HVT449JTdaY3SKIDzU6LDsYMBylrxcI8vIh+viHCxU3M6/cIzR2g
+ MMn6uOKOAd7kO3LGBt8BzNnAYraeVzhbJ6/r7gIxrQk7zxQCIxywmDUvzfLxnGQHc2xR
+ W7Y8JBtrzD38jSvaCNbEcRLDrqjL7S/CCj8pZdN8o3xrOh+KYT10FwiY1yeje8hAUHy7
+ 5iW9CUVxUIaqpg8C5hoGIaxbZ3DsU6KZYZCsIjXoPkue3m6LYeuvvOvCtdB0BQHyozcy
+ +y++273Mkdt4wiI6gUaM0bda75dppQ7RZojVC/RA+Ff7gvTnh6XpB2kUkqV7NbpepkWj
+ nWtA==
+X-Gm-Message-State: AC+VfDzZKvC7dIvs6Lb4sW+2g2DKrgxMP2WTaAPZ2MDvDFKd7bV1SXCC
+ F1yNIXGtr80xu0VnOe2fMYygKSMc5v3OyLYLHd790ycYK4QiJ180oP8A8Yzp5WP/sRlJau4uAjV
+ +/CsXXbPbS4rPIFNRnlLPb29yICeIEj+FCDTCHbI7FPNTj39cVd5K3V6925/tNlt5kC+roMb/Vs
+ Y=
+X-Received: by 2002:a17:907:d91:b0:933:4d37:82b2 with SMTP id
+ go17-20020a1709070d9100b009334d3782b2mr11763681ejc.57.1683623101695; 
+ Tue, 09 May 2023 02:05:01 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ5QxyHyTj3d0VhcgPnV6Ga4cbJ3JMigAgHDfztaQJjsipwsvbRkLkw1qZlhkXTKqafYXc9BHQ==
+X-Received: by 2002:a17:907:d91:b0:933:4d37:82b2 with SMTP id
+ go17-20020a1709070d9100b009334d3782b2mr11763668ejc.57.1683623101433; 
+ Tue, 09 May 2023 02:05:01 -0700 (PDT)
 Received: from [192.168.10.118] ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
  by smtp.gmail.com with ESMTPSA id
- gf25-20020a170906e21900b0094edfbd475csm1035216ejb.127.2023.05.09.02.04.57
+ k21-20020a170906055500b009584c5bcbc7sm1048636eja.49.2023.05.09.02.04.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 09 May 2023 02:04:58 -0700 (PDT)
+ Tue, 09 May 2023 02:05:00 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Richard Henderson <richard.henderson@linaro.org>
-Subject: [PULL 01/16] rcu: remove qatomic_mb_set, expand comments
-Date: Tue,  9 May 2023 11:04:38 +0200
-Message-Id: <20230509090453.37884-2-pbonzini@redhat.com>
+Subject: [PULL 02/16] test-aio-multithread: do not use mb_read/mb_set for
+ simple flags
+Date: Tue,  9 May 2023 11:04:39 +0200
+Message-Id: <20230509090453.37884-3-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.40.1
 In-Reply-To: <20230509090453.37884-1-pbonzini@redhat.com>
 References: <20230509090453.37884-1-pbonzini@redhat.com>
@@ -100,99 +101,74 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+The remaining use of mb_read/mb_set is just to force a thread to exit
+eventually.  It does not order two memory accesses and therefore can be
+just read/set.
+
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- include/qemu/rcu.h |  5 ++++-
- util/rcu.c         | 24 +++++++++++-------------
- 2 files changed, 15 insertions(+), 14 deletions(-)
+ tests/unit/test-aio-multithread.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/include/qemu/rcu.h b/include/qemu/rcu.h
-index 313fc414bc2a..661c1a146872 100644
---- a/include/qemu/rcu.h
-+++ b/include/qemu/rcu.h
-@@ -87,7 +87,10 @@ static inline void rcu_read_lock(void)
-     ctr = qatomic_read(&rcu_gp_ctr);
-     qatomic_set(&p_rcu_reader->ctr, ctr);
+diff --git a/tests/unit/test-aio-multithread.c b/tests/unit/test-aio-multithread.c
+index a555cc883505..3c61526a0b46 100644
+--- a/tests/unit/test-aio-multithread.c
++++ b/tests/unit/test-aio-multithread.c
+@@ -202,7 +202,7 @@ static CoMutex comutex;
  
--    /* Write p_rcu_reader->ctr before reading RCU-protected pointers.  */
-+    /*
-+     * Read rcu_gp_ptr and write p_rcu_reader->ctr before reading
-+     * RCU-protected pointers.
-+     */
-     smp_mb_placeholder();
- }
+ static void coroutine_fn test_multi_co_mutex_entry(void *opaque)
+ {
+-    while (!qatomic_mb_read(&now_stopping)) {
++    while (!qatomic_read(&now_stopping)) {
+         qemu_co_mutex_lock(&comutex);
+         counter++;
+         qemu_co_mutex_unlock(&comutex);
+@@ -236,7 +236,7 @@ static void test_multi_co_mutex(int threads, int seconds)
  
-diff --git a/util/rcu.c b/util/rcu.c
-index b6d6c71cff5c..e5b6e52be6f8 100644
---- a/util/rcu.c
-+++ b/util/rcu.c
-@@ -83,12 +83,6 @@ static void wait_for_readers(void)
-          */
-         qemu_event_reset(&rcu_gp_event);
+     g_usleep(seconds * 1000000);
  
--        /* Instead of using qatomic_mb_set for index->waiting, and
--         * qatomic_mb_read for index->ctr, memory barriers are placed
--         * manually since writes to different threads are independent.
--         * qemu_event_reset has acquire semantics, so no memory barrier
--         * is needed here.
--         */
-         QLIST_FOREACH(index, &registry, node) {
-             qatomic_set(&index->waiting, true);
-         }
-@@ -96,6 +90,10 @@ static void wait_for_readers(void)
-         /* Here, order the stores to index->waiting before the loads of
-          * index->ctr.  Pairs with smp_mb_placeholder() in rcu_read_unlock(),
-          * ensuring that the loads of index->ctr are sequentially consistent.
-+         *
-+         * If this is the last iteration, this barrier also prevents
-+         * frees from seeping upwards, and orders the two wait phases
-+         * on architectures with 32-bit longs; see synchronize_rcu().
-          */
-         smp_mb_global();
+-    qatomic_mb_set(&now_stopping, true);
++    qatomic_set(&now_stopping, true);
+     while (running > 0) {
+         g_usleep(100000);
+     }
+@@ -327,7 +327,7 @@ static void mcs_mutex_unlock(void)
  
-@@ -104,7 +102,7 @@ static void wait_for_readers(void)
-                 QLIST_REMOVE(index, node);
-                 QLIST_INSERT_HEAD(&qsreaders, index, node);
+ static void test_multi_fair_mutex_entry(void *opaque)
+ {
+-    while (!qatomic_mb_read(&now_stopping)) {
++    while (!qatomic_read(&now_stopping)) {
+         mcs_mutex_lock();
+         counter++;
+         mcs_mutex_unlock();
+@@ -355,7 +355,7 @@ static void test_multi_fair_mutex(int threads, int seconds)
  
--                /* No need for mb_set here, worst of all we
-+                /* No need for memory barriers here, worst of all we
-                  * get some extra futex wakeups.
-                  */
-                 qatomic_set(&index->waiting, false);
-@@ -149,26 +147,26 @@ void synchronize_rcu(void)
+     g_usleep(seconds * 1000000);
  
-     /* Write RCU-protected pointers before reading p_rcu_reader->ctr.
-      * Pairs with smp_mb_placeholder() in rcu_read_lock().
-+     *
-+     * Also orders write to RCU-protected pointers before
-+     * write to rcu_gp_ctr.
-      */
-     smp_mb_global();
+-    qatomic_mb_set(&now_stopping, true);
++    qatomic_set(&now_stopping, true);
+     while (running > 0) {
+         g_usleep(100000);
+     }
+@@ -383,7 +383,7 @@ static QemuMutex mutex;
  
-     QEMU_LOCK_GUARD(&rcu_registry_lock);
-     if (!QLIST_EMPTY(&registry)) {
--        /* In either case, the qatomic_mb_set below blocks stores that free
--         * old RCU-protected pointers.
--         */
-         if (sizeof(rcu_gp_ctr) < 8) {
-             /* For architectures with 32-bit longs, a two-subphases algorithm
-              * ensures we do not encounter overflow bugs.
-              *
-              * Switch parity: 0 -> 1, 1 -> 0.
-              */
--            qatomic_mb_set(&rcu_gp_ctr, rcu_gp_ctr ^ RCU_GP_CTR);
-+            qatomic_set(&rcu_gp_ctr, rcu_gp_ctr ^ RCU_GP_CTR);
-             wait_for_readers();
--            qatomic_mb_set(&rcu_gp_ctr, rcu_gp_ctr ^ RCU_GP_CTR);
-+            qatomic_set(&rcu_gp_ctr, rcu_gp_ctr ^ RCU_GP_CTR);
-         } else {
-             /* Increment current grace period.  */
--            qatomic_mb_set(&rcu_gp_ctr, rcu_gp_ctr + RCU_GP_CTR);
-+            qatomic_set(&rcu_gp_ctr, rcu_gp_ctr + RCU_GP_CTR);
-         }
+ static void test_multi_mutex_entry(void *opaque)
+ {
+-    while (!qatomic_mb_read(&now_stopping)) {
++    while (!qatomic_read(&now_stopping)) {
+         qemu_mutex_lock(&mutex);
+         counter++;
+         qemu_mutex_unlock(&mutex);
+@@ -411,7 +411,7 @@ static void test_multi_mutex(int threads, int seconds)
  
-         wait_for_readers();
+     g_usleep(seconds * 1000000);
+ 
+-    qatomic_mb_set(&now_stopping, true);
++    qatomic_set(&now_stopping, true);
+     while (running > 0) {
+         g_usleep(100000);
+     }
 -- 
 2.40.1
 
