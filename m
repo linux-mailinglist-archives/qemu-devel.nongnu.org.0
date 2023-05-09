@@ -2,72 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B0336FBD2B
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 May 2023 04:29:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F1D46FBD91
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 May 2023 05:15:21 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pwD6H-0008Cu-Qh; Mon, 08 May 2023 22:29:13 -0400
+	id 1pwDnX-0006O1-Uj; Mon, 08 May 2023 23:13:55 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1pwD6D-0008CW-1a
- for qemu-devel@nongnu.org; Mon, 08 May 2023 22:29:09 -0400
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1pwDnU-0006Nn-ND
+ for qemu-devel@nongnu.org; Mon, 08 May 2023 23:13:53 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1pwD69-0003VN-Pp
- for qemu-devel@nongnu.org; Mon, 08 May 2023 22:29:07 -0400
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1pwDnP-0004WR-RA
+ for qemu-devel@nongnu.org; Mon, 08 May 2023 23:13:52 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1683599345;
+ s=mimecast20190719; t=1683602026;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=uDxCtWFe2leX7C7M439x9hy/ug8HUnP0UDJeN+IylD4=;
- b=dHa17AmMTI4xM+RAC0Y3pW3nBn2h5L44JWGBKMOU7/UBrI6EzyVzJVM7d9XAtxipVxm7ek
- aR3F/ou3vc1rJctUzpFAb6w3OlhRwTUa4eFQVuoHFL1cP/H3q7tiYL7YKcm1N6uUgZTfGa
- W8lc2GOMdVYP61hdF4LA1hoN/CcDDd8=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-538-JLJuLsj1NzS20YJHndECvw-1; Mon, 08 May 2023 22:29:04 -0400
-X-MC-Unique: JLJuLsj1NzS20YJHndECvw-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
- [10.11.54.9])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 80F5B867956;
- Tue,  9 May 2023 02:29:03 +0000 (UTC)
-Received: from [10.64.54.118] (vpn2-54-118.bne.redhat.com [10.64.54.118])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 07F10492B00;
- Tue,  9 May 2023 02:28:58 +0000 (UTC)
-Subject: Re: [PATCH v3 0/4] hw/arm/virt: Support dirty ring
-From: Gavin Shan <gshan@redhat.com>
-To: qemu-arm@nongnu.org
-Cc: qemu-devel@nongnu.org, pbonzini@redhat.com, peter.maydell@linaro.org,
- peterx@redhat.com, david@redhat.com, philmd@linaro.org, mst@redhat.com,
- cohuck@redhat.com, quintela@redhat.com, dgilbert@redhat.com, maz@kernel.org,
- zhenyzha@redhat.com, shan.gavin@gmail.com
-References: <20230509022122.20888-1-gshan@redhat.com>
-Message-ID: <9d3561b6-51a2-e8ef-5e72-7cb41b6af8d5@redhat.com>
-Date: Tue, 9 May 2023 12:28:56 +1000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.0
+ bh=o75Ru7kQfL8IyLpL0OgmKJ7fcRdyL4gpn3GSyGjGUOo=;
+ b=UPuGT5DaaSBBYa93JRWkQlW3LG2GpkWGrqHKqwW+L3/40cTurtdOSmE8sKz4dU/zxBKbwV
+ KOjavxrC3/35SBK9VLqOIa2Dx2sBoJYRAfISzS6a2wdDOmzlhQKFWi+tTWddsamM9e+be5
+ CBjq3zPofC+Euryd2wgXeFutMnPmgfQ=
+Received: from mail-lj1-f200.google.com (mail-lj1-f200.google.com
+ [209.85.208.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-396--BkaQt5iMi2ZiFhx3iqNRg-1; Mon, 08 May 2023 23:13:45 -0400
+X-MC-Unique: -BkaQt5iMi2ZiFhx3iqNRg-1
+Received: by mail-lj1-f200.google.com with SMTP id
+ 38308e7fff4ca-2ad8df9f9a8so11034381fa.1
+ for <qemu-devel@nongnu.org>; Mon, 08 May 2023 20:13:45 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1683602024; x=1686194024;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=o75Ru7kQfL8IyLpL0OgmKJ7fcRdyL4gpn3GSyGjGUOo=;
+ b=RL4ZqUxTSIIho+Hc0bj12z7AGD9MxOAg8XNT2YNAOnGS6pTQk5V/SLoHCj7qnTN8xe
+ FY6JNIlddLSRu3Qk6w/dPGc8iW0sCZ3SIJ8t3vusnnSbrHbi/f/JWPY6B6PH5XG12Oc2
+ UWt7tmvNBOrfDYTk+KcuVCdcqwauVb5U0kKrMEuIjx5mvOD9BR1lKw5IxoQ8512UYq2A
+ KzLnOtAZL0Cc7QSbDQo6KU/rSe2RWP0RP3ZcmH3DPbwsFCEjhwU2VfZ2/1CIkI0E/I5w
+ 0XXshWmfAgIRl7He+7t9JXo753xyTJgiSRIV5FMFoKAIQbbwsm2eQB/BKJZu6UJmJ/G1
+ Xd/A==
+X-Gm-Message-State: AC+VfDzDLjIpZFmtyI9WK2qlT8Fc2yAt5kHSSs2E/uSTLuwItFTJ3Hla
+ nluIt/eQ1mQqy5Vxt340v7W+HPzzU6hQKesJYiDH4zykW/fhmUrh9jdU9V6o4A2wfNUPI2sfO9L
+ vm9h1VlW2L0rBeHAZs7G2utfzeWFtkmE=
+X-Received: by 2002:a2e:9895:0:b0:2a8:c333:1886 with SMTP id
+ b21-20020a2e9895000000b002a8c3331886mr320143ljj.6.1683602023954; 
+ Mon, 08 May 2023 20:13:43 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ7dnqoNtJVrNTVRM0Z5+dyJn7sBFTWkf+sYdl/kK/AlEI0hT+A2s/NDIrwu5pitxM9OA9zlOAG70SYW9+UnobM=
+X-Received: by 2002:a2e:9895:0:b0:2a8:c333:1886 with SMTP id
+ b21-20020a2e9895000000b002a8c3331886mr320137ljj.6.1683602023645; Mon, 08 May
+ 2023 20:13:43 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20230509022122.20888-1-gshan@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=gshan@redhat.com;
+References: <20230504101447.389398-1-eperezma@redhat.com>
+ <1683339216.3364966-2-xuanzhuo@linux.alibaba.com>
+ <CAJaqyWfzs00bi5qDHnyHVnf0vEK02hSiC15uJpGVi_eoRTmg7Q@mail.gmail.com>
+ <20230508062210-mutt-send-email-mst@kernel.org>
+ <CAJaqyWfVUJOPOpzibvW8iNtfizYzyCTQOxac-U86520pke3C4Q@mail.gmail.com>
+In-Reply-To: <CAJaqyWfVUJOPOpzibvW8iNtfizYzyCTQOxac-U86520pke3C4Q@mail.gmail.com>
+From: Jason Wang <jasowang@redhat.com>
+Date: Tue, 9 May 2023 11:13:32 +0800
+Message-ID: <CACGkMEs_RtSg5aNuP4BB_GLon43uXorZmEnaiEwqnRyftWFozw@mail.gmail.com>
+Subject: Re: [PATCH] virtio-net: not enable vq reset feature unconditionally
+To: Eugenio Perez Martin <eperezma@redhat.com>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>,
+ Xuan Zhuo <xuanzhuo@linux.alibaba.com>, 
+ Lei Yang <leiyang@redhat.com>, qemu-devel@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -38
-X-Spam_score: -3.9
-X-Spam_bar: ---
-X-Spam_report: (-3.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.802, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,91 +99,94 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi Paolo,
+On Tue, May 9, 2023 at 1:32=E2=80=AFAM Eugenio Perez Martin <eperezma@redha=
+t.com> wrote:
+>
+> On Mon, May 8, 2023 at 12:22=E2=80=AFPM Michael S. Tsirkin <mst@redhat.co=
+m> wrote:
+> >
+> > On Mon, May 08, 2023 at 11:09:46AM +0200, Eugenio Perez Martin wrote:
+> > > On Sat, May 6, 2023 at 4:25=E2=80=AFAM Xuan Zhuo <xuanzhuo@linux.alib=
+aba.com> wrote:
+> > > >
+> > > > On Thu,  4 May 2023 12:14:47 +0200, =3D?utf-8?q?Eugenio_P=3DC3=3DA9=
+rez?=3D <eperezma@redhat.com> wrote:
+> > > > > The commit 93a97dc5200a ("virtio-net: enable vq reset feature") e=
+nables
+> > > > > unconditionally vq reset feature as long as the device is emulate=
+d.
+> > > > > This makes impossible to actually disable the feature, and it cau=
+ses
+> > > > > migration problems from qemu version previous than 7.2.
+> > > > >
+> > > > > The entire final commit is unneeded as device system already enab=
+le or
+> > > > > disable the feature properly.
+> > > > >
+> > > > > This reverts commit 93a97dc5200a95e63b99cb625f20b7ae802ba413.
+> > > > > Fixes: 93a97dc5200a ("virtio-net: enable vq reset feature")
+> > > > > Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
+> > > > >
+> > > > > ---
+> > > > > Tested by checking feature bit at  /sys/devices/pci.../virtio0/fe=
+atures
+> > > > > enabling and disabling queue_reset virtio-net feature and vhost=
+=3Don/off
+> > > > > on net device backend.
+> > > >
+> > > > Do you mean that this feature cannot be closed?
+> > > >
+> > > > I tried to close in the guest, it was successful.
+> > > >
+> > >
+> > > I'm not sure what you mean with close. If the device dataplane is
+> > > emulated in qemu (vhost=3Doff), I'm not able to make the device not
+> > > offer it.
+> > >
+> > > > In addition, in this case, could you try to repair the problem inst=
+ead of
+> > > > directly revert.
+> > > >
+> > >
+> > > I'm not following this. The revert is not to always disable the featu=
+re.
+> > >
+> > > By default, the feature is enabled. If cmdline states queue_reset=3Do=
+n,
+> > > the feature is enabled. That is true both before and after applying
+> > > this patch.
+> > >
+> > > However, in qemu master, queue_reset=3Doff keeps enabling this featur=
+e
+> > > on the device. It happens that there is a commit explicitly doing
+> > > that, so I'm reverting it.
+> > >
+> > > Let me know if that makes sense to you.
+> > >
+> > > Thanks!
+> >
+> >
+> > question is this:
+> >
+> >     DEFINE_PROP_BIT64("queue_reset", _state, _field, \
+> >                       VIRTIO_F_RING_RESET, true)
+> >
+> >
+> >
+> > don't we need compat for 7.2 and back for this property?
+> >
+>
+> I think that part is already covered by commit 69e1c14aa222 ("virtio:
+> core: vq reset feature negotation support"). In that regard, maybe we
+> can simplify the patch message simply stating that queue_reset=3Doff
+> does not work.
+>
+> Thanks!
 
-On 5/9/23 12:21 PM, Gavin Shan wrote:
-> This series intends to support dirty ring for live migration for arm64. The
-> dirty ring use discrete buffer to track dirty pages. For arm64, the speciality
-> is to use backup bitmap to track dirty pages when there is no-running-vcpu
-> context. It's known that the backup bitmap needs to be synchronized when
-> KVM device "kvm-arm-gicv3" or "arm-its-kvm" has been enabled. The backup
-> bitmap is collected in the last stage of migration. The policy here is to
-> always enable the backup bitmap extension. The overhead to synchronize the
-> backup bitmap in the last stage of migration, when those two devices aren't
-> used, is introduced. However, the overhead should be very small and acceptable.
-> The benefit is to support future cases where those two devices are used without
-> modifying the code.
-> 
-> PATCH[1] add migration last stage indicator
-> PATCH[2] synchronize the backup bitmap in the last stage of migration
-> PATCH[3] add helper kvm_dirty_ring_init() to enable dirty ring
-> PATCH[4] enable dirty ring for arm64
-> 
->     v2: https://lists.nongnu.org/archive/html/qemu-arm/2023-02/msg01342.html
->     v1: https://lists.nongnu.org/archive/html/qemu-arm/2023-02/msg00434.html
-> RFCv1: https://lists.nongnu.org/archive/html/qemu-arm/2023-02/msg00171.html
-> 
-> Testing
-> =======
-> (1) kvm-unit-tests/its-pending-migration and kvm-unit-tests/its-migration with
->      dirty ring or normal dirty page tracking mechanism. All test cases passed.
-> 
->      QEMU=./qemu.main/build/qemu-system-aarch64 ACCEL=kvm \
->      ./its-pending-migration
-> 
->      QEMU=./qemu.main/build/qemu-system-aarch64 ACCEL=kvm \
->      ./its-migration
-> 
->      QEMU=./qemu.main/build/qemu-system-aarch64 ACCEL=kvm,dirty-ring-size=65536 \
->      ./its-pending-migration
-> 
->      QEMU=./qemu.main/build/qemu-system-aarch64 ACCEL=kvm,dirty-ring-size=65536 \
->      ./its-migration
-> 
-> (2) Combinations of migration, post-copy migration, e1000e and virtio-net
->      devices. All test cases passed.
-> 
->      -netdev tap,id=net0,script=/etc/qemu-ifup,downscript=/etc/qemu-ifdown  \
->      -device e1000e,bus=pcie.5,netdev=net0,mac=52:54:00:f1:26:a0
-> 
->      -netdev tap,id=vnet0,script=/etc/qemu-ifup,downscript=/etc/qemu-ifdown \
->      -device virtio-net-pci,bus=pcie.6,netdev=vnet0,mac=52:54:00:f1:26:b0
-> 
-> Changelog
-> =========
-> v3:
->    * Rebase for QEMU v8.1.0                                                     (Gavin)
-> v2:
->    * Drop PATCH[v1 1/6] to synchronize linux-headers                            (Gavin)
->    * More restrictive comments about struct MemoryListener::log_sync_global     (PeterX)
->    * Always enable the backup bitmap extension                                  (PeterM)
-> v1:
->    * Combine two patches into one PATCH[v1 2/6] for the last stage indicator    (PeterX)
->    * Drop the secondary bitmap and use the original one directly                (Juan)
->    * Avoid "goto out" in helper kvm_dirty_ring_init()                           (Juan)
-> 
-> Gavin Shan (4):
->    migration: Add last stage indicator to global dirty log
->    kvm: Synchronize the backup bitmap in the last stage
->    kvm: Add helper kvm_dirty_ring_init()
->    kvm: Enable dirty ring for arm64
-> 
->   accel/kvm/kvm-all.c      | 108 ++++++++++++++++++++++++++++-----------
->   include/exec/memory.h    |   7 ++-
->   include/sysemu/kvm_int.h |   1 +
->   migration/dirtyrate.c    |   4 +-
->   migration/ram.c          |  20 ++++----
->   softmmu/memory.c         |  10 ++--
->   6 files changed, 101 insertions(+), 49 deletions(-)
-> 
+Ack
 
-Could you please help to take a look and queue this series for QEMU v8.1 if it looks good?
-Peter Maydell has the suggestion [1] to merge the v2 series to QEMU v8.1. there is no
-difference between v2 and v3 except the fixed rebase conflicts in v3.
+Thanks
 
-[1] https://lists.nongnu.org/archive/html/qemu-arm/2023-03/msg00551.html
-
-Thanks,
-Gavin
+>
 
 
