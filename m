@@ -2,109 +2,157 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0065E6FC66E
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 May 2023 14:33:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0DB6C6FC677
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 May 2023 14:34:11 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pwMVz-0004S4-U9; Tue, 09 May 2023 08:32:23 -0400
+	id 1pwMXH-0005Ih-HT; Tue, 09 May 2023 08:33:43 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
- id 1pwMVW-0004Ot-6I; Tue, 09 May 2023 08:31:59 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
+ (Exim 4.90_1) (envelope-from <tejus.gk@nutanix.com>)
+ id 1pwMWq-00051E-Hf
+ for qemu-devel@nongnu.org; Tue, 09 May 2023 08:33:20 -0400
+Received: from mx0b-002c1b01.pphosted.com ([148.163.155.12])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
- id 1pwMVU-0003zD-3A; Tue, 09 May 2023 08:31:53 -0400
-Received: from pps.filterd (m0353725.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 349CGxGj024086; Tue, 9 May 2023 12:31:48 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ (Exim 4.90_1) (envelope-from <tejus.gk@nutanix.com>)
+ id 1pwMWa-00049k-BN
+ for qemu-devel@nongnu.org; Tue, 09 May 2023 08:33:05 -0400
+Received: from pps.filterd (m0127842.ppops.net [127.0.0.1])
+ by mx0b-002c1b01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 349AmAk0008354; Tue, 9 May 2023 05:32:53 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nutanix.com;
  h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=UjDeIGXwvkRfdc5WVoZon46BLUv2RODnqijZ3sWvMnQ=;
- b=ML0NeCiePEQEWyH4jGGjGxHUzekqYD0Y+WKne27Ep0xSFkPuL55qO07IgKN8W9SROSmz
- Sdy/6vyH7IE6SUnqGnqF8bEQPYNZCURjl/ETuLll5S0zmGhZ6XhSKQrsQMPYbqM3rgCv
- PBxpFtwPYrPmphi+vqF6bKuxjLHVJuVUy0R2AYXzapWywzu+BbYTI6wlrqp3/mbBY+Lt
- hRxu+9MRF+/Dni0Wh4ZOVjcWExX56JZv0pERRRYTyVSEiHyepCaNFG+uPZY9tB9hK0JH
- 1qfIqvw3JblOTkbhal0UN1Fj7WLoneQYFYUotbCNUtMNrz6pFtekPygmBGHGAbMu3TUC Lw== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3qfnn4h45n-1
+ subject : to : cc : references : from : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=proofpoint20171006;
+ bh=cF4BdTm3ykYVLsTBh4fwFFmS9qYOvqLHVETJG4wv0xA=;
+ b=W6HKIF2Zt33ljQqGn261FL7c4mV/oM0f44lkcM9vSqNL2+cGWsgxOjlzauXRFeWc5L0v
+ wDxj/a5bvOj42stQUdjT00hA+mA7jn5/KpV+W7cHcLawLmL/S3lV/hrvb6OTQwlho4JN
+ 04RpvyNuSnxTiGPKuVNElaLv4uiM+TPzvOqnuX70Eb4Bep1Wz0sHyzTF3fVnn3+i0I5R
+ zNJaHvOLZ5r53JWpLJtrlJY9q61CUg+EaIPuIGHEKDVnLy5MJnHEfwyk+m9phMBkhuXP
+ HcdDfzpw+XvS3KuwQRcihomCWAp+xZgmziTtXGMmBBbHWfajzuCSgv/sEEexxHXA3fCS fQ== 
+Received: from nam10-mw2-obe.outbound.protection.outlook.com
+ (mail-mw2nam10lp2101.outbound.protection.outlook.com [104.47.55.101])
+ by mx0b-002c1b01.pphosted.com (PPS) with ESMTPS id 3qf835hpt0-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 09 May 2023 12:31:48 +0000
-Received: from m0353725.ppops.net (m0353725.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 349CTxOF013592;
- Tue, 9 May 2023 12:31:47 GMT
-Received: from ppma03fra.de.ibm.com (6b.4a.5195.ip4.static.sl-reverse.com
- [149.81.74.107])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3qfnn4h44s-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 09 May 2023 12:31:47 +0000
-Received: from pps.filterd (ppma03fra.de.ibm.com [127.0.0.1])
- by ppma03fra.de.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 3494oH54006449;
- Tue, 9 May 2023 12:31:45 GMT
-Received: from smtprelay04.fra02v.mail.ibm.com ([9.218.2.228])
- by ppma03fra.de.ibm.com (PPS) with ESMTPS id 3qf7s8gbsg-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 09 May 2023 12:31:45 +0000
-Received: from smtpav07.fra02v.mail.ibm.com (smtpav07.fra02v.mail.ibm.com
- [10.20.54.106])
- by smtprelay04.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 349CVdM44784866
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 9 May 2023 12:31:39 GMT
-Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id C9A232004D;
- Tue,  9 May 2023 12:31:39 +0000 (GMT)
-Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 16CC820040;
- Tue,  9 May 2023 12:31:39 +0000 (GMT)
-Received: from [9.152.222.242] (unknown [9.152.222.242])
- by smtpav07.fra02v.mail.ibm.com (Postfix) with ESMTPS;
- Tue,  9 May 2023 12:31:39 +0000 (GMT)
-Message-ID: <316aab44-7bba-001b-b80b-019af97e9e76@linux.ibm.com>
-Date: Tue, 9 May 2023 14:31:38 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH v20 11/21] qapi/s390x/cpu topology:
- CPU_POLARIZATION_CHANGE qapi event
+ Tue, 09 May 2023 05:32:53 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=FIX0s5jY4+y6x/TVcmEDWoe2Uf71s3DWe6B/w+cJXsS1aTPdnrednF7Gzg9q7+8E18/bItwPgpg65SbZacKv/P5QOIxUC4SVjG+RLtNEyQ072jWNr04KSmcGzcKZoqHBEQpyy5DsNn8H53DAKHRXPa29ip6+KK8z6QQl6ds1dobGaA2pj+24a2btdQNlkqylsohKG1r5aAOIuFj0ytH2uzc/MWw98co0nkUtUuhyrdww0eO1bbSzZa+unSotQ7FzcevOxALglooI4ulgXvAr24koJfziu72dwNW5qnowjgT7hHtd5DjFTaRksc5q5u958UNJ1kWpxP0+o7VZBRSICw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=cF4BdTm3ykYVLsTBh4fwFFmS9qYOvqLHVETJG4wv0xA=;
+ b=kNaN8vZpt/6BR6CJpXCcihX8oXTpgatvMgwDklVNA3gh5ZRjyWs8DA9/BKIESpsTY/plzFDktKYN8aKUqwWjcpdMwGynmGmKCeRDhwk2Y2btd1I4J5Ejj/c9B2AOMqJDJxxRXn+PTsfmxELdLko6+z8boLoSF9sP19uK5O5B/QPkOfDfN6AErBYpqN2E8kfuoRBe9hfchK9T8k7Wzgqjy/G/8ySnr1ZLp5rIkksrHm46klodmpiCAaufBOF1WW3ueJLWatnqaC8iAHEUecfOk7w9QE92F2Uy/ZMMcMPk6DYvbfPII+zbHib3z04kMmhZ5O+tfSOiGvcAE9Gl3Nkb/w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nutanix.com; dmarc=pass action=none header.from=nutanix.com;
+ dkim=pass header.d=nutanix.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nutanix.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=cF4BdTm3ykYVLsTBh4fwFFmS9qYOvqLHVETJG4wv0xA=;
+ b=vFQIiaIBcbW6Xlc7omYlFturXbyy55R28t8rSwsOLIMmQzUEU4uzjsMW7X6ybGo6MrhKQKULYBmoVD/UfgchspR4G9W+dhUMKZfF86ANBvYSazXIYscM9p7Zk1bxhtaoN927f+TWd+yPLdv3y5uyJ155S/PuZa74Zmn0k9L3wwOgA+3DZKek3T5blKKZe/JnvWyxjFOqIn+jxFc9302ADO4FwHokwfISliPdkF2SCQjzVsTokAh+/POZoGUBl0M6PEDyhw/FLJUFOfg9ScY6a/4PNf98Rsfc7ONI87nMgiqgPOA0rG27QhYIiecuSyhcoBKzaF66onuTZQbwKtboAQ==
+Received: from BYAPR02MB4806.namprd02.prod.outlook.com (2603:10b6:a03:42::30)
+ by SJ0PR02MB7727.namprd02.prod.outlook.com (2603:10b6:a03:31b::17)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6363.32; Tue, 9 May
+ 2023 12:32:50 +0000
+Received: from BYAPR02MB4806.namprd02.prod.outlook.com
+ ([fe80::7a30:ca33:20c9:c9d0]) by BYAPR02MB4806.namprd02.prod.outlook.com
+ ([fe80::7a30:ca33:20c9:c9d0%7]) with mapi id 15.20.6363.033; Tue, 9 May 2023
+ 12:32:49 +0000
+Message-ID: <3527d64a-6518-7343-5733-c109aff856a6@nutanix.com>
+Date: Tue, 9 May 2023 18:02:34 +0530
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.10.1
+Subject: Re: [RFC v2 1/1] migration: Update error description whenever
+ migration fails
 Content-Language: en-US
-To: Nina Schoetterl-Glausch <nsg@linux.ibm.com>, qemu-s390x@nongnu.org
-Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
- richard.henderson@linaro.org, david@redhat.com, thuth@redhat.com,
- cohuck@redhat.com, mst@redhat.com, pbonzini@redhat.com,
- kvm@vger.kernel.org, ehabkost@redhat.com, marcel.apfelbaum@gmail.com,
- eblake@redhat.com, armbru@redhat.com, seiden@linux.ibm.com,
- nrb@linux.ibm.com, frankja@linux.ibm.com, berrange@redhat.com, clg@kaod.org
-References: <20230425161456.21031-1-pmorel@linux.ibm.com>
- <20230425161456.21031-12-pmorel@linux.ibm.com>
- <3a79538637fc8e8f226290c9ba833face1784c29.camel@linux.ibm.com>
-From: Pierre Morel <pmorel@linux.ibm.com>
-In-Reply-To: <3a79538637fc8e8f226290c9ba833face1784c29.camel@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To: quintela@redhat.com
+Cc: qemu-devel@nongnu.org, peterx@redhat.com, leobras@redhat.com,
+ berrange@redhat.com, shivam.kumar1@nutanix.com
+References: <20230508153223.133081-1-tejus.gk@nutanix.com>
+ <20230508153223.133081-2-tejus.gk@nutanix.com> <874jolg68t.fsf@secure.mitica>
+From: Tejus GK <tejus.gk@nutanix.com>
+In-Reply-To: <874jolg68t.fsf@secure.mitica>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: 7ZNS1ReELsABF9ESWzs9DWi4SQ0gTZ52
-X-Proofpoint-ORIG-GUID: rygWCqN6wEyPr2pDVTw5nP3npKbC9uC5
+X-ClientProxiedBy: MA1PR01CA0163.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:a00:71::33) To BYAPR02MB4806.namprd02.prod.outlook.com
+ (2603:10b6:a03:42::30)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BYAPR02MB4806:EE_|SJ0PR02MB7727:EE_
+X-MS-Office365-Filtering-Correlation-Id: 19d830c4-b81b-47fd-0c56-08db50898005
+x-proofpoint-crosstenant: true
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: fgJKHXoeYgt54hRSSzgxp531MyKs6sRGmipIWuVvpqPAoGsyvprbHcyAaZtG56+GpAvTmwZ92woWHUEQFt9JxRnheIzjUhVniEiBP9waktsq4q/MqnqxzIK+VJ6VSWUt0pgtXbUpMzUju1eMmie+IPt8ux+K3eeweP32Ua4IPluPGB/8HTE6E5s9sedaFkHOgWtbEZmJcpbncZFioZN9hm4WiAvoRVpxTlUhQ3KFEVJ/5ThTcXG/R0V4vOqVrvn6YJJ/+h7wes1wQ4tj/nRKFhSESgRihrLg8Y12Lcjm2uopSffXV+hDtOeqaoOwiCJ7TskoUSZZYtqNrHRvgvqiZ23j83S4kZbZZLbXLn/+d6CZMWsBiWyKv0sVjeE2XUN/exugMDaWYvaB8S383MkfQh5pNI4Q0jmgUXfWZ/FthypIciEYkoN6op+qIqAw6f6S/vFgS+sYq0SCP2I3BHKaSgsEEpktI7QeMuC3ef9k0skmW8nd7z0azqhsshB0VUNXt6v0a+o5Hvy5Sj1doMVUFYq0r9FDIJXD25rzYNSESEgc5jDcYUow3jpjep1wxFFJcybOjoqScPkOHcthFZo4ALMOzptpDG1ZEvMiYnavWKft2Tzqz8lokdAN5fSxV9T4yPfszxHhOZsrfYVsVeuhy7FFknewZCFM01cd7Y5Ml+wcIxIAlifMyXtjLNqa7QyZ
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BYAPR02MB4806.namprd02.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230028)(136003)(346002)(39860400002)(366004)(376002)(396003)(451199021)(316002)(478600001)(8676002)(8936002)(41300700001)(15650500001)(6666004)(2906002)(4326008)(66476007)(5660300002)(6916009)(66946007)(66556008)(31686004)(52116002)(6486002)(53546011)(6512007)(6506007)(26005)(107886003)(186003)(83380400001)(36756003)(2616005)(38100700002)(31696002)(86362001)(38350700002)(43740500002)(45980500001);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?T0FzMXBsYmNrSVpuNkljZmhUVCttS3YrNVUwbnZSUndzM1AyalZoOEl0WURw?=
+ =?utf-8?B?VkFWK2FtdGQ2YzNadEM4UjlKTU1OTWNzRnZxdWdtSklVYnc5VDA3TVMwWEg2?=
+ =?utf-8?B?RlpFaHY3TlNnNU1IaCtvTTdhVGNjVGFDblZwbmJFRWhpSWc4dzF2elZtNVRa?=
+ =?utf-8?B?UU9sOWMzbmJycEtwbWFEenBMUS9vbkJhdG1ML2h1NmlCSHZDU2E0NDYyb09X?=
+ =?utf-8?B?SFp4cFZ4NWFUcm1pL050bmYxZGJpYkVQRkMrVkk5dVQyRVBtekNwckRMbmt3?=
+ =?utf-8?B?UVA2elo0NnZzeVdBb0MyaXdKdHNIRjhuc0xpaVNhVlBiYjZBTGNzc29qOFdO?=
+ =?utf-8?B?b2pXdFVaQk9sOWlQTmlFbjRsMVh1KzAxWTUvZ1BwN1plSElYYkJGNUhQS1cw?=
+ =?utf-8?B?USsyRU1La0dpQ0h3dmtYdHdkc3cvRUZ5bWk4aUJLblJHamNySFd1S20yTTcx?=
+ =?utf-8?B?NlBQK1g5elpBcUlsOElpSEp2WFcvMjVSVUNnOEozQnl3cWcvMm16NU9TZkxa?=
+ =?utf-8?B?MCtvL3dHVitWdUdVOFFPVHplNDU0QThtam1NY1YzaUU0R1VZNEZUNlY1T0pE?=
+ =?utf-8?B?VE5zRGdmSytjTzd3cVpDa090dXVGNlNiRTh3b2VCVWNHWWZocXdneFd0eUZD?=
+ =?utf-8?B?Ulk3UWhvelZ5WSs2dmF6Wkd2Y3R6UnBDaHUvYzFqU2lZRGxabGUrNWoyTmtQ?=
+ =?utf-8?B?NUxmTU51Znp0NmVIZys2RFhXTmFSdXBma216WENhaFg2UWVkS1dvZUZ4dUxV?=
+ =?utf-8?B?WXZHZzFmSFV5ODMyb2dkVEdRM1VXS3NtK2JsQXRFbFQzd3NKb3h5c0hud3Z3?=
+ =?utf-8?B?S0FzQ3A2alJ4VkpnOWlYYjAyOTYybVZtOEJWTTZKYy8yTnorM0o0amZnbE1R?=
+ =?utf-8?B?SzR2d2xoVmwzWk1rNzNFM3lZd3hNUGR4TlBKM05YVVF6L1JGR25RRU9oRUFT?=
+ =?utf-8?B?SUdzNmI4NTFCVE1SNmFaRHA5alNKRGJVc3VoQ1hLcDhkSEtoY3k4SFpCUTdR?=
+ =?utf-8?B?WEVzd3Y4U0pVeHA5VG9zZXlrbkk5L1dyTmtoTkxTRXdsMnZCUjg0U1JYQVhl?=
+ =?utf-8?B?K240YmQ5VURQMXc4UWdtbWdhVjhrKzFBSVBqYndnQTJyYXo2M1N3WTYzRVNP?=
+ =?utf-8?B?SGpQWFZzOEdFMk1ZUkIwd1B2UUc2MWlUVlE1QUJRV21OdkNVSDBEVU1HbTRV?=
+ =?utf-8?B?THdTeDgrR3hMYVlHc2h6dDd5S0FKVVlxTm1qRVpZZTAyOU5ZMEFPbklyd1FZ?=
+ =?utf-8?B?L2RjR292dnBCQ2pWQVJacG9CZUVoQzVWZnlhTFB0TXg1V25icDNqbzA2Q3Ux?=
+ =?utf-8?B?U3FnSWpwWFE2V3NjZHdQTHpvWlBIUVdqU296QzNVODE3bFVoN1EwcWpIWGxU?=
+ =?utf-8?B?bXNFbUVNYWU1REhTbC82UzhxcUZ3d29MY1dNeFNIckRRYzJyWTV0ODRVUUpU?=
+ =?utf-8?B?UGtjK05JRlcyYTNiYkMwaDltMktCSWNORFFCcVVMWlBaTjBOM2pTRVorbCt0?=
+ =?utf-8?B?QTc3enkyYmkxR1pZTC9jWk00Nko0dC9ia1lYSmh6RXU5Q3dKNCt3NlRodm1j?=
+ =?utf-8?B?STI1TDhITlJyU2VHYjdrTnhCcWJIZnMvWXhhQmRZejV1bjhxZW1udldUcWJD?=
+ =?utf-8?B?b0dlL0ZnWlFreWorejAyaUZ3dE5wdDZod2ZGUDJTeTJyMkhQQmZWOWFKVEFW?=
+ =?utf-8?B?TkRNaG9TMGNoL3kyNmtvNmUyM2RVOHBVVnVXR29MRmRFekNrdE11aVIxZ3VH?=
+ =?utf-8?B?RnZ2dFpoUWhDQVBrRHdXeHk2eDdoZlhoSUNvM0M1WUEzcFlHdmcrSTZtMXNp?=
+ =?utf-8?B?cUpIWllueDZ0YnI1Y1BXTkFGY2NoVUk0QTE0dWVJS0IvWHhRTXNuVFBUOWZ5?=
+ =?utf-8?B?bVkrOHc5NDNDSGsxL2hFZmhpbk9taHJLYUVxRUJRNU1RM3lvWC9RUFVvTDZw?=
+ =?utf-8?B?MVZJZ2JQZGxqMmh5ckQya3puakhHbVlRQUV2emZTMGpDelQ4QStlNFpWVjlw?=
+ =?utf-8?B?YytUeFhlK3kyMmxTSlZZOU9BMjdUTXA4VW00NjJVNDkzNlNKQndYWGxPUFE0?=
+ =?utf-8?B?NEJlOWdNYlYwSk5kYm9pdXNucXBlQTZKK0tBN01KUTgyR1ZETld1UU1uZE5o?=
+ =?utf-8?Q?kzeb2NLy2FwA08oEbTa+rFSAC?=
+X-OriginatorOrg: nutanix.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 19d830c4-b81b-47fd-0c56-08db50898005
+X-MS-Exchange-CrossTenant-AuthSource: BYAPR02MB4806.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 May 2023 12:32:49.5593 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: bb047546-786f-4de1-bd75-24e5b6f79043
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: ANeXJOARNmYHmNDuxMNt3XBaZ05jncfp8KCQQq9daa2FNmJzgqq9ty7uy+DGLJ7hY6N44BZ2m2XKSF5OXZ5Ujg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR02MB7727
+X-Proofpoint-ORIG-GUID: OjDOw1noBZ6t5Fnj2TEOSn_S39SmkoS-
+X-Proofpoint-GUID: OjDOw1noBZ6t5Fnj2TEOSn_S39SmkoS-
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
  definitions=2023-05-09_08,2023-05-05_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 clxscore=1015
- mlxlogscore=999 mlxscore=0 adultscore=0 priorityscore=1501 spamscore=0
- phishscore=0 suspectscore=0 lowpriorityscore=0 bulkscore=0 malwarescore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2304280000
- definitions=main-2305090097
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=pmorel@linux.ibm.com;
- helo=mx0b-001b2d01.pphosted.com
-X-Spam_score_int: -23
-X-Spam_score: -2.4
+X-Proofpoint-Spam-Reason: safe
+Received-SPF: pass client-ip=148.163.155.12; envelope-from=tejus.gk@nutanix.com;
+ helo=mx0b-002c1b01.pphosted.com
+X-Spam_score_int: -24
+X-Spam_score: -2.5
 X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.421,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.421, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -122,108 +170,112 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 
-On 5/8/23 23:47, Nina Schoetterl-Glausch wrote:
-> On Tue, 2023-04-25 at 18:14 +0200, Pierre Morel wrote:
->> When the guest asks to change the polarization this change
->> is forwarded to the upper layer using QAPI.
->> The upper layer is supposed to take according decisions concerning
->> CPU provisioning.
+
+On 09/05/23 3:46 pm, Juan Quintela wrote:
+> "tejus.gk" <tejus.gk@nutanix.com> wrote:
+>> There are places in the code where the migration is marked failed with
+>> MIGRATION_STATUS_FAILED, but the failiure reason is never updated. Hence
+>> libvirt doesn't know why the migration failed when it queries for it.
 >>
->> Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
+>> Signed-off-by: tejus.gk <tejus.gk@nutanix.com>
 >> ---
->>   qapi/machine-target.json | 33 +++++++++++++++++++++++++++++++++
->>   hw/s390x/cpu-topology.c  |  2 ++
->>   2 files changed, 35 insertions(+)
+>>  migration/migration.c | 24 +++++++++++-------------
+>>  1 file changed, 11 insertions(+), 13 deletions(-)
 >>
->> diff --git a/qapi/machine-target.json b/qapi/machine-target.json
->> index 3b7a0b77f4..ffde2e9cbd 100644
->> --- a/qapi/machine-target.json
->> +++ b/qapi/machine-target.json
->> @@ -391,3 +391,36 @@
->>     'features': [ 'unstable' ],
->>     'if': { 'all': [ 'TARGET_S390X' , 'CONFIG_KVM' ] }
->>   }
->> +
->> +##
->> +# @CPU_POLARIZATION_CHANGE:
->> +#
->> +# Emitted when the guest asks to change the polarization.
->> +#
->> +# @polarization: polarization specified by the guest
->> +#
->> +# Features:
->> +# @unstable: This command may still be modified.
->> +#
->> +# The guest can tell the host (via the PTF instruction) whether the
->> +# CPUs should be provisioned using horizontal or vertical polarization.
->> +#
->> +# On horizontal polarization the host is expected to provision all vCPUs
->> +# equally.
->> +# On vertical polarization the host can provision each vCPU differently.
->> +# The guest will get information on the details of the provisioning
->> +# the next time it uses the STSI(15) instruction.
->> +#
->> +# Since: 8.1
->> +#
->> +# Example:
->> +#
->> +# <- { "event": "CPU_POLARIZATION_CHANGE",
->> +#      "data": { "polarization": 0 },
-> I think you'd be getting "horizontal" instead of 0.
+>> diff --git a/migration/migration.c b/migration/migration.c
+>> index 232e387109..87101eed5c 100644
+>> --- a/migration/migration.c
+>> +++ b/migration/migration.c
+>> @@ -1660,15 +1660,9 @@ void qmp_migrate(const char *uri, bool has_blk, bool blk,
+>>      } else if (strstart(uri, "fd:", &p)) {
+>>          fd_start_outgoing_migration(s, p, &local_err);
+>>      } else {
+>> -        if (!(has_resume && resume)) {
+>> -            yank_unregister_instance(MIGRATION_YANK_INSTANCE);
+>> -        }
+> 
+> Why are you removing this yank_unregister()?
+As recommended by Daniel in the previous patchset, most of the stuff in this else block is duplicating the contents of the "if (local_error)" block below
 
+    if (local_err) {
+        if (!(has_resume && resume)) {
+            yank_unregister_instance(MIGRATION_YANK_INSTANCE);
+        }
 
-you are right.
-
-
->
->> +#      "timestamp": { "seconds": 1401385907, "microseconds": 422329 } }
->> +##
->> +{ 'event': 'CPU_POLARIZATION_CHANGE',
->> +  'data': { 'polarization': 'CpuS390Polarization' },
->> +  'features': [ 'unstable' ],
->> +  'if': { 'all': [ 'TARGET_S390X', 'CONFIG_KVM' ] }
->> +}
->> diff --git a/hw/s390x/cpu-topology.c b/hw/s390x/cpu-topology.c
->> index e5fb976594..e8b140d623 100644
->> --- a/hw/s390x/cpu-topology.c
->> +++ b/hw/s390x/cpu-topology.c
->> @@ -17,6 +17,7 @@
->>   #include "hw/s390x/s390-virtio-ccw.h"
->>   #include "hw/s390x/cpu-topology.h"
->>   #include "qapi/qapi-commands-machine-target.h"
->> +#include "qapi/qapi-events-machine-target.h"
->>   
->>   /*
->>    * s390_topology is used to keep the topology information.
->> @@ -138,6 +139,7 @@ void s390_handle_ptf(S390CPU *cpu, uint8_t r1, uintptr_t ra)
->>           } else {
->>               s390_topology.vertical_polarization = !!fc;
->>               s390_cpu_topology_set_changed(true);
->> +            qapi_event_send_cpu_polarization_change(fc);
-> I'm not sure I like the implicit conversation of the function code to the enum value.
-> How about you do qapi_event_send_cpu_polarization_change(s390_topology.polarization);
-> and rename vertical_polarization and change it's type to the enum.
-> You can then also do
->
-> +    CpuS390Polarization polarization = S390_CPU_POLARIZATION_HORIZONTAL;
-> +    switch (fc) {
-> +    case S390_CPU_POLARIZATION_VERTICAL:
-> +        polarization = S390_CPU_POLARIZATION_VERTICAL;
-> +        /* fallthrough */
-> +    case S390_CPU_POLARIZATION_HORIZONTAL:
-> +        if (s390_topology.polarization == polarization) {
->
-> and use the value for the assignment further down, too.
-
-OK, that look good.
-
-I guess I have to modify the patch 8 on handle_ptf ,
-
-
-
-
-
->>               setcc(cpu, 0);
->>           }
->>           break;
+So now, after local_error gets set through error_setg(), it falls to this block where yank_unregister() will be called as before. 
+> 
+>> -        error_setg(errp, QERR_INVALID_PARAMETER_VALUE, "uri",
+>> +        error_setg(&local_err, QERR_INVALID_PARAMETER_VALUE, "uri",
+>>                     "a valid migration protocol");
+>> -        migrate_set_state(&s->state, MIGRATION_STATUS_SETUP,
+>> -                          MIGRATION_STATUS_FAILED);
+>>          block_cleanup_parameters();
+>> -        return;
+>>      }
+>>  
+>>      if (local_err) {
+>> @@ -2050,7 +2044,7 @@ migration_wait_main_channel(MigrationState *ms)
+>>   * Switch from normal iteration to postcopy
+>>   * Returns non-0 on error
+>>   */
+>> -static int postcopy_start(MigrationState *ms)
+>> +static int postcopy_start(MigrationState *ms, Error **errp)
+>>  {
+>>      int ret;
+>>      QIOChannelBuffer *bioc;
+>> @@ -2165,7 +2159,7 @@ static int postcopy_start(MigrationState *ms)
+>>       */
+>>      ret = qemu_file_get_error(ms->to_dst_file);
+>>      if (ret) {
+>> -        error_report("postcopy_start: Migration stream errored (pre package)");
+>> +        error_setg(errp, "postcopy_start: Migration stream errored (pre package)");
+>>          goto fail_closefb;
+>>      }
+>>  
+>> @@ -2202,7 +2196,7 @@ static int postcopy_start(MigrationState *ms)
+>>  
+>>      ret = qemu_file_get_error(ms->to_dst_file);
+>>      if (ret) {
+>> -        error_report("postcopy_start: Migration stream errored");
+>> +        error_setg(errp, "postcopy_start: Migration stream errored");
+>>          migrate_set_state(&ms->state, MIGRATION_STATUS_POSTCOPY_ACTIVE,
+>>                                MIGRATION_STATUS_FAILED);
+>>      }
+>> @@ -2719,6 +2713,7 @@ typedef enum {
+>>  static MigIterateState migration_iteration_run(MigrationState *s)
+>>  {
+>>      uint64_t must_precopy, can_postcopy;
+>> +    Error *local_err = NULL;
+>>      bool in_postcopy = s->state == MIGRATION_STATUS_POSTCOPY_ACTIVE;
+>>  
+>>      qemu_savevm_state_pending_estimate(&must_precopy, &can_postcopy);
+>> @@ -2741,8 +2736,9 @@ static MigIterateState migration_iteration_run(MigrationState *s)
+>>      /* Still a significant amount to transfer */
+>>      if (!in_postcopy && must_precopy <= s->threshold_size &&
+>>          qatomic_read(&s->start_postcopy)) {
+>> -        if (postcopy_start(s)) {
+>> -            error_report("%s: postcopy failed to start", __func__);
+>> +        if (postcopy_start(s, &local_err)) {
+>> +            migrate_set_error(s, local_err);
+>> +            error_report_err(local_err);
+>>          }
+>>          return MIG_ITERATE_SKIP;
+>>      }
+>> @@ -3232,8 +3228,10 @@ void migrate_fd_connect(MigrationState *s, Error *error_in)
+>>       */
+>>      if (migrate_postcopy_ram() || migrate_return_path()) {
+>>          if (open_return_path_on_source(s, !resume)) {
+>> -            error_report("Unable to open return-path for postcopy");
+>> +            error_setg(&local_err, "Unable to open return-path for postcopy");
+>>              migrate_set_state(&s->state, s->state, MIGRATION_STATUS_FAILED);
+>> +            migrate_set_error(s, local_err);
+>> +            error_report_err(local_err);
+>>              migrate_fd_cleanup(s);
+>>              return;
+>>          }
+> 
+> The rest of the patch looks right to me.
+> 
+> Later, Juan.
+> 
 
