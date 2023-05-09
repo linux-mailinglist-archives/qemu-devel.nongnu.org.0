@@ -2,91 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3AAAD6FBCEC
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 May 2023 04:14:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 234E26FBD16
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 May 2023 04:23:01 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pwCrA-00027H-Qe; Mon, 08 May 2023 22:13:36 -0400
+	id 1pwCz9-0004Dk-Sa; Mon, 08 May 2023 22:21:51 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
- id 1pwCr8-000278-Cp
- for qemu-devel@nongnu.org; Mon, 08 May 2023 22:13:34 -0400
-Received: from mail.loongson.cn ([114.242.206.163] helo=loongson.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <gaosong@loongson.cn>) id 1pwCr5-0008Qp-LD
- for qemu-devel@nongnu.org; Mon, 08 May 2023 22:13:33 -0400
-Received: from loongson.cn (unknown [10.20.42.57])
- by gateway (Coremail) with SMTP id _____8BxRPA9rFlk49IGAA--.11385S3;
- Tue, 09 May 2023 10:13:17 +0800 (CST)
-Received: from [10.20.42.57] (unknown [10.20.42.57])
- by localhost.localdomain (Coremail) with SMTP id
- AQAAf8BxLL46rFlk2QdSAA--.16351S3; 
- Tue, 09 May 2023 10:13:14 +0800 (CST)
-Subject: Re: [PATCH v10 1/8] memory: prevent dma-reentracy issues
-To: Thomas Huth <thuth@redhat.com>, Alexander Bulekov <alxndr@bu.edu>
-Cc: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- qemu-devel@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- Mauro Matteo Cascella <mcascell@redhat.com>, Peter Xu <peterx@redhat.com>,
- Jason Wang <jasowang@redhat.com>, David Hildenbrand <david@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- Bandan Das <bsd@redhat.com>, "Edgar E . Iglesias"
- <edgar.iglesias@gmail.com>, Darren Kenny <darren.kenny@oracle.com>,
- Bin Meng <bin.meng@windriver.com>, Paolo Bonzini <pbonzini@redhat.com>,
- "Michael S . Tsirkin" <mst@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Eduardo Habkost <eduardo@habkost.net>, Jon Maloy <jmaloy@redhat.com>,
- Siqi Chen <coc.cyqh@gmail.com>, Michael Tokarev <mjt@tls.msk.ru>,
- Richard Henderson <richard.henderson@linaro.org>, maobibo@loongson.cn,
- Tianrui Zhao <zhaotianrui@loongson.cn>,
- Peter Maydell <peter.maydell@linaro.org>
-References: <20230427211013.2994127-1-alxndr@bu.edu>
- <20230427211013.2994127-2-alxndr@bu.edu> <ZEt/3RwtL/jePTTv@redhat.com>
- <828514c6-44f0-32f0-1eb1-a49f21617585@redhat.com>
- <20230428091159.haydefdtq4m6z2tz@mozz.bu.edu>
- <b151ecf7-0544-86ac-a182-1112a4dd7dca@redhat.com>
- <c01a2b87-27be-e92a-3a5b-d561eadbc516@loongson.cn>
- <981cdcd7-7326-08f0-9882-e66840175205@redhat.com>
- <c4919eb6-74f1-7699-f924-6917cdf435bb@loongson.cn>
- <faa1c6e0-abc2-f108-cc25-2b2cf71bd3d0@redhat.com>
-From: Song Gao <gaosong@loongson.cn>
-Message-ID: <8bb27e02-7295-626c-8f28-2d6c9d796d1b@loongson.cn>
-Date: Tue, 9 May 2023 10:13:14 +0800
-User-Agent: Mozilla/5.0 (X11; Linux loongarch64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+ (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1pwCz4-0004D0-8z
+ for qemu-devel@nongnu.org; Mon, 08 May 2023 22:21:50 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1pwCz2-0001vw-Hk
+ for qemu-devel@nongnu.org; Mon, 08 May 2023 22:21:46 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1683598903;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=ccArD908ueE4+IB6hGq+rjHTUflH0eVcyq/2oRF52zQ=;
+ b=VZbxPdT8s9ADS7OySg2HcSBg5xEoLhrDO62uhKieK5altrW23TWhZIQfZcUL6h0gXITBOO
+ e+h1OIebShmGtfHbmKWatwvvih2kH+++4Xy2+XG5JcSYq4dPuaeDKDGznkSpc+nEe/eIAG
+ UVU20YFGhm7fkIo3cEDK2oH8U2a+9+s=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-612-PQhFvYdfMUKb6pbiesNMJw-1; Mon, 08 May 2023 22:21:40 -0400
+X-MC-Unique: PQhFvYdfMUKb6pbiesNMJw-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.9])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id F2E67185A79C;
+ Tue,  9 May 2023 02:21:39 +0000 (UTC)
+Received: from gshan.redhat.com (vpn2-54-118.bne.redhat.com [10.64.54.118])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2E5A3492B00;
+ Tue,  9 May 2023 02:21:34 +0000 (UTC)
+From: Gavin Shan <gshan@redhat.com>
+To: qemu-arm@nongnu.org
+Cc: qemu-devel@nongnu.org, pbonzini@redhat.com, peter.maydell@linaro.org,
+ peterx@redhat.com, david@redhat.com, philmd@linaro.org, mst@redhat.com,
+ cohuck@redhat.com, quintela@redhat.com, dgilbert@redhat.com,
+ maz@kernel.org, zhenyzha@redhat.com, shan.gavin@gmail.com
+Subject: [PATCH v3 0/4] hw/arm/virt: Support dirty ring
+Date: Tue,  9 May 2023 12:21:18 +1000
+Message-Id: <20230509022122.20888-1-gshan@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <faa1c6e0-abc2-f108-cc25-2b2cf71bd3d0@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-CM-TRANSID: AQAAf8BxLL46rFlk2QdSAA--.16351S3
-X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
-X-Coremail-Antispam: 1Uk129KBjvJXoWxur18JrWfZw18tr1kCFy3urg_yoW5Gr48pr
- WFyFyYkrWkJF4kAr4kt348WryYyr1xG34UWFn8JF1rJFWqvr1Y9r47Xw1jgF9rtw48CF1j
- vFW0qa4fZ3WUXw7anT9S1TB71UUUUUDqnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
- qI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUIcSsGvfJTRUUU
- bIxYFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s
- 1l1IIY67AEw4v_Jrv_JF1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xv
- wVC0I7IYx2IY67AKxVW7JVWDJwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVWxJVW8Jr1l84
- ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x0267AKxVW8Jr0_Cr1U
- M2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12xvs2x26I8E6xACxx1l5I8CrVACY4
- xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1Y6r17McIj6I8E87Iv67AKxVWUJVW8
- JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lc7I2V7IY0VAS07AlzVAYIcxG8w
- CF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j
- 6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_GFv_WrylIxkGc2Ij64
- vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_
- Gr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0x
- vEx4A2jsIEc7CjxVAFwI0_Jr0_GrUvcSsGvfC2KfnxnUUI43ZEXa7IU8zwZ7UUUUU==
-Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
- helo=loongson.cn
-X-Spam_score_int: -36
-X-Spam_score: -3.7
-X-Spam_bar: ---
-X-Spam_report: (-3.7 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.802,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=gshan@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -102,70 +76,81 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+This series intends to support dirty ring for live migration for arm64. The
+dirty ring use discrete buffer to track dirty pages. For arm64, the speciality
+is to use backup bitmap to track dirty pages when there is no-running-vcpu
+context. It's known that the backup bitmap needs to be synchronized when
+KVM device "kvm-arm-gicv3" or "arm-its-kvm" has been enabled. The backup
+bitmap is collected in the last stage of migration. The policy here is to
+always enable the backup bitmap extension. The overhead to synchronize the
+backup bitmap in the last stage of migration, when those two devices aren't
+used, is introduced. However, the overhead should be very small and acceptable.
+The benefit is to support future cases where those two devices are used without
+modifying the code.
 
+PATCH[1] add migration last stage indicator
+PATCH[2] synchronize the backup bitmap in the last stage of migration
+PATCH[3] add helper kvm_dirty_ring_init() to enable dirty ring
+PATCH[4] enable dirty ring for arm64
 
-在 2023/5/8 下午9:12, Thomas Huth 写道:
-> On 08/05/2023 15.03, Song Gao wrote:
->> Hi, Thomas
->>
->> 在 2023/5/8 下午5:33, Thomas Huth 写道:
->>> On 06/05/2023 11.25, Song Gao wrote:
->>>>   Hi Alexander
->>>>
->>>> 在 2023/4/28 下午5:14, Thomas Huth 写道:
->>>>> On 28/04/2023 11.11, Alexander Bulekov wrote:
->>>>>> On 230428 1015, Thomas Huth wrote:
->>>>>>> On 28/04/2023 10.12, Daniel P. Berrangé wrote:
->>>>>>>> On Thu, Apr 27, 2023 at 05:10:06PM -0400, Alexander Bulekov wrote:
->>>>>>>>> Add a flag to the DeviceState, when a device is engaged in 
->>>>>>>>> PIO/MMIO/DMA.
-> ...
->>>> This patch causes the loongarch virtual machine to fail to start 
->>>> the slave cpu.
->>>>
->>>>      ./build/qemu-system-loongarch64 -machine virt -m 8G -cpu la464 \
->>>>               -smp 4 -bios QEMU_EFI.fd -kernel vmlinuz.efi -initrd 
->>>> ramdisk   \
->>>>                 -serial stdio   -monitor 
->>>> telnet:localhost:4495,server,nowait  \
->>>>                 -append "root=/dev/ram rdinit=/sbin/init 
->>>> console=ttyS0,115200"   --nographic
->>>>
->>>>
->>>> ....
->>>> qemu-system-loongarch64: warning: Blocked re-entrant IO on 
->>>> MemoryRegion: loongarch_ipi_iocsr at addr: 0x24
->>>
->>> Oh, another spot that needs special handling ... I see Alexander 
->>> already sent a patch (thanks!), but anyway, this is a good 
->>> indication that we're missing some test coverage in the CI.
->>>
->>> Are there any loongarch kernel images available for public download 
->>> somewhere? If so, we really should add an avocado regression test 
->>> for this - since as far as I can see, we don't have any  tests for 
->>> loongarch in tests/avocado yet?
->>>
->> we can get  some binarys  at:
->> https://github.com/yangxiaojuan-loongson/qemu-binary
-> >
->> I'm not sure that avacodo testing can be done using just the kernel.
->>
->> Is a full loongarch system required?
->
-> No, you don't need a full distro installation, just a kernel with 
-> ramdisk (which is also available there) is good enough for a basic 
-> test, e.g. just check whether the kernel boots to a certain point is 
-> good enough to provide a basic sanity test. If you then can also get 
-> even into a shell (of the ramdisk), you can check some additional 
-> stuff in the sysfs or "dmesg" output, see for example 
-> tests/avocado/machine_s390_ccw_virtio.py which does such checks with a 
-> kernel and initrd on s390x.
->
-Thanks for you suggestion .
+   v2: https://lists.nongnu.org/archive/html/qemu-arm/2023-02/msg01342.html
+   v1: https://lists.nongnu.org/archive/html/qemu-arm/2023-02/msg00434.html
+RFCv1: https://lists.nongnu.org/archive/html/qemu-arm/2023-02/msg00171.html
 
-We will add a loongarch basic test  on tests/avacode.
+Testing
+=======
+(1) kvm-unit-tests/its-pending-migration and kvm-unit-tests/its-migration with
+    dirty ring or normal dirty page tracking mechanism. All test cases passed.
 
-Thanks.
-Song Gao
+    QEMU=./qemu.main/build/qemu-system-aarch64 ACCEL=kvm \
+    ./its-pending-migration
+
+    QEMU=./qemu.main/build/qemu-system-aarch64 ACCEL=kvm \
+    ./its-migration
+
+    QEMU=./qemu.main/build/qemu-system-aarch64 ACCEL=kvm,dirty-ring-size=65536 \
+    ./its-pending-migration
+
+    QEMU=./qemu.main/build/qemu-system-aarch64 ACCEL=kvm,dirty-ring-size=65536 \
+    ./its-migration
+
+(2) Combinations of migration, post-copy migration, e1000e and virtio-net
+    devices. All test cases passed.
+
+    -netdev tap,id=net0,script=/etc/qemu-ifup,downscript=/etc/qemu-ifdown  \
+    -device e1000e,bus=pcie.5,netdev=net0,mac=52:54:00:f1:26:a0
+
+    -netdev tap,id=vnet0,script=/etc/qemu-ifup,downscript=/etc/qemu-ifdown \
+    -device virtio-net-pci,bus=pcie.6,netdev=vnet0,mac=52:54:00:f1:26:b0
+
+Changelog
+=========
+v3:
+  * Rebase for QEMU v8.1.0                                                     (Gavin)
+v2:
+  * Drop PATCH[v1 1/6] to synchronize linux-headers                            (Gavin)
+  * More restrictive comments about struct MemoryListener::log_sync_global     (PeterX)
+  * Always enable the backup bitmap extension                                  (PeterM)
+v1:
+  * Combine two patches into one PATCH[v1 2/6] for the last stage indicator    (PeterX)
+  * Drop the secondary bitmap and use the original one directly                (Juan)
+  * Avoid "goto out" in helper kvm_dirty_ring_init()                           (Juan)
+
+Gavin Shan (4):
+  migration: Add last stage indicator to global dirty log
+  kvm: Synchronize the backup bitmap in the last stage
+  kvm: Add helper kvm_dirty_ring_init()
+  kvm: Enable dirty ring for arm64
+
+ accel/kvm/kvm-all.c      | 108 ++++++++++++++++++++++++++++-----------
+ include/exec/memory.h    |   7 ++-
+ include/sysemu/kvm_int.h |   1 +
+ migration/dirtyrate.c    |   4 +-
+ migration/ram.c          |  20 ++++----
+ softmmu/memory.c         |  10 ++--
+ 6 files changed, 101 insertions(+), 49 deletions(-)
+
+-- 
+2.23.0
 
 
