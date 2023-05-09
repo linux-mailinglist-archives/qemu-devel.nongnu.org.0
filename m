@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A026F6FC5D6
-	for <lists+qemu-devel@lfdr.de>; Tue,  9 May 2023 14:08:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C17FE6FC5D7
+	for <lists+qemu-devel@lfdr.de>; Tue,  9 May 2023 14:08:22 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pwM7i-0006Jh-My; Tue, 09 May 2023 08:07:18 -0400
+	id 1pwM7j-0006KT-9d; Tue, 09 May 2023 08:07:19 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pwM7g-0006JQ-V1
+ id 1pwM7g-0006JR-VM
  for qemu-devel@nongnu.org; Tue, 09 May 2023 08:07:16 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pwM7e-0007N6-O7
+ id 1pwM7f-0007NY-Jg
  for qemu-devel@nongnu.org; Tue, 09 May 2023 08:07:16 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1683634034;
+ s=mimecast20190719; t=1683634035;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=QpFOEwsLe7bx77F8zJCxXbJL9xRhv1zHxv9HFRQcgtM=;
- b=L71VlB1uA4I/1AJ8KZBuH68Huzc5PyABCdE3PwddBVOL+X/JIp/a6qJ1zcsFzEhUP/qOPE
- Sz48oLwbpX0EolYSeW1sqyBfhduXS1nEH7mUhSukZLGI2/T46Q6RP+3l+WFF9Wyi2d0RiV
- HtOKZLfX4jxAV5KXTySwBbwqRFb5xsM=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=KJQEApA2GeCA1oGyUfJw3/xLKAMQTXRRSDvxrrDj4Wc=;
+ b=PI3XQTdHuBNbTQ0Ftdyn85yIng89hFQ7fbYI246/n7nNQAR87PRI0MpVXSNxiM0PJDSLYf
+ W6g5dEjpwht6ZepHBOcYBx7Gs8v8pVOpo3mnY1KA4pIOmU73470bqzaMsNaXbuhQN2l7x/
+ PeALZrmZoyl8GDycQDd9OilTZvS97nU=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-526-tyADG4vgPYmkujoUh1rjwg-1; Tue, 09 May 2023 08:07:12 -0400
-X-MC-Unique: tyADG4vgPYmkujoUh1rjwg-1
+ us-mta-142-9wzp-0LfOMut_D2ci0QFVg-1; Tue, 09 May 2023 08:07:13 -0400
+X-MC-Unique: 9wzp-0LfOMut_D2ci0QFVg-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
  [10.11.54.5])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 82D273C0F675
- for <qemu-devel@nongnu.org>; Tue,  9 May 2023 12:07:12 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8C811886461
+ for <qemu-devel@nongnu.org>; Tue,  9 May 2023 12:07:13 +0000 (UTC)
 Received: from secure.mitica (unknown [10.39.193.236])
- by smtp.corp.redhat.com (Postfix) with ESMTP id BB5D563F5F;
- Tue,  9 May 2023 12:07:11 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C470663F86;
+ Tue,  9 May 2023 12:07:12 +0000 (UTC)
 From: Juan Quintela <quintela@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Leonardo Bras <leobras@redhat.com>, Juan Quintela <quintela@redhat.com>,
  Peter Xu <peterx@redhat.com>
-Subject: [PATCH v3 09/10] migration/rdma: Remove qemu_ prefix from exported
- functions
-Date: Tue,  9 May 2023 14:06:59 +0200
-Message-Id: <20230509120700.78359-10-quintela@redhat.com>
+Subject: [PATCH v3 10/10] migration/rdma: Check sooner if we are in postcopy
+ for save_page()
+Date: Tue,  9 May 2023 14:07:00 +0200
+Message-Id: <20230509120700.78359-11-quintela@redhat.com>
 In-Reply-To: <20230509120700.78359-1-quintela@redhat.com>
 References: <20230509120700.78359-1-quintela@redhat.com>
 MIME-Version: 1.0
@@ -79,312 +79,35 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Functions are long enough even without this.
-
 Signed-off-by: Juan Quintela <quintela@redhat.com>
 ---
- migration/ram.c        | 14 +++++++-------
- migration/rdma.c       | 40 +++++++++++++++++++---------------------
- migration/rdma.h       | 12 ++++++------
- migration/trace-events | 28 ++++++++++++++--------------
- 4 files changed, 46 insertions(+), 48 deletions(-)
+ migration/rdma.c | 6 +-----
+ 1 file changed, 1 insertion(+), 5 deletions(-)
 
-diff --git a/migration/ram.c b/migration/ram.c
-index 4960f5960f..ae1c2c75be 100644
---- a/migration/ram.c
-+++ b/migration/ram.c
-@@ -3048,12 +3048,12 @@ static int ram_save_setup(QEMUFile *f, void *opaque)
-         }
-     }
- 
--    ret = qemu_rdma_registration_start(f, RAM_CONTROL_SETUP);
-+    ret = rdma_registration_start(f, RAM_CONTROL_SETUP);
-     if (ret < 0) {
-         qemu_file_set_error(f, ret);
-     }
- 
--    ret = qemu_rdma_registration_stop(f, RAM_CONTROL_SETUP);
-+    ret = rdma_registration_stop(f, RAM_CONTROL_SETUP);
-     if (ret < 0) {
-         qemu_file_set_error(f, ret);
-     }
-@@ -3118,7 +3118,7 @@ static int ram_save_iterate(QEMUFile *f, void *opaque)
-         /* Read version before ram_list.blocks */
-         smp_rmb();
- 
--        ret = qemu_rdma_registration_start(f, RAM_CONTROL_ROUND);
-+        ret = rdma_registration_start(f, RAM_CONTROL_ROUND);
-         if (ret < 0) {
-             qemu_file_set_error(f, ret);
-         }
-@@ -3178,7 +3178,7 @@ static int ram_save_iterate(QEMUFile *f, void *opaque)
-      * Must occur before EOS (or any QEMUFile operation)
-      * because of RDMA protocol.
-      */
--    ret = qemu_rdma_registration_stop(f, RAM_CONTROL_ROUND);
-+    ret = rdma_registration_stop(f, RAM_CONTROL_ROUND);
-     if (ret < 0) {
-         qemu_file_set_error(f, ret);
-     }
-@@ -3230,7 +3230,7 @@ static int ram_save_complete(QEMUFile *f, void *opaque)
-             migration_bitmap_sync_precopy(rs);
-         }
- 
--        ret = qemu_rdma_registration_start(f, RAM_CONTROL_FINISH);
-+        ret = rdma_registration_start(f, RAM_CONTROL_FINISH);
-         if (ret < 0) {
-             qemu_file_set_error(f, ret);
-         }
-@@ -3256,7 +3256,7 @@ static int ram_save_complete(QEMUFile *f, void *opaque)
- 
-         ram_flush_compressed_data(rs);
- 
--        int ret = qemu_rdma_registration_stop(f, RAM_CONTROL_FINISH);
-+        int ret = rdma_registration_stop(f, RAM_CONTROL_FINISH);
-         if (ret < 0) {
-             qemu_file_set_error(f, ret);
-         }
-@@ -4055,7 +4055,7 @@ static int ram_load_precopy(QEMUFile *f)
-             }
-             break;
-         case RAM_SAVE_FLAG_HOOK:
--            ret = qemu_rdma_registration_handle(f);
-+            ret = rdma_registration_handle(f);
-             if (ret < 0) {
-                 qemu_file_set_error(f, ret);
-             }
 diff --git a/migration/rdma.c b/migration/rdma.c
-index d39dc4db29..c84138ef17 100644
+index c84138ef17..30ee74f035 100644
 --- a/migration/rdma.c
 +++ b/migration/rdma.c
-@@ -3550,7 +3550,7 @@ static int dest_ram_sort_func(const void *a, const void *b)
-  *
-  * Keep doing this until the source tells us to stop.
-  */
--int qemu_rdma_registration_handle(QEMUFile *f)
-+int rdma_registration_handle(QEMUFile *f)
- {
-     RDMAControlHeader reg_resp = { .len = sizeof(RDMARegisterResult),
-                                .type = RDMA_CONTROL_REGISTER_RESULT,
-@@ -3592,7 +3592,7 @@ int qemu_rdma_registration_handle(QEMUFile *f)
- 
-     local = &rdma->local_ram_blocks;
-     do {
--        trace_qemu_rdma_registration_handle_wait();
-+        trace_rdma_registration_handle_wait();
- 
-         ret = qemu_rdma_exchange_recv(rdma, &head, RDMA_CONTROL_NONE);
- 
-@@ -3612,9 +3612,9 @@ int qemu_rdma_registration_handle(QEMUFile *f)
-             comp = (RDMACompress *) rdma->wr_data[idx].control_curr;
-             network_to_compress(comp);
- 
--            trace_qemu_rdma_registration_handle_compress(comp->length,
--                                                         comp->block_idx,
--                                                         comp->offset);
-+            trace_rdma_registration_handle_compress(comp->length,
-+                                                    comp->block_idx,
-+                                                    comp->offset);
-             if (comp->block_idx >= rdma->local_ram_blocks.nb_blocks) {
-                 error_report("rdma: 'compress' bad block index %u (vs %d)",
-                              (unsigned int)comp->block_idx,
-@@ -3631,11 +3631,11 @@ int qemu_rdma_registration_handle(QEMUFile *f)
-             break;
- 
-         case RDMA_CONTROL_REGISTER_FINISHED:
--            trace_qemu_rdma_registration_handle_finished();
-+            trace_rdma_registration_handle_finished();
-             goto out;
- 
-         case RDMA_CONTROL_RAM_BLOCKS_REQUEST:
--            trace_qemu_rdma_registration_handle_ram_blocks();
-+            trace_rdma_registration_handle_ram_blocks();
- 
-             /* Sort our local RAM Block list so it's the same as the source,
-              * we can do this since we've filled in a src_index in the list
-@@ -3675,7 +3675,7 @@ int qemu_rdma_registration_handle(QEMUFile *f)
-                 rdma->dest_blocks[i].length = local->block[i].length;
- 
-                 dest_block_to_network(&rdma->dest_blocks[i]);
--                trace_qemu_rdma_registration_handle_ram_blocks_loop(
-+                trace_rdma_registration_handle_ram_blocks_loop(
-                     local->block[i].block_name,
-                     local->block[i].offset,
-                     local->block[i].length,
-@@ -3697,7 +3697,7 @@ int qemu_rdma_registration_handle(QEMUFile *f)
- 
-             break;
-         case RDMA_CONTROL_REGISTER_REQUEST:
--            trace_qemu_rdma_registration_handle_register(head.repeat);
-+            trace_rdma_registration_handle_register(head.repeat);
- 
-             reg_resp.repeat = head.repeat;
-             registers = (RDMARegister *) rdma->wr_data[idx].control_curr;
-@@ -3711,7 +3711,7 @@ int qemu_rdma_registration_handle(QEMUFile *f)
- 
-                 reg_result = &results[count];
- 
--                trace_qemu_rdma_registration_handle_register_loop(count,
-+                trace_rdma_registration_handle_register_loop(count,
-                          reg->current_index, reg->key.current_addr, reg->chunks);
- 
-                 if (reg->current_index >= rdma->local_ram_blocks.nb_blocks) {
-@@ -3763,8 +3763,7 @@ int qemu_rdma_registration_handle(QEMUFile *f)
- 
-                 reg_result->host_addr = (uintptr_t)block->local_host_addr;
- 
--                trace_qemu_rdma_registration_handle_register_rkey(
--                                                           reg_result->rkey);
-+                trace_rdma_registration_handle_register_rkey(reg_result->rkey);
- 
-                 result_to_network(reg_result);
-             }
-@@ -3778,7 +3777,7 @@ int qemu_rdma_registration_handle(QEMUFile *f)
-             }
-             break;
-         case RDMA_CONTROL_UNREGISTER_REQUEST:
--            trace_qemu_rdma_registration_handle_unregister(head.repeat);
-+            trace_rdma_registration_handle_unregister(head.repeat);
-             unreg_resp.repeat = head.repeat;
-             registers = (RDMARegister *) rdma->wr_data[idx].control_curr;
- 
-@@ -3786,7 +3785,7 @@ int qemu_rdma_registration_handle(QEMUFile *f)
-                 reg = &registers[count];
-                 network_to_register(reg);
- 
--                trace_qemu_rdma_registration_handle_unregister_loop(count,
-+                trace_rdma_registration_handle_unregister_loop(count,
-                            reg->current_index, reg->key.chunk);
- 
-                 block = &(rdma->local_ram_blocks.block[reg->current_index]);
-@@ -3802,8 +3801,7 @@ int qemu_rdma_registration_handle(QEMUFile *f)
- 
-                 rdma->total_registrations--;
- 
--                trace_qemu_rdma_registration_handle_unregister_success(
--                                                       reg->key.chunk);
-+                trace_rdma_registration_handle_unregister_success(reg->key.chunk);
-             }
- 
-             ret = qemu_rdma_post_send_control(rdma, NULL, &unreg_resp);
-@@ -3874,7 +3872,7 @@ int rdma_block_notification_handle(QEMUFile *f, const char *name)
-     return 0;
- }
- 
--int qemu_rdma_registration_start(QEMUFile *f, uint64_t flags)
-+int rdma_registration_start(QEMUFile *f, uint64_t flags)
- {
-     QIOChannelRDMA *rioc = QIO_CHANNEL_RDMA(qemu_file_get_ioc(f));
+@@ -3250,10 +3250,6 @@ static int qemu_rdma_save_page(QEMUFile *f, ram_addr_t block_offset,
      RDMAContext *rdma;
-@@ -3891,7 +3889,7 @@ int qemu_rdma_registration_start(QEMUFile *f, uint64_t flags)
+     int ret;
  
-     CHECK_ERROR_STATE();
+-    if (migration_in_postcopy()) {
+-        return RAM_SAVE_CONTROL_NOT_SUPP;
+-    }
+-
+     RCU_READ_LOCK_GUARD();
+     rdma = qatomic_rcu_read(&rioc->rdmaout);
  
--    trace_qemu_rdma_registration_start(flags);
-+    trace_rdma_registration_start(flags);
-     qemu_put_be64(f, RAM_SAVE_FLAG_HOOK);
-     qemu_fflush(f);
- 
-@@ -3902,7 +3900,7 @@ int qemu_rdma_registration_start(QEMUFile *f, uint64_t flags)
-  * Inform dest that dynamic registrations are done for now.
-  * First, flush writes, if any.
-  */
--int qemu_rdma_registration_stop(QEMUFile *f, uint64_t flags)
-+int rdma_registration_stop(QEMUFile *f, uint64_t flags)
+@@ -3322,7 +3318,7 @@ err:
+ int rdma_control_save_page(QEMUFile *f, ram_addr_t block_offset,
+                            ram_addr_t offset, size_t size)
  {
-     QIOChannelRDMA *rioc = QIO_CHANNEL_RDMA(qemu_file_get_ioc(f));
-     RDMAContext *rdma;
-@@ -3934,7 +3932,7 @@ int qemu_rdma_registration_stop(QEMUFile *f, uint64_t flags)
-         int reg_result_idx, i, nb_dest_blocks;
- 
-         head.type = RDMA_CONTROL_RAM_BLOCKS_REQUEST;
--        trace_qemu_rdma_registration_stop_ram();
-+        trace_rdma_registration_stop_ram();
- 
-         /*
-          * Make sure that we parallelize the pinning on both sides.
-@@ -3996,7 +3994,7 @@ int qemu_rdma_registration_stop(QEMUFile *f, uint64_t flags)
-         }
+-    if (!migrate_rdma()) {
++    if (!migrate_rdma() || migration_in_postcopy()) {
+         return RAM_SAVE_CONTROL_NOT_SUPP;
      }
  
--    trace_qemu_rdma_registration_stop(flags);
-+    trace_rdma_registration_stop(flags);
- 
-     head.type = RDMA_CONTROL_REGISTER_FINISHED;
-     ret = qemu_rdma_exchange_send(rdma, &head, NULL, NULL, NULL, NULL);
-diff --git a/migration/rdma.h b/migration/rdma.h
-index 9f3ace0900..9b28736902 100644
---- a/migration/rdma.h
-+++ b/migration/rdma.h
-@@ -42,16 +42,16 @@ void rdma_start_incoming_migration(const char *host_port, Error **errp);
- #define RAM_SAVE_CONTROL_DELAYED  -2000
- 
- #ifdef CONFIG_RDMA
--int qemu_rdma_registration_handle(QEMUFile *f);
--int qemu_rdma_registration_start(QEMUFile *f, uint64_t flags);
--int qemu_rdma_registration_stop(QEMUFile *f, uint64_t flags);
-+int rdma_registration_handle(QEMUFile *f);
-+int rdma_registration_start(QEMUFile *f, uint64_t flags);
-+int rdma_registration_stop(QEMUFile *f, uint64_t flags);
- int rdma_block_notification_handle(QEMUFile *f, const char *name);
- int rdma_control_save_page(QEMUFile *f, ram_addr_t block_offset,
-                            ram_addr_t offset, size_t size);
- #else
--int qemu_rdma_registration_handle(QEMUFile *f) { return 0; }
--int qemu_rdma_registration_start(QEMUFile *f, uint64_t flags) { return 0; }
--int qemu_rdma_registration_stop(QEMUFile *f, uint64_t flags) { return 0; }
-+int rdma_registration_handle(QEMUFile *f) { return 0; }
-+int rdma_registration_start(QEMUFile *f, uint64_t flags) { return 0; }
-+int rdma_registration_stop(QEMUFile *f, uint64_t flags) { return 0; }
- int rdma_block_notification_handle(QEMUFile *f, const char *name) { return 0; }
- int rdma_control_save_page(QEMUFile *f, ram_addr_t block_offset,
-                            ram_addr_t offset, size_t size) { return false; }
-diff --git a/migration/trace-events b/migration/trace-events
-index 800cfce547..fdd448ae2f 100644
---- a/migration/trace-events
-+++ b/migration/trace-events
-@@ -224,20 +224,6 @@ qemu_rdma_post_send_control(const char *desc) "CONTROL: sending %s.."
- qemu_rdma_register_and_get_keys(uint64_t len, void *start) "Registering %" PRIu64 " bytes @ %p"
- qemu_rdma_register_odp_mr(const char *name) "Try to register On-Demand Paging memory region: %s"
- qemu_rdma_advise_mr(const char *name, uint32_t len, uint64_t addr, const char *res) "Try to advise block %s prefetch at %" PRIu32 "@0x%" PRIx64 ": %s"
--qemu_rdma_registration_handle_compress(int64_t length, int index, int64_t offset) "Zapping zero chunk: %" PRId64 " bytes, index %d, offset %" PRId64
--qemu_rdma_registration_handle_finished(void) ""
--qemu_rdma_registration_handle_ram_blocks(void) ""
--qemu_rdma_registration_handle_ram_blocks_loop(const char *name, uint64_t offset, uint64_t length, void *local_host_addr, unsigned int src_index) "%s: @0x%" PRIx64 "/%" PRIu64 " host:@%p src_index: %u"
--qemu_rdma_registration_handle_register(int requests) "%d requests"
--qemu_rdma_registration_handle_register_loop(int req, int index, uint64_t addr, uint64_t chunks) "Registration request (%d): index %d, current_addr %" PRIu64 " chunks: %" PRIu64
--qemu_rdma_registration_handle_register_rkey(int rkey) "0x%x"
--qemu_rdma_registration_handle_unregister(int requests) "%d requests"
--qemu_rdma_registration_handle_unregister_loop(int count, int index, uint64_t chunk) "Unregistration request (%d): index %d, chunk %" PRIu64
--qemu_rdma_registration_handle_unregister_success(uint64_t chunk) "%" PRIu64
--qemu_rdma_registration_handle_wait(void) ""
--qemu_rdma_registration_start(uint64_t flags) "%" PRIu64
--qemu_rdma_registration_stop(uint64_t flags) "%" PRIu64
--qemu_rdma_registration_stop_ram(void) ""
- qemu_rdma_resolve_host_trying(const char *host, const char *ip) "Trying %s => %s"
- qemu_rdma_signal_unregister_append(uint64_t chunk, int pos) "Appending unregister chunk %" PRIu64 " at position %d"
- qemu_rdma_signal_unregister_already(uint64_t chunk) "Unregister chunk %" PRIu64 " already in queue"
-@@ -256,6 +242,20 @@ qemu_rdma_write_one_zero(uint64_t chunk, int len, int index, int64_t offset) "En
- rdma_add_block(const char *block_name, int block, uint64_t addr, uint64_t offset, uint64_t len, uint64_t end, uint64_t bits, int chunks) "Added Block: '%s':%d, addr: %" PRIu64 ", offset: %" PRIu64 " length: %" PRIu64 " end: %" PRIu64 " bits %" PRIu64 " chunks %d"
- rdma_block_notification_handle(const char *name, int index) "%s at %d"
- rdma_delete_block(void *block, uint64_t addr, uint64_t offset, uint64_t len, uint64_t end, uint64_t bits, int chunks) "Deleted Block: %p, addr: %" PRIu64 ", offset: %" PRIu64 " length: %" PRIu64 " end: %" PRIu64 " bits %" PRIu64 " chunks %d"
-+rdma_registration_handle_compress(int64_t length, int index, int64_t offset) "Zapping zero chunk: %" PRId64 " bytes, index %d, offset %" PRId64
-+rdma_registration_handle_finished(void) ""
-+rdma_registration_handle_ram_blocks(void) ""
-+rdma_registration_handle_ram_blocks_loop(const char *name, uint64_t offset, uint64_t length, void *local_host_addr, unsigned int src_index) "%s: @0x%" PRIx64 "/%" PRIu64 " host:@%p src_index: %u"
-+rdma_registration_handle_register(int requests) "%d requests"
-+rdma_registration_handle_register_loop(int req, int index, uint64_t addr, uint64_t chunks) "Registration request (%d): index %d, current_addr %" PRIu64 " chunks: %" PRIu64
-+rdma_registration_handle_register_rkey(int rkey) "0x%x"
-+rdma_registration_handle_unregister(int requests) "%d requests"
-+rdma_registration_handle_unregister_loop(int count, int index, uint64_t chunk) "Unregistration request (%d): index %d, chunk %" PRIu64
-+rdma_registration_handle_unregister_success(uint64_t chunk) "%" PRIu64
-+rdma_registration_handle_wait(void) ""
-+rdma_registration_start(uint64_t flags) "%" PRIu64
-+rdma_registration_stop(uint64_t flags) "%" PRIu64
-+rdma_registration_stop_ram(void) ""
- rdma_start_incoming_migration(void) ""
- rdma_start_incoming_migration_after_dest_init(void) ""
- rdma_start_incoming_migration_after_rdma_listen(void) ""
 -- 
 2.40.0
 
