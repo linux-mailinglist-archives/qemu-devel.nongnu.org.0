@@ -2,89 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A27D6FC427
+	by mail.lfdr.de (Postfix) with ESMTPS id 1EB666FC428
 	for <lists+qemu-devel@lfdr.de>; Tue,  9 May 2023 12:46:00 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pwKpq-0000lc-2t; Tue, 09 May 2023 06:44:46 -0400
+	id 1pwKqB-0000pI-Hn; Tue, 09 May 2023 06:45:07 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pwKpn-0000kq-Bq
- for qemu-devel@nongnu.org; Tue, 09 May 2023 06:44:43 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ id 1pwKq8-0000ox-Hl
+ for qemu-devel@nongnu.org; Tue, 09 May 2023 06:45:04 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pwKph-00073H-UC
- for qemu-devel@nongnu.org; Tue, 09 May 2023 06:44:43 -0400
+ id 1pwKq6-00076w-TJ
+ for qemu-devel@nongnu.org; Tue, 09 May 2023 06:45:04 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1683629076;
+ s=mimecast20190719; t=1683629102;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=LoO+PevnNrMzzfcn0J3pvRngvZoYu5CxW6KO/xCLEtI=;
- b=gqJuFcC1L4gGaEu44EFgKD0J2H0PcukB5PGK1atndibRp8Iz4wLTbaxj8aryLHCU32Z8zg
- kRjvG1w7Tvp6JBNmihCjwkNhK2K4vRfJmxlKpW2Gni5G7WdKrnjZI2jCUKCcThxbhjtqHv
- IvqDixFei1+6vv1ywF1PjrXrPh+BqLI=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=WDAaDuf/8aWPg1fBoMeNcR/iVsJlTgcSMn6vSzxiMG4=;
+ b=J1D25ACN9hA68Rj/5Yu6ShJNh2abzAo1VSXjw2kHuKQS26W2sG2fvZOqZwSaqYLIg+z+0u
+ By5tys8xYweMNc+w8S22oBXssL+kYfBb+q86t9VX8CQAGP3XKLHwNDr13Sbt3kZ+JaWzIS
+ JVmfaG6KecVa+NMduHU4NvBNQLUVRgc=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-389-CbuAVNF0Mqu14GYEMXVOpw-1; Tue, 09 May 2023 06:44:35 -0400
-X-MC-Unique: CbuAVNF0Mqu14GYEMXVOpw-1
-Received: by mail-wr1-f70.google.com with SMTP id
- ffacd0b85a97d-306489b7585so1944348f8f.3
- for <qemu-devel@nongnu.org>; Tue, 09 May 2023 03:44:34 -0700 (PDT)
+ us-mta-384-Z01KjYC5MR-t59tIqE98Yw-1; Tue, 09 May 2023 06:45:00 -0400
+X-MC-Unique: Z01KjYC5MR-t59tIqE98Yw-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ 5b1f17b1804b1-3f423d47945so8910605e9.0
+ for <qemu-devel@nongnu.org>; Tue, 09 May 2023 03:45:00 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683629074; x=1686221074;
+ d=1e100.net; s=20221208; t=1683629099; x=1686221099;
  h=mime-version:message-id:date:reply-to:user-agent:references
  :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=LoO+PevnNrMzzfcn0J3pvRngvZoYu5CxW6KO/xCLEtI=;
- b=PpeZfSY28Y52sRkkqKLS6gCWAdww54hUvpZhlomCShXaUEVUSlxUrenArSg29EoSK4
- 2nyL25r8+g5kdOeAzmW+MDGasxy7EY2DcpUq46DTONBBm9kE49yRNLrV570IgtTunsNY
- tXWMvcFTz2iUD8+inTLtRRr6BXog+Rdio5a864pM58LdlTR5ImqucNMrZMlaAKBVk6Z6
- QvKmfq+dplYzX65DRFuqEjsJT8plUKfVVOzwsFsvDJkpXZNrjItF5Ni/xUxqH/rD8gKD
- K+Yy0adxcPpgC4vU7OMajGZVKMnZ/KJcAuDgdzYpbjfK3CqrUBY16UU+nBWFB51ogLCx
- 4yZQ==
-X-Gm-Message-State: AC+VfDzHhMHSaADdMkfSibJTxuv/PZHgwZYPOr6Pe8macG+G5Z0RA0iA
- 9ZcAbMq9jww6eZylUnBXsXTDDXLADF/gym2yE9AiqhJnZZi87ZtpkSq7KcTzOmQMQg1h3+BAt+Y
- TrWcHPeJjH3t5bPs=
-X-Received: by 2002:a05:6000:48:b0:307:7c2d:dc79 with SMTP id
- k8-20020a056000004800b003077c2ddc79mr9589363wrx.16.1683629073862; 
- Tue, 09 May 2023 03:44:33 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ5g0u7+UCVebaX1FFnym5XjychfKZoI/obG2vtsNCBzu8/MLtEWukXdVk8z/Swux2EBl6L7fg==
-X-Received: by 2002:a05:6000:48:b0:307:7c2d:dc79 with SMTP id
- k8-20020a056000004800b003077c2ddc79mr9589346wrx.16.1683629073553; 
- Tue, 09 May 2023 03:44:33 -0700 (PDT)
+ bh=WDAaDuf/8aWPg1fBoMeNcR/iVsJlTgcSMn6vSzxiMG4=;
+ b=YLiUi10u/cu+KMwEa7++oGachTBh5vPyHyUPuG5KLz1qMb59aUg/UsiyytCsTdqetA
+ uu5ppTTYai3bQ8reb7gTqFHT1BDOwNZWNUiVl07PwAQ1+A9I9EYuyLWzQ8/7ciFQzLD4
+ EykM94u2MYFBIxVSoAFEhaOYGFfe2ZvNfirBOFk+EnePsz/TMpf10tGP43scogMEEnD2
+ o5a8rYNDhT99EAAU3E85uPdpBIQ9b41qv0ehu9qwaXrG8KzgtX5pvwRO+mcWzCl9Tmhd
+ BN40WbEtT97A8iwXwd2gtlJ/cXhYkFqTruFYyBE+4ACejiXG6sH0fZcgAeUObC9NiOqo
+ weXA==
+X-Gm-Message-State: AC+VfDwIPebaZvNRklSGFO+26/pXj88kC7/51Ltd0T6hRzbgaCFVeewu
+ Iaspe9DBHFua/5Q3PTwckgpvD+IPIsjGWvrql8jSFWYNS83zNcYSueIqWtmMbHDxURT4B8YCrzU
+ 1e+ku0jaxTlEOyls=
+X-Received: by 2002:a7b:ca4c:0:b0:3f4:2819:7777 with SMTP id
+ m12-20020a7bca4c000000b003f428197777mr3107993wml.38.1683629099785; 
+ Tue, 09 May 2023 03:44:59 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ4IwkT6IJWWM30uNWXKviQAltGD9VX1dAMRUZ6VBgKuROfzJRBcHjJbJ8vi5C6oMU066xi5Wg==
+X-Received: by 2002:a7b:ca4c:0:b0:3f4:2819:7777 with SMTP id
+ m12-20020a7bca4c000000b003f428197777mr3107980wml.38.1683629099467; 
+ Tue, 09 May 2023 03:44:59 -0700 (PDT)
 Received: from redhat.com (static-92-120-85-188.ipcom.comunitel.net.
  [188.85.120.92]) by smtp.gmail.com with ESMTPSA id
- i11-20020adff30b000000b0030644bdefd8sm14002775wro.52.2023.05.09.03.44.32
+ r15-20020a5d694f000000b00306415ac69asm13969651wrw.15.2023.05.09.03.44.58
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 09 May 2023 03:44:33 -0700 (PDT)
+ Tue, 09 May 2023 03:44:59 -0700 (PDT)
 From: Juan Quintela <quintela@redhat.com>
 To: Lukas Straub <lukasstraub2@web.de>
 Cc: qemu-devel <qemu-devel@nongnu.org>,  Peter Xu <peterx@redhat.com>,
  Leonardo Bras <leobras@redhat.com>
-Subject: Re: [PATCH v2 1/6] ram: Add public helper to set colo bitmap
-In-Reply-To: <22d83cb428f37929563155531bfb69fd8953cc61.1683572883.git.lukasstraub2@web.de>
- (Lukas Straub's message of "Mon, 8 May 2023 21:10:52 +0200")
+Subject: Re: [PATCH v2 2/6] ram: Let colo_flush_ram_cache take the bitmap_mutex
+In-Reply-To: <35cb23ba854151d38a31e3a5c8a1020e4283cb4a.1683572883.git.lukasstraub2@web.de>
+ (Lukas Straub's message of "Mon, 8 May 2023 21:10:55 +0200")
 References: <cover.1683572883.git.lukasstraub2@web.de>
- <22d83cb428f37929563155531bfb69fd8953cc61.1683572883.git.lukasstraub2@web.de>
+ <35cb23ba854151d38a31e3a5c8a1020e4283cb4a.1683572883.git.lukasstraub2@web.de>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
-Date: Tue, 09 May 2023 12:44:32 +0200
-Message-ID: <87y1lxeqcv.fsf@secure.mitica>
+Date: Tue, 09 May 2023 12:44:58 +0200
+Message-ID: <87ttwleqc5.fsf@secure.mitica>
 MIME-Version: 1.0
 Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -102,15 +102,14 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 Lukas Straub <lukasstraub2@web.de> wrote:
-> The overhead of the mutex in non-multifd mode is negligible,
-> because in that case its just the single thread taking the mutex.
+> This is not required, colo_flush_ram_cache does not run concurrently
+> with the multifd threads since the cache is only flushed after
+> everything has been received. But it makes me more comfortable.
 >
 > This will be used in the next commits to add colo support to multifd.
 >
 > Signed-off-by: Lukas Straub <lukasstraub2@web.de>
 
 Reviewed-by: Juan Quintela <quintela@redhat.com>
-
-queued.
 
 
