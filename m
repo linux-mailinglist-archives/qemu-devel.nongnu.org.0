@@ -2,106 +2,108 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C22976FD92D
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 May 2023 10:24:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 344856FD92A
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 May 2023 10:24:29 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pwf6R-0005t0-AP; Wed, 10 May 2023 04:23:15 -0400
+	id 1pwf6Q-0005rJ-0S; Wed, 10 May 2023 04:23:14 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <t.dzieciol@partner.samsung.com>)
- id 1pwf6O-0005rZ-5L
- for qemu-devel@nongnu.org; Wed, 10 May 2023 04:23:12 -0400
+ id 1pwf6M-0005qz-QM
+ for qemu-devel@nongnu.org; Wed, 10 May 2023 04:23:10 -0400
 Received: from mailout1.w1.samsung.com ([210.118.77.11])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <t.dzieciol@partner.samsung.com>)
- id 1pwf6K-0007gH-Dg
- for qemu-devel@nongnu.org; Wed, 10 May 2023 04:23:11 -0400
+ id 1pwf6J-0007gI-Ll
+ for qemu-devel@nongnu.org; Wed, 10 May 2023 04:23:10 -0400
 Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
  by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id
- 20230510082300euoutp010c57a38b1aca2fd39c807ddf09a908f8~dupQUbGi62212822128euoutp01G
- for <qemu-devel@nongnu.org>; Wed, 10 May 2023 08:23:00 +0000 (GMT)
+ 20230510082301euoutp01bce6543df3469359bd29f16b68a9d81f~dupQ-mukl2212822128euoutp01H
+ for <qemu-devel@nongnu.org>; Wed, 10 May 2023 08:23:01 +0000 (GMT)
 DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com
- 20230510082300euoutp010c57a38b1aca2fd39c807ddf09a908f8~dupQUbGi62212822128euoutp01G
+ 20230510082301euoutp01bce6543df3469359bd29f16b68a9d81f~dupQ-mukl2212822128euoutp01H
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1683706980;
- bh=SVX8ngCEcNPs5ogdwt64IlHmxZoFqrLbBG6+wRE04Ss=;
- h=From:To:Cc:Subject:Date:References:From;
- b=oVuVGwUP+E/aEPOQsfbjqUFKi6KohozqnbDbs69bAaGdzha+FLU42SuO8l90zSmdb
- eyrygCzmEBPA+deXEK0jkFT5Iet2x5ITUuiw3mtIObkYsm+xztb5vc0Hi/aGizS+SN
- zyRGJN7jMVeqZUP1+XmKgeOCTV05kG4J0tXaIvN8=
-Received: from eusmges1new.samsung.com (unknown [203.254.199.242]) by
- eucas1p1.samsung.com (KnoxPortal) with ESMTP id
- 20230510082300eucas1p1432f14b13737b7ef4847c14d787cb1a1~dupQHkJyT0602506025eucas1p1c;
- Wed, 10 May 2023 08:23:00 +0000 (GMT)
+ s=mail20170921; t=1683706981;
+ bh=RAdTRgkb5cVy6FP5ribk2kxIlvYd4xCVAvY0Bobfcq8=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=sGoryFFxJCxRsS5ynLiSS5kPuO5gmzqEfG1o/VAEFrfV8ebO7vuKTpjJA5tyMu3qO
+ QXhv0qDv+NGFbjLGVZaETPyfFILNLlJ9DLmqcjvDSfxwHRiXJRDwoaPVF5baDiWRls
+ ew5uZh1SOacO8HnmybO3IRfW+MpR1ZRB8lwNmJhU=
+Received: from eusmges3new.samsung.com (unknown [203.254.199.245]) by
+ eucas1p2.samsung.com (KnoxPortal) with ESMTP id
+ 20230510082301eucas1p239e59ce8266b620e5f1477651ea7c95b~dupQnH2AE2230922309eucas1p2i;
+ Wed, 10 May 2023 08:23:01 +0000 (GMT)
 Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
- eusmges1new.samsung.com (EUCPMTA) with SMTP id B7.B3.42423.4645B546; Wed, 10
- May 2023 09:23:00 +0100 (BST)
-Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
- eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
- 20230510082300eucas1p1070e0f1f5ed3620a9b67b2eb482e4422~dupPuKpy10873608736eucas1p1C;
+ eusmges3new.samsung.com (EUCPMTA) with SMTP id AE.F5.37758.5645B546; Wed, 10
+ May 2023 09:23:01 +0100 (BST)
+Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
+ eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
+ 20230510082300eucas1p2638a9dadc30c51f749fee6edf2377302~dupQMFC921626316263eucas1p2N;
  Wed, 10 May 2023 08:23:00 +0000 (GMT)
-Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
- eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
- 20230510082300eusmtrp1feaa712b5660f4abf6664eb57f920e96~dupPtg2ZT0702607026eusmtrp1T;
+Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
+ eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
+ 20230510082300eusmtrp26224d6aa76923f6c19534a8351d92bed~dupQLKKj61369213692eusmtrp2T;
  Wed, 10 May 2023 08:23:00 +0000 (GMT)
-X-AuditID: cbfec7f2-25927a800002a5b7-53-645b5464f770
+X-AuditID: cbfec7f5-815ff7000002937e-0e-645b5465dda3
 Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
- eusmgms1.samsung.com (EUCPMTA) with SMTP id 1A.01.10549.4645B546; Wed, 10
+ eusmgms2.samsung.com (EUCPMTA) with SMTP id 57.B3.14344.4645B546; Wed, 10
  May 2023 09:23:00 +0100 (BST)
 Received: from AMDN5139.EU.corp.samsungelectronics.net (unknown
  [106.210.135.112]) by eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
- 20230510082259eusmtip192a041ebe777c961122c19bcb710e3d1~dupPKUNp02104721047eusmtip1A;
- Wed, 10 May 2023 08:22:59 +0000 (GMT)
+ 20230510082300eusmtip1d839c289fb50ee3caa6f296cbb6381d3~dupPrqVtG2198721987eusmtip11;
+ Wed, 10 May 2023 08:23:00 +0000 (GMT)
 From: Tomasz Dzieciol <t.dzieciol@partner.samsung.com>
 To: qemu-devel@nongnu.org, akihiko.odaki@daynix.com
 Cc: sriram.yagnaraman@est.tech, jasowang@redhat.com, k.kwiecien@samsung.com,
  m.sochacki@samsung.com
-Subject: [PATCH v5 0/6] igb: packet-split descriptors support
-Date: Wed, 10 May 2023 10:22:48 +0200
-Message-Id: <20230510082254.1036-1-t.dzieciol@partner.samsung.com>
+Subject: [PATCH v5 1/6] igb: remove TCP ACK detection
+Date: Wed, 10 May 2023 10:22:49 +0200
+Message-Id: <20230510082254.1036-2-t.dzieciol@partner.samsung.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20230510082254.1036-1-t.dzieciol@partner.samsung.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Brightmail-Tracker: H4sIAAAAAAAAA02Se0hTcRTH+917t12t2XUJO1qgrCw106yoQVkWKivprURGj+Uuas0pm2YF
- 5fsVGpb02GpqQWUTKTSnaUWNajnRbPmqiUvzGYhNhzl6Ou8k//v+Pud7zvke+JE4r5DlQcbL
- kmm5TCwVsJ0J7Vtb6xpJ5BHJ2sHr3sJJQxVHeN84iQkzym6zhLUd0xyhvqieEBZVj2AhbNG7
- sVcsUVt/Ky4a6KzBROMvOtiiy080aB8r2nmLhJbGn6HlgVtPOMdlGYpQ0nPO2Ruvs7F0NMW6
- hJxIoDZAb2XXjHYmeVQFgh5lAZt5WBHk1xc5KpMITO/G0FyLqeAThyk8QGB+/cvhysNg/OUw
- YXexqY3Qby2dKZCkG7UeLHl8O8YpGt78ejVrWUIFQ9PfHLZdE5Q3mHLqZjmX2gGaQQuHWeYJ
- SuMPDsNdoUk5QDBzPCGr9hZu3wvUNRJqSm870oWC9u00m9FL4Jv+iWPQMmguKSQYnQq2Fi2H
- ac5G8OxaicO0GYy1ttnQOOULjxoCGbwdzMPVhB0D5QLdY65MBhe4qr2BM5gL+bk8xu0PU9VK
- NoM94E73RQaL4M7f3Nk9POoovMz8iIqRl2reYap5h6n+RyhHuAbx6RRFQiytCJLRqQEKcYIi
- RRYbEJOYUI1mPkzzH/1EPVJ/swToEEYiHQISF7hxI6KiJTyuRHzuPC1PPC5PkdIKHVpKEgI+
- d3VwUwyPihUn06dpOomWz1Ux0skjHVtBtXeuutno0+fnMlHWs65p5RCdEYI/Lnc6QadNtmx5
- KuxQe430Pmwo5OuPT7zZYzy8e29WVWi2dmixm+XCiJXl5qq6WxF1ZZHZUmOK+02ql3U1tPTG
- C2SqoTYpttH9fLAm7ItNJyD3Jxw2TI2Hj0bswaQG4wHdpg+JW23f972wWU/KwgO8damVqG9c
- WmlOXv016DlsvuWvds9vlVLm933tdTf5dQf6w/zTNMcaP6+KGk1XPrbg8kPbqvQe0ztNPdEn
- rbKlMXiSddhQ3+jbdg9fyIloCVefUg983OWnxyLzO12LXbiC9oNXfPxsPzOjl6cpvUdHYxd0
- vP9SGvddQCjixEF+uFwh/gc3WSAGnwMAAA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrMLMWRmVeSWpSXmKPExsVy+t/xu7opIdEpBmeWc1h8PrWW3WLZpc9M
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFupileLIzCtJLcpLzFFi42LZduznOd3UkOgUg/YHHBafT61lt1h26TOT
+ ReP8OawWW6/+YLc43ruDxaJ30wsmBzaPE28PsnpceHSO2ePJtc1MHu/3XWXz6NuyijGANYrL
+ JiU1J7MstUjfLoEr49urTSwFt1kr3l25yNTAuIeli5GTQ0LAROLC/J1MXYxcHEICKxglDi3d
+ ygrhfGGUuLd4ARtIlZDAZ0aJq28SYTrWzTrLChFfDlS0zgWioZ1Jon35RHaQBJuAmcSjL/OA
+ ijg4RASMJT62i4OEmQVSJY7+OQi2WVjAVGLSzSNgc1gEVCU2zT3JDGLzCjhJTPi/Ceo6eYmZ
+ l76DjeQUcJbYO6eVFaJGUOLkzCcsEDPlJZq3zmYGuUFCYC2HxKoHb9ggml0k1l1ZDzVIWOLV
+ 8S3sELaMxP+d85kg7HKJn2e3sUM0tzBK7Jk6GarIWuLS1p9gDzALaEqs36UPEXaUmL3tJSNI
+ WEKAT+LGW0GIG/gkJm2bzgwR5pXoaBOCqNaR+LZpJhtEWEpi4Y06iLAHUHg2+wRGxVlInpmF
+ 5JlZCGsXMDKvYhRPLS3OTU8tNs5LLdcrTswtLs1L10vOz93ECEwup/8d/7qDccWrj3qHGJk4
+ GA8xSnAwK4nweodGpQjxpiRWVqUW5ccXleakFh9ilOZgURLn1bY9mSwkkJ5YkpqdmlqQWgST
+ ZeLglGpgSptuWfPrT+KZmeHtvN+Tn157r+4++faTW7Kcpt+VfZ/ImYQtvL/Z7cFKxtjEb2pa
+ LOKG0Rsm/Fm2e+meK9uMtySKLo3/FyZu+8W9JXb3fmcO/k8n4uVlH+yaN/UoB4/+ec0JxhmP
+ I4sk55zw/j/Rcq6J5NorVyfvZWZfE2X2v2Fm0yvG+v/563YUPtbaqh71WYFl496KO1ef/TcW
+ 4VFx0UrYtP5ewbQXsnOyZ6x1mBbySHTqHycJ5taS91e/ntzRc+LZ6s5NaWebfOWl/Br+XHhs
+ efN51tLp4mxFs4IjlFaaOsebxLLz3Gr667jnzE13nZU5PNefH5QtiN8nu8ns9rYjeYnSd7+u
+ KpkR2rjN84YSS3FGoqEWc1FxIgCiLi1rnQMAAA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrNLMWRmVeSWpSXmKPExsVy+t/xu7opIdEpBhMuaVp8PrWW3WLZpc9M
  Fo3z57BabL36g93ieO8OFoveTS+YHNg8Trw9yOpx4dE5Zo8n1zYzebzfd5XNo2/LKsYA1ig9
- m6L80pJUhYz84hJbpWhDCyM9Q0sLPSMTSz1DY/NYKyNTJX07m5TUnMyy1CJ9uwS9jOZTvYwF
- e9krph9pYWpg/MbaxcjJISFgInG78yZ7FyMXh5DAUkaJ53e62SESUhL7ev5D2cISf651sUEU
- tTJJdC9fwAKSYBMwk3j0ZR7QJA4OEQFTiWd7JUHCzAKZEqdf7WMDsYUFbCVO/m8Fs1kEVCVu
- t24Ha+UVcJJY9fQj1Hx5iZmXvrNDxAUlTs58wgIxR16ieets5gmMfLOQpGYhSS1gZFrFKJJa
- WpybnltsqFecmFtcmpeul5yfu4kRGNrbjv3cvINx3quPeocYmTgYDzFKcDArifB6h0alCPGm
- JFZWpRblxxeV5qQWH2I0BbpvIrOUaHI+MLrySuINzQxMDU3MLA1MLc2MlcR5PQs6EoUE0hNL
- UrNTUwtSi2D6mDg4pRqYzLqqzzczeWzZVGq1+e20S0a/2t0lXCa8Mw/iXeC5w1vL9vYUkwMh
- M6dd0CjdsneX/qf1ri9nVnb73r+8O5xh9x7u86eCfS9ET59xQWXG/NOTKt3SNbZ/MnlwnfHA
- tr0u0RWutm0nfh65tTb00qcig++VJ+9vcfnOIrb3vKV+5sU1xVlOKlmLOyKe//mfkT37hdXf
- XXFH5JyTFDunNjN8dDD98MzHKTGkM+7ot1iDQr65B9YH9D0/uH6Dw3mOxf7vpV2DhT/28lT/
- YKkqf6HTcrRN/O+hc37ZC+x8K6ds5bSwP9G8/7vevx7lj1ISUvk6zIcOa8Y84RBp3rPjo5DS
- uch73kfXxsexVTit/jDzlRJLcUaioRZzUXEiAJ5HOpn2AgAA
-X-CMS-MailID: 20230510082300eucas1p1070e0f1f5ed3620a9b67b2eb482e4422
+ m6L80pJUhYz84hJbpWhDCyM9Q0sLPSMTSz1DY/NYKyNTJX07m5TUnMyy1CJ9uwS9jG+vNrEU
+ 3GateHflIlMD4x6WLkZODgkBE4l1s86ydjFycQgJLGWUuH1jGTNEQkpiX89/dghbWOLPtS42
+ iKJWJonpW7YxgiTYBMwkHn2ZB9TNwSEiYCrxbK8kSJhZIFPi9Kt9bCC2MFB40s0jrCA2i4Cq
+ xKa5J8Hm8wo4SUz4vwnqCHmJmZe+g+3iFHCW2DunFaxeCKhm1oo1UPWCEidnPmGBmC8v0bx1
+ NvMERoFZSFKzkKQWMDKtYhRJLS3OTc8tNtIrTswtLs1L10vOz93ECIyFbcd+btnBuPLVR71D
+ jEwcjIcYJTiYlUR4vUOjUoR4UxIrq1KL8uOLSnNSiw8xmgLdPZFZSjQ5HxiNeSXxhmYGpoYm
+ ZpYGppZmxkrivJ4FHYlCAumJJanZqakFqUUwfUwcnFINTA6+hx3fG2jN0xBSCrM7e5Bp6l3h
+ jX+dD/V7v9viEr1z5sZc6+KIvdYnFKYXnTou+sr6Zv6kqqV7tu2bcCuwxe7g6cXs8pr3vHPf
+ p3Xvq9pXF2kVtUGtyErjUYBmyruzmWet10xtVFj57JWzXeXXSbHKyRXhhX0zdXe+9Nf4Ksjw
+ Z+s7zb1tCk45XZXHHh+Q2L9v51fdFS5hbnXcp54UelXzHKj8ECnE1D/LWCMxVe7llRBfTa31
+ D8VfCN12E33xqe7tnC2rXvye9nWzFr/nj8nqTE+5bfakWqddbHmYE+b7/2nOmmbZTYtLXnle
+ lQkK0XZRX35O6p1y2JUWT9vDHHuZQ+46ClxeZPdOyJQ9UomlOCPRUIu5qDgRAFEAd8oOAwAA
+X-CMS-MailID: 20230510082300eucas1p2638a9dadc30c51f749fee6edf2377302
 X-Msg-Generator: CA
 Content-Type: text/plain; charset="utf-8"
-X-RootMTR: 20230510082300eucas1p1070e0f1f5ed3620a9b67b2eb482e4422
+X-RootMTR: 20230510082300eucas1p2638a9dadc30c51f749fee6edf2377302
 X-EPHeader: CA
 CMS-TYPE: 201P
-X-CMS-RootMailID: 20230510082300eucas1p1070e0f1f5ed3620a9b67b2eb482e4422
-References: <CGME20230510082300eucas1p1070e0f1f5ed3620a9b67b2eb482e4422@eucas1p1.samsung.com>
+X-CMS-RootMailID: 20230510082300eucas1p2638a9dadc30c51f749fee6edf2377302
+References: <20230510082254.1036-1-t.dzieciol@partner.samsung.com>
+ <CGME20230510082300eucas1p2638a9dadc30c51f749fee6edf2377302@eucas1p2.samsung.com>
 Received-SPF: none client-ip=210.118.77.11;
  envelope-from=t.dzieciol@partner.samsung.com; helo=mailout1.w1.samsung.com
 X-Spam_score_int: -69
@@ -126,31 +128,29 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Based-on: <20230423041833.5302-1-akihiko.odaki@daynix.com>
-("[PATCH v3 00/47] igb: Fix for DPDK")
+TCP ACK detection is no longer present in igb.
 
-Purposes of this series of patches:
-* introduce packet-split RX descriptors support. This feature is used by Linux
-  VF driver for MTU values from 2048.
-* refactor RX descriptor handling for introduction of packet-split RX
-  descriptors support
-* fix descriptors flags handling
+Signed-off-by: Tomasz Dzieciol <t.dzieciol@partner.samsung.com>
+---
+ hw/net/igb_core.c | 5 -----
+ 1 file changed, 5 deletions(-)
 
-Tomasz Dzieciol (6):
-  igb: remove TCP ACK detection
-  igb: rename E1000E_RingInfo_st
-  igb: RX descriptors guest writting refactoring
-  igb: RX payload guest writting refactoring
-  igb: add IPv6 extended headers traffic detection
-  igb: packet-split descriptors support
-
- hw/net/e1000e_core.c     |  60 +--
- hw/net/igb_core.c        | 794 +++++++++++++++++++++++++++++----------
- hw/net/igb_regs.h        |  18 +-
- hw/net/trace-events      |   6 +-
- tests/qtest/libqos/igb.c |   5 +
- 5 files changed, 639 insertions(+), 244 deletions(-)
-
+diff --git a/hw/net/igb_core.c b/hw/net/igb_core.c
+index 96b7335b31..012eb1e1b9 100644
+--- a/hw/net/igb_core.c
++++ b/hw/net/igb_core.c
+@@ -1327,11 +1327,6 @@ igb_build_rx_metadata(IGBCore *core,
+             trace_e1000e_rx_metadata_ip_id(*ip_id);
+     }
+ 
+-    if (l4hdr_proto == ETH_L4_HDR_PROTO_TCP && net_rx_pkt_is_tcp_ack(pkt)) {
+-        *status_flags |= E1000_RXD_STAT_ACK;
+-        trace_e1000e_rx_metadata_ack();
+-    }
+-
+     if (pkt_info) {
+         *pkt_info = rss_info->enabled ? rss_info->type : 0;
+ 
 -- 
 2.25.1
 
