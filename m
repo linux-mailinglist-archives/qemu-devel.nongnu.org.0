@@ -2,89 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FCA46FE2CF
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 May 2023 18:56:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 470A26FE308
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 May 2023 19:10:10 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pwn5p-0003aL-Jw; Wed, 10 May 2023 12:55:09 -0400
+	id 1pwnIw-00079q-Ng; Wed, 10 May 2023 13:08:42 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pwn5m-0003a5-UW
- for qemu-devel@nongnu.org; Wed, 10 May 2023 12:55:07 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pwn5l-0000yc-6T
- for qemu-devel@nongnu.org; Wed, 10 May 2023 12:55:06 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1683737703;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=2AY/ICJd4BU64HpWp3l0IvbIHG8WFnQecVp6P0s/PlU=;
- b=S95qTFiWhSbXjJmsMqsMGi5fMD/gklr5b09iBOtgwEY3kLV4azVrTyh9lDB5aZT0mq9WdU
- EDYMRhI4wsaywtexHc7z/DtrubbWbhOCoECcVL0TwSv+9kgYMm1G8dHZsCvpYjd4w5VuKQ
- QJd9FWp/4e6q6IK1SS7bQUuLruIAlSY=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-196-wcTha_zSMuaaQ9sxmYAIfg-1; Wed, 10 May 2023 12:55:02 -0400
-X-MC-Unique: wcTha_zSMuaaQ9sxmYAIfg-1
-Received: by mail-wm1-f72.google.com with SMTP id
- 5b1f17b1804b1-3f453ff4cdfso5275425e9.2
- for <qemu-devel@nongnu.org>; Wed, 10 May 2023 09:55:02 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pwnIc-00076n-Q5
+ for qemu-devel@nongnu.org; Wed, 10 May 2023 13:08:22 -0400
+Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pwnIU-0003zB-NM
+ for qemu-devel@nongnu.org; Wed, 10 May 2023 13:08:22 -0400
+Received: by mail-wm1-x332.google.com with SMTP id
+ 5b1f17b1804b1-3f427118644so35646645e9.0
+ for <qemu-devel@nongnu.org>; Wed, 10 May 2023 10:08:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1683738493; x=1686330493;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:to
+ :from:from:to:cc:subject:date:message-id:reply-to;
+ bh=AMgWjdExqQvD0z7w+v6d0whyaY3pAvLUhKRIvQ5q42Q=;
+ b=ieMCqTYZ0V31LXZKOpznDQx8mLfstB7QqFtKT6Z1sGhRmMlSCO74HxPGw0hYAT/qYY
+ dEYswIPwrs24SJGEX6ORGpgh4VaeHFHmJ9SVDwruVa8+rqUpzdGdWpWA7JOVnaTe3jJ9
+ n5NTrr5W4DkYg+cTjFeyGXz/EKMvBpsLYeIBVIlTzs6SgBVikEeUrlVQT7bPW8oD7tje
+ Po+tAF9EXFxMe+jZsLHYxmDOUDvskhryMY9Ijk86Uorxs/MlGo2zcNidCbgRWyWLqWto
+ FRMn3+8vev1XYq9VzdxxRXArGQki3trHwGKbwkziOf047s9Cm7ZPZDsaKzyDqsFfubxT
+ vi8A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683737701; x=1686329701;
- h=mime-version:message-id:date:reply-to:user-agent:references
- :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=2AY/ICJd4BU64HpWp3l0IvbIHG8WFnQecVp6P0s/PlU=;
- b=AmIBL6XGT4Jjd3mMkqcPa3Ag73pO/Qu4tHgau+4ZCd9iLxJHSL8p8jBxJnXu/x8Bjy
- +j3jLAyQa2FwmKb2zGBieGPbEj0rBJqM3UbhgvfzA1/cbXamWfx2LyIbeC/3bQTCn9eJ
- jERtSBzgZ8QR3L5VIhvLtSLtnc2uLjGgHk83g9rdD1o2Vow5IORvrSVATwqq5VmCao9g
- UoX7PSfGewlnSzTqRKHNEyea9G2CEEf6neIxnIrM1n95xknRjXZ32W7Q8t9Ait+sEBDt
- FDYkYDjh81xWMPVqLmgy/PhSamzA7aUv08CqWJ7dGz31ej8rdSsziruQR/DhMiXcNFYo
- VbkQ==
-X-Gm-Message-State: AC+VfDyGbU1zqPxauUL3I05PaaOkQCdvpbl/ErLWR9SFrqTsAXCgIYGX
- iaGhNc6vmUUEORN2QlBD30DCy4vhuhw1FMhKz/ccSnqgoXbsPYa+oCYYKoN0GTYpjNjjjMl1WlX
- UQCK162aJ8LXzsN4=
-X-Received: by 2002:a7b:cc15:0:b0:3f4:16bc:bd1b with SMTP id
- f21-20020a7bcc15000000b003f416bcbd1bmr10429150wmh.39.1683737701376; 
- Wed, 10 May 2023 09:55:01 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ50jN4vVBR29edOm18M5IhcjmLJKXm15WGBLzzzr96SRraFBJG6qbQILjwXgtp6b6GmfOZzTQ==
-X-Received: by 2002:a7b:cc15:0:b0:3f4:16bc:bd1b with SMTP id
- f21-20020a7bcc15000000b003f416bcbd1bmr10429138wmh.39.1683737701132; 
- Wed, 10 May 2023 09:55:01 -0700 (PDT)
-Received: from redhat.com (static-92-120-85-188.ipcom.comunitel.net.
- [188.85.120.92]) by smtp.gmail.com with ESMTPSA id
- n3-20020a7bc5c3000000b003f0b1b8cd9bsm23446369wmk.4.2023.05.10.09.54.59
+ d=1e100.net; s=20221208; t=1683738493; x=1686330493;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=AMgWjdExqQvD0z7w+v6d0whyaY3pAvLUhKRIvQ5q42Q=;
+ b=F6Mn3MKAyP0sXLoxF9WVzouy9ffYTKiFI/lqRnMRtJ05+q8arK66XldzGI4v3KsYLi
+ hgFMe+G4eN/aYau5TlgbNkuwITCqMUIhpqG5A1+GhOC5F9tAovG49Fd4Wa8n67a1bcpA
+ Q/kwV7XsEnzfiPI+DyH03q9tTpvcIVXLjTBd9ae8F4pNWykVG75K9H83BjcCMnAyVD8o
+ PYDqMVqyr1L10gQMpyz3ojD0fuZhwa2sSP/hpnFttxR5F/KK9zirmaKhdlkHmsNDUXF8
+ kIXswoMDhDJxlSa/+nJeHFEw4Nm7L1m/fvSyXIfgBv7FJHHSgyejG1ABRiU5+i4e1WZ0
+ DzSw==
+X-Gm-Message-State: AC+VfDxECCksSIM59FkejFKDVI8fschANJk/J6u0UPyOOvN6UuEorFfk
+ H9NmNlmlsZfEiSIx7QiRPmCtH/TZ1llcgLXUhkwgQA==
+X-Google-Smtp-Source: ACHHUZ6Sohpmh7q2lO7wV4HaShbGv5hqTk0cYL/Lit+v+zuhTYC5xX5DyhkqSsnpVqExlgEr/z/xhA==
+X-Received: by 2002:a05:600c:cf:b0:3f4:2a06:dc59 with SMTP id
+ u15-20020a05600c00cf00b003f42a06dc59mr5967586wmm.12.1683738493285; 
+ Wed, 10 May 2023 10:08:13 -0700 (PDT)
+Received: from stoup.lan ([85.9.250.243]) by smtp.gmail.com with ESMTPSA id
+ n2-20020a05600c294200b003f17eded97bsm23272011wmd.19.2023.05.10.10.08.12
+ for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 10 May 2023 09:54:59 -0700 (PDT)
-From: Juan Quintela <quintela@redhat.com>
-To: Andrei Gudkov <gudkov.andrei@huawei.com>
-Cc: <qemu-devel@nongnu.org>,  <eblake@redhat.com>,  <armbru@redhat.com>,
- <berrange@redhat.com>,  <zhengchuan@huawei.com>
-Subject: Re: [PATCH v2 1/4] migration/calc-dirty-rate: replaced CRC32 with
- xxHash
-In-Reply-To: <cd115a89fc81d5f2eeb4ea7d57a98b84f794f340.1682598010.git.gudkov.andrei@huawei.com>
- (Andrei Gudkov's message of "Thu, 27 Apr 2023 15:42:57 +0300")
-References: <cover.1682598010.git.gudkov.andrei@huawei.com>
- <cd115a89fc81d5f2eeb4ea7d57a98b84f794f340.1682598010.git.gudkov.andrei@huawei.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
-Date: Wed, 10 May 2023 18:54:58 +0200
-Message-ID: <87bkis6s9p.fsf@secure.mitica>
+ Wed, 10 May 2023 10:08:13 -0700 (PDT)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] disas: Fix tabs and braces in disas.c
+Date: Wed, 10 May 2023 18:08:12 +0100
+Message-Id: <20230510170812.663149-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::332;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x332.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -98,29 +82,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Andrei Gudkov <gudkov.andrei@huawei.com> wrote:
-> This significantly reduces overhead of dirty page
-> rate calculation in sampling mode.
-> Tested using 32GiB VM on E5-2690 CPU.
->
-> With CRC32:
-> total_pages=8388608 sampled_pages=16384 millis=71
->
-> With xxHash:
-> total_pages=8388608 sampled_pages=16384 millis=14
->
-> Signed-off-by: Andrei Gudkov <gudkov.andrei@huawei.com>
+Fix these before moving the file, for checkpatch.pl.
 
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ disas.c | 11 ++++++-----
+ 1 file changed, 6 insertions(+), 5 deletions(-)
 
-Reviewed-by: Juan Quintela <quintela@redhat.com>
-
-This changes nothing outside of dirtyrate, and if the hash function is
-faster, we should be good.
-
-queued.
+diff --git a/disas.c b/disas.c
+index b087c12c47..d46f638a72 100644
+--- a/disas.c
++++ b/disas.c
+@@ -226,11 +226,12 @@ void target_disas(FILE *out, CPUState *cpu, target_ulong code,
+     }
+ 
+     for (pc = code; size > 0; pc += count, size -= count) {
+-	fprintf(out, "0x" TARGET_FMT_lx ":  ", pc);
+-	count = s.info.print_insn(pc, &s.info);
+-	fprintf(out, "\n");
+-	if (count < 0)
+-	    break;
++        fprintf(out, "0x" TARGET_FMT_lx ":  ", pc);
++        count = s.info.print_insn(pc, &s.info);
++        fprintf(out, "\n");
++        if (count < 0) {
++            break;
++        }
+         if (size < count) {
+             fprintf(out,
+                     "Disassembler disagrees with translator over instruction "
+-- 
+2.34.1
 
 
