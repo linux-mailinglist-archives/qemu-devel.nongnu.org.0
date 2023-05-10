@@ -2,86 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A4D46FE21D
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 May 2023 18:05:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C015D6FE21C
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 May 2023 18:05:28 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pwmJS-0004fM-So; Wed, 10 May 2023 12:05:11 -0400
+	id 1pwmJT-0004lF-Ts; Wed, 10 May 2023 12:05:11 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1pwmJB-0004SL-IF
- for qemu-devel@nongnu.org; Wed, 10 May 2023 12:04:53 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ id 1pwmJF-0004bo-33
+ for qemu-devel@nongnu.org; Wed, 10 May 2023 12:05:00 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1pwmJ7-0006zE-Sb
- for qemu-devel@nongnu.org; Wed, 10 May 2023 12:04:52 -0400
+ id 1pwmJ9-0006zf-LO
+ for qemu-devel@nongnu.org; Wed, 10 May 2023 12:04:53 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1683734686;
+ s=mimecast20190719; t=1683734689;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=GxZUIL8ZRc+jI61JL7bfHIiOabQ6MVo42eXQ13VfCiA=;
- b=Axoc7goLZ5wStNC5loNj3MM1RVOobKQZdbvzdZPvakC+PpRyntw8jiCobTixpZI5fu6HDB
- j5RlPokFIl5d0Cph3ryOCHgyjtHFWDpKBhpzQUhzFF0xty1jF5EXhyi8AYjYRkJ+UeBQ0C
- bGxMWYXU6g08RMMtyEi9Rq8rrSm0Axg=
-Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
- [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=0i0pyo1eojjJCUnANfMoxPgp4XIF4q+7+aKWreDoslg=;
+ b=Z8xknmunONDXsTlqjvM3iw7Db3a0pM3nL7cxALX8FihWA4MTZSn77tCQuL9bvpSFDtzq52
+ qB0YoT6dI1o68xVTfPzKd/twTkzkb7ViuQWdStcV+IOElPRTu6av6F1IiACGEY7+mi36mi
+ cObF4u5hsFPYIgtR36YZO57sRT9DOQw=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-630-MrWSoMArOQGnXHGBCl2Z1g-1; Wed, 10 May 2023 12:04:45 -0400
-X-MC-Unique: MrWSoMArOQGnXHGBCl2Z1g-1
-Received: by mail-ej1-f69.google.com with SMTP id
- a640c23a62f3a-965b73d8b7eso721364166b.2
- for <qemu-devel@nongnu.org>; Wed, 10 May 2023 09:04:45 -0700 (PDT)
+ us-mta-531-HcJsd4kDN3iOkwbX-bplEw-1; Wed, 10 May 2023 12:04:47 -0400
+X-MC-Unique: HcJsd4kDN3iOkwbX-bplEw-1
+Received: by mail-ed1-f72.google.com with SMTP id
+ 4fb4d7f45d1cf-50bd7555c6eso6895131a12.1
+ for <qemu-devel@nongnu.org>; Wed, 10 May 2023 09:04:47 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683734684; x=1686326684;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=GxZUIL8ZRc+jI61JL7bfHIiOabQ6MVo42eXQ13VfCiA=;
- b=PRPMB7ZgZNgFUXbLkvaoUqDOMKkWQIXLGwl2OgvGed/BLlDq3ck6hUlXk96ZxnrSZL
- xNntw+T5dR0J4GuQ/Hd66i0uMFg8bg34aeHDGztmMc09/sJCXXlco867ENxEqdvMGRM8
- tOohLqXKan6xvggep3CYvWhYUtK6zq/klS9niynI/a7f6GUFWuX+S0fJ+AoDeA6UxG4Z
- 0xzx792WQ8uy10HKTUNUnMOmlh5ZRMTVCBP6EEqWRMMNFV9Mto6JH/ygC4fxrfpNRMM4
- l70vBZuNeA3j/qhIn66BCFHBeuhpqKRDZb2pZeMb6KqPIZruH/ys3zpiRgCON8PVISUN
- PAZQ==
-X-Gm-Message-State: AC+VfDyVnggvfDFd854R5zAhJkFLWPytjG01HgaWdPluGgUnsAAF7Tn4
- 3FLMtJkYQ/EXEjzlmgONWMo3ygt/ozGGoMkeTs42pYLD7ExRjll53+KRFNYMSKg+hmOpW+6RNvH
- EPNf7PE+niuz4VNIW+Xd06UUT9uUN/H+aTs4lJ6WHVC6mKTW0c5kHCvZjiUUmMjL6vuvpsflFbr
- I=
-X-Received: by 2002:a17:907:1c84:b0:969:f677:11b7 with SMTP id
- nb4-20020a1709071c8400b00969f67711b7mr6581145ejc.20.1683734683741; 
- Wed, 10 May 2023 09:04:43 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ7Y/bn5sWM2RZT88xx+3Tv6dHZWzZRarui2dDWqXbA109DZCc8pd773lkWHtB9TFBx18IHikA==
-X-Received: by 2002:a17:907:1c84:b0:969:f677:11b7 with SMTP id
- nb4-20020a1709071c8400b00969f67711b7mr6581111ejc.20.1683734683299; 
- Wed, 10 May 2023 09:04:43 -0700 (PDT)
+ d=1e100.net; s=20221208; t=1683734685; x=1686326685;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=0i0pyo1eojjJCUnANfMoxPgp4XIF4q+7+aKWreDoslg=;
+ b=eHLyvK5eieKTgpzt8uwJyvjrP04MJOmOeZKfvg9bVeVlz/O60/UoBC5qv8pCTwoU+V
+ 0MAwdv5vN2Ha5X7EGSz645Af1QxMEzn8XytXRUVK8GenioLg/xMrDKtkl6sNSKajheo4
+ +Z2B0FljaEXGy+XIiYfUo4YNRtUpowL5gSZYYsRdbqTYM1nI+Lakra97BlkhZQy/vVni
+ zB8hAJLe7D0hTKXnwqTJLZYo3w3qQviY+qaA/VQ1KhXq/qDVHNkjmuUD7T7pCX4k+LkQ
+ ORsU7NoJoSacxC+LHEAT57KtG7iR1E8KTjlmaDDGTA9Mkff7cWVRHam+0fTVwo4/rY2H
+ k5qw==
+X-Gm-Message-State: AC+VfDzAYpysZeEOnLWhVIM8IvgmRwagvQV766x87zDca+M97fDRw8s3
+ jZSveLpuEIfMkIAdubB29iX6WnnX0PVG/OxWCwqCIqC2pMMBvB1WWK711a7Xdm/a16f2x6+O5bY
+ ZKdZMZserK5A3V5su9KaRx0XnOM0YpHqeL5XayKxnapj0JC796H4indXwWqiNH9nrP5hjcpv0D3
+ M=
+X-Received: by 2002:a17:906:4fc3:b0:965:c42d:ac59 with SMTP id
+ i3-20020a1709064fc300b00965c42dac59mr15392008ejw.14.1683734685249; 
+ Wed, 10 May 2023 09:04:45 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ6yPzlCUY2fXgOHDsEuVRjt/HPRnijS3HSqyC5D6+E2ECmcE4xygCLiuwE+DgxoLB2nx3Gdsg==
+X-Received: by 2002:a17:906:4fc3:b0:965:c42d:ac59 with SMTP id
+ i3-20020a1709064fc300b00965c42dac59mr15391990ejw.14.1683734684845; 
+ Wed, 10 May 2023 09:04:44 -0700 (PDT)
 Received: from [192.168.10.118] ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
  by smtp.gmail.com with ESMTPSA id
- fy7-20020a1709069f0700b00965af4c7f07sm2828200ejc.20.2023.05.10.09.04.42
+ hf27-20020a1709072c5b00b0096557203071sm2823287ejc.217.2023.05.10.09.04.43
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 10 May 2023 09:04:42 -0700 (PDT)
+ Wed, 10 May 2023 09:04:44 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: richard.henderson@linaro.org
-Subject: [PATCH] tcg: round-robin: do not use mb_read for rr_current_cpu
-Date: Wed, 10 May 2023 18:04:40 +0200
-Message-Id: <20230510160441.1249170-1-pbonzini@redhat.com>
+Subject: [PATCH] coroutine-asm: add x86 CET shadow stack support
+Date: Wed, 10 May 2023 18:04:41 +0200
+Message-Id: <20230510160441.1249170-2-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.40.1
+In-Reply-To: <20230510160441.1249170-1-pbonzini@redhat.com>
+References: <20230510160441.1249170-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -97,54 +100,199 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Note that qatomic_mb_set can remain, similar to how Linux has smp_store_mb
-(an optimized version of following a store with a full memory barrier).
-
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- accel/tcg/tcg-accel-ops-rr.c | 11 +++++++----
- 1 file changed, 7 insertions(+), 4 deletions(-)
+ meson.build          | 16 +++++++--
+ util/coroutine-asm.c | 82 ++++++++++++++++++++++++++++++++++++++++++--
+ 2 files changed, 93 insertions(+), 5 deletions(-)
 
-diff --git a/accel/tcg/tcg-accel-ops-rr.c b/accel/tcg/tcg-accel-ops-rr.c
-index 290833a37fb2..055f6ae29553 100644
---- a/accel/tcg/tcg-accel-ops-rr.c
-+++ b/accel/tcg/tcg-accel-ops-rr.c
-@@ -71,11 +71,13 @@ static void rr_kick_next_cpu(void)
- {
-     CPUState *cpu;
-     do {
--        cpu = qatomic_mb_read(&rr_current_cpu);
-+        cpu = qatomic_read(&rr_current_cpu);
-         if (cpu) {
-             cpu_exit(cpu);
-         }
--    } while (cpu != qatomic_mb_read(&rr_current_cpu));
-+        /* Finish kicking this cpu before reading again.  */
-+        smp_mb();
-+    } while (cpu != qatomic_read(&rr_current_cpu));
+diff --git a/meson.build b/meson.build
+index 0121ccab78dd..17e4a3bc582e 100644
+--- a/meson.build
++++ b/meson.build
+@@ -328,6 +328,10 @@ elif coroutine_backend not in supported_backends
+         .format(coroutine_backend, ', '.join(supported_backends)))
+ endif
+ 
++if cfi_mode == 'hw' and coroutine_backend != 'asm'
++  error('Hardware control-flow integrity requires the "asm" coroutine backend.')
++endif
++
+ # Compiles if SafeStack *not* enabled
+ safe_stack_probe = '''
+   int main(void)
+@@ -469,16 +473,22 @@ if cfi_mode == 'sw'
+     endif
+   endif
+ elif cfi_mode in ['hw', 'auto']
+-  if cfi_mode == 'hw'
+-    error('Hardware CFI is not supported yet')
++  if cpu in ['x86', 'x86_64']
++    cfi_flags += cc.get_supported_arguments('-fcf-protection=full')
++    if cfi_mode == 'hw'
++      error('C compiler does not support -fcf-protection')
++    endif
++  elif cfi_mode == 'hw'
++    error('Hardware CFI is only supported on x86')
+   endif
+   if cfi_flags == [] and cfi_mode == 'auto'
+     cfi_mode = 'disabled'
+   endif
+ endif
+-if cpu in ['x86', 'x86_64']
++if cpu in ['x86', 'x86_64'] and cfi_mode != 'hw'
+   cfi_flags += cc.get_supported_arguments('-fcf-protection=branch')
+ endif
++
+ add_global_arguments(cfi_flags, native: false, language: all_languages)
+ add_global_link_arguments(cfi_flags, native: false, language: all_languages)
+ 
+diff --git a/util/coroutine-asm.c b/util/coroutine-asm.c
+index a06ecbcb0a07..771b1d4a0fc9 100644
+--- a/util/coroutine-asm.c
++++ b/util/coroutine-asm.c
+@@ -22,6 +22,13 @@
+ #include "qemu/osdep.h"
+ #include "qemu-common.h"
+ #include "qemu/coroutine_int.h"
++#include "qemu/error-report.h"
++
++#ifdef CONFIG_CF_PROTECTION
++#include <asm/prctl.h>
++#include <sys/prctl.h>
++int arch_prctl(int code, unsigned long addr);
++#endif
+ 
+ #ifdef CONFIG_VALGRIND_H
+ #include <valgrind/valgrind.h>
+@@ -39,10 +46,14 @@
+ typedef struct {
+     Coroutine base;
+     void *sp;
++    void *ssp;
+ 
+     void *stack;
+     size_t stack_size;
+ 
++    /* x86: CET shadow stack */
++    void *sstack;
++    size_t sstack_size;
+ #ifdef CONFIG_VALGRIND_H
+     unsigned int valgrind_stack_id;
+ #endif
+@@ -77,6 +88,35 @@ static void start_switch_fiber(void **fake_stack_save,
+ #endif
  }
  
- static void rr_kick_thread(void *opaque)
-@@ -206,8 +208,9 @@ static void *rr_cpu_thread_fn(void *arg)
-         }
- 
-         while (cpu && cpu_work_list_empty(cpu) && !cpu->exit_request) {
--
-+            /* Store rr_current_cpu before evaluating cpu_can_run().  */
-             qatomic_mb_set(&rr_current_cpu, cpu);
++static bool have_sstack(void)
++{
++#if defined CONFIG_CF_PROTECTION && defined __x86_64__
++    uint64_t ssp;
++    asm ("xor %0, %0; rdsspq %0\n" : "=r" (ssp));
++    return !!ssp;
++#else
++    return 0;
++#endif
++}
 +
-             current_cpu = cpu;
++static void *alloc_sstack(size_t sz)
++{
++#if defined CONFIG_CF_PROTECTION && defined __x86_64__
++#ifndef ARCH_X86_CET_ALLOC_SHSTK
++#define ARCH_X86_CET_ALLOC_SHSTK 0x3004
++#endif
++
++    uint64_t arg = sz;
++    if (arch_prctl(ARCH_X86_CET_ALLOC_SHSTK, (unsigned long) &arg) < 0) {
++        abort();
++    }
++
++    return (void *)arg;
++#else
++    abort();
++#endif
++}
++
+ #ifdef __x86_64__
+ /*
+  * We hardcode all operands to specific registers so that we can write down all the
+@@ -88,6 +128,26 @@ static void start_switch_fiber(void **fake_stack_save,
+  * Note that push and call would clobber the red zone.  Makefile.objs compiles this
+  * file with -mno-red-zone.  The alternative is to subtract/add 128 bytes from rsp
+  * around the switch, with slightly lower cache performance.
++ *
++ * The RSTORSSP and SAVEPREVSSP instructions are intricate.  In a nutshell they are:
++ *
++ *      RSTORSSP(mem):    oldSSP = SSP
++ *                        SSP = mem
++ *                        *SSP = oldSSP
++ *
++ *      SAVEPREVSSP:      oldSSP = shadow_stack_pop()
++ *                        *(oldSSP - 8) = oldSSP       # "push" to old shadow stack
++ *
++ * Therefore, RSTORSSP(mem) followed by SAVEPREVSSP is the same as
++ *
++ *     shadow_stack_push(SSP)
++ *     SSP = mem
++ *     shadow_stack_pop()
++ *
++ * From the simplified description you can see that co->ssp, being stored before
++ * the RSTORSSP+SAVEPREVSSP sequence, points to the top actual entry of the shadow
++ * stack, not to the restore token.  Hence we use an offset of -8 in the operand
++ * of rstorssp.
+  */
+ #define CO_SWITCH(from, to, action, jump) ({                                          \
+     int action_ = action;                                                             \
+@@ -100,7 +160,15 @@ static void start_switch_fiber(void **fake_stack_save,
+         "jmp 2f\n"                          /* switch back continues at label 2 */    \
+                                                                                       \
+         "1: .cfi_adjust_cfa_offset 8\n"                                               \
+-        "movq %%rsp, %c[SP](%[FROM])\n"     /* save source SP */                      \
++        "xor %%rbp, %%rbp\n"                /* use old frame pointer as scratch reg */ \
++        "rdsspq %%rbp\n"                                                              \
++        "test %%rbp, %%rbp\n"               /* if CET is enabled... */                \
++        "jz 9f\n"                                                                     \
++        "movq %%rbp, %c[SSP](%[FROM])\n"    /* ... save source shadow SP, */         \
++        "movq %c[SSP](%[TO]), %%rbp\n"      /* restore destination shadow stack, */  \
++        "rstorssp -8(%%rbp)\n"                                                        \
++        "saveprevssp\n"                     /* and save source shadow SP token */     \
++        "9: movq %%rsp, %c[SP](%[FROM])\n"  /* save source SP */                      \
+         "movq %c[SP](%[TO]), %%rsp\n"       /* load destination SP */                 \
+         jump "\n"                           /* coroutine switch */                    \
+                                                                                       \
+@@ -108,7 +176,8 @@ static void start_switch_fiber(void **fake_stack_save,
+         "popq %%rbp\n"                                                                \
+         ".cfi_adjust_cfa_offset -8\n"                                                 \
+         : "+a" (action_), [FROM] "+b" (from_), [TO] "+D" (to_)                        \
+-        : [SP] "i" (offsetof(CoroutineAsm, sp))                                       \
++        : [SP] "i" (offsetof(CoroutineAsm, sp)),                                      \
++          [SSP] "i" (offsetof(CoroutineAsm, ssp))                                     \
+         : "rcx", "rdx", "rsi", "r8", "r9", "r10", "r11", "r12", "r13", "r14", "r15",  \
+           "memory");                                                                  \
+     action_;                                                                          \
+@@ -141,6 +210,12 @@ Coroutine *qemu_coroutine_new(void)
+     co->stack = qemu_alloc_stack(&co->stack_size);
+     co->sp = co->stack + co->stack_size;
  
-             qemu_clock_enable(QEMU_CLOCK_VIRTUAL,
-@@ -245,7 +248,7 @@ static void *rr_cpu_thread_fn(void *arg)
-             cpu = CPU_NEXT(cpu);
-         } /* while (cpu && !cpu->exit_request).. */
++    if (have_sstack()) {
++        co->sstack_size = COROUTINE_SHADOW_STACK_SIZE;
++        co->sstack = alloc_sstack(co->sstack_size);
++        co->ssp = co->sstack + co->sstack_size;
++    }
++
+ #ifdef CONFIG_VALGRIND_H
+     co->valgrind_stack_id =
+         VALGRIND_STACK_REGISTER(co->stack, co->stack + co->stack_size);
+@@ -186,6 +261,9 @@ void qemu_coroutine_delete(Coroutine *co_)
+ #endif
  
--        /* Does not need qatomic_mb_set because a spurious wakeup is okay.  */
-+        /* Does not need a memory barrier because a spurious wakeup is okay.  */
-         qatomic_set(&rr_current_cpu, NULL);
+     qemu_free_stack(co->stack, co->stack_size);
++    if (co->sstack) {
++        munmap(co->sstack, co->sstack_size);
++    }
+     g_free(co);
+ }
  
-         if (cpu && cpu->exit_request) {
 -- 
 2.40.1
 
