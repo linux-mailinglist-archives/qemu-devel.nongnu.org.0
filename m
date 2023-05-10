@@ -2,89 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F9176FDDE3
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 May 2023 14:35:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 567846FDDF7
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 May 2023 14:40:58 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pwj2J-00012F-69; Wed, 10 May 2023 08:35:15 -0400
+	id 1pwj78-0004F3-G1; Wed, 10 May 2023 08:40:14 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pwj2H-00010U-Dp
- for qemu-devel@nongnu.org; Wed, 10 May 2023 08:35:13 -0400
-Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pwj2F-00026T-Kt
- for qemu-devel@nongnu.org; Wed, 10 May 2023 08:35:13 -0400
-Received: by mail-wm1-x336.google.com with SMTP id
- 5b1f17b1804b1-3f315712406so244968075e9.0
- for <qemu-devel@nongnu.org>; Wed, 10 May 2023 05:35:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1683722110; x=1686314110;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=4OmLUr7LTQ0hj+qmOVOXduXS3+EOlTYkssmhDbDZ28I=;
- b=Zo33HZ36aF9CX28QtUzlIjpZCEJ7LwmBy/L/DgWCA2dG/xsOxA5uJvFluoDDLL2uS8
- qKQJ6qxg+8tAQ7cv7/QPxy1myM1u2vKlDFrelBhZ6mpgsEzisHiyt/+/yc6ADN7FnaKZ
- bcgaDh5Pz9Dg1lCB2tW58GE46zZx3DTRY28YiQQBptUQSfQ6ZyzhMU14NwlRk7Fvnnlr
- uEX6e25zMK5hZlZf6bRFV5AYfSHLfzAqdL4PLJnk3zSePD8e6rNKQ1V44/cVezVgiiYa
- LzEYd/XFE2rbEkrkar6ANV3CpX5OKgF1/M20R8DbTZgVbq+R3hJD0ziuK7mMOtElcJVM
- ieEg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683722110; x=1686314110;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=4OmLUr7LTQ0hj+qmOVOXduXS3+EOlTYkssmhDbDZ28I=;
- b=lV3H8kSbCoGT5dEKxETZDCdo9ps0Z42eCLKJ3ys0a7AoijTNbssT9o+AbdA5RUE4BF
- EHNaPRtk/8CMS3XbvJyugzYJ8TnpfDEZAycPAndg25w2UOfmtT/LD1xPwDmkmzT73Xll
- P+W+FAiwcJU0G1TCD6PKymGFbfSy/hxGW9Ru8XLRzWlSp0tmmNEW7ipmLM49QATx2R0r
- END3cJNWoR/TBEUgiQ8cKUOWCMbtJK8w/HMY5/NwQPQ+iGZOgpAKHGnPoiJTuOIgsLEb
- TdcW0wByBNGa5WXDr9fpZWUMm/3l/Xg0BuZLPfgLQUqWqNXM5/bvWPbG4AyUR5SW1JsY
- D1EQ==
-X-Gm-Message-State: AC+VfDy3hcV8HgEOSWQXqnNABbG1kcrAhAwpftVspk/GPfKUzn2n9Gsf
- i/4tKLJ2FouHOu9mCv6AzsBO6Q==
-X-Google-Smtp-Source: ACHHUZ7oQ72QMHZoDd/rMDHpYLcLYBbxlO7BxwElP87vIFkL6FsYcjYQTQk+vCcE7TJiVlZOGCCxug==
-X-Received: by 2002:a7b:c856:0:b0:3f4:2d85:bcda with SMTP id
- c22-20020a7bc856000000b003f42d85bcdamr3012158wml.19.1683722109846; 
- Wed, 10 May 2023 05:35:09 -0700 (PDT)
-Received: from [192.168.11.23] ([85.9.250.243])
- by smtp.gmail.com with ESMTPSA id
- i6-20020adfdec6000000b002c70ce264bfsm17220486wrn.76.2023.05.10.05.35.09
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 10 May 2023 05:35:09 -0700 (PDT)
-Message-ID: <fbe67cac-5135-219f-6c15-7e63e58ce10a@linaro.org>
-Date: Wed, 10 May 2023 13:35:07 +0100
+ (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1pwj6s-0004DJ-Ks; Wed, 10 May 2023 08:40:00 -0400
+Received: from smtp25.cstnet.cn ([159.226.251.25] helo=cstnet.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1pwj6o-0002s1-By; Wed, 10 May 2023 08:39:56 -0400
+Received: from [192.168.0.120] (unknown [61.165.33.195])
+ by APP-05 (Coremail) with SMTP id zQCowADn72ePkFtkkDSPIQ--.30012S2;
+ Wed, 10 May 2023 20:39:44 +0800 (CST)
+Message-ID: <f8da3c0d-5a52-17bf-f8ea-ae72eda7533b@iscas.ac.cn>
+Date: Wed, 10 May 2023 20:39:43 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.10.0
-Subject: Re: [PULL 00/10] Migration 20230509 patches
+Cc: liweiwei@iscas.ac.cn, palmer@dabbelt.com, alistair.francis@wdc.com,
+ bin.meng@windriver.com, zhiwei_liu@linux.alibaba.com,
+ wangjunqiang@iscas.ac.cn, lazyparser@gmail.com
+Subject: Re: [PATCH] target/riscv: Move zc* out of the experimental properties
 Content-Language: en-US
-To: quintela@redhat.com
-Cc: qemu-devel@nongnu.org, "Dr. David Alan Gilbert" <dave@treblig.org>,
- Leonardo Bras <leobras@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
- Kevin Wolf <kwolf@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Hailiang Zhang <zhanghailiang@xfusion.com>, Eric Blake <eblake@redhat.com>,
- qemu-block@nongnu.org, Peter Xu <peterx@redhat.com>,
- Markus Armbruster <armbru@redhat.com>
-References: <20230509191724.86159-1-quintela@redhat.com>
- <19eff026-1a50-b0f3-15a5-b0251ab443dd@linaro.org>
- <87ild08jjq.fsf@secure.mitica>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <87ild08jjq.fsf@secure.mitica>
+To: Daniel Henrique Barboza <dbarboza@ventanamicro.com>,
+ qemu-riscv@nongnu.org, qemu-devel@nongnu.org
+References: <20230510030040.20528-1-liweiwei@iscas.ac.cn>
+ <ab9c553e-7f38-e1c3-7ac9-4c4814d04ded@ventanamicro.com>
+From: Weiwei Li <liweiwei@iscas.ac.cn>
+In-Reply-To: <ab9c553e-7f38-e1c3-7ac9-4c4814d04ded@ventanamicro.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::336;
- envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x336.google.com
-X-Spam_score_int: -53
-X-Spam_score: -5.4
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: zQCowADn72ePkFtkkDSPIQ--.30012S2
+X-Coremail-Antispam: 1UD129KBjvJXoWxGF4kuF13tF1UKFWktw4ruFg_yoW5Zr43pr
+ n5GFW7K39xCr95CrW8tr1DJrW8Cw15AasrK3yFva97ArWIkrnFgF1DWr4vgr4xJr4rZw4I
+ gF43ur1IvrZ5ta7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUU9K14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+ rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+ 1l84ACjcxK6xIIjxv20xvE14v26w1j6s0DM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4U
+ JVWxJr1l84ACjcxK6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gc
+ CE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E
+ 2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJV
+ W8JwACjcxG0xvEwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lFIxGxcIEc7CjxVA2Y2ka
+ 0xkIwI1lc7I2V7IY0VAS07AlzVAYIcxG8wCY02Avz4vE14v_Xr1l42xK82IYc2Ij64vIr4
+ 1l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK
+ 67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI
+ 8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8VAv
+ wI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14
+ v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjfU5rWrDUUUU
+X-Originating-IP: [61.165.33.195]
+X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
+Received-SPF: pass client-ip=159.226.251.25; envelope-from=liweiwei@iscas.ac.cn;
+ helo=cstnet.cn
+X-Spam_score_int: -58
+X-Spam_score: -5.9
 X-Spam_bar: -----
-X-Spam_report: (-5.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-3.251,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-3.251,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -101,45 +79,77 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 5/10/23 13:20, Juan Quintela wrote:
-> Richard Henderson <richard.henderson@linaro.org> wrote:
->> On 5/9/23 20:17, Juan Quintela wrote:
->>> The following changes since commit 271477b59e723250f17a7e20f139262057921b6a:
->>>     Merge tag 'compression-code-pull-request' of
->>> https://gitlab.com/juan.quintela/qemu into staging (2023-05-08
->>> 20:38:05 +0100)
->>> are available in the Git repository at:
->>>     https://gitlab.com/juan.quintela/qemu.git
->>> tags/migration-20230509-pull-request
->>> for you to fetch changes up to
->>> 5f43d297bc2b9530805ad8602c6e2ea284b08628:
->>>     migration: block incoming colo when capability is disabled
->>> (2023-05-09 20:52:21 +0200)
->>> ----------------------------------------------------------------
->>> Migration Pull request (20230509 vintage)
->>> Hi
->>> In this PULL request:
->>> - 1st part of colo support for multifd (lukas)
->>> - 1st part of disabling colo option (vladimir)
->>> Please, apply.
->>
->> Build failures.
->>
->> https://gitlab.com/qemu-project/qemu/-/jobs/4257605099#L2241
->>
->>     85 | void colo_record_bitmap(RAMBlock *block, ram_addr_t *normal, uint normal_num);
->>        |                                                              ^~~~
->>        |                                                              u_int
->>
-> 
-> Grrr
-> 
-> And the worst thing is that hate those types, tried to get then out
-> long, long ago for a similar problem.
 
-Where do these types come from, and can we poison them on the qemu side?
+On 2023/5/10 20:23, Daniel Henrique Barboza wrote:
+>
+>
+> On 5/10/23 00:00, Weiwei Li wrote:
+>> Zc* extensions (version 1.0) are ratified.
+>>
+>> Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
+>> Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
+>> ---
+>>   target/riscv/cpu.c | 16 ++++++++--------
+>>   1 file changed, 8 insertions(+), 8 deletions(-)
+>>
+>> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+>> index db0875fb43..99ed9cb80e 100644
+>> --- a/target/riscv/cpu.c
+>> +++ b/target/riscv/cpu.c
+>> @@ -1571,6 +1571,14 @@ static Property riscv_cpu_extensions[] = {
+>>         DEFINE_PROP_BOOL("zmmul", RISCVCPU, cfg.ext_zmmul, false),
+>>   +    DEFINE_PROP_BOOL("zca", RISCVCPU, cfg.ext_zca, false),
+>> +    DEFINE_PROP_BOOL("zcb", RISCVCPU, cfg.ext_zcb, false),
+>> +    DEFINE_PROP_BOOL("zcd", RISCVCPU, cfg.ext_zcd, false),
+>> +    DEFINE_PROP_BOOL("zce", RISCVCPU, cfg.ext_zce, false),
+>> +    DEFINE_PROP_BOOL("zcf", RISCVCPU, cfg.ext_zcf, false),
+>
+> I see that zcf has a different ordering in isa_edata_arr[]. Is this 
+> intended?
+
+Not really intended. But they are related to F and D extension, and F is 
+before D insingle letter extensions.
+
+Regards,
+
+Weiwei Li
 
 
-r~
+>
+>     ISA_EXT_DATA_ENTRY(zca, PRIV_VERSION_1_12_0, ext_zca),
+>     ISA_EXT_DATA_ENTRY(zcb, PRIV_VERSION_1_12_0, ext_zcb),
+>     ISA_EXT_DATA_ENTRY(zcf, PRIV_VERSION_1_12_0, ext_zcf),
+>     ISA_EXT_DATA_ENTRY(zcd, PRIV_VERSION_1_12_0, ext_zcd),
+>     ISA_EXT_DATA_ENTRY(zce, PRIV_VERSION_1_12_0, ext_zce),
+>
+>
+> Not related to this patch per se. Just wondered if there's some reason 
+> for the
+> different ordering between these arrays.
+>
+>
+> Reviewed-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+>
+>
+>> +    DEFINE_PROP_BOOL("zcmp", RISCVCPU, cfg.ext_zcmp, false),
+>> +    DEFINE_PROP_BOOL("zcmt", RISCVCPU, cfg.ext_zcmt, false),
+>> +
+>>       /* Vendor-specific custom extensions */
+>>       DEFINE_PROP_BOOL("xtheadba", RISCVCPU, cfg.ext_xtheadba, false),
+>>       DEFINE_PROP_BOOL("xtheadbb", RISCVCPU, cfg.ext_xtheadbb, false),
+>> @@ -1588,14 +1596,6 @@ static Property riscv_cpu_extensions[] = {
+>>       /* These are experimental so mark with 'x-' */
+>>       DEFINE_PROP_BOOL("x-zicond", RISCVCPU, cfg.ext_zicond, false),
+>>   -    DEFINE_PROP_BOOL("x-zca", RISCVCPU, cfg.ext_zca, false),
+>> -    DEFINE_PROP_BOOL("x-zcb", RISCVCPU, cfg.ext_zcb, false),
+>> -    DEFINE_PROP_BOOL("x-zcd", RISCVCPU, cfg.ext_zcd, false),
+>> -    DEFINE_PROP_BOOL("x-zce", RISCVCPU, cfg.ext_zce, false),
+>> -    DEFINE_PROP_BOOL("x-zcf", RISCVCPU, cfg.ext_zcf, false),
+>> -    DEFINE_PROP_BOOL("x-zcmp", RISCVCPU, cfg.ext_zcmp, false),
+>> -    DEFINE_PROP_BOOL("x-zcmt", RISCVCPU, cfg.ext_zcmt, false),
+>> -
+>>       /* ePMP 0.9.3 */
+>>       DEFINE_PROP_BOOL("x-epmp", RISCVCPU, cfg.epmp, false),
+>>       DEFINE_PROP_BOOL("x-smaia", RISCVCPU, cfg.ext_smaia, false),
 
 
