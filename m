@@ -2,68 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78E8F6FDC5B
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 May 2023 13:11:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 281B26FDC5D
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 May 2023 13:12:03 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pwhis-0001T0-1Z; Wed, 10 May 2023 07:11:06 -0400
+	id 1pwhjR-0002Ff-9E; Wed, 10 May 2023 07:11:42 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pwhip-0001Rp-8p
- for qemu-devel@nongnu.org; Wed, 10 May 2023 07:11:03 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <zhiwei_liu@linux.alibaba.com>)
+ id 1pwhjB-00026a-7v; Wed, 10 May 2023 07:11:27 -0400
+Received: from out30-112.freemail.mail.aliyun.com ([115.124.30.112])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pwhin-0000hQ-PS
- for qemu-devel@nongnu.org; Wed, 10 May 2023 07:11:03 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1683717061;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=kJmelcfiUk6XfOzkiefCUTq6gfCUdd3MpvT74U5iysM=;
- b=aaMUgOcDVlOMmf8LqRvTHHxC61aFqvYKiVZBvuo5a3egvLmfDgpZSMBLVJCbwSIQQ6nxXa
- BhHlCZJ/yKuv8cCiJjS2Dc09aQ0UKgbZkNLaWuojPnKh8iggpZ0qN7g7l//Hn/BAhN+wHR
- +ksVvGvJwsMJUnqDEo0xsXCJTJITApo=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-460-4iwdBb5vNJKTYxyx_fDW4g-1; Wed, 10 May 2023 07:10:57 -0400
-X-MC-Unique: 4iwdBb5vNJKTYxyx_fDW4g-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6B337381459F;
- Wed, 10 May 2023 11:10:57 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.194.148])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 61F0D4078906;
- Wed, 10 May 2023 11:10:56 +0000 (UTC)
-Date: Wed, 10 May 2023 13:10:54 +0200
-From: Kevin Wolf <kwolf@redhat.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-Cc: qemu-block@nongnu.org, qemu-devel@nongnu.org, hreitz@redhat.com,
- den@openvz.org, alexander.ivanov@virtuozzo.com
-Subject: Re: [PATCH v8 1/5] blockdev: refactor transaction to use Transaction
- API
-Message-ID: <ZFt7vgF/JTmbwZoK@redhat.com>
-References: <20230421115327.907104-1-vsementsov@yandex-team.ru>
- <20230421115327.907104-2-vsementsov@yandex-team.ru>
+ (Exim 4.90_1) (envelope-from <zhiwei_liu@linux.alibaba.com>)
+ id 1pwhj8-0000jp-Fz; Wed, 10 May 2023 07:11:24 -0400
+X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R191e4; CH=green; DM=||false|;
+ DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=ay29a033018045192;
+ MF=zhiwei_liu@linux.alibaba.com; NM=1; PH=DS; RN=9; SR=0;
+ TI=SMTPD_---0ViFryqe_1683717074; 
+Received: from 30.221.98.74(mailfrom:zhiwei_liu@linux.alibaba.com
+ fp:SMTPD_---0ViFryqe_1683717074) by smtp.aliyun-inc.com;
+ Wed, 10 May 2023 19:11:15 +0800
+Message-ID: <0a402a2d-f250-c41a-f408-fa275cfd571c@linux.alibaba.com>
+Date: Wed, 10 May 2023 19:11:07 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230421115327.907104-2-vsementsov@yandex-team.ru>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.1
+Subject: Re: [PATCH] target/riscv: Move zc* out of the experimental properties
+Content-Language: en-US
+To: Weiwei Li <liweiwei@iscas.ac.cn>, qemu-riscv@nongnu.org,
+ qemu-devel@nongnu.org
+Cc: palmer@dabbelt.com, alistair.francis@wdc.com, bin.meng@windriver.com,
+ dbarboza@ventanamicro.com, wangjunqiang@iscas.ac.cn, lazyparser@gmail.com
+References: <20230510030040.20528-1-liweiwei@iscas.ac.cn>
+From: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
+In-Reply-To: <20230510030040.20528-1-liweiwei@iscas.ac.cn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=115.124.30.112;
+ envelope-from=zhiwei_liu@linux.alibaba.com;
+ helo=out30-112.freemail.mail.aliyun.com
+X-Spam_score_int: -131
+X-Spam_score: -13.2
+X-Spam_bar: -------------
+X-Spam_report: (-13.2 / 5.0 requ) BAYES_00=-1.9, ENV_AND_HDR_SPF_MATCH=-0.5,
+ NICE_REPLY_A=-3.251, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01, UNPARSEABLE_RELAY=0.001,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -79,89 +64,53 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Am 21.04.2023 um 13:53 hat Vladimir Sementsov-Ogievskiy geschrieben:
-> We are going to add more block-graph modifying transaction actions,
-> and block-graph modifying functions are already based on Transaction
-> API.
-> 
-> Next, we'll need to separately update permissions after several
-> graph-modifying actions, and this would be simple with help of
-> Transaction API.
-> 
-> So, now let's just transform what we have into new-style transaction
-> actions.
-> 
-> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+
+On 2023/5/10 11:00, Weiwei Li wrote:
+> Zc* extensions (version 1.0) are ratified.
+>
+> Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
+> Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
 > ---
->  blockdev.c | 317 +++++++++++++++++++++++++++++++----------------------
->  1 file changed, 186 insertions(+), 131 deletions(-)
-
-> diff --git a/blockdev.c b/blockdev.c
-> index d7b5c18f0a..293f6a958e 100644
-> --- a/blockdev.c
-> +++ b/blockdev.c
-> @@ -1380,10 +1384,9 @@ static void internal_snapshot_abort(BlkActionState *common)
->      aio_context_release(aio_context);
->  }
->  
-> -static void internal_snapshot_clean(BlkActionState *common)
-> +static void internal_snapshot_clean(void *opaque)
->  {
-> -    InternalSnapshotState *state = DO_UPCAST(InternalSnapshotState,
-> -                                             common, common);
-> +    InternalSnapshotState *state = opaque;
->      AioContext *aio_context;
->  
->      if (!state->bs) {
-> @@ -1396,6 +1399,8 @@ static void internal_snapshot_clean(BlkActionState *common)
->      bdrv_drained_end(state->bs);
->  
->      aio_context_release(aio_context);
+>   target/riscv/cpu.c | 16 ++++++++--------
+>   1 file changed, 8 insertions(+), 8 deletions(-)
+>
+> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+> index db0875fb43..99ed9cb80e 100644
+> --- a/target/riscv/cpu.c
+> +++ b/target/riscv/cpu.c
+> @@ -1571,6 +1571,14 @@ static Property riscv_cpu_extensions[] = {
+>   
+>       DEFINE_PROP_BOOL("zmmul", RISCVCPU, cfg.ext_zmmul, false),
+>   
+> +    DEFINE_PROP_BOOL("zca", RISCVCPU, cfg.ext_zca, false),
+> +    DEFINE_PROP_BOOL("zcb", RISCVCPU, cfg.ext_zcb, false),
+> +    DEFINE_PROP_BOOL("zcd", RISCVCPU, cfg.ext_zcd, false),
+> +    DEFINE_PROP_BOOL("zce", RISCVCPU, cfg.ext_zce, false),
+> +    DEFINE_PROP_BOOL("zcf", RISCVCPU, cfg.ext_zcf, false),
+> +    DEFINE_PROP_BOOL("zcmp", RISCVCPU, cfg.ext_zcmp, false),
+> +    DEFINE_PROP_BOOL("zcmt", RISCVCPU, cfg.ext_zcmt, false),
 > +
-> +    g_free(state);
->  }
 
-state is leaked if we take the early return a few lines above:
+Reviewed-by: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
 
-    if (!state->bs) {
-        return;
-    }
+Zhiwei
 
->  /* external snapshot private data */
-> @@ -1657,6 +1670,8 @@ static void external_snapshot_clean(BlkActionState *common)
->      bdrv_unref(state->new_bs);
->  
->      aio_context_release(aio_context);
-> +
-> +    g_free(state);
->  }
-
-Same potential leak of state.
-
->  typedef struct DriveBackupState {
-> @@ -1856,6 +1883,8 @@ static void drive_backup_clean(BlkActionState *common)
->      bdrv_drained_end(state->bs);
->  
->      aio_context_release(aio_context);
-> +
-> +    g_free(state);
->  }
-
-Here as well.
-
->  typedef struct BlockdevBackupState {
-> @@ -1950,6 +1991,8 @@ static void blockdev_backup_clean(BlkActionState *common)
->      bdrv_drained_end(state->bs);
->  
->      aio_context_release(aio_context);
-> +
-> +    g_free(state);
->  }
-
-And here.
-
-Other than that, the patch looks good to me.
-
-Kevin
-
+>       /* Vendor-specific custom extensions */
+>       DEFINE_PROP_BOOL("xtheadba", RISCVCPU, cfg.ext_xtheadba, false),
+>       DEFINE_PROP_BOOL("xtheadbb", RISCVCPU, cfg.ext_xtheadbb, false),
+> @@ -1588,14 +1596,6 @@ static Property riscv_cpu_extensions[] = {
+>       /* These are experimental so mark with 'x-' */
+>       DEFINE_PROP_BOOL("x-zicond", RISCVCPU, cfg.ext_zicond, false),
+>   
+> -    DEFINE_PROP_BOOL("x-zca", RISCVCPU, cfg.ext_zca, false),
+> -    DEFINE_PROP_BOOL("x-zcb", RISCVCPU, cfg.ext_zcb, false),
+> -    DEFINE_PROP_BOOL("x-zcd", RISCVCPU, cfg.ext_zcd, false),
+> -    DEFINE_PROP_BOOL("x-zce", RISCVCPU, cfg.ext_zce, false),
+> -    DEFINE_PROP_BOOL("x-zcf", RISCVCPU, cfg.ext_zcf, false),
+> -    DEFINE_PROP_BOOL("x-zcmp", RISCVCPU, cfg.ext_zcmp, false),
+> -    DEFINE_PROP_BOOL("x-zcmt", RISCVCPU, cfg.ext_zcmt, false),
+> -
+>       /* ePMP 0.9.3 */
+>       DEFINE_PROP_BOOL("x-epmp", RISCVCPU, cfg.epmp, false),
+>       DEFINE_PROP_BOOL("x-smaia", RISCVCPU, cfg.ext_smaia, false),
 
