@@ -2,78 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21B706FDAFE
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 May 2023 11:46:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E34B86FDAFF
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 May 2023 11:46:33 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pwgNe-00021o-1h; Wed, 10 May 2023 05:45:06 -0400
+	id 1pwgOo-0002ry-H4; Wed, 10 May 2023 05:46:18 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pwgNb-0001x6-9J
- for qemu-devel@nongnu.org; Wed, 10 May 2023 05:45:03 -0400
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430])
+ id 1pwgOl-0002qx-NR
+ for qemu-devel@nongnu.org; Wed, 10 May 2023 05:46:15 -0400
+Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pwgNX-0006vQ-I2
- for qemu-devel@nongnu.org; Wed, 10 May 2023 05:45:02 -0400
-Received: by mail-wr1-x430.google.com with SMTP id
- ffacd0b85a97d-2f27a9c7970so6586311f8f.2
- for <qemu-devel@nongnu.org>; Wed, 10 May 2023 02:44:47 -0700 (PDT)
+ id 1pwgOj-0007sS-Qw
+ for qemu-devel@nongnu.org; Wed, 10 May 2023 05:46:15 -0400
+Received: by mail-wm1-x329.google.com with SMTP id
+ 5b1f17b1804b1-3f435658d23so10609915e9.3
+ for <qemu-devel@nongnu.org>; Wed, 10 May 2023 02:46:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1683711886; x=1686303886;
+ d=linaro.org; s=google; t=1683711972; x=1686303972;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=zQsUZSJXfmCoG+pVBkhp7vx6SfgiTqxsU/hLRYAZLJ8=;
- b=kFaWJbXnCg937UQKs8jmqa3SuZVjCEg/HckWZS/iDaSjJjI69VsskPVIedDAob3rjP
- 93HU/5WOOtKey1CV1iiiRwOCDAfzLjhBxqPAsCz9DcTz2ZPV39JNGun+xyqXoI7x9inW
- VVRSUavXvoUlPImw9PNetnI4ri45HSZHaUmsPPE2L6P0TqlAJyDt0C0+cueCM5zDXnf9
- WSuAW++ksmZI2qIqV/vONV6nSifMj60866r//t7RnT1Kk9aqS0+ciJl1w97X8Pz0Fgd5
- tqmoP9Vwm/MZBf53REuWdXsJcpYom2GvqECdzuvkEqOuES14AdvVyiiMVlSliHUymChy
- XUqQ==
+ bh=XQZhs5r694bR2oGcsupkpu848had+5Xn7fnlUEl9gNs=;
+ b=zo0xd1PjABSYmnba2YsiUszz2BRcqdf0JjN0lxZZdZbAcp//KKDlQpM2aTTMmfxvWS
+ pOIfLxo/f1/dwTb9PJHRcZBipTH4/nwPtW7neGUhiFlMr3s8fdGBk92KR/jdX51QgKGH
+ 871uWm4SR0PWICy9Ni5EcoXoq5OBKuEKDLZxUEu2pZUWXbxCbR9pEwTseLvoFncUEIvl
+ 0Ro67GI2que291BENMsALSWYbK091xziwC1LDto5sIxhvRx7CKhFfv2EYl3W+3Qm6O3L
+ F3GOSmmocZG1Wn+42YmIl4U0Ebu9MGqpUwVZH7K76vpRGaJzchVJe+Sd6TvJZyzUExaQ
+ ZGiA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683711886; x=1686303886;
+ d=1e100.net; s=20221208; t=1683711972; x=1686303972;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=zQsUZSJXfmCoG+pVBkhp7vx6SfgiTqxsU/hLRYAZLJ8=;
- b=NV0MX9y5smZc4k5h+2vdtUloCfc+qChRTmPHwYNfOMB8llFQE2zpXEAVCYpVF503vk
- Zy6rKOXp0kLqT+8zdFTLCbKnYefrLyc2aUr5Ze8H4Q+4t6L7dCVjOju4egGQuSN7TQob
- PxirGKyALrTq/g244TW6VDmKiqaa+OZvBMLSerukzzWFWY7UPxEh7c3y2WnZ2c6HY95r
- 0ODdz1jzF3aUvacNABl//h3rkKsZA83QI1jSurMYpXiCySZZmum6SkxIEDc9zgN0o4Nj
- K+LTJ7DWmGqOJ6vQFGWhdshg2XmzRxkTXgHSfDD6r6M/YaPHOKEpiVHImR39urFekJUN
- W5IQ==
-X-Gm-Message-State: AC+VfDxVxpqrsXL+aZ4ufIHnw+usjv5nYuuudLgdwzq2iSi6pKkSEFZ7
- OqF7NFbfi4i38SQ05HKi0HVb5t97gTf90/ai+/2eXg==
-X-Google-Smtp-Source: ACHHUZ51In5YYxKPfAOUHXh9hroMsfc3C2/bMqmWpx6lmXZRAM+4hBoNa/tCakLXhioDpOq6vG6jNw==
-X-Received: by 2002:adf:e587:0:b0:306:2bb6:c7c3 with SMTP id
- l7-20020adfe587000000b003062bb6c7c3mr12001016wrm.6.1683711886368; 
- Wed, 10 May 2023 02:44:46 -0700 (PDT)
+ bh=XQZhs5r694bR2oGcsupkpu848had+5Xn7fnlUEl9gNs=;
+ b=Ntx6m4zZNsM5GhaxUfsKaiWTlH0MTQB3s+odKssGkQjgf/xIGF7R+bCl+QfOit2H2h
+ QpZLMlm4pA+p61Y1LU0xKnRXFyJysYF7WAxu3Gzrb8vS0CBtJdkKmu7LldL14NBAuCUv
+ lKTbyHDVHVt3hOYHfS8FjaZ2fzaURiLDQKBZzT+qKfWG1c7F7UBnKEpfyEZsxJLi9Z8b
+ +JLldD9AF4blC9h6TQRZB+FA25Fe9ucYKgRKT7h8Ial+wQ0YjJc9O4Jl1asKkdJMZekS
+ U/pjzza1qqdHEWwGBI/bjH42MwyChVzEcuOuqN81p4hKl5hswWhLBVXKJzf9yVN8+5td
+ PXGA==
+X-Gm-Message-State: AC+VfDyQhSOFyTYjg0MFbWLIZilXrUZsjd3+fDwVdmDzNnQMQ07GcpD9
+ MZis819me0TNIjUdM1BORWGZNA==
+X-Google-Smtp-Source: ACHHUZ6yf3b2XRh7e2/ZoFURh82tpXEU+M0OaRoP+kS8/0tikuZctk51fKaQR4vTWMg9FNL+I9oEag==
+X-Received: by 2002:a1c:f401:0:b0:3f0:3ab2:a7e5 with SMTP id
+ z1-20020a1cf401000000b003f03ab2a7e5mr12486618wma.34.1683711972167; 
+ Wed, 10 May 2023 02:46:12 -0700 (PDT)
 Received: from [192.168.110.227] ([85.9.250.243])
  by smtp.gmail.com with ESMTPSA id
- z11-20020a5d4c8b000000b003079d61a107sm6741218wrs.25.2023.05.10.02.44.45
+ a6-20020a056000050600b003079c402762sm7389185wrf.19.2023.05.10.02.46.11
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 10 May 2023 02:44:46 -0700 (PDT)
-Message-ID: <62b2216f-0529-5f7e-b5af-9a6095365d00@linaro.org>
-Date: Wed, 10 May 2023 10:44:44 +0100
+ Wed, 10 May 2023 02:46:11 -0700 (PDT)
+Message-ID: <2ca17f5e-78d0-701d-d6a5-1f47405cedb2@linaro.org>
+Date: Wed, 10 May 2023 10:46:10 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.10.0
-Subject: Re: [PATCH v2 01/12] accel: Replace target_ulong in tlb_*()
+Subject: Re: [PATCH v2 02/12] accel/tcg/translate-all.c: Widen pc and cs_base
 Content-Language: en-US
 To: Anton Johansson <anjo@rev.ng>, qemu-devel@nongnu.org
 Cc: ale@rev.ng, pbonzini@redhat.com, eduardo@habkost.net, philmd@linaro.org,
  marcel.apfelbaum@gmail.com, wangyanan55@huawei.com
 References: <20230505141403.25735-1-anjo@rev.ng>
- <20230505141403.25735-2-anjo@rev.ng>
+ <20230505141403.25735-3-anjo@rev.ng>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20230505141403.25735-2-anjo@rev.ng>
+In-Reply-To: <20230505141403.25735-3-anjo@rev.ng>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x430.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::329;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x329.google.com
 X-Spam_score_int: -24
 X-Spam_score: -2.5
 X-Spam_bar: --
@@ -97,18 +97,11 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On 5/5/23 15:13, Anton Johansson wrote:
-> Replaces target_ulong with vaddr for guest virtual addresses in tlb_*()
-> functions and auxilliary structs.
-> 
 > Signed-off-by: Anton Johansson<anjo@rev.ng>
 > ---
->   accel/stubs/tcg-stub.c       |   2 +-
->   accel/tcg/cputlb.c           | 177 +++++++++++++++++------------------
->   accel/tcg/tb-maint.c         |   2 +-
->   include/exec/cpu-defs.h      |   4 +-
->   include/exec/exec-all.h      |  79 ++++++++--------
->   include/qemu/plugin-memory.h |   2 +-
->   6 files changed, 131 insertions(+), 135 deletions(-)
+>   accel/tcg/internal.h      |  6 +++---
+>   accel/tcg/translate-all.c | 10 +++++-----
+>   2 files changed, 8 insertions(+), 8 deletions(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
