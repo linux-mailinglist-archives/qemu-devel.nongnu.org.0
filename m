@@ -2,62 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B29696FE17B
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 May 2023 17:22:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C9386FE17A
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 May 2023 17:22:38 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pwldx-0002FB-Tg; Wed, 10 May 2023 11:22:17 -0400
+	id 1pwldv-0002DB-4S; Wed, 10 May 2023 11:22:16 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1pwldu-0002DR-Pi; Wed, 10 May 2023 11:22:15 -0400
-Received: from forwardcorp1c.mail.yandex.net ([178.154.239.200])
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pwlds-0002C0-Df
+ for qemu-devel@nongnu.org; Wed, 10 May 2023 11:22:12 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1pwldq-0006NG-TR; Wed, 10 May 2023 11:22:14 -0400
-Received: from mail-nwsmtp-smtp-corp-main-26.myt.yp-c.yandex.net
- (mail-nwsmtp-smtp-corp-main-26.myt.yp-c.yandex.net
- [IPv6:2a02:6b8:c12:4c15:0:640:e9f4:0])
- by forwardcorp1c.mail.yandex.net (Yandex) with ESMTP id 2815C5EC26;
- Wed, 10 May 2023 18:22:01 +0300 (MSK)
-Received: from [IPV6:2a02:6b8:b081:2::1:11] (unknown [2a02:6b8:b081:2::1:11])
- by mail-nwsmtp-smtp-corp-main-26.myt.yp-c.yandex.net
- (smtpcorp/Yandex) with ESMTPSA id xLXQx20OfeA0-RFsXMz9W; 
- Wed, 10 May 2023 18:22:00 +0300
-X-Yandex-Fwd: 1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
- s=default; 
- t=1683732120; bh=nLpdtDk1s2pUc6VR1VkLxI0pKQyXHTDQqbGzlUV4pM0=;
- h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
- b=1FfkfGoEQydvZw+QGqWcZmPQ3xzy+/Xh/+q6XxlDQ5vvsCfoziIsq5YjmvcFh1t2v
- FLdB5HriY3xJyEVsm+Vs5QElM0GZgboE8R5/uLupJyXzNw2ztOxtQbKPAWAqop7waK
- Aluqhwq4ymoH6RLgAlwrd/AZ3fQDDoP4ePedwpyQ=
-Authentication-Results: mail-nwsmtp-smtp-corp-main-26.myt.yp-c.yandex.net;
- dkim=pass header.i=@yandex-team.ru
-Message-ID: <a498899e-60d0-4969-85de-bbd74e04d454@yandex-team.ru>
-Date: Wed, 10 May 2023 18:21:59 +0300
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pwldq-0006S4-H5
+ for qemu-devel@nongnu.org; Wed, 10 May 2023 11:22:12 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1683732129;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=DRJ9hZuTlfSHvoRZHO88Lh90T1UD4B8QNAMaTcG0Jg0=;
+ b=gOp89r1ECaPsXpYjyu7cy2y1rJONvA1xAhBe6ihTXYpeKaKBCq7229UWBminT7tl8/utcp
+ DCITcgwn8r8QXA/XmkpE5QAFzHUGe9Y863QE7hMEKq9VLOUsDQ1etdLendunXZdiJJHOSC
+ AuJ3A2/zEs7YVQWuiOKFpYf5fsnm7KI=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-417-Ozid0BPrP86X5zeVDI33rw-1; Wed, 10 May 2023 11:22:05 -0400
+X-MC-Unique: Ozid0BPrP86X5zeVDI33rw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.5])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 589E1870832;
+ Wed, 10 May 2023 15:22:05 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.39.192.121])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 2DCD847CD0;
+ Wed, 10 May 2023 15:22:05 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id EE09321E6924; Wed, 10 May 2023 17:22:02 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: qemu-devel@nongnu.org
+Subject: Re: [PULL v2 00/17] QAPI patches patches for 2023-05-09
+References: <20230510081224.3588673-1-armbru@redhat.com>
+ <e94e5411-66de-3aa6-3ed2-f16154ec5294@linaro.org>
+Date: Wed, 10 May 2023 17:22:02 +0200
+In-Reply-To: <e94e5411-66de-3aa6-3ed2-f16154ec5294@linaro.org> (Richard
+ Henderson's message of "Wed, 10 May 2023 15:59:45 +0100")
+Message-ID: <877ctg2ov9.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH v9 0/6] block: refactor blockdev transactions
-Content-Language: en-US
-To: qemu-block@nongnu.org
-Cc: qemu-devel@nongnu.org, kwolf@redhat.com, hreitz@redhat.com,
- den@openvz.org, alexander.ivanov@virtuozzo.com
-References: <20230510150624.310640-1-vsementsov@yandex-team.ru>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-In-Reply-To: <20230510150624.310640-1-vsementsov@yandex-team.ru>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=178.154.239.200;
- envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1c.mail.yandex.net
-X-Spam_score_int: -53
-X-Spam_score: -5.4
-X-Spam_bar: -----
-X-Spam_report: (-5.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-3.251,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -74,40 +79,47 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Interesting, I see two 5/6 letters, equal body, but a bit different headers (the second has empty "Sender")..
+Richard Henderson <richard.henderson@linaro.org> writes:
 
-On 10.05.23 18:06, Vladimir Sementsov-Ogievskiy wrote:
-> Hi all!
-> 
-> Let's refactor QMP transactions implementation into new (relatively)
-> transaction API.
-> 
-> v9:
-> 01: fix leaks
-> 02-03: add r-b
-> 04: fix leak, s/Transaction/transaction/
-> 05: new, was part of 06
-> 06: rework of bitmap-add action moved to 05
-> 
-> Vladimir Sementsov-Ogievskiy (6):
->    blockdev: refactor transaction to use Transaction API
->    blockdev: transactions: rename some things
->    blockdev: qmp_transaction: refactor loop to classic for
->    blockdev: transaction: refactor handling transaction properties
->    blockdev:  use state.bitmap in block-dirty-bitmap-add action
+> On 5/10/23 09:12, Markus Armbruster wrote:
+>> The following changes since commit 792f77f376adef944f9a03e601f6ad90c2f891b2:
+>>    Merge tag 'pull-loongarch-20230506' of https://gitlab.com/gaosong/qemu into staging (2023-05-06 08:11:52 +0100)
+>> are available in the Git repository at:
+>>    https://repo.or.cz/qemu/armbru.git tags/pull-qapi-2023-05-09-v2
+>> for you to fetch changes up to a937b6aa739f65f2cae2ad9a7eb65a309ad2a359:
+>>    qapi: Reformat doc comments to conform to current conventions (2023-05-10 10:01:01 +0200)
+>> ----------------------------------------------------------------
+>> QAPI patches patches for 2023-05-09
+>> ----------------------------------------------------------------
+>> Markus Armbruster (17):
+>>        docs/devel/qapi-code-gen: Clean up use of quotes a bit
+>>        docs/devel/qapi-code-gen: Turn FIXME admonitions into comments
+>>        qapi: Fix crash on stray double quote character
+>>        meson: Fix to make QAPI generator output depend on main.py
+>>        Revert "qapi: BlockExportRemoveMode: move comments to TODO"
+>>        sphinx/qapidoc: Do not emit TODO sections into user manuals
+>>        qapi: Tidy up a slightly awkward TODO comment
+>>        qapi/dump: Indent bulleted lists consistently
+>>        tests/qapi-schema/doc-good: Improve a comment
+>>        tests/qapi-schema/doc-good: Improve argument description tests
+>>        qapi: Fix argument description indentation stripping
+>>        qapi: Rewrite parsing of doc comment section symbols and tags
+>>        qapi: Relax doc string @name: description indentation rules
+>>        qapi: Section parameter @indent is no longer used, drop
+>>        docs/devel/qapi-code-gen: Update doc comment conventions
+>>        qga/qapi-schema: Reformat doc comments to conform to current conventions
+>>        qapi: Reformat doc comments to conform to current conventions
+>
+> I didn't notice earlier, because centos-stream-8-x86_64 failure is optional,
+> but this has another error:
+>
+> https://gitlab.com/qemu-project/qemu/-/jobs/4258751398#L4649
+>
+> Exception occurred:
+>   File "/home/gitlab-runner/builds/Jpwtyaz7/0/qemu-project/qemu/docs/../scripts/qapi/parser.py", line 566, in QAPIDoc
+>     def _match_at_name_colon(string: str) -> re.Match:
+> AttributeError: module 're' has no attribute 'Match'
 
-Probably, the problem starts here: I accidentally add extra whitespace.. And the second (copied) letter doesn't have this mistake. That's something about how mailing list works.
-
->    blockdev: qmp_transaction: drop extra generic layer
-> 
->   blockdev.c | 606 ++++++++++++++++++++++-------------------------------
->   1 file changed, 249 insertions(+), 357 deletions(-)
-> 
-
-
-
--- 
-Best regards,
-Vladimir
+I'll take care of it.  Thanks!
 
 
