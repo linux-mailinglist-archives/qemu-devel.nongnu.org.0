@@ -2,90 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E1DE6FD87C
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B99B6FD87D
 	for <lists+qemu-devel@lfdr.de>; Wed, 10 May 2023 09:47:15 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pweWe-0007xU-6V; Wed, 10 May 2023 03:46:16 -0400
+	id 1pweWi-0007xl-US; Wed, 10 May 2023 03:46:20 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pweWb-0007wy-MW
- for qemu-devel@nongnu.org; Wed, 10 May 2023 03:46:14 -0400
-Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pweWX-0000HI-0W
- for qemu-devel@nongnu.org; Wed, 10 May 2023 03:46:13 -0400
-Received: by mail-wr1-x42a.google.com with SMTP id
- ffacd0b85a97d-307664010fdso6179881f8f.0
- for <qemu-devel@nongnu.org>; Wed, 10 May 2023 00:46:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1683704767; x=1686296767;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=9Eetz7NR0N0qOVbpWAdyyZlYaKRDSEy/hOCtEAOT1eE=;
- b=vHW8YB24OVVkEMFIo3Zq8yKWEGQuV9r8r+ug8VjRJJAAq28zYT33UEP1OmyNAWAn6P
- f9fIkCx1gdcCJ1kdSmQ5lg3sgIWrggpt+053oLlYKvY7PT9p80+8d3O0t+oQbkwZKaXy
- p+V7JTWMEBdeMKmEtc62mLBxsLJHcnNxy+8aJIGDOx6dpuFbFcPsNCu7ffI4j9brFPZ6
- BJCxCCeGe18BXPH40GMbwwtyxSdOpKzpMecs38dAoRK0HHXKUFU+24XsVPPXoTEM+lck
- zYuNTt/HxZyJYEwKFQ7nI5NfYzrSarYYhruDHXqqLaP1Qh6tEQ+uHXEK4qtTNCo/LFuY
- 0RsA==
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1pweWf-0007xW-Kz
+ for qemu-devel@nongnu.org; Wed, 10 May 2023 03:46:17 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1pweWb-0000Hb-8A
+ for qemu-devel@nongnu.org; Wed, 10 May 2023 03:46:17 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1683704770;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=9No6sg0OKwYzgm3XBEqtqJfVvQpKihqCoctCDVRoTLk=;
+ b=YCCrrAQI1ECuPwy1cAgDvWh4Hs57vADZd23AXEKZ6fwWuTDqpfsIzwZLIzdyryaDGgWm5Z
+ 4Zs2InXORxlhXiPUayLBcLzQGSvEKPw3MF9mERqooxmtX6GCvpP9LUAqBr3Ew7ri9qhQL6
+ +avNSD8EARhk2l61Oy4t+G/m3kcD9hE=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-43-JNHH6oTMM-atLRUJtN9kVg-1; Wed, 10 May 2023 03:46:09 -0400
+X-MC-Unique: JNHH6oTMM-atLRUJtN9kVg-1
+Received: by mail-ed1-f69.google.com with SMTP id
+ 4fb4d7f45d1cf-50bd07fbd97so7866562a12.0
+ for <qemu-devel@nongnu.org>; Wed, 10 May 2023 00:46:09 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20221208; t=1683704767; x=1686296767;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=9Eetz7NR0N0qOVbpWAdyyZlYaKRDSEy/hOCtEAOT1eE=;
- b=fAiKRSkNeGUYvhKd9ZghTHdEdY9qdwh8UAlXtC/skNOctrAGXtVUGTwGS576kFO5xm
- xJS1z26hvwoKcGnZTk38QPa7eQoL8Mxl1BzZLrvXZ1KM9VSFbYZI8DZ5ziNyU+ce+F6p
- je1wZr69cUFQVYKVjXSKAr37DMsak7pn/MicpSNVP1DCWu0k9NRxCoY7SHyAVxLDPbew
- Gu2aewQy3nq69v4NMjGbutHFKSLWF02sGOrtIYXywyxTDQeVjeVjD9lhpc83BOB/IzsV
- Nfxx0cWYgizWprKeIJmo+penG2iID04yeOMjOdcr/3m3SHtmtxohi9jd7OIeL4vCOORu
- teaw==
-X-Gm-Message-State: AC+VfDwpVGYskXXaoCz5+9+AlNC08UDhTkBUAzHqL5Oyfq3ZGNi/DMtJ
- gQiMRSJ0Bf8jpCh3SvnZCVM9kA==
-X-Google-Smtp-Source: ACHHUZ6pZ2MFBMPOJmTF21hyES6+wtym1MTJpGQ3cypidsopK23VlG02SOswIdYINbKmxldFlttyvA==
-X-Received: by 2002:adf:f946:0:b0:306:32fa:6750 with SMTP id
- q6-20020adff946000000b0030632fa6750mr10401295wrr.33.1683704767116; 
+ bh=9No6sg0OKwYzgm3XBEqtqJfVvQpKihqCoctCDVRoTLk=;
+ b=IOKJ42eInK0s7vEjlX63zb9MQsJtAloyL3pbjw0UbpmIC3c7Q9bDe3braYEPzOPO3/
+ zZV6Izgd5fyFbK/YP7/XDCh/6zJaly4mifS9d32nTHWw+2NogayI3cBHZPfVtuiGnaU8
+ AZcBu7+FasUa6RI4v77zyqB7e8qOF5M8x6AnJ4kuOMoxz/KzqryLkhhJdQ0h+AzeaK+D
+ Q88LA4HjKe+894EbGlNVSJUXCwqamyGWvrJmu7CxkyZ/fjnr/GK0xrmkpGAeHcXReDCf
+ dfRspACmGm6g+iNjhhqegKS9DDWcuCDZoWyePxnRnvUmEaTjZF0/6EPPSN4l+jTkadyT
+ lEcQ==
+X-Gm-Message-State: AC+VfDyizwx0uFJTF8aV9MhvbVj3HNoS7SPBkqpPQeUmQuXeX3mQLMn7
+ od7Y6Vzb03v9Nhr3kYLhSRjsqOmqXQuxyQizXSpSDFiFQl6b42hEtT7qNEorzUjDYHN0tY7B06q
+ YgbmIfqQsbpHkGw8CWJjzgeY=
+X-Received: by 2002:aa7:ce0e:0:b0:50b:f8c0:d793 with SMTP id
+ d14-20020aa7ce0e000000b0050bf8c0d793mr15027634edv.27.1683704767382; 
  Wed, 10 May 2023 00:46:07 -0700 (PDT)
-Received: from [192.168.69.115] ([176.187.211.62])
+X-Google-Smtp-Source: ACHHUZ7t2+N50RmQq11+RA2UkOA1Any/p3KN1/JHYby/D0FQqbtX9lwdeil1FmzcQ8sdHYW6yDwg/w==
+X-Received: by 2002:aa7:ce0e:0:b0:50b:f8c0:d793 with SMTP id
+ d14-20020aa7ce0e000000b0050bf8c0d793mr15027613edv.27.1683704766935; 
+ Wed, 10 May 2023 00:46:06 -0700 (PDT)
+Received: from ?IPV6:2003:cf:d706:2e02:6e14:9279:969b:d328?
+ (p200300cfd7062e026e149279969bd328.dip0.t-ipconnect.de.
+ [2003:cf:d706:2e02:6e14:9279:969b:d328])
  by smtp.gmail.com with ESMTPSA id
- z10-20020a05600c220a00b003f17122587bsm22164353wml.36.2023.05.10.00.46.05
+ e2-20020a50fb82000000b00509e3053b66sm1551222edq.90.2023.05.10.00.46.06
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
  Wed, 10 May 2023 00:46:06 -0700 (PDT)
-Message-ID: <06247db2-f76a-e8fd-4a8e-84a60cfab3f2@linaro.org>
-Date: Wed, 10 May 2023 09:46:03 +0200
+Message-ID: <b53326eb-3b85-f017-ce00-85e522d89835@redhat.com>
+Date: Wed, 10 May 2023 09:46:05 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.10.1
-Subject: Re: [PATCH v3 06/10] trace: remove code that depends on setting vcpu
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH 11/11] cutils: Improve qemu_strtosz handling of fractions
+To: Eric Blake <eblake@redhat.com>
+Cc: qemu-devel@nongnu.org
+References: <20230508200343.791450-1-eblake@redhat.com>
+ <20230508200343.791450-12-eblake@redhat.com>
+ <40919a58-2bb2-f156-ddc0-49c117a8f031@redhat.com>
+ <bmvo2jg7jb2jmr3ezvqa3ymvuldon54cy3gv5mugplwd542rnk@lhr7d5ulqc5d>
 Content-Language: en-US
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org
-Cc: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Christian Schoenebeck <qemu_oss@crudebyte.com>,
- Michael Roth <michael.roth@amd.com>, Eric Blake <eblake@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Greg Kurz <groug@kaod.org>,
- Eduardo Habkost <eduardo@habkost.net>, Yanan Wang <wangyanan55@huawei.com>,
- Kyle Evans <kevans@freebsd.org>, Warner Losh <imp@bsdimp.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Markus Armbruster <armbru@redhat.com>, Riku Voipio <riku.voipio@iki.fi>
-References: <20230505155336.137393-1-alex.bennee@linaro.org>
- <20230505155336.137393-7-alex.bennee@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230505155336.137393-7-alex.bennee@linaro.org>
+From: Hanna Czenczek <hreitz@redhat.com>
+In-Reply-To: <bmvo2jg7jb2jmr3ezvqa3ymvuldon54cy3gv5mugplwd542rnk@lhr7d5ulqc5d>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x42a.google.com
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=hreitz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -24
 X-Spam_score: -2.5
 X-Spam_bar: --
-X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.421,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.421, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -101,77 +104,203 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 5/5/23 17:53, Alex Bennée wrote:
-> Now we no longer have any events that are for vcpus we can start
-> excising the code from the trace control. As the vcpu parameter is
-> encoded as part of QMP we just stub out the has_vcpu/vcpu parameters
-> rather than alter the API.
-> 
-> Message-Id: <20230420150009.1675181-7-alex.bennee@linaro.org>
-> Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-> Message-Id: <20230503091756.1453057-7-alex.bennee@linaro.org>
-> ---
->   trace/control-internal.h |  10 ----
->   trace/control-vcpu.h     |  16 ------
->   trace/control.h          |  48 -----------------
->   hw/core/cpu-common.c     |   2 -
->   stubs/trace-control.c    |  13 -----
->   trace/control-target.c   | 110 ++++-----------------------------------
->   trace/control.c          |  16 ------
->   trace/qmp.c              |  74 +++-----------------------
->   trace/trace-hmp-cmds.c   |  17 +-----
->   9 files changed, 19 insertions(+), 287 deletions(-)
+On 09.05.23 23:28, Eric Blake wrote:
+> On Tue, May 09, 2023 at 07:54:30PM +0200, Hanna Czenczek wrote:
+>> On 08.05.23 22:03, Eric Blake wrote:
+>>> We have several limitations and bugs worth fixing; they are
+>>> inter-related enough that it is not worth splitting this patch into
+>>> smaller pieces:
+>>>
+>>> * ".5k" should work to specify 512, just as "0.5k" does
+>>> * "1.9999k" and "1." + "9"*50 + "k" should both produce the same
+>>>     result of 2048 after rounding
+>>> * "1." + "0"*350 + "1B" should not be treated the same as "1.0B";
+>>>     underflow in the fraction should not be lost
+>>> * "7.99e99" and "7.99e999" look similar, but our code was doing a
+>>>     read-out-of-bounds on the latter because it was not expecting ERANGE
+>>>     due to overflow. While we document that scientific notation is not
+>>>     supported, and the previous patch actually fixed
+>>>     qemu_strtod_finite() to no longer return ERANGE overflows, it is
+>>>     easier to pre-filter than to try and determine after the fact if
+>>>     strtod() consumed more than we wanted.  Note that this is a
+>>>     low-level semantic change (when endptr is not NULL, we can now
+>>>     successfully parse with a scale of 'E' and then report trailing
+>>>     junk, instead of failing outright with EINVAL); but an earlier
+>>>     commit already argued that this is not a high-level semantic change
+>>>     since the only caller passing in a non-NULL endptr also checks that
+>>>     the tail is whitespace-only.
+>>>
+>>> Fixes: https://gitlab.com/qemu-project/qemu/-/issues/1629
+>>> Signed-off-by: Eric Blake <eblake@redhat.com>
+>>> ---
+>>>    tests/unit/test-cutils.c | 51 +++++++++++------------
+>>>    util/cutils.c            | 89 ++++++++++++++++++++++++++++------------
+>>>    2 files changed, 88 insertions(+), 52 deletions(-)
+>> [...]
+>>
+>>> diff --git a/util/cutils.c b/util/cutils.c
+>>> index 0e056a27a44..d1dfbc69d16 100644
+>>> --- a/util/cutils.c
+>>> +++ b/util/cutils.c
+>> [...]
+>>
+>>> @@ -246,27 +244,66 @@ static int do_strtosz(const char *nptr, const char **end,
+>>>                retval = -EINVAL;
+>>>                goto out;
+>>>            }
+>>> -    } else if (*endptr == '.') {
+>>> +    } else if (*endptr == '.' || (endptr == nptr && strchr(nptr, '.'))) {
+>> What case is there where we have a fraction but *endptr != '.'?
+> Bigger context:
+>
+> result = qemu_strtou64(nptr, &endptr, 10, &val);
+> // at this point, result is one of:
+> //  a. 0 - we parsed a decimal string, endptr points to any slop
+> //  b. -EINVAL - we could not recognize a decimal string: multiple reasons
+> //  b.1. nptr was NULL (endptr is NULL)
+> //  b.2. nptr was "" or otherwise whitespace only (endptr is nptr)
+> //  b.3. the first non-whitespace in nptr was not a sign or digit (endptr is nptr)
+> //  c. -ERANGE - we saw a decimal string, but it didn't fit in uint64 (endptr is
+> //    past first digit)
+> if (retval == -ERANGE || !nptr) {
+>      // filter out c. and b.1
+>      goto out;
+> }
+> if (retval == 0 && val == 0 && (*endptr == 'x' || *endptr == 'X')) {
+>      // a, where we must decipher between "0x", "00x", "0xjunk", "0x1", ...
+>      // not changed by this patch, and where we give -EINVAL if we see any trailing
+>      // slop like "0x1." or "0x1p"
+> } else  if (*endptr == '.' || (endptr == nptr && strchr(nptr, '.'))) {
+>      // The left half is possible in both a. (such as "1.5k")
+>      // and b.3. when '.' was the first slop byte (such as ".5k")
+>      // The right half is possible only for b.3 when '.' was not the first slop
+>      // (needed for covering " +.5k")
 
+Ah, I see.  Yes, I couldn’t come up with parseable non-digit characters 
+(whitespace, '+').  Thanks, that makes sense!
 
-> diff --git a/trace/trace-hmp-cmds.c b/trace/trace-hmp-cmds.c
-> index 792876c34a..1d07672cb2 100644
-> --- a/trace/trace-hmp-cmds.c
-> +++ b/trace/trace-hmp-cmds.c
-> @@ -37,16 +37,9 @@ void hmp_trace_event(Monitor *mon, const QDict *qdict)
->   {
->       const char *tp_name = qdict_get_str(qdict, "name");
->       bool new_state = qdict_get_bool(qdict, "option");
-> -    bool has_vcpu = qdict_haskey(qdict, "vcpu");
-> -    int vcpu = qdict_get_try_int(qdict, "vcpu", 0);
->       Error *local_err = NULL;
->   
-> -    if (vcpu < 0) {
-> -        monitor_printf(mon, "argument vcpu must be positive");
-> -        return;
-> -    }
-> -
-> -    qmp_trace_event_set_state(tp_name, new_state, true, true, has_vcpu, vcpu, &local_err);
-> +    qmp_trace_event_set_state(tp_name, new_state, true, true, false, 0, &local_err);
->       if (local_err) {
->           error_report_err(local_err);
->       }
-> @@ -80,8 +73,6 @@ void hmp_trace_file(Monitor *mon, const QDict *qdict)
->   void hmp_info_trace_events(Monitor *mon, const QDict *qdict)
->   {
->       const char *name = qdict_get_try_str(qdict, "name");
-> -    bool has_vcpu = qdict_haskey(qdict, "vcpu");
-> -    int vcpu = qdict_get_try_int(qdict, "vcpu", 0);
->       TraceEventInfoList *events;
->       TraceEventInfoList *elem;
->       Error *local_err = NULL;
-> @@ -89,12 +80,8 @@ void hmp_info_trace_events(Monitor *mon, const QDict *qdict)
->       if (name == NULL) {
->           name = "*";
->       }
-> -    if (vcpu < 0) {
-> -        monitor_printf(mon, "argument vcpu must be positive");
-> -        return;
-> -    }
->   
-> -    events = qmp_trace_event_get_state(name, has_vcpu, vcpu, &local_err);
-> +    events = qmp_trace_event_get_state(name, false, 0, &local_err);
->       if (local_err) {
->           error_report_err(local_err);
->           return;
+>      // At this point, b.2. has been filtered out
+>
+> ...
+>
+>>>            /*
+>>>             * Input looks like a fraction.  Make sure even 1.k works
+>>> -         * without fractional digits.  If we see an exponent, treat
+>>> -         * the entire input as invalid instead.
+>>> +         * without fractional digits.  strtod tries to treat 'e' as an
+>>> +         * exponent, but we want to treat it as a scaling suffix;
+>>> +         * doing this requires modifying a copy of the fraction.
+>>>             */
+>>> -        double fraction;
+>>> +        double fraction = 0.0;
+>>>
+>>> -        f = endptr;
+>>> -        retval = qemu_strtod_finite(f, &endptr, &fraction);
+>>> -        if (retval) {
+>>> +        if (retval == 0 && *endptr == '.' && !isdigit(endptr[1])) {
+>>> +            /* If we got here, we parsed at least one digit already. */
+>>>                endptr++;
+> The 'retval == 0' check could equally be written 'endptr > nptr' (the
+> two are synonymous based on the conditions of a.; we cannot get here
+> under b.3); the '*endptr == '.' is necessary so that if nptr=="1junk",
+> we use 'j' as the scaling suffix rather than trying to skip past a
+> non-present '.'; and the '!isdigit(endptr[1])' is necessary so that
+> "1.k" does not result in us trying to call strtod(".k") which would
+> fail for an unexpected EINVAL.  Basically, this branch handles all
+> cases where we've seen at least one digit and the only thing between
+> digits and a possible scaling suffix is a single '.', so strtod is not
+> worth using.
+>
+>>> -        } else if (memchr(f, 'e', endptr - f) || memchr(f, 'E', endptr - f)) {
+>>> -            endptr = nptr;
+>>> -            retval = -EINVAL;
+>>> -            goto out;
+>>>            } else {
+>>> -            /* Extract into a 64-bit fixed-point fraction. */
+>>> +            char *e;
+>>> +            const char *tail;
+>>> +            g_autofree char *copy = g_strdup(endptr);
+>>> +
+> If we get into this branch, we could be in condition a. (such as
+> "1.1k" where endptr is ".1k") or in b.3 (such as ".5k" where endptr is
+> ".5k", but also thinks like " junk." where endptr is " junk." or even
+> ".k").  But we've already proven we don't need to worry about "0x1p1"
+> (filtered above in the hex code), and at this point we strip all
+> exponents (if endptr is ".9e999", copy is ".9")...
+>
+>>> +            e = strchr(copy, 'e');
+>>> +            if (e) {
+>>> +                *e = '\0';
+>>> +            }
+>>> +            e = strchr(copy, 'E');
+>>> +            if (e) {
+>>> +                *e = '\0';
+>>> +            }
+>>> +            /*
+>>> +             * If this is a floating point, we are guaranteed that '.'
+>>> +             * appears before any possible digits in copy.  If it is
+>>> +             * not a floating point, strtod will fail.  Either way,
+>>> +             * there is now no exponent in copy, so if it parses, we
+>>> +             * know 0.0 <= abs(result) <= 1.0 (after rounding), and
+>>> +             * ERANGE is only possible on underflow which is okay.
+>>> +             */
+>>> +            retval = qemu_strtod_finite(copy, &tail, &fraction);
+> ...so that by the time we do try qemu_strtod_finite(), it is either a
+> valid floating point fraction with at least one digit and no exponent
+> and possibly some slop (such as ".5k" or " +.5" - will produce retval
+> = 0 or -ERANGE for underflow, based on the previous patch to
+> qemu_strtod_finite) or complete junk with retval = -EINVAL where there
+> was a '.' but other characters appeared first (such as " junk.") or
+> where there are no digits but also no scaling suffix (such as ". ";
+> hmm, looks like I could get more coverage if I add ". " and ".k" to my
+> unit tests in v2).
+>
+>>> +            endptr += tail - copy;
+>>> +        }
+>>> +
+>>> +        /* Extract into a 64-bit fixed-point fraction. */
+>>> +        if (fraction == 1.0) {
+>>> +            if (val == UINT64_MAX) {
+>>> +                retval = -ERANGE;
+>>> +                goto out;
+>>> +            }
+>>> +            val++;
+>>> +        } else if (retval == -ERANGE) {
+>>> +            /* See comments above about underflow */
+>>> +            valf = 1;
+>> It doesn’t really matter because even an EiB is just 2^60, and so 1 EiB *
+>> 2^-64 (the resolution of our fractional part) is still less than 1, but:
+>>
+>> DBL_MIN * 0x1p64 is 2^-(1022-64) == 2^-958, i.e. much less than 1, so I’d
+>> set valf to 0 here.
+>>
+>> (If you put “.00000000000000000001” into this, there won’t be an underflow,
+>> but the value is so small that valf ends up 0.  But if you put `.$(yes 0 |
+>> head -n 307 | tr -d '\n')1` into this, there will be an underflow, setting
+>> valf to 1, even though the value is smaller.)
+> Oh, good point.  I was trying to say that "1.000B" (for any amount of
+> zeroes) is okay (all zeroes in the fraction is needless typing but not
+> an ambiguous value regardless of rounding), while "1.0001B" (for any
+> amount of zeroes) is not (you can't request a non-zero fraction
+> without a scale larger than bytes, even if the fraction you do request
+> rounds to zero at your chosen scale).  But you have come up with a
+> counter-case where I didn't quite achieve that.
+>
+> But I think the solution to that is not to treat underflow as valf =
+> 0, but rather to alter this snippet:
+>
+> -            valf = (uint64_t)(fraction * 0x1p64);
+> +            /*
+> +             * If fraction was non-zero, add slop small enough that it doesn't
+> +             * impact rounding, but does let us reject "1..00000000000000000001B".
+> +             */
+> +            valf = (uint64_t)(fraction * 0x1p64) | !fraction;
+>
+> so that between the ERANGE branch and this slop, valf is guaranteed
+> non-zero if fraction contained any non-zero digits.
 
-We can simplify further by removing 'bool has_vcpu, int64_t vcpu' from
-qmp_trace_event_set_state/qmp_trace_event_get_state, which are now
-always false/0.
+I’d make it a logical || instead of |, but that sounds good, yes.
+
+Hanna
+
 
