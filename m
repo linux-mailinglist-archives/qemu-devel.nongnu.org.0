@@ -2,75 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B08FA6FE0B5
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 May 2023 16:46:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 52D9C6FE0B9
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 May 2023 16:47:37 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pwl4i-0007aJ-VT; Wed, 10 May 2023 10:45:53 -0400
+	id 1pwl5s-0008Jp-L5; Wed, 10 May 2023 10:47:05 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pwl4d-0007Zk-Mb
- for qemu-devel@nongnu.org; Wed, 10 May 2023 10:45:48 -0400
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434])
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pwl5p-0008JQ-3S
+ for qemu-devel@nongnu.org; Wed, 10 May 2023 10:47:01 -0400
+Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pwl4c-0005Pu-4M
- for qemu-devel@nongnu.org; Wed, 10 May 2023 10:45:47 -0400
-Received: by mail-wr1-x434.google.com with SMTP id
- ffacd0b85a97d-30786c6082dso3327992f8f.2
- for <qemu-devel@nongnu.org>; Wed, 10 May 2023 07:45:45 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pwl5n-0005Wt-JO
+ for qemu-devel@nongnu.org; Wed, 10 May 2023 10:47:00 -0400
+Received: by mail-wm1-x335.google.com with SMTP id
+ 5b1f17b1804b1-3f4271185daso33795205e9.2
+ for <qemu-devel@nongnu.org>; Wed, 10 May 2023 07:46:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1683729945; x=1686321945;
+ d=linaro.org; s=google; t=1683730017; x=1686322017;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=CMyqeCLtHyuEgEMAiZSTT4lQykJAPv9+1MufHK3zofA=;
- b=isVojIkbuqHWHKql2QdOCWIvMGOj9fGhMC06owUTLfGMeBGtMJnSh4I50UR32A20PK
- ahMocbkutpHDU8RgAaFeTpatjxyziTVg1LXa1Y16Ce6lPjXxZGkNU/DLqlc9U6vBagKZ
- am3nDpyNl3he+PL5QQyrreyGvFtVKASmzWdfupoISEw9gH55DfBzY8BqtrWzRPkkUaIR
- ELf22OEk/DzsJxdI5cYdTTY2gId9ZROmP7AJ9Wt2VFQix7+V/Bhtj8llSKl65BTn+kYX
- buHdLhtAqyr1n9ZVa0nXuEJL1XdHHd54+Ec4umNOnTHiAdBlHFpMK44z2+fjHI6hCBu4
- P8tw==
+ bh=cKUtcuBbbtCmYjFyk7LgdgDeS3EpAG88/1SfSisVPxg=;
+ b=cRcH3t1JsuyjQA4RB6+Uitgk+abvPs/gtI8Vm4G2iDIyvfAQ6LyE7TmGCerCmucz8Z
+ GfO9++Cm2fGlRgAL0pRwwcdl72SeAFBju6NqQ+jDGXjr1qMQW+2Bbgc+J59pqGzxLVn2
+ jQ+Y+SyV+rHvkjiYbHDgaOnUESa0WylSCxPSjYu4Hrw7v18034gGLDnp9bsnVG1vKyBP
+ CnAMQGFx/5dfqf8ZN+Mg0AXy+6qRuiTpTbnwEWW83Azg1Laudyp4q/0HzWhFMWVioOnQ
+ L+5YunYofAy7vell+vuFL6pDu26BPRmd93qeJPILVANFJXE7IdJp+UkazgA8Dos03tN6
+ HkyQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683729945; x=1686321945;
+ d=1e100.net; s=20221208; t=1683730017; x=1686322017;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=CMyqeCLtHyuEgEMAiZSTT4lQykJAPv9+1MufHK3zofA=;
- b=XuIS72NTGymHaGrYEo8jVAgENt+3jllj/p8WtnSyTBcnSDKlBg+mUfdDdpf8gHeZxZ
- rQ9cJHvPkUl3/ZFl/tyboAzV+EoWGzdWfiam0t6wEhduHh3fG8l7UhUygXhP7acPIJo6
- g3CZZBAM59sNYj7LXrcS0AGDLR0HyI/l6QM4itPsWxvMqMAnFh8CTxRArtQJgwJQ7CNT
- IAAvxo/HV8VtmVUBNGIygt5YABiOE+SZA1b+peYbiqo7/ve2wi2nCvpAf0z1JLtTyY/w
- uAfc7mylrB4FgoZRk6JGxtDinWWkLcncO/2idRld5PW43UAOh0tqAhUYNV+Slh2VMdEB
- bLnQ==
-X-Gm-Message-State: AC+VfDw9f+Lj9jzyay+PWsQtznJkPuZTyYIl9SlKAX8GwdAXVfj2PuZD
- HZRowZg6U2HnNSzekBtRGQczMw==
-X-Google-Smtp-Source: ACHHUZ57U1ZS1QwL/eYxtxIJL0RhlnOIVkm1D0n8a5cxAo8KqsGxovxSnc4li7+UoGrkuKDDLb9SQA==
-X-Received: by 2002:a5d:6ac5:0:b0:306:3429:1833 with SMTP id
- u5-20020a5d6ac5000000b0030634291833mr12324599wrw.46.1683729944762; 
- Wed, 10 May 2023 07:45:44 -0700 (PDT)
-Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- p6-20020adfe606000000b002e5f6f8fc4fsm17673032wrm.100.2023.05.10.07.45.43
+ bh=cKUtcuBbbtCmYjFyk7LgdgDeS3EpAG88/1SfSisVPxg=;
+ b=Roe3GcufIiwek8yatxNR5/DJJL4M8cRUgd3rOhjVrpdg4vvfn3Q6jIC+y3GQpoAZUE
+ HnIhwZrrJEch/m2I7HMaeiMADuNfaFb6QRRjog1Xm1ppqTGM7oaLsRhbc0SV7F3D4CsU
+ +LnCJ6I3YqVJLvIU8Vi1r2m614+WotaZ/ZBE/lqSLghPcTxtOowHtOCN3Pt810tv3P/v
+ hyZQeYgDHUqXCyz37R02/8wNjG8ZGsqr/ztefDH76Xi5haSwREClUqJQK64KHFG/cEN1
+ V95iyhQ9kORaPc+FJGnsFLxUrmh9n0rahJ9VulTPgiqJTw+6uJtQXL/uXkoHofyijAy3
+ 9/nw==
+X-Gm-Message-State: AC+VfDwhaILkzq2mrHxTm13cjlTvlgVi3BXzeGdxh6QJm7GgWCDLm4Fp
+ e9SV3SUbuV+17N8qfK5r3Hgx3A==
+X-Google-Smtp-Source: ACHHUZ5IiLD3brjv0oqaZ3LyJknCqejLwaO8ONRPUTfqIMRUQIIQvZ+OINB09AyYj8iUVY0/JXgLSA==
+X-Received: by 2002:a1c:ed13:0:b0:3f0:b095:15d9 with SMTP id
+ l19-20020a1ced13000000b003f0b09515d9mr11116290wmh.40.1683730017437; 
+ Wed, 10 May 2023 07:46:57 -0700 (PDT)
+Received: from [192.168.11.23] ([85.9.250.243])
+ by smtp.gmail.com with ESMTPSA id
+ q3-20020a1cf303000000b003f3157988f8sm22963879wmq.26.2023.05.10.07.46.56
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 10 May 2023 07:45:44 -0700 (PDT)
-Message-ID: <25b5c535-0a72-9f80-a2ac-6fc730f77d13@linaro.org>
-Date: Wed, 10 May 2023 16:45:43 +0200
+ Wed, 10 May 2023 07:46:57 -0700 (PDT)
+Message-ID: <73622292-1ed3-a497-64b7-d4ab86125eb1@linaro.org>
+Date: Wed, 10 May 2023 15:46:55 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.10.1
-Subject: Re: [PATCH 10/16] target/nios2: Remove TARGET_ALIGNED_ONLY
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PULL 00/10] Migration 20230509 patches
 Content-Language: en-US
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-Cc: jiaxun.yang@flygoat.com, crwulff@gmail.com, marex@denx.de,
- ysato@users.sourceforge.jp, mark.cave-ayland@ilande.co.uk
-References: <20230502160846.1289975-1-richard.henderson@linaro.org>
- <20230502160846.1289975-11-richard.henderson@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230502160846.1289975-11-richard.henderson@linaro.org>
+To: quintela@redhat.com
+Cc: qemu-devel@nongnu.org, "Dr. David Alan Gilbert" <dave@treblig.org>,
+ Leonardo Bras <leobras@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
+ Kevin Wolf <kwolf@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Hailiang Zhang <zhanghailiang@xfusion.com>, Eric Blake <eblake@redhat.com>,
+ qemu-block@nongnu.org, Peter Xu <peterx@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>
+References: <20230509191724.86159-1-quintela@redhat.com>
+ <19eff026-1a50-b0f3-15a5-b0251ab443dd@linaro.org>
+ <87ild08jjq.fsf@secure.mitica>
+ <fbe67cac-5135-219f-6c15-7e63e58ce10a@linaro.org>
+ <87a5yc8ejg.fsf@secure.mitica>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <87a5yc8ejg.fsf@secure.mitica>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x434.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::335;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x335.google.com
 X-Spam_score_int: -53
 X-Spam_score: -5.4
 X-Spam_bar: -----
@@ -93,17 +103,38 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 2/5/23 18:08, Richard Henderson wrote:
-> In gen_ldx/gen_stx, the only two locations for memory operations,
-> mark the operation as either aligned (softmmu) or unaligned
-> (user-only, as if emulated by the kernel).
+On 5/10/23 15:08, Juan Quintela wrote:
+> grep " uint;" on my system includes.  I know that there are more
+> creative ways to define it.
 > 
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->   configs/targets/nios2-softmmu.mak |  1 -
->   target/nios2/translate.c          | 10 ++++++++++
->   2 files changed, 10 insertions(+), 1 deletion(-)
+> /usr/include/ffi-x86_64.h\0278:  ffi_arg   uint;
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Thankfully only a structure member.  :-)
+
+> /usr/include/sys/types.h\0150:typedef unsigned int uint;
+
+Oof.
+
+> /usr/include/nspr4/obsolete/protypes.h\052:typedef PRUintn uint;
+> /usr/include/mysql/server/my_global.h\0465:typedef unsigned int uint;
+> /usr/include/boost/iostreams/filter/zlib.hpp\047:typedef uint32_t uint;
+> /usr/include/qt5/QtCore/qglobal.h\0275:typedef unsigned int uint;
+> 
+> in qt it is defined for everything.
+
+Ok.
+
+> ../../../../mnt/code/qemu/full/linux-user/syscall.c:317:32: error: unknown type name ‘uint’; did you mean ‘guint’?
+>    317 | _syscall3(int, sys_getdents64, uint, fd, struct linux_dirent64 *, dirp, uint, count);
+>        |                                ^~~~
+
+Fixable.
+
+> I will post an RFC with my findings.
+
+Thanks.
+
+
+r~
 
 
