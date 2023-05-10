@@ -2,76 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 057DC6FDA62
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 May 2023 11:05:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 18F416FDA66
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 May 2023 11:06:46 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pwfiu-0006U0-L9; Wed, 10 May 2023 05:03:00 -0400
+	id 1pwflu-0000Te-C0; Wed, 10 May 2023 05:06:06 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
- id 1pwfij-0006Qu-Al
- for qemu-devel@nongnu.org; Wed, 10 May 2023 05:02:50 -0400
-Received: from mail.loongson.cn ([114.242.206.163] helo=loongson.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <gaosong@loongson.cn>) id 1pwfic-0006Kc-J4
- for qemu-devel@nongnu.org; Wed, 10 May 2023 05:02:47 -0400
-Received: from loongson.cn (unknown [10.20.42.57])
- by gateway (Coremail) with SMTP id _____8Bx7eqnXVtkhk0HAA--.12549S3;
- Wed, 10 May 2023 17:02:31 +0800 (CST)
-Received: from [10.20.42.57] (unknown [10.20.42.57])
- by localhost.localdomain (Coremail) with SMTP id
- AQAAf8Dx8LelXVtkYttTAA--.18861S3; 
- Wed, 10 May 2023 17:02:29 +0800 (CST)
-Subject: Re: [PATCH v10 1/8] memory: prevent dma-reentracy issues
-To: Thomas Huth <thuth@redhat.com>
-References: <20230427211013.2994127-1-alxndr@bu.edu>
- <20230427211013.2994127-2-alxndr@bu.edu> <ZEt/3RwtL/jePTTv@redhat.com>
- <828514c6-44f0-32f0-1eb1-a49f21617585@redhat.com>
- <20230428091159.haydefdtq4m6z2tz@mozz.bu.edu>
- <b151ecf7-0544-86ac-a182-1112a4dd7dca@redhat.com>
- <c01a2b87-27be-e92a-3a5b-d561eadbc516@loongson.cn>
- <981cdcd7-7326-08f0-9882-e66840175205@redhat.com>
- <c4919eb6-74f1-7699-f924-6917cdf435bb@loongson.cn>
- <faa1c6e0-abc2-f108-cc25-2b2cf71bd3d0@redhat.com>
-From: Song Gao <gaosong@loongson.cn>
-Cc: qemu-devel@nongnu.org, maobibo@loongson.cn
-Message-ID: <a5a05af5-bf26-ad10-f866-230e4525881f@loongson.cn>
-Date: Wed, 10 May 2023 17:02:29 +0800
-User-Agent: Mozilla/5.0 (X11; Linux loongarch64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1pwfli-0000G6-F9
+ for qemu-devel@nongnu.org; Wed, 10 May 2023 05:05:55 -0400
+Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1pwflf-0007qJ-A1
+ for qemu-devel@nongnu.org; Wed, 10 May 2023 05:05:53 -0400
+Received: by mail-wr1-x42b.google.com with SMTP id
+ ffacd0b85a97d-3062db220a3so4502184f8f.0
+ for <qemu-devel@nongnu.org>; Wed, 10 May 2023 02:05:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1683709548; x=1686301548;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=Pemjz5gsxQvJFr3OHBPAfO76RVrjdn9gMWic7ZgGXfY=;
+ b=TftCW/F/1UAMuLirzYhT1XNA5rgsGhV9F2nrfO/rnFzX0ipMOo4bZ5o1Vwgd7X7L74
+ wyY77rrzcoBpYjFezvwVQ1l3T+pmbqP9IKLGUew9Z4oNtmDsrG++bOFnlhmcO+yOpl7t
+ woIt1GC1MMhcdayt8+w4dF1xOCkWJbcHkwi/FB7UoN43zHXZQ3dAYr6lxUU9w7URK9vr
+ UGqrtrejR8cvtpzvT7vz3qezmKWAPrffnaNrXfUifTTYu68pQDtG4fp0DC6Cr7J8xCR1
+ yMfYydjwI6STZUvDREqOJbs+ErGeQgzySYQRdb8PcnL6S7qZi0aYCsTyaCBv0fpQwHn/
+ yScQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1683709548; x=1686301548;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=Pemjz5gsxQvJFr3OHBPAfO76RVrjdn9gMWic7ZgGXfY=;
+ b=Tp9p8duM0NW0Rqw4lNUEe0nyas8aLDSRJv2P8CSc8o1OTZxzuBTitl9Cc/NrFyh3Gm
+ 6gUi2nUTKQnOEvk12RyNYDWb5hKfc94zpjSpgrDapIPCHHwH22QCCWyjxZRLzxFVllex
+ Mup9eQVO5ga+UOeZI7I+kEFWyrTk1+9YySKF+BK9eS9JZTQhhwB0cjcvXLIvRDNXKT6d
+ 8dmyH699SIH1Sc6gTz6ICnBeDB26d52BvmVKMiwsNB2vv2UfiOhByp61R/FYtdpOHmZ/
+ I6StVZVcbSLJOi/TET7cxOynYMqTSMdr34WZ0O2JgkWDS9cKYfUoTQ7Cnh7hOZJaMfkZ
+ tbTg==
+X-Gm-Message-State: AC+VfDx6P29HCcF91+bJyGD1LXmlcVnvRuw/MB53X1VE6qE6DYiklErm
+ vKvTiiXpJCPf/JHScAVe2aPxbQ==
+X-Google-Smtp-Source: ACHHUZ7XAyxFZmWNpZSc2KIfqyMKCpPl+vSe9EBuqjYf7ulHy9QWxlaytx85oB+odFzaxr9aTxhymQ==
+X-Received: by 2002:a5d:6990:0:b0:306:2d15:fc35 with SMTP id
+ g16-20020a5d6990000000b003062d15fc35mr11284074wru.37.1683709548317; 
+ Wed, 10 May 2023 02:05:48 -0700 (PDT)
+Received: from zen.linaroharston ([85.9.250.243])
+ by smtp.gmail.com with ESMTPSA id
+ k9-20020adfe8c9000000b0030642f5da27sm16678398wrn.37.2023.05.10.02.05.47
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 10 May 2023 02:05:48 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 86BE31FFBB;
+ Wed, 10 May 2023 10:05:47 +0100 (BST)
+References: <20230506072235.597467-1-richard.henderson@linaro.org>
+ <20230506072235.597467-6-richard.henderson@linaro.org>
+User-agent: mu4e 1.11.4; emacs 29.0.90
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: qemu-devel@nongnu.org, git@xen0n.name, gaosong@loongson.cn,
+ philmd@linaro.org, qemu-riscv@nongnu.org, qemu-s390x@nongnu.org,
+ qemu-arm@nongnu.org
+Subject: Re: [PATCH v5 05/30] tcg/loongarch64: Introduce prepare_host_addr
+Date: Wed, 10 May 2023 10:05:35 +0100
+In-reply-to: <20230506072235.597467-6-richard.henderson@linaro.org>
+Message-ID: <87ednoa74k.fsf@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <faa1c6e0-abc2-f108-cc25-2b2cf71bd3d0@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-CM-TRANSID: AQAAf8Dx8LelXVtkYttTAA--.18861S3
-X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
-X-Coremail-Antispam: 1Uk129KBjvJXoWxXrWrXF13XrWDCF4kZFykuFg_yoW5XFW5p3
- yYya4Ykrn5JF48AFWv9wnFgFWF934DGa43J3W5Jr48CF4DCa1jgr4Syw18WasrKa1rX3W2
- v3yIva9Ig3WqqrJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
- qI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUIcSsGvfJTRUUU
- bI8YFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s
- 1l1IIY67AEw4v_JrI_Jryl8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xv
- wVC0I7IYx2IY67AKxVW5JVW7JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwA2z4
- x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6xkF7I0E14v26r4UJVWxJr1l
- e2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF0cIa020Ex4CE44I27wAqx4xG64xvF2
- IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4U
- McvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwCYjI0SjxkI62AI1cAE67vIY487Mx
- AIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_
- Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUXVWUAwCIc40Y0x0EwI
- xGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8
- JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcV
- C2z280aVCY1x0267AKxVWUJVW8JbIYCTnIWIevJa73UjIFyTuYvjxU25EfUUUUU
-Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
- helo=loongson.cn
-X-Spam_score_int: -22
-X-Spam_score: -2.3
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42b.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.421,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -87,69 +98,19 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi, Thomas
 
-在 2023/5/8 下午9:12, Thomas Huth 写道:
+Richard Henderson <richard.henderson@linaro.org> writes:
+
+> Merge tcg_out_tlb_load, add_qemu_ldst_label, tcg_out_test_alignment,
+> tcg_out_zext_addr_if_32_bit, and some code that lived in both
+> tcg_out_qemu_ld and tcg_out_qemu_st into one function that returns
+> HostAddress and TCGLabelQemuLdst structures.
 >
->>> Oh, another spot that needs special handling ... I see Alexander 
->>> already sent a patch (thanks!), but anyway, this is a good 
->>> indication that we're missing some test coverage in the CI.
->>>
->>> Are there any loongarch kernel images available for public download 
->>> somewhere? If so, we really should add an avocado regression test 
->>> for this - since as far as I can see, we don't have any  tests for 
->>> loongarch in tests/avocado yet?
->>>
->> we can get  some binarys  at:
->> https://github.com/yangxiaojuan-loongson/qemu-binary
-> >
->> I'm not sure that avacodo testing can be done using just the kernel.
->>
->> Is a full loongarch system required?
->
-> No, you don't need a full distro installation, just a kernel with 
-> ramdisk (which is also available there) is good enough for a basic 
-> test, e.g. just check whether the kernel boots to a certain point is 
-> good enough to provide a basic sanity test. If you then can also get 
-> even into a shell (of the ramdisk), you can check some additional 
-> stuff in the sysfs or "dmesg" output, see for example 
-> tests/avocado/machine_s390_ccw_virtio.py which does such checks with a 
-> kernel and initrd on s390x.
->
->
-I have a few questions.
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 
-I run ' make check-avocado 
-AVOCADO_TESTS=./tests/avocado/machine_s390_ccw_virtio.py V=1'
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 
-root@loongson-KVM:~/work/qemu#make check-avocado 
-AVOCADO_TESTS=./tests/avocado/machine_s390_ccw_virtio.py V=1
-changing dir to build for make "check-avocado"...
-make[1]: Entering directory '/root/work/qemu/build'
-(GIT="git" "/root/work/qemu/scripts/git-submodule.sh" update 
-ui/keycodemapdb meson tests/fp/berkeley-testfloat-3 
-tests/fp/berkeley-softfloat-3 dtc)
-/root/work/qemu/build/tests/venv/bin/python3 -m avocado vmimage get 
---distro=fedora --distro-version=31 --arch=s390x
-The image was downloaded:
-Provider Version Architecture File
-fedora   31      s390x 
-/root/avocado/data/cache/by_location/8ee06cba5485a58b2203c2c000d6d2ff6da0f040/Fedora-Cloud-Base-31-1.9.s390x.qcow2
-/root/work/qemu/build/tests/venv/bin/python3 -m avocado --show=app run 
---job-results-dir=/root/work/qemu/build/tests/results 
---filter-by-tags-include-empty --filter-by-tags-include-empty-key 
---max-parallel-tasks 1 -t arch:loongarch64 -t arch:s390x --failfast 
-./tests/avocado/machine_s390_ccw_virtio.py
-...
-
-This test downloaded   'Fedora-Cloud-Base-31-1.9.s390x.qcow2' image.
-but we don't have a  'Fedora-Cloud-Base-31-1.9.loongarch.qcow2' image.
-
-Am I missing something?
-
-One more question,    How to get the 'kernel_hash' and 'initrd_hash'?
-
-Thanks.
-Song Gao
-
+--=20
+Alex Benn=C3=A9e
+Virtualisation Tech Lead @ Linaro
 
