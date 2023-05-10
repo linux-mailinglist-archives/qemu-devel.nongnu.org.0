@@ -2,85 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A4E06FD393
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 May 2023 03:36:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B4DD26FD3FA
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 May 2023 05:02:37 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pwYjU-00072F-Fr; Tue, 09 May 2023 21:35:08 -0400
+	id 1pwa4l-00035V-Nw; Tue, 09 May 2023 23:01:11 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <leiyang@redhat.com>)
- id 1pwYjP-0006wu-Tw
- for qemu-devel@nongnu.org; Tue, 09 May 2023 21:35:04 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <leiyang@redhat.com>)
- id 1pwYjO-0002Cd-3i
- for qemu-devel@nongnu.org; Tue, 09 May 2023 21:35:03 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1683682500;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=muG2PwapXViLE8SET5NCINn/fJ8GuDyufFDuYy9W0LI=;
- b=PX5X5Fwz9TJq4AlV9oSpQP3CdI/tlLJxVNzXEEDJ4HxhHKG8tMWOE6fnXT5pb1n87cNL/C
- Pm+E0FCy6N1Zb01j/RwUL5M4jQ4clocH+m3Mnr/R1H7P+Fi4Q4PYUKh3z0UqzZYuAHw/pN
- EqHfpbG/Hmu20Cko/Z0R23Q6/8/+ftA=
-Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
- [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-464-Y2XOjmG1Miq1KulZ0J3K2Q-1; Tue, 09 May 2023 21:33:33 -0400
-X-MC-Unique: Y2XOjmG1Miq1KulZ0J3K2Q-1
-Received: by mail-ej1-f69.google.com with SMTP id
- a640c23a62f3a-965b9e29579so734635266b.0
- for <qemu-devel@nongnu.org>; Tue, 09 May 2023 18:33:32 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683682412; x=1686274412;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=muG2PwapXViLE8SET5NCINn/fJ8GuDyufFDuYy9W0LI=;
- b=YgBxl/z6LSG36rlLvUJXn/FnujwQGts9N+EN6NflbYsTINMOqy45XtJYyB8nzDR49Y
- ZEVw4q5XGYkgopbVnSQeO3p4JP9DuKXICmpkpj9Bfa8V0IvsdJiel1CRUgnT2JYtedR5
- 3TTEALnJIWB32ods3Fpoj9cuav25BRpBy3dBeIt4synaF1Du28RksOEt6DNlm8v1ecQe
- a4KWvkFfu42Cc00Ntz46fcWTWuWdjD45vJNUpC5/j72Kj5P30ryq7YV6U/HBjYBocxSg
- agjQ4dW66dDfwuEUggA8vp0DkYcm81lx307q9n3uY8OUoikB5MX0tWtMDxSE5dlVb3N7
- 9vLw==
-X-Gm-Message-State: AC+VfDw+jEuJZ9uBQmjHoDM4HAGPawe1FJowB4NOmrbtq30nhBotQ6Mf
- InEWxBt5VvcVmuRnFzmlkAuo6wX4KPJJRUmfGMxUbNsj1WL01RnH4dFMfEg7hGrqG8PmNXwqSS7
- u9VRgXThFDifdNrT3zhxEDCFtUVbT6fI=
-X-Received: by 2002:a17:907:7da9:b0:966:538f:843b with SMTP id
- oz41-20020a1709077da900b00966538f843bmr9443074ejc.77.1683682411939; 
- Tue, 09 May 2023 18:33:31 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ7yJl1HXetH2aHJJ+ckNCejSjwxYr5DKnv8AVE74xrXJ9Vq0M2AmAP6Aziysxc5CqwbbzyR+tA+FLu2tqNwKqU=
-X-Received: by 2002:a17:907:7da9:b0:966:538f:843b with SMTP id
- oz41-20020a1709077da900b00966538f843bmr9443058ejc.77.1683682411569; Tue, 09
- May 2023 18:33:31 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1pwa4i-000354-TE; Tue, 09 May 2023 23:01:08 -0400
+Received: from smtp80.cstnet.cn ([159.226.251.80] helo=cstnet.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1pwa4Z-0003uZ-1U; Tue, 09 May 2023 23:01:02 -0400
+Received: from localhost.localdomain (unknown [61.165.33.195])
+ by APP-01 (Coremail) with SMTP id qwCowABnSIHcCFtk4anMEg--.27533S2;
+ Wed, 10 May 2023 11:00:45 +0800 (CST)
+From: Weiwei Li <liweiwei@iscas.ac.cn>
+To: qemu-riscv@nongnu.org,
+	qemu-devel@nongnu.org
+Cc: palmer@dabbelt.com, alistair.francis@wdc.com, bin.meng@windriver.com,
+ dbarboza@ventanamicro.com, zhiwei_liu@linux.alibaba.com,
+ wangjunqiang@iscas.ac.cn, lazyparser@gmail.com,
+ Weiwei Li <liweiwei@iscas.ac.cn>
+Subject: [PATCH] target/riscv: Move zc* out of the experimental properties
+Date: Wed, 10 May 2023 11:00:40 +0800
+Message-Id: <20230510030040.20528-1-liweiwei@iscas.ac.cn>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20230506150111.2496-1-yin31149@gmail.com>
- <CAJaqyWfwFx_zhYpJ_o4E7M84255GbNtKGDM9fnqkyBJMTA=k2w@mail.gmail.com>
-In-Reply-To: <CAJaqyWfwFx_zhYpJ_o4E7M84255GbNtKGDM9fnqkyBJMTA=k2w@mail.gmail.com>
-From: Lei Yang <leiyang@redhat.com>
-Date: Wed, 10 May 2023 09:32:54 +0800
-Message-ID: <CAPpAL=yWNtKG4j1395=FipdW1YAfoJ2N_CBAPQtE5QadcUOyTQ@mail.gmail.com>
-Subject: Re: [PATCH RESEND] vhost: fix possible wrap in SVQ descriptor ring
-To: Eugenio Perez Martin <eperezma@redhat.com>
-Cc: Hawkins Jiawei <yin31149@gmail.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- 18801353760@163.com, qemu-devel@nongnu.org, qemu-stable@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=leiyang@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: qwCowABnSIHcCFtk4anMEg--.27533S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7KFy7CF1kXw1DAr48Aw18Zrb_yoW8ZF13pr
+ n5JFW7Kws3JryfCay8tw1DJrW8Ga1fA392g3yfZa1xArWfKr47WF1DKFs5Cr4fJr4rZa1S
+ 9F13ur10v39Yya7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUUvG14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+ rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+ 1l84ACjcxK6xIIjxv20xvE14v26w1j6s0DM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4U
+ JVWxJr1l84ACjcxK6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gc
+ CE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E
+ 2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJV
+ W8JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lFIxGxcIEc7CjxVA2
+ Y2ka0xkIwI1lc2xSY4AK67AK6r48MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r
+ 1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CE
+ b7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0x
+ vE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAI
+ cVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVWUJVW8JbIYCTnIWIevJa
+ 73UjIFyTuYvjfUnQ6pDUUUU
+X-Originating-IP: [61.165.33.195]
+X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
+Received-SPF: pass client-ip=159.226.251.80; envelope-from=liweiwei@iscas.ac.cn;
+ helo=cstnet.cn
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,138 +74,49 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-QE applied this patch to do sanity testing on vhost-net, there is no
-any regression problem.
+Zc* extensions (version 1.0) are ratified.
 
-Tested-by: Lei Yang <leiyang@redhat.com>
+Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
+Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
+---
+ target/riscv/cpu.c | 16 ++++++++--------
+ 1 file changed, 8 insertions(+), 8 deletions(-)
 
-
-
-On Tue, May 9, 2023 at 1:28=E2=80=AFAM Eugenio Perez Martin <eperezma@redha=
-t.com> wrote:
->
-> On Sat, May 6, 2023 at 5:01=E2=80=AFPM Hawkins Jiawei <yin31149@gmail.com=
-> wrote:
-> >
-> > QEMU invokes vhost_svq_add() when adding a guest's element into SVQ.
-> > In vhost_svq_add(), it uses vhost_svq_available_slots() to check
-> > whether QEMU can add the element into the SVQ. If there is
-> > enough space, then QEMU combines some out descriptors and
-> > some in descriptors into one descriptor chain, and add it into
-> > svq->vring.desc by vhost_svq_vring_write_descs().
-> >
-> > Yet the problem is that, `svq->shadow_avail_idx - svq->shadow_used_idx`
-> > in vhost_svq_available_slots() return the number of occupied elements,
-> > or the number of descriptor chains, instead of the number of occupied
-> > descriptors, which may cause wrapping in SVQ descriptor ring.
-> >
-> > Here is an example. In vhost_handle_guest_kick(), QEMU forwards
-> > as many available buffers to device by virtqueue_pop() and
-> > vhost_svq_add_element(). virtqueue_pop() return a guest's element,
-> > and use vhost_svq_add_elemnt(), a wrapper to vhost_svq_add(), to
-> > add this element into SVQ. If QEMU invokes virtqueue_pop() and
-> > vhost_svq_add_element() `svq->vring.num` times, vhost_svq_available_slo=
-ts()
-> > thinks QEMU just ran out of slots and everything should work fine.
-> > But in fact, virtqueue_pop() return `svq-vring.num` elements or
-> > descriptor chains, more than `svq->vring.num` descriptors, due to
-> > guest memory fragmentation, and this cause wrapping in SVQ descriptor r=
-ing.
-> >
->
-> The bug is valid even before marking the descriptors used. If the
-> guest memory is fragmented, SVQ must add chains so it can try to add
-> more descriptors than possible.
->
-> > Therefore, this patch adds `num_free` field in VhostShadowVirtqueue
-> > structure, updates this field in vhost_svq_add() and
-> > vhost_svq_get_buf(), to record the number of free descriptors.
-> > Then we can avoid wrap in SVQ descriptor ring by refactoring
-> > vhost_svq_available_slots().
-> >
-> > Fixes: 100890f7ca ("vhost: Shadow virtqueue buffers forwarding")
-> > Signed-off-by: Hawkins Jiawei <yin31149@gmail.com>
-> > ---
-> >  hw/virtio/vhost-shadow-virtqueue.c | 9 ++++++++-
-> >  hw/virtio/vhost-shadow-virtqueue.h | 3 +++
-> >  2 files changed, 11 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/hw/virtio/vhost-shadow-virtqueue.c b/hw/virtio/vhost-shado=
-w-virtqueue.c
-> > index 8361e70d1b..e1c6952b10 100644
-> > --- a/hw/virtio/vhost-shadow-virtqueue.c
-> > +++ b/hw/virtio/vhost-shadow-virtqueue.c
-> > @@ -68,7 +68,7 @@ bool vhost_svq_valid_features(uint64_t features, Erro=
-r **errp)
-> >   */
-> >  static uint16_t vhost_svq_available_slots(const VhostShadowVirtqueue *=
-svq)
-> >  {
-> > -    return svq->vring.num - (svq->shadow_avail_idx - svq->shadow_used_=
-idx);
-> > +    return svq->num_free;
-> >  }
-> >
-> >  /**
-> > @@ -263,6 +263,9 @@ int vhost_svq_add(VhostShadowVirtqueue *svq, const =
-struct iovec *out_sg,
-> >          return -EINVAL;
-> >      }
-> >
-> > +    /* Update the size of SVQ vring free descriptors */
-> > +    svq->num_free -=3D ndescs;
-> > +
-> >      svq->desc_state[qemu_head].elem =3D elem;
-> >      svq->desc_state[qemu_head].ndescs =3D ndescs;
-> >      vhost_svq_kick(svq);
-> > @@ -450,6 +453,9 @@ static VirtQueueElement *vhost_svq_get_buf(VhostSha=
-dowVirtqueue *svq,
-> >      svq->desc_next[last_used_chain] =3D svq->free_head;
-> >      svq->free_head =3D used_elem.id;
-> >
-> > +    /* Update the size of SVQ vring free descriptors */
->
-> No need for this comment.
->
-> Apart from that,
->
-> Acked-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
->
-> > +    svq->num_free +=3D num;
-> > +
-> >      *len =3D used_elem.len;
-> >      return g_steal_pointer(&svq->desc_state[used_elem.id].elem);
-> >  }
-> > @@ -659,6 +665,7 @@ void vhost_svq_start(VhostShadowVirtqueue *svq, Vir=
-tIODevice *vdev,
-> >      svq->iova_tree =3D iova_tree;
-> >
-> >      svq->vring.num =3D virtio_queue_get_num(vdev, virtio_get_queue_ind=
-ex(vq));
-> > +    svq->num_free =3D svq->vring.num;
-> >      driver_size =3D vhost_svq_driver_area_size(svq);
-> >      device_size =3D vhost_svq_device_area_size(svq);
-> >      svq->vring.desc =3D qemu_memalign(qemu_real_host_page_size(), driv=
-er_size);
-> > diff --git a/hw/virtio/vhost-shadow-virtqueue.h b/hw/virtio/vhost-shado=
-w-virtqueue.h
-> > index 926a4897b1..6efe051a70 100644
-> > --- a/hw/virtio/vhost-shadow-virtqueue.h
-> > +++ b/hw/virtio/vhost-shadow-virtqueue.h
-> > @@ -107,6 +107,9 @@ typedef struct VhostShadowVirtqueue {
-> >
-> >      /* Next head to consume from the device */
-> >      uint16_t last_used_idx;
-> > +
-> > +    /* Size of SVQ vring free descriptors */
-> > +    uint16_t num_free;
-> >  } VhostShadowVirtqueue;
-> >
-> >  bool vhost_svq_valid_features(uint64_t features, Error **errp);
-> > --
-> > 2.25.1
-> >
->
->
+diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+index db0875fb43..99ed9cb80e 100644
+--- a/target/riscv/cpu.c
++++ b/target/riscv/cpu.c
+@@ -1571,6 +1571,14 @@ static Property riscv_cpu_extensions[] = {
+ 
+     DEFINE_PROP_BOOL("zmmul", RISCVCPU, cfg.ext_zmmul, false),
+ 
++    DEFINE_PROP_BOOL("zca", RISCVCPU, cfg.ext_zca, false),
++    DEFINE_PROP_BOOL("zcb", RISCVCPU, cfg.ext_zcb, false),
++    DEFINE_PROP_BOOL("zcd", RISCVCPU, cfg.ext_zcd, false),
++    DEFINE_PROP_BOOL("zce", RISCVCPU, cfg.ext_zce, false),
++    DEFINE_PROP_BOOL("zcf", RISCVCPU, cfg.ext_zcf, false),
++    DEFINE_PROP_BOOL("zcmp", RISCVCPU, cfg.ext_zcmp, false),
++    DEFINE_PROP_BOOL("zcmt", RISCVCPU, cfg.ext_zcmt, false),
++
+     /* Vendor-specific custom extensions */
+     DEFINE_PROP_BOOL("xtheadba", RISCVCPU, cfg.ext_xtheadba, false),
+     DEFINE_PROP_BOOL("xtheadbb", RISCVCPU, cfg.ext_xtheadbb, false),
+@@ -1588,14 +1596,6 @@ static Property riscv_cpu_extensions[] = {
+     /* These are experimental so mark with 'x-' */
+     DEFINE_PROP_BOOL("x-zicond", RISCVCPU, cfg.ext_zicond, false),
+ 
+-    DEFINE_PROP_BOOL("x-zca", RISCVCPU, cfg.ext_zca, false),
+-    DEFINE_PROP_BOOL("x-zcb", RISCVCPU, cfg.ext_zcb, false),
+-    DEFINE_PROP_BOOL("x-zcd", RISCVCPU, cfg.ext_zcd, false),
+-    DEFINE_PROP_BOOL("x-zce", RISCVCPU, cfg.ext_zce, false),
+-    DEFINE_PROP_BOOL("x-zcf", RISCVCPU, cfg.ext_zcf, false),
+-    DEFINE_PROP_BOOL("x-zcmp", RISCVCPU, cfg.ext_zcmp, false),
+-    DEFINE_PROP_BOOL("x-zcmt", RISCVCPU, cfg.ext_zcmt, false),
+-
+     /* ePMP 0.9.3 */
+     DEFINE_PROP_BOOL("x-epmp", RISCVCPU, cfg.epmp, false),
+     DEFINE_PROP_BOOL("x-smaia", RISCVCPU, cfg.ext_smaia, false),
+-- 
+2.25.1
 
 
