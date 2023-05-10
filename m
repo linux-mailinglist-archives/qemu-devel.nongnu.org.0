@@ -2,100 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11E1D6FDA42
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 May 2023 11:00:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 057DC6FDA62
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 May 2023 11:05:07 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pwfgR-00057r-Tg; Wed, 10 May 2023 05:00:27 -0400
+	id 1pwfiu-0006U0-L9; Wed, 10 May 2023 05:03:00 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pwfgN-00056r-OC
- for qemu-devel@nongnu.org; Wed, 10 May 2023 05:00:23 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pwfgM-0005e5-AG
- for qemu-devel@nongnu.org; Wed, 10 May 2023 05:00:23 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1683709221;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=G+l00LP9nvQjDKaf7hL/2agM7QmmdtBjvbD16d70YE4=;
- b=Ii+ledyz+1/sAQPH78VRbgwiN77QHbPleC26Ap0pNgEECZtBJXWrpEuVkDiycJd9AOT0vS
- rEZitPHhtYDAjD/cEDCsdO1CAVUKLniuOIbnr6F1kMf+qW6Xw1969n7KCpuPHzH7u7+vlV
- gbqeRJPmdG7JDhQ0+uIh389fcIqMcIA=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-153-rac5QETlMlmKo8y0Yv2pbg-1; Wed, 10 May 2023 05:00:19 -0400
-X-MC-Unique: rac5QETlMlmKo8y0Yv2pbg-1
-Received: by mail-wm1-f69.google.com with SMTP id
- 5b1f17b1804b1-3f1763fac8bso43903105e9.1
- for <qemu-devel@nongnu.org>; Wed, 10 May 2023 02:00:19 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683709218; x=1686301218;
- h=content-transfer-encoding:mime-version:message-id:date:reply-to
- :user-agent:references:in-reply-to:subject:cc:to:from
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=G+l00LP9nvQjDKaf7hL/2agM7QmmdtBjvbD16d70YE4=;
- b=jjZCDJtUcNe/H8KV67w9m+s/VdRcqSt9lVMUak2zajP256Rd+eCO1G75hf1WIYXAVs
- yLk0nShCPaeFcoPNfQJOnod4dc9AnSX7YbXoAxlhoN/xnTxgml8XPHoG6evmb5gGYN+W
- km56GJ7k1G9WWAi+H7k1i1vSg3yMSZ11HAQOfbTEXNkGFFONEmbYR9jkS/MtEjluZLXT
- QYsP3l2CjTxs802SM5n2TuXezku1W70gCu0tVNVEh0tHoEHJRdKaNN/456rvXXmnti6h
- JU4oRxsT1/0eWw+o4V/RBqdlWgcb40T+EFXadaPdiAARfTgRBxwIVHTAYqm/p8SGN465
- gBTA==
-X-Gm-Message-State: AC+VfDySBKBTE4usL8nJGrUvnT6ErniJepGT0DhIGUsLetMVgyginOKq
- NdEMv3CbBPdsmnQMMbgUbTiBXeOlaeI1nF50g/rL3joxOtrQ09IB7pr1CEemWLry2m+QrcDKmZd
- R6T+j+cVu7NPDTfw=
-X-Received: by 2002:a7b:cd04:0:b0:3f1:9527:8e8a with SMTP id
- f4-20020a7bcd04000000b003f195278e8amr11021867wmj.21.1683709218481; 
- Wed, 10 May 2023 02:00:18 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ6mFsifrTkRQcs7N5tJoJ4fr1sb3ZdjsOZtGzF1aVVuEuURlzPTBFpZ/MtLNNi0MKFoAm5DLw==
-X-Received: by 2002:a7b:cd04:0:b0:3f1:9527:8e8a with SMTP id
- f4-20020a7bcd04000000b003f195278e8amr11021850wmj.21.1683709218203; 
- Wed, 10 May 2023 02:00:18 -0700 (PDT)
-Received: from redhat.com (static-92-120-85-188.ipcom.comunitel.net.
- [188.85.120.92]) by smtp.gmail.com with ESMTPSA id
- t6-20020a1c7706000000b003f42cc7aac4sm3653759wmi.37.2023.05.10.02.00.17
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 10 May 2023 02:00:17 -0700 (PDT)
-From: Juan Quintela <quintela@redhat.com>
-To: Avihai Horon <avihaih@nvidia.com>
-Cc: <qemu-devel@nongnu.org>,  Alex Williamson <alex.williamson@redhat.com>,
- =?utf-8?Q?C=C3=A9dric?= Le Goater <clg@redhat.com>,  Peter Xu
- <peterx@redhat.com>,
- Leonardo Bras <leobras@redhat.com>,  Eric Blake <eblake@redhat.com>,
- Markus Armbruster <armbru@redhat.com>,  Thomas Huth <thuth@redhat.com>,
- Laurent Vivier <lvivier@redhat.com>,  Paolo Bonzini
- <pbonzini@redhat.com>,  Yishai Hadas <yishaih@nvidia.com>,  Jason
- Gunthorpe <jgg@nvidia.com>,  Maor Gottlieb <maorg@nvidia.com>,  Kirti
- Wankhede <kwankhede@nvidia.com>,  Tarun Gupta <targupta@nvidia.com>,  Joao
- Martins <joao.m.martins@oracle.com>
-Subject: Re: [PATCH 6/8] vfio/migration: Refactor vfio_save_block() to
- return saved data size
-In-Reply-To: <20230501140141.11743-7-avihaih@nvidia.com> (Avihai Horon's
- message of "Mon, 1 May 2023 17:01:39 +0300")
-References: <20230501140141.11743-1-avihaih@nvidia.com>
- <20230501140141.11743-7-avihaih@nvidia.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
-Date: Wed, 10 May 2023 11:00:16 +0200
-Message-ID: <87zg6c8stb.fsf@secure.mitica>
+ (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
+ id 1pwfij-0006Qu-Al
+ for qemu-devel@nongnu.org; Wed, 10 May 2023 05:02:50 -0400
+Received: from mail.loongson.cn ([114.242.206.163] helo=loongson.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <gaosong@loongson.cn>) id 1pwfic-0006Kc-J4
+ for qemu-devel@nongnu.org; Wed, 10 May 2023 05:02:47 -0400
+Received: from loongson.cn (unknown [10.20.42.57])
+ by gateway (Coremail) with SMTP id _____8Bx7eqnXVtkhk0HAA--.12549S3;
+ Wed, 10 May 2023 17:02:31 +0800 (CST)
+Received: from [10.20.42.57] (unknown [10.20.42.57])
+ by localhost.localdomain (Coremail) with SMTP id
+ AQAAf8Dx8LelXVtkYttTAA--.18861S3; 
+ Wed, 10 May 2023 17:02:29 +0800 (CST)
+Subject: Re: [PATCH v10 1/8] memory: prevent dma-reentracy issues
+To: Thomas Huth <thuth@redhat.com>
+References: <20230427211013.2994127-1-alxndr@bu.edu>
+ <20230427211013.2994127-2-alxndr@bu.edu> <ZEt/3RwtL/jePTTv@redhat.com>
+ <828514c6-44f0-32f0-1eb1-a49f21617585@redhat.com>
+ <20230428091159.haydefdtq4m6z2tz@mozz.bu.edu>
+ <b151ecf7-0544-86ac-a182-1112a4dd7dca@redhat.com>
+ <c01a2b87-27be-e92a-3a5b-d561eadbc516@loongson.cn>
+ <981cdcd7-7326-08f0-9882-e66840175205@redhat.com>
+ <c4919eb6-74f1-7699-f924-6917cdf435bb@loongson.cn>
+ <faa1c6e0-abc2-f108-cc25-2b2cf71bd3d0@redhat.com>
+From: Song Gao <gaosong@loongson.cn>
+Cc: qemu-devel@nongnu.org, maobibo@loongson.cn
+Message-ID: <a5a05af5-bf26-ad10-f866-230e4525881f@loongson.cn>
+Date: Wed, 10 May 2023 17:02:29 +0800
+User-Agent: Mozilla/5.0 (X11; Linux loongarch64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+In-Reply-To: <faa1c6e0-abc2-f108-cc25-2b2cf71bd3d0@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+X-CM-TRANSID: AQAAf8Dx8LelXVtkYttTAA--.18861S3
+X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
+X-Coremail-Antispam: 1Uk129KBjvJXoWxXrWrXF13XrWDCF4kZFykuFg_yoW5XFW5p3
+ yYya4Ykrn5JF48AFWv9wnFgFWF934DGa43J3W5Jr48CF4DCa1jgr4Syw18WasrKa1rX3W2
+ v3yIva9Ig3WqqrJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
+ qI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUIcSsGvfJTRUUU
+ bI8YFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s
+ 1l1IIY67AEw4v_JrI_Jryl8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xv
+ wVC0I7IYx2IY67AKxVW5JVW7JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwA2z4
+ x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6xkF7I0E14v26r4UJVWxJr1l
+ e2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF0cIa020Ex4CE44I27wAqx4xG64xvF2
+ IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4U
+ McvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwCYjI0SjxkI62AI1cAE67vIY487Mx
+ AIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_
+ Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUXVWUAwCIc40Y0x0EwI
+ xGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8
+ JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcV
+ C2z280aVCY1x0267AKxVWUJVW8JbIYCTnIWIevJa73UjIFyTuYvjxU25EfUUUUU
+Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
+ helo=loongson.cn
+X-Spam_score_int: -22
+X-Spam_score: -2.3
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.421,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -109,22 +84,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Avihai Horon <avihaih@nvidia.com> wrote:
-> Refactor vfio_save_block() to return the size of saved data on success
-> and -errno on error.
->
-> This will be used in next patch to implement VFIO migration pre-copy
-> support.
->
-> Signed-off-by: Avihai Horon <avihaih@nvidia.com>
-> Reviewed-by: C=C3=A9dric Le Goater <clg@redhat.com>
+Hi, Thomas
 
-Reviewed-by: Juan Quintela <quintela@redhat.com>
+在 2023/5/8 下午9:12, Thomas Huth 写道:
+>
+>>> Oh, another spot that needs special handling ... I see Alexander 
+>>> already sent a patch (thanks!), but anyway, this is a good 
+>>> indication that we're missing some test coverage in the CI.
+>>>
+>>> Are there any loongarch kernel images available for public download 
+>>> somewhere? If so, we really should add an avocado regression test 
+>>> for this - since as far as I can see, we don't have any  tests for 
+>>> loongarch in tests/avocado yet?
+>>>
+>> we can get  some binarys  at:
+>> https://github.com/yangxiaojuan-loongson/qemu-binary
+> >
+>> I'm not sure that avacodo testing can be done using just the kernel.
+>>
+>> Is a full loongarch system required?
+>
+> No, you don't need a full distro installation, just a kernel with 
+> ramdisk (which is also available there) is good enough for a basic 
+> test, e.g. just check whether the kernel boots to a certain point is 
+> good enough to provide a basic sanity test. If you then can also get 
+> even into a shell (of the ramdisk), you can check some additional 
+> stuff in the sysfs or "dmesg" output, see for example 
+> tests/avocado/machine_s390_ccw_virtio.py which does such checks with a 
+> kernel and initrd on s390x.
+>
+>
+I have a few questions.
 
-And this is independent of this series.
+I run ' make check-avocado 
+AVOCADO_TESTS=./tests/avocado/machine_s390_ccw_virtio.py V=1'
+
+root@loongson-KVM:~/work/qemu#make check-avocado 
+AVOCADO_TESTS=./tests/avocado/machine_s390_ccw_virtio.py V=1
+changing dir to build for make "check-avocado"...
+make[1]: Entering directory '/root/work/qemu/build'
+(GIT="git" "/root/work/qemu/scripts/git-submodule.sh" update 
+ui/keycodemapdb meson tests/fp/berkeley-testfloat-3 
+tests/fp/berkeley-softfloat-3 dtc)
+/root/work/qemu/build/tests/venv/bin/python3 -m avocado vmimage get 
+--distro=fedora --distro-version=31 --arch=s390x
+The image was downloaded:
+Provider Version Architecture File
+fedora   31      s390x 
+/root/avocado/data/cache/by_location/8ee06cba5485a58b2203c2c000d6d2ff6da0f040/Fedora-Cloud-Base-31-1.9.s390x.qcow2
+/root/work/qemu/build/tests/venv/bin/python3 -m avocado --show=app run 
+--job-results-dir=/root/work/qemu/build/tests/results 
+--filter-by-tags-include-empty --filter-by-tags-include-empty-key 
+--max-parallel-tasks 1 -t arch:loongarch64 -t arch:s390x --failfast 
+./tests/avocado/machine_s390_ccw_virtio.py
+...
+
+This test downloaded   'Fedora-Cloud-Base-31-1.9.s390x.qcow2' image.
+but we don't have a  'Fedora-Cloud-Base-31-1.9.loongarch.qcow2' image.
+
+Am I missing something?
+
+One more question,    How to get the 'kernel_hash' and 'initrd_hash'?
+
+Thanks.
+Song Gao
 
 
