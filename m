@@ -2,96 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 339FF6FD882
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 May 2023 09:48:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3CCF46FD884
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 May 2023 09:48:36 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pweY3-0001N1-CT; Wed, 10 May 2023 03:47:43 -0400
+	id 1pweYZ-00022C-BY; Wed, 10 May 2023 03:48:15 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <olaf@aepfle.de>)
- id 1pweY1-0001Mo-Sp; Wed, 10 May 2023 03:47:41 -0400
-Received: from mo4-p01-ob.smtp.rzone.de ([85.215.255.53])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <olaf@aepfle.de>)
- id 1pweXz-0000bx-SR; Wed, 10 May 2023 03:47:41 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1683704854; cv=none;
- d=strato.com; s=strato-dkim-0002;
- b=c+CEDxctFw9MGyl+F0u5UkTweo5v0QOac6s+9XQ6Ohek4sU9Nb3NjkBNLbSQc3X29p
- 2CdyvI911gHLpvKz5hoLu9JjuuFsgzR03VUCr3SZIXms9NAuW4Vy/4dkmPrw/6Bmb3VE
- UaKnuTGT9JE19bACRywlR5HYy5J9SP5i+dEpyT0WfPDm+I1nkuMMxICFkySkA8PBh//v
- zYzqBsOlfTKBjA5deCHf/cJKV82V3nAqC+1UXGM60F9mI92Y7GYFpBzciNLxVDzBA3FR
- xyNUlQNb3+DhS06zMkpwAnhugHKGDm9+gjh8CWGnwJ9h94hc8eWIx8zj2CkabD+uw4zd
- DTUg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; t=1683704854;
- s=strato-dkim-0002; d=strato.com;
- h=References:In-Reply-To:Message-ID:Subject:Cc:To:From:Date:Cc:Date:
- From:Subject:Sender;
- bh=fpMbxRbaAtliiEqD3yXPNT5MQEGuwjFCZILVH7eZVLE=;
- b=XkgGWnjmjh0LovQ0y1CUSjs5+WREcOsUOUk2zLuJUHTOca4+aEyZByxpsEApoFkNRP
- 3vb/lhdYvmeiRPtqOpm+hO1CnErrXS3BbUw3z7UXTxAPf6IM6u/fYlRmL/f1ncMbd5Vd
- vc4PvG8GsrAWhNm9AWYo+sKFlMdH0Hxq7+tfiMdv+1UbkfeuqJ8o9sBaFNC3dvXfYQ+N
- K2RHk8N/icC5Qdh+7z6PT7Qfi2nSU6NZlRagbdQzoEUpOpF1fUI/D3C/cK+CJ4y26ogE
- OikicXS+faaliiYj5wACVqMsdvoINRbdK0p9qbyFkdc7RigZiHZqSIuBUk/WE3Gi70iT
- ei1Q==
-ARC-Authentication-Results: i=1; strato.com;
-    arc=none;
-    dkim=none
-X-RZG-CLASS-ID: mo01
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1683704854;
- s=strato-dkim-0002; d=aepfle.de;
- h=References:In-Reply-To:Message-ID:Subject:Cc:To:From:Date:Cc:Date:
- From:Subject:Sender;
- bh=fpMbxRbaAtliiEqD3yXPNT5MQEGuwjFCZILVH7eZVLE=;
- b=VtAUsFP4F+JSerLh8MZ7ULl38l9Hj85X55W1atDN/NNfPVXUtGM+qCJwizusxv+wTa
- k1OQywRxHqXhEF3+6Tp3C0rZfJ0hnxu3t5FZPVAgSMlFNIiQrS/l2caM/mw8BlrSQ+bc
- I1o3q2aH4XKDsO5iMgxenQnNE1DsBRu47zqWRl4wMrLEtwXfffrG1DHxQn4SEg/rAcDK
- 2xPb1GStX2e7yg6n1ZFTCf/sY+bfKs97VNWNNnBmaIX5Ji+bO9t9VZPxvKRa6rB2yuIN
- 4v4Fkyoq3W4RFutJiRg+JvonSO8WuY1KmqSLnkXwsfRM4BxaiI4/ehGUgDCBfKozldBN
- 2IiQ==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; t=1683704854;
- s=strato-dkim-0003; d=aepfle.de;
- h=References:In-Reply-To:Message-ID:Subject:Cc:To:From:Date:Cc:Date:
- From:Subject:Sender;
- bh=fpMbxRbaAtliiEqD3yXPNT5MQEGuwjFCZILVH7eZVLE=;
- b=krAmvBX6oRNRFqJB0vvQOHessJgvwMw5kZBnFSJhW2UNLeDlEB/rHcpLzraKPVRrcM
- 4iIe2hNTHbCfynLvd7Dg==
-X-RZG-AUTH: ":P2EQZWCpfu+qG7CngxMFH1J+3q8wa/QLpd5ylWvMDX3y/OuD5rXVisR4ARWIYxzstZKeVom+bauo0LKSCjuo5iX5xLikmg=="
-Received: from sender by smtp.strato.de (RZmta 49.4.0 AUTH)
- with ESMTPSA id x6987cz4A7lY8oh
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
- (Client did not present a certificate);
- Wed, 10 May 2023 09:47:34 +0200 (CEST)
-Date: Wed, 10 May 2023 09:47:19 +0200
-From: Olaf Hering <olaf@aepfle.de>
-To: Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>,
- Stefano Stabellini <sstabellini@kernel.org>
-Cc: xen-devel@lists.xenproject.org, qemu-devel@nongnu.org,
- qemu-block@nongnu.org, Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?=
- <f4bug@amsat.org>
-Subject: Re: [PATCH v2] piix: fix regression during unplug in Xen HVM domUs
-Message-ID: <20230510094719.26fb79e5.olaf@aepfle.de>
-In-Reply-To: <20230509225818.GA16290@aepfle.de>
-References: <20210317070046.17860-1-olaf@aepfle.de>
- <4441d32f-bd52-9408-cabc-146b59f0e4dc@redhat.com>
- <20210325121219.7b5daf76.olaf@aepfle.de>
- <dae251e1-f808-708e-902c-05cfcbbea9cf@redhat.com>
- <20230509225818.GA16290@aepfle.de>
-X-Mailer: Claws Mail 20230504T161344.b05adb60 hat ein Softwareproblem,
- kann man nichts machen.
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pweYX-00021m-Hk
+ for qemu-devel@nongnu.org; Wed, 10 May 2023 03:48:13 -0400
+Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pweYV-0000gH-TG
+ for qemu-devel@nongnu.org; Wed, 10 May 2023 03:48:13 -0400
+Received: by mail-wm1-x332.google.com with SMTP id
+ 5b1f17b1804b1-3f42ba32e24so11578975e9.3
+ for <qemu-devel@nongnu.org>; Wed, 10 May 2023 00:48:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1683704890; x=1686296890;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=Ia32KWfM1ABSRX3Nk/Go2BSRz0lLAdpq6oz3v28yi5I=;
+ b=zEmbIRWjYOqy4lgZRY8lNhOeIIrqb0TB4HC3PrU8aGDel9Sn9VzIxk+5hPIqOXuc2y
+ sARfWTS7FRs17W3igSwHrRNTVipzCkEC3AUasd2XfabpuEkd+o+ye0Rjkq/yKadJ4ABU
+ fLy3scyG0S3r/lwhdjUJhREDygHb7yoC1NO6TSiudb05o5SHnZl8GwGorHaSgcKYNllX
+ jb/7PIlsD1v76kdCLqEUqmo5wUAZCF5BR3gtP3T/IQej0opC3dydINQfXsKrejvaELHI
+ W0DemHm/1yCivYeNvh5BrNNZvbATRgyvbOLP+el8wEoLSyN8xPNiAQjCsvHvqBRXEDLz
+ C4xw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1683704890; x=1686296890;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=Ia32KWfM1ABSRX3Nk/Go2BSRz0lLAdpq6oz3v28yi5I=;
+ b=lI5hKpxpfJfjBHUgNt442MR/z2fNYaoDDCJJMQJFcJramEjSC7fIoyPvUfaq3YWjuq
+ NGCZbwmD4UxrfR+YfTEag5mznKF7VQekf8MH+vfTLXQcS9m6aXShZP/AEK5ZWFQGWFMz
+ L/cNghU8LLvAlBrSlE3T/3quFFsUBR/sRkqLFfIvm6v8vcXv0RbOecc5yq7AtV0Bne8O
+ EKV7r4lsBLoUNeoUhyHRA4EqNKoaS6UQRIgOJDxJqhYCzOc9bND8BBxA+d4bu8+WzJT5
+ XRamFhV+g5/2oAza/XSDG4ud/ro16C77whOq742taT3ksb0e/71ma7USM0oTqU7EQ4f9
+ 1b4Q==
+X-Gm-Message-State: AC+VfDx/znlOIxinaZPzZuaX3LB0Le8KCem/p7nv42SU1WYc26/x8Kql
+ JVQrXSmwSvBz6ubhppffPUyRJQ==
+X-Google-Smtp-Source: ACHHUZ71WWrBi/TgXNHKW4/8+P2Hc4QLPO7paEwmyvf+33CLOWFdSPDNzjvFGnahnZC1aG3SpiA/KA==
+X-Received: by 2002:a1c:f418:0:b0:3f1:6f52:74d with SMTP id
+ z24-20020a1cf418000000b003f16f52074dmr10905238wma.39.1683704890322; 
+ Wed, 10 May 2023 00:48:10 -0700 (PDT)
+Received: from [192.168.69.115] ([176.187.211.62])
+ by smtp.gmail.com with ESMTPSA id
+ 18-20020a05600c229200b003f17a00c214sm21647284wmf.16.2023.05.10.00.48.08
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 10 May 2023 00:48:09 -0700 (PDT)
+Message-ID: <b97a3c1c-1713-27ad-beb0-18273de5075f@linaro.org>
+Date: Wed, 10 May 2023 09:48:07 +0200
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/R/2sS42QIzwYzqn.D6NtiKf";
- protocol="application/pgp-signature"; micalg=pgp-sha256
-Content-Transfer-Encoding: 7bit
-Received-SPF: none client-ip=85.215.255.53; envelope-from=olaf@aepfle.de;
- helo=mo4-p01-ob.smtp.rzone.de
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.10.1
+Subject: Re: [PATCH v3 08/10] tcg: remove the final vestiges of dstate
+Content-Language: en-US
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org
+Cc: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Christian Schoenebeck <qemu_oss@crudebyte.com>,
+ Michael Roth <michael.roth@amd.com>, Eric Blake <eblake@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Greg Kurz <groug@kaod.org>,
+ Eduardo Habkost <eduardo@habkost.net>, Yanan Wang <wangyanan55@huawei.com>,
+ Kyle Evans <kevans@freebsd.org>, Warner Losh <imp@bsdimp.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Markus Armbruster <armbru@redhat.com>, Riku Voipio <riku.voipio@iki.fi>
+References: <20230505155336.137393-1-alex.bennee@linaro.org>
+ <20230505155336.137393-9-alex.bennee@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20230505155336.137393-9-alex.bennee@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::332;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x332.google.com
+X-Spam_score_int: -24
+X-Spam_score: -2.5
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_PASS=-0.001, SPF_NONE=0.001,
+X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.421,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -108,54 +101,50 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
---Sig_/R/2sS42QIzwYzqn.D6NtiKf
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+On 5/5/23 17:53, Alex Bennée wrote:
+> Now we no longer have dynamic state affecting things we can remove the
+> additional fields in cpu.h and simplify the TB hash calculation.
+> 
+> For the benchmark:
+> 
+>      hyperfine -w 2 -m 20 \
+>        "./arm-softmmu/qemu-system-arm -cpu cortex-a15 \
+>          -machine type=virt,highmem=off \
+>          -display none -m 2048 \
+>          -serial mon:stdio \
+>          -netdev user,id=unet,hostfwd=tcp::2222-:22 \
+>          -device virtio-net-pci,netdev=unet \
+>          -device virtio-scsi-pci \
+>          -blockdev driver=raw,node-name=hd,discard=unmap,file.driver=host_device,file.filename=/dev/zen-disk/debian-bullseye-armhf \
+>          -device scsi-hd,drive=hd -smp 4 \
+>          -kernel /home/alex/lsrc/linux.git/builds/arm/arch/arm/boot/zImage \
+>          -append 'console=ttyAMA0 root=/dev/sda2 systemd.unit=benchmark.service' \
+>          -snapshot"
+> 
+> It has a marginal effect on runtime, before:
+> 
+>    Time (mean ± σ):     26.279 s ±  2.438 s    [User: 41.113 s, System: 1.843 s]
+>    Range (min … max):   24.420 s … 32.565 s    20 runs
+> 
+> after:
+> 
+>    Time (mean ± σ):     24.440 s ±  2.885 s    [User: 34.474 s, System: 2.028 s]
+>    Range (min … max):   21.663 s … 29.937 s    20 runs
+> 
+> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1358
+> Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+> Message-Id: <20230503091756.1453057-9-alex.bennee@linaro.org>
+> ---
+>   accel/tcg/tb-hash.h       | 6 +++---
+>   include/exec/exec-all.h   | 3 ---
+>   include/hw/core/cpu.h     | 5 -----
+>   accel/tcg/cpu-exec.c      | 7 +------
+>   accel/tcg/tb-maint.c      | 5 ++---
+>   accel/tcg/translate-all.c | 6 ------
+>   6 files changed, 6 insertions(+), 26 deletions(-)
 
-Wed, 10 May 2023 00:58:27 +0200 Olaf Hering <olaf@aepfle.de>:
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
-> In my debugging (with v8.0.0) it turned out the three pci_set_word
-> causes the domU to hang. In fact, it is just the last one:
->=20
->    pci_set_byte(pci_conf + 0x20, 0x01);  /* BMIBA: 20-23h */
->=20
-> It changes the value from 0xc121 to 0x1.
-
-If I disable just "pci_set_word(pci_conf + PCI_COMMAND, 0x0000);" it works =
-as well.
-It changes the value from 0x5 to 0.
-
-In general I feel it is wrong to fiddle with PCI from the host side.
-This is most likely not the intention of the Xen unplug protocol.
-I'm sure the guest does not expect such changes under the hood.
-It happens to work by luck with pvops kernels because their PCI discovery
-is done after the unplug.
-
-So, what do we do here to get this off the table?
-
-
-Olaf
-
---Sig_/R/2sS42QIzwYzqn.D6NtiKf
-Content-Type: application/pgp-signature
-Content-Description: Digitale Signatur von OpenPGP
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEE97o7Um30LT3B+5b/86SN7mm1DoAFAmRbTAcACgkQ86SN7mm1
-DoBRfg//cAC+i271H3HLPzevJR+ToZ3Ywxfz+e53Xk6RnVZfy79aWT9delbKNvoo
-/sEmxurXHIjU2vHju5bE7C4s8J8oTjjY/vgJrnBp0IIoDNF7s2DNPdpWP31bdC32
-AzWMm2kzCWYbTf2k0ByGQ2FlyxJi17fbXaIgwMsmhG6WhCbf2CTD+ZPoW5DLPlI6
-nhJaFpge2Lw5PjebKkZh/eHB9GmQ7o/Z1fs2VnghfJeeyeBAtx7UuBwol3ZX6rTS
-V76Ftd+PcXPvrw3UkUyj6VE38YJT95bIHpEf4oR9iiPlvE/Lv8wYq7fdCdbvkKQd
-yIyJzrg8S2YAFWxBVpQVNOYXhFTbhgyQr331OslGBGMRaZ/F9vQkuBzK+d6pVAHv
-bTJJhDYqY1kr+gJerGPW5+gWoaCegEIzMj7fjYNVWHCh51hG7eJw8cYkFEPWApIP
-XhKyulCg+vaCRO1/TTsrq2mXQ8GDUp+Xm1iorJ69CC9i2qQ8fWM8EJ8lVZZddas2
-3tSwjtdrt/MWvmetZK0yM4jZint6nj0w4iTOs/MR8Kya/3bLbKRNDZczsIrNd8p6
-5UrR33AMreG41Nkob/IRltibnHEDhHPgK9GJfC2yWj49Tf4H8PYTlT6HxOIeyX4r
-OXp83UJ40RKuyvu7GJIxNfOgFdLTeZZEQSxAkxW4lrTFxuTQgls=
-=+t5t
------END PGP SIGNATURE-----
-
---Sig_/R/2sS42QIzwYzqn.D6NtiKf--
 
