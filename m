@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5DD4D6FD85A
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 May 2023 09:36:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2259F6FD860
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 May 2023 09:38:05 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pweMt-0003aI-Om; Wed, 10 May 2023 03:36:11 -0400
+	id 1pweOC-0004Kk-4T; Wed, 10 May 2023 03:37:32 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pweMr-0003Zl-8l
- for qemu-devel@nongnu.org; Wed, 10 May 2023 03:36:09 -0400
-Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pweO1-0004K2-Ct
+ for qemu-devel@nongnu.org; Wed, 10 May 2023 03:37:24 -0400
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pweMp-0006yU-LQ
- for qemu-devel@nongnu.org; Wed, 10 May 2023 03:36:08 -0400
-Received: by mail-wm1-x32a.google.com with SMTP id
- 5b1f17b1804b1-3f195b164c4so45013985e9.1
- for <qemu-devel@nongnu.org>; Wed, 10 May 2023 00:36:07 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pweNz-0007DG-Sz
+ for qemu-devel@nongnu.org; Wed, 10 May 2023 03:37:21 -0400
+Received: by mail-wr1-x42d.google.com with SMTP id
+ ffacd0b85a97d-3078cc99232so3836615f8f.3
+ for <qemu-devel@nongnu.org>; Wed, 10 May 2023 00:37:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1683704166; x=1686296166;
+ d=linaro.org; s=google; t=1683704238; x=1686296238;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=0qM0llPArad651YICM5ASeoJ0/r6faNBI3Dmsyh9dDM=;
- b=RNgkzOU9GQXKPkEjRkzznRdjJopi+colU4Rjqaxao9XMFkC1yuMjBJaieuQPCDeoD+
- dhnkOtve7BsAto/U/DpegXV6+GUgDkFIJQr28ZAj3SRLT9L3G3yG0ojBu3NLBHJa4u+a
- MdYwZxrsDHqyGVClvYI0GQ/K7/vbOOao7wZGcb6jMy0zuvGv3iQWWebIBWS2xtWvCvW7
- coK7gqJqIp5i1HRVylh7njiD5myzUMe0YIiyHoccoAbtB0ZLxseyOfxNeTu3mtyBi+6E
- A5DIWCipwWEdoAyqWnQzkI6RzAsS4WtiuKsajwbhrIiGS4CcQ1+6zMgWE/HJJ/2YEr7F
- jflQ==
+ bh=lJS64U1dT0oLSd/OzLThptxzaXLtX7Aip/H0VPSPlEQ=;
+ b=XKJSdLKT2FIraG01FCSHCBcKVIA2eNuFOt8A2UIIfG9sSCYLHvwHeh9rMi5XlDMi97
+ /fbYQ5S+lviWc5EoUuQm1hc/8LjQZukXDT8rwexsDjgFaMKf9YrNh6GP0FKeJnvIxwOg
+ awYMDLSgxikMuFxfzRj9Rs9Ad78g1Bc5OwKVnaUVhozdOCahHeGPidL5NKuYZV0bLNQP
+ t6rfxA/TNyub9oHqABvw4whVM1dAVBrdAKDT41mTDJneSQwJfAVft8zTH9ExBLDyMIPC
+ y86SYY/wkJJlBrfz3CHBMnuGLwfSCp8mxR7UOaGS0xjqZjFEPuSdZ0/31ybZfbMdvfjy
+ f2/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683704166; x=1686296166;
+ d=1e100.net; s=20221208; t=1683704238; x=1686296238;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=0qM0llPArad651YICM5ASeoJ0/r6faNBI3Dmsyh9dDM=;
- b=dj14Z3IEWkRdmr5h3k6Kz+52GQwQ9gjasXb43rS0PwSLAXbNx2n2ftwIaBZQLljExH
- Tgo4xQVWkf5nla8JN60qVyO0dlBVbOH/LYFTMRAMJj1wCFw64ojY+gMyPn3mT05qVmRG
- /lkrZLmaQ7/WLFF6HzFhTCzmOTO4dwGj0S4igb7RHJfBjcjMTnPr+ifqY6QtmVbKPk/S
- sNDD2rBGeKpZ2DHzGOtOmtsFpdiR5r3+od3qK4eAfBTKMFxiKRMSLarEp+2pL485yNKb
- Jp1TS41GY1r4tK0x9ZwTpaDEqWZ8zFsZghgpe+1zEae9SRxex2iUBs2BbpWhyQrLQtBd
- EjFA==
-X-Gm-Message-State: AC+VfDw8RgW9HuHXuSUprfqRa98mbhuclfSjWZaXLdOXyRRYTySaECKO
- XnfJ3PNrzGcPRmyR3vsxJdXzNw==
-X-Google-Smtp-Source: ACHHUZ4fm6R1aviQI5L57UeW8eIXk43j+Ih4jDZqyTf/NHgKAk9O88O6HVUZKzU5BdxqFQsTxyaDcw==
-X-Received: by 2002:a1c:f616:0:b0:3f4:20ea:d778 with SMTP id
- w22-20020a1cf616000000b003f420ead778mr8811525wmc.37.1683704166348; 
- Wed, 10 May 2023 00:36:06 -0700 (PDT)
+ bh=lJS64U1dT0oLSd/OzLThptxzaXLtX7Aip/H0VPSPlEQ=;
+ b=JmbhQ4AHZMKIJJGQEunJ84sMyONz3LwZpF7sFUUUswPAsAV2TaNhmbkkncR5zz9t22
+ L1VgG9jICQjmC6NjlWzX852XENhLYP8HUmD2OuXcux5hJs8KGTIEr4J8J3dclecuzfuj
+ 4LK0LxqRnbnuxMk0DqeT3MPLQ3uPZryEOKC7BcMHvXbnxmgJp1ExlcKrE75pz5L+UCFg
+ 8GwW0aOdT+DTasB3lB90kZOXGa/YpkOeQ6+LUrV8Ry0N6PKJ/c472qhCt1EuGe3b+Y2Q
+ W7wej0VjrFWJCAXC6kbPbPXdDFQAGQ0Nr/LFMIrDe3I0NSr32XU0gXJAhd5gClWykMO/
+ +mMA==
+X-Gm-Message-State: AC+VfDwgoQdSj75dBXEe0CdpCCex6I/OEGolx5PRWHtBtENLMHRSrbHQ
+ sNux17EZ9+Q9QtJ0a+zAwoVNpg==
+X-Google-Smtp-Source: ACHHUZ7gSRilirUkVCzW6cRIN9a3rPtDqIE7L8oHZlc/2t3BWU4VvnN+UGuvcEjd/+nAxYxrLMLf3w==
+X-Received: by 2002:adf:fb0b:0:b0:2cd:bc79:5444 with SMTP id
+ c11-20020adffb0b000000b002cdbc795444mr11985168wrr.2.1683704237940; 
+ Wed, 10 May 2023 00:37:17 -0700 (PDT)
 Received: from [192.168.69.115] ([176.187.211.62])
  by smtp.gmail.com with ESMTPSA id
- u24-20020a7bc058000000b003f173987ec2sm21991700wmc.22.2023.05.10.00.36.05
+ q9-20020adff789000000b002c71b4d476asm16616199wrp.106.2023.05.10.00.37.16
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 10 May 2023 00:36:06 -0700 (PDT)
-Message-ID: <ef3fb5d2-4d6e-9202-126f-4c8f7e2ad4c8@linaro.org>
-Date: Wed, 10 May 2023 09:36:04 +0200
+ Wed, 10 May 2023 00:37:17 -0700 (PDT)
+Message-ID: <941f81dd-6ad1-8bb9-f29d-30021be07e8a@linaro.org>
+Date: Wed, 10 May 2023 09:37:15 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.10.1
-Subject: Re: [PATCH 03/12] audio/pw: Pipewire->PipeWire case fix for
- user-visible text
+Subject: Re: [PATCH 06/12] audio/pw: trace during init before calling pipewire
+ API
 Content-Language: en-US
 To: marcandre.lureau@redhat.com, qemu-devel@nongnu.org
 Cc: Gerd Hoffmann <kraxel@redhat.com>,
@@ -71,13 +71,13 @@ Cc: Gerd Hoffmann <kraxel@redhat.com>,
  =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
  Eric Blake <eblake@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
 References: <20230506163735.3481387-1-marcandre.lureau@redhat.com>
- <20230506163735.3481387-4-marcandre.lureau@redhat.com>
+ <20230506163735.3481387-7-marcandre.lureau@redhat.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230506163735.3481387-4-marcandre.lureau@redhat.com>
+In-Reply-To: <20230506163735.3481387-7-marcandre.lureau@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x32a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x42d.google.com
 X-Spam_score_int: -24
 X-Spam_score: -2.5
 X-Spam_bar: --
@@ -103,18 +103,10 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 On 6/5/23 18:37, marcandre.lureau@redhat.com wrote:
 > From: Marc-André Lureau <marcandre.lureau@redhat.com>
 > 
-> "PipeWire" is the correct case.
-> 
 > Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 > ---
->   meson.build                   |  2 +-
->   qapi/audio.json               | 12 ++++++------
->   audio/pwaudio.c               | 10 +++++-----
->   audio/trace-events            |  2 +-
->   meson_options.txt             |  2 +-
->   qemu-options.hx               |  4 ++--
->   scripts/meson-buildoptions.sh |  2 +-
->   7 files changed, 17 insertions(+), 17 deletions(-)
+>   audio/pwaudio.c | 5 +++--
+>   1 file changed, 3 insertions(+), 2 deletions(-)
 
 Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
