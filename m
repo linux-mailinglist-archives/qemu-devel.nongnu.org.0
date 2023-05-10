@@ -2,74 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A410A6FE154
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 May 2023 17:13:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B3AB56FE177
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 May 2023 17:21:02 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pwlUn-0002VW-EO; Wed, 10 May 2023 11:12:49 -0400
+	id 1pwlbE-0000Dj-FB; Wed, 10 May 2023 11:19:28 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pwlUa-0002N1-BK
- for qemu-devel@nongnu.org; Wed, 10 May 2023 11:12:38 -0400
-Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pwlb9-0008Qj-J5
+ for qemu-devel@nongnu.org; Wed, 10 May 2023 11:19:23 -0400
+Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pwlUV-0002rA-9m
- for qemu-devel@nongnu.org; Wed, 10 May 2023 11:12:36 -0400
-Received: by mail-wm1-x32f.google.com with SMTP id
- 5b1f17b1804b1-3f435658d23so14258495e9.3
- for <qemu-devel@nongnu.org>; Wed, 10 May 2023 08:12:30 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pwlb6-0005OC-U5
+ for qemu-devel@nongnu.org; Wed, 10 May 2023 11:19:23 -0400
+Received: by mail-wm1-x32b.google.com with SMTP id
+ 5b1f17b1804b1-3f41dceb9d4so47057355e9.1
+ for <qemu-devel@nongnu.org>; Wed, 10 May 2023 08:19:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1683731549; x=1686323549;
+ d=linaro.org; s=google; t=1683731957; x=1686323957;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=8lt6JMzLvXOfXthsxvN6VdHQF0WpJBEVHgv1Il/UTXU=;
- b=Y/IrLLNfhTgZShlwIhKHMgkJpEkyvPieLVRpvRNkjh3fbw9HQpV1+XdaeFjmhQq7at
- z7MDOEQ7r7mmjiZaOzLBv6Z69IeukSg3pzy1IdqhDzTjYM+2FAcxuwYbasht730qrq5T
- qRKZ2trFnt0gFXwpGhpJB45bNtAtCdDCA8aTWzSt4E3vjb0xEPjTkoy71d4QgrJprte0
- n63w/bPvTCp+D4lK6vRN19Tzi9OTlvKyPQw4svQ6E9dby8i6GIBuPjf0TFKMDcMblSvv
- Z2zosKLnpWjCtnTzgXUagXlRIX8/2flKYZy2EjXhGfzHxgwLUC+TnO60p3lnzhGCV8zD
- 4hyg==
+ bh=90QlftO5JZdfNoS+trdrZIM27Zj4RgxcxWItyBP0Rf0=;
+ b=yT4wrqmjW7rnP1ZdW71tOoZYCn1zNj03WixvLw5qKIDCeRoGrLvCkKQLuCbRAhDn8R
+ nJIs0VV1Ss/NiA9o3sxqbAjXgmVKmgi4ttNlaBYx4Bvx8JhcH2dRRto5c1YViiSJdfso
+ 0jv+BORgDmerxxp5DLTX6epzxxecXObpwnx0VmLre7LgMCYXdo4ybAIFHv0xR0AyYN8E
+ NEEJY8SYpjh6G59ln5DkwGBR3nM0Nl10EW2O7YrG8bSy3i1gFR0EITxb8bSogGkR2PcB
+ jVRkiSbT2XC1v2yAVbOwggX0mPVRV1B8U62sPOwFrxHGXXnejtZnE8fzdVYY/6nflf45
+ b1Kg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683731549; x=1686323549;
+ d=1e100.net; s=20221208; t=1683731957; x=1686323957;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=8lt6JMzLvXOfXthsxvN6VdHQF0WpJBEVHgv1Il/UTXU=;
- b=TuyemDD4X5iq6y1azx285i6M1D1JYwKD1jfcAXu7snfes7r7gFwRA3DKDwck/pEKog
- rfQ/usXqvEPTKDnlT5lfoi1KMDsRA4R1DTYeBbM3io4Kz197EuWXhzWF0oHgrLHjg3Qu
- jfTrojaIKm9o4qkey7ABj17ceUrLK6rZxZ3/j4SZDjkwkU7IcRybMn7Fk3UOIk2uOV+K
- qV6aQO4nQ8yQfqHhed1hO0nE8CmCYt6w3PYVGmtK0kaeNUlEFF4clRTKiAErCoUEYg7D
- Llp0oovXzdQcBD+ZgAQOlQMS/uBmD8TYz58t9XpVjEbSL3xjYciqIAIIRD0BvpX9yGut
- fx6A==
-X-Gm-Message-State: AC+VfDxci14d1Op2e9TvJbMGyDE/hW1hqRn/7ce+j2P76AQvsiR88RnB
- bxkar6S0+7pMcniSCP1rLh6YDQ==
-X-Google-Smtp-Source: ACHHUZ6lpHLoXjbe+lCDPuQdckBYGDxLSSjMPxp/fQsZCzyCDdzYjlGGDpGUVGHrWxaXCzqmUKb3fQ==
-X-Received: by 2002:a1c:f401:0:b0:3f0:3ab2:a7e5 with SMTP id
- z1-20020a1cf401000000b003f03ab2a7e5mr13290206wma.34.1683731549529; 
- Wed, 10 May 2023 08:12:29 -0700 (PDT)
+ bh=90QlftO5JZdfNoS+trdrZIM27Zj4RgxcxWItyBP0Rf0=;
+ b=ISV+DzoKM0ytSz2ERFz8C4ig82yx7UMvn0ceLS29presTFIk3QnWd2OApMLVMXRae1
+ jHD4XLi4KY8EbC0Y9/GbXTAjRIYDPw8u+jllhj5p86YMEHNwckerOZoyedOfmnmI645h
+ jb89+vPGHn74CVDaxwH/HTjHov/06an2iVwFdL8D/Y4ezYz6GRHhEqab9MTa3cl5EKcM
+ s19LJkWAPNSTXBDsZmPRP71LtqYHCvY2niZGC+qUlheKzg891f2oMCtayiTJxR2bg2I4
+ 51wbFB3pB3VtBLDaoorII6Bm5EPsKfzxgMAkAgQpejpQIQOQluFuLf7iYbuW1NMWzRh9
+ G3bQ==
+X-Gm-Message-State: AC+VfDzQVjIUIBYtlKbkug+YBXi86f/3n1B1hJTssfh1mGyIWEBOLpA4
+ sbNIduwhCE/9DB/EEoO5m/XWwQ==
+X-Google-Smtp-Source: ACHHUZ6J7PnKFjzSf+lNY1d+2U3NzRYSixgGL8NGN2eb3V17ydmbi6uewNK3ShYpsZ7pzqRDltAP/w==
+X-Received: by 2002:a05:600c:3646:b0:3f4:2215:6d6 with SMTP id
+ y6-20020a05600c364600b003f4221506d6mr9715899wmq.33.1683731957327; 
+ Wed, 10 May 2023 08:19:17 -0700 (PDT)
 Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- 18-20020a05600c229200b003f17a00c214sm22697737wmf.16.2023.05.10.08.12.28
+ 7-20020a05600c020700b003f42e008c8dsm3484072wmi.44.2023.05.10.08.19.16
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 10 May 2023 08:12:28 -0700 (PDT)
-Message-ID: <2bc20d18-f250-dfb1-ba0f-58e97d962373@linaro.org>
-Date: Wed, 10 May 2023 17:12:27 +0200
+ Wed, 10 May 2023 08:19:16 -0700 (PDT)
+Message-ID: <29933f33-46d5-52d4-5ea9-275e5520a537@linaro.org>
+Date: Wed, 10 May 2023 17:19:15 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.10.1
-Subject: Re: [PATCH v2 1/5] disas: Move disas.c to disas/
+Subject: Re: [PATCH v2 5/5] disas: Move disas.c into the target-independent
+ source set
 Content-Language: en-US
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-Cc: anjo@rev.ng, thuth@redhat.com
+To: Richard Henderson <richard.henderson@linaro.org>,
+ Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
+Cc: anjo@rev.ng
 References: <20230509163326.121090-1-richard.henderson@linaro.org>
- <20230509163326.121090-2-richard.henderson@linaro.org>
+ <20230509163326.121090-6-richard.henderson@linaro.org>
+ <b62ab9a2-fad5-313f-518c-29626b0d57c3@redhat.com>
+ <48f35197-1890-cfce-3535-9a8522f50523@linaro.org>
+ <3d4e0154-99bf-da36-0d71-efe99d24ab72@redhat.com>
+ <0d880358-4472-ca4e-edce-ada7b397ef94@linaro.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230509163326.121090-2-richard.henderson@linaro.org>
+In-Reply-To: <0d880358-4472-ca4e-edce-ada7b397ef94@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x32f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x32b.google.com
 X-Spam_score_int: -53
 X-Spam_score: -5.4
 X-Spam_bar: -----
@@ -92,17 +98,49 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 9/5/23 18:33, Richard Henderson wrote:
-> Reviewed-by: Thomas Huth <thuth@redhat.com>
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> Message-Id: <20230503072331.1747057-80-richard.henderson@linaro.org>
-> ---
->   meson.build              | 3 ---
->   disas.c => disas/disas.c | 0
->   disas/meson.build        | 4 +++-
->   3 files changed, 3 insertions(+), 4 deletions(-)
->   rename disas.c => disas/disas.c (100%)
+On 10/5/23 10:13, Richard Henderson wrote:
+> On 5/10/23 09:10, Thomas Huth wrote:
+>> On 10/05/2023 09.46, Richard Henderson wrote:
+>>> On 5/10/23 07:53, Thomas Huth wrote:
+>>>> On 09/05/2023 18.33, Richard Henderson wrote:
+>>>>> From: Thomas Huth <thuth@redhat.com>
+>>>>>
+>>>>> By using target_words_bigendian() instead of an ifdef,
+>>>>> we can build this code once.
+>>>>>
+>>>>> Signed-off-by: Thomas Huth <thuth@redhat.com>
+>>>>> [rth: Type change done in a separate patch]
+>>>>> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+>>>>> ---
+>>>> ...
+>>>>> diff --git a/disas/meson.build b/disas/meson.build
+>>>>> index f40230c58f..2ae44691fa 100644
+>>>>> --- a/disas/meson.build
+>>>>> +++ b/disas/meson.build
+>>>>> @@ -13,4 +13,5 @@ common_ss.add(when: 'CONFIG_XTENSA_DIS', if_true: 
+>>>>> files('xtensa.c'))
+>>>>>   common_ss.add(when: capstone, if_true: [files('capstone.c'), 
+>>>>> capstone])
+>>>>>   softmmu_ss.add(files('disas-mon.c'))
+>>>>> -specific_ss.add(files('disas.c'), capstone)
+>>>>> +common_ss.add(files('disas.c'), capstone)
+>>>>
+>>>> I guess you could drop the "capstone" here now since it is already 
+>>>> added to common_ss now three lines earlier.
+>>>
+>>> I have a memory that it's required to get the include path for 
+>>> <capstone.h> for "disas/capstone.h", for use by the target's 
+>>> cpu_set_disas_info. Otherwise only common_ss files have access to the 
+>>> include path.
+>>
+>> I only meant to remove it from the new 
+>> "common_ss.add(files('disas.c')" line since it is already there in the 
+>> "common_ss.add(when: capstone, if_true: [files('capstone.c'), 
+>> capstone])" line ... I think you have to keep the 
+>> "specific_ss.add(capstone)" line.
+> 
+> Oh, yes, duplicate within common_ss.  Removed.
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+What the final patch looks like?
 
 
