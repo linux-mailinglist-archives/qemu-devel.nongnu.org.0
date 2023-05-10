@@ -2,108 +2,109 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 344856FD92A
+	by mail.lfdr.de (Postfix) with ESMTPS id A82676FD92B
 	for <lists+qemu-devel@lfdr.de>; Wed, 10 May 2023 10:24:29 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pwf6Q-0005rJ-0S; Wed, 10 May 2023 04:23:14 -0400
+	id 1pwf6R-0005sy-9Q; Wed, 10 May 2023 04:23:15 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <t.dzieciol@partner.samsung.com>)
- id 1pwf6M-0005qz-QM
- for qemu-devel@nongnu.org; Wed, 10 May 2023 04:23:10 -0400
+ id 1pwf6O-0005rl-Mc
+ for qemu-devel@nongnu.org; Wed, 10 May 2023 04:23:12 -0400
 Received: from mailout1.w1.samsung.com ([210.118.77.11])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <t.dzieciol@partner.samsung.com>)
- id 1pwf6J-0007gI-Ll
- for qemu-devel@nongnu.org; Wed, 10 May 2023 04:23:10 -0400
+ id 1pwf6K-0007gJ-DA
+ for qemu-devel@nongnu.org; Wed, 10 May 2023 04:23:12 -0400
 Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
  by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id
- 20230510082301euoutp01bce6543df3469359bd29f16b68a9d81f~dupQ-mukl2212822128euoutp01H
+ 20230510082301euoutp0184a21470cf8a08dcb0be929d19ede3d4~dupROzOG81964619646euoutp01j
  for <qemu-devel@nongnu.org>; Wed, 10 May 2023 08:23:01 +0000 (GMT)
 DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com
- 20230510082301euoutp01bce6543df3469359bd29f16b68a9d81f~dupQ-mukl2212822128euoutp01H
+ 20230510082301euoutp0184a21470cf8a08dcb0be929d19ede3d4~dupROzOG81964619646euoutp01j
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
  s=mail20170921; t=1683706981;
- bh=RAdTRgkb5cVy6FP5ribk2kxIlvYd4xCVAvY0Bobfcq8=;
+ bh=EWsco+cJ7x7/FUF1IEPdzJA/MQGvkaw07RGP4KOVkTE=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=sGoryFFxJCxRsS5ynLiSS5kPuO5gmzqEfG1o/VAEFrfV8ebO7vuKTpjJA5tyMu3qO
- QXhv0qDv+NGFbjLGVZaETPyfFILNLlJ9DLmqcjvDSfxwHRiXJRDwoaPVF5baDiWRls
- ew5uZh1SOacO8HnmybO3IRfW+MpR1ZRB8lwNmJhU=
+ b=KuQvmFuAqruHjWbCcvafzy1ehNy9jtohn37RNV/+VqBF/25UVX9fsQfeAynVGbV1y
+ RLqE18EaBD51soCBL8iwWCEE6h9/kNs09vu7bBI788e95gQxfqMint6X8QxQyy0uBg
+ pvS12jHPwDlZ9Mw+aZcJPmziDhCTXHtUdUrT1VGA=
 Received: from eusmges3new.samsung.com (unknown [203.254.199.245]) by
  eucas1p2.samsung.com (KnoxPortal) with ESMTP id
- 20230510082301eucas1p239e59ce8266b620e5f1477651ea7c95b~dupQnH2AE2230922309eucas1p2i;
+ 20230510082301eucas1p2778e27fa8d63b38bfde2524c3b9f2345~dupQ-t-Sf2442424424eucas1p2k;
  Wed, 10 May 2023 08:23:01 +0000 (GMT)
-Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
- eusmges3new.samsung.com (EUCPMTA) with SMTP id AE.F5.37758.5645B546; Wed, 10
+Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
+ eusmges3new.samsung.com (EUCPMTA) with SMTP id BF.F5.37758.5645B546; Wed, 10
  May 2023 09:23:01 +0100 (BST)
-Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
+Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
  eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
- 20230510082300eucas1p2638a9dadc30c51f749fee6edf2377302~dupQMFC921626316263eucas1p2N;
- Wed, 10 May 2023 08:23:00 +0000 (GMT)
-Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
- eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
- 20230510082300eusmtrp26224d6aa76923f6c19534a8351d92bed~dupQLKKj61369213692eusmtrp2T;
- Wed, 10 May 2023 08:23:00 +0000 (GMT)
-X-AuditID: cbfec7f5-815ff7000002937e-0e-645b5465dda3
+ 20230510082301eucas1p2f6cbaecfd97264d2a1bbf54bfe8aae1f~dupQsDbXj1189911899eucas1p2w;
+ Wed, 10 May 2023 08:23:01 +0000 (GMT)
+Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
+ eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
+ 20230510082301eusmtrp175c8e0f04a11e48a4a90ad83cd3e05c8~dupQrhs9O0702607026eusmtrp1U;
+ Wed, 10 May 2023 08:23:01 +0000 (GMT)
+X-AuditID: cbfec7f5-7ffff7000002937e-11-645b5465f480
 Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
- eusmgms2.samsung.com (EUCPMTA) with SMTP id 57.B3.14344.4645B546; Wed, 10
- May 2023 09:23:00 +0100 (BST)
+ eusmgms1.samsung.com (EUCPMTA) with SMTP id DA.01.10549.5645B546; Wed, 10
+ May 2023 09:23:01 +0100 (BST)
 Received: from AMDN5139.EU.corp.samsungelectronics.net (unknown
  [106.210.135.112]) by eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
- 20230510082300eusmtip1d839c289fb50ee3caa6f296cbb6381d3~dupPrqVtG2198721987eusmtip11;
+ 20230510082300eusmtip12876bbccb44f93f7e928ea3e613dab2c~dupQLwvxU2198721987eusmtip12;
  Wed, 10 May 2023 08:23:00 +0000 (GMT)
 From: Tomasz Dzieciol <t.dzieciol@partner.samsung.com>
 To: qemu-devel@nongnu.org, akihiko.odaki@daynix.com
 Cc: sriram.yagnaraman@est.tech, jasowang@redhat.com, k.kwiecien@samsung.com,
  m.sochacki@samsung.com
-Subject: [PATCH v5 1/6] igb: remove TCP ACK detection
-Date: Wed, 10 May 2023 10:22:49 +0200
-Message-Id: <20230510082254.1036-2-t.dzieciol@partner.samsung.com>
+Subject: [PATCH v5 2/6] igb: rename E1000E_RingInfo_st
+Date: Wed, 10 May 2023 10:22:50 +0200
+Message-Id: <20230510082254.1036-3-t.dzieciol@partner.samsung.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20230510082254.1036-1-t.dzieciol@partner.samsung.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFupileLIzCtJLcpLzFFi42LZduznOd3UkOgUg/YHHBafT61lt1h26TOT
- ReP8OawWW6/+YLc43ruDxaJ30wsmBzaPE28PsnpceHSO2ePJtc1MHu/3XWXz6NuyijGANYrL
- JiU1J7MstUjfLoEr49urTSwFt1kr3l25yNTAuIeli5GTQ0LAROLC/J1MXYxcHEICKxglDi3d
- ygrhfGGUuLd4ARtIlZDAZ0aJq28SYTrWzTrLChFfDlS0zgWioZ1Jon35RHaQBJuAmcSjL/OA
- ijg4RASMJT62i4OEmQVSJY7+OQi2WVjAVGLSzSNgc1gEVCU2zT3JDGLzCjhJTPi/Ceo6eYmZ
- l76DjeQUcJbYO6eVFaJGUOLkzCcsEDPlJZq3zmYGuUFCYC2HxKoHb9ggml0k1l1ZDzVIWOLV
- 8S3sELaMxP+d85kg7HKJn2e3sUM0tzBK7Jk6GarIWuLS1p9gDzALaEqs36UPEXaUmL3tJSNI
- WEKAT+LGW0GIG/gkJm2bzgwR5pXoaBOCqNaR+LZpJhtEWEpi4Y06iLAHUHg2+wRGxVlInpmF
- 5JlZCGsXMDKvYhRPLS3OTU8tNs5LLdcrTswtLs1L10vOz93ECEwup/8d/7qDccWrj3qHGJk4
- GA8xSnAwK4nweodGpQjxpiRWVqUW5ccXleakFh9ilOZgURLn1bY9mSwkkJ5YkpqdmlqQWgST
- ZeLglGpgSptuWfPrT+KZmeHtvN+Tn157r+4++faTW7Kcpt+VfZ/ImYQtvL/Z7cFKxtjEb2pa
- LOKG0Rsm/Fm2e+meK9uMtySKLo3/FyZu+8W9JXb3fmcO/k8n4uVlH+yaN/UoB4/+ec0JxhmP
- I4sk55zw/j/Rcq6J5NorVyfvZWZfE2X2v2Fm0yvG+v/563YUPtbaqh71WYFl496KO1ef/TcW
- 4VFx0UrYtP5ewbQXsnOyZ6x1mBbySHTqHycJ5taS91e/ntzRc+LZ6s5NaWebfOWl/Br+XHhs
- efN51tLp4mxFs4IjlFaaOsebxLLz3Gr667jnzE13nZU5PNefH5QtiN8nu8ns9rYjeYnSd7+u
- KpkR2rjN84YSS3FGoqEWc1FxIgCiLi1rnQMAAA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrNLMWRmVeSWpSXmKPExsVy+t/xu7opIdEpBhMuaVp8PrWW3WLZpc9M
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFupkleLIzCtJLcpLzFFi42LZduzned3UkOgUgyXTFCw+n1rLbrHs0mcm
+ i8b5c1gttl79wW5xvHcHi0XvphdMDmweJ94eZPW48Ogcs8eTa5uZPN7vu8rm0bdlFWMAaxSX
+ TUpqTmZZapG+XQJXxoMjk5gLpsVV/L+xjrWB8adXFyMnh4SAicSX578Yuxi5OIQEVjBKnJ3Z
+ zAbhfGGU+Nk8mRnC+cwo8XTjH9YuRg6wlle3ZCDiyxkl3l88BdXeziSx681zNpC5bAJmEo++
+ zANrEBEwlvjYLg4SZhZIlTj65yALSFgYqGTn1GCQMIuAqsSLTbvAwrwCThKnFgdDHCcvMfPS
+ d3YQm1PAWWLvnFZWEJtXQFDi5MwnLBAT5SWat84GO1NCYAeHxKK+vYwQzS4SM1t72CBsYYlX
+ x7ewQ9gyEqcn97BA2OUSP89uY4dobmGU2DN1MlSRtcSlrT/BzmcW0JRYv0sfIuwo0bTxMSMk
+ GPgkbrwVhLiBT2LStunMEGFeiY42IYhqHYlvm2ayQYSlJBbeqIMIe0hMP/aZaQKj4iwkz8xC
+ 8swshLULGJlXMYqnlhbnpqcWG+ellusVJ+YWl+al6yXn525iBKaW0/+Of93BuOLVR71DjEwc
+ jIcYJTiYlUR4vUOjUoR4UxIrq1KL8uOLSnNSiw8xSnOwKInzatueTBYSSE8sSc1OTS1ILYLJ
+ MnFwSjUwGXJt3Kb6QVvOLWgLm2/vxedrF8zfyCK19QdL/t8bL53MJZt+yn1qUX41tXmhrfFX
+ VdYdGtviLxxtYXL70jFFfu4uicAz2pVqC/xLxG0vege2PpJ4LMEv+Of1bGvJOme2PTIHkr9O
+ fuc8284mw+DV2QJ1/fcMFbOmfOmeX3N60uLniz35Clgj6wXb3l16Xst55CKPhlV70Ab2ic9a
+ iheF60hW8B08H9KZdpmXbYLyJ4+HmeHPPcvuen7O/u+d/MXb9pzL/j6jCdP3flt2YgHzBvXV
+ 09zu3TkbeP/F7Br79Qf2pi+xrdXOfdDhXbpwiUKZ+N0a3082n2ZYRH6JK+B9Jxjdt9CWr/f0
+ ns/Sy3jWKrEUZyQaajEXFScCANn8d3KcAwAA
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrBLMWRmVeSWpSXmKPExsVy+t/xu7qpIdEpBhOv81h8PrWW3WLZpc9M
  Fo3z57BabL36g93ieO8OFoveTS+YHNg8Trw9yOpx4dE5Zo8n1zYzebzfd5XNo2/LKsYA1ig9
- m6L80pJUhYz84hJbpWhDCyM9Q0sLPSMTSz1DY/NYKyNTJX07m5TUnMyy1CJ9uwS9jG+vNrEU
- 3GateHflIlMD4x6WLkZODgkBE4l1s86ydjFycQgJLGWUuH1jGTNEQkpiX89/dghbWOLPtS42
- iKJWJonpW7YxgiTYBMwkHn2ZB9TNwSEiYCrxbK8kSJhZIFPi9Kt9bCC2MFB40s0jrCA2i4Cq
- xKa5J8Hm8wo4SUz4vwnqCHmJmZe+g+3iFHCW2DunFaxeCKhm1oo1UPWCEidnPmGBmC8v0bx1
- NvMERoFZSFKzkKQWMDKtYhRJLS3OTc8tNtIrTswtLs1L10vOz93ECIyFbcd+btnBuPLVR71D
- jEwcjIcYJTiYlUR4vUOjUoR4UxIrq1KL8uOLSnNSiw8xmgLdPZFZSjQ5HxiNeSXxhmYGpoYm
- ZpYGppZmxkrivJ4FHYlCAumJJanZqakFqUUwfUwcnFINTA6+hx3fG2jN0xBSCrM7e5Bp6l3h
- jX+dD/V7v9viEr1z5sZc6+KIvdYnFKYXnTou+sr6Zv6kqqV7tu2bcCuwxe7g6cXs8pr3vHPf
- p3Xvq9pXF2kVtUGtyErjUYBmyruzmWet10xtVFj57JWzXeXXSbHKyRXhhX0zdXe+9Nf4Ksjw
- Z+s7zb1tCk45XZXHHh+Q2L9v51fdFS5hbnXcp54UelXzHKj8ECnE1D/LWCMxVe7llRBfTa31
- D8VfCN12E33xqe7tnC2rXvye9nWzFr/nj8nqTE+5bfakWqddbHmYE+b7/2nOmmbZTYtLXnle
- lQkK0XZRX35O6p1y2JUWT9vDHHuZQ+46ClxeZPdOyJQ9UomlOCPRUIu5qDgRAFEAd8oOAwAA
-X-CMS-MailID: 20230510082300eucas1p2638a9dadc30c51f749fee6edf2377302
+ m6L80pJUhYz84hJbpWhDCyM9Q0sLPSMTSz1DY/NYKyNTJX07m5TUnMyy1CJ9uwS9jAdHJjEX
+ TIur+H9jHWsD40+vLkYODgkBE4lXt2S6GLk4hASWMkq03PjO3MXICRSXktjX858dwhaW+HOt
+ iw2iqJVJ4vOpSywgCTYBM4lHX+axggwSETCVeLZXEiTMLJApcfrVPjaQsDBQyc6pwSBhFgFV
+ iRebdrGAhHkFnCROLQ6GmC4vMfPSd7BNnALOEnvntLKC2EJAJbNWrAG7hldAUOLkzCcsENPl
+ JZq3zmaewCgwC0lqFpLUAkamVYwiqaXFuem5xYZ6xYm5xaV56XrJ+bmbGIFRsO3Yz807GOe9
+ +qh3iJGJg/EQowQHs5IIr3doVIoQb0piZVVqUX58UWlOavEhRlOgsycyS4km5wPjMK8k3tDM
+ wNTQxMzSwNTSzFhJnNezoCNRSCA9sSQ1OzW1ILUIpo+Jg1OqgWl2mkG27rKrf1Ibn+0JbQ2a
+ zrOssYm5eZH9NkYvHvvaMG+zl2dOLFewO6C02PlUpnE594m5yz39UpYd7ePWrblf6f3pe3jn
+ lp+7m+XrSpNWmy7NY1Ls0K6ovM7h/eSsvW7hmUD+b1s+vF34Xaj93707Pd1cGza2S3TKXtuq
+ GFC7xqK246jSpcCZX4+933rt+ufOOJ/qiOY1/6Tdflsc+yFZ6M4zp+f3tCbxST9CV/0wKSl8
+ vZ+LxWeduOJN7VWxsX/KbrumHO15Zee57eWyF2aSy//M/j1ts+Dlzz9suQRdsqctvG2S6Bf4
+ PcZboEdH7m/uBZuQyHgPgcPfV9/Y+OJInfir0ysn3mC88Uyu1FSJpTgj0VCLuag4EQB3AF+7
+ CwMAAA==
+X-CMS-MailID: 20230510082301eucas1p2f6cbaecfd97264d2a1bbf54bfe8aae1f
 X-Msg-Generator: CA
 Content-Type: text/plain; charset="utf-8"
-X-RootMTR: 20230510082300eucas1p2638a9dadc30c51f749fee6edf2377302
+X-RootMTR: 20230510082301eucas1p2f6cbaecfd97264d2a1bbf54bfe8aae1f
 X-EPHeader: CA
 CMS-TYPE: 201P
-X-CMS-RootMailID: 20230510082300eucas1p2638a9dadc30c51f749fee6edf2377302
+X-CMS-RootMailID: 20230510082301eucas1p2f6cbaecfd97264d2a1bbf54bfe8aae1f
 References: <20230510082254.1036-1-t.dzieciol@partner.samsung.com>
- <CGME20230510082300eucas1p2638a9dadc30c51f749fee6edf2377302@eucas1p2.samsung.com>
+ <CGME20230510082301eucas1p2f6cbaecfd97264d2a1bbf54bfe8aae1f@eucas1p2.samsung.com>
 Received-SPF: none client-ip=210.118.77.11;
  envelope-from=t.dzieciol@partner.samsung.com; helo=mailout1.w1.samsung.com
 X-Spam_score_int: -69
@@ -128,29 +129,336 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-TCP ACK detection is no longer present in igb.
+Rename E1000E_RingInfo_st and E1000E_RingInfo according to qemu typdefs guide.
 
 Signed-off-by: Tomasz Dzieciol <t.dzieciol@partner.samsung.com>
 ---
- hw/net/igb_core.c | 5 -----
- 1 file changed, 5 deletions(-)
+ hw/net/e1000e_core.c | 34 +++++++++++++++++-----------------
+ hw/net/igb_core.c    | 42 +++++++++++++++++++++---------------------
+ 2 files changed, 38 insertions(+), 38 deletions(-)
 
+diff --git a/hw/net/e1000e_core.c b/hw/net/e1000e_core.c
+index 78373d7db7..b2e54fe802 100644
+--- a/hw/net/e1000e_core.c
++++ b/hw/net/e1000e_core.c
+@@ -810,24 +810,24 @@ e1000e_txdesc_writeback(E1000ECore *core, dma_addr_t base,
+     return e1000e_tx_wb_interrupt_cause(core, queue_idx);
+ }
+ 
+-typedef struct E1000E_RingInfo_st {
++typedef struct E1000ERingInfo {
+     int dbah;
+     int dbal;
+     int dlen;
+     int dh;
+     int dt;
+     int idx;
+-} E1000E_RingInfo;
++} E1000ERingInfo;
+ 
+ static inline bool
+-e1000e_ring_empty(E1000ECore *core, const E1000E_RingInfo *r)
++e1000e_ring_empty(E1000ECore *core, const E1000ERingInfo *r)
+ {
+     return core->mac[r->dh] == core->mac[r->dt] ||
+                 core->mac[r->dt] >= core->mac[r->dlen] / E1000_RING_DESC_LEN;
+ }
+ 
+ static inline uint64_t
+-e1000e_ring_base(E1000ECore *core, const E1000E_RingInfo *r)
++e1000e_ring_base(E1000ECore *core, const E1000ERingInfo *r)
+ {
+     uint64_t bah = core->mac[r->dbah];
+     uint64_t bal = core->mac[r->dbal];
+@@ -836,13 +836,13 @@ e1000e_ring_base(E1000ECore *core, const E1000E_RingInfo *r)
+ }
+ 
+ static inline uint64_t
+-e1000e_ring_head_descr(E1000ECore *core, const E1000E_RingInfo *r)
++e1000e_ring_head_descr(E1000ECore *core, const E1000ERingInfo *r)
+ {
+     return e1000e_ring_base(core, r) + E1000_RING_DESC_LEN * core->mac[r->dh];
+ }
+ 
+ static inline void
+-e1000e_ring_advance(E1000ECore *core, const E1000E_RingInfo *r, uint32_t count)
++e1000e_ring_advance(E1000ECore *core, const E1000ERingInfo *r, uint32_t count)
+ {
+     core->mac[r->dh] += count;
+ 
+@@ -852,7 +852,7 @@ e1000e_ring_advance(E1000ECore *core, const E1000E_RingInfo *r, uint32_t count)
+ }
+ 
+ static inline uint32_t
+-e1000e_ring_free_descr_num(E1000ECore *core, const E1000E_RingInfo *r)
++e1000e_ring_free_descr_num(E1000ECore *core, const E1000ERingInfo *r)
+ {
+     trace_e1000e_ring_free_space(r->idx, core->mac[r->dlen],
+                                  core->mac[r->dh],  core->mac[r->dt]);
+@@ -871,19 +871,19 @@ e1000e_ring_free_descr_num(E1000ECore *core, const E1000E_RingInfo *r)
+ }
+ 
+ static inline bool
+-e1000e_ring_enabled(E1000ECore *core, const E1000E_RingInfo *r)
++e1000e_ring_enabled(E1000ECore *core, const E1000ERingInfo *r)
+ {
+     return core->mac[r->dlen] > 0;
+ }
+ 
+ static inline uint32_t
+-e1000e_ring_len(E1000ECore *core, const E1000E_RingInfo *r)
++e1000e_ring_len(E1000ECore *core, const E1000ERingInfo *r)
+ {
+     return core->mac[r->dlen];
+ }
+ 
+ typedef struct E1000E_TxRing_st {
+-    const E1000E_RingInfo *i;
++    const E1000ERingInfo *i;
+     struct e1000e_tx *tx;
+ } E1000E_TxRing;
+ 
+@@ -896,7 +896,7 @@ e1000e_mq_queue_idx(int base_reg_idx, int reg_idx)
+ static inline void
+ e1000e_tx_ring_init(E1000ECore *core, E1000E_TxRing *txr, int idx)
+ {
+-    static const E1000E_RingInfo i[E1000E_NUM_QUEUES] = {
++    static const E1000ERingInfo i[E1000E_NUM_QUEUES] = {
+         { TDBAH,  TDBAL,  TDLEN,  TDH,  TDT, 0 },
+         { TDBAH1, TDBAL1, TDLEN1, TDH1, TDT1, 1 }
+     };
+@@ -908,13 +908,13 @@ e1000e_tx_ring_init(E1000ECore *core, E1000E_TxRing *txr, int idx)
+ }
+ 
+ typedef struct E1000E_RxRing_st {
+-    const E1000E_RingInfo *i;
++    const E1000ERingInfo *i;
+ } E1000E_RxRing;
+ 
+ static inline void
+ e1000e_rx_ring_init(E1000ECore *core, E1000E_RxRing *rxr, int idx)
+ {
+-    static const E1000E_RingInfo i[E1000E_NUM_QUEUES] = {
++    static const E1000ERingInfo i[E1000E_NUM_QUEUES] = {
+         { RDBAH0, RDBAL0, RDLEN0, RDH0, RDT0, 0 },
+         { RDBAH1, RDBAL1, RDLEN1, RDH1, RDT1, 1 }
+     };
+@@ -930,7 +930,7 @@ e1000e_start_xmit(E1000ECore *core, const E1000E_TxRing *txr)
+     dma_addr_t base;
+     struct e1000_tx_desc desc;
+     bool ide = false;
+-    const E1000E_RingInfo *txi = txr->i;
++    const E1000ERingInfo *txi = txr->i;
+     uint32_t cause = E1000_ICS_TXQE;
+ 
+     if (!(core->mac[TCTL] & E1000_TCTL_EN)) {
+@@ -960,7 +960,7 @@ e1000e_start_xmit(E1000ECore *core, const E1000E_TxRing *txr)
+ }
+ 
+ static bool
+-e1000e_has_rxbufs(E1000ECore *core, const E1000E_RingInfo *r,
++e1000e_has_rxbufs(E1000ECore *core, const E1000ERingInfo *r,
+                   size_t total_size)
+ {
+     uint32_t bufs = e1000e_ring_free_descr_num(core, r);
+@@ -1460,7 +1460,7 @@ e1000e_update_rx_stats(E1000ECore *core, size_t pkt_size, size_t pkt_fcs_size)
+ }
+ 
+ static inline bool
+-e1000e_rx_descr_threshold_hit(E1000ECore *core, const E1000E_RingInfo *rxi)
++e1000e_rx_descr_threshold_hit(E1000ECore *core, const E1000ERingInfo *rxi)
+ {
+     return e1000e_ring_free_descr_num(core, rxi) ==
+            e1000e_ring_len(core, rxi) >> core->rxbuf_min_shift;
+@@ -1521,7 +1521,7 @@ e1000e_write_packet_to_guest(E1000ECore *core, struct NetRxPkt *pkt,
+     struct iovec *iov = net_rx_pkt_get_iovec(pkt);
+     size_t size = net_rx_pkt_get_total_len(pkt);
+     size_t total_size = size + e1000x_fcs_len(core->mac);
+-    const E1000E_RingInfo *rxi;
++    const E1000ERingInfo *rxi;
+     size_t ps_hdr_len = 0;
+     bool do_ps = e1000e_do_ps(core, pkt, &ps_hdr_len);
+     bool is_first = true;
 diff --git a/hw/net/igb_core.c b/hw/net/igb_core.c
-index 96b7335b31..012eb1e1b9 100644
+index 012eb1e1b9..b6031dea24 100644
 --- a/hw/net/igb_core.c
 +++ b/hw/net/igb_core.c
-@@ -1327,11 +1327,6 @@ igb_build_rx_metadata(IGBCore *core,
-             trace_e1000e_rx_metadata_ip_id(*ip_id);
-     }
+@@ -694,24 +694,24 @@ static uint32_t igb_rx_wb_eic(IGBCore *core, int queue_idx)
+     return (ent & E1000_IVAR_VALID) ? BIT(ent & 0x1f) : 0;
+ }
  
--    if (l4hdr_proto == ETH_L4_HDR_PROTO_TCP && net_rx_pkt_is_tcp_ack(pkt)) {
--        *status_flags |= E1000_RXD_STAT_ACK;
--        trace_e1000e_rx_metadata_ack();
--    }
--
-     if (pkt_info) {
-         *pkt_info = rss_info->enabled ? rss_info->type : 0;
+-typedef struct E1000E_RingInfo_st {
++typedef struct E1000ERingInfo {
+     int dbah;
+     int dbal;
+     int dlen;
+     int dh;
+     int dt;
+     int idx;
+-} E1000E_RingInfo;
++} E1000ERingInfo;
  
+ static inline bool
+-igb_ring_empty(IGBCore *core, const E1000E_RingInfo *r)
++igb_ring_empty(IGBCore *core, const E1000ERingInfo *r)
+ {
+     return core->mac[r->dh] == core->mac[r->dt] ||
+                 core->mac[r->dt] >= core->mac[r->dlen] / E1000_RING_DESC_LEN;
+ }
+ 
+ static inline uint64_t
+-igb_ring_base(IGBCore *core, const E1000E_RingInfo *r)
++igb_ring_base(IGBCore *core, const E1000ERingInfo *r)
+ {
+     uint64_t bah = core->mac[r->dbah];
+     uint64_t bal = core->mac[r->dbal];
+@@ -720,13 +720,13 @@ igb_ring_base(IGBCore *core, const E1000E_RingInfo *r)
+ }
+ 
+ static inline uint64_t
+-igb_ring_head_descr(IGBCore *core, const E1000E_RingInfo *r)
++igb_ring_head_descr(IGBCore *core, const E1000ERingInfo *r)
+ {
+     return igb_ring_base(core, r) + E1000_RING_DESC_LEN * core->mac[r->dh];
+ }
+ 
+ static inline void
+-igb_ring_advance(IGBCore *core, const E1000E_RingInfo *r, uint32_t count)
++igb_ring_advance(IGBCore *core, const E1000ERingInfo *r, uint32_t count)
+ {
+     core->mac[r->dh] += count;
+ 
+@@ -736,7 +736,7 @@ igb_ring_advance(IGBCore *core, const E1000E_RingInfo *r, uint32_t count)
+ }
+ 
+ static inline uint32_t
+-igb_ring_free_descr_num(IGBCore *core, const E1000E_RingInfo *r)
++igb_ring_free_descr_num(IGBCore *core, const E1000ERingInfo *r)
+ {
+     trace_e1000e_ring_free_space(r->idx, core->mac[r->dlen],
+                                  core->mac[r->dh],  core->mac[r->dt]);
+@@ -755,13 +755,13 @@ igb_ring_free_descr_num(IGBCore *core, const E1000E_RingInfo *r)
+ }
+ 
+ static inline bool
+-igb_ring_enabled(IGBCore *core, const E1000E_RingInfo *r)
++igb_ring_enabled(IGBCore *core, const E1000ERingInfo *r)
+ {
+     return core->mac[r->dlen] > 0;
+ }
+ 
+ typedef struct IGB_TxRing_st {
+-    const E1000E_RingInfo *i;
++    const E1000ERingInfo *i;
+     struct igb_tx *tx;
+ } IGB_TxRing;
+ 
+@@ -774,7 +774,7 @@ igb_mq_queue_idx(int base_reg_idx, int reg_idx)
+ static inline void
+ igb_tx_ring_init(IGBCore *core, IGB_TxRing *txr, int idx)
+ {
+-    static const E1000E_RingInfo i[IGB_NUM_QUEUES] = {
++    static const E1000ERingInfo i[IGB_NUM_QUEUES] = {
+         { TDBAH0, TDBAL0, TDLEN0, TDH0, TDT0, 0 },
+         { TDBAH1, TDBAL1, TDLEN1, TDH1, TDT1, 1 },
+         { TDBAH2, TDBAL2, TDLEN2, TDH2, TDT2, 2 },
+@@ -800,13 +800,13 @@ igb_tx_ring_init(IGBCore *core, IGB_TxRing *txr, int idx)
+ }
+ 
+ typedef struct E1000E_RxRing_st {
+-    const E1000E_RingInfo *i;
++    const E1000ERingInfo *i;
+ } E1000E_RxRing;
+ 
+ static inline void
+ igb_rx_ring_init(IGBCore *core, E1000E_RxRing *rxr, int idx)
+ {
+-    static const E1000E_RingInfo i[IGB_NUM_QUEUES] = {
++    static const E1000ERingInfo i[IGB_NUM_QUEUES] = {
+         { RDBAH0, RDBAL0, RDLEN0, RDH0, RDT0, 0 },
+         { RDBAH1, RDBAL1, RDLEN1, RDH1, RDT1, 1 },
+         { RDBAH2, RDBAL2, RDLEN2, RDH2, RDT2, 2 },
+@@ -833,7 +833,7 @@ igb_rx_ring_init(IGBCore *core, E1000E_RxRing *rxr, int idx)
+ static uint32_t
+ igb_txdesc_writeback(IGBCore *core, dma_addr_t base,
+                      union e1000_adv_tx_desc *tx_desc,
+-                     const E1000E_RingInfo *txi)
++                     const E1000ERingInfo *txi)
+ {
+     PCIDevice *d;
+     uint32_t cmd_type_len = le32_to_cpu(tx_desc->read.cmd_type_len);
+@@ -866,7 +866,7 @@ igb_txdesc_writeback(IGBCore *core, dma_addr_t base,
+ }
+ 
+ static inline bool
+-igb_tx_enabled(IGBCore *core, const E1000E_RingInfo *txi)
++igb_tx_enabled(IGBCore *core, const E1000ERingInfo *txi)
+ {
+     bool vmdq = core->mac[MRQC] & 1;
+     uint16_t qn = txi->idx;
+@@ -883,7 +883,7 @@ igb_start_xmit(IGBCore *core, const IGB_TxRing *txr)
+     PCIDevice *d;
+     dma_addr_t base;
+     union e1000_adv_tx_desc desc;
+-    const E1000E_RingInfo *txi = txr->i;
++    const E1000ERingInfo *txi = txr->i;
+     uint32_t eic = 0;
+ 
+     if (!igb_tx_enabled(core, txi)) {
+@@ -918,7 +918,7 @@ igb_start_xmit(IGBCore *core, const IGB_TxRing *txr)
+ }
+ 
+ static uint32_t
+-igb_rxbufsize(IGBCore *core, const E1000E_RingInfo *r)
++igb_rxbufsize(IGBCore *core, const E1000ERingInfo *r)
+ {
+     uint32_t srrctl = core->mac[E1000_SRRCTL(r->idx) >> 2];
+     uint32_t bsizepkt = srrctl & E1000_SRRCTL_BSIZEPKT_MASK;
+@@ -930,7 +930,7 @@ igb_rxbufsize(IGBCore *core, const E1000E_RingInfo *r)
+ }
+ 
+ static bool
+-igb_has_rxbufs(IGBCore *core, const E1000E_RingInfo *r, size_t total_size)
++igb_has_rxbufs(IGBCore *core, const E1000ERingInfo *r, size_t total_size)
+ {
+     uint32_t bufs = igb_ring_free_descr_num(core, r);
+     uint32_t bufsize = igb_rxbufsize(core, r);
+@@ -1522,7 +1522,7 @@ igb_write_to_rx_buffers(IGBCore *core,
+ }
+ 
+ static void
+-igb_update_rx_stats(IGBCore *core, const E1000E_RingInfo *rxi,
++igb_update_rx_stats(IGBCore *core, const E1000ERingInfo *rxi,
+                     size_t pkt_size, size_t pkt_fcs_size)
+ {
+     eth_pkt_types_e pkt_type = net_rx_pkt_get_packet_type(core->rx_pkt);
+@@ -1540,7 +1540,7 @@ igb_update_rx_stats(IGBCore *core, const E1000E_RingInfo *rxi,
+ }
+ 
+ static inline bool
+-igb_rx_descr_threshold_hit(IGBCore *core, const E1000E_RingInfo *rxi)
++igb_rx_descr_threshold_hit(IGBCore *core, const E1000ERingInfo *rxi)
+ {
+     return igb_ring_free_descr_num(core, rxi) ==
+            ((core->mac[E1000_SRRCTL(rxi->idx) >> 2] >> 20) & 31) * 16;
+@@ -1562,7 +1562,7 @@ igb_write_packet_to_guest(IGBCore *core, struct NetRxPkt *pkt,
+     struct iovec *iov = net_rx_pkt_get_iovec(pkt);
+     size_t size = net_rx_pkt_get_total_len(pkt);
+     size_t total_size = size + e1000x_fcs_len(core->mac);
+-    const E1000E_RingInfo *rxi = rxr->i;
++    const E1000ERingInfo *rxi = rxr->i;
+     size_t bufsize = igb_rxbufsize(core, rxi);
+ 
+     d = pcie_sriov_get_vf_at_index(core->owner, rxi->idx % 8);
+@@ -1643,7 +1643,7 @@ igb_write_packet_to_guest(IGBCore *core, struct NetRxPkt *pkt,
+ }
+ 
+ static bool
+-igb_rx_strip_vlan(IGBCore *core, const E1000E_RingInfo *rxi)
++igb_rx_strip_vlan(IGBCore *core, const E1000ERingInfo *rxi)
+ {
+     if (core->mac[MRQC] & 1) {
+         uint16_t pool = rxi->idx % IGB_NUM_VM_POOLS;
 -- 
 2.25.1
 
