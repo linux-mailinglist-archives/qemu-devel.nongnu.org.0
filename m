@@ -2,19 +2,19 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B676B6FDDA9
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 May 2023 14:23:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A6F96FDDA7
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 May 2023 14:22:44 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pwipq-0002Tz-8A; Wed, 10 May 2023 08:22:22 -0400
+	id 1pwipY-0002RE-KN; Wed, 10 May 2023 08:22:04 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pwipT-0002M0-Fi
- for qemu-devel@nongnu.org; Wed, 10 May 2023 08:21:59 -0400
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pwipU-0002Ns-NS
+ for qemu-devel@nongnu.org; Wed, 10 May 2023 08:22:00 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pwipP-0007iE-UE
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pwipQ-0007iI-0e
  for qemu-devel@nongnu.org; Wed, 10 May 2023 08:21:59 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1683721315;
@@ -22,32 +22,32 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=WyhxTjUgre9dUUM6WypXz+Uc5mCB7VL0d8P8oj8plNw=;
- b=fVClXrutbdwpuhFKbu1xh7vjECJ18SslngcERW6AjETi7wHBfQPxBwJep7vdfgj+r0IGQj
- y+6cuZ8pMPzu30j6sN74ZuHmXahcs/RCatUAhgq9n+FfzSMFNfcZLZrTEtEsfdjRveKoqd
- sh9Tvk4hCv2M2X/YBuk1yThFWofIsFw=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=objLSR21raOkPHDne/OHUBC6wnBI54u8nXlzwPvyU2o=;
+ b=PX2MuK8Zyj9R9RPui+y5+Ham4vUkdZ3W1bboR2QQXsKasKg2/2wwwUeISrqIEDpoqc3Fig
+ /tbyHrOZjU5GbBEOBkMqMuI5vQZ9mvGlDts/wWCQpUp+sMKo7H7j5RvbqfLlvPvlXRYmW9
+ Rr7wgCi4XrptrhEM2zWgoNNs7161Npw=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-656-eZZtQ_mPOiCYVmY7CE13gA-1; Wed, 10 May 2023 08:21:51 -0400
-X-MC-Unique: eZZtQ_mPOiCYVmY7CE13gA-1
+ us-mta-52-nM-4ZoheOVyfBcFpyoRdyw-1; Wed, 10 May 2023 08:21:52 -0400
+X-MC-Unique: nM-4ZoheOVyfBcFpyoRdyw-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
  [10.11.54.5])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 883401C087A9;
- Wed, 10 May 2023 12:21:51 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8B028867940;
+ Wed, 10 May 2023 12:21:52 +0000 (UTC)
 Received: from merkur.fritz.box (unknown [10.39.194.148])
- by smtp.corp.redhat.com (Postfix) with ESMTP id AE36918EC1;
- Wed, 10 May 2023 12:21:50 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CD18A18EC1;
+ Wed, 10 May 2023 12:21:51 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
 Cc: kwolf@redhat.com,
 	richard.henderson@linaro.org,
 	qemu-devel@nongnu.org
-Subject: [PULL 15/28] block: .bdrv_open is non-coroutine and unlocked
-Date: Wed, 10 May 2023 14:20:58 +0200
-Message-Id: <20230510122111.46566-16-kwolf@redhat.com>
+Subject: [PULL 16/28] nbd: Remove nbd_co_flush() wrapper function
+Date: Wed, 10 May 2023 14:20:59 +0200
+Message-Id: <20230510122111.46566-17-kwolf@redhat.com>
 In-Reply-To: <20230510122111.46566-1-kwolf@redhat.com>
 References: <20230510122111.46566-1-kwolf@redhat.com>
 MIME-Version: 1.0
@@ -61,8 +61,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -78,152 +77,62 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Drivers were a bit confused about whether .bdrv_open can run in a
-coroutine and whether or not it holds a graph lock.
-
-It cannot keep a graph lock from the caller across the whole function
-because it both changes the graph (requires a writer lock) and does I/O
-(requires a reader lock). Therefore, it should take these locks
-internally as needed.
-
-The functions used to be called in coroutine context during image
-creation. This was buggy for other reasons, and as of commit 32192301,
-all block drivers go through no_co_wrappers. So it is not called in
-coroutine context any more.
-
-Fix qcow2 and qed to work with the correct assumptions: The graph lock
-needs to be taken internally instead of just assuming it's already
-there, and the coroutine path is dead code that can be removed.
+The only thing nbd_co_flush() does is call nbd_client_co_flush(). Just
+use that function directly in the BlockDriver definitions and remove the
+wrapper.
 
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 Reviewed-by: Eric Blake <eblake@redhat.com>
 Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
-Message-Id: <20230504115750.54437-9-kwolf@redhat.com>
+Message-Id: <20230504115750.54437-10-kwolf@redhat.com>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- include/block/block_int-common.h |  8 ++++----
- block.c                          |  6 +++---
- block/qcow2.c                    | 15 ++++++---------
- block/qed.c                      | 18 ++++++++----------
- 4 files changed, 21 insertions(+), 26 deletions(-)
+ block/nbd.c | 11 +++--------
+ 1 file changed, 3 insertions(+), 8 deletions(-)
 
-diff --git a/include/block/block_int-common.h b/include/block/block_int-common.h
-index 013d419444..6fb28cd8fa 100644
---- a/include/block/block_int-common.h
-+++ b/include/block/block_int-common.h
-@@ -236,12 +236,12 @@ struct BlockDriver {
-     void (*bdrv_reopen_abort)(BDRVReopenState *reopen_state);
-     void (*bdrv_join_options)(QDict *options, QDict *old_options);
- 
--    int (*bdrv_open)(BlockDriverState *bs, QDict *options, int flags,
--                     Error **errp);
-+    int GRAPH_UNLOCKED_PTR (*bdrv_open)(
-+        BlockDriverState *bs, QDict *options, int flags, Error **errp);
- 
-     /* Protocol drivers should implement this instead of bdrv_open */
--    int (*bdrv_file_open)(BlockDriverState *bs, QDict *options, int flags,
--                          Error **errp);
-+    int GRAPH_UNLOCKED_PTR (*bdrv_file_open)(
-+        BlockDriverState *bs, QDict *options, int flags, Error **errp);
-     void (*bdrv_close)(BlockDriverState *bs);
- 
-     int coroutine_fn GRAPH_RDLOCK_PTR (*bdrv_co_create)(
-diff --git a/block.c b/block.c
-index 20d5ee0959..abec940867 100644
---- a/block.c
-+++ b/block.c
-@@ -1610,9 +1610,9 @@ out:
-  * bdrv_refresh_total_sectors() which polls when called from non-coroutine
-  * context.
-  */
--static int bdrv_open_driver(BlockDriverState *bs, BlockDriver *drv,
--                            const char *node_name, QDict *options,
--                            int open_flags, Error **errp)
-+static int no_coroutine_fn GRAPH_UNLOCKED
-+bdrv_open_driver(BlockDriverState *bs, BlockDriver *drv, const char *node_name,
-+                 QDict *options, int open_flags, Error **errp)
- {
-     Error *local_err = NULL;
-     int i, ret;
-diff --git a/block/qcow2.c b/block/qcow2.c
-index 01742b3ebe..5bde3b8401 100644
---- a/block/qcow2.c
-+++ b/block/qcow2.c
-@@ -1891,7 +1891,7 @@ static void coroutine_fn qcow2_open_entry(void *opaque)
-     QCow2OpenCo *qoc = opaque;
-     BDRVQcow2State *s = qoc->bs->opaque;
- 
--    assume_graph_lock(); /* FIXME */
-+    GRAPH_RDLOCK_GUARD();
- 
-     qemu_co_mutex_lock(&s->lock);
-     qoc->ret = qcow2_do_open(qoc->bs, qoc->options, qoc->flags, true,
-@@ -1920,14 +1920,11 @@ static int qcow2_open(BlockDriverState *bs, QDict *options, int flags,
-     /* Initialise locks */
-     qemu_co_mutex_init(&s->lock);
- 
--    if (qemu_in_coroutine()) {
--        /* From bdrv_co_create.  */
--        qcow2_open_entry(&qoc);
--    } else {
--        assert(qemu_get_current_aio_context() == qemu_get_aio_context());
--        qemu_coroutine_enter(qemu_coroutine_create(qcow2_open_entry, &qoc));
--        BDRV_POLL_WHILE(bs, qoc.ret == -EINPROGRESS);
--    }
-+    assert(!qemu_in_coroutine());
-+    assert(qemu_get_current_aio_context() == qemu_get_aio_context());
-+    qemu_coroutine_enter(qemu_coroutine_create(qcow2_open_entry, &qoc));
-+    BDRV_POLL_WHILE(bs, qoc.ret == -EINPROGRESS);
-+
-     return qoc.ret;
+diff --git a/block/nbd.c b/block/nbd.c
+index bf2894ad5c..d3ee256844 100644
+--- a/block/nbd.c
++++ b/block/nbd.c
+@@ -1920,11 +1920,6 @@ fail:
+     return ret;
  }
  
-diff --git a/block/qed.c b/block/qed.c
-index aff2a2076e..be9ff0fb34 100644
---- a/block/qed.c
-+++ b/block/qed.c
-@@ -557,11 +557,13 @@ typedef struct QEDOpenCo {
-     int ret;
- } QEDOpenCo;
- 
--static void coroutine_fn GRAPH_RDLOCK bdrv_qed_open_entry(void *opaque)
-+static void coroutine_fn bdrv_qed_open_entry(void *opaque)
- {
-     QEDOpenCo *qoc = opaque;
-     BDRVQEDState *s = qoc->bs->opaque;
- 
-+    GRAPH_RDLOCK_GUARD();
-+
-     qemu_co_mutex_lock(&s->table_lock);
-     qoc->ret = bdrv_qed_do_open(qoc->bs, qoc->options, qoc->flags, qoc->errp);
-     qemu_co_mutex_unlock(&s->table_lock);
-@@ -579,21 +581,17 @@ static int bdrv_qed_open(BlockDriverState *bs, QDict *options, int flags,
-     };
-     int ret;
- 
--    assume_graph_lock(); /* FIXME */
+-static int coroutine_fn nbd_co_flush(BlockDriverState *bs)
+-{
+-    return nbd_client_co_flush(bs);
+-}
 -
-     ret = bdrv_open_file_child(NULL, options, "file", bs, errp);
-     if (ret < 0) {
-         return ret;
-     }
- 
-     bdrv_qed_init_state(bs);
--    if (qemu_in_coroutine()) {
--        bdrv_qed_open_entry(&qoc);
--    } else {
--        assert(qemu_get_current_aio_context() == qemu_get_aio_context());
--        qemu_coroutine_enter(qemu_coroutine_create(bdrv_qed_open_entry, &qoc));
--        BDRV_POLL_WHILE(bs, qoc.ret == -EINPROGRESS);
--    }
-+    assert(!qemu_in_coroutine());
-+    assert(qemu_get_current_aio_context() == qemu_get_aio_context());
-+    qemu_coroutine_enter(qemu_coroutine_create(bdrv_qed_open_entry, &qoc));
-+    BDRV_POLL_WHILE(bs, qoc.ret == -EINPROGRESS);
-+
-     return qoc.ret;
- }
- 
+ static void nbd_refresh_limits(BlockDriverState *bs, Error **errp)
+ {
+     BDRVNBDState *s = (BDRVNBDState *)bs->opaque;
+@@ -2120,7 +2115,7 @@ static BlockDriver bdrv_nbd = {
+     .bdrv_co_pwritev            = nbd_client_co_pwritev,
+     .bdrv_co_pwrite_zeroes      = nbd_client_co_pwrite_zeroes,
+     .bdrv_close                 = nbd_close,
+-    .bdrv_co_flush_to_os        = nbd_co_flush,
++    .bdrv_co_flush_to_os        = nbd_client_co_flush,
+     .bdrv_co_pdiscard           = nbd_client_co_pdiscard,
+     .bdrv_refresh_limits        = nbd_refresh_limits,
+     .bdrv_co_truncate           = nbd_co_truncate,
+@@ -2148,7 +2143,7 @@ static BlockDriver bdrv_nbd_tcp = {
+     .bdrv_co_pwritev            = nbd_client_co_pwritev,
+     .bdrv_co_pwrite_zeroes      = nbd_client_co_pwrite_zeroes,
+     .bdrv_close                 = nbd_close,
+-    .bdrv_co_flush_to_os        = nbd_co_flush,
++    .bdrv_co_flush_to_os        = nbd_client_co_flush,
+     .bdrv_co_pdiscard           = nbd_client_co_pdiscard,
+     .bdrv_refresh_limits        = nbd_refresh_limits,
+     .bdrv_co_truncate           = nbd_co_truncate,
+@@ -2176,7 +2171,7 @@ static BlockDriver bdrv_nbd_unix = {
+     .bdrv_co_pwritev            = nbd_client_co_pwritev,
+     .bdrv_co_pwrite_zeroes      = nbd_client_co_pwrite_zeroes,
+     .bdrv_close                 = nbd_close,
+-    .bdrv_co_flush_to_os        = nbd_co_flush,
++    .bdrv_co_flush_to_os        = nbd_client_co_flush,
+     .bdrv_co_pdiscard           = nbd_client_co_pdiscard,
+     .bdrv_refresh_limits        = nbd_refresh_limits,
+     .bdrv_co_truncate           = nbd_co_truncate,
 -- 
 2.40.1
 
