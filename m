@@ -2,82 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4928D6FE139
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 May 2023 17:10:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A43FD6FE13B
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 May 2023 17:10:55 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pwlPI-0006tx-Jy; Wed, 10 May 2023 11:07:08 -0400
+	id 1pwlPS-00074r-Pv; Wed, 10 May 2023 11:07:18 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pwlPF-0006sT-7W
- for qemu-devel@nongnu.org; Wed, 10 May 2023 11:07:05 -0400
-Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331])
+ id 1pwlPG-0006td-G8
+ for qemu-devel@nongnu.org; Wed, 10 May 2023 11:07:06 -0400
+Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pwlPC-0001Vo-9j
- for qemu-devel@nongnu.org; Wed, 10 May 2023 11:07:04 -0400
-Received: by mail-wm1-x331.google.com with SMTP id
- 5b1f17b1804b1-3f315712406so251112905e9.0
- for <qemu-devel@nongnu.org>; Wed, 10 May 2023 08:07:01 -0700 (PDT)
+ id 1pwlPE-0001WW-EE
+ for qemu-devel@nongnu.org; Wed, 10 May 2023 11:07:06 -0400
+Received: by mail-wm1-x32f.google.com with SMTP id
+ 5b1f17b1804b1-3f42ba32e24so15059885e9.3
+ for <qemu-devel@nongnu.org>; Wed, 10 May 2023 08:07:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1683731221; x=1686323221;
+ d=linaro.org; s=google; t=1683731223; x=1686323223;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=KoXK86fLWvdd2wu29cai/tI+78Sen1sg80vVZCIKXsc=;
- b=wjEm9czrP9IKQkZb823iPUNNXwyG9vyIHrbM1QA793HVaA1MH912+Qs7V3rou4Rj3l
- 9NF1aeFeVJimI1CbwNxrgXckMyEFcPvjEGsyGXA6u37TFXifxgndTjec/T3W0lYrxFDj
- 2aqO1vaP70xMS4klBH8uf3DY0Ll7gx87h4nrfBjzntOFyrGh8lZOBvtNePddAxDGAzrg
- zCj+b1TrWXzWZ7yWoL32gBrQxI0jqyFbjCYPQ5cQFHevfD/6YBgCfdgfZ5DpwqtGpvwO
- dhmaTAUEqOKWdqfnmyO+E2hPG/q4v/RuQVhFjibAI7etTDQ6d3mCt0DmsS8VYHJ1dVxs
- MmAQ==
+ bh=thnMy8X2PRH6GO6v7+wbnsn6tBSbaVAWCCL4W8p3qQc=;
+ b=bsfZfnXz3Db5Ij59bJnWCk4dAYTnCxASc8DfJ0c7Z3LpHZz9h4tnnF21P15ZYENSk7
+ O5FkLuL8m62f4GjcY8EHM1Ksr0e1+S5AVQ+s+YMM2nvyOkIA6Q9ONF1pErjyXRKEh4Jb
+ ZN3vwwpLmBI6Jpf2WQbxeVP1tqKbot0Oslh/fTnNGusNQ0IeKVZCv8HaIEyLQmXJxleG
+ QOkI15k5+PqrREZEZvHlWz4eY3VKYA0uSy6BiNyN2YGtBdllyAtc5hRY+39YCipxxu/l
+ 2THSZGNxBCh3zdZPDTK815bCPB6ZnBuBxZcdL3TVa3ZPEkpREpN+bFAxtcWY3RUxbRhx
+ WuVQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683731221; x=1686323221;
+ d=1e100.net; s=20221208; t=1683731223; x=1686323223;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=KoXK86fLWvdd2wu29cai/tI+78Sen1sg80vVZCIKXsc=;
- b=hCmv2eZfCDQSHv2hILDLvUL7b1CiuYZvKsuRlHv1ULx5PX8QGJP87FJtS32X17zU8p
- uTR3y6YkIjZ9o0C40kARuEUkKVeWrE4Z+qIOnUPvPKuIHFgBYGjxVmy9Mj1TjczogzMC
- RTraD7KT3QsCfHyC2iP8Nr3xjI4lyjvafIYc8WmEBELLt61fnvaa7LEnUEpmsOEEZoJP
- WWoQa8uWp8B2fwEM59Y10siIidHNeeBM5X9S56i6qQnPgyZbbDy47l3gPtna4sORiw4Z
- z4nADA0cjpSNuFJL9Q+b2g3dq6R5NoEyqo4ksAF+JRi0ySzEGGk1ngdK5KGrvVgOa+wD
- duTA==
-X-Gm-Message-State: AC+VfDy4LAV7DsTaTrC0LxDrNlFDx96tpOXqHaqSloMA0HhJVrKUAQGD
- cLz9kH6IAzTjsX8UboCArZ5JIt2rXd7uHLyAt24M4A==
-X-Google-Smtp-Source: ACHHUZ47kb/8xqr4yt/wMfEqcPi2veCtQNH6TEiEHMT/eDIm1thG3Hhy4tVXCvRxHVwZODEptm7czg==
-X-Received: by 2002:a05:600c:2294:b0:3f4:2a69:409 with SMTP id
- 20-20020a05600c229400b003f42a690409mr4335402wmf.11.1683731220916; 
- Wed, 10 May 2023 08:07:00 -0700 (PDT)
+ bh=thnMy8X2PRH6GO6v7+wbnsn6tBSbaVAWCCL4W8p3qQc=;
+ b=Ire4/tnG5xl+yNSyKANzbEueb79jSAhox3PiX8pQvsiA0EvdThwnS0FxAJOzWFmiLG
+ Jw3I/aXb8vRiJXDLT/ZyOcfAPLWEZl70tgAWbuKR1m1y30ydFaIilZrNSAIWQS5e9lZ8
+ j2vVe61jwgNF7vdNyFpHpUPOOsQ5+niZ5wxeHRKWKXBfCjiuAyexQC0nKdHaJ2i4Unu2
+ mKHUYUb/vCLQGDzvM4w25qmayvAZ2gQP6amJ/05gRHwUbhTwVUv9PSf5KO75efdP7IR+
+ o6O0oas0LSDxamy2sY5r9qRMtPOvumuy+AZ9xpuT8pVvUJ43UHsBPo9ZRRisIbJKsP3C
+ dRMA==
+X-Gm-Message-State: AC+VfDwBZli67XBRuYWjPR6XJ6wyQiHqq6IO2b8zQTADtuUle61ARQT/
+ 22kEGk85XvcEhFQw1xbFfeqy2w==
+X-Google-Smtp-Source: ACHHUZ57Fkm9v90Sxkm0cZzv6wy+tzDpISaL/UDcyBXLsvP0C3vQveeqzTDl/IDPBWj3ma3oLnlKEw==
+X-Received: by 2002:a05:600c:21c2:b0:3f4:269d:a080 with SMTP id
+ x2-20020a05600c21c200b003f4269da080mr6083554wmj.41.1683731222947; 
+ Wed, 10 May 2023 08:07:02 -0700 (PDT)
 Received: from zen.linaroharston ([85.9.250.243])
  by smtp.gmail.com with ESMTPSA id
- j15-20020a05600c1c0f00b003f1738d0d13sm7735521wms.1.2023.05.10.08.06.59
+ w22-20020a1cf616000000b003f080b2f9f4sm22929865wmc.27.2023.05.10.08.06.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 10 May 2023 08:06:59 -0700 (PDT)
+ Wed, 10 May 2023 08:07:00 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 16A991FFBF;
+ by zen.linaroharston (Postfix) with ESMTP id 2C70B1FFC0;
  Wed, 10 May 2023 16:06:59 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: richard.henderson@linaro.org,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  Wainer dos Santos Moschetta <wainersm@redhat.com>,
  Beraldo Leal <bleal@redhat.com>
-Subject: [PULL 4/8] scripts/ci: clean-up the 20.04/22.04 confusion in ansible
-Date: Wed, 10 May 2023 16:06:54 +0100
-Message-Id: <20230510150658.1399087-5-alex.bennee@linaro.org>
+Subject: [PULL 5/8] gitlab: add ubuntu-22.04-aarch64-without-defaults
+Date: Wed, 10 May 2023 16:06:55 +0100
+Message-Id: <20230510150658.1399087-6-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230510150658.1399087-1-alex.bennee@linaro.org>
 References: <20230510150658.1399087-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::331;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x331.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -100,228 +100,48 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-We have a bunch of references to 20.04 (which s390x is still on)
-although we are basically building on 22.04 now. Clean up the textual
-references and use lcitool to generate the full package list to be
-consistent.
+This does a very minimal build without default devices or features. I
+chose the aarch64 runner as it doesn't count towards CI minutes and is
+a fairly under-utilised builder.
 
-We can drop "Install packages to build QEMU on Ubuntu on non-s390x" as
-when we upgrade the s390x builder to 22.04 it won't need this
-workaround.
-
+Message-Id: <20230503091244.1450613-20-alex.bennee@linaro.org>
+Reviewed-by: Thomas Huth <thuth@redhat.com>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20230503091244.1450613-19-alex.bennee@linaro.org>
 
-diff --git a/.gitlab-ci.d/custom-runners/ubuntu-22.04-aarch32.yml b/.gitlab-ci.d/custom-runners/ubuntu-22.04-aarch32.yml
-index 50e5646a44..b8a0d75162 100644
---- a/.gitlab-ci.d/custom-runners/ubuntu-22.04-aarch32.yml
-+++ b/.gitlab-ci.d/custom-runners/ubuntu-22.04-aarch32.yml
-@@ -1,6 +1,6 @@
- # All ubuntu-22.04 jobs should run successfully in an environment
- # setup by the scripts/ci/setup/qemu/build-environment.yml task
--# "Install basic packages to build QEMU on Ubuntu 20.04"
-+# "Install basic packages to build QEMU on Ubuntu 22.04"
- 
- ubuntu-22.04-aarch32-all:
-  extends: .custom_runner_template
 diff --git a/.gitlab-ci.d/custom-runners/ubuntu-22.04-aarch64.yml b/.gitlab-ci.d/custom-runners/ubuntu-22.04-aarch64.yml
-index 13e14a0f87..57303c12e1 100644
+index 57303c12e1..f8489dd3fc 100644
 --- a/.gitlab-ci.d/custom-runners/ubuntu-22.04-aarch64.yml
 +++ b/.gitlab-ci.d/custom-runners/ubuntu-22.04-aarch64.yml
-@@ -1,6 +1,6 @@
--# All ubuntu-20.04 jobs should run successfully in an environment
-+# All ubuntu-22.04 jobs should run successfully in an environment
- # setup by the scripts/ci/setup/qemu/build-environment.yml task
--# "Install basic packages to build QEMU on Ubuntu 20.04"
-+# "Install basic packages to build QEMU on Ubuntu 22.04"
+@@ -45,6 +45,28 @@ ubuntu-22.04-aarch64-all:
+  - make --output-sync -j`nproc --ignore=40`
+  - make --output-sync -j`nproc --ignore=40` check
  
- ubuntu-22.04-aarch64-all-linux-static:
++ubuntu-22.04-aarch64-without-defaults:
++ extends: .custom_runner_template
++ needs: []
++ stage: build
++ tags:
++ - ubuntu_22.04
++ - aarch64
++ rules:
++ - if: '$CI_PROJECT_NAMESPACE == "qemu-project" && $CI_COMMIT_BRANCH =~ /^staging/'
++   when: manual
++   allow_failure: true
++ - if: "$AARCH64_RUNNER_AVAILABLE"
++   when: manual
++   allow_failure: true
++ script:
++ - mkdir build
++ - cd build
++ - ../configure --disable-user --without-default-devices --without-default-features
++   || { cat config.log meson-logs/meson-log.txt; exit 1; }
++ - make --output-sync -j`nproc --ignore=40`
++ - make --output-sync -j`nproc --ignore=40` check
++
+ ubuntu-22.04-aarch64-alldbg:
   extends: .custom_runner_template
-diff --git a/scripts/ci/setup/build-environment.yml b/scripts/ci/setup/build-environment.yml
-index 78b1021cd4..f344d1a850 100644
---- a/scripts/ci/setup/build-environment.yml
-+++ b/scripts/ci/setup/build-environment.yml
-@@ -24,7 +24,6 @@
-       when:
-         - ansible_facts['distribution'] == 'Ubuntu'
-         - ansible_facts['architecture'] == 'aarch64'
--        - ansible_facts['distribution_version'] == '20.04'
- 
-     - name: Update apt cache / upgrade packages via apt
-       apt:
-@@ -33,87 +32,131 @@
-       when:
-         - ansible_facts['distribution'] == 'Ubuntu'
- 
--    - name: Install basic packages to build QEMU on Ubuntu 20.04
-+    # lcitool variables -f json ubuntu-2204 qemu | jq -r '.pkgs[]' | xargs -n 1 echo "-"
-+    - name: Install basic packages to build QEMU on Ubuntu 22.04
-       package:
-         name:
-+          - bash
-+          - bc
-+          - bison
-+          - bsdextrautils
-+          - bzip2
-+          - ca-certificates
-           - ccache
-+          - clang
-+          - dbus
-+          - debianutils
-+          - diffutils
-+          - exuberant-ctags
-+          - findutils
-+          - flex
-+          - g++
-           - gcc
-+          - gcovr
-+          - genisoimage
-           - gettext
-           - git
--          - glusterfs-common
-+          - hostname
-           - libaio-dev
-+          - libasan5
-+          - libasound2-dev
-           - libattr1-dev
-+          - libbpf-dev
-           - libbrlapi-dev
-           - libbz2-dev
-+          - libc6-dev
-           - libcacard-dev
--          - libcapstone-dev
-           - libcap-ng-dev
-+          - libcapstone-dev
-+          - libcmocka-dev
-           - libcurl4-gnutls-dev
-+          - libdaxctl-dev
-           - libdrm-dev
-           - libepoxy-dev
-           - libfdt-dev
-+          - libffi-dev
-           - libgbm-dev
-+          - libgcrypt20-dev
-+          - libglib2.0-dev
-+          - libglusterfs-dev
-+          - libgnutls28-dev
-           - libgtk-3-dev
-+          - libibumad-dev
-           - libibverbs-dev
-           - libiscsi-dev
-           - libjemalloc-dev
-           - libjpeg-turbo8-dev
-+          - libjson-c-dev
-+          - liblttng-ust-dev
-           - liblzo2-dev
--          - libncurses5-dev
-           - libncursesw5-dev
-           - libnfs-dev
--          - libnss3-dev
-           - libnuma-dev
-+          - libpam0g-dev
-+          - libpcre2-dev
-           - libpixman-1-dev
--          - librados-dev
-+          - libpmem-dev
-+          - libpng-dev
-+          - libpulse-dev
-           - librbd-dev
-           - librdmacm-dev
-           - libsasl2-dev
-           - libsdl2-dev
-+          - libsdl2-image-dev
-           - libseccomp-dev
-+          - libslirp-dev
-           - libsnappy-dev
-           - libspice-protocol-dev
-+          - libspice-server-dev
-           - libssh-dev
-+          - libsystemd-dev
-+          - libtasn1-6-dev
-+          - libubsan1
-+          - libudev-dev
-+          - liburing-dev
-           - libusb-1.0-0-dev
-           - libusbredirhost-dev
-           - libvdeplug-dev
-+          - libvirglrenderer-dev
-           - libvte-2.91-dev
-+          - libxen-dev
-+          - libxml2-dev
-           - libzstd-dev
-+          - llvm
-+          - locales
-           - make
--          - python3-yaml
-+          - meson
-+          - multipath-tools
-+          - ncat
-+          - nettle-dev
-+          - ninja-build
-+          - openssh-client
-+          - pkgconf
-+          - python3
-+          - python3-numpy
-+          - python3-opencv
-+          - python3-pillow
-+          - python3-pip
-           - python3-sphinx
-           - python3-sphinx-rtd-theme
--          - ninja-build
-+          - python3-venv
-+          - python3-yaml
-+          - rpm2cpio
-+          - sed
-           - sparse
-+          - systemtap-sdt-dev
-+          - tar
-+          - tesseract-ocr
-+          - tesseract-ocr-eng
-+          - texinfo
-           - xfslibs-dev
-+          - zlib1g-dev
-         state: present
-       when:
-         - ansible_facts['distribution'] == 'Ubuntu'
-+        - ansible_facts['distribution_version'] == '22.04'
- 
--    - name: Install packages to build QEMU on Ubuntu 20.04 on non-s390x
--      package:
--        name:
--          - libspice-server-dev
--          - libxen-dev
--        state: present
--      when:
--        - ansible_facts['distribution'] == 'Ubuntu'
--        - ansible_facts['architecture'] == 'aarch64' or ansible_facts['architecture'] == 'x86_64'
--
--    - name: Install basic packages to build QEMU on Ubuntu 20.04
--      package:
--        name:
--        # Originally from tests/docker/dockerfiles/ubuntu2004.docker
--          - clang-10
--          - genisoimage
--          - liblttng-ust-dev
--          - libslirp-dev
--          - netcat-openbsd
--      when:
--        - ansible_facts['distribution'] == 'Ubuntu'
--        - ansible_facts['distribution_version'] == '20.04'
--
--    - name: Install armhf cross-compile packages to build QEMU on AArch64 Ubuntu 20.04
-+    - name: Install armhf cross-compile packages to build QEMU on AArch64 Ubuntu 22.04
-       package:
-         name:
-           - binutils-arm-linux-gnueabihf
-@@ -128,7 +171,7 @@
-           - zlib1g-dev:armhf
-       when:
-         - ansible_facts['distribution'] == 'Ubuntu'
--        - ansible_facts['distribution_version'] == '20.04'
-+        - ansible_facts['distribution_version'] == '22.04'
-         - ansible_facts['architecture'] == 'aarch64'
- 
-     - name: Enable EPEL repo on EL8
+  needs: []
 -- 
 2.39.2
 
