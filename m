@@ -2,85 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F9056FD87E
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 May 2023 09:47:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 339FF6FD882
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 May 2023 09:48:10 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pweWw-0007yO-4J; Wed, 10 May 2023 03:46:34 -0400
+	id 1pweY3-0001N1-CT; Wed, 10 May 2023 03:47:43 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pweWr-0007y8-DE
- for qemu-devel@nongnu.org; Wed, 10 May 2023 03:46:29 -0400
-Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pweWp-0000Kv-Tl
- for qemu-devel@nongnu.org; Wed, 10 May 2023 03:46:29 -0400
-Received: by mail-wm1-x336.google.com with SMTP id
- 5b1f17b1804b1-3f49bf0223cso3187605e9.1
- for <qemu-devel@nongnu.org>; Wed, 10 May 2023 00:46:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1683704786; x=1686296786;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=APWDyFpqrNxlCbyGdx6dX5Oo4YgR4sdPKSODaMbhTrQ=;
- b=NsT1W6YnvkKgbkit8O9n16U7F0zJixdeSqm7g7mi4uEnmPYa2YBak1SZcpr3AsNooK
- +/hsQIdQ+2mJjwDx0IOhdoAQ+Uf+ouQqJQ1+/lD1BpW/KcdfSlkjoQzjxniSIyWhMRJZ
- KxkIYkW9fZsNqvKjDrfSdd1Nfemax3/NtEJzwrgOf/r707KXP6LoAjsJtNJqSpLsf6Jt
- EM0CPea9DzenpU3F2MvXAMZ5K1dcyIurHca7OqeN4NKskB/rbKuW0cb1R3zbged/WwK1
- imVkruzgp/Iv7Qc/QyM91CqApH0I/c1HJZjZ95Ybye5SWb7szKdxxhJdLltNp2o8/b5k
- gm1w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683704786; x=1686296786;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=APWDyFpqrNxlCbyGdx6dX5Oo4YgR4sdPKSODaMbhTrQ=;
- b=DXIv2qvO0i/UZqOxurfz+tcmOvPqW9c2OZg7HIEfUUiLmoAb1/FWDC6ZkaZo/qNSOv
- mkDYhMjh+Nzpb1xuBQPfLHbXzFMe6vSdsRUiQ9Xep13L+eAHultaSJFUOqy+uNWFsgee
- V8BjJkO6mUcprn6HTangXLRkBrmcQT5Lhr0JhwrsDVIJHkucldZGsvv2p2j03vfg1ehb
- AI/4vb3/YxJx3HGNW0psfIYD4XL6oxYMH+PdsQKgK8HRTnbA3AvmTIemcnN/L3DCiUhn
- vMk3vm5ffWxhxsr25UBZm8mTW5Aj/bO/oDu4Xc6iFJbpco/L0nZN8D5spxCoGxP3+tPR
- PtsA==
-X-Gm-Message-State: AC+VfDyGd0Idgi5lqZ4UjfUlFzYpIYmg1VLx1irRiLcy1afs6WC6lK2H
- /kOFAub4yheFTUPm0C3OJqSMXw==
-X-Google-Smtp-Source: ACHHUZ7MyxGHu5ukRFMox7+28f1mml4i+Uq8EPhqQTTXG7DqaejgEmpezkCmLT+OsDYX5zjOSmc1pg==
-X-Received: by 2002:a1c:750a:0:b0:3f1:72fb:461a with SMTP id
- o10-20020a1c750a000000b003f172fb461amr10910797wmc.2.1683704785785; 
- Wed, 10 May 2023 00:46:25 -0700 (PDT)
-Received: from [192.168.11.23] ([85.9.250.243])
- by smtp.gmail.com with ESMTPSA id
- y5-20020a1c4b05000000b003f429d59e37sm4823911wma.34.2023.05.10.00.46.25
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 10 May 2023 00:46:25 -0700 (PDT)
-Message-ID: <48f35197-1890-cfce-3535-9a8522f50523@linaro.org>
-Date: Wed, 10 May 2023 08:46:22 +0100
+ (Exim 4.90_1) (envelope-from <olaf@aepfle.de>)
+ id 1pweY1-0001Mo-Sp; Wed, 10 May 2023 03:47:41 -0400
+Received: from mo4-p01-ob.smtp.rzone.de ([85.215.255.53])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <olaf@aepfle.de>)
+ id 1pweXz-0000bx-SR; Wed, 10 May 2023 03:47:41 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1683704854; cv=none;
+ d=strato.com; s=strato-dkim-0002;
+ b=c+CEDxctFw9MGyl+F0u5UkTweo5v0QOac6s+9XQ6Ohek4sU9Nb3NjkBNLbSQc3X29p
+ 2CdyvI911gHLpvKz5hoLu9JjuuFsgzR03VUCr3SZIXms9NAuW4Vy/4dkmPrw/6Bmb3VE
+ UaKnuTGT9JE19bACRywlR5HYy5J9SP5i+dEpyT0WfPDm+I1nkuMMxICFkySkA8PBh//v
+ zYzqBsOlfTKBjA5deCHf/cJKV82V3nAqC+1UXGM60F9mI92Y7GYFpBzciNLxVDzBA3FR
+ xyNUlQNb3+DhS06zMkpwAnhugHKGDm9+gjh8CWGnwJ9h94hc8eWIx8zj2CkabD+uw4zd
+ DTUg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; t=1683704854;
+ s=strato-dkim-0002; d=strato.com;
+ h=References:In-Reply-To:Message-ID:Subject:Cc:To:From:Date:Cc:Date:
+ From:Subject:Sender;
+ bh=fpMbxRbaAtliiEqD3yXPNT5MQEGuwjFCZILVH7eZVLE=;
+ b=XkgGWnjmjh0LovQ0y1CUSjs5+WREcOsUOUk2zLuJUHTOca4+aEyZByxpsEApoFkNRP
+ 3vb/lhdYvmeiRPtqOpm+hO1CnErrXS3BbUw3z7UXTxAPf6IM6u/fYlRmL/f1ncMbd5Vd
+ vc4PvG8GsrAWhNm9AWYo+sKFlMdH0Hxq7+tfiMdv+1UbkfeuqJ8o9sBaFNC3dvXfYQ+N
+ K2RHk8N/icC5Qdh+7z6PT7Qfi2nSU6NZlRagbdQzoEUpOpF1fUI/D3C/cK+CJ4y26ogE
+ OikicXS+faaliiYj5wACVqMsdvoINRbdK0p9qbyFkdc7RigZiHZqSIuBUk/WE3Gi70iT
+ ei1Q==
+ARC-Authentication-Results: i=1; strato.com;
+    arc=none;
+    dkim=none
+X-RZG-CLASS-ID: mo01
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1683704854;
+ s=strato-dkim-0002; d=aepfle.de;
+ h=References:In-Reply-To:Message-ID:Subject:Cc:To:From:Date:Cc:Date:
+ From:Subject:Sender;
+ bh=fpMbxRbaAtliiEqD3yXPNT5MQEGuwjFCZILVH7eZVLE=;
+ b=VtAUsFP4F+JSerLh8MZ7ULl38l9Hj85X55W1atDN/NNfPVXUtGM+qCJwizusxv+wTa
+ k1OQywRxHqXhEF3+6Tp3C0rZfJ0hnxu3t5FZPVAgSMlFNIiQrS/l2caM/mw8BlrSQ+bc
+ I1o3q2aH4XKDsO5iMgxenQnNE1DsBRu47zqWRl4wMrLEtwXfffrG1DHxQn4SEg/rAcDK
+ 2xPb1GStX2e7yg6n1ZFTCf/sY+bfKs97VNWNNnBmaIX5Ji+bO9t9VZPxvKRa6rB2yuIN
+ 4v4Fkyoq3W4RFutJiRg+JvonSO8WuY1KmqSLnkXwsfRM4BxaiI4/ehGUgDCBfKozldBN
+ 2IiQ==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; t=1683704854;
+ s=strato-dkim-0003; d=aepfle.de;
+ h=References:In-Reply-To:Message-ID:Subject:Cc:To:From:Date:Cc:Date:
+ From:Subject:Sender;
+ bh=fpMbxRbaAtliiEqD3yXPNT5MQEGuwjFCZILVH7eZVLE=;
+ b=krAmvBX6oRNRFqJB0vvQOHessJgvwMw5kZBnFSJhW2UNLeDlEB/rHcpLzraKPVRrcM
+ 4iIe2hNTHbCfynLvd7Dg==
+X-RZG-AUTH: ":P2EQZWCpfu+qG7CngxMFH1J+3q8wa/QLpd5ylWvMDX3y/OuD5rXVisR4ARWIYxzstZKeVom+bauo0LKSCjuo5iX5xLikmg=="
+Received: from sender by smtp.strato.de (RZmta 49.4.0 AUTH)
+ with ESMTPSA id x6987cz4A7lY8oh
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
+ (Client did not present a certificate);
+ Wed, 10 May 2023 09:47:34 +0200 (CEST)
+Date: Wed, 10 May 2023 09:47:19 +0200
+From: Olaf Hering <olaf@aepfle.de>
+To: Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>,
+ Stefano Stabellini <sstabellini@kernel.org>
+Cc: xen-devel@lists.xenproject.org, qemu-devel@nongnu.org,
+ qemu-block@nongnu.org, Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?=
+ <f4bug@amsat.org>
+Subject: Re: [PATCH v2] piix: fix regression during unplug in Xen HVM domUs
+Message-ID: <20230510094719.26fb79e5.olaf@aepfle.de>
+In-Reply-To: <20230509225818.GA16290@aepfle.de>
+References: <20210317070046.17860-1-olaf@aepfle.de>
+ <4441d32f-bd52-9408-cabc-146b59f0e4dc@redhat.com>
+ <20210325121219.7b5daf76.olaf@aepfle.de>
+ <dae251e1-f808-708e-902c-05cfcbbea9cf@redhat.com>
+ <20230509225818.GA16290@aepfle.de>
+X-Mailer: Claws Mail 20230504T161344.b05adb60 hat ein Softwareproblem,
+ kann man nichts machen.
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH v2 5/5] disas: Move disas.c into the target-independent
- source set
-Content-Language: en-US
-To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
-Cc: anjo@rev.ng, philmd@linaro.org
-References: <20230509163326.121090-1-richard.henderson@linaro.org>
- <20230509163326.121090-6-richard.henderson@linaro.org>
- <b62ab9a2-fad5-313f-518c-29626b0d57c3@redhat.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <b62ab9a2-fad5-313f-518c-29626b0d57c3@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::336;
- envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x336.google.com
-X-Spam_score_int: -24
-X-Spam_score: -2.5
+Content-Type: multipart/signed; boundary="Sig_/R/2sS42QIzwYzqn.D6NtiKf";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
+Content-Transfer-Encoding: 7bit
+Received-SPF: none client-ip=85.215.255.53; envelope-from=olaf@aepfle.de;
+ helo=mo4-p01-ob.smtp.rzone.de
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.421,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_PASS=-0.001, SPF_NONE=0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -97,38 +108,54 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 5/10/23 07:53, Thomas Huth wrote:
-> On 09/05/2023 18.33, Richard Henderson wrote:
->> From: Thomas Huth <thuth@redhat.com>
->>
->> By using target_words_bigendian() instead of an ifdef,
->> we can build this code once.
->>
->> Signed-off-by: Thomas Huth <thuth@redhat.com>
->> [rth: Type change done in a separate patch]
->> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
->> ---
-> ...
->> diff --git a/disas/meson.build b/disas/meson.build
->> index f40230c58f..2ae44691fa 100644
->> --- a/disas/meson.build
->> +++ b/disas/meson.build
->> @@ -13,4 +13,5 @@ common_ss.add(when: 'CONFIG_XTENSA_DIS', if_true: files('xtensa.c'))
->>   common_ss.add(when: capstone, if_true: [files('capstone.c'), capstone])
->>   softmmu_ss.add(files('disas-mon.c'))
->> -specific_ss.add(files('disas.c'), capstone)
->> +common_ss.add(files('disas.c'), capstone)
-> 
-> I guess you could drop the "capstone" here now since it is already added to common_ss now 
-> three lines earlier.
+--Sig_/R/2sS42QIzwYzqn.D6NtiKf
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-I have a memory that it's required to get the include path for <capstone.h> for 
-"disas/capstone.h", for use by the target's cpu_set_disas_info.  Otherwise only common_ss 
-files have access to the include path.
+Wed, 10 May 2023 00:58:27 +0200 Olaf Hering <olaf@aepfle.de>:
 
-But I'll double-check.
+> In my debugging (with v8.0.0) it turned out the three pci_set_word
+> causes the domU to hang. In fact, it is just the last one:
+>=20
+>    pci_set_byte(pci_conf + 0x20, 0x01);  /* BMIBA: 20-23h */
+>=20
+> It changes the value from 0xc121 to 0x1.
+
+If I disable just "pci_set_word(pci_conf + PCI_COMMAND, 0x0000);" it works =
+as well.
+It changes the value from 0x5 to 0.
+
+In general I feel it is wrong to fiddle with PCI from the host side.
+This is most likely not the intention of the Xen unplug protocol.
+I'm sure the guest does not expect such changes under the hood.
+It happens to work by luck with pvops kernels because their PCI discovery
+is done after the unplug.
+
+So, what do we do here to get this off the table?
 
 
-r~
+Olaf
 
+--Sig_/R/2sS42QIzwYzqn.D6NtiKf
+Content-Type: application/pgp-signature
+Content-Description: Digitale Signatur von OpenPGP
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEE97o7Um30LT3B+5b/86SN7mm1DoAFAmRbTAcACgkQ86SN7mm1
+DoBRfg//cAC+i271H3HLPzevJR+ToZ3Ywxfz+e53Xk6RnVZfy79aWT9delbKNvoo
+/sEmxurXHIjU2vHju5bE7C4s8J8oTjjY/vgJrnBp0IIoDNF7s2DNPdpWP31bdC32
+AzWMm2kzCWYbTf2k0ByGQ2FlyxJi17fbXaIgwMsmhG6WhCbf2CTD+ZPoW5DLPlI6
+nhJaFpge2Lw5PjebKkZh/eHB9GmQ7o/Z1fs2VnghfJeeyeBAtx7UuBwol3ZX6rTS
+V76Ftd+PcXPvrw3UkUyj6VE38YJT95bIHpEf4oR9iiPlvE/Lv8wYq7fdCdbvkKQd
+yIyJzrg8S2YAFWxBVpQVNOYXhFTbhgyQr331OslGBGMRaZ/F9vQkuBzK+d6pVAHv
+bTJJhDYqY1kr+gJerGPW5+gWoaCegEIzMj7fjYNVWHCh51hG7eJw8cYkFEPWApIP
+XhKyulCg+vaCRO1/TTsrq2mXQ8GDUp+Xm1iorJ69CC9i2qQ8fWM8EJ8lVZZddas2
+3tSwjtdrt/MWvmetZK0yM4jZint6nj0w4iTOs/MR8Kya/3bLbKRNDZczsIrNd8p6
+5UrR33AMreG41Nkob/IRltibnHEDhHPgK9GJfC2yWj49Tf4H8PYTlT6HxOIeyX4r
+OXp83UJ40RKuyvu7GJIxNfOgFdLTeZZEQSxAkxW4lrTFxuTQgls=
+=+t5t
+-----END PGP SIGNATURE-----
+
+--Sig_/R/2sS42QIzwYzqn.D6NtiKf--
 
