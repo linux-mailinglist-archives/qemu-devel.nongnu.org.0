@@ -2,70 +2,102 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC9946FDA13
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 May 2023 10:54:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8EB746FDA16
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 May 2023 10:55:17 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pwfaR-0001XE-Uo; Wed, 10 May 2023 04:54:15 -0400
+	id 1pwfbB-00027t-1Y; Wed, 10 May 2023 04:55:01 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <den-plotnikov@yandex-team.ru>)
- id 1pwfaO-0001Wb-1C
- for qemu-devel@nongnu.org; Wed, 10 May 2023 04:54:12 -0400
-Received: from forwardcorp1b.mail.yandex.net
- ([2a02:6b8:c02:900:1:45:d181:df01])
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1pwfav-00024i-7d
+ for qemu-devel@nongnu.org; Wed, 10 May 2023 04:54:46 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <den-plotnikov@yandex-team.ru>)
- id 1pwfaJ-0004D7-RG
- for qemu-devel@nongnu.org; Wed, 10 May 2023 04:54:11 -0400
-Received: from mail-nwsmtp-smtp-corp-main-62.myt.yp-c.yandex.net
- (mail-nwsmtp-smtp-corp-main-62.myt.yp-c.yandex.net
- [IPv6:2a02:6b8:c00:2582:0:640:9a17:0])
- by forwardcorp1b.mail.yandex.net (Yandex) with ESMTP id B7912607D8;
- Wed, 10 May 2023 11:53:54 +0300 (MSK)
-Received: from [IPV6:2a02:6b8:b081:b68a::1:32] (unknown
- [2a02:6b8:b081:b68a::1:32])
- by mail-nwsmtp-smtp-corp-main-62.myt.yp-c.yandex.net (smtpcorp/Yandex) with
- ESMTPSA id qrQ4RQ1MmuQ0-KI3CSAde; Wed, 10 May 2023 11:53:53 +0300
-Precedence: bulk
-X-Yandex-Fwd: 1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
- s=default; 
- t=1683708833; bh=CUNQlGFzwRYZAYJFRhQxeNsJllDI+gXvg2sYMZ/7GIw=;
- h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
- b=lpcnKswgFEZggET2JMRg6COG1Bvz6wXreCwlyJgEthB6tfXHM2VeHkbQo/5RLGc7W
- q4q6XMv0y95lDNBuxD8PEHCTvSLEFP/SwEG/P6qm1nhmacFzuYlsXjXY3TEtpSxpkm
- NSLqwNgaojAGjd0aSDOwwpMIhbcGb15UmBazIoa4=
-Authentication-Results: mail-nwsmtp-smtp-corp-main-62.myt.yp-c.yandex.net;
- dkim=pass header.i=@yandex-team.ru
-Message-ID: <3bc3fd18-81e2-22fe-2321-524ed8f3f0d5@yandex-team.ru>
-Date: Wed, 10 May 2023 11:53:52 +0300
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1pwfat-0004FS-At
+ for qemu-devel@nongnu.org; Wed, 10 May 2023 04:54:44 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1683708882;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=/NA4vwKhFxeAJpBhTebBA1lLxPB1mOmtqjo9Ll4zMPk=;
+ b=Si1I2vPJJK0RIvRWxzjc5M6Qq6HHSMf1+ztnI7luuXHLtedrMoz4FOpUcH7HBEjgismePr
+ A8dLKB2N6AwYectrDuoRwI7XFFS6JFywSSibg5CMDjX6hyckjrDlWanuX7vA0VhPJXHRtl
+ OkndahAJNgJLWvmHePnN8xenH+rzC+Q=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-295-d6QZAAqRPrmhpR0hcJs5ew-1; Wed, 10 May 2023 04:54:41 -0400
+X-MC-Unique: d6QZAAqRPrmhpR0hcJs5ew-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ 5b1f17b1804b1-3f42867b47dso17034815e9.2
+ for <qemu-devel@nongnu.org>; Wed, 10 May 2023 01:54:40 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1683708879; x=1686300879;
+ h=mime-version:message-id:date:reply-to:user-agent:references
+ :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=/NA4vwKhFxeAJpBhTebBA1lLxPB1mOmtqjo9Ll4zMPk=;
+ b=AIgkUCWpp7FneJFGgzaV4hKV8AwWegqD1YHUIZXv4vdM2Y5tXWvJQMjecT/1tfFP1z
+ MszCOXEHGEP8SDIwJ5yVpwlFmqRN1J0iU7Zc0VXHfl04pX1oy/OYLLTX/EmWZHW5WBJ1
+ +tIu6I5yuhvS2DuV1UAtCUNf7A4bzFG37itSNiXiRoLeqoNtQsNomK7dubnvuOVatyI2
+ zREAid2sfJ05KOZL5J1UZqCQsYUyH1aBw4Lw7X/CKf4Burd0QSn9UA5OIPEQ1NalFIJu
+ KGsfca1cPdnQPC4MGQRVoI34td2wcH2kwjOC8siviIRhyjL9FzP/T3bMRxfxwfaoo7pG
+ pEyA==
+X-Gm-Message-State: AC+VfDxhrDtg5QWUm4zZo2y2j1E6qRKNra9x6J/79Kar9zIAtl65kzyv
+ qnw7LsC5lsXsS2A5KC+SkiUhzzbFftnWsT8wiQdifzokswTICQ7jKQgK+pLUAkL1Q4mDmZd5O5t
+ ZcStBMzqJFhdDbi/u4PQQePTejg==
+X-Received: by 2002:a7b:c04c:0:b0:3f3:4147:3048 with SMTP id
+ u12-20020a7bc04c000000b003f341473048mr11097726wmc.10.1683708879637; 
+ Wed, 10 May 2023 01:54:39 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ5qG98KrLNGDtv14ROirQ7bXwcomb41jBflhHeAy7SrcnM8S5kE8a/Il6oj4hvOsfG2ju1UEg==
+X-Received: by 2002:a7b:c04c:0:b0:3f3:4147:3048 with SMTP id
+ u12-20020a7bc04c000000b003f341473048mr11097704wmc.10.1683708879327; 
+ Wed, 10 May 2023 01:54:39 -0700 (PDT)
+Received: from redhat.com (static-92-120-85-188.ipcom.comunitel.net.
+ [188.85.120.92]) by smtp.gmail.com with ESMTPSA id
+ y21-20020a05600c365500b003f42cc3262asm3724133wmq.34.2023.05.10.01.54.38
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 10 May 2023 01:54:38 -0700 (PDT)
+From: Juan Quintela <quintela@redhat.com>
+To: Avihai Horon <avihaih@nvidia.com>
+Cc: <qemu-devel@nongnu.org>,  Alex Williamson <alex.williamson@redhat.com>,
+ =?utf-8?Q?C=C3=A9dric?= Le Goater <clg@redhat.com>,  Peter Xu
+ <peterx@redhat.com>,
+ Leonardo Bras <leobras@redhat.com>,  Eric Blake <eblake@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>,  Thomas Huth <thuth@redhat.com>,
+ Laurent Vivier <lvivier@redhat.com>,  Paolo Bonzini
+ <pbonzini@redhat.com>,  Yishai Hadas <yishaih@nvidia.com>,  Jason
+ Gunthorpe <jgg@nvidia.com>,  Maor Gottlieb <maorg@nvidia.com>,  Kirti
+ Wankhede <kwankhede@nvidia.com>,  Tarun Gupta <targupta@nvidia.com>,  Joao
+ Martins <joao.m.martins@oracle.com>
+Subject: Re: [PATCH 3/8] migration: Add precopy initial data loaded ACK
+ functionality
+In-Reply-To: <20230501140141.11743-4-avihaih@nvidia.com> (Avihai Horon's
+ message of "Mon, 1 May 2023 17:01:36 +0300")
+References: <20230501140141.11743-1-avihaih@nvidia.com>
+ <20230501140141.11743-4-avihaih@nvidia.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
+Date: Wed, 10 May 2023 10:54:37 +0200
+Message-ID: <87cz38a7n6.fsf@secure.mitica>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: [PING][PATCH v5] qapi/qmp: Add timestamps to qmp command responses
-Content-Language: en-US
-To: qemu-devel@nongnu.org
-Cc: yc-core@yandex-team.ru, armbru@redhat.com, vsementsov@yandex-team.ru,
- berrange@redhat.com, marcandre.lureau@gmail.com
-References: <20230426140839.72223-1-den-plotnikov@yandex-team.ru>
-From: Denis Plotnikov <den-plotnikov@yandex-team.ru>
-In-Reply-To: <20230426140839.72223-1-den-plotnikov@yandex-team.ru>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a02:6b8:c02:900:1:45:d181:df01;
- envelope-from=den-plotnikov@yandex-team.ru; helo=forwardcorp1b.mail.yandex.net
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -74,363 +106,149 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi all!
+Avihai Horon <avihaih@nvidia.com> wrote:
+> Add the core functionality of precopy initial data, which allows the
+> destination to ACK that initial data has been loaded and the source to
+> wait for this ACK before completing the migration.
+>
+> A new return path command MIG_RP_MSG_INITIAL_DATA_LOADED_ACK is added.
+> It is sent by the destination after precopy initial data is loaded to
+> ACK to the source that precopy initial data has been loaded.
+>
+> In addition, two new SaveVMHandlers handlers are added:
+> 1. is_initial_data_active which indicates whether precopy initial data
+>    is used for this migration user (i.e., SaveStateEntry).
+> 2. initial_data_loaded which indicates whether precopy initial data has
+>    been loaded by this migration user.
+>
+> Signed-off-by: Avihai Horon <avihaih@nvidia.com>
 
-It seems that this series has come through a number of reviews and got 
-some "reviewed-by".
 
-Is there any flaws to fix preventing to merge this series?
+> @@ -1401,6 +1412,8 @@ void migrate_init(MigrationState *s)
+>      s->vm_was_running = false;
+>      s->iteration_initial_bytes = 0;
+>      s->threshold_size = 0;
+> +
+> +    s->initial_data_loaded_acked = false;
 
-Thanks, Denis
+In general, you let a blank line for the stuff you add, when all the
+previous fields don't do that.  Can you remove it.
 
-On 26.04.2023 17:08, Denis Plotnikov wrote:
-> Add "start" & "end" time values to QMP command responses.
->
-> These time values are added to let the qemu management layer get the exact
-> command execution time without any other time variance which might be brought
-> by other parts of management layer or qemu internals.
-> This helps to look for problems poactively from the management layer side.
-> The management layer would be able to detect problem cases by calculating
-> QMP command execution time:
-> 1. execution_time_from_mgmt_perspective -
->         execution_time_of_qmp_command > some_threshold
->     This detects problems with management layer or internal qemu QMP command
->     dispatching
-> 2. current_qmp_command_execution_time > avg_qmp_command_execution_time
->     This detects that a certain QMP command starts to execute longer than
->     usual
-> In both these cases more thorough investigation of the root cases should be
-> done by using some qemu tracepoints depending on particular QMP command under
-> investigation or by other means. The timestamps help to avoid excessive log
-> output when qemu tracepoints are used to address similar cases.
->
-> Example of result:
->
->      ./qemu/scripts/qmp/qmp-shell /tmp/qmp.socket
->
->      (QEMU) query-status
->      {"end": {"seconds": 1650367305, "microseconds": 831032},
->       "start": {"seconds": 1650367305, "microseconds": 831012},
->       "return": {"status": "running", "singlestep": false, "running": true}}
->
-> The response of the QMP command contains the start & end time of
-> the QMP command processing.
->
-> Also, "start" & "end" timestaps are added to qemu guest agent responses as
-> qemu-ga shares the same code for request dispatching.
->
-> Suggested-by: Andrey Ryabinin <arbn@yandex-team.ru>
-> Signed-off-by: Denis Plotnikov <den-plotnikov@yandex-team.ru>
-> Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
-> ---
-> v4->v5:
->   - use json-number instead of json-value for time values [Vladimir]
->   - use a new util function for timestamp printing [Vladimir]
->
-> v3->v4:
->   - rewrite commit message [Markus]
->   - use new fileds description in doc [Markus]
->   - change type to int64_t [Markus]
->   - simplify tests [Markus]
->
-> v2->v3:
->   - fix typo "timestaps -> timestamps" [Marc-André]
->
-> v1->v2:
->   - rephrase doc descriptions [Daniel]
->   - add tests for qmp timestamps to qmp test and qga test [Daniel]
->   - adjust asserts in test-qmp-cmds according to the new number of returning keys
->
-> v0->v1:
->   - remove interface to control "start" and "end" time values: return timestamps unconditionally
->   - add description to qmp specification
->   - leave the same timestamp format in "seconds", "microseconds" to be consistent with events
->     timestamp
->   - fix patch description
-> ---
->   docs/interop/qmp-spec.txt  | 28 ++++++++++++++++++++++++++--
->   include/qapi/util.h        |  2 ++
->   qapi/qapi-util.c           | 11 +++++++++++
->   qapi/qmp-dispatch.c        | 11 +++++++++++
->   qapi/qmp-event.c           |  6 +-----
->   tests/qtest/qmp-test.c     | 32 ++++++++++++++++++++++++++++++++
->   tests/unit/test-qga.c      | 29 +++++++++++++++++++++++++++++
->   tests/unit/test-qmp-cmds.c |  4 ++--
->   8 files changed, 114 insertions(+), 9 deletions(-)
->
-> diff --git a/docs/interop/qmp-spec.txt b/docs/interop/qmp-spec.txt
-> index b0e8351d5b261..ed204b53373e5 100644
-> --- a/docs/interop/qmp-spec.txt
-> +++ b/docs/interop/qmp-spec.txt
-> @@ -158,7 +158,9 @@ responses that have an unknown "id" field.
->   
->   The format of a success response is:
->   
-> -{ "return": json-value, "id": json-value }
-> +{ "return": json-value, "id": json-value,
-> +  "start": {"seconds": json-number, "microseconds": json-number},
-> +  "end": {"seconds": json-number, "microseconds": json-number} }
->   
->    Where,
->   
-> @@ -169,13 +171,25 @@ The format of a success response is:
->     command does not return data
->   - The "id" member contains the transaction identification associated
->     with the command execution if issued by the Client
-> +- The "start" member contains the exact time of when the server
-> +  started executing the command. This excludes any time the
-> +  command request spent queued, after reading it off the wire.
-> +  It is a json-object with the number of seconds and microseconds
-> +  since the Unix epoch
-> +- The "end" member contains the exact time of when the server
-> +  finished executing the command. This excludes any time the
-> +  command response spent queued, waiting to be sent on the wire.
-> +  It is a json-object with the number of seconds and microseconds
-> +  since the Unix epoch
->   
->   2.4.2 error
->   -----------
->   
->   The format of an error response is:
->   
-> -{ "error": { "class": json-string, "desc": json-string }, "id": json-value }
-> +{ "error": { "class": json-string, "desc": json-string }, "id": json-value
-> +  "start": {"seconds": json-number, "microseconds": json-number},
-> +  "end": {"seconds": json-number, "microseconds": json-number} }
->   
->    Where,
->   
-> @@ -184,6 +198,16 @@ The format of an error response is:
->     not attempt to parse this message.
->   - The "id" member contains the transaction identification associated with
->     the command execution if issued by the Client
-> +- The "start" member contains the exact time of when the server
-> +  started executing the command. This excludes any time the
-> +  command request spent queued, after reading it off the wire.
-> +  It is a json-object with the number of seconds and microseconds
-> +  since the Unix epoch
-> +- The "end" member contains the exact time of when the server
-> +  finished executing the command. This excludes any time the
-> +  command response spent queued, waiting to be sent on the wire.
-> +  It is a json-object with the number of seconds and microseconds
-> +  since the Unix epoch
->   
->   NOTE: Some errors can occur before the Server is able to read the "id" member,
->   in these cases the "id" member will not be part of the error response, even
-> diff --git a/include/qapi/util.h b/include/qapi/util.h
-> index 81a2b13a3339c..2cf09b5bd140f 100644
-> --- a/include/qapi/util.h
-> +++ b/include/qapi/util.h
-> @@ -56,4 +56,6 @@ int parse_qapi_name(const char *name, bool complete);
->       (tail) = &(*(tail))->next; \
->   } while (0)
->   
-> +QDict *qapi_get_timestamp_dict(int64_t rt);
-> +
->   #endif
-> diff --git a/qapi/qapi-util.c b/qapi/qapi-util.c
-> index 63596e11c5692..d9c8d710d1eab 100644
-> --- a/qapi/qapi-util.c
-> +++ b/qapi/qapi-util.c
-> @@ -15,6 +15,7 @@
->   #include "qapi/error.h"
->   #include "qemu/ctype.h"
->   #include "qapi/qmp/qerror.h"
-> +#include "qapi/qmp/qdict.h"
->   
->   CompatPolicy compat_policy;
->   
-> @@ -152,3 +153,13 @@ int parse_qapi_name(const char *str, bool complete)
->       }
->       return p - str;
->   }
-> +
-> +QDict *qapi_get_timestamp_dict(int64_t rt)
+> @@ -2704,6 +2725,20 @@ static void migration_update_counters(MigrationState *s,
+>                                bandwidth, s->threshold_size);
+>  }
+>  
+> +static bool initial_data_loaded_acked(MigrationState *s)
 > +{
-> +    QDict *dict = qdict_new();
+> +    if (!migrate_precopy_initial_data()) {
+> +        return true;
+> +    }
 > +
-> +    qdict_put_int(dict, "seconds", rt / G_USEC_PER_SEC);
-> +    qdict_put_int(dict, "microseconds", rt % G_USEC_PER_SEC);
-> +
-> +    return dict;
-> +}
-> diff --git a/qapi/qmp-dispatch.c b/qapi/qmp-dispatch.c
-> index 555528b6bbd35..14835c036e5d3 100644
-> --- a/qapi/qmp-dispatch.c
-> +++ b/qapi/qmp-dispatch.c
-> @@ -130,6 +130,15 @@ static void do_qmp_dispatch_bh(void *opaque)
->       aio_co_wake(data->co);
->   }
->   
-> +static void add_timestamps(QDict *qdict, int64_t start_ms, int64_t end_ms)
+> +    /* No reason to wait for precopy initial data loaded ACK if VM is stopped */
+> +    if (!runstate_is_running()) {
+> +        return true;
+> +    }
+
+Thinking loud here.
+
+What happens if we start a migration.  Guest is running.
+We enable precopy_initial_data().
+
+And then we stop the guest.
+
+Are we going to receive data that expect this return false?  Or it is
+handled somewhere else?
+
+> @@ -2719,6 +2754,7 @@ static MigIterateState migration_iteration_run(MigrationState *s)
+>  {
+>      uint64_t must_precopy, can_postcopy;
+>      bool in_postcopy = s->state == MIGRATION_STATUS_POSTCOPY_ACTIVE;
+> +    bool initial_data_loaded = initial_data_loaded_acked(s);
+>  
+>      qemu_savevm_state_pending_estimate(&must_precopy, &can_postcopy);
+>      uint64_t pending_size = must_precopy + can_postcopy;
+> @@ -2731,7 +2767,8 @@ static MigIterateState migration_iteration_run(MigrationState *s)
+>          trace_migrate_pending_exact(pending_size, must_precopy, can_postcopy);
+>      }
+>  
+> -    if (!pending_size || pending_size < s->threshold_size) {
+> +    if ((!pending_size || pending_size < s->threshold_size) &&
+> +        initial_data_loaded) {
+>          trace_migration_thread_low_pending(pending_size);
+>          migration_completion(s);
+>          return MIG_ITERATE_BREAK;
+
+For this specific variable, I think I am going to add something more
+general that this can piggy back.
+
+For the migration tests I need exactly this functionality.  I want
+migration to run until the test decided that it is a good idea to
+finish.  I.e. For testing xbzrle I need at least three iterations, to
+test auto_converge I need a minimum of 13 iterations.  And I am going to
+do exactly what you have done here.
+
+Will came back to you after I think something.
+
+> @@ -2739,7 +2776,7 @@ static MigIterateState migration_iteration_run(MigrationState *s)
+>  
+>      /* Still a significant amount to transfer */
+>      if (!in_postcopy && must_precopy <= s->threshold_size &&
+> -        qatomic_read(&s->start_postcopy)) {
+> +        initial_data_loaded && qatomic_read(&s->start_postcopy)) {
+>          if (postcopy_start(s)) {
+>              error_report("%s: postcopy failed to start", __func__);
+>          }
+> diff --git a/migration/savevm.c b/migration/savevm.c
+> index 2740defdf0..7a94deda3b 100644
+> --- a/migration/savevm.c
+> +++ b/migration/savevm.c
+> @@ -2504,6 +2504,39 @@ static int loadvm_process_command(QEMUFile *f)
+>      return 0;
+>  }
+>  
+> +static int qemu_loadvm_initial_data_loaded_ack(MigrationIncomingState *mis)
 > +{
-> +    QDict *start_dict = qapi_get_timestamp_dict(start_ms);
-> +    QDict *end_dict = qapi_get_timestamp_dict(end_ms);
+> +    SaveStateEntry *se;
+> +    int ret;
 > +
-> +    qdict_put_obj(qdict, "start", QOBJECT(start_dict));
-> +    qdict_put_obj(qdict, "end", QOBJECT(end_dict));
+> +    if (!mis->initial_data_enabled || mis->initial_data_loaded_ack_sent) {
+> +        return 0;
+> +    }
+> +
+> +    QTAILQ_FOREACH(se, &savevm_state.handlers, entry) {
+> +        if (!se->ops || !se->ops->initial_data_loaded) {
+> +            continue;
+> +        }
+> +
+> +        if (!se->ops->is_initial_data_active ||
+> +            !se->ops->is_initial_data_active(se->opaque)) {
+> +            continue;
+> +        }
+
+If you don't have any other use for is_initial_data_active() I think you
+can integrate the functionality with initial_data_loaded().
+
+If it is not active just return 1?
+
+> +
+> +        if (!se->ops->initial_data_loaded(se->opaque)) {
+> +            return 0;
+> +        }
+> +    }
+> +
+> +    ret = migrate_send_rp_initial_data_loaded_ack(mis);
+> +    if (!ret) {
+> +        mis->initial_data_loaded_ack_sent = true;
+> +        trace_loadvm_initial_data_loaded_acked();
+> +    }
+> +
+> +    return ret;
 > +}
-> +
->   /*
->    * Runs outside of coroutine context for OOB commands, but in coroutine
->    * context for everything else.
-> @@ -146,6 +155,7 @@ QDict *coroutine_mixed_fn qmp_dispatch(const QmpCommandList *cmds, QObject *requ
->       QObject *id;
->       QObject *ret = NULL;
->       QDict *rsp = NULL;
-> +    int64_t ts_start = g_get_real_time();
->   
->       dict = qobject_to(QDict, request);
->       if (!dict) {
-> @@ -270,5 +280,6 @@ out:
->           qdict_put_obj(rsp, "id", qobject_ref(id));
->       }
->   
-> +    add_timestamps(rsp, ts_start, g_get_real_time());
->       return rsp;
->   }
-> diff --git a/qapi/qmp-event.c b/qapi/qmp-event.c
-> index 0fe0d0a5a6e5a..d9158a3a2b871 100644
-> --- a/qapi/qmp-event.c
-> +++ b/qapi/qmp-event.c
-> @@ -16,16 +16,12 @@
->   #include "qapi/qmp-event.h"
->   #include "qapi/qmp/qstring.h"
->   #include "qapi/qmp/qdict.h"
-> -#include "qapi/qmp/qjson.h"
->   
->   static void timestamp_put(QDict *qdict)
->   {
-> -    QDict *ts;
->       int64_t rt = g_get_real_time();
-> +    QDict *ts = qapi_get_timestamp_dict(rt);
->   
-> -    ts = qdict_from_jsonf_nofail("{ 'seconds': %lld, 'microseconds': %lld }",
-> -                                 (long long)rt / G_USEC_PER_SEC,
-> -                                 (long long)rt % G_USEC_PER_SEC);
->       qdict_put(qdict, "timestamp", ts);
->   }
->   
-> diff --git a/tests/qtest/qmp-test.c b/tests/qtest/qmp-test.c
-> index 22957fa49c228..0c17b315de873 100644
-> --- a/tests/qtest/qmp-test.c
-> +++ b/tests/qtest/qmp-test.c
-> @@ -33,6 +33,28 @@ static void test_version(QObject *version)
->       visit_free(v);
->   }
->   
-> +static void test_timestamps(QDict *resp)
-> +{
-> +    QDict *start, *end;
-> +    int64_t start_s, start_us, end_s, end_us, start_ts, end_ts;
-> +
-> +    start = qdict_get_qdict(resp, "start");
-> +    g_assert(start);
-> +    end = qdict_get_qdict(resp, "end");
-> +    g_assert(end);
-> +
-> +    start_s = qdict_get_int(start, "seconds");
-> +    start_us = qdict_get_int(start, "microseconds");
-> +
-> +    end_s = qdict_get_int(end, "seconds");
-> +    end_us = qdict_get_int(end, "microseconds");
-> +
-> +    start_ts = (start_s * G_USEC_PER_SEC) + start_us;
-> +    end_ts = (end_s * G_USEC_PER_SEC) + end_us;
-> +
-> +    g_assert(end_ts > start_ts);
-> +}
-> +
->   static void assert_recovered(QTestState *qts)
->   {
->       QDict *resp;
-> @@ -156,6 +178,16 @@ static void test_qmp_protocol(void)
->       g_assert_cmpint(qdict_get_int(resp, "id"), ==, 2);
->       qmp_expect_error_and_unref(resp, "GenericError");
->   
-> +    /* Test timestamps on success */
-> +    resp = qtest_qmp(qts, "{ 'execute': 'query-version' }");
-> +    test_timestamps(resp);
-> +    qobject_unref(resp);
-> +
-> +    /* Test timestamps on error */
-> +    resp = qtest_qmp(qts, "{ 'execute': 'not-existing-cmd' }");
-> +    test_timestamps(resp);
-> +    qobject_unref(resp);
-> +
->       qtest_quit(qts);
->   }
->   
-> diff --git a/tests/unit/test-qga.c b/tests/unit/test-qga.c
-> index b4e0a145737d1..ceb62f0ebba7b 100644
-> --- a/tests/unit/test-qga.c
-> +++ b/tests/unit/test-qga.c
-> @@ -217,6 +217,34 @@ static void test_qga_ping(gconstpointer fix)
->       qmp_assert_no_error(ret);
->   }
->   
-> +static void test_qga_timestamps(gconstpointer fix)
-> +{
-> +    QDict *start, *end;
-> +    int64_t start_s, start_us, end_s, end_us, start_ts, end_ts;
-> +    const TestFixture *fixture = fix;
-> +    g_autoptr(QDict) ret = NULL;
-> +
-> +    ret = qmp_fd(fixture->fd, "{'execute': 'guest-ping'}");
-> +    g_assert_nonnull(ret);
-> +    qmp_assert_no_error(ret);
-> +
-> +    start = qdict_get_qdict(ret, "start");
-> +    g_assert(start);
-> +    end = qdict_get_qdict(ret, "end");
-> +    g_assert(end);
-> +
-> +    start_s = qdict_get_int(start, "seconds");
-> +    start_us = qdict_get_int(start, "microseconds");
-> +
-> +    end_s = qdict_get_int(end, "seconds");
-> +    end_us = qdict_get_int(end, "microseconds");
-> +
-> +    start_ts = (start_s * G_USEC_PER_SEC) + start_us;
-> +    end_ts = (end_s * G_USEC_PER_SEC) + end_us;
-> +
-> +    g_assert(end_ts > start_ts);
-> +}
-> +
->   static void test_qga_id(gconstpointer fix)
->   {
->       const TestFixture *fixture = fix;
-> @@ -948,6 +976,7 @@ int main(int argc, char **argv)
->       g_test_add_data_func("/qga/sync-delimited", &fix, test_qga_sync_delimited);
->       g_test_add_data_func("/qga/sync", &fix, test_qga_sync);
->       g_test_add_data_func("/qga/ping", &fix, test_qga_ping);
-> +    g_test_add_data_func("/qga/timestamps", &fix, test_qga_timestamps);
->       g_test_add_data_func("/qga/info", &fix, test_qga_info);
->       g_test_add_data_func("/qga/network-get-interfaces", &fix,
->                            test_qga_network_get_interfaces);
-> diff --git a/tests/unit/test-qmp-cmds.c b/tests/unit/test-qmp-cmds.c
-> index 6d52b4e5d811c..ad8ca4e3fe5a1 100644
-> --- a/tests/unit/test-qmp-cmds.c
-> +++ b/tests/unit/test-qmp-cmds.c
-> @@ -153,7 +153,7 @@ static QObject *do_qmp_dispatch(bool allow_oob, const char *template, ...)
->       g_assert(resp);
->       ret = qdict_get(resp, "return");
->       g_assert(ret);
-> -    g_assert(qdict_size(resp) == 1);
-> +    g_assert(qdict_size(resp) == 3);
->   
->       qobject_ref(ret);
->       qobject_unref(resp);
-> @@ -181,7 +181,7 @@ static void do_qmp_dispatch_error(bool allow_oob, ErrorClass cls,
->                       ==, QapiErrorClass_str(cls));
->       g_assert(qdict_get_try_str(error, "desc"));
->       g_assert(qdict_size(error) == 2);
-> -    g_assert(qdict_size(resp) == 1);
-> +    g_assert(qdict_size(resp) == 3);
->   
->       qobject_unref(resp);
->       qobject_unref(req);
+
+Later, Juan
+
 
