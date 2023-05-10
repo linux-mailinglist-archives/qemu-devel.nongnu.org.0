@@ -2,88 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 841F06FE095
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 May 2023 16:41:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A4626FE0AE
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 May 2023 16:44:20 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pwkzp-0001uX-9P; Wed, 10 May 2023 10:40:49 -0400
+	id 1pwl2x-0006JE-ED; Wed, 10 May 2023 10:44:03 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pwkzb-0001n9-Qt
- for qemu-devel@nongnu.org; Wed, 10 May 2023 10:40:40 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pwkzZ-0004Of-Js
- for qemu-devel@nongnu.org; Wed, 10 May 2023 10:40:35 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1683729633;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=gnOV1rNOxIF8Z6PjbXWn+K4UkbW8j0IOQk3svUzTJyY=;
- b=D/LOVt5OCWZ3fsLEFeZFCkCe9qAD9CSJGTQH9XH3wxxi9tNccuuShlaxTsEj5DbcIvQdkk
- Oezcwp7Nu8jcp87aQ5Nqhn1tOxyIL1XKsi27TG7wCLxDuPj0yCQxI+6+5HncKWPGGFc5C9
- wFWyolf94km6v5vRNueM8CLzvS3Xs4c=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-438-cpqKFdK0MqymbsEPMN4Lhw-1; Wed, 10 May 2023 10:40:31 -0400
-X-MC-Unique: cpqKFdK0MqymbsEPMN4Lhw-1
-Received: by mail-wr1-f71.google.com with SMTP id
- ffacd0b85a97d-306286b3573so4485584f8f.2
- for <qemu-devel@nongnu.org>; Wed, 10 May 2023 07:40:31 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pwl2v-0006J5-OS
+ for qemu-devel@nongnu.org; Wed, 10 May 2023 10:44:01 -0400
+Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pwl2u-0004uV-5P
+ for qemu-devel@nongnu.org; Wed, 10 May 2023 10:44:01 -0400
+Received: by mail-wm1-x32b.google.com with SMTP id
+ 5b1f17b1804b1-3f423ac6e2dso28054945e9.2
+ for <qemu-devel@nongnu.org>; Wed, 10 May 2023 07:43:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1683729837; x=1686321837;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=/KfXN9ZxzYUvhl50mT3seM6ikcKnY/VX92Yhvn3lXTY=;
+ b=Czb5nXZT9rqtEU0nce/lRc4evRBzKurvEJD+pSDmLPGwcUlE5O5l2nygCdWxzEhbE3
+ fcxoJGdGqzODDi/U41L82HynMUjAFRJFhM7Wx55nkbpUJ97LAKqHClLCllfGXw3osYZU
+ PInygA0LbI0vFWuM5nSBlKczhLmSq4MUzdmdaS96YdJraldlPO+sgNU+xcgi+f/60jxR
+ Ecw9oi4nNQ9Tnfrufkebqu6jXCoEKQuCq/huTmS9a0yFTsAwjOZnD13CfC5PpwuBG2pU
+ YjL23fP3ujO4n+yQDjRmUrtQxnnPVQX7bFaqRpqbdjxeO25UmiM/DaYVoCaeCL5gIut2
+ OGJg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683729630; x=1686321630;
- h=mime-version:message-id:date:reply-to:user-agent:references
- :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=gnOV1rNOxIF8Z6PjbXWn+K4UkbW8j0IOQk3svUzTJyY=;
- b=WI9m5BnKJkkuIRHyOOnE04T1XZaOHhsjG6W1p2FWSwN1BoQk2WJmi3Nh0qjWVJERJv
- ZjXQM1cdMcAk0RBD2UrmwD2sWjqZlaFnmyb7PE6Bpcos8MZkkG8MQREKvhxOPeudVWi9
- 0aj00l1/B1PMLe5tZcMth/KvZBeqf3E+IvXkHbPpMaHljk20tZ3BuhBjsL03CNVUofdH
- ph8w+y5a/cmoBGrNLxwvMLZl2G/4162QbWm/IrkHe6U3j+j8gC0tQRxW2fEKp9G7WiKd
- u1InBTikcZHeMWnd5sSw0NNJOtHjwGCQ5l+GQ3JQveNNOtQWh3KCVGLHIOW/cpoerfiG
- ZfsA==
-X-Gm-Message-State: AC+VfDx0wvAIu4XkNsVh3lMY1M+izzS13bhItrZ2VQqTK/yR1LJUOoZR
- L+q0TZDFwOOyA1VJyZBMfX6QkNjKP/ll4sb51zhXbD64TvE1Vm1elFcthyrwNzRdNOet4PH8W1j
- 4/TUCqQ0YvkzLlOw=
-X-Received: by 2002:a5d:44c7:0:b0:2f9:dfab:1b8c with SMTP id
- z7-20020a5d44c7000000b002f9dfab1b8cmr13358463wrr.50.1683729630666; 
- Wed, 10 May 2023 07:40:30 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ501zIPESvs3/LHHUYZadAHxyl5ffFz0ZBSV/DWgSGZX7vNC2fGcgz39DTG3FbUIIixFg8jYQ==
-X-Received: by 2002:a5d:44c7:0:b0:2f9:dfab:1b8c with SMTP id
- z7-20020a5d44c7000000b002f9dfab1b8cmr13358443wrr.50.1683729630421; 
- Wed, 10 May 2023 07:40:30 -0700 (PDT)
-Received: from redhat.com (static-92-120-85-188.ipcom.comunitel.net.
- [188.85.120.92]) by smtp.gmail.com with ESMTPSA id
- n18-20020adfe792000000b002f7780eee10sm17670026wrm.59.2023.05.10.07.40.29
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 10 May 2023 07:40:29 -0700 (PDT)
-From: Juan Quintela <quintela@redhat.com>
-To: Markus Armbruster <armbru@redhat.com>
-Cc: qemu-devel@nongnu.org,  michael.roth@amd.com,  jsnow@redhat.com
-Subject: Re: [PATCH] qapi: Improve error message for description following
- section
-In-Reply-To: <20230510141637.3685080-1-armbru@redhat.com> (Markus Armbruster's
- message of "Wed, 10 May 2023 16:16:37 +0200")
-References: <20230510141637.3685080-1-armbru@redhat.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
-Date: Wed, 10 May 2023 16:40:28 +0200
-Message-ID: <875y908d2b.fsf@secure.mitica>
+ d=1e100.net; s=20221208; t=1683729837; x=1686321837;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=/KfXN9ZxzYUvhl50mT3seM6ikcKnY/VX92Yhvn3lXTY=;
+ b=RaYc9nOTXPQSrDCA4NqeG4rEd+wGPNIhomU/x/MLYVJR9vHntXwCVrZ5rZag5++Pwu
+ eK3KVGjokhwDKIlXGhDAR65I4QLtmATlpVgHUqWJqO1FBYtbQVnlV3RSIMPU7tvj3Ky9
+ kZMcDFKmke9FJ4c6a5pjBC0dbXTSNSD0MyLAc62UVGKNEFM0MH32ui14D/pMFpfO2Nwj
+ sI6RLx07ptTBFSFEOQvpJo6AvGN2FHUgGAnRGakBBdaIqi522K6/F5MBrKzajjLBtlan
+ 76qDmbTInpgCdzKFpFoPq6a7PkPDB94JhI+Rnyf7PwTUWzS7Cab5SYodEUpj77TNhCcr
+ yKSg==
+X-Gm-Message-State: AC+VfDwOylOklqOdOYoNBeH++G+SVjaGtxfm0T/4RrUkeMu4pwCMBDZv
+ r/G+7J6lyWau1cqGS/+bbh6u5A==
+X-Google-Smtp-Source: ACHHUZ6EYlzDroqzqoDlm2x1kIWjOZ83etZOEYxeUvG1wTVfCkisnNOOzlUVPn67MTX73RvgGlH0pg==
+X-Received: by 2002:a05:600c:2119:b0:3f4:2c71:b9b1 with SMTP id
+ u25-20020a05600c211900b003f42c71b9b1mr4099654wml.24.1683729837638; 
+ Wed, 10 May 2023 07:43:57 -0700 (PDT)
+Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
+ a11-20020adfeecb000000b003048477729asm17493935wrp.81.2023.05.10.07.43.56
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 10 May 2023 07:43:57 -0700 (PDT)
+Message-ID: <b0e9ba06-ad37-65ac-da6a-f041e5187660@linaro.org>
+Date: Wed, 10 May 2023 16:43:55 +0200
 MIME-Version: 1.0
-Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.10.1
+Subject: Re: [PATCH 16/16] tcg: Remove TARGET_ALIGNED_ONLY
+Content-Language: en-US
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+Cc: jiaxun.yang@flygoat.com, crwulff@gmail.com, marex@denx.de,
+ ysato@users.sourceforge.jp, mark.cave-ayland@ilande.co.uk
+References: <20230502160846.1289975-1-richard.henderson@linaro.org>
+ <20230502160846.1289975-17-richard.henderson@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20230502160846.1289975-17-richard.henderson@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x32b.google.com
+X-Spam_score_int: -53
+X-Spam_score: -5.4
+X-Spam_bar: -----
+X-Spam_report: (-5.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-3.251,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,21 +90,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Markus Armbruster <armbru@redhat.com> wrote:
-> The error message is bad when the section is untagged.  For instance,
-> test case doc-interleaved-section produces "'@foobar:' can't follow
-> 'Note' section", which is okay, but if we drop the "Note:" tag, we get
-> "'@foobar:' can't follow 'None' section, which is bad.
->
-> Change the error message to "description of '@foobar:' follows a
-> section".
->
-> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+On 2/5/23 18:08, Richard Henderson wrote:
+> All uses have now been expunged.
+> 
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>   include/exec/memop.h  | 13 ++-----------
+>   include/exec/poison.h |  1 -
+>   tcg/tcg.c             |  5 -----
+>   3 files changed, 2 insertions(+), 17 deletions(-)
 
-Reviewed-by: Juan Quintela <quintela@redhat.com>
+
+> diff --git a/tcg/tcg.c b/tcg/tcg.c
+> index cfd3262a4a..2ce9dba25c 100644
+> --- a/tcg/tcg.c
+> +++ b/tcg/tcg.c
+> @@ -2071,13 +2071,8 @@ static const char * const ldst_name[] =
+>   };
+>   
+>   static const char * const alignment_name[(MO_AMASK >> MO_ASHIFT) + 1] = {
+> -#ifdef TARGET_ALIGNED_ONLY
+> -    [MO_UNALN >> MO_ASHIFT]    = "un+",
+
+Maybe we want to keep the "un+" prefix.
+
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+
+> -    [MO_ALIGN >> MO_ASHIFT]    = "",
+> -#else
+>       [MO_UNALN >> MO_ASHIFT]    = "",
+>       [MO_ALIGN >> MO_ASHIFT]    = "al+",
+> -#endif
+>       [MO_ALIGN_2 >> MO_ASHIFT]  = "al2+",
+>       [MO_ALIGN_4 >> MO_ASHIFT]  = "al4+",
+>       [MO_ALIGN_8 >> MO_ASHIFT]  = "al8+",
 
 
