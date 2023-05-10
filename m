@@ -2,86 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3AB56FE177
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 May 2023 17:21:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B29696FE17B
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 May 2023 17:22:39 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pwlbE-0000Dj-FB; Wed, 10 May 2023 11:19:28 -0400
+	id 1pwldx-0002FB-Tg; Wed, 10 May 2023 11:22:17 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pwlb9-0008Qj-J5
- for qemu-devel@nongnu.org; Wed, 10 May 2023 11:19:23 -0400
-Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pwlb6-0005OC-U5
- for qemu-devel@nongnu.org; Wed, 10 May 2023 11:19:23 -0400
-Received: by mail-wm1-x32b.google.com with SMTP id
- 5b1f17b1804b1-3f41dceb9d4so47057355e9.1
- for <qemu-devel@nongnu.org>; Wed, 10 May 2023 08:19:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1683731957; x=1686323957;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=90QlftO5JZdfNoS+trdrZIM27Zj4RgxcxWItyBP0Rf0=;
- b=yT4wrqmjW7rnP1ZdW71tOoZYCn1zNj03WixvLw5qKIDCeRoGrLvCkKQLuCbRAhDn8R
- nJIs0VV1Ss/NiA9o3sxqbAjXgmVKmgi4ttNlaBYx4Bvx8JhcH2dRRto5c1YViiSJdfso
- 0jv+BORgDmerxxp5DLTX6epzxxecXObpwnx0VmLre7LgMCYXdo4ybAIFHv0xR0AyYN8E
- NEEJY8SYpjh6G59ln5DkwGBR3nM0Nl10EW2O7YrG8bSy3i1gFR0EITxb8bSogGkR2PcB
- jVRkiSbT2XC1v2yAVbOwggX0mPVRV1B8U62sPOwFrxHGXXnejtZnE8fzdVYY/6nflf45
- b1Kg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683731957; x=1686323957;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=90QlftO5JZdfNoS+trdrZIM27Zj4RgxcxWItyBP0Rf0=;
- b=ISV+DzoKM0ytSz2ERFz8C4ig82yx7UMvn0ceLS29presTFIk3QnWd2OApMLVMXRae1
- jHD4XLi4KY8EbC0Y9/GbXTAjRIYDPw8u+jllhj5p86YMEHNwckerOZoyedOfmnmI645h
- jb89+vPGHn74CVDaxwH/HTjHov/06an2iVwFdL8D/Y4ezYz6GRHhEqab9MTa3cl5EKcM
- s19LJkWAPNSTXBDsZmPRP71LtqYHCvY2niZGC+qUlheKzg891f2oMCtayiTJxR2bg2I4
- 51wbFB3pB3VtBLDaoorII6Bm5EPsKfzxgMAkAgQpejpQIQOQluFuLf7iYbuW1NMWzRh9
- G3bQ==
-X-Gm-Message-State: AC+VfDzQVjIUIBYtlKbkug+YBXi86f/3n1B1hJTssfh1mGyIWEBOLpA4
- sbNIduwhCE/9DB/EEoO5m/XWwQ==
-X-Google-Smtp-Source: ACHHUZ6J7PnKFjzSf+lNY1d+2U3NzRYSixgGL8NGN2eb3V17ydmbi6uewNK3ShYpsZ7pzqRDltAP/w==
-X-Received: by 2002:a05:600c:3646:b0:3f4:2215:6d6 with SMTP id
- y6-20020a05600c364600b003f4221506d6mr9715899wmq.33.1683731957327; 
- Wed, 10 May 2023 08:19:17 -0700 (PDT)
-Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- 7-20020a05600c020700b003f42e008c8dsm3484072wmi.44.2023.05.10.08.19.16
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 10 May 2023 08:19:16 -0700 (PDT)
-Message-ID: <29933f33-46d5-52d4-5ea9-275e5520a537@linaro.org>
-Date: Wed, 10 May 2023 17:19:15 +0200
+ (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
+ id 1pwldu-0002DR-Pi; Wed, 10 May 2023 11:22:15 -0400
+Received: from forwardcorp1c.mail.yandex.net ([178.154.239.200])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
+ id 1pwldq-0006NG-TR; Wed, 10 May 2023 11:22:14 -0400
+Received: from mail-nwsmtp-smtp-corp-main-26.myt.yp-c.yandex.net
+ (mail-nwsmtp-smtp-corp-main-26.myt.yp-c.yandex.net
+ [IPv6:2a02:6b8:c12:4c15:0:640:e9f4:0])
+ by forwardcorp1c.mail.yandex.net (Yandex) with ESMTP id 2815C5EC26;
+ Wed, 10 May 2023 18:22:01 +0300 (MSK)
+Received: from [IPV6:2a02:6b8:b081:2::1:11] (unknown [2a02:6b8:b081:2::1:11])
+ by mail-nwsmtp-smtp-corp-main-26.myt.yp-c.yandex.net
+ (smtpcorp/Yandex) with ESMTPSA id xLXQx20OfeA0-RFsXMz9W; 
+ Wed, 10 May 2023 18:22:00 +0300
+X-Yandex-Fwd: 1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
+ s=default; 
+ t=1683732120; bh=nLpdtDk1s2pUc6VR1VkLxI0pKQyXHTDQqbGzlUV4pM0=;
+ h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
+ b=1FfkfGoEQydvZw+QGqWcZmPQ3xzy+/Xh/+q6XxlDQ5vvsCfoziIsq5YjmvcFh1t2v
+ FLdB5HriY3xJyEVsm+Vs5QElM0GZgboE8R5/uLupJyXzNw2ztOxtQbKPAWAqop7waK
+ Aluqhwq4ymoH6RLgAlwrd/AZ3fQDDoP4ePedwpyQ=
+Authentication-Results: mail-nwsmtp-smtp-corp-main-26.myt.yp-c.yandex.net;
+ dkim=pass header.i=@yandex-team.ru
+Message-ID: <a498899e-60d0-4969-85de-bbd74e04d454@yandex-team.ru>
+Date: Wed, 10 May 2023 18:21:59 +0300
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.10.1
-Subject: Re: [PATCH v2 5/5] disas: Move disas.c into the target-independent
- source set
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH v9 0/6] block: refactor blockdev transactions
 Content-Language: en-US
-To: Richard Henderson <richard.henderson@linaro.org>,
- Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
-Cc: anjo@rev.ng
-References: <20230509163326.121090-1-richard.henderson@linaro.org>
- <20230509163326.121090-6-richard.henderson@linaro.org>
- <b62ab9a2-fad5-313f-518c-29626b0d57c3@redhat.com>
- <48f35197-1890-cfce-3535-9a8522f50523@linaro.org>
- <3d4e0154-99bf-da36-0d71-efe99d24ab72@redhat.com>
- <0d880358-4472-ca4e-edce-ada7b397ef94@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <0d880358-4472-ca4e-edce-ada7b397ef94@linaro.org>
+To: qemu-block@nongnu.org
+Cc: qemu-devel@nongnu.org, kwolf@redhat.com, hreitz@redhat.com,
+ den@openvz.org, alexander.ivanov@virtuozzo.com
+References: <20230510150624.310640-1-vsementsov@yandex-team.ru>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+In-Reply-To: <20230510150624.310640-1-vsementsov@yandex-team.ru>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x32b.google.com
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=178.154.239.200;
+ envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1c.mail.yandex.net
 X-Spam_score_int: -53
 X-Spam_score: -5.4
 X-Spam_bar: -----
 X-Spam_report: (-5.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-3.251,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -98,49 +74,40 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 10/5/23 10:13, Richard Henderson wrote:
-> On 5/10/23 09:10, Thomas Huth wrote:
->> On 10/05/2023 09.46, Richard Henderson wrote:
->>> On 5/10/23 07:53, Thomas Huth wrote:
->>>> On 09/05/2023 18.33, Richard Henderson wrote:
->>>>> From: Thomas Huth <thuth@redhat.com>
->>>>>
->>>>> By using target_words_bigendian() instead of an ifdef,
->>>>> we can build this code once.
->>>>>
->>>>> Signed-off-by: Thomas Huth <thuth@redhat.com>
->>>>> [rth: Type change done in a separate patch]
->>>>> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
->>>>> ---
->>>> ...
->>>>> diff --git a/disas/meson.build b/disas/meson.build
->>>>> index f40230c58f..2ae44691fa 100644
->>>>> --- a/disas/meson.build
->>>>> +++ b/disas/meson.build
->>>>> @@ -13,4 +13,5 @@ common_ss.add(when: 'CONFIG_XTENSA_DIS', if_true: 
->>>>> files('xtensa.c'))
->>>>>   common_ss.add(when: capstone, if_true: [files('capstone.c'), 
->>>>> capstone])
->>>>>   softmmu_ss.add(files('disas-mon.c'))
->>>>> -specific_ss.add(files('disas.c'), capstone)
->>>>> +common_ss.add(files('disas.c'), capstone)
->>>>
->>>> I guess you could drop the "capstone" here now since it is already 
->>>> added to common_ss now three lines earlier.
->>>
->>> I have a memory that it's required to get the include path for 
->>> <capstone.h> for "disas/capstone.h", for use by the target's 
->>> cpu_set_disas_info. Otherwise only common_ss files have access to the 
->>> include path.
->>
->> I only meant to remove it from the new 
->> "common_ss.add(files('disas.c')" line since it is already there in the 
->> "common_ss.add(when: capstone, if_true: [files('capstone.c'), 
->> capstone])" line ... I think you have to keep the 
->> "specific_ss.add(capstone)" line.
-> 
-> Oh, yes, duplicate within common_ss.  Removed.
+Interesting, I see two 5/6 letters, equal body, but a bit different headers (the second has empty "Sender")..
 
-What the final patch looks like?
+On 10.05.23 18:06, Vladimir Sementsov-Ogievskiy wrote:
+> Hi all!
+> 
+> Let's refactor QMP transactions implementation into new (relatively)
+> transaction API.
+> 
+> v9:
+> 01: fix leaks
+> 02-03: add r-b
+> 04: fix leak, s/Transaction/transaction/
+> 05: new, was part of 06
+> 06: rework of bitmap-add action moved to 05
+> 
+> Vladimir Sementsov-Ogievskiy (6):
+>    blockdev: refactor transaction to use Transaction API
+>    blockdev: transactions: rename some things
+>    blockdev: qmp_transaction: refactor loop to classic for
+>    blockdev: transaction: refactor handling transaction properties
+>    blockdev:  use state.bitmap in block-dirty-bitmap-add action
+
+Probably, the problem starts here: I accidentally add extra whitespace.. And the second (copied) letter doesn't have this mistake. That's something about how mailing list works.
+
+>    blockdev: qmp_transaction: drop extra generic layer
+> 
+>   blockdev.c | 606 ++++++++++++++++++++++-------------------------------
+>   1 file changed, 249 insertions(+), 357 deletions(-)
+> 
+
+
+
+-- 
+Best regards,
+Vladimir
 
 
