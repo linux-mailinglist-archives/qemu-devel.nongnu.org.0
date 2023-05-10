@@ -2,73 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63E686FDCD9
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 May 2023 13:37:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC4E26FDD0D
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 May 2023 13:44:12 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pwi7G-0000VF-G8; Wed, 10 May 2023 07:36:18 -0400
+	id 1pwiDR-0002pV-5H; Wed, 10 May 2023 07:42:41 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1pwi7F-0000UY-2V
- for qemu-devel@nongnu.org; Wed, 10 May 2023 07:36:17 -0400
-Received: from forwardcorp1c.mail.yandex.net
- ([2a02:6b8:c03:500:1:45:d181:df01])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1pwi7C-0006KC-BU
- for qemu-devel@nongnu.org; Wed, 10 May 2023 07:36:16 -0400
-Received: from mail-nwsmtp-smtp-corp-main-62.myt.yp-c.yandex.net
- (mail-nwsmtp-smtp-corp-main-62.myt.yp-c.yandex.net
- [IPv6:2a02:6b8:c00:2582:0:640:9a17:0])
- by forwardcorp1c.mail.yandex.net (Yandex) with ESMTP id 458EC5F3F7;
- Wed, 10 May 2023 14:36:05 +0300 (MSK)
-Received: from [IPV6:2a02:6b8:b081:2::1:11] (unknown [2a02:6b8:b081:2::1:11])
- by mail-nwsmtp-smtp-corp-main-62.myt.yp-c.yandex.net
- (smtpcorp/Yandex) with ESMTPSA id 3aTRNR1MeOs0-ofZn6ref; 
- Wed, 10 May 2023 14:36:04 +0300
-X-Yandex-Fwd: 1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
- s=default; 
- t=1683718564; bh=GthnhyQcili3hiMiiIj2c7yGrvQkDEiVK/JoVGWPOuI=;
- h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
- b=bf7N4yz1/DGMIcp/nnTx2RIwwzKmDfumGQwt/32gB5D1z65YeSXVd+Yp/Ml1eRT8l
- +CS7gLBdDWYNQyhCSngMzuXPniF6Bsf0sWdaWP8Ge7ofFVKNhnBo3nGzvPkosUac/B
- 7LLFXsu/etjYh/PkqD4kXNwbVDXdLI0ezp6r06R0=
-Authentication-Results: mail-nwsmtp-smtp-corp-main-62.myt.yp-c.yandex.net;
- dkim=pass header.i=@yandex-team.ru
-Message-ID: <20efd1c7-5f63-73db-6564-5e6f1adf99ae@yandex-team.ru>
-Date: Wed, 10 May 2023 14:36:03 +0300
+ (Exim 4.90_1) (envelope-from <matheus.ferst@eldorado.org.br>)
+ id 1pwiDM-0002ov-Qp
+ for qemu-devel@nongnu.org; Wed, 10 May 2023 07:42:37 -0400
+Received: from [200.168.210.66] (helo=outlook.eldorado.org.br)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <matheus.ferst@eldorado.org.br>) id 1pwiDK-0007Xs-Q8
+ for qemu-devel@nongnu.org; Wed, 10 May 2023 07:42:36 -0400
+Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
+ secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
+ Wed, 10 May 2023 08:42:30 -0300
+Received: from [127.0.0.1] (unknown [10.10.70.45])
+ by p9ibm (Postfix) with ESMTPS id DD26B800112;
+ Wed, 10 May 2023 08:42:29 -0300 (-03)
+Message-ID: <02fbc4a2-37e0-051b-98ca-5e8193a3065c@eldorado.org.br>
+Date: Wed, 10 May 2023 08:42:29 -0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH v4 04/10] configure: add --disable-colo-proxy option
+ Thunderbird/102.10.0
+Subject: Re: [PATCH v3] target/ppc: Fix fallback to MFSS for MFFS*
+ instructions on pre 3.0 ISAs
+To: Richard Purdie <richard.purdie@linuxfoundation.org>, qemu-devel@nongnu.org
+Cc: =?UTF-8?Q?V=c3=adctor_Colombo?= <victor.colombo@eldorado.org.br>,
+ Daniel Henrique Barboza <danielhb413@gmail.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+References: <20230510111913.1718734-1-richard.purdie@linuxfoundation.org>
 Content-Language: en-US
-To: quintela@redhat.com, "Zhang, Chen" <chen.zhang@intel.com>
-Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "lukasstraub2@web.de" <lukasstraub2@web.de>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Thomas Huth <thuth@redhat.com>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <philmd@linaro.org>, Jason Wang <jasowang@redhat.com>
-References: <20230428194928.1426370-1-vsementsov@yandex-team.ru>
- <20230428194928.1426370-5-vsementsov@yandex-team.ru>
- <MWHPR11MB0031A6901E847CA3ED49E9AF9B6D9@MWHPR11MB0031.namprd11.prod.outlook.com>
- <87mt2dbb3k.fsf@secure.mitica>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-In-Reply-To: <87mt2dbb3k.fsf@secure.mitica>
+From: "Matheus K. Ferst" <matheus.ferst@eldorado.org.br>
+In-Reply-To: <20230510111913.1718734-1-richard.purdie@linuxfoundation.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a02:6b8:c03:500:1:45:d181:df01;
- envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1c.mail.yandex.net
-X-Spam_score_int: -53
-X-Spam_score: -5.4
-X-Spam_bar: -----
-X-Spam_report: (-5.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-3.251,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Content-Transfer-Encoding: 7bit
+X-OriginalArrivalTime: 10 May 2023 11:42:30.0336 (UTC)
+ FILETIME=[809B9C00:01D98334]
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 200.168.210.66 (failed)
+Received-SPF: pass client-ip=200.168.210.66;
+ envelope-from=matheus.ferst@eldorado.org.br; helo=outlook.eldorado.org.br
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-3.251,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -85,102 +67,40 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 09.05.23 21:42, Juan Quintela wrote:
-> "Zhang, Chen" <chen.zhang@intel.com> wrote:
->>> -----Original Message-----
->>> From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
->>> Sent: Saturday, April 29, 2023 3:49 AM
->>> To: qemu-devel@nongnu.org
->>> Cc: lukasstraub2@web.de; quintela@redhat.com; Zhang, Chen
->>> <chen.zhang@intel.com>; vsementsov@yandex-team.ru; Paolo Bonzini
->>> <pbonzini@redhat.com>; Marc-André Lureau
->>> <marcandre.lureau@redhat.com>; Daniel P. Berrangé
->>> <berrange@redhat.com>; Thomas Huth <thuth@redhat.com>; Philippe
->>> Mathieu-Daudé <philmd@linaro.org>; Jason Wang <jasowang@redhat.com>
->>> Subject: [PATCH v4 04/10] configure: add --disable-colo-proxy option
->>>
->>> Add option to not build filter-mirror, filter-rewriter and colo-compare when
->>> they are not needed.
->>
->> Typo: This patch still build the filter-mirror/filter-redirector in filter-mirror.c.
->> Please remove the "filter-mirror" here.
->> Other code look good to me.
+On 10/05/2023 08:19, Richard Purdie wrote:
+> The following commits changed the code such that the fallback to MFSS for MFFSCRN,
+> MFFSCRNI, MFFSCE and MFFSL on pre 3.0 ISAs was removed and became an illegal instruction:
 > 
-> Vladimir, I was doing this myself, with the bit attached.
+>    bf8adfd88b547680aa857c46098f3a1e94373160 - target/ppc: Move mffscrn[i] to decodetree
+>    394c2e2fda70da722f20fb60412d6c0ca4bfaa03 - target/ppc: Move mffsce to decodetree
+>    3e5bce70efe6bd1f684efbb21fd2a316cbf0657e - target/ppc: Move mffsl to decodetree
 > 
-> But then I noticed that one needs to also disable
-> tests/qtest/test-filter-mirror and test-filter-rewriter.
-
-Hmm, but we decided not touch filter-mirror in this patch, only filter-rewriter.
-
-And there is no tests/qtest/test-filter-rewriter test.
-
+> The hardware will handle them as a MFFS instruction as the code did previously.
+> This means applications that were segfaulting under qemu when encountering these
+> instructions which is used in glibc libm functions for example.
 > 
-> Can you resend with that fixed?  Or I am missing something more
-> fundamental.
+> The fallback for MFFSCDRN and MFFSCDRNI added in a later patch was also missing.
 > 
-> Thanks, Juan.
+> This patch restores the fallback to MFSS for these instructions on pre 3.0s ISAs
+> as the hardware decoder would, fixing the segfaulting libm code. It doesn't have
+> the fallback for 3.0 onwards to match hardware behaviour.
 > 
->>> --- a/net/meson.build
->>> +++ b/net/meson.build
->>> @@ -1,13 +1,10 @@
->>>   softmmu_ss.add(files(
->>>     'announce.c',
->>>     'checksum.c',
->>> -  'colo-compare.c',
->>> -  'colo.c',
->>>     'dump.c',
->>>     'eth.c',
->>>     'filter-buffer.c',
->>>     'filter-mirror.c',
->>> -  'filter-rewriter.c',
->>>     'filter.c',
->>>     'hub.c',
->>>     'net-hmp-cmds.c',
->>> @@ -19,6 +16,16 @@ softmmu_ss.add(files(
->>>     'util.c',
->>>   ))
->>>
->>> +if get_option('replication').allowed() or \
->>> +    get_option('colo_proxy').allowed()
->>> +  softmmu_ss.add(files('colo-compare.c'))
->>> +  softmmu_ss.add(files('colo.c'))
->>> +endif
->>> +
->>> +if get_option('colo_proxy').allowed()
->>> +  softmmu_ss.add(files('filter-rewriter.c'))
->>> +endif
->>> +
->>>   softmmu_ss.add(when: 'CONFIG_TCG', if_true: files('filter-replay.c'))
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> ---
+>   target/ppc/insn32.decode           | 20 +++++++++++++-------
+>   target/ppc/translate/fp-impl.c.inc | 22 ++++++++++++++++------
+>   2 files changed, 29 insertions(+), 13 deletions(-)
 > 
-> This is the change needed, right?
-
-No, we decided to keep filter-mirror as is.
-
-> 
-> diff --git a/net/meson.build b/net/meson.build
-> index 6f4ecde57f..e623bb9acb 100644
-> --- a/net/meson.build
-> +++ b/net/meson.build
-> @@ -4,7 +4,6 @@ softmmu_ss.add(files(
->     'dump.c',
->     'eth.c',
->     'filter-buffer.c',
-> -  'filter-mirror.c',
->     'filter.c',
->     'hub.c',
->     'net-hmp-cmds.c',
-> @@ -23,7 +22,7 @@ if get_option('replication').allowed() or \
->   endif
->   
->   if get_option('colo_proxy').allowed()
-> -  softmmu_ss.add(files('filter-rewriter.c'))
-> +  softmmu_ss.add(files('filter-rewriter.c', 'filter-mirror.c'))
->   endif
+> v3 - drop fallback to MFFS for 3.0 ISA to match hardware
+> v2 - switch to use decodetree pattern groups per feedback
 > 
 
--- 
-Best regards,
-Vladimir
+Reviewed-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
+
+Thanks,
+Matheus K. Ferst
+Instituto de Pesquisas ELDORADO <http://www.eldorado.org.br/>
+Analista de Software
+Aviso Legal - Disclaimer <https://www.eldorado.org.br/disclaimer.html>
 
 
