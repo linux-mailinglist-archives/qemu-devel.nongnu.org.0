@@ -2,86 +2,107 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C57F6FDD56
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 May 2023 14:00:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 482116FDD77
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 May 2023 14:08:46 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pwiT9-0000Je-IP; Wed, 10 May 2023 07:58:55 -0400
+	id 1pwicS-0005C1-Ta; Wed, 10 May 2023 08:08:33 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pwiT7-0000IU-GA
- for qemu-devel@nongnu.org; Wed, 10 May 2023 07:58:53 -0400
-Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pwiT5-0002Px-Nm
- for qemu-devel@nongnu.org; Wed, 10 May 2023 07:58:53 -0400
-Received: by mail-wr1-x435.google.com with SMTP id
- ffacd0b85a97d-30771c68a9eso6393920f8f.2
- for <qemu-devel@nongnu.org>; Wed, 10 May 2023 04:58:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1683719930; x=1686311930;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=Ls0r9PZNY9DzEnxAxJEO6iWuNs7Kt5IdOduV4eSDs9k=;
- b=ZdM59DhfjloC+cKdgyfiWTIzHQV33G1DDMkDXJSK8UHgnSNRsGDfeqoFlCsHqqfJLb
- 8DmzaRR1bVLP/gDh3FtSlbvgn27G4VpEZXHtb8IGYVFDZZS5S14rEzmF/ZRQ/Lw1XvQH
- iyTtEOJLaRuLKXM/5JpvPf3rR0gN/IWnTss8U7Qgm+SbIsFVArZxBne7s4QBkaIQP/6/
- JZppU/waTC6vzhQfVdLEMGhBlJtJgC5Il4Ht3nyNcaSeZh8s28W6ifcaHPYHBz59ILhw
- rkSm0C+AAuZKIyGIeLRsjpxOIPyu0YtRiysVu/mJNQagEx6szG1HLrphAidskju+SJam
- CyXg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683719930; x=1686311930;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Ls0r9PZNY9DzEnxAxJEO6iWuNs7Kt5IdOduV4eSDs9k=;
- b=VwlzZkD4jstk5NaP2VBAHXBOrymANlVlr5ySdFVG2t2bfwacu8bvPapYKlXgZnIygC
- 0nnBRblU/liw/liuXNwm2YVK4Paz5AFN3Fyqo5pzKNBvZVFa8i+nf71naT/ICap2Hwdy
- RnqNAVJLDWx8LXLIBLtP9dSCyiRvskIMsiagiVTDeSwgQHB0RhhNfAbk9QN5vcrryrjS
- h7ysavPt0T25Cu58wRTq9+Yn3/rB4u5NOUyi2g6MfH6QL8xgq9K1Ey7FuDBXHNRGzOjU
- CrPtx+opvvACTogUjvCDVhIloWDteSp8T9rZgQnaYHzn8+gFzAxYfL0Bv02BFXO2xmvT
- rdWw==
-X-Gm-Message-State: AC+VfDwCj1w6IAlWFEjx5MWlufOAEyQy/gjwd6L2+s/PmAkGvfMGgakf
- +dukWCmI/6H+Mx3lBF1mzEWIvA==
-X-Google-Smtp-Source: ACHHUZ6lSsPNpx3DRYyxEOABB4Oki/CP8f/pTsQvqI4mq9BcxIEYjS4y4DF+6J1lO645CDUKJYGghg==
-X-Received: by 2002:a5d:6401:0:b0:304:7237:729a with SMTP id
- z1-20020a5d6401000000b003047237729amr10044377wru.67.1683719929962; 
- Wed, 10 May 2023 04:58:49 -0700 (PDT)
-Received: from [192.168.11.23] ([85.9.250.243])
- by smtp.gmail.com with ESMTPSA id
- y18-20020a5d6212000000b0030796e103a1sm8966804wru.5.2023.05.10.04.58.49
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 10 May 2023 04:58:49 -0700 (PDT)
-Message-ID: <c05a89ac-0bbd-2edc-5883-d3bfa58b7ea8@linaro.org>
-Date: Wed, 10 May 2023 12:58:48 +0100
+ (Exim 4.90_1) (envelope-from <nsg@linux.ibm.com>)
+ id 1pwicQ-0005Bd-B4; Wed, 10 May 2023 08:08:30 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <nsg@linux.ibm.com>)
+ id 1pwicO-0004t0-2a; Wed, 10 May 2023 08:08:30 -0400
+Received: from pps.filterd (m0353727.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 34AC6fDx003770; Wed, 10 May 2023 12:08:13 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : subject :
+ from : to : cc : date : in-reply-to : references : content-type :
+ content-transfer-encoding : mime-version; s=pp1;
+ bh=WfyfxoMaFp8OiIM9ewpaW0o3VuCH0qb5RNNlXOIXgz4=;
+ b=G1EWBNZ1PHV9/KraGsDShA52HlYvLPBH3RSnZcn7nTVzOP0+T7dw4jMiBSDBj7fkYzFu
+ OIyos9OJaA6YZDenEqXS9K+EGg0/n24pq4hw/2TB9niWc2v3BonhJeADL64oh2jZkS4v
+ GCvwLkaV3Sgdqef50ndorKqZUtXGf+2UNrjANjGj4ZN7YNUYP7wg7Zc/PIWM/Hu6+dDa
+ v3fCcBpb3ufXY0Wz5JYvVpOHlg6cVw5JAvNN8nXT44g8bIBxy2j/C80c1zGWZF8gVoYe
+ GQi5ovssSpkownwjfsmg3wryY3NFQifs5b/Bo8ww0imTDT2u8ihMUpZ3poDshxYP6Ehr UA== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3qgamdgm2k-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 10 May 2023 12:08:12 +0000
+Received: from m0353727.ppops.net (m0353727.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 34AC85vu014484;
+ Wed, 10 May 2023 12:08:12 GMT
+Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.99])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3qgamdgm14-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 10 May 2023 12:08:12 +0000
+Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
+ by ppma04ams.nl.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 34A4UPMa015960;
+ Wed, 10 May 2023 12:04:26 GMT
+Received: from smtprelay05.fra02v.mail.ibm.com ([9.218.2.225])
+ by ppma04ams.nl.ibm.com (PPS) with ESMTPS id 3qf7nh121x-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 10 May 2023 12:04:26 +0000
+Received: from smtpav04.fra02v.mail.ibm.com (smtpav04.fra02v.mail.ibm.com
+ [10.20.54.103])
+ by smtprelay05.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 34AC4Lae18678378
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 10 May 2023 12:04:21 GMT
+Received: from smtpav04.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id E50CD2004B;
+ Wed, 10 May 2023 12:04:20 +0000 (GMT)
+Received: from smtpav04.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 4F8482004E;
+ Wed, 10 May 2023 12:04:20 +0000 (GMT)
+Received: from li-7e0de7cc-2d9d-11b2-a85c-de26c016e5ad.ibm.com (unknown
+ [9.152.224.238])
+ by smtpav04.fra02v.mail.ibm.com (Postfix) with ESMTP;
+ Wed, 10 May 2023 12:04:20 +0000 (GMT)
+Message-ID: <2fa507c7894c6085d6306b1bda23c392d151a680.camel@linux.ibm.com>
+Subject: Re: [PATCH v20 12/21] qapi/s390x/cpu topology:
+ query-cpu-polarization qmp command
+From: Nina Schoetterl-Glausch <nsg@linux.ibm.com>
+To: Pierre Morel <pmorel@linux.ibm.com>, qemu-s390x@nongnu.org
+Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
+ richard.henderson@linaro.org, david@redhat.com, thuth@redhat.com,
+ cohuck@redhat.com, mst@redhat.com, pbonzini@redhat.com,
+ kvm@vger.kernel.org, ehabkost@redhat.com, marcel.apfelbaum@gmail.com,
+ eblake@redhat.com, armbru@redhat.com, seiden@linux.ibm.com,
+ nrb@linux.ibm.com, frankja@linux.ibm.com, berrange@redhat.com, clg@kaod.org
+Date: Wed, 10 May 2023 14:04:20 +0200
+In-Reply-To: <20230425161456.21031-13-pmorel@linux.ibm.com>
+References: <20230425161456.21031-1-pmorel@linux.ibm.com>
+ <20230425161456.21031-13-pmorel@linux.ibm.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.4 (3.46.4-1.fc37) 
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH v3] target/ppc: Fix fallback to MFSS for MFFS*
- instructions on pre 3.0 ISAs
-Content-Language: en-US
-To: Richard Purdie <richard.purdie@linuxfoundation.org>, qemu-devel@nongnu.org
-Cc: =?UTF-8?Q?V=c3=adctor_Colombo?= <victor.colombo@eldorado.org.br>,
- Matheus Ferst <matheus.ferst@eldorado.org.br>,
- Daniel Henrique Barboza <danielhb413@gmail.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-References: <20230510111913.1718734-1-richard.purdie@linuxfoundation.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20230510111913.1718734-1-richard.purdie@linuxfoundation.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::435;
- envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x435.google.com
-X-Spam_score_int: -53
-X-Spam_score: -5.4
-X-Spam_bar: -----
-X-Spam_report: (-5.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-3.251,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: XUUeyGVUdUNtn3WJ3EtVK-4API-Hkrq2
+X-Proofpoint-ORIG-GUID: q7Q4a8BXFnjIAPRo2c9a71VVeXzrR04v
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-05-10_04,2023-05-05_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 spamscore=0
+ bulkscore=0 lowpriorityscore=0 mlxlogscore=999 mlxscore=0 malwarescore=0
+ impostorscore=0 adultscore=0 priorityscore=1501 clxscore=1015 phishscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2304280000
+ definitions=main-2305100095
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=nsg@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -98,34 +119,107 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 5/10/23 12:19, Richard Purdie wrote:
-> The following commits changed the code such that the fallback to MFSS for MFFSCRN,
-> MFFSCRNI, MFFSCE and MFFSL on pre 3.0 ISAs was removed and became an illegal instruction:
-> 
->    bf8adfd88b547680aa857c46098f3a1e94373160 - target/ppc: Move mffscrn[i] to decodetree
->    394c2e2fda70da722f20fb60412d6c0ca4bfaa03 - target/ppc: Move mffsce to decodetree
->    3e5bce70efe6bd1f684efbb21fd2a316cbf0657e - target/ppc: Move mffsl to decodetree
-> 
-> The hardware will handle them as a MFFS instruction as the code did previously.
-> This means applications that were segfaulting under qemu when encountering these
-> instructions which is used in glibc libm functions for example.
-> 
-> The fallback for MFFSCDRN and MFFSCDRNI added in a later patch was also missing.
-> 
-> This patch restores the fallback to MFSS for these instructions on pre 3.0s ISAs
-> as the hardware decoder would, fixing the segfaulting libm code. It doesn't have
-> the fallback for 3.0 onwards to match hardware behaviour.
-> 
-> Signed-off-by: Richard Purdie<richard.purdie@linuxfoundation.org>
+On Tue, 2023-04-25 at 18:14 +0200, Pierre Morel wrote:
+> The query-cpu-polarization qmp command returns the current
+> CPU polarization of the machine.
+>=20
+> Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
 > ---
->   target/ppc/insn32.decode           | 20 +++++++++++++-------
->   target/ppc/translate/fp-impl.c.inc | 22 ++++++++++++++++------
->   2 files changed, 29 insertions(+), 13 deletions(-)
-> 
-> v3 - drop fallback to MFFS for 3.0 ISA to match hardware
-> v2 - switch to use decodetree pattern groups per feedback
+>  qapi/machine-target.json | 30 ++++++++++++++++++++++++++++++
+>  hw/s390x/cpu-topology.c  | 14 ++++++++++++++
+>  2 files changed, 44 insertions(+)
+>=20
+> diff --git a/qapi/machine-target.json b/qapi/machine-target.json
+> index ffde2e9cbd..8eb05755cd 100644
+> --- a/qapi/machine-target.json
+> +++ b/qapi/machine-target.json
+> @@ -4,6 +4,7 @@
+>  # This work is licensed under the terms of the GNU GPL, version 2 or lat=
+er.
+>  # See the COPYING file in the top-level directory.
+> =20
+> +{ 'include': 'common.json' }
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Why do you need this?
 
-r~
+>  { 'include': 'machine-common.json' }
+> =20
+>  ##
+> @@ -424,3 +425,32 @@
+>    'features': [ 'unstable' ],
+>    'if': { 'all': [ 'TARGET_S390X', 'CONFIG_KVM' ] }
+>  }
+> +
+> +##
+> +# @CpuPolarizationInfo:
+> +#
+> +# The result of a cpu polarization
+> +#
+> +# @polarization: the CPU polarization
+> +#
+> +# Since: 2.8
+
+2.8?
+
+> +##
+> +{ 'struct': 'CpuPolarizationInfo',
+> +  'data': { 'polarization': 'CpuS390Polarization' },
+> +  'if': { 'all': [ 'TARGET_S390X', 'CONFIG_KVM' ] }
+> +}
+> +
+> +##
+> +# @query-cpu-polarization:
+> +#
+> +# Features:
+> +# @unstable: This command may still be modified.
+> +#
+> +# Returns: the machine polarization
+> +#
+> +# Since: 8.1
+> +##
+> +{ 'command': 'query-cpu-polarization', 'returns': 'CpuPolarizationInfo',
+
+Do you need the struct or could you use CpuS390Polarization directly here?
+The struct allows for more flexibility in the future, I can't imagine a rea=
+son
+why it'd be necessary, but I'm not opposed.
+
+
+> +  'features': [ 'unstable' ],
+> +  'if': { 'all': [ 'TARGET_S390X', 'CONFIG_KVM' ] }
+> +}
+> diff --git a/hw/s390x/cpu-topology.c b/hw/s390x/cpu-topology.c
+> index e8b140d623..d440e8a3c6 100644
+> --- a/hw/s390x/cpu-topology.c
+> +++ b/hw/s390x/cpu-topology.c
+> @@ -18,6 +18,7 @@
+>  #include "hw/s390x/cpu-topology.h"
+>  #include "qapi/qapi-commands-machine-target.h"
+>  #include "qapi/qapi-events-machine-target.h"
+> +#include "qapi/type-helpers.h"
+
+What do you need this include for?
+
+> =20
+>  /*
+>   * s390_topology is used to keep the topology information.
+> @@ -468,3 +469,16 @@ void qmp_set_cpu_topology(uint16_t core,
+>                           has_drawer, drawer, has_entitlement, entitlemen=
+t,
+>                           has_dedicated, dedicated, errp);
+>  }
+> +
+> +CpuPolarizationInfo *qmp_query_cpu_polarization(Error **errp)
+> +{
+> +    CpuPolarizationInfo *info =3D g_new0(CpuPolarizationInfo, 1);
+> +
+> +    if (s390_topology.vertical_polarization) {
+> +        info->polarization =3D S390_CPU_POLARIZATION_VERTICAL;
+> +    } else {
+> +        info->polarization =3D S390_CPU_POLARIZATION_HORIZONTAL;
+> +    }
+> +
+> +    return info;
+> +}
+
 
