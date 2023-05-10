@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DEAFC6FD900
+	by mail.lfdr.de (Postfix) with ESMTPS id 51E656FD8FF
 	for <lists+qemu-devel@lfdr.de>; Wed, 10 May 2023 10:12:57 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pwew4-0008Mu-Gx; Wed, 10 May 2023 04:12:32 -0400
+	id 1pwew6-0008NY-4D; Wed, 10 May 2023 04:12:34 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pwew2-0008M1-2n
- for qemu-devel@nongnu.org; Wed, 10 May 2023 04:12:30 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pwew3-0008Mj-TI
+ for qemu-devel@nongnu.org; Wed, 10 May 2023 04:12:31 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pwew0-00061x-9e
- for qemu-devel@nongnu.org; Wed, 10 May 2023 04:12:29 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pwew0-000624-Ek
+ for qemu-devel@nongnu.org; Wed, 10 May 2023 04:12:31 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1683706347;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=nV35MzSFtc7uPxX12V1mXV6FzoJL+dUkE5FFH6OC+io=;
- b=Cc5OD8KpTBQAyZXZJy4iwQTJ0fkx2/Mu6yzgJuqw2oUHN6JxOpcgrS5c6juc3SVZhsVu6b
- CZ1u/o5kkNr+1dJseGvTUvNeIT15Da09QwqA+psAW71ZIp9+EyhEB0EMOt6udQqsclSqEF
- 8tKbRiO3CWYTm/6EADUBBh0pd10FuM4=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=aZyg2FP9ZrUCClAkwA818AQlvTmk476V02Bk40Yz7HY=;
+ b=IZYumb3fHqkbcNIEf1uP+W69cSnEf+A6lkgIMff/7pYuMoT+ZycqjEinQKxtjsgw6RtP5L
+ unvZ4UtkWj8gh+OPa5QLcciE5UWvmn9ti5u4qca1J4In94ZtcYP3m98V7ddxSbn2zPsvc2
+ f3MaqyI+kh2lfkaFBRR1NfBY0/sLbN8=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-631-44nKmaqdMTClqlznYupKXw-1; Wed, 10 May 2023 04:12:26 -0400
-X-MC-Unique: 44nKmaqdMTClqlznYupKXw-1
+ us-mta-433-VGD_wwjUO92H1YdaUVLPaQ-1; Wed, 10 May 2023 04:12:26 -0400
+X-MC-Unique: VGD_wwjUO92H1YdaUVLPaQ-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
  [10.11.54.6])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E9C7C100F650;
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E706A1C06ED4;
  Wed, 10 May 2023 08:12:25 +0000 (UTC)
 Received: from blackfin.pond.sub.org (unknown [10.39.192.121])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A883B2166B29;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A31B32166B26;
  Wed, 10 May 2023 08:12:25 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 6F1F821E692E; Wed, 10 May 2023 10:12:24 +0200 (CEST)
+ id 7189821E6806; Wed, 10 May 2023 10:12:24 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: richard.henderson@linaro.org,
 	Juan Quintela <quintela@redhat.com>
-Subject: [PULL v2 12/17] qapi: Rewrite parsing of doc comment section symbols
- and tags
-Date: Wed, 10 May 2023 10:12:22 +0200
-Message-Id: <20230510081224.3588673-2-armbru@redhat.com>
+Subject: [PULL v2 13/17] qapi: Relax doc string @name: description indentation
+ rules
+Date: Wed, 10 May 2023 10:12:23 +0200
+Message-Id: <20230510081224.3588673-3-armbru@redhat.com>
 In-Reply-To: <20230510081224.3588673-1-armbru@redhat.com>
 References: <20230510081224.3588673-1-armbru@redhat.com>
 MIME-Version: 1.0
@@ -80,157 +80,272 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-To recognize a line starting with a section symbol and or tag, we
-first split it at the first space, then examine the part left of the
-space.  We can just as well examine the unsplit line, so do that.
+The QAPI schema doc comment language provides special syntax for
+command and event arguments, struct and union members, alternate
+branches, enumeration values, and features: descriptions starting with
+"@name:".
+
+By convention, we format them like this:
+
+    # @name: Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+    #        sed do eiusmod tempor incididunt ut labore et dolore
+    #        magna aliqua.
+
+Okay for names as short as "name", but we have much longer ones.  Their
+description gets squeezed against the right margin, like this:
+
+    # @dirty-sync-missed-zero-copy: Number of times dirty RAM synchronization could
+    #                               not avoid copying dirty pages. This is between
+    #                               0 and @dirty-sync-count * @multifd-channels.
+    #                               (since 7.1)
+
+The description text is effectively just 50 characters wide.  Easy
+enough to read, but can be cumbersome to write.
+
+The awkward squeeze against the right margin makes people go beyond it,
+which produces two undesirables: arguments about style, and descriptions
+that are unnecessarily hard to read, like this one:
+
+    # @postcopy-vcpu-blocktime: list of the postcopy blocktime per vCPU.  This is
+    #                           only present when the postcopy-blocktime migration capability
+    #                           is enabled. (Since 3.0)
+
+We could instead format it like
+
+    # @postcopy-vcpu-blocktime:
+    # list of the postcopy blocktime per vCPU.  This is only present
+    # when the postcopy-blocktime migration capability is
+    # enabled. (Since 3.0)
+
+or, since the commit before previous, like
+
+    # @postcopy-vcpu-blocktime:
+    # 	  list of the postcopy blocktime per vCPU.  This is only present
+    # 	  when the postcopy-blocktime migration capability is
+    # 	  enabled. (Since 3.0)
+
+However, I'd rather have
+
+    # @postcopy-vcpu-blocktime: list of the postcopy blocktime per vCPU.
+    #     This is only present when the postcopy-blocktime migration
+    #     capability is enabled.  (Since 3.0)
+
+because this is how rST field and option lists work.
+
+To get this, we need to let the first non-blank line after the
+"@name:" line determine expected indentation.
+
+This fills up the indentation pitfall mentioned in
+docs/devel/qapi-code-gen.rst.  A related pitfall still exists.  Update
+the text to show it.
 
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
-Message-Id: <20230428105429.1687850-13-armbru@redhat.com>
+Message-Id: <20230428105429.1687850-14-armbru@redhat.com>
 Reviewed-by: Juan Quintela <quintela@redhat.com>
 [Work around lack of walrus operator in Python 3.7 and older]
 ---
- scripts/qapi/parser.py | 55 +++++++++++++++++++++---------------------
- 1 file changed, 27 insertions(+), 28 deletions(-)
+ docs/devel/qapi-code-gen.rst          | 10 ++--
+ scripts/qapi/parser.py                | 73 +++++++--------------------
+ tests/qapi-schema/doc-bad-indent.err  |  2 +-
+ tests/qapi-schema/doc-bad-indent.json |  3 +-
+ tests/qapi-schema/doc-good.json       |  3 +-
+ tests/qapi-schema/doc-good.out        |  3 +-
+ 6 files changed, 32 insertions(+), 62 deletions(-)
 
+diff --git a/docs/devel/qapi-code-gen.rst b/docs/devel/qapi-code-gen.rst
+index 6386b58881..875f893be2 100644
+--- a/docs/devel/qapi-code-gen.rst
++++ b/docs/devel/qapi-code-gen.rst
+@@ -1074,10 +1074,14 @@ Indentation matters.  Bad example::
+ 
+  # @none: None (no memory side cache in this proximity domain,
+  #              or cache associativity unknown)
++ #     (since 5.0)
+ 
+-The description is parsed as a definition list with term "None (no
+-memory side cache in this proximity domain," and definition "or cache
+-associativity unknown)".
++The last line's de-indent is wrong.  The second and subsequent lines
++need to line up with each other, like this::
++
++ # @none: None (no memory side cache in this proximity domain,
++ #     or cache associativity unknown)
++ #     (since 5.0)
+ 
+ Section tags are case-sensitive and end with a colon.  Good example::
+ 
 diff --git a/scripts/qapi/parser.py b/scripts/qapi/parser.py
-index ddc14ceaba..a4ff9b6dbf 100644
+index a4ff9b6dbf..285c9ff4c9 100644
 --- a/scripts/qapi/parser.py
 +++ b/scripts/qapi/parser.py
-@@ -560,12 +560,12 @@ def end_comment(self) -> None:
-         self._switch_section(QAPIDoc.NullSection(self._parser))
+@@ -474,17 +474,21 @@ def __init__(self, parser: QAPISchemaParser,
+             self._parser = parser
+             # optional section name (argument/member or section name)
+             self.name = name
++            # section text without section name
+             self.text = ''
+-            # the expected indent level of the text of this section
+-            self._indent = indent
++            # indentation to strip (None means indeterminate)
++            self._indent = None if self.name else 0
  
-     @staticmethod
--    def _is_section_tag(name: str) -> bool:
--        return name in ('Returns:', 'Since:',
--                        # those are often singular or plural
--                        'Note:', 'Notes:',
--                        'Example:', 'Examples:',
--                        'TODO:')
-+    def _match_at_name_colon(string: str) -> re.Match:
-+        return re.match(r'@([^:]*): *', string)
+         def append(self, line: str) -> None:
+-            # Strip leading spaces corresponding to the expected indent level
+-            # Blank lines are always OK.
++            line = line.rstrip()
 +
-+    @staticmethod
-+    def _match_section_tag(string: str) -> re.Match:
-+        return re.match(r'(Returns|Since|Notes?|Examples?|TODO): *', string)
+             if line:
+                 indent = must_match(r'\s*', line).end()
+-                if self._indent < 0:
+-                    self._indent = indent
++                if self._indent is None:
++                    # indeterminate indentation
++                    if self.text != '':
++                        # non-blank, non-first line determines indentation
++                        self._indent = indent
+                 elif indent < self._indent:
+                     raise QAPIParseError(
+                         self._parser,
+@@ -492,7 +496,7 @@ def append(self, line: str) -> None:
+                         self._indent)
+                 line = line[self._indent:]
  
-     def _append_body_line(self, line: str) -> None:
-         """
-@@ -581,7 +581,6 @@ def _append_body_line(self, line: str) -> None:
+-            self.text += line.rstrip() + '\n'
++            self.text += line + '\n'
  
-         Else, append the line to the current section.
+     class ArgSection(Section):
+         def __init__(self, parser: QAPISchemaParser,
+@@ -622,22 +626,8 @@ def _append_args_line(self, line: str) -> None:
          """
--        name = line.split(' ', 1)[0]
-         # FIXME not nice: things like '#  @foo:' and '# @foo: ' aren't
-         # recognized, and get silently treated as ordinary text
-         if not self.symbol and not self.body.text and line.startswith('@'):
-@@ -595,12 +594,12 @@ def _append_body_line(self, line: str) -> None:
-                     self._parser, "name required after '@'")
-         elif self.symbol:
-             # This is a definition documentation block
--            if name.startswith('@') and name.endswith(':'):
-+            if self._match_at_name_colon(line):
-                 self._append_line = self._append_args_line
-                 self._append_args_line(line)
-             elif line == 'Features:':
-                 self._append_line = self._append_features_line
--            elif self._is_section_tag(name):
-+            elif self._match_section_tag(line):
-                 self._append_line = self._append_various_line
-                 self._append_various_line(line)
-             else:
-@@ -621,16 +620,16 @@ def _append_args_line(self, line: str) -> None:
-         Else, append the line to the current section.
- 
-         """
--        name = line.split(' ', 1)[0]
--
--        if name.startswith('@') and name.endswith(':'):
-+        match = self._match_at_name_colon(line)
-+        if match:
-             # If line is "@arg:   first line of description", find
-             # the index of 'f', which is the indent we expect for any
-             # following lines.  We then remove the leading "@arg:"
-             # from line and replace it with spaces so that 'f' has the
-             # same index as it did in the original line and can be
-             # handled the same way we will handle following lines.
--            indent = must_match(r'@\S*:\s*', line).end()
-+            name = match.group(1)
-+            indent = match.end()
-             line = line[indent:]
-             if not line:
-                 # Line was just the "@arg:" header
-@@ -638,8 +637,8 @@ def _append_args_line(self, line: str) -> None:
-                 indent = -1
-             else:
-                 line = ' ' * indent + line
--            self._start_args_section(name[1:-1], indent)
--        elif self._is_section_tag(name):
-+            self._start_args_section(name, indent)
-+        elif self._match_section_tag(line):
+         match = self._match_at_name_colon(line)
+         if match:
+-            # If line is "@arg:   first line of description", find
+-            # the index of 'f', which is the indent we expect for any
+-            # following lines.  We then remove the leading "@arg:"
+-            # from line and replace it with spaces so that 'f' has the
+-            # same index as it did in the original line and can be
+-            # handled the same way we will handle following lines.
+-            name = match.group(1)
+-            indent = match.end()
+-            line = line[indent:]
+-            if not line:
+-                # Line was just the "@arg:" header
+-                # The next non-blank line determines expected indent
+-                indent = -1
+-            else:
+-                line = ' ' * indent + line
+-            self._start_args_section(name, indent)
++            line = line[match.end():]
++            self._start_args_section(match.group(1), 0)
+         elif self._match_section_tag(line):
              self._append_line = self._append_various_line
              self._append_various_line(line)
-             return
-@@ -656,16 +655,16 @@ def _append_args_line(self, line: str) -> None:
-         self._append_freeform(line)
- 
+@@ -657,22 +647,8 @@ def _append_args_line(self, line: str) -> None:
      def _append_features_line(self, line: str) -> None:
--        name = line.split(' ', 1)[0]
--
--        if name.startswith('@') and name.endswith(':'):
-+        match = self._match_at_name_colon(line)
-+        if match:
-             # If line is "@arg:   first line of description", find
-             # the index of 'f', which is the indent we expect for any
-             # following lines.  We then remove the leading "@arg:"
-             # from line and replace it with spaces so that 'f' has the
-             # same index as it did in the original line and can be
-             # handled the same way we will handle following lines.
--            indent = must_match(r'@\S*:\s*', line).end()
-+            name = match.group(1)
-+            indent = match.end()
-             line = line[indent:]
-             if not line:
-                 # Line was just the "@arg:" header
-@@ -673,8 +672,8 @@ def _append_features_line(self, line: str) -> None:
-                 indent = -1
-             else:
-                 line = ' ' * indent + line
--            self._start_features_section(name[1:-1], indent)
--        elif self._is_section_tag(name):
-+            self._start_features_section(name, indent)
-+        elif self._match_section_tag(line):
+         match = self._match_at_name_colon(line)
+         if match:
+-            # If line is "@arg:   first line of description", find
+-            # the index of 'f', which is the indent we expect for any
+-            # following lines.  We then remove the leading "@arg:"
+-            # from line and replace it with spaces so that 'f' has the
+-            # same index as it did in the original line and can be
+-            # handled the same way we will handle following lines.
+-            name = match.group(1)
+-            indent = match.end()
+-            line = line[indent:]
+-            if not line:
+-                # Line was just the "@arg:" header
+-                # The next non-blank line determines expected indent
+-                indent = -1
+-            else:
+-                line = ' ' * indent + line
+-            self._start_features_section(name, indent)
++            line = line[match.end():]
++            self._start_features_section(match.group(1), 0)
+         elif self._match_section_tag(line):
              self._append_line = self._append_various_line
              self._append_various_line(line)
-             return
-@@ -698,13 +697,13 @@ def _append_various_line(self, line: str) -> None:
- 
-         Else, append the line to the current section.
-         """
--        name = line.split(' ', 1)[0]
--
--        if name.startswith('@') and name.endswith(':'):
-+        match = self._match_at_name_colon(line)
-+        if match:
-             raise QAPIParseError(self._parser,
--                                 "'%s' can't follow '%s' section"
--                                 % (name, self.sections[0].name))
--        if self._is_section_tag(name):
-+                                 "'@%s:' can't follow '%s' section"
-+                                 % (match.group(1), self.sections[0].name))
-+        match = self._match_section_tag(line)
-+        if match:
-             # If line is "Section:   first line of description", find
-             # the index of 'f', which is the indent we expect for any
-             # following lines.  We then remove the leading "Section:"
-@@ -719,7 +718,7 @@ def _append_various_line(self, line: str) -> None:
-                 indent = 0
-             else:
-                 line = ' ' * indent + line
--            self._start_section(name[:-1], indent)
-+            self._start_section(match.group(1), indent)
+@@ -704,21 +680,8 @@ def _append_various_line(self, line: str) -> None:
+                                  % (match.group(1), self.sections[0].name))
+         match = self._match_section_tag(line)
+         if match:
+-            # If line is "Section:   first line of description", find
+-            # the index of 'f', which is the indent we expect for any
+-            # following lines.  We then remove the leading "Section:"
+-            # from line and replace it with spaces so that 'f' has the
+-            # same index as it did in the original line and can be
+-            # handled the same way we will handle following lines.
+-            indent = must_match(r'\S*:\s*', line).end()
+-            line = line[indent:]
+-            if not line:
+-                # Line was just the "Section:" header
+-                # The next non-blank line determines expected indent
+-                indent = 0
+-            else:
+-                line = ' ' * indent + line
+-            self._start_section(match.group(1), indent)
++            line = line[match.end():]
++            self._start_section(match.group(1), 0)
  
          self._append_freeform(line)
  
+@@ -754,7 +717,7 @@ def _start_section(self, name: Optional[str] = None,
+         self.sections.append(new_section)
+ 
+     def _switch_section(self, new_section: 'QAPIDoc.Section') -> None:
+-        text = self._section.text = self._section.text.strip()
++        text = self._section.text = self._section.text.strip('\n')
+ 
+         # Only the 'body' section is allowed to have an empty body.
+         # All other sections, including anonymous ones, must have text.
+diff --git a/tests/qapi-schema/doc-bad-indent.err b/tests/qapi-schema/doc-bad-indent.err
+index 67844539bd..3c9699a8e0 100644
+--- a/tests/qapi-schema/doc-bad-indent.err
++++ b/tests/qapi-schema/doc-bad-indent.err
+@@ -1 +1 @@
+-doc-bad-indent.json:6:1: unexpected de-indent (expected at least 4 spaces)
++doc-bad-indent.json:7:1: unexpected de-indent (expected at least 2 spaces)
+diff --git a/tests/qapi-schema/doc-bad-indent.json b/tests/qapi-schema/doc-bad-indent.json
+index edde8f21dc..3f22a27717 100644
+--- a/tests/qapi-schema/doc-bad-indent.json
++++ b/tests/qapi-schema/doc-bad-indent.json
+@@ -3,6 +3,7 @@
+ ##
+ # @foo:
+ # @a: line one
+-# line two is wrongly indented
++#   line two
++# line three is wrongly indented
+ ##
+ { 'command': 'foo', 'data': { 'a': 'int' } }
+diff --git a/tests/qapi-schema/doc-good.json b/tests/qapi-schema/doc-good.json
+index 34c3dcbe97..354dfdf461 100644
+--- a/tests/qapi-schema/doc-good.json
++++ b/tests/qapi-schema/doc-good.json
+@@ -144,7 +144,8 @@
+ #     description starts on a new line,
+ #     indented
+ #
+-# @arg2: the second argument
++# @arg2: description starts on the same line
++#     remainder indented differently
+ #
+ # Features:
+ # @cmd-feat1: a feature
+diff --git a/tests/qapi-schema/doc-good.out b/tests/qapi-schema/doc-good.out
+index 277371acc8..24d9ea954d 100644
+--- a/tests/qapi-schema/doc-good.out
++++ b/tests/qapi-schema/doc-good.out
+@@ -161,7 +161,8 @@ doc symbol=cmd
+ description starts on a new line,
+ indented
+     arg=arg2
+-the second argument
++description starts on the same line
++remainder indented differently
+     arg=arg3
+ 
+     feature=cmd-feat1
 -- 
 2.39.2
 
