@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D69F6FE532
+	by mail.lfdr.de (Postfix) with ESMTPS id 810766FE533
 	for <lists+qemu-devel@lfdr.de>; Wed, 10 May 2023 22:37:46 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pwqYC-0005Ez-Fc; Wed, 10 May 2023 16:36:41 -0400
+	id 1pwqYA-0005EB-Av; Wed, 10 May 2023 16:36:38 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pwqY7-0005EC-GK
- for qemu-devel@nongnu.org; Wed, 10 May 2023 16:36:35 -0400
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pwqY5-0005DS-IE
+ for qemu-devel@nongnu.org; Wed, 10 May 2023 16:36:33 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pwqY5-0003Ma-BC
- for qemu-devel@nongnu.org; Wed, 10 May 2023 16:36:35 -0400
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pwqY3-0003MJ-Qd
+ for qemu-devel@nongnu.org; Wed, 10 May 2023 16:36:32 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1683750992;
+ s=mimecast20190719; t=1683750991;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=EcIuTYtOPwDAHB/h3j6Y0xZc3CIugRqzwgLuAKQ13KY=;
- b=VLqx2Si7LSmWtQyhXQRKzezIUo9AQ+9HghQjpRHnrtvW+zb+Ljucaf70A7toSV70W8knGp
- ztgkjEIbWVoQdnaJBdrE4wpTx3UPbXPlcB4cklLYWf7cAXTPTU+g+xJCEuyt8st+4mHcXV
- brVDMi501ipUwtCVO2BfYcrYoA8vaUs=
+ bh=arGt/MnLiYPHatUBy7Jpxz/l++GTsSLMD2wbdvtEulc=;
+ b=X5ySxMU2EmbTdHJ4QkBnHCeIXQ0oUMnxatNW2j0zt/tc5yZQ1p1aQb0K3eE+p1opa1SoNs
+ gULUVeU3aKpqXMbqjode4OAtD5kK6C8WFGd1EUAruWFz+iLJMASphfkji9voE+SyJI+tb6
+ 8+QmpyAMelvySY0nf8ykgNpY3fWYh54=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-580-szlSdqGOOx-haVsgKAOWuw-1; Wed, 10 May 2023 16:36:26 -0400
-X-MC-Unique: szlSdqGOOx-haVsgKAOWuw-1
+ us-mta-86-_Vt7FI5INEWx5Qq0vWYSeQ-1; Wed, 10 May 2023 16:36:28 -0400
+X-MC-Unique: _Vt7FI5INEWx5Qq0vWYSeQ-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
  [10.11.54.3])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1D0E2381D1EA;
- Wed, 10 May 2023 20:36:26 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9A6231C0F2E1;
+ Wed, 10 May 2023 20:36:27 +0000 (UTC)
 Received: from merkur.fritz.box (unknown [10.39.194.148])
- by smtp.corp.redhat.com (Postfix) with ESMTP id DF3261121314;
- Wed, 10 May 2023 20:36:24 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6200F1121314;
+ Wed, 10 May 2023 20:36:26 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
 Cc: kwolf@redhat.com, hreitz@redhat.com, stefanha@redhat.com,
  f.ebner@proxmox.com, qemu-devel@nongnu.org
-Subject: [PATCH 3/8] qcow2: Unlock the graph in qcow2_do_open() where necessary
-Date: Wed, 10 May 2023 22:35:56 +0200
-Message-Id: <20230510203601.418015-4-kwolf@redhat.com>
+Subject: [PATCH 4/8] qemu-img: Take graph lock more selectively
+Date: Wed, 10 May 2023 22:35:57 +0200
+Message-Id: <20230510203601.418015-5-kwolf@redhat.com>
 In-Reply-To: <20230510203601.418015-1-kwolf@redhat.com>
 References: <20230510203601.418015-1-kwolf@redhat.com>
 MIME-Version: 1.0
@@ -77,55 +77,40 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-qcow2_do_open() calls a few no_co_wrappers that wrap functions taking
-the graph lock internally as a writer. Therefore, it can't hold the
-reader lock across these calls, it causes deadlocks. Drop the lock
-temporarily around the calls.
+If we take a reader lock, we can't call any functions that take a writer
+lock internally without causing deadlocks once the reader lock is
+actually enforced in the main thread, too. Take the reader lock only
+where it is actually needed.
 
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- block/qcow2.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+ qemu-img.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/block/qcow2.c b/block/qcow2.c
-index 73f36447f9..b00b4e7575 100644
---- a/block/qcow2.c
-+++ b/block/qcow2.c
-@@ -1619,9 +1619,11 @@ qcow2_do_open(BlockDriverState *bs, QDict *options, int flags,
+diff --git a/qemu-img.c b/qemu-img.c
+index 9f9f0a7629..27f48051b0 100644
+--- a/qemu-img.c
++++ b/qemu-img.c
+@@ -2938,8 +2938,6 @@ static BlockGraphInfoList *collect_image_info_list(bool image_opts,
+         }
+         bs = blk_bs(blk);
  
-     if (open_data_file) {
-         /* Open external data file */
-+        bdrv_graph_co_rdunlock();
-         s->data_file = bdrv_co_open_child(NULL, options, "data-file", bs,
-                                           &child_of_bds, BDRV_CHILD_DATA,
-                                           true, errp);
-+        bdrv_graph_co_rdlock();
-         if (*errp) {
-             ret = -EINVAL;
-             goto fail;
-@@ -1629,10 +1631,12 @@ qcow2_do_open(BlockDriverState *bs, QDict *options, int flags,
- 
-         if (s->incompatible_features & QCOW2_INCOMPAT_DATA_FILE) {
-             if (!s->data_file && s->image_data_file) {
-+                bdrv_graph_co_rdunlock();
-                 s->data_file = bdrv_co_open_child(s->image_data_file, options,
-                                                   "data-file", bs,
-                                                   &child_of_bds,
-                                                   BDRV_CHILD_DATA, false, errp);
-+                bdrv_graph_co_rdlock();
-                 if (!s->data_file) {
-                     ret = -EINVAL;
-                     goto fail;
-@@ -1857,7 +1861,9 @@ qcow2_do_open(BlockDriverState *bs, QDict *options, int flags,
-  fail:
-     g_free(s->image_data_file);
-     if (open_data_file && has_data_file(bs)) {
-+        bdrv_graph_co_rdunlock();
-         bdrv_unref_child(bs, s->data_file);
-+        bdrv_graph_co_rdlock();
-         s->data_file = NULL;
-     }
-     g_free(s->unknown_header_fields);
+-        GRAPH_RDLOCK_GUARD_MAINLOOP();
+-
+         /*
+          * Note that the returned BlockGraphInfo object will not have
+          * information about this image's backing node, because we have opened
+@@ -2947,7 +2945,10 @@ static BlockGraphInfoList *collect_image_info_list(bool image_opts,
+          * duplicate the backing chain information that we obtain by walking
+          * the chain manually here.
+          */
++        bdrv_graph_rdlock_main_loop();
+         bdrv_query_block_graph_info(bs, &info, &err);
++        bdrv_graph_rdunlock_main_loop();
++
+         if (err) {
+             error_report_err(err);
+             blk_unref(blk);
 -- 
 2.40.1
 
