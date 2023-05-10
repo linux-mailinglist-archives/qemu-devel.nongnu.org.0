@@ -2,89 +2,118 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 109566FD77F
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 May 2023 08:55:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 55EC16FD7EF
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 May 2023 09:13:57 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pwdj6-00060j-1M; Wed, 10 May 2023 02:55:04 -0400
+	id 1pwe02-0004Vr-TP; Wed, 10 May 2023 03:12:34 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pwdiz-00060H-9J
- for qemu-devel@nongnu.org; Wed, 10 May 2023 02:54:57 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
+ id 1pwe00-0004VG-JD; Wed, 10 May 2023 03:12:32 -0400
+Received: from new2-smtp.messagingengine.com ([66.111.4.224])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pwdix-0006bq-UL
- for qemu-devel@nongnu.org; Wed, 10 May 2023 02:54:57 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1683701695;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=76Wo81x0j95aRjZKNoNdPMA0OrZ/P/oqWBuJraE/sTI=;
- b=cZ7M6RjOvddwtLWT1mm45CPwhIfp90ivSOivIFVlgmOzezcdm6+5BUtN2e+y3tGAfe2PUT
- kcZ5XyHlj5jloci/vb018hC6VhxsJbXLFyW6DOL2qpnzUDkwoK2qkD7x9Zi+zoTubLQ+9a
- lIPiG+VSo3tynvumCyLi3gYKGjVr0Ig=
-Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
- [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-508-5qFwr_4oMqSNyWy92tNieA-1; Wed, 10 May 2023 02:54:38 -0400
-X-MC-Unique: 5qFwr_4oMqSNyWy92tNieA-1
-Received: by mail-ej1-f69.google.com with SMTP id
- a640c23a62f3a-94f7a2b21fdso848486166b.2
- for <qemu-devel@nongnu.org>; Tue, 09 May 2023 23:54:37 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683701677; x=1686293677;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=76Wo81x0j95aRjZKNoNdPMA0OrZ/P/oqWBuJraE/sTI=;
- b=EEhEteLqhZO9+DrSju/9QvYq7nQfSp4aNbFhW0XuWrBCHJIoJn7a862/TG3ucDGUBH
- 5djhnbBCYzLKDKNeN3hoIY2PP3mqCRJoep2tD8gp87718YHVPeJYhvgcRC9ofslk1p6X
- GwDdzDcxnwfAl7FgLHiZIDj8C/xmcFdMbXxBmTOFUvYiKmG8Ywgs1951F4UXL275+8oP
- 5z/p+t2C+YQ4K5VfSzyxUa/EJYntbgz/7Zu792cIN1E1W0P7klESgJP8btHWXUVNL6dO
- AtGkuHpQmSbRTfxePpF8My+5lahtrBtTcPAlsGxNCKKjBbdKWqNQjaOF4QZ+3fp1QH1K
- qJEg==
-X-Gm-Message-State: AC+VfDzHGeR3d2oKLNMTADfi7bR7ZpueVnn+AKTsf8vF2aTsiZyaxJ+a
- O3Jx8XSkAERPaZtrdeOQdnGZ0QHUOO3ErvgfRmaP0aXpfaVd0TNGLgxP7DsLxV/kd3OcTAVfOSO
- 9ZxXYO2oMCRZf0ec=
-X-Received: by 2002:a17:907:7e97:b0:968:4ce9:677a with SMTP id
- qb23-20020a1709077e9700b009684ce9677amr7656990ejc.38.1683701676955; 
- Tue, 09 May 2023 23:54:36 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ5ps7f8JJnzbnp/2vyA2CHwjcWphoL1hJ2yKek4WahMfc+JhTbVi55I6FMGGtIJH2J2Utj77A==
-X-Received: by 2002:a17:907:7e97:b0:968:4ce9:677a with SMTP id
- qb23-20020a1709077e9700b009684ce9677amr7656982ejc.38.1683701676740; 
- Tue, 09 May 2023 23:54:36 -0700 (PDT)
-Received: from [192.168.0.3] (ip-109-43-179-53.web.vodafone.de.
- [109.43.179.53]) by smtp.gmail.com with ESMTPSA id
- n12-20020a1709065dac00b009663cf5dc2fsm2291813ejv.66.2023.05.09.23.54.35
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 09 May 2023 23:54:36 -0700 (PDT)
-Message-ID: <03e6ccb2-85a4-d1c8-7d3d-30ca277aad4c@redhat.com>
-Date: Wed, 10 May 2023 08:54:35 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH v2 0/5] Make the core disassembler functions
- target-independent
-Content-Language: en-US
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-Cc: anjo@rev.ng, philmd@linaro.org
-References: <20230509163326.121090-1-richard.henderson@linaro.org>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <20230509163326.121090-1-richard.henderson@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -24
-X-Spam_score: -2.5
+ (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
+ id 1pwdzy-00025b-Kz; Wed, 10 May 2023 03:12:32 -0400
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+ by mailnew.nyi.internal (Postfix) with ESMTP id AE4D658035C;
+ Wed, 10 May 2023 03:12:27 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute5.internal (MEProxy); Wed, 10 May 2023 03:12:27 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=flygoat.com; h=
+ cc:cc:content-transfer-encoding:content-type:content-type:date
+ :date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+ :references:reply-to:sender:subject:subject:to:to; s=fm1; t=
+ 1683702747; x=1683709947; bh=JwNLOWDmx8X5jGyC6z0jdlCEO5VjziJtkp1
+ psZHciWY=; b=cwYjx0PGS89THA7+dKLflE1eh3FnmaLYZrSqzOpgOpw0ee+WmKI
+ iL57V7Nd/Ix8ciFR02Uw++xnz0A/YfXwVdigFBRm5tWVgYBJU3DWfXDUI/833UVj
+ JVSOKaPQRZV3ae9WbcsheVXzF6K5ie6iZFy4JOCBby/spZ3v0atvoVJRv+0vJqSK
+ itdBcAHk3WgV+knXGIiH3MZt0thtjw2+80S9sn2gtCLoFWXBpVituylnZn2TvV1I
+ pEGxH6dNOiM5dRY/PRxds870B7ygL3E3vIGGy0HMmf4r/QvSIpd8PPFIYECRrAVy
+ Mf4JYYAE8/3IkWzeEjlaYCNIMkG8G2bpBTA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-transfer-encoding
+ :content-type:content-type:date:date:feedback-id:feedback-id
+ :from:from:in-reply-to:in-reply-to:message-id:mime-version
+ :references:reply-to:sender:subject:subject:to:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
+ 1683702747; x=1683709947; bh=JwNLOWDmx8X5jGyC6z0jdlCEO5VjziJtkp1
+ psZHciWY=; b=CqX5H9LXnaUoSnVL/EXGszh63axNXg1w8CO1K65z80MRd0fggPR
+ mP4G0mnnKADtX63LLMMQGevCccPovDVmyU+dm6urRNcLXMdcAn1CGGVoq4hN2mhp
+ KZHDqMNHZF8P+6NC7egtcKAuqx50N2o099BE6sp6vdNHqYUw0h0xb/YG/6TvmhCw
+ mvWm2UCDvfPpfQ3uZyfmLSc5Ay7q3AsJV/aXf8aOz5CzxwFI35vOIXayEanMU5sd
+ PftaIe5BHFxF7orssHyw0J3p0WxPMFfMp7/VVadxqoA9/oOILm9Gu6+kn8eXeJSG
+ WZmLFVUd0DXGq0I3uXeRXTfGzDSOo6hXbJw==
+X-ME-Sender: <xms:2kNbZObwW_qii_JishhhQaMNZQWMao7pAOHkmTERUV36W0xSfqsrXw>
+ <xme:2kNbZBZSkgP1t_5zUOnjEGCrtp7enhu27kAucriqsAgzZLzTroRU6o0TjV_o-5C3T
+ XROekruVnsyJ3c_Q2s>
+X-ME-Received: <xmr:2kNbZI8PtbL8GGU_Xfk9SO1Y4c7pXrWlx8SotCt3rg4BDtDHxBk0YD_nghNaXfm6OE2x>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrfeegfedgudefucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurheptggguffhjgffvefgkfhfvffosehtqhhmtdhhtdejnecuhfhrohhmpeflihgr
+ gihunhcujggrnhhguceojhhirgiguhhnrdihrghnghesfhhlhihgohgrthdrtghomheqne
+ cuggftrfgrthhtvghrnhephfduueeguefhuefgheevfedttddujeffjeeujeehheegtddt
+ teffjeefleeiudelnecuffhomhgrihhnpehmihhpshdrtghomhenucevlhhushhtvghruf
+ hiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehjihgrgihunhdrhigrnhhgsehf
+ lhihghhorghtrdgtohhm
+X-ME-Proxy: <xmx:2kNbZAqGyWGA9aekjuPQqhvRqBwF3_N7xFZU1H-Yfsv6-6K1dMemOw>
+ <xmx:2kNbZJrStio0rTS0Y6k7tUqZWPmrYuxjMz8k85acqm1FPqKyJM4Ijg>
+ <xmx:2kNbZOSj7KMQmTY0tX4_fcAVVlpA-CeeNHMeE0Cu-EOOe2ewBtsOOg>
+ <xmx:20NbZM-ynCzyKDvgoc2EfWamGOymrMnEWJg7_qa-G2l9jPXBgHPzBw>
+Feedback-ID: ifd894703:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 10 May 2023 03:12:21 -0400 (EDT)
+Content-Type: text/plain;
+	charset=utf-8
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3731.500.231\))
+Subject: Re: [PATCH 21/22] tests/avocado: use http for mipsdistros.mips.com
+From: Jiaxun Yang <jiaxun.yang@flygoat.com>
+In-Reply-To: <20230503091244.1450613-22-alex.bennee@linaro.org>
+Date: Wed, 10 May 2023 08:12:10 +0100
+Cc: QEMU devel <qemu-devel@nongnu.org>, Laurent Vivier <lvivier@redhat.com>,
+ Artyom Tarasenko <atar4qemu@gmail.com>,
+ "Edgar E . Iglesias" <edgar.iglesias@gmail.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, Leif Lindholm <quic_llindhol@quicinc.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Helge Deller <deller@gmx.de>, Xiaojuan Yang <yangxiaojuan@loongson.cn>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Cleber Rosa <crosa@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Eduardo Habkost <eduardo@habkost.net>,
+ Juan Quintela <quintela@redhat.com>, John Snow <jsnow@redhat.com>,
+ Yoshinori Sato <ysato@users.sourceforge.jp>,
+ =?utf-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>,
+ Ilya Leoshkevich <iii@linux.ibm.com>,
+ Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>,
+ Andrew Jeffery <andrew@aj.id.au>, qemu-s390x@nongnu.org,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-arm@nongnu.org,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Beraldo Leal <bleal@redhat.com>, Max Filippov <jcmvbkbc@gmail.com>,
+ =?utf-8?Q?Marc-Andr=C3=A9_Lureau?= <marcandre.lureau@redhat.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Radoslaw Biernacki <rad@semihalf.com>,
+ Aurelien Jarno <aurelien@aurel32.net>,
+ David Hildenbrand <david@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, Song Gao <gaosong@loongson.cn>,
+ Joel Stanley <joel@jms.id.au>,
+ =?utf-8?B?IkRhbmllbCBQLiBCZXJyYW5nw6ki?= <berrange@redhat.com>,
+ =?utf-8?Q?Philippe_Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <9F16A468-D51F-4462-9720-D4B60C2B13B6@flygoat.com>
+References: <20230503091244.1450613-1-alex.bennee@linaro.org>
+ <20230503091244.1450613-22-alex.bennee@linaro.org>
+To: =?utf-8?Q?Alex_Benn=C3=A9e?= <alex.bennee@linaro.org>
+X-Mailer: Apple Mail (2.3731.500.231)
+Received-SPF: pass client-ip=66.111.4.224;
+ envelope-from=jiaxun.yang@flygoat.com; helo=new2-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.421, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -101,16 +130,23 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 09/05/2023 18.33, Richard Henderson wrote:
-> Merges Thomas' RFC patch set with part of my "build-tcg-once" patch set.
-> The only real change from Thomas' is to use uint64_t instead of hwaddr.
-
-Thanks for integrating it!
-
-There's a minor nit in patch 5, but apart from that, I think this series is 
-fine now for getting merged.
-
-  Thomas
 
 
+> 2023=E5=B9=B45=E6=9C=883=E6=97=A5 10:12=EF=BC=8CAlex Benn=C3=A9e =
+<alex.bennee@linaro.org> =E5=86=99=E9=81=93=EF=BC=9A
+>=20
+> As the cached assets have fallen out of our cache new attempts to
+> fetch these binaries fail hard due to certificate expirty. It's hard
+> to find a contact email for the domain as the root page of mipsdistros
+> throws up some random XML. I suspect Amazon are merely the hosts.
+>=20
+> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+> Cc: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
+
+Hi  all,
+
+Just reached MIPS to get certification fixed.
+
+Thanks
+- Jiaxun=
 
