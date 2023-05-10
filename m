@@ -2,77 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 626DD6FE230
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 May 2023 18:13:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9FE9C6FE232
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 May 2023 18:13:59 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pwmRF-0002Eh-DZ; Wed, 10 May 2023 12:13:13 -0400
+	id 1pwmRg-0002iS-5K; Wed, 10 May 2023 12:13:40 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pwmRB-0002DS-W8
- for qemu-devel@nongnu.org; Wed, 10 May 2023 12:13:11 -0400
-Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336])
+ id 1pwmRd-0002Zp-Ab
+ for qemu-devel@nongnu.org; Wed, 10 May 2023 12:13:37 -0400
+Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pwmRA-0000h9-1n
- for qemu-devel@nongnu.org; Wed, 10 May 2023 12:13:09 -0400
-Received: by mail-wm1-x336.google.com with SMTP id
- 5b1f17b1804b1-3f475366514so7758255e9.2
- for <qemu-devel@nongnu.org>; Wed, 10 May 2023 09:13:07 -0700 (PDT)
+ id 1pwmRb-0000mp-Sq
+ for qemu-devel@nongnu.org; Wed, 10 May 2023 12:13:37 -0400
+Received: by mail-wm1-x330.google.com with SMTP id
+ 5b1f17b1804b1-3f423521b10so29336705e9.0
+ for <qemu-devel@nongnu.org>; Wed, 10 May 2023 09:13:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1683735185; x=1686327185;
+ d=linaro.org; s=google; t=1683735214; x=1686327214;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=htY5EZ6WTIVHCyo4mZ/rIeQxNsCvxiyS24rSgTevj10=;
- b=OdzYjbhZ+r5jsHEnlV8Fel9HibQduvgMcbALQoiNiCWEQeLfvk2ubtojN8m8ZyOfYs
- KOjP4+39yicPnN2lAJUn5ZQM+PLmhtwr5SWLW3SHz6/BKxVsE7gsqSyQA76uPs7Dvg2K
- E9vKsBJqwvKv8pHF73VEYZXgRbJ40eYyDooY1Ko3vADSiXahQPU0qsVdJWKZYcv8+m+u
- mP7PbA46PUm8JM/A+6TjQYB7VtWgeJn/4AEMoe4FRGzUaLtBmVtqFFTaDGyabBQPbFdN
- PBBYGhWZBa0W0MPnltdMcFZk8WCAvD6G3F6p1q8jOu+SgMqcfGYwqlB8Z7J44ZkoTZPn
- UNHg==
+ bh=owoFlcBXqkHmvvDOCRfpFBLy1FHR8tbL+nE+RuqqEXs=;
+ b=rJ4XhAIyITkBJfmW61tdGm0H+XzGRCbmao0vNue83rp7fHUcYtONIn0i6VMYmz595d
+ mX/GpSesvYSv3N7AQELDoIampzTKeQufofZNwCUba1jeIlQcwq0jtl3aoGnU9mcrGhD4
+ OCFrOD9CdrYnP8lZgpCq3tFkzNUQf4IjANVxph3MUbmH+UrdF+bHvWaxMTznXwyZuBrx
+ rX4FMY4BuT69S0qZpuGLtxfWO7rsQMwtzYgs2FP/TE4MX8L2qKP0nfndPmERpKb8MVut
+ YmmbObG99C3WzBXPvRgVUbyOKBT4gRhtotb0uEOTanvA+U5joE2CIUQLLpVedj5Tr9GD
+ oDww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683735185; x=1686327185;
+ d=1e100.net; s=20221208; t=1683735214; x=1686327214;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=htY5EZ6WTIVHCyo4mZ/rIeQxNsCvxiyS24rSgTevj10=;
- b=EO+fedYItEYnURDshwuGfHV48wRgiC8hjYzUB0pSXmdlfWpfMbKW/QcGpgmGQqAY7n
- WBaEe9LzDSyGtWwRcb1vkw5/DV5XwqO6Ze2HxvfZND+/uJrw/TMwuaHvy4VaAXZNXgjW
- DcxO1Lku9jeZXxAJIO8pXf0/Xf6Sm2JAJm4b31prc1rM13W7UOa2G84iTzwO0AJJLN6q
- nVmgGMru4alPu3kupmeWNZFwU3GWwGpLIqqUKYJdOw34iF3/+smcITsVaDK6TVYYrlaW
- G2hib7OvnMRvlHu1xUatoy9lAXHvQ69QQGusjivjmcCSVDryqf0pNOJ58GThBakusK5H
- b7Uw==
-X-Gm-Message-State: AC+VfDwx9louTpK8ieYqnsJUECmkKl83ZHcMOmw8Zzau1OZFmY0qsNRE
- /NGUVAUgslOf+jEVkMdESVhjMw==
-X-Google-Smtp-Source: ACHHUZ7lCeT6Skxe8WMdnfAAVZLb4yJVogkBPkDtk/3C2Iskj0fesXXCj6I0QvbgKHC4MSY4zyZIhg==
-X-Received: by 2002:a05:600c:218:b0:3f4:28fd:83e0 with SMTP id
- 24-20020a05600c021800b003f428fd83e0mr6082501wmi.31.1683735185676; 
- Wed, 10 May 2023 09:13:05 -0700 (PDT)
+ bh=owoFlcBXqkHmvvDOCRfpFBLy1FHR8tbL+nE+RuqqEXs=;
+ b=SjoKX/VSxy8q6jSrWW4QRsDb3mLGy/5jx/OO5wYflzHRGwkbZs15Q74lldWEPCvD8N
+ tvCalTn6T1iY4H6Rt/9AsWhG5JoBQ73rja1pjVtUzzhnrFdGZfedZBzcvrd/3RvwQHie
+ tF2JPvTFXox6CnB9RFOYYP9qkVdepSa0Fdg3TWBNXaeAlLVxJT586nZiCXb2e2q0XmQK
+ VSW/qBlFGyXW49g+zqMNMh7+1vssmNn+W94z6GaQZ8gKtjV9hXFcwFs36mSqAXt26i6Y
+ Hfiw/WvaDXxqEkLLWOhZx2J/HCSiOLUsaLe6tc9abRVsgZN333fLNfr0519+WXdQvLM6
+ 7UEw==
+X-Gm-Message-State: AC+VfDwi9nfAZtCdcgdNqTfbxzDs+Xy7Rh/za27Y1iwsb+9wPgbL+0/X
+ /Pz0ai1xvhxe+mmmgPjH4zzBPQ==
+X-Google-Smtp-Source: ACHHUZ7svkWwxUnYEyp3hQGN1v9KKSnqgrDs4RDgl+SspxKvcQBv/xH5WbC3gb+rc7oFw8ZClTaJAw==
+X-Received: by 2002:a05:6000:b:b0:306:2fac:377 with SMTP id
+ h11-20020a056000000b00b003062fac0377mr11621807wrx.8.1683735214159; 
+ Wed, 10 May 2023 09:13:34 -0700 (PDT)
 Received: from [192.168.1.177] ([85.9.250.243])
  by smtp.gmail.com with ESMTPSA id
- 14-20020a05600c024e00b003f423cc11e4sm10651481wmj.16.2023.05.10.09.13.05
+ q18-20020a056000137200b003063176ef09sm17982018wrz.6.2023.05.10.09.13.33
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 10 May 2023 09:13:05 -0700 (PDT)
-Message-ID: <c7e792c1-8229-8b6c-8e6a-1eda14d77c03@linaro.org>
-Date: Wed, 10 May 2023 17:13:03 +0100
+ Wed, 10 May 2023 09:13:33 -0700 (PDT)
+Message-ID: <02b1e71e-8578-6f4a-5b57-9cfbebff4842@linaro.org>
+Date: Wed, 10 May 2023 17:13:32 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.10.0
-Subject: Re: [PATCH v2 1/3] target/openrisc: Allow fpcsr access in user mode
+Subject: Re: [PATCH v2 2/3] target/openrisc: Set PC to cpu state on FPU
+ exception
 Content-Language: en-US
 To: Stafford Horne <shorne@gmail.com>, QEMU Development <qemu-devel@nongnu.org>
 Cc: Linux OpenRISC <linux-openrisc@vger.kernel.org>
 References: <20230510153228.264954-1-shorne@gmail.com>
- <20230510153228.264954-2-shorne@gmail.com>
+ <20230510153228.264954-3-shorne@gmail.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20230510153228.264954-2-shorne@gmail.com>
+In-Reply-To: <20230510153228.264954-3-shorne@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::336;
- envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x336.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::330;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x330.google.com
 X-Spam_score_int: -53
 X-Spam_score: -5.4
 X-Spam_bar: -----
@@ -96,28 +97,18 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On 5/10/23 16:32, Stafford Horne wrote:
->   void HELPER(mtspr)(CPUOpenRISCState *env, target_ulong spr, target_ulong rb)
->   {
-> -#ifndef CONFIG_USER_ONLY
->       OpenRISCCPU *cpu = env_archcpu(env);
-> +#ifndef CONFIG_USER_ONLY
->       CPUState *cs = env_cpu(env);
+> Store the PC to ensure the correct value can be read in the exception
+> handler.
+> 
+> Signed-off-by: Stafford Horne<shorne@gmail.com>
+> ---
+> Since v1:
+>   - Use function do_fpe (similar to do_range) to raise exception.
+> 
+>   target/openrisc/fpu_helper.c | 13 +++++++++++--
+>   1 file changed, 11 insertions(+), 2 deletions(-)
 
-Pulled cpu out if ifdef here...
-
-> @@ -204,10 +220,22 @@ target_ulong HELPER(mfspr)(CPUOpenRISCState *env, target_ulong rd,
->       OpenRISCCPU *cpu = env_archcpu(env);
->       CPUState *cs = env_cpu(env);
->       int idx;
-> +#else
-> +    OpenRISCCPU *cpu = env_archcpu(env);
->   #endif
-
-But replicated it here.
-
-Otherwise,
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-
 
 r~
 
