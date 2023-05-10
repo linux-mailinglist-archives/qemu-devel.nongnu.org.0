@@ -2,65 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9035B6FE094
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 May 2023 16:41:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 841F06FE095
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 May 2023 16:41:02 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pwkyy-0000In-IM; Wed, 10 May 2023 10:39:56 -0400
+	id 1pwkzp-0001uX-9P; Wed, 10 May 2023 10:40:49 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pwkyu-0000Bl-6X
- for qemu-devel@nongnu.org; Wed, 10 May 2023 10:39:52 -0400
+ id 1pwkzb-0001n9-Qt
+ for qemu-devel@nongnu.org; Wed, 10 May 2023 10:40:40 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pwkyr-00044M-Vh
- for qemu-devel@nongnu.org; Wed, 10 May 2023 10:39:51 -0400
+ id 1pwkzZ-0004Of-Js
+ for qemu-devel@nongnu.org; Wed, 10 May 2023 10:40:35 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1683729583;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=riGvE0p38gRVFoW9adCtIVbV+4Di2FE1dQjSXzMS5Zg=;
- b=JqnkNXsRQQSA0LC6JCasc+mmwPknv+Q+EEaHPJeLaM4/D+kWF18Jx8K8RzWBTjNNmFsOk4
- 2Eg2xAmZ7NbA0UaAnh1Pjm7ytQM2JjEXAuyI1jfEX7Q+UYfa41f9huqkFkk74ne8AIne3K
- Rr7PwQdTjQ7Ir6YIc/0EuER4NzyjX1g=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-548--oN8DSqRPUOVdR3OmSHt0w-1; Wed, 10 May 2023 10:39:37 -0400
-X-MC-Unique: -oN8DSqRPUOVdR3OmSHt0w-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 409E680269A;
- Wed, 10 May 2023 14:39:37 +0000 (UTC)
-Received: from secure.mitica (unknown [10.39.192.247])
- by smtp.corp.redhat.com (Postfix) with ESMTP id F132F4078906;
- Wed, 10 May 2023 14:39:34 +0000 (UTC)
+ s=mimecast20190719; t=1683729633;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=gnOV1rNOxIF8Z6PjbXWn+K4UkbW8j0IOQk3svUzTJyY=;
+ b=D/LOVt5OCWZ3fsLEFeZFCkCe9qAD9CSJGTQH9XH3wxxi9tNccuuShlaxTsEj5DbcIvQdkk
+ Oezcwp7Nu8jcp87aQ5Nqhn1tOxyIL1XKsi27TG7wCLxDuPj0yCQxI+6+5HncKWPGGFc5C9
+ wFWyolf94km6v5vRNueM8CLzvS3Xs4c=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-438-cpqKFdK0MqymbsEPMN4Lhw-1; Wed, 10 May 2023 10:40:31 -0400
+X-MC-Unique: cpqKFdK0MqymbsEPMN4Lhw-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ ffacd0b85a97d-306286b3573so4485584f8f.2
+ for <qemu-devel@nongnu.org>; Wed, 10 May 2023 07:40:31 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1683729630; x=1686321630;
+ h=mime-version:message-id:date:reply-to:user-agent:references
+ :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=gnOV1rNOxIF8Z6PjbXWn+K4UkbW8j0IOQk3svUzTJyY=;
+ b=WI9m5BnKJkkuIRHyOOnE04T1XZaOHhsjG6W1p2FWSwN1BoQk2WJmi3Nh0qjWVJERJv
+ ZjXQM1cdMcAk0RBD2UrmwD2sWjqZlaFnmyb7PE6Bpcos8MZkkG8MQREKvhxOPeudVWi9
+ 0aj00l1/B1PMLe5tZcMth/KvZBeqf3E+IvXkHbPpMaHljk20tZ3BuhBjsL03CNVUofdH
+ ph8w+y5a/cmoBGrNLxwvMLZl2G/4162QbWm/IrkHe6U3j+j8gC0tQRxW2fEKp9G7WiKd
+ u1InBTikcZHeMWnd5sSw0NNJOtHjwGCQ5l+GQ3JQveNNOtQWh3KCVGLHIOW/cpoerfiG
+ ZfsA==
+X-Gm-Message-State: AC+VfDx0wvAIu4XkNsVh3lMY1M+izzS13bhItrZ2VQqTK/yR1LJUOoZR
+ L+q0TZDFwOOyA1VJyZBMfX6QkNjKP/ll4sb51zhXbD64TvE1Vm1elFcthyrwNzRdNOet4PH8W1j
+ 4/TUCqQ0YvkzLlOw=
+X-Received: by 2002:a5d:44c7:0:b0:2f9:dfab:1b8c with SMTP id
+ z7-20020a5d44c7000000b002f9dfab1b8cmr13358463wrr.50.1683729630666; 
+ Wed, 10 May 2023 07:40:30 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ501zIPESvs3/LHHUYZadAHxyl5ffFz0ZBSV/DWgSGZX7vNC2fGcgz39DTG3FbUIIixFg8jYQ==
+X-Received: by 2002:a5d:44c7:0:b0:2f9:dfab:1b8c with SMTP id
+ z7-20020a5d44c7000000b002f9dfab1b8cmr13358443wrr.50.1683729630421; 
+ Wed, 10 May 2023 07:40:30 -0700 (PDT)
+Received: from redhat.com (static-92-120-85-188.ipcom.comunitel.net.
+ [188.85.120.92]) by smtp.gmail.com with ESMTPSA id
+ n18-20020adfe792000000b002f7780eee10sm17670026wrm.59.2023.05.10.07.40.29
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 10 May 2023 07:40:29 -0700 (PDT)
 From: Juan Quintela <quintela@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: Kyle Evans <kevans@freebsd.org>, Warner Losh <imp@bsdimp.com>,
- Laurent Vivier <laurent@vivier.eu>,
- Christian Borntraeger <borntraeger@linux.ibm.com>,
- =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- Markus Armbruster <armbru@redhat.com>, qemu-s390x@nongnu.org,
- Thomas Huth <thuth@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Juan Quintela <quintela@redhat.com>
-Subject: [RFC 3/3] s390-ccw: Getting rid of ulong
-Date: Wed, 10 May 2023 16:39:25 +0200
-Message-Id: <20230510143925.4094-4-quintela@redhat.com>
-In-Reply-To: <20230510143925.4094-1-quintela@redhat.com>
-References: <20230510143925.4094-1-quintela@redhat.com>
+To: Markus Armbruster <armbru@redhat.com>
+Cc: qemu-devel@nongnu.org,  michael.roth@amd.com,  jsnow@redhat.com
+Subject: Re: [PATCH] qapi: Improve error message for description following
+ section
+In-Reply-To: <20230510141637.3685080-1-armbru@redhat.com> (Markus Armbruster's
+ message of "Wed, 10 May 2023 16:16:37 +0200")
+References: <20230510141637.3685080-1-armbru@redhat.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
+Date: Wed, 10 May 2023 16:40:28 +0200
+Message-ID: <875y908d2b.fsf@secure.mitica>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
+Content-Type: text/plain
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
@@ -82,206 +96,21 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Any good reason why this still exist?
-I can understand u* and __u* to be linux kernel like, but ulong?
+Markus Armbruster <armbru@redhat.com> wrote:
+> The error message is bad when the section is untagged.  For instance,
+> test case doc-interleaved-section produces "'@foobar:' can't follow
+> 'Note' section", which is okay, but if we drop the "Note:" tag, we get
+> "'@foobar:' can't follow 'None' section, which is bad.
+>
+> Change the error message to "description of '@foobar:' follows a
+> section".
+>
+> Signed-off-by: Markus Armbruster <armbru@redhat.com>
 
-Signed-off-by: Juan Quintela <quintela@redhat.com>
----
- pc-bios/s390-ccw/helper.h        |  2 +-
- pc-bios/s390-ccw/s390-ccw.h      |  7 +++----
- pc-bios/s390-ccw/virtio-blkdev.c | 12 ++++++------
- pc-bios/s390-ccw/virtio-scsi.c   |  4 ++--
- pc-bios/s390-ccw/virtio-scsi.h   |  2 +-
- pc-bios/s390-ccw/virtio.c        | 12 ++++++------
- pc-bios/s390-ccw/virtio.h        |  4 ++--
- 7 files changed, 21 insertions(+), 22 deletions(-)
-
-diff --git a/pc-bios/s390-ccw/helper.h b/pc-bios/s390-ccw/helper.h
-index 3d0731c4c6..8e3dfcb6d6 100644
---- a/pc-bios/s390-ccw/helper.h
-+++ b/pc-bios/s390-ccw/helper.h
-@@ -38,7 +38,7 @@ static inline void yield(void)
- 
- static inline void sleep(unsigned int seconds)
- {
--    ulong target = get_time_seconds() + seconds;
-+    unsigned long target = get_time_seconds() + seconds;
- 
-     while (get_time_seconds() < target) {
-         yield();
-diff --git a/pc-bios/s390-ccw/s390-ccw.h b/pc-bios/s390-ccw/s390-ccw.h
-index b88e0550ab..f849fba74b 100644
---- a/pc-bios/s390-ccw/s390-ccw.h
-+++ b/pc-bios/s390-ccw/s390-ccw.h
-@@ -17,7 +17,6 @@ typedef unsigned char      u8;
- typedef unsigned short     u16;
- typedef unsigned int       u32;
- typedef unsigned long long u64;
--typedef unsigned long      ulong;
- typedef unsigned char      __u8;
- typedef unsigned short     __u16;
- typedef unsigned int       __u32;
-@@ -67,11 +66,11 @@ void sclp_get_loadparm_ascii(char *loadparm);
- int sclp_read(char *str, size_t count);
- 
- /* virtio.c */
--unsigned long virtio_load_direct(ulong rec_list1, ulong rec_list2,
--                                 ulong subchan_id, void *load_addr);
-+unsigned long virtio_load_direct(unsigned long rec_list1, unsigned long rec_list2,
-+                                 unsigned long subchan_id, void *load_addr);
- bool virtio_is_supported(SubChannelId schid);
- int virtio_blk_setup_device(SubChannelId schid);
--int virtio_read(ulong sector, void *load_addr);
-+int virtio_read(unsigned long sector, void *load_addr);
- 
- /* bootmap.c */
- void zipl_load(void);
-diff --git a/pc-bios/s390-ccw/virtio-blkdev.c b/pc-bios/s390-ccw/virtio-blkdev.c
-index 794f99b42c..a81207b52e 100644
---- a/pc-bios/s390-ccw/virtio-blkdev.c
-+++ b/pc-bios/s390-ccw/virtio-blkdev.c
-@@ -16,7 +16,7 @@
- #define VIRTIO_BLK_F_GEOMETRY   (1 << 4)
- #define VIRTIO_BLK_F_BLK_SIZE   (1 << 6)
- 
--static int virtio_blk_read_many(VDev *vdev, ulong sector, void *load_addr,
-+static int virtio_blk_read_many(VDev *vdev, unsigned long sector, void *load_addr,
-                                 int sec_num)
- {
-     VirtioBlkOuthdr out_hdr;
-@@ -49,7 +49,7 @@ static int virtio_blk_read_many(VDev *vdev, ulong sector, void *load_addr,
-     return status;
- }
- 
--int virtio_read_many(ulong sector, void *load_addr, int sec_num)
-+int virtio_read_many(unsigned long sector, void *load_addr, int sec_num)
- {
-     VDev *vdev = virtio_get_device();
- 
-@@ -63,14 +63,14 @@ int virtio_read_many(ulong sector, void *load_addr, int sec_num)
-     return -1;
- }
- 
--unsigned long virtio_load_direct(ulong rec_list1, ulong rec_list2,
--                                 ulong subchan_id, void *load_addr)
-+unsigned long virtio_load_direct(unsigned long rec_list1, unsigned long rec_list2,
-+                                 unsigned long subchan_id, void *load_addr)
- {
-     u8 status;
-     int sec = rec_list1;
-     int sec_num = ((rec_list2 >> 32) & 0xffff) + 1;
-     int sec_len = rec_list2 >> 48;
--    ulong addr = (ulong)load_addr;
-+    unsigned long addr = (unsigned long)load_addr;
- 
-     if (sec_len != virtio_get_block_size()) {
-         return -1;
-@@ -86,7 +86,7 @@ unsigned long virtio_load_direct(ulong rec_list1, ulong rec_list2,
-     return addr;
- }
- 
--int virtio_read(ulong sector, void *load_addr)
-+int virtio_read(unsigned long sector, void *load_addr)
- {
-     return virtio_read_many(sector, load_addr, 1);
- }
-diff --git a/pc-bios/s390-ccw/virtio-scsi.c b/pc-bios/s390-ccw/virtio-scsi.c
-index dcce696a33..d1a84b937c 100644
---- a/pc-bios/s390-ccw/virtio-scsi.c
-+++ b/pc-bios/s390-ccw/virtio-scsi.c
-@@ -150,7 +150,7 @@ static bool scsi_report_luns(VDev *vdev, void *data, uint32_t data_size)
- }
- 
- static bool scsi_read_10(VDev *vdev,
--                         ulong sector, int sectors, void *data,
-+                         unsigned long sector, int sectors, void *data,
-                          unsigned int data_size)
- {
-     ScsiCdbRead10 cdb = {
-@@ -269,7 +269,7 @@ static int virtio_scsi_locate_device(VDev *vdev)
- }
- 
- int virtio_scsi_read_many(VDev *vdev,
--                          ulong sector, void *load_addr, int sec_num)
-+                          unsigned long sector, void *load_addr, int sec_num)
- {
-     int sector_count;
-     int f = vdev->blk_factor;
-diff --git a/pc-bios/s390-ccw/virtio-scsi.h b/pc-bios/s390-ccw/virtio-scsi.h
-index e6b6cd4815..c5612e16a2 100644
---- a/pc-bios/s390-ccw/virtio-scsi.h
-+++ b/pc-bios/s390-ccw/virtio-scsi.h
-@@ -68,7 +68,7 @@ static inline bool virtio_scsi_response_ok(const VirtioScsiCmdResp *r)
- }
- 
- int virtio_scsi_read_many(VDev *vdev,
--                          ulong sector, void *load_addr, int sec_num);
-+                          unsigned long sector, void *load_addr, int sec_num);
- int virtio_scsi_setup_device(SubChannelId schid);
- 
- #endif /* VIRTIO_SCSI_H */
-diff --git a/pc-bios/s390-ccw/virtio.c b/pc-bios/s390-ccw/virtio.c
-index f37510f312..5edd058d88 100644
---- a/pc-bios/s390-ccw/virtio.c
-+++ b/pc-bios/s390-ccw/virtio.c
-@@ -48,10 +48,10 @@ VirtioDevType virtio_get_device_type(void)
- static long kvm_hypercall(unsigned long nr, unsigned long param1,
-                           unsigned long param2, unsigned long param3)
- {
--    register ulong r_nr asm("1") = nr;
--    register ulong r_param1 asm("2") = param1;
--    register ulong r_param2 asm("3") = param2;
--    register ulong r_param3 asm("4") = param3;
-+    register unsigned long r_nr asm("1") = nr;
-+    register unsigned long r_param1 asm("2") = param1;
-+    register unsigned long r_param2 asm("3") = param2;
-+    register unsigned long r_param3 asm("4") = param3;
-     register long retval asm("2");
- 
-     asm volatile ("diag %%r2,%%r4,0x500"
-@@ -145,7 +145,7 @@ void vring_send_buf(VRing *vr, void *p, int len, int flags)
-         vr->avail->ring[vr->avail->idx % vr->num] = vr->next_idx;
-     }
- 
--    vr->desc[vr->next_idx].addr = (ulong)p;
-+    vr->desc[vr->next_idx].addr = (unsigned long)p;
-     vr->desc[vr->next_idx].len = len;
-     vr->desc[vr->next_idx].flags = flags & ~VRING_HIDDEN_IS_CHAIN;
-     vr->desc[vr->next_idx].next = vr->next_idx;
-@@ -182,7 +182,7 @@ int vr_poll(VRing *vr)
-  */
- int vring_wait_reply(void)
- {
--    ulong target_second = get_time_seconds() + vdev.wait_reply_timeout;
-+    unsigned long target_second = get_time_seconds() + vdev.wait_reply_timeout;
- 
-     /* Wait for any queue to be updated by the host */
-     do {
-diff --git a/pc-bios/s390-ccw/virtio.h b/pc-bios/s390-ccw/virtio.h
-index e657d381ec..85bd9d1695 100644
---- a/pc-bios/s390-ccw/virtio.h
-+++ b/pc-bios/s390-ccw/virtio.h
-@@ -190,14 +190,14 @@ int virtio_get_block_size(void);
- uint8_t virtio_get_heads(void);
- uint8_t virtio_get_sectors(void);
- uint64_t virtio_get_blocks(void);
--int virtio_read_many(ulong sector, void *load_addr, int sec_num);
-+int virtio_read_many(unsigned long sector, void *load_addr, int sec_num);
- 
- #define VIRTIO_SECTOR_SIZE 512
- #define VIRTIO_ISO_BLOCK_SIZE 2048
- #define VIRTIO_SCSI_BLOCK_SIZE 512
- #define VIRTIO_DASD_DEFAULT_BLOCK_SIZE 4096
- 
--static inline ulong virtio_sector_adjust(ulong sector)
-+static inline unsigned long virtio_sector_adjust(unsigned long sector)
- {
-     return sector * (virtio_get_block_size() / VIRTIO_SECTOR_SIZE);
- }
--- 
-2.40.1
+Reviewed-by: Juan Quintela <quintela@redhat.com>
 
 
