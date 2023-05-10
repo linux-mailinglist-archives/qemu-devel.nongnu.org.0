@@ -2,87 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CBF2C6FDE3D
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 May 2023 15:10:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C22B6FDDD2
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 May 2023 14:32:21 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pwjYu-0006pE-8U; Wed, 10 May 2023 09:08:56 -0400
+	id 1pwiy3-0007WI-Hq; Wed, 10 May 2023 08:30:51 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pwjYo-0006nt-Cb
- for qemu-devel@nongnu.org; Wed, 10 May 2023 09:08:50 -0400
-Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pwjYj-0001Sj-Ur
- for qemu-devel@nongnu.org; Wed, 10 May 2023 09:08:49 -0400
-Received: by mail-wr1-x435.google.com with SMTP id
- ffacd0b85a97d-3064099f9b6so4639635f8f.1
- for <qemu-devel@nongnu.org>; Wed, 10 May 2023 06:08:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1683724123; x=1686316123;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
- :message-id:reply-to;
- bh=6ADkSSLve9v1bMBkpkFISv8yx6Aw4VV0zQyEamj+h8c=;
- b=xPHC9X8ZftQ4tmq8a8tSK6SA/3lTrvuQB8dGDiSkdGiYlBipaxjQGfnPBmf4aJtVYK
- gZRf7hw0E/nsxmOwLN2q0jfkI0YBXZ1skY3oOEOJPy9gz5MA3iBj3vMT3Gwhkb0fwH02
- KoN3unJPj8Q50zTUzi92m0hbfc0ONIN2RZZRE6ol7jvvyL2oz7K01Zqbzr14WmudIW9q
- jMEs6zt4U1inQ3DrCLlN4z1nChpdkywMOsnohLQh7fwFw62gGN+kZKvIlGZJuXNnLm/U
- B9izmyFy0PmUSf19B0WCnRpwuW5MBUQnwpQo57tRgbRup8hl2xzxWy02U4m6gKllV4cc
- dfsw==
+ (Exim 4.90_1) (envelope-from <aesteve@redhat.com>)
+ id 1pwiy0-0007Vm-HO
+ for qemu-devel@nongnu.org; Wed, 10 May 2023 08:30:48 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <aesteve@redhat.com>)
+ id 1pwixy-0001Pg-5n
+ for qemu-devel@nongnu.org; Wed, 10 May 2023 08:30:48 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1683721844;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=U22N0k7pRWCuO2yReGOPTMvJKS1aM3UFiP1KFfcX+AI=;
+ b=a+tgk1R/Qfk09UxOdpdRv383WQkgWRIXQpk8A9hWsrnMBG7At2l9G/+W4ixUnP15h3lcis
+ ep7GGuD1f0+vh5mGnVyNRmcNm8wz+Q/BQ4gBBxzTa0ydD3sMch/BFXXz+a0yj+x/rkJwHZ
+ yon2mE+AaP5M0W2L5lEEZNtx+NUDvL4=
+Received: from mail-pj1-f72.google.com (mail-pj1-f72.google.com
+ [209.85.216.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-517-QxANGftHO9Wue2xyqTLhPw-1; Wed, 10 May 2023 08:30:43 -0400
+X-MC-Unique: QxANGftHO9Wue2xyqTLhPw-1
+Received: by mail-pj1-f72.google.com with SMTP id
+ 98e67ed59e1d1-24e116d1a05so6929594a91.2
+ for <qemu-devel@nongnu.org>; Wed, 10 May 2023 05:30:43 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683724123; x=1686316123;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=6ADkSSLve9v1bMBkpkFISv8yx6Aw4VV0zQyEamj+h8c=;
- b=AjEHXvgazPurFaX/0CT5RxDirJzjHNxI1fpUXOp5qbJDYKL3cZIWQb4neuMmfwevZV
- OFnIFd4kWB3bMrqsQVqYLj5gITzCCSb9eSgyM1EhR3xPMs7iw44NvY9cVQ4KFIqEy0Ss
- rRIiVkcAudJNJgrS47CJ3xeutvxVF7JS3ECPMZMgbKOYZD6KeG5oUQu8vDSYDSsZgm99
- AYLWjulKkts0ELI/SRP38YuRG90UCozlr1omgboRR0eXvw7b/zPjVM59HmkX7rAd8vX0
- +Fy2nuOpLDW9LFPJ56KhaHi+IhQhrz7GV2KBIlQPPz588xipdQ8DRlDGqWT7lRo8eKpa
- iFvA==
-X-Gm-Message-State: AC+VfDzYOl4AYs088ut015EbQt62rtkE2PuQbKzzR7stahc/rMocDYGh
- 0CuFZ0BZKKTH9Z9bLyhJr9MyBw==
-X-Google-Smtp-Source: ACHHUZ6704qqYS7GD18xUWqXy7E3krUKSrGAIsXtJEsvhT/EaDee9n5pQ9mfFydWX31f9tukxIfUcQ==
-X-Received: by 2002:adf:f30b:0:b0:2cd:bc79:5432 with SMTP id
- i11-20020adff30b000000b002cdbc795432mr13463258wro.25.1683724123304; 
- Wed, 10 May 2023 06:08:43 -0700 (PDT)
-Received: from zen.linaroharston ([85.9.250.243])
- by smtp.gmail.com with ESMTPSA id
- c6-20020adfef46000000b003047dc162f7sm17225207wrp.67.2023.05.10.06.08.42
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 10 May 2023 06:08:43 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 75E9F1FFBB;
- Wed, 10 May 2023 14:08:42 +0100 (BST)
-References: <20230506072235.597467-1-richard.henderson@linaro.org>
- <20230506072235.597467-11-richard.henderson@linaro.org>
-User-agent: mu4e 1.11.4; emacs 29.0.90
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: git@xen0n.name, gaosong@loongson.cn, philmd@linaro.org,
- qemu-arm@nongnu.org, qemu-riscv@nongnu.org, qemu-s390x@nongnu.org,
- qemu-devel@nongnu.org
-Subject: Re: [PATCH v5 10/30] tcg: Add routines for calling slow-path helpers
-Date: Wed, 10 May 2023 13:27:28 +0100
-In-reply-to: <20230506072235.597467-11-richard.henderson@linaro.org>
-Message-ID: <87jzxg8hb9.fsf@linaro.org>
+ d=1e100.net; s=20221208; t=1683721842; x=1686313842;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=U22N0k7pRWCuO2yReGOPTMvJKS1aM3UFiP1KFfcX+AI=;
+ b=lL9Aq/SVr9nKwLsm0H4e1YBz7f8NbAYPa85FGqDyaIQX6blmEW4SHb5JWzcUY+nUjh
+ PJ2j7BtG3J71KOmvCzZJAkhHyDPyweZkbIbX108e1MZLEKSWNyvfxxzltA8LzPO1lbXl
+ Lri2B767/cw7PSIK2nhMVJX80R0S85Ff6nXAK/uOrGBrLYkLxplM9k45288pAMC4ba7s
+ cqgHixbnJJN/3umL+BlO7OB5LPxLnCReCX4AZMtsqqHmu6ob/caXD5i0Qoe1pO6uakP0
+ P/FEwP6/Dj2oyDm/yEAtRnVxoceT4yJDi9ChLAxYkIJ+lzU5PQCISuqsfmJD3iyuVghm
+ /wHA==
+X-Gm-Message-State: AC+VfDzsnHi8BtTVWFwjgtr6amPB3AWCOwtlgwHHkoLDq3aorrklUkIa
+ MhX50JnqfhgR6FZZfL0lxc8Ic7rXdHR9hG+P97hzwWBG/Va53g3fqSpgF+FpXMj2LUFxmO628Mu
+ aNejmgI82z9Dsl2vkgSTTRwB+EEsQ+n4=
+X-Received: by 2002:a17:90b:3757:b0:247:afed:6d62 with SMTP id
+ ne23-20020a17090b375700b00247afed6d62mr16843130pjb.46.1683721842310; 
+ Wed, 10 May 2023 05:30:42 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ6s93I/6FAcZ0UA9rG0gF7kSL8ZMtaxv4DvXVvCDQPVmrm+WwVvNiWYHBV0iV7fHQ5ciRSPqMfWk4H+VA7C1hk=
+X-Received: by 2002:a17:90b:3757:b0:247:afed:6d62 with SMTP id
+ ne23-20020a17090b375700b00247afed6d62mr16843109pjb.46.1683721841985; Wed, 10
+ May 2023 05:30:41 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::435;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x435.google.com
+References: <20230503081911.119168-1-aesteve@redhat.com>
+ <20230503081911.119168-5-aesteve@redhat.com>
+ <CAJ+F1CJd_wdTuQgspE7=mPhgbvx9VDrd3iejcTDLquC8PBjj1A@mail.gmail.com>
+ <CADSE00JpwVFQqshm-XyMzmQ4_hciavsKox6sj8AAeBTQbk=Kxg@mail.gmail.com>
+ <CAJ+F1CJKr_MocGs92-4fWXP_6MCPe_c8hKUa4iqGxB=rsrv9+w@mail.gmail.com>
+In-Reply-To: <CAJ+F1CJKr_MocGs92-4fWXP_6MCPe_c8hKUa4iqGxB=rsrv9+w@mail.gmail.com>
+From: Albert Esteve <aesteve@redhat.com>
+Date: Wed, 10 May 2023 14:30:30 +0200
+Message-ID: <CADSE00Lv1yLvokfGZAj=rmOjNPDWZOP3dF9B19Q2_UQWQHeqCg@mail.gmail.com>
+Subject: Re: [PATCH 4/4] libvhost-user: add write_msg cb to dev struct
+To: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Cc: qemu-devel@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>
+Content-Type: multipart/alternative; boundary="0000000000004ae18905fb560abb"
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=aesteve@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -98,557 +95,380 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+--0000000000004ae18905fb560abb
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Richard Henderson <richard.henderson@linaro.org> writes:
+On Tue, May 9, 2023 at 2:53=E2=80=AFPM Marc-Andr=C3=A9 Lureau <marcandre.lu=
+reau@gmail.com>
+wrote:
 
-> Add tcg_out_ld_helper_args, tcg_out_ld_helper_ret,
-> and tcg_out_st_helper_args.  These and their subroutines
-> use the existing knowledge of the host function call abi
-> to load the function call arguments and return results.
+> Hi
 >
-> These will be used to simplify the backends in turn.
+> On Tue, May 9, 2023 at 3:17=E2=80=AFPM Albert Esteve <aesteve@redhat.com>=
+ wrote:
 >
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  tcg/tcg.c | 456 +++++++++++++++++++++++++++++++++++++++++++++++++++++-
->  1 file changed, 453 insertions(+), 3 deletions(-)
+>>
+>> Hi!
+>>
+>> On Tue, May 9, 2023 at 12:12=E2=80=AFPM Marc-Andr=C3=A9 Lureau <
+>> marcandre.lureau@gmail.com> wrote:
+>>
+>>> Hi
+>>>
+>>> On Wed, May 3, 2023 at 12:21=E2=80=AFPM Albert Esteve <aesteve@redhat.c=
+om>
+>>> wrote:
+>>>
+>>>> Add vu_write_msg_cb type as a member of the VuDev
+>>>> struct.
+>>>>
+>>>> In order to interact with the virtio-dmabuf
+>>>> API, vhost-user backends have available a special
+>>>> message type that can be sent to the frontend
+>>>> in Qemu, in order to add, lookup, or remove
+>>>> entries.
+>>>>
+>>>> To send these messages and avoid code replication,
+>>>> backends will need the write_msg method to be exposed
+>>>> to them, similarly to how the read_msg is for
+>>>> receiving messages.
+>>>>
+>>>
+>>> I think read_msg was introduced to blend libvhost-user IO to qemu
+>>> mainloop & coroutine. Is that what you have in mind for write_msg?
+>>>
+>>
+>> Uhm, after grep'ing, it seems that read_msg is only used within
+>> libvhost-user source, so I guess it is mainly used to
+>> allow backends to provide custom methods? Maybe I am misunderstanding.
+>>
+>> But my idea for adding `write_msg` is exposing the write method (i.e.,
+>> vu_message_write) to the backends,
+>> without having the function signature in the header. This way, vhost-use=
+r
+>> backends that want to write a message,
+>> can just use `dev->write_msg(args...)`. Which would be equivalent to
+>> `vu_message_write(args...)` if this
+>> was visible for others.
+>>
 >
-> diff --git a/tcg/tcg.c b/tcg/tcg.c
-> index 057423c121..748be8426a 100644
-> --- a/tcg/tcg.c
-> +++ b/tcg/tcg.c
-> @@ -181,6 +181,22 @@ static bool tcg_target_const_match(int64_t val, TCGT=
-ype type, int ct);
->  static int tcg_out_ldst_finalize(TCGContext *s);
->  #endif
->=20=20
-> +typedef struct TCGLdstHelperParam {
-> +    TCGReg (*ra_gen)(TCGContext *s, const TCGLabelQemuLdst *l, int arg_r=
-eg);
-> +    unsigned ntmp;
-> +    int tmp[3];
-> +} TCGLdstHelperParam;
-> +
-> +static void tcg_out_ld_helper_args(TCGContext *s, const TCGLabelQemuLdst=
- *l,
-> +                                   const TCGLdstHelperParam *p)
-> +    __attribute__((unused));
-> +static void tcg_out_ld_helper_ret(TCGContext *s, const TCGLabelQemuLdst =
-*l,
-> +                                  bool load_sign, const TCGLdstHelperPar=
-am *p)
-> +    __attribute__((unused));
-> +static void tcg_out_st_helper_args(TCGContext *s, const TCGLabelQemuLdst=
- *l,
-> +                                   const TCGLdstHelperParam *p)
-> +    __attribute__((unused));
-> +
->  TCGContext tcg_init_ctx;
->  __thread TCGContext *tcg_ctx;
->=20=20
-> @@ -459,9 +475,8 @@ static void tcg_out_movext1(TCGContext *s, const TCGM=
-ovExtend *i)
->   * between the sources and destinations.
->   */
->=20=20
-> -static void __attribute__((unused))
-> -tcg_out_movext2(TCGContext *s, const TCGMovExtend *i1,
-> -                const TCGMovExtend *i2, int scratch)
-> +static void tcg_out_movext2(TCGContext *s, const TCGMovExtend *i1,
-> +                            const TCGMovExtend *i2, int scratch)
->  {
->      TCGReg src1 =3D i1->src;
->      TCGReg src2 =3D i2->src;
-> @@ -715,6 +730,50 @@ static TCGHelperInfo all_helpers[] =3D {
->  };
->  static GHashTable *helper_table;
->=20=20
-> +#if TCG_TARGET_REG_BITS =3D=3D 32
-> +# define dh_typecode_ttl  dh_typecode_i32
-> +#else
-> +# define dh_typecode_ttl  dh_typecode_i64
-> +#endif
-> +
+>
+> Imho it's better to introduce a normal function in that case, that is
+> simply export vu_message_write_default().
+>
+>
+>> Another option could be to have a specific public method sending the
+>> requests to the frontend, that
+>> internally, would use `vu_message_write`. But since we introduce three
+>> new message types that
+>> backends can send, I thought adding different methods would be a bit too
+>> verbose.
+>>
+>
+> Actually, exposing higher-level methods to send specific messages is more
+> correct imho.
+>
 
-Might be worth a small comment to mention this is doing manually what
-the HELPER wrappers do although we don't use them for reasons.
+Then I will do that, thanks!
 
-> +static TCGHelperInfo info_helper_ld32_mmu =3D {
-> +    .flags =3D TCG_CALL_NO_WG,
-> +    .typemask =3D dh_typemask(ttl, 0)  /* return tcg_target_ulong */
-> +              | dh_typemask(env, 1)
-> +              | dh_typemask(tl, 2)   /* target_ulong addr */
-> +              | dh_typemask(i32, 3)  /* unsigned oi */
-> +              | dh_typemask(ptr, 4)  /* uintptr_t ra */
-> +};
-> +
-> +static TCGHelperInfo info_helper_ld64_mmu =3D {
-> +    .flags =3D TCG_CALL_NO_WG,
-> +    .typemask =3D dh_typemask(i64, 0)  /* return uint64_t */
-> +              | dh_typemask(env, 1)
-> +              | dh_typemask(tl, 2)   /* target_ulong addr */
-> +              | dh_typemask(i32, 3)  /* unsigned oi */
-> +              | dh_typemask(ptr, 4)  /* uintptr_t ra */
-> +};
-> +
-> +static TCGHelperInfo info_helper_st32_mmu =3D {
-> +    .flags =3D TCG_CALL_NO_WG,
-> +    .typemask =3D dh_typemask(void, 0)
-> +              | dh_typemask(env, 1)
-> +              | dh_typemask(tl, 2)   /* target_ulong addr */
-> +              | dh_typemask(i32, 3)  /* uint32_t data */
-> +              | dh_typemask(i32, 4)  /* unsigned oi */
-> +              | dh_typemask(ptr, 5)  /* uintptr_t ra */
-> +};
-> +
-> +static TCGHelperInfo info_helper_st64_mmu =3D {
-> +    .flags =3D TCG_CALL_NO_WG,
-> +    .typemask =3D dh_typemask(void, 0)
-> +              | dh_typemask(env, 1)
-> +              | dh_typemask(tl, 2)   /* target_ulong addr */
-> +              | dh_typemask(i64, 3)  /* uint64_t data */
-> +              | dh_typemask(i32, 4)  /* unsigned oi */
-> +              | dh_typemask(ptr, 5)  /* uintptr_t ra */
-> +};
-> +
->  #ifdef CONFIG_TCG_INTERPRETER
->  static ffi_type *typecode_to_ffi(int argmask)
->  {
-> @@ -1126,6 +1185,11 @@ static void tcg_context_init(unsigned max_cpus)
->                              (gpointer)&all_helpers[i]);
->      }
->=20=20
-> +    init_call_layout(&info_helper_ld32_mmu);
-> +    init_call_layout(&info_helper_ld64_mmu);
-> +    init_call_layout(&info_helper_st32_mmu);
-> +    init_call_layout(&info_helper_st64_mmu);
-> +
->  #ifdef CONFIG_TCG_INTERPRETER
->      init_ffi_layouts();
->  #endif
-> @@ -5011,6 +5075,392 @@ static void tcg_reg_alloc_call(TCGContext *s, TCG=
-Op *op)
->      }
->  }
->=20=20
-> +/*
-> + * Similarly for qemu_ld/st slow path helpers.
-> + * We must re-implement tcg_gen_callN and tcg_reg_alloc_call simultaneou=
-sly,
-> + * using only the provided backend tcg_out_* functions.
-> + */
-> +
-> +static int tcg_out_helper_stk_ofs(TCGType type, unsigned slot)
-> +{
-> +    int ofs =3D arg_slot_stk_ofs(slot);
-> +
-> +    /*
-> +     * Each stack slot is TCG_TARGET_LONG_BITS.  If the host does not
-> +     * require extension to uint64_t, adjust the address for uint32_t.
-> +     */
-> +    if (HOST_BIG_ENDIAN &&
-> +        TCG_TARGET_REG_BITS =3D=3D 64 &&
-> +        type =3D=3D TCG_TYPE_I32) {
-> +        ofs +=3D 4;
-> +    }
-> +    return ofs;
-> +}
-> +
-> +static void tcg_out_helper_load_regs(TCGContext *s,
-> +                                     unsigned nmov, TCGMovExtend *mov,
-> +                                     unsigned ntmp, const int *tmp)
-> +{
-> +    switch (nmov) {
-> +    default:
-> +        /* The backend must have provided enough temps for the worst cas=
-e. */
-> +        tcg_debug_assert(ntmp + 1 >=3D nmov);
-> +
-> +        for (unsigned i =3D nmov - 1; i >=3D 2; --i) {
-> +            TCGReg dst =3D mov[i].dst;
-> +
-> +            for (unsigned j =3D 0; j < i; ++j) {
-> +                if (dst =3D=3D mov[j].src) {
-> +                    /*
-> +                     * Conflict.
-> +                     * Copy the source to a temporary, recurse for the
-> +                     * remaining moves, perform the extension from our
-> +                     * scratch on the way out.
-> +                     */
-> +                    TCGReg scratch =3D tmp[--ntmp];
-> +                    tcg_out_mov(s, mov[i].src_type, scratch, mov[i].src);
-> +                    mov[i].src =3D scratch;
-> +
-> +                    tcg_out_helper_load_regs(s, i, mov, ntmp, tmp);
-> +                    tcg_out_movext1(s, &mov[i]);
-> +                    return;
-> +                }
-> +            }
-> +
-> +            /* No conflicts: perform this move and continue. */
-> +            tcg_out_movext1(s, &mov[i]);
-> +        }
-> +        /* fall through for the final two moves */
-> +
-> +    case 2:
-> +        tcg_out_movext2(s, mov, mov + 1, ntmp ? tmp[0] : -1);
-> +        return;
-> +    case 1:
-> +        tcg_out_movext1(s, mov);
-> +        return;
-> +    case 0:
-> +        g_assert_not_reached();
-> +    }
-> +}
-> +
-> +static void tcg_out_helper_load_slots(TCGContext *s,
-> +                                      unsigned nmov, TCGMovExtend *mov,
-> +                                      const TCGLdstHelperParam *parm)
 
-I think a documentation patch before this for TCGMoveExtend describing
-the reg/slot duality for dst might be worthwhile.
+>
+>
+>>>
+>>>> Signed-off-by: Albert Esteve <aesteve@redhat.com>
+>>>> ---
+>>>>  subprojects/libvhost-user/libvhost-user.c |  1 +
+>>>>  subprojects/libvhost-user/libvhost-user.h | 16 ++++++++++++++++
+>>>>  2 files changed, 17 insertions(+)
+>>>>
+>>>> diff --git a/subprojects/libvhost-user/libvhost-user.c
+>>>> b/subprojects/libvhost-user/libvhost-user.c
+>>>> index 6b4b721225..c50b353915 100644
+>>>> --- a/subprojects/libvhost-user/libvhost-user.c
+>>>> +++ b/subprojects/libvhost-user/libvhost-user.c
+>>>> @@ -2115,6 +2115,7 @@ vu_init(VuDev *dev,
+>>>>      dev->sock =3D socket;
+>>>>      dev->panic =3D panic;
+>>>>      dev->read_msg =3D read_msg ? read_msg : vu_message_read_default;
+>>>> +    dev->write_msg =3D vu_message_write;
+>>>>
+>>>
+>>> You are not making it customizable? And the callback is not used.
+>>>
+>>
+>> Making it customizable would require changing the signature of `vu_init`=
+,
+>> and I did not see
+>> the need for this usecase. I just want to expose the static method to th=
+e
+>> backends.
+>>
+>>
+> ok
+>
+>
+>> The callback is not used because there is still no virtio device to use
+>> it. But this whole
+>> infrastructure will be nice to have for the next device that would
+>> require it (e.g., virtio-video).
+>>
+>> In that regard, this commit could be skipped from the PATCH and just
+>> change it once there
+>> is a virtio device that needs to send a `VHOST_USER_BACKEND_SHARED_OBJEC=
+T`
+>> message. Basically, I needed it for testing (just had a dummy vhost-user
+>> backend that I used for
+>> sending messages), and then decided to keep it. But maybe having a
+>> simpler patch is better.
+>>
+>>
+>>>
+>>>
+>>>>      dev->set_watch =3D set_watch;
+>>>>      dev->remove_watch =3D remove_watch;
+>>>>      dev->iface =3D iface;
+>>>> diff --git a/subprojects/libvhost-user/libvhost-user.h
+>>>> b/subprojects/libvhost-user/libvhost-user.h
+>>>> index 784db65f7c..f5d7162886 100644
+>>>> --- a/subprojects/libvhost-user/libvhost-user.h
+>>>> +++ b/subprojects/libvhost-user/libvhost-user.h
+>>>> @@ -242,6 +242,7 @@ typedef void (*vu_set_features_cb) (VuDev *dev,
+>>>> uint64_t features);
+>>>>  typedef int (*vu_process_msg_cb) (VuDev *dev, VhostUserMsg *vmsg,
+>>>>                                    int *do_reply);
+>>>>  typedef bool (*vu_read_msg_cb) (VuDev *dev, int sock, VhostUserMsg
+>>>> *vmsg);
+>>>> +typedef bool (*vu_write_msg_cb) (VuDev *dev, int sock, VhostUserMsg
+>>>> *vmsg);
+>>>>  typedef void (*vu_queue_set_started_cb) (VuDev *dev, int qidx, bool
+>>>> started);
+>>>>  typedef bool (*vu_queue_is_processed_in_order_cb) (VuDev *dev, int
+>>>> qidx);
+>>>>  typedef int (*vu_get_config_cb) (VuDev *dev, uint8_t *config, uint32_=
+t
+>>>> len);
+>>>> @@ -429,6 +430,21 @@ struct VuDev {
+>>>>       */
+>>>>      vu_read_msg_cb read_msg;
+>>>>
+>>>> +    /*
+>>>> +     * @write_msg: custom method to write vhost-user message
+>>>> +     *
+>>>> +     * Write data to vhost_user socket fd from the passed
+>>>> +     * VhostUserMsg *vmsg struct.
+>>>> +     *
+>>>> +     * For the details, please refer to vu_message_write in
+>>>> libvhost-user.c
+>>>> +     * which will be used by default when calling vu_unit.
+>>>> +     * No custom method is allowed.
+>>>>
+>>>
+>>> "No custom method is allowed"?
+>>>
+>>
+>> I meant that I am not making it customizable (from your previous point),
+>> as opposed to the `read_msg` method.
+>>
+>>
+>>>
+>>>
+>>>> +     *
+>>>> +     * Returns: true if vhost-user message successfully sent, false
+>>>> otherwise.
+>>>> +     *
+>>>> +     */
+>>>> +    vu_write_msg_cb write_msg;
+>>>> +
+>>>>
+>>>
+>>>
+>>> --
+>>> Marc-Andr=C3=A9 Lureau
+>>>
+>>
+>
+> --
+> Marc-Andr=C3=A9 Lureau
+>
 
-> +{
-> +    unsigned i;
-> +
-> +    /*
-> +     * Start from the end, storing to the stack first.
-> +     * This frees those registers, so we need not consider overlap.
-> +     */
-> +    for (i =3D nmov; i-- > 0; ) {
-> +        unsigned slot =3D mov[i].dst;
-> +
-> +        if (arg_slot_reg_p(slot)) {
-> +            goto found_reg;
-> +        }
-> +
-> +        TCGReg src =3D mov[i].src;
-> +        TCGType dst_type =3D mov[i].dst_type;
-> +        MemOp dst_mo =3D dst_type =3D=3D TCG_TYPE_I32 ? MO_32 : MO_64;
-> +
-> +        /* The argument is going onto the stack; extend into scratch. */
-> +        if ((mov[i].src_ext & MO_SIZE) !=3D dst_mo) {
-> +            tcg_debug_assert(parm->ntmp !=3D 0);
-> +            mov[i].dst =3D src =3D parm->tmp[0];
-> +            tcg_out_movext1(s, &mov[i]);
-> +        }
-> +
-> +        tcg_out_st(s, dst_type, src, TCG_REG_CALL_STACK,
-> +                   tcg_out_helper_stk_ofs(dst_type, slot));
-> +    }
-> +    return;
-> +
-> + found_reg:
-> +    /*
-> +     * The remaining arguments are in registers.
-> +     * Convert slot numbers to argument registers.
-> +     */
-> +    nmov =3D i + 1;
-> +    for (i =3D 0; i < nmov; ++i) {
-> +        mov[i].dst =3D tcg_target_call_iarg_regs[mov[i].dst];
-> +    }
-> +    tcg_out_helper_load_regs(s, nmov, mov, parm->ntmp, parm->tmp);
-> +}
-> +
-> +static void tcg_out_helper_load_imm(TCGContext *s, unsigned slot,
-> +                                    TCGType type, tcg_target_long imm,
-> +                                    const TCGLdstHelperParam *parm)
-> +{
-> +    if (arg_slot_reg_p(slot)) {
-> +        tcg_out_movi(s, type, tcg_target_call_iarg_regs[slot], imm);
-> +    } else {
-> +        int ofs =3D tcg_out_helper_stk_ofs(type, slot);
-> +        if (!tcg_out_sti(s, type, imm, TCG_REG_CALL_STACK, ofs)) {
-> +            tcg_debug_assert(parm->ntmp !=3D 0);
-> +            tcg_out_movi(s, type, parm->tmp[0], imm);
-> +            tcg_out_st(s, type, parm->tmp[0], TCG_REG_CALL_STACK, ofs);
-> +        }
-> +    }
-> +}
-> +
-> +static void tcg_out_helper_load_common_args(TCGContext *s,
-> +                                            const TCGLabelQemuLdst *ldst,
-> +                                            const TCGLdstHelperParam *pa=
-rm,
-> +                                            const TCGHelperInfo *info,
-> +                                            unsigned next_arg)
-> +{
-> +    TCGMovExtend ptr_mov =3D {
-> +        .dst_type =3D TCG_TYPE_PTR,
-> +        .src_type =3D TCG_TYPE_PTR,
-> +        .src_ext =3D sizeof(void *) =3D=3D 4 ? MO_32 : MO_64
-> +    };
-> +    const TCGCallArgumentLoc *loc =3D &info->in[0];
-> +    TCGType type;
-> +    unsigned slot;
-> +    tcg_target_ulong imm;
-> +
-> +    /*
-> +     * Handle env, which is always first.
-> +     */
-> +    ptr_mov.dst =3D loc->arg_slot;
-> +    ptr_mov.src =3D TCG_AREG0;
-> +    tcg_out_helper_load_slots(s, 1, &ptr_mov, parm);
-> +
-> +    /*
-> +     * Handle oi.
-> +     */
-> +    imm =3D ldst->oi;
-> +    loc =3D &info->in[next_arg];
-> +    type =3D TCG_TYPE_I32;
-> +    switch (loc->kind) {
-> +    case TCG_CALL_ARG_NORMAL:
-> +        break;
-> +    case TCG_CALL_ARG_EXTEND_U:
-> +    case TCG_CALL_ARG_EXTEND_S:
-> +        /* No extension required for MemOpIdx. */
-> +        tcg_debug_assert(imm <=3D INT32_MAX);
-> +        type =3D TCG_TYPE_REG;
-> +        break;
-> +    default:
-> +        g_assert_not_reached();
-> +    }
-> +    tcg_out_helper_load_imm(s, loc->arg_slot, type, imm, parm);
-> +    next_arg++;
-> +
-> +    /*
-> +     * Handle ra.
-> +     */
-> +    loc =3D &info->in[next_arg];
-> +    slot =3D loc->arg_slot;
-> +    if (parm->ra_gen) {
-> +        int arg_reg =3D -1;
-> +        TCGReg ra_reg;
-> +
-> +        if (arg_slot_reg_p(slot)) {
-> +            arg_reg =3D tcg_target_call_iarg_regs[slot];
-> +        }
-> +        ra_reg =3D parm->ra_gen(s, ldst, arg_reg);
-> +
-> +        ptr_mov.dst =3D slot;
-> +        ptr_mov.src =3D ra_reg;
-> +        tcg_out_helper_load_slots(s, 1, &ptr_mov, parm);
-> +    } else {
-> +        imm =3D (uintptr_t)ldst->raddr;
-> +        tcg_out_helper_load_imm(s, slot, TCG_TYPE_PTR, imm, parm);
-> +    }
-> +}
-> +
-> +static unsigned tcg_out_helper_add_mov(TCGMovExtend *mov,
-> +                                       const TCGCallArgumentLoc *loc,
-> +                                       TCGType dst_type, TCGType src_typ=
-e,
-> +                                       TCGReg lo, TCGReg hi)
-> +{
-> +    if (dst_type <=3D TCG_TYPE_REG) {
-> +        MemOp src_ext;
-> +
-> +        switch (loc->kind) {
-> +        case TCG_CALL_ARG_NORMAL:
-> +            src_ext =3D src_type =3D=3D TCG_TYPE_I32 ? MO_32 : MO_64;
-> +            break;
-> +        case TCG_CALL_ARG_EXTEND_U:
-> +            dst_type =3D TCG_TYPE_REG;
-> +            src_ext =3D MO_UL;
-> +            break;
-> +        case TCG_CALL_ARG_EXTEND_S:
-> +            dst_type =3D TCG_TYPE_REG;
-> +            src_ext =3D MO_SL;
-> +            break;
-> +        default:
-> +            g_assert_not_reached();
-> +        }
-> +
-> +        mov[0].dst =3D loc->arg_slot;
-> +        mov[0].dst_type =3D dst_type;
-> +        mov[0].src =3D lo;
-> +        mov[0].src_type =3D src_type;
-> +        mov[0].src_ext =3D src_ext;
-> +        return 1;
-> +    }
-> +
-> +    assert(TCG_TARGET_REG_BITS =3D=3D 32);
-> +
-> +    mov[0].dst =3D loc[HOST_BIG_ENDIAN].arg_slot;
-> +    mov[0].src =3D lo;
-> +    mov[0].dst_type =3D TCG_TYPE_I32;
-> +    mov[0].src_type =3D TCG_TYPE_I32;
-> +    mov[0].src_ext =3D MO_32;
-> +
-> +    mov[1].dst =3D loc[!HOST_BIG_ENDIAN].arg_slot;
-> +    mov[1].src =3D hi;
-> +    mov[1].dst_type =3D TCG_TYPE_I32;
-> +    mov[1].src_type =3D TCG_TYPE_I32;
-> +    mov[1].src_ext =3D MO_32;
-> +
-> +    return 2;
-> +}
-> +
-> +static void tcg_out_ld_helper_args(TCGContext *s, const TCGLabelQemuLdst=
- *ldst,
-> +                                   const TCGLdstHelperParam *parm)
-> +{
-> +    const TCGHelperInfo *info;
-> +    const TCGCallArgumentLoc *loc;
-> +    TCGMovExtend mov[2];
-> +    unsigned next_arg, nmov;
-> +    MemOp mop =3D get_memop(ldst->oi);
-> +
-> +    switch (mop & MO_SIZE) {
-> +    case MO_8:
-> +    case MO_16:
-> +    case MO_32:
-> +        info =3D &info_helper_ld32_mmu;
-> +        break;
-> +    case MO_64:
-> +        info =3D &info_helper_ld64_mmu;
-> +        break;
-> +    default:
-> +        g_assert_not_reached();
-> +    }
-> +
-> +    /* Defer env argument. */
-> +    next_arg =3D 1;
+--0000000000004ae18905fb560abb
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-This could be assigned on creation but maybe even just open code:
+<div dir=3D"ltr"><div dir=3D"ltr"><br clear=3D"all"><div><div dir=3D"ltr" c=
+lass=3D"gmail_signature"><div dir=3D"ltr"><p style=3D"color:rgb(0,0,0);font=
+-family:RedHatText,sans-serif;font-weight:bold;margin:0px;padding:0px;font-=
+size:14px"><br></p></div></div></div></div><br><div class=3D"gmail_quote"><=
+div dir=3D"ltr" class=3D"gmail_attr">On Tue, May 9, 2023 at 2:53=E2=80=AFPM=
+ Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lureau@gmail.com">m=
+arcandre.lureau@gmail.com</a>&gt; wrote:<br></div><blockquote class=3D"gmai=
+l_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,20=
+4,204);padding-left:1ex"><div dir=3D"ltr"><div dir=3D"ltr">Hi<br></div><br>=
+<div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Tue, Ma=
+y 9, 2023 at 3:17=E2=80=AFPM Albert Esteve &lt;<a href=3D"mailto:aesteve@re=
+dhat.com" target=3D"_blank">aesteve@redhat.com</a>&gt; wrote:<br></div><blo=
+ckquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left=
+:1px solid rgb(204,204,204);padding-left:1ex"><div dir=3D"ltr"><div dir=3D"=
+ltr"><br clear=3D"all"><div><div dir=3D"ltr"><div dir=3D"ltr"><p style=3D"c=
+olor:rgb(0,0,0);font-family:RedHatText,sans-serif;margin:0px;padding:0px;fo=
+nt-size:14px">Hi!</p></div></div></div></div><br><div class=3D"gmail_quote"=
+><div dir=3D"ltr" class=3D"gmail_attr">On Tue, May 9, 2023 at 12:12=E2=80=
+=AFPM Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lureau@gmail.c=
+om" target=3D"_blank">marcandre.lureau@gmail.com</a>&gt; wrote:<br></div><b=
+lockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-le=
+ft:1px solid rgb(204,204,204);padding-left:1ex"><div dir=3D"ltr"><div dir=
+=3D"ltr">Hi<br></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
+=3D"gmail_attr">On Wed, May 3, 2023 at 12:21=E2=80=AFPM Albert Esteve &lt;<=
+a href=3D"mailto:aesteve@redhat.com" target=3D"_blank">aesteve@redhat.com</=
+a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0p=
+x 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Ad=
+d vu_write_msg_cb type as a member of the VuDev<br>
+struct.<br>
+<br>
+In order to interact with the virtio-dmabuf<br>
+API, vhost-user backends have available a special<br>
+message type that can be sent to the frontend<br>
+in Qemu, in order to add, lookup, or remove<br>
+entries.<br>
+<br>
+To send these messages and avoid code replication,<br>
+backends will need the write_msg method to be exposed<br>
+to them, similarly to how the read_msg is for<br>
+receiving messages.<br></blockquote><div><br></div><div>I think read_msg wa=
+s introduced to blend libvhost-user IO to qemu mainloop &amp; coroutine. Is=
+ that what you have in mind for write_msg?<br></div></div></div></blockquot=
+e><div><br></div><div>Uhm, after grep&#39;ing, it seems that read_msg is on=
+ly used within libvhost-user source, so I guess it is mainly used to</div><=
+div>allow backends to provide custom methods? Maybe I am misunderstanding.<=
+/div><div><br></div><div>But my idea for adding `write_msg` is exposing the=
+ write method (i.e., vu_message_write) to the backends,</div><div>without h=
+aving the function signature in the header. This way, vhost-user backends t=
+hat want to write a message,</div><div>can just use `dev-&gt;write_msg(args=
+...)`. Which would be equivalent to `vu_message_write(args...)` if this</di=
+v><div>was visible for others.</div></div></div></blockquote><div><br></div=
+><div><br></div><div>Imho it&#39;s better to introduce a normal function in=
+ that case, that is simply export vu_message_write_default().<br></div><div=
+><br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.=
+8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><div dir=3D"lt=
+r"><div class=3D"gmail_quote"><div><br></div><div>Another option could be t=
+o have a specific public method sending the requests to the frontend, that<=
+/div><div>internally, would use `vu_message_write`. But since we introduce =
+three new message types that</div><div>backends can send, I thought adding =
+different methods would be a bit too verbose.</div></div></div></blockquote=
+><div><br></div><div>Actually, exposing higher-level methods to send specif=
+ic messages is more correct imho.</div></div></div></blockquote><div><br></=
+div><div>Then I will do that, thanks!</div><div>=C2=A0</div><blockquote cla=
+ss=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid =
+rgb(204,204,204);padding-left:1ex"><div dir=3D"ltr"><div class=3D"gmail_quo=
+te"><div><br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0p=
+x 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><div d=
+ir=3D"ltr"><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" sty=
+le=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);paddi=
+ng-left:1ex"><div dir=3D"ltr"><div class=3D"gmail_quote"><div></div><div><b=
+r></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex=
+;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+<br>
+Signed-off-by: Albert Esteve &lt;<a href=3D"mailto:aesteve@redhat.com" targ=
+et=3D"_blank">aesteve@redhat.com</a>&gt;<br>
+---<br>
+=C2=A0subprojects/libvhost-user/libvhost-user.c |=C2=A0 1 +<br>
+=C2=A0subprojects/libvhost-user/libvhost-user.h | 16 ++++++++++++++++<br>
+=C2=A02 files changed, 17 insertions(+)<br>
+<br>
+diff --git a/subprojects/libvhost-user/libvhost-user.c b/subprojects/libvho=
+st-user/libvhost-user.c<br>
+index 6b4b721225..c50b353915 100644<br>
+--- a/subprojects/libvhost-user/libvhost-user.c<br>
++++ b/subprojects/libvhost-user/libvhost-user.c<br>
+@@ -2115,6 +2115,7 @@ vu_init(VuDev *dev,<br>
+=C2=A0 =C2=A0 =C2=A0dev-&gt;sock =3D socket;<br>
+=C2=A0 =C2=A0 =C2=A0dev-&gt;panic =3D panic;<br>
+=C2=A0 =C2=A0 =C2=A0dev-&gt;read_msg =3D read_msg ? read_msg : vu_message_r=
+ead_default;<br>
++=C2=A0 =C2=A0 dev-&gt;write_msg =3D vu_message_write;<br></blockquote><div=
+><br></div><div>You are not making it customizable? And the callback is not=
+ used.<br></div></div></div></blockquote><div><br></div><div>Making it cust=
+omizable would require changing the signature of `vu_init`, and I did not s=
+ee</div><div>the need for this usecase. I just want to expose the static me=
+thod to the backends.</div><div><br></div></div></div></blockquote><div><br=
+></div><div>ok</div><div>=C2=A0<br></div><blockquote class=3D"gmail_quote" =
+style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);pa=
+dding-left:1ex"><div dir=3D"ltr"><div class=3D"gmail_quote"><div></div><div=
+>The callback is not used because there is still no virtio device to use it=
+. But this whole</div><div>infrastructure will be nice to have for the next=
+ device that would require it (e.g., virtio-video).</div><div><br></div><di=
+v>In that regard, this commit could be skipped from the PATCH and just chan=
+ge it once there</div><div>is a virtio device that needs to send a `VHOST_U=
+SER_BACKEND_SHARED_OBJECT`</div><div>message. Basically, I needed it for te=
+sting (just had a dummy vhost-user backend that I used for</div><div>sendin=
+g messages), and then decided to keep it. But maybe having a simpler patch =
+is better.</div><div>=C2=A0<br></div><blockquote class=3D"gmail_quote" styl=
+e=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);paddin=
+g-left:1ex"><div dir=3D"ltr"><div class=3D"gmail_quote"><div></div><div>=C2=
+=A0<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px =
+0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+=C2=A0 =C2=A0 =C2=A0dev-&gt;set_watch =3D set_watch;<br>
+=C2=A0 =C2=A0 =C2=A0dev-&gt;remove_watch =3D remove_watch;<br>
+=C2=A0 =C2=A0 =C2=A0dev-&gt;iface =3D iface;<br>
+diff --git a/subprojects/libvhost-user/libvhost-user.h b/subprojects/libvho=
+st-user/libvhost-user.h<br>
+index 784db65f7c..f5d7162886 100644<br>
+--- a/subprojects/libvhost-user/libvhost-user.h<br>
++++ b/subprojects/libvhost-user/libvhost-user.h<br>
+@@ -242,6 +242,7 @@ typedef void (*vu_set_features_cb) (VuDev *dev, uint64_=
+t features);<br>
+=C2=A0typedef int (*vu_process_msg_cb) (VuDev *dev, VhostUserMsg *vmsg,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0int *do_reply);<br>
+=C2=A0typedef bool (*vu_read_msg_cb) (VuDev *dev, int sock, VhostUserMsg *v=
+msg);<br>
++typedef bool (*vu_write_msg_cb) (VuDev *dev, int sock, VhostUserMsg *vmsg)=
+;<br>
+=C2=A0typedef void (*vu_queue_set_started_cb) (VuDev *dev, int qidx, bool s=
+tarted);<br>
+=C2=A0typedef bool (*vu_queue_is_processed_in_order_cb) (VuDev *dev, int qi=
+dx);<br>
+=C2=A0typedef int (*vu_get_config_cb) (VuDev *dev, uint8_t *config, uint32_=
+t len);<br>
+@@ -429,6 +430,21 @@ struct VuDev {<br>
+=C2=A0 =C2=A0 =C2=A0 */<br>
+=C2=A0 =C2=A0 =C2=A0vu_read_msg_cb read_msg;<br>
+<br>
++=C2=A0 =C2=A0 /*<br>
++=C2=A0 =C2=A0 =C2=A0* @write_msg: custom method to write vhost-user messag=
+e<br>
++=C2=A0 =C2=A0 =C2=A0*<br>
++=C2=A0 =C2=A0 =C2=A0* Write data to vhost_user socket fd from the passed<b=
+r>
++=C2=A0 =C2=A0 =C2=A0* VhostUserMsg *vmsg struct.<br>
++=C2=A0 =C2=A0 =C2=A0*<br>
++=C2=A0 =C2=A0 =C2=A0* For the details, please refer to vu_message_write in=
+ libvhost-user.c<br>
++=C2=A0 =C2=A0 =C2=A0* which will be used by default when calling vu_unit.<=
+br>
++=C2=A0 =C2=A0 =C2=A0* No custom method is allowed.<br></blockquote><div><b=
+r></div><div>&quot;No custom method is allowed&quot;?</div></div></div></bl=
+ockquote><div><br></div><div>I meant that I am not making it customizable (=
+from your previous point),</div><div>as opposed to the `read_msg` method.</=
+div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px =
+0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><div=
+ dir=3D"ltr"><div class=3D"gmail_quote"><div>=C2=A0<br></div><blockquote cl=
+ass=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid=
+ rgb(204,204,204);padding-left:1ex">
++=C2=A0 =C2=A0 =C2=A0*<br>
++=C2=A0 =C2=A0 =C2=A0* Returns: true if vhost-user message successfully sen=
+t, false otherwise.<br>
++=C2=A0 =C2=A0 =C2=A0*<br>
++=C2=A0 =C2=A0 =C2=A0*/<br>
++=C2=A0 =C2=A0 vu_write_msg_cb write_msg;<br>
++<br></blockquote><div><br></div></div><br><span>-- </span><br><div dir=3D"=
+ltr">Marc-Andr=C3=A9 Lureau<br></div></div>
+</blockquote></div></div>
+</blockquote></div><br clear=3D"all"><br><span>-- </span><br><div dir=3D"lt=
+r">Marc-Andr=C3=A9 Lureau<br></div></div>
+</blockquote></div></div>
 
- loc =3D &info->in[1]
- ..
- tcg_out_helper_load_common_args(s, ldst, parm, info, 1 + nmov);
+--0000000000004ae18905fb560abb--
 
-although I concede that matching up with the store helper makes sense.=20
-=20
-> +
-> +    loc =3D &info->in[next_arg];
-> +    nmov =3D tcg_out_helper_add_mov(mov, loc, TCG_TYPE_TL, TCG_TYPE_TL,
-> +                                  ldst->addrlo_reg, ldst->addrhi_reg);
-> +    next_arg +=3D nmov;
-> +
-> +    tcg_out_helper_load_slots(s, nmov, mov, parm);
-> +
-> +    /* No special attention for 32 and 64-bit return values. */
-> +    tcg_debug_assert(info->out_kind =3D=3D TCG_CALL_RET_NORMAL);
-> +
-> +    tcg_out_helper_load_common_args(s, ldst, parm, info, next_arg);
-> +}
-> +
-> +static void tcg_out_ld_helper_ret(TCGContext *s, const TCGLabelQemuLdst =
-*ldst,
-> +                                  bool load_sign,
-> +                                  const TCGLdstHelperParam *parm)
-> +{
-> +    TCGMovExtend mov[2];
-> +
-> +    if (ldst->type <=3D TCG_TYPE_REG) {
-> +        MemOp mop =3D get_memop(ldst->oi);
-> +
-> +        mov[0].dst =3D ldst->datalo_reg;
-> +        mov[0].src =3D tcg_target_call_oarg_reg(TCG_CALL_RET_NORMAL, 0);
-> +        mov[0].dst_type =3D ldst->type;
-> +        mov[0].src_type =3D TCG_TYPE_REG;
-> +
-> +        /*
-> +         * If load_sign, then we allowed the helper to perform the
-> +         * appropriate sign extension to tcg_target_ulong, and all
-> +         * we need now is a plain move.
-> +         *
-> +         * If they do not, then we expect the relevant extension
-> +         * instruction to be no more expensive than a move, and
-> +         * we thus save the icache etc by only using one of two
-> +         * helper functions.
-> +         */
-> +        if (load_sign || !(mop & MO_SIGN)) {
-> +            if (TCG_TARGET_REG_BITS =3D=3D 32 || ldst->type =3D=3D TCG_T=
-YPE_I32) {
-> +                mov[0].src_ext =3D MO_32;
-> +            } else {
-> +                mov[0].src_ext =3D MO_64;
-> +            }
-> +        } else {
-> +            mov[0].src_ext =3D mop & MO_SSIZE;
-> +        }
-> +        tcg_out_movext1(s, mov);
-> +    } else {
-> +        assert(TCG_TARGET_REG_BITS =3D=3D 32);
-> +
-> +        mov[0].dst =3D ldst->datalo_reg;
-> +        mov[0].src =3D
-> +            tcg_target_call_oarg_reg(TCG_CALL_RET_NORMAL, HOST_BIG_ENDIA=
-N);
-> +        mov[0].dst_type =3D TCG_TYPE_I32;
-> +        mov[0].src_type =3D TCG_TYPE_I32;
-> +        mov[0].src_ext =3D MO_32;
-> +
-> +        mov[1].dst =3D ldst->datahi_reg;
-> +        mov[1].src =3D
-> +            tcg_target_call_oarg_reg(TCG_CALL_RET_NORMAL, !HOST_BIG_ENDI=
-AN);
-> +        mov[1].dst_type =3D TCG_TYPE_REG;
-> +        mov[1].src_type =3D TCG_TYPE_REG;
-> +        mov[1].src_ext =3D MO_32;
-> +
-> +        tcg_out_movext2(s, mov, mov + 1, parm->ntmp ? parm->tmp[0] : -1);
-> +    }
-> +}
-> +
-> +static void tcg_out_st_helper_args(TCGContext *s, const TCGLabelQemuLdst=
- *ldst,
-> +                                   const TCGLdstHelperParam *parm)
-> +{
-> +    const TCGHelperInfo *info;
-> +    const TCGCallArgumentLoc *loc;
-> +    TCGMovExtend mov[4];
-> +    TCGType data_type;
-> +    unsigned next_arg, nmov, n;
-> +    MemOp mop =3D get_memop(ldst->oi);
-> +
-> +    switch (mop & MO_SIZE) {
-> +    case MO_8:
-> +    case MO_16:
-> +    case MO_32:
-> +        info =3D &info_helper_st32_mmu;
-> +        data_type =3D TCG_TYPE_I32;
-> +        break;
-> +    case MO_64:
-> +        info =3D &info_helper_st64_mmu;
-> +        data_type =3D TCG_TYPE_I64;
-> +        break;
-> +    default:
-> +        g_assert_not_reached();
-> +    }
-> +
-> +    /* Defer env argument. */
-> +    next_arg =3D 1;
-> +    nmov =3D 0;
-> +
-> +    /* Handle addr argument. */
-> +    loc =3D &info->in[next_arg];
-> +    n =3D tcg_out_helper_add_mov(mov, loc, TCG_TYPE_TL, TCG_TYPE_TL,
-> +                               ldst->addrlo_reg, ldst->addrhi_reg);
-> +    next_arg +=3D n;
-> +    nmov +=3D n;
-> +
-> +    /* Handle data argument. */
-> +    loc =3D &info->in[next_arg];
-> +    n =3D tcg_out_helper_add_mov(mov + nmov, loc, data_type, ldst->type,
-> +                               ldst->datalo_reg, ldst->datahi_reg);
-> +    next_arg +=3D n;
-> +    nmov +=3D n;
-> +    tcg_debug_assert(nmov <=3D ARRAY_SIZE(mov));
-> +
-> +    tcg_out_helper_load_slots(s, nmov, mov, parm);
-> +    tcg_out_helper_load_common_args(s, ldst, parm, info, next_arg);
-> +}
-> +
->  #ifdef CONFIG_PROFILER
->=20=20
->  /* avoid copy/paste errors */
-
-Otherwise:
-
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-
---=20
-Alex Benn=C3=A9e
-Virtualisation Tech Lead @ Linaro
 
