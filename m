@@ -2,84 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3AB826FD827
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 May 2023 09:29:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C619A6FD82B
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 May 2023 09:29:37 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pweFI-00078w-TM; Wed, 10 May 2023 03:28:20 -0400
+	id 1pweGA-0007gn-C4; Wed, 10 May 2023 03:29:14 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pweFH-00078j-2k
- for qemu-devel@nongnu.org; Wed, 10 May 2023 03:28:19 -0400
-Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a])
+ (Exim 4.90_1) (envelope-from <tmaillart@freebox.fr>)
+ id 1pweG7-0007bk-EW
+ for qemu-devel@nongnu.org; Wed, 10 May 2023 03:29:11 -0400
+Received: from mail-ej1-x632.google.com ([2a00:1450:4864:20::632])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pweFF-0005E5-C6
- for qemu-devel@nongnu.org; Wed, 10 May 2023 03:28:18 -0400
-Received: by mail-wm1-x32a.google.com with SMTP id
- 5b1f17b1804b1-3f315712406so234735075e9.0
- for <qemu-devel@nongnu.org>; Wed, 10 May 2023 00:28:16 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <tmaillart@freebox.fr>)
+ id 1pweG3-0005Ia-Vi
+ for qemu-devel@nongnu.org; Wed, 10 May 2023 03:29:11 -0400
+Received: by mail-ej1-x632.google.com with SMTP id
+ a640c23a62f3a-94a34a14a54so1363066566b.1
+ for <qemu-devel@nongnu.org>; Wed, 10 May 2023 00:29:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1683703696; x=1686295696;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
+ d=freebox-fr.20221208.gappssmtp.com; s=20221208; t=1683703744; x=1686295744;
+ h=to:subject:message-id:date:from:in-reply-to:references:mime-version
  :from:to:cc:subject:date:message-id:reply-to;
- bh=8yh2+Mh4ZGz56gjttMaknwKBgjFb6g2g4dyQhKXa86A=;
- b=V5SSYe9Q0qEDvGOnNkdRVamSzAWiRx51ylAw3yMw8lFTLCRFkRieMYb8WC9RmZtIKJ
- nUt8yu5zBxWLT34hzi18wyOJfviZVJ+Uw4J57YxPZ2rI5tinBhPm3O2g4wakPPTCbAG4
- fBUQ8NwHDgvPk7/rw0g5Ax+6UQ0A0EQ+xHCw2kkhZ8uaIu2VUf6GeewFkejRkOZRAZVB
- c/XxBoGK0Y2cvnT4cc3DL8q9ruOkSRgNg+21AwjtfnkxZGjWjye/W4LWB3Gjf7HQ7N4U
- Me8ypLcFAZdsqg3mDhPKEUKHL6ktt4mReTIlXx9dUnT9ow0/R6P7xBpOBSNOnnP4NudH
- YZvw==
+ bh=9iBy8eTxFCs12QR2EOc0WfonR/M/eEe31Qfl8fDwTaI=;
+ b=5r3CA1v7xxNQPzhCL8a4WoyhlFyRlDuq74i5TLDnRkzj7xkkFV3GuAYrmOBvYVyKBc
+ E2PWL5IIoL8G2ZqSTpA5KEl6cP4/prkYklnY6eRweGbQbjYasoqz7/92wIC5Ya5rMNyk
+ qEh9V1Owpk9xmWKgl42KEhj5sL7mLpsKE4JcxJHf3uyRuJeEXcOSJFJ7/ufsCzD61l/G
+ SDSeHXlxeeN0/8qyQmEbPkCuq0snf9WPq4ZYxZxk23UkwuvqRAxtQuMpcsLAG+2QJZGb
+ 7TV7p/65HVdGmHYtre4BMrQ74DUWl3wJAAuvmMmevHUV+Kdbxjgev4KvWTu2kOnGhKAu
+ hijQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683703696; x=1686295696;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
+ d=1e100.net; s=20221208; t=1683703744; x=1686295744;
+ h=to:subject:message-id:date:from:in-reply-to:references:mime-version
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=8yh2+Mh4ZGz56gjttMaknwKBgjFb6g2g4dyQhKXa86A=;
- b=doNafLmww97JIUuGGx90WYolQqYINfI9KESABuM4jGbpGOYeV/NJT++2m6AolRb2uP
- dtJoqgZc5o7atlXzeChBkHx87lwBMJ9Y49ACInT+XlLijP/MyoToervrcOxcDYuu2WlK
- FIwyBHwQLBy+q2icyMkoVz4likjfY0K4VBvkmnYZ6avjgiQDz+MsRcShzaRiWQBAQYv0
- 1zPqV8H+PSoJ5NbivBUr+oROx9ibXOnMOO+o5cSDVAy5TiGZShJ6xyoMFr8jAFbhulMV
- YDWDrHixlADL/MHS95EQN60/wboMJJNpshPUqIhJ3y27pH+ZyG0QZB6nyNTnKtYdJgVq
- BkAQ==
-X-Gm-Message-State: AC+VfDwloli7q+q7hRPr2Zs27QrRvy8y4phpuOdCM86y+KpAR8R68xBO
- c+9Byoh1yWAfDFg81q+1dObtCw==
-X-Google-Smtp-Source: ACHHUZ4aHfyDWEeTqci5aKMjNUSKaw+WoU6TdITeRRIpm0nRTnKLhBGQ+q3GRrtkb1FPFtblzecc6Q==
-X-Received: by 2002:a05:600c:21cf:b0:3f4:2aeb:30d with SMTP id
- x15-20020a05600c21cf00b003f42aeb030dmr3142529wmj.4.1683703695806; 
- Wed, 10 May 2023 00:28:15 -0700 (PDT)
-Received: from [192.168.69.115] ([176.187.211.62])
- by smtp.gmail.com with ESMTPSA id
- n23-20020a1c7217000000b003f4ad703aecsm680806wmc.15.2023.05.10.00.28.14
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 10 May 2023 00:28:15 -0700 (PDT)
-Message-ID: <0e93b4db-7373-e684-c937-1fcf723f809e@linaro.org>
-Date: Wed, 10 May 2023 09:28:13 +0200
+ bh=9iBy8eTxFCs12QR2EOc0WfonR/M/eEe31Qfl8fDwTaI=;
+ b=MHs/uM/1McnvJEv8p/re3/023Iq14oAubX88KGXwPlup8zUm1+cJfwDcIwvxGxCbcW
+ kPaU7TjE+hYnCd75ITIdvV9WfA+vVZiegvVl9scH/haW9WMWJ2CndsFGzVDxNRZCRckv
+ bnt3QfczEbLDi6AoEjnXRThBeaSbUrmuzzoxNz59oWZwDZKrCSnslwyF/AvYaboOK2NC
+ iFkKw3defDw/D+83rzQAPGZMTM91s0dtF+gsjRvj205R+cz0TiaJqsbqhuwtM/8QDq15
+ c75U4J8OKPYCcvd3DNTb34N5vbieiN3rjrmjDfXiuFKQ+7XOH7zolEa/zQFQceVY1oYu
+ xauA==
+X-Gm-Message-State: AC+VfDztUg6WGlg6aHQM9J+UoDSzIg9vWzXlU+7vEnJdSJ2vvJAw1cYU
+ H4IlmjjzCuPpiXhYwpP1BDH7ZR0Vt6KnLxAg4FiOGQ==
+X-Google-Smtp-Source: ACHHUZ65NzAbh/a0lkBxiV9arL+Gk4St9nihXRe2kdqR/SQoyphaWr8H41GEQClErl1mGOIStCidPFw+XQebSf+0rx8=
+X-Received: by 2002:a17:906:fd8d:b0:94f:3521:394 with SMTP id
+ xa13-20020a170906fd8d00b0094f35210394mr13352370ejb.51.1683703744442; Wed, 10
+ May 2023 00:29:04 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.10.1
-Subject: Re: [PATCH v2] target/ppc: Fix fallback to MFSS for MFFS*
- instructions on pre 3.0 ISAs
-Content-Language: en-US
-To: Richard Purdie <richard.purdie@linuxfoundation.org>, qemu-devel@nongnu.org
-Cc: =?UTF-8?Q?V=c3=adctor_Colombo?= <victor.colombo@eldorado.org.br>,
- Matheus Ferst <matheus.ferst@eldorado.org.br>,
- Daniel Henrique Barboza <danielhb413@gmail.com>,
- Richard Henderson <richard.henderson@linaro.org>
-References: <20230506065240.3177798-1-richard.purdie@linuxfoundation.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230506065240.3177798-1-richard.purdie@linuxfoundation.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x32a.google.com
-X-Spam_score_int: -24
-X-Spam_score: -2.5
-X-Spam_bar: --
-X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.421,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+References: <20230426133747.403945-1-tmaillart@freebox.fr>
+ <CANDNypw=kZ_GGRMcQvM9+XPpFBK88v4fq_uVPBE=bbBW-P=XjQ@mail.gmail.com>
+In-Reply-To: <CANDNypw=kZ_GGRMcQvM9+XPpFBK88v4fq_uVPBE=bbBW-P=XjQ@mail.gmail.com>
+From: =?UTF-8?Q?Th=C3=A9o_Maillart?= <tmaillart@freebox.fr>
+Date: Wed, 10 May 2023 09:28:53 +0200
+Message-ID: <CANDNypwPKC1Dp4BrY31kNp9aVHLpWsROkk_HhyeSgn2XaMe9KA@mail.gmail.com>
+Subject: Re: [PATCH] scsi: check inquiry buffer length to prevent crash
+To: Fam Zheng <fam@euphon.net>, Paolo Bonzini <pbonzini@redhat.com>,
+ qemu-devel@nongnu.org
+Content-Type: multipart/alternative; boundary="00000000000098737305fb51d380"
+Received-SPF: pass client-ip=2a00:1450:4864:20::632;
+ envelope-from=tmaillart@freebox.fr; helo=mail-ej1-x632.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -96,65 +84,208 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 6/5/23 08:52, Richard Purdie wrote:
-> The following commits changed the code such that the fallback to MFSS for MFFSCRN,
-> MFFSCRNI, MFFSCE and MFFSL on pre 3.0 ISAs was removed and became an illegal instruction:
-> 
->    bf8adfd88b547680aa857c46098f3a1e94373160 - target/ppc: Move mffscrn[i] to decodetree
->    394c2e2fda70da722f20fb60412d6c0ca4bfaa03 - target/ppc: Move mffsce to decodetree
->    3e5bce70efe6bd1f684efbb21fd2a316cbf0657e - target/ppc: Move mffsl to decodetree
-> 
-> The hardware will handle them as a MFFS instruction as the code did previously.
-> This means applications that were segfaulting under qemu when encountering these
-> instructions which is used in glibc libm functions for example.
-> 
-> The fallback for MFFSCDRN and MFFSCDRNI added in a later patch was also missing.
-> 
-> This patch restores the fallback to MFSS for these instructions on pre 3.0s ISAs
-> as the hardware decoder would, fixing the segfaulting libm code. It and also ensures
-> the MFSS instruction is used for currently reserved bits to handle other potential
-> ISA additions more correctly.
-> 
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> ---
->   target/ppc/insn32.decode           | 19 ++++++++++++-------
->   target/ppc/translate/fp-impl.c.inc | 30 ++++++++++++++++++++++++------
->   2 files changed, 36 insertions(+), 13 deletions(-)
-> 
-> v2 - switch to use decodetree pattern groups per feedback
-> 
-> diff --git a/target/ppc/insn32.decode b/target/ppc/insn32.decode
-> index f8f589e9fd..3c4e2c2fc2 100644
-> --- a/target/ppc/insn32.decode
-> +++ b/target/ppc/insn32.decode
-> @@ -390,13 +390,18 @@ SETNBCR         011111 ..... ..... ----- 0111100000 -   @X_bi
->   
->   ### Move To/From FPSCR
->   
-> -MFFS            111111 ..... 00000 ----- 1001000111 .   @X_t_rc
-> -MFFSCE          111111 ..... 00001 ----- 1001000111 -   @X_t
-> -MFFSCRN         111111 ..... 10110 ..... 1001000111 -   @X_tb
-> -MFFSCDRN        111111 ..... 10100 ..... 1001000111 -   @X_tb
-> -MFFSCRNI        111111 ..... 10111 ---.. 1001000111 -   @X_imm2
-> -MFFSCDRNI       111111 ..... 10101 --... 1001000111 -   @X_imm3
-> -MFFSL           111111 ..... 11000 ----- 1001000111 -   @X_t
-> +{
-> +  # Before Power ISA v3.0, MFFS bits 11~15 were reserved and should be ignored
-> +  [
-> +    MFFSCE          111111 ..... 00001 ----- 1001000111 -   @X_t
-> +    MFFSCRN         111111 ..... 10110 ..... 1001000111 -   @X_tb
-> +    MFFSCDRN        111111 ..... 10100 ..... 1001000111 -   @X_tb
-> +    MFFSCRNI        111111 ..... 10111 ---.. 1001000111 -   @X_imm2
-> +    MFFSCDRNI       111111 ..... 10101 --... 1001000111 -   @X_imm3
-> +    MFFSL           111111 ..... 11000 ----- 1001000111 -   @X_t
-> +  ]
-> +  MFFS            111111 ..... ----- ----- 1001000111 .   @X_t_rc
-> +}
+--00000000000098737305fb51d380
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+This crash appeared on the latest linux guests, most likely because of
+this commit from the linux kernel:
 
-Fixes: bf8adfd88b ("target/ppc: Move mffscrn[i] to decodetree")
-Fixes: 394c2e2fda ("target/ppc: Move mffsce to decodetree")
-Fixes: 3e5bce70ef ("target/ppc: Move mffsl to decodetree")
+v5.18-rc1-157-gc92a6b5d6335
 
+
+On Wed, Apr 26, 2023 at 7:13=E2=80=AFPM Th=C3=A9o Maillart <tmaillart@freeb=
+ox.fr> wrote:
+
+>
+> Le mer. 26 avr. 2023 =C3=A0 15:38, Th=C3=A9o Maillart <tmaillart@freebox.=
+fr> a
+> =C3=A9crit :
+>
+>> Using linux 6.x guest, at boot time, an inquiry makes qemu crash.
+>> Here is a trace of the scsi inquiry in question:
+>>
+>> scsi_req_parsed target 1 lun 0 tag 0x2cffb48 command 18 dir 1 length 4
+>> scsi_req_parsed_lba target 1 lun 0 tag 0x2cffb48 command 18 lba 110592
+>> scsi_req_alloc target 1 lun 0 tag 0x2cffb48
+>> scsi_inquiry target 1 lun 0 tag 0x2cffb48 page 0x01/0xb0
+>> scsi_generic_send_command Command: data=3D 0x12 0x01 0xb0 0x00 0x04 0x00
+>> scsi_req_continue target 1 lun 0 tag 0x2cffb48
+>> scsi_generic_read_data scsi_read_data tag=3D0x2cffb48
+>> scsi_generic_aio_sgio_command generic aio sgio: tag=3D0x2cffb48 cmd=3D0x=
+12
+>> timeout=3D30000
+>> scsi_generic_read_complete Data ready tag=3D0x2cffb48 len=3D4
+>> scsi_req_data target 1 lun 0 tag 0x2cffb48 len 4
+>> scsi_req_continue target 1 lun 0 tag 0x2cffb48
+>> scsi_generic_read_data scsi_read_data tag=3D0x2cffb48
+>> scsi_generic_command_complete_noio Command complete 0x7fb0870b80
+>> tag=3D0x2cffb48 status=3D0
+>> scsi_req_dequeue target 1 lun 0 tag 0x2cffb48
+>>
+>> And here is a backtrace from the crash:
+>>
+>>  #0  0x0000007face68580 in a_crash () at ./src/internal/atomic.h:250
+>>  #1  get_nominal_size (end=3D0x7f6758f92c "", p=3D0x7f6758f920 "") at
+>> src/malloc/mallocng/meta.h:168
+>>  #2  __libc_free (p=3D0x7f6758f920) at src/malloc/mallocng/free.c:110
+>>  #3  0x0000005592f93ed8 in scsi_free_request (req=3D0x7fac2c6b50) at
+>> ../hw/scsi/scsi-generic.c:70
+>>  #4  0x0000005592f869b8 in scsi_req_unref (req=3D0x7fac2c6b50) at
+>> ../hw/scsi/scsi-bus.c:1382
+>>  #5  0x0000005592f94b7c in scsi_read_complete (opaque=3D0x7fac2c6b50,
+>> ret=3D0) at ../hw/scsi/scsi-generic.c:354
+>>  #6  0x0000005593659b90 in blk_aio_complete (acb=3D0x7f66c206a0) at
+>> ../block/block-backend.c:1527
+>>  #7  0x000000559365a3c8 in blk_aio_ioctl_entry (opaque=3D0x7f66c206a0) a=
+t
+>> ../block/block-backend.c:1735
+>>  #8  0x00000055937dee64 in coroutine_bootstrap (self=3D0x7f672f77e0,
+>> co=3D0x7f672f77e0) at ../util/coroutine-sigaltstack.c:104
+>>  #9  0x00000055937deed8 in coroutine_trampoline (signal=3D12) at
+>> ../util/coroutine-sigaltstack.c:145
+>>  #10 <signal handler called>
+>>  #11 __cp_end () at src/thread/aarch64/syscall_cp.s:30
+>>  #12 0x0000007facea8214 in __syscall_cp_c (nr=3D133, u=3D<optimized out>=
+,
+>> v=3D<optimized out>, w=3D<optimized out>, x=3D<optimized out>,
+>>      y=3D<optimized out>, z=3D<optimized out>) at
+>> src/thread/pthread_cancel.c:33
+>>  #13 0x0000007facefa020 in ?? ()
+>>
+>> Signed-off-by: Th=C3=A9o Maillart <tmaillart@freebox.fr>
+>> ---
+>>  hw/scsi/scsi-generic.c | 2 +-
+>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/hw/scsi/scsi-generic.c b/hw/scsi/scsi-generic.c
+>> index ac9fa662b4..25246589b7 100644
+>> --- a/hw/scsi/scsi-generic.c
+>> +++ b/hw/scsi/scsi-generic.c
+>> @@ -191,7 +191,7 @@ static int scsi_handle_inquiry_reply(SCSIGenericReq
+>> *r, SCSIDevice *s, int len)
+>>      if ((s->type =3D=3D TYPE_DISK || s->type =3D=3D TYPE_ZBC) &&
+>>          (r->req.cmd.buf[1] & 0x01)) {
+>>          page =3D r->req.cmd.buf[2];
+>> -        if (page =3D=3D 0xb0) {
+>> +        if (page =3D=3D 0xb0 && r->buflen >=3D 12) {
+>
+>
+> Actually the test should be r->buflen > 12
+>
+>
+>>              uint64_t max_transfer =3D calculate_max_transfer(s);
+>>              stl_be_p(&r->buf[8], max_transfer);
+>>              /* Also take care of the opt xfer len. */
+>> --
+>> 2.40.0
+>>
+>>
+
+--00000000000098737305fb51d380
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div>This crash appeared on the latest linux guests, most =
+likely because of</div><div>this commit from the linux kernel:</div><div><b=
+r></div><div>v5.18-rc1-157-gc92a6b5d6335</div><div><br></div></div><br><div=
+ class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, Apr 26=
+, 2023 at 7:13=E2=80=AFPM Th=C3=A9o Maillart &lt;<a href=3D"mailto:tmaillar=
+t@freebox.fr">tmaillart@freebox.fr</a>&gt; wrote:<br></div><blockquote clas=
+s=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid r=
+gb(204,204,204);padding-left:1ex"><div dir=3D"auto"><br></div><div><div cla=
+ss=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">Le=C2=A0mer. 26 av=
+r. 2023 =C3=A0 15:38, Th=C3=A9o Maillart &lt;<a href=3D"mailto:tmaillart@fr=
+eebox.fr" target=3D"_blank">tmaillart@freebox.fr</a>&gt; a =C3=A9crit=C2=A0=
+:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.=
+8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Using linux 6.=
+x guest, at boot time, an inquiry makes qemu crash.<br>
+Here is a trace of the scsi inquiry in question:<br>
+<br>
+scsi_req_parsed target 1 lun 0 tag 0x2cffb48 command 18 dir 1 length 4<br>
+scsi_req_parsed_lba target 1 lun 0 tag 0x2cffb48 command 18 lba 110592<br>
+scsi_req_alloc target 1 lun 0 tag 0x2cffb48<br>
+scsi_inquiry target 1 lun 0 tag 0x2cffb48 page 0x01/0xb0<br>
+scsi_generic_send_command Command: data=3D 0x12 0x01 0xb0 0x00 0x04 0x00<br=
+>
+scsi_req_continue target 1 lun 0 tag 0x2cffb48<br>
+scsi_generic_read_data scsi_read_data tag=3D0x2cffb48<br>
+scsi_generic_aio_sgio_command generic aio sgio: tag=3D0x2cffb48 cmd=3D0x12 =
+timeout=3D30000<br>
+scsi_generic_read_complete Data ready tag=3D0x2cffb48 len=3D4<br>
+scsi_req_data target 1 lun 0 tag 0x2cffb48 len 4<br>
+scsi_req_continue target 1 lun 0 tag 0x2cffb48<br>
+scsi_generic_read_data scsi_read_data tag=3D0x2cffb48<br>
+scsi_generic_command_complete_noio Command complete 0x7fb0870b80 tag=3D0x2c=
+ffb48 status=3D0<br>
+scsi_req_dequeue target 1 lun 0 tag 0x2cffb48<br>
+<br>
+And here is a backtrace from the crash:<br>
+<br>
+=C2=A0#0=C2=A0 0x0000007face68580 in a_crash () at ./src/internal/atomic.h:=
+250<br>
+=C2=A0#1=C2=A0 get_nominal_size (end=3D0x7f6758f92c &quot;&quot;, p=3D0x7f6=
+758f920 &quot;&quot;) at src/malloc/mallocng/meta.h:168<br>
+=C2=A0#2=C2=A0 __libc_free (p=3D0x7f6758f920) at src/malloc/mallocng/free.c=
+:110<br>
+=C2=A0#3=C2=A0 0x0000005592f93ed8 in scsi_free_request (req=3D0x7fac2c6b50)=
+ at ../hw/scsi/scsi-generic.c:70<br>
+=C2=A0#4=C2=A0 0x0000005592f869b8 in scsi_req_unref (req=3D0x7fac2c6b50) at=
+ ../hw/scsi/scsi-bus.c:1382<br>
+=C2=A0#5=C2=A0 0x0000005592f94b7c in scsi_read_complete (opaque=3D0x7fac2c6=
+b50, ret=3D0) at ../hw/scsi/scsi-generic.c:354<br>
+=C2=A0#6=C2=A0 0x0000005593659b90 in blk_aio_complete (acb=3D0x7f66c206a0) =
+at ../block/block-backend.c:1527<br>
+=C2=A0#7=C2=A0 0x000000559365a3c8 in blk_aio_ioctl_entry (opaque=3D0x7f66c2=
+06a0) at ../block/block-backend.c:1735<br>
+=C2=A0#8=C2=A0 0x00000055937dee64 in coroutine_bootstrap (self=3D0x7f672f77=
+e0, co=3D0x7f672f77e0) at ../util/coroutine-sigaltstack.c:104<br>
+=C2=A0#9=C2=A0 0x00000055937deed8 in coroutine_trampoline (signal=3D12) at =
+../util/coroutine-sigaltstack.c:145<br>
+=C2=A0#10 &lt;signal handler called&gt;<br>
+=C2=A0#11 __cp_end () at src/thread/aarch64/syscall_cp.s:30<br>
+=C2=A0#12 0x0000007facea8214 in __syscall_cp_c (nr=3D133, u=3D&lt;optimized=
+ out&gt;, v=3D&lt;optimized out&gt;, w=3D&lt;optimized out&gt;, x=3D&lt;opt=
+imized out&gt;,<br>
+=C2=A0 =C2=A0 =C2=A0y=3D&lt;optimized out&gt;, z=3D&lt;optimized out&gt;) a=
+t src/thread/pthread_cancel.c:33<br>
+=C2=A0#13 0x0000007facefa020 in ?? ()<br>
+<br>
+Signed-off-by: Th=C3=A9o Maillart &lt;<a href=3D"mailto:tmaillart@freebox.f=
+r" target=3D"_blank">tmaillart@freebox.fr</a>&gt;<br>
+---<br>
+=C2=A0hw/scsi/scsi-generic.c | 2 +-<br>
+=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
+<br>
+diff --git a/hw/scsi/scsi-generic.c b/hw/scsi/scsi-generic.c<br>
+index ac9fa662b4..25246589b7 100644<br>
+--- a/hw/scsi/scsi-generic.c<br>
++++ b/hw/scsi/scsi-generic.c<br>
+@@ -191,7 +191,7 @@ static int scsi_handle_inquiry_reply(SCSIGenericReq *r,=
+ SCSIDevice *s, int len)<br>
+=C2=A0 =C2=A0 =C2=A0if ((s-&gt;type =3D=3D TYPE_DISK || s-&gt;type =3D=3D T=
+YPE_ZBC) &amp;&amp;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0(r-&gt;req.cmd.buf[1] &amp; 0x01)) {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0page =3D r-&gt;req.cmd.buf[2];<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (page =3D=3D 0xb0) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (page =3D=3D 0xb0 &amp;&amp; r-&gt;buflen &=
+gt;=3D 12) {</blockquote><div dir=3D"auto"><span style=3D"border-color:rgb(=
+0,0,0);color:rgb(0,0,0)"><br></span></div><div dir=3D"auto"><span style=3D"=
+border-color:rgb(0,0,0);color:rgb(0,0,0)">Actually the test should be r-&gt=
+;buflen &gt; 12</span><br></div><div dir=3D"auto"><br></div><blockquote cla=
+ss=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid =
+rgb(204,204,204);padding-left:1ex" dir=3D"auto"><br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0uint64_t max_transfer =3D c=
+alculate_max_transfer(s);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0stl_be_p(&amp;r-&gt;buf[8],=
+ max_transfer);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* Also take care of the op=
+t xfer len. */<br>
+-- <br>
+2.40.0<br>
+<br>
+</blockquote></div></div>
+</blockquote></div>
+
+--00000000000098737305fb51d380--
 
