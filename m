@@ -2,82 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A43FD6FE13B
+	by mail.lfdr.de (Postfix) with ESMTPS id 07C8C6FE13A
 	for <lists+qemu-devel@lfdr.de>; Wed, 10 May 2023 17:10:55 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pwlPS-00074r-Pv; Wed, 10 May 2023 11:07:18 -0400
+	id 1pwlPQ-00071N-Dg; Wed, 10 May 2023 11:07:16 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pwlPG-0006td-G8
+ id 1pwlPG-0006tV-9p
  for qemu-devel@nongnu.org; Wed, 10 May 2023 11:07:06 -0400
-Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f])
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pwlPE-0001WW-EE
+ id 1pwlPE-0001WN-2k
  for qemu-devel@nongnu.org; Wed, 10 May 2023 11:07:06 -0400
-Received: by mail-wm1-x32f.google.com with SMTP id
- 5b1f17b1804b1-3f42ba32e24so15059885e9.3
- for <qemu-devel@nongnu.org>; Wed, 10 May 2023 08:07:04 -0700 (PDT)
+Received: by mail-wr1-x42d.google.com with SMTP id
+ ffacd0b85a97d-3078a3f3b5fso4633721f8f.0
+ for <qemu-devel@nongnu.org>; Wed, 10 May 2023 08:07:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1683731223; x=1686323223;
+ d=linaro.org; s=google; t=1683731222; x=1686323222;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=thnMy8X2PRH6GO6v7+wbnsn6tBSbaVAWCCL4W8p3qQc=;
- b=bsfZfnXz3Db5Ij59bJnWCk4dAYTnCxASc8DfJ0c7Z3LpHZz9h4tnnF21P15ZYENSk7
- O5FkLuL8m62f4GjcY8EHM1Ksr0e1+S5AVQ+s+YMM2nvyOkIA6Q9ONF1pErjyXRKEh4Jb
- ZN3vwwpLmBI6Jpf2WQbxeVP1tqKbot0Oslh/fTnNGusNQ0IeKVZCv8HaIEyLQmXJxleG
- QOkI15k5+PqrREZEZvHlWz4eY3VKYA0uSy6BiNyN2YGtBdllyAtc5hRY+39YCipxxu/l
- 2THSZGNxBCh3zdZPDTK815bCPB6ZnBuBxZcdL3TVa3ZPEkpREpN+bFAxtcWY3RUxbRhx
- WuVQ==
+ bh=bi6q95XWM7v/8dPiRPP3xYbfAZs5w7vK/PdVdbh8T8o=;
+ b=ocoP8cljXOAFVS2OflqMUfudWhl6XVA0joTt2IL5zICcidTbh1K7Hs0oUnwcv2FRYA
+ SvdTUGK6ZCkXQHMdBsZv5Jd3TVarcH30NtTIbgjJdR6wFEh566r40/e78dKGWiu1zo11
+ tERo43DxleYewUP7OC2tTkX8HemYaNyb4V/CSsJ0d6o8z7ef9F/oNSLYRoyOvodGLcUr
+ HebEogWABt7HG+rf0TT7trjAuGFHssBDbBIAXhZ/DMhg6BjUFIroL7rBMnfYEw4xFArN
+ QV/ugNm03nBK7fd5+RcrmyRxgfJbTX29Kh55wdXPhMHxGaJgkAhCVGWiwWNAF9nx/3ym
+ k3Dg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683731223; x=1686323223;
+ d=1e100.net; s=20221208; t=1683731222; x=1686323222;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=thnMy8X2PRH6GO6v7+wbnsn6tBSbaVAWCCL4W8p3qQc=;
- b=Ire4/tnG5xl+yNSyKANzbEueb79jSAhox3PiX8pQvsiA0EvdThwnS0FxAJOzWFmiLG
- Jw3I/aXb8vRiJXDLT/ZyOcfAPLWEZl70tgAWbuKR1m1y30ydFaIilZrNSAIWQS5e9lZ8
- j2vVe61jwgNF7vdNyFpHpUPOOsQ5+niZ5wxeHRKWKXBfCjiuAyexQC0nKdHaJ2i4Unu2
- mKHUYUb/vCLQGDzvM4w25qmayvAZ2gQP6amJ/05gRHwUbhTwVUv9PSf5KO75efdP7IR+
- o6O0oas0LSDxamy2sY5r9qRMtPOvumuy+AZ9xpuT8pVvUJ43UHsBPo9ZRRisIbJKsP3C
- dRMA==
-X-Gm-Message-State: AC+VfDwBZli67XBRuYWjPR6XJ6wyQiHqq6IO2b8zQTADtuUle61ARQT/
- 22kEGk85XvcEhFQw1xbFfeqy2w==
-X-Google-Smtp-Source: ACHHUZ57Fkm9v90Sxkm0cZzv6wy+tzDpISaL/UDcyBXLsvP0C3vQveeqzTDl/IDPBWj3ma3oLnlKEw==
-X-Received: by 2002:a05:600c:21c2:b0:3f4:269d:a080 with SMTP id
- x2-20020a05600c21c200b003f4269da080mr6083554wmj.41.1683731222947; 
+ bh=bi6q95XWM7v/8dPiRPP3xYbfAZs5w7vK/PdVdbh8T8o=;
+ b=IpczVT7NbBKejDPRLJ2QmO949X6zKq8n6hQM5pEO4uwT5/pkwFz0Z2gY83/Ux+3AQh
+ ZHCktGHmhYFoOt6F93A0+TMdiyYwiNo83UHzCiwoozXDJBTUHS6iHgRZMhsp7/4g/tv9
+ tyPY960V65MrOaqT8jhwzuhA7fn2qRisU4mCvGYwpj1r49ouIS+mFlJHKxZg092F/Rb9
+ rYOh+17p9lPCkJAZYAfWu2rgucS8QxEf2rxvyw/7XwAPyNDxrAkwqXetZS8Kd5A3zXBv
+ i3JGgcgehazPhHKfD56jS6O8bhMLaTLE6Z3FE+14pYxmm0ar0eIRgdOvegH4ZsPNZEaB
+ b2ew==
+X-Gm-Message-State: AC+VfDziZ31qU+cqza9390ADmDq8dWTRKfIbZInVzGnNR2mNRPSCN+u0
+ Y3HokYYoYdPQSajLznbWV/aIFA==
+X-Google-Smtp-Source: ACHHUZ6iWyniSL4/DvrZn4YuvVEaGrFz8taaXGvaqxABAud7baYyDM7AW5LAoAWXVZhBahIOTpYnlg==
+X-Received: by 2002:a5d:63c8:0:b0:306:2b56:d268 with SMTP id
+ c8-20020a5d63c8000000b003062b56d268mr11620523wrw.15.1683731222431; 
  Wed, 10 May 2023 08:07:02 -0700 (PDT)
 Received: from zen.linaroharston ([85.9.250.243])
  by smtp.gmail.com with ESMTPSA id
- w22-20020a1cf616000000b003f080b2f9f4sm22929865wmc.27.2023.05.10.08.06.59
+ y18-20020a5d6212000000b0030796e103a1sm9409080wru.5.2023.05.10.08.06.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Wed, 10 May 2023 08:07:00 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 2C70B1FFC0;
+ by zen.linaroharston (Postfix) with ESMTP id 441661FFC1;
  Wed, 10 May 2023 16:06:59 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: richard.henderson@linaro.org,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Thomas Huth <thuth@redhat.com>,
+ Fabiano Rosas <farosas@suse.de>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Thomas Huth <thuth@redhat.com>,
  Wainer dos Santos Moschetta <wainersm@redhat.com>,
  Beraldo Leal <bleal@redhat.com>
-Subject: [PULL 5/8] gitlab: add ubuntu-22.04-aarch64-without-defaults
-Date: Wed, 10 May 2023 16:06:55 +0100
-Message-Id: <20230510150658.1399087-6-alex.bennee@linaro.org>
+Subject: [PULL 6/8] gitlab: enable minimal device profile for aarch64
+ --disable-tcg
+Date: Wed, 10 May 2023 16:06:56 +0100
+Message-Id: <20230510150658.1399087-7-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230510150658.1399087-1-alex.bennee@linaro.org>
 References: <20230510150658.1399087-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -100,48 +102,27 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-This does a very minimal build without default devices or features. I
-chose the aarch64 runner as it doesn't count towards CI minutes and is
-a fairly under-utilised builder.
+As this is likely the most common configuration people will want once
+the --disable-tcg patches land.
 
-Message-Id: <20230503091244.1450613-20-alex.bennee@linaro.org>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Cc: Fabiano Rosas <farosas@suse.de>
+Message-Id: <20230503091244.1450613-21-alex.bennee@linaro.org>
 
 diff --git a/.gitlab-ci.d/custom-runners/ubuntu-22.04-aarch64.yml b/.gitlab-ci.d/custom-runners/ubuntu-22.04-aarch64.yml
-index 57303c12e1..f8489dd3fc 100644
+index f8489dd3fc..374b0956c3 100644
 --- a/.gitlab-ci.d/custom-runners/ubuntu-22.04-aarch64.yml
 +++ b/.gitlab-ci.d/custom-runners/ubuntu-22.04-aarch64.yml
-@@ -45,6 +45,28 @@ ubuntu-22.04-aarch64-all:
+@@ -145,7 +145,7 @@ ubuntu-22.04-aarch64-notcg:
+  script:
+  - mkdir build
+  - cd build
+- - ../configure --disable-tcg
++ - ../configure --disable-tcg --with-devices-aarch64=minimal
+    || { cat config.log meson-logs/meson-log.txt; exit 1; }
   - make --output-sync -j`nproc --ignore=40`
   - make --output-sync -j`nproc --ignore=40` check
- 
-+ubuntu-22.04-aarch64-without-defaults:
-+ extends: .custom_runner_template
-+ needs: []
-+ stage: build
-+ tags:
-+ - ubuntu_22.04
-+ - aarch64
-+ rules:
-+ - if: '$CI_PROJECT_NAMESPACE == "qemu-project" && $CI_COMMIT_BRANCH =~ /^staging/'
-+   when: manual
-+   allow_failure: true
-+ - if: "$AARCH64_RUNNER_AVAILABLE"
-+   when: manual
-+   allow_failure: true
-+ script:
-+ - mkdir build
-+ - cd build
-+ - ../configure --disable-user --without-default-devices --without-default-features
-+   || { cat config.log meson-logs/meson-log.txt; exit 1; }
-+ - make --output-sync -j`nproc --ignore=40`
-+ - make --output-sync -j`nproc --ignore=40` check
-+
- ubuntu-22.04-aarch64-alldbg:
-  extends: .custom_runner_template
-  needs: []
 -- 
 2.39.2
 
