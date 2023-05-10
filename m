@@ -2,94 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DAD36FD889
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 May 2023 09:49:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A42306FD8BB
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 May 2023 09:57:03 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pweZB-0002fG-Qm; Wed, 10 May 2023 03:48:53 -0400
+	id 1pwegQ-0004EI-3d; Wed, 10 May 2023 03:56:22 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1pweZ9-0002et-RA
- for qemu-devel@nongnu.org; Wed, 10 May 2023 03:48:51 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1pweZ8-0000l1-DJ
- for qemu-devel@nongnu.org; Wed, 10 May 2023 03:48:51 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1683704929;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=bW/BoR9gQ19CwIgdkHe7U0rjOEwNRE17cFz+sZiybII=;
- b=iKcBf7Hq4JYzWDrCxkUlbK5tI6puQYPGgePsg1IodoBJjMk3LsGJuXupVfneWQcJw2BwNW
- ALi3+S3pFqWRaEqZRW8CIqnNzdktUqss8h9AeC2+x3ZKLmO0vc4F4jsBVw6M4e5FsjJfaV
- 4QTvr7ZAQ6I0kAgWV7VNUBVGEJw+TSg=
-Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
- [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-191-RMW29bHpOjKYWnXDcskc0A-1; Wed, 10 May 2023 03:48:48 -0400
-X-MC-Unique: RMW29bHpOjKYWnXDcskc0A-1
-Received: by mail-ej1-f70.google.com with SMTP id
- a640c23a62f3a-94a355c9028so784603366b.3
- for <qemu-devel@nongnu.org>; Wed, 10 May 2023 00:48:47 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pwegO-0004Dg-W5
+ for qemu-devel@nongnu.org; Wed, 10 May 2023 03:56:21 -0400
+Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pwegN-00039Z-Et
+ for qemu-devel@nongnu.org; Wed, 10 May 2023 03:56:20 -0400
+Received: by mail-wm1-x32e.google.com with SMTP id
+ 5b1f17b1804b1-3f450815d0bso7196605e9.0
+ for <qemu-devel@nongnu.org>; Wed, 10 May 2023 00:56:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1683705378; x=1686297378;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=ln0GzJr/qmUSjR1rY/eCIrEKSKMOjE5voMlBHEqu6zo=;
+ b=Sgk0/woeZK9cpvIP/QKgH8keFq73zxwJlnl+a7rIUO2rEd9vC08khvVUVvRW3O0ZcA
+ NT86dfzKG+HIASuS1T3x5tfLQJbsUsxfCsm0UzUTh4igmj5QpyJroSlCmfeepNRM+3zy
+ HCrt9eElF8N7H6h6cTc6Z4yIexTbHt8cVW6/4biy4bGFyEmr4i/9DCY8/UIynt0mBgmc
+ yIWoufAE08c/z4zHgv7ovoareXHJKO32McNoMwxVffEYbwUAxVQOdU9umWVOQVyCzgB9
+ OdagPYPyWhTFTxbpq47gY3EtQHwvXQNQtyRLfpkviJ1npUZLzJ3BwX6vSoRmoXVzawab
+ b/lQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683704926; x=1686296926;
- h=content-transfer-encoding:in-reply-to:references:cc:to:from
+ d=1e100.net; s=20221208; t=1683705378; x=1686297378;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=bW/BoR9gQ19CwIgdkHe7U0rjOEwNRE17cFz+sZiybII=;
- b=eem7jpmErmaCP9vOgAwTmUik3GS1+QeC3WTseYcGN3uBnWIg5BNa9LoE+BzhDbeBcs
- jspR0THl4RPyy59SyN0hD+JnEEOYCSdqGozPEhBjbGC2EDktxC7yfcAdxm5h0dADBXCc
- RPe5ZRHV9CGPiggAn/XUIkQcl8kId8ItnM19SSm5Z57/xTlFZbAdgQBNMBG5hYe2pomZ
- lrCQNWEpX+cIK2MpQGll00TTcMS5rfmdma/cj44Z1gKVzZ0CwVL8TnGc7c9+cFRVmTKP
- Bef3TmWsETcUy+Pqtl4fB3GqFkSmzPBryQEuPM9WQdN8T3HnKAvXhtCCUw+HgmxlxeNB
- ILTg==
-X-Gm-Message-State: AC+VfDx0Laz30MIDPb5AlGxRTM9XrFugArm6aaK6HtM0uRwzUqHNmORK
- bjjwsfNhfOcCb/ibzuq1lluR0ZHowu/ZF9NnqPqZT2Bzot0p8ZvJBf1FMg2MkvZCH2E8cAP8KaU
- vw+uC7auS+h1a1g8AlZ1KZI0=
-X-Received: by 2002:a17:907:3fa6:b0:966:6035:c81e with SMTP id
- hr38-20020a1709073fa600b009666035c81emr10612202ejc.52.1683704926585; 
- Wed, 10 May 2023 00:48:46 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ46okhIViTM6jC6+h45249wYD7d+qaQxTcTsUtY44SLtw04RUdVv9er3XbDCVZXtS/312gmUw==
-X-Received: by 2002:a17:907:3fa6:b0:966:6035:c81e with SMTP id
- hr38-20020a1709073fa600b009666035c81emr10612190ejc.52.1683704926349; 
- Wed, 10 May 2023 00:48:46 -0700 (PDT)
-Received: from ?IPV6:2003:cf:d706:2e02:6e14:9279:969b:d328?
- (p200300cfd7062e026e149279969bd328.dip0.t-ipconnect.de.
- [2003:cf:d706:2e02:6e14:9279:969b:d328])
+ bh=ln0GzJr/qmUSjR1rY/eCIrEKSKMOjE5voMlBHEqu6zo=;
+ b=l8MGn31uaJhpYM4SZ3xi2cBa6LPu/aXRQZezCJoQwZd790bW4GHUxVJRsLqxiGR3z1
+ EmYJBOyyW+u1IIc9AqK+N3a3d9yW2wpBI9piq4bklUeLQfBZ+hJCCpsqiZkU8xOy/vLU
+ g1D/j0qB7Fzn928h3Mo2C3XiCKt1jB7TB6aY7+h40cvL3egK9KvzW03bFyd3iDIWun/M
+ Df0BizDqlUq7OEbY0uCg5+NSTwFtmJ6C4ZTYGRHlhCAkZu4lDZu40yUiVt1oGdpNTimt
+ RyAD+rMLf/Z+x4DMhzOtFBxxFu1O0JOgDfihrPr36GKiivuTVLiz/p/DLWiPuSSC9i+O
+ jWJQ==
+X-Gm-Message-State: AC+VfDxWFCyUZF6i5raX6wcODS/sRECVuGmjdlRDhNmM1gX6ZG+AxITu
+ XdWBXw5GTdXQovYom+0eq5okRA==
+X-Google-Smtp-Source: ACHHUZ5SNzEABN1yqQl09jmkv3WkM+Hs6z23bDyaOhDrlbcnShx/Ha/ikyGvP0haKlcyhA8SVCdY+g==
+X-Received: by 2002:a7b:cd09:0:b0:3f1:80a7:bfb2 with SMTP id
+ f9-20020a7bcd09000000b003f180a7bfb2mr11172861wmj.32.1683705377769; 
+ Wed, 10 May 2023 00:56:17 -0700 (PDT)
+Received: from [192.168.69.115] ([176.187.211.62])
  by smtp.gmail.com with ESMTPSA id
- ia21-20020a170907a07500b00966392de4easm2363165ejc.14.2023.05.10.00.48.45
+ q14-20020a7bce8e000000b003f182a10106sm22021688wmj.8.2023.05.10.00.56.16
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 10 May 2023 00:48:45 -0700 (PDT)
-Message-ID: <eac22820-2cfa-8de9-9ea5-3630e02207c9@redhat.com>
-Date: Wed, 10 May 2023 09:48:45 +0200
+ Wed, 10 May 2023 00:56:17 -0700 (PDT)
+Message-ID: <cbd2a5b1-49d6-09c3-ee1e-3fbce5ed91b0@linaro.org>
+Date: Wed, 10 May 2023 09:56:15 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH 11/11] cutils: Improve qemu_strtosz handling of fractions
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.10.1
+Subject: Re: [PATCH v2 3/5] hw/display/virtio-gpu-virgl: define callbacks in
+ realize function
 Content-Language: en-US
-From: Hanna Czenczek <hreitz@redhat.com>
-To: Eric Blake <eblake@redhat.com>
-Cc: qemu-devel@nongnu.org
-References: <20230508200343.791450-1-eblake@redhat.com>
- <20230508200343.791450-12-eblake@redhat.com>
- <40919a58-2bb2-f156-ddc0-49c117a8f031@redhat.com>
- <bmvo2jg7jb2jmr3ezvqa3ymvuldon54cy3gv5mugplwd542rnk@lhr7d5ulqc5d>
- <b53326eb-3b85-f017-ce00-85e522d89835@redhat.com>
-In-Reply-To: <b53326eb-3b85-f017-ce00-85e522d89835@redhat.com>
+To: Bernhard Beschow <shentey@gmail.com>, qemu-devel@nongnu.org,
+ Gurchetan Singh <gurchetansingh@chromium.org>
+Cc: kraxel@redhat.com, marcandre.lureau@redhat.com, akihiko.odaki@gmail.com,
+ dmitry.osipenko@collabora.com, ray.huang@amd.com, alex.bennee@linaro.org
+References: <20230428164823.789-1-gurchetansingh@google.com>
+ <20230428164823.789-3-gurchetansingh@google.com>
+ <0DAAC63B-0C0F-44C4-B7EB-ACD6C9A36BF1@gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <0DAAC63B-0C0F-44C4-B7EB-ACD6C9A36BF1@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=hreitz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x32e.google.com
 X-Spam_score_int: -24
 X-Spam_score: -2.5
 X-Spam_bar: --
-X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.421, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.421,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -105,38 +97,50 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 10.05.23 09:46, Hanna Czenczek wrote:
-> On 09.05.23 23:28, Eric Blake wrote:
-
-[...]
-
->> But I think the solution to that is not to treat underflow as valf =
->> 0, but rather to alter this snippet:
+On 30/4/23 23:48, Bernhard Beschow wrote:
+> 
+> 
+> Am 28. April 2023 16:48:21 UTC schrieb Gurchetan Singh <gurchetansingh@chromium.org>:
+>> From: Gurchetan Singh <gurchetansingh@chromium.org>
 >>
->> -            valf = (uint64_t)(fraction * 0x1p64);
->> +            /*
->> +             * If fraction was non-zero, add slop small enough that 
->> it doesn't
->> +             * impact rounding, but does let us reject 
->> "1..00000000000000000001B".
->> +             */
->> +            valf = (uint64_t)(fraction * 0x1p64) | !fraction;
+>> This reduces the amount of renderer backend specific needed to
+>> be exposed to the GL device.  We only need one realize function
+>> per renderer backend.
 >>
->> so that between the ERANGE branch and this slop, valf is guaranteed
->> non-zero if fraction contained any non-zero digits.
->
-> I’d make it a logical || instead of |, but that sounds good, yes.
+>> Signed-off-by: Gurchetan Singh <gurchetansingh@chromium.org>
+>> Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+>> ---
+>> v1: - Remove NULL inits (Philippe)
+>>     - Use VIRTIO_GPU_BASE where possible (Philippe)
+>> v2: - Fix unnecessary line break (Akihiko)
+>>
+>> hw/display/virtio-gpu-gl.c     | 15 ++++++---------
+>> hw/display/virtio-gpu-virgl.c  | 35 ++++++++++++++++++++++++----------
+>> include/hw/virtio/virtio-gpu.h |  7 -------
+>> 3 files changed, 31 insertions(+), 26 deletions(-)
 
-Sent too soon – exactly when sending I realized that I’m very wrong.  
-Still, I wouldn’t just | the 1 on, and rather make take the LoC to make it
 
-valf = (uint64_t)(fraction * 0x1p64);
-if (!valf && fraction) {
-     /*
-      * If fraction was non-zero, add slop small enough that it doesn't
-      * impact rounding, but does let us reject "1..00000000000000000001B".
-      */
-     valf = 1;
-}
+>> void virtio_gpu_virgl_device_realize(DeviceState *qdev, Error **errp)
+>> {
+>> -    VirtIOGPU *g = VIRTIO_GPU(qdev);
+>> +    VirtIODevice *vdev = VIRTIO_DEVICE(qdev);
+>> +    VirtioDeviceClass *vdc = VIRTIO_DEVICE_GET_CLASS(vdev);
+>> +
+>> +    VirtIOGPUBase *bdev = VIRTIO_GPU_BASE(qdev);
+>> +    VirtIOGPUBaseClass *vbc = VIRTIO_GPU_BASE_GET_CLASS(bdev);
+>> +
+>> +    VirtIOGPU *gpudev = VIRTIO_GPU(qdev);
+>> +    VirtIOGPUClass *vgc = VIRTIO_GPU_GET_CLASS(gpudev);
+>> +
+>> +    vbc->gl_flushed = virtio_gpu_virgl_flushed;
+>> +    vgc->handle_ctrl = virtio_gpu_virgl_handle_ctrl;
+>> +    vgc->process_cmd = virtio_gpu_virgl_process_cmd;
+>> +    vgc->update_cursor_data = virtio_gpu_virgl_update_cursor;
+>> +
+>> +    vdc->reset = virtio_gpu_virgl_reset;
+> 
+> A realize method is supposed to modify a single instance only while we're modifying the behavior of whole classes here, i.e. will affect every instance of these classes. This goes against QOM design principles and will therefore be confusing for people who are familiar with QOM in particular and OOP in general. I think the code should be cleaned up in a different way if really needed.
 
+Doh I was too quick and totally missed this was an instance,
+thanks for being careful Bernhard!
 
