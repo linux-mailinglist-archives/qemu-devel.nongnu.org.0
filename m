@@ -2,51 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A14BF6FDDBA
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 May 2023 14:24:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F5116FDDAA
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 May 2023 14:23:22 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pwipQ-0002Dv-Q3; Wed, 10 May 2023 08:21:56 -0400
+	id 1pwipP-000296-0h; Wed, 10 May 2023 08:21:55 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pwipI-00027R-2D
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pwipI-00027u-7a
  for qemu-devel@nongnu.org; Wed, 10 May 2023 08:21:48 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pwipA-0007dD-R6
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pwipC-0007dP-Hc
  for qemu-devel@nongnu.org; Wed, 10 May 2023 08:21:47 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1683721300;
+ s=mimecast20190719; t=1683721301;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=d7wzcKpSJJmA/aPut1xfCXyR7I73RzfJJXnAgJ3QonA=;
- b=bWKWYXf8S+k0Vv2HIFSgFMbA/RCVZPWirmLNi30NawKKPCeKK98pA6j29F/0eFZaSsk1FJ
- mm1QIiBZUmZQ6p07TFUPTxfhd5g5JJA2TOZAyMeX+QzC/IbCupbQX9eLsPWkW1LwrfzVyE
- meJkDbsgTO6DjK+RS1kDgkf1/NMKEZQ=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=4XhrI/hBklLNCRzyxYw9XXqOEC8GBhPMNojClKhNsHU=;
+ b=cqCC/YPC4KmXZsABSTpZqLuF1gYbyt/bBnUxmh1ht4WQde/LLswdOtCqwG1W+poRU/LXUe
+ B2lnMveH4AgVoUHuwcX0UlZ4nmevxqSdCqCXpzaHqvmLtRDHvIJ83nujUyKI39aW/v+pud
+ ys8YkTqWYUQhI75JAgf7RovvuU7K/90=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-44-Jyc-6ds_OoeB2rw5n6CB2g-1; Wed, 10 May 2023 08:21:37 -0400
-X-MC-Unique: Jyc-6ds_OoeB2rw5n6CB2g-1
+ us-mta-288-gNm6pp6tN62q14pQDkUopg-1; Wed, 10 May 2023 08:21:37 -0400
+X-MC-Unique: gNm6pp6tN62q14pQDkUopg-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
  [10.11.54.5])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 905C4101A55C;
- Wed, 10 May 2023 12:21:36 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 86787867956;
+ Wed, 10 May 2023 12:21:37 +0000 (UTC)
 Received: from merkur.fritz.box (unknown [10.39.194.148])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D224E18EC1;
- Wed, 10 May 2023 12:21:35 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C756F18EC1;
+ Wed, 10 May 2023 12:21:36 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
 Cc: kwolf@redhat.com,
 	richard.henderson@linaro.org,
 	qemu-devel@nongnu.org
-Subject: [PULL 00/28] Block layer patches
-Date: Wed, 10 May 2023 14:20:43 +0200
-Message-Id: <20230510122111.46566-1-kwolf@redhat.com>
+Subject: [PULL 01/28] block: add configure options for excluding vmdk,
+ vhdx and vpc
+Date: Wed, 10 May 2023 14:20:44 +0200
+Message-Id: <20230510122111.46566-2-kwolf@redhat.com>
+In-Reply-To: <20230510122111.46566-1-kwolf@redhat.com>
+References: <20230510122111.46566-1-kwolf@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
@@ -75,118 +79,142 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The following changes since commit b2896c1b09878fd1c4b485b3662f8beecbe0fef4:
+From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
 
-  Merge tag 'vfio-updates-20230509.0' of https://gitlab.com/alex.williamson/qemu into staging (2023-05-10 11:20:35 +0100)
+Let's add --enable / --disable configure options for these formats,
+so that those who don't need them may not build them.
 
-are available in the Git repository at:
+Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+Message-Id: <20230421092758.814122-1-vsementsov@yandex-team.ru>
+Reviewed-by: Kevin Wolf <kwolf@redhat.com>
+Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+---
+ meson_options.txt             |  6 ++++++
+ block/meson.build             | 18 +++++++++++++-----
+ meson.build                   |  3 +++
+ scripts/meson-buildoptions.sh |  9 +++++++++
+ 4 files changed, 31 insertions(+), 5 deletions(-)
 
-  https://repo.or.cz/qemu/kevin.git tags/for-upstream
-
-for you to fetch changes up to 58a2e3f5c37be02dac3086b81bdda9414b931edf:
-
-  block: compile out assert_bdrv_graph_readable() by default (2023-05-10 14:16:54 +0200)
-
-----------------------------------------------------------------
-Block layer patches
-
-- Graph locking, part 3 (more block drivers)
-- Compile out assert_bdrv_graph_readable() by default
-- Add configure options for vmdk, vhdx and vpc
-- Fix use after free in blockdev_mark_auto_del()
-- migration: Attempt disk reactivation in more failure scenarios
-- Coroutine correctness fixes
-
-----------------------------------------------------------------
-Emanuele Giuseppe Esposito (5):
-      nbd: Mark nbd_co_do_establish_connection() and callers GRAPH_RDLOCK
-      block: Mark bdrv_co_get_allocated_file_size() and callers GRAPH_RDLOCK
-      block: Mark bdrv_co_get_info() and callers GRAPH_RDLOCK
-      block: Mark bdrv_co_debug_event() GRAPH_RDLOCK
-      block: Mark BlockDriver callbacks for amend job GRAPH_RDLOCK
-
-Eric Blake (1):
-      migration: Attempt disk reactivation in more failure scenarios
-
-Kevin Wolf (18):
-      block: Fix use after free in blockdev_mark_auto_del()
-      iotests/nbd-reconnect-on-open: Fix NBD socket path
-      qcow2: Don't call bdrv_getlength() in coroutine_fns
-      block: Consistently call bdrv_activate() outside coroutine
-      block: bdrv/blk_co_unref() for calls in coroutine context
-      block: Don't call no_coroutine_fns in qmp_block_resize()
-      iotests: Test resizing image attached to an iothread
-      test-bdrv-drain: Don't modify the graph in coroutines
-      graph-lock: Add GRAPH_UNLOCKED(_PTR)
-      graph-lock: Fix GRAPH_RDLOCK_GUARD*() to be reader lock
-      block: .bdrv_open is non-coroutine and unlocked
-      nbd: Remove nbd_co_flush() wrapper function
-      vhdx: Require GRAPH_RDLOCK for accessing a node's parent list
-      mirror: Require GRAPH_RDLOCK for accessing a node's parent list
-      block: Mark bdrv_query_bds_stats() and callers GRAPH_RDLOCK
-      block: Mark bdrv_query_block_graph_info() and callers GRAPH_RDLOCK
-      block: Mark bdrv_recurse_can_replace() and callers GRAPH_RDLOCK
-      block: Mark bdrv_refresh_limits() and callers GRAPH_RDLOCK
-
-Paolo Bonzini (1):
-      block: add missing coroutine_fn annotations
-
-Stefan Hajnoczi (2):
-      aio-wait: avoid AioContext lock in aio_wait_bh_oneshot()
-      block: compile out assert_bdrv_graph_readable() by default
-
-Vladimir Sementsov-Ogievskiy (1):
-      block: add configure options for excluding vmdk, vhdx and vpc
-
- meson_options.txt                                  |   8 ++
- configure                                          |   1 +
- block/coroutines.h                                 |   5 +-
- block/qcow2.h                                      |   4 +-
- include/block/aio-wait.h                           |   2 +-
- include/block/block-global-state.h                 |  19 +++-
- include/block/block-io.h                           |  23 +++--
- include/block/block_int-common.h                   |  37 +++----
- include/block/block_int-global-state.h             |   4 +-
- include/block/graph-lock.h                         |  20 ++--
- include/block/qapi.h                               |   7 +-
- include/sysemu/block-backend-global-state.h        |   5 +-
- block.c                                            |  25 ++++-
- block/amend.c                                      |   8 +-
- block/blkverify.c                                  |   5 +-
- block/block-backend.c                              |  10 +-
- block/crypto.c                                     |   8 +-
- block/graph-lock.c                                 |   3 +
- block/io.c                                         |  12 +--
- block/mirror.c                                     |  18 +++-
- block/nbd.c                                        |  50 +++++----
- block/parallels.c                                  |   6 +-
- block/qapi.c                                       |   6 +-
- block/qcow.c                                       |   6 +-
- block/qcow2-refcount.c                             |   2 +-
- block/qcow2.c                                      |  48 ++++-----
- block/qed.c                                        |  24 ++---
- block/quorum.c                                     |   4 +-
- block/raw-format.c                                 |   2 +-
- block/vdi.c                                        |   6 +-
- block/vhdx.c                                       |  15 +--
- block/vmdk.c                                       |  20 ++--
- block/vpc.c                                        |   6 +-
- blockdev.c                                         |  25 +++--
- hw/block/dataplane/virtio-blk.c                    |   3 +-
- hw/scsi/virtio-scsi-dataplane.c                    |   2 -
- migration/migration.c                              |  24 +++--
- qemu-img.c                                         |   2 +
- tests/unit/test-bdrv-drain.c                       | 112 ++++++++++++++-------
- util/aio-wait.c                                    |   2 +-
- block/meson.build                                  |  18 +++-
- meson.build                                        |   5 +
- scripts/meson-buildoptions.sh                      |  13 +++
- tests/qemu-iotests/tests/iothreads-resize          |  71 +++++++++++++
- tests/qemu-iotests/tests/iothreads-resize.out      |  11 ++
- tests/qemu-iotests/tests/nbd-reconnect-on-open     |   3 +-
- tests/qemu-iotests/tests/nbd-reconnect-on-open.out |   4 +-
- 47 files changed, 474 insertions(+), 240 deletions(-)
- create mode 100755 tests/qemu-iotests/tests/iothreads-resize
- create mode 100644 tests/qemu-iotests/tests/iothreads-resize.out
+diff --git a/meson_options.txt b/meson_options.txt
+index ae2017702a..66ca350029 100644
+--- a/meson_options.txt
++++ b/meson_options.txt
+@@ -301,6 +301,12 @@ option('qcow1', type: 'feature', value: 'auto',
+        description: 'qcow1 image format support')
+ option('vdi', type: 'feature', value: 'auto',
+        description: 'vdi image format support')
++option('vhdx', type: 'feature', value: 'auto',
++       description: 'vhdx image format support')
++option('vmdk', type: 'feature', value: 'auto',
++       description: 'vmdk image format support')
++option('vpc', type: 'feature', value: 'auto',
++       description: 'vpc image format support')
+ option('vvfat', type: 'feature', value: 'auto',
+        description: 'vvfat image format support')
+ option('qed', type: 'feature', value: 'auto',
+diff --git a/block/meson.build b/block/meson.build
+index 382bec0e7d..13337bd070 100644
+--- a/block/meson.build
++++ b/block/meson.build
+@@ -38,11 +38,6 @@ block_ss.add(files(
+   'snapshot-access.c',
+   'throttle-groups.c',
+   'throttle.c',
+-  'vhdx-endian.c',
+-  'vhdx-log.c',
+-  'vhdx.c',
+-  'vmdk.c',
+-  'vpc.c',
+   'write-threshold.c',
+ ), zstd, zlib, gnutls)
+ 
+@@ -55,6 +50,19 @@ endif
+ if get_option('vdi').allowed()
+   block_ss.add(files('vdi.c'))
+ endif
++if get_option('vhdx').allowed()
++  block_ss.add(files(
++    'vhdx-endian.c',
++    'vhdx-log.c',
++    'vhdx.c'
++  ))
++endif
++if get_option('vmdk').allowed()
++  block_ss.add(files('vmdk.c'))
++endif
++if get_option('vpc').allowed()
++  block_ss.add(files('vpc.c'))
++endif
+ if get_option('cloop').allowed()
+   block_ss.add(files('cloop.c'))
+ endif
+diff --git a/meson.build b/meson.build
+index 27782f8f52..c56e0fec9e 100644
+--- a/meson.build
++++ b/meson.build
+@@ -3929,6 +3929,9 @@ if have_block
+   summary_info += {'dmg support':       get_option('dmg').allowed()}
+   summary_info += {'qcow v1 support':   get_option('qcow1').allowed()}
+   summary_info += {'vdi support':       get_option('vdi').allowed()}
++  summary_info += {'vhdx support':      get_option('vhdx').allowed()}
++  summary_info += {'vmdk support':      get_option('vmdk').allowed()}
++  summary_info += {'vpc support':       get_option('vpc').allowed()}
+   summary_info += {'vvfat support':     get_option('vvfat').allowed()}
+   summary_info += {'qed support':       get_option('qed').allowed()}
+   summary_info += {'parallels support': get_option('parallels').allowed()}
+diff --git a/scripts/meson-buildoptions.sh b/scripts/meson-buildoptions.sh
+index 0e888e6ecd..34d82dec53 100644
+--- a/scripts/meson-buildoptions.sh
++++ b/scripts/meson-buildoptions.sh
+@@ -169,6 +169,7 @@ meson_options_help() {
+   printf "%s\n" '                  VDUSE block export support'
+   printf "%s\n" '  vfio-user-server'
+   printf "%s\n" '                  vfio-user server support'
++  printf "%s\n" '  vhdx            vhdx image format support'
+   printf "%s\n" '  vhost-crypto    vhost-user crypto backend support'
+   printf "%s\n" '  vhost-kernel    vhost kernel backend support'
+   printf "%s\n" '  vhost-net       vhost-net kernel acceleration support'
+@@ -178,10 +179,12 @@ meson_options_help() {
+   printf "%s\n" '  vhost-vdpa      vhost-vdpa kernel backend support'
+   printf "%s\n" '  virglrenderer   virgl rendering support'
+   printf "%s\n" '  virtfs          virtio-9p support'
++  printf "%s\n" '  vmdk            vmdk image format support'
+   printf "%s\n" '  vmnet           vmnet.framework network backend support'
+   printf "%s\n" '  vnc             VNC server'
+   printf "%s\n" '  vnc-jpeg        JPEG lossy compression for VNC server'
+   printf "%s\n" '  vnc-sasl        SASL authentication for VNC server'
++  printf "%s\n" '  vpc             vpc image format support'
+   printf "%s\n" '  vte             vte support for the gtk UI'
+   printf "%s\n" '  vvfat           vvfat image format support'
+   printf "%s\n" '  whpx            WHPX acceleration support'
+@@ -449,6 +452,8 @@ _meson_option_parse() {
+     --disable-vduse-blk-export) printf "%s" -Dvduse_blk_export=disabled ;;
+     --enable-vfio-user-server) printf "%s" -Dvfio_user_server=enabled ;;
+     --disable-vfio-user-server) printf "%s" -Dvfio_user_server=disabled ;;
++    --enable-vhdx) printf "%s" -Dvhdx=enabled ;;
++    --disable-vhdx) printf "%s" -Dvhdx=disabled ;;
+     --enable-vhost-crypto) printf "%s" -Dvhost_crypto=enabled ;;
+     --disable-vhost-crypto) printf "%s" -Dvhost_crypto=disabled ;;
+     --enable-vhost-kernel) printf "%s" -Dvhost_kernel=enabled ;;
+@@ -465,6 +470,8 @@ _meson_option_parse() {
+     --disable-virglrenderer) printf "%s" -Dvirglrenderer=disabled ;;
+     --enable-virtfs) printf "%s" -Dvirtfs=enabled ;;
+     --disable-virtfs) printf "%s" -Dvirtfs=disabled ;;
++    --enable-vmdk) printf "%s" -Dvmdk=enabled ;;
++    --disable-vmdk) printf "%s" -Dvmdk=disabled ;;
+     --enable-vmnet) printf "%s" -Dvmnet=enabled ;;
+     --disable-vmnet) printf "%s" -Dvmnet=disabled ;;
+     --enable-vnc) printf "%s" -Dvnc=enabled ;;
+@@ -473,6 +480,8 @@ _meson_option_parse() {
+     --disable-vnc-jpeg) printf "%s" -Dvnc_jpeg=disabled ;;
+     --enable-vnc-sasl) printf "%s" -Dvnc_sasl=enabled ;;
+     --disable-vnc-sasl) printf "%s" -Dvnc_sasl=disabled ;;
++    --enable-vpc) printf "%s" -Dvpc=enabled ;;
++    --disable-vpc) printf "%s" -Dvpc=disabled ;;
+     --enable-vte) printf "%s" -Dvte=enabled ;;
+     --disable-vte) printf "%s" -Dvte=disabled ;;
+     --enable-vvfat) printf "%s" -Dvvfat=enabled ;;
+-- 
+2.40.1
 
 
