@@ -2,83 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A5BC6FDB9C
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 May 2023 12:25:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E3186FDBC0
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 May 2023 12:33:09 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pwh02-0000y2-Sl; Wed, 10 May 2023 06:24:46 -0400
+	id 1pwh5d-0003XL-NW; Wed, 10 May 2023 06:30:33 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pwh00-0000uW-T5
- for qemu-devel@nongnu.org; Wed, 10 May 2023 06:24:44 -0400
-Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pwgzz-0006LN-8D
- for qemu-devel@nongnu.org; Wed, 10 May 2023 06:24:44 -0400
-Received: by mail-wr1-x429.google.com with SMTP id
- ffacd0b85a97d-3063afa2372so6465636f8f.0
- for <qemu-devel@nongnu.org>; Wed, 10 May 2023 03:24:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1683714282; x=1686306282;
- h=content-transfer-encoding:in-reply-to:references:cc:to:from
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=sU1UcJWBgmL+pccXnwOqYfPuEQYr9pX8YKI3rRSuv/k=;
- b=aydwU+cysonOa0Y8xtfGYLTOUJdF8yEG/Jcvs/HMmr5I1FqPw1/1gOvxJ/zAJGbSuU
- RKkYzzELCX0vZuFhjGQA4J8FcfdNsHUz7LmSG4Ns7RT9v/x+uH504Gtk8o/pcX03qZfj
- FEdLWRcFutz1p0iRujTUJysN5/EEieJccPqPlY0m0QRGNpOFKFd8Q8UZeVOvUW+mRoVe
- RWjnHw6UxAZQyZ2HmKtzSa9QNSrDRke4aHHD2kawEcwcgEUtKYcWEbONPTyAcIgsDdNc
- Jxz2P04iyMZzwp5APjP7jEPgNEvkGk98YB8zjh2mgRwnQJBw9kEkR7yDInUQStRfeGhv
- MoEQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683714282; x=1686306282;
- h=content-transfer-encoding:in-reply-to:references:cc:to:from
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=sU1UcJWBgmL+pccXnwOqYfPuEQYr9pX8YKI3rRSuv/k=;
- b=EEW3EFOR0LqfJy39xHHDoN0BOrY4qYbS15GgOFrkykZ2hpYiGI//ycN0yvxlCoIkyW
- Pa5rNUjoh5Ru/v1A5RFo6C3qtoQC7HB61ciUhSds5UXz2Df2KeRhj8i+nvABAyQo0tBG
- ncjb0GZafKPtcClh1ZbWRTj0Ent3UsBdZ3wz6D1AEaNF1ig0KZwgk/bGGyPhwHRoW9E0
- bBhQfPTbdhPLhU4qhAKhD8/HCbdxUkpA6fk6ykn9FlEHa7qi8a0c3brdpKyM9bckk3mV
- y94ImP9QHTa8v2OBzrKmnWMArf+OZ+XuE/4siA+qgtLRebyxhF0SwmpJIHS6zxPxVmd1
- 41gw==
-X-Gm-Message-State: AC+VfDzvHCmJMobKL2jvCoFMduREDEewac9uGza819uH1vZxr6/eb33K
- iI5QoHCoayHAR4IcOihm38b0ZYe5VwwE8NIhrW49Uw==
-X-Google-Smtp-Source: ACHHUZ46yFUh+NBEdulRvEL3WBJlx9ReOr/0uuhaTxDT6BqjqhwoTnP0Xcm5xQ9Oyx46OBYKB54ARw==
-X-Received: by 2002:adf:fb0b:0:b0:2cd:bc79:5444 with SMTP id
- c11-20020adffb0b000000b002cdbc795444mr12418211wrr.2.1683714281886; 
- Wed, 10 May 2023 03:24:41 -0700 (PDT)
-Received: from [192.168.10.24] ([85.9.250.243])
- by smtp.gmail.com with ESMTPSA id
- m2-20020a056000008200b0030630120e56sm16775568wrx.57.2023.05.10.03.24.41
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 10 May 2023 03:24:41 -0700 (PDT)
-Message-ID: <de13ef96-19a3-7997-2844-14c4af25cf1d@linaro.org>
-Date: Wed, 10 May 2023 11:24:39 +0100
+ (Exim 4.90_1) (envelope-from <qianfanguijin@163.com>)
+ id 1pwh5b-0003Vt-E1; Wed, 10 May 2023 06:30:31 -0400
+Received: from m12.mail.163.com ([220.181.12.197])
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <qianfanguijin@163.com>)
+ id 1pwh5W-00080N-Uk; Wed, 10 May 2023 06:30:31 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+ s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=K5v3/
+ qwGgrVngUDrZEa3feNReC7KwjGqmcNDHIC4Qyg=; b=Be6vdnO0+pnVJDYRfaUwh
+ UfinRiWZ3WayhAENkqLDVAJspeTZQmKAfBIOAqVehma0UfQHsRMOSxutuypsrwYg
+ zWnqqzP1MN0lx+q0PvOElUd3TF2UyBfYQVEoC+/+lQwvJM96BhiLxwPwI9UTSfmf
+ 1o4oVmI6aTdtbs5ouoK2KY=
+Received: from DESKTOP-B1R4FVG.localdomain (unknown [218.201.129.19])
+ by zwqz-smtp-mta-g4-4 (Coremail) with SMTP id _____wBnkgAvcltk0WrrBQ--.23956S2;
+ Wed, 10 May 2023 18:30:08 +0800 (CST)
+From: qianfanguijin@163.com
+To: qemu-arm@nongnu.org,
+	qemu-devel@nongnu.org
+Cc: Strahinja Jankovic <strahinja.p.jankovic@gmail.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Beniamino Galvani <b.galvani@gmail.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Niek Linnenbank <nieklinnenbank@gmail.com>,
+ qianfan Zhao <qianfanguijin@163.com>
+Subject: [PATCH v4 00/11] *** Add allwinner r40 support ***
+Date: Wed, 10 May 2023 18:29:53 +0800
+Message-Id: <20230510103004.30015-1-qianfanguijin@163.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH for-8.1 00/12] tcg/mips: Backend improvements
-Content-Language: en-US
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Cc: philmd@linaro.org
-References: <20230408030359.3368868-1-richard.henderson@linaro.org>
-In-Reply-To: <20230408030359.3368868-1-richard.henderson@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::429;
- envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x429.google.com
-X-Spam_score_int: -24
-X-Spam_score: -2.5
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: _____wBnkgAvcltk0WrrBQ--.23956S2
+X-Coremail-Antispam: 1Uf129KBjvJXoWxCr4DZFWDKF4Utr1DXFW8WFg_yoW5CFW3pa
+ n8K343Kr1rta43AFWaqFnrJFyrJa4kGr4Utrn7ZryxAry3ta1Yvr1UK3WfKrWrGFy2qwsr
+ ZFZIqF13Ww4YqaDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0pRNo7JUUUUU=
+X-Originating-IP: [218.201.129.19]
+X-CM-SenderInfo: htld0w5dqj3xxmlqqiywtou0bp/xtbBzhVr7WI0ZI07awAAsy
+Received-SPF: pass client-ip=220.181.12.197;
+ envelope-from=qianfanguijin@163.com; helo=m12.mail.163.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.421,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,39 +71,95 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Ping.
+From: qianfan Zhao <qianfanguijin@163.com>
 
-r~
 
-On 4/8/23 04:03, Richard Henderson wrote:
-> I've posted some of these before, perhaps a year or more ago, but
-> then failed to follow up and get them merged.
-> 
-> I don't think there are any real dependencies, but it has been
-> rebased upon today's load/store helpers patch set, so there might
-> be minor conflicts, therefore:
-> 
-> Based-on: 20230408024314.3357414-1-richard.henderson@linaro.org
-> ("[PATCH for-8.1 00/42] tcg: Simplify calls to load/store helpers")
-> 
-> 
-> Richard Henderson (12):
->    tcg/mips: Move TCG_AREG0 to S8
->    tcg/mips: Move TCG_GUEST_BASE_REG to S7
->    tcg/mips: Unify TCG_GUEST_BASE_REG tests
->    tcg/mips: Create and use TCG_REG_TB
->    tcg/mips: Split out tcg_out_movi_one
->    tcg/mips: Split out tcg_out_movi_two
->    tcg/mips: Use the constant pool for 64-bit constants
->    tcg/mips: Aggressively use the constant pool for n64 calls
->    tcg/mips: Try tb-relative addresses in tcg_out_movi
->    tcg/mips: Try three insns with shift and add in tcg_out_movi
->    tcg/mips: Use qemu_build_not_reached for LO/HI_OFF
->    tcg/mips: Replace MIPS_BE with HOST_BIG_ENDIAN
-> 
->   tcg/mips/tcg-target.h     |   3 +-
->   tcg/mips/tcg-target.c.inc | 350 ++++++++++++++++++++++++++++----------
->   2 files changed, 260 insertions(+), 93 deletions(-)
-> 
+*** history ***
+
+# v1: 2023-03-21
+
+The first version which add allwinner-r40 support, supported features:
+
++ ccu
++ dram controller
++ uart
++ i2c and pmic(axp221)
++ sdcard
++ emac/gmac
+
+Also provide a test case under avocado, running quickly test:
+
+$ AVOCADO_ALLOW_LARGE_STORAGE=yes tests/venv/bin/avocado \
+    --verbose --show=app,console run -t machine:bpim2u \
+    ../tests/avocado/boot_linux_console.py
+
+# v2: 2023-03-28
+
+1. Fix the waring and error reported by checkpatch.pl
+2. Remove the other i2c controllers except that i2c0
+3. Use an array to register mmc and uart devices
+4. Rename axp209 to axp22x and add axp221 support
+5. Add a basic SRAM controller
+
+# v3: 2023-04-18
+
+1. Update some commit messages
+2. Squash those two commit about sdcard
+   hw: sd: allwinner-sdhost: Add sun50i-a64 SoC support
+   hw: arm: allwinner-r40: Fix the mmc controller's type
+
+# v4: 2023-05-10
+
+1. Rebase to master
+
+qianfan Zhao (11):
+  hw: arm: Add bananapi M2-Ultra and allwinner-r40 support
+  hw/arm/allwinner-r40: add Clock Control Unit
+  hw: allwinner-r40: Complete uart devices
+  hw: arm: allwinner-r40: Add i2c0 device
+  hw/misc: Rename axp209 to axp22x and add support AXP221 PMU
+  hw/arm/allwinner-r40: add SDRAM controller device
+  hw: sd: allwinner-sdhost: Add sun50i-a64 SoC support
+  hw: arm: allwinner-r40: Add emac and gmac support
+  hw: arm: allwinner-sramc: Add SRAM Controller support for R40
+  tests: avocado: boot_linux_console: Add test case for bpim2u
+  docs: system: arm: Introduce bananapi_m2u
+
+ docs/system/arm/bananapi_m2u.rst      | 138 +++++++
+ hw/arm/Kconfig                        |  14 +-
+ hw/arm/allwinner-r40.c                | 526 ++++++++++++++++++++++++++
+ hw/arm/bananapi_m2u.c                 | 145 +++++++
+ hw/arm/meson.build                    |   1 +
+ hw/misc/Kconfig                       |   5 +-
+ hw/misc/allwinner-r40-ccu.c           | 209 ++++++++++
+ hw/misc/allwinner-r40-dramc.c         | 513 +++++++++++++++++++++++++
+ hw/misc/allwinner-sramc.c             | 184 +++++++++
+ hw/misc/axp209.c                      | 238 ------------
+ hw/misc/axp2xx.c                      | 283 ++++++++++++++
+ hw/misc/meson.build                   |   5 +-
+ hw/misc/trace-events                  |  26 +-
+ hw/sd/allwinner-sdhost.c              |  70 +++-
+ include/hw/arm/allwinner-r40.h        | 143 +++++++
+ include/hw/misc/allwinner-r40-ccu.h   |  65 ++++
+ include/hw/misc/allwinner-r40-dramc.h | 108 ++++++
+ include/hw/misc/allwinner-sramc.h     |  69 ++++
+ include/hw/sd/allwinner-sdhost.h      |   9 +
+ tests/avocado/boot_linux_console.py   | 176 +++++++++
+ 20 files changed, 2679 insertions(+), 248 deletions(-)
+ create mode 100644 docs/system/arm/bananapi_m2u.rst
+ create mode 100644 hw/arm/allwinner-r40.c
+ create mode 100644 hw/arm/bananapi_m2u.c
+ create mode 100644 hw/misc/allwinner-r40-ccu.c
+ create mode 100644 hw/misc/allwinner-r40-dramc.c
+ create mode 100644 hw/misc/allwinner-sramc.c
+ delete mode 100644 hw/misc/axp209.c
+ create mode 100644 hw/misc/axp2xx.c
+ create mode 100644 include/hw/arm/allwinner-r40.h
+ create mode 100644 include/hw/misc/allwinner-r40-ccu.h
+ create mode 100644 include/hw/misc/allwinner-r40-dramc.h
+ create mode 100644 include/hw/misc/allwinner-sramc.h
+
+-- 
+2.25.1
 
 
