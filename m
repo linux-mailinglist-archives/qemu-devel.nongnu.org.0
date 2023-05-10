@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6709F6FE502
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D0BC6FE503
 	for <lists+qemu-devel@lfdr.de>; Wed, 10 May 2023 22:28:28 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pwqPB-0000IB-62; Wed, 10 May 2023 16:27:21 -0400
+	id 1pwqP9-0000Hb-Ej; Wed, 10 May 2023 16:27:19 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>) id 1pwqP7-0000HL-PE
- for qemu-devel@nongnu.org; Wed, 10 May 2023 16:27:17 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
+ (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>) id 1pwqP6-0000Gy-BK
+ for qemu-devel@nongnu.org; Wed, 10 May 2023 16:27:16 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>) id 1pwqP5-0000zb-2m
- for qemu-devel@nongnu.org; Wed, 10 May 2023 16:27:17 -0400
-Received: from pps.filterd (m0353727.ppops.net [127.0.0.1])
+ (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>) id 1pwqP4-0000zY-FY
+ for qemu-devel@nongnu.org; Wed, 10 May 2023 16:27:16 -0400
+Received: from pps.filterd (m0353724.ppops.net [127.0.0.1])
  by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 34AKKcSG005129; Wed, 10 May 2023 20:27:11 GMT
+ 34AK9L5w017364; Wed, 10 May 2023 20:27:11 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
  h=from : to : cc : subject
  : date : message-id : in-reply-to : references : mime-version :
  content-transfer-encoding; s=pp1;
- bh=mjevnpD3EKrB/U+ToMob3mWZQ0lrXW36lyqz0JHpToo=;
- b=iLGyIZ7KMvyb/Lh87qatWYCE6UJ3XUxDKRRyX1KYwpc7nw1uRm0hp4edGm4nhOKit6ea
- HsOCyVrb6FIzlllL5zAa9uqyBzF2bVkXs0PmBJlBYlMdu9csn7+H88czQHmp5jL2W6Xt
- VMO4SxjtdnZgx+IKFVj5FMlywnmRmcOsJ1SNy/eI3PI3XxS9X67Iy1aDRyRzONhHK7Dt
- 3I9sv8cMcN0bCu76EWYqgjPcaMhU2pJ4dJngJNfbt/P/gGKCmhchDhlRGwvY1Kafs6kq
- Rr2PwZSuuCkUNn9ECoSa2dJZHQ1FzYrITJvjBNbVCA+9BEct1jS+tWJY9l45y/7uQ9e1 Yw== 
+ bh=I4QyKzOLDbj0XvCzrjMdQaeptjBkpecKuuxTLMoB7VM=;
+ b=DWGbOeA5ykewHYlPHxbHggHbfvNk2f/Pnh+lHYOmTc/OrmCxwCjnhcqT8XC28Ax+GHw7
+ vu4XGegCAlUU8CfzwyvDvVPrYfqO1J+QN2VdEKzIkOfeSUhQ1teiJaewUYNDLHWQf/sk
+ aK3qRK/cY7BSMLbgvrNB20+3NmnhsGPv4zhy+DaKeYkT8iApMsbyl7i8W1Eoon4HZ+C0
+ UPcJmkA0+wIqJgrRh1z20YvDvY8vlpwKc6bYR6kbdYBpA0bwfI1JvhBsK3Fr2E22WfWH
+ vM0kbjPbUVf1j0sOnRoczxZcKEUvHpe5IHa0AoXmmSKKyW0yCTtWgoXbdzxsVbLAFXcE uw== 
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3qgbgm5vda-1
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3qgcduud0f-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Wed, 10 May 2023 20:27:11 +0000
-Received: from m0353727.ppops.net (m0353727.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 34AK7PU8011229;
- Wed, 10 May 2023 20:27:10 GMT
-Received: from ppma04fra.de.ibm.com (6a.4a.5195.ip4.static.sl-reverse.com
- [149.81.74.106])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3qgbgm5vbj-1
+Received: from m0353724.ppops.net (m0353724.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 34AKMdoJ031733;
+ Wed, 10 May 2023 20:27:11 GMT
+Received: from ppma06fra.de.ibm.com (48.49.7a9f.ip4.static.sl-reverse.com
+ [159.122.73.72])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3qgcduucy3-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Wed, 10 May 2023 20:27:10 +0000
-Received: from pps.filterd (ppma04fra.de.ibm.com [127.0.0.1])
- by ppma04fra.de.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 34AI7UmE015404;
- Wed, 10 May 2023 20:27:08 GMT
-Received: from smtprelay06.fra02v.mail.ibm.com ([9.218.2.230])
- by ppma04fra.de.ibm.com (PPS) with ESMTPS id 3qf7d1s1h2-1
+Received: from pps.filterd (ppma06fra.de.ibm.com [127.0.0.1])
+ by ppma06fra.de.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 34AK99WP027064;
+ Wed, 10 May 2023 20:27:09 GMT
+Received: from smtprelay02.fra02v.mail.ibm.com ([9.218.2.226])
+ by ppma06fra.de.ibm.com (PPS) with ESMTPS id 3qf7e0s1ff-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 10 May 2023 20:27:07 +0000
+ Wed, 10 May 2023 20:27:09 +0000
 Received: from smtpav04.fra02v.mail.ibm.com (smtpav04.fra02v.mail.ibm.com
  [10.20.54.103])
- by smtprelay06.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 34AKR4RU39191116
+ by smtprelay02.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 34AKR5PC50594230
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 10 May 2023 20:27:04 GMT
+ Wed, 10 May 2023 20:27:05 GMT
 Received: from smtpav04.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 42C1E2004B;
+ by IMSVA (Postfix) with ESMTP id 5B27C20040;
+ Wed, 10 May 2023 20:27:05 +0000 (GMT)
+Received: from smtpav04.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id C9D5E20043;
  Wed, 10 May 2023 20:27:04 +0000 (GMT)
-Received: from smtpav04.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id B0EC920040;
- Wed, 10 May 2023 20:27:03 +0000 (GMT)
 Received: from heavy.boeblingen.de.ibm.com (unknown [9.171.51.237])
  by smtpav04.fra02v.mail.ibm.com (Postfix) with ESMTP;
- Wed, 10 May 2023 20:27:03 +0000 (GMT)
+ Wed, 10 May 2023 20:27:04 +0000 (GMT)
 From: Ilya Leoshkevich <iii@linux.ibm.com>
 To: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
@@ -71,29 +71,29 @@ Cc: "Dominik 'Disconnect3d' Czarnota" <dominik.b.czarnota@gmail.com>,
  Christian Borntraeger <borntraeger@linux.ibm.com>,
  Andreas Arnez <arnez@linux.ibm.com>, qemu-devel@nongnu.org,
  Ilya Leoshkevich <iii@linux.ibm.com>
-Subject: [PATCH RESEND 1/6] linux-user: Expose do_guest_openat() and
- do_guest_readlink()
-Date: Wed, 10 May 2023 22:26:49 +0200
-Message-Id: <20230510202654.225689-2-iii@linux.ibm.com>
+Subject: [PATCH RESEND 2/6] gdbstub: Expose gdb_get_process() and
+ gdb_get_first_cpu_in_process()
+Date: Wed, 10 May 2023 22:26:50 +0200
+Message-Id: <20230510202654.225689-3-iii@linux.ibm.com>
 X-Mailer: git-send-email 2.40.1
 In-Reply-To: <20230510202654.225689-1-iii@linux.ibm.com>
 References: <20230510202654.225689-1-iii@linux.ibm.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: -hK2nzvt_KpMoyqzHDtsS2xZmitgn8GN
-X-Proofpoint-ORIG-GUID: fNFsc5j8_s5hy51rA78MmZVjGQN4Hjjq
+X-Proofpoint-ORIG-GUID: D_A6662MQ3yV5_4ctABh4qMgZhu3DBMY
+X-Proofpoint-GUID: 7ArZCWDVUCYi_N5hvRkNXvZUzHcyGex3
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
  definitions=2023-05-10_04,2023-05-05_01,2023-02-09_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0
- suspectscore=0 phishscore=0 impostorscore=0 bulkscore=0 spamscore=0
- mlxscore=0 priorityscore=1501 mlxlogscore=999 adultscore=0 clxscore=1015
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ phishscore=0 adultscore=0
+ bulkscore=0 clxscore=1015 malwarescore=0 suspectscore=0 mlxlogscore=999
+ lowpriorityscore=0 impostorscore=0 priorityscore=1501 spamscore=0
+ mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2304280000 definitions=main-2305100163
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=iii@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=iii@linux.ibm.com;
+ helo=mx0b-001b2d01.pphosted.com
 X-Spam_score_int: -19
 X-Spam_score: -2.0
 X-Spam_bar: --
@@ -116,122 +116,104 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-These functions will be required by the GDB stub in order to provide
-the guest view of /proc to GDB.
+These functions will be needed by user-target.c in order to retrieve
+the name of the executable.
 
 Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
 ---
- linux-user/qemu.h    |  3 +++
- linux-user/syscall.c | 54 ++++++++++++++++++++++++++++----------------
- 2 files changed, 38 insertions(+), 19 deletions(-)
+ gdbstub/gdbstub.c   | 16 ++++++++--------
+ gdbstub/internals.h |  2 ++
+ 2 files changed, 10 insertions(+), 8 deletions(-)
 
-diff --git a/linux-user/qemu.h b/linux-user/qemu.h
-index e2e93fbd1d5..08bcdd7b7c5 100644
---- a/linux-user/qemu.h
-+++ b/linux-user/qemu.h
-@@ -165,6 +165,9 @@ typedef struct TaskState {
- } TaskState;
- 
- abi_long do_brk(abi_ulong new_brk);
-+int do_guest_openat(CPUArchState *cpu_env, int dirfd, const char *pathname,
-+                    int flags, mode_t mode);
-+ssize_t do_guest_readlink(const char *pathname, char *buf, size_t bufsiz);
- 
- /* user access */
- 
-diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index 69f740ff98c..80dbcfec426 100644
---- a/linux-user/syscall.c
-+++ b/linux-user/syscall.c
-@@ -8317,7 +8317,8 @@ static int open_hardware(CPUArchState *cpu_env, int fd)
+diff --git a/gdbstub/gdbstub.c b/gdbstub/gdbstub.c
+index 0760d786858..207250c1c08 100644
+--- a/gdbstub/gdbstub.c
++++ b/gdbstub/gdbstub.c
+@@ -211,7 +211,7 @@ static uint32_t gdb_get_cpu_pid(CPUState *cpu)
+     return cpu->cluster_index + 1;
  }
- #endif
  
--static int do_openat(CPUArchState *cpu_env, int dirfd, const char *pathname, int flags, mode_t mode)
-+int do_guest_openat(CPUArchState *cpu_env, int dirfd, const char *pathname,
-+                    int flags, mode_t mode)
+-static GDBProcess *gdb_get_process(uint32_t pid)
++GDBProcess *gdb_get_process(uint32_t pid)
  {
-     struct fake_open {
-         const char *filename;
-@@ -8388,6 +8389,36 @@ static int do_openat(CPUArchState *cpu_env, int dirfd, const char *pathname, int
-     return safe_openat(dirfd, path(pathname), flags, mode);
+     int i;
+ 
+@@ -247,7 +247,7 @@ static CPUState *find_cpu(uint32_t thread_id)
+     return NULL;
  }
  
-+ssize_t do_guest_readlink(const char *pathname, char *buf, size_t bufsiz)
-+{
-+    ssize_t ret;
-+
-+    if (!pathname || !buf) {
-+        errno = EFAULT;
-+        return -1;
-+    }
-+
-+    if (!bufsiz) {
-+        /* Short circuit this for the magic exe check. */
-+        errno = EINVAL;
-+        return -1;
-+    }
-+
-+    if (is_proc_myself((const char *)pathname, "exe")) {
-+        /*
-+         * Don't worry about sign mismatch as earlier mapping
-+         * logic would have thrown a bad address error.
-+         */
-+        ret = MIN(strlen(exec_path), bufsiz);
-+        /* We cannot NUL terminate the string. */
-+        memcpy(buf, exec_path, ret);
-+    } else {
-+        ret = readlink(path(pathname), buf, bufsiz);
-+    }
-+
-+    return ret;
-+}
-+
- static int do_execveat(CPUArchState *cpu_env, int dirfd,
-                        abi_long pathname, abi_long guest_argp,
-                        abi_long guest_envp, int flags)
-@@ -8850,7 +8881,7 @@ static abi_long do_syscall1(CPUArchState *cpu_env, int num, abi_long arg1,
-     case TARGET_NR_open:
-         if (!(p = lock_user_string(arg1)))
-             return -TARGET_EFAULT;
--        ret = get_errno(do_openat(cpu_env, AT_FDCWD, p,
-+        ret = get_errno(do_guest_openat(cpu_env, AT_FDCWD, p,
-                                   target_to_host_bitmask(arg2, fcntl_flags_tbl),
-                                   arg3));
-         fd_trans_unregister(ret);
-@@ -8860,7 +8891,7 @@ static abi_long do_syscall1(CPUArchState *cpu_env, int num, abi_long arg1,
-     case TARGET_NR_openat:
-         if (!(p = lock_user_string(arg2)))
-             return -TARGET_EFAULT;
--        ret = get_errno(do_openat(cpu_env, arg1, p,
-+        ret = get_errno(do_guest_openat(cpu_env, arg1, p,
-                                   target_to_host_bitmask(arg3, fcntl_flags_tbl),
-                                   arg4));
-         fd_trans_unregister(ret);
-@@ -10031,22 +10062,7 @@ static abi_long do_syscall1(CPUArchState *cpu_env, int num, abi_long arg1,
-             void *p2;
-             p = lock_user_string(arg1);
-             p2 = lock_user(VERIFY_WRITE, arg2, arg3, 0);
--            if (!p || !p2) {
--                ret = -TARGET_EFAULT;
--            } else if (!arg3) {
--                /* Short circuit this for the magic exe check. */
--                ret = -TARGET_EINVAL;
--            } else if (is_proc_myself((const char *)p, "exe")) {
--                /*
--                 * Don't worry about sign mismatch as earlier mapping
--                 * logic would have thrown a bad address error.
--                 */
--                ret = MIN(strlen(exec_path), arg3);
--                /* We cannot NUL terminate the string. */
--                memcpy(p2, exec_path, ret);
--            } else {
--                ret = get_errno(readlink(path(p), p2, arg3));
--            }
-+            ret = get_errno(do_guest_readlink(p, p2, arg3));
-             unlock_user(p2, arg2, ret);
-             unlock_user(p, arg1, 0);
+-static CPUState *get_first_cpu_in_process(GDBProcess *process)
++CPUState *gdb_get_first_cpu_in_process(GDBProcess *process)
+ {
+     CPUState *cpu;
+ 
+@@ -325,7 +325,7 @@ static CPUState *gdb_get_cpu(uint32_t pid, uint32_t tid)
+             return NULL;
          }
+ 
+-        return get_first_cpu_in_process(process);
++        return gdb_get_first_cpu_in_process(process);
+     } else {
+         /* a specific thread */
+         cpu = find_cpu(tid);
+@@ -354,7 +354,7 @@ static const char *get_feature_xml(const char *p, const char **newp,
+     size_t len;
+     int i;
+     const char *name;
+-    CPUState *cpu = get_first_cpu_in_process(process);
++    CPUState *cpu = gdb_get_first_cpu_in_process(process);
+     CPUClass *cc = CPU_GET_CLASS(cpu);
+ 
+     len = 0;
+@@ -490,7 +490,7 @@ void gdb_register_coprocessor(CPUState *cpu,
+ 
+ static void gdb_process_breakpoint_remove_all(GDBProcess *p)
+ {
+-    CPUState *cpu = get_first_cpu_in_process(p);
++    CPUState *cpu = gdb_get_first_cpu_in_process(p);
+ 
+     while (cpu) {
+         gdb_breakpoint_remove_all(cpu);
+@@ -653,7 +653,7 @@ static int gdb_handle_vcont(const char *p)
+                 goto out;
+             }
+ 
+-            cpu = get_first_cpu_in_process(process);
++            cpu = gdb_get_first_cpu_in_process(process);
+             while (cpu) {
+                 if (newstates[cpu->cpu_index] == 1) {
+                     newstates[cpu->cpu_index] = cur_action;
+@@ -1274,7 +1274,7 @@ static void handle_v_attach(GArray *params, void *user_ctx)
+         goto cleanup;
+     }
+ 
+-    cpu = get_first_cpu_in_process(process);
++    cpu = gdb_get_first_cpu_in_process(process);
+     if (!cpu) {
+         goto cleanup;
+     }
+@@ -1392,7 +1392,7 @@ static void handle_query_curr_tid(GArray *params, void *user_ctx)
+      * first thread).
+      */
+     process = gdb_get_cpu_process(gdbserver_state.g_cpu);
+-    cpu = get_first_cpu_in_process(process);
++    cpu = gdb_get_first_cpu_in_process(process);
+     g_string_assign(gdbserver_state.str_buf, "QC");
+     gdb_append_thread_id(cpu, gdbserver_state.str_buf);
+     gdb_put_strbuf();
+diff --git a/gdbstub/internals.h b/gdbstub/internals.h
+index 94ddff44958..235f2551bd4 100644
+--- a/gdbstub/internals.h
++++ b/gdbstub/internals.h
+@@ -124,6 +124,8 @@ void gdb_read_byte(uint8_t ch);
+  */
+ bool gdb_got_immediate_ack(void);
+ /* utility helpers */
++GDBProcess *gdb_get_process(uint32_t pid);
++CPUState *gdb_get_first_cpu_in_process(GDBProcess *process);
+ CPUState *gdb_first_attached_cpu(void);
+ void gdb_append_thread_id(CPUState *cpu, GString *buf);
+ int gdb_get_cpu_index(CPUState *cpu);
 -- 
 2.40.1
 
