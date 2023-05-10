@@ -2,111 +2,111 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4DCE6FD92C
+	by mail.lfdr.de (Postfix) with ESMTPS id 1CB4C6FD929
 	for <lists+qemu-devel@lfdr.de>; Wed, 10 May 2023 10:24:29 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pwf6Q-0005sR-LJ; Wed, 10 May 2023 04:23:14 -0400
+	id 1pwf6S-0005tE-17; Wed, 10 May 2023 04:23:16 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <t.dzieciol@partner.samsung.com>)
- id 1pwf6N-0005rB-D4
- for qemu-devel@nongnu.org; Wed, 10 May 2023 04:23:11 -0400
-Received: from mailout1.w1.samsung.com ([210.118.77.11])
+ id 1pwf6P-0005sB-A3
+ for qemu-devel@nongnu.org; Wed, 10 May 2023 04:23:13 -0400
+Received: from mailout2.w1.samsung.com ([210.118.77.12])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <t.dzieciol@partner.samsung.com>)
- id 1pwf6K-0007gm-DD
- for qemu-devel@nongnu.org; Wed, 10 May 2023 04:23:11 -0400
-Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
- by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id
- 20230510082303euoutp0140003b7de12141396282aedb2505b138~dupTJpF_02095220952euoutp01p
- for <qemu-devel@nongnu.org>; Wed, 10 May 2023 08:23:03 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com
- 20230510082303euoutp0140003b7de12141396282aedb2505b138~dupTJpF_02095220952euoutp01p
+ id 1pwf6J-0007gs-Lq
+ for qemu-devel@nongnu.org; Wed, 10 May 2023 04:23:13 -0400
+Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
+ by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id
+ 20230510082304euoutp02c210073a0c5d4c0bb8fc11d53d1e5527~dupTbXnuy1889218892euoutp02y
+ for <qemu-devel@nongnu.org>; Wed, 10 May 2023 08:23:04 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com
+ 20230510082304euoutp02c210073a0c5d4c0bb8fc11d53d1e5527~dupTbXnuy1889218892euoutp02y
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1683706983;
- bh=wO5gaesISuEdjaAU2KXBboHbME+HpMIPsPuP7qC625s=;
+ s=mail20170921; t=1683706984;
+ bh=S4j+h9sVlIgE+FkldXD6rgkuLxxxlCGoT8NPvMcPwNE=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=GVrkFegl4eXrePCfnbVU4zdZVWYegG/eEsFM33J38azZ7FnprLD8LiCsJ3v+ScYs9
- 5ECy5E5siHEC3fZYrheLB3urFs8HeFrGYVOdDtddjrwfWw6pqkILHbgItwY/W8DZea
- NmgZHhZjxh8DRM6DCU04PjOnjtxmT0i0swXOipJ0=
-Received: from eusmges1new.samsung.com (unknown [203.254.199.242]) by
- eucas1p1.samsung.com (KnoxPortal) with ESMTP id
- 20230510082303eucas1p10e9c31daafa5367a757676cf0f7d26e4~dupSz-9M70155501555eucas1p1s;
+ b=D+Pi2O9vxa3SQeduSNe++MpyzpCU1pO9YFDnmvK2Xue7v7enbTAqw2LoAnnHz9HH1
+ ncSZH+DH4KkieqsC90QlCB/7b6zzZkHyVRb0HHmV9AJfqNfD93Ws4lDplZhxHM2UlY
+ 11UtpQNkhFnEG5av2i+0+Yx1xX+hoFdH6JuDAjoA=
+Received: from eusmges2new.samsung.com (unknown [203.254.199.244]) by
+ eucas1p2.samsung.com (KnoxPortal) with ESMTP id
+ 20230510082303eucas1p24e7351067af1af463f603e8e6e6946d0~dupTFvfzn2230922309eucas1p2o;
  Wed, 10 May 2023 08:23:03 +0000 (GMT)
 Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
- eusmges1new.samsung.com (EUCPMTA) with SMTP id 7A.B3.42423.7645B546; Wed, 10
+ eusmges2new.samsung.com (EUCPMTA) with SMTP id 8C.4E.35386.7645B546; Wed, 10
  May 2023 09:23:03 +0100 (BST)
-Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
+Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
  eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
- 20230510082303eucas1p139f531b811cf1547da84f23ce743b1fb~dupSUb7MJ0620406204eucas1p1T;
+ 20230510082303eucas1p1df93402a1771f308faec7a76d03282cc~dupSuPRsg0603006030eucas1p1d;
  Wed, 10 May 2023 08:23:03 +0000 (GMT)
-Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
- eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
- 20230510082302eusmtrp14f3f2dd2c238d65edd12a2ab88996a27~dupSOtGFc0702607026eusmtrp1Y;
- Wed, 10 May 2023 08:23:02 +0000 (GMT)
-X-AuditID: cbfec7f2-a51ff7000002a5b7-60-645b546737b2
+Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
+ eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
+ 20230510082303eusmtrp2651e833dbccb9ba0d7b2b1b165538a02~dupStkpMl1369213692eusmtrp2a;
+ Wed, 10 May 2023 08:23:03 +0000 (GMT)
+X-AuditID: cbfec7f4-cc9ff70000028a3a-53-645b54670390
 Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
- eusmgms1.samsung.com (EUCPMTA) with SMTP id 2D.01.10549.6645B546; Wed, 10
- May 2023 09:23:02 +0100 (BST)
+ eusmgms2.samsung.com (EUCPMTA) with SMTP id 7B.B3.14344.7645B546; Wed, 10
+ May 2023 09:23:03 +0100 (BST)
 Received: from AMDN5139.EU.corp.samsungelectronics.net (unknown
  [106.210.135.112]) by eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
- 20230510082302eusmtip1907c2c1119392d85b24b6338baec4e37~dupRpt-Km2222822228eusmtip1L;
+ 20230510082302eusmtip1f987995cc1be9efcab3587815e33f19a~dupSKdBmA2104721047eusmtip1D;
  Wed, 10 May 2023 08:23:02 +0000 (GMT)
 From: Tomasz Dzieciol <t.dzieciol@partner.samsung.com>
 To: qemu-devel@nongnu.org, akihiko.odaki@daynix.com
 Cc: sriram.yagnaraman@est.tech, jasowang@redhat.com, k.kwiecien@samsung.com,
  m.sochacki@samsung.com
-Subject: [PATCH v5 5/6] igb: add IPv6 extended headers traffic detection
-Date: Wed, 10 May 2023 10:22:53 +0200
-Message-Id: <20230510082254.1036-6-t.dzieciol@partner.samsung.com>
+Subject: [PATCH v5 6/6] igb: packet-split descriptors support
+Date: Wed, 10 May 2023 10:22:54 +0200
+Message-Id: <20230510082254.1036-7-t.dzieciol@partner.samsung.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20230510082254.1036-1-t.dzieciol@partner.samsung.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFupileLIzCtJLcpLzFFi42LZduzned30kOgUg3VT5Cw+n1rLbrHs0mcm
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFupgleLIzCtJLcpLzFFi42LZduzned30kOgUg0M3dS0+n1rLbrHs0mcm
  i8b5c1gttl79wW5xvHcHi0XvphdMDmweJ94eZPW48Ogcs8eTa5uZPN7vu8rm0bdlFWMAaxSX
- TUpqTmZZapG+XQJXRv/G62wFO7gqZp+VbGBcydHFyMkhIWAiMXXeOvYuRi4OIYEVjBKzX7Yw
- QzhfGCWan/xmhXA+M0p8u7SbCaalbfZmqJbljBIb579jgXDamSQuzzrNDFLFJmAm8ejLPKB2
- Dg4RAWOJj+3iIGFmgVSJo38OsoDYwgIeEsvePWIHKWERUJVY1KkGEuYVcJK4e+AnG8QueYmZ
- l76zg9icAs4Se+e0skLUCEqcnPmEBWKkvETz1tlgV0sIbOGQWLZkPiNEs4vE4RsPoAYJS7w6
- voUdwpaROD25hwXCLpf4eXYbO0RzC6PEnqmToYqsJS5t/Ql2P7OApsT6XfoQYUeJ9vZTjCBh
- CQE+iRtvBSFu4JOYtG06M0SYV6KjTQiiWkfi26aZbBBhKYmFN+ogwh4Si44eYJzAqDgLyTOz
- kDwzC2HtAkbmVYziqaXFuempxYZ5qeV6xYm5xaV56XrJ+bmbGIHJ5fS/4592MM599VHvECMT
- B+MhRgkOZiURXu/QqBQh3pTEyqrUovz4otKc1OJDjNIcLErivNq2J5OFBNITS1KzU1MLUotg
- skwcnFINTAuMzrT9fyitpb8kvVRcdVpQ03PTONkHLPm+Bzc4saV4/bst7uKcy1KYKzWL9+Up
- tVbRhfybn/ltCVXN0o1TskiaJBK9a9bvLT0LzH7WeXZ/TWtJL+1TKlYqNjbdrLIl++O50ttz
- H/ze7HTjx84JgafWxfN9+3JVNmU6y8U9Hx9eF3kf8DJhEsu0flPpxQYr+o4Z2B/7IG6u5/ni
- ZKK76VPBOlUr9uhvz113K1RH8c5KYK1xUZG//epEvu5l0zyun9d+zj3Kc1rhRRxf9kOLa12H
- oy5fnn7Xcm7Vm+VnfDm/n/kvVRwzzXfVuuo9e3/5mjXsnyygV6X0w+1Xh3XYvpagsNCCXe1P
- ZAUmyfgzKLEUZyQaajEXFScCAKWCq/OdAwAA
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrJLMWRmVeSWpSXmKPExsVy+t/xu7ppIdEpBrvfGlh8PrWW3WLZpc9M
+ TUpqTmZZapG+XQJXxoblc9kLru5grHh75ytbA+PV2i5GTg4JAROJE5sOMoLYQgIrGCVWvBbp
+ YuQCsr8wSnzZ1MMK4XxmlDjZ/IWpi5EDrGPexBSIhuWMEh/veEHUtDNJPLvzghkkwSZgJvHo
+ yzxWkHoRAWOJj+3iIGFmgVSJo38OsoDYwgK2Et+XfmMFsVkEVCW+/trABlLOK+Ak8f2RD8Rt
+ 8hIzL31nB7E5BZwl9s5pBSvnFRCUODnzCQvESHmJ5q2zmUFOkBDYwyHxZOMqJohmF4ndfZ0s
+ ELawxKvjW9ghbBmJ/zvnQ9WUS/w8u40dormFUWLP1MlQRdYSl7b+BLufWUBTYv0ufYiwo0Tv
+ jkXskGDgk7jxVhDiBj6JSdumM0OEeSU62oQgqnUkvm2ayQYRlpJYeKMOwvSQ2LwicgKj4iwk
+ v8xC8ssshK0LGJlXMYqnlhbnpqcWG+WllusVJ+YWl+al6yXn525iBCaW0/+Of9nBuPzVR71D
+ jEwcjIcYJTiYlUR4vUOjUoR4UxIrq1KL8uOLSnNSiw8xSnOwKInzatueTBYSSE8sSc1OTS1I
+ LYLJMnFwSjUwme4+3zVHVSXmUG2k6723xyvL683Yqn4ta9JQO3Nh4gPXU3zTZpscn9R56kXG
+ qa4uzt75h4r/+SncPzEpYJqRqvaUpt7GyAcXxQ57nVcwq32udmHBL4msA/mB++O/CXq++JO9
+ MWnO/5918ws+/D1z5jzjfk4fVs2oKFPN4Ao754QTTz/MPRul9GPLi5m6+QksOsYz688G30k/
+ r5GhU3bfUjLfdPWfj5/Yl59Ya/m18+S+nMtnkvt3i9zylFzAG5Na9KrEI+NH/1RxiaCEZatu
+ T8pkeiK17J7CjRpx2Qim3ffZPhSfWichZW3lXmcmOi9RegZb5qG9gj9W/pC0Uvse/WE/e7Pk
+ GZE18jmyO+suKLEUZyQaajEXFScCAEZcH3ebAwAA
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrFLMWRmVeSWpSXmKPExsVy+t/xu7rpIdEpBj+mill8PrWW3WLZpc9M
  Fo3z57BabL36g93ieO8OFoveTS+YHNg8Trw9yOpx4dE5Zo8n1zYzebzfd5XNo2/LKsYA1ig9
- m6L80pJUhYz84hJbpWhDCyM9Q0sLPSMTSz1DY/NYKyNTJX07m5TUnMyy1CJ9uwS9jP6N19kK
- dnBVzD4r2cC4kqOLkZNDQsBEom32ZvYuRi4OIYGljBJPbs1lgUhISezr+c8OYQtL/LnWxQZR
- 1MokMW/hY1aQBJuAmcSjL/OAbA4OEQFTiWd7JUHCzAKZEqdf7WMDsYUFPCSWvXvEDlLCIqAq
- sahTDSTMK+AkcffATzaI8fISMy99B1vFKeAssXdOK9h0IaCaWSvWMEPUC0qcnPmEBWK8vETz
- 1tnMExgFZiFJzUKSWsDItIpRJLW0ODc9t9hQrzgxt7g0L10vOT93EyMwDrYd+7l5B+O8Vx/1
- DjEycTAeYpTgYFYS4fUOjUoR4k1JrKxKLcqPLyrNSS0+xGgKdPZEZinR5HxgJOaVxBuaGZga
- mphZGphamhkrifN6FnQkCgmkJ5akZqemFqQWwfQxcXBKNTB5FJzcVnoh/rDzCYk79TvkSoxT
- Hz3iUHl3YdqXON8n7StuNny/NfuOj1/mGt0ZR1M6DppEv2HM1uqREmcvfzGnX3Or+/GZu45I
- lLf9fLGDf5WMBZ9R2hypCtV1b8+YFqftMpyTdk3l0jH7/PVcVyujWZm2hLzbsCYg98qjifZ7
- 70Waf3xuPPPHc0vFD/e4k4O0e0p+bmRsOeo9/W0ZB3tjsL9x09fDWrGa0S0na8pMtF8r9jfH
- LV/VllDJwKubJrvQ5YDdgWWrP/49Zn38/LTC34t41Z7LK8tZZi8Me6YbJDmzs/xjS9ipHc+N
- Xcr+pGSEfPd+vuzvm6VWhwO/u711OshpxtjCzRrTGjZdUE6JpTgj0VCLuag4EQA7Gh84DAMA
- AA==
-X-CMS-MailID: 20230510082303eucas1p139f531b811cf1547da84f23ce743b1fb
+ m6L80pJUhYz84hJbpWhDCyM9Q0sLPSMTSz1DY/NYKyNTJX07m5TUnMyy1CJ9uwS9jA3L57IX
+ XN3BWPH2zle2BsartV2MHBwSAiYS8yamdDFycQgJLGWUuH+4h6mLkRMoLiWxr+c/O4QtLPHn
+ WhcbRFErk8TVjSfAitgEzCQefZnHCjJIRMBU4tleSZAws0CmxOlX+9hAbGEBW4nvS7+xgtgs
+ AqoSX39tYAMp5xVwkvj+yAdivLzEzEvfwVZxCjhL7J3TClYuBFQya8UaZhCbV0BQ4uTMJywQ
+ 4+UlmrfOZp7AKDALSWoWktQCRqZVjCKppcW56bnFRnrFibnFpXnpesn5uZsYgZGw7djPLTsY
+ V776qHeIkYmD8RCjBAezkgivd2hUihBvSmJlVWpRfnxRaU5q8SFGU6CzJzJLiSbnA2MxryTe
+ 0MzA1NDEzNLA1NLMWEmc17OgI1FIID2xJDU7NbUgtQimj4mDU6qBSepToeNEt2/XnustqFh5
+ U3znd+ucf6tXpBqePbbnzzXD898m89z30GeNZ7FbL7xCbMfG+cvn9ImlGJhFpAc03yh6mVtw
+ cfYMu833ZQR+VmS6aGgdTGtmjWU8+HxDWa3va4VbwZcq7+X8ObRO9qrI2lJR/TMeP/5Oftin
+ I/zVvUVXkFlWZuoNHp2b/6ep+F1ZJS5pE2J4Pf/wl83z3j1ewOTGe+WvQkPE7qSw+Dkr9iSH
+ XNuYxVjjte1Y76vE27a7xG5dmnrM9FS879WGXfvCRM7zH5u4OHPu3bn35lZdz1JLfHxotXHZ
+ nMdzZjee6DGOvX7rRuWzaK7zF7iq7806cufwGQWLn6L5E6pFvHxv3StUYinOSDTUYi4qTgQA
+ 20X0eQ0DAAA=
+X-CMS-MailID: 20230510082303eucas1p1df93402a1771f308faec7a76d03282cc
 X-Msg-Generator: CA
 Content-Type: text/plain; charset="utf-8"
-X-RootMTR: 20230510082303eucas1p139f531b811cf1547da84f23ce743b1fb
+X-RootMTR: 20230510082303eucas1p1df93402a1771f308faec7a76d03282cc
 X-EPHeader: CA
 CMS-TYPE: 201P
-X-CMS-RootMailID: 20230510082303eucas1p139f531b811cf1547da84f23ce743b1fb
+X-CMS-RootMailID: 20230510082303eucas1p1df93402a1771f308faec7a76d03282cc
 References: <20230510082254.1036-1-t.dzieciol@partner.samsung.com>
- <CGME20230510082303eucas1p139f531b811cf1547da84f23ce743b1fb@eucas1p1.samsung.com>
-Received-SPF: none client-ip=210.118.77.11;
- envelope-from=t.dzieciol@partner.samsung.com; helo=mailout1.w1.samsung.com
+ <CGME20230510082303eucas1p1df93402a1771f308faec7a76d03282cc@eucas1p1.samsung.com>
+Received-SPF: none client-ip=210.118.77.12;
+ envelope-from=t.dzieciol@partner.samsung.com; helo=mailout2.w1.samsung.com
 X-Spam_score_int: -69
 X-Spam_score: -7.0
 X-Spam_bar: -------
@@ -129,39 +129,635 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+Packet-split descriptors are used by Linux VF driver for MTU values from 2048
+
 Signed-off-by: Tomasz Dzieciol <t.dzieciol@partner.samsung.com>
 ---
- hw/net/igb_core.c | 4 +++-
- hw/net/igb_regs.h | 1 +
- 2 files changed, 4 insertions(+), 1 deletion(-)
+ hw/net/e1000e_core.c |  10 +-
+ hw/net/igb_core.c    | 403 ++++++++++++++++++++++++++++++++++++++-----
+ hw/net/igb_regs.h    |   7 +
+ hw/net/trace-events  |   2 +-
+ 4 files changed, 373 insertions(+), 49 deletions(-)
 
+diff --git a/hw/net/e1000e_core.c b/hw/net/e1000e_core.c
+index f9ff31fd70..be0cf2f941 100644
+--- a/hw/net/e1000e_core.c
++++ b/hw/net/e1000e_core.c
+@@ -1397,15 +1397,15 @@ e1000e_pci_dma_write_rx_desc(E1000ECore *core, dma_addr_t addr,
+     }
+ }
+ 
+-typedef struct e1000e_ba_state_st {
++typedef struct E1000EBAState {
+     uint16_t written[MAX_PS_BUFFERS];
+     uint8_t cur_idx;
+-} e1000e_ba_state;
++} E1000EBAState;
+ 
+ static inline void
+ e1000e_write_hdr_to_rx_buffers(E1000ECore *core,
+                                hwaddr ba[MAX_PS_BUFFERS],
+-                               e1000e_ba_state *bastate,
++                               E1000EBAState *bastate,
+                                const char *data,
+                                dma_addr_t data_len)
+ {
+@@ -1420,7 +1420,7 @@ e1000e_write_hdr_to_rx_buffers(E1000ECore *core,
+ static void
+ e1000e_write_payload_frag_to_rx_buffers(E1000ECore *core,
+                                         hwaddr ba[MAX_PS_BUFFERS],
+-                                        e1000e_ba_state *bastate,
++                                        E1000EBAState *bastate,
+                                         const char *data,
+                                         dma_addr_t data_len)
+ {
+@@ -1530,7 +1530,7 @@ e1000e_write_packet_to_guest(E1000ECore *core, struct NetRxPkt *pkt,
+ 
+     do {
+         hwaddr ba[MAX_PS_BUFFERS];
+-        e1000e_ba_state bastate = { { 0 } };
++        E1000EBAState bastate = { { 0 } };
+         bool is_last = false;
+ 
+         desc_size = total_size - desc_offset;
 diff --git a/hw/net/igb_core.c b/hw/net/igb_core.c
-index 0eabe7106e..6d95cccea3 100644
+index 6d95cccea3..9a08f2e7d3 100644
 --- a/hw/net/igb_core.c
 +++ b/hw/net/igb_core.c
-@@ -1415,7 +1415,9 @@ igb_rx_desc_get_packet_type(IGBCore *core, struct NetRxPkt *pkt, uint16_t etqf)
-     net_rx_pkt_get_protocols(pkt, &hasip4, &hasip6, &l4hdr_proto);
+@@ -267,6 +267,29 @@ igb_rx_use_legacy_descriptor(IGBCore *core)
+     return false;
+ }
  
-     if (hasip6 && !(core->mac[RFCTL] & E1000_RFCTL_IPV6_DIS)) {
--        pkt_type |= E1000_ADVRXD_PKT_IP6;
-+        eth_ip6_hdr_info *ip6hdr_info  = net_rx_pkt_get_ip6_info(pkt);
-+        pkt_type |= ip6hdr_info->has_ext_hdrs ? E1000_ADVRXD_PKT_IP6E :
-+                                                E1000_ADVRXD_PKT_IP6;
-     } else if (hasip4) {
-         pkt_type = E1000_ADVRXD_PKT_IP4;
++typedef struct E1000ERingInfo {
++    int dbah;
++    int dbal;
++    int dlen;
++    int dh;
++    int dt;
++    int idx;
++} E1000ERingInfo;
++
++static uint32_t
++igb_rx_queue_desctyp_get(IGBCore *core, const E1000ERingInfo *r)
++{
++    return core->mac[E1000_SRRCTL(r->idx) >> 2] & E1000_SRRCTL_DESCTYPE_MASK;
++}
++
++static bool
++igb_rx_use_ps_descriptor(IGBCore *core, const E1000ERingInfo *r)
++{
++    uint32_t desctyp = igb_rx_queue_desctyp_get(core, r);
++    return desctyp == E1000_SRRCTL_DESCTYPE_HDR_SPLIT ||
++           desctyp == E1000_SRRCTL_DESCTYPE_HDR_SPLIT_ALWAYS;
++}
++
+ static inline bool
+ igb_rss_enabled(IGBCore *core)
+ {
+@@ -694,15 +717,6 @@ static uint32_t igb_rx_wb_eic(IGBCore *core, int queue_idx)
+     return (ent & E1000_IVAR_VALID) ? BIT(ent & 0x1f) : 0;
+ }
+ 
+-typedef struct E1000ERingInfo {
+-    int dbah;
+-    int dbal;
+-    int dlen;
+-    int dh;
+-    int dt;
+-    int idx;
+-} E1000ERingInfo;
+-
+ static inline bool
+ igb_ring_empty(IGBCore *core, const E1000ERingInfo *r)
+ {
+@@ -1233,12 +1247,54 @@ igb_read_lgcy_rx_descr(IGBCore *core, struct e1000_rx_desc *desc,
+ }
+ 
+ static inline void
+-igb_read_adv_rx_descr(IGBCore *core, union e1000_adv_rx_desc *desc,
+-                      hwaddr *buff_addr)
++igb_read_adv_rx_single_buf_descr(IGBCore *core, union e1000_adv_rx_desc *desc,
++                                 hwaddr *buff_addr)
+ {
+     *buff_addr = le64_to_cpu(desc->read.pkt_addr);
+ }
+ 
++typedef struct IGBRxDescBufAddrs {
++    hwaddr hdr_buf_addr;
++    hwaddr pkt_buf_addr;
++} IGBRxDescBufAddrs;
++
++typedef enum IGBBastateCurrentBuffer {
++    IgbHdrBuf = 0,
++    IgbPktBuf = 1
++} IGBBastateCurrentBuffer;
++
++static hwaddr *
++igb_buf_addr(IGBRxDescBufAddrs *buf_addrs, IGBBastateCurrentBuffer cur_buf)
++{
++    return (cur_buf == IgbPktBuf) ? &buf_addrs->pkt_buf_addr :
++                                    &buf_addrs->hdr_buf_addr;
++}
++
++static inline void
++igb_read_adv_rx_split_buf_descr(IGBCore *core, union e1000_adv_rx_desc *desc,
++                                IGBRxDescBufAddrs *buf_addr)
++{
++    buf_addr->hdr_buf_addr = le64_to_cpu(desc->read.hdr_addr);
++    buf_addr->pkt_buf_addr = le64_to_cpu(desc->read.pkt_addr);
++}
++
++typedef struct IGBRxDescBuffWritten {
++    uint16_t hdr_buf_written;
++    uint16_t pkt_buf_written;
++} IGBRxDescBuffWritten;
++
++static uint16_t *
++igb_buf_written(IGBRxDescBuffWritten *written, IGBBastateCurrentBuffer cur_buf)
++{
++    return (cur_buf == IgbPktBuf) ? &written->pkt_buf_written :
++                                    &written->hdr_buf_written;
++}
++
++typedef struct IGBBAState {
++    IGBRxDescBuffWritten written;
++    IGBBastateCurrentBuffer cur_buf;
++} IGBBAState;
++
+ typedef struct IGBPacketRxDMAState {
+     size_t size;
+     size_t total_size;
+@@ -1249,20 +1305,43 @@ typedef struct IGBPacketRxDMAState {
+     uint32_t rx_desc_header_buf_size;
+     struct iovec *iov;
+     size_t iov_ofs;
++    bool do_ps;
+     bool is_first;
+-    uint16_t written;
+-    hwaddr ba;
++    IGBBAState bastate;
++    IGBRxDescBufAddrs ba;
+ } IGBPacketRxDMAState;
+ 
+ static inline void
+-igb_read_rx_descr(IGBCore *core, union e1000_rx_desc_union *desc,
+-                  hwaddr *buff_addr)
++igb_read_rx_descr(IGBCore *core,
++                  union e1000_rx_desc_union *desc,
++                  IGBPacketRxDMAState *pdma_st,
++                  const E1000ERingInfo *r)
+ {
++    uint32_t desc_type;
++
+     if (igb_rx_use_legacy_descriptor(core)) {
+-        igb_read_lgcy_rx_descr(core, &desc->legacy, buff_addr);
+-    } else {
+-        igb_read_adv_rx_descr(core, &desc->adv, buff_addr);
++        igb_read_lgcy_rx_descr(core, &desc->legacy,
++                               &pdma_st->ba.pkt_buf_addr);
++        pdma_st->ba.hdr_buf_addr = 0;
++        return;
++    }
++
++    /* advanced header split descriptor */
++    if (igb_rx_use_ps_descriptor(core, r)) {
++        igb_read_adv_rx_split_buf_descr(core, &desc->adv, &pdma_st->ba);
++        return;
      }
++
++    /* descriptor replication modes not supported */
++    desc_type = igb_rx_queue_desctyp_get(core, r);
++    if (desc_type != E1000_SRRCTL_DESCTYPE_ADV_ONEBUF) {
++        trace_igb_wrn_rx_desc_modes_not_supp(desc_type);
++    }
++
++    /* advanced single buffer descriptor */
++    igb_read_adv_rx_single_buf_descr(core, &desc->adv,
++                                     &pdma_st->ba.pkt_buf_addr);
++    pdma_st->ba.hdr_buf_addr = 0;
+ }
+ 
+ static void
+@@ -1405,6 +1484,13 @@ igb_write_lgcy_rx_descr(IGBCore *core, struct e1000_rx_desc *desc,
+     desc->status = (uint8_t) le32_to_cpu(status_flags);
+ }
+ 
++static bool
++igb_rx_ps_descriptor_split_always(IGBCore *core, const E1000ERingInfo *r)
++{
++    uint32_t desctyp = igb_rx_queue_desctyp_get(core, r);
++    return desctyp == E1000_SRRCTL_DESCTYPE_HDR_SPLIT_ALWAYS;
++}
++
+ static uint16_t
+ igb_rx_desc_get_packet_type(IGBCore *core, struct NetRxPkt *pkt, uint16_t etqf)
+ {
+@@ -1492,16 +1578,70 @@ igb_write_adv_rx_descr(IGBCore *core,
+     d->wb.lower.lo_dword.pkt_info = cpu_to_le16(rss_type | (pkt_type << 4));
+ }
+ 
++typedef struct IGBSplitDescriptorData {
++    bool sph;
++    bool hbo;
++    size_t hdr_len;
++} IGBSplitDescriptorData;
++
++static inline void
++igb_write_adv_ps_split_rx_descr(IGBCore *core,
++                                union e1000_adv_rx_desc *d,
++                                struct NetRxPkt *pkt,
++                                const E1000E_RSSInfo *rss_info,
++                                const E1000ERingInfo *r,
++                                uint16_t etqf,
++                                bool ts,
++                                IGBSplitDescriptorData *ps_desc_data,
++                                IGBPacketRxDMAState *pdma_st)
++{
++    size_t pkt_len;
++    size_t hdr_len = ps_desc_data->hdr_len;
++
++    bool split_always = igb_rx_ps_descriptor_split_always(core, r);
++    if (!split_always) {
++        if ((!ps_desc_data->sph && !ps_desc_data->hbo) ||
++            (ps_desc_data->sph &&  ps_desc_data->hbo)) {
++            pkt_len = pdma_st->bastate.written.hdr_buf_written +
++                      pdma_st->bastate.written.pkt_buf_written;
++        } else {
++            assert(!ps_desc_data->hbo);
++            pkt_len = pdma_st->bastate.written.pkt_buf_written;
++        }
++    } else {
++        pkt_len = pdma_st->bastate.written.pkt_buf_written;
++    }
++
++    igb_write_adv_rx_descr(core, d, pkt, rss_info, etqf, ts, pkt_len);
++
++    d->wb.lower.lo_dword.hdr_info = (hdr_len << E1000_ADVRXD_HDR_LEN_OFFSET) &
++                                    E1000_ADVRXD_ADV_HDR_LEN_MASK;
++    d->wb.lower.lo_dword.hdr_info |= ps_desc_data->sph ? E1000_ADVRXD_HDR_SPH
++                                                       : 0;
++    d->wb.upper.status_error |= ps_desc_data->hbo ?
++                                    E1000_ADVRXD_ST_ERR_HBO_OFFSET : 0;
++}
++
+ static inline void
+-igb_write_rx_descr(IGBCore *core, union e1000_rx_desc_union *desc,
+-                   struct NetRxPkt *pkt, const E1000E_RSSInfo *rss_info,
+-                   uint16_t etqf, bool ts, uint16_t length)
++igb_write_rx_descr(IGBCore *core,
++                   union e1000_rx_desc_union *desc,
++                   struct NetRxPkt *pkt,
++                   const E1000E_RSSInfo *rss_info,
++                   uint16_t etqf,
++                   bool ts,
++                   IGBSplitDescriptorData *ps_desc_data,
++                   IGBPacketRxDMAState *pdma_st,
++                   const E1000ERingInfo *r)
+ {
+     if (igb_rx_use_legacy_descriptor(core)) {
+-        igb_write_lgcy_rx_descr(core, &desc->legacy, pkt, rss_info, length);
++        igb_write_lgcy_rx_descr(core, &desc->legacy, pkt, rss_info,
++                                pdma_st->bastate.written.pkt_buf_written);
++    } else if (igb_rx_use_ps_descriptor(core, r)) {
++        igb_write_adv_ps_split_rx_descr(core, &desc->adv, pkt, rss_info, r,
++                                        etqf, ts, ps_desc_data, pdma_st);
+     } else {
+-        igb_write_adv_rx_descr(core, &desc->adv, pkt, rss_info,
+-                               etqf, ts, length);
++        igb_write_adv_rx_descr(core, &desc->adv, pkt, rss_info, etqf, ts,
++                               pdma_st->bastate.written.pkt_buf_written);
+     }
+ }
+ 
+@@ -1562,26 +1702,189 @@ igb_rx_descr_threshold_hit(IGBCore *core, const E1000ERingInfo *rxi)
+            ((core->mac[E1000_SRRCTL(rxi->idx) >> 2] >> 20) & 31) * 16;
+ }
+ 
++static bool
++igb_do_ps(IGBCore *core,
++          const E1000ERingInfo *r,
++          struct NetRxPkt *pkt,
++          size_t *hdr_len,
++          IGBSplitDescriptorData *ps_desc_data)
++{
++    bool hasip4, hasip6;
++    EthL4HdrProto l4hdr_proto;
++    bool fragment;
++    bool split_always;
++    size_t bheader_size;
++    size_t total_pkt_len;
++
++    if (!igb_rx_use_ps_descriptor(core, r)) {
++        return false;
++    }
++
++    memset(ps_desc_data, 0, sizeof(IGBSplitDescriptorData));
++
++    total_pkt_len = net_rx_pkt_get_total_len(pkt);
++    bheader_size = igb_get_queue_rx_header_buf_size(core, r);
++    split_always = igb_rx_ps_descriptor_split_always(core, r);
++    if (split_always && total_pkt_len <= bheader_size) {
++        *hdr_len = total_pkt_len;
++        ps_desc_data->hdr_len = total_pkt_len;
++        return true;
++    }
++
++    net_rx_pkt_get_protocols(pkt, &hasip4, &hasip6, &l4hdr_proto);
++
++    if (hasip4) {
++        fragment = net_rx_pkt_get_ip4_info(pkt)->fragment;
++    } else if (hasip6) {
++        fragment = net_rx_pkt_get_ip6_info(pkt)->fragment;
++    } else {
++        ps_desc_data->hdr_len = bheader_size;
++        goto header_not_handled;
++    }
++
++    if (fragment && (core->mac[RFCTL] & E1000_RFCTL_IPFRSP_DIS)) {
++        ps_desc_data->hdr_len = bheader_size;
++        goto header_not_handled;
++    }
++
++    /* no header splitting for SCTP */
++    if (!fragment && (l4hdr_proto == ETH_L4_HDR_PROTO_UDP ||
++                      l4hdr_proto == ETH_L4_HDR_PROTO_TCP)) {
++        *hdr_len = net_rx_pkt_get_l5_hdr_offset(pkt);
++    } else {
++        *hdr_len = net_rx_pkt_get_l4_hdr_offset(pkt);
++    }
++
++    ps_desc_data->sph = true;
++    ps_desc_data->hdr_len = *hdr_len;
++
++    if (*hdr_len > bheader_size) {
++        ps_desc_data->hbo = true;
++        goto header_not_handled;
++    }
++
++    return true;
++
++header_not_handled:
++    if (split_always) {
++        *hdr_len = bheader_size;
++        return true;
++    }
++
++    return false;
++}
++
+ static void
+ igb_truncate_to_descriptor_size(IGBPacketRxDMAState *pdma_st, size_t *size)
+ {
+-    if (*size > pdma_st->rx_desc_packet_buf_size) {
+-        *size = pdma_st->rx_desc_packet_buf_size;
++    if (pdma_st->do_ps && pdma_st->is_first) {
++        if (*size > pdma_st->rx_desc_packet_buf_size + pdma_st->ps_hdr_len) {
++            *size = pdma_st->rx_desc_packet_buf_size + pdma_st->ps_hdr_len;
++        }
++    } else {
++        if (*size > pdma_st->rx_desc_packet_buf_size) {
++            *size = pdma_st->rx_desc_packet_buf_size;
++        }
+     }
+ }
+ 
++static inline void
++igb_write_hdr_to_rx_buffers(IGBCore *core,
++                            PCIDevice *d,
++                            IGBPacketRxDMAState *pdma_st,
++                            const char *data,
++                            dma_addr_t data_len)
++{
++    assert(data_len <= pdma_st->rx_desc_header_buf_size -
++                       pdma_st->bastate.written.hdr_buf_written);
++    pci_dma_write(d,
++                  pdma_st->ba.hdr_buf_addr +
++                  pdma_st->bastate.written.hdr_buf_written,
++                  data, data_len);
++    pdma_st->bastate.written.hdr_buf_written += data_len;
++    pdma_st->bastate.cur_buf = IgbPktBuf;
++}
++
++static void
++igb_write_packet_hdr_to_descr_addr(IGBCore *core,
++                                   struct NetRxPkt *pkt,
++                                   PCIDevice *d,
++                                   IGBPacketRxDMAState *pdma_st,
++                                   size_t *copy_size)
++{
++    size_t iov_copy;
++    size_t ps_hdr_copied = 0;
++
++    if (!pdma_st->is_first) {
++        /* Leave buffer 0 of each descriptor except first */
++        /* empty                                          */
++        pdma_st->bastate.cur_buf = IgbPktBuf;
++        return;
++    }
++
++    do {
++        iov_copy = MIN(pdma_st->ps_hdr_len - ps_hdr_copied,
++                       pdma_st->iov->iov_len - pdma_st->iov_ofs);
++
++        igb_write_hdr_to_rx_buffers(core, d, pdma_st,
++                                    pdma_st->iov->iov_base,
++                                    iov_copy);
++
++        *copy_size -= iov_copy;
++        ps_hdr_copied += iov_copy;
++
++        pdma_st->iov_ofs += iov_copy;
++        if (pdma_st->iov_ofs == pdma_st->iov->iov_len) {
++            pdma_st->iov++;
++            pdma_st->iov_ofs = 0;
++        }
++    } while (ps_hdr_copied < pdma_st->ps_hdr_len);
++
++    pdma_st->is_first = false;
++}
++
+ static void
+ igb_write_payload_frag_to_rx_buffers(IGBCore *core,
+                                      PCIDevice *d,
+-                                     hwaddr ba,
+-                                     uint16_t *written,
+-                                     uint32_t cur_buf_len,
++                                     IGBPacketRxDMAState *pdma_st,
+                                      const char *data,
+                                      dma_addr_t data_len)
+ {
+-    trace_igb_rx_desc_buff_write(ba, *written, data, data_len);
+-    pci_dma_write(d, ba + *written, data, data_len);
+-    *written += data_len;
++    while (data_len > 0) {
++        assert(pdma_st->bastate.cur_buf == IgbHdrBuf ||
++               pdma_st->bastate.cur_buf == IgbPktBuf);
++
++        uint32_t cur_buf_bytes_left =
++            pdma_st->rx_desc_packet_buf_size -
++            *igb_buf_written(&pdma_st->bastate.written,
++                             pdma_st->bastate.cur_buf);
++        uint32_t bytes_to_write = MIN(data_len, cur_buf_bytes_left);
++
++        trace_igb_rx_desc_buff_write(
++            pdma_st->bastate.cur_buf,
++            *igb_buf_addr(&pdma_st->ba, pdma_st->bastate.cur_buf),
++            *igb_buf_written(&pdma_st->bastate.written,
++                             pdma_st->bastate.cur_buf),
++            data,
++            bytes_to_write);
++
++        pci_dma_write(d,
++                      *igb_buf_addr(&pdma_st->ba, pdma_st->bastate.cur_buf) +
++                      *igb_buf_written(&pdma_st->bastate.written,
++                                       pdma_st->bastate.cur_buf),
++                      data, bytes_to_write);
++
++        *igb_buf_written(&pdma_st->bastate.written,
++                        pdma_st->bastate.cur_buf) += bytes_to_write;
++        data += bytes_to_write;
++        data_len -= bytes_to_write;
++
++        if (*igb_buf_written(&pdma_st->bastate.written,
++                             pdma_st->bastate.cur_buf) ==
++            pdma_st->rx_desc_packet_buf_size) {
++            pdma_st->bastate.cur_buf++;
++        }
++    }
+ }
+ 
+ static void
+@@ -1598,9 +1901,7 @@ igb_write_payload_to_rx_buffers(IGBCore *core,
+     while (*copy_size) {
+         iov_copy = MIN(*copy_size, pdma_st->iov->iov_len - pdma_st->iov_ofs);
+         igb_write_payload_frag_to_rx_buffers(core, d,
+-                                             pdma_st->ba,
+-                                             &pdma_st->written,
+-                                             pdma_st->rx_desc_packet_buf_size,
++                                             pdma_st,
+                                              pdma_st->iov->iov_base +
+                                              pdma_st->iov_ofs,
+                                              iov_copy);
+@@ -1616,9 +1917,7 @@ igb_write_payload_to_rx_buffers(IGBCore *core,
+     if (pdma_st->desc_offset + pdma_st->desc_size >= pdma_st->total_size) {
+         /* Simulate FCS checksum presence in the last descriptor */
+         igb_write_payload_frag_to_rx_buffers(core, d,
+-                                             pdma_st->ba,
+-                                             &pdma_st->written,
+-                                             pdma_st->rx_desc_packet_buf_size,
++                                             pdma_st,
+                                              (const char *) &fcs_pad,
+                                              e1000x_fcs_len(core->mac));
+     }
+@@ -1632,7 +1931,7 @@ igb_write_to_rx_buffers(IGBCore *core,
+ {
+     size_t copy_size;
+ 
+-    if (!pdma_st->ba) {
++    if (!pdma_st->ba.pkt_buf_addr) {
+         /* as per intel docs; skip descriptors with null buf addr */
+         trace_e1000e_rx_null_descriptor();
+         return;
+@@ -1646,6 +1945,14 @@ igb_write_to_rx_buffers(IGBCore *core,
+     igb_truncate_to_descriptor_size(pdma_st, &pdma_st->desc_size);
+     copy_size = pdma_st->size - pdma_st->desc_offset;
+     igb_truncate_to_descriptor_size(pdma_st, &copy_size);
++
++    /* For PS mode copy the packet header first */
++    if (pdma_st->do_ps) {
++        igb_write_packet_hdr_to_descr_addr(core, pkt, d, pdma_st, &copy_size);
++    } else {
++        pdma_st->bastate.cur_buf = IgbPktBuf;
++    }
++
+     igb_write_payload_to_rx_buffers(core, pkt, d, pdma_st, &copy_size);
+ }
+ 
+@@ -1660,6 +1967,7 @@ igb_write_packet_to_guest(IGBCore *core, struct NetRxPkt *pkt,
+     union e1000_rx_desc_union desc;
+     const E1000ERingInfo *rxi;
+     size_t rx_desc_len;
++    IGBSplitDescriptorData ps_desc_data;
+ 
+     IGBPacketRxDMAState pdma_st = {0};
+     pdma_st.is_first = true;
+@@ -1678,8 +1986,12 @@ igb_write_packet_to_guest(IGBCore *core, struct NetRxPkt *pkt,
+         d = core->owner;
+     }
+ 
++    pdma_st.do_ps = igb_do_ps(core, rxi, pkt,
++                              &pdma_st.ps_hdr_len,
++                              &ps_desc_data);
++
+     do {
+-        pdma_st.written = 0;
++        memset(&pdma_st.bastate, 0, sizeof(IGBBAState));
+         bool is_last = false;
+ 
+         if (igb_ring_empty(core, rxi)) {
+@@ -1690,7 +2002,7 @@ igb_write_packet_to_guest(IGBCore *core, struct NetRxPkt *pkt,
+         pci_dma_read(d, base, &desc, rx_desc_len);
+         trace_e1000e_rx_descr(rxi->idx, base, rx_desc_len);
+ 
+-        igb_read_rx_descr(core, &desc, &pdma_st.ba);
++        igb_read_rx_descr(core, &desc, &pdma_st, rxi);
+ 
+         igb_write_to_rx_buffers(core, pkt, d, &pdma_st);
+         pdma_st.desc_offset += pdma_st.desc_size;
+@@ -1698,8 +2010,13 @@ igb_write_packet_to_guest(IGBCore *core, struct NetRxPkt *pkt,
+             is_last = true;
+         }
+ 
+-        igb_write_rx_descr(core, &desc, is_last ? core->rx_pkt : NULL,
+-                           rss_info, etqf, ts, pdma_st.written);
++        igb_write_rx_descr(core, &desc,
++                           is_last ? pkt : NULL,
++                           rss_info,
++                           etqf, ts,
++                           &ps_desc_data,
++                           &pdma_st,
++                           rxi);
+         pci_dma_write(d, base, &desc, rx_desc_len);
+         igb_ring_advance(core, rxi,
+                          rx_desc_len / E1000_MIN_RX_DESC_LEN);
 diff --git a/hw/net/igb_regs.h b/hw/net/igb_regs.h
-index 71a8833229..36763f2ff7 100644
+index 36763f2ff7..080f03fc43 100644
 --- a/hw/net/igb_regs.h
 +++ b/hw/net/igb_regs.h
-@@ -694,6 +694,7 @@ union e1000_adv_rx_desc {
- 
- #define E1000_ADVRXD_PKT_IP4  BIT(0)
- #define E1000_ADVRXD_PKT_IP6  BIT(2)
-+#define E1000_ADVRXD_PKT_IP6E BIT(3)
- #define E1000_ADVRXD_PKT_TCP  BIT(4)
+@@ -452,6 +452,7 @@ union e1000_adv_rx_desc {
+ #define E1000_SRRCTL_BSIZEHDRSIZE_MASK         0x00000F00
+ #define E1000_SRRCTL_BSIZEHDRSIZE_SHIFT        2  /* Shift _left_ */
+ #define E1000_SRRCTL_DESCTYPE_ADV_ONEBUF       0x02000000
++#define E1000_SRRCTL_DESCTYPE_HDR_SPLIT        0x04000000
+ #define E1000_SRRCTL_DESCTYPE_HDR_SPLIT_ALWAYS 0x0A000000
+ #define E1000_SRRCTL_DESCTYPE_MASK             0x0E000000
+ #define E1000_SRRCTL_DROP_EN                   0x80000000
+@@ -699,6 +700,12 @@ union e1000_adv_rx_desc {
  #define E1000_ADVRXD_PKT_UDP  BIT(5)
  #define E1000_ADVRXD_PKT_SCTP BIT(6)
+ 
++#define E1000_ADVRXD_HDR_LEN_OFFSET    (21 - 16)
++#define E1000_ADVRXD_ADV_HDR_LEN_MASK  ((BIT(10) - 1) << \
++                                        E1000_ADVRXD_HDR_LEN_OFFSET)
++#define E1000_ADVRXD_HDR_SPH           BIT(15)
++#define E1000_ADVRXD_ST_ERR_HBO_OFFSET BIT(3 + 20)
++
+ static inline uint8_t igb_ivar_entry_rx(uint8_t i)
+ {
+     return i < 8 ? i * 4 : (i - 8) * 4 + 2;
+diff --git a/hw/net/trace-events b/hw/net/trace-events
+index def651c186..e97e9dc17b 100644
+--- a/hw/net/trace-events
++++ b/hw/net/trace-events
+@@ -277,7 +277,7 @@ igb_core_mdic_write_unhandled(uint32_t addr) "MDIC WRITE: PHY[%u] UNHANDLED"
+ igb_link_set_ext_params(bool asd_check, bool speed_select_bypass, bool pfrstd) "Set extended link params: ASD check: %d, Speed select bypass: %d, PF reset done: %d"
+ 
+ igb_rx_desc_buff_size(uint32_t b) "buffer size: %u"
+-igb_rx_desc_buff_write(uint64_t addr, uint16_t offset, const void* source, uint32_t len) "buffer %u, addr: 0x%"PRIx64", offset: %u, from: %p, length: %u"
++igb_rx_desc_buff_write(uint8_t idx, uint64_t addr, uint16_t offset, const void* source, uint32_t len) "buffer %u, addr: 0x%"PRIx64", offset: %u, from: %p, length: %u"
+ 
+ igb_rx_metadata_rss(uint32_t rss, uint16_t rss_pkt_type) "RSS data: rss: 0x%X, rss_pkt_type: 0x%X"
+ 
 -- 
 2.25.1
 
