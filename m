@@ -2,59 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82FD86FE123
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 May 2023 17:07:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 80B5A6FE12B
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 May 2023 17:08:19 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pwlPP-0006v9-UT; Wed, 10 May 2023 11:07:15 -0400
+	id 1pwlPX-00075K-QR; Wed, 10 May 2023 11:07:23 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1pwlPE-0006sH-Ve; Wed, 10 May 2023 11:07:05 -0400
-Received: from forwardcorp1c.mail.yandex.net ([178.154.239.200])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1pwlP0-0001To-By; Wed, 10 May 2023 11:07:04 -0400
-Received: from mail-nwsmtp-smtp-corp-main-44.iva.yp-c.yandex.net
- (mail-nwsmtp-smtp-corp-main-44.iva.yp-c.yandex.net
- [IPv6:2a02:6b8:c0c:a884:0:640:947b:0])
- by forwardcorp1c.mail.yandex.net (Yandex) with ESMTP id EF54B5EC48;
- Wed, 10 May 2023 18:06:41 +0300 (MSK)
-Received: from vsementsov-nix.yandex-team.ru (unknown [2a02:6b8:b081:2::1:11])
- by mail-nwsmtp-smtp-corp-main-44.iva.yp-c.yandex.net
- (smtpcorp/Yandex) with ESMTPSA id P6XgPR0OpqM0-mLvyswwE; 
- Wed, 10 May 2023 18:06:40 +0300
-X-Yandex-Fwd: 1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
- s=default; 
- t=1683731200; bh=uvC/9tJikHQto5fPs1uuzEh6Moc77wBMQshr3GgWtRU=;
- h=Message-Id:Date:In-Reply-To:Cc:Subject:References:To:From;
- b=Taapu9TS9GV0qVSSt9O8TQ/AmR7C46VFynXpPEoKwgK52Gdg1+GD17eLE13l+QMPx
- XwNKZS0v+LQS+58IwqzQtzYlCpAV/UeiSS+xiphFnGia5uEPAnWeodbDEnipLSB6NQ
- hcMEj3KcjYChirdgcbgOuE1c4EDU7C5mTe5D5qGQ=
-Authentication-Results: mail-nwsmtp-smtp-corp-main-44.iva.yp-c.yandex.net;
- dkim=pass header.i=@yandex-team.ru
-From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-To: qemu-block@nongnu.org
-Cc: qemu-devel@nongnu.org, kwolf@redhat.com, hreitz@redhat.com,
- vsementsov@yandex-team.ru, den@openvz.org, alexander.ivanov@virtuozzo.com
-Subject: [PATCH v9 6/6] blockdev: qmp_transaction: drop extra generic layer
-Date: Wed, 10 May 2023 18:06:24 +0300
-Message-Id: <20230510150624.310640-7-vsementsov@yandex-team.ru>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230510150624.310640-1-vsementsov@yandex-team.ru>
-References: <20230510150624.310640-1-vsementsov@yandex-team.ru>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1pwlPD-0006qu-Ll
+ for qemu-devel@nongnu.org; Wed, 10 May 2023 11:07:03 -0400
+Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1pwlPB-0001VZ-CE
+ for qemu-devel@nongnu.org; Wed, 10 May 2023 11:07:03 -0400
+Received: by mail-wr1-x42e.google.com with SMTP id
+ ffacd0b85a97d-3064099f9b6so4759477f8f.1
+ for <qemu-devel@nongnu.org>; Wed, 10 May 2023 08:07:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1683731219; x=1686323219;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=FmaATaURdWtXPFfTLAiHf4fq56aqPCzIZj7tGr/NqSE=;
+ b=QgQX99YkeW4PPFIGHOqKMKHl0UdCFGxAU1SvaxvfbEbMVKzYs9jqKh9g9Z2YYAcK43
+ snKpRIhJKfR9p15HMLd7h6SPwkU3/mLQVc660nYinYsD4QIe8ytgxlakO+8Kgtopv0fJ
+ ZODPxxfW/sXFng87cx7UQUfXgmc8piKJDcJrYY7LosDJ/3eCkzUb8gX/rneNpwYcbAoQ
+ YvWU2aN3I+F7ldLaDdU5UqAqRPP025jG71LbYDV3SKEhGk1/Yq0JYdkaGRp72e3PENBf
+ 9Z32tjWhtFn5GGAeiZNzz6B8GwmnN13y74F7TbPICJJSA/ofAhkfC47lq/28vO41glu/
+ LvoQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1683731220; x=1686323220;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=FmaATaURdWtXPFfTLAiHf4fq56aqPCzIZj7tGr/NqSE=;
+ b=G1KSYcmUj33NlyiU1lVPttE+G/mphdfNgOT8Fjjsj+iN46hlRhTyov7GbRCj7yass6
+ wxn1YcwhpxmJfFfCm2pIPsKEovYndF7EIQvmtRFmBal/iNFzbb3mnJRo0seYeJQPSgIi
+ gEbns8kbac/CqJeUeZvKx9096OTpCBnqrdTINtVWH3TAtfNPSB8z3YnuareHCgXgrHkV
+ Q4cEYcSEpkeP1VGUtu9SGlLn6Vq2JVZnYV5gYeYxwELfQKuDzsxUP5zpyjojNo8ReEBS
+ hJ2N+ouLizv+xD/Aq4BjJqHPFB4/Oke/IwbuFcoyrQE6llFFs1LsWOQs81eGPQiwG8B1
+ yxQA==
+X-Gm-Message-State: AC+VfDz88veeilO1YvFG2HXwFhhyKF1vfxF3TWynb8G0QG2VAOl+0Cdr
+ SokKf2Mdg2LsSTbKgaYVjU1eorlHJ68l0ik9w/d5dg==
+X-Google-Smtp-Source: ACHHUZ4BkKnkvpxBbtJqztLckAy5E99cnKqg0z2uwsI9zO2U40u/5rgUShivhZf2i4HWs5hHqDirVQ==
+X-Received: by 2002:adf:e74b:0:b0:307:a8e8:ca80 with SMTP id
+ c11-20020adfe74b000000b00307a8e8ca80mr4495461wrn.18.1683731219697; 
+ Wed, 10 May 2023 08:06:59 -0700 (PDT)
+Received: from zen.linaroharston ([85.9.250.243])
+ by smtp.gmail.com with ESMTPSA id
+ n2-20020a5d4c42000000b003063db8f45bsm17578370wrt.23.2023.05.10.08.06.59
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 10 May 2023 08:06:59 -0700 (PDT)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id AC6A21FFBB;
+ Wed, 10 May 2023 16:06:58 +0100 (BST)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+Cc: richard.henderson@linaro.org,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Subject: [PULL 0/8] testing and misc (docker, docs, ci scripts, gitlab, avocado,
+ Kconfig)
+Date: Wed, 10 May 2023 16:06:50 +0100
+Message-Id: <20230510150658.1399087-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=178.154.239.200;
- envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1c.mail.yandex.net
+Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -70,518 +94,53 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Let's simplify things:
+The following changes since commit 568992e3440f11897e209bf676aa5b93251385fa:
 
-First, actions generally don't need access to common BlkActionState
-structure. The only exclusion are backup actions that need
-block_job_txn.
+  Merge tag 'pull-qapi-2023-05-09-v2' of https://repo.or.cz/qemu/armbru into staging (2023-05-10 13:11:29 +0100)
 
-Next, for transaction actions of Transaction API is more native to
-allocated state structure in the action itself.
+are available in the Git repository at:
 
-So, do the following transformation:
+  https://gitlab.com/stsquad/qemu.git tags/pull-testing-updates-100523-1
 
-1. Let all actions be represented by a function with corresponding
-   structure as arguments.
+for you to fetch changes up to b9353acfd7ae1fc59a64b9aea34bd77a415751d1:
 
-2. Instead of array-map marshaller, let's make a function, that calls
-   corresponding action directly.
+  hw/arm: Select XLNX_USB_SUBSYS for xlnx-zcu102 machine (2023-05-10 16:02:58 +0100)
 
-3. BlkActionOps and BlkActionState structures become unused
+----------------------------------------------------------------
+Testing updates:
 
-Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
----
- blockdev.c | 266 +++++++++++++++++------------------------------------
- 1 file changed, 85 insertions(+), 181 deletions(-)
+  - fix up xtensa docker container base to current Debian
+  - document breakpoint and watchpoint support
+  - clean up the ansible scripts for Ubuntu 22.04
+  - add a minimal device profile
+  - drop https on mipsdistros URL
+  - fix Kconfig bug for XLNX_VERSAL
 
-diff --git a/blockdev.c b/blockdev.c
-index 10003bdc52..75f7e209a9 100644
---- a/blockdev.c
-+++ b/blockdev.c
-@@ -1178,54 +1178,8 @@ out_aio_context:
-     return NULL;
- }
- 
--/* New and old BlockDriverState structs for atomic group operations */
--
--typedef struct BlkActionState BlkActionState;
--
--/**
-- * BlkActionOps:
-- * Table of operations that define an Action.
-- *
-- * @instance_size: Size of state struct, in bytes.
-- * @prepare: Prepare the work, must NOT be NULL.
-- * @commit: Commit the changes, can be NULL.
-- * @abort: Abort the changes on fail, can be NULL.
-- * @clean: Clean up resources after all transaction actions have called
-- *         commit() or abort(). Can be NULL.
-- *
-- * Only prepare() may fail. In a single transaction, only one of commit() or
-- * abort() will be called. clean() will always be called if it is present.
-- *
-- * Always run under BQL.
-- */
--typedef struct BlkActionOps {
--    size_t instance_size;
--    void (*action)(BlkActionState *common, Transaction *tran, Error **errp);
--} BlkActionOps;
--
--/**
-- * BlkActionState:
-- * Describes one Action's state within a Transaction.
-- *
-- * @action: QAPI-defined enum identifying which Action to perform.
-- * @ops: Table of ActionOps this Action can perform.
-- * @block_job_txn: Transaction which this action belongs to.
-- * @entry: List membership for all Actions in this Transaction.
-- *
-- * This structure must be arranged as first member in a subclassed type,
-- * assuming that the compiler will also arrange it to the same offsets as the
-- * base class.
-- */
--struct BlkActionState {
--    TransactionAction *action;
--    const BlkActionOps *ops;
--    JobTxn *block_job_txn;
--    QTAILQ_ENTRY(BlkActionState) entry;
--};
--
- /* internal snapshot private data */
- typedef struct InternalSnapshotState {
--    BlkActionState common;
-     BlockDriverState *bs;
-     QEMUSnapshotInfo sn;
-     bool created;
-@@ -1238,7 +1192,7 @@ TransactionActionDrv internal_snapshot_drv = {
-     .clean = internal_snapshot_clean,
- };
- 
--static void internal_snapshot_action(BlkActionState *common,
-+static void internal_snapshot_action(BlockdevSnapshotInternal *internal,
-                                      Transaction *tran, Error **errp)
- {
-     Error *local_err = NULL;
-@@ -1248,16 +1202,10 @@ static void internal_snapshot_action(BlkActionState *common,
-     QEMUSnapshotInfo old_sn, *sn;
-     bool ret;
-     int64_t rt;
--    BlockdevSnapshotInternal *internal;
--    InternalSnapshotState *state;
-+    InternalSnapshotState *state = g_new0(InternalSnapshotState, 1);
-     AioContext *aio_context;
-     int ret1;
- 
--    g_assert(common->action->type ==
--             TRANSACTION_ACTION_KIND_BLOCKDEV_SNAPSHOT_INTERNAL_SYNC);
--    internal = common->action->u.blockdev_snapshot_internal_sync.data;
--    state = DO_UPCAST(InternalSnapshotState, common, common);
--
-     tran_add(tran, &internal_snapshot_drv, state);
- 
-     device = internal->device;
-@@ -1383,7 +1331,6 @@ static void internal_snapshot_clean(void *opaque)
- 
- /* external snapshot private data */
- typedef struct ExternalSnapshotState {
--    BlkActionState common;
-     BlockDriverState *old_bs;
-     BlockDriverState *new_bs;
-     bool overlay_appended;
-@@ -1398,8 +1345,8 @@ TransactionActionDrv external_snapshot_drv = {
-     .clean = external_snapshot_clean,
- };
- 
--static void external_snapshot_action(BlkActionState *common, Transaction *tran,
--                                     Error **errp)
-+static void external_snapshot_action(TransactionAction *action,
-+                                     Transaction *tran, Error **errp)
- {
-     int ret;
-     int flags = 0;
-@@ -1412,9 +1359,7 @@ static void external_snapshot_action(BlkActionState *common, Transaction *tran,
-     const char *snapshot_ref;
-     /* File name of the new image (for 'blockdev-snapshot-sync') */
-     const char *new_image_file;
--    ExternalSnapshotState *state =
--                             DO_UPCAST(ExternalSnapshotState, common, common);
--    TransactionAction *action = common->action;
-+    ExternalSnapshotState *state = g_new0(ExternalSnapshotState, 1);
-     AioContext *aio_context;
-     uint64_t perm, shared;
- 
-@@ -1648,7 +1593,6 @@ static void external_snapshot_clean(void *opaque)
- }
- 
- typedef struct DriveBackupState {
--    BlkActionState common;
-     BlockDriverState *bs;
-     BlockJob *job;
- } DriveBackupState;
-@@ -1668,11 +1612,11 @@ TransactionActionDrv drive_backup_drv = {
-     .clean = drive_backup_clean,
- };
- 
--static void drive_backup_action(BlkActionState *common, Transaction *tran,
--                                Error **errp)
-+static void drive_backup_action(DriveBackup *backup,
-+                                JobTxn *block_job_txn,
-+                                Transaction *tran, Error **errp)
- {
--    DriveBackupState *state = DO_UPCAST(DriveBackupState, common, common);
--    DriveBackup *backup;
-+    DriveBackupState *state = g_new0(DriveBackupState, 1);
-     BlockDriverState *bs;
-     BlockDriverState *target_bs;
-     BlockDriverState *source = NULL;
-@@ -1688,9 +1632,6 @@ static void drive_backup_action(BlkActionState *common, Transaction *tran,
- 
-     tran_add(tran, &drive_backup_drv, state);
- 
--    assert(common->action->type == TRANSACTION_ACTION_KIND_DRIVE_BACKUP);
--    backup = common->action->u.drive_backup.data;
--
-     if (!backup->has_mode) {
-         backup->mode = NEW_IMAGE_MODE_ABSOLUTE_PATHS;
-     }
-@@ -1810,7 +1751,7 @@ static void drive_backup_action(BlkActionState *common, Transaction *tran,
- 
-     state->job = do_backup_common(qapi_DriveBackup_base(backup),
-                                   bs, target_bs, aio_context,
--                                  common->block_job_txn, errp);
-+                                  block_job_txn, errp);
- 
- unref:
-     bdrv_unref(target_bs);
-@@ -1859,7 +1800,6 @@ static void drive_backup_clean(void *opaque)
- }
- 
- typedef struct BlockdevBackupState {
--    BlkActionState common;
-     BlockDriverState *bs;
-     BlockJob *job;
- } BlockdevBackupState;
-@@ -1873,11 +1813,11 @@ TransactionActionDrv blockdev_backup_drv = {
-     .clean = blockdev_backup_clean,
- };
- 
--static void blockdev_backup_action(BlkActionState *common, Transaction *tran,
--                                   Error **errp)
-+static void blockdev_backup_action(BlockdevBackup *backup,
-+                                   JobTxn *block_job_txn,
-+                                   Transaction *tran, Error **errp)
- {
--    BlockdevBackupState *state = DO_UPCAST(BlockdevBackupState, common, common);
--    BlockdevBackup *backup;
-+    BlockdevBackupState *state = g_new0(BlockdevBackupState, 1);
-     BlockDriverState *bs;
-     BlockDriverState *target_bs;
-     AioContext *aio_context;
-@@ -1886,9 +1826,6 @@ static void blockdev_backup_action(BlkActionState *common, Transaction *tran,
- 
-     tran_add(tran, &blockdev_backup_drv, state);
- 
--    assert(common->action->type == TRANSACTION_ACTION_KIND_BLOCKDEV_BACKUP);
--    backup = common->action->u.blockdev_backup.data;
--
-     bs = bdrv_lookup_bs(backup->device, backup->device, errp);
-     if (!bs) {
-         return;
-@@ -1919,7 +1856,7 @@ static void blockdev_backup_action(BlkActionState *common, Transaction *tran,
- 
-     state->job = do_backup_common(qapi_BlockdevBackup_base(backup),
-                                   bs, target_bs, aio_context,
--                                  common->block_job_txn, errp);
-+                                  block_job_txn, errp);
- 
-     aio_context_release(aio_context);
- }
-@@ -1965,11 +1902,9 @@ static void blockdev_backup_clean(void *opaque)
- }
- 
- typedef struct BlockDirtyBitmapState {
--    BlkActionState common;
-     BdrvDirtyBitmap *bitmap;
-     BlockDriverState *bs;
-     HBitmap *backup;
--    bool prepared;
-     bool was_enabled;
- } BlockDirtyBitmapState;
- 
-@@ -1979,17 +1914,14 @@ TransactionActionDrv block_dirty_bitmap_add_drv = {
-     .clean = g_free,
- };
- 
--static void block_dirty_bitmap_add_action(BlkActionState *common,
-+static void block_dirty_bitmap_add_action(BlockDirtyBitmapAdd *action,
-                                           Transaction *tran, Error **errp)
- {
-     Error *local_err = NULL;
--    BlockDirtyBitmapAdd *action;
--    BlockDirtyBitmapState *state = DO_UPCAST(BlockDirtyBitmapState,
--                                             common, common);
-+    BlockDirtyBitmapState *state = g_new0(BlockDirtyBitmapState, 1);
- 
-     tran_add(tran, &block_dirty_bitmap_add_drv, state);
- 
--    action = common->action->u.block_dirty_bitmap_add.data;
-     /* AIO context taken and released within qmp_block_dirty_bitmap_add */
-     qmp_block_dirty_bitmap_add(action->node, action->name,
-                                action->has_granularity, action->granularity,
-@@ -2022,16 +1954,13 @@ TransactionActionDrv block_dirty_bitmap_clear_drv = {
-     .clean = g_free,
- };
- 
--static void block_dirty_bitmap_clear_action(BlkActionState *common,
-+static void block_dirty_bitmap_clear_action(BlockDirtyBitmap *action,
-                                             Transaction *tran, Error **errp)
- {
--    BlockDirtyBitmapState *state = DO_UPCAST(BlockDirtyBitmapState,
--                                             common, common);
--    BlockDirtyBitmap *action;
-+    BlockDirtyBitmapState *state = g_new0(BlockDirtyBitmapState, 1);
- 
-     tran_add(tran, &block_dirty_bitmap_clear_drv, state);
- 
--    action = common->action->u.block_dirty_bitmap_clear.data;
-     state->bitmap = block_dirty_bitmap_lookup(action->node,
-                                               action->name,
-                                               &state->bs,
-@@ -2069,16 +1998,13 @@ TransactionActionDrv block_dirty_bitmap_enable_drv = {
-     .clean = g_free,
- };
- 
--static void block_dirty_bitmap_enable_action(BlkActionState *common,
-+static void block_dirty_bitmap_enable_action(BlockDirtyBitmap *action,
-                                              Transaction *tran, Error **errp)
- {
--    BlockDirtyBitmap *action;
--    BlockDirtyBitmapState *state = DO_UPCAST(BlockDirtyBitmapState,
--                                             common, common);
-+    BlockDirtyBitmapState *state = g_new0(BlockDirtyBitmapState, 1);
- 
-     tran_add(tran, &block_dirty_bitmap_enable_drv, state);
- 
--    action = common->action->u.block_dirty_bitmap_enable.data;
-     state->bitmap = block_dirty_bitmap_lookup(action->node,
-                                               action->name,
-                                               NULL,
-@@ -2110,16 +2036,13 @@ TransactionActionDrv block_dirty_bitmap_disable_drv = {
-     .clean = g_free,
- };
- 
--static void block_dirty_bitmap_disable_action(BlkActionState *common,
-+static void block_dirty_bitmap_disable_action(BlockDirtyBitmap *action,
-                                               Transaction *tran, Error **errp)
- {
--    BlockDirtyBitmap *action;
--    BlockDirtyBitmapState *state = DO_UPCAST(BlockDirtyBitmapState,
--                                             common, common);
-+    BlockDirtyBitmapState *state = g_new0(BlockDirtyBitmapState, 1);
- 
-     tran_add(tran, &block_dirty_bitmap_disable_drv, state);
- 
--    action = common->action->u.block_dirty_bitmap_disable.data;
-     state->bitmap = block_dirty_bitmap_lookup(action->node,
-                                               action->name,
-                                               NULL,
-@@ -2151,17 +2074,13 @@ TransactionActionDrv block_dirty_bitmap_merge_drv = {
-     .clean = g_free,
- };
- 
--static void block_dirty_bitmap_merge_action(BlkActionState *common,
-+static void block_dirty_bitmap_merge_action(BlockDirtyBitmapMerge *action,
-                                             Transaction *tran, Error **errp)
- {
--    BlockDirtyBitmapMerge *action;
--    BlockDirtyBitmapState *state = DO_UPCAST(BlockDirtyBitmapState,
--                                             common, common);
-+    BlockDirtyBitmapState *state = g_new0(BlockDirtyBitmapState, 1);
- 
-     tran_add(tran, &block_dirty_bitmap_merge_drv, state);
- 
--    action = common->action->u.block_dirty_bitmap_merge.data;
--
-     state->bitmap = block_dirty_bitmap_merge(action->node, action->target,
-                                              action->bitmaps, &state->backup,
-                                              errp);
-@@ -2175,16 +2094,13 @@ TransactionActionDrv block_dirty_bitmap_remove_drv = {
-     .clean = g_free,
- };
- 
--static void block_dirty_bitmap_remove_action(BlkActionState *common,
-+static void block_dirty_bitmap_remove_action(BlockDirtyBitmap *action,
-                                              Transaction *tran, Error **errp)
- {
--    BlockDirtyBitmap *action;
--    BlockDirtyBitmapState *state = DO_UPCAST(BlockDirtyBitmapState,
--                                             common, common);
-+    BlockDirtyBitmapState *state = g_new0(BlockDirtyBitmapState, 1);
- 
-     tran_add(tran, &block_dirty_bitmap_remove_drv, state);
- 
--    action = common->action->u.block_dirty_bitmap_remove.data;
- 
-     state->bitmap = block_dirty_bitmap_remove(action->node, action->name,
-                                               false, &state->bs, errp);
-@@ -2215,13 +2131,11 @@ static void block_dirty_bitmap_remove_commit(void *opaque)
- static void abort_commit(void *opaque);
- TransactionActionDrv abort_drv = {
-     .commit = abort_commit,
--    .clean = g_free,
- };
- 
--static void abort_action(BlkActionState *common, Transaction *tran,
--                         Error **errp)
-+static void abort_action(Transaction *tran, Error **errp)
- {
--    tran_add(tran, &abort_drv, common);
-+    tran_add(tran, &abort_drv, NULL);
-     error_setg(errp, "Transaction aborted using Abort action");
- }
- 
-@@ -2230,62 +2144,66 @@ static void abort_commit(void *opaque)
-     g_assert_not_reached(); /* this action never succeeds */
- }
- 
--static const BlkActionOps actions_map[] = {
--    [TRANSACTION_ACTION_KIND_BLOCKDEV_SNAPSHOT] = {
--        .instance_size = sizeof(ExternalSnapshotState),
--        .action  = external_snapshot_action,
--    },
--    [TRANSACTION_ACTION_KIND_BLOCKDEV_SNAPSHOT_SYNC] = {
--        .instance_size = sizeof(ExternalSnapshotState),
--        .action  = external_snapshot_action,
--    },
--    [TRANSACTION_ACTION_KIND_DRIVE_BACKUP] = {
--        .instance_size = sizeof(DriveBackupState),
--        .action = drive_backup_action,
--    },
--    [TRANSACTION_ACTION_KIND_BLOCKDEV_BACKUP] = {
--        .instance_size = sizeof(BlockdevBackupState),
--        .action = blockdev_backup_action,
--    },
--    [TRANSACTION_ACTION_KIND_ABORT] = {
--        .instance_size = sizeof(BlkActionState),
--        .action = abort_action,
--    },
--    [TRANSACTION_ACTION_KIND_BLOCKDEV_SNAPSHOT_INTERNAL_SYNC] = {
--        .instance_size = sizeof(InternalSnapshotState),
--        .action  = internal_snapshot_action,
--    },
--    [TRANSACTION_ACTION_KIND_BLOCK_DIRTY_BITMAP_ADD] = {
--        .instance_size = sizeof(BlockDirtyBitmapState),
--        .action = block_dirty_bitmap_add_action,
--    },
--    [TRANSACTION_ACTION_KIND_BLOCK_DIRTY_BITMAP_CLEAR] = {
--        .instance_size = sizeof(BlockDirtyBitmapState),
--        .action = block_dirty_bitmap_clear_action,
--    },
--    [TRANSACTION_ACTION_KIND_BLOCK_DIRTY_BITMAP_ENABLE] = {
--        .instance_size = sizeof(BlockDirtyBitmapState),
--        .action = block_dirty_bitmap_enable_action,
--    },
--    [TRANSACTION_ACTION_KIND_BLOCK_DIRTY_BITMAP_DISABLE] = {
--        .instance_size = sizeof(BlockDirtyBitmapState),
--        .action = block_dirty_bitmap_disable_action,
--    },
--    [TRANSACTION_ACTION_KIND_BLOCK_DIRTY_BITMAP_MERGE] = {
--        .instance_size = sizeof(BlockDirtyBitmapState),
--        .action = block_dirty_bitmap_merge_action,
--    },
--    [TRANSACTION_ACTION_KIND_BLOCK_DIRTY_BITMAP_REMOVE] = {
--        .instance_size = sizeof(BlockDirtyBitmapState),
--        .action = block_dirty_bitmap_remove_action,
--    },
--    /* Where are transactions for MIRROR, COMMIT and STREAM?
-+static void transaction_action(TransactionAction *act, JobTxn *block_job_txn,
-+                               Transaction *tran, Error **errp)
-+{
-+    switch (act->type) {
-+    case TRANSACTION_ACTION_KIND_BLOCKDEV_SNAPSHOT:
-+    case TRANSACTION_ACTION_KIND_BLOCKDEV_SNAPSHOT_SYNC:
-+        external_snapshot_action(act, tran, errp);
-+        return;
-+    case TRANSACTION_ACTION_KIND_DRIVE_BACKUP:
-+        drive_backup_action(act->u.drive_backup.data,
-+                            block_job_txn, tran, errp);
-+        return;
-+    case TRANSACTION_ACTION_KIND_BLOCKDEV_BACKUP:
-+        blockdev_backup_action(act->u.blockdev_backup.data,
-+                               block_job_txn, tran, errp);
-+        return;
-+    case TRANSACTION_ACTION_KIND_ABORT:
-+        abort_action(tran, errp);
-+        return;
-+    case TRANSACTION_ACTION_KIND_BLOCKDEV_SNAPSHOT_INTERNAL_SYNC:
-+        internal_snapshot_action(act->u.blockdev_snapshot_internal_sync.data,
-+                                 tran, errp);
-+        return;
-+    case TRANSACTION_ACTION_KIND_BLOCK_DIRTY_BITMAP_ADD:
-+        block_dirty_bitmap_add_action(act->u.block_dirty_bitmap_add.data,
-+                                      tran, errp);
-+        return;
-+    case TRANSACTION_ACTION_KIND_BLOCK_DIRTY_BITMAP_CLEAR:
-+        block_dirty_bitmap_clear_action(act->u.block_dirty_bitmap_clear.data,
-+                                        tran, errp);
-+        return;
-+    case TRANSACTION_ACTION_KIND_BLOCK_DIRTY_BITMAP_ENABLE:
-+        block_dirty_bitmap_enable_action(act->u.block_dirty_bitmap_enable.data,
-+                                         tran, errp);
-+        return;
-+    case TRANSACTION_ACTION_KIND_BLOCK_DIRTY_BITMAP_DISABLE:
-+        block_dirty_bitmap_disable_action(
-+                act->u.block_dirty_bitmap_disable.data, tran, errp);
-+        return;
-+    case TRANSACTION_ACTION_KIND_BLOCK_DIRTY_BITMAP_MERGE:
-+        block_dirty_bitmap_merge_action(act->u.block_dirty_bitmap_merge.data,
-+                                        tran, errp);
-+        return;
-+    case TRANSACTION_ACTION_KIND_BLOCK_DIRTY_BITMAP_REMOVE:
-+        block_dirty_bitmap_remove_action(act->u.block_dirty_bitmap_remove.data,
-+                                         tran, errp);
-+        return;
-+    /*
-+     * Where are transactions for MIRROR, COMMIT and STREAM?
-      * Although these blockjobs use transaction callbacks like the backup job,
-      * these jobs do not necessarily adhere to transaction semantics.
-      * These jobs may not fully undo all of their actions on abort, nor do they
-      * necessarily work in transactions with more than one job in them.
-      */
--};
-+    case TRANSACTION_ACTION_KIND__MAX:
-+    default:
-+        g_assert_not_reached();
-+    };
-+}
-+
- 
- /*
-  * 'Atomic' group operations.  The operations are performed as a set, and if
-@@ -2336,21 +2254,7 @@ void qmp_transaction(TransactionActionList *actions,
- 
-     /* We don't do anything in this loop that commits us to the operations */
-     for (act = actions; act; act = act->next) {
--        TransactionAction *dev_info = act->value;
--        const BlkActionOps *ops;
--        BlkActionState *state;
--
--        assert(dev_info->type < ARRAY_SIZE(actions_map));
--
--        ops = &actions_map[dev_info->type];
--        assert(ops->instance_size > 0);
--
--        state = g_malloc0(ops->instance_size);
--        state->ops = ops;
--        state->action = dev_info;
--        state->block_job_txn = block_job_txn;
--
--        state->ops->action(state, tran, &local_err);
-+        transaction_action(act->value, block_job_txn, tran, &local_err);
-         if (local_err) {
-             error_propagate(errp, local_err);
-             goto delete_and_fail;
+----------------------------------------------------------------
+Alex Bennée (7):
+      tests/docker: bump the xtensa base to debian:11-slim
+      docs: document breakpoint and watchpoint support
+      scripts/ci: add gitlab-runner to kvm group
+      scripts/ci: clean-up the 20.04/22.04 confusion in ansible
+      gitlab: add ubuntu-22.04-aarch64-without-defaults
+      gitlab: enable minimal device profile for aarch64 --disable-tcg
+      tests/avocado: use http for mipsdistros.mips.com
+
+Fabiano Rosas (1):
+      hw/arm: Select XLNX_USB_SUBSYS for xlnx-zcu102 machine
+
+ docs/system/gdb.rst                                |  22 ++++
+ .../custom-runners/ubuntu-22.04-aarch32.yml        |   2 +-
+ .../custom-runners/ubuntu-22.04-aarch64.yml        |  28 +++++-
+ hw/arm/Kconfig                                     |   1 +
+ hw/usb/Kconfig                                     |   1 -
+ scripts/ci/setup/build-environment.yml             | 111 ++++++++++++++-------
+ scripts/ci/setup/gitlab-runner.yml                 |   1 +
+ tests/avocado/replay_kernel.py                     |   6 +-
+ .../docker/dockerfiles/debian-xtensa-cross.docker  |   2 +-
+ 9 files changed, 131 insertions(+), 43 deletions(-)
+
 -- 
-2.34.1
+2.39.2
 
 
