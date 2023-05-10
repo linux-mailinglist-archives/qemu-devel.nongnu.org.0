@@ -2,77 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A39C6FDD73
+	by mail.lfdr.de (Postfix) with ESMTPS id 3BFCC6FDD72
 	for <lists+qemu-devel@lfdr.de>; Wed, 10 May 2023 14:08:20 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pwib4-0003p6-AA; Wed, 10 May 2023 08:07:06 -0400
+	id 1pwibU-0003tC-2r; Wed, 10 May 2023 08:07:32 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pwib2-0003oZ-3j
- for qemu-devel@nongnu.org; Wed, 10 May 2023 08:07:04 -0400
-Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d])
+ id 1pwibR-0003sv-5W
+ for qemu-devel@nongnu.org; Wed, 10 May 2023 08:07:29 -0400
+Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pwib0-0004dr-BA
- for qemu-devel@nongnu.org; Wed, 10 May 2023 08:07:03 -0400
-Received: by mail-wm1-x32d.google.com with SMTP id
- 5b1f17b1804b1-3f42d937d2eso10060175e9.2
- for <qemu-devel@nongnu.org>; Wed, 10 May 2023 05:07:01 -0700 (PDT)
+ id 1pwibP-0004lc-DT
+ for qemu-devel@nongnu.org; Wed, 10 May 2023 08:07:28 -0400
+Received: by mail-wr1-x42e.google.com with SMTP id
+ ffacd0b85a97d-30786c87cdaso4610700f8f.2
+ for <qemu-devel@nongnu.org>; Wed, 10 May 2023 05:07:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1683720420; x=1686312420;
- h=content-transfer-encoding:in-reply-to:from:references:to
+ d=linaro.org; s=google; t=1683720446; x=1686312446;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=x1XEwoHrB7mWdBvULTj9PJB9aqMfYkHk57WDRS8B7Jw=;
- b=paDe1s/FMtSWa8FKv38Vs8JOmlFp6p52bo9isw75aLCuEFzde2UfJrIpW51Sid0IbO
- SSCp/kt8/RiL92FoY8KE4+OIdiATQH74USNYk1aYSVuD9vN5KUfXPoapc3gfYrL2jxka
- Nxq2k/pZDOQENBxuhGuYGMwxupHsi06PdYvkrfNBDXn0rAPz3GMOC4GQEeIEqqzanoXU
- jOaP8qx0mQCU/mF2KXREn2hkXLJbpCSzo7Ebdej20ZsfdGAMiU2PGoaqZV/eORBuZGD6
- SjdhaFJ4ZLcr5IwCEotufPBrnDTdcBcVPES4/cICuwgTGvcurVQ7cDKCsMH+ZdzZ6tM8
- E2Mw==
+ bh=fLR/FBm42fTU6tpqDUtK3XmU7QcAY5Yfl+VrQtH//qU=;
+ b=F18ylllXOqMSLAi/kLQIRMUbEKAaerXWa5aopm4LF5TygOiufvib7a8geziHm8bBjE
+ 86rSuAOXGSmtkYXENBjXd9Up6Sjtt0ntto3JC2hOVyjWv1PB2TS+wpz4hrnJVt7uEU+N
+ RJd+KCDpW0Z3NsY1MyHpC9Qr+/NdzIJFs6Y8cspnadBHSi1s+dZ61HU7KYNhASuW+wzr
+ GpGEjFkA01qlS3kEF4ZEiIxQXfSjIuEnLX7b/wp/3jsQkOWY6z9toPfei6WEGOKXhkXZ
+ lUEcTSOZgAt+wSAbM/ODPIObsvqr3ruLbw31hYxm2gmwwE9i+zdbav3yvNR6une3dCnU
+ Tkkw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683720420; x=1686312420;
- h=content-transfer-encoding:in-reply-to:from:references:to
+ d=1e100.net; s=20221208; t=1683720446; x=1686312446;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=x1XEwoHrB7mWdBvULTj9PJB9aqMfYkHk57WDRS8B7Jw=;
- b=a1wF8esHvrGLgJURK9LiDdUEEQhydmccaymv8R5m0aEKZwbs5EH5FpRStpn9jhYZzL
- eUh+OkuwQO2L8glo0Uv8xOZBTthEuxqoTU6SgxbbMixKAkmPKi4/SezIpI31bZqv524B
- YkrtDQMBxcTmSuEgn15ah8oIM87mAi/r+bWupiL+je9EHvwKCsDq9h8gxsL/9ktep/K1
- YDESr1d/OQT9mu8cFw8Bq4/ZNq1XzojpYJAmMOQhNNoeQQp9UFNHAvXtvK4TfSTIkSPV
- jN/ocDUQqvBQoygX0Vl3VfwwHjzDhYnCHUFS3lULo5I6EORdHaqnIXtup8CWGkYZNjAA
- iQMQ==
-X-Gm-Message-State: AC+VfDz9kVyL1+jUl+gBuDC/eBeHL4KiypIlvVVo9olv2Wk38JE59rhc
- 7oC4TLsdy7UkisJyzh0krTR1dw==
-X-Google-Smtp-Source: ACHHUZ6Y3SKZLeFOZrCX4BliwpU+a6mWQMlUNQMobwjPxg97VAoY1o6hVeEwoON0WIG+2hxKu72JiA==
-X-Received: by 2002:a1c:f317:0:b0:3f1:7581:bba3 with SMTP id
- q23-20020a1cf317000000b003f17581bba3mr11368373wmq.10.1683720420528; 
- Wed, 10 May 2023 05:07:00 -0700 (PDT)
+ bh=fLR/FBm42fTU6tpqDUtK3XmU7QcAY5Yfl+VrQtH//qU=;
+ b=QgbulCBfnL1SzuZYHvcrH8xYFqLCs7ICDsiu1y1ZhQiLuqGLqo7EwWZvPDpcQ/9+Yy
+ xCG/3C+xYL9nsRaOHy+MMFUEoxf/ckW5t9mf5Z6VmYgUUEfpGuca+KDe7quRWZDHv6Sw
+ q7dtN9D/7E2pyjrW884aPblOU0oVZ9xtfn8mvNqX+dZKCLGeEqK04WPt4o5P3PUPAPum
+ MWkHFzoqCKZClvxZNgJfFhhu+kj6rj7aN4jXPUA7oE9sMQJdY0ROF5Ac54gNw51s9MB9
+ GwZ5lxSN0DdAWerl1RaCXJzvBSeFqSVTylwB1tH9HHE+vmDvn4jQdI32BkRH+NK/d0FH
+ +jSw==
+X-Gm-Message-State: AC+VfDxrFgoJeIEVpR7ReeZkVPbW6qzHTZ5cVTzae7wHdBPQUPZVu8KW
+ nfqVCNwAkO6pz7kiA1B/HOpCcw==
+X-Google-Smtp-Source: ACHHUZ5UhXKxyvYsEOa5vxzyJC8r06d8a7U2uky0hVI0E20wA+801cYr5fJ9rLt/gKpE3Uubu96QLQ==
+X-Received: by 2002:adf:e849:0:b0:2fa:27ef:93d7 with SMTP id
+ d9-20020adfe849000000b002fa27ef93d7mr12751717wrn.42.1683720445845; 
+ Wed, 10 May 2023 05:07:25 -0700 (PDT)
 Received: from [192.168.11.23] ([85.9.250.243])
  by smtp.gmail.com with ESMTPSA id
- z4-20020a7bc7c4000000b003f4ddde398csm917132wmk.21.2023.05.10.05.06.59
+ w14-20020a5d680e000000b003079693eff2sm9265345wru.41.2023.05.10.05.07.25
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 10 May 2023 05:06:59 -0700 (PDT)
-Message-ID: <49f04f3d-df61-3b98-4d52-777252b1436e@linaro.org>
-Date: Wed, 10 May 2023 13:06:58 +0100
+ Wed, 10 May 2023 05:07:25 -0700 (PDT)
+Message-ID: <a89bcd27-95dd-fa12-0d27-f35d1aa8a68c@linaro.org>
+Date: Wed, 10 May 2023 13:07:24 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.10.0
-Subject: Re: [PULL v2 00/45] loongarch-to-apply queue
+Subject: Re: [PULL 0/3] VFIO updates 2023-05-09
 Content-Language: en-US
-To: Paolo Bonzini <pbonzini@redhat.com>, Song Gao <gaosong@loongson.cn>,
- qemu-devel@nongnu.org
-References: <20230506063540.178794-1-gaosong@loongson.cn>
- <bd4d0fa0-6ce6-058c-22a3-f11909af8d12@redhat.com>
+To: Alex Williamson <alex.williamson@redhat.com>, qemu-devel@nongnu.org
+Cc: clg@redhat.com, avihaih@nvidia.com, minwoo.im@samsung.com,
+ k.jensen@samsung.com
+References: <20230509215923.3186420-1-alex.williamson@redhat.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <bd4d0fa0-6ce6-058c-22a3-f11909af8d12@redhat.com>
+In-Reply-To: <20230509215923.3186420-1-alex.williamson@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
- envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x32d.google.com
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x42e.google.com
 X-Spam_score_int: -53
 X-Spam_score: -5.4
 X-Spam_bar: -----
@@ -95,42 +95,51 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 5/10/23 12:17, Paolo Bonzini wrote:
-> On 5/6/23 08:34, Song Gao wrote:
->> The following changes since commit eb5c3932a383ba1ef3a911232c644f2e053ef66c:
->>
->>    Merge tag 'pw-pull-request' of https://gitlab.com/marcandre.lureau/qemu into staging 
->> (2023-05-05 19:18:05 +0100)
->>
->> are available in the Git repository at:
->>
->>    https://gitlab.com/gaosong/qemu.git tags/pull-loongarch-20230506
->>
->> for you to fetch changes up to 725d7e763a802321e1bb303348afc551d564d31e:
->>
->>    hw/intc: don't use target_ulong for LoongArch ipi (2023-05-06 11:19:50 +0800)
+On 5/9/23 22:59, Alex Williamson wrote:
+> The following changes since commit 271477b59e723250f17a7e20f139262057921b6a:
 > 
-> Hi,
+>    Merge tag 'compression-code-pull-request' of https://gitlab.com/juan.quintela/qemu into staging (2023-05-08 20:38:05 +0100)
 > 
-> this causes three failures on FreeBSD (detected by the x64-freebsd-13-build CI job):
+> are available in the Git repository at:
 > 
-> Summary of Failures:
->    8/779 qemu:qtest+qtest-loongarch64 / qtest-loongarch64/qom-test           
-> ERROR           0.94s   killed by signal 6 SIGABRT
->   47/779 qemu:qtest+qtest-loongarch64 / qtest-loongarch64/test-hmp           
-> ERROR           0.97s   killed by signal 6 SIGABRT
-> 353/779 qemu:qtest+qtest-loongarch64 / qtest-loongarch64/machine-none-test        
-> ERROR           0.73s killed by signal 6 SIGABRT
+>    https://gitlab.com/alex.williamson/qemu.git tags/vfio-updates-20230509.0
+> 
+> for you to fetch changes up to b5048a4cbfa0362abc720b5198fe9a35441bf5fe:
+> 
+>    vfio/pci: Static Resizable BAR capability (2023-05-09 09:30:13 -0600)
+> 
+> ----------------------------------------------------------------
+> VFIO updates 2023-05-09
+> 
+>   * Add vf-token device option allowing QEMU to assign VFs where the PF
+>     is managed by a userspace driver. (Minwoo Im)
+> 
+>   * Skip log_sync during migration setup as a potential source of failure
+>     and likely source of redundancy. (Avihai Horon)
+> 
+>   * Virtualize PCIe Resizable BAR capability rather than hiding it,
+>     exposing only the current size as available. (Alex Williamson)
+> 
+> ----------------------------------------------------------------
+> 
+> Alex Williamson (1):
+>    vfio/pci: Static Resizable BAR capability
+> 
+> Avihai Horon (1):
+>    vfio/migration: Skip log_sync during migration SETUP state
+> 
+> Minwoo Im (1):
+>    vfio/pci: add support for VF token
+> 
+>   hw/vfio/common.c |  3 ++-
+>   hw/vfio/pci.c    | 67 ++++++++++++++++++++++++++++++++++++++++++++++--
+>   hw/vfio/pci.h    |  1 +
+>   3 files changed, 68 insertions(+), 3 deletions(-)
+> 
 
-Now fixed,
-
-commit 7534695b405e8abb4eb61d082da1d7610f6585bf
-Author: Richard Henderson <richard.henderson@linaro.org>
-Date:   Wed May 10 06:15:44 2023 +0000
-
-     target/loongarch: Terminate vmstate subsections list
-
+Applied, thanks.  Please update https://wiki.qemu.org/ChangeLog/8.1 as appropriate.
 
 
 r~
+
 
