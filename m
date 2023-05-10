@@ -2,88 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E80846FE818
+	by mail.lfdr.de (Postfix) with ESMTPS id DA6CD6FE817
 	for <lists+qemu-devel@lfdr.de>; Thu, 11 May 2023 01:27:27 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pwtC2-0002rJ-CW; Wed, 10 May 2023 19:25:58 -0400
+	id 1pwtC3-0002uR-Bm; Wed, 10 May 2023 19:25:59 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
- id 1pwtBz-0002q8-Uv; Wed, 10 May 2023 19:25:55 -0400
+ id 1pwtC1-0002r1-82; Wed, 10 May 2023 19:25:57 -0400
 Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
- id 1pwtBx-0004bz-Va; Wed, 10 May 2023 19:25:55 -0400
+ id 1pwtBy-0004c1-8m; Wed, 10 May 2023 19:25:56 -0400
 Received: from pps.filterd (m0353728.ppops.net [127.0.0.1])
  by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 34AN656W018578; Wed, 10 May 2023 23:25:51 GMT
+ 34AN616f018444; Wed, 10 May 2023 23:25:51 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
  h=from : to : cc : subject
- : date : message-id : mime-version : content-transfer-encoding; s=pp1;
- bh=394WjzCcAKR0UhXdJnLwXLVJlHSIqE/x+FkHgVfw1zo=;
- b=Q7tiVdGCw84YfOXXmwOD+OIwuAEU3kpJNsJ5P1xdMhbnb0Qfpo4bHwKGyJxkxvwbXg8B
- +MHkufhRG4MnDRg90eTQnjgPDOoGRaxCR9XXWKvRS8yvfXX3WLqK0Kp4MbNcG6Efp8zX
- JbIX9uaPhIZGcwZsKjHvA5GC/5qI8kNHKa1vZfj8xxWHZ9Pf1LxwCboiEabeMJdoudIn
- 9O0gUs74VWi+K4D7+HX5OOLtFc1nyFzcdjJs+K8yVR+3Gt/8UY+iOor5aNuy8he09cHl
- kzHwxkm+CWZeext4xph7AdVPus+MuVfJW0fkI63/WBn9pNofAnIFAcCQ+DIH8zy6b4Xr 2A== 
+ : date : message-id : in-reply-to : references : mime-version :
+ content-transfer-encoding; s=pp1;
+ bh=k69FVhYit8dpo+BhjXZw/yk0zIKgBCm2kZc911xnx+g=;
+ b=J/lUYRf6hYb9eu/2/PxKnAtM5Cq/uZDXRFZTf0QHERoeW4QagaDmgddGcVfL+CH7o7Zt
+ rf0CnakcH2wYWM55YSfKcbp7QXgTH7Xktb01arWbyBMDTStJ4a1V6dK2SKkWoUm3hwBM
+ Nx8TDJMfJyV8bEIwQaV2/rCm8hA8XTmPtPDQptixBzbxl12dJR0QtC9VbAQsYX85WDzf
+ VFjT2MTPSECMkunpl6IQphjLVzaxI9sA2n4N8a1v7Z2xDRd97as08jUnv8SUE6FzZR7K
+ xK6mV5zf+lUvXM2DvyxyoiL/ehw4RHda3kusa13mEO1YuD0e6qmo1THRUm+EAkGy/wAk dA== 
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3qgbxmj3p7-1
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3qgbxmj3pe-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 10 May 2023 23:25:50 +0000
+ Wed, 10 May 2023 23:25:51 +0000
 Received: from m0353728.ppops.net (m0353728.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 34ANG1At031835;
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 34AN6sOT024921;
  Wed, 10 May 2023 23:25:50 GMT
-Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.102])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3qgbxmj3n3-1
+Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.99])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3qgbxmj3n6-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Wed, 10 May 2023 23:25:50 +0000
-Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
- by ppma06ams.nl.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 34AMMu4s011852;
- Wed, 10 May 2023 23:02:24 GMT
-Received: from smtprelay03.fra02v.mail.ibm.com ([9.218.2.224])
- by ppma06ams.nl.ibm.com (PPS) with ESMTPS id 3qf896sah7-1
+Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
+ by ppma04ams.nl.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 34AM6Jfn028678;
+ Wed, 10 May 2023 23:02:26 GMT
+Received: from smtprelay04.fra02v.mail.ibm.com ([9.218.2.228])
+ by ppma04ams.nl.ibm.com (PPS) with ESMTPS id 3qf7nh1ajk-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 10 May 2023 23:02:23 +0000
+ Wed, 10 May 2023 23:02:26 +0000
 Received: from smtpav03.fra02v.mail.ibm.com (smtpav03.fra02v.mail.ibm.com
  [10.20.54.102])
- by smtprelay03.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 34AN2Lnw9306744
+ by smtprelay04.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 34AN2OEU33358358
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 10 May 2023 23:02:21 GMT
+ Wed, 10 May 2023 23:02:24 GMT
 Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 9269320040;
- Wed, 10 May 2023 23:02:21 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 8773B2004B;
+ Wed, 10 May 2023 23:02:24 +0000 (GMT)
 Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 12E2820043;
- Wed, 10 May 2023 23:02:21 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 014A420040;
+ Wed, 10 May 2023 23:02:24 +0000 (GMT)
 Received: from heavy.boeblingen.de.ibm.com (unknown [9.171.51.237])
  by smtpav03.fra02v.mail.ibm.com (Postfix) with ESMTP;
- Wed, 10 May 2023 23:02:20 +0000 (GMT)
+ Wed, 10 May 2023 23:02:23 +0000 (GMT)
 From: Ilya Leoshkevich <iii@linux.ibm.com>
 To: Laurent Vivier <laurent@vivier.eu>,
  Richard Henderson <richard.henderson@linaro.org>,
  David Hildenbrand <david@redhat.com>, Thomas Huth <thuth@redhat.com>
 Cc: qemu-devel@nongnu.org, qemu-s390x@nongnu.org,
  Ilya Leoshkevich <iii@linux.ibm.com>
-Subject: [PATCH 0/2] linux-user/s390x: Fix single-stepping SVC
-Date: Thu, 11 May 2023 01:02:11 +0200
-Message-Id: <20230510230213.330134-1-iii@linux.ibm.com>
+Subject: [PATCH 1/2] linux-user/s390x: Fix single-stepping SVC
+Date: Thu, 11 May 2023 01:02:12 +0200
+Message-Id: <20230510230213.330134-2-iii@linux.ibm.com>
 X-Mailer: git-send-email 2.40.1
+In-Reply-To: <20230510230213.330134-1-iii@linux.ibm.com>
+References: <20230510230213.330134-1-iii@linux.ibm.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: -0NQgeEhOWeiJBLv1tmDxXMpXaIznOTb
-X-Proofpoint-GUID: VPIpuKl8-QZvdHuEOCHAxjQxiu4Rlq3T
+X-Proofpoint-ORIG-GUID: 5CgglNFMxsxMLDbPIywv8UWEQPUFLkFI
+X-Proofpoint-GUID: FLF0rEtyO3R34j-2N9JUXmxD51SacSPY
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
  definitions=2023-05-10_04,2023-05-05_01,2023-02-09_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
  spamscore=0 mlxscore=0
  suspectscore=0 bulkscore=0 adultscore=0 impostorscore=0 lowpriorityscore=0
- mlxlogscore=518 priorityscore=1501 clxscore=1015 malwarescore=0
+ mlxlogscore=999 priorityscore=1501 clxscore=1015 malwarescore=0
  phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2304280000 definitions=main-2305100191
 Received-SPF: pass client-ip=148.163.156.1; envelope-from=iii@linux.ibm.com;
@@ -110,49 +113,35 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi,
+Currently single-stepping SVC executes two instructions. The reason is
+that EXCP_DEBUG for the SVC instruction itself is masked by EXCP_SVC.
+Fix by re-raising EXCP_DEBUG.
 
-I noticed that single-stepping SVC runs two instructions instead of
-one. The reason is that EXCP_SVC masks EXCP_DEBUG.
-Patch 1 fixes this problem, patch 2 adds a test.
+Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
+---
+ linux-user/s390x/cpu_loop.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-Btw, there is at least one more problem in that area, namely
-single-stepping instructions that cause e.g. SIGILL. Using the
-existing signals-s390x test as an example:
-
-    (gdb) x/i $pc
-    => 0x1001740 <illegal_op>:      .long   0x000007fe
-
-    (gdb) si
-    Program received signal SIGILL, Illegal instruction.
-    (gdb) x/i $pc
-    => 0x1001742 <after_illegal_op>:        br      %r14
-    # So far so good.
-
-    (gdb) si
-    (gdb) x/i $pc
-    => 0x10017b6 <handle_signal+6>: lay     %r15,-344(%r15)
-    # Missed the first signal handler instruction!
-
-I'm not sure what to do about it - the trivial fix to add
-gdb_handlesig(cpu, 0) to the end of handle_pending_signal() caused GDB
-to hang, and I haven't looked further yet.
-
-Best regards,
-Ilya
-
-Ilya Leoshkevich (2):
-  linux-user/s390x: Fix single-stepping SVC
-  tests/tcg/s390x: Test single-stepping SVC
-
- linux-user/s390x/cpu_loop.c         |  9 ++++
- tests/tcg/s390x/Makefile.target     | 11 ++++-
- tests/tcg/s390x/gdbstub/test-svc.py | 64 +++++++++++++++++++++++++++++
- tests/tcg/s390x/hello-s390x-asm.S   | 20 +++++++++
- 4 files changed, 103 insertions(+), 1 deletion(-)
- create mode 100644 tests/tcg/s390x/gdbstub/test-svc.py
- create mode 100644 tests/tcg/s390x/hello-s390x-asm.S
-
+diff --git a/linux-user/s390x/cpu_loop.c b/linux-user/s390x/cpu_loop.c
+index 285bc60071a..8b7ac2879ef 100644
+--- a/linux-user/s390x/cpu_loop.c
++++ b/linux-user/s390x/cpu_loop.c
+@@ -86,6 +86,15 @@ void cpu_loop(CPUS390XState *env)
+             } else if (ret != -QEMU_ESIGRETURN) {
+                 env->regs[2] = ret;
+             }
++
++            if (unlikely(cs->singlestep_enabled)) {
++                /*
++                 * cpu_tb_exec() did not raise EXCP_DEBUG, because it has seen
++                 * that EXCP_SVC was already pending.
++                 */
++                cs->exception_index = EXCP_DEBUG;
++            }
++
+             break;
+ 
+         case EXCP_DEBUG:
 -- 
 2.40.1
 
