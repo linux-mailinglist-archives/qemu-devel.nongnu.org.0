@@ -2,55 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D76F16FE033
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 May 2023 16:29:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9D976FE08B
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 May 2023 16:40:31 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pwknA-00060M-Oi; Wed, 10 May 2023 10:27:44 -0400
+	id 1pwkyE-0008Fa-6J; Wed, 10 May 2023 10:39:10 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jean-louis@dupond.be>)
- id 1pwkn8-0005zr-GP
- for qemu-devel@nongnu.org; Wed, 10 May 2023 10:27:42 -0400
-Received: from apollo.dupie.be ([2001:bc8:3f2a:101::1])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jean-louis@dupond.be>)
- id 1pwkn5-0001ig-Jf
- for qemu-devel@nongnu.org; Wed, 10 May 2023 10:27:42 -0400
-Received: from localhost.localdomain (unknown
- [IPv6:2a02:a03f:eaf7:ff01:cc6b:6666:e19c:b63f])
- by apollo.dupie.be (Postfix) with ESMTPSA id 345A51520F2A;
- Wed, 10 May 2023 16:27:34 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=dupond.be; s=dkim;
- t=1683728854;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=y1siTX55A1yzlNBXFh7s/bOapzBsCXmmUbqdQTPI0rc=;
- b=c7QdvvLT6snPzBY3BMP/GzIBYyKiUvkMllr2SpeXnWNjxNXfEUrXBTc2NCkliMBx/05jrn
- vntKP8HwFf+8VbXKnv5lFBUj4QwqLC914GENfdlgJmEIKvwi3AXhczCl2nNc01r5qRucU/
- NcYB9memr7RVLVQIuKYKCu6IlOGKEeGdN+GOeDtvJonaKiL8ogBoUKRiXwUd/OfpZXucjs
- TD0jotPqgjJfatYQrHoG1uGMtl0QjJnRoJpVKAd1M1Rz78FOmK/M4dqFjIYZkLYXafDlIr
- 3t8qKp5kDbIZSRTaI372RnNb4YtVDBVOHZxirWqbmZdf4zeiSfZnDnEpLYXAvA==
-From: Jean-Louis Dupond <jean-louis@dupond.be>
-To: qemu-devel@nongnu.org, stefanha@redhat.com, fam@euphon.net,
- kwolf@redhat.com, hreitz@redhat.com
-Cc: Jean-Louis Dupond <jean-louis@dupond.be>
-Subject: [PATCH] block: Add zeroes discard option
-Date: Wed, 10 May 2023 16:27:20 +0200
-Message-Id: <20230510142720.71894-1-jean-louis@dupond.be>
-X-Mailer: git-send-email 2.40.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2001:bc8:3f2a:101::1;
- envelope-from=jean-louis@dupond.be; helo=apollo.dupie.be
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from
+ <3h6xbZAgKCngpWhqiXWqckkcha.Ykimaiq-Zarahjkjcjq.knc@flex--talumbau.bounces.google.com>)
+ id 1pwkyC-0008FK-Dx
+ for qemu-devel@nongnu.org; Wed, 10 May 2023 10:39:08 -0400
+Received: from mail-io1-xd49.google.com ([2607:f8b0:4864:20::d49])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from
+ <3h6xbZAgKCngpWhqiXWqckkcha.Ykimaiq-Zarahjkjcjq.knc@flex--talumbau.bounces.google.com>)
+ id 1pwky9-0003xr-Fo
+ for qemu-devel@nongnu.org; Wed, 10 May 2023 10:39:07 -0400
+Received: by mail-io1-xd49.google.com with SMTP id
+ ca18e2360f4ac-76c6c1b16d2so118243739f.1
+ for <qemu-devel@nongnu.org>; Wed, 10 May 2023 07:39:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=google.com; s=20221208; t=1683729543; x=1686321543;
+ h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=1NiIH2rSqFliVPE6v5TmLKjIQhtbZfRq0MIHckfGANc=;
+ b=hKCZZLz33SbBDAHtqPVVee37pMXk1Pz7B6OL9YpwOosYlsJfuQdW1fF+FOtuj+0zvx
+ 5GLk9JLKLp3lL7zE7wb2UXOZxK8qE5grk4S52JkJrGXqJCVaBs3dgIZytAob/vGW2cGX
+ qRuVHgk8e3uoMWbOGd225I4P5ZTWWGCQe4gfWHdFddpWRliHjqHdcnIgOrvp5A7J0cjJ
+ JvMEYjcLr2eGI2aV+MqLINporkrffjA2TVkNM0Vgby7YUmNTTZRZvDg9B2PnU7spUZaT
+ OYnX/fR3Xf9vCGEL+YXtdtcx9+CK/BVjt0PxM4jziSNelG/nUt2O0M5wDd5WL60Cd33i
+ hidw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1683729543; x=1686321543;
+ h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=1NiIH2rSqFliVPE6v5TmLKjIQhtbZfRq0MIHckfGANc=;
+ b=lcQqgD5Fp33zMBI0aKbyxasfm2Ti65PZiLzKFNh8hdWQaY0p1/PwHx6tZVjITsCRyi
+ QsNV7THaJC0eEXy6Vd8I4ozVncjSIHsg6P9lbRiScZrRMoEw/EC7hxEdAd2/z7CyMY7X
+ XcKlbRz0xfnQF3tyjv10uj6tCfJrMZFdWBqOgXC1s5fY5fo4xA7rhK0wX84QpT+0PTN8
+ nFKmm/LFT6Gmlqr9of0yDtuvK/J0WpGvRLaZsRlngGq1tlyXGQent8oxORj3OFBy3U36
+ CdUjk7IEhMBpNz2BbDkc+MNkTNMNwHb9U+Ie/w5VPQ4Q6ci6baKeviNO60IQFyXJsQAH
+ Hc8w==
+X-Gm-Message-State: AC+VfDwZ/Da1IzLjj5x83bnJEOSttc2EXEOHwWGaoygsR/H/DpGzoM1E
+ u4bRpKaIrUA0m1d0ZbtWHUlNPAGeu6Ws6X4WQUV6HcILuHsNIV3lF2B01CVqC7yfXhc/oF4VFT/
+ h2cZ51sHGbQ62I5wArB3Ml6k8Z56ph/6+spvLf6Emawg0vvbCCCW7BuZ767ALENU6iw==
+X-Google-Smtp-Source: ACHHUZ4t5G2t4jaVVp1ekdhUa8mDLIuvsz0Ep9OKgz6Uu3DxyHcYjuAU8zXdqq25qUToFj+5Slnj0JV2GjQEHw==
+X-Received: from talumbau.c.googlers.com
+ ([fda3:e722:ac3:cc00:2b:ff92:c0a8:90d])
+ (user=talumbau job=sendgmr) by 2002:a02:9485:0:b0:411:c6da:1107 with SMTP id
+ x5-20020a029485000000b00411c6da1107mr3260925jah.2.1683729543067; Wed, 10 May
+ 2023 07:39:03 -0700 (PDT)
+Date: Wed, 10 May 2023 14:38:55 +0000
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.40.1.521.gf1e218fcd8-goog
+Message-ID: <20230510143856.964541-1-talumbau@google.com>
+Subject: [RFC PATCH 0/1] virtio-balloon: Add Working Set Reporting feature
+From: "T.J. Alumbaugh" <talumbau@google.com>
+To: qemu-devel@nongnu.org
+Cc: "Michael S. Tsirkin" <mst@redhat.com>, David Hildenbrand <david@redhat.com>,
+ Yuanchu Xie <yuanchu@google.com>, 
+ "Dr. David Alan Gilbert" <dave@treblig.org>,
+ Markus Armbruster <armbru@redhat.com>, 
+ Eduardo Habkost <eduardo@habkost.net>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, 
+ "=?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?=" <philmd@linaro.org>,
+ Yanan Wang <wangyanan55@huawei.com>, 
+ Eric Blake <eblake@redhat.com>, Yu Zhao <yuzhao@google.com>, 
+ "T.J. Alumbaugh" <talumbau@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d49;
+ envelope-from=3h6xbZAgKCngpWhqiXWqckkcha.Ykimaiq-Zarahjkjcjq.knc@flex--talumbau.bounces.google.com;
+ helo=mail-io1-xd49.google.com
+X-Spam_score_int: -95
+X-Spam_score: -9.6
+X-Spam_bar: ---------
+X-Spam_report: (-9.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01,
+ USER_IN_DEF_DKIM_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -66,142 +98,92 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-When we for example have a sparse qcow2 image and discard: unmap is enabled,
-there can be a lot of fragmentation in the image after some time. Surely on VM's
-that do a lot of writes/deletes.
-This causes the qcow2 image to grow even over 110% of its virtual size,
-because the free gaps in the image get to small to allocate new
-continuous clusters. So it allocates new space as the end of the image.
+This is the device implementation for the proposed expanded balloon feature
+described here:
 
-Disabling discard is not an option, as discard is needed to keep the
-incremental backup size as low as possible. Without discard, the
-incremental backups would become large, as qemu thinks it's just dirty
-blocks but it doesn't know the blocks are empty/useless.
-So we need to avoid fragmentation but also 'empty' the useless blocks in
-the image to have a small incremental backup.
+https://lore.kernel.org/linux-mm/20230509185419.1088297-1-yuanchu@google.com/
 
-There are multiple ways to properly resolve this. One way is to not
-discard the blocks on a discard request, but just zero them. This causes
-the allocation the still exist, and results in no gaps.
-This should also cause a perfectly continuous image when using full
-preallocation.
+Motivation
+==========
+As mentioned in the above message, the use case is a host with overcommitted
+memory and 1 or more VMs. The goal is to get both timely and accurate
+information on overall memory utilization in order to drive appropriate
+reclaim activities, since in some client device use cases a VM might need a
+significant fraction of the overall memory for a period of time, but then
+enter a quiet period that results in a large number of cold pages in the
+guest.
 
-Fixes: https://gitlab.com/qemu-project/qemu/-/issues/1621
-Signed-off-by: Jean-Louis Dupond <jean-louis@dupond.be>
----
- block.c                              | 2 ++
- block/io.c                           | 7 ++++++-
- include/block/block-common.h         | 1 +
- qapi/block-core.json                 | 3 ++-
- qemu-nbd.c                           | 2 +-
- qemu-options.hx                      | 2 +-
- storage-daemon/qemu-storage-daemon.c | 2 +-
- 7 files changed, 14 insertions(+), 5 deletions(-)
+The balloon device now has a number of features to assist in sharing memory
+resources amongst the guests and host (e.g free page hinting, stats, free page
+reporting). As mentioned in slide 12 in [1], the balloon doesn't have a good
+mechanism to drive the reclaim of guest cache. Our use case includes both
+typical page cache as well as "application caches" with memory that should be
+discarded in times of system-wide memory pressure. In some cases, virtio-pmem
+can be a method for host control of guest cache but there are undesirable
+security implications.
 
-diff --git a/block.c b/block.c
-index 5ec1a3897e..ed21d115dd 100644
---- a/block.c
-+++ b/block.c
-@@ -1146,6 +1146,8 @@ int bdrv_parse_discard_flags(const char *mode, int *flags)
-         /* do nothing */
-     } else if (!strcmp(mode, "on") || !strcmp(mode, "unmap")) {
-         *flags |= BDRV_O_UNMAP;
-+    } else if (!strcmp(mode, "zeroes")) {
-+        *flags |= BDRV_O_UNMAP_ZERO;
-     } else {
-         return -1;
-     }
-diff --git a/block/io.c b/block/io.c
-index 6fa1993374..dc7592e938 100644
---- a/block/io.c
-+++ b/block/io.c
-@@ -2988,10 +2988,15 @@ int coroutine_fn bdrv_co_pdiscard(BdrvChild *child, int64_t offset,
-     }
- 
-     /* Do nothing if disabled.  */
--    if (!(bs->open_flags & BDRV_O_UNMAP)) {
-+    if (!(bs->open_flags & BDRV_O_UNMAP) &&
-+        !(bs->open_flags & BDRV_O_UNMAP_ZERO)) {
-         return 0;
-     }
- 
-+    if (bs->open_flags & BDRV_O_UNMAP_ZERO) {
-+        return bdrv_co_pwrite_zeroes(child, offset, bytes, 0);
-+    }
-+
-     if (!bs->drv->bdrv_co_pdiscard && !bs->drv->bdrv_aio_pdiscard) {
-         return 0;
-     }
-diff --git a/include/block/block-common.h b/include/block/block-common.h
-index b5122ef8ab..079ee390c3 100644
---- a/include/block/block-common.h
-+++ b/include/block/block-common.h
-@@ -179,6 +179,7 @@ typedef enum {
- #define BDRV_O_AUTO_RDONLY 0x20000 /* degrade to read-only if opening
-                                       read-write fails */
- #define BDRV_O_IO_URING    0x40000 /* use io_uring instead of the thread pool */
-+#define BDRV_O_UNMAP_ZERO  0x80000 /* rewrite guest unmap to zero */
- 
- #define BDRV_O_CACHE_MASK  (BDRV_O_NOCACHE | BDRV_O_NO_FLUSH)
- 
-diff --git a/qapi/block-core.json b/qapi/block-core.json
-index c05ad0c07e..0f91d1a6b6 100644
---- a/qapi/block-core.json
-+++ b/qapi/block-core.json
-@@ -2971,11 +2971,12 @@
- #
- # @ignore: Ignore the request
- # @unmap: Forward as an unmap request
-+# @zeroes: Zero the clusters instead of unmapping (since 8.1)
- #
- # Since: 2.9
- ##
- { 'enum': 'BlockdevDiscardOptions',
--  'data': [ 'ignore', 'unmap' ] }
-+  'data': [ 'ignore', 'unmap', 'zeroes' ] }
- 
- ##
- # @BlockdevDetectZeroesOptions:
-diff --git a/qemu-nbd.c b/qemu-nbd.c
-index 6ff45308a9..6c0b326db4 100644
---- a/qemu-nbd.c
-+++ b/qemu-nbd.c
-@@ -148,7 +148,7 @@ static void usage(const char *name)
- "                            valid options are: 'none', 'writeback' (default),\n"
- "                            'writethrough', 'directsync' and 'unsafe'\n"
- "      --aio=MODE            set AIO mode (native, io_uring or threads)\n"
--"      --discard=MODE        set discard mode (ignore, unmap)\n"
-+"      --discard=MODE        set discard mode (ignore, unmap, zeroes)\n"
- "      --detect-zeroes=MODE  set detect-zeroes mode (off, on, unmap)\n"
- "      --image-opts          treat FILE as a full set of image options\n"
- "\n"
-diff --git a/qemu-options.hx b/qemu-options.hx
-index b5efa648ba..7e9d383499 100644
---- a/qemu-options.hx
-+++ b/qemu-options.hx
-@@ -1209,7 +1209,7 @@ SRST
- ERST
- 
- DEF("blockdev", HAS_ARG, QEMU_OPTION_blockdev,
--    "-blockdev [driver=]driver[,node-name=N][,discard=ignore|unmap]\n"
-+    "-blockdev [driver=]driver[,node-name=N][,discard=ignore|unmap|zeroes]\n"
-     "          [,cache.direct=on|off][,cache.no-flush=on|off]\n"
-     "          [,read-only=on|off][,auto-read-only=on|off]\n"
-     "          [,force-share=on|off][,detect-zeroes=on|off|unmap]\n"
-diff --git a/storage-daemon/qemu-storage-daemon.c b/storage-daemon/qemu-storage-daemon.c
-index 0e9354faa6..08e8b1b3d9 100644
---- a/storage-daemon/qemu-storage-daemon.c
-+++ b/storage-daemon/qemu-storage-daemon.c
-@@ -86,7 +86,7 @@ static void help(void)
- "                         specify tracing options\n"
- "  -V, --version          output version information and exit\n"
- "\n"
--"  --blockdev [driver=]<driver>[,node-name=<N>][,discard=ignore|unmap]\n"
-+"  --blockdev [driver=]<driver>[,node-name=<N>][,discard=ignore|unmap|zeroes]\n"
- "             [,cache.direct=on|off][,cache.no-flush=on|off]\n"
- "             [,read-only=on|off][,auto-read-only=on|off]\n"
- "             [,force-share=on|off][,detect-zeroes=on|off|unmap]\n"
+Working Set Reporting
+=====================
+The patch here has two components:
+
+ - Actual device implementation for VIRTIO_F_WS_REPORTING to standardize the
+   configuration and communication of Working Set reports from the guest. This
+   includes a notification virtqueue for receiving config information and
+   requests for a report (a feature which could be expanded for additional use
+   cases) and a virtqueue for the actual report from the driver.
+
+ - QMP changes so that a controller program can use the existing QEMU socket
+   mechanism to configure and request WS reports and then read the reports as
+   a JSON property on the balloon.
+
+Working Set reporting in the balloon provides:
+
+ - an accurate picture of current memory utilization in the guest
+ - event driven reporting (with configurable rate limiting) to deliver reports
+   during times of memory pressure.
+
+The reporting mechanism can be combined with a domain-specific balloon policy
+to drive the separate reclaim activities in a coordinated fashion.
+
+A follow up message to virtio-dev will be sent with the proposed specification
+changes that this patch implements.
+
+TODOs:
+======
+ -  A synchronization mechanism must be added to the functions that send WS
+    Config and WS Request, otherwise concurrent callers (through QMP) can mix
+    messages on the virtqueue sending the data to the driver.
+
+ - The device currently has a hard-coded setting of 4 'bins' for a Working Set
+   report, whereas the specification calls for anywhere between 2 and 16.
+
+ - A WS_EVENT notification through QMP should include the actual report,
+   whereas right now we query for that information right after a WS_EVENT is
+   received.
+
+References:
+
+[1] https://kvmforum2020.sched.com/event/eE4U/virtio-balloonpmemmem-managing-guest-memory-david-hildenbrand-michael-s-tsirkin-red-hat
+
+
+T.J. Alumbaugh (1):
+  virtio-balloon: Add Working Set Reporting feature
+
+ hmp-commands.hx                               |  26 ++
+ hw/core/machine-hmp-cmds.c                    |  21 ++
+ hw/virtio/virtio-balloon-pci.c                |   2 +
+ hw/virtio/virtio-balloon.c                    | 225 +++++++++++++++++-
+ include/hw/virtio/virtio-balloon.h            |  17 +-
+ include/monitor/hmp.h                         |   2 +
+ .../standard-headers/linux/virtio_balloon.h   |  17 ++
+ include/sysemu/balloon.h                      |   8 +-
+ monitor/monitor.c                             |   1 +
+ qapi/machine.json                             |  66 +++++
+ qapi/misc.json                                |  26 ++
+ softmmu/balloon.c                             |  32 ++-
+ 12 files changed, 437 insertions(+), 6 deletions(-)
+
 -- 
-2.40.1
+2.40.1.521.gf1e218fcd8-goog
 
 
