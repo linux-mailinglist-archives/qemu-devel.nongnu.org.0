@@ -2,93 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52D9C6FE0B9
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 May 2023 16:47:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 58B6D6FE155
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 May 2023 17:13:07 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pwl5s-0008Jp-L5; Wed, 10 May 2023 10:47:05 -0400
+	id 1pwlUF-0000Wr-Hh; Wed, 10 May 2023 11:12:15 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pwl5p-0008JQ-3S
- for qemu-devel@nongnu.org; Wed, 10 May 2023 10:47:01 -0400
-Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pwl5n-0005Wt-JO
- for qemu-devel@nongnu.org; Wed, 10 May 2023 10:47:00 -0400
-Received: by mail-wm1-x335.google.com with SMTP id
- 5b1f17b1804b1-3f4271185daso33795205e9.2
- for <qemu-devel@nongnu.org>; Wed, 10 May 2023 07:46:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1683730017; x=1686322017;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=cKUtcuBbbtCmYjFyk7LgdgDeS3EpAG88/1SfSisVPxg=;
- b=cRcH3t1JsuyjQA4RB6+Uitgk+abvPs/gtI8Vm4G2iDIyvfAQ6LyE7TmGCerCmucz8Z
- GfO9++Cm2fGlRgAL0pRwwcdl72SeAFBju6NqQ+jDGXjr1qMQW+2Bbgc+J59pqGzxLVn2
- jQ+Y+SyV+rHvkjiYbHDgaOnUESa0WylSCxPSjYu4Hrw7v18034gGLDnp9bsnVG1vKyBP
- CnAMQGFx/5dfqf8ZN+Mg0AXy+6qRuiTpTbnwEWW83Azg1Laudyp4q/0HzWhFMWVioOnQ
- L+5YunYofAy7vell+vuFL6pDu26BPRmd93qeJPILVANFJXE7IdJp+UkazgA8Dos03tN6
- HkyQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683730017; x=1686322017;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=cKUtcuBbbtCmYjFyk7LgdgDeS3EpAG88/1SfSisVPxg=;
- b=Roe3GcufIiwek8yatxNR5/DJJL4M8cRUgd3rOhjVrpdg4vvfn3Q6jIC+y3GQpoAZUE
- HnIhwZrrJEch/m2I7HMaeiMADuNfaFb6QRRjog1Xm1ppqTGM7oaLsRhbc0SV7F3D4CsU
- +LnCJ6I3YqVJLvIU8Vi1r2m614+WotaZ/ZBE/lqSLghPcTxtOowHtOCN3Pt810tv3P/v
- hyZQeYgDHUqXCyz37R02/8wNjG8ZGsqr/ztefDH76Xi5haSwREClUqJQK64KHFG/cEN1
- V95iyhQ9kORaPc+FJGnsFLxUrmh9n0rahJ9VulTPgiqJTw+6uJtQXL/uXkoHofyijAy3
- 9/nw==
-X-Gm-Message-State: AC+VfDwhaILkzq2mrHxTm13cjlTvlgVi3BXzeGdxh6QJm7GgWCDLm4Fp
- e9SV3SUbuV+17N8qfK5r3Hgx3A==
-X-Google-Smtp-Source: ACHHUZ5IiLD3brjv0oqaZ3LyJknCqejLwaO8ONRPUTfqIMRUQIIQvZ+OINB09AyYj8iUVY0/JXgLSA==
-X-Received: by 2002:a1c:ed13:0:b0:3f0:b095:15d9 with SMTP id
- l19-20020a1ced13000000b003f0b09515d9mr11116290wmh.40.1683730017437; 
- Wed, 10 May 2023 07:46:57 -0700 (PDT)
-Received: from [192.168.11.23] ([85.9.250.243])
- by smtp.gmail.com with ESMTPSA id
- q3-20020a1cf303000000b003f3157988f8sm22963879wmq.26.2023.05.10.07.46.56
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 10 May 2023 07:46:57 -0700 (PDT)
-Message-ID: <73622292-1ed3-a497-64b7-d4ab86125eb1@linaro.org>
-Date: Wed, 10 May 2023 15:46:55 +0100
+ (Exim 4.90_1) (envelope-from <lixinyu20s@ict.ac.cn>)
+ id 1pwlBK-0001Fx-Ti
+ for qemu-devel@nongnu.org; Wed, 10 May 2023 10:52:42 -0400
+Received: from smtp80.cstnet.cn ([159.226.251.80] helo=cstnet.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <lixinyu20s@ict.ac.cn>) id 1pwlBI-0006Xg-4q
+ for qemu-devel@nongnu.org; Wed, 10 May 2023 10:52:42 -0400
+Received: from lxy-MS-7D25.loongson.cn (unknown [132.226.6.133])
+ by APP-01 (Coremail) with SMTP id qwCowAAnLp6mr1tkjFIIEw--.15936S2;
+ Wed, 10 May 2023 22:52:25 +0800 (CST)
+From: lixinyu20s@ict.ac.cn
+To: qemu-devel@nongnu.org
+Cc: pbonzini@redhat.com, richard.henderson@linaro.org, eduardo@habkost.net,
+ Xinyu Li <lixinyu20s@ict.ac.cn>
+Subject: [PATCH] target/i386: fix avx2 instructions vzeroall and vpermdq
+Date: Wed, 10 May 2023 22:52:22 +0800
+Message-Id: <20230510145222.586487-1-lixinyu20s@ict.ac.cn>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PULL 00/10] Migration 20230509 patches
-Content-Language: en-US
-To: quintela@redhat.com
-Cc: qemu-devel@nongnu.org, "Dr. David Alan Gilbert" <dave@treblig.org>,
- Leonardo Bras <leobras@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
- Kevin Wolf <kwolf@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Hailiang Zhang <zhanghailiang@xfusion.com>, Eric Blake <eblake@redhat.com>,
- qemu-block@nongnu.org, Peter Xu <peterx@redhat.com>,
- Markus Armbruster <armbru@redhat.com>
-References: <20230509191724.86159-1-quintela@redhat.com>
- <19eff026-1a50-b0f3-15a5-b0251ab443dd@linaro.org>
- <87ild08jjq.fsf@secure.mitica>
- <fbe67cac-5135-219f-6c15-7e63e58ce10a@linaro.org>
- <87a5yc8ejg.fsf@secure.mitica>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <87a5yc8ejg.fsf@secure.mitica>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::335;
- envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x335.google.com
-X-Spam_score_int: -53
-X-Spam_score: -5.4
-X-Spam_bar: -----
-X-Spam_report: (-5.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-3.251,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-CM-TRANSID: qwCowAAnLp6mr1tkjFIIEw--.15936S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7WFyxAF15GF13ur15Gw17KFg_yoW8GF13pa
+ sxA34xuw4ktrWfJ3WfGFsYgF17G395KFWUKan2yr9YqFsxJFnxZrnxtw4xGFW5XFWxuryq
+ yFsIv3y5JFZrX3JanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUUka14x267AKxVWUJVW8JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+ rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+ 1l84ACjcxK6xIIjxv20xvE14v26r1j6r1xM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
+ 6F4UM28EF7xvwVC2z280aVAFwI0_Cr1j6rxdM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
+ Cq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0
+ I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r
+ 4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwAKzVCY07xG64k0F24l
+ 42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJV
+ WUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r126r1DMIIYrxkI7VAK
+ I48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r
+ 4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY
+ 6I8E87Iv6xkF7I0E14v26r1j6r4UYxBIdaVFxhVjvjDU0xZFpf9x0JU6CJPUUUUU=
+X-Originating-IP: [132.226.6.133]
+X-CM-SenderInfo: pol0x0t1xsi2g6lf3hldfou0/
+Received-SPF: pass client-ip=159.226.251.80; envelope-from=lixinyu20s@ict.ac.cn;
+ helo=cstnet.cn
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Wed, 10 May 2023 11:12:00 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -103,38 +72,50 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 5/10/23 15:08, Juan Quintela wrote:
-> grep " uint;" on my system includes.  I know that there are more
-> creative ways to define it.
-> 
-> /usr/include/ffi-x86_64.h\0278:  ffi_arg   uint;
+From: Xinyu Li <lixinyu20s@ict.ac.cn>
 
-Thankfully only a structure member.  :-)
+vzeroall: xmm_regs should be used instead of xmm_t0
+vpermdq: bit 3 and 7 of imm should be considered
 
-> /usr/include/sys/types.h\0150:typedef unsigned int uint;
+Signed-off-by: Xinyu Li <lixinyu20s@ict.ac.cn>
+---
+ target/i386/ops_sse.h      | 8 ++++++++
+ target/i386/tcg/emit.c.inc | 2 +-
+ 2 files changed, 9 insertions(+), 1 deletion(-)
 
-Oof.
-
-> /usr/include/nspr4/obsolete/protypes.h\052:typedef PRUintn uint;
-> /usr/include/mysql/server/my_global.h\0465:typedef unsigned int uint;
-> /usr/include/boost/iostreams/filter/zlib.hpp\047:typedef uint32_t uint;
-> /usr/include/qt5/QtCore/qglobal.h\0275:typedef unsigned int uint;
-> 
-> in qt it is defined for everything.
-
-Ok.
-
-> ../../../../mnt/code/qemu/full/linux-user/syscall.c:317:32: error: unknown type name ‘uint’; did you mean ‘guint’?
->    317 | _syscall3(int, sys_getdents64, uint, fd, struct linux_dirent64 *, dirp, uint, count);
->        |                                ^~~~
-
-Fixable.
-
-> I will post an RFC with my findings.
-
-Thanks.
-
-
-r~
+diff --git a/target/i386/ops_sse.h b/target/i386/ops_sse.h
+index 0bd6bfad8a..fb63af7afa 100644
+--- a/target/i386/ops_sse.h
++++ b/target/i386/ops_sse.h
+@@ -2497,6 +2497,14 @@ void helper_vpermdq_ymm(Reg *d, Reg *v, Reg *s, uint32_t order)
+     d->Q(1) = r1;
+     d->Q(2) = r2;
+     d->Q(3) = r3;
++    if (order & 0x8) {
++        d->Q(0) = 0;
++        d->Q(1) = 0;
++    }
++    if (order & 0x80) {
++        d->Q(2) = 0;
++        d->Q(3) = 0;
++    }
+ }
+ 
+ void helper_vpermq_ymm(Reg *d, Reg *s, uint32_t order)
+diff --git a/target/i386/tcg/emit.c.inc b/target/i386/tcg/emit.c.inc
+index 95fb4f52fa..4fe8dec427 100644
+--- a/target/i386/tcg/emit.c.inc
++++ b/target/i386/tcg/emit.c.inc
+@@ -2285,7 +2285,7 @@ static void gen_VZEROALL(DisasContext *s, CPUX86State *env, X86DecodedInsn *deco
+ {
+     TCGv_ptr ptr = tcg_temp_new_ptr();
+ 
+-    tcg_gen_addi_ptr(ptr, cpu_env, offsetof(CPUX86State, xmm_t0));
++    tcg_gen_addi_ptr(ptr, cpu_env, offsetof(CPUX86State, xmm_regs));
+     gen_helper_memset(ptr, ptr, tcg_constant_i32(0),
+                       tcg_constant_ptr(CPU_NB_REGS * sizeof(ZMMReg)));
+ }
+-- 
+2.34.1
 
 
