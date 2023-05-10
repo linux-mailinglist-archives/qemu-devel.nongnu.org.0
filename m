@@ -2,71 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9212C6FDDDB
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 May 2023 14:34:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F9176FDDE3
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 May 2023 14:35:34 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pwj0l-0000CQ-TB; Wed, 10 May 2023 08:33:39 -0400
+	id 1pwj2J-00012F-69; Wed, 10 May 2023 08:35:15 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pwj0j-0000C2-96
- for qemu-devel@nongnu.org; Wed, 10 May 2023 08:33:37 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pwj0h-0001iS-Cd
- for qemu-devel@nongnu.org; Wed, 10 May 2023 08:33:36 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1683722014;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=abo54/GvBj3N/D1pOTd6eX6xBgWWBXLqhdmn5FKYX+k=;
- b=N6SUcTXhmvMOcgX+KfNxsEC21QFm91yOpkCDw3JUOYhe6A8JoIE5ZFKoM+OPLKSCu0GE9E
- sQi4MjrlTY/VryanuCGuh/Y+ITliPxXXQDy0mEM8wIBQ6AyyEiawUqFKY5E9i7wwCNzpnl
- zxzjTBb61qFRrDoKFr3fkmhYInthic4=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-313-y3XedZgxPVudSkYADpKkDQ-1; Wed, 10 May 2023 08:33:33 -0400
-X-MC-Unique: y3XedZgxPVudSkYADpKkDQ-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
- [10.11.54.1])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C6CA388B774
- for <qemu-devel@nongnu.org>; Wed, 10 May 2023 12:33:32 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.39.192.121])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A3C9540C2076
- for <qemu-devel@nongnu.org>; Wed, 10 May 2023 12:33:32 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 68D6221E6924; Wed, 10 May 2023 14:33:30 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Daniel P. =?utf-8?Q?Berrang=C3=A9?= <berrange@redhat.com>
-Cc: marcandre.lureau@redhat.com,  qemu-devel@nongnu.org,  Paolo Bonzini
- <pbonzini@redhat.com>
-Subject: Re: [PATCH] chardev: report the handshake error
-References: <20230510072531.3937189-1-marcandre.lureau@redhat.com>
- <877ctg7csj.fsf@pond.sub.org> <ZFtmIDzlZw0/Ygtu@redhat.com>
- <87sfc45vak.fsf@pond.sub.org> <ZFt1QgumeMPN2T8P@redhat.com>
-Date: Wed, 10 May 2023 14:33:30 +0200
-In-Reply-To: <ZFt1QgumeMPN2T8P@redhat.com> ("Daniel P. =?utf-8?Q?Berrang?=
- =?utf-8?Q?=C3=A9=22's?= message of
- "Wed, 10 May 2023 11:43:14 +0100")
-Message-ID: <87edno5pt1.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pwj2H-00010U-Dp
+ for qemu-devel@nongnu.org; Wed, 10 May 2023 08:35:13 -0400
+Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pwj2F-00026T-Kt
+ for qemu-devel@nongnu.org; Wed, 10 May 2023 08:35:13 -0400
+Received: by mail-wm1-x336.google.com with SMTP id
+ 5b1f17b1804b1-3f315712406so244968075e9.0
+ for <qemu-devel@nongnu.org>; Wed, 10 May 2023 05:35:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1683722110; x=1686314110;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=4OmLUr7LTQ0hj+qmOVOXduXS3+EOlTYkssmhDbDZ28I=;
+ b=Zo33HZ36aF9CX28QtUzlIjpZCEJ7LwmBy/L/DgWCA2dG/xsOxA5uJvFluoDDLL2uS8
+ qKQJ6qxg+8tAQ7cv7/QPxy1myM1u2vKlDFrelBhZ6mpgsEzisHiyt/+/yc6ADN7FnaKZ
+ bcgaDh5Pz9Dg1lCB2tW58GE46zZx3DTRY28YiQQBptUQSfQ6ZyzhMU14NwlRk7Fvnnlr
+ uEX6e25zMK5hZlZf6bRFV5AYfSHLfzAqdL4PLJnk3zSePD8e6rNKQ1V44/cVezVgiiYa
+ LzEYd/XFE2rbEkrkar6ANV3CpX5OKgF1/M20R8DbTZgVbq+R3hJD0ziuK7mMOtElcJVM
+ ieEg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1683722110; x=1686314110;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=4OmLUr7LTQ0hj+qmOVOXduXS3+EOlTYkssmhDbDZ28I=;
+ b=lV3H8kSbCoGT5dEKxETZDCdo9ps0Z42eCLKJ3ys0a7AoijTNbssT9o+AbdA5RUE4BF
+ EHNaPRtk/8CMS3XbvJyugzYJ8TnpfDEZAycPAndg25w2UOfmtT/LD1xPwDmkmzT73Xll
+ P+W+FAiwcJU0G1TCD6PKymGFbfSy/hxGW9Ru8XLRzWlSp0tmmNEW7ipmLM49QATx2R0r
+ END3cJNWoR/TBEUgiQ8cKUOWCMbtJK8w/HMY5/NwQPQ+iGZOgpAKHGnPoiJTuOIgsLEb
+ TdcW0wByBNGa5WXDr9fpZWUMm/3l/Xg0BuZLPfgLQUqWqNXM5/bvWPbG4AyUR5SW1JsY
+ D1EQ==
+X-Gm-Message-State: AC+VfDy3hcV8HgEOSWQXqnNABbG1kcrAhAwpftVspk/GPfKUzn2n9Gsf
+ i/4tKLJ2FouHOu9mCv6AzsBO6Q==
+X-Google-Smtp-Source: ACHHUZ7oQ72QMHZoDd/rMDHpYLcLYBbxlO7BxwElP87vIFkL6FsYcjYQTQk+vCcE7TJiVlZOGCCxug==
+X-Received: by 2002:a7b:c856:0:b0:3f4:2d85:bcda with SMTP id
+ c22-20020a7bc856000000b003f42d85bcdamr3012158wml.19.1683722109846; 
+ Wed, 10 May 2023 05:35:09 -0700 (PDT)
+Received: from [192.168.11.23] ([85.9.250.243])
+ by smtp.gmail.com with ESMTPSA id
+ i6-20020adfdec6000000b002c70ce264bfsm17220486wrn.76.2023.05.10.05.35.09
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 10 May 2023 05:35:09 -0700 (PDT)
+Message-ID: <fbe67cac-5135-219f-6c15-7e63e58ce10a@linaro.org>
+Date: Wed, 10 May 2023 13:35:07 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PULL 00/10] Migration 20230509 patches
+Content-Language: en-US
+To: quintela@redhat.com
+Cc: qemu-devel@nongnu.org, "Dr. David Alan Gilbert" <dave@treblig.org>,
+ Leonardo Bras <leobras@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
+ Kevin Wolf <kwolf@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Hailiang Zhang <zhanghailiang@xfusion.com>, Eric Blake <eblake@redhat.com>,
+ qemu-block@nongnu.org, Peter Xu <peterx@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>
+References: <20230509191724.86159-1-quintela@redhat.com>
+ <19eff026-1a50-b0f3-15a5-b0251ab443dd@linaro.org>
+ <87ild08jjq.fsf@secure.mitica>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <87ild08jjq.fsf@secure.mitica>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::336;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x336.google.com
+X-Spam_score_int: -53
+X-Spam_score: -5.4
+X-Spam_bar: -----
+X-Spam_report: (-5.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-3.251,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -84,97 +101,45 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
+On 5/10/23 13:20, Juan Quintela wrote:
+> Richard Henderson <richard.henderson@linaro.org> wrote:
+>> On 5/9/23 20:17, Juan Quintela wrote:
+>>> The following changes since commit 271477b59e723250f17a7e20f139262057921b6a:
+>>>     Merge tag 'compression-code-pull-request' of
+>>> https://gitlab.com/juan.quintela/qemu into staging (2023-05-08
+>>> 20:38:05 +0100)
+>>> are available in the Git repository at:
+>>>     https://gitlab.com/juan.quintela/qemu.git
+>>> tags/migration-20230509-pull-request
+>>> for you to fetch changes up to
+>>> 5f43d297bc2b9530805ad8602c6e2ea284b08628:
+>>>     migration: block incoming colo when capability is disabled
+>>> (2023-05-09 20:52:21 +0200)
+>>> ----------------------------------------------------------------
+>>> Migration Pull request (20230509 vintage)
+>>> Hi
+>>> In this PULL request:
+>>> - 1st part of colo support for multifd (lukas)
+>>> - 1st part of disabling colo option (vladimir)
+>>> Please, apply.
+>>
+>> Build failures.
+>>
+>> https://gitlab.com/qemu-project/qemu/-/jobs/4257605099#L2241
+>>
+>>     85 | void colo_record_bitmap(RAMBlock *block, ram_addr_t *normal, uint normal_num);
+>>        |                                                              ^~~~
+>>        |                                                              u_int
+>>
+> 
+> Grrr
+> 
+> And the worst thing is that hate those types, tried to get then out
+> long, long ago for a similar problem.
 
-> On Wed, May 10, 2023 at 12:34:59PM +0200, Markus Armbruster wrote:
->> Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
->>=20
->> > On Wed, May 10, 2023 at 11:31:40AM +0200, Markus Armbruster wrote:
->> >> marcandre.lureau@redhat.com writes:
->> >>=20
->> >> > From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
->> >> >
->> >> > This can help to debug connection issues.
->> >> >
->> >> > Related to:
->> >> > https://bugzilla.redhat.com/show_bug.cgi?id=3D2196182
->> >> >
->> >> > Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
->> >> > ---
->> >> >  chardev/char-socket.c | 12 ++++++++++--
->> >> >  1 file changed, 10 insertions(+), 2 deletions(-)
->> >> >
->> >> > diff --git a/chardev/char-socket.c b/chardev/char-socket.c
->> >> > index 8c58532171..e8e3a743d5 100644
->> >> > --- a/chardev/char-socket.c
->> >> > +++ b/chardev/char-socket.c
->> >> > @@ -742,8 +742,12 @@ static void tcp_chr_websock_handshake(QIOTask =
-*task, gpointer user_data)
->> >> >  {
->> >> >      Chardev *chr =3D user_data;
->> >> >      SocketChardev *s =3D user_data;
->> >> > +    Error *err =3D NULL;
->> >> >=20=20
->> >> > -    if (qio_task_propagate_error(task, NULL)) {
->> >> > +    if (qio_task_propagate_error(task, &err)) {
->> >> > +        error_reportf_err(err,
->> >> > +                          "websock handshake of character device %=
-s failed: ",
->> >> > +                          chr->label);
->> >>=20
->> >> Code smell: reports an error without failing the function.
->> >>=20
->> >> Should it be a warning instead?
->> >
->> > Well it isn't a warning, this is a fatal error wrt continued use
->> > of the chardev
->> >
->> > Not failing the function is expected in this particular code
->> > pattern. These tcp_chr_(tls,websock)_handshake functions are
->> > callbacks that are used to handle an async operations progress.
->> > From the caller's POV, it doesn't matter whether there is an
->> > error or success. It is upto this function to do whatever is
->> > required based on the status, hence the call to disconnect
->> > the chardev on error:
->> >
->> >> >          tcp_chr_disconnect(chr);
->>=20
->> Can this asynchronous task be started from QMP?
->
-> Yes, from chardev-add.
->
->> If yes, how is this error reported back to the QMP client?
->
-> It isn't, as chardev-add has already completed and returned
-> "success" to the client at this point IIRC.
+Where do these types come from, and can we poison them on the qemu side?
 
-chardev-add's documentation doesn't even hint at this.  It should.
 
-Is there really no need for the QMP client to know?
-
-"QMP command mererly kicks off a task, returns success before the task
-is done, and while the task can still fail" isn't unusual.  When the
-task can take a long / unbounded time, it's necessary to keep QMP
-available.
-
-We have a few flavors of such commands, mostly for historical reasons.
-
-There are ad hoc solutions like "command kicks off, event on successful
-completion".  If you're lucky, there's even "event on unsuccessful
-completion".  Example: device_del, DEVICE_DELETED,
-DEVICE_UNPLUG_GUEST_ERROR.  The latter is a recent addition.
-
-A much better developed solution is the Job abstraction.  Provides
-commands to query and control jobs in flight, and an event on status
-change.  Any error from the asynchronous part gets propagated to the
-(synchronous) query.
-
-Migration is another long-running task, and a world of its own.  I wish
-it was a Job instead.
-
-When we add another asynchronous task, and decide against use of Jobs
-for whatever reasons, we should at least make our ad hoc solution as
-good as the better existing ad hoc solutions: properly documented, and
-with suitable error reporting.
+r~
 
 
