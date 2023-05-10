@@ -2,72 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5761C6FE43D
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 May 2023 20:54:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 698D96FE440
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 May 2023 20:55:37 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pwowR-00061E-FB; Wed, 10 May 2023 14:53:35 -0400
+	id 1pwoxn-0006fd-Gu; Wed, 10 May 2023 14:54:59 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pwowP-00060q-RR
- for qemu-devel@nongnu.org; Wed, 10 May 2023 14:53:33 -0400
-Received: from mail-ed1-x533.google.com ([2a00:1450:4864:20::533])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pwowN-0001qq-OD
- for qemu-devel@nongnu.org; Wed, 10 May 2023 14:53:33 -0400
-Received: by mail-ed1-x533.google.com with SMTP id
- 4fb4d7f45d1cf-50bd37ca954so71882803a12.0
- for <qemu-devel@nongnu.org>; Wed, 10 May 2023 11:53:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1683744809; x=1686336809;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=cIaGVCa4z1B5yNdXLUefPInmKoBbeZzYwSnvQLURcYA=;
- b=EdpmsFIc56dl6bqAr1/8Ik+nG3SkDxR3G+O+MlrzWcYq4IxSP3UdRINyZt41opuHej
- 7QKWVKskzf79A8EQUgEq/x3r2WEQoCx0qrKuNu7O+eDgwNnnGaHfahD0Lx2bDKhoHQWK
- U+jeBWWhHZvXYeW3WMijnOnbex6hOsqJ8It1f5e0VFMrZakbZ4WORXPNewayTO7rDnAk
- d2esnUtQnKq1SuXMgl6XPEK4AxQacBp71mBmb85a0XAfTxcFZeoUwetMumGJW2oXpG4J
- 9JcnnV/cG4BbqEQVaIOvavT/sEYRFYcX6aVJg2Ens9zKjf0fviBQ93qjOqnQxrzDSaW/
- KOhg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683744809; x=1686336809;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=cIaGVCa4z1B5yNdXLUefPInmKoBbeZzYwSnvQLURcYA=;
- b=EqmpBQeiWe7YvOe+7tczUlO550p7WDvsdO75lbKzDNOjSYiv1XyVHmN+CtsqtmHJlw
- Bw3RUjQgGsO869xeY96os9wFz7UhzpjRHGyYDer3sYbMMXZUi001BHQ72FUZ187pROVb
- EJfPHTaRmqfwJZoH1ixm9pRVllzamtK3qVt6GnuOhHCQH29Fuel8W+uUbj29UaLdWgDe
- 2b2ZA9ToulzeFdTrYz316E07zuIGLb0PKzigA++AwMYOxY7DDB94zzKRtiNtsiffxIBR
- Q2zB5hygHEoopzaPYqh5pRiWUgpxjg6DvuXtjksuop19PBzamcaXzTQMBDZbnyQsWVP2
- fWLQ==
-X-Gm-Message-State: AC+VfDxA2brI0KA9YNQU4DP8NkxZgYIbzaxAcnNcCuKD+di4BZeQHkqf
- 65FaZ5pYQFR49WFt1r6vImjPxFHrD70cRfmcYQMBxB1DnTUV/nUJ
-X-Google-Smtp-Source: ACHHUZ4Yj9/y7he8bWwReZ/eevLea36RZ+Qw4ZLJYKIG0bJSzuwKmN3/8KIlLLvRHXFGvONQ1/f76Mr+N/3YueP7Nq4=
-X-Received: by 2002:aa7:c6c7:0:b0:50b:c4d5:3da1 with SMTP id
- b7-20020aa7c6c7000000b0050bc4d53da1mr16005874eds.8.1683744809717; Wed, 10 May
- 2023 11:53:29 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>) id 1pwoxk-0006fB-P3
+ for qemu-devel@nongnu.org; Wed, 10 May 2023 14:54:56 -0400
+Received: from isrv.corpit.ru ([86.62.121.231])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>) id 1pwoxi-0001z6-UZ
+ for qemu-devel@nongnu.org; Wed, 10 May 2023 14:54:56 -0400
+Received: from tsrv.corpit.ru (tsrv.tls.msk.ru [192.168.177.2])
+ by isrv.corpit.ru (Postfix) with ESMTP id AAF894F17;
+ Wed, 10 May 2023 21:54:52 +0300 (MSK)
+Received: from [192.168.177.130] (mjt.wg.tls.msk.ru [192.168.177.130])
+ by tsrv.corpit.ru (Postfix) with ESMTP id 3A14738F0;
+ Wed, 10 May 2023 21:54:51 +0300 (MSK)
+Message-ID: <df848403-385b-c5e6-0a0a-581dd398d90b@msgid.tls.msk.ru>
+Date: Wed, 10 May 2023 21:54:51 +0300
 MIME-Version: 1.0
-References: <20230510170812.663149-1-richard.henderson@linaro.org>
-In-Reply-To: <20230510170812.663149-1-richard.henderson@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Wed, 10 May 2023 19:53:11 +0100
-Message-ID: <CAFEAcA-6EP2ombunHyUHLA4zeTvfVVE5vQ3hO=eV1+Sym63vNA@mail.gmail.com>
-Subject: Re: [PATCH] disas: Fix tabs and braces in disas.c
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-devel@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::533;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x533.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH 1/1] e1000e: Fix tx/rx counters
+Content-Language: en-US
+To: timothee.cocault@gmail.com, qemu-devel@nongnu.org
+Cc: Jason Wang <jasowang@redhat.com>,
+ Dmitry Fleytman <dmitry.fleytman@gmail.com>,
+ Akihiko Odaki <akihiko.odaki@daynix.com>
+References: <366bbcafdb6e0373f0deb105153768a8c0bded87.camel@gmail.com>
+ <6b31f5f523af93d47cac37509caf8036e183e136.camel@gmail.com>
+From: Michael Tokarev <mjt@tls.msk.ru>
+In-Reply-To: <6b31f5f523af93d47cac37509caf8036e183e136.camel@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=86.62.121.231; envelope-from=mjt@tls.msk.ru;
+ helo=isrv.corpit.ru
+X-Spam_score_int: -101
+X-Spam_score: -10.2
+X-Spam_bar: ----------
+X-Spam_report: (-10.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-3.251,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,17 +62,19 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, 10 May 2023 at 18:09, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> Fix these before moving the file, for checkpatch.pl.
->
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  disas.c | 11 ++++++-----
+10.04.2023 18:27, timothee.cocault@gmail.com wrote:
+> The bytes and packets counter registers are cleared on read.
+> 
+> Copying the "total counter" registers to the "good counter" registers has
+> side effects.
+> If the "total" register is never read by the OS, it only gets incremented.
+> This leads to exponential growth of the "good" register.
+> 
+> This commit increments the counters individually to avoid this.
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Smells like a -stable material, is it not?
 
-thanks
--- PMM
+Thanks,
+
+/mjt
 
