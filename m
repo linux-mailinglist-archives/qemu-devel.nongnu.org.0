@@ -2,66 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0BA16FDC93
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 May 2023 13:22:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 63E686FDCD9
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 May 2023 13:37:42 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pwht8-0000ic-1w; Wed, 10 May 2023 07:21:42 -0400
+	id 1pwi7G-0000VF-G8; Wed, 10 May 2023 07:36:18 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pwhsv-0000hN-V3
- for qemu-devel@nongnu.org; Wed, 10 May 2023 07:21:32 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
+ id 1pwi7F-0000UY-2V
+ for qemu-devel@nongnu.org; Wed, 10 May 2023 07:36:17 -0400
+Received: from forwardcorp1c.mail.yandex.net
+ ([2a02:6b8:c03:500:1:45:d181:df01])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pwhsu-0002qr-54
- for qemu-devel@nongnu.org; Wed, 10 May 2023 07:21:29 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1683717686;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=ADb2QSD71HJCm5BxmFmeC/+8o0A3px9XzvQ1Q4TjYM8=;
- b=Wtm847+PsK47/2DZWfnD/Qwifa9yDwkepIIU+q+Rg7YHNyVCXZtjjAuD/pCAP5T9yKBMgn
- UV/xDqOra3Egc6DImRvDy+is6Ot5jrAsoNrGo+DFgnPJEY1TC6Ezq3TM7siFFfgxsgSsEv
- hOI6hv+1LxtYFyzuHGDxSjINIjnfzbc=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-163-y3o2doMsNsu99GGwXgPLJw-1; Wed, 10 May 2023 07:21:23 -0400
-X-MC-Unique: y3o2doMsNsu99GGwXgPLJw-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id BC57E3C0F68A;
- Wed, 10 May 2023 11:21:22 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.194.148])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 8CB084078906;
- Wed, 10 May 2023 11:21:21 +0000 (UTC)
-Date: Wed, 10 May 2023 13:21:19 +0200
-From: Kevin Wolf <kwolf@redhat.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-Cc: qemu-block@nongnu.org, qemu-devel@nongnu.org, hreitz@redhat.com,
- den@openvz.org, alexander.ivanov@virtuozzo.com
-Subject: Re: [PATCH v8 4/5] blockdev: transaction: refactor handling
- transaction properties
-Message-ID: <ZFt+LwvfBi15tVZ9@redhat.com>
-References: <20230421115327.907104-1-vsementsov@yandex-team.ru>
- <20230421115327.907104-5-vsementsov@yandex-team.ru>
+ (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
+ id 1pwi7C-0006KC-BU
+ for qemu-devel@nongnu.org; Wed, 10 May 2023 07:36:16 -0400
+Received: from mail-nwsmtp-smtp-corp-main-62.myt.yp-c.yandex.net
+ (mail-nwsmtp-smtp-corp-main-62.myt.yp-c.yandex.net
+ [IPv6:2a02:6b8:c00:2582:0:640:9a17:0])
+ by forwardcorp1c.mail.yandex.net (Yandex) with ESMTP id 458EC5F3F7;
+ Wed, 10 May 2023 14:36:05 +0300 (MSK)
+Received: from [IPV6:2a02:6b8:b081:2::1:11] (unknown [2a02:6b8:b081:2::1:11])
+ by mail-nwsmtp-smtp-corp-main-62.myt.yp-c.yandex.net
+ (smtpcorp/Yandex) with ESMTPSA id 3aTRNR1MeOs0-ofZn6ref; 
+ Wed, 10 May 2023 14:36:04 +0300
+X-Yandex-Fwd: 1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
+ s=default; 
+ t=1683718564; bh=GthnhyQcili3hiMiiIj2c7yGrvQkDEiVK/JoVGWPOuI=;
+ h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
+ b=bf7N4yz1/DGMIcp/nnTx2RIwwzKmDfumGQwt/32gB5D1z65YeSXVd+Yp/Ml1eRT8l
+ +CS7gLBdDWYNQyhCSngMzuXPniF6Bsf0sWdaWP8Ge7ofFVKNhnBo3nGzvPkosUac/B
+ 7LLFXsu/etjYh/PkqD4kXNwbVDXdLI0ezp6r06R0=
+Authentication-Results: mail-nwsmtp-smtp-corp-main-62.myt.yp-c.yandex.net;
+ dkim=pass header.i=@yandex-team.ru
+Message-ID: <20efd1c7-5f63-73db-6564-5e6f1adf99ae@yandex-team.ru>
+Date: Wed, 10 May 2023 14:36:03 +0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230421115327.907104-5-vsementsov@yandex-team.ru>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH v4 04/10] configure: add --disable-colo-proxy option
+Content-Language: en-US
+To: quintela@redhat.com, "Zhang, Chen" <chen.zhang@intel.com>
+Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "lukasstraub2@web.de" <lukasstraub2@web.de>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
+ <philmd@linaro.org>, Jason Wang <jasowang@redhat.com>
+References: <20230428194928.1426370-1-vsementsov@yandex-team.ru>
+ <20230428194928.1426370-5-vsementsov@yandex-team.ru>
+ <MWHPR11MB0031A6901E847CA3ED49E9AF9B6D9@MWHPR11MB0031.namprd11.prod.outlook.com>
+ <87mt2dbb3k.fsf@secure.mitica>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+In-Reply-To: <87mt2dbb3k.fsf@secure.mitica>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a02:6b8:c03:500:1:45:d181:df01;
+ envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1c.mail.yandex.net
+X-Spam_score_int: -53
+X-Spam_score: -5.4
+X-Spam_bar: -----
+X-Spam_report: (-5.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-3.251,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -78,59 +85,102 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Am 21.04.2023 um 13:53 hat Vladimir Sementsov-Ogievskiy geschrieben:
-> Only backup supports GROUPED mode. Make this logic more clear. And
-> avoid passing extra thing to each action.
+On 09.05.23 21:42, Juan Quintela wrote:
+> "Zhang, Chen" <chen.zhang@intel.com> wrote:
+>>> -----Original Message-----
+>>> From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+>>> Sent: Saturday, April 29, 2023 3:49 AM
+>>> To: qemu-devel@nongnu.org
+>>> Cc: lukasstraub2@web.de; quintela@redhat.com; Zhang, Chen
+>>> <chen.zhang@intel.com>; vsementsov@yandex-team.ru; Paolo Bonzini
+>>> <pbonzini@redhat.com>; Marc-André Lureau
+>>> <marcandre.lureau@redhat.com>; Daniel P. Berrangé
+>>> <berrange@redhat.com>; Thomas Huth <thuth@redhat.com>; Philippe
+>>> Mathieu-Daudé <philmd@linaro.org>; Jason Wang <jasowang@redhat.com>
+>>> Subject: [PATCH v4 04/10] configure: add --disable-colo-proxy option
+>>>
+>>> Add option to not build filter-mirror, filter-rewriter and colo-compare when
+>>> they are not needed.
+>>
+>> Typo: This patch still build the filter-mirror/filter-redirector in filter-mirror.c.
+>> Please remove the "filter-mirror" here.
+>> Other code look good to me.
 > 
-> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-> ---
->  blockdev.c | 92 +++++++++++-------------------------------------------
->  1 file changed, 19 insertions(+), 73 deletions(-)
+> Vladimir, I was doing this myself, with the bit attached.
+> 
+> But then I noticed that one needs to also disable
+> tests/qtest/test-filter-mirror and test-filter-rewriter.
 
-> @@ -2376,18 +2310,34 @@ void qmp_transaction(TransactionActionList *actions,
->                       Error **errp)
->  {
->      TransactionActionList *act;
-> -    bool has_properties = !!properties;
->      JobTxn *block_job_txn = NULL;
->      Error *local_err = NULL;
->      Transaction *tran = tran_new();
-> +    ActionCompletionMode comp_mode =
-> +        properties ? properties->completion_mode :
-> +        ACTION_COMPLETION_MODE_INDIVIDUAL;
->  
->      GLOBAL_STATE_CODE();
->  
->      /* Does this transaction get canceled as a group on failure?
->       * If not, we don't really need to make a JobTxn.
->       */
-> -    properties = get_transaction_properties(properties);
-> -    if (properties->completion_mode != ACTION_COMPLETION_MODE_INDIVIDUAL) {
-> +    if (comp_mode != ACTION_COMPLETION_MODE_INDIVIDUAL) {
-> +        for (act = actions; act; act = act->next) {
-> +            TransactionActionKind type = act->value->type;
-> +
-> +            if (type != TRANSACTION_ACTION_KIND_BLOCKDEV_BACKUP &&
-> +                type != TRANSACTION_ACTION_KIND_DRIVE_BACKUP)
-> +            {
-> +                error_setg(errp,
-> +                           "Action '%s' does not support Transaction property "
+Hmm, but we decided not touch filter-mirror in this patch, only filter-rewriter.
 
-Should this be lower case "transaction"?
+And there is no tests/qtest/test-filter-rewriter test.
 
-> +                           "completion-mode = %s",
-> +                           TransactionActionKind_str(type),
-> +                           ActionCompletionMode_str(comp_mode));
-> +                return;
+> 
+> Can you resend with that fixed?  Or I am missing something more
+> fundamental.
+> 
+> Thanks, Juan.
+> 
+>>> --- a/net/meson.build
+>>> +++ b/net/meson.build
+>>> @@ -1,13 +1,10 @@
+>>>   softmmu_ss.add(files(
+>>>     'announce.c',
+>>>     'checksum.c',
+>>> -  'colo-compare.c',
+>>> -  'colo.c',
+>>>     'dump.c',
+>>>     'eth.c',
+>>>     'filter-buffer.c',
+>>>     'filter-mirror.c',
+>>> -  'filter-rewriter.c',
+>>>     'filter.c',
+>>>     'hub.c',
+>>>     'net-hmp-cmds.c',
+>>> @@ -19,6 +16,16 @@ softmmu_ss.add(files(
+>>>     'util.c',
+>>>   ))
+>>>
+>>> +if get_option('replication').allowed() or \
+>>> +    get_option('colo_proxy').allowed()
+>>> +  softmmu_ss.add(files('colo-compare.c'))
+>>> +  softmmu_ss.add(files('colo.c'))
+>>> +endif
+>>> +
+>>> +if get_option('colo_proxy').allowed()
+>>> +  softmmu_ss.add(files('filter-rewriter.c'))
+>>> +endif
+>>> +
+>>>   softmmu_ss.add(when: 'CONFIG_TCG', if_true: files('filter-replay.c'))
+> 
+> This is the change needed, right?
 
-This leaks tran.
+No, we decided to keep filter-mirror as is.
 
-> +            }
-> +        }
-> +
->          block_job_txn = job_txn_new();
->      }
+> 
+> diff --git a/net/meson.build b/net/meson.build
+> index 6f4ecde57f..e623bb9acb 100644
+> --- a/net/meson.build
+> +++ b/net/meson.build
+> @@ -4,7 +4,6 @@ softmmu_ss.add(files(
+>     'dump.c',
+>     'eth.c',
+>     'filter-buffer.c',
+> -  'filter-mirror.c',
+>     'filter.c',
+>     'hub.c',
+>     'net-hmp-cmds.c',
+> @@ -23,7 +22,7 @@ if get_option('replication').allowed() or \
+>   endif
+>   
+>   if get_option('colo_proxy').allowed()
+> -  softmmu_ss.add(files('filter-rewriter.c'))
+> +  softmmu_ss.add(files('filter-rewriter.c', 'filter-mirror.c'))
+>   endif
+> 
 
-Kevin
+-- 
+Best regards,
+Vladimir
 
 
