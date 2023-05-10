@@ -2,85 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA2086FDB4F
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 May 2023 12:06:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FD256FDB5B
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 May 2023 12:10:56 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pwgh8-0001GS-OH; Wed, 10 May 2023 06:05:14 -0400
+	id 1pwglK-0003YE-HC; Wed, 10 May 2023 06:09:34 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pwgh6-0001G2-Ig
- for qemu-devel@nongnu.org; Wed, 10 May 2023 06:05:12 -0400
-Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pwgh5-0003Kf-15
- for qemu-devel@nongnu.org; Wed, 10 May 2023 06:05:12 -0400
-Received: by mail-wr1-x429.google.com with SMTP id
- ffacd0b85a97d-3064099f9b6so4480334f8f.1
- for <qemu-devel@nongnu.org>; Wed, 10 May 2023 03:05:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1683713109; x=1686305109;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=8CKSVjek81xWbN3WLMP6MIF/QawIQPZxJF0M/RrfV7c=;
- b=hS2gA9/Otsub1NCrNuKaxU8LLuBrvW4yNnzPFztJoqIfZZ5ZnmdAMddVlHqYGIoujT
- rRvy7gFMankVkAvh3s9Y90jXqURUMwIcrYhs+AB6MC2CRkagPZ6hMaA9/QL+mhsZGY3a
- 7hy57FZ7KuMggEJu38viwp35ENGz6M6SkGpdbI19414c1BZ6VGFX/gQZk+3bfoHFiE8a
- fopumFjilJmkY0O2dCipWE6AvIorLXtGpticENhfcSYDha0jFB1P1TrKIBftj7cf89Y7
- 5NX7JPqNRJsLIZCQxELYyBORdQDdbREnTCds0Ddd6oYC5lvcltjcjiv8iep/dMCXyJMi
- +hxg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683713109; x=1686305109;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=8CKSVjek81xWbN3WLMP6MIF/QawIQPZxJF0M/RrfV7c=;
- b=KSmwnkOrmaIRmqLcw+dVUIsxyXIcffHSpCrIfe23qtVYGUAJwSZgndveTVwHXUhCQ3
- VRoykMpM/G+KIadoNBqafLGYB+/JRRt4oFyNqygyRz/VkWYL4FwoKCJZhpHzBzgOPKwG
- IlIWwK8sI9i3Ex0mf5U/jriVUHUkdMOWm4Z6uZVNoG/lOO+4IxQwv86h1RrBP6fpTUXY
- PYn7Vc40j+9xuJGEYarz8S30+91MKXauCzuO1Tt64/EC/QfAbM/CVFSvHI/xVnGbMK0x
- V6yLKgt6oKdUkRySXS+AqeJKdaIxFJMyAJ0iEj7qeZAulYtPtpnkJC6cJnS/Es/p7HlT
- zWzA==
-X-Gm-Message-State: AC+VfDx7B8GWFwQ/cY7EM8Qi4ociiPvqkZM+wbNBs+c7dYksh9vVsBxC
- Pu4NG2Vq2/N8Vh3h6p6YOoyOnQ==
-X-Google-Smtp-Source: ACHHUZ7uVpCVq6WTDdS0jnl4zEYZoiDEeN17gDhoCUSKCnmyDlgmaUCYvdn7UGQYatjPLamYwdPIbA==
-X-Received: by 2002:adf:df0f:0:b0:2fc:7b62:f459 with SMTP id
- y15-20020adfdf0f000000b002fc7b62f459mr11968753wrl.32.1683713109557; 
- Wed, 10 May 2023 03:05:09 -0700 (PDT)
-Received: from [192.168.10.24] ([85.9.250.243])
- by smtp.gmail.com with ESMTPSA id
- f15-20020a5d50cf000000b00304adbeeabbsm16825076wrt.99.2023.05.10.03.05.08
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 10 May 2023 03:05:09 -0700 (PDT)
-Message-ID: <6f6a5858-7050-b592-a2b1-47bf3fdc8c8d@linaro.org>
-Date: Wed, 10 May 2023 11:05:07 +0100
+ (Exim 4.90_1) (envelope-from <yin.wang@intel.com>)
+ id 1pwgl6-0003X0-Ss; Wed, 10 May 2023 06:09:21 -0400
+Received: from mga01.intel.com ([192.55.52.88])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <yin.wang@intel.com>)
+ id 1pwgl4-0003qz-KL; Wed, 10 May 2023 06:09:20 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1683713358; x=1715249358;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=mEKuOaWiJ9zELobWH2yoOdN4C/sWT1HyywFQD2YBLbU=;
+ b=bj6cPqUFbUhYCg62BuvZ3Z4PDV0zvIZWg1x6MFdSVNpSCTV4+JdA2edU
+ cqf47ec1sHj7nki3D+Dmq3apQy7qllZCpcaR3g6Pmfc/NeiitloMKcjLN
+ PLHvS0saw2pCknZtuOr+EBwidJA6jcJJgllEnPnpCXltJr+f4tAAYlwOU
+ zev2j648maCkWmG8b/A1hPWyaxx/99VWGNgmjn3elZhVoIuyMtKkkkjd6
+ ReGVqWZkbMv7uWw9l2SjIXIPv0gLBaQtcUaLjGdSI/L0yR8+vF4OaC/Ch
+ 1jcJnqs8xjSKabRd6+VB7npJPc+CZ3phaWERmA8Oh50NZyNgsU4ub84xC g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10705"; a="378275477"
+X-IronPort-AV: E=Sophos;i="5.99,264,1677571200"; d="scan'208";a="378275477"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 May 2023 03:09:14 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10705"; a="649693496"
+X-IronPort-AV: E=Sophos;i="5.99,264,1677571200"; d="scan'208";a="649693496"
+Received: from yin-optiplex-7090.sh.intel.com ([10.239.160.32])
+ by orsmga003.jf.intel.com with ESMTP; 10 May 2023 03:09:12 -0700
+From: Yin Wang <yin.wang@intel.com>
+To: qemu-devel@nongnu.org
+Cc: Yin Wang <yin.wang@intel.com>, Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Bin Meng <bin.meng@windriver.com>, Weiwei Li <liweiwei@iscas.ac.cn>,
+ Daniel Henrique Barboza <dbarboza@ventanamicro.com>,
+ Liu Zhiwei <zhiwei_liu@linux.alibaba.com>,
+ qemu-riscv@nongnu.org (open list:RISC-V TCG CPUs)
+Subject: [PATCH v2] hw/riscv: qemu crash when NUMA nodes exceed available CPUs
+Date: Wed, 10 May 2023 18:09:09 +0800
+Message-Id: <20230510100909.860243-1-yin.wang@intel.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH v2 12/12] cpu: Replace target_ulong with hwaddr in
- tb_invalidate_phys_addr()
-Content-Language: en-US
-To: Anton Johansson <anjo@rev.ng>, qemu-devel@nongnu.org
-Cc: ale@rev.ng, pbonzini@redhat.com, eduardo@habkost.net, philmd@linaro.org,
- marcel.apfelbaum@gmail.com, wangyanan55@huawei.com
-References: <20230505141403.25735-1-anjo@rev.ng>
- <20230505141403.25735-13-anjo@rev.ng>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20230505141403.25735-13-anjo@rev.ng>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::429;
- envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x429.google.com
-X-Spam_score_int: -24
-X-Spam_score: -2.5
-X-Spam_bar: --
-X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.421,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=192.55.52.88; envelope-from=yin.wang@intel.com;
+ helo=mga01.intel.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -97,14 +77,41 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 5/5/23 15:14, Anton Johansson wrote:
-> Signed-off-by: Anton Johansson<anjo@rev.ng>
-> ---
->   cpu.c                   | 2 +-
->   include/exec/exec-all.h | 2 +-
->   2 files changed, 2 insertions(+), 2 deletions(-)
+Command "qemu-system-riscv64 -machine virt
+-m 2G -smp 1 -numa node,mem=1G -numa node,mem=1G"
+would trigger this problem.Backtrace with:
+ #0  0x0000555555b5b1a4 in riscv_numa_get_default_cpu_node_id  at ../hw/riscv/numa.c:211
+ #1  0x00005555558ce510 in machine_numa_finish_cpu_init  at ../hw/core/machine.c:1230
+ #2  0x00005555558ce9d3 in machine_run_board_init  at ../hw/core/machine.c:1346
+ #3  0x0000555555aaedc3 in qemu_init_board  at ../softmmu/vl.c:2513
+ #4  0x0000555555aaf064 in qmp_x_exit_preconfig  at ../softmmu/vl.c:2609
+ #5  0x0000555555ab1916 in qemu_init  at ../softmmu/vl.c:3617
+ #6  0x000055555585463b in main  at ../softmmu/main.c:47
+This commit fixes the issue by adding parameter checks.
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Signed-off-by: Yin Wang <yin.wang@intel.com>
+---
+ hw/riscv/numa.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-r~
+diff --git a/hw/riscv/numa.c b/hw/riscv/numa.c
+index 4720102561..183d315839 100644
+--- a/hw/riscv/numa.c
++++ b/hw/riscv/numa.c
+@@ -207,6 +207,12 @@ int64_t riscv_numa_get_default_cpu_node_id(const MachineState *ms, int idx)
+ {
+     int64_t nidx = 0;
+ 
++    if (ms->numa_state->num_nodes > ms->smp.cpus) {
++        error_report("Number of CPUs used by NUMA nodes (%d)"
++                   " cannot exceed the number of available CPUs (%d).",
++                   ms->numa_state->num_nodes, ms->smp.max_cpus);
++        exit(EXIT_FAILURE);
++    }
+     if (ms->numa_state->num_nodes) {
+         nidx = idx / (ms->smp.cpus / ms->numa_state->num_nodes);
+         if (ms->numa_state->num_nodes <= nidx) {
+-- 
+2.34.1
+
 
