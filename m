@@ -2,61 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4BFD6FDBC3
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 May 2023 12:33:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4591E6FDBC9
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 May 2023 12:35:19 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pwh75-0005ME-Mg; Wed, 10 May 2023 06:32:03 -0400
+	id 1pwhA3-0003wN-NM; Wed, 10 May 2023 06:35:07 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qianfanguijin@163.com>)
- id 1pwh6i-0004sx-0y; Wed, 10 May 2023 06:31:43 -0400
-Received: from m12.mail.163.com ([220.181.12.216])
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <qianfanguijin@163.com>)
- id 1pwh6e-0008HA-63; Wed, 10 May 2023 06:31:39 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
- s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=8fSOj
- 9FHLD20tnFbzWLo8vjwarYRhtlzUZh39dyHPG8=; b=IF/MkUsH/4kQNWwkK/IQ3
- irbAkrNGZ0T7Zh+tXL//YSzZUMQZ6373L5k6paYX9Y6fZ3Bp+EWbkCWK7eN+SGoX
- hll7qb97czPO8s2dzX3NpwHGpwdckeY4LVQ806yIYdloAf4FEG5ddewr/ptQqnya
- SdP/DAd1ygTwbL3yBk3iKw=
-Received: from DESKTOP-B1R4FVG.localdomain (unknown [218.201.129.19])
- by zwqz-smtp-mta-g1-0 (Coremail) with SMTP id _____wCn0aR8cltkktHiBQ--.58382S2;
- Wed, 10 May 2023 18:31:25 +0800 (CST)
-From: qianfanguijin@163.com
-To: qemu-arm@nongnu.org,
-	qemu-devel@nongnu.org
-Cc: Strahinja Jankovic <strahinja.p.jankovic@gmail.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- Beniamino Galvani <b.galvani@gmail.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Niek Linnenbank <nieklinnenbank@gmail.com>,
- qianfan Zhao <qianfanguijin@163.com>
-Subject: [PATCH v4 11/11] docs: system: arm: Introduce bananapi_m2u
-Date: Wed, 10 May 2023 18:31:23 +0800
-Message-Id: <20230510103123.30118-1-qianfanguijin@163.com>
-X-Mailer: git-send-email 2.25.1
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pwhA0-0003w0-Gp
+ for qemu-devel@nongnu.org; Wed, 10 May 2023 06:35:04 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pwh9y-0000Ml-Sn
+ for qemu-devel@nongnu.org; Wed, 10 May 2023 06:35:04 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1683714902;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=rOwDtk3KONlkARXu1re7lpbAW5asaeK6s4ie7RG484c=;
+ b=h5BvUwEDCm+cwBsG3gpcuyF/1Xe/7ZGZ3ino1X1EPLbgpJd7PdzKGdF5BrsxM05nmXE14R
+ XWKrreBJx2K7/aQ6XexCoWZ5OxsRuAoWBP8/dQDWFvO2AUsMdentESl4csz189tWYZPZTk
+ whe+e0QZTZbjL5iK4hzjoYIA0jLNGb8=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-349-m0rP5SzYPmac-ZIFi6lMTg-1; Wed, 10 May 2023 06:35:00 -0400
+X-MC-Unique: m0rP5SzYPmac-ZIFi6lMTg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A8B6C3C0F68F
+ for <qemu-devel@nongnu.org>; Wed, 10 May 2023 10:35:00 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.39.192.121])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 84D274067582
+ for <qemu-devel@nongnu.org>; Wed, 10 May 2023 10:35:00 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 363D021E6924; Wed, 10 May 2023 12:34:59 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Daniel P. =?utf-8?Q?Berrang=C3=A9?= <berrange@redhat.com>
+Cc: marcandre.lureau@redhat.com,  qemu-devel@nongnu.org,  Paolo Bonzini
+ <pbonzini@redhat.com>
+Subject: Re: [PATCH] chardev: report the handshake error
+References: <20230510072531.3937189-1-marcandre.lureau@redhat.com>
+ <877ctg7csj.fsf@pond.sub.org> <ZFtmIDzlZw0/Ygtu@redhat.com>
+Date: Wed, 10 May 2023 12:34:59 +0200
+In-Reply-To: <ZFtmIDzlZw0/Ygtu@redhat.com> ("Daniel P. =?utf-8?Q?Berrang?=
+ =?utf-8?Q?=C3=A9=22's?= message of
+ "Wed, 10 May 2023 10:38:40 +0100")
+Message-ID: <87sfc45vak.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: _____wCn0aR8cltkktHiBQ--.58382S2
-X-Coremail-Antispam: 1Uf129KBjvJXoWxuw4fCF4ruF4fCr1xZw47urg_yoW7Aw4fpF
- yvka15KrWkJF1Fya97Kw1fWFy5Xas5ArWUJF1kJ34rtF98Kr1vvwn3Kwn8Wasrtw4Ivw10
- qrW7GF12gwn8J3DanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0pM2NZrUUUUU=
-X-Originating-IP: [218.201.129.19]
-X-CM-SenderInfo: htld0w5dqj3xxmlqqiywtou0bp/1tbiGgFr7VaEFME5ggAAsh
-Received-SPF: pass client-ip=220.181.12.216;
- envelope-from=qianfanguijin@163.com; helo=m12.mail.163.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01,
- WEIRD_QUOTING=0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -72,161 +83,62 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: qianfan Zhao <qianfanguijin@163.com>
+Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
 
-Add documents for Banana Pi M2U
+> On Wed, May 10, 2023 at 11:31:40AM +0200, Markus Armbruster wrote:
+>> marcandre.lureau@redhat.com writes:
+>>=20
+>> > From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+>> >
+>> > This can help to debug connection issues.
+>> >
+>> > Related to:
+>> > https://bugzilla.redhat.com/show_bug.cgi?id=3D2196182
+>> >
+>> > Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+>> > ---
+>> >  chardev/char-socket.c | 12 ++++++++++--
+>> >  1 file changed, 10 insertions(+), 2 deletions(-)
+>> >
+>> > diff --git a/chardev/char-socket.c b/chardev/char-socket.c
+>> > index 8c58532171..e8e3a743d5 100644
+>> > --- a/chardev/char-socket.c
+>> > +++ b/chardev/char-socket.c
+>> > @@ -742,8 +742,12 @@ static void tcp_chr_websock_handshake(QIOTask *ta=
+sk, gpointer user_data)
+>> >  {
+>> >      Chardev *chr =3D user_data;
+>> >      SocketChardev *s =3D user_data;
+>> > +    Error *err =3D NULL;
+>> >=20=20
+>> > -    if (qio_task_propagate_error(task, NULL)) {
+>> > +    if (qio_task_propagate_error(task, &err)) {
+>> > +        error_reportf_err(err,
+>> > +                          "websock handshake of character device %s f=
+ailed: ",
+>> > +                          chr->label);
+>>=20
+>> Code smell: reports an error without failing the function.
+>>=20
+>> Should it be a warning instead?
+>
+> Well it isn't a warning, this is a fatal error wrt continued use
+> of the chardev
+>
+> Not failing the function is expected in this particular code
+> pattern. These tcp_chr_(tls,websock)_handshake functions are
+> callbacks that are used to handle an async operations progress.
+> From the caller's POV, it doesn't matter whether there is an
+> error or success. It is upto this function to do whatever is
+> required based on the status, hence the call to disconnect
+> the chardev on error:
+>
+>> >          tcp_chr_disconnect(chr);
 
-Signed-off-by: qianfan Zhao <qianfanguijin@163.com>
----
- docs/system/arm/bananapi_m2u.rst | 138 +++++++++++++++++++++++++++++++
- 1 file changed, 138 insertions(+)
- create mode 100644 docs/system/arm/bananapi_m2u.rst
+Can this asynchronous task be started from QMP?
 
-diff --git a/docs/system/arm/bananapi_m2u.rst b/docs/system/arm/bananapi_m2u.rst
-new file mode 100644
-index 0000000000..ae7194a9df
---- /dev/null
-+++ b/docs/system/arm/bananapi_m2u.rst
-@@ -0,0 +1,138 @@
-+Banana Pi BPI-M2U (``bpim2u``)
-+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-+
-+Banana Pi BPI-M2 Ultra is a quad-core mini single board computer built with
-+Allwinner A40i/R40/V40 SoC. It features 2GB of RAM and 8GB eMMC. It also
-+has onboard WiFi and BT. On the ports side, the BPI-M2 Ultra has 2 USB A
-+2.0 ports, 1 USB OTG port, 1 HDMI port, 1 audio jack, a DC power port,
-+and last but not least, a SATA port.
-+
-+Supported devices
-+"""""""""""""""""
-+
-+The Banana Pi M2U machine supports the following devices:
-+
-+ * SMP (Quad Core Cortex-A7)
-+ * Generic Interrupt Controller configuration
-+ * SRAM mappings
-+ * SDRAM controller
-+ * Timer device (re-used from Allwinner A10)
-+ * UART
-+ * SD/MMC storage controller
-+ * EMAC ethernet
-+ * GMAC ethernet
-+ * Clock Control Unit
-+ * TWI (I2C)
-+
-+Limitations
-+"""""""""""
-+
-+Currently, Banana Pi M2U does *not* support the following features:
-+
-+- Graphical output via HDMI, GPU and/or the Display Engine
-+- Audio output
-+- Hardware Watchdog
-+- Real Time Clock
-+- USB 2.0 interfaces
-+
-+Also see the 'unimplemented' array in the Allwinner R40 SoC module
-+for a complete list of unimplemented I/O devices: ``./hw/arm/allwinner-r40.c``
-+
-+Boot options
-+""""""""""""
-+
-+The Banana Pi M2U machine can start using the standard -kernel functionality
-+for loading a Linux kernel or ELF executable. Additionally, the Banana Pi M2U
-+machine can also emulate the BootROM which is present on an actual Allwinner R40
-+based SoC, which loads the bootloader from a SD card, specified via the -sd
-+argument to qemu-system-arm.
-+
-+Running mainline Linux
-+""""""""""""""""""""""
-+
-+To build a Linux mainline kernel that can be booted by the Banana Pi M2U machine,
-+simply configure the kernel using the sunxi_defconfig configuration:
-+
-+.. code-block:: bash
-+
-+  $ ARCH=arm CROSS_COMPILE=arm-linux-gnueabi- make mrproper
-+  $ ARCH=arm CROSS_COMPILE=arm-linux-gnueabi- make sunxi_defconfig
-+
-+To boot the newly build linux kernel in QEMU with the Banana Pi M2U machine, use:
-+
-+.. code-block:: bash
-+
-+  $ qemu-system-arm -M bpim2u -nographic \
-+      -kernel /path/to/linux/arch/arm/boot/zImage \
-+      -append 'console=ttyS0,115200' \
-+      -dtb /path/to/linux/arch/arm/boot/dts/sun8i-r40-bananapi-m2-ultra.dtb
-+
-+Banana Pi M2U images
-+""""""""""""""""""""
-+
-+Note that the mainline kernel does not have a root filesystem. You can choose
-+to build you own image with buildroot using the bananapi_m2_ultra_defconfig.
-+Also see https://buildroot.org for more information.
-+
-+Another possibility is to run an OpenWrt image for Banana Pi M2U which
-+can be downloaded from:
-+
-+   https://downloads.openwrt.org/releases/22.03.3/targets/sunxi/cortexa7/
-+
-+When using an image as an SD card, it must be resized to a power of two. This can be
-+done with the ``qemu-img`` command. It is recommended to only increase the image size
-+instead of shrinking it to a power of two, to avoid loss of data. For example,
-+to prepare a downloaded Armbian image, first extract it and then increase
-+its size to one gigabyte as follows:
-+
-+.. code-block:: bash
-+
-+  $ qemu-img resize \
-+    openwrt-22.03.3-sunxi-cortexa7-sinovoip_bananapi-m2-ultra-ext4-sdcard.img \
-+    1G
-+
-+Instead of providing a custom Linux kernel via the -kernel command you may also
-+choose to let the Banana Pi M2U machine load the bootloader from SD card, just like
-+a real board would do using the BootROM. Simply pass the selected image via the -sd
-+argument and remove the -kernel, -append, -dbt and -initrd arguments:
-+
-+.. code-block:: bash
-+
-+  $ qemu-system-arm -M bpim2u -nic user -nographic \
-+    -sd openwrt-22.03.3-sunxi-cortexa7-sinovoip_bananapi-m2-ultra-ext4-sdcard.img
-+
-+Running U-Boot
-+""""""""""""""
-+
-+U-Boot mainline can be build and configured using the Bananapi_M2_Ultra_defconfig
-+using similar commands as describe above for Linux. Note that it is recommended
-+for development/testing to select the following configuration setting in U-Boot:
-+
-+  Device Tree Control > Provider for DTB for DT Control > Embedded DTB
-+
-+The BootROM of allwinner R40 loading u-boot from the 8KiB offset of sdcard.
-+Let's create an bootable disk image:
-+
-+.. code-block:: bash
-+
-+  $ dd if=/dev/zero of=sd.img bs=32M count=1
-+  $ dd if=u-boot-sunxi-with-spl.bin of=sd.img bs=1k seek=8 conv=notrunc
-+
-+And then boot it.
-+
-+.. code-block:: bash
-+  $ qemu-system-arm -M bpim2u -nographic -sd sd.img
-+
-+Banana Pi M2U integration tests
-+""""""""""""""""""""""""""""""
-+
-+The Banana Pi M2U machine has several integration tests included.
-+To run the whole set of tests, build QEMU from source and simply
-+provide the following command:
-+
-+.. code-block:: bash
-+
-+  $ cd qemu-build-dir
-+  $ AVOCADO_ALLOW_LARGE_STORAGE=yes tests/venv/bin/avocado \
-+    --verbose --show=app,console run -t machine:bpim2u \
-+    ../tests/avocado/boot_linux_console.py
--- 
-2.25.1
+If yes, how is this error reported back to the QMP client?
+
+[...]
 
 
