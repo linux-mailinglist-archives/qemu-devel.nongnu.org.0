@@ -2,53 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 281B26FDC5D
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 May 2023 13:12:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 059EF6FDC6E
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 May 2023 13:16:51 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pwhjR-0002Ff-9E; Wed, 10 May 2023 07:11:42 -0400
+	id 1pwhnv-0004qa-Ft; Wed, 10 May 2023 07:16:19 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhiwei_liu@linux.alibaba.com>)
- id 1pwhjB-00026a-7v; Wed, 10 May 2023 07:11:27 -0400
-Received: from out30-112.freemail.mail.aliyun.com ([115.124.30.112])
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pwhnr-0004pQ-HE
+ for qemu-devel@nongnu.org; Wed, 10 May 2023 07:16:15 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhiwei_liu@linux.alibaba.com>)
- id 1pwhj8-0000jp-Fz; Wed, 10 May 2023 07:11:24 -0400
-X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R191e4; CH=green; DM=||false|;
- DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=ay29a033018045192;
- MF=zhiwei_liu@linux.alibaba.com; NM=1; PH=DS; RN=9; SR=0;
- TI=SMTPD_---0ViFryqe_1683717074; 
-Received: from 30.221.98.74(mailfrom:zhiwei_liu@linux.alibaba.com
- fp:SMTPD_---0ViFryqe_1683717074) by smtp.aliyun-inc.com;
- Wed, 10 May 2023 19:11:15 +0800
-Message-ID: <0a402a2d-f250-c41a-f408-fa275cfd571c@linux.alibaba.com>
-Date: Wed, 10 May 2023 19:11:07 +0800
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pwhno-0001rn-10
+ for qemu-devel@nongnu.org; Wed, 10 May 2023 07:16:15 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1683717370;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=Vb06uTZHD2amsvZo2fGYjcKGOYtUilec5gQlx1OgND8=;
+ b=Tbl+M7wcVcdRYHDxpsOdIV2BUHx8AGcRFFyaUqnMJtSZ+PI8qBMWatTfuRgD4kTD7Fmjoi
+ 417wKg+xt1cuzov9HIN06WImPhSaI+e64jnz79EpCuNbnlmd26Y+POHEs6xCSDjAV/2goV
+ iSKJbz9aX28YlQw6MVWuIuhUCz0RUn4=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-568-B_9MU-RsP0CpLffiSjuyQg-1; Wed, 10 May 2023 07:16:07 -0400
+X-MC-Unique: B_9MU-RsP0CpLffiSjuyQg-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.4])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0D5E92811BC9;
+ Wed, 10 May 2023 11:16:07 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.194.148])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0C97D2026D25;
+ Wed, 10 May 2023 11:16:05 +0000 (UTC)
+Date: Wed, 10 May 2023 13:16:04 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+Cc: qemu-block@nongnu.org, qemu-devel@nongnu.org, hreitz@redhat.com,
+ den@openvz.org, alexander.ivanov@virtuozzo.com
+Subject: Re: [PATCH v8 2/5] blockdev: transactions: rename some things
+Message-ID: <ZFt89PEmN7GWc1di@redhat.com>
+References: <20230421115327.907104-1-vsementsov@yandex-team.ru>
+ <20230421115327.907104-3-vsementsov@yandex-team.ru>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.1
-Subject: Re: [PATCH] target/riscv: Move zc* out of the experimental properties
-Content-Language: en-US
-To: Weiwei Li <liweiwei@iscas.ac.cn>, qemu-riscv@nongnu.org,
- qemu-devel@nongnu.org
-Cc: palmer@dabbelt.com, alistair.francis@wdc.com, bin.meng@windriver.com,
- dbarboza@ventanamicro.com, wangjunqiang@iscas.ac.cn, lazyparser@gmail.com
-References: <20230510030040.20528-1-liweiwei@iscas.ac.cn>
-From: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
-In-Reply-To: <20230510030040.20528-1-liweiwei@iscas.ac.cn>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=115.124.30.112;
- envelope-from=zhiwei_liu@linux.alibaba.com;
- helo=out30-112.freemail.mail.aliyun.com
-X-Spam_score_int: -131
-X-Spam_score: -13.2
-X-Spam_bar: -------------
-X-Spam_report: (-13.2 / 5.0 requ) BAYES_00=-1.9, ENV_AND_HDR_SPF_MATCH=-0.5,
- NICE_REPLY_A=-3.251, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01, UNPARSEABLE_RELAY=0.001,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230421115327.907104-3-vsementsov@yandex-team.ru>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -64,53 +78,22 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+Am 21.04.2023 um 13:53 hat Vladimir Sementsov-Ogievskiy geschrieben:
+> Look at qmp_transaction(): dev_list is not obvious name for list of
+> actions. Let's look at qapi spec, this argument is "actions". Let's
+> follow the common practice of using same argument names in qapi scheme
+> and code.
+> 
+> To be honest, rename props to properties for same reason.
+> 
+> Next, we have to rename global map of actions, to not conflict with new
+> name for function argument.
+> 
+> Rename also dev_entry loop variable accordingly to new name of the
+> list.
+> 
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
 
-On 2023/5/10 11:00, Weiwei Li wrote:
-> Zc* extensions (version 1.0) are ratified.
->
-> Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
-> Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
-> ---
->   target/riscv/cpu.c | 16 ++++++++--------
->   1 file changed, 8 insertions(+), 8 deletions(-)
->
-> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-> index db0875fb43..99ed9cb80e 100644
-> --- a/target/riscv/cpu.c
-> +++ b/target/riscv/cpu.c
-> @@ -1571,6 +1571,14 @@ static Property riscv_cpu_extensions[] = {
->   
->       DEFINE_PROP_BOOL("zmmul", RISCVCPU, cfg.ext_zmmul, false),
->   
-> +    DEFINE_PROP_BOOL("zca", RISCVCPU, cfg.ext_zca, false),
-> +    DEFINE_PROP_BOOL("zcb", RISCVCPU, cfg.ext_zcb, false),
-> +    DEFINE_PROP_BOOL("zcd", RISCVCPU, cfg.ext_zcd, false),
-> +    DEFINE_PROP_BOOL("zce", RISCVCPU, cfg.ext_zce, false),
-> +    DEFINE_PROP_BOOL("zcf", RISCVCPU, cfg.ext_zcf, false),
-> +    DEFINE_PROP_BOOL("zcmp", RISCVCPU, cfg.ext_zcmp, false),
-> +    DEFINE_PROP_BOOL("zcmt", RISCVCPU, cfg.ext_zcmt, false),
-> +
+Reviewed-by: Kevin Wolf <kwolf@redhat.com>
 
-Reviewed-by: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
-
-Zhiwei
-
->       /* Vendor-specific custom extensions */
->       DEFINE_PROP_BOOL("xtheadba", RISCVCPU, cfg.ext_xtheadba, false),
->       DEFINE_PROP_BOOL("xtheadbb", RISCVCPU, cfg.ext_xtheadbb, false),
-> @@ -1588,14 +1596,6 @@ static Property riscv_cpu_extensions[] = {
->       /* These are experimental so mark with 'x-' */
->       DEFINE_PROP_BOOL("x-zicond", RISCVCPU, cfg.ext_zicond, false),
->   
-> -    DEFINE_PROP_BOOL("x-zca", RISCVCPU, cfg.ext_zca, false),
-> -    DEFINE_PROP_BOOL("x-zcb", RISCVCPU, cfg.ext_zcb, false),
-> -    DEFINE_PROP_BOOL("x-zcd", RISCVCPU, cfg.ext_zcd, false),
-> -    DEFINE_PROP_BOOL("x-zce", RISCVCPU, cfg.ext_zce, false),
-> -    DEFINE_PROP_BOOL("x-zcf", RISCVCPU, cfg.ext_zcf, false),
-> -    DEFINE_PROP_BOOL("x-zcmp", RISCVCPU, cfg.ext_zcmp, false),
-> -    DEFINE_PROP_BOOL("x-zcmt", RISCVCPU, cfg.ext_zcmt, false),
-> -
->       /* ePMP 0.9.3 */
->       DEFINE_PROP_BOOL("x-epmp", RISCVCPU, cfg.epmp, false),
->       DEFINE_PROP_BOOL("x-smaia", RISCVCPU, cfg.ext_smaia, false),
 
