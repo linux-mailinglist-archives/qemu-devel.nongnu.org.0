@@ -2,67 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 567846FDDF7
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 May 2023 14:40:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 33CA36FDE1A
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 May 2023 14:50:41 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pwj78-0004F3-G1; Wed, 10 May 2023 08:40:14 -0400
+	id 1pwjFo-0000Sb-U5; Wed, 10 May 2023 08:49:12 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
- id 1pwj6s-0004DJ-Ks; Wed, 10 May 2023 08:40:00 -0400
-Received: from smtp25.cstnet.cn ([159.226.251.25] helo=cstnet.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <liweiwei@iscas.ac.cn>)
- id 1pwj6o-0002s1-By; Wed, 10 May 2023 08:39:56 -0400
-Received: from [192.168.0.120] (unknown [61.165.33.195])
- by APP-05 (Coremail) with SMTP id zQCowADn72ePkFtkkDSPIQ--.30012S2;
- Wed, 10 May 2023 20:39:44 +0800 (CST)
-Message-ID: <f8da3c0d-5a52-17bf-f8ea-ae72eda7533b@iscas.ac.cn>
-Date: Wed, 10 May 2023 20:39:43 +0800
+ (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
+ id 1pwjFm-0000SN-B0
+ for qemu-devel@nongnu.org; Wed, 10 May 2023 08:49:10 -0400
+Received: from forwardcorp1a.mail.yandex.net
+ ([2a02:6b8:c0e:500:1:45:d181:df01])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
+ id 1pwjFj-0005p4-Jq
+ for qemu-devel@nongnu.org; Wed, 10 May 2023 08:49:10 -0400
+Received: from mail-nwsmtp-smtp-corp-main-83.vla.yp-c.yandex.net
+ (mail-nwsmtp-smtp-corp-main-83.vla.yp-c.yandex.net
+ [IPv6:2a02:6b8:c18:1421:0:640:53a0:0])
+ by forwardcorp1a.mail.yandex.net (Yandex) with ESMTP id CDA9860407;
+ Wed, 10 May 2023 15:48:58 +0300 (MSK)
+Received: from [IPV6:2a02:6b8:b081:2::1:11] (unknown [2a02:6b8:b081:2::1:11])
+ by mail-nwsmtp-smtp-corp-main-83.vla.yp-c.yandex.net
+ (smtpcorp/Yandex) with ESMTPSA id vmUjLI2OmiE0-scs83phx; 
+ Wed, 10 May 2023 15:48:58 +0300
+X-Yandex-Fwd: 1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
+ s=default; 
+ t=1683722938; bh=yFSHrB+Hgs3ksL1LmON1jxAclVeKROzNVIR5WzaX4TA=;
+ h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
+ b=qCumkIZYKqTHcZAbyosdABEBvzDJ+Li1dPyzbMoYs5tbdSvmTDcLHot6pcWyT5Q6d
+ aOIvJAMq02n8dvY8cMLJZkKd5hASHvCC1Lh7mYkNGqethpou/8YVkW43qgRwkHch8V
+ 7wGFe0Fy21azDTB3TVzPFW+EylUOGES8Tvk3/x1Q=
+Authentication-Results: mail-nwsmtp-smtp-corp-main-83.vla.yp-c.yandex.net;
+ dkim=pass header.i=@yandex-team.ru
+Message-ID: <2c554e38-cf95-ee51-d362-5b80dcf596c6@yandex-team.ru>
+Date: Wed, 10 May 2023 15:48:57 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Cc: liweiwei@iscas.ac.cn, palmer@dabbelt.com, alistair.francis@wdc.com,
- bin.meng@windriver.com, zhiwei_liu@linux.alibaba.com,
- wangjunqiang@iscas.ac.cn, lazyparser@gmail.com
-Subject: Re: [PATCH] target/riscv: Move zc* out of the experimental properties
+ Thunderbird/102.9.0
+Subject: Re: [PATCH v4 04/10] configure: add --disable-colo-proxy option
 Content-Language: en-US
-To: Daniel Henrique Barboza <dbarboza@ventanamicro.com>,
- qemu-riscv@nongnu.org, qemu-devel@nongnu.org
-References: <20230510030040.20528-1-liweiwei@iscas.ac.cn>
- <ab9c553e-7f38-e1c3-7ac9-4c4814d04ded@ventanamicro.com>
-From: Weiwei Li <liweiwei@iscas.ac.cn>
-In-Reply-To: <ab9c553e-7f38-e1c3-7ac9-4c4814d04ded@ventanamicro.com>
+To: quintela@redhat.com
+Cc: "Zhang, Chen" <chen.zhang@intel.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "lukasstraub2@web.de" <lukasstraub2@web.de>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
+ <philmd@linaro.org>, Jason Wang <jasowang@redhat.com>
+References: <20230428194928.1426370-1-vsementsov@yandex-team.ru>
+ <20230428194928.1426370-5-vsementsov@yandex-team.ru>
+ <MWHPR11MB0031A6901E847CA3ED49E9AF9B6D9@MWHPR11MB0031.namprd11.prod.outlook.com>
+ <87mt2dbb3k.fsf@secure.mitica>
+ <20efd1c7-5f63-73db-6564-5e6f1adf99ae@yandex-team.ru>
+ <87r0ro8jno.fsf@secure.mitica>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+In-Reply-To: <87r0ro8jno.fsf@secure.mitica>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: zQCowADn72ePkFtkkDSPIQ--.30012S2
-X-Coremail-Antispam: 1UD129KBjvJXoWxGF4kuF13tF1UKFWktw4ruFg_yoW5Zr43pr
- n5GFW7K39xCr95CrW8tr1DJrW8Cw15AasrK3yFva97ArWIkrnFgF1DWr4vgr4xJr4rZw4I
- gF43ur1IvrZ5ta7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUU9K14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
- rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
- 1l84ACjcxK6xIIjxv20xvE14v26w1j6s0DM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4U
- JVWxJr1l84ACjcxK6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gc
- CE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E
- 2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJV
- W8JwACjcxG0xvEwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lFIxGxcIEc7CjxVA2Y2ka
- 0xkIwI1lc7I2V7IY0VAS07AlzVAYIcxG8wCY02Avz4vE14v_Xr1l42xK82IYc2Ij64vIr4
- 1l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK
- 67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI
- 8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8VAv
- wI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14
- v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjfU5rWrDUUUU
-X-Originating-IP: [61.165.33.195]
-X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
-Received-SPF: pass client-ip=159.226.251.25; envelope-from=liweiwei@iscas.ac.cn;
- helo=cstnet.cn
-X-Spam_score_int: -58
-X-Spam_score: -5.9
+Received-SPF: pass client-ip=2a02:6b8:c0e:500:1:45:d181:df01;
+ envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1a.mail.yandex.net
+X-Spam_score_int: -53
+X-Spam_score: -5.4
 X-Spam_bar: -----
-X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-3.251,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+X-Spam_report: (-5.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-3.251,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,77 +88,85 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-
-On 2023/5/10 20:23, Daniel Henrique Barboza wrote:
->
->
-> On 5/10/23 00:00, Weiwei Li wrote:
->> Zc* extensions (version 1.0) are ratified.
+On 10.05.23 15:18, Juan Quintela wrote:
+> Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru> wrote:
+>> On 09.05.23 21:42, Juan Quintela wrote:
+>>> "Zhang, Chen" <chen.zhang@intel.com> wrote:
+>>>>> -----Original Message-----
+>>>>> From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+>>>>> Sent: Saturday, April 29, 2023 3:49 AM
+>>>>> To: qemu-devel@nongnu.org
+>>>>> Cc: lukasstraub2@web.de; quintela@redhat.com; Zhang, Chen
+>>>>> <chen.zhang@intel.com>; vsementsov@yandex-team.ru; Paolo Bonzini
+>>>>> <pbonzini@redhat.com>; Marc-André Lureau
+>>>>> <marcandre.lureau@redhat.com>; Daniel P. Berrangé
+>>>>> <berrange@redhat.com>; Thomas Huth <thuth@redhat.com>; Philippe
+>>>>> Mathieu-Daudé <philmd@linaro.org>; Jason Wang <jasowang@redhat.com>
+>>>>> Subject: [PATCH v4 04/10] configure: add --disable-colo-proxy option
+>>>>>
+>>>>> Add option to not build filter-mirror, filter-rewriter and colo-compare when
+>>>>> they are not needed.
+>>>>
+>>>> Typo: This patch still build the filter-mirror/filter-redirector in filter-mirror.c.
+>>>> Please remove the "filter-mirror" here.
+>>>> Other code look good to me.
+>>> Vladimir, I was doing this myself, with the bit attached.
+>>> But then I noticed that one needs to also disable
+>>> tests/qtest/test-filter-mirror and test-filter-rewriter.
 >>
->> Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
->> Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
->> ---
->>   target/riscv/cpu.c | 16 ++++++++--------
->>   1 file changed, 8 insertions(+), 8 deletions(-)
+>> Hmm, but we decided not touch filter-mirror in this patch, only filter-rewriter.
 >>
->> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
->> index db0875fb43..99ed9cb80e 100644
->> --- a/target/riscv/cpu.c
->> +++ b/target/riscv/cpu.c
->> @@ -1571,6 +1571,14 @@ static Property riscv_cpu_extensions[] = {
->>         DEFINE_PROP_BOOL("zmmul", RISCVCPU, cfg.ext_zmmul, false),
->>   +    DEFINE_PROP_BOOL("zca", RISCVCPU, cfg.ext_zca, false),
->> +    DEFINE_PROP_BOOL("zcb", RISCVCPU, cfg.ext_zcb, false),
->> +    DEFINE_PROP_BOOL("zcd", RISCVCPU, cfg.ext_zcd, false),
->> +    DEFINE_PROP_BOOL("zce", RISCVCPU, cfg.ext_zce, false),
->> +    DEFINE_PROP_BOOL("zcf", RISCVCPU, cfg.ext_zcf, false),
->
-> I see that zcf has a different ordering in isa_edata_arr[]. Is this 
-> intended?
+>> And there is no tests/qtest/test-filter-rewriter test.
+>>
+>>> Can you resend with that fixed?  Or I am missing something more
+>>> fundamental.
+>>> Thanks, Juan.
+>>>
+>>>>> --- a/net/meson.build
+>>>>> +++ b/net/meson.build
+>>>>> @@ -1,13 +1,10 @@
+>>>>>    softmmu_ss.add(files(
+>>>>>      'announce.c',
+>>>>>      'checksum.c',
+>>>>> -  'colo-compare.c',
+>>>>> -  'colo.c',
+>>>>>      'dump.c',
+>>>>>      'eth.c',
+>>>>>      'filter-buffer.c',
+>>>>>      'filter-mirror.c',
+>>>>> -  'filter-rewriter.c',
+>>>>>      'filter.c',
+>>>>>      'hub.c',
+>>>>>      'net-hmp-cmds.c',
+>>>>> @@ -19,6 +16,16 @@ softmmu_ss.add(files(
+>>>>>      'util.c',
+>>>>>    ))
+>>>>>
+>>>>> +if get_option('replication').allowed() or \
+>>>>> +    get_option('colo_proxy').allowed()
+>>>>> +  softmmu_ss.add(files('colo-compare.c'))
+>>>>> +  softmmu_ss.add(files('colo.c'))
+>>>>> +endif
+>>>>> +
+>>>>> +if get_option('colo_proxy').allowed()
+>>>>> +  softmmu_ss.add(files('filter-rewriter.c'))
+>>>>> +endif
+>>>>> +
+>>>>>    softmmu_ss.add(when: 'CONFIG_TCG', if_true: files('filter-replay.c'))
+>>> This is the change needed, right?
+>>
+>> No, we decided to keep filter-mirror as is.
+> 
+> Ok.  Anyways, this bit needs an ACK from Network Maintainer or go
+> through their tree.
+> 
 
-Not really intended. But they are related to F and D extension, and F is 
-before D insingle letter extensions.
+I think r-b from Zhang is enough, he is maintainer of COLO Proxy, which includes filter-rewriter.
 
-Regards,
+(anyway, I'll resend the rest of the series when you PULL request merged)
 
-Weiwei Li
-
-
->
->     ISA_EXT_DATA_ENTRY(zca, PRIV_VERSION_1_12_0, ext_zca),
->     ISA_EXT_DATA_ENTRY(zcb, PRIV_VERSION_1_12_0, ext_zcb),
->     ISA_EXT_DATA_ENTRY(zcf, PRIV_VERSION_1_12_0, ext_zcf),
->     ISA_EXT_DATA_ENTRY(zcd, PRIV_VERSION_1_12_0, ext_zcd),
->     ISA_EXT_DATA_ENTRY(zce, PRIV_VERSION_1_12_0, ext_zce),
->
->
-> Not related to this patch per se. Just wondered if there's some reason 
-> for the
-> different ordering between these arrays.
->
->
-> Reviewed-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
->
->
->> +    DEFINE_PROP_BOOL("zcmp", RISCVCPU, cfg.ext_zcmp, false),
->> +    DEFINE_PROP_BOOL("zcmt", RISCVCPU, cfg.ext_zcmt, false),
->> +
->>       /* Vendor-specific custom extensions */
->>       DEFINE_PROP_BOOL("xtheadba", RISCVCPU, cfg.ext_xtheadba, false),
->>       DEFINE_PROP_BOOL("xtheadbb", RISCVCPU, cfg.ext_xtheadbb, false),
->> @@ -1588,14 +1596,6 @@ static Property riscv_cpu_extensions[] = {
->>       /* These are experimental so mark with 'x-' */
->>       DEFINE_PROP_BOOL("x-zicond", RISCVCPU, cfg.ext_zicond, false),
->>   -    DEFINE_PROP_BOOL("x-zca", RISCVCPU, cfg.ext_zca, false),
->> -    DEFINE_PROP_BOOL("x-zcb", RISCVCPU, cfg.ext_zcb, false),
->> -    DEFINE_PROP_BOOL("x-zcd", RISCVCPU, cfg.ext_zcd, false),
->> -    DEFINE_PROP_BOOL("x-zce", RISCVCPU, cfg.ext_zce, false),
->> -    DEFINE_PROP_BOOL("x-zcf", RISCVCPU, cfg.ext_zcf, false),
->> -    DEFINE_PROP_BOOL("x-zcmp", RISCVCPU, cfg.ext_zcmp, false),
->> -    DEFINE_PROP_BOOL("x-zcmt", RISCVCPU, cfg.ext_zcmt, false),
->> -
->>       /* ePMP 0.9.3 */
->>       DEFINE_PROP_BOOL("x-epmp", RISCVCPU, cfg.epmp, false),
->>       DEFINE_PROP_BOOL("x-smaia", RISCVCPU, cfg.ext_smaia, false),
+-- 
+Best regards,
+Vladimir
 
 
