@@ -2,68 +2,98 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 410736FDDB2
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 May 2023 14:24:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 97B1D6FDDA8
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 May 2023 14:23:02 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pwiq6-0003WJ-BP; Wed, 10 May 2023 08:22:38 -0400
+	id 1pwipV-0002N8-41; Wed, 10 May 2023 08:22:01 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pwipk-0002fB-56
- for qemu-devel@nongnu.org; Wed, 10 May 2023 08:22:21 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pwipK-0002A3-M0
+ for qemu-devel@nongnu.org; Wed, 10 May 2023 08:21:54 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pwipe-0007oh-WF
- for qemu-devel@nongnu.org; Wed, 10 May 2023 08:22:15 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pwipG-0007eM-M4
+ for qemu-devel@nongnu.org; Wed, 10 May 2023 08:21:50 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1683721326;
+ s=mimecast20190719; t=1683721305;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=bhV8PxGfIM2CiMvz/jmOrzBWe7WQGQrw+jf2GRjCHGA=;
- b=iteIX0qSecRkocoleRYrK3gk27kuGeMNB8vI/Xg5sVPb8B5Yc+nmYlv6WE8HeYMIqdduf8
- tkCwO+7QJgxDuc/sXgkGjLEaUXYD9UL2G99geoPhVmoM3l1pSUqXtFgr2magtsXYKDlKU3
- cHPMCnN2GK1z6b/afXY4JGHjBuuMwwM=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-14-UjWJF8LQNE2icX92kcQZtw-1; Wed, 10 May 2023 08:22:05 -0400
-X-MC-Unique: UjWJF8LQNE2icX92kcQZtw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
- [10.11.54.5])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8B45B886463;
- Wed, 10 May 2023 12:22:04 +0000 (UTC)
-Received: from merkur.fritz.box (unknown [10.39.194.148])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C85DF18EC1;
- Wed, 10 May 2023 12:22:03 +0000 (UTC)
-From: Kevin Wolf <kwolf@redhat.com>
-To: qemu-block@nongnu.org
-Cc: kwolf@redhat.com,
-	richard.henderson@linaro.org,
-	qemu-devel@nongnu.org
-Subject: [PULL 28/28] block: compile out assert_bdrv_graph_readable() by
- default
-Date: Wed, 10 May 2023 14:21:11 +0200
-Message-Id: <20230510122111.46566-29-kwolf@redhat.com>
-In-Reply-To: <20230510122111.46566-1-kwolf@redhat.com>
-References: <20230510122111.46566-1-kwolf@redhat.com>
+ bh=/ZP1ir0K2/3h2pDYUILt03s5EyLCLTaoKWvVgaAUIwg=;
+ b=HaJNEX9RQ2UEihy3WyqUpc1TB6M7BYTdaEOX1H1Tjo4wI1UsRCXwvzC76LhaWFoIZ4Vt4l
+ F1xISjY4mTIAtegEpQqv8plKo3TAKH1foxYWl8ZLVor/79hjRDLRp0v/hv6aml6HhH3jxV
+ bB60C9N01PT/mknEJUn7xiuY52XYi4U=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-74-aaF-G6GANYeUdagYoSkHdg-1; Wed, 10 May 2023 08:21:44 -0400
+X-MC-Unique: aaF-G6GANYeUdagYoSkHdg-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ 5b1f17b1804b1-3f42b226871so8368615e9.0
+ for <qemu-devel@nongnu.org>; Wed, 10 May 2023 05:21:44 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1683721303; x=1686313303;
+ h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
+ :content-language:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=/ZP1ir0K2/3h2pDYUILt03s5EyLCLTaoKWvVgaAUIwg=;
+ b=km3tcHQBmLX0L9maVBKG5kh3W4gqZggWu5m1vR3X9HSCdIQttCJRekzmgO7MIqTyhs
+ I4RanuDcNKACxdRolKPYtCjEKNBd89O8PEU6TM9NUQkoI50aP5Iit3ofOzyKaWs59OJ9
+ WAqSYyhvHpkFBENWVuxY3AffG0kZtvzlXbgYOdQ2r80vQj0TZa51G7cnZlaclCLV71nW
+ KPMPwgwNLpfKnOLS3AMP3i3T2RlxpORoTr3LqGs8q+RwfFuQGyTU1P+e+npeYIdNTbEL
+ O6UoYDo1WxVkXCVMv+3IwuoisyDlV2oZU/WLvk6eu7PZds1pJo1+53Lv6vDuCN38c7QJ
+ Jxmw==
+X-Gm-Message-State: AC+VfDwa0j6nBhEZUUiEdL52JE6YTArp5SFAk2axLq/mW8Mc1EpokFIU
+ I1eCIe65yLAlmuRkWIwoMgZGo3Gt54cv9WdLo25a7/sLvnT9FmnNcxcH0W2mA7c8BgYDFOG/Iu8
+ cV2TDwfpcI2rEHsRTOJyhGTM=
+X-Received: by 2002:a1c:f209:0:b0:3f1:92aa:4eb8 with SMTP id
+ s9-20020a1cf209000000b003f192aa4eb8mr11734164wmc.16.1683721303243; 
+ Wed, 10 May 2023 05:21:43 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ5OE3PXdAzvNpI+JCkNMU1j4LSnN3QkIoH0XlLF0uMzl5/cKCNsnaH8rCxcs8R2M2In2l97Qg==
+X-Received: by 2002:a1c:f209:0:b0:3f1:92aa:4eb8 with SMTP id
+ s9-20020a1cf209000000b003f192aa4eb8mr11734150wmc.16.1683721302968; 
+ Wed, 10 May 2023 05:21:42 -0700 (PDT)
+Received: from [192.168.0.3] (ip-109-43-179-53.web.vodafone.de.
+ [109.43.179.53]) by smtp.gmail.com with ESMTPSA id
+ f12-20020a7bc8cc000000b003f4e4b5713esm32298wml.37.2023.05.10.05.21.42
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 10 May 2023 05:21:42 -0700 (PDT)
+Message-ID: <1b3f4f59-4773-014c-1c8e-e300d14b1d2e@redhat.com>
+Date: Wed, 10 May 2023 14:21:41 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Content-Language: en-US
+To: Song Gao <gaosong@loongson.cn>
+Cc: qemu-devel@nongnu.org, maobibo@loongson.cn
+References: <20230427211013.2994127-1-alxndr@bu.edu>
+ <20230427211013.2994127-2-alxndr@bu.edu> <ZEt/3RwtL/jePTTv@redhat.com>
+ <828514c6-44f0-32f0-1eb1-a49f21617585@redhat.com>
+ <20230428091159.haydefdtq4m6z2tz@mozz.bu.edu>
+ <b151ecf7-0544-86ac-a182-1112a4dd7dca@redhat.com>
+ <c01a2b87-27be-e92a-3a5b-d561eadbc516@loongson.cn>
+ <981cdcd7-7326-08f0-9882-e66840175205@redhat.com>
+ <c4919eb6-74f1-7699-f924-6917cdf435bb@loongson.cn>
+ <faa1c6e0-abc2-f108-cc25-2b2cf71bd3d0@redhat.com>
+ <a5a05af5-bf26-ad10-f866-230e4525881f@loongson.cn>
+From: Thomas Huth <thuth@redhat.com>
+Subject: Re: [PATCH v10 1/8] memory: prevent dma-reentracy issues
+In-Reply-To: <a5a05af5-bf26-ad10-f866-230e4525881f@loongson.cn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_score_int: -53
+X-Spam_score: -5.4
+X-Spam_bar: -----
+X-Spam_report: (-5.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ NICE_REPLY_A=-3.251, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -79,111 +109,84 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Stefan Hajnoczi <stefanha@redhat.com>
+On 10/05/2023 11.02, Song Gao wrote:
+> Hi, Thomas
+> 
+> 在 2023/5/8 下午9:12, Thomas Huth 写道:
+>>
+>>>> Oh, another spot that needs special handling ... I see Alexander already 
+>>>> sent a patch (thanks!), but anyway, this is a good indication that we're 
+>>>> missing some test coverage in the CI.
+>>>>
+>>>> Are there any loongarch kernel images available for public download 
+>>>> somewhere? If so, we really should add an avocado regression test for 
+>>>> this - since as far as I can see, we don't have any  tests for loongarch 
+>>>> in tests/avocado yet?
+>>>>
+>>> we can get  some binarys  at:
+>>> https://github.com/yangxiaojuan-loongson/qemu-binary
+>> >
+>>> I'm not sure that avacodo testing can be done using just the kernel.
+>>>
+>>> Is a full loongarch system required?
+>>
+>> No, you don't need a full distro installation, just a kernel with ramdisk 
+>> (which is also available there) is good enough for a basic test, e.g. just 
+>> check whether the kernel boots to a certain point is good enough to 
+>> provide a basic sanity test. If you then can also get even into a shell 
+>> (of the ramdisk), you can check some additional stuff in the sysfs or 
+>> "dmesg" output, see for example tests/avocado/machine_s390_ccw_virtio.py 
+>> which does such checks with a kernel and initrd on s390x.
+>>
+>>
+> I have a few questions.
+> 
+> I run ' make check-avocado 
+> AVOCADO_TESTS=./tests/avocado/machine_s390_ccw_virtio.py V=1'
+> 
+> root@loongson-KVM:~/work/qemu#make check-avocado 
+> AVOCADO_TESTS=./tests/avocado/machine_s390_ccw_virtio.py V=1
+> changing dir to build for make "check-avocado"...
+> make[1]: Entering directory '/root/work/qemu/build'
+> (GIT="git" "/root/work/qemu/scripts/git-submodule.sh" update ui/keycodemapdb 
+> meson tests/fp/berkeley-testfloat-3 tests/fp/berkeley-softfloat-3 dtc)
+> /root/work/qemu/build/tests/venv/bin/python3 -m avocado vmimage get 
+> --distro=fedora --distro-version=31 --arch=s390x
+> The image was downloaded:
+> Provider Version Architecture File
+> fedora   31      s390x 
+> /root/avocado/data/cache/by_location/8ee06cba5485a58b2203c2c000d6d2ff6da0f040/Fedora-Cloud-Base-31-1.9.s390x.qcow2
+> /root/work/qemu/build/tests/venv/bin/python3 -m avocado --show=app run 
+> --job-results-dir=/root/work/qemu/build/tests/results 
+> --filter-by-tags-include-empty --filter-by-tags-include-empty-key 
+> --max-parallel-tasks 1 -t arch:loongarch64 -t arch:s390x --failfast 
+> ./tests/avocado/machine_s390_ccw_virtio.py
+> ...
+> 
+> This test downloaded   'Fedora-Cloud-Base-31-1.9.s390x.qcow2' image.
+> but we don't have a  'Fedora-Cloud-Base-31-1.9.loongarch.qcow2' image.
+> 
+> Am I missing something?
 
-reader_count() is a performance bottleneck because the global
-aio_context_list_lock mutex causes thread contention. Put this debugging
-assertion behind a new ./configure --enable-debug-graph-lock option and
-disable it by default.
+Hmm, that image is not required for those tests... not sure why they get 
+downloaded here... I think something in 
+tests/avocado/avocado_qemu/__init__.py or in tests/Makefile.include tries to 
+download the cloudinit stuff in advance for other tests, but it is certainly 
+unrelated to the machine_s390_ccw_virtio.py test that only uses a kernel and 
+initrd.
 
-The --enable-debug-graph-lock option is also enabled by the more general
---enable-debug option.
+I think you can ignore that (unless there is an error since it's trying to 
+download the loongarch Cloud-Base image - then that's a bug).
 
-Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-Message-Id: <20230501173443.153062-1-stefanha@redhat.com>
-Reviewed-by: Kevin Wolf <kwolf@redhat.com>
-Signed-off-by: Kevin Wolf <kwolf@redhat.com>
----
- meson_options.txt             | 2 ++
- configure                     | 1 +
- block/graph-lock.c            | 3 +++
- meson.build                   | 2 ++
- scripts/meson-buildoptions.sh | 4 ++++
- 5 files changed, 12 insertions(+)
+> One more question,    How to get the 'kernel_hash' and 'initrd_hash'?
 
-diff --git a/meson_options.txt b/meson_options.txt
-index 66ca350029..d8330a1f71 100644
---- a/meson_options.txt
-+++ b/meson_options.txt
-@@ -319,6 +319,8 @@ option('rng_none', type: 'boolean', value: false,
-        description: 'dummy RNG, avoid using /dev/(u)random and getrandom()')
- option('coroutine_pool', type: 'boolean', value: true,
-        description: 'coroutine freelist (better performance)')
-+option('debug_graph_lock', type: 'boolean', value: false,
-+       description: 'graph lock debugging support')
- option('debug_mutex', type: 'boolean', value: false,
-        description: 'mutex debugging support')
- option('debug_stack_usage', type: 'boolean', value: false,
-diff --git a/configure b/configure
-index 77c03315f8..243e2e0a0d 100755
---- a/configure
-+++ b/configure
-@@ -816,6 +816,7 @@ for opt do
-   --enable-debug)
-       # Enable debugging options that aren't excessively noisy
-       debug_tcg="yes"
-+      meson_option_parse --enable-debug-graph-lock ""
-       meson_option_parse --enable-debug-mutex ""
-       meson_option_add -Doptimization=0
-       fortify_source="no"
-diff --git a/block/graph-lock.c b/block/graph-lock.c
-index 639526608f..377884c3a9 100644
---- a/block/graph-lock.c
-+++ b/block/graph-lock.c
-@@ -265,7 +265,10 @@ void bdrv_graph_rdunlock_main_loop(void)
- 
- void assert_bdrv_graph_readable(void)
- {
-+    /* reader_count() is slow due to aio_context_list_lock lock contention */
-+#ifdef CONFIG_DEBUG_GRAPH_LOCK
-     assert(qemu_in_main_thread() || reader_count());
-+#endif
- }
- 
- void assert_bdrv_graph_writable(void)
-diff --git a/meson.build b/meson.build
-index c56e0fec9e..646555420f 100644
---- a/meson.build
-+++ b/meson.build
-@@ -1963,6 +1963,7 @@ if get_option('debug_stack_usage') and have_coroutine_pool
-   have_coroutine_pool = false
- endif
- config_host_data.set10('CONFIG_COROUTINE_POOL', have_coroutine_pool)
-+config_host_data.set('CONFIG_DEBUG_GRAPH_LOCK', get_option('debug_graph_lock'))
- config_host_data.set('CONFIG_DEBUG_MUTEX', get_option('debug_mutex'))
- config_host_data.set('CONFIG_DEBUG_STACK_USAGE', get_option('debug_stack_usage'))
- config_host_data.set('CONFIG_GPROF', get_option('gprof'))
-@@ -3841,6 +3842,7 @@ summary_info += {'PIE':               get_option('b_pie')}
- summary_info += {'static build':      config_host.has_key('CONFIG_STATIC')}
- summary_info += {'malloc trim support': has_malloc_trim}
- summary_info += {'membarrier':        have_membarrier}
-+summary_info += {'debug graph lock':  get_option('debug_graph_lock')}
- summary_info += {'debug stack usage': get_option('debug_stack_usage')}
- summary_info += {'mutex debugging':   get_option('debug_mutex')}
- summary_info += {'memory allocator':  get_option('malloc')}
-diff --git a/scripts/meson-buildoptions.sh b/scripts/meson-buildoptions.sh
-index 34d82dec53..2805d1c145 100644
---- a/scripts/meson-buildoptions.sh
-+++ b/scripts/meson-buildoptions.sh
-@@ -23,6 +23,8 @@ meson_options_help() {
-   printf "%s\n" '                           QEMU'
-   printf "%s\n" '  --enable-cfi             Control-Flow Integrity (CFI)'
-   printf "%s\n" '  --enable-cfi-debug       Verbose errors in case of CFI violation'
-+  printf "%s\n" '  --enable-debug-graph-lock'
-+  printf "%s\n" '                           graph lock debugging support'
-   printf "%s\n" '  --enable-debug-mutex     mutex debugging support'
-   printf "%s\n" '  --enable-debug-stack-usage'
-   printf "%s\n" '                           measure coroutine stack usage'
-@@ -254,6 +256,8 @@ _meson_option_parse() {
-     --datadir=*) quote_sh "-Ddatadir=$2" ;;
-     --enable-dbus-display) printf "%s" -Ddbus_display=enabled ;;
-     --disable-dbus-display) printf "%s" -Ddbus_display=disabled ;;
-+    --enable-debug-graph-lock) printf "%s" -Ddebug_graph_lock=true ;;
-+    --disable-debug-graph-lock) printf "%s" -Ddebug_graph_lock=false ;;
-     --enable-debug-mutex) printf "%s" -Ddebug_mutex=true ;;
-     --disable-debug-mutex) printf "%s" -Ddebug_mutex=false ;;
-     --enable-debug-stack-usage) printf "%s" -Ddebug_stack_usage=true ;;
--- 
-2.40.1
+I think it's a SHA1 hash by default, so you can for example get it with the 
+"sha1sum" tool on the command line.
+
+But seems like it is also possible to specify different algorithms with the 
+"algorithm=..." parameter of fetch_asset().
+
+  HTH,
+   Thomas
 
 
