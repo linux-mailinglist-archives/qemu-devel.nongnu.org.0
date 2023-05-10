@@ -2,83 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 584096FE114
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 May 2023 17:04:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA9656FE112
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 May 2023 17:04:07 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pwlLk-0004Pb-KR; Wed, 10 May 2023 11:03:28 -0400
+	id 1pwlLn-0004Sm-SL; Wed, 10 May 2023 11:03:31 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pwlLY-0004IH-KY
- for qemu-devel@nongnu.org; Wed, 10 May 2023 11:03:20 -0400
-Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pwlLg-0004Kt-Qk
+ for qemu-devel@nongnu.org; Wed, 10 May 2023 11:03:25 -0400
+Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pwlLL-0000ST-AB
- for qemu-devel@nongnu.org; Wed, 10 May 2023 11:03:09 -0400
-Received: by mail-wm1-x331.google.com with SMTP id
- 5b1f17b1804b1-3f42769a0c1so33702145e9.2
- for <qemu-devel@nongnu.org>; Wed, 10 May 2023 08:03:01 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pwlLb-0000Ug-VD
+ for qemu-devel@nongnu.org; Wed, 10 May 2023 11:03:23 -0400
+Received: by mail-wm1-x336.google.com with SMTP id
+ 5b1f17b1804b1-3f41dceb9d4so46858105e9.1
+ for <qemu-devel@nongnu.org>; Wed, 10 May 2023 08:03:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1683730980; x=1686322980;
+ d=linaro.org; s=google; t=1683730995; x=1686322995;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=UygSHBm4w+AhugPLER3oxb+Ecd67ssY6Q5LG0RKq9/U=;
- b=QVLKA1fAcAD0W2V69/weyYBYDbda2dvAyzvQwGEkFC0IIvecrHGIRuM2diWHVQAYJW
- Em7hvzn9gdN4MEU6pnS1I4Es3jgXD8dgk6SgIPt/LrxCECjkWA6p+Z+7FNMTFyJrKLXq
- E7g/PC/CR5++7VFIenCH8WaxJ/DAlJIMBGo/M7XazwQbvAGxaRSXJO3tNzTHgwhj0i8K
- nqoONwRVMuXI1jaMX6F/Lq6Vgsr4fXe4/8VeehkrVI8t3K0yxt768RcJOwZ6SHpvJa7I
- tVY67QHx+Ck/sp+W+FgyVHMqqySxENKJeOk3LpojVnVcr/w/2Lqp8DQ2GXdm0bVm2K92
- ig/A==
+ bh=ER+33kzGDmSAwrFFAlAhoTc3pRpaqOOFlfuNyxX/6IA=;
+ b=eyPp0DewbHfGzBiuPD8xqqo394mF8IYZyX0dt6Wu4+yzQHcx7tvwERSEwNbVgd2Hox
+ NDWAuyZnvhpFRqdetv5OMjZ7UEDnQaHVMRQhG6rzukd2FFRgbWXRXrpGiRJ4Hc2d1UlO
+ v1CP0x9cnj5BjBjMAh2S7QtXnb1bjFxjBACgWAjOjmUWMGARbXp4YFkMgCukIvv2kheB
+ t/w2Nu6fub5qwmbxrYQSp/PBP5uD16b5hVErFnCviZ1rQCm6o9caHGCLSAVcsQr9YyVQ
+ pUaEpV3byC1lLszU+aUOqv9oh0TLINWsegzfc3wYeaDUtA1hJuTER4neIEUB3zPMNHj4
+ rcFw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683730980; x=1686322980;
+ d=1e100.net; s=20221208; t=1683730995; x=1686322995;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=UygSHBm4w+AhugPLER3oxb+Ecd67ssY6Q5LG0RKq9/U=;
- b=Wl+iD/bXTfzHD5mLc6F1T5OVqplcDjBHal4RoVLzvxFWdjOvxOGzsevxy5hKuEXOgV
- qbQSzxn+ymkp0QQJx/vrX43oXhw8Fb8Pa0Q1WxUwGF67PWTaD54Lvi3Zf01waPYt8dX5
- ojW4cpjg00E4rDXmtBZ0wtLhmfmiN9kH/AwuPNclwkI4JBhyaHgiYFPe1IECXqFS5y9h
- pIj14JR50ZvYCChrmmfq0mWwgoEDlzsW5GFuQXMirvcezJrYyfZG1K38vOyWwuCwSeos
- G9TAOm+7HOdRq8EvFAsDC9NaEz+bIJAkhNPeLKiA3ZsburudZ8JnMHi7489e/ekTL8XO
- x5Og==
-X-Gm-Message-State: AC+VfDzYMi2KT/YztInwcMG5OQRmmMzy7RkGAxqbt45+FZCyltE/QQxt
- Q3G0V6eAc8cEJyYA37wDFBPiNkfkr+jxSbBfN9HhCw==
-X-Google-Smtp-Source: ACHHUZ7A+2Kx58zqsoL1uUVkRKeGwa8QjSk6hogfkQXHbRhqF2ZvQVBazNABYw8bigsDs7o0Cm9bng==
-X-Received: by 2002:a7b:c345:0:b0:3f1:82ba:b03f with SMTP id
- l5-20020a7bc345000000b003f182bab03fmr12508627wmj.18.1683730979954; 
- Wed, 10 May 2023 08:02:59 -0700 (PDT)
-Received: from [192.168.1.177] ([85.9.250.243])
- by smtp.gmail.com with ESMTPSA id
- s7-20020a1cf207000000b003e91b9a92c9sm23009810wmc.24.2023.05.10.08.02.59
+ bh=ER+33kzGDmSAwrFFAlAhoTc3pRpaqOOFlfuNyxX/6IA=;
+ b=OpPAsE8E5n5NiidegtJVxF8ni0cwC4M3uxPs9uN6TLSQqIme9WooI13tGmi5cAiElx
+ ++9+ACK5AvccgtiqaOkjAsYi0S81Vwar7p9zTB6UcbAOpU7SXYqsFcN/lAGVEVhOEMGl
+ 23s+H4Zdz1+zFSeYaWygcyKnxeoXvAmY1NiYvrl918F0pG1L2LrZd8J7DV1yqbFpZjXr
+ LNocyHyhic+AnmlYleAdlmPeg5fa0JeJrdYuczbRfal2SR5wL1Rb+sPOb7BJR6sgKZFE
+ tyvzAJLi8BOHxyCaG1TZSYqoTvRsVeud/Dk9Hm4UpcaPAO2pvdww7x3TrJoGe5HR0Mjy
+ QgcA==
+X-Gm-Message-State: AC+VfDxOANidkFgLLDgC6lhKzjowl7TddTDGhk1RO5ffIGmt2q3JG6Ap
+ Y+ZBPYMYWj+zIeOkerCytjBS7Q==
+X-Google-Smtp-Source: ACHHUZ4rqrESO5X/K6DcMlIZahp7bkg+5RxnOouUJGAGiSbVKpBEO/3maa08l/paJv9yhZI39NwwnA==
+X-Received: by 2002:a7b:c051:0:b0:3f1:6ec5:3105 with SMTP id
+ u17-20020a7bc051000000b003f16ec53105mr12765227wmc.20.1683730994298; 
+ Wed, 10 May 2023 08:03:14 -0700 (PDT)
+Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
+ z24-20020a1cf418000000b003f3e50eb606sm22805804wma.13.2023.05.10.08.03.13
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 10 May 2023 08:02:59 -0700 (PDT)
-Message-ID: <04101221-2a71-3ff8-2249-d5f1be2cc3fe@linaro.org>
-Date: Wed, 10 May 2023 16:02:58 +0100
+ Wed, 10 May 2023 08:03:13 -0700 (PDT)
+Message-ID: <c70a9e7a-eb29-7f48-b520-e69f2a62574d@linaro.org>
+Date: Wed, 10 May 2023 17:03:12 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [RFC 1/3] ARM: Use normal types
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.10.1
+Subject: Re: Avocado not killing QEMU processes on test timeouts
 Content-Language: en-US
-To: Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org
-Cc: Kyle Evans <kevans@freebsd.org>, Warner Losh <imp@bsdimp.com>,
- Laurent Vivier <laurent@vivier.eu>,
- Christian Borntraeger <borntraeger@linux.ibm.com>,
- =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- Markus Armbruster <armbru@redhat.com>, qemu-s390x@nongnu.org,
- Thomas Huth <thuth@redhat.com>
-References: <20230510143925.4094-1-quintela@redhat.com>
- <20230510143925.4094-2-quintela@redhat.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20230510143925.4094-2-quintela@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>
+Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Cleber Rosa <crosa@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>, Jan Richter <jarichte@redhat.com>
+References: <CAFEAcA8SNErngCkt=gsxVSiGXQ0BhQp6y+0fLtBxSmb7-_Ko1Q@mail.gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <CAFEAcA8SNErngCkt=gsxVSiGXQ0BhQp6y+0fLtBxSmb7-_Ko1Q@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::331;
- envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x331.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::336;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x336.google.com
 X-Spam_score_int: -53
 X-Spam_score: -5.4
 X-Spam_bar: -----
@@ -101,16 +95,28 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 5/10/23 15:39, Juan Quintela wrote:
-> Someone has a good reason why this is not a good idea?
+Hi Peter,
+
+On 10/5/23 15:22, Peter Maydell wrote:
+> I was testing 'make check-avocado' on an s390 host, which currently
+> has a bunch of tests that time out and fail INTERRUPTED because of
+> various endianness bugs. I found that when the avocado run had
+> finished, it hadn't cleaned up the various qemu-system-foo
+> processes that the tests spawned (and so they kept on running
+> using CPU in the background).
 > 
-> Signed-off-by: Juan Quintela<quintela@redhat.com>
-> ---
->   bsd-user/arm/target_arch_reg.h | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+> What's the mechanism that's supposed to clean this up? I think
+> that the top level avocado process should never exit without
+> making sure all the processes that got spawned have been
+> killed (with SIGKILL if necessary).
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Cleber said [1] he is working on this issue [2].
 
+[1] 
+https://lore.kernel.org/qemu-devel/e9d0f20a-4ca8-7622-0171-2cb56b75821b@redhat.com/
+[2] https://github.com/avocado-framework/avocado/issues/4994
 
-r~
+Regards,
+
+Phil.
 
