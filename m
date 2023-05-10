@@ -2,80 +2,105 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7FAE6FD841
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 May 2023 09:32:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4843F6FD845
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 May 2023 09:33:48 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pweIf-0000Mg-33; Wed, 10 May 2023 03:31:49 -0400
+	id 1pweK3-0001BU-3u; Wed, 10 May 2023 03:33:15 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pweIO-0000M9-M5
- for qemu-devel@nongnu.org; Wed, 10 May 2023 03:31:32 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <imbrenda@linux.ibm.com>)
+ id 1pweK0-0001B3-SG; Wed, 10 May 2023 03:33:12 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pweIM-0005sI-KN
- for qemu-devel@nongnu.org; Wed, 10 May 2023 03:31:32 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1683703887;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=ElbehoQ3Iw8xEhxfH4wmstOWjDFA0N75cTX6MdaIoLQ=;
- b=TDnQ8PI/vbQYD/nb4uMhpbdYBrG9ujFuqJ9MIE2/8+fF7E6E/CBlnwq7A7YRnt1OupM3yW
- TquXgKjVpi/qYkTXd/HtPFTPZXdjMmmQQUG5gsw6CP6ZVtZra5RfhRuTpI95LFDkl0CRlr
- QHN0SliuSPXFTTkQuAckH5kSMeCMjkQ=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-550-zjLHF4_MP62e-ghBr_vVpw-1; Wed, 10 May 2023 03:31:21 -0400
-X-MC-Unique: zjLHF4_MP62e-ghBr_vVpw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
- [10.11.54.5])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 04A212811BC9;
- Wed, 10 May 2023 07:31:20 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.39.192.121])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id BDD2718EC1;
- Wed, 10 May 2023 07:31:18 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 86F5C21E6924; Wed, 10 May 2023 09:31:17 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: michael.roth@amd.com,  peter.maydell@linaro.org,  pbonzini@redhat.com,
- marcandre.lureau@redhat.com,  berrange@redhat.com,  thuth@redhat.com,
- philmd@linaro.org,  mst@redhat.com,  imammedo@redhat.com,
- anisinha@redhat.com,  eblake@redhat.com,  kraxel@redhat.com,
- kwolf@redhat.com,  hreitz@redhat.com,  arei.gonglei@huawei.com,
- pizhenwei@bytedance.com,  jsnow@redhat.com,  vsementsov@yandex-team.ru,
- eduardo@habkost.net,  marcel.apfelbaum@gmail.com,
- wangyanan55@huawei.com,  quintela@redhat.com,  peterx@redhat.com,
- leobras@redhat.com,  jasowang@redhat.com,  yuval.shaia.ml@gmail.com,
- pavel.dovgaluk@ispras.ru,  jiri@resnulli.us,  stefanb@linux.vnet.ibm.com,
- stefanha@redhat.com,  lukasstraub2@web.de,  kkostiuk@redhat.com,
- qemu-block@nongnu.org,  victortoso@redhat.com
-Subject: Re: [PATCH 12/17] qapi: Rewrite parsing of doc comment section
- symbols and tags
-References: <20230428105429.1687850-1-armbru@redhat.com>
- <20230428105429.1687850-13-armbru@redhat.com>
-Date: Wed, 10 May 2023 09:31:17 +0200
-In-Reply-To: <20230428105429.1687850-13-armbru@redhat.com> (Markus
- Armbruster's message of "Fri, 28 Apr 2023 12:54:24 +0200")
-Message-ID: <878rdw8wxm.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <imbrenda@linux.ibm.com>)
+ id 1pweJy-00068Z-Nx; Wed, 10 May 2023 03:33:12 -0400
+Received: from pps.filterd (m0353728.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 34A7JUDS030852; Wed, 10 May 2023 07:33:08 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=date : from : to : cc :
+ subject : message-id : in-reply-to : references : mime-version :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=+DoZ/qZ5gXH0NsP2Zdf9CZRAQTKFPUANKEjFN0ziSpY=;
+ b=DVZC00By17ofAQzINsNUSBtz1cDYTZiVoBJ2MQqHdUnklzI/4wJxExg/aCwQVJH/v7bo
+ 6i7rZmRRNUiUkCXwWireCoDXOnHv8L4c/cpxq/VFFTuFEmwHvGyZl5VelMz7gSFOjrTf
+ sbPkE39599V51Ev08fLnPxwo3uimXnWWpGaKDVR+ZexuNGv280T1+L0418WjaB4CP04o
+ dhX1C0JDpknVWz6myMtaKuROroWFET82x1Wx1NBDEjfEdmHolNwvqYr0EQHrB9G4noIO
+ 50OtqfuTlVwzRtipiyXldhz5fgwNBokDpAbAL0G11CY9G/L+J09XvwYFhPzhU1R1KGcr 5g== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3qg6an13g5-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 10 May 2023 07:33:08 +0000
+Received: from m0353728.ppops.net (m0353728.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 34A7Ok29016209;
+ Wed, 10 May 2023 07:33:07 GMT
+Received: from ppma01fra.de.ibm.com (46.49.7a9f.ip4.static.sl-reverse.com
+ [159.122.73.70])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3qg6an13ex-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 10 May 2023 07:33:07 +0000
+Received: from pps.filterd (ppma01fra.de.ibm.com [127.0.0.1])
+ by ppma01fra.de.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 34A3E8KH025044;
+ Wed, 10 May 2023 07:33:05 GMT
+Received: from smtprelay01.fra02v.mail.ibm.com ([9.218.2.227])
+ by ppma01fra.de.ibm.com (PPS) with ESMTPS id 3qf7e0rqkj-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 10 May 2023 07:33:05 +0000
+Received: from smtpav06.fra02v.mail.ibm.com (smtpav06.fra02v.mail.ibm.com
+ [10.20.54.105])
+ by smtprelay01.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 34A7X25a54329692
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 10 May 2023 07:33:02 GMT
+Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id F2D9420043;
+ Wed, 10 May 2023 07:33:01 +0000 (GMT)
+Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id AC17920040;
+ Wed, 10 May 2023 07:33:01 +0000 (GMT)
+Received: from p-imbrenda (unknown [9.152.224.56])
+ by smtpav06.fra02v.mail.ibm.com (Postfix) with ESMTP;
+ Wed, 10 May 2023 07:33:01 +0000 (GMT)
+Date: Wed, 10 May 2023 09:32:59 +0200
+From: Claudio Imbrenda <imbrenda@linux.ibm.com>
+To: Thomas Huth <thuth@redhat.com>
+Cc: qemu-devel@nongnu.org, qemu-s390x@nongnu.org, borntraeger@de.ibm.com,
+ nsg@linux.ibm.com, nrb@linux.ibm.com, frankja@linux.ibm.com,
+ pasic@linux.ibm.com, mhartmay@linux.ibm.com
+Subject: Re: [PATCH v1 1/1] s390x/pv: Fix spurious warning with asynchronous
+ teardown
+Message-ID: <20230510093259.7884eb40@p-imbrenda>
+In-Reply-To: <e2f59e7e-e5d5-0bc3-e889-e84460ca99d6@redhat.com>
+References: <20230509162740.58081-1-imbrenda@linux.ibm.com>
+ <e2f59e7e-e5d5-0bc3-e889-e84460ca99d6@redhat.com>
+Organization: IBM
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.37; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: BFXrUFparLEeBplBDdMTrY00RI7LHLwj
+X-Proofpoint-GUID: TI41ONIM7sm6P9OITzulO8WDsaQrNlkq
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-05-10_04,2023-05-05_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 malwarescore=0
+ phishscore=0 spamscore=0 mlxlogscore=999 lowpriorityscore=0
+ priorityscore=1501 impostorscore=0 clxscore=1015 mlxscore=0 adultscore=0
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2304280000 definitions=main-2305100059
+Received-SPF: pass client-ip=148.163.156.1;
+ envelope-from=imbrenda@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -91,197 +116,83 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Markus Armbruster <armbru@redhat.com> writes:
+On Wed, 10 May 2023 08:47:08 +0200
+Thomas Huth <thuth@redhat.com> wrote:
 
-> To recognize a line starting with a section symbol and or tag, we
-> first split it at the first space, then examine the part left of the
-> space.  We can just as well examine the unsplit line, so do that.
->
-> Signed-off-by: Markus Armbruster <armbru@redhat.com>
-> ---
->  scripts/qapi/parser.py | 51 +++++++++++++++++++-----------------------
->  1 file changed, 23 insertions(+), 28 deletions(-)
->
-> diff --git a/scripts/qapi/parser.py b/scripts/qapi/parser.py
-> index ddc14ceaba..fc04c4573e 100644
-> --- a/scripts/qapi/parser.py
-> +++ b/scripts/qapi/parser.py
-> @@ -560,12 +560,12 @@ def end_comment(self) -> None:
->          self._switch_section(QAPIDoc.NullSection(self._parser))
->  
->      @staticmethod
-> -    def _is_section_tag(name: str) -> bool:
-> -        return name in ('Returns:', 'Since:',
-> -                        # those are often singular or plural
-> -                        'Note:', 'Notes:',
-> -                        'Example:', 'Examples:',
-> -                        'TODO:')
-> +    def _match_at_name_colon(string: str) -> re.Match:
-> +        return re.match(r'@([^:]*): *', string)
-> +
-> +    @staticmethod
-> +    def _match_section_tag(string: str) -> re.Match:
-> +        return re.match(r'(Returns|Since|Notes?|Examples?|TODO): *', string)
->  
->      def _append_body_line(self, line: str) -> None:
->          """
-> @@ -581,7 +581,6 @@ def _append_body_line(self, line: str) -> None:
->  
->          Else, append the line to the current section.
->          """
-> -        name = line.split(' ', 1)[0]
->          # FIXME not nice: things like '#  @foo:' and '# @foo: ' aren't
->          # recognized, and get silently treated as ordinary text
->          if not self.symbol and not self.body.text and line.startswith('@'):
-> @@ -595,12 +594,12 @@ def _append_body_line(self, line: str) -> None:
->                      self._parser, "name required after '@'")
->          elif self.symbol:
->              # This is a definition documentation block
-> -            if name.startswith('@') and name.endswith(':'):
-> +            if self._match_at_name_colon(line):
->                  self._append_line = self._append_args_line
->                  self._append_args_line(line)
->              elif line == 'Features:':
->                  self._append_line = self._append_features_line
-> -            elif self._is_section_tag(name):
-> +            elif self._match_section_tag(line):
->                  self._append_line = self._append_various_line
->                  self._append_various_line(line)
->              else:
-> @@ -621,16 +620,15 @@ def _append_args_line(self, line: str) -> None:
->          Else, append the line to the current section.
->  
->          """
-> -        name = line.split(' ', 1)[0]
-> -
-> -        if name.startswith('@') and name.endswith(':'):
-> +        if match := self._match_at_name_colon(line):
->              # If line is "@arg:   first line of description", find
->              # the index of 'f', which is the indent we expect for any
->              # following lines.  We then remove the leading "@arg:"
->              # from line and replace it with spaces so that 'f' has the
->              # same index as it did in the original line and can be
->              # handled the same way we will handle following lines.
-> -            indent = must_match(r'@\S*:\s*', line).end()
-> +            name = match.group(1)
-> +            indent = match.end()
->              line = line[indent:]
->              if not line:
->                  # Line was just the "@arg:" header
-> @@ -638,8 +636,8 @@ def _append_args_line(self, line: str) -> None:
->                  indent = -1
->              else:
->                  line = ' ' * indent + line
-> -            self._start_args_section(name[1:-1], indent)
-> -        elif self._is_section_tag(name):
-> +            self._start_args_section(name, indent)
-> +        elif self._match_section_tag(line):
->              self._append_line = self._append_various_line
->              self._append_various_line(line)
->              return
-> @@ -656,16 +654,15 @@ def _append_args_line(self, line: str) -> None:
->          self._append_freeform(line)
->  
->      def _append_features_line(self, line: str) -> None:
-> -        name = line.split(' ', 1)[0]
-> -
-> -        if name.startswith('@') and name.endswith(':'):
-> +        if match := self._match_at_name_colon(line):
->              # If line is "@arg:   first line of description", find
->              # the index of 'f', which is the indent we expect for any
->              # following lines.  We then remove the leading "@arg:"
->              # from line and replace it with spaces so that 'f' has the
->              # same index as it did in the original line and can be
->              # handled the same way we will handle following lines.
-> -            indent = must_match(r'@\S*:\s*', line).end()
-> +            name = match.group(1)
-> +            indent = match.end()
->              line = line[indent:]
->              if not line:
->                  # Line was just the "@arg:" header
-> @@ -673,8 +670,8 @@ def _append_features_line(self, line: str) -> None:
->                  indent = -1
->              else:
->                  line = ' ' * indent + line
-> -            self._start_features_section(name[1:-1], indent)
-> -        elif self._is_section_tag(name):
-> +            self._start_features_section(name, indent)
-> +        elif self._match_section_tag(line):
->              self._append_line = self._append_various_line
->              self._append_various_line(line)
->              return
-> @@ -698,13 +695,11 @@ def _append_various_line(self, line: str) -> None:
->  
->          Else, append the line to the current section.
->          """
-> -        name = line.split(' ', 1)[0]
-> -
-> -        if name.startswith('@') and name.endswith(':'):
-> +        if match := self._match_at_name_colon(line):
->              raise QAPIParseError(self._parser,
-> -                                 "'%s' can't follow '%s' section"
-> -                                 % (name, self.sections[0].name))
-> -        if self._is_section_tag(name):
-> +                                 "'@%s:' can't follow '%s' section"
-> +                                 % (match.group(1), self.sections[0].name))
-> +        if match := self._match_section_tag(line):
->              # If line is "Section:   first line of description", find
->              # the index of 'f', which is the indent we expect for any
->              # following lines.  We then remove the leading "Section:"
-> @@ -719,7 +714,7 @@ def _append_various_line(self, line: str) -> None:
->                  indent = 0
->              else:
->                  line = ' ' * indent + line
-> -            self._start_section(name[:-1], indent)
-> +            self._start_section(match.group(1), indent)
->  
->          self._append_freeform(line)
+> On 09/05/2023 18.27, Claudio Imbrenda wrote:
+> > When rebooting a small VM using asynchronous teardown, a spurious
+> > warning is emitted when the KVM_PV_ASYNC_CLEANUP_PREPARE ioctl fails.  
+> 
+> Why does the _PREPARE fail in that case? Why 4GiB and not more or less? This 
 
-Need to squash in the appended patch for Python 3.7 and older.
+because of kernel commit 292a7d6fca33df70ca4b8e9b0d0e74adf87582dc, which
+fixes problems in case the VM is small (<2GiB)
 
-My job description doesn't include "collect paper cuts", but it totally
-should.
+> sounds racy... what if you have a faster or slower machine?
 
+why racy?
 
-diff --git a/scripts/qapi/parser.py b/scripts/qapi/parser.py
-index 22ee631198..4923a59d60 100644
---- a/scripts/qapi/parser.py
-+++ b/scripts/qapi/parser.py
-@@ -623,7 +623,8 @@ def _append_args_line(self, line: str) -> None:
-         Else, append the line to the current section.
- 
-         """
--        if match := self._match_at_name_colon(line):
-+        match = self._match_at_name_colon(line)
-+        if match:
-             line = line[match.end():]
-             self._start_args_section(match.group(1))
-         elif self._match_section_tag(line):
-@@ -643,7 +644,8 @@ def _append_args_line(self, line: str) -> None:
-         self._append_freeform(line)
- 
-     def _append_features_line(self, line: str) -> None:
--        if match := self._match_at_name_colon(line):
-+        match = self._match_at_name_colon(line)
-+        if match:
-             line = line[match.end():]
-             self._start_features_section(match.group(1))
-         elif self._match_section_tag(line):
-@@ -670,11 +672,13 @@ def _append_various_line(self, line: str) -> None:
- 
-         Else, append the line to the current section.
-         """
--        if match := self._match_at_name_colon(line):
-+        match = self._match_at_name_colon(line)
-+        if match:
-             raise QAPIParseError(self._parser,
-                                  "'@%s:' can't follow '%s' section"
-                                  % (match.group(1), self.sections[0].name))
--        if match := self._match_section_tag(line):
-+        match = self._match_section_tag(line)
-+        if match:
-             line = line[match.end():]
-             self._start_section(match.group(1))
- 
+2 or 4GiB is still very fast, and at some point you have to draw a line.
+I could make it 2GiB, which is the limit at which _PREPARE will fail,
+but since I'm touching this code, I would like to avoid unnecessary
+overhead, instead of "just fixing" 
+
+I can put the limit to 2GiB if you think it's more clean
+
+> 
+> > Avoid using asynchronous teardown altogether when the VM is small
+> > enough; the cutoff is set at 4GiB. This will avoid triggering the
+> > warning and also avoid pointless overhead; normal teardown is fast
+> > enough for small VMs.
+> > 
+> > Reported-by: Marc Hartmayer <mhartmay@linux.ibm.com>
+> > Fixes: c3a073c610 ("s390x/pv: Add support for asynchronous teardown for reboot")
+> > Signed-off-by: Claudio Imbrenda <imbrenda@linux.ibm.com>
+> > ---
+> >   hw/s390x/pv.c | 6 +++++-
+> >   1 file changed, 5 insertions(+), 1 deletion(-)
+> > 
+> > diff --git a/hw/s390x/pv.c b/hw/s390x/pv.c
+> > index 49ea38236c..17c5556319 100644
+> > --- a/hw/s390x/pv.c
+> > +++ b/hw/s390x/pv.c
+> > @@ -13,6 +13,7 @@
+> >   
+> >   #include <linux/kvm.h>
+> >   
+> > +#include "qemu/units.h"
+> >   #include "qapi/error.h"
+> >   #include "qemu/error-report.h"
+> >   #include "sysemu/kvm.h"
+> > @@ -117,13 +118,16 @@ static void *s390_pv_do_unprot_async_fn(void *p)
+> >   
+> >   bool s390_pv_vm_try_disable_async(void)
+> >   {
+> > +    MachineState *machine = MACHINE(qdev_get_machine());  
+> 
+> The calling function (s390_machine_unprotect()) already has a 
+> S390CcwMachineState as parameter ... so you could pass along that value to 
+> avoid the qdev_get_machine() here.
+
+yes, I was thinking about that and decided against it to avoid changing
+interfaces; I'll fix it in the next version
+
+> 
+> >       /*
+> >        * t is only needed to create the thread; once qemu_thread_create
+> >        * returns, it can safely be discarded.
+> >        */
+> >       QemuThread t;
+> >   
+> > -    if (!kvm_check_extension(kvm_state, KVM_CAP_S390_PROTECTED_ASYNC_DISABLE)) {
+> > +    /* Avoid the overhead of asynchronous teardown for small machines */
+> > +    if ((machine->maxram_size < 4 * GiB) ||
+> > +        !kvm_check_extension(kvm_state, KVM_CAP_S390_PROTECTED_ASYNC_DISABLE)) {
+> >           return false;
+> >       }
+> >       if (s390_pv_cmd(KVM_PV_ASYNC_CLEANUP_PREPARE, NULL) != 0) {  
+> 
+>   Thomas
+> 
 
 
