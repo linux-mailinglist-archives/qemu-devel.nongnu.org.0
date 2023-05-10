@@ -2,81 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B29026FDAD2
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 May 2023 11:34:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DF29E6FDAD7
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 May 2023 11:38:54 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pwgDH-0005iq-Fh; Wed, 10 May 2023 05:34:23 -0400
+	id 1pwgHB-0007Eh-39; Wed, 10 May 2023 05:38:25 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
- id 1pwgDF-0005gy-3J
- for qemu-devel@nongnu.org; Wed, 10 May 2023 05:34:21 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
+ id 1pwgH9-0007EY-MN
+ for qemu-devel@nongnu.org; Wed, 10 May 2023 05:38:23 -0400
+Received: from forwardcorp1c.mail.yandex.net
+ ([2a02:6b8:c03:500:1:45:d181:df01])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
- id 1pwgCz-0004iy-Az
- for qemu-devel@nongnu.org; Wed, 10 May 2023 05:34:20 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1683711244;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=i3RVPdXtmHgj98yaq6C++/G6KNpLQg10yUe3qaDlbJw=;
- b=g+E/p3b5UcWDF66z7IAgvXjSYSb0w121FktL59j3QSH2c+WhxtN29pg+U3HU+KslHY1a6z
- pFSAAEkXL/ci/Og9sYIB6OTcpKh5/VcgLTjSdEZ4BVI9/OSIPKxkDIUVpAGjyvgyNp42Y5
- ve/dIq1skpWpjEIUc+o4yWfsfxSmhZQ=
-Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
- [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-661--GPRgTmOOhW0fc7bql4_aA-1; Wed, 10 May 2023 05:34:03 -0400
-X-MC-Unique: -GPRgTmOOhW0fc7bql4_aA-1
-Received: by mail-ej1-f69.google.com with SMTP id
- a640c23a62f3a-965e5cfca7cso676002666b.1
- for <qemu-devel@nongnu.org>; Wed, 10 May 2023 02:34:03 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683711242; x=1686303242;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=i3RVPdXtmHgj98yaq6C++/G6KNpLQg10yUe3qaDlbJw=;
- b=aNcBkb2g5dwaiJZkDgmsVZfuqOqjun/1IrkOIZbhoyVTWkCx9yEJos0AAkXvtYP6Lt
- rdVwIqAfyQxwSEXUSOlponAbjoLrZqLFT6QERs8DA3xwIkO8/yAF+yD54+V1lxrLzhSs
- oRs2pKtrP/H+AhM1w3E7IqazPhcZlN8mKddIO5I+dyXnSR14Qbv3Ip14PgP2HdCFqyKj
- w19pUJ5LOpohghnipLFM1yEV4+cGsaoGR2yxBwGU/0jgSzNx6f6pPC960QqpmdxECT2/
- o7NxLgHE/YCqzjGQA7qtJmo4XHHW5BhjPw31bPSh34gBbGFs3fUDhQjOBdR8EnX/JxL/
- mqKA==
-X-Gm-Message-State: AC+VfDxlRG59Tj9gwH0RztHxXXhjx6NcWkKE8w0Lfqvm1uoBiSLqvoGY
- bBo7CbB3M47kwpc1zM8af4WEMEZzTmPHS5dy6qeSo4HP8vQ5P6dWisEm3ky7QA04GmwJBXJrH8a
- aVHBBNVlE6Hnf3F/4Tw2PPB3tnKYL8X8=
-X-Received: by 2002:a17:907:2d0c:b0:966:5c04:2c5a with SMTP id
- gs12-20020a1709072d0c00b009665c042c5amr9907691ejc.69.1683711242250; 
- Wed, 10 May 2023 02:34:02 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ6RBI16G9QJMYMpSDXuvwpwjwlkMwdbad7WEKVYXHYCMS/RGrKN5h9oONKWUG2rro1/0fjrUvsUyABHVybInb0=
-X-Received: by 2002:a17:907:2d0c:b0:966:5c04:2c5a with SMTP id
- gs12-20020a1709072d0c00b009665c042c5amr9907670ejc.69.1683711241907; Wed, 10
- May 2023 02:34:01 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
+ id 1pwgH6-0005Rs-AP
+ for qemu-devel@nongnu.org; Wed, 10 May 2023 05:38:23 -0400
+Received: from mail-nwsmtp-smtp-corp-main-11.iva.yp-c.yandex.net
+ (mail-nwsmtp-smtp-corp-main-11.iva.yp-c.yandex.net
+ [IPv6:2a02:6b8:c0c:2c24:0:640:73f8:0])
+ by forwardcorp1c.mail.yandex.net (Yandex) with ESMTP id 71AF15EDB9;
+ Wed, 10 May 2023 12:38:10 +0300 (MSK)
+Received: from [IPV6:2a02:6b8:b081:2::1:11] (unknown [2a02:6b8:b081:2::1:11])
+ by mail-nwsmtp-smtp-corp-main-11.iva.yp-c.yandex.net
+ (smtpcorp/Yandex) with ESMTPSA id 8cRWPF0Oda60-hefCOw4U; 
+ Wed, 10 May 2023 12:38:09 +0300
+X-Yandex-Fwd: 1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
+ s=default; 
+ t=1683711489; bh=RS8yCp/9pk9D5aD2MIL8CYSmaiTUjSx41Jvt71Wr/YI=;
+ h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
+ b=bvPaGXg3zXTXDXh+HROSNwohp517lsX88DCce6IUmapUWzxPv/D+Lk+dyFYB8OTmN
+ 1NsEAAeQciJPxARuvKwq2bQzPh0V6NWVFAXDIwLJwAzOeIuhZbqNhGFVbvdxOxM20g
+ n00JxjHR552bn1/atirNKyaj0EEowVcR8DeKV1pc=
+Authentication-Results: mail-nwsmtp-smtp-corp-main-11.iva.yp-c.yandex.net;
+ dkim=pass header.i=@yandex-team.ru
+Message-ID: <a6fdb213-59c5-0d97-2397-3ec5b351eb8b@yandex-team.ru>
+Date: Wed, 10 May 2023 12:38:08 +0300
 MIME-Version: 1.0
-References: <20230510072531.3937189-1-marcandre.lureau@redhat.com>
- <877ctg7csj.fsf@pond.sub.org>
-In-Reply-To: <877ctg7csj.fsf@pond.sub.org>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
-Date: Wed, 10 May 2023 13:33:50 +0400
-Message-ID: <CAMxuvaxDXA0+11a=Ors1UsBNpL5YaBDmVaerHJCW1-AWJ6pcGg@mail.gmail.com>
-Subject: Re: [PATCH] chardev: report the handshake error
-To: Markus Armbruster <armbru@redhat.com>
-Cc: qemu-devel@nongnu.org, berrange@redhat.com, 
- Paolo Bonzini <pbonzini@redhat.com>
-Content-Type: multipart/alternative; boundary="0000000000007a87ea05fb5392b4"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mlureau@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH v2 3/3] pci: ROM preallocation for incoming migration
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org,
+ marcel.apfelbaum@gmail.com, philmd@linaro.org, peterx@redhat.com,
+ pbonzini@redhat.com, den-plotnikov@yandex-team.ru, lersek@redhat.com,
+ kraxel@redhat.com
+References: <20230425161434.173022-1-vsementsov@yandex-team.ru>
+ <20230425161434.173022-4-vsementsov@yandex-team.ru>
+ <c9ee303b-0de4-7c44-c5f7-b723df9825af@redhat.com>
+ <fe20f078-53fe-1e60-b30f-c3611aa7e7dd@yandex-team.ru>
+ <20230503060231-mutt-send-email-mst@kernel.org>
+ <ed74d57a-5f24-bf0a-09c2-b755c69c8c08@yandex-team.ru>
+ <20230509115151-mutt-send-email-mst@kernel.org>
+Content-Language: en-US
+From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+In-Reply-To: <20230509115151-mutt-send-email-mst@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a02:6b8:c03:500:1:45:d181:df01;
+ envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1c.mail.yandex.net
+X-Spam_score_int: -24
+X-Spam_score: -2.5
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.421,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -93,158 +85,223 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
---0000000000007a87ea05fb5392b4
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On 09.05.23 18:54, Michael S. Tsirkin wrote:
+> On Wed, May 03, 2023 at 02:39:15PM +0300, Vladimir Sementsov-Ogievskiy wrote:
+>> On 03.05.23 13:05, Michael S. Tsirkin wrote:
+>>> On Wed, May 03, 2023 at 12:50:09PM +0300, Vladimir Sementsov-Ogievskiy wrote:
+>>>> On 03.05.23 12:20, David Hildenbrand wrote:
+>>>>> On 25.04.23 18:14, Vladimir Sementsov-Ogievskiy wrote:
+>>>>>> On incoming migration we have the following sequence to load option
+>>>>>> ROM:
+>>>>>>
+>>>>>> 1. On device realize we do normal load ROM from the file
+>>>>>>
+>>>>>> 2. Than, on incoming migration we rewrite ROM from the incoming RAM
+>>>>>>       block. If sizes mismatch we fail.
+>>>>>>
+>>>>>> This is not ideal when we migrate to updated distribution: we have to
+>>>>>> keep old ROM files in new distribution and be careful around romfile
+>>>>>> property to load correct ROM file. Which is loaded actually just to
+>>>>>> allocate the ROM with correct length.
+>>>>>>
+>>>>>> Note, that romsize property doesn't really help: if we try to specify
+>>>>>> it when default romfile is larger, it fails with something like:
+>>>>>>
+>>>>>> romfile "efi-virtio.rom" (160768 bytes) is too large for ROM size 65536
+>>>>>>
+>>>>>> Let's just ignore ROM file when romsize is specified and we are in
+>>>>>> incoming migration state. In other words, we need only to preallocate
+>>>>>> ROM of specified size, local ROM file is unrelated.
+>>>>>>
+>>>>>> This way:
+>>>>>>
+>>>>>> If romsize was specified on source, we just use same commandline as on
+>>>>>> source, and migration will work independently of local ROM files on
+>>>>>> target.
+>>>>>>
+>>>>>> If romsize was not specified on source (and we have mismatching local
+>>>>>> ROM file on target host), we have to specify romsize on target to match
+>>>>>> source romsize. romfile parameter may be kept same as on source or may
+>>>>>> be dropped, the file is not loaded anyway.
+>>>>>>
+>>>>>> As a bonus we avoid extra reading from ROM file on target.
+>>>>>>
+>>>>>> Note: when we don't have romsize parameter on source command line and
+>>>>>> need it for target, it may be calculated as aligned up to power of two
+>>>>>> size of ROM file on source (if we know, which file is it) or,
+>>>>>> alternatively it may be retrieved from source QEMU by QMP qom-get
+>>>>>> command, like
+>>>>>>
+>>>>>>      { "execute": "qom-get",
+>>>>>>        "arguments": {
+>>>>>>          "path": "/machine/peripheral/CARD_ID/virtio-net-pci.rom[0]",
+>>>>>>          "property": "size" } }
+>>>>>>
+>>>>>> Suggested-by: Michael S. Tsirkin <mst@redhat.com>
+>>>>>> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+>>>>>> ---
+>>>>>>     hw/pci/pci.c | 77 ++++++++++++++++++++++++++++++----------------------
+>>>>>>     1 file changed, 45 insertions(+), 32 deletions(-)
+>>>>>>
+>>>>>> diff --git a/hw/pci/pci.c b/hw/pci/pci.c
+>>>>>> index a442f8fce1..e2cab622e4 100644
+>>>>>> --- a/hw/pci/pci.c
+>>>>>> +++ b/hw/pci/pci.c
+>>>>>> @@ -36,6 +36,7 @@
+>>>>>>     #include "migration/vmstate.h"
+>>>>>>     #include "net/net.h"
+>>>>>>     #include "sysemu/numa.h"
+>>>>>> +#include "sysemu/runstate.h"
+>>>>>>     #include "sysemu/sysemu.h"
+>>>>>>     #include "hw/loader.h"
+>>>>>>     #include "qemu/error-report.h"
+>>>>>> @@ -2293,10 +2294,16 @@ static void pci_add_option_rom(PCIDevice *pdev, bool is_default_rom,
+>>>>>>     {
+>>>>>>         int64_t size;
+>>>>>>         g_autofree char *path = NULL;
+>>>>>> -    void *ptr;
+>>>>>>         char name[32];
+>>>>>>         const VMStateDescription *vmsd;
+>>>>>> +    /*
+>>>>>> +     * In case of incoming migration ROM will come with migration stream, no
+>>>>>> +     * reason to load the file.  Neither we want to fail if local ROM file
+>>>>>> +     * mismatches with specified romsize.
+>>>>>> +     */
+>>>>>> +    bool load_file = !runstate_check(RUN_STATE_INMIGRATE);
+>>>>>> +
+>>>>>>         if (!pdev->romfile) {
+>>>>>>             return;
+>>>>>>         }
+>>>>>> @@ -2329,32 +2336,35 @@ static void pci_add_option_rom(PCIDevice *pdev, bool is_default_rom,
+>>>>>>             return;
+>>>>>>         }
+>>>>>> -    path = qemu_find_file(QEMU_FILE_TYPE_BIOS, pdev->romfile);
+>>>>>> -    if (path == NULL) {
+>>>>>> -        path = g_strdup(pdev->romfile);
+>>>>>> -    }
+>>>>>> +    if (load_file || pdev->romsize == -1) {
+>>>>>> +        path = qemu_find_file(QEMU_FILE_TYPE_BIOS, pdev->romfile);
+>>>>>> +        if (path == NULL) {
+>>>>>> +            path = g_strdup(pdev->romfile);
+>>>>>> +        }
+>>>>>> -    size = get_image_size(path);
+>>>>>> -    if (size < 0) {
+>>>>>> -        error_setg(errp, "failed to find romfile \"%s\"", pdev->romfile);
+>>>>>> -        return;
+>>>>>> -    } else if (size == 0) {
+>>>>>> -        error_setg(errp, "romfile \"%s\" is empty", pdev->romfile);
+>>>>>> -        return;
+>>>>>> -    } else if (size > 2 * GiB) {
+>>>>>> -        error_setg(errp, "romfile \"%s\" too large (size cannot exceed 2 GiB)",
+>>>>>> -                   pdev->romfile);
+>>>>>> -        return;
+>>>>>> -    }
+>>>>>> -    if (pdev->romsize != -1) {
+>>>>>> -        if (size > pdev->romsize) {
+>>>>>> -            error_setg(errp, "romfile \"%s\" (%u bytes) "
+>>>>>> -                       "is too large for ROM size %u",
+>>>>>> -                       pdev->romfile, (uint32_t)size, pdev->romsize);
+>>>>>> +        size = get_image_size(path);
+>>>>>> +        if (size < 0) {
+>>>>>> +            error_setg(errp, "failed to find romfile \"%s\"", pdev->romfile);
+>>>>>> +            return;
+>>>>>> +        } else if (size == 0) {
+>>>>>> +            error_setg(errp, "romfile \"%s\" is empty", pdev->romfile);
+>>>>>> +            return;
+>>>>>> +        } else if (size > 2 * GiB) {
+>>>>>> +            error_setg(errp,
+>>>>>> +                       "romfile \"%s\" too large (size cannot exceed 2 GiB)",
+>>>>>> +                       pdev->romfile);
+>>>>>>                 return;
+>>>>>>             }
+>>>>>> -    } else {
+>>>>>> -        pdev->romsize = pow2ceil(size);
+>>>>>> +        if (pdev->romsize != -1) {
+>>>>>> +            if (size > pdev->romsize) {
+>>>>>> +                error_setg(errp, "romfile \"%s\" (%u bytes) "
+>>>>>> +                           "is too large for ROM size %u",
+>>>>>> +                           pdev->romfile, (uint32_t)size, pdev->romsize);
+>>>>>> +                return;
+>>>>>> +            }
+>>>>>> +        } else {
+>>>>>> +            pdev->romsize = pow2ceil(size);
+>>>>>> +        }
+>>>>>>         }
+>>>>>>         vmsd = qdev_get_vmsd(DEVICE(pdev));
+>>>>>> @@ -2365,15 +2375,18 @@ static void pci_add_option_rom(PCIDevice *pdev, bool is_default_rom,
+>>>>>>         memory_region_init_rom(&pdev->rom, OBJECT(pdev), name, pdev->romsize,
+>>>>>>                                &error_fatal);
+>>>>>> -    ptr = memory_region_get_ram_ptr(&pdev->rom);
+>>>>>> -    if (load_image_size(path, ptr, size) < 0) {
+>>>>>> -        error_setg(errp, "failed to load romfile \"%s\"", pdev->romfile);
+>>>>>> -        return;
+>>>>>> -    }
+>>>>>> +    if (load_file) {
+>>>>>> +        void *ptr = memory_region_get_ram_ptr(&pdev->rom);
+>>>>>> -    if (is_default_rom) {
+>>>>>> -        /* Only the default rom images will be patched (if needed). */
+>>>>>> -        pci_patch_ids(pdev, ptr, size);
+>>>>>> +        if (load_image_size(path, ptr, size) < 0) {
+>>>>>> +            error_setg(errp, "failed to load romfile \"%s\"", pdev->romfile);
+>>>>>> +            return;
+>>>>>> +        }
+>>>>>> +
+>>>>>> +        if (is_default_rom) {
+>>>>>> +            /* Only the default rom images will be patched (if needed). */
+>>>>>> +            pci_patch_ids(pdev, ptr, size);
+>>>>>> +        }
+>>>>>>         }
+>>>>>>         pci_register_bar(pdev, PCI_ROM_SLOT, 0, &pdev->rom);
+>>>>>
+>>>>>
+>>>>> So, we'll now never load the file on the migration destination. But if "pdev->romsize == -1", we'll use the size of the file to size the region -- but not load it.
+>>>>>
+>>>>>
+>>>>> While that should work (because the ROM content will be migrated), at least I would find this easier to digest if we would have
+>>>>>
+>>>>> bool use_file = !runstate_check(RUN_STATE_INMIGRATE) ||
+>>>>>            pdev->romsize == -1;
+>>>>>
+>>>>> if (use_file) {
+>>>>>        path = qemu_find_file(QEMU_FILE_TYPE_BIOS, pdev->romfile);
+>>>>>        ...
+>>>>> }
+>>>>> ...
+>>>>> memory_region_init_rom(&pdev->rom, OBJECT(pdev), name, pdev->romsize ...
+>>>>> ...
+>>>>> if (use_file) {
+>>>>>        ptr = memory_region_get_ram_ptr(&pdev->rom);
+>>>>>        if (load_image_size(path, ptr, size) < 0) {
+>>>>>            ...
+>>>>>        }
+>>>>> }
+>>>>>
+>>>>>
+>>>>> If something about the file is weird (such that reading the size would work but loading would fail), it would fail consistently. Sure, we would load once more, but who really cares about that.
+>>>>>
+>>>>> I wonder, though, if we then also want to handle the "pdev->romfile" checks differently, when we're not going to use the file at all ... would maybe make it more consistent. If we're not using the file, then ignore if no file is given/available ... because we don't need it. The romsize is sufficient in that case on the migration destination.
+>>>>>
+>>>>
+>>>> Maybe, we should just deprecate unspecified romsize? And make it necessary in future?
+>>>
+>>> That would be quite annoying. The whole problem arises because
+>>> downstream decided to override QEMU provided ROM
+>>> on the command line. Users that don't do this,
+>>> are ok and I do not want to make things harder for them.
+>>>
+>>
+>> OK. Are you agree with Devid's advice to still load file, even on incoming migration, when romsize argument is absent?
+> 
+> I am not sure why it's ncessary and I don't much like extra file reads
+> just for the heck of it. If nothing else this attempt to check file
+> is readable is futile - it might not stay readable until the next
+> qemu run.
+> 
 
-Hi
+OK. I don't like extra file read too.
 
-On Wed, May 10, 2023 at 1:31=E2=80=AFPM Markus Armbruster <armbru@redhat.co=
-m> wrote:
-
-> marcandre.lureau@redhat.com writes:
->
-> > From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-> >
-> > This can help to debug connection issues.
-> >
-> > Related to:
-> > https://bugzilla.redhat.com/show_bug.cgi?id=3D2196182
-> >
-> > Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-> > ---
-> >  chardev/char-socket.c | 12 ++++++++++--
-> >  1 file changed, 10 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/chardev/char-socket.c b/chardev/char-socket.c
-> > index 8c58532171..e8e3a743d5 100644
-> > --- a/chardev/char-socket.c
-> > +++ b/chardev/char-socket.c
-> > @@ -742,8 +742,12 @@ static void tcp_chr_websock_handshake(QIOTask
-> *task, gpointer user_data)
-> >  {
-> >      Chardev *chr =3D user_data;
-> >      SocketChardev *s =3D user_data;
-> > +    Error *err =3D NULL;
-> >
-> > -    if (qio_task_propagate_error(task, NULL)) {
-> > +    if (qio_task_propagate_error(task, &err)) {
-> > +        error_reportf_err(err,
-> > +                          "websock handshake of character device %s
-> failed: ",
-> > +                          chr->label);
->
-> Code smell: reports an error without failing the function.
->
-> Should it be a warning instead?
->
->
-Makes sense, I just did the same as check_report_connect_error() , but I
-think they should all be warnings too.
-
->          tcp_chr_disconnect(chr);
-> >      } else {
-> >          if (s->do_telnetopt) {
-> > @@ -778,8 +782,12 @@ static void tcp_chr_tls_handshake(QIOTask *task,
-> >  {
-> >      Chardev *chr =3D user_data;
-> >      SocketChardev *s =3D user_data;
-> > +    Error *err =3D NULL;
-> >
-> > -    if (qio_task_propagate_error(task, NULL)) {
-> > +    if (qio_task_propagate_error(task, &err)) {
-> > +        error_reportf_err(err,
-> > +                          "TLS handshake of character device %s failed=
-:
-> ",
-> > +                          chr->label);
-> >          tcp_chr_disconnect(chr);
-> >      } else {
-> >          if (s->is_websock) {
->
-> Likewise.
->
-
---0000000000007a87ea05fb5392b4
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr">Hi<br></div><br><div class=3D"gmail_quote=
-"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, May 10, 2023 at 1:31=E2=80=
-=AFPM Markus Armbruster &lt;<a href=3D"mailto:armbru@redhat.com">armbru@red=
-hat.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"=
-margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-lef=
-t:1ex"><a href=3D"mailto:marcandre.lureau@redhat.com" target=3D"_blank">mar=
-candre.lureau@redhat.com</a> writes:<br>
-<br>
-&gt; From: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lureau@re=
-dhat.com" target=3D"_blank">marcandre.lureau@redhat.com</a>&gt;<br>
-&gt;<br>
-&gt; This can help to debug connection issues.<br>
-&gt;<br>
-&gt; Related to:<br>
-&gt; <a href=3D"https://bugzilla.redhat.com/show_bug.cgi?id=3D2196182" rel=
-=3D"noreferrer" target=3D"_blank">https://bugzilla.redhat.com/show_bug.cgi?=
-id=3D2196182</a><br>
-&gt;<br>
-&gt; Signed-off-by: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.=
-lureau@redhat.com" target=3D"_blank">marcandre.lureau@redhat.com</a>&gt;<br=
->
-&gt; ---<br>
-&gt;=C2=A0 chardev/char-socket.c | 12 ++++++++++--<br>
-&gt;=C2=A0 1 file changed, 10 insertions(+), 2 deletions(-)<br>
-&gt;<br>
-&gt; diff --git a/chardev/char-socket.c b/chardev/char-socket.c<br>
-&gt; index 8c58532171..e8e3a743d5 100644<br>
-&gt; --- a/chardev/char-socket.c<br>
-&gt; +++ b/chardev/char-socket.c<br>
-&gt; @@ -742,8 +742,12 @@ static void tcp_chr_websock_handshake(QIOTask *ta=
-sk, gpointer user_data)<br>
-&gt;=C2=A0 {<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 Chardev *chr =3D user_data;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 SocketChardev *s =3D user_data;<br>
-&gt; +=C2=A0 =C2=A0 Error *err =3D NULL;<br>
-&gt;=C2=A0 <br>
-&gt; -=C2=A0 =C2=A0 if (qio_task_propagate_error(task, NULL)) {<br>
-&gt; +=C2=A0 =C2=A0 if (qio_task_propagate_error(task, &amp;err)) {<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 error_reportf_err(err,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 &quot;websock handshake of character device %s failed=
-: &quot;,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 chr-&gt;label);<br>
-<br>
-Code smell: reports an error without failing the function.<br>
-<br>
-Should it be a warning instead?<br>
-<br></blockquote><div><br></div><div>Makes sense, I just did the same as ch=
-eck_report_connect_error() , but I think they should all be warnings too.</=
-div><div><br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0p=
-x 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 tcp_chr_disconnect(chr);<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 } else {<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (s-&gt;do_telnetopt) {<br>
-&gt; @@ -778,8 +782,12 @@ static void tcp_chr_tls_handshake(QIOTask *task,<=
-br>
-&gt;=C2=A0 {<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 Chardev *chr =3D user_data;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 SocketChardev *s =3D user_data;<br>
-&gt; +=C2=A0 =C2=A0 Error *err =3D NULL;<br>
-&gt;=C2=A0 <br>
-&gt; -=C2=A0 =C2=A0 if (qio_task_propagate_error(task, NULL)) {<br>
-&gt; +=C2=A0 =C2=A0 if (qio_task_propagate_error(task, &amp;err)) {<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 error_reportf_err(err,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 &quot;TLS handshake of character device %s failed: &q=
-uot;,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 chr-&gt;label);<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 tcp_chr_disconnect(chr);<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 } else {<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (s-&gt;is_websock) {<br>
-<br>
-Likewise.<br></blockquote>=C2=A0<br></div></div>
-
---0000000000007a87ea05fb5392b4--
+-- 
+Best regards,
+Vladimir
 
 
