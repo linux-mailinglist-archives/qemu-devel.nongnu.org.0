@@ -2,77 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33CA36FDE1A
-	for <lists+qemu-devel@lfdr.de>; Wed, 10 May 2023 14:50:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5AE176FDE45
+	for <lists+qemu-devel@lfdr.de>; Wed, 10 May 2023 15:14:49 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pwjFo-0000Sb-U5; Wed, 10 May 2023 08:49:12 -0400
+	id 1pwjdB-0000tx-Oa; Wed, 10 May 2023 09:13:22 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1pwjFm-0000SN-B0
- for qemu-devel@nongnu.org; Wed, 10 May 2023 08:49:10 -0400
-Received: from forwardcorp1a.mail.yandex.net
- ([2a02:6b8:c0e:500:1:45:d181:df01])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1pwjFj-0005p4-Jq
- for qemu-devel@nongnu.org; Wed, 10 May 2023 08:49:10 -0400
-Received: from mail-nwsmtp-smtp-corp-main-83.vla.yp-c.yandex.net
- (mail-nwsmtp-smtp-corp-main-83.vla.yp-c.yandex.net
- [IPv6:2a02:6b8:c18:1421:0:640:53a0:0])
- by forwardcorp1a.mail.yandex.net (Yandex) with ESMTP id CDA9860407;
- Wed, 10 May 2023 15:48:58 +0300 (MSK)
-Received: from [IPV6:2a02:6b8:b081:2::1:11] (unknown [2a02:6b8:b081:2::1:11])
- by mail-nwsmtp-smtp-corp-main-83.vla.yp-c.yandex.net
- (smtpcorp/Yandex) with ESMTPSA id vmUjLI2OmiE0-scs83phx; 
- Wed, 10 May 2023 15:48:58 +0300
-X-Yandex-Fwd: 1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
- s=default; 
- t=1683722938; bh=yFSHrB+Hgs3ksL1LmON1jxAclVeKROzNVIR5WzaX4TA=;
- h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
- b=qCumkIZYKqTHcZAbyosdABEBvzDJ+Li1dPyzbMoYs5tbdSvmTDcLHot6pcWyT5Q6d
- aOIvJAMq02n8dvY8cMLJZkKd5hASHvCC1Lh7mYkNGqethpou/8YVkW43qgRwkHch8V
- 7wGFe0Fy21azDTB3TVzPFW+EylUOGES8Tvk3/x1Q=
-Authentication-Results: mail-nwsmtp-smtp-corp-main-83.vla.yp-c.yandex.net;
- dkim=pass header.i=@yandex-team.ru
-Message-ID: <2c554e38-cf95-ee51-d362-5b80dcf596c6@yandex-team.ru>
-Date: Wed, 10 May 2023 15:48:57 +0300
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1pwjd7-0000pp-My
+ for qemu-devel@nongnu.org; Wed, 10 May 2023 09:13:17 -0400
+Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1pwjd4-0002tL-UP
+ for qemu-devel@nongnu.org; Wed, 10 May 2023 09:13:17 -0400
+Received: by mail-wr1-x42f.google.com with SMTP id
+ ffacd0b85a97d-307c040797bso156557f8f.3
+ for <qemu-devel@nongnu.org>; Wed, 10 May 2023 06:13:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1683724393; x=1686316393;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=KrY+rRORwyTnJvFkzyqBGXyvhAgyJ4C8HxUAYhY4a/w=;
+ b=o65axh0ruaLU5DmkLeqvEIn3wiE+VRQjl/2ikzqrmGaYm2XB5mX13ADTKBMRmqCsIK
+ fOH3U6t3DQ97Bz9m44eDorRyxd2IcmBEZQY+K0UveKuj1PXDxd1pOw9PYkXTBENwX4Mo
+ bBfyFClLNHRA1V0cMM8OIOVPeINwZxQqsVNGZPZ0Lio19UTiaZ5ySnbE/bm8jmp2c7/V
+ Q+4ejwhMy823uaOTmyXZmBKkFJv7zlnPy7VQqH1sGTfXwEkMF4sh95gqoheQTZUlorBy
+ xRoLLLxJJu0295aSDMRmZ9Rf6SdtP0oBZt9/qEOZ5y6xsKyzguWEKGKy1yK1DexeWGCJ
+ Ndkg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1683724393; x=1686316393;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=KrY+rRORwyTnJvFkzyqBGXyvhAgyJ4C8HxUAYhY4a/w=;
+ b=DjRXLyOMmj1PTiHDbfB+q0YCUZcvEq+bXP/z3HSH4C7Z0DmERSzVnAWtbgzrPE+NdE
+ VO4SMScv2dDKkL1Dw6PeL6AgnJDt3bezFyb5eBpVlMNZxnd7Tl6gK8QrhYAFIy3/SW9f
+ dLVjGjt80ULoggvD6qfxXXZ5hzTHhiXLiEHUgr3IKWbev+TM8pdxy3VBE0XlQcHPEyVq
+ AHNNE006ot8WXMhbf4tz1LNJ0lk0ZhpTzAaYR0BwlsVZfWL4JcHfIMzOkDj6Me3jRqt+
+ fvNJCQdVbJ8vCM0dCwCdquVHIHTSHR9xdvC3yY3QWGM9KoTkmUOYrMxbZqiHFL6LY7z0
+ f20g==
+X-Gm-Message-State: AC+VfDzz74rDsPvTMWij/eqoppVxMgNM3l9cYf+2oqKfbNNAHXLWuxWZ
+ 408nRPJnlheD6dmeDvIwLHOfRQ==
+X-Google-Smtp-Source: ACHHUZ6ChQXDIGn0cY/pzKlcBnLI6X5RCyOStovrHk+9mC7KAVSuDt/nIJwb56Fyb0rOYLdFAJED0g==
+X-Received: by 2002:a5d:4578:0:b0:306:31e0:958 with SMTP id
+ a24-20020a5d4578000000b0030631e00958mr12460297wrc.15.1683724393179; 
+ Wed, 10 May 2023 06:13:13 -0700 (PDT)
+Received: from zen.linaroharston ([85.9.250.243])
+ by smtp.gmail.com with ESMTPSA id
+ d18-20020adfe852000000b002fe13ec49fasm17274352wrn.98.2023.05.10.06.13.12
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 10 May 2023 06:13:12 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 4E9D11FFBB;
+ Wed, 10 May 2023 14:13:12 +0100 (BST)
+References: <20230506072235.597467-1-richard.henderson@linaro.org>
+ <20230506072235.597467-12-richard.henderson@linaro.org>
+User-agent: mu4e 1.11.4; emacs 29.0.90
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: git@xen0n.name, gaosong@loongson.cn, philmd@linaro.org,
+ qemu-arm@nongnu.org, qemu-riscv@nongnu.org, qemu-s390x@nongnu.org,
+ qemu-devel@nongnu.org
+Subject: Re: [PATCH v5 11/30] tcg/i386: Convert tcg_out_qemu_ld_slow_path
+Date: Wed, 10 May 2023 14:12:56 +0100
+In-reply-to: <20230506072235.597467-12-richard.henderson@linaro.org>
+Message-ID: <87fs848h3r.fsf@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH v4 04/10] configure: add --disable-colo-proxy option
-Content-Language: en-US
-To: quintela@redhat.com
-Cc: "Zhang, Chen" <chen.zhang@intel.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "lukasstraub2@web.de" <lukasstraub2@web.de>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Thomas Huth <thuth@redhat.com>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <philmd@linaro.org>, Jason Wang <jasowang@redhat.com>
-References: <20230428194928.1426370-1-vsementsov@yandex-team.ru>
- <20230428194928.1426370-5-vsementsov@yandex-team.ru>
- <MWHPR11MB0031A6901E847CA3ED49E9AF9B6D9@MWHPR11MB0031.namprd11.prod.outlook.com>
- <87mt2dbb3k.fsf@secure.mitica>
- <20efd1c7-5f63-73db-6564-5e6f1adf99ae@yandex-team.ru>
- <87r0ro8jno.fsf@secure.mitica>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-In-Reply-To: <87r0ro8jno.fsf@secure.mitica>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a02:6b8:c0e:500:1:45:d181:df01;
- envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1a.mail.yandex.net
-X-Spam_score_int: -53
-X-Spam_score: -5.4
-X-Spam_bar: -----
-X-Spam_report: (-5.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-3.251,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42f.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -88,85 +98,16 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 10.05.23 15:18, Juan Quintela wrote:
-> Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru> wrote:
->> On 09.05.23 21:42, Juan Quintela wrote:
->>> "Zhang, Chen" <chen.zhang@intel.com> wrote:
->>>>> -----Original Message-----
->>>>> From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
->>>>> Sent: Saturday, April 29, 2023 3:49 AM
->>>>> To: qemu-devel@nongnu.org
->>>>> Cc: lukasstraub2@web.de; quintela@redhat.com; Zhang, Chen
->>>>> <chen.zhang@intel.com>; vsementsov@yandex-team.ru; Paolo Bonzini
->>>>> <pbonzini@redhat.com>; Marc-André Lureau
->>>>> <marcandre.lureau@redhat.com>; Daniel P. Berrangé
->>>>> <berrange@redhat.com>; Thomas Huth <thuth@redhat.com>; Philippe
->>>>> Mathieu-Daudé <philmd@linaro.org>; Jason Wang <jasowang@redhat.com>
->>>>> Subject: [PATCH v4 04/10] configure: add --disable-colo-proxy option
->>>>>
->>>>> Add option to not build filter-mirror, filter-rewriter and colo-compare when
->>>>> they are not needed.
->>>>
->>>> Typo: This patch still build the filter-mirror/filter-redirector in filter-mirror.c.
->>>> Please remove the "filter-mirror" here.
->>>> Other code look good to me.
->>> Vladimir, I was doing this myself, with the bit attached.
->>> But then I noticed that one needs to also disable
->>> tests/qtest/test-filter-mirror and test-filter-rewriter.
->>
->> Hmm, but we decided not touch filter-mirror in this patch, only filter-rewriter.
->>
->> And there is no tests/qtest/test-filter-rewriter test.
->>
->>> Can you resend with that fixed?  Or I am missing something more
->>> fundamental.
->>> Thanks, Juan.
->>>
->>>>> --- a/net/meson.build
->>>>> +++ b/net/meson.build
->>>>> @@ -1,13 +1,10 @@
->>>>>    softmmu_ss.add(files(
->>>>>      'announce.c',
->>>>>      'checksum.c',
->>>>> -  'colo-compare.c',
->>>>> -  'colo.c',
->>>>>      'dump.c',
->>>>>      'eth.c',
->>>>>      'filter-buffer.c',
->>>>>      'filter-mirror.c',
->>>>> -  'filter-rewriter.c',
->>>>>      'filter.c',
->>>>>      'hub.c',
->>>>>      'net-hmp-cmds.c',
->>>>> @@ -19,6 +16,16 @@ softmmu_ss.add(files(
->>>>>      'util.c',
->>>>>    ))
->>>>>
->>>>> +if get_option('replication').allowed() or \
->>>>> +    get_option('colo_proxy').allowed()
->>>>> +  softmmu_ss.add(files('colo-compare.c'))
->>>>> +  softmmu_ss.add(files('colo.c'))
->>>>> +endif
->>>>> +
->>>>> +if get_option('colo_proxy').allowed()
->>>>> +  softmmu_ss.add(files('filter-rewriter.c'))
->>>>> +endif
->>>>> +
->>>>>    softmmu_ss.add(when: 'CONFIG_TCG', if_true: files('filter-replay.c'))
->>> This is the change needed, right?
->>
->> No, we decided to keep filter-mirror as is.
-> 
-> Ok.  Anyways, this bit needs an ACK from Network Maintainer or go
-> through their tree.
-> 
 
-I think r-b from Zhang is enough, he is maintainer of COLO Proxy, which includes filter-rewriter.
+Richard Henderson <richard.henderson@linaro.org> writes:
 
-(anyway, I'll resend the rest of the series when you PULL request merged)
+> Use tcg_out_ld_helper_args and tcg_out_ld_helper_ret.
+>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 
--- 
-Best regards,
-Vladimir
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 
+--=20
+Alex Benn=C3=A9e
+Virtualisation Tech Lead @ Linaro
 
