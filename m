@@ -2,49 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9445F6FF461
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 May 2023 16:32:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC3EA6FF3DB
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 May 2023 16:18:08 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1px7Ju-0003Pt-FI; Thu, 11 May 2023 10:31:03 -0400
+	id 1px76S-0008GM-PQ; Thu, 11 May 2023 10:17:09 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <e7444aba70c32e2fc315b3c08043f4115b30cbb1@lizzy.crudebyte.com>)
- id 1px7Jr-0003PL-1p
- for qemu-devel@nongnu.org; Thu, 11 May 2023 10:30:59 -0400
-Received: from lizzy.crudebyte.com ([91.194.90.13])
+ (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
+ id 1px76N-0008G4-S1
+ for qemu-devel@nongnu.org; Thu, 11 May 2023 10:17:05 -0400
+Received: from forwardcorp1b.mail.yandex.net
+ ([2a02:6b8:c02:900:1:45:d181:df01])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <e7444aba70c32e2fc315b3c08043f4115b30cbb1@lizzy.crudebyte.com>)
- id 1px7Jm-0000RB-9M
- for qemu-devel@nongnu.org; Thu, 11 May 2023 10:30:56 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=lizzy; h=Message-Id:Cc:To:Subject:Date:From:Content-Type:
- Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Content-ID:
- Content-Description; bh=D+avSEZJTjxcKFNfuZkn1RAsd1RZ+AxWhlL6dvn4QEk=; b=MT/Yw
- UYyyBTRqjpJZZaF2uijX9fxbY4oACJDzExWRXeQ9JTXmWtiWYpd0cRL9uyLaYKOMlEIykBcAxQh47
- owk2V4u7Eu3KH5BwpqcTX/+o0Nl1l10Irw7PPQAhpGR03bwI5PoDG3cCn3bLFko70ytiTIpaLiGPb
- 23YzpwWlJ9jHDusr5crIlwQ/NW2ZtIWs4viijv/oou7/y9M7ZmSCjkgchCldOsf7aY8FfferZ8qGa
- Mbb1IZBzn8JeS5d8sFjTknXMh4+V3Lp/JaUB2JsL/fbsF4WET2MBlBx69p/UAK9I1V14+jGUrjVcF
- C8MscoJ+RRZ+v7TOcqHM6/mS9VElw==;
-From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Date: Thu, 11 May 2023 16:12:34 +0200
-Subject: [PATCH] configure: make clear that VirtFS is 9p
-To: qemu-devel@nongnu.org
-Cc: Greg Kurz <groug@kaod.org>,
-    Paolo Bonzini <pbonzini@redhat.com>
-Message-Id: <E1px7Id-0000NE-OQ@lizzy.crudebyte.com>
-Received-SPF: none client-ip=91.194.90.13;
- envelope-from=e7444aba70c32e2fc315b3c08043f4115b30cbb1@lizzy.crudebyte.com;
- helo=lizzy.crudebyte.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
+ id 1px76G-00063N-N6
+ for qemu-devel@nongnu.org; Thu, 11 May 2023 10:17:03 -0400
+Received: from mail-nwsmtp-smtp-corp-main-44.iva.yp-c.yandex.net
+ (mail-nwsmtp-smtp-corp-main-44.iva.yp-c.yandex.net
+ [IPv6:2a02:6b8:c0c:a884:0:640:947b:0])
+ by forwardcorp1b.mail.yandex.net (Yandex) with ESMTP id 8036460D00;
+ Thu, 11 May 2023 17:16:42 +0300 (MSK)
+Received: from [IPV6:2a02:6b8:b081:203::1:7] (unknown [2a02:6b8:b081:203::1:7])
+ by mail-nwsmtp-smtp-corp-main-44.iva.yp-c.yandex.net (smtpcorp/Yandex) with
+ ESMTPSA id eGXocd0OkuQ0-INxN8phr; Thu, 11 May 2023 17:16:40 +0300
+X-Yandex-Fwd: 1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
+ s=default; 
+ t=1683814600; bh=Rta2sUsaLO/wd/LPf9nJPe+bIT7RlZav3RLlvPkJycs=;
+ h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
+ b=QfODmgBY+9foXhRkkowey9ZPEVoaO9T5jx8fyLBYFOoDoZPbWAwJlZranyyGsezzu
+ Mwv3TPIsiCJWvhnqwmFJLpGD+deLP0dwPsDL/3y5cnCYN2xTBINw8Y2bBilExgRYys
+ dR8lvIUWIR/4t9LxmJHABUBQyK4N2lr2AiPzndhA=
+Authentication-Results: mail-nwsmtp-smtp-corp-main-44.iva.yp-c.yandex.net;
+ dkim=pass header.i=@yandex-team.ru
+Message-ID: <3e294e10-12ec-bb00-cf7d-c6b1574fc252@yandex-team.ru>
+Date: Thu, 11 May 2023 17:16:40 +0300
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH v2] migration: Add documentation for backwards compatiblity
+Content-Language: en-US
+To: quintela@redhat.com
+Cc: qemu-devel@nongnu.org, Leonardo Bras <leobras@redhat.com>,
+ Peter Xu <peterx@redhat.com>, Avihai Horon <avihaih@nvidia.com>,
+ Thomas Huth <thuth@redhat.com>, Lukas Straub <lukasstraub2@web.de>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ =?UTF-8?Q?Daniel_P=2eBerrang=c3=a9?= <berrange@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>
+References: <20230511082701.12828-1-quintela@redhat.com>
+ <2912b2c8-41c2-4a9d-64ac-b3a05e66028f@yandex-team.ru>
+ <87o7mr3wo4.fsf@secure.mitica>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+In-Reply-To: <87o7mr3wo4.fsf@secure.mitica>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a02:6b8:c02:900:1:45:d181:df01;
+ envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1b.mail.yandex.net
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.124,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -60,31 +82,35 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Add '9P' to the summary output section of 'VirtFS' to avoid being
-confused with virtiofs.
+On 11.05.23 15:00, Juan Quintela wrote:
+>>> +Now we start with the more interesting cases.  Let start with the
+>>> +same qemu but not the same machine type.
+>> sounds like "different machine type on source and target" for me..
+>>
+>> Maybe, "not latest machine type" ?
+> Now we start with the more interesting cases.  Let start with a the
+> same QEMU process and a different QEMU version machine type.
+> 
+> Better?
 
-Based-on: <20230503130757.863824-1-pefoley@google.com>
-Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
----
- meson.build | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+No)
 
-diff --git a/meson.build b/meson.build
-index 5d8373b608..5d65f53fec 100644
---- a/meson.build
-+++ b/meson.build
-@@ -3922,8 +3922,8 @@ if have_block
-   summary_info += {'Block whitelist (rw)': get_option('block_drv_rw_whitelist')}
-   summary_info += {'Block whitelist (ro)': get_option('block_drv_ro_whitelist')}
-   summary_info += {'Use block whitelist in tools': get_option('block_drv_whitelist_in_tools')}
--  summary_info += {'VirtFS support':    have_virtfs}
--  summary_info += {'VirtFS Proxy Helper support': have_virtfs_proxy_helper}
-+  summary_info += {'VirtFS (9P) support':    have_virtfs}
-+  summary_info += {'VirtFS (9P) Proxy Helper support': have_virtfs_proxy_helper}
-   summary_info += {'Live block migration': config_host_data.get('CONFIG_LIVE_BLOCK_MIGRATION')}
-   summary_info += {'replication support': config_host_data.get('CONFIG_REPLICATION')}
-   summary_info += {'bochs support':     get_option('bochs').allowed()}
+Neither I have good wording in mind. That doesn't really matter I think, so don't worry, meaning is obvious from the context anyway.
+
+I just mean, that for me:
+
+"same" here: source.qemu.version == target.qemu.version
+
+"different" here: source.qemu.machine_type != target.qemu.machine_type  -- but you don't mean this and this case doesn't work anyway
+
+What you mean by "different" that machine type is not equal to qemu version.. But formally, it's never "equal", actually, latest machine type of the qemu version "corresponds" to that qemu version.
+
+Maybe:
+
+"Consider the case with same QEMU version (5.2) but not latest (not 5.2) machine type:"
+
 -- 
-2.30.2
+Best regards,
+Vladimir
 
 
