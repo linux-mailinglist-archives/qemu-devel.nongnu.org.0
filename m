@@ -2,48 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A1796FEE31
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 May 2023 11:01:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4984B6FEE2D
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 May 2023 11:01:08 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1px28E-0004wO-Hy; Thu, 11 May 2023 04:58:38 -0400
+	id 1px28I-00054K-11; Thu, 11 May 2023 04:58:42 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1px28C-0004qj-PO
- for qemu-devel@nongnu.org; Thu, 11 May 2023 04:58:36 -0400
+ id 1px28F-0004yz-Pc
+ for qemu-devel@nongnu.org; Thu, 11 May 2023 04:58:39 -0400
 Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1px28A-0003nx-B3
- for qemu-devel@nongnu.org; Thu, 11 May 2023 04:58:36 -0400
+ id 1px28E-0003oc-Dt
+ for qemu-devel@nongnu.org; Thu, 11 May 2023 04:58:39 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=ilande.co.uk; s=20220518; h=Subject:Content-Transfer-Encoding:MIME-Version:
  References:In-Reply-To:Message-Id:Date:To:From:Sender:Reply-To:Cc:
  Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
  Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
  List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=ZcHx4pHLCkJas0hSCf31JgVq7T5yCBGcHpekyuNKDrg=; b=CLREdyT9VzH7SYkI3hZq1Jlv44
- LmRqSxPpT+i18yVxPT4yPhaBNhO800a0xUr4718yOisu8C1iXb425qRTK1MmHPcN8OWoJJ7fMxTfU
- 7EudNrajJwLOGHRbX0J21hBlaWfx7/T/k933etloGr6I/1WjLYDRd4VGW5C+EIkq41lzMIdB4RwTm
- M6AC/dPRhlL5Q+1o6rJtcJCi8l1iiS/x2zaZ6f6q+Y+ljhaI0m/1EAYi2T1TzLXH2cPciIATMgJRV
- 28Q6hPKlI+5uXWK0xm/3mC2bagY9vUOtS26oLh9IqR0QDL+E/IQ8S5qUQZX6amUyj0FFyEumEKec9
- SiGKL2N/lJrl3K6dqJeOa9rgvYO8cCLXjj3SnAdjhRzuPNLZ6pg1QlIGgbvKJIbBigtcwHTwvcNRs
- 40KH0C9j9bgarAOYc/Okjd5PegsVSndcocsieNpjXoCbe8wxu9ubHUB4xcyG+YKNZ/nXU4/0vErHe
- uP9grUYcith6YokcKevo4zBK5kLEgNO/O6O9/wUSdZx/LwnjV85jpU6ee91ca/epwc4zYeG05e5ur
- RUir3h4WTZM9A3YLgjXdhlTz4RieDSAF2HNAU4DOU/Gk8O86a9C/+lbDjxCB8uzG8l5dH78GRx7+m
- Wh72nHaC30rj67Mqba4QfVuW8fUAUPCTRXDxtjsqE=;
+ bh=m3sl5AM+pITfcaQ0KhyxSoI9xUqrckMAhNxoBfYz/rY=; b=QZ4D1yRvL2r90jsfetKXr/0Bmu
+ 3GgFRgdrY6McpsF1x2ELVtSK2pKif+gPxaYoDEJVMKXpi1dfp9oSbIxXLntORbIl0OMWL1o8Cuz4r
+ GbFT//36xqe4+q+s8CDuLLHrLxyLWAdS8jcbkCbbrjnq4Q/5sIuuiBYaTEW2aG0b4peCL3PLUWok+
+ DTWM/tLRPi56ScV3b+KCfWFzfIn82u99BzzyOXOhHvO2voj7OVdYLUJGY7FSHVyc88gH53xlvzhxX
+ ULGRwh4Z3Rx55hvKQZ54e436ZDzGNjrxCrNwTDu/wy/ms5jErfVYAVa/UoUiMe0XIewdCmgkpzrE+
+ TlNxTfpfg8Zy86NvX49BDQvw50ejznn/tTeA580Q4OaRCOmOC0BfLbO3lkMVc0KvMZ46Z6YcSAOw0
+ VZ3rOTY4v2ovj0ZuY4EuhmAzLGIJSaiP85uPtx65wMLvzitoyADTK5oP8MFspF3ySXOiTLKDwOHXJ
+ Ye7aZXDFDJPFh8g42Vv2RsJEBv2oPj19X55bwKQ2cgt7iUxsINg7bWDD2gXOdAbum8bqbyEdBl7xI
+ 5um0Jvbce++tdKTthRjbPJRQNsZG72rqZlKGDeHZG5eNSue3XcnsZz/Bh0gT9PSt2ZWZOHk5sJ2EV
+ CfFFkjKpC0oE924N6nUMw9R4KxNz9O30Dws6MvQVc=;
 Received: from host81-151-114-25.range81-151.btcentralplus.com
  ([81.151.114.25] helo=kentang.home)
  by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1px278-0008g9-QT; Thu, 11 May 2023 09:57:34 +0100
+ id 1px27D-0008g9-3J; Thu, 11 May 2023 09:57:39 +0100
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 To: mst@redhat.com, marcel.apfelbaum@gmail.com, philmd@linaro.org,
  alex.bennee@linaro.org, qemu-devel@nongnu.org
-Date: Thu, 11 May 2023 09:57:24 +0100
-Message-Id: <20230511085731.171565-12-mark.cave-ayland@ilande.co.uk>
+Date: Thu, 11 May 2023 09:57:25 +0100
+Message-Id: <20230511085731.171565-13-mark.cave-ayland@ilande.co.uk>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20230511085731.171565-1-mark.cave-ayland@ilande.co.uk>
 References: <20230511085731.171565-1-mark.cave-ayland@ilande.co.uk>
@@ -51,8 +51,8 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 81.151.114.25
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: [RFC PATCH 11/18] hw/net/pcnet-pci.c: switch PCIPCNetState to use PCI
- device input gpio
+Subject: [RFC PATCH 12/18] hw/net/tulip.c: switch TULIPState to use PCI device
+ input gpio
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
 Received-SPF: pass client-ip=2001:41c9:1:41f::167;
@@ -83,30 +83,30 @@ qemu_free_irq() to be removed.
 
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 ---
- hw/net/pcnet-pci.c | 3 +--
+ hw/net/tulip.c | 3 +--
  1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/hw/net/pcnet-pci.c b/hw/net/pcnet-pci.c
-index 96a302c141..cd2e080b4f 100644
---- a/hw/net/pcnet-pci.c
-+++ b/hw/net/pcnet-pci.c
-@@ -182,7 +182,6 @@ static void pci_pcnet_uninit(PCIDevice *dev)
- {
-     PCIPCNetState *d = PCI_PCNET(dev);
+diff --git a/hw/net/tulip.c b/hw/net/tulip.c
+index 915e5fb595..0b4bd8af51 100644
+--- a/hw/net/tulip.c
++++ b/hw/net/tulip.c
+@@ -979,7 +979,7 @@ static void pci_tulip_realize(PCIDevice *pci_dev, Error **errp)
+     pci_register_bar(&s->dev, 0, PCI_BASE_ADDRESS_SPACE_IO, &s->io);
+     pci_register_bar(&s->dev, 1, PCI_BASE_ADDRESS_SPACE_MEMORY, &s->memory);
  
--    qemu_free_irq(d->state.irq);
-     timer_free(d->state.poll_timer);
-     qemu_del_nic(d->state.nic);
- }
-@@ -227,7 +226,7 @@ static void pci_pcnet_realize(PCIDevice *pci_dev, Error **errp)
- 
-     pci_register_bar(pci_dev, 1, 0, &s->mmio);
- 
--    s->irq = pci_allocate_irq(pci_dev);
+-    s->irq = pci_allocate_irq(&s->dev);
 +    s->irq = qdev_get_gpio_in_named(DEVICE(pci_dev), "pci-input-irq", 0);
-     s->phys_mem_read = pci_physical_memory_read;
-     s->phys_mem_write = pci_physical_memory_write;
-     s->dma_opaque = DEVICE(pci_dev);
+ 
+     s->nic = qemu_new_nic(&net_tulip_info, &s->c,
+                           object_get_typename(OBJECT(pci_dev)),
+@@ -992,7 +992,6 @@ static void pci_tulip_exit(PCIDevice *pci_dev)
+     TULIPState *s = DO_UPCAST(TULIPState, dev, pci_dev);
+ 
+     qemu_del_nic(s->nic);
+-    qemu_free_irq(s->irq);
+     eeprom93xx_free(&pci_dev->qdev, s->eeprom);
+ }
+ 
 -- 
 2.30.2
 
