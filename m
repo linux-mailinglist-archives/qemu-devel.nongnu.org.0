@@ -2,76 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14E476FF591
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 May 2023 17:10:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F02F16FF594
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 May 2023 17:11:07 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1px7vw-00056B-JL; Thu, 11 May 2023 11:10:20 -0400
+	id 1px7w0-0005Xj-Nl; Thu, 11 May 2023 11:10:24 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shorne@gmail.com>) id 1px7vs-0004vj-MS
- for qemu-devel@nongnu.org; Thu, 11 May 2023 11:10:16 -0400
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436])
+ (Exim 4.90_1) (envelope-from <shorne@gmail.com>) id 1px7vt-000555-Mv
+ for qemu-devel@nongnu.org; Thu, 11 May 2023 11:10:17 -0400
+Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <shorne@gmail.com>) id 1px7vj-00027L-TV
- for qemu-devel@nongnu.org; Thu, 11 May 2023 11:10:15 -0400
-Received: by mail-wr1-x436.google.com with SMTP id
- ffacd0b85a97d-30786c6082dso4350209f8f.2
+ (Exim 4.90_1) (envelope-from <shorne@gmail.com>) id 1px7vm-00027T-4D
+ for qemu-devel@nongnu.org; Thu, 11 May 2023 11:10:17 -0400
+Received: by mail-wm1-x32a.google.com with SMTP id
+ 5b1f17b1804b1-3f42bcf5df1so33644825e9.3
  for <qemu-devel@nongnu.org>; Thu, 11 May 2023 08:10:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1683817804; x=1686409804;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=4EMMFFjBP4WjNJpcZVHV7+t+mLFPsuxrgpTIf95HUi8=;
- b=ekmzRrBhdYFdBVRnL3IYuLbPkVe+oaKTP7r6ydvN072SazyLg3VqTAAiEY/mCJsq8e
- 6zRxpq6b2SIleCLKqVyokQyYR14WfO1FXxChpB+K+3X6h1d2YiqHeAr9qPmQx/mrsPAc
- joukW+1d1Wf4xHY5R4Tk7sqiEkH93OZXe8uFlhwo6Chhs77DYAuG0wCHDYihvej9fXjo
- jlL/4Frxa2QP7jnPok2Wvcgk4KsuoHz+VLr9SoqamTX6kNIfGa1sXvUX3XcDRag/iTEc
- pGu1zcOMt1DTlzdsyOeUvKHvUFVQ4dc/sC0ztRpisywF8Axq+kvIFScgSfKeTkd9PIPc
- EbtA==
+ d=gmail.com; s=20221208; t=1683817805; x=1686409805;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=+OT6i+7tCi6iezpIwGJmcpXv13tSv9fa3ejqVOJNCoI=;
+ b=HzWSmtiB32/w4dfIwsO/+Bx3f6HnM40kTgM8WWVueVgTMq36OncOrlQUJoE4eCLXOi
+ 0M8rM8eMNvflDT8Qcyr/1TXWsgSMZfCmHguXckv3f6lhSXOzKgBDszEAIzQv6d701kiE
+ lvy13N77pGY1sPlqn1p8wxK+OXTciGVfylj+9W0YS1p801feVTRG3QFhmmkd2o07hT/q
+ dEgAz/dBdcohMIjivypIEGtd5rtHO/fLag2wOnGmMclHUnMES+3Xj8b/TNjtksdK21fd
+ pkoiuhyZrjTQ25nYC9WW3KACCeI7o+Zk2e5PnJ8VIQvKJScEvCg+t3dQH0g1ZnzA6diC
+ GGmg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683817804; x=1686409804;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=4EMMFFjBP4WjNJpcZVHV7+t+mLFPsuxrgpTIf95HUi8=;
- b=g6ckoz70IUQ5k7ng1Pcze0vYfIGEVfOWrfO04zScc0EgZGIGERWYx5AxwETKoloNfi
- C7KNe6tIMVXMccAYO5ADhTpFr0vxFOW/zO/JT1r7w2QgCOjPbaMB4GLUZZ0R9DZO2a8M
- x0n5VADV1QGjXVes4ERg3O4VwcAB3ewA0u4yiXB80pqWMRg4VNzZGO+p1lOiWKgQvCl4
- LoJ59+4wiVov/k/nFMHkvDq3CDAs2j6eWML+E1s5LrbiAQL36/AoX4nC5LQfIu4+BiD0
- XLMLalYDZb01GMyXkovyZLE7MaBJfQnn73QCwI6EgTlRd6xuYz4NmAk7hbFLqE/vK3z4
- IQZQ==
-X-Gm-Message-State: AC+VfDwBEIU9444Re2qnvLlGWOQdFY9M9fmgSJOkf6S6fZlT3+pRRcbN
- eJm0njwpVK5pFZFKkKdP3exs014mY/I=
-X-Google-Smtp-Source: ACHHUZ637Cm0xG1mf+vZW+8aCeQA/XIwLe6U0Fl+tT5HWR9SETswiUXUVgVD00m8BiYcIAaqVZ/ndA==
-X-Received: by 2002:a5d:5308:0:b0:306:3a47:cd78 with SMTP id
- e8-20020a5d5308000000b003063a47cd78mr14767817wrv.71.1683817803997; 
- Thu, 11 May 2023 08:10:03 -0700 (PDT)
+ d=1e100.net; s=20221208; t=1683817805; x=1686409805;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=+OT6i+7tCi6iezpIwGJmcpXv13tSv9fa3ejqVOJNCoI=;
+ b=bVmdPqdz+vBbLzVUeTZhpUt1JeRjG0XnwPsqN2S3gAWwmqg4PWoNvL2Dqyx4/F3COb
+ shgJY94GKqMqO1jc7uBbethvRAIB52aJpUHFC4URcl9pqsTiBR1L/21iqw9rZhRCIxBt
+ gZTI3luzaCXsykxW6IRcfiWwdAWLqIgcpMGcVfaGNuZEZThQk0rJA6k4HKp2Nb92R6OG
+ Nd8AXfuazFFcVgrbLnNptmUFMM1B8sw37VuozwS4IIPRcTzdRiUTkjWCkRd42Ry33mf1
+ WrD2m10nJeP6+FgKWnBhbk7pDjiZ1/EH1sl3MEfuS8y8qbnlE3SCI+TuMkmpIDET7Q5t
+ ui6w==
+X-Gm-Message-State: AC+VfDzbhQDRPqsDapvI7/CbCfRJ/erfM5vbP23l8x+0ubFlXZuoXrGJ
+ qEV2piDagVqqZYvLXdnGjbzg6JyQWQA=
+X-Google-Smtp-Source: ACHHUZ4FHHmEhjQbG9pnuHKknc55z27ILls1GCUv0rX/obemng0C1c4+KLXvaGAHHKzJU8xud2NQoA==
+X-Received: by 2002:adf:fd83:0:b0:305:f2d5:2a12 with SMTP id
+ d3-20020adffd83000000b00305f2d52a12mr15175071wrr.21.1683817805023; 
+ Thu, 11 May 2023 08:10:05 -0700 (PDT)
 Received: from localhost (cpc1-brnt4-2-0-cust862.4-2.cable.virginm.net.
  [86.9.131.95]) by smtp.gmail.com with ESMTPSA id
- r9-20020adfe689000000b002f6dafef040sm20721330wrm.12.2023.05.11.08.10.03
+ e13-20020a5d65cd000000b0030789698eebsm17088387wrw.89.2023.05.11.08.10.04
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 11 May 2023 08:10:03 -0700 (PDT)
+ Thu, 11 May 2023 08:10:04 -0700 (PDT)
 From: Stafford Horne <shorne@gmail.com>
 To: QEMU Development <qemu-devel@nongnu.org>
 Cc: Linux OpenRISC <linux-openrisc@vger.kernel.org>,
- Stafford Horne <shorne@gmail.com>
-Subject: [PATCH v3 0/3] OpenRISC updates for user space FPU
-Date: Thu, 11 May 2023 16:09:56 +0100
-Message-Id: <20230511151000.381911-1-shorne@gmail.com>
+ Stafford Horne <shorne@gmail.com>,
+ Richard Henderson <richard.henderson@linaro.org>
+Subject: [PATCH v3 1/3] target/openrisc: Allow fpcsr access in user mode
+Date: Thu, 11 May 2023 16:09:57 +0100
+Message-Id: <20230511151000.381911-2-shorne@gmail.com>
 X-Mailer: git-send-email 2.39.1
+In-Reply-To: <20230511151000.381911-1-shorne@gmail.com>
+References: <20230511151000.381911-1-shorne@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=shorne@gmail.com; helo=mail-wr1-x436.google.com
-X-Spam_score_int: -16
-X-Spam_score: -1.7
-X-Spam_bar: -
-X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
- DKIM_SIGNED=0.1, FREEMAIL_FROM=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
+ envelope-from=shorne@gmail.com; helo=mail-wm1-x32a.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -87,46 +91,218 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hello,
+As per OpenRISC spec 1.4 FPCSR can be read and written in user mode.
+
+Update mtspr and mfspr helpers to support this by moving the is_user
+check into the helper.
+
+Link: https://raw.githubusercontent.com/openrisc/doc/master/openrisc-arch-1.4-rev0.pdf
+Signed-off-by: Stafford Horne <shorne@gmail.com>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+---
 
 Since v2:
- - Add reviewed-by's from Richard
- - Pull cpu definition out of ifdef in helper_mfspr
+ - Add reviewed-by
+ - In helper_mfspr bring cpu out of ifdef to avoid replicatig the definition.
+   Originally I left it in the ifdef to avoid having to mix having pointers and
+   the data array defined on the stack.  But that's overthinking.
 Since v1:
- - Fixups suggested by Richard Henderson
+ - Update commit message to remove text about no-existant logic change.
 
-This series adds support for the FPU related architecture changes defined in
-architecture spec revision v1.4.
-
- - https://openrisc.io/revisions/r1.4
-
-In summary the architecture changes are:
-
- - Change FPCSR SPR permissions to allow for reading and writing from user
-   space.
- - Clarify that FPU underflow detection is done by detecting tininess before
-   rounding.
-
-Previous to this series FPCSR reads and writes from user-mode in QEMU would
-throw an illegal argument exception.  The proper behavior should have been to
-treat these operations as no-ops as the cpu implementations do.  As mentioned
-series changes FPCSR read/write to follow the spec.
-
-The series has been tested with the FPU support added in glibc test suite and
-all math tests are passing.
-
-
-Stafford Horne (3):
-  target/openrisc: Allow fpcsr access in user mode
-  target/openrisc: Set PC to cpu state on FPU exception
-  target/openrisc: Setup FPU for detecting tininess before rounding
-
- target/openrisc/cpu.c        |  4 ++
- target/openrisc/fpu_helper.c | 13 ++++++-
  target/openrisc/sys_helper.c | 45 ++++++++++++++++------
  target/openrisc/translate.c  | 72 ++++++++++++++++--------------------
- 4 files changed, 81 insertions(+), 53 deletions(-)
+ 2 files changed, 66 insertions(+), 51 deletions(-)
 
+diff --git a/target/openrisc/sys_helper.c b/target/openrisc/sys_helper.c
+index ec145960e3..ccdee3b8be 100644
+--- a/target/openrisc/sys_helper.c
++++ b/target/openrisc/sys_helper.c
+@@ -29,17 +29,37 @@
+ 
+ #define TO_SPR(group, number) (((group) << 11) + (number))
+ 
++static inline bool is_user(CPUOpenRISCState *env)
++{
++#ifdef CONFIG_USER_ONLY
++    return true;
++#else
++    return (env->sr & SR_SM) == 0;
++#endif
++}
++
+ void HELPER(mtspr)(CPUOpenRISCState *env, target_ulong spr, target_ulong rb)
+ {
+-#ifndef CONFIG_USER_ONLY
+     OpenRISCCPU *cpu = env_archcpu(env);
++#ifndef CONFIG_USER_ONLY
+     CPUState *cs = env_cpu(env);
+     target_ulong mr;
+     int idx;
+ #endif
+ 
++    /* Handle user accessible SPRs first.  */
+     switch (spr) {
++    case TO_SPR(0, 20): /* FPCSR */
++        cpu_set_fpcsr(env, rb);
++        return;
++    }
++
++    if (is_user(env)) {
++        raise_exception(cpu, EXCP_ILLEGAL);
++    }
++
+ #ifndef CONFIG_USER_ONLY
++    switch (spr) {
+     case TO_SPR(0, 11): /* EVBAR */
+         env->evbar = rb;
+         break;
+@@ -187,27 +207,33 @@ void HELPER(mtspr)(CPUOpenRISCState *env, target_ulong spr, target_ulong rb)
+         cpu_openrisc_timer_update(cpu);
+         qemu_mutex_unlock_iothread();
+         break;
+-#endif
+-
+-    case TO_SPR(0, 20): /* FPCSR */
+-        cpu_set_fpcsr(env, rb);
+-        break;
+     }
++#endif
+ }
+ 
+ target_ulong HELPER(mfspr)(CPUOpenRISCState *env, target_ulong rd,
+                            target_ulong spr)
+ {
++    OpenRISCCPU *cpu = env_archcpu(env);
+ #ifndef CONFIG_USER_ONLY
+     uint64_t data[TARGET_INSN_START_WORDS];
+     MachineState *ms = MACHINE(qdev_get_machine());
+-    OpenRISCCPU *cpu = env_archcpu(env);
+     CPUState *cs = env_cpu(env);
+     int idx;
+ #endif
+ 
++    /* Handle user accessible SPRs first.  */
+     switch (spr) {
++    case TO_SPR(0, 20): /* FPCSR */
++        return env->fpcsr;
++    }
++
++    if (is_user(env)) {
++        raise_exception(cpu, EXCP_ILLEGAL);
++    }
++
+ #ifndef CONFIG_USER_ONLY
++    switch (spr) {
+     case TO_SPR(0, 0): /* VR */
+         return env->vr;
+ 
+@@ -324,11 +350,8 @@ target_ulong HELPER(mfspr)(CPUOpenRISCState *env, target_ulong rd,
+         cpu_openrisc_count_update(cpu);
+         qemu_mutex_unlock_iothread();
+         return cpu_openrisc_count_get(cpu);
+-#endif
+-
+-    case TO_SPR(0, 20): /* FPCSR */
+-        return env->fpcsr;
+     }
++#endif
+ 
+     /* for rd is passed in, if rd unchanged, just keep it back.  */
+     return rd;
+diff --git a/target/openrisc/translate.c b/target/openrisc/translate.c
+index 76e53c78d4..43ba0cc1ad 100644
+--- a/target/openrisc/translate.c
++++ b/target/openrisc/translate.c
+@@ -819,45 +819,12 @@ static bool trans_l_xori(DisasContext *dc, arg_rri *a)
+ 
+ static bool trans_l_mfspr(DisasContext *dc, arg_l_mfspr *a)
+ {
+-    check_r0_write(dc, a->d);
+-
+-    if (is_user(dc)) {
+-        gen_illegal_exception(dc);
+-    } else {
+-        TCGv spr = tcg_temp_new();
+-
+-        if (tb_cflags(dc->base.tb) & CF_USE_ICOUNT) {
+-            gen_io_start();
+-            if (dc->delayed_branch) {
+-                tcg_gen_mov_tl(cpu_pc, jmp_pc);
+-                tcg_gen_discard_tl(jmp_pc);
+-            } else {
+-                tcg_gen_movi_tl(cpu_pc, dc->base.pc_next + 4);
+-            }
+-            dc->base.is_jmp = DISAS_EXIT;
+-        }
++    TCGv spr = tcg_temp_new();
+ 
+-        tcg_gen_ori_tl(spr, cpu_R(dc, a->a), a->k);
+-        gen_helper_mfspr(cpu_R(dc, a->d), cpu_env, cpu_R(dc, a->d), spr);
+-    }
+-    return true;
+-}
+-
+-static bool trans_l_mtspr(DisasContext *dc, arg_l_mtspr *a)
+-{
+-    if (is_user(dc)) {
+-        gen_illegal_exception(dc);
+-    } else {
+-        TCGv spr;
++    check_r0_write(dc, a->d);
+ 
+-        if (tb_cflags(dc->base.tb) & CF_USE_ICOUNT) {
+-            gen_io_start();
+-        }
+-        /* For SR, we will need to exit the TB to recognize the new
+-         * exception state.  For NPC, in theory this counts as a branch
+-         * (although the SPR only exists for use by an ICE).  Save all
+-         * of the cpu state first, allowing it to be overwritten.
+-         */
++    if (tb_cflags(dc->base.tb) & CF_USE_ICOUNT) {
++        gen_io_start();
+         if (dc->delayed_branch) {
+             tcg_gen_mov_tl(cpu_pc, jmp_pc);
+             tcg_gen_discard_tl(jmp_pc);
+@@ -865,11 +832,36 @@ static bool trans_l_mtspr(DisasContext *dc, arg_l_mtspr *a)
+             tcg_gen_movi_tl(cpu_pc, dc->base.pc_next + 4);
+         }
+         dc->base.is_jmp = DISAS_EXIT;
++    }
++
++    tcg_gen_ori_tl(spr, cpu_R(dc, a->a), a->k);
++    gen_helper_mfspr(cpu_R(dc, a->d), cpu_env, cpu_R(dc, a->d), spr);
++    return true;
++}
++
++static bool trans_l_mtspr(DisasContext *dc, arg_l_mtspr *a)
++{
++    TCGv spr = tcg_temp_new();
+ 
+-        spr = tcg_temp_new();
+-        tcg_gen_ori_tl(spr, cpu_R(dc, a->a), a->k);
+-        gen_helper_mtspr(cpu_env, spr, cpu_R(dc, a->b));
++    if (tb_cflags(dc->base.tb) & CF_USE_ICOUNT) {
++        gen_io_start();
+     }
++    /*
++     * For SR, we will need to exit the TB to recognize the new
++     * exception state.  For NPC, in theory this counts as a branch
++     * (although the SPR only exists for use by an ICE).  Save all
++     * of the cpu state first, allowing it to be overwritten.
++     */
++    if (dc->delayed_branch) {
++        tcg_gen_mov_tl(cpu_pc, jmp_pc);
++        tcg_gen_discard_tl(jmp_pc);
++    } else {
++        tcg_gen_movi_tl(cpu_pc, dc->base.pc_next + 4);
++    }
++    dc->base.is_jmp = DISAS_EXIT;
++
++    tcg_gen_ori_tl(spr, cpu_R(dc, a->a), a->k);
++    gen_helper_mtspr(cpu_env, spr, cpu_R(dc, a->b));
+     return true;
+ }
+ 
 -- 
 2.39.1
 
