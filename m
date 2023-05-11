@@ -2,81 +2,98 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67AE76FF35D
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 May 2023 15:47:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 52E466FF361
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 May 2023 15:49:03 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1px6ck-0007Qo-In; Thu, 11 May 2023 09:46:27 -0400
+	id 1px6ew-0000pz-76; Thu, 11 May 2023 09:48:42 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1px6cc-0007QZ-6e
- for qemu-devel@nongnu.org; Thu, 11 May 2023 09:46:18 -0400
-Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1px6ca-0007d8-Ic
- for qemu-devel@nongnu.org; Thu, 11 May 2023 09:46:17 -0400
-Received: by mail-wr1-x435.google.com with SMTP id
- ffacd0b85a97d-307664010fdso7984591f8f.0
- for <qemu-devel@nongnu.org>; Thu, 11 May 2023 06:46:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1683812775; x=1686404775;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=kdrRjQ49zNkDCzmgZ75Dyp+vrNUeCS3LJz/KJvCz2LM=;
- b=TLKp68Am8rpmSd2m+2RAd5F87ToI8Bq6l+bn1h+zxVOj187rEMhRZWghOi/BBxMc8d
- yw7auJOCDU9x+n7IIi6aDTjMAshDFOUYb4r4JnBsTpGpi7JaMXUmOoDnlhVEOKD8b0Vm
- rv157RMhtrN/8UXwS4NKJXQCgxYauHJlCfTc0DzJWLrLK/FvmvzgJ6saqkM0inDT6iDd
- ZRORIh2nZi1lLblpw4PVnSgJVKdwsKCggR242e89/MEI1VYazV8Js64dyPzCob5VhHXb
- OZm6Kl+i0djrx5ng3KKVdWJzwzIA78+fUCYwQ89OKwwV6LUWZ2OSmb1OX7AZhuDmClP+
- wQlQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683812775; x=1686404775;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=kdrRjQ49zNkDCzmgZ75Dyp+vrNUeCS3LJz/KJvCz2LM=;
- b=fctKNy33xMqz8stLAq/2wtuZfh42Ptz3uxJFyg5PNaL2LvIC+yCxfWWm1lpmrp29Gq
- /O7xzTV1Bxkix1zKTFIibHWHcXC+HrwwXkKdMr7TTL33OFCsIFRwUb+rt8Tw82CdClkk
- emq9aqVOYne03Cm1CJSzvMqP0C/yiyQnuyIu6gM221tAO5nVLnZQfYiZ85P4L7eaz/C9
- UMNwcxYiswBJOAnLe5E6kZ44Mt+MTykHlv/C4R5LgrCfP/NiAGBz6S7A07/OU8vRev/F
- Qtosurwaw7Jswwand8d3Q4SgO4WmGsnAp9tU7mGZKVh/vgl+w9tIyBx6V0bOU2woSS1s
- JSvQ==
-X-Gm-Message-State: AC+VfDzULNGzD8sLVhU8bQGs7GwnNeI7CgWup16XPXlz6xgIsXf96K8l
- xTlppT1haH1aFlKD0pX3l30MWiYgffAbPjC28fh53g==
-X-Google-Smtp-Source: ACHHUZ787L3TJMHcM88nHBPD2FvnzHek7ljw/46+51BxgioYocPZKrbhjPoVV3Omgs95MEBQL8AraQ==
-X-Received: by 2002:adf:f790:0:b0:2f2:7a0e:5cc9 with SMTP id
- q16-20020adff790000000b002f27a0e5cc9mr13158159wrp.19.1683812774871; 
- Thu, 11 May 2023 06:46:14 -0700 (PDT)
-Received: from [192.168.69.115] ([176.176.152.186])
- by smtp.gmail.com with ESMTPSA id
- q4-20020a5d61c4000000b003063772a55bsm20495788wrv.61.2023.05.11.06.46.13
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 11 May 2023 06:46:14 -0700 (PDT)
-Message-ID: <68cca2b7-a61f-325b-2a45-33d6f3bb0c24@linaro.org>
-Date: Thu, 11 May 2023 15:46:12 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.10.1
-Subject: Re: [PATCH 2/3] softmmu/ioport.c: QOMify MemoryRegionPortioList
-Content-Language: en-US
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, pbonzini@redhat.com,
- qemu-devel@nongnu.org
-References: <20230419151652.362717-1-mark.cave-ayland@ilande.co.uk>
- <20230419151652.362717-3-mark.cave-ayland@ilande.co.uk>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230419151652.362717-3-mark.cave-ayland@ilande.co.uk>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+ (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
+ id 1px6es-0000o7-N8; Thu, 11 May 2023 09:48:38 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
+ id 1px6er-00082S-0a; Thu, 11 May 2023 09:48:38 -0400
+Received: from pps.filterd (m0356517.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 34BDdTtw020167; Thu, 11 May 2023 13:48:34 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : date : message-id : content-transfer-encoding : mime-version; s=pp1;
+ bh=u55sFRB4TIMY8r2mWSRbZpou6sJPeW9L37XmuqwBuQI=;
+ b=H82oa/EFJkiJRxEiHsYTpBPRDkLnRIjKU15plurENYqRmWXkTCuxHMT7sau3ghJCUUcg
+ owFQocTXDMjkMTEFShIzxemRsGYAvHJCSc2t0GumJw/s+4GufsAhGe4i1aGqXO0neT0G
+ RWHYXOB08hQL4g7Ull4iAIpAR3J4++YVCZFstAZaFQDsu4arxJcsb+mov96bJTvAgpzq
+ /a1Yr0eIRRJGgMWuZRm9lGW/Q4lyKFSbA6/2pc1mf07F5HH4Uh++Xn+mj+e3j4NW0nkq
+ BWFNYFpmHCOM6ADnyk3kQ48qDQL3k5YbzL3roYG0qz5w+Yxw6sPyhQS/oiBTmr7UYuK5 tA== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3qgyydkxpj-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 11 May 2023 13:48:33 +0000
+Received: from m0356517.ppops.net (m0356517.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 34BDdcCn021290;
+ Thu, 11 May 2023 13:48:13 GMT
+Received: from ppma05fra.de.ibm.com (6c.4a.5195.ip4.static.sl-reverse.com
+ [149.81.74.108])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3qgyydkwve-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 11 May 2023 13:48:13 +0000
+Received: from pps.filterd (ppma05fra.de.ibm.com [127.0.0.1])
+ by ppma05fra.de.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 34BD9Jif019597;
+ Thu, 11 May 2023 13:47:36 GMT
+Received: from smtprelay05.fra02v.mail.ibm.com ([9.218.2.225])
+ by ppma05fra.de.ibm.com (PPS) with ESMTPS id 3qf7mhheaf-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 11 May 2023 13:47:36 +0000
+Received: from smtpav03.fra02v.mail.ibm.com (smtpav03.fra02v.mail.ibm.com
+ [10.20.54.102])
+ by smtprelay05.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 34BDlY4f16384606
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 11 May 2023 13:47:34 GMT
+Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 4AB7920040;
+ Thu, 11 May 2023 13:47:34 +0000 (GMT)
+Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id C398920043;
+ Thu, 11 May 2023 13:47:33 +0000 (GMT)
+Received: from heavy.boeblingen.de.ibm.com (unknown [9.171.14.79])
+ by smtpav03.fra02v.mail.ibm.com (Postfix) with ESMTP;
+ Thu, 11 May 2023 13:47:33 +0000 (GMT)
+From: Ilya Leoshkevich <iii@linux.ibm.com>
+To: Richard Henderson <richard.henderson@linaro.org>,
+ David Hildenbrand <david@redhat.com>, Thomas Huth <thuth@redhat.com>
+Cc: qemu-devel@nongnu.org, qemu-s390x@nongnu.org,
+ Ilya Leoshkevich <iii@linux.ibm.com>
+Subject: [PATCH v2] s390x/tcg: Fix LDER instruction format
+Date: Thu, 11 May 2023 15:47:26 +0200
+Message-Id: <20230511134726.469651-1-iii@linux.ibm.com>
+X-Mailer: git-send-email 2.40.1
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: iEwUwBMX327aq1XTmOVwKj99XA1GzdN4
+X-Proofpoint-GUID: WDv2YW6w-2qVYE4Bfc6lI6gzwh8s0pch
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::435;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x435.google.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.124,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+MIME-Version: 1.0
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-05-11_10,2023-05-05_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxscore=0 bulkscore=0
+ spamscore=0 phishscore=0 priorityscore=1501 impostorscore=0 adultscore=0
+ malwarescore=0 mlxlogscore=999 suspectscore=0 clxscore=1015
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2304280000 definitions=main-2305110117
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=iii@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -93,45 +110,35 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 19/4/23 17:16, Mark Cave-Ayland wrote:
-> The aim of QOMification is so that the lifetime of the MemoryRegionPortioList
-> structure can be managed using QOM's in-built refcounting instead of having to
-> handle this manually.
-> 
-> Due to the use of an opaque pointer it isn't possible to model the new
-> TYPE_MEMORY_REGION_PORTIO_LIST directly using QOM properties, however since
-> use of the new object is restricted to the portio API we can simply set the
-> opaque pointer (and the heap-allocated port list) internally.
-> 
-> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-> ---
->   softmmu/ioport.c | 25 ++++++++++++++++++++++---
->   1 file changed, 22 insertions(+), 3 deletions(-)
-> 
-> diff --git a/softmmu/ioport.c b/softmmu/ioport.c
-> index d0d5b0bcaa..238625a36f 100644
-> --- a/softmmu/ioport.c
-> +++ b/softmmu/ioport.c
-> @@ -32,11 +32,16 @@
->   #include "exec/address-spaces.h"
->   #include "trace.h"
->   
-> -typedef struct MemoryRegionPortioList {
-> +struct MemoryRegionPortioList {
-> +    Object obj;
-> +
->       MemoryRegion mr;
->       void *portio_opaque;
->       MemoryRegionPortio *ports;
-> -} MemoryRegionPortioList;
-> +};
-> +
-> +#define TYPE_MEMORY_REGION_PORTIO_LIST "memory-region-portio-list"
+It's RRE, not RXE.
 
-Possibly simpler as: TYPE_MEMORY_REGION_PORTIO "memory-region-portio"
+Found by running valgrind's none/tests/s390x/bfp-2.
 
-Otherwise:
+Fixes: 86b59624c4aa ("s390x/tcg: Implement LOAD LENGTHENED short HFP to long HFP")
+Reviewed-by: David Hildenbrand <david@redhat.com>
+Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
+---
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+v1: https://lists.gnu.org/archive/html/qemu-devel/2022-11/msg00209.html
+v1 -> v2: Rebased. 
+
+ target/s390x/tcg/insn-data.h.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/target/s390x/tcg/insn-data.h.inc b/target/s390x/tcg/insn-data.h.inc
+index 597d968b0e8..1f1ac742a90 100644
+--- a/target/s390x/tcg/insn-data.h.inc
++++ b/target/s390x/tcg/insn-data.h.inc
+@@ -606,7 +606,7 @@
+     F(0xed04, LDEB,    RXE,   Z,   0, m2_32u, new, f1, ldeb, 0, IF_BFP)
+     F(0xed05, LXDB,    RXE,   Z,   0, m2_64, new_x, x1, lxdb, 0, IF_BFP)
+     F(0xed06, LXEB,    RXE,   Z,   0, m2_32u, new_x, x1, lxeb, 0, IF_BFP)
+-    F(0xb324, LDER,    RXE,   Z,   0, e2, new, f1, lde, 0, IF_AFP1)
++    F(0xb324, LDER,    RRE,   Z,   0, e2, new, f1, lde, 0, IF_AFP1)
+     F(0xed24, LDE,     RXE,   Z,   0, m2_32u, new, f1, lde, 0, IF_AFP1)
+ /* LOAD ROUNDED */
+     F(0xb344, LEDBR,   RRF_e, Z,   0, f2, new, e1, ledb, 0, IF_BFP)
+-- 
+2.40.1
 
 
