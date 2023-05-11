@@ -2,83 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63C9A6FF834
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 May 2023 19:15:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B03D6FF837
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 May 2023 19:16:49 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1px9sF-0007aV-J4; Thu, 11 May 2023 13:14:39 -0400
+	id 1px9to-0000Gk-Qd; Thu, 11 May 2023 13:16:16 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1px9sE-0007aN-G0
- for qemu-devel@nongnu.org; Thu, 11 May 2023 13:14:38 -0400
-Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e])
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1px9tj-0000CN-Vr
+ for qemu-devel@nongnu.org; Thu, 11 May 2023 13:16:12 -0400
+Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1px9sD-0005Mc-13
- for qemu-devel@nongnu.org; Thu, 11 May 2023 13:14:38 -0400
-Received: by mail-wm1-x32e.google.com with SMTP id
- 5b1f17b1804b1-3f315712406so294410215e9.0
- for <qemu-devel@nongnu.org>; Thu, 11 May 2023 10:14:36 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1px9th-0005ps-RR
+ for qemu-devel@nongnu.org; Thu, 11 May 2023 13:16:11 -0400
+Received: by mail-wm1-x32d.google.com with SMTP id
+ 5b1f17b1804b1-3f315735514so293993955e9.1
+ for <qemu-devel@nongnu.org>; Thu, 11 May 2023 10:16:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1683825275; x=1686417275;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
- :message-id:reply-to;
- bh=W6TrDR/4rBB0RvdiQuty3WQAKUKl/NKsBE8M2oESaPI=;
- b=ADuWw9FPlsRe1XsyyEizQQzDWh2ebcH1GSYrprcPNzalcSYsb7EialwCl1hk96bUH7
- FHmuhsGFEyWZlmTyK5ZPsQJcy+zSXzqGc8B7HjbrSQYW8i9EtONID2M+05lgYcBVgs9z
- DbOfne0Fylru9D4MVKt9TUH6KFJJlinAdUTD1cVvw4to4eBiFqUGy7DhHImkfsksouHX
- 1Yw392buwzN/B3JW1YjblOEauKZiGOjX4k89gixojSSeiL7cViJooI5c6RJr16KaYeYt
- C0EFoZt9hf72Em/UX09cNsAUB1qC/WnzSZbarDXIEjnuQQLjmHyBee+rI3lmU4OEgxT0
- WQdA==
+ d=linaro.org; s=google; t=1683825367; x=1686417367;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=CDMN3sKVm1jD2bYZ9vikjhKGKoi9EocGE1LXwyV455U=;
+ b=le+jpYqC1q4bMKUmm4qvf8wwZO912R99qHuw4fvnWx27wP6k3yU+JbXGDpE8azHGt8
+ Z97fZVF/l0NAm/g7Ihsiv0A0nWXnnEpRWuJ9vToee5XiYEeXS2FCmIz7y5zG4np4Y2Ro
+ gQt1m1lYoRvoR++8EppeMrZNZErt/AkiC37LqZUFd/9wV9q1P5Qv4XlNBjqCS6aeXQjD
+ 31MMl/mlvac1NWm3B1sQJfD6zcEBArdxMS+B/Se0B6cESdJLF1gX8dIEKNlIcwl8yLSj
+ TPlVTBm0Npz4s7LF8DafmZ0x5UwzN/nlkckQqMvn7Yv4jVckuUwmLjecgIC943AUQkSw
+ 18cw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683825275; x=1686417275;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=W6TrDR/4rBB0RvdiQuty3WQAKUKl/NKsBE8M2oESaPI=;
- b=Xi+4TckIQuxOH1+C36kKlIrOEaQAISMLluVDcY7GpSHkrOqgrLhXo0K2U4KxrgjSct
- /pf5xtF1iZIYyVnQgFDH9GxxH5gKedrJ0vj3lCiWliLlAFrXJL9SOsd6PFoijW8HKRoN
- fQIc067YDfjRzv+Cgwf7JpED3rxDmiYiFw1aFu3+PUGaF1N+TbFg6Bfcw3s5RWc9d7eU
- mvliGaYILImGesEOlNFUM2MXkJ0s8doOdrz8jL04S5EksgxfXxCPmylbkO48Q0dg9E38
- Y9QzhqFbBVqVP/uFg8ThG3X6Sfker+2wOlnL8MkAJBxxiqIcxr33AG3cIrn/TvdlgXsi
- 4dFw==
-X-Gm-Message-State: AC+VfDyEoAHOjObcxq4Z9PhIrXY30mIJZLBmKKHd/C0g7fJoyoLw5ODq
- 0RTkMZuDoQD39BHH4CiTWa0qpmXJmv2DvfgYPYSSCA==
-X-Google-Smtp-Source: ACHHUZ4P1hle/kV8x4OnkfmvmFQmVVnWEebslP6M4mzn7tVQzH6dPFiBAf0pMv8s5Tdx75LQDCZstA==
-X-Received: by 2002:a05:600c:1d88:b0:3f4:220e:bff7 with SMTP id
- p8-20020a05600c1d8800b003f4220ebff7mr11332431wms.5.1683825275229; 
- Thu, 11 May 2023 10:14:35 -0700 (PDT)
-Received: from zen.linaroharston ([85.9.250.243])
+ d=1e100.net; s=20221208; t=1683825367; x=1686417367;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=CDMN3sKVm1jD2bYZ9vikjhKGKoi9EocGE1LXwyV455U=;
+ b=ldRWuEYaHiYFixqsTE6wCdmtb3D4bTBOs6DIpjEqfk2jZChpzi1y9mDaF1zLBZRmLn
+ xtoDNryeWSqRyo3AdwyCYFX7IL5gqpNr82mCDH4FEJBcZ6U/8bxe7vZGRqZkqm3zWDBU
+ 44MhF55r28V6xnzZuiTjruZOeEh3A3Yod3XjFH7GQIB/+7b6z8m2h3XzSWlGjCpC66GX
+ w+KmTNqPpGq8G5g5UE8ix2rhOPqKw66tvcsdTMN2t3DLu+ICYaTVc3x5a85a02bwPs7B
+ NXHWD6g+9UZmfwo9HgF1blLbtT+k5YKeU61giY+NgkKigcqhl7jc7+a/HGNF97/XJZN5
+ iegw==
+X-Gm-Message-State: AC+VfDy+bOgx88lSBZwbrOZG6GLRogsE6B+0niGK47xKMbK7BNGP/fIQ
+ nL9+w1uOjHtWvgHYnzETiUS2MXdJmnV3b7s2rBafoA==
+X-Google-Smtp-Source: ACHHUZ7//B5CQe+2iwnssLHkf4ADzaveAlZyioTfsDqMN1ByDsqzCi2ZJyELy1EwRw9HJDmsI/SGaQ==
+X-Received: by 2002:a1c:7915:0:b0:3f4:2174:b28c with SMTP id
+ l21-20020a1c7915000000b003f42174b28cmr11060904wme.14.1683825367406; 
+ Thu, 11 May 2023 10:16:07 -0700 (PDT)
+Received: from [192.168.1.177] ([85.9.250.243])
  by smtp.gmail.com with ESMTPSA id
- n2-20020a5d4c42000000b003063db8f45bsm20850759wrt.23.2023.05.11.10.14.34
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 11 May 2023 10:14:34 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 92F0D1FFBB;
- Thu, 11 May 2023 18:14:34 +0100 (BST)
-References: <20230511165640.1862868-1-alex.bennee@linaro.org>
- <CABgObfabZgJro_faUfhADWtTg1ewpM2iMtmt4KkJpSBqmJsF_Q@mail.gmail.com>
-User-agent: mu4e 1.11.4; emacs 29.0.90
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Cc: qemu-devel <qemu-devel@nongnu.org>, Thomas Huth <thuth@redhat.com>
-Subject: Re: [RFC PATCH] Makefile: include gtags in UNCHECKED_GOALS
-Date: Thu, 11 May 2023 18:14:27 +0100
-In-reply-to: <CABgObfabZgJro_faUfhADWtTg1ewpM2iMtmt4KkJpSBqmJsF_Q@mail.gmail.com>
-Message-ID: <87pm76yemd.fsf@linaro.org>
+ f5-20020a1c6a05000000b003f4266965fbsm11906628wmc.5.2023.05.11.10.16.06
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 11 May 2023 10:16:07 -0700 (PDT)
+Message-ID: <91e23741-61d1-cd72-6c80-6114c5d57c1f@linaro.org>
+Date: Thu, 11 May 2023 18:16:04 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32e.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH v2 0/5] migration: Make dirtyrate.c target independent
+Content-Language: en-US
+To: Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org
+Cc: David Hildenbrand <david@redhat.com>, Leonardo Bras <leobras@redhat.com>, 
+ Peter Xu <peterx@redhat.com>, Andrei Gudkov <gudkov.andrei@huawei.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Zhenzhong Duan <zhenzhong.duan@intel.com>,
+ Hyman Huang <huangy81@chinatelecom.cn>
+References: <20230511141208.17779-1-quintela@redhat.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20230511141208.17779-1-quintela@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x32d.google.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.124,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -96,24 +99,16 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On 5/11/23 15:12, Juan Quintela wrote:
+> Juan Quintela (5):
+>    softmmu: Create qemu_target_pages_to_MiB()
+>    Use new created qemu_target_pages_to_MiB()
+>    migration: Teach dirtyrate about qemu_target_page_size()
+>    migration: Teach dirtyrate about qemu_target_page_bits()
+>    migration: Make dirtyrate.c target independent
 
-Paolo Bonzini <pbonzini@redhat.com> writes:
+Series:
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-> Il gio 11 mag 2023, 18:56 Alex Benn=C3=A9e <alex.bennee@linaro.org> ha sc=
-ritto:
->
->  This is the mechanism we use to avoid defaulting to a build dir when
->  we don't need to.
->
->  Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
->
-> I had already squashed this into Steven Sistare's recently posted patch, =
-which otherwise would have broken the
-> "pages" job in CI.
-
-\o/
-
---=20
-Alex Benn=C3=A9e
-Virtualisation Tech Lead @ Linaro
+r~
 
