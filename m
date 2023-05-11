@@ -2,79 +2,114 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 061256FEE5E
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 May 2023 11:09:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4EAE46FEE7D
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 May 2023 11:16:53 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1px2IK-0002Yb-Jo; Thu, 11 May 2023 05:09:04 -0400
+	id 1px2Oh-0006D3-Fv; Thu, 11 May 2023 05:15:40 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
- id 1px2IH-0002YR-Bi
- for qemu-devel@nongnu.org; Thu, 11 May 2023 05:09:01 -0400
-Received: from mail.loongson.cn ([114.242.206.163] helo=loongson.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <gaosong@loongson.cn>) id 1px2IF-0005yJ-5M
- for qemu-devel@nongnu.org; Thu, 11 May 2023 05:09:01 -0400
-Received: from loongson.cn (unknown [10.20.42.57])
- by gateway (Coremail) with SMTP id _____8CxVPChsFxkvLIHAA--.13151S3;
- Thu, 11 May 2023 17:08:50 +0800 (CST)
-Received: from [10.20.42.57] (unknown [10.20.42.57])
- by localhost.localdomain (Coremail) with SMTP id
- AQAAf8BxlrWgsFxkTIhVAA--.21528S3; 
- Thu, 11 May 2023 17:08:48 +0800 (CST)
-Subject: Re: [PATCH v10 1/8] memory: prevent dma-reentracy issues
-To: Thomas Huth <thuth@redhat.com>
-Cc: qemu-devel@nongnu.org, maobibo@loongson.cn
-References: <20230427211013.2994127-1-alxndr@bu.edu>
- <20230427211013.2994127-2-alxndr@bu.edu> <ZEt/3RwtL/jePTTv@redhat.com>
- <828514c6-44f0-32f0-1eb1-a49f21617585@redhat.com>
- <20230428091159.haydefdtq4m6z2tz@mozz.bu.edu>
- <b151ecf7-0544-86ac-a182-1112a4dd7dca@redhat.com>
- <c01a2b87-27be-e92a-3a5b-d561eadbc516@loongson.cn>
- <981cdcd7-7326-08f0-9882-e66840175205@redhat.com>
- <c4919eb6-74f1-7699-f924-6917cdf435bb@loongson.cn>
- <faa1c6e0-abc2-f108-cc25-2b2cf71bd3d0@redhat.com>
- <a5a05af5-bf26-ad10-f866-230e4525881f@loongson.cn>
- <1b3f4f59-4773-014c-1c8e-e300d14b1d2e@redhat.com>
- <d883eaaa-96e7-3cd9-9226-76a1fee874d8@loongson.cn>
- <1e0cf322-7c22-862c-f9c3-9b6099abaa54@redhat.com>
-From: Song Gao <gaosong@loongson.cn>
-Message-ID: <76e83c6f-ef87-f9bb-ff41-2c2f9781d8ba@loongson.cn>
-Date: Thu, 11 May 2023 17:08:48 +0800
-User-Agent: Mozilla/5.0 (X11; Linux loongarch64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1px2ON-00067v-JX
+ for qemu-devel@nongnu.org; Thu, 11 May 2023 05:15:20 -0400
+Received: from esa7.hc2706-39.iphmx.com ([216.71.137.80])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1px2OL-00077l-Sm
+ for qemu-devel@nongnu.org; Thu, 11 May 2023 05:15:19 -0400
+X-IronPort-RemoteIP: 209.85.219.71
+X-IronPort-MID: 279494809
+X-IronPort-Reputation: None
+X-IronPort-Listener: OutgoingMail
+X-IronPort-SenderGroup: RELAY_GSUITE
+X-IronPort-MailFlowPolicy: $RELAYED
+IronPort-Data: A9a23:k9KNn6yF9Tk1RYAmDbF6t+eKxCrEfRIJ4+MujC+fZmUNrF6WrkVWz
+ TcYXmqCa6vYZjH2KNEkPo609hkF78LXzdRqQQZoqC00HyNBpPSeOdnIdU2Y0wF+jyHgoOCLy
+ +1EN7Es+ehtFie0Si+Fa+Sn9j8kk/nTHNIQMcacUghpXwhoVSw9vhxqnu89k+ZAjMOwRgiAo
+ rsemeWGULOe82MyYzN8B56r8ks156yv4WpA5zTSWNgQ1LPgvyhNZH4gDfzpR5fIatE8NvK3Q
+ e/F0Ia48gvxl/v6Ior4+lpTWhRiro/6ZGBiuFIPM0SRqkEqShgJ70oOHKF0hXG7Ktm+t4sZJ
+ N1l7fRcQOqyV0HGsL11vxJwSkmSMUDakVNuzLfWXcG7liX7n3XQL/pGVHAdZ4EZ9+lLCkZp7
+ sIBNQEWUB2AmLfjqF67YrEEasULKcDqOMYGpCglw26AS/khRp/HTuPB4towMDUY3JgfW6aDI
+ ZBAOHwwNXwsYDUWUrsTIJs6jOGknFH1bntVpE/9Sa8fuTeCkF0tgOC8WDbTUsOTbJQF3U/Hn
+ HOcwWLrGkFZOPeBzzXQpxpAgceKx0sXQrk6DbC967tmjUOewkQVDxsZU0b9puO24nNSQPpaI
+ k0QvzMw9O08qxXtQd76UBm15nWDu3bwRuZtLgHz0ynVooK83upTLjJsouJpADD+iPILeA==
+IronPort-HdrOrdr: A9a23:ZahXYqDs8d1RWkblHelg55DYdb4zR+YMi2TDGXoBLiC9Vvbo6v
+ xG+85rqSMc6QxhIk3I/OrrBEDuewK/yXcY2/h1AV7mZniYhILKFvAY0WKB+UyYJ8SWzIc0vt
+ YCT0E9MqyJMbETt6bHCWKDYrAdKbe8gcSVrNab5VtWCS9RV4FcwzFQNju7e3cGOjWuxqBUKH
+ Nf3Kd6TvabF0j/p/7VZ0U4Yw==
+X-Talos-CUID: =?us-ascii?q?9a23=3AnnXKsGr832vSMldMS25QWwXmUZgUWSfRzXrfH0S?=
+ =?us-ascii?q?fLn1XUaCkUmGd+7wxxg=3D=3D?=
+X-Talos-MUID: =?us-ascii?q?9a23=3AtZs7dA68Qc7qb93nrrQT5xcixox3+o3/WAMEzq8?=
+ =?us-ascii?q?X4feCJzQgeDu2kjK4F9o=3D?=
+Received: from mail-qv1-f71.google.com ([209.85.219.71])
+ by ob1.hc2706-39.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
+ 11 May 2023 05:15:14 -0400
+Received: by mail-qv1-f71.google.com with SMTP id
+ 6a1803df08f44-621247fde5cso25693536d6.0
+ for <qemu-devel@nongnu.org>; Thu, 11 May 2023 02:15:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bu.edu; s=s1gsbu; t=1683796513; x=1686388513;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=tZWcGmmpaunphoIYX25Fz6+V1kk4+EibTHDdV0r0orY=;
+ b=h4kGJvRNHlcmDBe+OejCKIj1ctZCmaWzPLoM7qgJCJA7mWDhixfSVclJ7B9cK2gE8L
+ Lqx4BXcwVe2Q5WyuCstbyy+8chI79BAmw0PPtG2OGPduRwfuDJ9NGpVr7ikk5uAZ/S2r
+ n6n/giC1MnVoTiFOrgFjh1sZkxw7/tVcW/PPhADdwvyngWRXzoGT9Nkt6AUsqNfEb8tj
+ vQ8XIuChuSFUNu1qKKyXVY9fD9m4doQP7knkF2fWDDK7Q+C049OiAEk80OGHcKbPAcz+
+ Rujja0eznyBs19KJNeu56jRQO6KmzOBQ3XKZYkwW6KoTKyDp0tJOK6ZabPO3LYi2jxu2
+ SMng==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1683796513; x=1686388513;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=tZWcGmmpaunphoIYX25Fz6+V1kk4+EibTHDdV0r0orY=;
+ b=l8W980mGX7NjnXrBTyBTMsi55eWX9H8jd2YMmRQUZT+cSOgiSSZs+iQ1C4vwwghAL+
+ CuOYtggQmzPuQjxQqEomMSkKmoGVB+cAMoyYpeCL+d29cL5qAAyvB99KXEKPfL/KzTk1
+ A5zmLPInGTX0R02eK2UoRcl1IIUMUJzmKYdn49S3VrxfYfSk35KC3bAR5m3N3aohwQwu
+ 2GClGqiKM0sM+DKxfITQ7/RRfTBZF3YRA40rtyn39o451U7161ox3uTWMQWFC5NXx6m1
+ WG3jml5em988zmYrpWWh0C24jZlB8VDebiNlsbBomCHHLRC4rrqOfpcfPGFjAal0WJnf
+ dgbg==
+X-Gm-Message-State: AC+VfDxGF+4j40IOyH7FkPHZMrvzDZUkZdjsAtY+/VseKTOZdSeLB/aG
+ 3cfnyHyxBQlNzj4XsC6NwvE4yoC6OczC5z9vFpRalKdt/eplixInujpyMan1jhQNNICSVxl3l1E
+ wtvnf9eSsP/eZe2PPRhd8E4sxiQd3UAWGxyeak8wv
+X-Received: by 2002:a05:6214:76a:b0:616:54c7:316a with SMTP id
+ f10-20020a056214076a00b0061654c7316amr26821801qvz.8.1683796513477; 
+ Thu, 11 May 2023 02:15:13 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ6pAdvLb7kzuAgreu4HaGof+20PKgk6YEM5eUG70kQiRrgyJIvkvcsx8ue8YJX7H1zziKrS+g==
+X-Received: by 2002:a05:6214:76a:b0:616:54c7:316a with SMTP id
+ f10-20020a056214076a00b0061654c7316amr26821785qvz.8.1683796513144; 
+ Thu, 11 May 2023 02:15:13 -0700 (PDT)
+Received: from mozz.bu.edu (mozz.bu.edu. [128.197.127.33])
+ by smtp.gmail.com with ESMTPSA id
+ l18-20020a0ce512000000b006215c5bb2e9sm699558qvm.70.2023.05.11.02.15.12
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 11 May 2023 02:15:12 -0700 (PDT)
+Date: Thu, 11 May 2023 05:15:09 -0400
+From: Alexander Bulekov <alxndr@bu.edu>
+To: =?utf-8?Q?C=C3=A9dric?= Le Goater <clg@kaod.org>
+Cc: qemu-devel@nongnu.org, Thomas Huth <thuth@redhat.com>,
+ "open list:PowerNV Non-Virtu..." <qemu-ppc@nongnu.org>
+Subject: Re: [PATCH] pnv_lpc: disable reentrancy detection for lpc-hc
+Message-ID: <20230511091509.nypeyd5fhzxlvo47@mozz.bu.edu>
+References: <20230511085337.3688527-1-alxndr@bu.edu>
+ <3102db7a-bbaa-f394-b739-23950fe81be0@kaod.org>
 MIME-Version: 1.0
-In-Reply-To: <1e0cf322-7c22-862c-f9c3-9b6099abaa54@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-CM-TRANSID: AQAAf8BxlrWgsFxkTIhVAA--.21528S3
-X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
-X-Coremail-Antispam: 1Uk129KBjDUn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7KY7
- ZEXasCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29K
- BjDU0xBIdaVrnRJUUUv2b4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26c
- xKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vE
- j48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xIIjxv20xvEc7CjxV
- AFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x02
- 67AKxVW8Jr0_Cr1UM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12xvs2x26I8E6x
- ACxx1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1j6r18McIj6I8E
- 87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lc7I2V7IY0V
- AS07AlzVAYIcxG8wCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s02
- 6c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jr
- v_JF1lIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvE
- c7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14
- v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Jr0_GrUvcSsGvfC2KfnxnUUI43ZEXa7I
- U1CPfJUUUUU==
-Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
- helo=loongson.cn
-X-Spam_score_int: -51
-X-Spam_score: -5.2
-X-Spam_bar: -----
-X-Spam_report: (-5.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-3.251,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+In-Reply-To: <3102db7a-bbaa-f394-b739-23950fe81be0@kaod.org>
+X-CES-GSUITE_AUTH: bf3aNvsZpxl8
+Received-SPF: pass client-ip=216.71.137.80; envelope-from=alxndr@bu.edu;
+ helo=esa7.hc2706-39.iphmx.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ HK_RANDOM_ENVFROM=0.001, HK_RANDOM_FROM=0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,25 +125,43 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-
-
-在 2023/5/11 下午4:58, Thomas Huth 写道:
-> On 11/05/2023 10.53, Song Gao wrote:
-> ...
->> And
->> Should we need add  '  @skipIf(os.getenv('GITLAB_CI'), 'Running on 
->> GitLab')' ?
->>
->> I see some tests add this.
+On 230511 1104, Cédric Le Goater wrote:
+> Hello Alexander
+> 
+> On 5/11/23 10:53, Alexander Bulekov wrote:
+> > As lpc-hc is designed for re-entrant calls from xscom, mark it
+> > re-entrancy safe.
+> > 
+> > Reported-by: Thomas Huth <thuth@redhat.com>
+> > Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
+> > ---
+> >   hw/ppc/pnv_lpc.c | 2 ++
+> >   1 file changed, 2 insertions(+)
+> > 
+> > diff --git a/hw/ppc/pnv_lpc.c b/hw/ppc/pnv_lpc.c
+> > index 01f44c19eb..67fd049a7f 100644
+> > --- a/hw/ppc/pnv_lpc.c
+> > +++ b/hw/ppc/pnv_lpc.c
+> > @@ -738,6 +738,8 @@ static void pnv_lpc_realize(DeviceState *dev, Error **errp)
+> >                                   &lpc->opb_master_regs);
+> >       memory_region_init_io(&lpc->lpc_hc_regs, OBJECT(dev), &lpc_hc_ops, lpc,
+> >                             "lpc-hc", LPC_HC_REGS_OPB_SIZE);
+> > +    /* xscom writes to lpc-hc. As such mark lpc-hc re-entrancy safe */
+> > +    lpc->lpc_hc_regs.disable_reentrancy_guard = true;
+> >       memory_region_add_subregion(&lpc->opb_mr, LPC_HC_REGS_OPB_ADDR,
+> >                                   &lpc->lpc_hc_regs);
+> 
+> The warning changed :
+> 
+>   qemu-system-ppc64: warning: Blocked re-entrant IO on MemoryRegion: lpc-opb-master at addr: 0x8
+> 
+> I will take a look unless you know exactly what to do.
 >
-> No, please don't add that unless there is a good reason. That marker 
-> is only required if the test does not work reliable on gitlab, e.g. if 
-> it sometimes fails due to race conditions or if it takes incredibly 
-> long to finish.
->
-Ok.
 
-Thanks.
-Song Gao
+That does not show up for me with "./qemu-system-ppc64 -M powernv8" 
+Do I need to boot a kernel to see the message?
 
+I was worried that there might be other re-entrant IO in this device.
+Maybe there should be a way to just mark the whole device re-entrancy
+safe.
 
