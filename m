@@ -2,65 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C56A6FEE43
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 May 2023 11:02:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A4D906FEE5A
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 May 2023 11:07:37 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1px2Ay-0003pS-2s; Thu, 11 May 2023 05:01:28 -0400
+	id 1px2G5-0001EL-Q3; Thu, 11 May 2023 05:06:45 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1px2Ab-00032J-Ae
- for qemu-devel@nongnu.org; Thu, 11 May 2023 05:01:09 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1px2G1-0001Bk-TV
+ for qemu-devel@nongnu.org; Thu, 11 May 2023 05:06:42 -0400
+Received: from 3.mo552.mail-out.ovh.net ([178.33.254.192])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1px2AS-0004dW-Fi
- for qemu-devel@nongnu.org; Thu, 11 May 2023 05:00:57 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1683795654;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=Ta1SSP8eSKfxAW8Mi/XfGrU9PlU6ts5h0AcUCL4iE6Y=;
- b=fHrw20gkZ0kAoLmw+K/eKRxGz9SCaQC4xVcDQXtqfxvZnhdaxbwj5KoOvs1WHc3OBQXNj7
- uqRGbcuGKMYarxYfpz5sDicPEgMsJHJX0WGzxpqms1gMeq8JJd5sjrVbY7V6URcBWckNm/
- ME966dmsBtQ/BnGz7rmO/mwO2/LVbsI=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-583-b1WYalxQPPaq8kiZ9G3iDA-1; Thu, 11 May 2023 05:00:51 -0400
-X-MC-Unique: b1WYalxQPPaq8kiZ9G3iDA-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
- [10.11.54.9])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id CE9E61C0897D;
- Thu, 11 May 2023 09:00:50 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.193.4])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D4FA048FB11;
- Thu, 11 May 2023 09:00:49 +0000 (UTC)
-Date: Thu, 11 May 2023 11:00:48 +0200
-From: Kevin Wolf <kwolf@redhat.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-Cc: qemu-block@nongnu.org, qemu-devel@nongnu.org, hreitz@redhat.com,
- den@openvz.org, alexander.ivanov@virtuozzo.com
-Subject: Re: [PATCH v9 0/6] block: refactor blockdev transactions
-Message-ID: <ZFyuwBnsBz1chYdz@redhat.com>
-References: <20230510150624.310640-1-vsementsov@yandex-team.ru>
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1px2Fw-0005n5-UR
+ for qemu-devel@nongnu.org; Thu, 11 May 2023 05:06:41 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.109.138.22])
+ by mo552.mail-out.ovh.net (Postfix) with ESMTPS id 3E9442D013;
+ Thu, 11 May 2023 09:04:13 +0000 (UTC)
+Received: from kaod.org (37.59.142.110) by DAG4EX2.mxp5.local (172.16.2.32)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.23; Thu, 11 May
+ 2023 11:04:13 +0200
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-110S004958616e6-496d-4f29-8ec8-6ec51cfb8dcd,
+ 144821B34C2936864118ABACE4D2D33E1039104D) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <3102db7a-bbaa-f394-b739-23950fe81be0@kaod.org>
+Date: Thu, 11 May 2023 11:04:05 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230510150624.310640-1-vsementsov@yandex-team.ru>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH] pnv_lpc: disable reentrancy detection for lpc-hc
+Content-Language: en-US
+To: Alexander Bulekov <alxndr@bu.edu>, <qemu-devel@nongnu.org>
+CC: Thomas Huth <thuth@redhat.com>, "open list:PowerNV Non-Virtu..."
+ <qemu-ppc@nongnu.org>
+References: <20230511085337.3688527-1-alxndr@bu.edu>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <20230511085337.3688527-1-alxndr@bu.edu>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [37.59.142.110]
+X-ClientProxiedBy: DAG7EX1.mxp5.local (172.16.2.61) To DAG4EX2.mxp5.local
+ (172.16.2.32)
+X-Ovh-Tracer-GUID: 256654cf-9356-4012-a183-9a2520d4a0a4
+X-Ovh-Tracer-Id: 12649766931326471136
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvhedrfeegkedgudduucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgihesthejredttdefjeenucfhrhhomhepveorughrihgtucfnvgcuifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeeuuddtteelgeejhfeikeegffekhfelvefgfeejveffjeeiveegfeehgfdtgfeitdenucfkphepuddvjedrtddrtddruddpfeejrdehledrudegvddruddutddpkedvrdeigedrvdehtddrudejtdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeduvdejrddtrddtrddupdhmrghilhhfrhhomhepoegtlhhgsehkrghougdrohhrgheqpdhnsggprhgtphhtthhopedupdhrtghpthhtoheprghlgihnughrsegsuhdrvgguuhdpqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrghdpthhhuhhthhesrhgvughhrghtrdgtohhmpdhqvghmuhdqphhptgesnhhonhhgnhhurdhorhhgpdfovfetjfhoshhtpehmohehhedvpdhmohguvgepshhmthhpohhuth
+Received-SPF: pass client-ip=178.33.254.192; envelope-from=clg@kaod.org;
+ helo=3.mo552.mail-out.ovh.net
+X-Spam_score_int: -51
+X-Spam_score: -5.2
+X-Spam_bar: -----
+X-Spam_report: (-5.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-3.251,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01,
+ T_SPF_HELO_TEMPERROR=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -76,27 +73,39 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Am 10.05.2023 um 17:06 hat Vladimir Sementsov-Ogievskiy geschrieben:
-> Hi all!
+Hello Alexander
+
+On 5/11/23 10:53, Alexander Bulekov wrote:
+> As lpc-hc is designed for re-entrant calls from xscom, mark it
+> re-entrancy safe.
 > 
-> Let's refactor QMP transactions implementation into new (relatively)
-> transaction API.
+> Reported-by: Thomas Huth <thuth@redhat.com>
+> Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
+> ---
+>   hw/ppc/pnv_lpc.c | 2 ++
+>   1 file changed, 2 insertions(+)
 > 
-> v9:
-> 01: fix leaks
+> diff --git a/hw/ppc/pnv_lpc.c b/hw/ppc/pnv_lpc.c
+> index 01f44c19eb..67fd049a7f 100644
+> --- a/hw/ppc/pnv_lpc.c
+> +++ b/hw/ppc/pnv_lpc.c
+> @@ -738,6 +738,8 @@ static void pnv_lpc_realize(DeviceState *dev, Error **errp)
+>                                   &lpc->opb_master_regs);
+>       memory_region_init_io(&lpc->lpc_hc_regs, OBJECT(dev), &lpc_hc_ops, lpc,
+>                             "lpc-hc", LPC_HC_REGS_OPB_SIZE);
+> +    /* xscom writes to lpc-hc. As such mark lpc-hc re-entrancy safe */
+> +    lpc->lpc_hc_regs.disable_reentrancy_guard = true;
+>       memory_region_add_subregion(&lpc->opb_mr, LPC_HC_REGS_OPB_ADDR,
+>                                   &lpc->lpc_hc_regs);
+>   
 
-That's a clever use of g_autofree. Wouldn't have thought of that. :-)
+The warning changed :
 
-> 02-03: add r-b
-> 04: fix leak, s/Transaction/transaction/
-> 05: new, was part of 06
-> 06: rework of bitmap-add action moved to 05
+   qemu-system-ppc64: warning: Blocked re-entrant IO on MemoryRegion: lpc-opb-master at addr: 0x8
 
-I took the liberty of moving the removal of the 'prepared' field in
-BlockDirtyBitmapState from patch 6 to patch 5, I hope you agree.
+I will take a look unless you know exactly what to do.
 
-Thanks, applied to the block branch.
+Thanks,
 
-Kevin
-
+C.
 
