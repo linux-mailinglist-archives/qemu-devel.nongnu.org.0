@@ -2,97 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90C306FF6E0
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 May 2023 18:15:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 69D926FF6E2
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 May 2023 18:15:31 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1px8w0-00077k-W0; Thu, 11 May 2023 12:14:29 -0400
+	id 1px8wc-0008Dk-Je; Thu, 11 May 2023 12:15:06 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1px8vz-00076Q-7W
- for qemu-devel@nongnu.org; Thu, 11 May 2023 12:14:27 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <dave.jiang@intel.com>)
+ id 1px8wY-0008BA-98
+ for qemu-devel@nongnu.org; Thu, 11 May 2023 12:15:02 -0400
+Received: from mga17.intel.com ([192.55.52.151])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1px8vx-0001Im-JN
- for qemu-devel@nongnu.org; Thu, 11 May 2023 12:14:27 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1683821664;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=sAgNQ76oqWisqXMSQPCdukNBnQCr8ABM1Zb6YKFC+ow=;
- b=de5a4R7mC8PJoNUHKDhi4U0MR0IfyiOqjPpHVqomwvy9VxAkZUQdknAi3288nm/jSThkBu
- Hmr/LBLloUyVVuFbaF8p+L53kHTrFgYk+1RDOulNeLKpL19VJABRSc8bpgMNOY6zZ1MIBw
- BpP9HaZWfyfUXDBRkFxEsXsA51+ix28=
-Received: from mail-ua1-f72.google.com (mail-ua1-f72.google.com
- [209.85.222.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-298-sR_3day7OI6VwSvT3jThmw-1; Thu, 11 May 2023 12:14:22 -0400
-X-MC-Unique: sR_3day7OI6VwSvT3jThmw-1
-Received: by mail-ua1-f72.google.com with SMTP id
- a1e0cc1a2514c-780e23ab096so1379017241.1
- for <qemu-devel@nongnu.org>; Thu, 11 May 2023 09:14:22 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683821662; x=1686413662;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=sAgNQ76oqWisqXMSQPCdukNBnQCr8ABM1Zb6YKFC+ow=;
- b=PqfU+/CujywbWYHECHyyeYH9C3tLsTRlzZ25GsOVZBhPx1ELJQj9T4j5S9Wi5jKcyi
- 44Wk0+WIBX5pc+FrRTwN917DlzmmUQfCcgn9/uXtDEbv7Ck05S1tgqig1kIaQXRC8Glx
- yWtBISGlT3fIYw4lfM4ZZKvuPdJptMqiLTOlnTmt9BmrrhEW8wS91K6MHTm1D0elNXbV
- AG6XRipvOTFdnAqph/ZoHo4o2h8RVrN1/4xRx7spTyTZ+UCg6oMwB2yW3h32MCD3/1C6
- cnnqBbn/+xGYnzugO5himRUqbbPTxUCiRMYDymhvMTfeOI8Hsbq9udHeBlrkkVcJ1X/a
- stpw==
-X-Gm-Message-State: AC+VfDzwv5R5LhsRpqMIwWGOGoVlNvFcDvs7GS3CL6innqQn1F2bXi3G
- wb+ZUZAUb2LmwiPKQguTh4cjKU4c0IDuuDlWRS5vRsVs68m8eqICo9ZxoMYJg3+n/re7hvkdu+s
- aLJAIZFWmlaJWNIMvyseCckUCIC8K2A0=
-X-Received: by 2002:a05:6102:d3:b0:434:89e3:5a39 with SMTP id
- u19-20020a05610200d300b0043489e35a39mr7710988vsp.10.1683821661907; 
- Thu, 11 May 2023 09:14:21 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ7loAKXoPF6PBNY+1nDIspfvLL1f3dnBmnpvGpfm1D6iiSOh9cGZ7okM9R0RW5DkPkVz/KVRYvxOXweqOR7YJo=
-X-Received: by 2002:a05:6102:d3:b0:434:89e3:5a39 with SMTP id
- u19-20020a05610200d300b0043489e35a39mr7710952vsp.10.1683821661666; Thu, 11
- May 2023 09:14:21 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <dave.jiang@intel.com>)
+ id 1px8wV-0001OS-Hz
+ for qemu-devel@nongnu.org; Thu, 11 May 2023 12:15:01 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1683821699; x=1715357699;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=9gHPvVK+7JiEuY4VrN4AAchmLi6CSfRBTIUl4SFLRSU=;
+ b=ScC/zBwOAwVC1sCdfI0y1SO3SqFdA1nU+xl2fR9XtqmpSfqxmfz2lEVi
+ uaCDGWJ9rOfuCfvBh/XMFXxTceImvjy4oLqeUvzTtRsrVIpZ76x8UtDlb
+ fpMtNKlzUYgUkStANKx3jWYjin8GO9Ub0kQzIqdSnOUZlO7VtU+SypnIp
+ unLEJ9d9QjKgMZaMgl0PGrtpAfx5jvlbuswiQtlNcmBwKNv0hvabZWB87
+ AwcQGPyOGfm/bp7dm/yehZ//YA8FhwW1O0OY75+qO/lGzKdd1gWGF1Ef5
+ s/SR7bjOarx8bwIzfNFbdttZNX/HyottvY8P4q3w4h8GOSb885eoHEWuC A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10707"; a="330905814"
+X-IronPort-AV: E=Sophos;i="5.99,266,1677571200"; d="scan'208";a="330905814"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 May 2023 09:14:55 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10707"; a="874036848"
+X-IronPort-AV: E=Sophos;i="5.99,266,1677571200"; d="scan'208";a="874036848"
+Received: from djiang5-mobl3.amr.corp.intel.com (HELO [10.212.95.11])
+ ([10.212.95.11])
+ by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 May 2023 09:14:54 -0700
+Message-ID: <8f6c1506-9254-6390-2777-218f2d275cad@intel.com>
+Date: Thu, 11 May 2023 09:14:53 -0700
 MIME-Version: 1.0
-References: <20230511035435.734312-1-jsnow@redhat.com>
- <20230511035435.734312-28-jsnow@redhat.com>
- <ac20b31a-5018-186f-3d7c-ea9d7d0f11c4@redhat.com>
- <CAFn=p-axwgCSju3e86rRHMBbdSkYiTMPaaL857DO+4bW5fu9WQ@mail.gmail.com>
-In-Reply-To: <CAFn=p-axwgCSju3e86rRHMBbdSkYiTMPaaL857DO+4bW5fu9WQ@mail.gmail.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Date: Thu, 11 May 2023 18:14:10 +0200
-Message-ID: <CABgObfYHpiHuRkFDVFU8YovqUqETzQBse9-tK7C+69VMFfrS2w@mail.gmail.com>
-Subject: Re: [PATCH 27/27] mkvenv.py: experiment; use distlib to generate
- script entry points
-To: John Snow <jsnow@redhat.com>
-Cc: qemu-devel <qemu-devel@nongnu.org>, Warner Losh <imp@bsdimp.com>, 
- Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
- Ani Sinha <anisinha@redhat.com>, Beraldo Leal <bleal@redhat.com>, 
- Markus Armbruster <armbru@redhat.com>, Ryo ONODERA <ryoon@netbsd.org>,
- Kyle Evans <kevans@freebsd.org>, 
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
- Michael Roth <michael.roth@amd.com>, Reinoud Zandijk <reinoud@netbsd.org>, 
- =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>, 
- Cleber Rosa <crosa@redhat.com>, Thomas Huth <thuth@redhat.com>, 
- "Michael S. Tsirkin" <mst@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
- Wainer dos Santos Moschetta <wainersm@redhat.com>
-Content-Type: multipart/alternative; boundary="000000000000024fd705fb6d48f1"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Firefox/102.0 Thunderbird/102.10.0
+Subject: Re: [RFC PATCH 0/3] QEMU ACPI generic port support
+Content-Language: en-US
+To: Jonathan Cameron <Jonathan.Cameron@Huawei.com>
+Cc: qemu-devel@nongnu.org, imammedo@redhat.com, ira.weiny@intel.com,
+ mst@redhat.com, bwidawsk@kernel.org
+References: <168185633821.899932.322047053764766056.stgit@djiang5-mobl3>
+ <20230503114248.00004c51@Huawei.com>
+From: Dave Jiang <dave.jiang@intel.com>
+In-Reply-To: <20230503114248.00004c51@Huawei.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=192.55.52.151; envelope-from=dave.jiang@intel.com;
+ helo=mga17.intel.com
+X-Spam_score_int: -64
+X-Spam_score: -6.5
+X-Spam_bar: ------
+X-Spam_report: (-6.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-2.124, RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -108,56 +82,107 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
---000000000000024fd705fb6d48f1
-Content-Type: text/plain; charset="UTF-8"
 
-Il gio 11 mag 2023, 17:58 John Snow <jsnow@redhat.com> ha scritto:
 
-> I'll make that simplifying change, which will also allow me to just put
->> the import in the global scope instead of trying to do it JIT to work
->> around ensurepip shenanigans. Should be a few less "I know this is bad"
->> comments for the linters, too.
->
->
-I don't think you can do that because, until you are running in the new
-venv, you aren't guaranteed to have either distlib or pip. Once in the venv
-you'll get the latter via ensurepip, if it wasn't already present in the
-system site-packages.
-
-Paolo
-
---js
->
+On 5/3/23 3:42 AM, Jonathan Cameron wrote:
+> On Tue, 18 Apr 2023 15:21:36 -0700
+> Dave Jiang <dave.jiang@intel.com> wrote:
+> 
+>> s small RFC patch series is really a hack on what I need from qemu rather
+>> than a proper implementation. I'm hoping to get some guidance from the list on
+>> how to implement this correctly for qemu upstream. Thank you!
 >>
+>> The patch series provides support for the ACPI Generic Port support that's
+>> defined by ACPI spec 6.5 5.2.16.7 (Generic Port Affinity Structure). The
+>> series also adds a genport object that allows locality data to be injected via
+>> qemu commandline to the HMAT tables. The generic port support is to allow a hot
+>> plugged CXL memory device to calculate the locality data from the CPU to
+>> the CXL device. The generic port related data provides the locality data from
+>> the CPU to the CXL host bridge (latency and bandwidth). These data in
+>> addition to the PCIe link data, CDAT from device, and CXL switch CDAT if switch
+>> exist, provides the locality data for the entire path.
+>>
+>> Patch1: Adds Generic Port Affinity Structure sub-tables to the SRAT. For
+>> each CXL Host Bridge (HB) a GPAS entry is created with a unique proximity
+>> domain. For example, if the system is created with 4 proximity domains (PXM) for
+>> system memory, then the next GPAS will get PXM 4 and so on.
+> 
+> I may be going crazy but I'm not seeing an increment on the numa node. So I think
+> they all get 4 at the moment. Found it increment in patch 3.
 
---000000000000024fd705fb6d48f1
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Sorry about that. There are some changes for 1/3 strayed into 3/3.
 
-<div dir=3D"auto"><br><br><div class=3D"gmail_quote" dir=3D"auto"><div dir=
-=3D"ltr" class=3D"gmail_attr">Il gio 11 mag 2023, 17:58 John Snow &lt;<a hr=
-ef=3D"mailto:jsnow@redhat.com">jsnow@redhat.com</a>&gt; ha scritto:<br></di=
-v><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:=
-1px #ccc solid;padding-left:1ex"><div dir=3D"auto"><div><div class=3D"gmail=
-_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border=
--left:1px #ccc solid;padding-left:1ex">I&#39;ll make that simplifying chang=
-e, which will also allow me to just put the import in the global scope inst=
-ead of trying to do it JIT to work around ensurepip shenanigans. Should be =
-a few less &quot;I know this is bad&quot; comments for the linters, too.</b=
-lockquote></div></div></div></blockquote></div><div dir=3D"auto"><br></div>=
-<div dir=3D"auto">I don&#39;t think you can do that because, until you are =
-running in the new venv, you aren&#39;t guaranteed to have either distlib o=
-r pip. Once in the venv you&#39;ll get the latter via ensurepip, if it wasn=
-&#39;t already present in the system site-packages.</div><div dir=3D"auto">=
-<br></div><div dir=3D"auto">Paolo</div><div dir=3D"auto"><br></div><div cla=
-ss=3D"gmail_quote" dir=3D"auto"><blockquote class=3D"gmail_quote" style=3D"=
-margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div dir=3D"=
-auto"><div dir=3D"auto">--js<br></div><div dir=3D"auto"><div class=3D"gmail=
-_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border=
--left:1px #ccc solid;padding-left:1ex">
-</blockquote></div></div></div>
-</blockquote></div></div>
+> 
+>>
+>> Patch2: Add the json support for generic port. Split out because
+>> clang-format really clobbers the json files.
+>>
+>> Patch3: Add a generic port object. The intention here is to allow setup of
+>> numa nodes, add hmat-lb data and node distance for the generic targets. I had to
+>> add a hack in qemu_create_cli_devices() to realize the genport objects. I need
+>> guidance on where and how to do this properly so the genport objects
+>> realize at the correct place and time.
+>>
+>> Example of genport setup:
+>> -object genport,id=$X -numa node,genport=genport$X,nodeid=$Y,initiator=$Z
+>> -numa hmat-lb,initiator=$Z,target=$X,hierarchy=memory,data-type=access-latency,latency=$latency
+>> -numa hmat-lb,initiator=$Z,target=$X,hierarchy=memory,data-type=access-bandwidth,bandwidth=$bandwidthM
+> 
+> I think we should be using some links to the host bridges in here.
+> So I don't think there should be an explicit genport object at all.
+> Instead we should be able to point at the pxb itself.  Perhaps also
+> allowing other port types in future.
+> 
+> Something like
+> 
+> -device pxb-cxl,id=cxl1.1
+> -numa node,genport=cxl1.1,nodeid=$X
 
---000000000000024fd705fb6d48f1--
+Ok I think that makes sense. So now there's a relation between genport 
+being constructed and the passed in numa node. When we are building the 
+SRAT, I assume there's a way to get hold of the parsed numa nodes 
+attributes and iterate through to attempt a match?
 
+> -numa hmat-lb,initiator=$Z,target=$X,...
+> -numa hmat-lb,initiator=$X,target=$Y,...
+> //as generic port goes both ways.
+> 
+> As we are currently using bus_nr for UID (which is admittedly a somewhat dirty hack that
+> just happened to be convenient) the ACPI building code can use that to fill in the SRAT
+> entry at appropriate point.
+> 
+> I haven't tried implementing it so there may well be some ordering issues that
+> require some late binding etc, but it should be possible to make it work.
+> 
+>> for ((i = 0; i < total_nodes; i++)); do
+>>          for ((j = 0; j < cxl_hbs; j++ )); do        # 2 CXL HBs
+>>                  -numa dist,src=$i,dst=$X,val=$dist
+>>          done
+>> done
+>> Linux kernel support:
+>> https://lore.kernel.org/linux-cxl/168088732996.1441063.10107817505475386072.stgit@djiang5-mobl3/T/#t
+>>
+>> ---
+>>
+>> Dave Jiang (3):
+>>        hw/acpi: Add support for Generic Port Affinity Structure to SRAT
+>>        genport: Add json support for generic port
+>>        acpi: add generic port device object
+>>
+>>
+>>   hw/acpi/aml-build.c         | 21 +++++++++++++
+>>   hw/acpi/genport.c           | 61 +++++++++++++++++++++++++++++++++++++
+>>   hw/acpi/meson.build         |  1 +
+>>   hw/i386/acpi-build.c        | 45 +++++++++++++++++++++++++++
+>>   include/hw/acpi/aml-build.h | 27 ++++++++++++++++
+>>   qapi/machine.json           |  3 +-
+>>   qapi/qom.json               | 12 ++++++++
+>>   softmmu/vl.c                | 26 ++++++++++++++++
+>>   8 files changed, 195 insertions(+), 1 deletion(-)
+>>   create mode 100644 hw/acpi/genport.c
+>>
+>> --
+>>
+>>
+> 
 
