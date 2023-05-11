@@ -2,83 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69B6C6FFA17
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 May 2023 21:23:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 06ABB6FFAF0
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 May 2023 21:59:55 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pxBs8-0001kE-6m; Thu, 11 May 2023 15:22:40 -0400
+	id 1pxCQl-0008PV-3l; Thu, 11 May 2023 15:58:27 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pxBs5-0001jg-Ce
- for qemu-devel@nongnu.org; Thu, 11 May 2023 15:22:37 -0400
-Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f])
+ (Exim 4.90_1) (envelope-from <tmaillart@freebox.fr>)
+ id 1pxCQi-0008P1-Dd
+ for qemu-devel@nongnu.org; Thu, 11 May 2023 15:58:24 -0400
+Received: from mail-ej1-x62f.google.com ([2a00:1450:4864:20::62f])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pxBs3-0005DR-MD
- for qemu-devel@nongnu.org; Thu, 11 May 2023 15:22:37 -0400
-Received: by mail-wm1-x32f.google.com with SMTP id
- 5b1f17b1804b1-3f315735514so297330815e9.1
- for <qemu-devel@nongnu.org>; Thu, 11 May 2023 12:22:34 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <tmaillart@freebox.fr>)
+ id 1pxCQf-0002s9-Q7
+ for qemu-devel@nongnu.org; Thu, 11 May 2023 15:58:24 -0400
+Received: by mail-ej1-x62f.google.com with SMTP id
+ a640c23a62f3a-9661a1ff1e9so1038285066b.1
+ for <qemu-devel@nongnu.org>; Thu, 11 May 2023 12:58:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1683832954; x=1686424954;
- h=content-transfer-encoding:in-reply-to:cc:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=zrX02xnfh/5d3kDmovWbhcfrISmLbLxLcg3D1ApzQss=;
- b=I5lxLF6ivUqXHNNV4zF2C+9koQrGMrtKbmqfPHK7LA0qcqIocc6mCbF6Kz26ijILd2
- jCRgVCciuPQdz/OzRA6DRmZUeSPVLCpWNeieimO3ixdygdI/XEbl7WZk0B4aPkiZf/se
- a7EVLsVPfB0sNUObuvCy9KWR6Op/XNsJnTZCv1t2vqY7ZxL1Q8ZdTN00HWGXiqCJSSpI
- /er6xvB/GFuIzXQKaGvQuxvPNQQfIdNzl1h+V6etrSBganTsnAdvEDsJ58qGqlH5JutE
- EEU8S28mk+GXO+Nb9CQfU66Jl6X9T4wLh+0InpBy6tVAxbqIXRowUdnnyaL0HhLvq5lR
- g2gg==
+ d=freebox-fr.20221208.gappssmtp.com; s=20221208; t=1683835099; x=1686427099;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=fLVZd2PllTd3Bi/AScF3rmiMir5PSyUKlvplXULfff8=;
+ b=XPMdr6PFmGw4bYL91FWFsV3gKocglWIU9h6dmSjRolQRsrYyQYfHVcXvzGpNEU3qPi
+ 658Rlq49R+kziTGEzNN+YFzmH0eLn0YEQ7aploARQZwHE6p2k90rQk5fJdGAo7AA5kj/
+ 5h3vLa6sUh5E6CNOCYm/CZbynq1yatp/y3bj2CqSZ2eKvHLTMd5VWlLpLiQPteZjwt77
+ /4MxgGPx3iClQFpTHXOHSY26sxJ6ecAl9ym9Fnf8oOfIpPDsGaiO/A9OymxViegTkLii
+ zd4g3gmIdZTr8aH+A2Oac+9dGKm2Ke2+9HwBRp2l5mX9kexnKh4M+xwK/01E4jsD4t69
+ MIng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683832954; x=1686424954;
- h=content-transfer-encoding:in-reply-to:cc:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=zrX02xnfh/5d3kDmovWbhcfrISmLbLxLcg3D1ApzQss=;
- b=ZdfZSmQsoranRNDowV1pCF1RF6PxZueCpMGJnyHE61sJiulrJGI9ymvJWK1V+wQnhi
- JeQvAZk370Gr1DoTuWsMkISOwMQcodioKgjBi0vxeRRWmlgyuVIfdQV7YVHHtRAXt8Uj
- cwlB36llIcqV3KgDsyDLuUwWQkCaDSiOquhSzUCwSokWLwgVN4ic335AsiQGJukTDw4G
- /VUn03wRDdKi5bhvgyk3/8XV27d0m1dIJ0lNDFkv96cdeWcpde3tWqVZ1WYC9xfbySQD
- +V1rynNfUG6QZ0mBKqYFJry+IsSi54KRVMYKV4bD4Ehly2usYrH2kPCQeXsrfB/ok6hM
- j/Vg==
-X-Gm-Message-State: AC+VfDwL9OwQqoUbDo1F/al/OoKKG8VEldVTQg3AlMtMyXIleXUwzn8W
- jzaY2HFrqec9PyGWPLGyD+W2DzOb+KJ/t9Wo3/I=
-X-Google-Smtp-Source: ACHHUZ7QU0uEbIUUbZ+aX8SZeU1t50EACmO3EQye8bD35ufDgoWvLi4Oh05hS/gKiieMjj8MweeMkA==
-X-Received: by 2002:a5d:4589:0:b0:307:29a7:930a with SMTP id
- p9-20020a5d4589000000b0030729a7930amr19362810wrq.14.1683832953908; 
- Thu, 11 May 2023 12:22:33 -0700 (PDT)
-Received: from [192.168.69.115] ([176.176.152.186])
- by smtp.gmail.com with ESMTPSA id
- e14-20020a056000120e00b00307c46f4f08sm3310536wrx.79.2023.05.11.12.22.32
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 11 May 2023 12:22:33 -0700 (PDT)
-Message-ID: <0f030dfa-9c3e-b44a-584a-22deca1680f7@linaro.org>
-Date: Thu, 11 May 2023 21:22:31 +0200
+ d=1e100.net; s=20221208; t=1683835099; x=1686427099;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=fLVZd2PllTd3Bi/AScF3rmiMir5PSyUKlvplXULfff8=;
+ b=WMwg9NQhaNGdz9P+sVuOA3DkZ0FjiB7aZo8FR8QRirGkWEvlTVnYCiw4R/5lcgnURx
+ 0cSn8ErjQcL2tBZR3IZRRdQLc9A/EXVx4dp8an2nwKYIXTJ9Vi1fqYJpKqk0e2tdGw1F
+ wcWwuX2zgbJvnC4YfxrPkpubuyaiUDJRtOneRq8e5rUJx9XRU6u/jX23ItA/UZUBf4KS
+ 46F2GKaaiAZSlOqXvEmEzTRIiNDOLu9UC7iiNdcUs7yzOZvnH2L/7EHxxszIBBm61HFw
+ /IKcjGQ9YjvtZ2+A40/HHnvEzSHmUkn8M4kI9TC5qhFcUtnMAq7WxZMkfDD4mwWm+jwu
+ 5+Eg==
+X-Gm-Message-State: AC+VfDxCeKAqba2+o7PY7Tr5UsgPkz17hAFqtA6g9F3wU1xmTM79cqeB
+ rLhmmeFMd/OGRnlxKYvNwSXw+Y1P3+8NJFMEK0R86Q==
+X-Google-Smtp-Source: ACHHUZ7UzZw7h2GEyuiMHQUc3TdOgwnRErPClXyHcpsqf1MZalMcEK5q8E9E4F82c6p/ROXVz8GbPQ7A/0W4baBPeXk=
+X-Received: by 2002:a17:907:ea2:b0:94f:8605:3f31 with SMTP id
+ ho34-20020a1709070ea200b0094f86053f31mr24585904ejc.42.1683835099081; Thu, 11
+ May 2023 12:58:19 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.10.1
-Subject: Re: [PATCH 3/3] softmmu/ioport.c: make MemoryRegionPortioList owner
- of portio_list MemoryRegions
-Content-Language: en-US
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, pbonzini@redhat.com,
- qemu-devel@nongnu.org
-References: <20230419151652.362717-1-mark.cave-ayland@ilande.co.uk>
- <20230419151652.362717-4-mark.cave-ayland@ilande.co.uk>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-Cc: Markus Armbruster <armbru@redhat.com>
-In-Reply-To: <20230419151652.362717-4-mark.cave-ayland@ilande.co.uk>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x32f.google.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.124,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+References: <20230426133747.403945-1-tmaillart@freebox.fr>
+ <62e34905-91fc-6498-d228-faa37b26fd60@redhat.com>
+ <CANDNypxOsD_HLC1Ad_MrGqUizsHgDmBv+zH3yEU6X=BXfNRi=w@mail.gmail.com>
+ <22a98a39-ab70-01f4-712a-3fd358d1af57@redhat.com>
+In-Reply-To: <22a98a39-ab70-01f4-712a-3fd358d1af57@redhat.com>
+From: =?UTF-8?Q?Th=C3=A9o_Maillart?= <tmaillart@freebox.fr>
+Date: Thu, 11 May 2023 21:58:08 +0200
+Message-ID: <CANDNypwtcUC94YuyzY+4G94rmuQsN-YOBW9vpBrv8oK7SCz-pA@mail.gmail.com>
+Subject: Re: [PATCH] scsi: check inquiry buffer length to prevent crash
+To: Paolo Bonzini <pbonzini@redhat.com>
+Cc: Fam Zheng <fam@euphon.net>, qemu-devel@nongnu.org
+Content-Type: multipart/alternative; boundary="000000000000f1123f05fb706898"
+Received-SPF: pass client-ip=2a00:1450:4864:20::62f;
+ envelope-from=tmaillart@freebox.fr; helo=mail-ej1-x62f.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -95,89 +87,199 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 19/4/23 17:16, Mark Cave-Ayland wrote:
-> Currently when portio_list MemoryRegions are freed using portio_list_destroy() the RCU
-> thread segfaults generating a backtrace similar to that below:
-> 
->      #0 0x5555599a34b6 in phys_section_destroy ../softmmu/physmem.c:996
->      #1 0x5555599a37a3 in phys_sections_free ../softmmu/physmem.c:1011
->      #2 0x5555599b24aa in address_space_dispatch_free ../softmmu/physmem.c:2430
->      #3 0x55555996a283 in flatview_destroy ../softmmu/memory.c:292
->      #4 0x55555a2cb9fb in call_rcu_thread ../util/rcu.c:284
->      #5 0x55555a29b71d in qemu_thread_start ../util/qemu-thread-posix.c:541
->      #6 0x7ffff4a0cea6 in start_thread nptl/pthread_create.c:477
->      #7 0x7ffff492ca2e in __clone (/lib/x86_64-linux-gnu/libc.so.6+0xfca2e)
-> 
-> The problem here is that portio_list_destroy() unparents the portio_list MemoryRegions
-> causing them to be freed immediately, however the flatview still has a reference to the
-> MemoryRegion and so causes a use-after-free segfault when the RCU thread next updates
-> the flatview.
-> 
-> Solve the lifetime issue by making MemoryRegionPortioList the owner of the portio_list
-> MemoryRegions, and then reparenting them to the portio_list owner. This ensures that they
-> can be accessed as QOM childen via the portio_list owner, yet the MemoryRegionPortioList
+--000000000000f1123f05fb706898
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-"children"
+From 31fd9e07df62663e6fb427ce3e7e767e07cf7aeb Mon Sep 17 00:00:00 2001
+From: =3D?UTF-8?q?Th=3DC3=3DA9o=3D20Maillart?=3D <tmaillart@freebox.fr>
+Date: Wed, 26 Apr 2023 13:57:44 +0200
+Subject: [PATCH] scsi: check inquiry buffer length to prevent crash
+MIME-Version: 1.0
+Content-Type: text/plain; charset=3DUTF-8
+Content-Transfer-Encoding: 8bit
 
-> owns the refcount.
-> 
-> Update portio_list_destroy() to unparent the MemoryRegion from the portio_list owner and
-> then add a finalize() method to MemoryRegionPortioList, so that the portio_list
-> MemoryRegions remain allocated until flatview_destroy() removes the final refcount upon
-> the next flatview update.
-> 
-> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-> ---
->   softmmu/ioport.c | 34 +++++++++++++++++++++++++++++++---
->   1 file changed, 31 insertions(+), 3 deletions(-)
+Using linux 6.x guest, at boot time, an inquiry makes qemu crash.
 
+More precisely, linux version containing v5.18-rc1-157-gc92a6b5d6335.
 
-> @@ -230,6 +230,8 @@ static void portio_list_add_1(PortioList *piolist,
->                                 unsigned off_low, unsigned off_high)
->   {
->       MemoryRegionPortioList *mrpio;
-> +    Object *owner;
-> +    char *name;
->       unsigned i;
->   
->       /* Copy the sub-list and null-terminate it.  */
-> @@ -246,8 +248,25 @@ static void portio_list_add_1(PortioList *piolist,
->           mrpio->ports[i].base = start + off_low;
->       }
->   
-> -    memory_region_init_io(&mrpio->mr, piolist->owner, &portio_ops, mrpio,
-> +    /*
-> +     * The MemoryRegion owner is the MemoryRegionPortioList since that manages
-> +     * the lifecycle via the refcount
-> +     */
-> +    memory_region_init_io(&mrpio->mr, OBJECT(mrpio), &portio_ops, mrpio,
->                             piolist->name, off_high - off_low);
-> +
-> +    /* Reparent the MemoryRegion to the piolist owner */
-> +    object_ref(&mrpio->mr);
-> +    object_unparent(OBJECT(&mrpio->mr));
+Here is a trace of the scsi inquiry in question:
 
-Out of this patch scope, but could this part <...
+scsi_req_parsed target 1 lun 0 tag 0x2cffb48 command 18 dir 1 length 4
+scsi_req_parsed_lba target 1 lun 0 tag 0x2cffb48 command 18 lba 110592
+scsi_req_alloc target 1 lun 0 tag 0x2cffb48
+scsi_inquiry target 1 lun 0 tag 0x2cffb48 page 0x01/0xb0
+scsi_generic_send_command Command: data=3D 0x12 0x01 0xb0 0x00 0x04 0x00
+scsi_req_continue target 1 lun 0 tag 0x2cffb48
+scsi_generic_read_data scsi_read_data tag=3D0x2cffb48
+scsi_generic_aio_sgio_command generic aio sgio: tag=3D0x2cffb48 cmd=3D0x12
+timeout=3D30000
+scsi_generic_read_complete Data ready tag=3D0x2cffb48 len=3D4
+scsi_req_data target 1 lun 0 tag 0x2cffb48 len 4
+scsi_req_continue target 1 lun 0 tag 0x2cffb48
+scsi_generic_read_data scsi_read_data tag=3D0x2cffb48
+scsi_generic_command_complete_noio Command complete 0x7fb0870b80
+tag=3D0x2cffb48 status=3D0
+scsi_req_dequeue target 1 lun 0 tag 0x2cffb48
 
-> +    if (!piolist->owner) {
-> +        owner = container_get(qdev_get_machine(), "/unattached");
-> +    } else {
-> +        owner = piolist->owner;
-> +    }
-> +    name = g_strdup_printf("%s[*]", piolist->name);
-> +    object_property_add_child(owner, name, OBJECT(&mrpio->mr));
-> +    g_free(name);
+And here is a backtrace from the crash:
 
-...> be extracted as qdev_add_child()? It seems to duplicate
-code from device_set_realized().
+ #0  0x0000007face68580 in a_crash () at ./src/internal/atomic.h:250
+ #1  get_nominal_size (end=3D0x7f6758f92c "", p=3D0x7f6758f920 "") at
+src/malloc/mallocng/meta.h:168
+ #2  __libc_free (p=3D0x7f6758f920) at src/malloc/mallocng/free.c:110
+ #3  0x0000005592f93ed8 in scsi_free_request (req=3D0x7fac2c6b50) at
+../hw/scsi/scsi-generic.c:70
+ #4  0x0000005592f869b8 in scsi_req_unref (req=3D0x7fac2c6b50) at
+../hw/scsi/scsi-bus.c:1382
+ #5  0x0000005592f94b7c in scsi_read_complete (opaque=3D0x7fac2c6b50, ret=
+=3D0)
+at ../hw/scsi/scsi-generic.c:354
+ #6  0x0000005593659b90 in blk_aio_complete (acb=3D0x7f66c206a0) at
+../block/block-backend.c:1527
+ #7  0x000000559365a3c8 in blk_aio_ioctl_entry (opaque=3D0x7f66c206a0) at
+../block/block-backend.c:1735
+ #8  0x00000055937dee64 in coroutine_bootstrap (self=3D0x7f672f77e0,
+co=3D0x7f672f77e0) at ../util/coroutine-sigaltstack.c:104
+ #9  0x00000055937deed8 in coroutine_trampoline (signal=3D12) at
+../util/coroutine-sigaltstack.c:145
+ #10 <signal handler called>
+ #11 __cp_end () at src/thread/aarch64/syscall_cp.s:30
+ #12 0x0000007facea8214 in __syscall_cp_c (nr=3D133, u=3D<optimized out>,
+v=3D<optimized out>, w=3D<optimized out>, x=3D<optimized out>,
+     y=3D<optimized out>, z=3D<optimized out>) at src/thread/pthread_cancel=
+.c:33
+ #13 0x0000007facefa020 in ?? ()
 
->       if (piolist->flush_coalesced_mmio) {
->           memory_region_set_flush_coalesced(&mrpio->mr);
->       }
-> @@ -305,10 +324,19 @@ void portio_list_del(PortioList *piolist)
->       }
->   }
+Signed-off-by: Th=C3=A9o Maillart <tmaillart@freebox.fr>
+---
+ hw/scsi/scsi-generic.c | 20 ++++++++++++++++----
+ 1 file changed, 16 insertions(+), 4 deletions(-)
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+diff --git a/hw/scsi/scsi-generic.c b/hw/scsi/scsi-generic.c
+index ac9fa662b4..13f01e311d 100644
+--- a/hw/scsi/scsi-generic.c
++++ b/hw/scsi/scsi-generic.c
+@@ -191,12 +191,24 @@ static int scsi_handle_inquiry_reply(SCSIGenericReq
+*r, SCSIDevice *s, int len)
+     if ((s->type =3D=3D TYPE_DISK || s->type =3D=3D TYPE_ZBC) &&
+         (r->req.cmd.buf[1] & 0x01)) {
+         page =3D r->req.cmd.buf[2];
+-        if (page =3D=3D 0xb0) {
++        if (page =3D=3D 0xb0 && r->buflen > 8) {
+             uint64_t max_transfer =3D calculate_max_transfer(s);
+-            stl_be_p(&r->buf[8], max_transfer);
++            uint8_t buf[4];
++
++            stl_be_p(buf, max_transfer);
++            if (r->buflen <=3D 12) {
++                memcpy(&r->buf[8], buf, r->buflen - 8);
++                return len;
++            }
++            memcpy(&r->buf[8], buf, sizeof(uint32_t));
++
+             /* Also take care of the opt xfer len. */
+-            stl_be_p(&r->buf[12],
+-                    MIN_NON_ZERO(max_transfer, ldl_be_p(&r->buf[12])));
++            stl_be_p(buf, MIN_NON_ZERO(max_transfer,
+ldl_be_p(&r->buf[12])));
++            if (r->buflen <=3D 16) {
++                memcpy(&r->buf[12], buf, r->buflen - 12);
++                return len;
++            }
++            memcpy(&r->buf[12], buf, sizeof(uint32_t));
+         } else if (s->needs_vpd_bl_emulation && page =3D=3D 0x00 && r->buf=
+len
+>=3D 4) {
+             /*
+              * Now we're capable of supplying the VPD Block Limits
+--=20
+2.40.0
 
+--000000000000f1123f05fb706898
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">From 31fd9e07df62663e6fb427ce3e7e767e07cf7aeb Mon Sep 17 0=
+0:00:00 2001<br>From: =3D?UTF-8?q?Th=3DC3=3DA9o=3D20Maillart?=3D &lt;<a hre=
+f=3D"mailto:tmaillart@freebox.fr">tmaillart@freebox.fr</a>&gt;<br>Date: Wed=
+, 26 Apr 2023 13:57:44 +0200<br>Subject: [PATCH] scsi: check inquiry buffer=
+ length to prevent crash<br>MIME-Version: 1.0<br>Content-Type: text/plain; =
+charset=3DUTF-8<br>Content-Transfer-Encoding: 8bit<br><br>Using linux 6.x g=
+uest, at boot time, an inquiry makes qemu crash.<br><br>More precisely, lin=
+ux version containing v5.18-rc1-157-gc92a6b5d6335.<br><br>Here is a trace o=
+f the scsi inquiry in question:<br><br>scsi_req_parsed target 1 lun 0 tag 0=
+x2cffb48 command 18 dir 1 length 4<br>scsi_req_parsed_lba target 1 lun 0 ta=
+g 0x2cffb48 command 18 lba 110592<br>scsi_req_alloc target 1 lun 0 tag 0x2c=
+ffb48<br>scsi_inquiry target 1 lun 0 tag 0x2cffb48 page 0x01/0xb0<br>scsi_g=
+eneric_send_command Command: data=3D 0x12 0x01 0xb0 0x00 0x04 0x00<br>scsi_=
+req_continue target 1 lun 0 tag 0x2cffb48<br>scsi_generic_read_data scsi_re=
+ad_data tag=3D0x2cffb48<br>scsi_generic_aio_sgio_command generic aio sgio: =
+tag=3D0x2cffb48 cmd=3D0x12 timeout=3D30000<br>scsi_generic_read_complete Da=
+ta ready tag=3D0x2cffb48 len=3D4<br>scsi_req_data target 1 lun 0 tag 0x2cff=
+b48 len 4<br>scsi_req_continue target 1 lun 0 tag 0x2cffb48<br>scsi_generic=
+_read_data scsi_read_data tag=3D0x2cffb48<br>scsi_generic_command_complete_=
+noio Command complete 0x7fb0870b80 tag=3D0x2cffb48 status=3D0<br>scsi_req_d=
+equeue target 1 lun 0 tag 0x2cffb48<br><br>And here is a backtrace from the=
+ crash:<br><br>=C2=A0#0 =C2=A00x0000007face68580 in a_crash () at ./src/int=
+ernal/atomic.h:250<br>=C2=A0#1 =C2=A0get_nominal_size (end=3D0x7f6758f92c &=
+quot;&quot;, p=3D0x7f6758f920 &quot;&quot;) at src/malloc/mallocng/meta.h:1=
+68<br>=C2=A0#2 =C2=A0__libc_free (p=3D0x7f6758f920) at src/malloc/mallocng/=
+free.c:110<br>=C2=A0#3 =C2=A00x0000005592f93ed8 in scsi_free_request (req=
+=3D0x7fac2c6b50) at ../hw/scsi/scsi-generic.c:70<br>=C2=A0#4 =C2=A00x000000=
+5592f869b8 in scsi_req_unref (req=3D0x7fac2c6b50) at ../hw/scsi/scsi-bus.c:=
+1382<br>=C2=A0#5 =C2=A00x0000005592f94b7c in scsi_read_complete (opaque=3D0=
+x7fac2c6b50, ret=3D0) at ../hw/scsi/scsi-generic.c:354<br>=C2=A0#6 =C2=A00x=
+0000005593659b90 in blk_aio_complete (acb=3D0x7f66c206a0) at ../block/block=
+-backend.c:1527<br>=C2=A0#7 =C2=A00x000000559365a3c8 in blk_aio_ioctl_entry=
+ (opaque=3D0x7f66c206a0) at ../block/block-backend.c:1735<br>=C2=A0#8 =C2=
+=A00x00000055937dee64 in coroutine_bootstrap (self=3D0x7f672f77e0, co=3D0x7=
+f672f77e0) at ../util/coroutine-sigaltstack.c:104<br>=C2=A0#9 =C2=A00x00000=
+055937deed8 in coroutine_trampoline (signal=3D12) at ../util/coroutine-siga=
+ltstack.c:145<br>=C2=A0#10 &lt;signal handler called&gt;<br>=C2=A0#11 __cp_=
+end () at src/thread/aarch64/syscall_cp.s:30<br>=C2=A0#12 0x0000007facea821=
+4 in __syscall_cp_c (nr=3D133, u=3D&lt;optimized out&gt;, v=3D&lt;optimized=
+ out&gt;, w=3D&lt;optimized out&gt;, x=3D&lt;optimized out&gt;,<br>=C2=A0 =
+=C2=A0 =C2=A0y=3D&lt;optimized out&gt;, z=3D&lt;optimized out&gt;) at src/t=
+hread/pthread_cancel.c:33<br>=C2=A0#13 0x0000007facefa020 in ?? ()<br><br>S=
+igned-off-by: Th=C3=A9o Maillart &lt;<a href=3D"mailto:tmaillart@freebox.fr=
+">tmaillart@freebox.fr</a>&gt;<br>---<br>=C2=A0hw/scsi/scsi-generic.c | 20 =
+++++++++++++++++----<br>=C2=A01 file changed, 16 insertions(+), 4 deletions=
+(-)<br><br>diff --git a/hw/scsi/scsi-generic.c b/hw/scsi/scsi-generic.c<br>=
+index ac9fa662b4..13f01e311d 100644<br>--- a/hw/scsi/scsi-generic.c<br>+++ =
+b/hw/scsi/scsi-generic.c<br>@@ -191,12 +191,24 @@ static int scsi_handle_in=
+quiry_reply(SCSIGenericReq *r, SCSIDevice *s, int len)<br>=C2=A0 =C2=A0 =C2=
+=A0if ((s-&gt;type =3D=3D TYPE_DISK || s-&gt;type =3D=3D TYPE_ZBC) &amp;&am=
+p;<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0(r-&gt;req.cmd.buf[1] &amp; 0x01)) =
+{<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0page =3D r-&gt;req.cmd.buf[2];<br>- =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0if (page =3D=3D 0xb0) {<br>+ =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0if (page =3D=3D 0xb0 &amp;&amp; r-&gt;buflen &gt; 8) {<br>=C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0uint64_t max_transfer =3D calculat=
+e_max_transfer(s);<br>- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0stl_be_p(&=
+amp;r-&gt;buf[8], max_transfer);<br>+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0uint8_t buf[4];<br>+<br>+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0st=
+l_be_p(buf, max_transfer);<br>+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if=
+ (r-&gt;buflen &lt;=3D 12) {<br>+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0memcpy(&amp;r-&gt;buf[8], buf, r-&gt;buflen - 8);<br>+ =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return len;<br>+ =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0memcpy(&amp;r-&gt;buf[8], buf, sizeof(uint32_t));<br>+<br>=C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* Also take care of the opt xfer len=
+. */<br>- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0stl_be_p(&amp;r-&gt;buf[=
+12],<br>- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0MIN_NON_ZERO(max_transfer, ldl_be_p(&amp;r-&gt;buf[12])));<br>+ =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0stl_be_p(buf, MIN_NON_ZERO(max_transf=
+er, ldl_be_p(&amp;r-&gt;buf[12])));<br>+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0if (r-&gt;buflen &lt;=3D 16) {<br>+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0memcpy(&amp;r-&gt;buf[12], buf, r-&gt;buflen - 12);=
+<br>+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return len;<br=
+>+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>+ =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0memcpy(&amp;r-&gt;buf[12], buf, sizeof(uint32_t));<br>=C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0} else if (s-&gt;needs_vpd_bl_emulation &amp=
+;&amp; page =3D=3D 0x00 &amp;&amp; r-&gt;buflen &gt;=3D 4) {<br>=C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/*<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 * Now we&#39;re capable of supplying the VPD Block Limits=
+<br>-- <br>2.40.0<br></div>
+
+--000000000000f1123f05fb706898--
 
