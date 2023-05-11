@@ -2,78 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40B7F6FEE15
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 May 2023 10:55:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E64CE6FEE18
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 May 2023 10:58:41 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1px23u-0001ah-Jv; Thu, 11 May 2023 04:54:10 -0400
+	id 1px27h-00046q-Tk; Thu, 11 May 2023 04:58:05 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
- id 1px23p-0001aL-Pl
- for qemu-devel@nongnu.org; Thu, 11 May 2023 04:54:06 -0400
-Received: from mail.loongson.cn ([114.242.206.163] helo=loongson.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <gaosong@loongson.cn>) id 1px23m-0002pw-9K
- for qemu-devel@nongnu.org; Thu, 11 May 2023 04:54:05 -0400
-Received: from loongson.cn (unknown [10.20.42.57])
- by gateway (Coremail) with SMTP id _____8BxqOkirVxkHrEHAA--.13133S3;
- Thu, 11 May 2023 16:53:55 +0800 (CST)
-Received: from [10.20.42.57] (unknown [10.20.42.57])
- by localhost.localdomain (Coremail) with SMTP id
- AQAAf8BxKL0grVxkxoNVAA--.21201S3; 
- Thu, 11 May 2023 16:53:53 +0800 (CST)
-Subject: Re: [PATCH v10 1/8] memory: prevent dma-reentracy issues
-To: Thomas Huth <thuth@redhat.com>
-Cc: qemu-devel@nongnu.org, maobibo@loongson.cn
-References: <20230427211013.2994127-1-alxndr@bu.edu>
- <20230427211013.2994127-2-alxndr@bu.edu> <ZEt/3RwtL/jePTTv@redhat.com>
- <828514c6-44f0-32f0-1eb1-a49f21617585@redhat.com>
- <20230428091159.haydefdtq4m6z2tz@mozz.bu.edu>
- <b151ecf7-0544-86ac-a182-1112a4dd7dca@redhat.com>
- <c01a2b87-27be-e92a-3a5b-d561eadbc516@loongson.cn>
- <981cdcd7-7326-08f0-9882-e66840175205@redhat.com>
- <c4919eb6-74f1-7699-f924-6917cdf435bb@loongson.cn>
- <faa1c6e0-abc2-f108-cc25-2b2cf71bd3d0@redhat.com>
- <a5a05af5-bf26-ad10-f866-230e4525881f@loongson.cn>
- <1b3f4f59-4773-014c-1c8e-e300d14b1d2e@redhat.com>
-From: Song Gao <gaosong@loongson.cn>
-Message-ID: <d883eaaa-96e7-3cd9-9226-76a1fee874d8@loongson.cn>
-Date: Thu, 11 May 2023 16:53:52 +0800
-User-Agent: Mozilla/5.0 (X11; Linux loongarch64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1px27e-00045K-JP
+ for qemu-devel@nongnu.org; Thu, 11 May 2023 04:58:02 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1px27b-0003g0-NR
+ for qemu-devel@nongnu.org; Thu, 11 May 2023 04:58:01 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=ilande.co.uk; s=20220518; h=Subject:Content-Transfer-Encoding:MIME-Version:
+ Message-Id:Date:To:From:Sender:Reply-To:Cc:Content-Type:Content-ID:
+ Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+ :Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=6AqhguVi2Cnkbon4veTY6rm5PkOEtzV/G6G5SS0+IR0=; b=UmrNN4KDXhxWPci29Q86mD78qO
+ ypCgzgZIkYNfptSfgLB1E6Blr991ZDe5MNsI5OOAsp8uZH00m88H2rsaXTW4buLtP1MAUUyXwY5qA
+ /1trUKtkgKIjyOTBI2Ww4ZoGkHzN5WV0Nji+XtD/WKJiXjooXfAz+Swi/RHVeZH54QjhMLl5lQxsy
+ OpYHv8/bPMsUsCcZc1bc2zzTgqU2mGmWt6EwRYPxxCTJ4Wggc7sauWiytx7riypusOTZqBWF/A3Le
+ OcFj0n2NrL88XXSvyEpiTS5fK1Se8Fm2eVzDqTrfDMivbwvhbw4JMlKM6ipJNaNtG7mFDjcaSCGgY
+ RveoSmaz4BGDtKtAP50IO1QR4yG3R0WC9FmPaBP7XXC5F2Fwx9XrZywFIPRYPK9Q+53OFXqINgzQi
+ M/C/OVfqPaWY8jlCEAl7TSoeTEsQ8BU2sf/WHgV8fv5SfAN+6Q+W6aCEipFEHS4ZYOHqVP22bJSGp
+ TaXlchSKA18uSnBtCxEY4v8hUQ5byvDBX5Hlq58zQ2xMo+w3E3mZMgfVSGEf8cdIGUtwhs2p1p3SU
+ xCV/6zvTeUMeyE44/ibTWqpKdRU7QF+nYnGZGhlbg27YBa5DNW8aroD/2iBHgss2fZJynAYIa6CIz
+ ikqAuADBR1G/FTdzo55pcIM4lGUuoHPcD47bCk+xg=;
+Received: from host81-151-114-25.range81-151.btcentralplus.com
+ ([81.151.114.25] helo=kentang.home)
+ by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1px26Z-0008g9-7K; Thu, 11 May 2023 09:56:59 +0100
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+To: mst@redhat.com, marcel.apfelbaum@gmail.com, philmd@linaro.org,
+ alex.bennee@linaro.org, qemu-devel@nongnu.org
+Date: Thu, 11 May 2023 09:57:13 +0100
+Message-Id: <20230511085731.171565-1-mark.cave-ayland@ilande.co.uk>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-In-Reply-To: <1b3f4f59-4773-014c-1c8e-e300d14b1d2e@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-CM-TRANSID: AQAAf8BxKL0grVxkxoNVAA--.21201S3
-X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
-X-Coremail-Antispam: 1Uk129KBjvJXoWxXF45KF1kAw47JrW3KFyDKFg_yoWrXrykp3
- yYyF1Ykrs3JF10yryvkwnFgrya9FyDGa45X3W5Jr48CFZ0yFW2gr4xtr18uasFqw4rW3WI
- v3y0va9Ig3Z8taUanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
- qI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUIcSsGvfJTRUUU
- bI8YFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s
- 1l1IIY67AEw4v_Jr0_Jr4l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xv
- wVC0I7IYx2IY67AKxVW8JVW5JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwA2z4
- x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6xkF7I0E14v26r4UJVWxJr1l
- e2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF0cIa020Ex4CE44I27wAqx4xG64xvF2
- IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4U
- McvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwCYjI0SjxkI62AI1cAE67vIY487Mx
- AIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_
- Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUXVWUAwCIc40Y0x0EwI
- xGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8
- JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcV
- C2z280aVCY1x0267AKxVWUJVW8JbIYCTnIWIevJa73UjIFyTuYvjxUzsqWUUUUU
-Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
- helo=loongson.cn
-X-Spam_score_int: -51
-X-Spam_score: -5.2
-X-Spam_bar: -----
-X-Spam_report: (-5.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-3.251,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-SA-Exim-Connect-IP: 81.151.114.25
+X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
+Subject: [RFC PATCH 00/18] PCI: convert IRQs to use qdev gpios
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
+Received-SPF: pass client-ip=2001:41c9:1:41f::167;
+ envelope-from=mark.cave-ayland@ilande.co.uk; helo=mail.ilande.co.uk
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,98 +75,82 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+This series is something I've been playing with for a while, and it came up in
+again in a conversation with Phil and Alex when discussing modelling of buses
+and IRQs for heterogenerous binaries. The basic premise of the series is that
+it converts PCI devices IRQs to use a qdev out gpio so that PCI devices can
+potentially be wired up using standard qdev APIs.
+
+In its current form the series adds a qdev out gpio to PCIDevice, adds a set of
+input IRQs to PCIBus (once for each devfn) and wires them up at the very end of
+pci_qdev_realize() once the device has been realised. This allows pci_set_irq()
+to be changed into a simple wrapper over qemu_set_irq(), and the resulting
+series passes GitLab CI to help prove the basic concept.
+
+Note that this series is only concerned with providing a standard qdev gpio for
+the PCI device IRQ, and not with how the PCI bus itself is modelled - that is
+a discussion to be left for another day.
+
+Another advantage of using qdev gpios is that it becomes possible to remove the
+pci_allocate_irq() function which has long been a source of memory leaks. For
+now I've added a new qdev named input gpio "pci-input-irq" which is used as its
+replacement.
+
+If everyone is happy that this series is going in the right direction then I'd
+be inclined to add the qemu_irq and qdev gpio out to each individual PCI device
+rather than using PCIDevice, and replace calls to pci_set_irq() with the
+corresponding qemu_set_irq(). This would allow the "pci-input-irq" input gpio
+to be dropped completely, and so PCIDevice IRQs can be treated like those of
+any other qdev device (but at the cost of making this a larger series).
+
+Thoughts/suggestions/comments?
+
+Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 
 
-在 2023/5/10 下午8:21, Thomas Huth 写道:
-> On 10/05/2023 11.02, Song Gao wrote:
->> Hi, Thomas
->>
->> 在 2023/5/8 下午9:12, Thomas Huth 写道:
->>>
->>>>> Oh, another spot that needs special handling ... I see Alexander 
->>>>> already sent a patch (thanks!), but anyway, this is a good 
->>>>> indication that we're missing some test coverage in the CI.
->>>>>
->>>>> Are there any loongarch kernel images available for public 
->>>>> download somewhere? If so, we really should add an avocado 
->>>>> regression test for this - since as far as I can see, we don't 
->>>>> have any  tests for loongarch in tests/avocado yet?
->>>>>
->>>> we can get  some binarys  at:
->>>> https://github.com/yangxiaojuan-loongson/qemu-binary
->>> >
->>>> I'm not sure that avacodo testing can be done using just the kernel.
->>>>
->>>> Is a full loongarch system required?
->>>
->>> No, you don't need a full distro installation, just a kernel with 
->>> ramdisk (which is also available there) is good enough for a basic 
->>> test, e.g. just check whether the kernel boots to a certain point is 
->>> good enough to provide a basic sanity test. If you then can also get 
->>> even into a shell (of the ramdisk), you can check some additional 
->>> stuff in the sysfs or "dmesg" output, see for example 
->>> tests/avocado/machine_s390_ccw_virtio.py which does such checks with 
->>> a kernel and initrd on s390x.
->>>
->>>
->> I have a few questions.
->>
->> I run ' make check-avocado 
->> AVOCADO_TESTS=./tests/avocado/machine_s390_ccw_virtio.py V=1'
->>
->> root@loongson-KVM:~/work/qemu#make check-avocado 
->> AVOCADO_TESTS=./tests/avocado/machine_s390_ccw_virtio.py V=1
->> changing dir to build for make "check-avocado"...
->> make[1]: Entering directory '/root/work/qemu/build'
->> (GIT="git" "/root/work/qemu/scripts/git-submodule.sh" update 
->> ui/keycodemapdb meson tests/fp/berkeley-testfloat-3 
->> tests/fp/berkeley-softfloat-3 dtc)
->> /root/work/qemu/build/tests/venv/bin/python3 -m avocado vmimage get 
->> --distro=fedora --distro-version=31 --arch=s390x
->> The image was downloaded:
->> Provider Version Architecture File
->> fedora   31      s390x 
->> /root/avocado/data/cache/by_location/8ee06cba5485a58b2203c2c000d6d2ff6da0f040/Fedora-Cloud-Base-31-1.9.s390x.qcow2
->> /root/work/qemu/build/tests/venv/bin/python3 -m avocado --show=app 
->> run --job-results-dir=/root/work/qemu/build/tests/results 
->> --filter-by-tags-include-empty --filter-by-tags-include-empty-key 
->> --max-parallel-tasks 1 -t arch:loongarch64 -t arch:s390x --failfast 
->> ./tests/avocado/machine_s390_ccw_virtio.py
->> ...
->>
->> This test downloaded   'Fedora-Cloud-Base-31-1.9.s390x.qcow2' image.
->> but we don't have a  'Fedora-Cloud-Base-31-1.9.loongarch.qcow2' image.
->>
->> Am I missing something?
->
-> Hmm, that image is not required for those tests... not sure why they 
-> get downloaded here... I think something in 
-> tests/avocado/avocado_qemu/__init__.py or in tests/Makefile.include 
-> tries to download the cloudinit stuff in advance for other tests, but 
-> it is certainly unrelated to the machine_s390_ccw_virtio.py test that 
-> only uses a kernel and initrd.
->
-> I think you can ignore that (unless there is an error since it's 
-> trying to download the loongarch Cloud-Base image - then that's a bug).
->
-Yes,   we can ignore,  no error.
->> One more question,    How to get the 'kernel_hash' and 'initrd_hash'?
->
-> I think it's a SHA1 hash by default, so you can for example get it 
-> with the "sha1sum" tool on the command line.
->
-> But seems like it is also possible to specify different algorithms 
-> with the "algorithm=..." parameter of fetch_asset().
->
-Thanks for you help.
+Mark Cave-Ayland (18):
+  hw/pci: add device IRQ to PCIDevice
+  hw/pci: introduce PCI bus input IRQs
+  hw/pci: use PCIDevice gpio for device IRQ
+  hw/pci: introduce PCI device input gpio
+  hw/char/serial-pci.c: switch SerialState to use PCI device input gpio
+  hw/ide/ich.c: switch AHCIState to use PCI device input gpio
+  hw/net/can/can_mioe3680_pci.c: switch Mioe3680PCIState to use PCI
+    device input gpio
+  hw/net/can/can_pcm3680_pci.c: switch SerialState to use PCI device
+    input gpio
+  hw/net/can/ctucan_pci.c: switch CtuCanPCIState to use PCI device input
+    gpio
+  hw/net/ne2000-pci.c: switch NE2000State to use PCI device input gpio
+  hw/net/pcnet-pci.c: switch PCIPCNetState to use PCI device input gpio
+  hw/net/tulip.c: switch TULIPState to use PCI device input gpio
+  hw/scsi/esp-pci.c: switch ESPState to use PCI device input gpio
+  hw/sd/sdhci-pci.c: switch SDHCIState to use PCI device input gpio
+  hw/usb/hcd-ehci-pci.c: switch EHCIState to use PCI device input gpio
+  hw/usb/hcd-ohci-pci.c: switch OHCIState to use PCI device input gpio
+  hw/usb/hcd-uhci.c: switch UHCIState to use PCI device input gpio
+  hw/pci/pci.c: remove pci_allocate_irq()
 
-And
-Should we need add  '  @skipIf(os.getenv('GITLAB_CI'), 'Running on 
-GitLab')' ?
+ hw/char/serial-pci.c          |  3 +-
+ hw/ide/ich.c                  |  3 +-
+ hw/net/can/can_mioe3680_pci.c |  4 +--
+ hw/net/can/can_pcm3680_pci.c  |  4 +--
+ hw/net/can/ctucan_pci.c       |  4 +--
+ hw/net/ne2000-pci.c           |  3 +-
+ hw/net/pcnet-pci.c            |  3 +-
+ hw/net/tulip.c                |  3 +-
+ hw/pci/pci.c                  | 65 +++++++++++++++++++++++++++++++----
+ hw/scsi/esp-pci.c             | 11 +-----
+ hw/sd/sdhci-pci.c             |  2 +-
+ hw/usb/hcd-ehci-pci.c         |  3 +-
+ hw/usb/hcd-ohci-pci.c         |  2 +-
+ hw/usb/hcd-uhci.c             |  2 +-
+ include/hw/pci/pci.h          |  1 -
+ include/hw/pci/pci_bus.h      |  3 ++
+ include/hw/pci/pci_device.h   |  3 ++
+ 17 files changed, 78 insertions(+), 41 deletions(-)
 
-I see some tests add this.
-
-Thanks.
-Song Gao
+-- 
+2.30.2
 
 
