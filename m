@@ -2,92 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DCA926FEDF5
+	by mail.lfdr.de (Postfix) with ESMTPS id EDB486FEDF6
 	for <lists+qemu-devel@lfdr.de>; Thu, 11 May 2023 10:41:43 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1px1qa-0004fi-Hp; Thu, 11 May 2023 04:40:24 -0400
+	id 1px1rB-0004ii-67; Thu, 11 May 2023 04:41:01 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1px1qY-0004fH-Mv
- for qemu-devel@nongnu.org; Thu, 11 May 2023 04:40:22 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1px1r8-0004iK-AV
+ for qemu-devel@nongnu.org; Thu, 11 May 2023 04:40:58 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1px1qW-0008KT-B3
- for qemu-devel@nongnu.org; Thu, 11 May 2023 04:40:22 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1683794418;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=KkiY2CX19VmrnDQghLVWoSw1fZuq/gJ/crDfJaUACnE=;
- b=URQdmmO+vlCLhNOy2kQ9Lr4jPQKJob/UdbPbedry/6d1DJfZJWaMGd6NtyCbXun9CtMM7i
- pdgSpGshsMb9IXkO95EA132dJ8MrOQxPyxm44xtsth16i7HBjvSCs4owxALbG69AwdxcMx
- rDsaZJe5gfdBKElKqqXipTQ+rnsmsgg=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-547-02dOgagXMb6QKLlYQEnDFA-1; Thu, 11 May 2023 04:40:17 -0400
-X-MC-Unique: 02dOgagXMb6QKLlYQEnDFA-1
-Received: by mail-wm1-f70.google.com with SMTP id
- 5b1f17b1804b1-3f315735edeso180776865e9.1
- for <qemu-devel@nongnu.org>; Thu, 11 May 2023 01:40:16 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683794416; x=1686386416;
- h=mime-version:message-id:date:reply-to:user-agent:references
- :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=KkiY2CX19VmrnDQghLVWoSw1fZuq/gJ/crDfJaUACnE=;
- b=X9tuKYGFZ8A3O1q7ZPk0SUCssLIEk7LtsjNXqgI0Zjr21MZftER9wilXz4eL3OjHgX
- K6kA+rZxJ5Jb2bdhAc8iOvb1HOTmT9NGj82TREGsq3yf0NeVhG6C87cf/KOs8rraXXRr
- jjr7MQzQoakzlkyn3ErnDN2vs+f2uNIgOQZzMiNfc3wXyxU7IyTOkKlyJdRYyx9xHRU5
- ZXkK/9cKu7nlbT8sgZ97ZRBkpjHbCfsRMEcM0i8c9Hro5nbDoei0+q5jhVmJgHdSTXap
- 41KYOu6LgvGDMGW4KaKKGbB9ukbe/ml+oLXUedVcwXRV6eSiNxz7eN8j56moxGToVRVz
- 85rw==
-X-Gm-Message-State: AC+VfDxruWpoN/ORbSoCb9A5hyKzpcqtmzeIG826wPGO3MtqVo09IlKW
- OsO+pVTzxmDdx+E1cyGjn3qVgrHku4xi1Bcfeu4lvAzn48+TFF0BGLvP6Ubu/Vwkt+gL10AZGvx
- xlGYbLLdPHGCKGaI=
-X-Received: by 2002:a5d:4052:0:b0:2f7:cfe2:6507 with SMTP id
- w18-20020a5d4052000000b002f7cfe26507mr16268800wrp.20.1683794415992; 
- Thu, 11 May 2023 01:40:15 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ6NDJtDdPCEz+rhe5Lg8q89uj7TDTNO8/yg6wlP6bq71VOpeOxbG/uazHlSTHGLTkX6p3l3Hg==
-X-Received: by 2002:a5d:4052:0:b0:2f7:cfe2:6507 with SMTP id
- w18-20020a5d4052000000b002f7cfe26507mr16268778wrp.20.1683794415564; 
- Thu, 11 May 2023 01:40:15 -0700 (PDT)
-Received: from redhat.com (static-92-120-85-188.ipcom.comunitel.net.
- [188.85.120.92]) by smtp.gmail.com with ESMTPSA id
- p1-20020a05600c204100b003f4e47c6504sm2642462wmg.21.2023.05.11.01.40.14
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 11 May 2023 01:40:14 -0700 (PDT)
-From: Juan Quintela <quintela@redhat.com>
-To: Fiona Ebner <f.ebner@proxmox.com>
-Cc: Leonardo Bras <leobras@redhat.com>,  Eduardo Habkost
- <eduardo@habkost.net>,  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,  Yanan Wang
- <wangyanan55@huawei.com>,  "Michael S. Tsirkin" <mst@redhat.com>,  Peter
- Xu <peterx@redhat.com>,  qemu-devel@nongnu.org
-Subject: Re: [PATCH v1 1/1] hw/pci: Disable PCI_ERR_UNCOR_MASK register for
- machine type < 8.0
-In-Reply-To: <7f308149-5495-d415-5e51-1fa15fc20f84@proxmox.com> (Fiona Ebner's
- message of "Thu, 11 May 2023 10:27:35 +0200")
-References: <20230503002701.854329-1-leobras@redhat.com>
- <7f308149-5495-d415-5e51-1fa15fc20f84@proxmox.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
-Date: Thu, 11 May 2023 10:40:14 +0200
-Message-ID: <87jzxf5ki9.fsf@secure.mitica>
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1px1r6-0008Ud-Oc
+ for qemu-devel@nongnu.org; Thu, 11 May 2023 04:40:58 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=ilande.co.uk; s=20220518; h=Subject:Content-Transfer-Encoding:Content-Type:
+ In-Reply-To:From:References:To:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Cc:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=deu+u8g8maMRj1sOwH5KDy3/gCTYmvLMaOJCeRJUK9k=; b=xmbJjVeSM3K1aScYbkjdFlRlvP
+ 5DTVopYgWoR/KsVdfbTUweHq4iGwxrpkp3vbI6CBFnGUcC9yjLD53ZQBVzC7HQ7I4JrosxUkHzoJT
+ fGzZwAGrn8FOl5Wj4rgmojWxLE8ZmyG2LhADPkS05YwSZHI8tiN477G2DIYReP2iycmpWXNcXcXac
+ Rb7uQKST+5DaHNIElPS+OoKP2+4Af1odNA/0gELbJVZPLvMZxBBcgB9un4X+QE6lQ6zdnPi0282Il
+ 12ftvQEvMgvt4H8vS+53a8YVzjVumwAVEPBMu3t6uszdFoikwez06aHxYJ2Wk/ZNd0psOCRXIB6WU
+ vSIx8F0XhdJI7SMFwTPXnQJFyHEyeWuE51QcELHvQyEQtqovdQKQQPgguSnEopyhRmteE/OSgA+Sq
+ CuQCCcsau1d5SjwnU5M0/cugzGQD6l/19+dZp0W/f9lLIOtyh+lM0lYt9+0AndJINuUMBoiyPfRQa
+ Yun515uGKpUS4GxeBHilj/4wy0zYGdTrcvnB1sdC9/X4nFcuiIGrwoRsqsGCwKYMwnz1Zqg9Mrica
+ wkukoHpk2k+4azXzug3pJw2QBE2ROMSuLZx0upi/Cf3KHH3xL9/ota/5y+QPo53OKN/hZJUroRNp4
+ AjaasXdOahrmQFPJQ9Xmqt0/403J6G5aFtwyS3zJA=;
+Received: from host81-151-114-25.range81-151.btcentralplus.com
+ ([81.151.114.25] helo=[10.8.0.6])
+ by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1px1q2-0008Xw-5D; Thu, 11 May 2023 09:39:54 +0100
+Message-ID: <fc35257d-8af0-8aa1-af88-982c7506bfa5@ilande.co.uk>
+Date: Thu, 11 May 2023 09:40:46 +0100
 MIME-Version: 1.0
-Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Content-Language: en-US
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20230405185922.2122668-1-richard.henderson@linaro.org>
+ <2d46a274-8234-a635-81ca-c79c2969cb7b@linaro.org>
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+In-Reply-To: <2d46a274-8234-a635-81ca-c79c2969cb7b@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 81.151.114.25
+X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
+Subject: Re: [PATCH for-8.1] target/sparc: Use tcg_gen_lookup_and_goto_ptr
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
+Received-SPF: pass client-ip=2001:41c9:1:41f::167;
+ envelope-from=mark.cave-ayland@ilande.co.uk; helo=mail.ilande.co.uk
+X-Spam_score_int: -53
+X-Spam_score: -5.4
+X-Spam_bar: -----
+X-Spam_report: (-5.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-3.251,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -101,89 +78,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Fiona Ebner <f.ebner@proxmox.com> wrote:
-> Am 03.05.23 um 02:27 schrieb Leonardo Bras:
->> Since it's implementation on v8.0.0-rc0, having the PCI_ERR_UNCOR_MASK
->> set for machine types < 8.0 will cause migration to fail if the target
->> QEMU version is < 8.0.0 :
->> 
->> qemu-system-x86_64: get_pci_config_device: Bad config data: i=0x10a read: 40 device: 0 cmask: ff wmask: 0 w1cmask:0
->> qemu-system-x86_64: Failed to load PCIDevice:config
->> qemu-system-x86_64: Failed to load e1000e:parent_obj
->> qemu-system-x86_64: error while loading state for instance 0x0 of device '0000:00:02.0/e1000e'
->> qemu-system-x86_64: load of migration failed: Invalid argument
->> 
->> The above test migrated a 7.2 machine type from QEMU master to QEMU 7.2.0,
->> with this cmdline:
->> 
->> ./qemu-system-x86_64 -M pc-q35-7.2 [-incoming XXX]
->> 
->> In order to fix this, property x-pcie-err-unc-mask was introduced to
->> control when PCI_ERR_UNCOR_MASK is enabled. This property is enabled by
->> default, but is disabled if machine type <= 7.2.
->> 
->> Fixes: 010746ae1d ("hw/pci/aer: Implement PCI_ERR_UNCOR_MASK register")
->> Suggested-by: Michael S. Tsirkin <mst@redhat.com>
->> Signed-off-by: Leonardo Bras <leobras@redhat.com>
->
-> Thank you for the patch!
->
-> Closes: https://gitlab.com/qemu-project/qemu/-/issues/1576
->
-> AFAICT, this breaks (forward) migration from 8.0 to 8.0 + this patch
-> when using machine type <= 7.2. That is because after this patch, when
-> using machine type <= 7.2, the wmask for the register is not set and
-> when 8.0 sends a nonzero value for the register, the error condition in
-> get_pci_config_device() will trigger again.
+On 10/05/2023 11:23, Richard Henderson wrote:
 
-I think that works correctly.
-See https://lists.gnu.org/archive/html/qemu-devel/2023-05/msg02733.html
+> Ping.
+> 
+> r~
+> 
+> On 4/5/23 19:59, Richard Henderson wrote:
+>> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+>> ---
+>>   target/sparc/translate.c | 8 ++++----
+>>   1 file changed, 4 insertions(+), 4 deletions(-)
+>>
+>> diff --git a/target/sparc/translate.c b/target/sparc/translate.c
+>> index 137bdc5159..47940fd85e 100644
+>> --- a/target/sparc/translate.c
+>> +++ b/target/sparc/translate.c
+>> @@ -322,7 +322,7 @@ static void gen_goto_tb(DisasContext *s, int tb_num,
+>>           /* jump to another page: currently not optimized */
+>>           tcg_gen_movi_tl(cpu_pc, pc);
+>>           tcg_gen_movi_tl(cpu_npc, npc);
+>> -        tcg_gen_exit_tb(NULL, 0);
+>> +        tcg_gen_lookup_and_goto_ptr();
+>>       }
+>>   }
+>> @@ -4153,7 +4153,7 @@ static void disas_sparc_insn(DisasContext * dc, unsigned int 
+>> insn)
+>>                                   /* End TB to notice changed ASI.  */
+>>                                   save_state(dc);
+>>                                   gen_op_next_insn();
+>> -                                tcg_gen_exit_tb(NULL, 0);
+>> +                                tcg_gen_lookup_and_goto_ptr();
+>>                                   dc->base.is_jmp = DISAS_NORETURN;
+>>                                   break;
+>>                               case 0x6: /* V9 wrfprs */
+>> @@ -4162,7 +4162,7 @@ static void disas_sparc_insn(DisasContext * dc, unsigned int 
+>> insn)
+>>                                   dc->fprs_dirty = 0;
+>>                                   save_state(dc);
+>>                                   gen_op_next_insn();
+>> -                                tcg_gen_exit_tb(NULL, 0);
+>> +                                tcg_gen_lookup_and_goto_ptr();
+>>                                   dc->base.is_jmp = DISAS_NORETURN;
+>>                                   break;
+>>                               case 0xf: /* V9 sir, nop if user */
+>> @@ -5661,7 +5661,7 @@ static void sparc_tr_tb_stop(DisasContextBase *dcbase, 
+>> CPUState *cs)
+>>                   tcg_gen_movi_tl(cpu_pc, dc->pc);
+>>               }
+>>               save_npc(dc);
+>> -            tcg_gen_exit_tb(NULL, 0);
+>> +            tcg_gen_lookup_and_goto_ptr();
+>>           }
+>>           break;
 
-What we have (before this patch) (using abbrevs as in the doc before)
-
-Current state:
-
-(1) qemu-8.0 -M pc-8.0 -> qemu-8.0 -M pc-8.0 works
-
-    not affected by the patch
-
-(2) qemu-7.2 -M pc-7.2 -> qemu-8.0 -M pc-8.0 works
-
-    works well because 7.2 don't change that field
-
-(3) qemu-8.0 -M pc-7.2 -> qemu-7.2 -M pc-7.2 fails
-
-With the patch we fixed 3, so once it is in stable, 1 and 2 continue as
-usual and for (3) we will have:
-
-(3) qemu-8.0.1 -M pc-7.2 -> qemu-7.2 -M pc-7.2 works
-
-If what you mean is that:
-
-(3) qemu-8.0 -M pc-7.2 -> qemu-8.0.1 -M pc-7.2 works
-
-Will fail, that is true, but I can think a "sane" way to fix this.
+Obviously nothing notionally against this patch, however if you could give me a few 
+days to run my OpenBIOS SPARC32/SPARC64 boot tests against git master with this patch 
+applied to double-check there are no regressions, that would be great.
 
 
-> Is it necessary to also handle that? Maybe by special casing the error
-> condition in get_pci_config_device() to be prepared to accept such a
-> stream from 8.0?
+ATB,
 
-Well, we can do that, but it is to the pci maintainers to decide if that
-is "sane".
-
-
-> If that is considered not worth it, consider this:
->
-> Tested-by: Fiona Ebner <f.ebner@proxmox.com>
->
-> Best Regards,
-> Fiona
-
-Later, Juan.
+Mark.
 
 
