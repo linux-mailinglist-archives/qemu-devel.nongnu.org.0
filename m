@@ -2,87 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E09726FF027
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 May 2023 12:52:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E58AF6FF03A
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 May 2023 12:55:49 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1px3tl-0003Ld-2S; Thu, 11 May 2023 06:51:49 -0400
+	id 1px3xE-0007B4-JL; Thu, 11 May 2023 06:55:24 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1px3th-0003LA-27
- for qemu-devel@nongnu.org; Thu, 11 May 2023 06:51:45 -0400
-Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1px3tf-0002ck-4d
- for qemu-devel@nongnu.org; Thu, 11 May 2023 06:51:44 -0400
-Received: by mail-wm1-x32c.google.com with SMTP id
- 5b1f17b1804b1-3f42d937d2eso18490205e9.2
- for <qemu-devel@nongnu.org>; Thu, 11 May 2023 03:51:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1683802301; x=1686394301;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
- :message-id:reply-to;
- bh=u6HDgHoPvvlBjidXTq0V/1wpqF0S7o6eAVwOhZXFepg=;
- b=NPpSzrvI5pESRB3TxAD8/cSJkJNK13aboIhxmlf7PdNWhRMKCYenX3flga+OAnGWnn
- offyerDExGJH6q9xNC23KyHgje7brMC++v3XoWqPS6/6xz2+CxwRIXH64wXHZ+dvR+je
- XLHCqTkmCKK9pngrOrqODp4EBv9t6Mmxt+deXrER0+JvkgGdJVrrN6iX9+UhoASWT+Qx
- HdpKfZMT+Y2TFIEYrIgeuhjWsSo8fbeSwtd3ztTWKnCnKpSGnuYeQ5MiUN23OsVvvA1Y
- hgZXNKTla3BAyHbsryBwwU+1IH+fQjbRJVGXecanX3xia1XyLmUu+uXdhDsYe4CYjyBX
- alSA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683802301; x=1686394301;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=u6HDgHoPvvlBjidXTq0V/1wpqF0S7o6eAVwOhZXFepg=;
- b=LT7tBBtBkOVl4M0ho7VgoHwXVSXoY7dgln1eeeE2hF5sP1Hx433XkUyJ5YYqepS1k3
- 5UdA6ffiS7CC4M06mOIwaaUaUFcbaDBR9KjWF+oXWkqGqw/4EO+oCdkpuSDnjr8LV0kD
- lgS4IUq06BXmlnn4vRr4Y85PSzl2QQZhtlRNAc5/zJgGObfIFFLuZtR5lUhL6yXkssuT
- A8gwvWLK/eOY90Xn3nbMJtL2FFknoLauO/ydoRUawGp+LAmbYLM7aJRTFgsigRGqtNFg
- P3yccW65jxiLxxQDIFPHKHzPV9pKRiZI/agv2+ywds+z1e9sHib+0/YJ38gspCXXiAsx
- Zb+A==
-X-Gm-Message-State: AC+VfDyh4+bDO0uHG5p5I1opk6v6tm6bfYVD1rwXgt9CsXIeISLW+qMx
- kVRj5t6cuXNJ0ht3qfRsISFcaA==
-X-Google-Smtp-Source: ACHHUZ70Ss958ayP4TCuxUNPPYT6Zu6JVPDhBR0CYx4ku+pAmsXcqopo9v7DJNW0IpVqp8zgh7as0A==
-X-Received: by 2002:a05:600c:2055:b0:3f1:9b85:e305 with SMTP id
- p21-20020a05600c205500b003f19b85e305mr15219083wmg.34.1683802301542; 
- Thu, 11 May 2023 03:51:41 -0700 (PDT)
-Received: from zen.linaroharston ([85.9.250.243])
- by smtp.gmail.com with ESMTPSA id
- 12-20020a05600c020c00b003f4b6bcbd8bsm4062061wmi.31.2023.05.11.03.51.41
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 11 May 2023 03:51:41 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id B2C281FFBB;
- Thu, 11 May 2023 11:51:40 +0100 (BST)
-References: <20230510230213.330134-1-iii@linux.ibm.com>
- <20230510230213.330134-3-iii@linux.ibm.com>
-User-agent: mu4e 1.11.4; emacs 29.0.90
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Ilya Leoshkevich <iii@linux.ibm.com>
-Cc: Laurent Vivier <laurent@vivier.eu>, Richard Henderson
- <richard.henderson@linaro.org>, David Hildenbrand <david@redhat.com>,
- Thomas Huth <thuth@redhat.com>, qemu-s390x@nongnu.org,
- qemu-devel@nongnu.org
-Subject: Re: [PATCH 2/2] tests/tcg/s390x: Test single-stepping SVC
-Date: Thu, 11 May 2023 11:51:35 +0100
-In-reply-to: <20230510230213.330134-3-iii@linux.ibm.com>
-Message-ID: <877ctf3zur.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>)
+ id 1px3xC-000797-7i; Thu, 11 May 2023 06:55:22 -0400
+Received: from isrv.corpit.ru ([86.62.121.231])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>)
+ id 1px3xA-0003cs-Ai; Thu, 11 May 2023 06:55:21 -0400
+Received: from tsrv.corpit.ru (tsrv.tls.msk.ru [192.168.177.2])
+ by isrv.corpit.ru (Postfix) with ESMTP id 96ED353A7;
+ Thu, 11 May 2023 13:55:13 +0300 (MSK)
+Received: from [192.168.177.130] (mjt.wg.tls.msk.ru [192.168.177.130])
+ by tsrv.corpit.ru (Postfix) with ESMTP id 9B8173D1B;
+ Thu, 11 May 2023 13:55:09 +0300 (MSK)
+Message-ID: <10879612-818e-a1af-5994-56ef84c524cb@msgid.tls.msk.ru>
+Date: Thu, 11 May 2023 13:55:08 +0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32c.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH 1/2] linux-user/s390x: Fix single-stepping SVC
+Content-Language: en-US
+To: Ilya Leoshkevich <iii@linux.ibm.com>, Laurent Vivier <laurent@vivier.eu>, 
+ Richard Henderson <richard.henderson@linaro.org>,
+ David Hildenbrand <david@redhat.com>, Thomas Huth <thuth@redhat.com>
+Cc: qemu-devel@nongnu.org, qemu-s390x@nongnu.org
+References: <20230510230213.330134-1-iii@linux.ibm.com>
+ <20230510230213.330134-2-iii@linux.ibm.com>
+From: Michael Tokarev <mjt@tls.msk.ru>
+In-Reply-To: <20230510230213.330134-2-iii@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=86.62.121.231; envelope-from=mjt@tls.msk.ru;
+ helo=isrv.corpit.ru
+X-Spam_score_int: -101
+X-Spam_score: -10.2
+X-Spam_bar: ----------
+X-Spam_report: (-10.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-3.251,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -99,16 +62,13 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+11.05.2023 02:02, Ilya Leoshkevich wrote:
+> Currently single-stepping SVC executes two instructions. The reason is
+> that EXCP_DEBUG for the SVC instruction itself is masked by EXCP_SVC.
+> Fix by re-raising EXCP_DEBUG.
 
-Ilya Leoshkevich <iii@linux.ibm.com> writes:
+Is it a -stable material?
 
-> Add a small test to prevent regressions.
->
-> Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
+/mjt
 
-Acked-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-
---=20
-Alex Benn=C3=A9e
-Virtualisation Tech Lead @ Linaro
 
