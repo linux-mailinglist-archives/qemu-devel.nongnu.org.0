@@ -2,78 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D96CA6FEF98
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 May 2023 12:03:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 81E5F6FEFC3
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 May 2023 12:16:00 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1px38G-0002DL-KB; Thu, 11 May 2023 06:02:44 -0400
+	id 1px3Jc-0001BO-AS; Thu, 11 May 2023 06:14:28 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
- id 1px38D-0002Cm-FL
- for qemu-devel@nongnu.org; Thu, 11 May 2023 06:02:41 -0400
-Received: from mout.web.de ([212.227.15.14])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
- id 1px38B-0000Ul-IF
- for qemu-devel@nongnu.org; Thu, 11 May 2023 06:02:41 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de; s=s29768273;
- t=1683799355; i=lukasstraub2@web.de;
- bh=5RU7csYvlyAP+CalYJnZu976MlFLMGDmdbgIG1HQ02Q=;
- h=X-UI-Sender-Class:Date:From:To:Cc:Subject:In-Reply-To:References;
- b=hrrNpXH+nW6JYLucr15zWmEUndBVEM3huDfyzEvNPFkmfGHT60RG6NSo/uru8QHeF
- ttucKIv6Eoq+xzV3evIYsfg+33Evp2ZOCZo3fJHuKscSSjRMnYqMyk4rTPBhGR6z6i
- aumwoGUbWtP0GuuaZx719+7Xcbc7ePz1gwC6IyVr9Y2ID6lLZtAhBgHlW84ER2140h
- jteWZQMYc5Qfh+9wNASwzJe72K5BCIwOAPF3TzHIEgrjXKuIfeDfVZTPhZg4BDnBgj
- xuw2cpXdfl5bP05RCX4I5+eJ1DtQOFQWY6l2PkUJIu1gPVIjr4F8OvrWr9te40RNDG
- t/X/J7q9NxjbA==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from gecko.fritz.box ([82.207.254.113]) by smtp.web.de (mrweb005
- [213.165.67.108]) with ESMTPSA (Nemesis) id 1MA4bO-1q49rN1q9q-00BYr4; Thu, 11
- May 2023 12:02:35 +0200
-Date: Thu, 11 May 2023 12:02:27 +0200
-From: Lukas Straub <lukasstraub2@web.de>
-To: Juan Quintela <quintela@redhat.com>
-Cc: qemu-devel@nongnu.org, Leonardo Bras <leobras@redhat.com>, Peter Xu
- <peterx@redhat.com>
-Subject: Re: [PATCH] multifd: Add colo support
-Message-ID: <20230511100227.2fd1b86d@gecko.fritz.box>
-In-Reply-To: <87fs835h54.fsf@secure.mitica>
-References: <20230509181528.84212-1-quintela@redhat.com>
- <20230511094713.6f08730c@gecko.fritz.box>
- <87fs835h54.fsf@secure.mitica>
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1px3JY-0001BA-H5
+ for qemu-devel@nongnu.org; Thu, 11 May 2023 06:14:26 -0400
+Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1px3JW-00034l-Sj
+ for qemu-devel@nongnu.org; Thu, 11 May 2023 06:14:24 -0400
+Received: by mail-wm1-x329.google.com with SMTP id
+ 5b1f17b1804b1-3f42c865535so29571055e9.1
+ for <qemu-devel@nongnu.org>; Thu, 11 May 2023 03:14:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1683800059; x=1686392059;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=kmMx92dB0cIKCtMkekTbQccDY0lYngmYzw7wfITYnD4=;
+ b=mStnGD116kGRZLL0UDOcFlRZ8elpM9WDSzF4oTaIvglea12lFAXiu3GPXxHQWt1I9A
+ WQpmCWrSnIIOCX8oI7SOb5++I+lgu9/wWNy+gtx/ljRjZLTSVdsMdBPQlfj7Ea6r6jHJ
+ rY5kbV4taKhF70f1TPkZESrWZobdwY/HdXbOJot6nog8DL801bI2znz9nSi+pShS1NpE
+ kaqnA3jwZcC/ZsqxnM7OGSOlI+cBxNgFWCm+7xbAqw8BeeEi8kBwxRlhA+FrAVk5X86E
+ 8BKn1JK1nPy2okp13BJIp10xNTxgH6Re9eLZI9JlJ4uUmplRbvy5HgY+ZQ41AT4v5iAq
+ Oy0A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1683800059; x=1686392059;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=kmMx92dB0cIKCtMkekTbQccDY0lYngmYzw7wfITYnD4=;
+ b=FfndBil6y1A6VCFAYxqxWfOA4XKL7yCsk9xFrcOqDlbuGyQkHp44/XisJhKJuPRJz9
+ lz5ib8Ar4nobFj/qTk4AslUbe7/aBGJT9KQNz6K26PcdVlnL91P2wwGexK7Btlwbpz6Y
+ BFoDL1+5QsOEHgFZOLutengywV8P1DYMYhzr/3C+207Mm6sNLbASr7HH31j+eFf5W6rH
+ 2VcYnnLbwdwEsEOkAgG35od9wcCYpf2g0Hn8TfdwYs1Xh9m5yIO92Ga8/pErrnUYvTPB
+ 7ZHUx10RU4+28y9r1Oq8M6qU4Bm43Gkxw04LnCnYJs9ICQ11oyUGDSBUJKnyPbYinQei
+ S9lA==
+X-Gm-Message-State: AC+VfDxOk2Ad+ArFs+wG9q+bPZc8hxeATeZEmk1mGSkMOmAm2zGHPkPy
+ C28Mhq145weSABp/W71J5/dStw==
+X-Google-Smtp-Source: ACHHUZ69wyXRlhfRNdz43nnsoi9rUhhCEMV7prrc1VnjTO8lYUqjcy8rFzwbgjxNEu7zQmODsKqB2Q==
+X-Received: by 2002:a5d:4203:0:b0:307:8487:cb82 with SMTP id
+ n3-20020a5d4203000000b003078487cb82mr12801361wrq.30.1683800059531; 
+ Thu, 11 May 2023 03:14:19 -0700 (PDT)
+Received: from [192.168.69.115] ([176.176.161.78])
+ by smtp.gmail.com with ESMTPSA id
+ q20-20020a1ce914000000b003edc4788fa0sm25096837wmc.2.2023.05.11.03.14.18
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 11 May 2023 03:14:19 -0700 (PDT)
+Message-ID: <2a5335fe-976e-2c4f-3a9f-ee25f0e3d852@linaro.org>
+Date: Thu, 11 May 2023 12:14:17 +0200
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/5eTsIMCTm+V0vG_rgx+_/lm";
- protocol="application/pgp-signature"; micalg=pgp-sha256
-X-Provags-ID: V03:K1:U97mlDcGOoHV2Tn/nEQc1PVw+N1O7Q/0Q8sE+wXIvYEGTsUJk5A
- 49PInQBQ8VgEIpRgU4USC6oXg2M5EsiLqt82bHG2jPF8r/m7pxao6jJQuV/jEncjKs0XKGa
- 9absTLkx8yOD4Fb338Z38j5rpggoATXTrw7kW1VXwwmIC/LtuWmPm8OMBnNegKQR/ejx6lG
- VUXrTZ5b2Lhi4R+hAvXsQ==
-UI-OutboundReport: notjunk:1;M01:P0:l1gZ5Ms0rEM=;wrmfn07wlXGt8k755dfsm6Vh97Z
- 9Ls0Avm310nD/1WctmdV0UxEJXdBVplS2Q6XR0D764o1Loe+yQnx11J+TWoNW91cG+63+Kc+v
- zt44y5bZy7NZuIu6jxoC0B2R31BLQVHFfgSA2vdHkGCRpefDvGEXTILIWqFnmI1yy1dqB0085
- beVhq8XxxXRLUk+t1C0ymJwCG/E500CFVe++th+6lannl0T/p6SPPXg30R2MoxIH7VNSHfVVc
- NaoSSNs2cmCuDNyb9j+zOr1mmcrlEMkP3UfUEkX7i7TEgIp8ac84QM09z3CO8We7Z4Yz86XAu
- pf5A9Q2kWk8LS6XwnF1AFca5ZYFKasf5c6MDiWbhmCSbdFm1hPV+nmBlk99eMPc4c9OCCr8XM
- NuP2PdSLC00ZMMqH+NqwYRgoHoEfzM+uedGj0rQApIdc69q0M/jEzebBLtmGZubExOJ6IFR2q
- xfzpA6UDMhSj5mMWQOreAr2MVH5ZEZL30dyvkr/AQxtzEnNd3IHDh/Ft54fH3db3VINyN+VrF
- mpymNJlaWNXudEOihKC+sK3dA/D95Kwsg490Pe470/qczl5TzLoPtvxNt7tGvMGmSkSMNM/5T
- k0HwH5F+7CF7zQhLpExS1oJ7W7bQwy48FCbORCrwIeStlzhleG6qvbusEkb2R90GPPWRZYDYP
- xaA+FoH1zRxJg0YDYdTWNf+Bax+Zg+iur3Ss6sbi3m8tg/me2FPz+DDnzjEJRa/w/Pdw8nS/k
- zzkPnerUX0L/CBaGkHdVWqQQMaGeyLESY6/J9m90v5fFmzu3v5BMgjCv5CAU3tzL950ziwLHc
- mOqupNvAPY36xxrPC0MorxKWJgV6HycIooYWRjbILHqmR4Xf3az+IzbajHivIm7SaD82FzesB
- MKwPzITmBUee9jvsyBuxv9XDNtEu+zC+NozEq4IvIf0p5AZJIjGzebJx+eoj5VPR0lPlLJZcj
- 2sBEAeq8k8eA36IOpNOQjT1itPk=
-Received-SPF: pass client-ip=212.227.15.14; envelope-from=lukasstraub2@web.de;
- helo=mout.web.de
-X-Spam_score_int: -25
-X-Spam_score: -2.6
-X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.10.1
+Subject: Re: [PATCH] ARM: Use normal types
+Content-Language: en-US
+To: Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org
+Cc: Warner Losh <imp@bsdimp.com>, Peter Maydell <peter.maydell@linaro.org>,
+ Kyle Evans <kevans@freebsd.org>,
+ Richard Henderson <richard.henderson@linaro.org>
+References: <20230511084505.13282-1-quintela@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20230511084505.13282-1-quintela@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::329;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x329.google.com
+X-Spam_score_int: -53
+X-Spam_score: -5.4
+X-Spam_bar: -----
+X-Spam_report: (-5.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-3.251,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -90,218 +94,15 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
---Sig_/5eTsIMCTm+V0vG_rgx+_/lm
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+On 11/5/23 10:45, Juan Quintela wrote:
+> This is the only use of u_int32_t in the whole tree.
+> 
+> Signed-off-by: Juan Quintela <quintela@redhat.com>
+> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>   bsd-user/arm/target_arch_reg.h | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 
-On Thu, 11 May 2023 11:52:55 +0200
-Juan Quintela <quintela@redhat.com> wrote:
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
-> Lukas Straub <lukasstraub2@web.de> wrote:
-> > On Tue,  9 May 2023 20:15:28 +0200
-> > Juan Quintela <quintela@redhat.com> wrote:
-> > =20
-> >> From: Lukas Straub <lukasstraub2@web.de>
-> >>=20
-> >> Like in the normal ram_load() path, put the received pages into the
-> >> colo cache and mark the pages in the bitmap so that they will be
-> >> flushed to the guest later.
-> >>=20
-> >> Signed-off-by: Lukas Straub <lukasstraub2@web.de>
-> >>=20
-> >> ---
-> >>=20
-> >> Hi Lukas
-> >>=20
-> >> What about this instead of your other three patches?  I think it is
-> >> clearer, and I don't think that we are going to have anything else
-> >> that is going to hook there anytime soon.
-> >>=20
-> >> Notice that I put CONFIG_COLO waiting for Vladimir changes to get in
-> >> before I merge this.
-> >>=20
-> >> Notice also that I "lost" the line:
-> >>=20
-> >>   p->host =3D p->block->host;
-> >>=20
-> >> In the error case.  But in that case we are aborting the migration, so
-> >> we don't care.
-> >>=20
-> >> Can you check if it works for you?
-> >> Here it compiles, so it must be perfect.
-> >>=20
-> >> Thanks, Juan. =20
-> >
-> > This way is okay for now. Though I will send a patch. =20
->=20
->=20
-> If it works for you, you can add a review-by and I will integrate in
-> next PULL.
-
-Nack, There are quite few things wrong at a glance. I will cook up my
-own patch, similar to this one.
-
->=20
-> Later, Juan.
->=20
-> >
-> > Regards,
-> > Lukas Straub
-> > =20
-> >> ---
-> >>  migration/meson.build    |  2 +-
-> >>  migration/multifd-colo.c | 49 ++++++++++++++++++++++++++++++++++++++++
-> >>  migration/multifd-colo.h | 24 ++++++++++++++++++++
-> >>  3 files changed, 74 insertions(+), 1 deletion(-)
-> >>  create mode 100644 migration/multifd-colo.c
-> >>  create mode 100644 migration/multifd-colo.h
-> >>=20
-> >> diff --git a/migration/meson.build b/migration/meson.build
-> >> index 75de868bb7..c9db40d4d4 100644
-> >> --- a/migration/meson.build
-> >> +++ b/migration/meson.build
-> >> @@ -23,7 +23,7 @@ softmmu_ss.add(files(
-> >>    'migration.c',
-> >>    'multifd.c',
-> >>    'multifd-zlib.c',
-> >> -  'multifd-zlib.c',
-
-???
-
-> >> +  'multifd-colo.c',
-> >>    'ram-compress.c',
-> >>    'options.c',
-> >>    'postcopy-ram.c',
-> >> diff --git a/migration/multifd-colo.c b/migration/multifd-colo.c
-
-With just this patch, this file is not compiled in at all. And
-multifd_colo_prepare_recv_pages and multifd_colo_process_recv_pages
-aren't called from anywhere.
-
-I guess they should be called before and after
-multifd_recv_state->ops->recv_pages(p, &local_err);
-?
-
-> >> new file mode 100644
-> >> index 0000000000..10fa1467fa
-> >> --- /dev/null
-> >> +++ b/migration/multifd-colo.c
-> >> @@ -0,0 +1,49 @@
-> >> +/*
-> >> + * multifd colo implementation
-> >> + *
-> >> + * Copyright (c) Lukas Straub <lukasstraub2@web.de>
-> >> + *
-> >> + * This work is licensed under the terms of the GNU GPL, version 2 or=
- later.
-> >> + * See the COPYING file in the top-level directory.
-> >> + */
-> >> +
-> >> +#include "qemu/osdep.h"
-> >> +#include "exec/target_page.h"
-> >> +#include "exec/ramblock.h"
-> >> +#include "qemu/error-report.h"
-> >> +#include "qapi/error.h"
-> >> +#include "ram.h"
-> >> +#include "multifd.h"
-> >> +#include "options.h"
-> >> +#include "io/channel-socket.h"
-> >> +#include "migration/colo.h"
-> >> +#include "multifd-colo.h"
-> >> +
-> >> +void multifd_colo_prepare_recv_pages(MultiFDRecvParams *p)
-> >> +{
-> >> +    if (migrate_colo()) {
-> >> +        /*
-> >> +         * While we're still in precopy mode, we copy received pages =
-to both guest
-> >> +         * and cache. No need to set dirty bits, since guest and cach=
-e memory are
-> >> +         * in sync.
-> >> +         */
-> >> +        if (migration_incoming_in_colo_state()) {
-> >> +            colo_record_bitmap(p->block, p->normal, p->normal_num);
-> >> +        }
-> >> +        p->host =3D p->block->colo_cache;
-> >> +    }
-> >> +}
-> >> +
-> >> +void multifd_colo_process_recv_pages(MultiFDRecvParams *p)
-> >> +{
-> >> +    if (migrate_colo()) {
-> >> +        if (!migration_incoming_in_colo_state()) {
-> >> +            for (int i =3D 0; i < p->normal_num; i++) {
-> >> +                void *guest =3D p->block->host + p->normal[i];
-> >> +                void *cache =3D p->host + p->normal[i];
-> >> +                memcpy(guest, cache, p->page_size);
-> >> +            }
-> >> +        }
-> >> +        p->host =3D p->block->host;
-> >> +    }
-> >> +}
-> >> diff --git a/migration/multifd-colo.h b/migration/multifd-colo.h
-> >> new file mode 100644
-> >> index 0000000000..1636c617fc
-> >> --- /dev/null
-> >> +++ b/migration/multifd-colo.h
-> >> @@ -0,0 +1,24 @@
-> >> +/*
-> >> + * multifd colo header
-> >> + *
-> >> + * Copyright (c) Lukas Straub <lukasstraub2@web.de>
-> >> + *
-> >> + * This work is licensed under the terms of the GNU GPL, version 2 or=
- later.
-> >> + * See the COPYING file in the top-level directory.
-> >> + */
-> >> +
-> >> +#ifndef QEMU_MIGRATION_MULTIFD_COLO_H
-> >> +#define QEMU_MIGRATION_MULTIFD_COLO_H
-> >> +
-> >> +#ifndef CONFIG_COLO
-
-Should be CONFIG_REPLICATION
-
-> >> +
-> >> +void multifd_colo_prepare_recv_pages(MultiFDRecvParams *p);
-> >> +void multifd_colo_process_recv_pages(MultiFDRecvParams *p);
-> >> +
-> >> +#else
-> >> +
-> >> +static inline void multifd_colo_prepare_recv_pages(MultiFDRecvParams =
-*p) {}
-> >> +static inline void multifd_colo_process_recv_pages(MultiFDRecvParams =
-*p) {}
-> >> +
-> >> +#endif /* CONFIG_COLO */
-> >> +#endif =20
->=20
-
-
-
---=20
-
-
---Sig_/5eTsIMCTm+V0vG_rgx+_/lm
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEg/qxWKDZuPtyYo+kNasLKJxdslgFAmRcvTMACgkQNasLKJxd
-sligUhAApX1+y4huWdLQWdTg+8EaU4CaY1riW6rbr/IAXkznKa+28UsKT4EN+O7F
-RxVH9aGY8ZqV6DmhzkgJuYVslkXzjAObtdU+rcQrTAbSs1MvCladrBlufzlnBv65
-bhpVbON7nglmthabwQFU3UxE/xtufIbpXVsFAmO3pLWtcBAtnT29zUtMu334sXOs
-bTnRK94CI2rr+QwHj/aZUJA93EBFcKxUBY0MhB7fbHSPYTEyLu/6Nn8AAkLkB1UJ
-MjobzYOhXSeJE3PJiYYh2H9v/6GVp0himkyXepRtNEl4NT6KULPMUjs/axxdGBXT
-5fs+uhE0n7N6Cl7RFsV57drJszsHkPjU/+pYPFMEH9XJb+f8iKByK4f5ZtVDOa++
-dWGx+nIUzylHIy5pTvAN+Q/XDVh8udOG8LblS2aLp8e4dJQ9xovZVCNcmUBIwZeJ
-46pjXAwa9k8YDk/O8cYHnSQEHL4XQ4uzIkxcnavFatQnN15tDwgRsCOErzNXOqDe
-O/Z8IWqUbjr+xnvM9zwv5WTBBIgoSb61z3Xf8Vtn8LaZ0HvH22zs5M9kM3Dxa38+
-ughdTSPRMQ79WuRAA42WWBR7r/B+QKoOTurqejK5cTx7ASsxyJHcYcQDZ7ZgiAM1
-aMElyKVvTG0mWAGRXp5RECal9BJSwNt2YOItcWZMcoXdK9Zhg7k=
-=mrTD
------END PGP SIGNATURE-----
-
---Sig_/5eTsIMCTm+V0vG_rgx+_/lm--
 
