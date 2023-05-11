@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81E816FEF3D
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 May 2023 11:51:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 24C716FEF61
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 May 2023 11:53:45 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1px2x5-0000rC-FY; Thu, 11 May 2023 05:51:11 -0400
+	id 1px2xO-0001pr-VV; Thu, 11 May 2023 05:51:31 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1px2x2-0000ic-7s
- for qemu-devel@nongnu.org; Thu, 11 May 2023 05:51:08 -0400
+ id 1px2x7-0000zI-H1
+ for qemu-devel@nongnu.org; Thu, 11 May 2023 05:51:17 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1px2x0-0006kc-Fb
- for qemu-devel@nongnu.org; Thu, 11 May 2023 05:51:07 -0400
+ id 1px2x1-0006kz-Ao
+ for qemu-devel@nongnu.org; Thu, 11 May 2023 05:51:13 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1683798665;
+ s=mimecast20190719; t=1683798666;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Zj4hkECaFqe0+nYtTaCSliiV5fO1Yqr+2CHBgOOT08I=;
- b=HjCP3g1QgNdEuVTL6LreB9G2swqt2/Y9z2Cr3zIiTAlR9EaOaxo6Vox90LdK5cEpj+yNNL
- l9HqCuXuU2B26CKAkBrwazOpeZmnFs7Am3xlP20M27BgZ+2Cjh8B8ui+tC5oYiqdNJb69V
- HU2Dio5KLzgNxtfeijQtoQ4rp3Ltz9U=
-Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
- [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=Px4Ef2y8fI3o2Q6OhRjhkrlJeU2fyggh2VF0TGSUSwk=;
+ b=SpyQLP6Q5SSSrcADCshhniFK7Wv8EkXlESc11YTjtGu+yuW+0EatosPsVLE9fVuU4IRCjD
+ h45nVH3F4f+1OtgSRvAGQm2K6iqeCcLBzkRAdO1J3jolYivRFCejREp7xZkStEmvyxFNx1
+ YSgGG7TmNp6k7a53a3Sx8tO3oET8woI=
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-636-fqdD7gsbOfebf_oi1Po9ug-1; Thu, 11 May 2023 05:51:03 -0400
-X-MC-Unique: fqdD7gsbOfebf_oi1Po9ug-1
-Received: by mail-ej1-f70.google.com with SMTP id
- a640c23a62f3a-94a356c74e0so812940566b.2
- for <qemu-devel@nongnu.org>; Thu, 11 May 2023 02:51:03 -0700 (PDT)
+ us-mta-6-8H9YVRVtPWuXb3mtFiJ0CQ-1; Thu, 11 May 2023 05:51:05 -0400
+X-MC-Unique: 8H9YVRVtPWuXb3mtFiJ0CQ-1
+Received: by mail-ej1-f72.google.com with SMTP id
+ a640c23a62f3a-95f6f291b9aso1045431466b.3
+ for <qemu-devel@nongnu.org>; Thu, 11 May 2023 02:51:05 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683798662; x=1686390662;
+ d=1e100.net; s=20221208; t=1683798664; x=1686390664;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=Zj4hkECaFqe0+nYtTaCSliiV5fO1Yqr+2CHBgOOT08I=;
- b=Khm77IUVRugKHi0X+JWv6144mvMNr4yPcxvkA1/c1x04i4NPNcxvUouYi4/EHK5osw
- OfJkatUc7b30K8oAUUtr9E00H91tsarxlMIdtzFkaezxD1f4F3kFO/s5dL1GlRf+okLk
- 8Rtm3nCLx8Bp7n/0uDfGeJmwARaWjOfnhPmKsSp45SpJIEQNo0+VOS1knuzT8PyemR2E
- bogUyTLVc/HY/AFeeYxF/x4t8HqCc1FIbZUjzhjFU+H1AW99U1dst2XW9NqS7HpMWNKf
- +oyM1FYqUrmvnhIZ14FKUiC6lrqIYe/Glbz3RA9vVU5C9dL+iRkildF0/72o3c8I6Tg5
- Xvig==
-X-Gm-Message-State: AC+VfDyRQBi0BiOWbvlepvRTZMux7z4eT2eefGuSwi/EKkGcsr+3OQy+
- +3+mrMa3cJmwaP17dtxy4RH511EPWJm/+h/hAqYP1YLHqNrQXGO2Q11by6V3+oA5QTU4N3reK7/
- 421ocMdQrE/pJRlW2QRVUG0G7jzPn42i5cNB2JipyDErVRfi3IDIB4XPP/nGU8dRZUQsOElJ4x5
- M=
-X-Received: by 2002:a17:907:2d1f:b0:968:db2f:383 with SMTP id
- gs31-20020a1709072d1f00b00968db2f0383mr11562985ejc.53.1683798662373; 
- Thu, 11 May 2023 02:51:02 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ52zeQqivKo23vkOJUbRcExNMOLuvTB4XjDOgq6MpWPdKXaSdQkbZ9ZXSjyJplJn0MRh9E9dA==
-X-Received: by 2002:a17:907:2d1f:b0:968:db2f:383 with SMTP id
- gs31-20020a1709072d1f00b00968db2f0383mr11562968ejc.53.1683798661997; 
- Thu, 11 May 2023 02:51:01 -0700 (PDT)
+ bh=Px4Ef2y8fI3o2Q6OhRjhkrlJeU2fyggh2VF0TGSUSwk=;
+ b=UKr+1B74WpPFax8DXaO39uLrH1zkeH8EVVo9UKxAZ6A67rzlF+xJIeq9aNxfM/fYxD
+ w0GenNNYroHlPD88ol3XASHn/piprQ/AWPxcgE++ugx5NkwpBkIjPS0/eBiSYMNaUU24
+ U0YhzecgG7XKDdbuKt4MN8qqNgV2sd2aVPSPyyUf8IhHDffR4xK5Rff3T9pyzDzyJm5i
+ NQIbrCVde3MHoel/mzvjvG9LVOJcF3WNABF+XYp7yK2CdulPXL9mgxZ4Mu1Nhcm3C74R
+ 4aKslzFH+2JTglV33xkeXGnh6awyg1yTuJoJoVNisZm7zLco4LOW+thhqGihm4jP+Kqd
+ 257A==
+X-Gm-Message-State: AC+VfDxeReWbhKVX5oFrDEM7enJ/oXZyvIEwrXBb1JRuB45Ae2XHbL5u
+ Zh7hQxZYrHJS9a/Yq8+JwMbyzj3CpThgJ9+JaE7gLzCVb0fxpbfaCoKByuKkGpW27PtHHq4UnSu
+ Yp+TlRfoplKmRKBugY3Ed2ZH5Cd/nJOuXEWme+nBtgUj/J6m78a/RoMVAuVT3mLnuCd1PQ2ezvq
+ E=
+X-Received: by 2002:a17:906:ee82:b0:94f:1a23:2f1c with SMTP id
+ wt2-20020a170906ee8200b0094f1a232f1cmr17208910ejb.50.1683798663904; 
+ Thu, 11 May 2023 02:51:03 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ7ADmkXMPwzRux2MG7/N8ub3frBVRMwo23FiGXcUrZQfOE+yumE+zlaPuYyBYSvNxf/imdd/Q==
+X-Received: by 2002:a17:906:ee82:b0:94f:1a23:2f1c with SMTP id
+ wt2-20020a170906ee8200b0094f1a232f1cmr17208897ejb.50.1683798663507; 
+ Thu, 11 May 2023 02:51:03 -0700 (PDT)
 Received: from [192.168.10.118] ([2001:b07:6468:f312:63a7:c72e:ea0e:6045])
  by smtp.gmail.com with ESMTPSA id
- 30-20020a17090601de00b009662d0e637esm3791444ejj.155.2023.05.11.02.51.00
+ f8-20020a056402068800b0050bc9c38fb4sm2695380edy.69.2023.05.11.02.51.02
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 11 May 2023 02:51:01 -0700 (PDT)
+ Thu, 11 May 2023 02:51:03 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 17/24] build: move compiler version check to meson
-Date: Thu, 11 May 2023 11:50:14 +0200
-Message-Id: <20230511095021.1397802-18-pbonzini@redhat.com>
+Subject: [PATCH 18/24] build: move --disable-debug-info to meson
+Date: Thu, 11 May 2023 11:50:15 +0200
+Message-Id: <20230511095021.1397802-19-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.40.1
 In-Reply-To: <20230511095021.1397802-1-pbonzini@redhat.com>
 References: <20230511095021.1397802-1-pbonzini@redhat.com>
@@ -100,82 +100,77 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Use the slighly nicer .version_compare() function for GCC; for Clang that is
-not possible due to the mess that Apple does with version numbers.
-
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- configure   | 25 -------------------------
- meson.build | 20 ++++++++++++++++++++
- 2 files changed, 20 insertions(+), 25 deletions(-)
+ configure                     | 5 -----
+ scripts/meson-buildoptions.py | 2 ++
+ scripts/meson-buildoptions.sh | 3 +++
+ 3 files changed, 5 insertions(+), 5 deletions(-)
 
 diff --git a/configure b/configure
-index a7c3fcc26609..b58ea2aba1f3 100755
+index b58ea2aba1f3..6e5e91908a4b 100755
 --- a/configure
 +++ b/configure
-@@ -1128,31 +1128,6 @@ if test "$targetos" = "bogus"; then
-     error_exit "Unrecognized host OS (uname -s reports '$(uname -s)')"
- fi
+@@ -694,10 +694,6 @@ for opt do
+   ;;
+   --cross-prefix-*)
+   ;;
+-  --enable-debug-info) meson_option_add -Ddebug=true
+-  ;;
+-  --disable-debug-info) meson_option_add -Ddebug=false
+-  ;;
+   --enable-docs) docs=enabled
+   ;;
+   --disable-docs) docs=disabled
+@@ -972,7 +968,6 @@ cat << EOF
+   bsd-user        all BSD usermode emulation targets
+   pie             Position Independent Executables
+   debug-tcg       TCG debugging (default is disabled)
+-  debug-info      debugging information
  
--# Check whether the compiler matches our minimum requirements:
--cat > $TMPC << EOF
--#if defined(__clang_major__) && defined(__clang_minor__)
--# ifdef __apple_build_version__
--#  if __clang_major__ < 12 || (__clang_major__ == 12 && __clang_minor__ < 0)
--#   error You need at least XCode Clang v12.0 to compile QEMU
--#  endif
--# else
--#  if __clang_major__ < 10 || (__clang_major__ == 10 && __clang_minor__ < 0)
--#   error You need at least Clang v10.0 to compile QEMU
--#  endif
--# endif
--#elif defined(__GNUC__) && defined(__GNUC_MINOR__)
--# if __GNUC__ < 7 || (__GNUC__ == 7 && __GNUC_MINOR__ < 4)
--#  error You need at least GCC v7.4.0 to compile QEMU
--# endif
--#else
--# error You either need GCC or Clang to compiler QEMU
--#endif
--int main (void) { return 0; }
--EOF
--if ! compile_prog "" "" ; then
--    error_exit "You need at least GCC v7.4 or Clang v10.0 (or XCode Clang v12.0)"
--fi
--
- if test "$static" = "yes" ; then
-   if test "$plugins" = "yes"; then
-     error_exit "static and plugins are mutually incompatible"
-diff --git a/meson.build b/meson.build
-index 0c5d2cf634fa..a751d86bc3ea 100644
---- a/meson.build
-+++ b/meson.build
-@@ -190,6 +190,26 @@ endif
- # Compiler flags #
- ##################
- 
-+foreach lang : all_languages
-+  compiler = meson.get_compiler(lang)
-+  if compiler.get_id() == 'gcc' and compiler.version().version_compare('>=7.4')
-+    # ok
-+  elif compiler.get_id() == 'clang' and compiler.compiles('''
-+      #ifdef __apple_build_version__
-+      # if __clang_major__ < 12 || (__clang_major__ == 12 && __clang_minor__ < 0)
-+      #  error You need at least XCode Clang v12.0 to compile QEMU
-+      # endif
-+      #else
-+      # if __clang_major__ < 10 || (__clang_major__ == 10 && __clang_minor__ < 0)
-+      #  error You need at least Clang v10.0 to compile QEMU
-+      # endif
-+      #endif''')
-+    # ok
-+  else
-+    error('You either need GCC v7.4 or Clang v10.0 (or XCode Clang v12.0) to compile QEMU')
-+  endif
-+endforeach
-+
- # default flags for all hosts
- # We use -fwrapv to tell the compiler that we require a C dialect where
- # left shift of signed integers is well defined and has the expected
+ NOTE: The object files are built at the place where configure is launched
+ EOF
+diff --git a/scripts/meson-buildoptions.py b/scripts/meson-buildoptions.py
+index 4c7f13fdfc40..8d2e526132ae 100755
+--- a/scripts/meson-buildoptions.py
++++ b/scripts/meson-buildoptions.py
+@@ -36,6 +36,7 @@
+     "b_coverage": "gcov",
+     "b_lto": "lto",
+     "coroutine_backend": "with-coroutine",
++    "debug": "debug-info",
+     "malloc": "enable-malloc",
+     "pkgversion": "with-pkgversion",
+     "qemu_firmwarepath": "firmwarepath",
+@@ -47,6 +48,7 @@
+     "b_coverage",
+     "b_lto",
+     "datadir",
++    "debug",
+     "includedir",
+     "libdir",
+     "libexecdir",
+diff --git a/scripts/meson-buildoptions.sh b/scripts/meson-buildoptions.sh
+index dd1c83f6f1b9..8030d63edd3a 100644
+--- a/scripts/meson-buildoptions.sh
++++ b/scripts/meson-buildoptions.sh
+@@ -11,6 +11,7 @@ meson_options_help() {
+   printf "%s\n" '                           affects only QEMU, not tools like qemu-img)'
+   printf "%s\n" '  --datadir=VALUE          Data file directory [share]'
+   printf "%s\n" '  --disable-coroutine-pool coroutine freelist (better performance)'
++  printf "%s\n" '  --disable-debug-info     Enable debug symbols and other information'
+   printf "%s\n" '  --disable-hexagon-idef-parser'
+   printf "%s\n" '                           use idef-parser to automatically generate TCG'
+   printf "%s\n" '                           code for the Hexagon frontend'
+@@ -258,6 +259,8 @@ _meson_option_parse() {
+     --datadir=*) quote_sh "-Ddatadir=$2" ;;
+     --enable-dbus-display) printf "%s" -Ddbus_display=enabled ;;
+     --disable-dbus-display) printf "%s" -Ddbus_display=disabled ;;
++    --enable-debug-info) printf "%s" -Ddebug=true ;;
++    --disable-debug-info) printf "%s" -Ddebug=false ;;
+     --enable-debug-mutex) printf "%s" -Ddebug_mutex=true ;;
+     --disable-debug-mutex) printf "%s" -Ddebug_mutex=false ;;
+     --enable-debug-stack-usage) printf "%s" -Ddebug_stack_usage=true ;;
 -- 
 2.40.1
 
