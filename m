@@ -2,89 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C41D26FEB14
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 May 2023 07:20:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E44E6FEB9F
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 May 2023 08:16:13 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pwyhJ-00005g-CU; Thu, 11 May 2023 01:18:37 -0400
+	id 1pwzZV-0004l6-R9; Thu, 11 May 2023 02:14:37 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pwyhG-00005I-6U
- for qemu-devel@nongnu.org; Thu, 11 May 2023 01:18:34 -0400
-Received: from mail-ed1-x52a.google.com ([2a00:1450:4864:20::52a])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pwyhE-0004P8-EG
- for qemu-devel@nongnu.org; Thu, 11 May 2023 01:18:33 -0400
-Received: by mail-ed1-x52a.google.com with SMTP id
- 4fb4d7f45d1cf-50bd37ca954so75653356a12.0
- for <qemu-devel@nongnu.org>; Wed, 10 May 2023 22:18:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1683782310; x=1686374310;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=Jmatq43D6nIaatqSUDEjO0oPYOpfsFNsigFjDyYI1Bg=;
- b=a7JlUA3bKwOced8TWv5Lwk89WE4ampEJNqJi3o5uhW93b41xPMlX62wUnVAWguOUL7
- Yc5ZEXG5+jK9ZDDgsF30tXU1ZB4FkBEYS8x/GbG7FpbMqOWB3iDFnjwNvPDP3Igx3Bqs
- bwAVS9e5S9qpMBTFz8JaO7drJUkmjkzDveoukIJOOrTfJEIk0TVGViwqOkspUNB3CORI
- h4KIf9WFbnYcyBSODYk6b4u8x4Sbum09qwuHfMYWY0IQUcrhBKrbPLKJqmJ4c9+TKksN
- WWDbmv1dzqjzTGqZYhP0eoNbuP9iUGwhGR1RxtOOSrGV6flHXytx6a9n4Hx+PeE+0Frm
- 0euA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683782310; x=1686374310;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Jmatq43D6nIaatqSUDEjO0oPYOpfsFNsigFjDyYI1Bg=;
- b=gWfnhkS/NT6RI91oJGmXn8cVCAZj8NN37UGBBB7cVTN4IKDIqwZiwRI+YIt+s7ADfI
- Awqot33i//Mubd7DVOL6fY8Dt8CaoQUusSouZsJ1qIetGMnLXFzb2mtzQUhKilCX/X6n
- JqDWIV5fzDO6fszMFFxKTmASpZYL9nnwxzv4lm/G/IeTJYibBGePjt4vmqhDYJPIihSX
- AwJI/xtqpobFwXoeoeUpptHIMYP8xKXkP3YzZoUv885mquKLsZJ1nXzjxGm27zz/9X60
- 3uS5tE7KNridthK+5gq2psUkiK50ec2PfoZFi1KHPaCvDDcGE2gTCykmUaeiOiTn2Dzz
- zKjg==
-X-Gm-Message-State: AC+VfDyrsXIRA/8x+86wLGKe6my9xvv/cqjOgj7/qZCSo4eFxRmga3Ue
- UbPYmgL4zaugUJROx9me7yE14LQKUcMexfJUDdlETQ==
-X-Google-Smtp-Source: ACHHUZ7axCsQ2sE1h3V1lJoxaavIAvlL57dFsmmJ7oO4tSLJRE2GhXQPqJZC31uWtiEkTHOeC3aTbw==
-X-Received: by 2002:a17:907:8694:b0:966:2aab:ae51 with SMTP id
- qa20-20020a170907869400b009662aabae51mr13290681ejc.11.1683782309747; 
- Wed, 10 May 2023 22:18:29 -0700 (PDT)
-Received: from [192.168.4.241] ([85.9.250.243])
- by smtp.gmail.com with ESMTPSA id
- v16-20020a170906381000b009545230e682sm3500744ejc.91.2023.05.10.22.18.29
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 10 May 2023 22:18:29 -0700 (PDT)
-Message-ID: <1fabc98c-527b-784b-e504-a82294771808@linaro.org>
-Date: Thu, 11 May 2023 06:17:24 +0100
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pwzZT-0004kO-PN
+ for qemu-devel@nongnu.org; Thu, 11 May 2023 02:14:35 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pwzZR-0005v0-Vq
+ for qemu-devel@nongnu.org; Thu, 11 May 2023 02:14:35 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1683785672;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=C/xzHOqOLuyEobGcCjc1Eq1CbSuC3b24/RmI8E7cl4U=;
+ b=h563ITiVmjGTtZvIaMPiECZld8miT4TPgp4E+KQVpW5sDlGsH/28kilFc7+dwzNumfxz19
+ YtTihl7+hpuF8iPQcbTSy/FFP8jK2CpckMxPLF7RZsuaVlz6aPQm0u+PNYXQNXcXAiNZm+
+ M+I9CQFx/jmK3fMQuA8gyPpWlueuhAM=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-656-m3uK5tKhPVmpDUSRd3UAUQ-1; Thu, 11 May 2023 02:14:31 -0400
+X-MC-Unique: m3uK5tKhPVmpDUSRd3UAUQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.4])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0597280269A;
+ Thu, 11 May 2023 06:14:31 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.39.192.121])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B1A302026D16;
+ Thu, 11 May 2023 06:14:30 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 60E4E21E6924; Thu, 11 May 2023 08:14:29 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Andrei Gudkov via <qemu-devel@nongnu.org>
+Cc: Andrei Gudkov <gudkov.andrei@huawei.com>,  <quintela@redhat.com>,
+ <eblake@redhat.com>,  <berrange@redhat.com>,  <zhengchuan@huawei.com>
+Subject: Re: [PATCH v2 2/4] migration/calc-dirty-rate: detailed stats in
+ sampling mode
+References: <cover.1682598010.git.gudkov.andrei@huawei.com>
+ <22436421241c49c9b6d9b9120d166392c40fb991.1682598010.git.gudkov.andrei@huawei.com>
+Date: Thu, 11 May 2023 08:14:29 +0200
+In-Reply-To: <22436421241c49c9b6d9b9120d166392c40fb991.1682598010.git.gudkov.andrei@huawei.com>
+ (Andrei Gudkov via's message of "Thu, 27 Apr 2023 15:42:58 +0300")
+Message-ID: <877ctfo0my.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH v2 0/9] Hexagon (target/hexagon) New architecture support
-Content-Language: en-US
-To: Taylor Simpson <tsimpson@quicinc.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-Cc: "philmd@linaro.org" <philmd@linaro.org>, "ale@rev.ng" <ale@rev.ng>,
- "anjo@rev.ng" <anjo@rev.ng>, Brian Cain <bcain@quicinc.com>,
- "Matheus Bernardino (QUIC)" <quic_mathbern@quicinc.com>
-References: <20230427224057.3766963-1-tsimpson@quicinc.com>
- <3ee5308b-b25e-813b-4223-78aef99e93de@linaro.org>
- <SN4PR0201MB88084AF677C669CA50E08E12DE689@SN4PR0201MB8808.namprd02.prod.outlook.com>
- <SN4PR0201MB8808854605274990EC367E01DE779@SN4PR0201MB8808.namprd02.prod.outlook.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <SN4PR0201MB8808854605274990EC367E01DE779@SN4PR0201MB8808.namprd02.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::52a;
- envelope-from=richard.henderson@linaro.org; helo=mail-ed1-x52a.google.com
-X-Spam_score_int: -53
-X-Spam_score: -5.4
-X-Spam_bar: -----
-X-Spam_report: (-5.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-3.251,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -100,23 +81,158 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 5/10/23 21:58, Taylor Simpson wrote:
->>> Where can one find docs for this?
->>> The latest Hexagon SDK I can find is 3.5, which still ends at v67.
->>
->> I guess the folks at developer.qualcomm.com are behind in publishing specs.
->> I'll work on getting these.
-> 
-> Hi Richard,
-> 
-> The documents have been posted on this page in the Documentation section.
-> https://developer.qualcomm.com/software/hexagon-dsp-sdk/tools
-> I'll update the README with the link to the latest versions.
-> 
-> Are you planning to review these given that Anton Johansson <anjo@rev.ng> has already done a review?  If not, I'll go ahead and do the pull request.
+Andrei Gudkov via <qemu-devel@nongnu.org> writes:
 
-Go ahead with the pull.  But thanks for the documentation update.
+> Collect number of dirty pages for progresseively increasing time
+> periods starting with 125ms up to number of seconds specified with
+> calc-dirty-rate. Report through qmp and hmp: 1) vector of dirty page
+> measurements, 2) page size, 3) total number of VM pages, 4) number
+> of sampled pages.
+>
+> Signed-off-by: Andrei Gudkov <gudkov.andrei@huawei.com>
 
-r~
+[...]
+
+> diff --git a/qapi/migration.json b/qapi/migration.json
+> index 2c35b7b9cf..f818f51e0e 100644
+> --- a/qapi/migration.json
+> +++ b/qapi/migration.json
+> @@ -1805,6 +1805,22 @@
+   ##
+   # @DirtyRateInfo:
+   #
+   # Information about current dirty page rate of vm.
+   #
+   # @dirty-rate: an estimate of the dirty page rate of the VM in units
+   #     of MB/s, present only when estimating the rate has completed.
+   #
+   # @status: status containing dirtyrate query status includes
+   #     'unstarted' or 'measuring' or 'measured'
+
+Not this patch's fault, but here goes anyway:
+
+0. "dirtyrate" isn't a word.  Spell it "dirty rate".  Many more
+   instances elsewhere.
+
+1. "status containing status"... what has the poor English language done
+   to us that we torture it so?
+
+2. "includes 'unstarted' or 'measuring' or 'measured' is confusing and
+   entirely redundant with the type.  @status doesn't "include" these,
+   these are the possible values, and all of them.
+
+Suggest:
+
+     @status: dirty rate measuring status
+
+I do understand how difficult writing good English is for non-native
+speakers.  This is mainly a failure of patch review.
+
+   #
+   # @start-time: start time in units of second for calculation
+   #
+   # @calc-time: time in units of second for sample dirty pages
+   #
+   # @sample-pages: page count per GB for sample dirty pages the default
+   #     value is 512 (since 6.1)
+   #
+   # @mode: mode containing method of calculate dirtyrate includes
+   #     'page-sampling' and 'dirty-ring' (Since 6.2)
+
+Still not this patch's fault:
+
+1. "mode containing method": more torture :)
+
+2. "includes 'page-sampling' and 'dirty-ring'" is confusing.
+
+   When it was added in commit 0e21bf24608, it was confusing and
+   redundant like the text for @status above.
+
+   Then commit 826b8bc80cb added value 'dirty-bitmap' without updating
+   the member doc here.
+
+Suggest:
+
+     @mode: dirty rate measuring mode
+
+   #
+   # @vcpu-dirty-rate: dirtyrate for each vcpu if dirty-ring mode
+   #     specified (Since 6.2)
+   #
+> +# @page-size: page size in bytes (since 8.1)
+> +#
+> +# @n-total-pages: [page-sampling] total number of VM pages (since 8.1)
+> +#
+> +# @n-sampled-pages: [page-sampling] number of sampled VM pages (since 8.1)
+> +#
+> +# @periods: [page-sampling] array of time periods expressed in milliseconds
+> +#           for which dirty-sample measurements were collected (since 8.1)
+> +#
+> +# @n-dirty-pages: [page-sampling] number of pages among all sampled pages
+> +#                 that were observed as changed during respective time period.
+> +#                 i-th element of this array corresponds to the i-th element
+> +#                 of the @periods array, i.e. @n-dirty-pages[i] is the number
+> +#                 of dirtied pages during period of @periods[i] milliseconds
+> +#                 after the initiation of calc-dirty-rate (since 8.1)
+> +#
+
+Changed doc comment conventions landed yesterday (merge commit
+568992e3440).  Please format like this:
+
+   # @page-size: page size in bytes (since 8.1)
+   #
+   # @n-total-pages: [page-sampling] total number of VM pages (since 8.1)
+   #
+   # @n-sampled-pages: [page-sampling] number of sampled VM pages (since
+   #     8.1)
+   #
+   # @n-zero-pages: [page-sampling] number of observed all-zero pages
+   #     among all sampled pages (since 8.1)
+   #
+   # @periods: [page-sampling] array of time periods expressed in
+   #     milliseconds for which dirty-sample measurements were collected
+   #     (since 8.1)
+   #
+   # @n-dirty-pages: [page-sampling] number of pages among all sampled
+   #     pages that were observed as changed during respective time
+   #     period.  i-th element of this array corresponds to the i-th
+   #     element of the @periods array, i.e. @n-dirty-pages[i] is the
+   #     number of dirtied pages during period of @periods[i]
+   #     milliseconds after the initiation of calc-dirty-rate (since 8.1)
+
+The meaning of "[page-sampling]" is unclear.  What are you trying to
+express?
+
+For better or worse, we try to avoid abbreviations in QMP.  The "n-"
+prefix is one.  What does it stand for?
+
+It's quite unclear how all these numbers relate to each other.  What's
+the difference between @n-sampled-pages and @sample-pages?  I think
+we're missing an overview of the dirty rate measurement feature.
+
+>  # Since: 5.2
+>  ##
+>  { 'struct': 'DirtyRateInfo',
+> @@ -1814,7 +1830,13 @@
+>             'calc-time': 'int64',
+>             'sample-pages': 'uint64',
+>             'mode': 'DirtyRateMeasureMode',
+> -           '*vcpu-dirty-rate': [ 'DirtyRateVcpu' ] } }
+> +           '*vcpu-dirty-rate': [ 'DirtyRateVcpu' ],
+> +           'page-size': 'int64',
+
+Shouldn't this be of type 'size'?
+
+> +           '*n-total-pages': 'int64',
+> +           '*n-sampled-pages': 'int64',
+> +           '*periods': ['int64'],
+> +           '*n-dirty-pages': ['int64'] } }
+
+'uint64', like @sample-pages?
+
+> +
+>  
+>  ##
+>  # @calc-dirty-rate:
 
 
