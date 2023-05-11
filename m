@@ -2,106 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 614326FF35C
+	by mail.lfdr.de (Postfix) with ESMTPS id 67AE76FF35D
 	for <lists+qemu-devel@lfdr.de>; Thu, 11 May 2023 15:47:43 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1px6cd-0007Qb-AU; Thu, 11 May 2023 09:46:19 -0400
+	id 1px6ck-0007Qo-In; Thu, 11 May 2023 09:46:27 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
- id 1px6cZ-0007Pr-5g; Thu, 11 May 2023 09:46:15 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
- id 1px6cX-0007co-3X; Thu, 11 May 2023 09:46:14 -0400
-Received: from pps.filterd (m0356517.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 34BDdUbV020181; Thu, 11 May 2023 13:46:10 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : subject :
- from : to : cc : date : in-reply-to : references : content-type :
- content-transfer-encoding : mime-version; s=pp1;
- bh=Mbwmr3RZdwYeePdOsgL2h9TMhBvswU6R/ZKssBXh554=;
- b=GsIhgc95LlPdgAeyCn06NCA5xw6q0wy4DSQG7Twag+cwkq3QMZ+6y6Tzz1DnCBnqASnX
- NBzp0ZowCDzsVyfTdoeq1A47ew9vu0KsqqtfVx8PGRci/NJRQDajWgw9yy5G8RNq7Exl
- p2tcHToX6uDL5YnlRXME6s5fze17JZDeH+R9gdbqM6RNG7yN4+2EPTgg9qS7mpZstD0d
- inoj3ExWBCWLhN8P8+8W7Pqy4te5PwybCb9gOh7zQAKNuQtl1nq6H3YZRiDFeJA/vEj4
- migYN4m4xeMKaAiJc7nPnskFIeWMbxy1ksqmguEyPcP+oebQaORCyRa2lCpiuuh1VHe8 Kw== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3qgyydkt2k-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 11 May 2023 13:46:09 +0000
-Received: from m0356517.ppops.net (m0356517.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 34BDeMYp028587;
- Thu, 11 May 2023 13:45:54 GMT
-Received: from ppma03fra.de.ibm.com (6b.4a.5195.ip4.static.sl-reverse.com
- [149.81.74.107])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3qgyydks1b-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 11 May 2023 13:45:53 +0000
-Received: from pps.filterd (ppma03fra.de.ibm.com [127.0.0.1])
- by ppma03fra.de.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 34BDfc8c002869;
- Thu, 11 May 2023 13:45:25 GMT
-Received: from smtprelay01.fra02v.mail.ibm.com ([9.218.2.227])
- by ppma03fra.de.ibm.com (PPS) with ESMTPS id 3qf7s8he1m-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 11 May 2023 13:45:25 +0000
-Received: from smtpav05.fra02v.mail.ibm.com (smtpav05.fra02v.mail.ibm.com
- [10.20.54.104])
- by smtprelay01.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 34BDjNYC197200
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 11 May 2023 13:45:23 GMT
-Received: from smtpav05.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 070732004E;
- Thu, 11 May 2023 13:45:23 +0000 (GMT)
-Received: from smtpav05.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 906CE20043;
- Thu, 11 May 2023 13:45:22 +0000 (GMT)
-Received: from [9.171.14.79] (unknown [9.171.14.79])
- by smtpav05.fra02v.mail.ibm.com (Postfix) with ESMTP;
- Thu, 11 May 2023 13:45:22 +0000 (GMT)
-Message-ID: <8c1e5072a92d3160d7f906208e0b9f4c78fdaf84.camel@linux.ibm.com>
-Subject: Re: [PATCH 1/2] linux-user/s390x: Fix single-stepping SVC
-From: Ilya Leoshkevich <iii@linux.ibm.com>
-To: Michael Tokarev <mjt@tls.msk.ru>, Laurent Vivier <laurent@vivier.eu>,
- Richard Henderson <richard.henderson@linaro.org>, David Hildenbrand
- <david@redhat.com>, Thomas Huth <thuth@redhat.com>
-Cc: qemu-devel@nongnu.org, qemu-s390x@nongnu.org
-Date: Thu, 11 May 2023 15:45:22 +0200
-In-Reply-To: <d60cbe36-0bc0-b991-6fb7-b942527988f1@msgid.tls.msk.ru>
-References: <20230510230213.330134-1-iii@linux.ibm.com>
- <20230510230213.330134-2-iii@linux.ibm.com>
- <10879612-818e-a1af-5994-56ef84c524cb@msgid.tls.msk.ru>
- <cfb547465b6b6bd27c75bea8fdc4bb7be3229c93.camel@linux.ibm.com>
- <d60cbe36-0bc0-b991-6fb7-b942527988f1@msgid.tls.msk.ru>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.46.4 (3.46.4-1.fc37) 
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: ojwf2YlSBN7mKHFZx9di04fztfqLAA7D
-X-Proofpoint-GUID: pZCtbPumH8NbVVEKjZqp2Q5kzGSjf-as
-Content-Transfer-Encoding: quoted-printable
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1px6cc-0007QZ-6e
+ for qemu-devel@nongnu.org; Thu, 11 May 2023 09:46:18 -0400
+Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1px6ca-0007d8-Ic
+ for qemu-devel@nongnu.org; Thu, 11 May 2023 09:46:17 -0400
+Received: by mail-wr1-x435.google.com with SMTP id
+ ffacd0b85a97d-307664010fdso7984591f8f.0
+ for <qemu-devel@nongnu.org>; Thu, 11 May 2023 06:46:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1683812775; x=1686404775;
+ h=content-transfer-encoding:in-reply-to:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=kdrRjQ49zNkDCzmgZ75Dyp+vrNUeCS3LJz/KJvCz2LM=;
+ b=TLKp68Am8rpmSd2m+2RAd5F87ToI8Bq6l+bn1h+zxVOj187rEMhRZWghOi/BBxMc8d
+ yw7auJOCDU9x+n7IIi6aDTjMAshDFOUYb4r4JnBsTpGpi7JaMXUmOoDnlhVEOKD8b0Vm
+ rv157RMhtrN/8UXwS4NKJXQCgxYauHJlCfTc0DzJWLrLK/FvmvzgJ6saqkM0inDT6iDd
+ ZRORIh2nZi1lLblpw4PVnSgJVKdwsKCggR242e89/MEI1VYazV8Js64dyPzCob5VhHXb
+ OZm6Kl+i0djrx5ng3KKVdWJzwzIA78+fUCYwQ89OKwwV6LUWZ2OSmb1OX7AZhuDmClP+
+ wQlQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1683812775; x=1686404775;
+ h=content-transfer-encoding:in-reply-to:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=kdrRjQ49zNkDCzmgZ75Dyp+vrNUeCS3LJz/KJvCz2LM=;
+ b=fctKNy33xMqz8stLAq/2wtuZfh42Ptz3uxJFyg5PNaL2LvIC+yCxfWWm1lpmrp29Gq
+ /O7xzTV1Bxkix1zKTFIibHWHcXC+HrwwXkKdMr7TTL33OFCsIFRwUb+rt8Tw82CdClkk
+ emq9aqVOYne03Cm1CJSzvMqP0C/yiyQnuyIu6gM221tAO5nVLnZQfYiZ85P4L7eaz/C9
+ UMNwcxYiswBJOAnLe5E6kZ44Mt+MTykHlv/C4R5LgrCfP/NiAGBz6S7A07/OU8vRev/F
+ Qtosurwaw7Jswwand8d3Q4SgO4WmGsnAp9tU7mGZKVh/vgl+w9tIyBx6V0bOU2woSS1s
+ JSvQ==
+X-Gm-Message-State: AC+VfDzULNGzD8sLVhU8bQGs7GwnNeI7CgWup16XPXlz6xgIsXf96K8l
+ xTlppT1haH1aFlKD0pX3l30MWiYgffAbPjC28fh53g==
+X-Google-Smtp-Source: ACHHUZ787L3TJMHcM88nHBPD2FvnzHek7ljw/46+51BxgioYocPZKrbhjPoVV3Omgs95MEBQL8AraQ==
+X-Received: by 2002:adf:f790:0:b0:2f2:7a0e:5cc9 with SMTP id
+ q16-20020adff790000000b002f27a0e5cc9mr13158159wrp.19.1683812774871; 
+ Thu, 11 May 2023 06:46:14 -0700 (PDT)
+Received: from [192.168.69.115] ([176.176.152.186])
+ by smtp.gmail.com with ESMTPSA id
+ q4-20020a5d61c4000000b003063772a55bsm20495788wrv.61.2023.05.11.06.46.13
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 11 May 2023 06:46:14 -0700 (PDT)
+Message-ID: <68cca2b7-a61f-325b-2a45-33d6f3bb0c24@linaro.org>
+Date: Thu, 11 May 2023 15:46:12 +0200
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-05-11_10,2023-05-05_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 bulkscore=0
- spamscore=0 phishscore=0 priorityscore=1501 impostorscore=0 adultscore=0
- malwarescore=0 mlxlogscore=565 suspectscore=0 clxscore=1015
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2304280000 definitions=main-2305110117
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=iii@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.10.1
+Subject: Re: [PATCH 2/3] softmmu/ioport.c: QOMify MemoryRegionPortioList
+Content-Language: en-US
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, pbonzini@redhat.com,
+ qemu-devel@nongnu.org
+References: <20230419151652.362717-1-mark.cave-ayland@ilande.co.uk>
+ <20230419151652.362717-3-mark.cave-ayland@ilande.co.uk>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20230419151652.362717-3-mark.cave-ayland@ilande.co.uk>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x435.google.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.124,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -118,26 +93,45 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, 2023-05-11 at 15:32 +0300, Michael Tokarev wrote:
-> 11.05.2023 14:20, Ilya Leoshkevich wrote:
-> > On Thu, 2023-05-11 at 13:55 +0300, Michael Tokarev wrote:
->=20
-> > > Is it a -stable material?
->=20
-> > While I would personally love to see this in -stable, I don't think
-> > it
-> > fits the official criteria - it's not a security fix and it's not a
-> > regression.
->=20
-> I'm not sure I follow. It's definitely okay to include a bug fix into
-> -stable, this has been done countless times in the past..
->=20
-> /mjt
+On 19/4/23 17:16, Mark Cave-Ayland wrote:
+> The aim of QOMification is so that the lifetime of the MemoryRegionPortioList
+> structure can be managed using QOM's in-built refcounting instead of having to
+> handle this manually.
+> 
+> Due to the use of an opaque pointer it isn't possible to model the new
+> TYPE_MEMORY_REGION_PORTIO_LIST directly using QOM properties, however since
+> use of the new object is restricted to the portio API we can simply set the
+> opaque pointer (and the heap-allocated port list) internally.
+> 
+> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+> ---
+>   softmmu/ioport.c | 25 ++++++++++++++++++++++---
+>   1 file changed, 22 insertions(+), 3 deletions(-)
+> 
+> diff --git a/softmmu/ioport.c b/softmmu/ioport.c
+> index d0d5b0bcaa..238625a36f 100644
+> --- a/softmmu/ioport.c
+> +++ b/softmmu/ioport.c
+> @@ -32,11 +32,16 @@
+>   #include "exec/address-spaces.h"
+>   #include "trace.h"
+>   
+> -typedef struct MemoryRegionPortioList {
+> +struct MemoryRegionPortioList {
+> +    Object obj;
+> +
+>       MemoryRegion mr;
+>       void *portio_opaque;
+>       MemoryRegionPortio *ports;
+> -} MemoryRegionPortioList;
+> +};
+> +
+> +#define TYPE_MEMORY_REGION_PORTIO_LIST "memory-region-portio-list"
 
-Okay, then let's include it into -stable.
+Possibly simpler as: TYPE_MEMORY_REGION_PORTIO "memory-region-portio"
 
-It's just that I'm not too familiar with the QEMU -stable process, so
-I read [1], and it sounded quite strict.
+Otherwise:
 
-[1] https://www.qemu.org/docs/master/devel/stable-process.html
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+
 
