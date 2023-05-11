@@ -2,68 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2FBC36FEDD6
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 May 2023 10:27:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 217BA6FEDD7
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 May 2023 10:28:34 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1px1dq-0001GV-DL; Thu, 11 May 2023 04:27:14 -0400
+	id 1px1ea-0001rI-Li; Thu, 11 May 2023 04:28:00 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1px1dn-0001Ef-Hx
- for qemu-devel@nongnu.org; Thu, 11 May 2023 04:27:11 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <f.ebner@proxmox.com>)
+ id 1px1eW-0001pw-UX
+ for qemu-devel@nongnu.org; Thu, 11 May 2023 04:27:56 -0400
+Received: from proxmox-new.maurer-it.com ([94.136.29.106])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1px1dl-0005es-Gj
- for qemu-devel@nongnu.org; Thu, 11 May 2023 04:27:11 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1683793628;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=qxMUMTf3hWHj7kuv29o+g762+A+uCjKCErhzkV8uVxA=;
- b=EN2axRqRU2NOyxa9FzLzJQVtEenpr7dCMJ6AfLQnAjajD2ILtHkDXh1d0Z0rujiF19jYTM
- Y3ggfUZuOhKqwHddhqFKgkiKFq63lSsmS/jaC74vfUnK5FVGU9GKo8GyLhryd7uYxcGaip
- y94uI2Jvey3FHiQ0PkEVa1lV9bIm4IE=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-121-uVcs43--O8e1DAi26JUesA-1; Thu, 11 May 2023 04:27:06 -0400
-X-MC-Unique: uVcs43--O8e1DAi26JUesA-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
- [10.11.54.5])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id AD664867940;
- Thu, 11 May 2023 08:27:05 +0000 (UTC)
-Received: from secure.mitica (unknown [10.39.192.247])
- by smtp.corp.redhat.com (Postfix) with ESMTP id DAEF047CD0;
- Thu, 11 May 2023 08:27:02 +0000 (UTC)
-From: Juan Quintela <quintela@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: Leonardo Bras <leobras@redhat.com>, Peter Xu <peterx@redhat.com>,
- Avihai Horon <avihaih@nvidia.com>, Thomas Huth <thuth@redhat.com>,
- Lukas Straub <lukasstraub2@web.de>, Juan Quintela <quintela@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
- Markus Armbruster <armbru@redhat.com>
-Subject: [PATCH v2] migration: Add documentation for backwards compatiblity
-Date: Thu, 11 May 2023 10:27:01 +0200
-Message-Id: <20230511082701.12828-1-quintela@redhat.com>
+ (Exim 4.90_1) (envelope-from <f.ebner@proxmox.com>)
+ id 1px1eQ-0005iP-BF
+ for qemu-devel@nongnu.org; Thu, 11 May 2023 04:27:55 -0400
+Received: from proxmox-new.maurer-it.com (localhost.localdomain [127.0.0.1])
+ by proxmox-new.maurer-it.com (Proxmox) with ESMTP id AF0AF417C6;
+ Thu, 11 May 2023 10:27:39 +0200 (CEST)
+Message-ID: <7f308149-5495-d415-5e51-1fa15fc20f84@proxmox.com>
+Date: Thu, 11 May 2023 10:27:35 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH v1 1/1] hw/pci: Disable PCI_ERR_UNCOR_MASK register for
+ machine type < 8.0
+To: Leonardo Bras <leobras@redhat.com>, Eduardo Habkost
+ <eduardo@habkost.net>, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ Yanan Wang <wangyanan55@huawei.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Peter Xu <peterx@redhat.com>, Juan Quintela <quintela@redhat.com>
+Cc: qemu-devel@nongnu.org
+References: <20230503002701.854329-1-leobras@redhat.com>
+Content-Language: en-US
+From: Fiona Ebner <f.ebner@proxmox.com>
+In-Reply-To: <20230503002701.854329-1-leobras@redhat.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=94.136.29.106; envelope-from=f.ebner@proxmox.com;
+ helo=proxmox-new.maurer-it.com
+X-Spam_score_int: -51
+X-Spam_score: -5.2
+X-Spam_bar: -----
+X-Spam_report: (-5.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-3.251,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -80,261 +63,49 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-State what are the requeriments to get migration working between qemu
-versions.  And once there explain how one is supposed to implement a
-new feature/default value and not break migration.
+Am 03.05.23 um 02:27 schrieb Leonardo Bras:
+> Since it's implementation on v8.0.0-rc0, having the PCI_ERR_UNCOR_MASK
+> set for machine types < 8.0 will cause migration to fail if the target
+> QEMU version is < 8.0.0 :
+> 
+> qemu-system-x86_64: get_pci_config_device: Bad config data: i=0x10a read: 40 device: 0 cmask: ff wmask: 0 w1cmask:0
+> qemu-system-x86_64: Failed to load PCIDevice:config
+> qemu-system-x86_64: Failed to load e1000e:parent_obj
+> qemu-system-x86_64: error while loading state for instance 0x0 of device '0000:00:02.0/e1000e'
+> qemu-system-x86_64: load of migration failed: Invalid argument
+> 
+> The above test migrated a 7.2 machine type from QEMU master to QEMU 7.2.0,
+> with this cmdline:
+> 
+> ./qemu-system-x86_64 -M pc-q35-7.2 [-incoming XXX]
+> 
+> In order to fix this, property x-pcie-err-unc-mask was introduced to
+> control when PCI_ERR_UNCOR_MASK is enabled. This property is enabled by
+> default, but is disabled if machine type <= 7.2.
+> 
+> Fixes: 010746ae1d ("hw/pci/aer: Implement PCI_ERR_UNCOR_MASK register")
+> Suggested-by: Michael S. Tsirkin <mst@redhat.com>
+> Signed-off-by: Leonardo Bras <leobras@redhat.com>
 
-Signed-off-by: Juan Quintela <quintela@redhat.com>
+Thank you for the patch!
 
----
+Closes: https://gitlab.com/qemu-project/qemu/-/issues/1576
 
-[v2]
-- Add all danp fixes
+AFAICT, this breaks (forward) migration from 8.0 to 8.0 + this patch
+when using machine type <= 7.2. That is because after this patch, when
+using machine type <= 7.2, the wmask for the register is not set and
+when 8.0 sends a nonzero value for the register, the error condition in
+get_pci_config_device() will trigger again.
 
-[v1]
+Is it necessary to also handle that? Maybe by special casing the error
+condition in get_pci_config_device() to be prepared to accept such a
+stream from 8.0?
 
-I will really appreciate reviews:
+If that is considered not worth it, consider this:
 
-- I don't speak natively .rst format, so let me what I have done
-  wrong.
+Tested-by: Fiona Ebner <f.ebner@proxmox.com>
 
-- English is not my native language either (no points if had guessed
-  that).
-
-- This is stuff is obvious to me, so let me when I have assumed
-  things, things that need to be claried, explained better, etc.
-
-Thanks, Juan.
----
- docs/devel/migration.rst | 214 +++++++++++++++++++++++++++++++++++++++
- 1 file changed, 214 insertions(+)
-
-diff --git a/docs/devel/migration.rst b/docs/devel/migration.rst
-index 6f65c23b47..1c4da92358 100644
---- a/docs/devel/migration.rst
-+++ b/docs/devel/migration.rst
-@@ -142,6 +142,220 @@ General advice for device developers
-   may be different on the destination.  This can result in the
-   device state being loaded into the wrong device.
- 
-+How backwards compatibility works
-+---------------------------------
-+
-+When we do migration, we have to qemu process: the source and the
-+target.  There are two cases, they are the same version or they are a
-+different version.  The easy case is when they are the same version.
-+The difficult one is when they are different versions.
-+
-+There are two things that are different, but they have very similar
-+names and sometimes get confused:
-+- qemu version
-+- machine version
-+
-+Let's start with a practical example, we start with:
-+
-+- qemu-system-x86_64 (v5.2), from now on qemu-5.2.
-+- qemu-system-x86_64 (v5.1), from now on qemu-5.1.
-+
-+Related to this are the "latest" machine types defined on each of
-+them:
-+
-+- pc-q35-5.2 (newer one in qemu-5.2) from now on pc-5.2
-+- pc-q35-5.1 (newer one qemu-5.1) from now on pc-5.1
-+
-+First of all, migration is only supposed to work if you use the same
-+machine type in both source and destination. The qemu hardware
-+configuration needs to be the same also on source and destination.
-+Most aspects of the backend configuration can be changed at will,
-+except for a few cases where the backend features influence frontend
-+device feature exposure.  But that is not relevant for this section.
-+
-+I am going to list the number of combinations that we can have.  Let's
-+start with the trivial ones, qemu is the same on source and
-+destination:
-+
-+1 - qemu-5.2 -M pc-5.2  -> migrates to -> qemu-5.2 -M pc-5.2
-+
-+  This is the latest qemu with the latest machine type.
-+  This have to work, and if it don't work it is a bug.
-+
-+2 - qemu-5.1 -M pc-5.1  -> migrates to -> qemu-5.1 -M pc-5.1
-+
-+  Exactly the same case than the previous one, but for 5.1.
-+  Nothing to see here either.
-+
-+This are the easiest ones, we will not talk more about them in this
-+section.
-+
-+Now we start with the more interesting cases.  Let start with the
-+same qemu but not the same machine type.
-+
-+3 - qemu-5.2 -M pc-5.1  -> migrates to -> qemu-5.2 -M pc-5.1
-+
-+  It needs to use the definition of pc-5.1 and the devices as they
-+  were configured on 5.1, but this should be easy in the sense that
-+  both sides are the same qemu and both sides have exactly the same
-+  idea of what the pc-5.1 machine is.
-+
-+4 - qemu-5.1 -M pc-5.2  -> migrates to -> qemu-5.1 -M pc-5.2
-+
-+  This combination is not possible as the qemu-5.1 don't understand
-+  pc-5.2 machine type.  So nothing to worry here.
-+
-+Now it comes the interesting ones, when both qemus are different.
-+Notice also that the machine type needs to be pc-5.1, because we have
-+the limitation than qemu-5.1 don't know pc-5.2.  So the possible cases
-+are:
-+
-+5 - qemu-5.2 -M pc-5.1  -> migrates to -> qemu-5.1 -M pc-5.1
-+
-+  This migration is known as newer to older.  We need to make sure
-+  when we are developing 5.2 we need to take care about not to break
-+  migration to qemu-5.1.  Notice that we can't make updates to
-+  qemu-5.1 to understand whatever qemu-5.2 decides to change, so it is
-+  in qemu-5.2 side to make the relevant changes.
-+
-+6 - qemu-5.1 -M pc-5.1  -> migrates to -> qemu-5.2 -M pc-5.1
-+
-+  This migration is known as older to newer.  We need to make sure
-+  than we are able to receive migrations from qemu-5.1. The problem is
-+  similar to the previous one.
-+
-+If qemu-5.1 and qemu-5.2 were the same, there will not be any
-+compatibility problems.  But the reason that we create qemu-5.2 is to
-+get new features, devices, defaults, etc.
-+
-+If we get a device that has a new feature, or change a default value,
-+we have a problem when we try to migrate between different qemu
-+versions.
-+
-+So we need a way to tell qemu-5.2 that when we are using machine type
-+pc-5.1, it needs to **not** use the feature, to be able to migrate to
-+real qemu-5.1.
-+
-+And the equivalent part when migrating from qemu-5.1 to qemu-5.2.
-+qemu-5.2 has to expect that it is not going to get data for the new
-+feature, because qemu-5.1 don't know about it.
-+
-+How do we tell qemu about these device feature changes?  In
-+hw/core/machine.c:hw_compat_X_Y arrays.
-+
-+If we change a default value, we need to put back the old value on
-+that array.  And the device, during initialization needs to look at
-+that array to see what value it needs to get for that feature.  And
-+what are we going to put in that array, the value of a property.
-+
-+To create a property for a device, we need to use one of the
-+DEFINE_PROP_*() macros. See include/hw/qdev-properties.h to find the
-+macros that exist.  With it, we set the default value for that
-+property, and that is what it is going to get in the latest released
-+version.  But if we want a different value for a previous version, we
-+can change that in the hw_compat_X_Y arrays.
-+
-+hw_compat_X_Y is an array of registers that have the format:
-+
-+- name_device
-+- name_property
-+- value
-+
-+Let's see a practical example.
-+
-+In qemu-5.2 virtio-blk-device got multi queue support.  This is a
-+change that is not backward compatible.  In qemu-5.1 it has one
-+queue. In qemu-5.2 it has the same number of queues as the number of
-+cpus in the system.
-+
-+When we are doing migration, if we migrate from a device that has 4
-+queues to a device that have only one queue, we don't know where to
-+put the extra information for the other 3 queues, and we fail
-+migration.
-+
-+Similar problem when we migrate from qemu-5.1 that has only one queue
-+to qemu-5.2, we only sent information for one queue, but destination
-+has 4, and we have 3 queues that are not properly initialized and
-+anything can happen.
-+
-+So, how can we address this problem.  Easy, just convince qemu-5.2
-+that when it is running pc-5.1, it needs to set the number of queues
-+for virtio-blk-devices to 1.
-+
-+That way we fix the cases 5 and 6.
-+
-+5 - qemu-5.2 -M pc-5.1  -> migrates to -> qemu-5.1 -M pc-5.1
-+
-+    qemu-5.2 -M pc-5.1 sets number of queues to be 1.
-+    qemu-5.1 -M pc-5.1 expects number of queues to be 1.
-+
-+    correct.  migration works.
-+
-+6 - qemu-5.1 -M pc-5.1  -> migrates to -> qemu-5.2 -M pc-5.1
-+
-+    qemu-5.1 -M pc-5.1 sets number of queues to be 1.
-+    qemu-5.2 -M pc-5.1 expects number of queues to be 1.
-+
-+    correct.  migration works.
-+
-+And now the other interesting case, case 3.  In this case we have:
-+
-+3 - qemu-5.2 -M pc-5.1  -> migrates to -> qemu-5.2 -M pc-5.1
-+
-+    Here we have the same qemu in both sides.  So it doesn't matter a
-+    lot if we have set the number of queues to 1 or not, because
-+    they are the same.
-+
-+    WRONG!
-+
-+    Think what happens if we do one of this double migrations:
-+
-+    A -> migrates -> B -> migrates -> C
-+
-+    where:
-+
-+    A: qemu-5.1 -M pc-5.1
-+    B: qemu-5.2 -M pc-5.1
-+    C: qemu-5.2 -M pc-5.1
-+
-+    migration A -> B is case 6, so number of queues needs to be 1.
-+
-+    migration B -> C is case 3, so we don't care.  But actually we
-+    care because we haven't started the guest in qemu-5.2, it came
-+    migrated from qemu-5.1.  So to be in the safe place, we need to
-+    always use number of queues 1 when we are using pc-5.1.
-+
-+Now, how was this done in reality?  The following commit shows how it
-+was done.
-+
-+commit 9445e1e15e66c19e42bea942ba810db28052cd05
-+Author: Stefan Hajnoczi <stefanha@redhat.com>
-+Date:   Tue Aug 18 15:33:47 2020 +0100
-+
-+    virtio-blk-pci: default num_queues to -smp N
-+
-+The relevant parts for migration are:
-+
-+@@ -1281,7 +1284,8 @@ static Property virtio_blk_properties[] = {
-+ #endif
-+     DEFINE_PROP_BIT("request-merging", VirtIOBlock, conf.request_merging, 0,
-+                     true),
-+-    DEFINE_PROP_UINT16("num-queues", VirtIOBlock, conf.num_queues, 1),
-++    DEFINE_PROP_UINT16("num-queues", VirtIOBlock, conf.num_queues,
-++                       VIRTIO_BLK_AUTO_NUM_QUEUES),
-+     DEFINE_PROP_UINT16("queue-size", VirtIOBlock, conf.queue_size, 256),
-+
-+It changes the default value of num_queues.  But it fishes it for old
-+machine types to have the right value:
-+
-+@@ -31,6 +31,7 @@
-+ GlobalProperty hw_compat_5_1[] = {
-+     ...
-++    { "virtio-blk-device", "num-queues", "1"},
-+     ...
-+ };
-+
-+
- VMState
- -------
- 
--- 
-2.40.1
+Best Regards,
+Fiona
 
 
