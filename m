@@ -2,108 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3FEE16FEE14
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 May 2023 10:54:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 40B7F6FEE15
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 May 2023 10:55:08 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1px23z-0001cl-Ij; Thu, 11 May 2023 04:54:15 -0400
+	id 1px23u-0001ah-Jv; Thu, 11 May 2023 04:54:10 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1px23w-0001cM-Gv
- for qemu-devel@nongnu.org; Thu, 11 May 2023 04:54:13 -0400
-Received: from esa5.hc2706-39.iphmx.com ([216.71.137.63])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1px23t-0002r3-6a
- for qemu-devel@nongnu.org; Thu, 11 May 2023 04:54:11 -0400
-X-IronPort-RemoteIP: 209.85.160.200
-X-IronPort-MID: 290480387
-X-IronPort-Reputation: None
-X-IronPort-Listener: OutgoingMail
-X-IronPort-SenderGroup: RELAY_GSUITE
-X-IronPort-MailFlowPolicy: $RELAYED
-IronPort-Data: A9a23:L7W/Oq+LFR92rDFnwW8NDrUDPnyTJUtcMsCJ2f8bNWPcYEJGY0x3z
- TFNCzqEPfuPNDHzfd1xOo+zpEoGuJXXm4c1SQs+rC4xFiIbosf7XuiUfxz6V8+wwmwvb67FA
- +E2MISowBUcFyeEzvuVGuG96yI6jefQHeCU5NfsYkhZXRVjRDoqlSVtkus4hp8AqdWiCkaGt
- MiaT/f3YTdJ4BYpdDNFg06/gEk35q+q5WpB5gVWic1j5zcyqVFEVPrzGonsdxMUcqEMdsamS
- uDKyq2O/2+x13/B3fv8z94X2mVTKlLjFVHmZkh+AsBOsTAbzsAG6ZvXAdJHAathZ5RlqPgqo
- DlFncTYpQ7EpcQgksxEO/VTO3gW0aGrZNYriJVw2CCe5xSuTpfi/xlhJEwmIqkWoOctO3AQ6
- ORFMD8BTyuyhdvjldpXSsE07igiBMziPYdao205iD+DVa5gTpfETKHHo9Rf2V/chOgURaeYN
- 5dfMGQ3Kk6YO3WjOX9OYH46tO6sln/zaRVStRSYqbdfD237ll0pjOi1a4qKEjCMbfp6nEnFo
- iXPw33WJg8VLMWc7Dav91v504cjmgu+Aur+DoaQ7/NvnRify3IeDDUQUl20p+T/jVSxM++zM
- GQR8ysq6LEurQmlFIGlGRK/p3GAs1gXXN84//AG1TxhA5H8u26xblXohBYaADD6nKfanQAX6
- 2I=
-IronPort-HdrOrdr: A9a23:uH0p9KvHnbgv0Hwrq814ZTaA7skDrNV00zEX/kB9WHVpmwKj5q
- STdZMgpGXJYVMqMk3I9urwXpVoLUmsl6KdgrNhRotKIjOWwVdARbsKheCSoAEIcxefygc379
- YGT0ERMqyUMXFKyezX2k2XKeoB/fWw2JyUpI7lvgpQpMJRB52ILT0VNu9WKCNLrXF9dOIE/V
- Oniat6mwY=
-X-Talos-CUID: 9a23:Jh18tmM1udi4B+5DVTl40EBOG5ofYyPA1CrILEOZMldrcejA
-X-Talos-MUID: 9a23:fL4DXQiLDJmmpTEcP4PIwcMpC+hq7PmqT0kxiLoipcacLC9VNx2YpWHi
-Received: from mail-qt1-f200.google.com ([209.85.160.200])
- by ob1.hc2706-39.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 11 May 2023 04:54:05 -0400
-Received: by mail-qt1-f200.google.com with SMTP id
- d75a77b69052e-3f4e2e7c742so9430221cf.0
- for <qemu-devel@nongnu.org>; Thu, 11 May 2023 01:54:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bu.edu; s=s1gsbu; t=1683795244; x=1686387244;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=17WiJmbprSj01CUtV1WWHWzwtN+21oPfApxnBIbGJ88=;
- b=YtWo+0lnwZEN1cnmTeE2SuvM/Q92tu7hyMbvUr7UN9QKPM9JiGWMmmZ8Z9KDkHBqhI
- ksa5/2WGM7HuEyuc3x964u5oG5e5Z5b/MjXQGgp6Qn8Z/L87v+IueKpT5N2yNOW6WW4X
- TWkkzc/R4XaJSKCQoMqvkXCDAbvZbLE/6ah1u0JT4QQvXGS/0aOux7GWQfk4/AUU/MWH
- DwFNE8a0ikr2xDXn6w5HC125Okv7VAsfRO9a9ls2Vioap3V4QnMlCVAUXME1fZFFTFPj
- QIaUlZNNN0nls712nWLY4ymxinldEJXF/IBarL4xK3T0QSud/z6PA4J7EVhXPl61V8zy
- UFIA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683795244; x=1686387244;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=17WiJmbprSj01CUtV1WWHWzwtN+21oPfApxnBIbGJ88=;
- b=XUYJHS+Ts2CK3gn0xsjyHrI8j5hU4Fgbo7ajVFXsfCEee0nNq3uSVcSd2xhh8/7Ojr
- fe2zKIkrpQMYwOq81acnZdjcvpArXrq4+kUevTsdPg6Lb0tBWDKKH14w8Gpr7wSEG7IO
- 9L1a2Vz8khp3tEKzXO33rPRMizAiruUwJf603OQ+Hr8q7DeNV5EAtHEEtnNW3gc8pKWH
- apiLx8qDuqQ40T+oX5UaXriTOwuEaQq1S768RoM6ggziUnkgVtqaLqt2uUn9WW15+bcV
- Jz9Zc57yNg8xvfna3g9wImZarICSn7Y3z22z3S+8HGyYAwyLAKzs5VcT+Bat3P+FWwSp
- j+Mw==
-X-Gm-Message-State: AC+VfDwmBSmmQU1RnOgbHbOtNyCXeSIvPQt7b7mn9Sd4cDNqEktGBBCC
- QaY1f0S+hK8nG+e9vzXRt2r6Ot53nwPHV/cHnhi2IqeUl0OkMVFVOC5GfqPgiPRfQf3suJlL83O
- Aj0ErAPz1WDuwjsA+mmT31IjVTa5jfK1rkGBALMq8
-X-Received: by 2002:a05:622a:15c6:b0:3f4:e4c1:5f65 with SMTP id
- d6-20020a05622a15c600b003f4e4c15f65mr2379260qty.23.1683795244746; 
- Thu, 11 May 2023 01:54:04 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ4E4wnmDmpgm/PPOESGMccJQy1Y+738vgFt2U/DUo1wdjsdQssaUd6q2k4aTLRW2g94zNPpFg==
-X-Received: by 2002:a05:622a:15c6:b0:3f4:e4c1:5f65 with SMTP id
- d6-20020a05622a15c600b003f4e4c15f65mr2379247qty.23.1683795244491; 
- Thu, 11 May 2023 01:54:04 -0700 (PDT)
-Received: from mozz.bu.edu (mozz.bu.edu. [128.197.127.33])
- by smtp.gmail.com with ESMTPSA id
- j8-20020ac85c48000000b003edf043048bsm2085552qtj.9.2023.05.11.01.54.04
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 11 May 2023 01:54:04 -0700 (PDT)
-From: Alexander Bulekov <alxndr@bu.edu>
-To: qemu-devel@nongnu.org
-Cc: Alexander Bulekov <alxndr@bu.edu>, Thomas Huth <thuth@redhat.com>,
- =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
- qemu-ppc@nongnu.org (open list:PowerNV Non-Virtu...)
-Subject: [PATCH] pnv_lpc: disable reentrancy detection for lpc-hc
-Date: Thu, 11 May 2023 04:53:37 -0400
-Message-Id: <20230511085337.3688527-1-alxndr@bu.edu>
-X-Mailer: git-send-email 2.39.0
+ (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
+ id 1px23p-0001aL-Pl
+ for qemu-devel@nongnu.org; Thu, 11 May 2023 04:54:06 -0400
+Received: from mail.loongson.cn ([114.242.206.163] helo=loongson.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <gaosong@loongson.cn>) id 1px23m-0002pw-9K
+ for qemu-devel@nongnu.org; Thu, 11 May 2023 04:54:05 -0400
+Received: from loongson.cn (unknown [10.20.42.57])
+ by gateway (Coremail) with SMTP id _____8BxqOkirVxkHrEHAA--.13133S3;
+ Thu, 11 May 2023 16:53:55 +0800 (CST)
+Received: from [10.20.42.57] (unknown [10.20.42.57])
+ by localhost.localdomain (Coremail) with SMTP id
+ AQAAf8BxKL0grVxkxoNVAA--.21201S3; 
+ Thu, 11 May 2023 16:53:53 +0800 (CST)
+Subject: Re: [PATCH v10 1/8] memory: prevent dma-reentracy issues
+To: Thomas Huth <thuth@redhat.com>
+Cc: qemu-devel@nongnu.org, maobibo@loongson.cn
+References: <20230427211013.2994127-1-alxndr@bu.edu>
+ <20230427211013.2994127-2-alxndr@bu.edu> <ZEt/3RwtL/jePTTv@redhat.com>
+ <828514c6-44f0-32f0-1eb1-a49f21617585@redhat.com>
+ <20230428091159.haydefdtq4m6z2tz@mozz.bu.edu>
+ <b151ecf7-0544-86ac-a182-1112a4dd7dca@redhat.com>
+ <c01a2b87-27be-e92a-3a5b-d561eadbc516@loongson.cn>
+ <981cdcd7-7326-08f0-9882-e66840175205@redhat.com>
+ <c4919eb6-74f1-7699-f924-6917cdf435bb@loongson.cn>
+ <faa1c6e0-abc2-f108-cc25-2b2cf71bd3d0@redhat.com>
+ <a5a05af5-bf26-ad10-f866-230e4525881f@loongson.cn>
+ <1b3f4f59-4773-014c-1c8e-e300d14b1d2e@redhat.com>
+From: Song Gao <gaosong@loongson.cn>
+Message-ID: <d883eaaa-96e7-3cd9-9226-76a1fee874d8@loongson.cn>
+Date: Thu, 11 May 2023 16:53:52 +0800
+User-Agent: Mozilla/5.0 (X11; Linux loongarch64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
+In-Reply-To: <1b3f4f59-4773-014c-1c8e-e300d14b1d2e@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-CES-GSUITE_AUTH: bf3aNvsZpxl8
-Received-SPF: pass client-ip=216.71.137.63; envelope-from=alxndr@bu.edu;
- helo=esa5.hc2706-39.iphmx.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HK_RANDOM_ENVFROM=0.001, HK_RANDOM_FROM=0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Language: en-US
+X-CM-TRANSID: AQAAf8BxKL0grVxkxoNVAA--.21201S3
+X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
+X-Coremail-Antispam: 1Uk129KBjvJXoWxXF45KF1kAw47JrW3KFyDKFg_yoWrXrykp3
+ yYyF1Ykrs3JF10yryvkwnFgrya9FyDGa45X3W5Jr48CFZ0yFW2gr4xtr18uasFqw4rW3WI
+ v3y0va9Ig3Z8taUanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
+ qI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUIcSsGvfJTRUUU
+ bI8YFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s
+ 1l1IIY67AEw4v_Jr0_Jr4l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xv
+ wVC0I7IYx2IY67AKxVW8JVW5JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwA2z4
+ x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6xkF7I0E14v26r4UJVWxJr1l
+ e2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF0cIa020Ex4CE44I27wAqx4xG64xvF2
+ IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4U
+ McvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwCYjI0SjxkI62AI1cAE67vIY487Mx
+ AIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_
+ Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUXVWUAwCIc40Y0x0EwI
+ xGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8
+ JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcV
+ C2z280aVCY1x0267AKxVWUJVW8JbIYCTnIWIevJa73UjIFyTuYvjxUzsqWUUUUU
+Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
+ helo=loongson.cn
+X-Spam_score_int: -51
+X-Spam_score: -5.2
+X-Spam_bar: -----
+X-Spam_report: (-5.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-3.251,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -119,29 +89,98 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-As lpc-hc is designed for re-entrant calls from xscom, mark it
-re-entrancy safe.
 
-Reported-by: Thomas Huth <thuth@redhat.com>
-Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
----
- hw/ppc/pnv_lpc.c | 2 ++
- 1 file changed, 2 insertions(+)
 
-diff --git a/hw/ppc/pnv_lpc.c b/hw/ppc/pnv_lpc.c
-index 01f44c19eb..67fd049a7f 100644
---- a/hw/ppc/pnv_lpc.c
-+++ b/hw/ppc/pnv_lpc.c
-@@ -738,6 +738,8 @@ static void pnv_lpc_realize(DeviceState *dev, Error **errp)
-                                 &lpc->opb_master_regs);
-     memory_region_init_io(&lpc->lpc_hc_regs, OBJECT(dev), &lpc_hc_ops, lpc,
-                           "lpc-hc", LPC_HC_REGS_OPB_SIZE);
-+    /* xscom writes to lpc-hc. As such mark lpc-hc re-entrancy safe */
-+    lpc->lpc_hc_regs.disable_reentrancy_guard = true;
-     memory_region_add_subregion(&lpc->opb_mr, LPC_HC_REGS_OPB_ADDR,
-                                 &lpc->lpc_hc_regs);
- 
--- 
-2.39.0
+在 2023/5/10 下午8:21, Thomas Huth 写道:
+> On 10/05/2023 11.02, Song Gao wrote:
+>> Hi, Thomas
+>>
+>> 在 2023/5/8 下午9:12, Thomas Huth 写道:
+>>>
+>>>>> Oh, another spot that needs special handling ... I see Alexander 
+>>>>> already sent a patch (thanks!), but anyway, this is a good 
+>>>>> indication that we're missing some test coverage in the CI.
+>>>>>
+>>>>> Are there any loongarch kernel images available for public 
+>>>>> download somewhere? If so, we really should add an avocado 
+>>>>> regression test for this - since as far as I can see, we don't 
+>>>>> have any  tests for loongarch in tests/avocado yet?
+>>>>>
+>>>> we can get  some binarys  at:
+>>>> https://github.com/yangxiaojuan-loongson/qemu-binary
+>>> >
+>>>> I'm not sure that avacodo testing can be done using just the kernel.
+>>>>
+>>>> Is a full loongarch system required?
+>>>
+>>> No, you don't need a full distro installation, just a kernel with 
+>>> ramdisk (which is also available there) is good enough for a basic 
+>>> test, e.g. just check whether the kernel boots to a certain point is 
+>>> good enough to provide a basic sanity test. If you then can also get 
+>>> even into a shell (of the ramdisk), you can check some additional 
+>>> stuff in the sysfs or "dmesg" output, see for example 
+>>> tests/avocado/machine_s390_ccw_virtio.py which does such checks with 
+>>> a kernel and initrd on s390x.
+>>>
+>>>
+>> I have a few questions.
+>>
+>> I run ' make check-avocado 
+>> AVOCADO_TESTS=./tests/avocado/machine_s390_ccw_virtio.py V=1'
+>>
+>> root@loongson-KVM:~/work/qemu#make check-avocado 
+>> AVOCADO_TESTS=./tests/avocado/machine_s390_ccw_virtio.py V=1
+>> changing dir to build for make "check-avocado"...
+>> make[1]: Entering directory '/root/work/qemu/build'
+>> (GIT="git" "/root/work/qemu/scripts/git-submodule.sh" update 
+>> ui/keycodemapdb meson tests/fp/berkeley-testfloat-3 
+>> tests/fp/berkeley-softfloat-3 dtc)
+>> /root/work/qemu/build/tests/venv/bin/python3 -m avocado vmimage get 
+>> --distro=fedora --distro-version=31 --arch=s390x
+>> The image was downloaded:
+>> Provider Version Architecture File
+>> fedora   31      s390x 
+>> /root/avocado/data/cache/by_location/8ee06cba5485a58b2203c2c000d6d2ff6da0f040/Fedora-Cloud-Base-31-1.9.s390x.qcow2
+>> /root/work/qemu/build/tests/venv/bin/python3 -m avocado --show=app 
+>> run --job-results-dir=/root/work/qemu/build/tests/results 
+>> --filter-by-tags-include-empty --filter-by-tags-include-empty-key 
+>> --max-parallel-tasks 1 -t arch:loongarch64 -t arch:s390x --failfast 
+>> ./tests/avocado/machine_s390_ccw_virtio.py
+>> ...
+>>
+>> This test downloaded   'Fedora-Cloud-Base-31-1.9.s390x.qcow2' image.
+>> but we don't have a  'Fedora-Cloud-Base-31-1.9.loongarch.qcow2' image.
+>>
+>> Am I missing something?
+>
+> Hmm, that image is not required for those tests... not sure why they 
+> get downloaded here... I think something in 
+> tests/avocado/avocado_qemu/__init__.py or in tests/Makefile.include 
+> tries to download the cloudinit stuff in advance for other tests, but 
+> it is certainly unrelated to the machine_s390_ccw_virtio.py test that 
+> only uses a kernel and initrd.
+>
+> I think you can ignore that (unless there is an error since it's 
+> trying to download the loongarch Cloud-Base image - then that's a bug).
+>
+Yes,   we can ignore,  no error.
+>> One more question,    How to get the 'kernel_hash' and 'initrd_hash'?
+>
+> I think it's a SHA1 hash by default, so you can for example get it 
+> with the "sha1sum" tool on the command line.
+>
+> But seems like it is also possible to specify different algorithms 
+> with the "algorithm=..." parameter of fetch_asset().
+>
+Thanks for you help.
+
+And
+Should we need add  '  @skipIf(os.getenv('GITLAB_CI'), 'Running on 
+GitLab')' ?
+
+I see some tests add this.
+
+Thanks.
+Song Gao
 
 
