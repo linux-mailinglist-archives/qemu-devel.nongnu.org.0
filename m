@@ -2,74 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3D096FEBFF
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 May 2023 08:54:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5AD2C6FEC0E
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 May 2023 08:58:04 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1px0At-0006Oi-Qr; Thu, 11 May 2023 02:53:15 -0400
+	id 1px0F1-0007o5-D5; Thu, 11 May 2023 02:57:31 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1px0Ar-0006OK-RB
- for qemu-devel@nongnu.org; Thu, 11 May 2023 02:53:13 -0400
+ id 1px0Ek-0007nr-QR
+ for qemu-devel@nongnu.org; Thu, 11 May 2023 02:57:15 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1px0An-0005Lh-CD
- for qemu-devel@nongnu.org; Thu, 11 May 2023 02:53:13 -0400
+ id 1px0Ej-00065g-Di
+ for qemu-devel@nongnu.org; Thu, 11 May 2023 02:57:14 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1683787985;
+ s=mimecast20190719; t=1683788232;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=SKgw5mADfbHjXOp/f6hkHH5M3ZNCWWvVsb9sKh0szm4=;
- b=fnF5S/pG+IV/OyquYBuHg21dsTZc/JH46n/keiaKitp4wWCngfHwx82mDKHdUc7T8SjNqr
- KQrf2mul/TlJ4dDH8ulS3MTQpU3JuggBrK6vGgrUC5X/+AMR5Vc4hQrdIYC/rG+GRR0F8M
- sfdU6XP8qbziEkLw3a9ZN7AZOYClOhI=
+ bh=13dtnekb6JSsTqXbWeocc8623/zvvq2thhQTXEDPY20=;
+ b=PzdXCc4F0XbmmS0XyGci6gLFFn/lDfS75FLKk78wkODDrfYSFQH0cSLsHyR0bsPHYPC+YC
+ IVkv2ydf3jyTY8+Z6kZeHkTqEa7dq2vEDNv+5bueDagoX30YqbkY886xKY31xheJgJlT4J
+ j2luJ/GlFYRhz4UrmFDnEGpFjWROufk=
 Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
  [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-584-JFGAvmoiOI6daceF2SP8ZA-1; Thu, 11 May 2023 02:53:03 -0400
-X-MC-Unique: JFGAvmoiOI6daceF2SP8ZA-1
+ us-mta-306-1_nDm8GiMuS4KVFt1CVlaw-1; Thu, 11 May 2023 02:57:10 -0400
+X-MC-Unique: 1_nDm8GiMuS4KVFt1CVlaw-1
 Received: by mail-wr1-f70.google.com with SMTP id
- ffacd0b85a97d-3078df8ae31so3172933f8f.0
- for <qemu-devel@nongnu.org>; Wed, 10 May 2023 23:53:03 -0700 (PDT)
+ ffacd0b85a97d-307897bc279so3454439f8f.3
+ for <qemu-devel@nongnu.org>; Wed, 10 May 2023 23:57:10 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683787982; x=1686379982;
+ d=1e100.net; s=20221208; t=1683788229; x=1686380229;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=SKgw5mADfbHjXOp/f6hkHH5M3ZNCWWvVsb9sKh0szm4=;
- b=KaeSnqQs1K6CnsY8eKllw5waI0igQtFyDWl2KLDnT8AJ5gq6GarWqWqaoNFxLco1kb
- 5wubinsObq+8744EojGYyAt1DSR0fUvDP7vy1L1GQRLKaLoMIlStR/KqXt/snB5LYZNy
- aYOa+0wjQsgMgLpgD4d1CpJ2RvXbbfEhEdTjEMhFVDVHyeMkKuCNK9UdpEYfSG/m/nSN
- iOrYLVu4kmdv5hXF4HcIyO/IKsZJIIoIOvLugPwx/Ia/D3sPA1+i11N317VFNHPvGgpy
- R3cEEaHJiPXr0Y1rxA6DTIM4MFmfRG10KHbov6OT2AE9cszUmXHqb2NSDE+Zdgy0vQqE
- YgOg==
-X-Gm-Message-State: AC+VfDxNhVlPWm1+a2Y+2AaV/6NaJdBtP4FtJOaaRY+6ESMCQEH2f9v/
- SSs86i5KOFO7+Uciykw6YPFRCxXpQYdA69t2lITCOteTCSGLcuZC6xmTy5b3nBDtN8i5Ajjxnrf
- GXa118iW5KGTFOro=
-X-Received: by 2002:a5d:68ce:0:b0:307:88ff:ea26 with SMTP id
- p14-20020a5d68ce000000b0030788ffea26mr11783783wrw.25.1683787982654; 
- Wed, 10 May 2023 23:53:02 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ4lOY4aRdUXY1SdPhnhW9cHuPUWjbRyn/H2lPotmQvYQbHnnO+YcSsgG5smRLXIn5SwYKmaZg==
-X-Received: by 2002:a5d:68ce:0:b0:307:88ff:ea26 with SMTP id
- p14-20020a5d68ce000000b0030788ffea26mr11783756wrw.25.1683787982288; 
- Wed, 10 May 2023 23:53:02 -0700 (PDT)
+ bh=13dtnekb6JSsTqXbWeocc8623/zvvq2thhQTXEDPY20=;
+ b=JGoRYmc4CACr4P5J+ABFKqJUCSNLqXMbCmAfJzIkBJ2ZqvEL0KKT4lhrhwNz+GklvS
+ iqZH+/NWEWFJjpgxo8JHEAyAmwSnFEkauKRpi0xYJUxcp8y+cmBtJdMVXZS6u9HrN1KI
+ 6uuZQvgtmUXjZpNRHC4kt23kouEaY/0t/+iE5vjoUKdoJidc4Cfch30UcKTatTR/oxpk
+ PJ/VoIttoEDmRah9pVzTM7I6M64tVH6gZAG0643o+PU5uCxIWtMY9RVX9zEnvvFFCmDn
+ TWLjIFbMh1vWUYvwXho0Q0Oq/WUkWbiOcbKQnjrYkB23fhrDVDe9bt1wm6ek6oWsVzJ7
+ BbIg==
+X-Gm-Message-State: AC+VfDwdhrvQMkDeG8txdlFAQ6K/aU6jETldg9iqb7K2opVm1+prwTF2
+ JsHZ7DmyojN/KghMrPj+mm6viHcesrXDR2S2OJ9sa4eQ0P1WONozCZwoRsK5/kf1Lz4xm00Sy5B
+ FoI3QrDCRTp2SBRg=
+X-Received: by 2002:adf:f946:0:b0:306:32fa:6750 with SMTP id
+ q6-20020adff946000000b0030632fa6750mr12752980wrr.33.1683788229555; 
+ Wed, 10 May 2023 23:57:09 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ6FfKfU0/HuEcyboPeUdwb8wq/MkLShGeKDnpoQv+BsFo9igQEViXR4wWSyY3LybUAPthzZQg==
+X-Received: by 2002:adf:f946:0:b0:306:32fa:6750 with SMTP id
+ q6-20020adff946000000b0030632fa6750mr12752961wrr.33.1683788229247; 
+ Wed, 10 May 2023 23:57:09 -0700 (PDT)
 Received: from ?IPV6:2001:b07:6468:f312:63a7:c72e:ea0e:6045?
  ([2001:b07:6468:f312:63a7:c72e:ea0e:6045])
  by smtp.googlemail.com with ESMTPSA id
- z8-20020adfec88000000b003062675d4c9sm19298298wrn.39.2023.05.10.23.53.01
+ i14-20020a5d558e000000b003079f2c2de7sm8097989wrv.112.2023.05.10.23.57.08
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 10 May 2023 23:53:01 -0700 (PDT)
-Message-ID: <e9f60dff-0cc5-82c9-cb68-8c43b7de80a4@redhat.com>
-Date: Thu, 11 May 2023 08:53:00 +0200
+ Wed, 10 May 2023 23:57:08 -0700 (PDT)
+Message-ID: <3ca1e2ef-5e06-758a-6737-d62c3faad9aa@redhat.com>
+Date: Thu, 11 May 2023 08:57:07 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.10.0
-Subject: Re: [PATCH 07/27] mkvenv: add diagnose() method for ensure() failures
+Subject: Re: [PATCH 27/27] mkvenv.py: experiment; use distlib to generate
+ script entry points
 Content-Language: en-US
 To: John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org
 Cc: Warner Losh <imp@bsdimp.com>, Peter Maydell <peter.maydell@linaro.org>,
@@ -85,11 +86,11 @@ Cc: Warner Losh <imp@bsdimp.com>, Peter Maydell <peter.maydell@linaro.org>,
  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
  Wainer dos Santos Moschetta <wainersm@redhat.com>
 References: <20230511035435.734312-1-jsnow@redhat.com>
- <20230511035435.734312-8-jsnow@redhat.com>
+ <20230511035435.734312-28-jsnow@redhat.com>
 From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <20230511035435.734312-8-jsnow@redhat.com>
+In-Reply-To: <20230511035435.734312-28-jsnow@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -53
@@ -116,106 +117,21 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On 5/11/23 05:54, John Snow wrote:
-> This is a routine that is designed to print some usable info for human
-> beings back out to the terminal if/when "mkvenv ensure" fails to locate
-> or install a package during configure time, such as meson or sphinx.
+> This is an experiment: by using pip's internal vendored distlib, we can
+> generate script entry points for Windows, Mac and Linux using distlib's
+> mechanisms. This is the same mechanism used when running "pip install",
+> so it will be consistent with the most common method of package
+> installation on all platforms. It also allows us to delete a good bit of
+> vendored/borrowed code from inside of mkvenv.py, so there's less to
+> maintain and the license might be more straightforward.
 > 
-> Since we are requiring that "meson" and "sphinx" are installed to the
-> same Python environment as QEMU is configured to build with, this can
-> produce some surprising failures when things are mismatched. This method
-> is here to try and ease that sting by offering some actionable
-> diagnosis.
+> As a downside, if we're not willing to actually add a distlib
+> requirement, we have to piggy-back on pip's vendored version, which
+> could have downsides if they move our cheese in the future.
 
-I think this is a bit too verbose/scary, especially the "Ouch" for
-what was a totally normal occurrence before (no "--enable-docs" and sphinx
-absent or too old) and the "ERROR" from "pip install --no-index".
-
-Here is an attempt to tone it down:
-
-diff --git a/python/scripts/mkvenv.py b/python/scripts/mkvenv.py
-index 8e097e4759e3..5d30174a9aff 100644
---- a/python/scripts/mkvenv.py
-+++ b/python/scripts/mkvenv.py
-@@ -74,6 +74,7 @@
-      Iterator,
-      Optional,
-      Sequence,
-+    Tuple,
-      Union,
-  )
-  import venv
-@@ -594,7 +595,7 @@ def diagnose(
-      online: bool,
-      wheels_dir: Optional[Union[str, Path]],
-      prog: Optional[str],
--) -> str:
-+) -> Tuple[str, bool]:
-      """
-      Offer a summary to the user as to why a package failed to be installed.
-  
-@@ -610,6 +611,9 @@ def diagnose(
-      """
-      # pylint: disable=too-many-branches
-  
-+    # Some errors are not particularly serious
-+    bad = False
-+
-      pkg_name = pkgname_from_depspec(dep_spec)
-      pkg_version = None
-  
-@@ -654,11 +658,11 @@ def diagnose(
-              "No suitable version found in, or failed to install from"
-              f" '{wheels_dir}'."
-          )
--    else:
--        lines.append("No local package directory was searched.")
-+        bad = True
-  
-      if online:
-          lines.append("A suitable version could not be obtained from PyPI.")
-+        bad = True
-      else:
-          lines.append(
-              "mkvenv was configured to operate offline and did not check PyPI."
-@@ -675,10 +679,14 @@ def diagnose(
-                  f"Typically this means that '{prog}' has been installed "
-                  "against a different Python interpreter on your system."
-              )
-+            bad = True
-  
-      lines = [f" • {line}" for line in lines]
--    lines.insert(0, f"Could not ensure availability of '{dep_spec}':")
--    return os.linesep.join(lines)
-+    if bad:
-+        lines.insert(0, f"Could not ensure availability of '{dep_spec}':")
-+    else:
-+        lines.insert(0, f"'{dep_spec}' not found:")
-+    return os.linesep.join(lines), bad
-  
-  
-  def pip_install(
-@@ -731,7 +739,7 @@ def _do_ensure(
-              dep_specs,
-              online=False,
-              wheels_dir=wheels_dir,
--            devnull=online and not wheels_dir,
-+            devnull=not wheels_dir,
-          )
-          # (A) or (B) happened. Success.
-      except subprocess.CalledProcessError:
-@@ -778,7 +786,10 @@ def ensure(
-          _do_ensure(dep_specs, online, wheels_dir)
-      except subprocess.CalledProcessError as exc:
-          # Well, that's not good.
--        raise Ouch(diagnose(dep_specs[0], online, wheels_dir, prog)) from exc
-+        msg, bad = diagnose(dep_specs[0], online, wheels_dir, prog)
-+        if bad:
-+            raise Ouch(msg) from exc
-+        print("", msg, "\n", sep="\n", file=sys.stderr)
-  
-  
-  def post_venv_setup() -> None:
-
+I think the downsides are limited since you're trying both the "real" 
+distlib and pip's.  Overall I like this, though I haven't made up my 
+mind if it should be split and squashed earlier in the series.
 
 Paolo
 
