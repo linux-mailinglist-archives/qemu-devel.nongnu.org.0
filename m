@@ -2,73 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 419E66FF3BC
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 May 2023 16:13:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9445F6FF461
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 May 2023 16:32:03 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1px72J-0003Th-Cc; Thu, 11 May 2023 10:12:51 -0400
+	id 1px7Ju-0003Pt-FI; Thu, 11 May 2023 10:31:03 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1px72H-0003RN-HG
- for qemu-devel@nongnu.org; Thu, 11 May 2023 10:12:49 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1)
+ (envelope-from <e7444aba70c32e2fc315b3c08043f4115b30cbb1@lizzy.crudebyte.com>)
+ id 1px7Jr-0003PL-1p
+ for qemu-devel@nongnu.org; Thu, 11 May 2023 10:30:59 -0400
+Received: from lizzy.crudebyte.com ([91.194.90.13])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1px72E-0004py-6W
- for qemu-devel@nongnu.org; Thu, 11 May 2023 10:12:48 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1683814365;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=2R5kpi8ozSZtgjDYzhPZfLi5z0tCW0T/HldABEpOb8Q=;
- b=IjdbgjiGUdTCLqoT8hQTbr6pHCtnjB2tsPY14/ybX2s076vVvXvz4EsqnXUoomjSb6Xppu
- N1uv/bSJZzXLDkuxGoILEjO/kvXWd7y61PXNuUN9DMed/OjlEnmDSjfhWPVCT/f16Ls3fz
- PYBd0I3RuzJYom9l5uiLkEvD3BnI/UU=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-216-EXG9BSb3M2ePP4l-fBtNvw-1; Thu, 11 May 2023 10:12:37 -0400
-X-MC-Unique: EXG9BSb3M2ePP4l-fBtNvw-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
- [10.11.54.7])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3D80D88FBC5;
- Thu, 11 May 2023 14:12:26 +0000 (UTC)
-Received: from secure.mitica (unknown [10.39.192.247])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 44A2B14171D5;
- Thu, 11 May 2023 14:12:24 +0000 (UTC)
-From: Juan Quintela <quintela@redhat.com>
+ (Exim 4.90_1)
+ (envelope-from <e7444aba70c32e2fc315b3c08043f4115b30cbb1@lizzy.crudebyte.com>)
+ id 1px7Jm-0000RB-9M
+ for qemu-devel@nongnu.org; Thu, 11 May 2023 10:30:56 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=crudebyte.com; s=lizzy; h=Message-Id:Cc:To:Subject:Date:From:Content-Type:
+ Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Content-ID:
+ Content-Description; bh=D+avSEZJTjxcKFNfuZkn1RAsd1RZ+AxWhlL6dvn4QEk=; b=MT/Yw
+ UYyyBTRqjpJZZaF2uijX9fxbY4oACJDzExWRXeQ9JTXmWtiWYpd0cRL9uyLaYKOMlEIykBcAxQh47
+ owk2V4u7Eu3KH5BwpqcTX/+o0Nl1l10Irw7PPQAhpGR03bwI5PoDG3cCn3bLFko70ytiTIpaLiGPb
+ 23YzpwWlJ9jHDusr5crIlwQ/NW2ZtIWs4viijv/oou7/y9M7ZmSCjkgchCldOsf7aY8FfferZ8qGa
+ Mbb1IZBzn8JeS5d8sFjTknXMh4+V3Lp/JaUB2JsL/fbsF4WET2MBlBx69p/UAK9I1V14+jGUrjVcF
+ C8MscoJ+RRZ+v7TOcqHM6/mS9VElw==;
+From: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Date: Thu, 11 May 2023 16:12:34 +0200
+Subject: [PATCH] configure: make clear that VirtFS is 9p
 To: qemu-devel@nongnu.org
-Cc: David Hildenbrand <david@redhat.com>, Leonardo Bras <leobras@redhat.com>,
- Juan Quintela <quintela@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Peter Xu <peterx@redhat.com>, Andrei Gudkov <gudkov.andrei@huawei.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Zhenzhong Duan <zhenzhong.duan@intel.com>,
- Hyman Huang <huangy81@chinatelecom.cn>
-Subject: [PATCH v2 5/5] migration: Make dirtyrate.c target independent
-Date: Thu, 11 May 2023 16:12:08 +0200
-Message-Id: <20230511141208.17779-6-quintela@redhat.com>
-In-Reply-To: <20230511141208.17779-1-quintela@redhat.com>
-References: <20230511141208.17779-1-quintela@redhat.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Cc: Greg Kurz <groug@kaod.org>,
+    Paolo Bonzini <pbonzini@redhat.com>
+Message-Id: <E1px7Id-0000NE-OQ@lizzy.crudebyte.com>
+Received-SPF: none client-ip=91.194.90.13;
+ envelope-from=e7444aba70c32e2fc315b3c08043f4115b30cbb1@lizzy.crudebyte.com;
+ helo=lizzy.crudebyte.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -84,57 +60,31 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-After the previous two patches, there is nothing else that is target
-specific.
+Add '9P' to the summary output section of 'VirtFS' to avoid being
+confused with virtiofs.
 
-Signed-off-by: Juan Quintela <quintela@redhat.com>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-
+Based-on: <20230503130757.863824-1-pefoley@google.com>
+Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
 ---
+ meson.build | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-- Remove check for CONFIG_SOFTMMU for dirtyrate.c, not needed (thanks
-  Richard)
----
- migration/dirtyrate.c | 2 --
- migration/meson.build | 4 ++--
- 2 files changed, 2 insertions(+), 4 deletions(-)
-
-diff --git a/migration/dirtyrate.c b/migration/dirtyrate.c
-index 2fd089e24a..f29c1c03ea 100644
---- a/migration/dirtyrate.c
-+++ b/migration/dirtyrate.c
-@@ -14,10 +14,8 @@
- #include "qemu/error-report.h"
- #include <zlib.h>
- #include "qapi/error.h"
--#include "cpu.h"
- #include "exec/ramblock.h"
- #include "exec/target_page.h"
--#include "exec/ram_addr.h"
- #include "qemu/rcu_queue.h"
- #include "qemu/main-loop.h"
- #include "qapi/qapi-commands-migration.h"
-diff --git a/migration/meson.build b/migration/meson.build
-index eb41b77db9..dc8b1daef5 100644
---- a/migration/meson.build
-+++ b/migration/meson.build
-@@ -13,6 +13,7 @@ softmmu_ss.add(files(
-   'block-dirty-bitmap.c',
-   'channel.c',
-   'channel-block.c',
-+  'dirtyrate.c',
-   'exec.c',
-   'fd.c',
-   'global_state.c',
-@@ -42,6 +43,5 @@ endif
- softmmu_ss.add(when: zstd, if_true: files('multifd-zstd.c'))
- 
- specific_ss.add(when: 'CONFIG_SOFTMMU',
--                if_true: files('dirtyrate.c',
--                               'ram.c',
-+                if_true: files('ram.c',
-                                'target.c'))
+diff --git a/meson.build b/meson.build
+index 5d8373b608..5d65f53fec 100644
+--- a/meson.build
++++ b/meson.build
+@@ -3922,8 +3922,8 @@ if have_block
+   summary_info += {'Block whitelist (rw)': get_option('block_drv_rw_whitelist')}
+   summary_info += {'Block whitelist (ro)': get_option('block_drv_ro_whitelist')}
+   summary_info += {'Use block whitelist in tools': get_option('block_drv_whitelist_in_tools')}
+-  summary_info += {'VirtFS support':    have_virtfs}
+-  summary_info += {'VirtFS Proxy Helper support': have_virtfs_proxy_helper}
++  summary_info += {'VirtFS (9P) support':    have_virtfs}
++  summary_info += {'VirtFS (9P) Proxy Helper support': have_virtfs_proxy_helper}
+   summary_info += {'Live block migration': config_host_data.get('CONFIG_LIVE_BLOCK_MIGRATION')}
+   summary_info += {'replication support': config_host_data.get('CONFIG_REPLICATION')}
+   summary_info += {'bochs support':     get_option('bochs').allowed()}
 -- 
-2.40.1
+2.30.2
 
 
