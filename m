@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA4DB6FEDC3
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 May 2023 10:17:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A9EC6FEDC5
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 May 2023 10:17:14 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1px1Im-0006Yr-Pt; Thu, 11 May 2023 04:05:29 -0400
+	id 1px1Id-0006Pd-9s; Thu, 11 May 2023 04:05:19 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1px1IZ-0006OI-Sa
- for qemu-devel@nongnu.org; Thu, 11 May 2023 04:05:16 -0400
-Received: from mail-ed1-x52c.google.com ([2a00:1450:4864:20::52c])
+ id 1px1IN-0006JN-HH
+ for qemu-devel@nongnu.org; Thu, 11 May 2023 04:05:05 -0400
+Received: from mail-ed1-x52f.google.com ([2a00:1450:4864:20::52f])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1px1IK-0000xA-99
- for qemu-devel@nongnu.org; Thu, 11 May 2023 04:05:15 -0400
-Received: by mail-ed1-x52c.google.com with SMTP id
- 4fb4d7f45d1cf-50bc4ba28cbso14720769a12.0
- for <qemu-devel@nongnu.org>; Thu, 11 May 2023 01:04:59 -0700 (PDT)
+ id 1px1IK-0000xZ-N5
+ for qemu-devel@nongnu.org; Thu, 11 May 2023 04:05:02 -0400
+Received: by mail-ed1-x52f.google.com with SMTP id
+ 4fb4d7f45d1cf-50bc3088b7aso15607527a12.3
+ for <qemu-devel@nongnu.org>; Thu, 11 May 2023 01:05:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=linaro.org; s=google; t=1683792299; x=1686384299;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=tU8RR/cxPbafbDJqUPQJIVzs1TdjNS5NeQ3A/dTuICk=;
- b=PquY7GI9KvtfwrQAaZkqZCLIkJabdgmB+W0RQarOew5opojwT2dngfTA82oAZMCY3y
- 4VgWuCJUKJe73Hw2WEMthuRQtPorNuh2OcrVO03ekGorSgaLvWw5P4cexJWWBKqE8Vdg
- XOJ2lhudWv8t5YyTVGuSFnNPHeEqmjgrPLiDIH5zpq11mV+HZltAQf01ruyEhPtCLiZp
- 3/X6NAwOYJ9m+MZahWdNESnd5dJB9zo6+kg7n2YbsJNQsWomr8gbKHlGJ/svFi3obmm7
- X0j+8eJ4uvcflYseUDIysJGvU+zywYxgdV0Wgf7TpAYwGwv/kQyDqPdlZGvttiapyBYy
- tQEg==
+ bh=6hyQISceXBTNv4jbNz8lrHn9gEvFfSgtE9qQIEmFUjw=;
+ b=RRNAyJGaIQBp3zD24OeFGwldIYE4juIJo5o/Jq7LDYVSFNw9w2V+Xr7GnGAmB9uBIV
+ FVHZF4FDdoRKyg6LEl7IJw71I1XqcQaY9zZm7FXK9ZHzHzqelM9y1Uxb6wpVDxJN/p2C
+ eG6eSINA4b26RYHlNsWecA7zKBtvhk4c13IiKj7fpn9S5ATKvwFbjZ6xAb+DI5NoarAS
+ PEBcF/MVSHmuDq9JAVniciZl8Yu1zvqWG8r4tZkLj735LmvGRmFi0w5TZlGxp+mjvy8k
+ z5XrdHk3PmdmPYw2Z+rXv51vgMf9He3sb+DK15WTvhTuUkuTJDPZ3qVdaPat+KeKWwOv
+ 1fvA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20221208; t=1683792299; x=1686384299;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=tU8RR/cxPbafbDJqUPQJIVzs1TdjNS5NeQ3A/dTuICk=;
- b=UWPCpHllzmKVWPEOlb6uv/vToP6CfqGeYs3WxzhvgBjXSrZE0errFqqt7jPq4naMuf
- O7XEiB4C13iuXGuAKPSnBMZkfDc58GH4noygq9A5a8GeUjOmwfsXRs82QOy3F/3stQZU
- LmmNyymoER/Ri5q08o+uZiKt2R+CXpHv+YoYOYU6v+g6JuTUF9+2gj9QhTqEh9mrLoTB
- RM1jpO4krX2Sx0MZwmV2UBnwBmd/l2qM0ZTclSfRbco+N2SIY4U+HJTLQELhSF6Jjxax
- /70Hvqr2JYmCV08kI7gHsDRnA2L8thwNeJQJAKjzQy9ofUXMgCOLubulJz+aFYlTQR55
- Xjcw==
-X-Gm-Message-State: AC+VfDzYJbWYRd2zo5L+49l8y+2136WsJbOCEpMs7iYZiss2F06Zbb5g
- 3dP5Kcb24ZU/xM3ZiaB4A0nAXaMdl6nQ8617CxsDjQ==
-X-Google-Smtp-Source: ACHHUZ7J8sv6pjiMDcnAxVtrllPL99KE/DXGbunnY+uuXIM6xPAYUpP3jniYx+gvxP+achpraW9hrA==
-X-Received: by 2002:a17:906:4793:b0:94e:d84e:d4d0 with SMTP id
- cw19-20020a170906479300b0094ed84ed4d0mr19573404ejc.18.1683792298688; 
- Thu, 11 May 2023 01:04:58 -0700 (PDT)
+ bh=6hyQISceXBTNv4jbNz8lrHn9gEvFfSgtE9qQIEmFUjw=;
+ b=PBQHkEfuS9+OtnRfFOf9wakbsyz3nnO7scmWd+nybHkJRNxOhzx+MxpERtkTKpldSE
+ O2fP4GvfXTUhnqhcGYJXOE23r6OULwXKiq0b3lpIiW3CGry08C3RnV48G9Gqbkkd1/vO
+ D0KQNGjUCN8tgFzqXrC5bLD80naPorHISgeYkvs7cXq0jveDJ+xtwKwRhx6L+/pnfUqj
+ jNGHdgq8+DrCd/8Den4wi55rmRZqG0aOX4H1CeOnSRhlvxTwx9iXpUAclQCs/0A3A613
+ VNNqdAMnrLIepxiuZ/y+3X+35HKo0M6O1L2HKT+I+7QOBcbGusqoKJxDu+PanPLYlYnm
+ eSVg==
+X-Gm-Message-State: AC+VfDxqVV4sQsF1nlfdrvxMfe1/omvnf6PebgOcnSgPwV2gKW31enY9
+ VgHnnk/g3Uu1Kl9dj3vVRTkgZ54JMAynNXCt0hCy6w==
+X-Google-Smtp-Source: ACHHUZ7SJ3KmkBl5lSMMpUgJMjlzQ/5B8t05kpXZpuuTGZPybDkMUAYUwINAStVAL74R6tIbe/Juog==
+X-Received: by 2002:aa7:c84c:0:b0:50b:fb49:39c9 with SMTP id
+ g12-20020aa7c84c000000b0050bfb4939c9mr14983412edt.34.1683792299238; 
+ Thu, 11 May 2023 01:04:59 -0700 (PDT)
 Received: from stoup.. ([85.9.250.243]) by smtp.gmail.com with ESMTPSA id
  i12-20020aa7c70c000000b0050bd7267a5csm2662095edq.58.2023.05.11.01.04.58
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
@@ -58,24 +58,26 @@ Received: from stoup.. ([85.9.250.243]) by smtp.gmail.com with ESMTPSA id
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: Jamie Iles <quic_jiles@quicinc.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PULL 09/53] cpu: expose qemu_cpu_list_lock for lock-guard use
-Date: Thu, 11 May 2023 09:04:06 +0100
-Message-Id: <20230511080450.860923-10-richard.henderson@linaro.org>
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Peter Maydell <peter.maydell@linaro.org>
+Subject: [PULL 10/53] accel/tcg/tcg-accel-ops-rr: ensure fairness with icount
+Date: Thu, 11 May 2023 09:04:07 +0100
+Message-Id: <20230511080450.860923-11-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230511080450.860923-1-richard.henderson@linaro.org>
 References: <20230511080450.860923-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::52c;
- envelope-from=richard.henderson@linaro.org; helo=mail-ed1-x52c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::52f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-ed1-x52f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,151 +95,200 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Jamie Iles <quic_jiles@quicinc.com>
 
-Expose qemu_cpu_list_lock globally so that we can use
-WITH_QEMU_LOCK_GUARD and QEMU_LOCK_GUARD to simplify a few code paths
-now and in future.
+The round-robin scheduler will iterate over the CPU list with an
+assigned budget until the next timer expiry and may exit early because
+of a TB exit.  This is fine under normal operation but with icount
+enabled and SMP it is possible for a CPU to be starved of run time and
+the system live-locks.
 
-Signed-off-by: Jamie Iles <quic_jiles@quicinc.com>
+For example, booting a riscv64 platform with '-icount
+shift=0,align=off,sleep=on -smp 2' we observe a livelock once the kernel
+has timers enabled and starts performing TLB shootdowns.  In this case
+we have CPU 0 in M-mode with interrupts disabled sending an IPI to CPU
+1.  As we enter the TCG loop, we assign the icount budget to next timer
+interrupt to CPU 0 and begin executing where the guest is sat in a busy
+loop exhausting all of the budget before we try to execute CPU 1 which
+is the target of the IPI but CPU 1 is left with no budget with which to
+execute and the process repeats.
+
+We try here to add some fairness by splitting the budget across all of
+the CPUs on the thread fairly before entering each one.  The CPU count
+is cached on CPU list generation ID to avoid iterating the list on each
+loop iteration.  With this change it is possible to boot an SMP rv64
+guest with icount enabled and no hangs.
+
 Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Tested-by: Peter Maydell <peter.maydell@linaro.org>
+Signed-off-by: Jamie Iles <quic_jiles@quicinc.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20230427020925.51003-2-quic_jiles@quicinc.com>
+Message-Id: <20230427020925.51003-3-quic_jiles@quicinc.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- include/exec/cpu-common.h |  1 +
- cpus-common.c             |  2 +-
- linux-user/elfload.c      | 13 +++++++------
- migration/dirtyrate.c     | 26 +++++++++++++-------------
- trace/control-target.c    |  9 ++++-----
- 5 files changed, 26 insertions(+), 25 deletions(-)
+ accel/tcg/tcg-accel-ops-icount.h |  3 ++-
+ accel/tcg/tcg-accel-ops-icount.c | 21 ++++++++++++++----
+ accel/tcg/tcg-accel-ops-rr.c     | 37 +++++++++++++++++++++++++++++++-
+ replay/replay.c                  |  3 +--
+ 4 files changed, 56 insertions(+), 8 deletions(-)
 
-diff --git a/include/exec/cpu-common.h b/include/exec/cpu-common.h
-index 1be4a3117e..e5a55ede5f 100644
---- a/include/exec/cpu-common.h
-+++ b/include/exec/cpu-common.h
-@@ -32,6 +32,7 @@ extern intptr_t qemu_host_page_mask;
- #define REAL_HOST_PAGE_ALIGN(addr) ROUND_UP((addr), qemu_real_host_page_size())
+diff --git a/accel/tcg/tcg-accel-ops-icount.h b/accel/tcg/tcg-accel-ops-icount.h
+index 1b6fd9c607..16a301b6dc 100644
+--- a/accel/tcg/tcg-accel-ops-icount.h
++++ b/accel/tcg/tcg-accel-ops-icount.h
+@@ -11,7 +11,8 @@
+ #define TCG_ACCEL_OPS_ICOUNT_H
  
- /* The CPU list lock nests outside page_(un)lock or mmap_(un)lock */
-+extern QemuMutex qemu_cpu_list_lock;
- void qemu_init_cpu_list(void);
- void cpu_list_lock(void);
- void cpu_list_unlock(void);
-diff --git a/cpus-common.c b/cpus-common.c
-index a53716deb4..45c745ecf6 100644
---- a/cpus-common.c
-+++ b/cpus-common.c
-@@ -25,7 +25,7 @@
- #include "qemu/lockable.h"
- #include "trace/trace-root.h"
+ void icount_handle_deadline(void);
+-void icount_prepare_for_run(CPUState *cpu);
++void icount_prepare_for_run(CPUState *cpu, int64_t cpu_budget);
++int64_t icount_percpu_budget(int cpu_count);
+ void icount_process_data(CPUState *cpu);
  
--static QemuMutex qemu_cpu_list_lock;
-+QemuMutex qemu_cpu_list_lock;
- static QemuCond exclusive_cond;
- static QemuCond exclusive_resume;
- static QemuCond qemu_work_cond;
-diff --git a/linux-user/elfload.c b/linux-user/elfload.c
-index 80085b8a30..418ad92598 100644
---- a/linux-user/elfload.c
-+++ b/linux-user/elfload.c
-@@ -17,6 +17,7 @@
- #include "qemu/guest-random.h"
- #include "qemu/units.h"
- #include "qemu/selfmap.h"
-+#include "qemu/lockable.h"
- #include "qapi/error.h"
- #include "qemu/error-report.h"
- #include "target_signal.h"
-@@ -4238,14 +4239,14 @@ static int fill_note_info(struct elf_note_info *info,
-         info->notes_size += note_size(&info->notes[i]);
- 
-     /* read and fill status of all threads */
--    cpu_list_lock();
--    CPU_FOREACH(cpu) {
--        if (cpu == thread_cpu) {
--            continue;
-+    WITH_QEMU_LOCK_GUARD(&qemu_cpu_list_lock) {
-+        CPU_FOREACH(cpu) {
-+            if (cpu == thread_cpu) {
-+                continue;
-+            }
-+            fill_thread_info(info, cpu->env_ptr);
-         }
--        fill_thread_info(info, cpu->env_ptr);
+ void icount_handle_interrupt(CPUState *cpu, int mask);
+diff --git a/accel/tcg/tcg-accel-ops-icount.c b/accel/tcg/tcg-accel-ops-icount.c
+index 84cc7421be..3d2cfbbc97 100644
+--- a/accel/tcg/tcg-accel-ops-icount.c
++++ b/accel/tcg/tcg-accel-ops-icount.c
+@@ -89,7 +89,20 @@ void icount_handle_deadline(void)
      }
--    cpu_list_unlock();
- 
-     return (0);
  }
-diff --git a/migration/dirtyrate.c b/migration/dirtyrate.c
-index 180ba38c7a..388337a332 100644
---- a/migration/dirtyrate.c
-+++ b/migration/dirtyrate.c
-@@ -150,25 +150,25 @@ int64_t vcpu_calculate_dirtyrate(int64_t calc_time_ms,
- retry:
-     init_time_ms = qemu_clock_get_ms(QEMU_CLOCK_REALTIME);
  
--    cpu_list_lock();
--    gen_id = cpu_list_generation_id_get();
--    records = vcpu_dirty_stat_alloc(stat);
--    vcpu_dirty_stat_collect(stat, records, true);
--    cpu_list_unlock();
-+    WITH_QEMU_LOCK_GUARD(&qemu_cpu_list_lock) {
-+        gen_id = cpu_list_generation_id_get();
-+        records = vcpu_dirty_stat_alloc(stat);
-+        vcpu_dirty_stat_collect(stat, records, true);
+-void icount_prepare_for_run(CPUState *cpu)
++/* Distribute the budget evenly across all CPUs */
++int64_t icount_percpu_budget(int cpu_count)
++{
++    int64_t limit = icount_get_limit();
++    int64_t timeslice = limit / cpu_count;
++
++    if (timeslice == 0) {
++        timeslice = limit;
 +    }
++
++    return timeslice;
++}
++
++void icount_prepare_for_run(CPUState *cpu, int64_t cpu_budget)
+ {
+     int insns_left;
  
-     duration = dirty_stat_wait(calc_time_ms, init_time_ms);
+@@ -101,13 +114,13 @@ void icount_prepare_for_run(CPUState *cpu)
+     g_assert(cpu_neg(cpu)->icount_decr.u16.low == 0);
+     g_assert(cpu->icount_extra == 0);
  
-     global_dirty_log_sync(flag, one_shot);
+-    cpu->icount_budget = icount_get_limit();
++    replay_mutex_lock();
++
++    cpu->icount_budget = MIN(icount_get_limit(), cpu_budget);
+     insns_left = MIN(0xffff, cpu->icount_budget);
+     cpu_neg(cpu)->icount_decr.u16.low = insns_left;
+     cpu->icount_extra = cpu->icount_budget - insns_left;
  
--    cpu_list_lock();
--    if (gen_id != cpu_list_generation_id_get()) {
--        g_free(records);
--        g_free(stat->rates);
--        cpu_list_unlock();
--        goto retry;
-+    WITH_QEMU_LOCK_GUARD(&qemu_cpu_list_lock) {
-+        if (gen_id != cpu_list_generation_id_get()) {
-+            g_free(records);
-+            g_free(stat->rates);
-+            cpu_list_unlock();
-+            goto retry;
-+        }
-+        vcpu_dirty_stat_collect(stat, records, false);
-     }
--    vcpu_dirty_stat_collect(stat, records, false);
--    cpu_list_unlock();
- 
-     for (i = 0; i < stat->nvcpu; i++) {
-         dirtyrate = do_calculate_dirtyrate(records[i], duration);
-diff --git a/trace/control-target.c b/trace/control-target.c
-index 232c97a4a1..c0c1e2310a 100644
---- a/trace/control-target.c
-+++ b/trace/control-target.c
-@@ -8,6 +8,7 @@
+-    replay_mutex_lock();
+-
+     if (cpu->icount_budget == 0) {
+         /*
+          * We're called without the iothread lock, so must take it while
+diff --git a/accel/tcg/tcg-accel-ops-rr.c b/accel/tcg/tcg-accel-ops-rr.c
+index 290833a37f..5788efa5ff 100644
+--- a/accel/tcg/tcg-accel-ops-rr.c
++++ b/accel/tcg/tcg-accel-ops-rr.c
+@@ -24,6 +24,7 @@
   */
  
  #include "qemu/osdep.h"
 +#include "qemu/lockable.h"
- #include "cpu.h"
- #include "trace/trace-root.h"
- #include "trace/control.h"
-@@ -116,11 +117,9 @@ static bool adding_first_cpu1(void)
- 
- static bool adding_first_cpu(void)
- {
--    bool res;
--    cpu_list_lock();
--    res = adding_first_cpu1();
--    cpu_list_unlock();
--    return res;
-+    QEMU_LOCK_GUARD(&qemu_cpu_list_lock);
-+
-+    return adding_first_cpu1();
+ #include "sysemu/tcg.h"
+ #include "sysemu/replay.h"
+ #include "sysemu/cpu-timers.h"
+@@ -139,6 +140,33 @@ static void rr_force_rcu(Notifier *notify, void *data)
+     rr_kick_next_cpu();
  }
  
- void trace_init_vcpu(CPUState *vcpu)
++/*
++ * Calculate the number of CPUs that we will process in a single iteration of
++ * the main CPU thread loop so that we can fairly distribute the instruction
++ * count across CPUs.
++ *
++ * The CPU count is cached based on the CPU list generation ID to avoid
++ * iterating the list every time.
++ */
++static int rr_cpu_count(void)
++{
++    static unsigned int last_gen_id = ~0;
++    static int cpu_count;
++    CPUState *cpu;
++
++    QEMU_LOCK_GUARD(&qemu_cpu_list_lock);
++
++    if (cpu_list_generation_id_get() != last_gen_id) {
++        cpu_count = 0;
++        CPU_FOREACH(cpu) {
++            ++cpu_count;
++        }
++        last_gen_id = cpu_list_generation_id_get();
++    }
++
++    return cpu_count;
++}
++
+ /*
+  * In the single-threaded case each vCPU is simulated in turn. If
+  * there is more than a single vCPU we create a simple timer to kick
+@@ -185,11 +213,16 @@ static void *rr_cpu_thread_fn(void *arg)
+     cpu->exit_request = 1;
+ 
+     while (1) {
++        /* Only used for icount_enabled() */
++        int64_t cpu_budget = 0;
++
+         qemu_mutex_unlock_iothread();
+         replay_mutex_lock();
+         qemu_mutex_lock_iothread();
+ 
+         if (icount_enabled()) {
++            int cpu_count = rr_cpu_count();
++
+             /* Account partial waits to QEMU_CLOCK_VIRTUAL.  */
+             icount_account_warp_timer();
+             /*
+@@ -197,6 +230,8 @@ static void *rr_cpu_thread_fn(void *arg)
+              * waking up the I/O thread and waiting for completion.
+              */
+             icount_handle_deadline();
++
++            cpu_budget = icount_percpu_budget(cpu_count);
+         }
+ 
+         replay_mutex_unlock();
+@@ -218,7 +253,7 @@ static void *rr_cpu_thread_fn(void *arg)
+ 
+                 qemu_mutex_unlock_iothread();
+                 if (icount_enabled()) {
+-                    icount_prepare_for_run(cpu);
++                    icount_prepare_for_run(cpu, cpu_budget);
+                 }
+                 r = tcg_cpus_exec(cpu);
+                 if (icount_enabled()) {
+diff --git a/replay/replay.c b/replay/replay.c
+index c39156c522..0f7d766efe 100644
+--- a/replay/replay.c
++++ b/replay/replay.c
+@@ -74,7 +74,7 @@ uint64_t replay_get_current_icount(void)
+ int replay_get_instructions(void)
+ {
+     int res = 0;
+-    replay_mutex_lock();
++    g_assert(replay_mutex_locked());
+     if (replay_next_event_is(EVENT_INSTRUCTION)) {
+         res = replay_state.instruction_count;
+         if (replay_break_icount != -1LL) {
+@@ -85,7 +85,6 @@ int replay_get_instructions(void)
+             }
+         }
+     }
+-    replay_mutex_unlock();
+     return res;
+ }
+ 
 -- 
 2.34.1
 
