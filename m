@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5AD2C6FEC0E
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 May 2023 08:58:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B4D66FEC36
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 May 2023 09:03:06 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1px0F1-0007o5-D5; Thu, 11 May 2023 02:57:31 -0400
+	id 1px0Ji-0000gp-Ox; Thu, 11 May 2023 03:02:22 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1px0Ek-0007nr-QR
- for qemu-devel@nongnu.org; Thu, 11 May 2023 02:57:15 -0400
+ id 1px0Jf-0000gR-F5
+ for qemu-devel@nongnu.org; Thu, 11 May 2023 03:02:19 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1px0Ej-00065g-Di
- for qemu-devel@nongnu.org; Thu, 11 May 2023 02:57:14 -0400
+ id 1px0Jd-0007Av-Vc
+ for qemu-devel@nongnu.org; Thu, 11 May 2023 03:02:19 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1683788232;
+ s=mimecast20190719; t=1683788536;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=13dtnekb6JSsTqXbWeocc8623/zvvq2thhQTXEDPY20=;
- b=PzdXCc4F0XbmmS0XyGci6gLFFn/lDfS75FLKk78wkODDrfYSFQH0cSLsHyR0bsPHYPC+YC
- IVkv2ydf3jyTY8+Z6kZeHkTqEa7dq2vEDNv+5bueDagoX30YqbkY886xKY31xheJgJlT4J
- j2luJ/GlFYRhz4UrmFDnEGpFjWROufk=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=E32chyKU6QU+LIH2F12Vhtwa0+KxOD5BctbGlYQZgYg=;
+ b=IvlRgPF6pLPfGA1Q2hh6jAv3eSLgjlvKyJQ9CEFNihRU4X2EhP4SwHuLL9mCouVoBM5i8C
+ 5v8FoxnRbjcDgcN5FU4cjItekq+wLCs6z0MmNGCmLUdx6t9rj8uHoD4urM4I2X6FKN2B1y
+ UY1uTY3WrVsD2FOeD5pwgN2V5xqnXBM=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-306-1_nDm8GiMuS4KVFt1CVlaw-1; Thu, 11 May 2023 02:57:10 -0400
-X-MC-Unique: 1_nDm8GiMuS4KVFt1CVlaw-1
-Received: by mail-wr1-f70.google.com with SMTP id
- ffacd0b85a97d-307897bc279so3454439f8f.3
- for <qemu-devel@nongnu.org>; Wed, 10 May 2023 23:57:10 -0700 (PDT)
+ us-mta-502-Vd_nq8LtNL2IzHQtu3ha9Q-1; Thu, 11 May 2023 03:02:15 -0400
+X-MC-Unique: Vd_nq8LtNL2IzHQtu3ha9Q-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ 5b1f17b1804b1-3f42bcef2acso11893905e9.2
+ for <qemu-devel@nongnu.org>; Thu, 11 May 2023 00:02:14 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683788229; x=1686380229;
+ d=1e100.net; s=20221208; t=1683788534; x=1686380534;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=13dtnekb6JSsTqXbWeocc8623/zvvq2thhQTXEDPY20=;
- b=JGoRYmc4CACr4P5J+ABFKqJUCSNLqXMbCmAfJzIkBJ2ZqvEL0KKT4lhrhwNz+GklvS
- iqZH+/NWEWFJjpgxo8JHEAyAmwSnFEkauKRpi0xYJUxcp8y+cmBtJdMVXZS6u9HrN1KI
- 6uuZQvgtmUXjZpNRHC4kt23kouEaY/0t/+iE5vjoUKdoJidc4Cfch30UcKTatTR/oxpk
- PJ/VoIttoEDmRah9pVzTM7I6M64tVH6gZAG0643o+PU5uCxIWtMY9RVX9zEnvvFFCmDn
- TWLjIFbMh1vWUYvwXho0Q0Oq/WUkWbiOcbKQnjrYkB23fhrDVDe9bt1wm6ek6oWsVzJ7
- BbIg==
-X-Gm-Message-State: AC+VfDwdhrvQMkDeG8txdlFAQ6K/aU6jETldg9iqb7K2opVm1+prwTF2
- JsHZ7DmyojN/KghMrPj+mm6viHcesrXDR2S2OJ9sa4eQ0P1WONozCZwoRsK5/kf1Lz4xm00Sy5B
- FoI3QrDCRTp2SBRg=
-X-Received: by 2002:adf:f946:0:b0:306:32fa:6750 with SMTP id
- q6-20020adff946000000b0030632fa6750mr12752980wrr.33.1683788229555; 
- Wed, 10 May 2023 23:57:09 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ6FfKfU0/HuEcyboPeUdwb8wq/MkLShGeKDnpoQv+BsFo9igQEViXR4wWSyY3LybUAPthzZQg==
-X-Received: by 2002:adf:f946:0:b0:306:32fa:6750 with SMTP id
- q6-20020adff946000000b0030632fa6750mr12752961wrr.33.1683788229247; 
- Wed, 10 May 2023 23:57:09 -0700 (PDT)
+ bh=E32chyKU6QU+LIH2F12Vhtwa0+KxOD5BctbGlYQZgYg=;
+ b=C8Bw6BZBhhQgv9lL/if2PpfO7hIX1EYf5zMpyhV5oZy+ppRfQyg8VeT2THzBU+Pm81
+ hZInvtVcvy4C9TFReI0Ak2ipn1SYOHahNA93m9TjNqimo4McVk5P0zXVA1sdDAjxKp3j
+ BRxszEh0cN8oOyWTupSq8qq89+Jy81ccHWaCRGVuIZK2CoqV1PkRopPQBUIDap3ReS+E
+ xNvQeeHvNOED0VQHvOGaDDAtw/c8HzDjJjhGo19stZLsZaxU/tU2Sr99pUJm/uVulEsl
+ Cht13uB3atsUvGaXBj8xWqQkM8S7Ec5AHZDm84WNCt95zATKdPHTZULrpZb43fXEs8aO
+ Vq+A==
+X-Gm-Message-State: AC+VfDwjvsSjYDtxf0D19ImXtNFORbd1FLhAiXy/v3BEHbOujbOohrsK
+ fjjkBkuUjQmpnWAbt8G/gHR/CZ9qrW2Ci3vyRZ67buyVKArWecqG+Pg6SOfav6OJyoWXKIu4VO/
+ fZVYDdKozRvqepPA=
+X-Received: by 2002:adf:cc90:0:b0:307:86fb:dada with SMTP id
+ p16-20020adfcc90000000b0030786fbdadamr11514423wrj.36.1683788534032; 
+ Thu, 11 May 2023 00:02:14 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ5+Fgia8ZEQYsCXe3RytgJqFe3cPFJ8VKJqtpqJqOnVhMEKUbqWUOxp/eCyNtyDbqN1ZL6Y7A==
+X-Received: by 2002:adf:cc90:0:b0:307:86fb:dada with SMTP id
+ p16-20020adfcc90000000b0030786fbdadamr11514399wrj.36.1683788533660; 
+ Thu, 11 May 2023 00:02:13 -0700 (PDT)
 Received: from ?IPV6:2001:b07:6468:f312:63a7:c72e:ea0e:6045?
  ([2001:b07:6468:f312:63a7:c72e:ea0e:6045])
  by smtp.googlemail.com with ESMTPSA id
- i14-20020a5d558e000000b003079f2c2de7sm8097989wrv.112.2023.05.10.23.57.08
+ d6-20020a056000114600b00306344eaebfsm19448692wrx.28.2023.05.11.00.02.12
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 10 May 2023 23:57:08 -0700 (PDT)
-Message-ID: <3ca1e2ef-5e06-758a-6737-d62c3faad9aa@redhat.com>
-Date: Thu, 11 May 2023 08:57:07 +0200
+ Thu, 11 May 2023 00:02:13 -0700 (PDT)
+Message-ID: <ac20b31a-5018-186f-3d7c-ea9d7d0f11c4@redhat.com>
+Date: Thu, 11 May 2023 09:02:11 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.10.0
@@ -117,21 +117,27 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On 5/11/23 05:54, John Snow wrote:
-> This is an experiment: by using pip's internal vendored distlib, we can
-> generate script entry points for Windows, Mac and Linux using distlib's
-> mechanisms. This is the same mechanism used when running "pip install",
-> so it will be consistent with the most common method of package
-> installation on all platforms. It also allows us to delete a good bit of
-> vendored/borrowed code from inside of mkvenv.py, so there's less to
-> maintain and the license might be more straightforward.
-> 
-> As a downside, if we're not willing to actually add a distlib
-> requirement, we have to piggy-back on pip's vendored version, which
-> could have downsides if they move our cheese in the future.
+> +    if checkpip():
+> +        # We ran ensurepip. We need to re-run post_init...!
+> +        args = [sys.executable, __file__, "post_init"]
+> +        subprocess.run(args, check=True)
+> +        return
+> +
+>       # Finally, generate a 'pip' script so the venv is usable in a normal
+>       # way from the CLI. This only happens when we inherited pip from a
+>       # parent/system-site and haven't run ensurepip in some way.
 
-I think the downsides are limited since you're trying both the "real" 
-distlib and pip's.  Overall I like this, though I haven't made up my 
-mind if it should be split and squashed earlier in the series.
+Can't this just be:
+
++    if not checkpip():
++        # Finally, generate a 'pip' script so the venv is usable in a normal
++        # way from the CLI. This only happens when we inherited pip from a
++        # parent/system-site and haven't run ensurepip in some way.
++        generate_console_scripts(["pip"])
+
+even squashed in the original Debian 10 patch?
+
+You don't need to generate the pip shims if ensurepip has been run.
 
 Paolo
 
