@@ -2,89 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98BA16FEF62
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 May 2023 11:53:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EAEAA6FEF73
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 May 2023 11:55:01 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1px2xC-0000wB-05; Thu, 11 May 2023 05:51:18 -0400
+	id 1px2xI-0001IM-R2; Thu, 11 May 2023 05:51:26 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1px2x5-0000t6-EH
- for qemu-devel@nongnu.org; Thu, 11 May 2023 05:51:11 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ id 1px2x6-0000w2-NL
+ for qemu-devel@nongnu.org; Thu, 11 May 2023 05:51:12 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1px2x3-0006lc-UY
- for qemu-devel@nongnu.org; Thu, 11 May 2023 05:51:11 -0400
+ id 1px2x4-0006lm-7j
+ for qemu-devel@nongnu.org; Thu, 11 May 2023 05:51:12 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1683798668;
+ s=mimecast20190719; t=1683798669;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:cc:mime-version:mime-version: content-type:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ze93V+atfsJyibtt/ZVXjr2Ea7wndCQr1+Ns6zh7xvQ=;
- b=MHirg+JmmItR0HrOEk48FXVfiC10TP53HFJbRB3LjMH7XkORdjfY8OlJIVLzD6ND6LMpTH
- FTmdHezFJWAzeRTU62uTqKLIWIds6H9k4wRUzyxTka0uJsEtLPoB3Kk79o2LwNX44d+eGj
- yEQxP+DVS6Y4yM2JCJqp0WMser4T7dM=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=aSNf7Opg+JwE6wW71Mc/2V8On4IgBIF4lQ+Uq3GYnm0=;
+ b=Gd784D93mFz9j8EnxPZriiinjdI5N8NJWDcGTCnAzRkQ+FY1GPcsg4iPA4iekzRsYrWbRC
+ 0bFxop0d0xwxpr5KjCOFGMqGo5C76Abpes295DO12V9tMLM/wyBHGnNMMGkiLeyZp1TVJB
+ Jt0pgDKuLhImE/tLUGQRdRGixt5VZ1E=
+Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
+ [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-213-vRpkCiFlMha19KbuIzJpjw-1; Thu, 11 May 2023 05:51:06 -0400
-X-MC-Unique: vRpkCiFlMha19KbuIzJpjw-1
-Received: by mail-ed1-f71.google.com with SMTP id
- 4fb4d7f45d1cf-50d89279d95so2376597a12.1
- for <qemu-devel@nongnu.org>; Thu, 11 May 2023 02:51:06 -0700 (PDT)
+ us-mta-438-XUX0hQLqMHKXijNzWPZ3Fg-1; Thu, 11 May 2023 05:51:08 -0400
+X-MC-Unique: XUX0hQLqMHKXijNzWPZ3Fg-1
+Received: by mail-ej1-f69.google.com with SMTP id
+ a640c23a62f3a-965c6f849b9so917750866b.2
+ for <qemu-devel@nongnu.org>; Thu, 11 May 2023 02:51:08 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683798665; x=1686390665;
+ d=1e100.net; s=20221208; t=1683798667; x=1686390667;
  h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=ze93V+atfsJyibtt/ZVXjr2Ea7wndCQr1+Ns6zh7xvQ=;
- b=Eo2h2x9WD7nitliS1rLB4zrp4tOvyNZOlyqaiXRdGVfxb3S60R9/wdczde8ZfBhkrt
- yj1EqgwwVXNpq0/DsexDlc9opey3cVXzoN3iSwxArGsYqkNzQhwzrhlah57TLRkEIBza
- 9G2WS7gtwu8rUf12nqV0N1UC/eQ7HGeEy0q5Mt1ho+nHO7Rs2Id3f8o+sUmN0Tg/3Dqi
- MCU1H5ylpXiyxlImdYffd6uL9nm672FEfyRusFVxFNXTGtu/rcSObakqYH+2yTUgGds/
- DEVjlqmwcUEBmVMR+aAb//91qepojtvcOdKfrB0zkAj3PIGg6eJ7sieukd5ZytcrcY+i
- X7tw==
-X-Gm-Message-State: AC+VfDxO9Vyyu/tdyKDF4FIV8Vlhvl/k/VCYCErbV4XDRlhZeOZ9lwNQ
- 3l7O0JhLNi/NR2ti1LxJQRyOXUQkqqu2aBUjGID6E+s83z+lcP659W7yq9O1DBxNgntwpyr1vKZ
- zfbnJ8BdvKqROoUjCz7Ii1RbyE8Xraf61IslUSKRy3wLQF61O9XdGIYZ1OO+qeNVk4dvrKtlSCt
- c=
-X-Received: by 2002:a17:907:2d0e:b0:967:13a3:d82c with SMTP id
- gs14-20020a1709072d0e00b0096713a3d82cmr12598374ejc.26.1683798665466; 
- Thu, 11 May 2023 02:51:05 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ6yyrMAvBA9n502KskAgNtGXyrwvJQCHsR1Ne2k/7EbiaTbcOEhqbxW8RpljPWGmUlMF1GyMA==
-X-Received: by 2002:a17:907:2d0e:b0:967:13a3:d82c with SMTP id
- gs14-20020a1709072d0e00b0096713a3d82cmr12598357ejc.26.1683798665117; 
- Thu, 11 May 2023 02:51:05 -0700 (PDT)
+ bh=aSNf7Opg+JwE6wW71Mc/2V8On4IgBIF4lQ+Uq3GYnm0=;
+ b=ifAHSX6wlfNIDNkMDQC0AtYn+nVp4aJ3Yet2bZpqG70DBCUJeZlGVnZYADgk3eOg8y
+ cw3J4F6WVNiZm9wWGFCCh1gABS822aSzXcCp46oyw2QyP7zvwcFIxu+NZSXoLKlGR013
+ kOSeZCM2a3OPHOTMeks5n0MjmS2bz48PxqXOs1DNWaEU/HAYaG3ArXDDryS1IiHAhH4Z
+ 6g/+Xj7tCxBP+jwV0LQoVLnaCOjZCGeNkpKLtC3wymCGo3qV/iO1hVyF8DVTfg4Fb77u
+ NL8IrGSLqhwzTqmS40ZNoHZgMMSE40b0bUvDnSVpmikDzn3SyVw0CpfjNJ1NL5QO8/tO
+ XLyQ==
+X-Gm-Message-State: AC+VfDxAiHrCJRa5NH2vH4QfahcAoJ9+JtQhb6zpaVma8i7DOykoDziB
+ U1C6fhkVjr4AUZPkAzOiJZs+3QJjl1Ual6cl172SS32xcjgg/BTsg9ksQQk1kGP95C6guEcGjRy
+ /WhZiRjsR76+GCmT0Nsf+T0endtAdNsx7L6nIJDdWFuBhSZJcgBPiPip15Ima6kdRS2c3KYudZw
+ U=
+X-Received: by 2002:a17:907:9616:b0:94f:1a23:2f1b with SMTP id
+ gb22-20020a170907961600b0094f1a232f1bmr19831553ejc.24.1683798666985; 
+ Thu, 11 May 2023 02:51:06 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ5kBHYwS5I4vlGt70EcDActepWIY5ldD+Yktvhq3z1EbjaK19wPJG4o7xGbfGOa46/JMVCrNQ==
+X-Received: by 2002:a17:907:9616:b0:94f:1a23:2f1b with SMTP id
+ gb22-20020a170907961600b0094f1a232f1bmr19831537ejc.24.1683798666689; 
+ Thu, 11 May 2023 02:51:06 -0700 (PDT)
 Received: from [192.168.10.118] ([2001:b07:6468:f312:63a7:c72e:ea0e:6045])
  by smtp.gmail.com with ESMTPSA id
- hu7-20020a170907a08700b00969fa8a3533sm2975577ejc.165.2023.05.11.02.51.04
- for <qemu-devel@nongnu.org>
+ y12-20020aa7c24c000000b0050bf7ad9d71sm2756982edo.10.2023.05.11.02.51.06
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 11 May 2023 02:51:04 -0700 (PDT)
+ Thu, 11 May 2023 02:51:06 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 19/24] configure: remove compiler sanity check
-Date: Thu, 11 May 2023 11:50:16 +0200
-Message-Id: <20230511095021.1397802-20-pbonzini@redhat.com>
+Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
+Subject: [PATCH 20/24] configure: do not rerun the tests with -Werror
+Date: Thu, 11 May 2023 11:50:17 +0200
+Message-Id: <20230511095021.1397802-21-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.40.1
 In-Reply-To: <20230511095021.1397802-1-pbonzini@redhat.com>
 References: <20230511095021.1397802-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -100,40 +101,63 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The comment is not correct anymore, in that the usability test for
-the compiler and linker are done after probing $cpu, and Meson will
-redo them anyway.
+Tests run in configure are pretty trivial at this point, so
+do not bother with the extra complication of running tests
+both with and without -Werror.
 
+Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- configure | 14 --------------
- 1 file changed, 14 deletions(-)
+ configure | 35 +----------------------------------
+ 1 file changed, 1 insertion(+), 34 deletions(-)
 
 diff --git a/configure b/configure
-index 6e5e91908a4b..85f82a626964 100755
+index 85f82a626964..e24a533b3af1 100755
 --- a/configure
 +++ b/configure
-@@ -1090,20 +1090,6 @@ if test -z "$ninja"; then
-     fi
- fi
+@@ -124,41 +124,8 @@ lines: ${BASH_LINENO[*]}"
+   $compiler "$@" >> config.log 2>&1 || return $?
+ }
  
--# Check that the C compiler works. Doing this here before testing
--# the host CPU ensures that we had a valid CC to autodetect the
--# $cpu var (and we should bail right here if that's not the case).
--# It also allows the help message to be printed without a CC.
--write_c_skeleton;
--if compile_object ; then
--  : C compiler works ok
--else
--    error_exit "\"$cc\" either does not exist or does not work"
--fi
--if ! compile_prog ; then
--    error_exit "\"$cc\" cannot build an executable (is your linker broken?)"
--fi
+-do_compiler_werror() {
+-    # Run the compiler, capturing its output to the log. First argument
+-    # is compiler binary to execute.
+-    compiler="$1"
+-    shift
+-    if test -n "$BASH_VERSION"; then eval '
+-        echo >>config.log "
+-funcs: ${FUNCNAME[*]}
+-lines: ${BASH_LINENO[*]}"
+-    '; fi
+-    echo $compiler "$@" >> config.log
+-    $compiler "$@" >> config.log 2>&1 || return $?
+-    # Test passed. If this is an --enable-werror build, rerun
+-    # the test with -Werror and bail out if it fails. This
+-    # makes warning-generating-errors in configure test code
+-    # obvious to developers.
+-    if test "$werror" != "yes"; then
+-        return 0
+-    fi
+-    # Don't bother rerunning the compile if we were already using -Werror
+-    case "$*" in
+-        *-Werror*)
+-           return 0
+-        ;;
+-    esac
+-    echo $compiler -Werror "$@" >> config.log
+-    $compiler -Werror "$@" >> config.log 2>&1 && return $?
+-    error_exit "configure test passed without -Werror but failed with -Werror." \
+-        "This is probably a bug in the configure script. The failing command" \
+-        "will be at the bottom of config.log." \
+-        "You can run configure with --disable-werror to bypass this check."
+-}
 -
- # Consult white-list to determine whether to enable werror
- # by default.  Only enable by default for git builds
- if test -z "$werror" ; then
+ do_cc() {
+-    do_compiler_werror "$cc" $CPU_CFLAGS "$@"
++    do_compiler "$cc" $CPU_CFLAGS "$@"
+ }
+ 
+ compile_object() {
 -- 
 2.40.1
 
