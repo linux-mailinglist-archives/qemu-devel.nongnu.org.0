@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62C986FF905
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 May 2023 19:57:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 99F706FF946
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 May 2023 20:05:29 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pxAX9-0003n5-Lx; Thu, 11 May 2023 13:56:55 -0400
+	id 1pxAeM-0000xh-Tm; Thu, 11 May 2023 14:04:23 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <fan.ni@samsung.com>)
- id 1pxAX6-0003fI-3l
- for qemu-devel@nongnu.org; Thu, 11 May 2023 13:56:52 -0400
-Received: from mailout2.w2.samsung.com ([211.189.100.12])
+ id 1pxAeH-0000x3-Jy
+ for qemu-devel@nongnu.org; Thu, 11 May 2023 14:04:17 -0400
+Received: from mailout1.w2.samsung.com ([211.189.100.11])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <fan.ni@samsung.com>)
- id 1pxAX2-0004oh-Rd
- for qemu-devel@nongnu.org; Thu, 11 May 2023 13:56:51 -0400
-Received: from uscas1p2.samsung.com (unknown [182.198.245.207])
- by mailout2.w2.samsung.com (KnoxPortal) with ESMTP id
- 20230511175642usoutp02df6b7caf1db5c7964604db29db295e38~eKHcYI77O2377423774usoutp02n;
+ id 1pxAeB-0006DU-1Z
+ for qemu-devel@nongnu.org; Thu, 11 May 2023 14:04:17 -0400
+Received: from uscas1p1.samsung.com (unknown [182.198.245.206])
+ by mailout1.w2.samsung.com (KnoxPortal) with ESMTP id
+ 20230511175642usoutp010075b2527e4d5104a13b51c5ae9fba33~eKHcDRZ4c3198731987usoutp01q;
  Thu, 11 May 2023 17:56:42 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w2.samsung.com
- 20230511175642usoutp02df6b7caf1db5c7964604db29db295e38~eKHcYI77O2377423774usoutp02n
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w2.samsung.com
+ 20230511175642usoutp010075b2527e4d5104a13b51c5ae9fba33~eKHcDRZ4c3198731987usoutp01q
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
  s=mail20170921; t=1683827802;
- bh=drqPJBiApwcNYY9N2OmW3kEYbqgOgaqjVzvL7Zi3zKg=;
+ bh=b20nz0VaweLqQdC3LPv3vj8OGNqr5dkkVxALkb0s/r4=;
  h=From:To:CC:Subject:Date:In-Reply-To:References:From;
- b=bLnzLE+ie0b1gvn2aMpYzD+vyyu4oTTJ06mXAi8CJ2oAyyl9Kak8RfusphTXK3Wsp
- 3sheNz22Z6G5/jZOeZaqjOgVMC7Z38kGBuM1U3fplbm99ONMFGJlssik4sikAlxGvU
- f09zSlLfH989oxtuZgjYGi8M/cyrHxbfBJjvd3V8=
-Received: from ussmges3new.samsung.com (u112.gpu85.samsung.co.kr
- [203.254.195.112]) by uscas1p2.samsung.com (KnoxPortal) with ESMTP id
- 20230511175642uscas1p2db67b9bfa163413fd907aea261b78ad8~eKHcQB_pb2037920379uscas1p2S;
+ b=pZA80jD7ZJIoWrXZEdiANl2azivZvR0fK2kCQVYZh62OKWXFGXQ1yzeLdEtGjvyKU
+ dvPZAHxKnOSM52SoBcGGso8RTINdZcBdeVxoOrcr5TD23+WuUWUVBiD+i//w+TDgi6
+ DcRCvJwozLw+CN6mwSSlulkfEqrbZrlqHM9rhcUk=
+Received: from ussmges1new.samsung.com (u109.gpu85.samsung.co.kr
+ [203.254.195.109]) by uscas1p2.samsung.com (KnoxPortal) with ESMTP id
+ 20230511175642uscas1p2cc2d90d8793af33c913386e689233b33~eKHb5YJeV2440824408uscas1p2D;
  Thu, 11 May 2023 17:56:42 +0000 (GMT)
-Received: from uscas1p1.samsung.com ( [182.198.245.206]) by
- ussmges3new.samsung.com (USCPEMTA) with SMTP id 9A.93.20392.A5C2D546; Thu,
- 11 May 2023 13:56:42 -0400 (EDT)
+Received: from uscas1p2.samsung.com ( [182.198.245.207]) by
+ ussmges1new.samsung.com (USCPEMTA) with SMTP id DE.8A.19925.95C2D546; Thu,
+ 11 May 2023 13:56:41 -0400 (EDT)
 Received: from ussmgxs1new.samsung.com (u89.gpu85.samsung.co.kr
- [203.254.195.89]) by uscas1p2.samsung.com (KnoxPortal) with ESMTP id
- 20230511175642uscas1p27cf2915c8184225bfd581fb6f6dfb2d9~eKHb7Hxc32038420384uscas1p2G;
- Thu, 11 May 2023 17:56:42 +0000 (GMT)
-X-AuditID: cbfec370-81ffe70000024fa8-f9-645d2c5a62d2
-Received: from SSI-EX1.ssi.samsung.com ( [105.128.2.146]) by
- ussmgxs1new.samsung.com (USCPEXMTA) with SMTP id 59.7F.38326.95C2D546; Thu,
- 11 May 2023 13:56:42 -0400 (EDT)
+ [203.254.195.89]) by uscas1p1.samsung.com (KnoxPortal) with ESMTP id
+ 20230511175641uscas1p165a19a1416facf6603bf1a417121f0dc~eKHbZe8Y_2473124731uscas1p1n;
+ Thu, 11 May 2023 17:56:41 +0000 (GMT)
+X-AuditID: cbfec36d-975ff70000004dd5-84-645d2c591473
+Received: from SSI-EX4.ssi.samsung.com ( [105.128.2.146]) by
+ ussmgxs1new.samsung.com (USCPEXMTA) with SMTP id 98.7F.38326.95C2D546; Thu,
+ 11 May 2023 13:56:41 -0400 (EDT)
 Received: from SSI-EX2.ssi.samsung.com (105.128.2.227) by
- SSI-EX1.ssi.samsung.com (105.128.2.226) with Microsoft SMTP Server
+ SSI-EX4.ssi.samsung.com (105.128.2.229) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.1.2375.24; Thu, 11 May 2023 10:56:41 -0700
+ 15.1.2375.24; Thu, 11 May 2023 10:56:40 -0700
 Received: from SSI-EX2.ssi.samsung.com ([105.128.2.227]) by
  SSI-EX2.ssi.samsung.com ([105.128.2.227]) with mapi id 15.01.2375.024; Thu,
- 11 May 2023 10:56:41 -0700
+ 11 May 2023 10:56:40 -0700
 From: Fan Ni <fan.ni@samsung.com>
 To: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
 CC: "jonathan.cameron@huawei.com" <jonathan.cameron@huawei.com>,
@@ -65,12 +65,13 @@ CC: "jonathan.cameron@huawei.com" <jonathan.cameron@huawei.com>,
  "dave@stgolabs.net" <dave@stgolabs.net>, "nmtadam.samsung@gmail.com"
  <nmtadam.samsung@gmail.com>, "nifan@outlook.com" <nifan@outlook.com>, Fan Ni
  <fan.ni@samsung.com>
-Subject: [RFC 6/7] Add qmp interfaces to add/release dynamic capacity extents
-Thread-Topic: [RFC 6/7] Add qmp interfaces to add/release dynamic capacity
- extents
-Thread-Index: AQHZhDHweOj1egr3rka/i5lzMWKESQ==
+Subject: [RFC 2/7] hw/cxl/cxl-mailbox-utils: Add dynamic capacity region
+ representative and mailbox command support
+Thread-Topic: [RFC 2/7] hw/cxl/cxl-mailbox-utils: Add dynamic capacity
+ region representative and mailbox command support
+Thread-Index: AQHZhDHwZg5veepn5EaQyLC3G3XrlA==
 Date: Thu, 11 May 2023 17:56:40 +0000
-Message-ID: <20230511175609.2091136-7-fan.ni@samsung.com>
+Message-ID: <20230511175609.2091136-3-fan.ni@samsung.com>
 In-Reply-To: <20230511175609.2091136-1-fan.ni@samsung.com>
 Accept-Language: en-US
 Content-Language: en-US
@@ -82,52 +83,52 @@ Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
 X-CFilter-Loop: Reflected
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrDKsWRmVeSWpSXmKPExsWy7djXc7pROrEpBu+vSFp0n9/AaDF96gVG
- i9U31zBaNDQ9YrFo2f2eyWL/0+csFqsWXmOzOD/rFIvF84nPmSyWLnnEbHG8dweLA7fHhckT
- WD0WN7h67Jx1l92j5chbIG/PSyaPjR//s3s8ubaZyWPz6xfMHlNn13t83iQXwBXFZZOSmpNZ
- llqkb5fAlfFr0Tm2gu1WFQt+tzE3MP7T62Lk5JAQMJG43XaQrYuRi0NIYCWjxJltT9khnFYm
- iXdzZ7LBVN1Y8B0qsZZR4v+9FcwQzidGiabTL1khnGWMEu+/72EGaWETUJTY17UdrF1EwFji
- 2OElYB3MAm9ZJD6uecMCkhAW8JeY3nuaHaIoROLP78OsELaeRNeEv2A1LAKqEudu7GAEsXkF
- LCX6DnxlArE5BawkNjSfALMZBcQkvp9aA2YzC4hL3HoynwnibkGJRbMhDpIAqvm36yHUP/IS
- k3/MgLIVJe5/f8kO0asncWPqFDYIW1ti2cLXzBB7BSVOznzCAlEvKXFwxQ0WkGckBPo5JebM
- OgE1yEWip7uFHcKWlrh6fSpQMweQnSyx6iMXRDhHYv6SLVBzrCUW/lnPNIFRZRaSs2chOWMW
- kjNmITljASPLKkbx0uLi3PTUYuO81HK94sTc4tK8dL3k/NxNjMAEd/rf4YIdjLdufdQ7xMjE
- wXiIUYKDWUmE9+2S6BQh3pTEyqrUovz4otKc1OJDjNIcLErivIa2J5OFBNITS1KzU1MLUotg
- skwcnFINTJGSdY3TFNOzL9n1L9TYuMuW62/TsdsbAllsNhYmBrEVh1+8dP9Yv5JOUYDQYs0Z
- /lsNZJ07s3nf7/H2dQrdKsFxTnYl332ucp8f0/eJSTVtXTmTK+6oxBL5OY/OXJNl6L86S1k2
- 3tuAYYt+4wr7Fdxf3jImLk/+f7xT97apzuTabftadtv0n+n8OY0p8vdh+UCXFyr+VgccNHZ7
- 3Vi53Of8ZrOKTaLhcXs574mtTVHp1Juzy6Hydcg7KauEu4/mcyzpnrZFeeWf1A/vOm9m3ink
- rLfh/sun8YnVIO9ozhH+bVzHQqafKngUWT/nwT6ODvWQf26vZm9gXy7XJNcRExm+rqNatKpS
- ZnPTNh5hJZbijERDLeai4kQAxEcGL98DAAA=
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrJIsWRmVeSWpSXmKPExsWS2cA0STdKJzbF4P5EFovu8xsYLaZPvcBo
- sfrmGkaLhqZHLBYtu98zWex/+pzFYtXCa2wW52edYrF4PvE5k8XSJY+YLY737mBx4Pa4MHkC
- q8fiBlePnbPusnu0HHkL5O15yeSx8eN/do8n1zYzeWx+/YLZY+rseo/Pm+QCuKK4bFJSczLL
- Uov07RK4Mn4tOsdWsN2qYsHvNuYGxn96XYycHBICJhI3Fnxn72Lk4hASWM0osXVnMyuE84lR
- 4t7SgywQzjJGicat61hBWtgEFCX2dW1nA7FFBIwljh1ewgxiMwu8ZpH4dpEbxBYW8JXo3b2G
- BaImROLWlqPMELaeRNeEv2BxFgFViXM3djCC2LwClhJ9B74ygdhCQPbHnzvZQWxOASuJDc0n
- wOKMAmIS30+tYYLYJS5x68l8JogXBCSW7DnPDGGLSrx8/I8VwpaXmPxjBhuErShx//tLdohe
- PYkbU6ewQdjaEssWvmaGuEFQ4uTMJywQ9ZISB1fcYJnAKDELybpZSNpnIWmfhaR9ASPLKkbx
- 0uLi3PSKYsO81HK94sTc4tK8dL3k/NxNjMDUcPrf4cgdjEdvfdQ7xMjEwXiIUYKDWUmE9+2S
- 6BQh3pTEyqrUovz4otKc1OJDjNIcLErivEKuE+OFBNITS1KzU1MLUotgskwcnFINTPJfu1Qs
- cjmjYovv9ZWWLQ0L2sPrsuFGZPGZUxmLo/Xy51s12WjFfpR682qlxdRfZZlJz9vPHG82PaSp
- LO175VVraZVOsaOVWXSJiv93J6EwqZKZ4mdDJl7eeuTqEZdvQfNvvfNmb9ug3LZT5n/5dklt
- s+r7c+ys+PZYtX56UOydejLD2qQ8Ra6Pz9ZOW26WUExrvqOM2+J+/7X5sSnrVx0wyo1jljgp
- 8mXH9EupysYfnabzB/bPsJZXY1yw9IpZmfSPfTJ3LY3ucM01cU3Yq/Jqzm/VmMzEihoeo23v
- 3M09RCq4++MTNzgxC5Vs+LzwdfLOyqNzmiP2fZSU1737rWXCQfvKU4ddJB099iuxFGckGmox
- FxUnAgD6twOCfAMAAA==
-X-CMS-MailID: 20230511175642uscas1p27cf2915c8184225bfd581fb6f6dfb2d9
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrNKsWRmVeSWpSXmKPExsWy7djX87pROrEpBnf1LLrPb2C0mD71AqPF
+ 6ptrGC0amh6xWLTsfs9ksf/pcxaLVQuvsVmcn3WKxeL5xOdMFkuXPGK2ON67g8WB2+PC5Ams
+ HosbXD12zrrL7tFy5C2Qt+clk8fGj//ZPZ5c28zksfn1C2aPqbPrPT5vkgvgiuKySUnNySxL
+ LdK3S+DK2HttL2vBbZWKRce3sTYwzpDrYuTkkBAwkZi1YTZbFyMXh5DASkaJaQ8msEM4rUwS
+ 058+ZYGpurdzIxNEYi2jxOmWVcwQzidGicOL/kI5yxgl/i68ywbSwiagKLGvazuYLSJgLHHs
+ 8BKwImaBtywSH9e8AZsrLFAqsanxKhNEUZXEzY0HoGw9iTMfT4PVsAioSpy7sYMRxOYVsJQ4
+ f6wFLM4pYCWxofkEWD2jgJjE91NrwGxmAXGJW0/mM0HcLSixaPYeZghbTOLfrodsELa8xOQf
+ M6BsRYn731+yQ/TqSdyYOoUNwtaWWLbwNTPEXkGJkzOfQMNCUuLgihssIM9ICPRzShy+0sMI
+ kXCRONQ6G8qWlrh6fSpQMweQnSyx6iMXRDhHYv6SLVBzrCUW/lnPNIFRZRaSs2chOWMWkjNm
+ ITljASPLKkbx0uLi3PTUYsO81HK94sTc4tK8dL3k/NxNjMD0dvrf4dwdjDtufdQ7xMjEwXiI
+ UYKDWUmE9+2S6BQh3pTEyqrUovz4otKc1OJDjNIcLErivIa2J5OFBNITS1KzU1MLUotgskwc
+ nFINTGu99HqKg1ROf7cOeXt35wv+JN2t1QIHsu6wK+rq9u9/6Bo+cUpIt722e5l++JMj8axd
+ LU+7+bgz284ZlreZF/SEK2/Y4x/RkLO9zGnV1UNvLNYe2Z9TcVew4PWT/Qd+r5xnPndFbZL4
+ pIqPFa1PvZrtAw9b2m2vL5wnVTdtb3RY5WwxtwVvqsqdnk7N8nutuV5gk8cswzO3jyw7/eH3
+ 2XDrJjP2FoZH/hYuKyyXyITbHu417xTW/y389uPe6ns3WFZ2f9H1LDhTLyFjF39080uNNYmq
+ CUe3B1RzHQjd9+Jg4cJfx33/xy9N2M12+MNmhkMdd5sKdiydpvVd/WxY1eqJO/3X3n/M9Svf
+ bdIDByWW4oxEQy3mouJEAJiYx0TeAwAA
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrBIsWRmVeSWpSXmKPExsWS2cA0STdSJzbFoKdF1qL7/AZGi+lTLzBa
+ rL65htGioekRi0XL7vdMFvufPmexWLXwGpvF+VmnWCyeT3zOZLF0ySNmi+O9O1gcuD0uTJ7A
+ 6rG4wdVj56y77B4tR94CeXteMnls/Pif3ePJtc1MHptfv2D2mDq73uPzJrkArigum5TUnMyy
+ 1CJ9uwSujL3X9rIW3FapWHR8G2sD4wy5LkZODgkBE4l7OzcygdhCAqsZJZY0WHQxcgHZnxgl
+ ut8dZYZwljFKbJ7cxQhSxSagKLGvazsbiC0iYCxx7PASZhCbWeA1i8S3i9wgtrBAqcSmxqtM
+ EDVVEoc7JrNA2HoSZz6eBrNZBFQlzt3YATaTV8BS4vyxFhaIKywlPv7cyQ5icwpYSWxoPgE2
+ h1FATOL7qTVMELvEJW49mc8E8YGAxJI955khbFGJl4//sULY8hKTf8xgg7AVJe5/f8kO0asn
+ cWPqFDYIW1ti2cLXzBA3CEqcnPmEBaJeUuLgihssExglZiFZNwtJ+ywk7bOQtC9gZFnFKF5a
+ XJybXlFsmJdarlecmFtcmpeul5yfu4kRmBhO/zscuYPx6K2PeocYmTgYDzFKcDArifC+XRKd
+ IsSbklhZlVqUH19UmpNafIhRmoNFSZxXyHVivJBAemJJanZqakFqEUyWiYNTqoEprXjJ2qpb
+ QndW/51yItzw+XHe97YG+SeWG/7Zd/7F7PV9QUEVuq+Me69qCy8OKHOfJHK70XhD8KP338vf
+ x9kZXdr2dK7tPraVlQkVoft+fji5ruUX5zr5Dx2fGd6V1p92PscbKvL9P0dzQeg2bYEHXgWR
+ byu0nJTmf/kj9MykSCmvYnE0V0912t2vMu2G7Jo37i94X+HYYsccuKCZXeBSvcY5z/kXQy26
+ 1lTNbA46seaau52UxedLaQmvE17Pt7d8v8av/3+sivTFjzddeiOMxSSbXvJPc/i+wGmfKre2
+ TIlj22uNCqs1VQf8OkRLvlVKK3q4/PX7JRTElvpA4nRperelwcaPlzubpjEGtiuxFGckGmox
+ FxUnAgCLUE87ewMAAA==
+X-CMS-MailID: 20230511175641uscas1p165a19a1416facf6603bf1a417121f0dc
 CMS-TYPE: 301P
-X-CMS-RootMailID: 20230511175642uscas1p27cf2915c8184225bfd581fb6f6dfb2d9
+X-CMS-RootMailID: 20230511175641uscas1p165a19a1416facf6603bf1a417121f0dc
 References: <20230511175609.2091136-1-fan.ni@samsung.com>
- <CGME20230511175642uscas1p27cf2915c8184225bfd581fb6f6dfb2d9@uscas1p2.samsung.com>
-Received-SPF: pass client-ip=211.189.100.12; envelope-from=fan.ni@samsung.com;
- helo=mailout2.w2.samsung.com
-X-Spam_score_int: -70
-X-Spam_score: -7.1
-X-Spam_bar: -------
-X-Spam_report: (-7.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ <CGME20230511175641uscas1p165a19a1416facf6603bf1a417121f0dc@uscas1p1.samsung.com>
+Received-SPF: pass client-ip=211.189.100.11; envelope-from=fan.ni@samsung.com;
+ helo=mailout1.w2.samsung.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -147,269 +148,147 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Fan Ni <nifan@outlook.com>
 
-Since fabric manager emulation is not supported yet, the change implements
-the functions to add/release dynamic capacity extents as QMP interfaces.
-
-1. Add dynamic capacity extents:
-
-For example, the command to add two continuous extents (each is 128MB
-long) to region 0 (starting at dpa offset 0) looks like below:
-
-{ "execute": "qmp_capabilities" }
-
-{ "execute": "cxl-add-dynamic-capacity-event",
-    "arguments": {
-	"path": "/machine/peripheral/cxl-pmem0",
-	"region-id" : 0,
-	"num-extent": 2,
-	"dpa":0,
-	"extent-len": 128
-	}
-}
-
-2. Release dynamic capacity extents:
-
-For example, the command to release an extent of size 128MB from region
-0 (starting at dpa offset 0) look like below:
-
-{ "execute": "cxl-release-dynamic-capacity-event",
-	"arguments": {
-		 "path": "/machine/peripheral/cxl-pmem0",
-		"region-id" : 0,
-		 "num-extent": 1 ,
-		"dpa":0,
-		"extent-len": 128
-	}
-}
+Per cxl spec 3.0, add dynamic capacity region representative based on
+Table 8-126 and extend the cxl type3 device definition to include dc region
+information. Also, based on info in 8.2.9.8.9.1, add 'Get Dynamic Capacity
+Configuration' mailbox support.
 
 Signed-off-by: Fan Ni <fan.ni@samsung.com>
 ---
- hw/mem/cxl_type3.c          | 127 ++++++++++++++++++++++++++++++++++++
- include/hw/cxl/cxl_events.h |  16 +++++
- qapi/cxl.json               |  44 +++++++++++++
- 3 files changed, 187 insertions(+)
+ hw/cxl/cxl-mailbox-utils.c  | 68 +++++++++++++++++++++++++++++++++++++
+ include/hw/cxl/cxl_device.h | 16 +++++++++
+ 2 files changed, 84 insertions(+)
 
-diff --git a/hw/mem/cxl_type3.c b/hw/mem/cxl_type3.c
-index 23954711b5..70d47d43b9 100644
---- a/hw/mem/cxl_type3.c
-+++ b/hw/mem/cxl_type3.c
-@@ -1651,6 +1651,133 @@ void qmp_cxl_inject_memory_module_event(const char =
-*path, CxlEventLog log,
-     }
+diff --git a/hw/cxl/cxl-mailbox-utils.c b/hw/cxl/cxl-mailbox-utils.c
+index 7ff4fbdf22..61c77e52d8 100644
+--- a/hw/cxl/cxl-mailbox-utils.c
++++ b/hw/cxl/cxl-mailbox-utils.c
+@@ -81,6 +81,8 @@ enum {
+         #define GET_POISON_LIST        0x0
+         #define INJECT_POISON          0x1
+         #define CLEAR_POISON           0x2
++	DCD_CONFIG =3D 0x48, /*8.2.9.8.9*/
++		#define GET_DC_REGION_CONFIG   0x0
+     PHYSICAL_SWITCH =3D 0x51
+         #define IDENTIFY_SWITCH_DEVICE      0x0
+ };
+@@ -935,6 +937,70 @@ static CXLRetCode cmd_media_clear_poison(struct cxl_cm=
+d *cmd,
+     return CXL_MBOX_SUCCESS;
  }
-=20
-+static const QemuUUID dynamic_capacity_uuid =3D {
-+	.data =3D UUID(0xca95afa7, 0xf183, 0x4018, 0x8c, 0x2f,
-+			0x95, 0x26, 0x8e, 0x10, 0x1a, 0x2a),
-+};
-+
-+static void qmp_cxl_process_dynamic_capacity_event(const char *path, CxlEv=
-entLog log,
-+		uint8_t flags, uint8_t type, uint16_t hid, uint8_t rid, uint32_t extent_=
-cnt,
-+		CXLDCExtent_raw *extents, Error **errp)
-+{
-+	Object *obj =3D object_resolve_path(path, NULL);
-+	CXLEventDynamicCapacity dCap;
-+	CXLEventRecordHdr *hdr =3D &dCap.hdr;
-+	CXLDeviceState *cxlds;
-+	CXLType3Dev *dcd;
-+	int i;
-+
-+	if (!obj) {
-+		error_setg(errp, "Unable to resolve path");
-+		return;
-+	}
-+	if (!object_dynamic_cast(obj, TYPE_CXL_TYPE3)) {
-+		error_setg(errp, "Path not point to a valid CXL type3 device");
-+		return;
-+	}
-+
-+	dcd =3D CXL_TYPE3(obj);
-+	cxlds =3D &dcd->cxl_dstate;
-+	memset(&dCap, 0, sizeof(dCap));
-+
-+	if (!dcd->dc.num_regions) {
-+		error_setg(errp, "No dynamic capacity support from the device");
-+		return;
-+	}
-+
-+	/*
-+	 * 8.2.9.1.5
-+	 * All Dynamic Capacity event records shall set the Event Record
-+	 * Severity field in the Common Event Record Format to Informational
-+	 * Event. All Dynamic Capacity related events shall be logged in the
-+	 * Dynamic Capacity Event Log.
-+	 */
-+	assert(flags & (1<<CXL_EVENT_TYPE_INFO));
-+	cxl_assign_event_header(hdr, &dynamic_capacity_uuid, flags, sizeof(dCap))=
-;
-+
-+	/*
-+	 * 00h: add capacity
-+	 * 01h: release capacity
-+	 * 02h: forced capacity release
-+	 * 03h: region configuration updated
-+	 * 04h: Add capacity response
-+	 * 05h: capacity released
-+	 **/
-+	dCap.type =3D type;
-+	stw_le_p(&dCap.host_id, hid);
-+	dCap.updated_region_id =3D rid;
-+	for (i =3D 0; i < extent_cnt; i++) {
-+		extents[i].start_dpa +=3D dcd->dc.regions[rid].base;
-+		memcpy(&dCap.dynamic_capacity_extent, &extents[i]
-+				, sizeof(CXLDCExtent_raw));
-+
-+		if (cxl_event_insert(cxlds, CXL_EVENT_TYPE_DYNAMIC_CAP,
-+					(CXLEventRecordRaw *)&dCap)) {
-+			;
-+		}
-+		cxl_event_irq_assert(dcd);
-+	}
-+}
-+
-+#define MEM_BLK_SIZE_MB 128
-+void qmp_cxl_add_dynamic_capacity_event(const char *path, uint8_t region_i=
-d,
-+		uint32_t num_exent, uint64_t dpa, uint64_t extent_len_MB, Error **errp)
-+{
-+	uint8_t flags =3D 1 << CXL_EVENT_TYPE_INFO;
-+	CXLDCExtent_raw *extents;
-+	int i;
-+
-+	if (extent_len_MB < MEM_BLK_SIZE_MB) {
-+		error_setg(errp,
-+			"extent size cannot be smaller than memory block size (%dMB)",
-+			MEM_BLK_SIZE_MB);
-+		return;
-+	}
-+
-+	extents =3D g_new0(CXLDCExtent_raw, num_exent);
-+	for (i =3D 0; i < num_exent; i++) {
-+		extents[i].start_dpa =3D dpa;
-+		extents[i].len =3D extent_len_MB*1024*1024;
-+		memset(extents[i].tag, 0, 0x10);
-+		extents[i].shared_seq =3D 0;
-+		dpa +=3D extents[i].len;
-+	}
-+
-+	qmp_cxl_process_dynamic_capacity_event(path, CXL_EVENT_LOG_INFORMATIONAL,
-+			flags, 0x0, 0, region_id, num_exent, extents, errp);
-+
-+	g_free(extents);
-+}
-+
-+void qmp_cxl_release_dynamic_capacity_event(const char *path, uint8_t regi=
-on_id,
-+		uint32_t num_exent, uint64_t dpa, uint64_t extent_len_MB, Error **errp)
-+{
-+	uint8_t flags =3D 1 << CXL_EVENT_TYPE_INFO;
-+	CXLDCExtent_raw *extents;
-+	int i;
-+
-+	if (extent_len_MB < MEM_BLK_SIZE_MB) {
-+		error_setg(errp,
-+			"extent size cannot be smaller than memory block size (%dMB)",
-+			MEM_BLK_SIZE_MB);
-+		return;
-+	}
-+
-+	extents =3D g_new0(CXLDCExtent_raw, num_exent);
-+	for (i =3D 0; i < num_exent; i++) {
-+		extents[i].start_dpa =3D dpa;
-+		extents[i].len =3D extent_len_MB*1024*1024;
-+		memset(extents[i].tag, 0, 0x10);
-+		extents[i].shared_seq =3D 0;
-+		dpa +=3D extents[i].len;
-+	}
-+
-+	qmp_cxl_process_dynamic_capacity_event(path, CXL_EVENT_LOG_INFORMATIONAL,
-+			flags, 0x1, 0, region_id, num_exent, extents, errp);
-+
-+	g_free(extents);
-+}
-+
- static void ct3_class_init(ObjectClass *oc, void *data)
- {
-     DeviceClass *dc =3D DEVICE_CLASS(oc);
-diff --git a/include/hw/cxl/cxl_events.h b/include/hw/cxl/cxl_events.h
-index 089ba2091f..dd00458d1d 100644
---- a/include/hw/cxl/cxl_events.h
-+++ b/include/hw/cxl/cxl_events.h
-@@ -165,4 +165,20 @@ typedef struct CXLEventMemoryModule {
-     uint8_t reserved[0x3d];
- } QEMU_PACKED CXLEventMemoryModule;
 =20
 +/*
-+ * Dynamic Capacity Event Record
-+ * CXL Rev 3.0 Section 8.2.9.2.1.5: Table 8-47
-+ * All fields little endian.
-+ */
-+typedef struct CXLEventDynamicCapacity {
-+	CXLEventRecordHdr hdr;
-+	uint8_t type;
-+	uint8_t reserved1;
-+	uint16_t host_id;
-+	uint8_t updated_region_id;
-+	uint8_t reserved2[3];
-+	uint8_t dynamic_capacity_extent[0x28]; /* defined in cxl_device.h */
-+	uint8_t reserved[0x20];
-+} QEMU_PACKED CXLEventDynamicCapacity;
++ * cxl spec 3.0: 8.2.9.8.9.2
++ * Get Dynamic Capacity Configuration
++ **/
++static CXLRetCode cmd_dcd_get_dyn_cap_config(struct cxl_cmd *cmd,
++		CXLDeviceState *cxl_dstate,
++		uint16_t *len)
++{
++	struct get_dyn_cap_config_in_pl {
++		uint8_t region_cnt;
++		uint8_t start_region_id;
++	} QEMU_PACKED;
 +
- #endif /* CXL_EVENTS_H */
-diff --git a/qapi/cxl.json b/qapi/cxl.json
-index 8b3d30cd71..c9a9a45ce4 100644
---- a/qapi/cxl.json
-+++ b/qapi/cxl.json
-@@ -264,3 +264,47 @@
-             'type': 'CxlCorErrorType'
-   }
- }
++    struct get_dyn_cap_config_out_pl {
++		uint8_t num_regions;
++		uint8_t rsvd1[7];
++		struct {
++			uint64_t base;
++			uint64_t decode_len;
++			uint64_t region_len;
++			uint64_t block_size;
++			uint32_t dsmadhandle;
++			uint8_t flags;
++			uint8_t rsvd2[3];
++		} QEMU_PACKED records[];
++	} QEMU_PACKED;
 +
-+##
-+# @cxl-add-dynamic-capacity-event:
-+#
-+# Command to add dynamic capacity extent event
-+#
-+# @path: CXL DCD canonical QOM path
-+# @region-id: region id
-+# @num-extent: number of extents to add, test only
-+# @dpa: start dpa for the operation
-+# @extent-len: extent size in MB
-+#
-+# Since: 8.0
-+##
-+{ 'command': 'cxl-add-dynamic-capacity-event',
-+  'data': { 'path': 'str',
-+           'region-id': 'uint8',
-+           'num-extent': 'uint32',
-+           'dpa':'uint64',
-+           'extent-len': 'uint64'
-+  }
++	struct get_dyn_cap_config_in_pl *in =3D (void *)cmd->payload;
++	struct get_dyn_cap_config_out_pl *out =3D (void *)cmd->payload;
++	struct CXLType3Dev *ct3d =3D container_of(cxl_dstate, CXLType3Dev, cxl_ds=
+tate);
++	uint16_t record_count =3D 0, i =3D 0;
++	uint16_t out_pl_len;
++
++	if (in->start_region_id >=3D ct3d->dc.num_regions)
++		record_count =3D 0;
++	else if (ct3d->dc.num_regions - in->start_region_id < in->region_cnt)
++		record_count =3D ct3d->dc.num_regions - in->start_region_id;
++	else
++		record_count =3D in->region_cnt;
++
++	out_pl_len =3D sizeof(*out) + record_count * sizeof(out->records[0]);
++	assert(out_pl_len <=3D CXL_MAILBOX_MAX_PAYLOAD_SIZE);
++
++	memset(out, 0, out_pl_len);
++	out->num_regions =3D record_count;
++	for (; i < record_count; i++) {
++		stq_le_p(&out->records[i].base,
++			ct3d->dc.regions[in->start_region_id+i].base);
++		stq_le_p(&out->records[i].decode_len,
++			ct3d->dc.regions[in->start_region_id+i].decode_len);
++		stq_le_p(&out->records[i].region_len,
++			ct3d->dc.regions[in->start_region_id+i].len);
++		stq_le_p(&out->records[i].block_size,
++			ct3d->dc.regions[in->start_region_id+i].block_size);
++		stl_le_p(&out->records[i].dsmadhandle,
++			ct3d->dc.regions[in->start_region_id+i].dsmadhandle);
++		out->records[i].flags
++			=3D ct3d->dc.regions[in->start_region_id+i].flags;
++	}
++
++	*len =3D out_pl_len;
++	return CXL_MBOX_SUCCESS;
 +}
 +
-+##
-+# @cxl-release-dynamic-capacity-event:
-+#
-+# Command to add dynamic capacity extent event
-+#
-+# @path: CXL DCD canonical QOM path
-+# @region-id: region id
-+# @num-extent: number of extents to add, test only
-+# @dpa: start dpa for the operation
-+# @extent-len: extent size in MB
-+#
-+# Since: 8.0
-+##
-+{ 'command': 'cxl-release-dynamic-capacity-event',
-+  'data': { 'path': 'str',
-+           'region-id': 'uint8',
-+           'num-extent': 'uint32',
-+           'dpa':'uint64',
-+           'extent-len': 'uint64'
-+  }
-+}
+ #define IMMEDIATE_CONFIG_CHANGE (1 << 1)
+ #define IMMEDIATE_DATA_CHANGE (1 << 2)
+ #define IMMEDIATE_POLICY_CHANGE (1 << 3)
+@@ -973,6 +1039,8 @@ static struct cxl_cmd cxl_cmd_set[256][256] =3D {
+         cmd_media_inject_poison, 8, 0 },
+     [MEDIA_AND_POISON][CLEAR_POISON] =3D { "MEDIA_AND_POISON_CLEAR_POISON"=
+,
+         cmd_media_clear_poison, 72, 0 },
++	[DCD_CONFIG][GET_DC_REGION_CONFIG] =3D { "DCD_GET_DC_REGION_CONFIG",
++		cmd_dcd_get_dyn_cap_config, 2, 0 },
+ };
+=20
+ static struct cxl_cmd cxl_cmd_set_sw[256][256] =3D {
+diff --git a/include/hw/cxl/cxl_device.h b/include/hw/cxl/cxl_device.h
+index e285369693..8a04e53e90 100644
+--- a/include/hw/cxl/cxl_device.h
++++ b/include/hw/cxl/cxl_device.h
+@@ -383,6 +383,17 @@ typedef struct CXLPoison {
+ typedef QLIST_HEAD(, CXLPoison) CXLPoisonList;
+ #define CXL_POISON_LIST_LIMIT 256
+=20
++#define DCD_MAX_REGION_NUM 8
++
++typedef struct CXLDCD_Region {
++	uint64_t base;
++	uint64_t decode_len; /* in multiples of 256MB */
++	uint64_t len;
++	uint64_t block_size;
++	uint32_t dsmadhandle;
++	uint8_t flags;
++} CXLDCD_Region;
++
+ struct CXLType3Dev {
+     /* Private */
+     PCIDevice parent_obj;
+@@ -414,6 +425,11 @@ struct CXLType3Dev {
+     unsigned int poison_list_cnt;
+     bool poison_list_overflowed;
+     uint64_t poison_list_overflow_ts;
++
++	struct dynamic_capacity {
++		uint8_t num_regions; // 1-8
++		struct CXLDCD_Region regions[DCD_MAX_REGION_NUM];
++	} dc;
+ };
+=20
+ #define TYPE_CXL_TYPE3 "cxl-type3"
 --=20
 2.25.1
 
