@@ -2,80 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 941A16FEB32
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 May 2023 07:31:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C41D26FEB14
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 May 2023 07:20:00 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pwysb-0002YF-6L; Thu, 11 May 2023 01:30:17 -0400
+	id 1pwyhJ-00005g-CU; Thu, 11 May 2023 01:18:37 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sledgeh4w@gmail.com>)
- id 1pww4F-0005OX-VV
- for qemu-devel@nongnu.org; Wed, 10 May 2023 22:30:08 -0400
-Received: from mail-pg1-x52b.google.com ([2607:f8b0:4864:20::52b])
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pwyhG-00005I-6U
+ for qemu-devel@nongnu.org; Thu, 11 May 2023 01:18:34 -0400
+Received: from mail-ed1-x52a.google.com ([2a00:1450:4864:20::52a])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <sledgeh4w@gmail.com>)
- id 1pww4E-0008M8-BN
- for qemu-devel@nongnu.org; Wed, 10 May 2023 22:30:07 -0400
-Received: by mail-pg1-x52b.google.com with SMTP id
- 41be03b00d2f7-530638a60e1so1016126a12.2
- for <qemu-devel@nongnu.org>; Wed, 10 May 2023 19:30:05 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pwyhE-0004P8-EG
+ for qemu-devel@nongnu.org; Thu, 11 May 2023 01:18:33 -0400
+Received: by mail-ed1-x52a.google.com with SMTP id
+ 4fb4d7f45d1cf-50bd37ca954so75653356a12.0
+ for <qemu-devel@nongnu.org>; Wed, 10 May 2023 22:18:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1683772204; x=1686364204;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=lZs6b6KSMcCgi8eergfaluqwQPHOsarCQ6MoyCcr3RM=;
- b=LOox9Xk5VTmOdugMw5CeDm49ZfSI4ML1mZjFFgY/6Xi/iDVPQNEjkOsAmm0vxbidv2
- REZmoBt2hRi3+dnLFTQiIEnAH/EcjZteLQA3gnivxaYDrxk6nW+gC2RPYQyPkuUP7/Lg
- 36p1cXhefEWR9WMkTIPijuseLRBm2Xj58FU/Ed338y37B8RNWUBZSyGWB3iZHaFyUzUD
- QPjtNxFv4n+fD4GhiPpGrR75sas4LKslFtmEGOYdwECWfySxlWfJLm+JWQwl/U5sOUYh
- CyESID7TYwH7KwaaCQUpVj0BDuX4GqrTXQ4j3NbZEa6SOKGdTI2A5VXBEFyJuh63J3bs
- zOSQ==
+ d=linaro.org; s=google; t=1683782310; x=1686374310;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=Jmatq43D6nIaatqSUDEjO0oPYOpfsFNsigFjDyYI1Bg=;
+ b=a7JlUA3bKwOced8TWv5Lwk89WE4ampEJNqJi3o5uhW93b41xPMlX62wUnVAWguOUL7
+ Yc5ZEXG5+jK9ZDDgsF30tXU1ZB4FkBEYS8x/GbG7FpbMqOWB3iDFnjwNvPDP3Igx3Bqs
+ bwAVS9e5S9qpMBTFz8JaO7drJUkmjkzDveoukIJOOrTfJEIk0TVGViwqOkspUNB3CORI
+ h4KIf9WFbnYcyBSODYk6b4u8x4Sbum09qwuHfMYWY0IQUcrhBKrbPLKJqmJ4c9+TKksN
+ WWDbmv1dzqjzTGqZYhP0eoNbuP9iUGwhGR1RxtOOSrGV6flHXytx6a9n4Hx+PeE+0Frm
+ 0euA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683772204; x=1686364204;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=lZs6b6KSMcCgi8eergfaluqwQPHOsarCQ6MoyCcr3RM=;
- b=G7ITI80VTk8sgwL0SgxXIULbfALWJJgmSE79kIjypj/JGoH0w5z96HcXvMrH+ig2to
- ApE0pHsnG4HUy1OPlbg45aWvMLtHd4x19zbULkH7q3lNNtQOM4J1YsCkDAmniqAOlnNW
- 6gC6aHz+bJV3Gjz5e+OEApv+LKRJWJQ/VnTWwvwOKF4mCMXqttcin9UaVHt6h6VloLji
- tdlYO2PmJzSgsabiSKx6FpTOPFpkYzIlSx1GfplYsARSBgtBplBUIlS2uxW5brsQbup4
- VA4kPrWCjM0uH1lR0g3CH36jG9y55hJaP8U2RmG1Pf2zDsxmO+6a6xuu8KVjmkn5nm67
- iZ7g==
-X-Gm-Message-State: AC+VfDxeLUhW43362HglF9LOEwH8rZqEMo+uQB8JDXOMtfj2lQPhohWF
- shP3/o/rK23KOHW4nDSk5lg+z/kA5S6TPNmfn1w=
-X-Google-Smtp-Source: ACHHUZ5eR02uzEnDsdsUxz4YnseV1XaNDHnFQg+aMg91aGMzOQjZhRqjujfldAnOAsEPr4NbZLhMoA==
-X-Received: by 2002:a17:902:dac7:b0:1ac:9103:45aa with SMTP id
- q7-20020a170902dac700b001ac910345aamr12098895plx.49.1683772204318; 
- Wed, 10 May 2023 19:30:04 -0700 (PDT)
-Received: from localhost.localdomain ([115.233.220.140])
+ d=1e100.net; s=20221208; t=1683782310; x=1686374310;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=Jmatq43D6nIaatqSUDEjO0oPYOpfsFNsigFjDyYI1Bg=;
+ b=gWfnhkS/NT6RI91oJGmXn8cVCAZj8NN37UGBBB7cVTN4IKDIqwZiwRI+YIt+s7ADfI
+ Awqot33i//Mubd7DVOL6fY8Dt8CaoQUusSouZsJ1qIetGMnLXFzb2mtzQUhKilCX/X6n
+ JqDWIV5fzDO6fszMFFxKTmASpZYL9nnwxzv4lm/G/IeTJYibBGePjt4vmqhDYJPIihSX
+ AwJI/xtqpobFwXoeoeUpptHIMYP8xKXkP3YzZoUv885mquKLsZJ1nXzjxGm27zz/9X60
+ 3uS5tE7KNridthK+5gq2psUkiK50ec2PfoZFi1KHPaCvDDcGE2gTCykmUaeiOiTn2Dzz
+ zKjg==
+X-Gm-Message-State: AC+VfDyrsXIRA/8x+86wLGKe6my9xvv/cqjOgj7/qZCSo4eFxRmga3Ue
+ UbPYmgL4zaugUJROx9me7yE14LQKUcMexfJUDdlETQ==
+X-Google-Smtp-Source: ACHHUZ7axCsQ2sE1h3V1lJoxaavIAvlL57dFsmmJ7oO4tSLJRE2GhXQPqJZC31uWtiEkTHOeC3aTbw==
+X-Received: by 2002:a17:907:8694:b0:966:2aab:ae51 with SMTP id
+ qa20-20020a170907869400b009662aabae51mr13290681ejc.11.1683782309747; 
+ Wed, 10 May 2023 22:18:29 -0700 (PDT)
+Received: from [192.168.4.241] ([85.9.250.243])
  by smtp.gmail.com with ESMTPSA id
- w11-20020a170902d70b00b001ac452bbe2asm4511696ply.199.2023.05.10.19.30.01
- (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Wed, 10 May 2023 19:30:03 -0700 (PDT)
-From: Sh4w <sledgeh4w@gmail.com>
-To: qemu-devel@nongnu.org
-Cc: richard.henderson@linaro.org, alex.bennee@linaro.org,
- Sh4w <sledgeh4w@gmail.com>
-Subject: [PATCH] docs/about/emulation: fix typo
-Date: Thu, 11 May 2023 10:29:05 +0800
-Message-Id: <20230511022905.98241-1-sledgeh4w@gmail.com>
-X-Mailer: git-send-email 2.32.0 (Apple Git-132)
+ v16-20020a170906381000b009545230e682sm3500744ejc.91.2023.05.10.22.18.29
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 10 May 2023 22:18:29 -0700 (PDT)
+Message-ID: <1fabc98c-527b-784b-e504-a82294771808@linaro.org>
+Date: Thu, 11 May 2023 06:17:24 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52b;
- envelope-from=sledgeh4w@gmail.com; helo=mail-pg1-x52b.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH v2 0/9] Hexagon (target/hexagon) New architecture support
+Content-Language: en-US
+To: Taylor Simpson <tsimpson@quicinc.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Cc: "philmd@linaro.org" <philmd@linaro.org>, "ale@rev.ng" <ale@rev.ng>,
+ "anjo@rev.ng" <anjo@rev.ng>, Brian Cain <bcain@quicinc.com>,
+ "Matheus Bernardino (QUIC)" <quic_mathbern@quicinc.com>
+References: <20230427224057.3766963-1-tsimpson@quicinc.com>
+ <3ee5308b-b25e-813b-4223-78aef99e93de@linaro.org>
+ <SN4PR0201MB88084AF677C669CA50E08E12DE689@SN4PR0201MB8808.namprd02.prod.outlook.com>
+ <SN4PR0201MB8808854605274990EC367E01DE779@SN4PR0201MB8808.namprd02.prod.outlook.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <SN4PR0201MB8808854605274990EC367E01DE779@SN4PR0201MB8808.namprd02.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::52a;
+ envelope-from=richard.henderson@linaro.org; helo=mail-ed1-x52a.google.com
+X-Spam_score_int: -53
+X-Spam_score: -5.4
+X-Spam_bar: -----
+X-Spam_report: (-5.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-3.251,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Thu, 11 May 2023 01:30:08 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,27 +100,23 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Duplicated word "are".
+On 5/10/23 21:58, Taylor Simpson wrote:
+>>> Where can one find docs for this?
+>>> The latest Hexagon SDK I can find is 3.5, which still ends at v67.
+>>
+>> I guess the folks at developer.qualcomm.com are behind in publishing specs.
+>> I'll work on getting these.
+> 
+> Hi Richard,
+> 
+> The documents have been posted on this page in the Documentation section.
+> https://developer.qualcomm.com/software/hexagon-dsp-sdk/tools
+> I'll update the README with the link to the latest versions.
+> 
+> Are you planning to review these given that Anton Johansson <anjo@rev.ng> has already done a review?  If not, I'll go ahead and do the pull request.
 
-Signed-off-by: Sh4w <sledgeh4w@gmail.com>
----
- docs/about/emulation.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Go ahead with the pull.  But thanks for the documentation update.
 
-diff --git a/docs/about/emulation.rst b/docs/about/emulation.rst
-index b510a54418..0ad0b86f0d 100644
---- a/docs/about/emulation.rst
-+++ b/docs/about/emulation.rst
-@@ -99,7 +99,7 @@ depending on the guest architecture.
-     - Yes
-     - A configurable 32 bit soft core now owned by Cadence
- 
--A number of features are are only available when running under
-+A number of features are only available when running under
- emulation including :ref:`Record/Replay<replay>` and :ref:`TCG Plugins`.
- 
- .. _Semihosting:
--- 
-2.32.0 (Apple Git-132)
+r~
 
 
