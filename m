@@ -2,86 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40FE26FEF38
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E8FA6FEF37
 	for <lists+qemu-devel@lfdr.de>; Thu, 11 May 2023 11:51:08 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1px2wd-0000D8-1q; Thu, 11 May 2023 05:50:43 -0400
+	id 1px2wX-0000Al-9g; Thu, 11 May 2023 05:50:37 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1px2wX-0000Cc-En
- for qemu-devel@nongnu.org; Thu, 11 May 2023 05:50:37 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ id 1px2wV-0000AP-8Z
+ for qemu-devel@nongnu.org; Thu, 11 May 2023 05:50:35 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1px2wO-0006d9-AN
- for qemu-devel@nongnu.org; Thu, 11 May 2023 05:50:37 -0400
+ id 1px2wT-0006e3-07
+ for qemu-devel@nongnu.org; Thu, 11 May 2023 05:50:34 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1683798626;
+ s=mimecast20190719; t=1683798630;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:  content-type:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=Rkv4AKkVMESx2eIbt984dciBr8NT9lZxmgHVX7PPrj4=;
- b=XXoJ5lmD9t4MMv9t/WKRkY9IxUBg0dXA28POwiRkrW3RqnmRcm4LEHVSb9ff/fft3ujPDB
- IUpCWhsIv2T6ciwF0qA+SAw6HnPxyRYe+gbpj51HzzvwiowX/pz512hFQtzhSbS47avS0h
- 34wifptpKFb9JRRai2KzVt3GojmwwnE=
-Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
- [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=XVk0NqT/ewc/FqSjZkNf/ebir55QGmplAT0hcOp8nM0=;
+ b=PUlKvmTpJWwRYdaaXzs5prMkQy9kNedqg4KuOkfJDQOsTysuP7/+2jHz14V/R+HO6fb/Pa
+ QhmcLlMT4W5cxO7AMXnWYOY9A3vO1u1ZBfzV+Ah27QIITqoFR9NILE7dE6JvjUpy19+r0Y
+ bmQVUbkb9wyiPIFwQxaNbDsmO93Cr8w=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-495-_14yr0qqMrSgIp8LwaHaVQ-1; Thu, 11 May 2023 05:50:25 -0400
-X-MC-Unique: _14yr0qqMrSgIp8LwaHaVQ-1
-Received: by mail-ej1-f69.google.com with SMTP id
- a640c23a62f3a-94a34e35f57so820416566b.3
- for <qemu-devel@nongnu.org>; Thu, 11 May 2023 02:50:25 -0700 (PDT)
+ us-mta-36-bryISF0DMQO0b7n5AHmGmQ-1; Thu, 11 May 2023 05:50:29 -0400
+X-MC-Unique: bryISF0DMQO0b7n5AHmGmQ-1
+Received: by mail-ed1-f70.google.com with SMTP id
+ 4fb4d7f45d1cf-50d88a986afso7264414a12.0
+ for <qemu-devel@nongnu.org>; Thu, 11 May 2023 02:50:29 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683798624; x=1686390624;
- h=content-transfer-encoding:mime-version:message-id:date:subject:to
- :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Rkv4AKkVMESx2eIbt984dciBr8NT9lZxmgHVX7PPrj4=;
- b=Qg1pZLWh7WeXqW9i+WXGRaMVrq2QpgY4+VNQVhUkmtNfPicj7wPMaGlShq34ZaxI78
- N2nVU3fWaBG96/2yPCxVDQNTybhfP6dTKJjGROtSsgmYzQ3Z7PpP2hjyn38hlyWQp9yK
- SJa/TrHdrhvbloKMg8dD8uG534qHNLzffTqWW+465oJJrmuIdhZk4bTu80+c3xQks1yo
- itij7Y4YrSL6nIp+cM2/LFyrtNFYzFA/cJiKWCFMZvAmVgYOJMWTYbppU8SmTBXtG+OT
- zflykU7tG5i14qqGPbchS+PX8JR/vqr2pCIzvjzhD+FYBGpDlmAsSMWTbAJ0WwNEWY/W
- 8jHg==
-X-Gm-Message-State: AC+VfDz1Iwx3z52g2QgHjuDZOhUrBbSYjy1EqfIwLOwmaLUnDetmb7Uu
- /IlReUOEQhp2YTgiHtvet8dI3uwrYZZH5UqBvhdbM7HJY8UECyr8wby3dCQI6CEtxJxiLwtqFon
- 6176KjVjd91XMEdBhX0xhGqMmvQTmLsgjwPSJjQATKrrCSd+f6SopzM3IoVrlh3kx8h7K9ZX7/2
- Y=
-X-Received: by 2002:a17:907:930d:b0:94b:b4a5:30f with SMTP id
- bu13-20020a170907930d00b0094bb4a5030fmr18431470ejc.55.1683798623953; 
- Thu, 11 May 2023 02:50:23 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ40KAR9nfJOXJJmymgzFmPl1th/rZLq1x/rJnsn/tBEvyzHVZ3t4UL3UUKXLd+kE8fvs3HSyA==
-X-Received: by 2002:a17:907:930d:b0:94b:b4a5:30f with SMTP id
- bu13-20020a170907930d00b0094bb4a5030fmr18431444ejc.55.1683798623306; 
- Thu, 11 May 2023 02:50:23 -0700 (PDT)
+ d=1e100.net; s=20221208; t=1683798628; x=1686390628;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=XVk0NqT/ewc/FqSjZkNf/ebir55QGmplAT0hcOp8nM0=;
+ b=gpEersNN7meGFnL8qdGM+1E8gspQ+8Gr1UUWEqLmWZ7Rf75P3oOF9VPInI/Vr3yi7R
+ i/loxjK1bSt1cAY9/Z5o7ypjQf/hvt1vGsHf70jnobHIoPuasGj9hI4Sd4wmo5nPZIfp
+ McWtqDnnVWsK9FIOrI4dbL5qif8CcpkiDEq1r3zsqtp7pRZXmSmcaKKu7QWAsjAVzWsI
+ RpNZtwKWmHxkPo0kATrzG0iTqjiblnpnEMtQQbTf+bMSf3kdyYzAwxx1hPJzlMmGHW4n
+ VaRL1I9j82d77PFL9HfNe5l2ErSycuAdQcPc/C3mpunclfRqrvBx5ajaSWmrEt1Wb6nF
+ J79g==
+X-Gm-Message-State: AC+VfDzNEjwnLZDtNrr1UT9/YzD0osQz/lFr1KPavvKiUUlqn4HAmCjs
+ 6WvG3SaibKQdTMi9etnSwaTmEd6SZtTwmZ5BFRSHrYpIBj6U29pjhW6P4qpBbj7REvxxA1XtlPN
+ US1SUroLH/yeMJXrWEMn/xAwxtbNP+V2WUp3r1fDTiskG0IDQVsg7TADhlLrp3sJKjiMIlcZ43y
+ I=
+X-Received: by 2002:a17:907:3207:b0:94f:5b91:7952 with SMTP id
+ xg7-20020a170907320700b0094f5b917952mr17626483ejb.21.1683798628040; 
+ Thu, 11 May 2023 02:50:28 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ7QNcmrnDb3AiRqzgSC0/o+sfyV54ym8X5EF5lX6/XuDriKHVJFZqY2ofO/R7QdGrhT5HYJqw==
+X-Received: by 2002:a17:907:3207:b0:94f:5b91:7952 with SMTP id
+ xg7-20020a170907320700b0094f5b917952mr17626377ejb.21.1683798624998; 
+ Thu, 11 May 2023 02:50:24 -0700 (PDT)
 Received: from [192.168.10.118] ([2001:b07:6468:f312:63a7:c72e:ea0e:6045])
  by smtp.gmail.com with ESMTPSA id
- bm11-20020a170906c04b00b00965ec1faf27sm3776595ejb.74.2023.05.11.02.50.22
+ hy25-20020a1709068a7900b0096607baaf19sm3783144ejc.101.2023.05.11.02.50.24
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 11 May 2023 02:50:22 -0700 (PDT)
+ Thu, 11 May 2023 02:50:24 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 00/24] Meson changes for QEMU 8.1
-Date: Thu, 11 May 2023 11:49:57 +0200
-Message-Id: <20230511095021.1397802-1-pbonzini@redhat.com>
+Subject: [PATCH 01/24] meson: regenerate meson-buildoptions.sh
+Date: Thu, 11 May 2023 11:49:58 +0200
+Message-Id: <20230511095021.1397802-2-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.40.1
+In-Reply-To: <20230511095021.1397802-1-pbonzini@redhat.com>
+References: <20230511095021.1397802-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -97,65 +100,27 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The final bout of conversions; most of them were posted for 8.0, but
-then delayed due to the Python 3.7+ requirement and the consequent
-yak shaving with libvirt-ci and mkvenv.  It removes the remaining
-compiler tests for emulators, applies a few cleanups that are enabled
-by version 0.63 of Meson, and updates the documentation.
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
+ scripts/meson-buildoptions.sh | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-Paolo
-
-Based-on: <20230511035435.734312-1-jsnow@redhat.com>
-
-
-Paolo Bonzini (24):
-  meson: regenerate meson-buildoptions.sh
-  meson: require 0.63.0
-  meson: use prefer_static option
-  meson: remove static_kwargs
-  meson: add more version numbers to the summary
-  meson: drop unnecessary declare_dependency()
-  build: move glib detection and workarounds to meson
-  configure: remove pkg-config functions
-  configure, meson: move --enable-modules to Meson
-  meson: prepare move of QEMU_CFLAGS to meson
-  build: move sanitizer tests to meson
-  build: move SafeStack tests to meson
-  build: move coroutine backend selection to meson
-  build: move stack protector flag selection to meson
-  build: move warning flag selection to meson
-  build: move remaining compiler flag tests to meson
-  build: move compiler version check to meson
-  build: move --disable-debug-info to meson
-  configure: remove compiler sanity check
-  configure: do not rerun the tests with -Werror
-  configure: remove unnecessary mkdir
-  configure: reorder option parsing code
-  docs/devel: update build system docs
-  configure: remove unnecessary check
-
- configure                                     | 839 ++----------------
- contrib/plugins/Makefile                      |   7 +-
- docs/devel/build-system.rst                   | 296 +++---
- meson.build                                   | 658 +++++++++-----
- meson_options.txt                             |  13 +
- python/scripts/vendor.py                      |   4 +-
- python/wheels/meson-0.61.5-py3-none-any.whl   | Bin 862509 -> 0 bytes
- python/wheels/meson-0.63.3-py3-none-any.whl   | Bin 0 -> 926526 bytes
- qga/meson.build                               |   2 +-
- scripts/meson-buildoptions.py                 |   3 +
- scripts/meson-buildoptions.sh                 |  28 +-
- tcg/meson.build                               |   2 +-
- tests/qemu-iotests/meson.build                |   2 +-
- tests/qtest/meson.build                       |   2 +-
- tests/unit/meson.build                        |   2 +-
- ...{coroutine-win32.c => coroutine-windows.c} |   0
- util/meson.build                              |   6 +-
- 17 files changed, 759 insertions(+), 1105 deletions(-)
- delete mode 100644 python/wheels/meson-0.61.5-py3-none-any.whl
- create mode 100644 python/wheels/meson-0.63.3-py3-none-any.whl
- rename util/{coroutine-win32.c => coroutine-windows.c} (100%)
-
+diff --git a/scripts/meson-buildoptions.sh b/scripts/meson-buildoptions.sh
+index 753dbb095a4b..52e59d25b8fa 100644
+--- a/scripts/meson-buildoptions.sh
++++ b/scripts/meson-buildoptions.sh
+@@ -1,8 +1,8 @@
+ # This file is generated by meson-buildoptions.py, do not edit!
+ meson_options_help() {
+-  printf "%s\n" '  --audio-drv-list=CHOICES Set audio driver list [default] (choices: al'
+-  printf "%s\n" '                           sa/coreaudio/default/dsound/jack/oss/pa/'
+-  printf "%s\n" '                           pipewire/sdl/sndio)'
++  printf "%s\n" '  --audio-drv-list=CHOICES Set audio driver list [default] (choices: alsa/co'
++  printf "%s\n" '                           reaudio/default/dsound/jack/oss/pa/pipewire/sdl/s'
++  printf "%s\n" '                           ndio)'
+   printf "%s\n" '  --block-drv-ro-whitelist=VALUE'
+   printf "%s\n" '                           set block driver read-only whitelist (by default'
+   printf "%s\n" '                           affects only QEMU, not tools like qemu-img)'
 -- 
 2.40.1
 
