@@ -2,87 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5A406FF66D
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 May 2023 17:49:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A1156FF671
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 May 2023 17:50:13 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1px8Xf-0002mE-AW; Thu, 11 May 2023 11:49:19 -0400
+	id 1px8XO-0002iL-18; Thu, 11 May 2023 11:49:02 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1px8Xb-0002kt-1C
- for qemu-devel@nongnu.org; Thu, 11 May 2023 11:49:15 -0400
-Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1px8XZ-0003ii-96
- for qemu-devel@nongnu.org; Thu, 11 May 2023 11:49:14 -0400
-Received: by mail-wm1-x32c.google.com with SMTP id
- 5b1f17b1804b1-3f450815d02so16944385e9.0
- for <qemu-devel@nongnu.org>; Thu, 11 May 2023 08:49:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1683820151; x=1686412151;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
- :message-id:reply-to;
- bh=GS5AG10nBfgD3BS5w/a6dOsvuF4wqeOs390JT7gbkww=;
- b=oQ+R0mP1pa/uREYow27qTJwaIIrd9rE9L+Ps5kg3Dd1g8c8czGaU5MmsBWSngsgKn2
- 20BoyYY/PEeiUK6trJWGYvTx07QqSt3ixmnLDEPU/8hYJGKZEBHz/Uqetn2zBQAqta92
- 8eAix9akR+Pyh92BeGEnVB+CquUmKIVvXK6zRx2mBXb5Yzwz0iqNgcDWAt2GRS8PkNNX
- TmIgNkEOsXDQMiBBEzhf9JQRl5TPgfYVcmsN6ZmkwylQpkDsGosYiyOdzZU+xWvcErA2
- WP7LfRYwqZcwEadHAH4vVqVHjIV7eVHOr6x86QiLb52Jr0itYj/nJ/x1e6ljt8s4Uc7Y
- fQxQ==
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1px8XM-0002i4-SF
+ for qemu-devel@nongnu.org; Thu, 11 May 2023 11:49:00 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1px8XK-0003eJ-Uy
+ for qemu-devel@nongnu.org; Thu, 11 May 2023 11:49:00 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1683820137;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=7IQH6XaW5+81QUtRlCGNVN8c4YwgH7skEEAQ80+T8qw=;
+ b=hnRUhr76j2eqdH03tEMNNNbVc+K4AEDmtJLDN4GxgmCTVzZ+E2pdTLQPSTDmyzYo8fX9ag
+ kVW3l5jCw8gUXCm5z27aDXN6IBpt5mVtB80Jz79e1M/3z1ZmbSiTZTX6IRp5stwchABiFS
+ URF7vvrHN8OQvgR12LgWziip/r1eQ2Y=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-146-eisLRVQ8PZuAhrat44EMww-1; Thu, 11 May 2023 11:48:56 -0400
+X-MC-Unique: eisLRVQ8PZuAhrat44EMww-1
+Received: by mail-ed1-f72.google.com with SMTP id
+ 4fb4d7f45d1cf-50bc95a5051so10006927a12.1
+ for <qemu-devel@nongnu.org>; Thu, 11 May 2023 08:48:56 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683820151; x=1686412151;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=GS5AG10nBfgD3BS5w/a6dOsvuF4wqeOs390JT7gbkww=;
- b=YaiEZ4JwDv63qGywnH/bh8VEuRNH7+d5jl226Rc9cnCZ1zIRY5qynQMHGs3LYLSA1w
- RL37TmTjPEVPC/dPJNX9o2Qq0S4hruQ0rkJ+jdj6YmKkt2qh6p320HeKW4TqSEbr0zwD
- O2dC1t2bCHHxUfeJFTiDLX8HXIZLUDCSSDtLaHn9WW3k4K5Li0EJ73V5Z17KeZk4GFY0
- oXsxc9nk6JUDJ9G9hg8NcD8wz8GsvNp2dPqLpNWeL/Zb1NFkal17RS1RXvVdTONCge8r
- K8mSdPxySuYDW/vXcQUQptFq1vlKf6BUSd0IX9D+ek7sBrRQgDY9FljduH8ryw1leaqR
- 3sEQ==
-X-Gm-Message-State: AC+VfDzHWRxCnMCdLSU2fno9SJIM0MNT2+ZOwh5O11k8Txt6/xTXyo+X
- rwt7ucW7WHLb9OLcmM5cP9oCpQ==
-X-Google-Smtp-Source: ACHHUZ7owZNIiZpJe2Tx3C19T6nHub/B+/2IP0LwnEOH56DXAyFogfurtGtJntFLt5yHNV8ZJJSXgA==
-X-Received: by 2002:a1c:f211:0:b0:3ef:8b0:dbb1 with SMTP id
- s17-20020a1cf211000000b003ef08b0dbb1mr14987265wmc.7.1683820151347; 
- Thu, 11 May 2023 08:49:11 -0700 (PDT)
-Received: from zen.linaroharston ([85.9.250.243])
- by smtp.gmail.com with ESMTPSA id
- a11-20020adfeecb000000b003048477729asm20669293wrp.81.2023.05.11.08.49.10
+ d=1e100.net; s=20221208; t=1683820135; x=1686412135;
+ h=mime-version:message-id:date:reply-to:user-agent:references
+ :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=7IQH6XaW5+81QUtRlCGNVN8c4YwgH7skEEAQ80+T8qw=;
+ b=aPUCzZMEeImGiUWq5syU8GeD73OqgIchj+6ZqmoYjZoYAzVTIDAhoJEtIBQPupVzZo
+ HSXPPxIlFs8bcpNCqo2ApscV3ci8usEgqimTZOTKvOF8lpHnZHcfNgFHBSOFhwcV6grV
+ bkJDFvsWCfkHbjhGhXHRbN8/xuCmWJ4OSLgvdi2C5pxj54sFBQ3ltasW4aaCB2oEfJoe
+ SJskSaUpCkXjTHKmamLNckMocy8J+QWjxiISVgV7aWHlLxZxSrw07tHcxOaF/IQpv1aE
+ IlgX4w2Jptr+rMtYHY7BrjUN3FEHE252RfO2V0sfzp/l7yuKDAA581AdM74DOvZheJYT
+ QSlg==
+X-Gm-Message-State: AC+VfDyZudDLwxPJbzWSiqtKG9/yDunHGQCkpPhEkRXAzmckvUf1TGNV
+ 8Qqa5TECukwC//Asa7oH3TbbNn9B2YKecAiPkJ3yKJOVEngZVRLOFDS6QQ9NeLQAiO6RMqDpxk2
+ 2LAg7EjinSdPZ4Rc=
+X-Received: by 2002:a05:6402:1256:b0:50b:c5dc:28d8 with SMTP id
+ l22-20020a056402125600b0050bc5dc28d8mr17208334edw.16.1683820135306; 
+ Thu, 11 May 2023 08:48:55 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ5QLQjlDplvM7KHv3Bfw378wI/HK5Vw3RVMyIhgwciVV9I/YrgpMgwA8YJl/qN0hnVD8btezw==
+X-Received: by 2002:a05:6402:1256:b0:50b:c5dc:28d8 with SMTP id
+ l22-20020a056402125600b0050bc5dc28d8mr17208321edw.16.1683820135024; 
+ Thu, 11 May 2023 08:48:55 -0700 (PDT)
+Received: from redhat.com (static-92-120-85-188.ipcom.comunitel.net.
+ [188.85.120.92]) by smtp.gmail.com with ESMTPSA id
+ bc15-20020a056402204f00b0050b2f588db6sm2985120edb.16.2023.05.11.08.48.54
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 11 May 2023 08:49:11 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 8424C1FFBB;
- Thu, 11 May 2023 16:49:10 +0100 (BST)
-References: <20230503072331.1747057-1-richard.henderson@linaro.org>
- <20230503072331.1747057-11-richard.henderson@linaro.org>
-User-agent: mu4e 1.11.4; emacs 29.0.90
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: ale@rev.ng, philmd@linaro.org, marcel.apfelbaum@gmail.com,
- wangyanan55@huawei.com, anjo@rev.ng, qemu-devel@nongnu.org
-Subject: Re: [PATCH 10/84] accel/tcg: Widen plugin_gen_empty_mem_callback to
- i64
-Date: Thu, 11 May 2023 16:47:16 +0100
-In-reply-to: <20230503072331.1747057-11-richard.henderson@linaro.org>
-Message-ID: <87r0rm27ih.fsf@linaro.org>
+ Thu, 11 May 2023 08:48:54 -0700 (PDT)
+From: Juan Quintela <quintela@redhat.com>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+Cc: qemu-devel@nongnu.org,  Leonardo Bras <leobras@redhat.com>,  Peter Xu
+ <peterx@redhat.com>,  Avihai Horon <avihaih@nvidia.com>,  Thomas Huth
+ <thuth@redhat.com>,  Lukas Straub <lukasstraub2@web.de>,  Alex
+ =?utf-8?Q?Benn=C3=A9e?=
+ <alex.bennee@linaro.org>,  Daniel =?utf-8?Q?P=2EBerrang=C3=A9?=
+ <berrange@redhat.com>, Markus Armbruster <armbru@redhat.com>
+Subject: Re: [PATCH v2] migration: Add documentation for backwards compatiblity
+In-Reply-To: <3e294e10-12ec-bb00-cf7d-c6b1574fc252@yandex-team.ru> (Vladimir
+ Sementsov-Ogievskiy's message of "Thu, 11 May 2023 17:16:40 +0300")
+References: <20230511082701.12828-1-quintela@redhat.com>
+ <2912b2c8-41c2-4a9d-64ac-b3a05e66028f@yandex-team.ru>
+ <87o7mr3wo4.fsf@secure.mitica>
+ <3e294e10-12ec-bb00-cf7d-c6b1574fc252@yandex-team.ru>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
+Date: Thu, 11 May 2023 17:48:53 +0200
+Message-ID: <87bkiq50nu.fsf@secure.mitica>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32c.google.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,91 +103,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-
-Richard Henderson <richard.henderson@linaro.org> writes:
-
-> Since we do this inside gen_empty_mem_cb anyway, let's
-> do this earlier inside tcg expansion.
+Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru> wrote:
+> On 11.05.23 15:00, Juan Quintela wrote:
+>>>> +Now we start with the more interesting cases.  Let start with the
+>>>> +same qemu but not the same machine type.
+>>> sounds like "different machine type on source and target" for me..
+>>>
+>>> Maybe, "not latest machine type" ?
+>> Now we start with the more interesting cases.  Let start with a the
+>> same QEMU process and a different QEMU version machine type.
+>> Better?
 >
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  include/exec/plugin-gen.h |  4 ++--
->  accel/tcg/plugin-gen.c    |  9 +++------
->  tcg/tcg-op-ldst.c         | 28 ++++++++++++++++++++--------
->  3 files changed, 25 insertions(+), 16 deletions(-)
+> No)
 >
-> diff --git a/include/exec/plugin-gen.h b/include/exec/plugin-gen.h
-> index 5f5506f1cc..3af0168e65 100644
-> --- a/include/exec/plugin-gen.h
-> +++ b/include/exec/plugin-gen.h
-> @@ -27,7 +27,7 @@ void plugin_gen_insn_start(CPUState *cpu, const struct =
-DisasContextBase *db);
->  void plugin_gen_insn_end(void);
->=20=20
->  void plugin_gen_disable_mem_helpers(void);
-> -void plugin_gen_empty_mem_callback(TCGv addr, uint32_t info);
-> +void plugin_gen_empty_mem_callback(TCGv_i64 addr, uint32_t info);
->=20=20
->  static inline void plugin_insn_append(abi_ptr pc, const void *from, size=
-_t size)
->  {
-> @@ -69,7 +69,7 @@ static inline void plugin_gen_tb_end(CPUState *cpu)
->  static inline void plugin_gen_disable_mem_helpers(void)
->  { }
->=20=20
-> -static inline void plugin_gen_empty_mem_callback(TCGv addr, uint32_t inf=
-o)
-> +static inline void plugin_gen_empty_mem_callback(TCGv_i64 addr, uint32_t=
- info)
->  { }
->=20=20
->  static inline void plugin_insn_append(abi_ptr pc, const void *from, size=
-_t size)
-> diff --git a/accel/tcg/plugin-gen.c b/accel/tcg/plugin-gen.c
-> index 55e892b684..34be1b940c 100644
-> --- a/accel/tcg/plugin-gen.c
-> +++ b/accel/tcg/plugin-gen.c
-> @@ -124,23 +124,20 @@ static void gen_empty_inline_cb(void)
->      tcg_temp_free_i64(val);
->  }
->=20=20
-> -static void gen_empty_mem_cb(TCGv vaddr, uint32_t info)
-> +static void gen_empty_mem_cb(TCGv_i64 addr, uint32_t info)
+> Neither I have good wording in mind. That doesn't really matter I
+> think, so don't worry, meaning is obvious from the context anyway.
+>
+> I just mean, that for me:
+>
+> "same" here: source.qemu.version == target.qemu.version
+>
+> "different" here: source.qemu.machine_type != target.qemu.machine_type
+> -- but you don't mean this and this case doesn't work anyway
 
-You bounced the name a few times in this series:
+Ah, I see what you mean know.
 
-  445a4a2f14 accel/tcg: Widen plugin_gen_empty_mem_callback to i64
-  modified   accel/tcg/plugin-gen.c
-  @@ -127,3 +127,3 @@
-  -static void gen_empty_mem_cb(TCGv vaddr, uint32_t info)
-  +static void gen_empty_mem_cb(TCGv_i64 addr, uint32_t info)
-   {
-       TCGv_i32 cpu_index =3D tcg_temp_ebb_new_i32();
+>
+> What you mean by "different" that machine type is not equal to qemu
+> version.. But formally, it's never "equal", actually, latest machine
+> type of the qemu version "corresponds" to that qemu version.
+>
+> Maybe:
+>
+> "Consider the case with same QEMU version (5.2) but not latest (not 5.2) machine type:"
 
-  8b99baa592 accel/tcg: Merge do_gen_mem_cb into caller
-  modified   accel/tcg/plugin-gen.c
-  @@ -148,3 +127,3 @@
-  -static void gen_empty_mem_cb(TCGv addr, uint32_t info)
-  +static void gen_empty_mem_cb(TCGv vaddr, uint32_t info)
-   {
-  -    do_gen_mem_cb(addr, info);
-  +    TCGv_i32 cpu_index =3D tcg_temp_ebb_new_i32();
+Now we start with the more interesting cases.  Consider the case where
+we have the same QEMU version in both sides (qemu-5.2) but we are using
+the latest machine type for that version (pc-5.2) but one of an older
+QEMU version, in this case pc-5.1.
 
-  38b47b19ec plugin-gen: add module for TCG-related code
-  modified   accel/tcg/plugin-gen.c
-  @@ -0,0 +145,3 @@
-  +static void gen_empty_mem_cb(TCGv addr, uint32_t info)
-  +{
-  +    do_gen_mem_cb(addr, info);
+Better?
 
-Otherwise:
+Later, Juan.
 
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-
---=20
-Alex Benn=C3=A9e
-Virtualisation Tech Lead @ Linaro
 
