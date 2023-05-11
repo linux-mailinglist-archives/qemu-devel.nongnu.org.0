@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24BCE6FEF64
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 May 2023 11:54:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E04E46FEF6E
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 May 2023 11:54:41 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1px2xQ-00020i-By; Thu, 11 May 2023 05:51:32 -0400
+	id 1px2xP-0001rR-Ah; Thu, 11 May 2023 05:51:31 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1px2xH-0001Or-If
- for qemu-devel@nongnu.org; Thu, 11 May 2023 05:51:23 -0400
+ id 1px2xF-0001C6-1h
+ for qemu-devel@nongnu.org; Thu, 11 May 2023 05:51:21 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1px2xA-0006pH-9I
- for qemu-devel@nongnu.org; Thu, 11 May 2023 05:51:23 -0400
+ id 1px2xC-0006qr-A1
+ for qemu-devel@nongnu.org; Thu, 11 May 2023 05:51:20 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1683798675;
+ s=mimecast20190719; t=1683798677;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=H4a/6bnjB3qYoMkNYCpzMMOpxNLUt/OjOo50sAbLeyo=;
- b=X00Jp90TlgHqAxNkUypi3DzT6fO1oND09qvu/AStGBhZuKpX4VnpzPdIJewe9K+P99RLue
- nVyi5n1yvXFsThC4Zl1VIKed9U7c1IUXcHHHymdkzm4MsHU8FWLQt3BhnCFfH0vqSqbkgY
- qr1G25RkyTSWLI0+igMOeUxUpTz+J9A=
-Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
- [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=YSHeaJPxp9AvBy06XTQlQxN6U353gmsVYdxvU61fd9U=;
+ b=CLzD2SvdAQVJpJfmsKpLjIUStxvOQ1cf8G4ZmANLyPaqDFthI3kIXbtVsqG1zZP57CLMaG
+ OuFBUgCAjve+gcc4xFgb+JWj5JAu/gJI+SshmsuXO23F0HNfQ9RiYZbq/lftEDxMf1XKGh
+ ACnrU2qyI6joHENtB6uE6WAcMqTkCpQ=
+Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
+ [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-583-1FErNdABNiSyE1lq-86vIA-1; Thu, 11 May 2023 05:51:13 -0400
-X-MC-Unique: 1FErNdABNiSyE1lq-86vIA-1
-Received: by mail-ej1-f70.google.com with SMTP id
- a640c23a62f3a-96a2ea9c409so190063566b.0
- for <qemu-devel@nongnu.org>; Thu, 11 May 2023 02:51:13 -0700 (PDT)
+ us-mta-147-bIlbBhxuOamj2j3wWoE-0w-1; Thu, 11 May 2023 05:51:16 -0400
+X-MC-Unique: bIlbBhxuOamj2j3wWoE-0w-1
+Received: by mail-ej1-f71.google.com with SMTP id
+ a640c23a62f3a-94a355cf318so981058166b.2
+ for <qemu-devel@nongnu.org>; Thu, 11 May 2023 02:51:16 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683798672; x=1686390672;
+ d=1e100.net; s=20221208; t=1683798675; x=1686390675;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=H4a/6bnjB3qYoMkNYCpzMMOpxNLUt/OjOo50sAbLeyo=;
- b=B6beFH6FR/0KaDoo/aTd6QDzoT5xj+M7Cs164dj2tqiwj7IWpksyU2mE0OFNfl720S
- ykaO9E3L4ek37V3JkE4+3+7d1oDtLISP0jpgIxYl8/bd2l80BS5VT6wv7UHUR7bZCevw
- qQG1IskkwDVdY1yxOJAQzNRA8q2ODMsGqsxZGzMS5u9yI1hkO1+u0PTJeJ+Pgt5A1zBG
- ABo2xQqRIqWHApYg5NeuRdYiYq1CzXVV2kG0/hthQTgkMf2IGjntSsNWp1FSUlCCWl7Z
- uHhsU+sccThBp7+3nhuczt+FUZWQOgbgmYxgIbw5dZqvtVuo3fAQx72XSTTw35eqYEtY
- ZNtg==
-X-Gm-Message-State: AC+VfDwiWoZ0TCcT8Pl84qljsPRjXwWGS0IpsdYMZV1531HPNEWjnwUF
- +YQE59HSnwL2ishD5vPL0KDMHDiepsRbD+Ir6Ow2Zmhjc6xmJAdsrqxT2V/fApi8k+W6VrDFhHE
- QovSNsMnKjpJTYmdHU/oYYsYxQRH93wQuZJpqIq0FhW00qgW96PZapVn0f33TPMoACM3tM1Zdt0
- w=
-X-Received: by 2002:a17:907:94d2:b0:94a:959f:6d58 with SMTP id
- dn18-20020a17090794d200b0094a959f6d58mr21501625ejc.18.1683798672298; 
- Thu, 11 May 2023 02:51:12 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ60x0x98kJAmo17mneDtm90td4uxxoN0hzHBumTxACG4Pifp3uOun3/KDQQyJWsSz8pA/lAjQ==
-X-Received: by 2002:a17:907:94d2:b0:94a:959f:6d58 with SMTP id
- dn18-20020a17090794d200b0094a959f6d58mr21501619ejc.18.1683798672001; 
- Thu, 11 May 2023 02:51:12 -0700 (PDT)
+ bh=YSHeaJPxp9AvBy06XTQlQxN6U353gmsVYdxvU61fd9U=;
+ b=l5PN6RXNuXyFfEgszW0DgEOnYxbBEMTOAxiiquMAAkAMV1LjjlCpOOrucoccPGeU51
+ vKvI82QjeUDLAkXs9CeqTuyCCAP7dFVpZLUKvMyoTUQe3FzSDVHf2oTlMbxi1Vzp3BSt
+ to3FAHEzvmNlMV+5/ydmMBTGAWKVY0KMmEmgzlVUXqDnjPxY1gu3P/Mdb7IkhJjI/M44
+ Hh3Y7rILkkYANxMy2XIAqYrOE2C8t/eZVqx02I6o2gA8oiAav+izLiwNj9d8qlMRHJqH
+ kqZWHWfjdFHgJV4P0fPKYzuzW19y6WmWf9pMNpdUJtNsniooUfL9YqVPbT5niTSyh3lq
+ JDQA==
+X-Gm-Message-State: AC+VfDywNIJct9mA84UuTDAwBHLSyMh3x2qEP0JuaIRqVTTjM0HEmi2u
+ /yvP/KaeJwToh/QaFpURGROSRouEMcnMfsSPH3hAg7u8ZFm06Ch3GguAE1e4Nz0yYuVqEIuxGPb
+ byDqWs+WC/xIId6vkPPF/sz39N++aZ7oLxdEHn45aVVXdq525KiaHO/RohJgIxazmsiz5lCgym6
+ 4=
+X-Received: by 2002:a17:907:16a5:b0:957:2e48:5657 with SMTP id
+ hc37-20020a17090716a500b009572e485657mr19973697ejc.68.1683798674530; 
+ Thu, 11 May 2023 02:51:14 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ7kXoE3i4HqqHKMwOrZSGbsaB7dtJJd3sOJCVlNxlp3K0h1i+iaWyCtPNDJbOiTNX/bXxDLiA==
+X-Received: by 2002:a17:907:16a5:b0:957:2e48:5657 with SMTP id
+ hc37-20020a17090716a500b009572e485657mr19973672ejc.68.1683798673809; 
+ Thu, 11 May 2023 02:51:13 -0700 (PDT)
 Received: from [192.168.10.118] ([2001:b07:6468:f312:63a7:c72e:ea0e:6045])
  by smtp.gmail.com with ESMTPSA id
- w13-20020a170907270d00b0095fbb1b72c2sm3808377ejk.63.2023.05.11.02.51.11
+ ht7-20020a170907608700b0096a16e49b0fsm2205021ejc.51.2023.05.11.02.51.12
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 11 May 2023 02:51:11 -0700 (PDT)
+ Thu, 11 May 2023 02:51:13 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 23/24] configure: remove unnecessary check
-Date: Thu, 11 May 2023 11:50:20 +0200
-Message-Id: <20230511095021.1397802-24-pbonzini@redhat.com>
+Subject: [PATCH 24/24] docs/devel: update build system docs
+Date: Thu, 11 May 2023 11:50:21 +0200
+Message-Id: <20230511095021.1397802-25-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.40.1
 In-Reply-To: <20230511095021.1397802-1-pbonzini@redhat.com>
 References: <20230511095021.1397802-1-pbonzini@redhat.com>
@@ -83,7 +83,7 @@ X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -100,34 +100,429 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-All calls to probe_target_compiler are conditioned on
-some "have_target" invocation, or inside a loop on target_list.
-Therefore there is no issue with building unnecessary
-firmware images and tests.
+configure is only doing compiler and host setup now, so adjust the
+relevant documentation.  It is also possible to build emulators with
+ninja directly if one is so inclined, so mention that as well.
+
+The Python virtual environment set up is a new major task of configure
+as well.  Mention it in the list of produced files, while leaving it
+for a future patch to document how it works and how ``mkvenv ensure``
+is used.
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- configure | 7 -------
- 1 file changed, 7 deletions(-)
+ docs/devel/build-system.rst | 287 ++++++++++++++++++++++--------------
+ 1 file changed, 177 insertions(+), 110 deletions(-)
 
-diff --git a/configure b/configure
-index 074c98e7641d..fd5d6788cbe8 100755
---- a/configure
-+++ b/configure
-@@ -1323,13 +1323,6 @@ probe_target_compiler() {
-   container_cross_ranlib=
-   container_cross_strip=
+diff --git a/docs/devel/build-system.rst b/docs/devel/build-system.rst
+index 4a733fc0a747..551c5a5ac0ae 100644
+--- a/docs/devel/build-system.rst
++++ b/docs/devel/build-system.rst
+@@ -4,30 +4,14 @@ The QEMU build system architecture
  
--  # We shall skip configuring the target compiler if the user didn't
--  # bother enabling an appropriate guest. This avoids building
--  # extraneous firmware images and tests.
--  if test "${target_list#*$1}" = "$1"; then
--      return 1
--  fi
+ This document aims to help developers understand the architecture of the
+ QEMU build system. As with projects using GNU autotools, the QEMU build
+-system has two stages, first the developer runs the "configure" script
++system has two stages; first the developer runs the "configure" script
+ to determine the local build environment characteristics, then they run
+-"make" to build the project. There is about where the similarities with
++"make" to build the project.  This is about where the similarities with
+ GNU autotools end, so try to forget what you know about them.
+ 
++The two general ways to perform a build are as follows:
+ 
+-Stage 1: configure
+-==================
 -
-   target_arch=${1%%-*}
-   case $target_arch in
-     aarch64) container_hosts="x86_64 aarch64" ;;
+-The QEMU configure script is written directly in shell, and should be
+-compatible with any POSIX shell, hence it uses #!/bin/sh. An important
+-implication of this is that it is important to avoid using bash-isms on
+-development platforms where bash is the primary host.
+-
+-In contrast to autoconf scripts, QEMU's configure is expected to be
+-silent while it is checking for features. It will only display output
+-when an error occurs, or to show the final feature enablement summary
+-on completion.
+-
+-Because QEMU uses the Meson build system under the hood, only VPATH
+-builds are supported.  There are two general ways to invoke configure &
+-perform a build:
+-
+- - VPATH, build artifacts outside of QEMU source tree entirely::
++ - build artifacts outside of QEMU source tree entirely::
+ 
+      cd ../
+      mkdir build
+@@ -35,80 +19,122 @@ perform a build:
+      ../qemu/configure
+      make
+ 
+- - VPATH, build artifacts in a subdir of QEMU source tree::
++ - build artifacts in a subdir of QEMU source tree::
+ 
+      mkdir build
+      cd build
+      ../configure
+      make
+ 
+-The configure script automatically recognizes
+-command line options for which a same-named Meson option exists;
+-dashes in the command line are replaced with underscores.
++Most of the actual build process uses Meson under the hood, therefore
++build artifacts cannot be placed in the source tree itself.
+ 
+-Many checks on the compilation environment are still found in configure
+-rather than ``meson.build``, but new checks should be added directly to
+-``meson.build``.
+ 
+-Patches are also welcome to move existing checks from the configure
+-phase to ``meson.build``.  When doing so, ensure that ``meson.build`` does
+-not use anymore the keys that you have removed from ``config-host.mak``.
+-Typically these will be replaced in ``meson.build`` by boolean variables,
+-``get_option('optname')`` invocations, or ``dep.found()`` expressions.
+-In general, the remaining checks have little or no interdependencies,
+-so they can be moved one by one.
++Stage 1: configure
++==================
+ 
+-Helper functions
+-----------------
++The configure script has five tasks:
+ 
+-The configure script provides a variety of helper functions to assist
+-developers in checking for system features:
++ - detect the host architecture
+ 
+-``do_cc $ARGS...``
+-   Attempt to run the system C compiler passing it $ARGS...
++ - list the targets for which to build emulators; the list of
++   targets also affects which firmware binaries and tests to build
+ 
+-``do_cxx $ARGS...``
+-   Attempt to run the system C++ compiler passing it $ARGS...
++ - find the compilers (native and cross) used to build executables,
++   firmware and tests.  The results are written as either Makefile
++   fragments (``config-host.mak``) or a Meson machine file
++   (``config-meson.cross``)
+ 
+-``compile_object $CFLAGS``
+-   Attempt to compile a test program with the system C compiler using
+-   $CFLAGS. The test program must have been previously written to a file
+-   called $TMPC.  The replacement in Meson is the compiler object ``cc``,
+-   which has methods such as ``cc.compiles()``,
+-   ``cc.check_header()``, ``cc.has_function()``.
++ - create a virtual environment in which all Python code runs during
++   the build, and possibly install packages into it from PyPI
+ 
+-``compile_prog $CFLAGS $LDFLAGS``
+-   Attempt to compile a test program with the system C compiler using
+-   $CFLAGS and link it with the system linker using $LDFLAGS. The test
+-   program must have been previously written to a file called $TMPC.
+-   The replacement in Meson is ``cc.find_library()`` and ``cc.links()``.
++ - invoke Meson in the virtual environment, to perform the actual
++   configuration step for the emulator build
++
++The configure script automatically recognizes command line options for
++which a same-named Meson option exists; dashes in the command line are
++replaced with underscores.
++
++Almost all QEMU developers that need to modify the build system will
++only be concerned with Meson, and therefore can skip the rest of this
++section.
++
++
++Modifying ``configure``
++-----------------------
++
++``configure`` is a shell script; it uses ``#!/bin/sh`` and therefore
++should be compatible with any POSIX shell. It is important to avoid
++using bash-isms to avoid breaking development platforms where bash is
++the primary host.
++
++The configure script provides a variety of functions to help writing
++portable shell code and providing consistent behavior across architectures
++and operating systems:
++
++``error_exit $MESSAGE $MORE...``
++   Print $MESSAGE to stderr, followed by $MORE... and then exit from the
++   configure script with non-zero status.
+ 
+ ``has $COMMAND``
+    Determine if $COMMAND exists in the current environment, either as a
+    shell builtin, or executable binary, returning 0 on success.  The
+    replacement in Meson is ``find_program()``.
+ 
++``probe_target_compiler $TARGET``
++  Detect a cross compiler and cross tools for the QEMU target $TARGET (e.g.,
++  ``$CPU-softmmu``, ``$CPU-linux-user``, ``$CPU-bsd-user``).  If a working
++  compiler is present, return success and set variables ``$target_cc``,
++  ``$target_ar``, etc. to non-empty values.
++
++``write_target_makefile``
++  Write a Makefile fragment to stdout, exposing the result of the most
++  ``probe_target_compiler`` call as the usual Make variables (``CC``,
++  ``AR``, ``LD``, etc.).
++
++
++Configure does not generally perform tests for compiler options beyond
++basic checks to detect the host platform and ensure the compiler is
++functioning.  These are performed using a few more helper functions:
++
++``compile_object $CFLAGS``
++   Attempt to compile a test program with the system C compiler using
++   $CFLAGS. The test program must have been previously written to a file
++   called $TMPC.
++
++``compile_prog $CFLAGS $LDFLAGS``
++   Attempt to compile a test program with the system C compiler using
++   $CFLAGS and link it with the system linker using $LDFLAGS. The test
++   program must have been previously written to a file called $TMPC.
++
+ ``check_define $NAME``
+-   Determine if the macro $NAME is defined by the system C compiler
++   Determine if the macro $NAME is defined by the system C compiler.
++
++``do_compiler $CC $ARGS...``
++   Attempt to run the C compiler $CC, passing it $ARGS...  This function
++   does not use flags passed via options such as ``--extra-cflags``, and
++   therefore can be used to check for cross compilers.  However, most
++   such checks are done at ``make`` time instead (see for example the
++   ``cc-option`` macro in ``pc-bios/option-rom/Makefile``).
+ 
+ ``write_c_skeleton``
+    Write a minimal C program main() function to the temporary file
+-   indicated by $TMPC
++   indicated by $TMPC.
+ 
+-``error_exit $MESSAGE $MORE...``
+-   Print $MESSAGE to stderr, followed by $MORE... and then exit from the
+-   configure script with non-zero status
+ 
++Python virtual environments in the QEMU build system
++----------------------------------------------------
++
++TBD
+ 
+ Stage 2: Meson
+ ==============
+ 
+-The Meson build system is currently used to describe the build
+-process for:
++The Meson build system describes the build and install process for:
+ 
+ 1) executables, which include:
+ 
+-   - Tools - ``qemu-img``, ``qemu-nbd``, ``qga`` (guest agent), etc
++   - Tools - ``qemu-img``, ``qemu-nbd``, ``qemu-ga`` (guest agent), etc
+ 
+    - System emulators - ``qemu-system-$ARCH``
+ 
+@@ -118,7 +144,8 @@ process for:
+ 
+ 2) documentation
+ 
+-3) ROMs, which can be either installed as binary blobs or compiled
++3) ROMs, whether provided as binary blobs in the QEMU distributions
++   or cross compiled under the direction of the configure script
+ 
+ 4) other data files, such as icons or desktop files
+ 
+@@ -273,8 +300,7 @@ system/userspace emulation target
+ Adding checks
+ -------------
+ 
+-New checks should be added to Meson.  Compiler checks can be as simple as
+-the following::
++Compiler checks can be as simple as the following::
+ 
+   config_host_data.set('HAVE_BTRFS_H', cc.has_header('linux/btrfs.h'))
+ 
+@@ -351,22 +377,30 @@ script, which may point to something other than the first python3
+ binary on the path.
+ 
+ 
+-Stage 3: makefiles
+-==================
++Stage 3: Make
++=============
+ 
+-The use of GNU make is required with the QEMU build system.
++The next step in building QEMU is to invoke make.  GNU Make is required
++to build QEMU, and may be installed as ``gmake`` on some hosts.
+ 
+-The output of Meson is a build.ninja file, which is used with the Ninja
+-build system.  QEMU uses a different approach, where Makefile rules are
+-synthesized from the build.ninja file.  The main Makefile includes these
+-rules and wraps them so that e.g. submodules are built before QEMU.
+-The resulting build system is largely non-recursive in nature, in
+-contrast to common practices seen with automake.
++The output of Meson is a ``build.ninja`` file, which is used with the
++Ninja build tool.  However, QEMU's build comprises other components than
++just the emulators (namely firmware and the tests in ``tests/tcg``) which
++need different cross compilers.  The QEMU Makefile wraps both Ninja and
++the smaller build systems for firmware and tests; it also takes care of
++running ``configure`` again when the script changes.  Apart from invoking
++these sub-Makefiles, the resulting build is largely non-recursive.
+ 
+-Tests are also ran by the Makefile with the traditional ``make check``
+-phony target, while benchmarks are run with ``make bench``.  Meson test
+-suites such as ``unit`` can be ran with ``make check-unit`` too.  It is also
+-possible to run tests defined in meson.build with ``meson test``.
++Tests, whether defined in ``meson.build`` or not, are also ran by the
++Makefile with the traditional ``make check`` phony target, while benchmarks
++are run with ``make bench``.  Meson test suites such as ``unit`` can be ran
++with ``make check-unit``, and ``make check-tcg`` builds and runs "non-Meson"
++tests for all targets.
++
++If desired, it is also possible to use ``ninja`` and ``meson test``,
++respectively to build emulators and run tests defined in meson.build.
++The main difference is that ``make`` needs the ``-jN`` flag in order to
++enable parallel builds or tests.
+ 
+ Useful make targets
+ -------------------
+@@ -378,6 +412,7 @@ Useful make targets
+   Print the value of the variable VAR. Useful for debugging the build
+   system.
+ 
++
+ Important files for the build system
+ ====================================
+ 
+@@ -391,8 +426,7 @@ number of dynamically created files listed later.
+ ``Makefile``
+   The main entry point used when invoking make to build all the components
+   of QEMU. The default 'all' target will naturally result in the build of
+-  every component. Makefile takes care of recursively building submodules
+-  directly via a non-recursive set of rules.
++  every component.
+ 
+ ``*/meson.build``
+   The meson.build file in the root directory is the main entry point for the
+@@ -401,59 +435,92 @@ number of dynamically created files listed later.
+   other meson.build files spread throughout the QEMU source tree.
+ 
+ ``tests/Makefile.include``
+-  Rules for external test harnesses. These include the TCG tests,
+-  ``qemu-iotests`` and the Avocado-based integration tests.
++  Rules for external test harnesses. These include the TCG tests
++  and the Avocado-based integration tests.
+ 
+ ``tests/docker/Makefile.include``
+-  Rules for Docker tests. Like tests/Makefile, this file is included
+-  directly by the top level Makefile, anything defined in this file will
+-  influence the entire build system.
++  Rules for Docker tests. Like ``tests/Makefile.include``, this file is
++  included directly by the top level Makefile, anything defined in this
++  file will influence the entire build system.
+ 
+ ``tests/vm/Makefile.include``
+-  Rules for VM-based tests. Like tests/Makefile, this file is included
+-  directly by the top level Makefile, anything defined in this file will
+-  influence the entire build system.
++  Rules for VM-based tests. Like ``tests/Makefile.include``, this file is
++  included directly by the top level Makefile, anything defined in this
++  file will influence the entire build system.
+ 
+ Dynamically created files
+ -------------------------
+ 
+-The following files are generated dynamically by configure in order to
+-control the behaviour of the statically defined makefiles. This avoids
+-the need for QEMU makefiles to go through any pre-processing as seen
+-with autotools, where Makefile.am generates Makefile.in which generates
+-Makefile.
++The following files are generated at run-time in order to control the
++behaviour of the Makefiles. This avoids the need for QEMU makefiles to
++go through any pre-processing as seen with autotools, where configure
++generates ``Makefile`` from ``Makefile.in``.
+ 
+ Built by configure:
+ 
+ ``config-host.mak``
+   When configure has determined the characteristics of the build host it
+-  will write a long list of variables to config-host.mak file. This
+-  provides the various install directories, compiler / linker flags and a
++  will write them to this file for use in ``Makefile`` and to a smaller
++  extent ``meson.build``. These include the paths to various tools and a
+   variety of ``CONFIG_*`` variables related to optionally enabled features.
+-  This is imported by the top level Makefile and meson.build in order to
+-  tailor the build output.
+ 
+-  config-host.mak is also used as a dependency checking mechanism. If make
++  ``config-host.mak`` is also used as a dependency checking mechanism. If make
+   sees that the modification timestamp on configure is newer than that on
+-  config-host.mak, then configure will be re-run.
++  ``config-host.mak``, then configure will be re-run.
+ 
+-  The variables defined here are those which are applicable to all QEMU
+-  build outputs. Variables which are potentially different for each
+-  emulator target are defined by the next file...
++  The variables defined here apply to all QEMU
++  build outputs.
+ 
++``config-meson.cross``
++
++  A Meson "cross file" (or native file) used to communicate the paths to
++  the toolchain and other configuration options.
++
++``config.status``
++
++  A small shell script that will invoke configure again with the same
++  environment variables that were set during the first run.  It's used to
++  rerun configure after changes to the source code, but it can also be
++  inspected manually to check the contents of the environment.
++
++``Makefile.prereqs``
++
++  A set of Makefile dependencies that order the build and execution of
++  firmware and tests after the container images and emulators that they
++  need.
++
++``pc-bios/*/config.mak``, ``tests/tcg/config-host.mak``, ``tests/tcg/*/config-target.mak``
++
++  Configuration variables used to build the firmware and TCG tests,
++  including paths to cross compilation toolchains.
++
++``pyvenv``
++
++  A Python virtual environment that is used for all Python code running
++  during the build.  Using a virtual environment ensures that even code
++  that is run via ``sphinx-build``, ``meson`` etc. uses the same interpreter
++  and packages.
+ 
+ Built by Meson:
+ 
+-``${TARGET-NAME}-config-devices.mak``
+-  TARGET-NAME is again the name of a system or userspace emulator. The
+-  config-devices.mak file is automatically generated by make using the
+-  scripts/make_device_config.sh program, feeding it the
+-  default-configs/$TARGET-NAME file as input.
++``config-host.h``
++  Used by C code to determine the properties of the build environment
++  and the set of enabled features for the entire build.
+ 
+-``config-host.h``, ``$TARGET_NAME-config-target.h``, ``$TARGET_NAME-config-devices.h``
+-  These files are used by source code to determine what features are
+-  enabled.  They are generated from the contents of the corresponding
+-  ``*.mak`` files using Meson's ``configure_file()`` function.
++``${TARGET-NAME}-config-devices.mak``
++  TARGET-NAME is the name of a system emulator. The file is
++  generated by Meson using files under ``configs/devices`` as input.
++
++``${TARGET-NAME}-config-target.mak``
++  TARGET-NAME is the name of a system or usermode emulator. The file is
++  generated by Meson using files under ``configs/targets`` as input.
++
++``$TARGET_NAME-config-target.h``, ``$TARGET_NAME-config-devices.h``
++  Used by C code to determine the properties and enabled
++  features for each target.  enabled.  They are generated from
++  the contents of the corresponding ``*.mak`` files using Meson's
++  ``configure_file()`` function; each target can include them using
++  the ``CONFIG_TARGET`` and ``CONFIG_DEVICES`` macro respectively.
+ 
+ ``build.ninja``
+   The build rules.
 -- 
 2.40.1
 
