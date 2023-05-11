@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC2746FED8F
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 May 2023 10:08:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D0846FED76
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 May 2023 10:06:12 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1px1Ip-0006my-Vo; Thu, 11 May 2023 04:05:32 -0400
+	id 1px1IW-0006KE-HJ; Thu, 11 May 2023 04:05:14 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1px1IJ-0006IQ-NK
+ id 1px1IJ-0006IR-NC
  for qemu-devel@nongnu.org; Thu, 11 May 2023 04:05:00 -0400
-Received: from mail-ed1-x536.google.com ([2a00:1450:4864:20::536])
+Received: from mail-ed1-x534.google.com ([2a00:1450:4864:20::534])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1px1IG-0000wL-AV
- for qemu-devel@nongnu.org; Thu, 11 May 2023 04:04:57 -0400
-Received: by mail-ed1-x536.google.com with SMTP id
- 4fb4d7f45d1cf-50be17a1eceso15586002a12.2
- for <qemu-devel@nongnu.org>; Thu, 11 May 2023 01:04:55 -0700 (PDT)
+ id 1px1IG-0000wT-WD
+ for qemu-devel@nongnu.org; Thu, 11 May 2023 04:04:58 -0400
+Received: by mail-ed1-x534.google.com with SMTP id
+ 4fb4d7f45d1cf-50bc4b88998so14604008a12.3
+ for <qemu-devel@nongnu.org>; Thu, 11 May 2023 01:04:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=linaro.org; s=google; t=1683792295; x=1686384295;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=MH/FislB+PZ3yaaoaYyH7lf008m95iYymuHXns73bX4=;
- b=fKcyQA9IYtRkZmn4RVg9tSwIu/WWSWT29IZu7aemDdLROh4kCag9DxAZ6WMkWqxPAt
- UuGK7NDsXNiMUv9VCVfot10usJql6oTE78FQOLvRGBkIgimZlz5HAeRryXUUZuRjdD6d
- Q295U7aj3a0auZECR/KC5jpl3LD3cM6Y9FQU//MCKyd+9iuUnHo2cYjBMyLoJhiMCbNN
- PFDce1tbIsMyPdUXtIUzeaBbloJjVm+hstbvbTTRw7cE12BtxXCxW1y8381AyTQWNKsv
- c9BIcxxTDzx2RCJiZYC/bkrxHESjXa3CXKIa1W44JGFGkrG3Rj7WcV1f+9/0zc5HQEll
- g+MQ==
+ bh=slYlxvey8vS8jO03oI+FfzvDLZXCxhNVbpSrio4xGh4=;
+ b=fW01KRHVdU+Ht00iycElVt0trwMiBnNYNnnKWpZKeAWH5aEEBDmipNZpX/LqGNJLMS
+ X+eMKZopdEKJbHojZm9ctnK97B4Q2qCY5/cEg5+I/pZclZ+vtLiKy+869xpqfmZSyY+b
+ KT8g1+XDks44XsrlTZL0PyiejD+Bck/6PPnV0bMFraLKZsyjQC9BlhqRKiglowOqisHT
+ 8eVzj0RKtceNtAFUnlgA5cVE+sw0t3434VAYE3TNMXTcTGgKrZrmEW3Fx4g+tgol7Pvo
+ Wt7UDbNjnVJ4ED6RNiQzs4NOIM09KYvBxPW7uLpZ0cwS9YbHlCkPe073LDZ/Slr3zdC9
+ AASw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20221208; t=1683792295; x=1686384295;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=MH/FislB+PZ3yaaoaYyH7lf008m95iYymuHXns73bX4=;
- b=YbyHZ7Vzd2+ZM5mIHp2thskWZ/WQ7l/FkCMD0cf3MvtiK3FdVkMokX+kHOl/US4qrC
- 09LfyCKQutngnUHWyngI63cLNee/7+iOb9LsREbKOhaS66dmsp8dPqKGOwLX9GG0o/pC
- nRDCAhNgRCjFKC1zm104M2/N12bp3HcRFvTWUAFBJdVZTrBSbkgCMFg0vsdJmQlKZd+E
- vWWkamzHe0VDdHajdFdUUagPRNmTytkHtnV0SSFg+z3aqBCfCkFKV0WCc8nLS2tc27g8
- svSxWJNJz1+D5JHsyymqM0dYB5O9UvGroYGNeylVLJfHEHp8OUYw0FOW66Z54jmbfE/L
- 1Kyw==
-X-Gm-Message-State: AC+VfDyoZSlzdDjCiZM2Ssh0zUJ3rRJnxdHrMn0UrvG6zL7hzwaMkvQS
- yTnKufcGv2U+TN4XzI9mrT0XLDYthUiwx0enMRjFbA==
-X-Google-Smtp-Source: ACHHUZ453/H57Sv4m5XVIWFG2v4ERkAcfl2ANjH5HKMWAl8jXNvEvPMw86LKGRbL6VysKVm/RaGkWw==
-X-Received: by 2002:aa7:c3d8:0:b0:50b:d75d:5dca with SMTP id
- l24-20020aa7c3d8000000b0050bd75d5dcamr15828641edr.42.1683792294870; 
- Thu, 11 May 2023 01:04:54 -0700 (PDT)
+ bh=slYlxvey8vS8jO03oI+FfzvDLZXCxhNVbpSrio4xGh4=;
+ b=BjO0jAMgLbVVHeOdeFjdFgytCF8mp7Fh3MoE5YZs558ps+QnNyilj4Ui5ZE9wxUDuu
+ jDdzxxpp9Cpc/pCHfrq+T8KTPnfWMF1qjpsC4Qz4nCYTGnhUm9LMF8nqYI4sX7xPBaBJ
+ eYe8SrPYLokYJtjbkHFpd6l3EA3VVoFLPa8U0w3cX8jIvvAZK+Qhi/XCp+QkaMG2fW18
+ 4fjn5+yZxwVXPgfs+qtLIDHAx7iItGWYzyiVQxaOZQkBgmkh781MOyjl3cFgTRQRClfD
+ YC8EKfMWrthzQooR9ifQNvZL+3x15/kB08CwYtLlJlSZs2bdrAyejCh+YIHRxUK8g4ps
+ t/dA==
+X-Gm-Message-State: AC+VfDwbBlXIVmH9QHsGiDgDlrf6ZAybb+fuHrM4Z0PHBUhdR7LHlPpy
+ npgAkWVjZF1dQk1Wct++r+i0VioOzgqcZajEDx4tgg==
+X-Google-Smtp-Source: ACHHUZ5vAdjwmtKz9WJ3ov9GJ/E1nj33VuWuIVzMGk9TYtxJh1s6RKstaQJejq58M9Rq1B+Tm79+xg==
+X-Received: by 2002:aa7:d8cb:0:b0:50b:d76a:7904 with SMTP id
+ k11-20020aa7d8cb000000b0050bd76a7904mr14764431eds.28.1683792295577; 
+ Thu, 11 May 2023 01:04:55 -0700 (PDT)
 Received: from stoup.. ([85.9.250.243]) by smtp.gmail.com with ESMTPSA id
- i12-20020aa7c70c000000b0050bd7267a5csm2662095edq.58.2023.05.11.01.04.54
+ i12-20020aa7c70c000000b0050bd7267a5csm2662095edq.58.2023.05.11.01.04.55
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 11 May 2023 01:04:54 -0700 (PDT)
+ Thu, 11 May 2023 01:04:55 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Cc: Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 03/53] disas: Fix tabs and braces in disas.c
-Date: Thu, 11 May 2023 09:04:00 +0100
-Message-Id: <20230511080450.860923-4-richard.henderson@linaro.org>
+Cc: Thomas Huth <thuth@redhat.com>
+Subject: [PULL 04/53] disas: Move disas.c to disas/
+Date: Thu, 11 May 2023 09:04:01 +0100
+Message-Id: <20230511080450.860923-5-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230511080450.860923-1-richard.henderson@linaro.org>
 References: <20230511080450.860923-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::536;
- envelope-from=richard.henderson@linaro.org; helo=mail-ed1-x536.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::534;
+ envelope-from=richard.henderson@linaro.org; helo=mail-ed1-x534.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,37 +90,46 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Fix these before moving the file, for checkpatch.pl.
-
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20230510170812.663149-1-richard.henderson@linaro.org>
+Message-Id: <20230503072331.1747057-80-richard.henderson@linaro.org>
 ---
- disas.c | 11 ++++++-----
- 1 file changed, 6 insertions(+), 5 deletions(-)
+ meson.build              | 3 ---
+ disas.c => disas/disas.c | 0
+ disas/meson.build        | 4 +++-
+ 3 files changed, 3 insertions(+), 4 deletions(-)
+ rename disas.c => disas/disas.c (100%)
 
-diff --git a/disas.c b/disas.c
-index b087c12c47..d46f638a72 100644
---- a/disas.c
-+++ b/disas.c
-@@ -226,11 +226,12 @@ void target_disas(FILE *out, CPUState *cpu, target_ulong code,
-     }
+diff --git a/meson.build b/meson.build
+index 5c7af6f3bc..d3cf48960b 100644
+--- a/meson.build
++++ b/meson.build
+@@ -3153,9 +3153,6 @@ specific_ss.add(files('cpu.c'))
  
-     for (pc = code; size > 0; pc += count, size -= count) {
--	fprintf(out, "0x" TARGET_FMT_lx ":  ", pc);
--	count = s.info.print_insn(pc, &s.info);
--	fprintf(out, "\n");
--	if (count < 0)
--	    break;
-+        fprintf(out, "0x" TARGET_FMT_lx ":  ", pc);
-+        count = s.info.print_insn(pc, &s.info);
-+        fprintf(out, "\n");
-+        if (count < 0) {
-+            break;
-+        }
-         if (size < count) {
-             fprintf(out,
-                     "Disassembler disagrees with translator over instruction "
+ subdir('softmmu')
+ 
+-common_ss.add(capstone)
+-specific_ss.add(files('disas.c'), capstone)
+-
+ # Work around a gcc bug/misfeature wherein constant propagation looks
+ # through an alias:
+ #   https://gcc.gnu.org/bugzilla/show_bug.cgi?id=99696
+diff --git a/disas.c b/disas/disas.c
+similarity index 100%
+rename from disas.c
+rename to disas/disas.c
+diff --git a/disas/meson.build b/disas/meson.build
+index c865bdd882..cbf6315f25 100644
+--- a/disas/meson.build
++++ b/disas/meson.build
+@@ -10,4 +10,6 @@ common_ss.add(when: 'CONFIG_RISCV_DIS', if_true: files('riscv.c'))
+ common_ss.add(when: 'CONFIG_SH4_DIS', if_true: files('sh4.c'))
+ common_ss.add(when: 'CONFIG_SPARC_DIS', if_true: files('sparc.c'))
+ common_ss.add(when: 'CONFIG_XTENSA_DIS', if_true: files('xtensa.c'))
+-common_ss.add(when: capstone, if_true: files('capstone.c'))
++common_ss.add(when: capstone, if_true: [files('capstone.c'), capstone])
++
++specific_ss.add(files('disas.c'), capstone)
 -- 
 2.34.1
 
