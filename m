@@ -2,62 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4D906FEE5A
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 May 2023 11:07:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 061256FEE5E
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 May 2023 11:09:48 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1px2G5-0001EL-Q3; Thu, 11 May 2023 05:06:45 -0400
+	id 1px2IK-0002Yb-Jo; Thu, 11 May 2023 05:09:04 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1px2G1-0001Bk-TV
- for qemu-devel@nongnu.org; Thu, 11 May 2023 05:06:42 -0400
-Received: from 3.mo552.mail-out.ovh.net ([178.33.254.192])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1px2Fw-0005n5-UR
- for qemu-devel@nongnu.org; Thu, 11 May 2023 05:06:41 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.109.138.22])
- by mo552.mail-out.ovh.net (Postfix) with ESMTPS id 3E9442D013;
- Thu, 11 May 2023 09:04:13 +0000 (UTC)
-Received: from kaod.org (37.59.142.110) by DAG4EX2.mxp5.local (172.16.2.32)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.23; Thu, 11 May
- 2023 11:04:13 +0200
-Authentication-Results: garm.ovh; auth=pass
- (GARM-110S004958616e6-496d-4f29-8ec8-6ec51cfb8dcd,
- 144821B34C2936864118ABACE4D2D33E1039104D) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <3102db7a-bbaa-f394-b739-23950fe81be0@kaod.org>
-Date: Thu, 11 May 2023 11:04:05 +0200
+ (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
+ id 1px2IH-0002YR-Bi
+ for qemu-devel@nongnu.org; Thu, 11 May 2023 05:09:01 -0400
+Received: from mail.loongson.cn ([114.242.206.163] helo=loongson.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <gaosong@loongson.cn>) id 1px2IF-0005yJ-5M
+ for qemu-devel@nongnu.org; Thu, 11 May 2023 05:09:01 -0400
+Received: from loongson.cn (unknown [10.20.42.57])
+ by gateway (Coremail) with SMTP id _____8CxVPChsFxkvLIHAA--.13151S3;
+ Thu, 11 May 2023 17:08:50 +0800 (CST)
+Received: from [10.20.42.57] (unknown [10.20.42.57])
+ by localhost.localdomain (Coremail) with SMTP id
+ AQAAf8BxlrWgsFxkTIhVAA--.21528S3; 
+ Thu, 11 May 2023 17:08:48 +0800 (CST)
+Subject: Re: [PATCH v10 1/8] memory: prevent dma-reentracy issues
+To: Thomas Huth <thuth@redhat.com>
+Cc: qemu-devel@nongnu.org, maobibo@loongson.cn
+References: <20230427211013.2994127-1-alxndr@bu.edu>
+ <20230427211013.2994127-2-alxndr@bu.edu> <ZEt/3RwtL/jePTTv@redhat.com>
+ <828514c6-44f0-32f0-1eb1-a49f21617585@redhat.com>
+ <20230428091159.haydefdtq4m6z2tz@mozz.bu.edu>
+ <b151ecf7-0544-86ac-a182-1112a4dd7dca@redhat.com>
+ <c01a2b87-27be-e92a-3a5b-d561eadbc516@loongson.cn>
+ <981cdcd7-7326-08f0-9882-e66840175205@redhat.com>
+ <c4919eb6-74f1-7699-f924-6917cdf435bb@loongson.cn>
+ <faa1c6e0-abc2-f108-cc25-2b2cf71bd3d0@redhat.com>
+ <a5a05af5-bf26-ad10-f866-230e4525881f@loongson.cn>
+ <1b3f4f59-4773-014c-1c8e-e300d14b1d2e@redhat.com>
+ <d883eaaa-96e7-3cd9-9226-76a1fee874d8@loongson.cn>
+ <1e0cf322-7c22-862c-f9c3-9b6099abaa54@redhat.com>
+From: Song Gao <gaosong@loongson.cn>
+Message-ID: <76e83c6f-ef87-f9bb-ff41-2c2f9781d8ba@loongson.cn>
+Date: Thu, 11 May 2023 17:08:48 +0800
+User-Agent: Mozilla/5.0 (X11; Linux loongarch64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH] pnv_lpc: disable reentrancy detection for lpc-hc
+In-Reply-To: <1e0cf322-7c22-862c-f9c3-9b6099abaa54@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
 Content-Language: en-US
-To: Alexander Bulekov <alxndr@bu.edu>, <qemu-devel@nongnu.org>
-CC: Thomas Huth <thuth@redhat.com>, "open list:PowerNV Non-Virtu..."
- <qemu-ppc@nongnu.org>
-References: <20230511085337.3688527-1-alxndr@bu.edu>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <20230511085337.3688527-1-alxndr@bu.edu>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [37.59.142.110]
-X-ClientProxiedBy: DAG7EX1.mxp5.local (172.16.2.61) To DAG4EX2.mxp5.local
- (172.16.2.32)
-X-Ovh-Tracer-GUID: 256654cf-9356-4012-a183-9a2520d4a0a4
-X-Ovh-Tracer-Id: 12649766931326471136
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvhedrfeegkedgudduucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgihesthejredttdefjeenucfhrhhomhepveorughrihgtucfnvgcuifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeeuuddtteelgeejhfeikeegffekhfelvefgfeejveffjeeiveegfeehgfdtgfeitdenucfkphepuddvjedrtddrtddruddpfeejrdehledrudegvddruddutddpkedvrdeigedrvdehtddrudejtdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeduvdejrddtrddtrddupdhmrghilhhfrhhomhepoegtlhhgsehkrghougdrohhrgheqpdhnsggprhgtphhtthhopedupdhrtghpthhtoheprghlgihnughrsegsuhdrvgguuhdpqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrghdpthhhuhhthhesrhgvughhrghtrdgtohhmpdhqvghmuhdqphhptgesnhhonhhgnhhurdhorhhgpdfovfetjfhoshhtpehmohehhedvpdhmohguvgepshhmthhpohhuth
-Received-SPF: pass client-ip=178.33.254.192; envelope-from=clg@kaod.org;
- helo=3.mo552.mail-out.ovh.net
+X-CM-TRANSID: AQAAf8BxlrWgsFxkTIhVAA--.21528S3
+X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
+X-Coremail-Antispam: 1Uk129KBjDUn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7KY7
+ ZEXasCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29K
+ BjDU0xBIdaVrnRJUUUv2b4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26c
+ xKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vE
+ j48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xIIjxv20xvEc7CjxV
+ AFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x02
+ 67AKxVW8Jr0_Cr1UM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12xvs2x26I8E6x
+ ACxx1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1j6r18McIj6I8E
+ 87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lc7I2V7IY0V
+ AS07AlzVAYIcxG8wCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s02
+ 6c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jr
+ v_JF1lIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvE
+ c7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14
+ v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Jr0_GrUvcSsGvfC2KfnxnUUI43ZEXa7I
+ U1CPfJUUUUU==
+Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
+ helo=loongson.cn
 X-Spam_score_int: -51
 X-Spam_score: -5.2
 X-Spam_bar: -----
 X-Spam_report: (-5.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-3.251,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01,
- T_SPF_HELO_TEMPERROR=0.01 autolearn=ham autolearn_force=no
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -73,39 +90,25 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hello Alexander
 
-On 5/11/23 10:53, Alexander Bulekov wrote:
-> As lpc-hc is designed for re-entrant calls from xscom, mark it
-> re-entrancy safe.
-> 
-> Reported-by: Thomas Huth <thuth@redhat.com>
-> Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
-> ---
->   hw/ppc/pnv_lpc.c | 2 ++
->   1 file changed, 2 insertions(+)
-> 
-> diff --git a/hw/ppc/pnv_lpc.c b/hw/ppc/pnv_lpc.c
-> index 01f44c19eb..67fd049a7f 100644
-> --- a/hw/ppc/pnv_lpc.c
-> +++ b/hw/ppc/pnv_lpc.c
-> @@ -738,6 +738,8 @@ static void pnv_lpc_realize(DeviceState *dev, Error **errp)
->                                   &lpc->opb_master_regs);
->       memory_region_init_io(&lpc->lpc_hc_regs, OBJECT(dev), &lpc_hc_ops, lpc,
->                             "lpc-hc", LPC_HC_REGS_OPB_SIZE);
-> +    /* xscom writes to lpc-hc. As such mark lpc-hc re-entrancy safe */
-> +    lpc->lpc_hc_regs.disable_reentrancy_guard = true;
->       memory_region_add_subregion(&lpc->opb_mr, LPC_HC_REGS_OPB_ADDR,
->                                   &lpc->lpc_hc_regs);
->   
 
-The warning changed :
+在 2023/5/11 下午4:58, Thomas Huth 写道:
+> On 11/05/2023 10.53, Song Gao wrote:
+> ...
+>> And
+>> Should we need add  '  @skipIf(os.getenv('GITLAB_CI'), 'Running on 
+>> GitLab')' ?
+>>
+>> I see some tests add this.
+>
+> No, please don't add that unless there is a good reason. That marker 
+> is only required if the test does not work reliable on gitlab, e.g. if 
+> it sometimes fails due to race conditions or if it takes incredibly 
+> long to finish.
+>
+Ok.
 
-   qemu-system-ppc64: warning: Blocked re-entrant IO on MemoryRegion: lpc-opb-master at addr: 0x8
+Thanks.
+Song Gao
 
-I will take a look unless you know exactly what to do.
-
-Thanks,
-
-C.
 
