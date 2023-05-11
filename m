@@ -2,79 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 010056FF662
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 May 2023 17:46:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D5A406FF66D
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 May 2023 17:49:56 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1px8UC-0001ng-3H; Thu, 11 May 2023 11:45:44 -0400
+	id 1px8Xf-0002mE-AW; Thu, 11 May 2023 11:49:19 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1px8U4-0001nD-F5
- for qemu-devel@nongnu.org; Thu, 11 May 2023 11:45:41 -0400
-Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429])
+ id 1px8Xb-0002kt-1C
+ for qemu-devel@nongnu.org; Thu, 11 May 2023 11:49:15 -0400
+Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1px8Tz-0002xt-TC
- for qemu-devel@nongnu.org; Thu, 11 May 2023 11:45:35 -0400
-Received: by mail-wr1-x429.google.com with SMTP id
- ffacd0b85a97d-307a8386946so2462653f8f.2
- for <qemu-devel@nongnu.org>; Thu, 11 May 2023 08:45:31 -0700 (PDT)
+ id 1px8XZ-0003ii-96
+ for qemu-devel@nongnu.org; Thu, 11 May 2023 11:49:14 -0400
+Received: by mail-wm1-x32c.google.com with SMTP id
+ 5b1f17b1804b1-3f450815d02so16944385e9.0
+ for <qemu-devel@nongnu.org>; Thu, 11 May 2023 08:49:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1683819930; x=1686411930;
+ d=linaro.org; s=google; t=1683820151; x=1686412151;
  h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
  :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
  :message-id:reply-to;
- bh=0JYg0rOZyFJU6BdRcEA++EJo4IzKZpg8r5QqI1TJhM0=;
- b=qTBgCHLS+5yeSi6KXqQ6uBXANCWZLyt9JB8wD7nCHajoxYbB+Hl66a6zAOr72M6tPB
- +MwHXtUKDPFrI8OgfYsPQnnSh7Fz2M+CSkcmaAKiZIUFX2WQXRWvzh8svUlpQguWW+JS
- ETJR6EqkOSPDZzl+p7cF5c3zWTLYdHRRGaE0wbTQ/jl40rzAl+AQNE8Id8TmZWBDDz1r
- vmpyNOFOyD9Pt1gKsWI6AWG1VE9em+7T0UEEL/Tsuqbsph2yBs1LlteECdWBP0RN5MHA
- 1hn3uqkG6nPiH+v21inh4uYVBq6AzOboi9tHgY40WWPGdBQmtOy6KwnXD/PIoW42B6n/
- 7CeA==
+ bh=GS5AG10nBfgD3BS5w/a6dOsvuF4wqeOs390JT7gbkww=;
+ b=oQ+R0mP1pa/uREYow27qTJwaIIrd9rE9L+Ps5kg3Dd1g8c8czGaU5MmsBWSngsgKn2
+ 20BoyYY/PEeiUK6trJWGYvTx07QqSt3ixmnLDEPU/8hYJGKZEBHz/Uqetn2zBQAqta92
+ 8eAix9akR+Pyh92BeGEnVB+CquUmKIVvXK6zRx2mBXb5Yzwz0iqNgcDWAt2GRS8PkNNX
+ TmIgNkEOsXDQMiBBEzhf9JQRl5TPgfYVcmsN6ZmkwylQpkDsGosYiyOdzZU+xWvcErA2
+ WP7LfRYwqZcwEadHAH4vVqVHjIV7eVHOr6x86QiLb52Jr0itYj/nJ/x1e6ljt8s4Uc7Y
+ fQxQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683819930; x=1686411930;
+ d=1e100.net; s=20221208; t=1683820151; x=1686412151;
  h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
  :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
  :cc:subject:date:message-id:reply-to;
- bh=0JYg0rOZyFJU6BdRcEA++EJo4IzKZpg8r5QqI1TJhM0=;
- b=lq+WvjYa3JR19RraI17BvTWsNZ141Y3xyUdPlj9NfMiPYG3Tr4WTIAR9XBkGeFff76
- x43ld3GTpyelo1/Q9zDxnyupsOPBNnSN1sqyi+hWyL2YC3t1QKgZnkYhTYrwBZElSENI
- sqb271PMTG/Ro6aOBcaNHY/yQzDftuG855ZTNPusPsNO/b79n4CHSs6n2mLEo5NZ74Qv
- SqHUjhZP5FW4vA/Zs7sVbuxzNxKq+tXdvgpDwW6H09XyEqRv5C2j8AeGJl2M72DigVZ5
- zz5VKMUHcusUXTQ/ImUwMDx2VKGw6gH1gC5177RqeSMXHuepBd62r4KftDNf0mcRYseI
- hE/A==
-X-Gm-Message-State: AC+VfDwQcoQMXchtWQX3A2cwn7Z7njgx6IMjMLEeu6sgUzKx4CJwaTS4
- Duu+rH98xCAXW61HlYY6K9YNFQ==
-X-Google-Smtp-Source: ACHHUZ5/dqdy0htyfAcXAhBna/1lgeKKF8QmdYIDhfQvpX3Xg1ACJNcJ9viHrQ38jVRx7obazoRbeQ==
-X-Received: by 2002:adf:e48b:0:b0:2f5:9800:8d3e with SMTP id
- i11-20020adfe48b000000b002f598008d3emr16157521wrm.47.1683819929966; 
- Thu, 11 May 2023 08:45:29 -0700 (PDT)
+ bh=GS5AG10nBfgD3BS5w/a6dOsvuF4wqeOs390JT7gbkww=;
+ b=YaiEZ4JwDv63qGywnH/bh8VEuRNH7+d5jl226Rc9cnCZ1zIRY5qynQMHGs3LYLSA1w
+ RL37TmTjPEVPC/dPJNX9o2Qq0S4hruQ0rkJ+jdj6YmKkt2qh6p320HeKW4TqSEbr0zwD
+ O2dC1t2bCHHxUfeJFTiDLX8HXIZLUDCSSDtLaHn9WW3k4K5Li0EJ73V5Z17KeZk4GFY0
+ oXsxc9nk6JUDJ9G9hg8NcD8wz8GsvNp2dPqLpNWeL/Zb1NFkal17RS1RXvVdTONCge8r
+ K8mSdPxySuYDW/vXcQUQptFq1vlKf6BUSd0IX9D+ek7sBrRQgDY9FljduH8ryw1leaqR
+ 3sEQ==
+X-Gm-Message-State: AC+VfDzHWRxCnMCdLSU2fno9SJIM0MNT2+ZOwh5O11k8Txt6/xTXyo+X
+ rwt7ucW7WHLb9OLcmM5cP9oCpQ==
+X-Google-Smtp-Source: ACHHUZ7owZNIiZpJe2Tx3C19T6nHub/B+/2IP0LwnEOH56DXAyFogfurtGtJntFLt5yHNV8ZJJSXgA==
+X-Received: by 2002:a1c:f211:0:b0:3ef:8b0:dbb1 with SMTP id
+ s17-20020a1cf211000000b003ef08b0dbb1mr14987265wmc.7.1683820151347; 
+ Thu, 11 May 2023 08:49:11 -0700 (PDT)
 Received: from zen.linaroharston ([85.9.250.243])
  by smtp.gmail.com with ESMTPSA id
- e1-20020a5d4e81000000b003062765bf1dsm20820734wru.33.2023.05.11.08.45.29
+ a11-20020adfeecb000000b003048477729asm20669293wrp.81.2023.05.11.08.49.10
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 11 May 2023 08:45:29 -0700 (PDT)
+ Thu, 11 May 2023 08:49:11 -0700 (PDT)
 Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 3D6191FFBB;
- Thu, 11 May 2023 16:45:29 +0100 (BST)
+ by zen.linaroharston (Postfix) with ESMTP id 8424C1FFBB;
+ Thu, 11 May 2023 16:49:10 +0100 (BST)
 References: <20230503072331.1747057-1-richard.henderson@linaro.org>
- <20230503072331.1747057-10-richard.henderson@linaro.org>
+ <20230503072331.1747057-11-richard.henderson@linaro.org>
 User-agent: mu4e 1.11.4; emacs 29.0.90
 From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: Richard Henderson <richard.henderson@linaro.org>
 Cc: ale@rev.ng, philmd@linaro.org, marcel.apfelbaum@gmail.com,
  wangyanan55@huawei.com, anjo@rev.ng, qemu-devel@nongnu.org
-Subject: Re: [PATCH 09/84] tcg: Reduce copies for plugin_gen_mem_callbacks
-Date: Thu, 11 May 2023 16:44:13 +0100
-In-reply-to: <20230503072331.1747057-10-richard.henderson@linaro.org>
-Message-ID: <87v8gy27om.fsf@linaro.org>
+Subject: Re: [PATCH 10/84] accel/tcg: Widen plugin_gen_empty_mem_callback to
+ i64
+Date: Thu, 11 May 2023 16:47:16 +0100
+In-reply-to: <20230503072331.1747057-11-richard.henderson@linaro.org>
+Message-ID: <87r0rm27ih.fsf@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::429;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x429.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -100,31 +101,79 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 Richard Henderson <richard.henderson@linaro.org> writes:
 
-> We only need to make copies for loads, when the destination
-> overlaps the address.  For now, only eliminate the copy for
-> stores and 128-bit loads.
->
-> Rename plugin_prep_mem_callbacks to plugin_maybe_preserve_addr,
-> returning NULL if no copy is made.
+> Since we do this inside gen_empty_mem_cb anyway, let's
+> do this earlier inside tcg expansion.
 >
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->  tcg/tcg-op-ldst.c | 38 ++++++++++++++++++++------------------
->  1 file changed, 20 insertions(+), 18 deletions(-)
+>  include/exec/plugin-gen.h |  4 ++--
+>  accel/tcg/plugin-gen.c    |  9 +++------
+>  tcg/tcg-op-ldst.c         | 28 ++++++++++++++++++++--------
+>  3 files changed, 25 insertions(+), 16 deletions(-)
 >
-> diff --git a/tcg/tcg-op-ldst.c b/tcg/tcg-op-ldst.c
-> index 17fe35b93c..cbd85f793c 100644
-> --- a/tcg/tcg-op-ldst.c
-> +++ b/tcg/tcg-op-ldst.c
-> @@ -114,7 +114,8 @@ static void tcg_gen_req_mo(TCGBar type)
->      }
+> diff --git a/include/exec/plugin-gen.h b/include/exec/plugin-gen.h
+> index 5f5506f1cc..3af0168e65 100644
+> --- a/include/exec/plugin-gen.h
+> +++ b/include/exec/plugin-gen.h
+> @@ -27,7 +27,7 @@ void plugin_gen_insn_start(CPUState *cpu, const struct =
+DisasContextBase *db);
+>  void plugin_gen_insn_end(void);
+>=20=20
+>  void plugin_gen_disable_mem_helpers(void);
+> -void plugin_gen_empty_mem_callback(TCGv addr, uint32_t info);
+> +void plugin_gen_empty_mem_callback(TCGv_i64 addr, uint32_t info);
+>=20=20
+>  static inline void plugin_insn_append(abi_ptr pc, const void *from, size=
+_t size)
+>  {
+> @@ -69,7 +69,7 @@ static inline void plugin_gen_tb_end(CPUState *cpu)
+>  static inline void plugin_gen_disable_mem_helpers(void)
+>  { }
+>=20=20
+> -static inline void plugin_gen_empty_mem_callback(TCGv addr, uint32_t inf=
+o)
+> +static inline void plugin_gen_empty_mem_callback(TCGv_i64 addr, uint32_t=
+ info)
+>  { }
+>=20=20
+>  static inline void plugin_insn_append(abi_ptr pc, const void *from, size=
+_t size)
+> diff --git a/accel/tcg/plugin-gen.c b/accel/tcg/plugin-gen.c
+> index 55e892b684..34be1b940c 100644
+> --- a/accel/tcg/plugin-gen.c
+> +++ b/accel/tcg/plugin-gen.c
+> @@ -124,23 +124,20 @@ static void gen_empty_inline_cb(void)
+>      tcg_temp_free_i64(val);
 >  }
 >=20=20
-> -static inline TCGv plugin_prep_mem_callbacks(TCGv vaddr)
-> +/* Only required for loads, where value might overlap addr. */
+> -static void gen_empty_mem_cb(TCGv vaddr, uint32_t info)
+> +static void gen_empty_mem_cb(TCGv_i64 addr, uint32_t info)
 
-maybe mention we don't bother checking if the temps actually overlap
-because we will need to futz around with the copy of addr for plugins.
+You bounced the name a few times in this series:
+
+  445a4a2f14 accel/tcg: Widen plugin_gen_empty_mem_callback to i64
+  modified   accel/tcg/plugin-gen.c
+  @@ -127,3 +127,3 @@
+  -static void gen_empty_mem_cb(TCGv vaddr, uint32_t info)
+  +static void gen_empty_mem_cb(TCGv_i64 addr, uint32_t info)
+   {
+       TCGv_i32 cpu_index =3D tcg_temp_ebb_new_i32();
+
+  8b99baa592 accel/tcg: Merge do_gen_mem_cb into caller
+  modified   accel/tcg/plugin-gen.c
+  @@ -148,3 +127,3 @@
+  -static void gen_empty_mem_cb(TCGv addr, uint32_t info)
+  +static void gen_empty_mem_cb(TCGv vaddr, uint32_t info)
+   {
+  -    do_gen_mem_cb(addr, info);
+  +    TCGv_i32 cpu_index =3D tcg_temp_ebb_new_i32();
+
+  38b47b19ec plugin-gen: add module for TCG-related code
+  modified   accel/tcg/plugin-gen.c
+  @@ -0,0 +145,3 @@
+  +static void gen_empty_mem_cb(TCGv addr, uint32_t info)
+  +{
+  +    do_gen_mem_cb(addr, info);
 
 Otherwise:
 
