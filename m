@@ -2,93 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DEB106FF057
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 May 2023 13:02:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8CD646FF05B
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 May 2023 13:03:43 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1px42B-0000Kx-Od; Thu, 11 May 2023 07:00:31 -0400
+	id 1px44t-0001MW-7u; Thu, 11 May 2023 07:03:19 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1px428-0000KS-BW
- for qemu-devel@nongnu.org; Thu, 11 May 2023 07:00:28 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1px426-0004Y0-8b
- for qemu-devel@nongnu.org; Thu, 11 May 2023 07:00:27 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1683802822;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=l1AE3oQLZQWDeCimzCsZRSQ4VxiIR5VmZQv/egwXhN8=;
- b=bkbcKFr3nG5Fb8KfdVKb2z9GS5xS5SS4rrXL34ba2Af9gUvaJ9ke06rm6PfOl23NiNgEHl
- +JrMYU8Pgf4S4+QBgOFgnj8PUBMueMHF0B80UfGXyIAPRS354X1Qrr7MpEUtIHdArOn0n6
- PmYVLG+T6irWaSsxzpPLsBefS5oz9A8=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-538-GbAg0u_hNKKtKFzakHsDuA-1; Thu, 11 May 2023 07:00:17 -0400
-X-MC-Unique: GbAg0u_hNKKtKFzakHsDuA-1
-Received: by mail-ej1-f71.google.com with SMTP id
- a640c23a62f3a-94a355cf318so989804566b.2
- for <qemu-devel@nongnu.org>; Thu, 11 May 2023 04:00:17 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1px44c-0001Lj-6q
+ for qemu-devel@nongnu.org; Thu, 11 May 2023 07:03:02 -0400
+Received: from mail-ed1-x52e.google.com ([2a00:1450:4864:20::52e])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1px44Z-0004z8-0U
+ for qemu-devel@nongnu.org; Thu, 11 May 2023 07:03:01 -0400
+Received: by mail-ed1-x52e.google.com with SMTP id
+ 4fb4d7f45d1cf-50db7ec8188so5121361a12.2
+ for <qemu-devel@nongnu.org>; Thu, 11 May 2023 04:02:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1683802947; x=1686394947;
+ h=content-transfer-encoding:in-reply-to:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=0/j5Qxz/ykQ/SmYrY0vYlGPIbtxC19wo3jMLIi/JC6A=;
+ b=hZS9Vg1DcrjoZ5FxKcMnGwjk9KNdSZ+9HfHTcEcuHEL+mSmcYd4uFQQtG/I2ePbtG1
+ WZgozmCV53IBQvClCT3wJNLO8JdV8rCMX8rHPxXRmEW4v7i9z8ZmZbMfHd+Dvukd4yKg
+ mEjSoNuZwaoc6Y8eyPWvtpsrR66oObIytjnkNmgsB+RT+bTiUKmFHHdNNDE0T7gb9h/9
+ 1iOiY8HFdI3ROoaqX1wOATmxjYLwYeFHpVWul1cBCHIm1PtT62Bqp2ZgJgKgEJkHHESL
+ RH/SgRk+/1v14z5kj+wV3JWXSCECqELfqD9EGzqshLcfYHlvI4Zt7Vf38uRvlp8MvZ8h
+ OSlw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683802816; x=1686394816;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
+ d=1e100.net; s=20221208; t=1683802947; x=1686394947;
+ h=content-transfer-encoding:in-reply-to:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=l1AE3oQLZQWDeCimzCsZRSQ4VxiIR5VmZQv/egwXhN8=;
- b=GiHqOL+CEMzTXzgfc3W0Tc9YO73mHhdk6VdL8+Yzsr/SIhPPdhIiBaEMkBpCriGJ6Y
- rJiIO93wR6VDxFQ6t8GpYIaZu4icJ0Z7Jg+ZCBu5MsAUU+B/K+btMbaFwjutDev9COpe
- z2XqoMRi6oBlprBFexKA1aSFVGS9CzAVPdZLG5xMfrf11qRZvPou3Shbu9DgITRmwqQF
- O2At05qQHJfq9DgO/NPcVmvAEU4/ycvqaKScwZWGlw64r4TadrOmdSECoLrWjziQypri
- ZilDjmMQnDq2qZn9dvdg8iO+71vkVuQyu+u90OeNMvn7yXHryktVHHWzEHPG+vOc95N7
- 7ZMQ==
-X-Gm-Message-State: AC+VfDwJWi0VcNGdEEKF7NuRhl6DSULoeLG6qUWrXlVnpoPw/z/WzA/a
- A9R9SHoZa+nA4mK/ilkWa7zh54IfUjb/SvAdri2BhwsK2yF1ftuSI1QzOPlLDBP4wxC4gQn5FCc
- BrXaq2a3eSXupANI=
-X-Received: by 2002:a17:906:6a22:b0:966:3de0:8998 with SMTP id
- qw34-20020a1709066a2200b009663de08998mr15258893ejc.73.1683802816697; 
- Thu, 11 May 2023 04:00:16 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ54y2fQYMRWSOUNhJUvaSKUfFqS90P//jB5FZkkvFH/b5iUCjY8+Oa2cv5LIEhXlLKSQ77s6w==
-X-Received: by 2002:a17:906:6a22:b0:966:3de0:8998 with SMTP id
- qw34-20020a1709066a2200b009663de08998mr15258862ejc.73.1683802816288; 
- Thu, 11 May 2023 04:00:16 -0700 (PDT)
-Received: from ?IPV6:2001:b07:6468:f312:9af8:e5f5:7516:fa89?
- ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
- by smtp.googlemail.com with ESMTPSA id
- my37-20020a1709065a6500b0094f44bdf7acsm3853275ejc.57.2023.05.11.04.00.15
+ bh=0/j5Qxz/ykQ/SmYrY0vYlGPIbtxC19wo3jMLIi/JC6A=;
+ b=SgvNg/vhoKucVVRCgnmqV3X43H/rxZfBN2VjWsC+E+w/EIpZd5Dsy35g0Woc+KFJ+L
+ uqvL9yy4ZNkhF3mGjrebliqpBOVhQmTqqGC4eDU02y7NM0SMvKLiDot8LjfeM7kA7/Yb
+ b+ur5iVl7C2AIFPu6RBBrSR9+crIs2LgcRKU2Led+WdBZc2mCtbVwvBAlNCLV1yAmjOe
+ Petwzx0n0u1Eg5z4sG3bHoX7hXWIFMI7G1JxMqgR4enKZfuI+D0CHqgyuukaiATiJKWw
+ uVfZkgbGKeqigZeNuRxy6Fr1To+Tigh2AZDFhtyQskjHEQEXzMfPlT1cCiUQGhVPItF0
+ g5gQ==
+X-Gm-Message-State: AC+VfDxVRbqT4Z2nNcIFn8wdCohuEpVxhdn/Baa8M4DLkpPYKm66+xYh
+ EAvX/eUXXix7x7aG34TBQSq1sw==
+X-Google-Smtp-Source: ACHHUZ7cjyF4j/cvIe0QSGr4UfSivxMI3D2TKhyLBU27+7ni8ADyaL2Ct9QOZlrqONyS6Y5dRX6XNA==
+X-Received: by 2002:a05:6402:414:b0:50b:c0ce:d55 with SMTP id
+ q20-20020a056402041400b0050bc0ce0d55mr14362698edv.3.1683802947196; 
+ Thu, 11 May 2023 04:02:27 -0700 (PDT)
+Received: from [192.168.5.14] ([85.9.250.243])
+ by smtp.gmail.com with ESMTPSA id
+ e2-20020a50fb82000000b00509e3053b66sm2749299edq.90.2023.05.11.04.02.26
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 11 May 2023 04:00:15 -0700 (PDT)
-Message-ID: <22a98a39-ab70-01f4-712a-3fd358d1af57@redhat.com>
-Date: Thu, 11 May 2023 13:00:14 +0200
+ Thu, 11 May 2023 04:02:26 -0700 (PDT)
+Message-ID: <a5c261f4-b3e5-314f-b28f-dfac54a0bed8@linaro.org>
+Date: Thu, 11 May 2023 12:02:25 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.10.0
-Subject: Re: [PATCH] scsi: check inquiry buffer length to prevent crash
-To: =?UTF-8?Q?Th=c3=a9o_Maillart?= <tmaillart@freebox.fr>
-Cc: Fam Zheng <fam@euphon.net>, qemu-devel@nongnu.org
-References: <20230426133747.403945-1-tmaillart@freebox.fr>
- <62e34905-91fc-6498-d228-faa37b26fd60@redhat.com>
- <CANDNypxOsD_HLC1Ad_MrGqUizsHgDmBv+zH3yEU6X=BXfNRi=w@mail.gmail.com>
+Subject: Re: [PATCH for-8.1] target/sparc: Use tcg_gen_lookup_and_goto_ptr
 Content-Language: en-US
-From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <CANDNypxOsD_HLC1Ad_MrGqUizsHgDmBv+zH3yEU6X=BXfNRi=w@mail.gmail.com>
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org
+References: <20230405185922.2122668-1-richard.henderson@linaro.org>
+ <2d46a274-8234-a635-81ca-c79c2969cb7b@linaro.org>
+ <fc35257d-8af0-8aa1-af88-982c7506bfa5@ilande.co.uk>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <fc35257d-8af0-8aa1-af88-982c7506bfa5@ilande.co.uk>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::52e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-ed1-x52e.google.com
 X-Spam_score_int: -53
 X-Spam_score: -5.4
 X-Spam_bar: -----
-X-Spam_report: (-5.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-3.251, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-5.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-3.251,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -105,57 +95,13 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 5/11/23 12:37, Théo Maillart wrote:
-> On Wed, May 10, 2023 at 6:11 PM Paolo Bonzini <pbonzini@redhat.com 
-> <mailto:pbonzini@redhat.com>> wrote:
-> 
->     On 4/26/23 15:37, Théo Maillart wrote:
->      > --- a/hw/scsi/scsi-generic.c
->      > +++ b/hw/scsi/scsi-generic.c
->      > @@ -191,7 +191,7 @@ static int
->     scsi_handle_inquiry_reply(SCSIGenericReq *r, SCSIDevice *s, int len)
->      >       if ((s->type == TYPE_DISK || s->type == TYPE_ZBC) &&
->      >           (r->req.cmd.buf[1] & 0x01)) {
->      >           page = r->req.cmd.buf[2];
->      > -        if (page == 0xb0) {
->      > +        if (page == 0xb0 && r->buflen >= 12) {
->      >               uint64_t max_transfer = calculate_max_transfer(s);
->      >               stl_be_p(&r->buf[8], max_transfer);
->      >               /* Also take care of the opt xfer len. */
->      > --
-> 
->     This is not enough because right below there is a store of bytes 12..15.
-> 
-> 
-> I agree with you, I was wrong, the test should be r->buflen >= 16
+On 5/11/23 09:40, Mark Cave-Ayland wrote:
+> Obviously nothing notionally against this patch, however if you could give me a few days 
+> to run my OpenBIOS SPARC32/SPARC64 boot tests against git master with this patch applied 
+> to double-check there are no regressions, that would be great.
 
-This would let the guest see the wrong maximum transfer length, if it 
-uses a buffer length of 12.
+No problem.  I just didn't want it to get lost.
 
->     The best thing to do is to:
-> 
->     1) do the stores in an "uint8_t buf[8]" on the stack, followed by a
->     memcpy to r->buf + 8.
-> 
->     2) add "&& r->buflen > 8" to the condition similar to what you've done
->     above.
-> 
-> 
-> But I don't think this suggestion is necessary, it would basically do
->  the same thing that is done in the current version adding an extra
-> memcpy on the stack.
 
-The memcpy can be limited to the actual size of the buffer, i.e. 
-memcpy(r->buf + 8, buf, r->buflen - 8).
-
-In fact you need to memcpy both before and after, so that the ldl_be_p 
-is done on a large-enough buffer.
-
-> In my opinion the only problem highlighted by this crash is that of 
-> writing byte 8 to 15 while the buffer size is 4.
-Right, but the bytes that _can_ be written should not change before and 
-after the patch.
-
-Paolo
-
+r~
 
