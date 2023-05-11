@@ -2,83 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F1D26FEFE9
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 May 2023 12:28:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AEAFE6FEFF7
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 May 2023 12:32:15 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1px3Wp-0006Ua-G0; Thu, 11 May 2023 06:28:07 -0400
+	id 1px3a8-0008On-Vg; Thu, 11 May 2023 06:31:33 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1px3Wn-0006UR-OI
- for qemu-devel@nongnu.org; Thu, 11 May 2023 06:28:05 -0400
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1px3Wm-0005j7-7b
- for qemu-devel@nongnu.org; Thu, 11 May 2023 06:28:05 -0400
-Received: by mail-wr1-x430.google.com with SMTP id
- ffacd0b85a97d-3078fa679a7so5103819f8f.3
- for <qemu-devel@nongnu.org>; Thu, 11 May 2023 03:28:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1683800882; x=1686392882;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
- :message-id:reply-to;
- bh=MJUPaM7RfZfixa3yXfX4vZwO0KtBmIZu2lEHJY/vn4c=;
- b=Qe65VYjYopkubQ8o7Np2PktU4Rzi14SK7XaSyl7C6aSOOC0NYAql7w7HDsWckrF+Ak
- YWI6R4n3Sbe1AKYnX5ADcmn7jP9BkFmd6RyAGMhyFOzChEAI6Csz+RIoIRYC9wSIUAVT
- UiPNbQ5QzYBDRJ8oPIv2CSwNulVSmzS69m8Fnf2Et8MhhN4RRAGUn0AGfMlRPmmpZfbR
- sHjZzAVqyBf9DjAgKp48TN6W3YIWM6bRHLiTNa2LHQPgGfjZXf5AUGmh0Ov/psRq8i85
- Jy8I6V2iY5Ddhpf+JZgmq8vp/NWEwcOX41Dx54GlBOFm1YCDkxqWkZV4rhuto8WwoD/P
- TKeg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683800882; x=1686392882;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=MJUPaM7RfZfixa3yXfX4vZwO0KtBmIZu2lEHJY/vn4c=;
- b=I9N3eb3jAXvh1nPi2N0UiBOFpvgNirpTXJICKQr1yx+cfo9021lduP0H7tVtMmOHPs
- egC74uaQbhtWHwnxiYF3bgbwbF3m435QNG8sDermcH5qJMs35bdKREGqqEEI9lJxUNR3
- izjMu/+c6QMQRYx0F7LBLqOg19Kt049T1g590h5tkpETWzwQxyFe1w5olKRAKBg4Ax4a
- g+4MXd/OexpsnLRHltIfySKlKj1ur39xxpWSCjTzPa4oDJ6O5gMEdasgpoUZOr8eZmFA
- WHNwqLo82KHDyopbzW1ORJCjogS8F4d0lPwaxma0PZGTvblL1O0vZxM5dsrvvIjv5xt6
- hBUg==
-X-Gm-Message-State: AC+VfDwNRwgff1ub9/ihFbjSBVtAKwp2MonnbpOOQ3BRGyjrvMBhpvyZ
- G/w5pyJVM0NY0FDP16qg4ZIp8g==
-X-Google-Smtp-Source: ACHHUZ765cY4Cfg+7xXN5lGLODu2VIv0w9fqGq1rnMa8JJzjNsXovEYJdE5aOieBJBTqQBZQA78UHw==
-X-Received: by 2002:a5d:558d:0:b0:306:3604:255b with SMTP id
- i13-20020a5d558d000000b003063604255bmr14634232wrv.5.1683800882389; 
- Thu, 11 May 2023 03:28:02 -0700 (PDT)
-Received: from zen.linaroharston ([85.9.250.243])
- by smtp.gmail.com with ESMTPSA id
- o17-20020a5d4091000000b003078a3f3a24sm16244220wrp.114.2023.05.11.03.28.02
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 11 May 2023 03:28:02 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id A864C1FFBB;
- Thu, 11 May 2023 11:28:01 +0100 (BST)
-References: <20230511080119.99018-1-sledgeh4w@gmail.com>
-User-agent: mu4e 1.11.4; emacs 29.0.90
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Lizhi Yang <sledgeh4w@gmail.com>
-Cc: qemu-devel@nongnu.org, richard.henderson@linaro.org, thuth@redhat.com
-Subject: Re: [PATCH v2] docs/about/emulation: fix typo
-Date: Thu, 11 May 2023 11:27:56 +0100
-In-reply-to: <20230511080119.99018-1-sledgeh4w@gmail.com>
-Message-ID: <87fs8340y6.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>)
+ id 1px3Zv-0008ON-V2; Thu, 11 May 2023 06:31:25 -0400
+Received: from isrv.corpit.ru ([86.62.121.231])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>)
+ id 1px3Zu-0006U7-1k; Thu, 11 May 2023 06:31:19 -0400
+Received: from tsrv.corpit.ru (tsrv.tls.msk.ru [192.168.177.2])
+ by isrv.corpit.ru (Postfix) with ESMTP id EB0755391;
+ Thu, 11 May 2023 13:31:15 +0300 (MSK)
+Received: from [192.168.177.130] (mjt.wg.tls.msk.ru [192.168.177.130])
+ by tsrv.corpit.ru (Postfix) with ESMTP id 370BC3D01;
+ Thu, 11 May 2023 13:31:15 +0300 (MSK)
+Message-ID: <b7718e23-92bf-96ae-ad7a-bea75fec9b33@msgid.tls.msk.ru>
+Date: Thu, 11 May 2023 13:31:15 +0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x430.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH] ui/sdl2: fix surface_gl_update_texture: Assertion 'gls'
+ failed
+Content-Language: en-US
+To: marcandre.lureau@redhat.com, qemu-devel@nongnu.org
+Cc: kraxel@redhat.com, thuth@redhat.com, qemu-stable <qemu-stable@nongnu.org>
+References: <20230511074217.4171842-1-marcandre.lureau@redhat.com>
+From: Michael Tokarev <mjt@tls.msk.ru>
+In-Reply-To: <20230511074217.4171842-1-marcandre.lureau@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=86.62.121.231; envelope-from=mjt@tls.msk.ru;
+ helo=isrv.corpit.ru
+X-Spam_score_int: -101
+X-Spam_score: -10.2
+X-Spam_bar: ----------
+X-Spam_report: (-10.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-3.251,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -95,16 +60,18 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+11.05.2023 10:42, marcandre.lureau@redhat.com wrote:
+> From: Marc-André Lureau <marcandre.lureau@redhat.com>
+> 
+> Before sdl2_gl_update() is called, sdl2_gl_switch() may decide to
+> destroy the console window and its associated shaders.
+> 
+> Fixes:
+> https://gitlab.com/qemu-project/qemu/-/issues/1644
+> 
+> Fixes: commit c84ab0a5 ("ui/console: optionally update after gfx switch")
 
-Lizhi Yang <sledgeh4w@gmail.com> writes:
+Smells like a (low-importance) -stable material.
 
-> Duplicated word "are".
->
-> Signed-off-by: Lizhi Yang <sledgeh4w@gmail.com>
-
-Queued to testing/next, thanks.
-
---=20
-Alex Benn=C3=A9e
-Virtualisation Tech Lead @ Linaro
+/mjt
 
