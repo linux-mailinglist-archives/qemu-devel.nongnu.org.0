@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4789A6FF904
+	by mail.lfdr.de (Postfix) with ESMTPS id 9ACBB6FF906
 	for <lists+qemu-devel@lfdr.de>; Thu, 11 May 2023 19:57:47 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pxAX9-0003lo-3C; Thu, 11 May 2023 13:56:55 -0400
+	id 1pxAXF-0003pB-Rn; Thu, 11 May 2023 13:57:01 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <fan.ni@samsung.com>)
- id 1pxAX4-0003en-QK
- for qemu-devel@nongnu.org; Thu, 11 May 2023 13:56:50 -0400
-Received: from mailout2.w2.samsung.com ([211.189.100.12])
+ id 1pxAXE-0003p1-By
+ for qemu-devel@nongnu.org; Thu, 11 May 2023 13:57:00 -0400
+Received: from mailout1.w2.samsung.com ([211.189.100.11])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <fan.ni@samsung.com>)
- id 1pxAX2-0004ol-1z
- for qemu-devel@nongnu.org; Thu, 11 May 2023 13:56:50 -0400
+ id 1pxAX2-0004oo-24
+ for qemu-devel@nongnu.org; Thu, 11 May 2023 13:57:00 -0400
 Received: from uscas1p1.samsung.com (unknown [182.198.245.206])
- by mailout2.w2.samsung.com (KnoxPortal) with ESMTP id
- 20230511175642usoutp02a9bd665f90f5a3c3cab6da135743beb9~eKHcZj1N82433724337usoutp02V;
- Thu, 11 May 2023 17:56:42 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w2.samsung.com
- 20230511175642usoutp02a9bd665f90f5a3c3cab6da135743beb9~eKHcZj1N82433724337usoutp02V
+ by mailout1.w2.samsung.com (KnoxPortal) with ESMTP id
+ 20230511175643usoutp01f41b0c639ba9262c8774684c8b3afc97~eKHdL2JSz3198731987usoutp01r;
+ Thu, 11 May 2023 17:56:43 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w2.samsung.com
+ 20230511175643usoutp01f41b0c639ba9262c8774684c8b3afc97~eKHdL2JSz3198731987usoutp01r
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1683827802;
- bh=QpULL+ioIPOqLvzKWs8eGwI8BmkLVsKBNOUsNKDjwoE=;
+ s=mail20170921; t=1683827803;
+ bh=q8Aobqwfsz7443OdhZVgTB3Eu3TueAadI/bI7iaTUow=;
  h=From:To:CC:Subject:Date:In-Reply-To:References:From;
- b=HMBp7IYTtxXGbSnVxibPo2S3lQDG3JkZ23VOe64s/zLpOZZhpJm8DgWZvMWx5djlj
- mI+cl0PhXstiolNMjMXH+tybMmAnJtCu1pkLS8NuN01wF7r76ri2sbWmCuyxPiiixW
- mo50enQRlIkwYAWkD12wdynfio78c+MECkCMcmcA=
-Received: from ussmges1new.samsung.com (u109.gpu85.samsung.co.kr
- [203.254.195.109]) by uscas1p2.samsung.com (KnoxPortal) with ESMTP id
- 20230511175642uscas1p24e812a44f9ce2ea34869a3486ae28eb4~eKHcFH3TW1429314293uscas1p2i;
- Thu, 11 May 2023 17:56:42 +0000 (GMT)
+ b=EjndZF8J/AOZy6fn7stoEVl06F13hlwE066Yd2yCEH11QodeCheFvKHNRVQvP80Ca
+ koHtsbYiyDXHhwHBn+ZyT/X7lSYSPR/OyaTBo5S9YMige/uPTCOVSZi1fD/QVpyjkz
+ g8ciau1R0uF+V320gL44Yp/GmA1jF+OM8PNmL6/I=
+Received: from ussmges2new.samsung.com (u111.gpu85.samsung.co.kr
+ [203.254.195.111]) by uscas1p2.samsung.com (KnoxPortal) with ESMTP id
+ 20230511175643uscas1p23306dc0dfe33a1b79ad2123375ecae7c~eKHc3evfM2037920379uscas1p2U;
+ Thu, 11 May 2023 17:56:43 +0000 (GMT)
 Received: from uscas1p2.samsung.com ( [182.198.245.207]) by
- ussmges1new.samsung.com (USCPEMTA) with SMTP id AF.8A.19925.A5C2D546; Thu,
+ ussmges2new.samsung.com (USCPEMTA) with SMTP id A6.DA.42611.A5C2D546; Thu,
  11 May 2023 13:56:42 -0400 (EDT)
-Received: from ussmgxs2new.samsung.com (u91.gpu85.samsung.co.kr
- [203.254.195.91]) by uscas1p1.samsung.com (KnoxPortal) with ESMTP id
- 20230511175642uscas1p1a998a2d4a20c370f0172db93d537ed39~eKHbyYsd30296202962uscas1p1G;
+Received: from ussmgxs3new.samsung.com (u92.gpu85.samsung.co.kr
+ [203.254.195.92]) by uscas1p2.samsung.com (KnoxPortal) with ESMTP id
+ 20230511175642uscas1p2c037608a1dd26b19cf970f97ce434c6d~eKHcUx5bS1951019510uscas1p2f;
  Thu, 11 May 2023 17:56:42 +0000 (GMT)
-X-AuditID: cbfec36d-975ff70000004dd5-86-645d2c5a8261
-Received: from SSI-EX3.ssi.samsung.com ( [105.128.2.145]) by
- ussmgxs2new.samsung.com (USCPEXMTA) with SMTP id 1C.AE.44215.95C2D546; Thu,
- 11 May 2023 13:56:41 -0400 (EDT)
+X-AuditID: cbfec36f-249ff7000000a673-94-645d2c5ab95e
+Received: from SSI-EX4.ssi.samsung.com ( [105.128.2.145]) by
+ ussmgxs3new.samsung.com (USCPEXMTA) with SMTP id 5B.48.64580.95C2D546; Thu,
+ 11 May 2023 13:56:42 -0400 (EDT)
 Received: from SSI-EX2.ssi.samsung.com (105.128.2.227) by
- SSI-EX3.ssi.samsung.com (105.128.2.228) with Microsoft SMTP Server
+ SSI-EX4.ssi.samsung.com (105.128.2.229) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
  15.1.2375.24; Thu, 11 May 2023 10:56:41 -0700
 Received: from SSI-EX2.ssi.samsung.com ([105.128.2.227]) by
@@ -65,13 +65,12 @@ CC: "jonathan.cameron@huawei.com" <jonathan.cameron@huawei.com>,
  "dave@stgolabs.net" <dave@stgolabs.net>, "nmtadam.samsung@gmail.com"
  <nmtadam.samsung@gmail.com>, "nifan@outlook.com" <nifan@outlook.com>, Fan Ni
  <fan.ni@samsung.com>
-Subject: [RFC 5/7] hw/cxl/cxl-mailbox-utils: Add mailbox commands to support
- add/release dynamic capacity response
-Thread-Topic: [RFC 5/7] hw/cxl/cxl-mailbox-utils: Add mailbox commands to
- support add/release dynamic capacity response
-Thread-Index: AQHZhDHwpHEBWsJ1h0+7w9AQAuHaPg==
+Subject: [RFC 7/7] hw/mem/cxl_type3: add read/write support to dynamic capacity
+Thread-Topic: [RFC 7/7] hw/mem/cxl_type3: add read/write support to dynamic
+ capacity
+Thread-Index: AQHZhDHw5brNkJs1s0eH0nh3056ZGw==
 Date: Thu, 11 May 2023 17:56:40 +0000
-Message-ID: <20230511175609.2091136-6-fan.ni@samsung.com>
+Message-ID: <20230511175609.2091136-8-fan.ni@samsung.com>
 In-Reply-To: <20230511175609.2091136-1-fan.ni@samsung.com>
 Accept-Language: en-US
 Content-Language: en-US
@@ -83,52 +82,52 @@ Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
 X-CFilter-Loop: Reflected
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrNKsWRmVeSWpSXmKPExsWy7djX87pROrEpBj8mCVh0n9/AaDF96gVG
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrHKsWRmVeSWpSXmKPExsWy7djX87pROrEpBt8emlh0n9/AaDF96gVG
  i9U31zBaNDQ9YrFo2f2eyWL/0+csFqsWXmOzOD/rFIvF84nPmSyWLnnEbHG8dweLA7fHhckT
  WD0WN7h67Jx1l92j5chbIG/PSyaPjR//s3s8ubaZyWPz6xfMHlNn13t83iQXwBXFZZOSmpNZ
- llqkb5fAlbG5ZQNrwTznivajZ9gaGBeZdTFyckgImEg8utvC3MXIxSEksJJRYvqfVcwgCSGB
- ViaJT5v0YIp625+zQxStZZQ4umUilPOJUWLt2x+sEM4yRon33/eAtbMJKErs69rOBmKLCBhL
- HDu8BGwHs8BbFomPa96wgCSEBUoknt1axgJRVCmxYlcfVIOexLbevWCDWARUJc7d2MEIYvMK
- WEp823SaHcTmFLCS2NB8ggnEZhQQk/h+ag2YzSwgLnHryXwmiLsFJRbNhjhIAqjm366HbBC2
- vMTkHzOgbEWJ+99fskP06kncmDqFDcLWlli28DUzxF5BiZMzn7BA1EtKHFxxgwXkGQmBfk6J
- +UuPQyVcJHZuOAC1WFri791lQDYHkJ0sseojF0Q4R2L+ki1Q5dYSC/+sZ5rAqDILydmzkJwx
- C8kZs5CcsYCRZRWjeGlxcW56arFhXmq5XnFibnFpXrpecn7uJkZgejv973DuDsYdtz7qHWJk
- 4mA8xCjBwawkwvt2SXSKEG9KYmVValF+fFFpTmrxIUZpDhYlcV5D25PJQgLpiSWp2ampBalF
- MFkmDk6pBiYP9SsMyy5vC9Q92spiah0npXf6x2rRY5KRm3inGe/5eGbukmv6ObWeoQdW6cWf
- qb3sfKlyxrNH/S1/n/762fWC43D0ikvV2YHvHpmdDv92s2BudfuTAL45mU3cDB8XNTyXuiD5
- 0Oj1JI0VGwIVhI84lXJcmKob1xX7TH2Z64VTE7nO73vwxpgzkLtejzk5y/zpRB2l+Q/0Zplv
- 3cOmeV3Tfu5CNebIOq8jiUFZ0o/9cuICn28oEJ2Wt94v7dNEg1vh9yMnVL+QP7ryBFvqj1qf
- rkiz824zDy/9qmeU0Kq5cqbR/v+RDPvKRO/+yn3492Px42mfl7ieulBwct1Xx80Zv63mLbTU
- nRd/Zl7On1nLlViKMxINtZiLihMBYvfvw94DAAA=
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrJIsWRmVeSWpSXmKPExsWS2cA0UTdSJzbF4NV0I4vu8xsYLaZPvcBo
+ llqkb5fAlfF3ahN7wabVjBWzVkxka2B80cLYxcjJISFgIvHr4B6mLkYuDiGBlYwSV+dMY4Nw
+ WpkkNm5fxgxTdarzMStEYi2jxIITB6GqPjFKfLu/HcpZxijx/vsesBY2AUWJfV0gCU4OEQFj
+ iWOHlzCDFDELvGWR+LjmDQtIQlggUGLFhGOMEEVhEp+On2eGsPUkFh7YBxZnEVCVOHdjB5jN
+ K2Apcf/Yd3YQm1PASmJD8wkmEJtRQEzi+6k1YDazgLjErSfzmSDuFpRYNHsP1A9iEv92PWSD
+ sOUlJv+YAWUrStz//pIdoldP4sbUKWwQtrbEsoWvmSH2CkqcnPmEBaJeUuLgihssIM9ICPRz
+ SlxYfoEVIuEicWtLHzRYpSWmr7kMVMQBZCdLrPrIBRHOkZi/ZAvUHGuJhX/WM01gVJmF5OxZ
+ SM6YheSMWUjOWMDIsopRvLS4ODc9tdgoL7Vcrzgxt7g0L10vOT93EyMwyZ3+dzh/B+P1Wx/1
+ DjEycTAeYpTgYFYS4X27JDpFiDclsbIqtSg/vqg0J7X4EKM0B4uSOK+h7clkIYH0xJLU7NTU
+ gtQimCwTB6dUAxPjw98Nfc2JQg7nzj5asmn5qVkuBfI+iqrChjfnPZdaHVgf6jFjXePJv9uz
+ tbcdV/xpnqetPuPyQ12GE2Z29WXccrmhQofmLDtvVqgp0R5eKvu8n+vXrb7XV22eB6xcfizP
+ sGCltvPH8EnTIw7JK39WVWcPqzT4pXbt6//+ur9Xdl03Dc9t/8Pi4zQjOKG3va2qxFaP/WJn
+ 5zkP4Q7BWo3CRUkvf0ksWf4xcep0Rgbr/98SUrvFCmstzqouXlri6SaQH2v2gGNG2l0Gc+WN
+ xbnPP+w+vPTGZtNPM6p375+5VE7ryqUnutEP1sy9O3P6vRkaAd1R669O+ralqYNTPYaFe/LG
+ xjdzKgt8fLJqipRYijMSDbWYi4oTAeiFzs3hAwAA
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrNIsWRmVeSWpSXmKPExsWS2cA0UTdKJzbF4N03fovu8xsYLaZPvcBo
  sfrmGkaLhqZHLBYtu98zWex/+pzFYtXCa2wW52edYrF4PvE5k8XSJY+YLY737mBx4Pa4MHkC
  q8fiBlePnbPusnu0HHkL5O15yeSx8eN/do8n1zYzeWx+/YLZY+rseo/Pm+QCuKK4bFJSczLL
- Uov07RK4Mja3bGAtmOdc0X70DFsD4yKzLkZODgkBE4ne9ufsXYxcHEICqxklfnyYBOV8YpTo
- 6Z/CCuEsY5Ro3LqOFaSFTUBRYl/XdjYQW0TAWOLY4SXMIDazwGsWiW8XuUFsYYESiWe3lrFA
- 1FRK/L//hBHC1pPY1rsXrJ5FQFXi3I0dYHFeAUuJb5tOs4PYQkD2x587wWxOASuJDc0nmEBs
- RgExie+n1jBB7BKXuPVkPhPECwISS/acZ4awRSVePv7HCmHLS0z+MYMNwlaUuP/9JTtEr57E
- jalT2CBsbYllC18zQ9wgKHFy5hMWiHpJiYMrbrBMYJSYhWTdLCTts5C0z0LSvoCRZRWjeGlx
- cW56RbFRXmq5XnFibnFpXrpecn7uJkZgajj973D0Dsbbtz7qHWJk4mA8xCjBwawkwvt2SXSK
- EG9KYmVValF+fFFpTmrxIUZpDhYlcd6XURPjhQTSE0tSs1NTC1KLYLJMHJxSDUysp4OWLPoe
- ffTE+/ZJ3zeaizH+Nm+8nni+OWfd0y+RaYYf6rb0XHxy3YJB1TzkzuHJhcr5W/Z7aq6W/s/h
- acB2LSvy5Ju10Wum2PEF/1rSxB70VivGasGOC6lnVE6yVqkmt7BMOBxhW976SKhAbdLnh58X
- MjwrXuHk+dpfMlOJx2K1bzJX/BajyTUrp0Zc0Dt3q7NB8cKCzT9n7r6bUMAvZP5shk2giIFN
- Kt8Oh5ow91+LW512LWN8yzvFRvrjxMuPqr8u17a6nDqbyVG348R1Jkk/6c1PDu8IUWINqtyZ
- vrDLtbPI/nGxebGNcMYV9pArNzMfbo/KfV1Sa7LCeMPETSHBBxVqNL/y1XD7ZCmxFGckGmox
- FxUnAgAMiTOtfAMAAA==
-X-CMS-MailID: 20230511175642uscas1p1a998a2d4a20c370f0172db93d537ed39
+ Uov07RK4Mv5ObWIv2LSasWLWiolsDYwvWhi7GDk5JARMJE51PmbtYuTiEBJYzShx/8wTKOcT
+ o8T/lu1MEM4yRonGretYQVrYBBQl9nVtZwOxRQSMJY4dXsIMYjMLvGaR+HaRG8QWFgiUWDHh
+ GCNETZhE85b/zBC2nsTCA/vA4iwCqhLnbuwAs3kFLCXuH/vODmILAdkff+4EszkFrCQ2NJ9g
+ ArEZBcQkvp9awwSxS1zi1pP5TBAvCEgs2XOeGcIWlXj5+B8rhC0vMfnHDDYIW1Hi/veX7BC9
+ ehI3pk5hg7C1JZYtfM0McYOgxMmZT1gg6iUlDq64wTKBUWIWknWzkLTPQtI+C0n7AkaWVYzi
+ pcXFuekVxcZ5qeV6xYm5xaV56XrJ+bmbGIHp4fS/wzE7GO/d+qh3iJGJg/EQowQHs5II79sl
+ 0SlCvCmJlVWpRfnxRaU5qcWHGKU5WJTEeT1iJ8YLCaQnlqRmp6YWpBbBZJk4OKUamHQvrPr7
+ 5l+ckXRTid9TTsMn944JcVh/0LDNU2U+pbpP1UONd3KbjqNYpIalueHkv9PklLRnuP1S/8Gr
+ ZTxHV1Nmq/gHi6CKa1Oq3UrLFTddNzkSlfOqWk8hTvtFPoO456m1DkLPmb41TPux41jEwTjd
+ CaoBRZdstX1ME6RCG9NbrlWsTqm43t5ypPP6tJ35Mml2Vav2f03cwad77pP1gtcNxwvrW9Zs
+ 4ovym1r3XXEO391cNnNzqxn72Duyj83c+en1x3nfG/i5dGT+h/Q9yeZ0VWfP+Zzye6fd/eA9
+ vgISe5RNxNYfqDUoevb8dUBP6ykJibtid1KzePzNnBn+77cP8k/R26IkJPN2jaUSS3FGoqEW
+ c1FxIgDylzB5fgMAAA==
+X-CMS-MailID: 20230511175642uscas1p2c037608a1dd26b19cf970f97ce434c6d
 CMS-TYPE: 301P
-X-CMS-RootMailID: 20230511175642uscas1p1a998a2d4a20c370f0172db93d537ed39
+X-CMS-RootMailID: 20230511175642uscas1p2c037608a1dd26b19cf970f97ce434c6d
 References: <20230511175609.2091136-1-fan.ni@samsung.com>
- <CGME20230511175642uscas1p1a998a2d4a20c370f0172db93d537ed39@uscas1p1.samsung.com>
-Received-SPF: pass client-ip=211.189.100.12; envelope-from=fan.ni@samsung.com;
- helo=mailout2.w2.samsung.com
-X-Spam_score_int: -70
-X-Spam_score: -7.1
-X-Spam_bar: -------
-X-Spam_report: (-7.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ <CGME20230511175642uscas1p2c037608a1dd26b19cf970f97ce434c6d@uscas1p2.samsung.com>
+Received-SPF: pass client-ip=211.189.100.11; envelope-from=fan.ni@samsung.com;
+ helo=mailout1.w2.samsung.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -148,282 +147,675 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Fan Ni <nifan@outlook.com>
 
-Per CXL spec 3.0, we implemented the two mailbox commands:
-Add Dynamic Capacity Response (Opcode 4802h) 8.2.9.8.9.3, and
-Release Dynamic Capacity Response (Opcode 4803h) 8.2.9.8.9.4.
+Before the change, read from or write to dynamic capacity of the memory
+device is not support as 1) no host backed file/memory is provided for
+it; 2) no address space is created for the dynamic capacity.
+
+With the change, add code to support following:
+1. add a new property to type3 device "dc-memdev" to point to host
+   memory backend for dynamic capacity;
+2. add a bitmap for each region to track whether a block is host backed,
+which will be used for address check when read/write dynamic capacity;
+3. add namespace for dynamic capacity for read/write support;
+4. create cdat entries for each dynamic capacity region;
 
 Signed-off-by: Fan Ni <fan.ni@samsung.com>
 ---
- hw/cxl/cxl-mailbox-utils.c  | 223 ++++++++++++++++++++++++++++++++++++
- include/hw/cxl/cxl_device.h |   3 +-
- 2 files changed, 225 insertions(+), 1 deletion(-)
+ hw/cxl/cxl-mailbox-utils.c  |  21 ++-
+ hw/mem/cxl_type3.c          | 336 +++++++++++++++++++++++++++++-------
+ include/hw/cxl/cxl_device.h |   8 +-
+ 3 files changed, 298 insertions(+), 67 deletions(-)
 
 diff --git a/hw/cxl/cxl-mailbox-utils.c b/hw/cxl/cxl-mailbox-utils.c
-index ed2ac154cb..7212934627 100644
+index 7212934627..efe61e67fb 100644
 --- a/hw/cxl/cxl-mailbox-utils.c
 +++ b/hw/cxl/cxl-mailbox-utils.c
-@@ -84,6 +84,8 @@ enum {
- 	DCD_CONFIG =3D 0x48, /*8.2.9.8.9*/
- 		#define GET_DC_REGION_CONFIG   0x0
- 		#define GET_DYN_CAP_EXT_LIST   0x1
-+		#define ADD_DYN_CAP_RSP        0x2
-+		#define RELEASE_DYN_CAP        0x3
-     PHYSICAL_SWITCH =3D 0x51
-         #define IDENTIFY_SWITCH_DEVICE      0x0
+@@ -391,9 +391,11 @@ static CXLRetCode cmd_firmware_update_get_info(struct =
+cxl_cmd *cmd,
+         char fw_rev4[0x10];
+     } QEMU_PACKED *fw_info;
+     QEMU_BUILD_BUG_ON(sizeof(*fw_info) !=3D 0x50);
++	CXLType3Dev *ct3d =3D container_of(cxl_dstate, CXLType3Dev, cxl_dstate);
+=20
+     if ((cxl_dstate->vmem_size < CXL_CAPACITY_MULTIPLIER) ||
+-        (cxl_dstate->pmem_size < CXL_CAPACITY_MULTIPLIER)) {
++			(cxl_dstate->pmem_size < CXL_CAPACITY_MULTIPLIER) ||
++		(ct3d->dc.total_dynamic_capicity < CXL_CAPACITY_MULTIPLIER)) {
+         return CXL_MBOX_INTERNAL_ERROR;
+     }
+=20
+@@ -534,7 +536,9 @@ static CXLRetCode cmd_identify_memory_device(struct cxl=
+_cmd *cmd,
+     CXLType3Class *cvc =3D CXL_TYPE3_GET_CLASS(ct3d);
+=20
+     if ((!QEMU_IS_ALIGNED(cxl_dstate->vmem_size, CXL_CAPACITY_MULTIPLIER))=
+ ||
+-        (!QEMU_IS_ALIGNED(cxl_dstate->pmem_size, CXL_CAPACITY_MULTIPLIER))=
+) {
++		(!QEMU_IS_ALIGNED(cxl_dstate->pmem_size, CXL_CAPACITY_MULTIPLIER)) ||
++		(!QEMU_IS_ALIGNED(ct3d->dc.total_dynamic_capicity,
++						CXL_CAPACITY_MULTIPLIER))) {
+         return CXL_MBOX_INTERNAL_ERROR;
+     }
+=20
+@@ -543,7 +547,8 @@ static CXLRetCode cmd_identify_memory_device(struct cxl=
+_cmd *cmd,
+=20
+     snprintf(id->fw_revision, 0x10, "BWFW VERSION %02d", 0);
+=20
+-    stq_le_p(&id->total_capacity, cxl_dstate->mem_size / CXL_CAPACITY_MULT=
+IPLIER);
++	stq_le_p(&id->total_capacity,
++			cxl_dstate->static_mem_size / CXL_CAPACITY_MULTIPLIER);
+     stq_le_p(&id->persistent_capacity, cxl_dstate->pmem_size / CXL_CAPACIT=
+Y_MULTIPLIER);
+     stq_le_p(&id->volatile_capacity, cxl_dstate->vmem_size / CXL_CAPACITY_=
+MULTIPLIER);
+     stl_le_p(&id->lsa_size, cvc->get_lsa_size(ct3d));
+@@ -568,9 +573,12 @@ static CXLRetCode cmd_ccls_get_partition_info(struct c=
+xl_cmd *cmd,
+         uint64_t next_pmem;
+     } QEMU_PACKED *part_info =3D (void *)cmd->payload;
+     QEMU_BUILD_BUG_ON(sizeof(*part_info) !=3D 0x20);
++	CXLType3Dev *ct3d =3D container_of(cxl_dstate, CXLType3Dev, cxl_dstate);
+=20
+     if ((!QEMU_IS_ALIGNED(cxl_dstate->vmem_size, CXL_CAPACITY_MULTIPLIER))=
+ ||
+-        (!QEMU_IS_ALIGNED(cxl_dstate->pmem_size, CXL_CAPACITY_MULTIPLIER))=
+) {
++		(!QEMU_IS_ALIGNED(cxl_dstate->pmem_size, CXL_CAPACITY_MULTIPLIER)) ||
++		(!QEMU_IS_ALIGNED(ct3d->dc.total_dynamic_capicity,
++						CXL_CAPACITY_MULTIPLIER))) {
+         return CXL_MBOX_INTERNAL_ERROR;
+     }
+=20
+@@ -881,9 +889,8 @@ static CXLRetCode cmd_media_clear_poison(struct cxl_cmd=
+ *cmd,
+     struct clear_poison_pl *in =3D (void *)cmd->payload;
+=20
+     dpa =3D ldq_le_p(&in->dpa);
+-    if (dpa + 64 > cxl_dstate->mem_size) {
+-        return CXL_MBOX_INVALID_PA;
+-    }
++	if (dpa + 64 > cxl_dstate->static_mem_size && ct3d->dc.num_regions =3D=3D=
+ 0)
++		return CXL_MBOX_INVALID_PA;
+=20
+     QLIST_FOREACH(ent, poison_list, node) {
+         /*
+diff --git a/hw/mem/cxl_type3.c b/hw/mem/cxl_type3.c
+index 70d47d43b9..334660bd0f 100644
+--- a/hw/mem/cxl_type3.c
++++ b/hw/mem/cxl_type3.c
+@@ -33,8 +33,8 @@ enum {
  };
-@@ -1069,6 +1071,221 @@ static CXLRetCode cmd_dcd_get_dyn_cap_ext_list(stru=
-ct cxl_cmd *cmd,
- 	return CXL_MBOX_SUCCESS;
+=20
+ static int ct3_build_cdat_entries_for_mr(CDATSubHeader **cdat_table,
+-                                         int dsmad_handle, MemoryRegion *m=
+r,
+-                                         bool is_pmem, uint64_t dpa_base)
++		int dsmad_handle, uint8_t flags,
++		uint64_t dpa_base, uint64_t size)
+ {
+     g_autofree CDATDsmas *dsmas =3D NULL;
+     g_autofree CDATDslbis *dslbis0 =3D NULL;
+@@ -53,9 +53,9 @@ static int ct3_build_cdat_entries_for_mr(CDATSubHeader **=
+cdat_table,
+             .length =3D sizeof(*dsmas),
+         },
+         .DSMADhandle =3D dsmad_handle,
+-        .flags =3D is_pmem ? CDAT_DSMAS_FLAG_NV : 0,
++		.flags =3D flags,
+         .DPA_base =3D dpa_base,
+-        .DPA_length =3D int128_get64(mr->size),
++		.DPA_length =3D size,
+     };
+=20
+     /* For now, no memory side cache, plausiblish numbers */
+@@ -137,9 +137,9 @@ static int ct3_build_cdat_entries_for_mr(CDATSubHeader =
+**cdat_table,
+          * NV: Reserved - the non volatile from DSMAS matters
+          * V: EFI_MEMORY_SP
+          */
+-        .EFI_memory_type_attr =3D is_pmem ? 2 : 1,
++		.EFI_memory_type_attr =3D flags ? 2 : 1,
+         .DPA_offset =3D 0,
+-        .DPA_length =3D int128_get64(mr->size),
++		.DPA_length =3D size,
+     };
+=20
+     /* Header always at start of structure */
+@@ -158,14 +158,15 @@ static int ct3_build_cdat_table(CDATSubHeader ***cdat=
+_table, void *priv)
+     g_autofree CDATSubHeader **table =3D NULL;
+     CXLType3Dev *ct3d =3D priv;
+     MemoryRegion *volatile_mr =3D NULL, *nonvolatile_mr =3D NULL;
++	MemoryRegion *dc_mr =3D NULL;
+     int dsmad_handle =3D 0;
+     int cur_ent =3D 0;
+     int len =3D 0;
+     int rc, i;
++	uint64_t vmr_size =3D 0, pmr_size =3D 0;
+=20
+-    if (!ct3d->hostpmem && !ct3d->hostvmem) {
+-        return 0;
+-    }
++	if (!ct3d->hostpmem && !ct3d->hostvmem && !ct3d->dc.num_regions)
++		return 0;
+=20
+     if (ct3d->hostvmem) {
+         volatile_mr =3D host_memory_backend_get_memory(ct3d->hostvmem);
+@@ -173,6 +174,7 @@ static int ct3_build_cdat_table(CDATSubHeader ***cdat_t=
+able, void *priv)
+             return -EINVAL;
+         }
+         len +=3D CT3_CDAT_NUM_ENTRIES;
++		vmr_size =3D volatile_mr->size;
+     }
+=20
+     if (ct3d->hostpmem) {
+@@ -181,7 +183,19 @@ static int ct3_build_cdat_table(CDATSubHeader ***cdat_=
+table, void *priv)
+             return -EINVAL;
+         }
+         len +=3D CT3_CDAT_NUM_ENTRIES;
+-    }
++		pmr_size =3D nonvolatile_mr->size;
++	}
++
++	if (ct3d->dc.num_regions) {
++		if (ct3d->dc.host_dc) {
++			dc_mr =3D host_memory_backend_get_memory(ct3d->dc.host_dc);
++			if (!dc_mr)
++				return -EINVAL;
++			len +=3D CT3_CDAT_NUM_ENTRIES * ct3d->dc.num_regions;
++		} else {
++			return -EINVAL;
++		}
++	}
+=20
+     table =3D g_malloc0(len * sizeof(*table));
+     if (!table) {
+@@ -189,23 +203,45 @@ static int ct3_build_cdat_table(CDATSubHeader ***cdat=
+_table, void *priv)
+     }
+=20
+     /* Now fill them in */
+-    if (volatile_mr) {
+-        rc =3D ct3_build_cdat_entries_for_mr(table, dsmad_handle++, volati=
+le_mr,
+-                                           false, 0);
+-        if (rc < 0) {
+-            return rc;
+-        }
+-        cur_ent =3D CT3_CDAT_NUM_ENTRIES;
+-    }
++	if (volatile_mr) {
++		rc =3D ct3_build_cdat_entries_for_mr(table, dsmad_handle++,
++				0, 0, vmr_size);
++		if (rc < 0)
++			return rc;
++		cur_ent =3D CT3_CDAT_NUM_ENTRIES;
++	}
++
++	if (nonvolatile_mr) {
++		rc =3D ct3_build_cdat_entries_for_mr(&(table[cur_ent]), dsmad_handle++,
++				CDAT_DSMAS_FLAG_NV, vmr_size, pmr_size);
++		if (rc < 0)
++			goto error_cleanup;
++		cur_ent +=3D CT3_CDAT_NUM_ENTRIES;
++	}
++
++	if (dc_mr) {
++		uint64_t region_base =3D vmr_size + pmr_size;
++
++		/*
++		 * Currently we create cdat entries for each region, should we only
++		 * create dsmas table instead??
++		 * We assume all dc regions are non-volatile for now.
++		 *
++		 */
++		for (i =3D 0; i < ct3d->dc.num_regions; i++) {
++			rc =3D ct3_build_cdat_entries_for_mr(&(table[cur_ent])
++					, dsmad_handle++
++					, CDAT_DSMAS_FLAG_NV|CDAT_DSMAS_FLAG_DYNAMIC_CAP
++					, region_base, ct3d->dc.regions[i].len);
++			if (rc < 0)
++				goto error_cleanup;
++			ct3d->dc.regions[i].dsmadhandle =3D dsmad_handle-1;
++
++			cur_ent +=3D CT3_CDAT_NUM_ENTRIES;
++			region_base +=3D ct3d->dc.regions[i].len;
++		}
++	}
+=20
+-    if (nonvolatile_mr) {
+-        rc =3D ct3_build_cdat_entries_for_mr(&(table[cur_ent]), dsmad_hand=
+le++,
+-                nonvolatile_mr, true, (volatile_mr ? volatile_mr->size : 0=
+));
+-        if (rc < 0) {
+-            goto error_cleanup;
+-        }
+-        cur_ent +=3D CT3_CDAT_NUM_ENTRIES;
+-    }
+     assert(len =3D=3D cur_ent);
+=20
+     *cdat_table =3D g_steal_pointer(&table);
+@@ -706,6 +742,11 @@ static int cxl_create_toy_regions(CXLType3Dev *ct3d)
+ 		/* dsmad_handle is set when creating cdat table entries */
+ 		region->flags =3D 0;
+=20
++		region->blk_bitmap =3D bitmap_new(region->len / region->block_size);
++		if (!region->blk_bitmap)
++			return -1;
++		bitmap_zero(region->blk_bitmap, region->len / region->block_size);
++
+ 		region_base +=3D region->len;
+ 	}
+ 	QTAILQ_INIT(&ct3d->dc.extents);
+@@ -713,11 +754,24 @@ static int cxl_create_toy_regions(CXLType3Dev *ct3d)
+ 	return 0;
  }
 =20
-+static inline int test_bits(const unsigned long *addr, int nr, int size)
++static void cxl_destroy_toy_regions(CXLType3Dev *ct3d)
 +{
-+	unsigned long res =3D find_next_zero_bit(addr, size + nr, nr);
++	int i;
++	struct CXLDCD_Region *region;
 +
-+	if (res >=3D nr + size)
-+		return 1;
-+	else
-+		return 0;
-+}
-+
-+static uint8_t find_region_id(struct CXLType3Dev *dev, uint64_t dpa
-+		, uint64_t len)
-+{
-+	int8_t i =3D dev->dc.num_regions-1;
-+
-+	while (i > 0 && dpa < dev->dc.regions[i].base)
-+		i--;
-+
-+	if (dpa < dev->dc.regions[i].base
-+			|| dpa + len > dev->dc.regions[i].base + dev->dc.regions[i].len)
-+		return dev->dc.num_regions;
-+
-+	return i;
-+}
-+
-+static CXLRetCode detect_malformed_extent_list(CXLType3Dev *dev, void *dat=
-a)
-+{
-+	struct updated_dc_extent_list_in_pl {
-+		uint32_t num_entries_updated;
-+		uint8_t rsvd[4];
-+		struct {
-+			uint64_t start_dpa;
-+			uint64_t len;
-+			uint8_t rsvd[8];
-+		} QEMU_PACKED updated_entries[];
-+	} QEMU_PACKED;
-+
-+	struct updated_dc_extent_list_in_pl *in =3D data;
-+	unsigned long *blk_bitmap;
-+	uint64_t min_block_size =3D dev->dc.regions[0].block_size;
-+	struct CXLDCD_Region *region =3D &dev->dc.regions[0];
-+	uint32_t i;
-+	uint64_t dpa, len;
-+	uint8_t rid;
-+
-+	for (i =3D 1; i < dev->dc.num_regions; i++) {
-+		region =3D &dev->dc.regions[i];
-+		if (min_block_size > region->block_size)
-+			min_block_size =3D region->block_size;
++	for (i =3D 0; i < ct3d->dc.num_regions; i++) {
++		region =3D &ct3d->dc.regions[i];
++		if (region->blk_bitmap)
++			g_free(region->blk_bitmap);
 +	}
-+	blk_bitmap =3D bitmap_new((region->len + region->base
-+				- dev->dc.regions[0].base) / min_block_size);
-+	g_assert(blk_bitmap);
-+	bitmap_zero(blk_bitmap, (region->len + region->base
-+				- dev->dc.regions[0].base) / min_block_size);
-+
-+	for (i =3D 0; i < in->num_entries_updated; i++) {
-+		dpa =3D in->updated_entries[i].start_dpa;
-+		len =3D in->updated_entries[i].len;
-+
-+		rid =3D find_region_id(dev, dpa, len);
-+		if (rid =3D=3D dev->dc.num_regions) {
-+			g_free(blk_bitmap);
-+			return CXL_MBOX_INVALID_PA;
-+		}
-+		region =3D &dev->dc.regions[rid];
-+		if (dpa % region->block_size || len % region->block_size) {
-+			g_free(blk_bitmap);
-+			return CXL_MBOX_INVALID_EXTENT_LIST;
-+		}
-+		/* the dpa range already covered by some other extents in the list */
-+		if (test_bits(blk_bitmap, dpa/min_block_size, len/min_block_size)) {
-+			g_free(blk_bitmap);
-+			return CXL_MBOX_INVALID_EXTENT_LIST;
-+		}
-+		bitmap_set(blk_bitmap, dpa/min_block_size, len/min_block_size);
-+	}
-+
-+	g_free(blk_bitmap);
-+	return CXL_MBOX_SUCCESS;
 +}
 +
-+/*
-+ * cxl spec 3.0: 8.2.9.8.9.3
-+ * Add Dynamic Capacity Response (opcode 4802h)
-+ * Assuming extent list is updated when a extent is added, when receiving
-+ * the response, verify and ensure the extent is utilized by the host, and
-+ * update extent list  as needed.
-+ **/
-+static CXLRetCode cmd_dcd_add_dyn_cap_rsp(struct cxl_cmd *cmd,
-+		CXLDeviceState *cxl_dstate,
-+		uint16_t *len_unused)
+ static bool cxl_setup_memory(CXLType3Dev *ct3d, Error **errp)
+ {
+     DeviceState *ds =3D DEVICE(ct3d);
+=20
+-    if (!ct3d->hostmem && !ct3d->hostvmem && !ct3d->hostpmem) {
++	if (!ct3d->hostmem && !ct3d->hostvmem && !ct3d->hostpmem
++			&& !ct3d->dc.num_regions) {
+         error_setg(errp, "at least one memdev property must be set");
+         return false;
+     } else if (ct3d->hostmem && ct3d->hostpmem) {
+@@ -754,7 +808,7 @@ static bool cxl_setup_memory(CXLType3Dev *ct3d, Error *=
+*errp)
+         }
+         address_space_init(&ct3d->hostvmem_as, vmr, v_name);
+         ct3d->cxl_dstate.vmem_size =3D vmr->size;
+-        ct3d->cxl_dstate.mem_size +=3D vmr->size;
++		ct3d->cxl_dstate.static_mem_size +=3D vmr->size;
+         g_free(v_name);
+     }
+=20
+@@ -777,12 +831,47 @@ static bool cxl_setup_memory(CXLType3Dev *ct3d, Error=
+ **errp)
+         }
+         address_space_init(&ct3d->hostpmem_as, pmr, p_name);
+         ct3d->cxl_dstate.pmem_size =3D pmr->size;
+-        ct3d->cxl_dstate.mem_size +=3D pmr->size;
++		ct3d->cxl_dstate.static_mem_size +=3D pmr->size;
+         g_free(p_name);
+     }
+=20
+-	if (cxl_create_toy_regions(ct3d))
+-		return false;
++	ct3d->dc.total_dynamic_capicity =3D 0;
++	if (ct3d->dc.host_dc) {
++		MemoryRegion *dc_mr;
++		char *dc_name;
++		uint64_t total_region_size =3D 0;
++		int i;
++
++		dc_mr =3D host_memory_backend_get_memory(ct3d->dc.host_dc);
++		if (!dc_mr) {
++			error_setg(errp, "dynamic capacity must have backing device");
++			return false;
++		}
++		/* FIXME: set dc as nonvolatile for now */
++		memory_region_set_nonvolatile(dc_mr, true);
++		memory_region_set_enabled(dc_mr, true);
++		host_memory_backend_set_mapped(ct3d->dc.host_dc, true);
++		if (ds->id) {
++			dc_name =3D g_strdup_printf("cxl-dcd-dpa-dc-space:%s", ds->id);
++		} else {
++			dc_name =3D g_strdup("cxl-dcd-dpa-dc-space");
++		}
++		address_space_init(&ct3d->dc.host_dc_as, dc_mr, dc_name);
++
++		if (cxl_create_toy_regions(ct3d)) {
++			return false;
++		}
++
++		for (i =3D 0; i < ct3d->dc.num_regions; i++) {
++			total_region_size +=3D ct3d->dc.regions[i].len;
++		}
++		/* Make sure the host backend is large enough to cover all dc range */
++		assert(total_region_size <=3D dc_mr->size);
++		assert(dc_mr->size % (256*1024*1024) =3D=3D 0);
++
++		ct3d->dc.total_dynamic_capicity =3D total_region_size;
++		g_free(dc_name);
++	}
+=20
+     return true;
+ }
+@@ -890,6 +979,10 @@ err_release_cdat:
+ err_free_special_ops:
+     g_free(regs->special_ops);
+ err_address_space_free:
++	if (ct3d->dc.host_dc) {
++		cxl_destroy_toy_regions(ct3d);
++		address_space_destroy(&ct3d->dc.host_dc_as);
++	}
+     if (ct3d->hostpmem) {
+         address_space_destroy(&ct3d->hostpmem_as);
+     }
+@@ -909,6 +1002,10 @@ static void ct3_exit(PCIDevice *pci_dev)
+     cxl_doe_cdat_release(cxl_cstate);
+     spdm_sock_fini(ct3d->doe_spdm.socket);
+     g_free(regs->special_ops);
++	if (ct3d->dc.host_dc) {
++		cxl_destroy_toy_regions(ct3d);
++		address_space_destroy(&ct3d->dc.host_dc_as);
++	}
+     if (ct3d->hostpmem) {
+         address_space_destroy(&ct3d->hostpmem_as);
+     }
+@@ -917,6 +1014,100 @@ static void ct3_exit(PCIDevice *pci_dev)
+     }
+ }
+=20
++static void set_region_block_backed(CXLType3Dev *ct3d, uint64_t dpa,
++		uint64_t len)
 +{
-+	struct add_dyn_cap_ext_list_in_pl {
-+		uint32_t num_entries_updated;
-+		uint8_t rsvd[4];
-+		struct {
-+			uint64_t start_dpa;
-+			uint64_t len;
-+			uint8_t rsvd[8];
-+		} QEMU_PACKED updated_entries[];
-+	} QEMU_PACKED;
++	int i;
++	CXLDCD_Region *region =3D NULL;
 +
-+	struct add_dyn_cap_ext_list_in_pl *in =3D (void *)cmd->payload;
-+	struct CXLType3Dev *ct3d =3D container_of(cxl_dstate, CXLType3Dev, cxl_ds=
-tate);
-+	CXLDCDExtentList *extent_list =3D &ct3d->dc.extents;
-+	CXLDCD_Extent *ent;
-+	uint32_t i;
-+	uint64_t dpa, len;
-+	CXLRetCode rs;
++	if (dpa < ct3d->dc.regions[0].base
++		|| dpa >=3D ct3d->dc.regions[0].base + ct3d->dc.total_dynamic_capicity)
++		return;
 +
-+	if (in->num_entries_updated =3D=3D 0)
-+		return CXL_MBOX_SUCCESS;
-+
-+	rs =3D detect_malformed_extent_list(ct3d, in);
-+	if (rs !=3D CXL_MBOX_SUCCESS)
-+		return rs;
-+
-+	for (i =3D 0; i < in->num_entries_updated; i++) {
-+		dpa =3D in->updated_entries[i].start_dpa;
-+		len =3D in->updated_entries[i].len;
-+
-+		/* Todo: check following
-+		 * One or more of the updated extent lists contain Starting DPA
-+		 * or Lengths that are out of range of a current extent list
-+		 * maintained by the device.
-+		 **/
-+
-+		QTAILQ_FOREACH(ent, extent_list, node) {
-+			if (ent->start_dpa =3D=3D dpa && ent->len =3D=3D len)
-+				return CXL_MBOX_INVALID_PA;
-+			if (ent->start_dpa <=3D dpa
-+				&& dpa + len <=3D ent->start_dpa + ent->len) {
-+				ent->start_dpa =3D dpa;
-+				ent->len =3D len;
-+				break;
-+			} else if ((dpa < ent->start_dpa + ent->len
-+				&& dpa + len > ent->start_dpa + ent->len)
-+				|| (dpa < ent->start_dpa && dpa + len > ent->start_dpa))
-+				return CXL_MBOX_INVALID_EXTENT_LIST;
-+		}
-+		// a new extent added
-+		if (!ent) {
-+			ent =3D g_new0(CXLDCD_Extent, 1);
-+			assert(ent);
-+			ent->start_dpa =3D dpa;
-+			ent->len =3D len;
-+			memset(ent->tag, 0, 0x10);
-+			ent->shared_seq =3D 0;
-+			QTAILQ_INSERT_TAIL(extent_list, ent, node);
-+		}
++	/*
++	 * spec 3.0 9.13.3: Regions are used in increasing-DPA order, with
++	 * Region 0 being used for the lowest DPA of Dynamic Capacity and
++	 * Region 7 for the highest DPA.
++	 * So we check from the last region to find where the dpa belongs.
++	 * access across multiple regions is not allowed.
++	 **/
++	for (i =3D ct3d->dc.num_regions-1; i >=3D 0; i--) {
++		region =3D &ct3d->dc.regions[i];
++		if (dpa >=3D region->base)
++			break;
 +	}
 +
-+	return CXL_MBOX_SUCCESS;
++	bitmap_set(region->blk_bitmap, (dpa-region->base)/region->block_size,
++			len/region->block_size);
 +}
 +
-+/*
-+ * Spec 3.0: 8.2.9.8.9.4
-+ * Release Dynamic Capacity (opcode 4803h)
-+ **/
-+static CXLRetCode cmd_dcd_release_dcd_capacity(struct cxl_cmd *cmd,
-+		CXLDeviceState *cxl_dstate,
-+		uint16_t *len_unused)
++static bool test_region_block_backed(CXLType3Dev *ct3d, uint64_t dpa,
++		uint64_t len)
 +{
-+	struct release_dcd_cap_in_pl {
-+		uint32_t num_entries_updated;
-+		uint8_t rsvd[4];
-+		struct {
-+			uint64_t start_dpa;
-+			uint64_t len;
-+			uint8_t rsvd[8];
-+		} QEMU_PACKED updated_entries[];
-+	} QEMU_PACKED;
++	int i;
++	CXLDCD_Region *region =3D NULL;
++	uint64_t nbits;
++	long nr;
 +
-+	struct release_dcd_cap_in_pl *in =3D (void *)cmd->payload;
-+	struct CXLType3Dev *ct3d =3D container_of(cxl_dstate, CXLType3Dev, cxl_ds=
-tate);
-+	CXLDCDExtentList *extent_list =3D &ct3d->dc.extents;
-+	CXLDCD_Extent *ent;
-+	uint32_t i;
-+	uint64_t dpa, len;
-+	CXLRetCode rs;
++	if (dpa < ct3d->dc.regions[0].base
++		   || dpa >=3D ct3d->dc.regions[0].base + ct3d->dc.total_dynamic_capicit=
+y)
++		return false;
 +
-+	if (in->num_entries_updated =3D=3D 0)
-+		return CXL_MBOX_INVALID_INPUT;
-+
-+	rs =3D detect_malformed_extent_list(ct3d, in);
-+	if (rs !=3D CXL_MBOX_SUCCESS)
-+		return rs;
-+
-+		/* Todo: check following
-+		 * One or more of the updated extent lists contain Starting DPA
-+		 * or Lengths that are out of range of a current extent list
-+		 * maintained by the device.
-+		 **/
-+
-+	for (i =3D 0; i < in->num_entries_updated; i++) {
-+		dpa =3D in->updated_entries[i].start_dpa;
-+		len =3D in->updated_entries[i].len;
-+
-+		QTAILQ_FOREACH(ent, extent_list, node) {
-+			if (ent->start_dpa =3D=3D dpa && ent->len =3D=3D len)
-+				break;
-+			else if ((dpa < ent->start_dpa + ent->len
-+				&& dpa + len > ent->start_dpa + ent->len)
-+				|| (dpa < ent->start_dpa && dpa + len > ent->start_dpa))
-+				return CXL_MBOX_INVALID_EXTENT_LIST;
-+		}
-+		/* found the entry, release it */
-+		if (ent)
-+			QTAILQ_REMOVE(extent_list, ent, node);
++	/*
++	 * spec 3.0 9.13.3: Regions are used in increasing-DPA order, with
++	 * Region 0 being used for the lowest DPA of Dynamic Capacity and
++	 * Region 7 for the highest DPA.
++	 * So we check from the last region to find where the dpa belongs.
++	 * access across multiple regions is not allowed.
++	 **/
++	for (i =3D ct3d->dc.num_regions-1; i >=3D 0; i--) {
++		region =3D &ct3d->dc.regions[i];
++		if (dpa >=3D region->base)
++			break;
 +	}
 +
-+	return CXL_MBOX_SUCCESS;
++	nr =3D (dpa-region->base)/region->block_size;
++	nbits =3D (len + region->block_size-1)/region->block_size;
++	if (find_next_zero_bit(region->blk_bitmap, nr+nbits, nr)
++			>=3D nr+nbits)
++		return true;
++
++	return false;
 +}
 +
- #define IMMEDIATE_CONFIG_CHANGE (1 << 1)
- #define IMMEDIATE_DATA_CHANGE (1 << 2)
- #define IMMEDIATE_POLICY_CHANGE (1 << 3)
-@@ -1112,6 +1329,12 @@ static struct cxl_cmd cxl_cmd_set[256][256] =3D {
- 	[DCD_CONFIG][GET_DYN_CAP_EXT_LIST] =3D {
- 		"DCD_GET_DYNAMIC_CAPACITY_EXTENT_LIST", cmd_dcd_get_dyn_cap_ext_list,
- 		8, 0 },
-+	[DCD_CONFIG][ADD_DYN_CAP_RSP] =3D {
-+		"ADD_DCD_DYNAMIC_CAPACITY_RESPONSE", cmd_dcd_add_dyn_cap_rsp,
-+		~0, IMMEDIATE_DATA_CHANGE },
-+	[DCD_CONFIG][RELEASE_DYN_CAP] =3D {
-+		"RELEASE_DCD_DYNAMIC_CAPACITY", cmd_dcd_release_dcd_capacity,
-+		~0, IMMEDIATE_DATA_CHANGE },
++static void clear_region_block_backed(CXLType3Dev *ct3d, uint64_t dpa,
++		uint64_t len)
++{
++	int i;
++	CXLDCD_Region *region =3D NULL;
++	uint64_t nbits;
++	long nr;
++
++	if (dpa < ct3d->dc.regions[0].base
++		|| dpa >=3D ct3d->dc.regions[0].base + ct3d->dc.total_dynamic_capicity)
++		return;
++
++	/*
++	 * spec 3.0 9.13.3: Regions are used in increasing-DPA order, with
++	 * Region 0 being used for the lowest DPA of Dynamic Capacity and
++	 * Region 7 for the highest DPA.
++	 * So we check from the last region to find where the dpa belongs.
++	 * access across multiple regions is not allowed.
++	 **/
++	for (i =3D ct3d->dc.num_regions-1; i >=3D 0; i--) {
++		region =3D &ct3d->dc.regions[i];
++		if (dpa >=3D region->base)
++			break;
++	}
++
++	nr =3D (dpa-region->base) / region->block_size;
++	nbits =3D (len + region->block_size-1) / region->block_size;
++	for (i =3D 0; i < nbits; i++) {
++		clear_bit(nr, region->blk_bitmap);
++		nr++;
++	}
++}
++
+ static bool cxl_type3_dpa(CXLType3Dev *ct3d, hwaddr host_addr, uint64_t *d=
+pa)
+ {
+     uint32_t *cache_mem =3D ct3d->cxl_cstate.crb.cache_mem_registers;
+@@ -973,16 +1164,24 @@ static int cxl_type3_hpa_to_as_and_dpa(CXLType3Dev *=
+ct3d,
+                                        AddressSpace **as,
+                                        uint64_t *dpa_offset)
+ {
+-    MemoryRegion *vmr =3D NULL, *pmr =3D NULL;
++	MemoryRegion *vmr =3D NULL, *pmr =3D NULL, *dc_mr =3D NULL;
++	uint64_t vmr_size =3D 0, pmr_size =3D 0, dc_size =3D 0;
+=20
+     if (ct3d->hostvmem) {
+         vmr =3D host_memory_backend_get_memory(ct3d->hostvmem);
++		vmr_size =3D int128_get64(vmr->size);
+     }
+     if (ct3d->hostpmem) {
+         pmr =3D host_memory_backend_get_memory(ct3d->hostpmem);
++		pmr_size =3D int128_get64(pmr->size);
+     }
++	if (ct3d->dc.host_dc) {
++		dc_mr =3D host_memory_backend_get_memory(ct3d->dc.host_dc);
++		/* Do we want dc_size to be dc_mr->size or not?? */
++		dc_size =3D ct3d->dc.total_dynamic_capicity;
++	}
+=20
+-    if (!vmr && !pmr) {
++	if (!vmr && !pmr && !dc_mr) {
+         return -ENODEV;
+     }
+=20
+@@ -990,20 +1189,22 @@ static int cxl_type3_hpa_to_as_and_dpa(CXLType3Dev *=
+ct3d,
+         return -EINVAL;
+     }
+=20
+-    if (*dpa_offset > int128_get64(ct3d->cxl_dstate.mem_size)) {
++    if (*dpa_offset >=3D vmr_size + pmr_size + dc_size ||
++       (*dpa_offset >=3D vmr_size + pmr_size && ct3d->dc.num_regions =3D=
+=3D 0)) {
+         return -EINVAL;
+     }
+=20
+-    if (vmr) {
+-        if (*dpa_offset < int128_get64(vmr->size)) {
+-            *as =3D &ct3d->hostvmem_as;
+-        } else {
+-            *as =3D &ct3d->hostpmem_as;
+-            *dpa_offset -=3D vmr->size;
+-        }
+-    } else {
+-        *as =3D &ct3d->hostpmem_as;
+-    }
++	if (*dpa_offset < vmr_size)
++		*as =3D &ct3d->hostvmem_as;
++	else if (*dpa_offset < vmr_size + pmr_size) {
++		*as =3D &ct3d->hostpmem_as;
++		*dpa_offset -=3D vmr_size;
++	} else {
++		if (!test_region_block_backed(ct3d, *dpa_offset, size))
++			return -ENODEV;
++		*as =3D &ct3d->dc.host_dc_as;
++		*dpa_offset -=3D (vmr_size + pmr_size);
++	}
+=20
+     return 0;
+ }
+@@ -1069,6 +1270,8 @@ static Property ct3_props[] =3D {
+     DEFINE_PROP_STRING("cdat", CXLType3Dev, cxl_cstate.cdat.filename),
+     DEFINE_PROP_UINT16("spdm", CXLType3Dev, spdm_port, 0),
+ 	DEFINE_PROP_UINT8("num-dc-regions", CXLType3Dev, dc.num_regions, 0),
++	DEFINE_PROP_LINK("dc-memdev", CXLType3Dev, dc.host_dc,
++					TYPE_MEMORY_BACKEND, HostMemoryBackend *),
+     DEFINE_PROP_END_OF_LIST(),
  };
 =20
- static struct cxl_cmd cxl_cmd_set_sw[256][256] =3D {
+@@ -1135,34 +1338,41 @@ static void set_lsa(CXLType3Dev *ct3d, const void *=
+buf, uint64_t size,
+=20
+ static bool set_cacheline(CXLType3Dev *ct3d, uint64_t dpa_offset, uint8_t =
+*data)
+ {
+-    MemoryRegion *vmr =3D NULL, *pmr =3D NULL;
++	MemoryRegion *vmr =3D NULL, *pmr =3D NULL, *dc_mr =3D NULL;
+     AddressSpace *as;
++	uint64_t vmr_size =3D 0, pmr_size =3D 0, dc_size =3D 0;
+=20
+     if (ct3d->hostvmem) {
+         vmr =3D host_memory_backend_get_memory(ct3d->hostvmem);
++		vmr_size =3D int128_get64(vmr->size);
+     }
+     if (ct3d->hostpmem) {
+         pmr =3D host_memory_backend_get_memory(ct3d->hostpmem);
++		pmr_size =3D int128_get64(pmr->size);
+     }
++	if (ct3d->dc.host_dc) {
++		dc_mr =3D host_memory_backend_get_memory(ct3d->dc.host_dc);
++		dc_size =3D ct3d->dc.total_dynamic_capicity;
++	}
+=20
+-    if (!vmr && !pmr) {
++    if (!vmr && !pmr && !dc_mr) {
+         return false;
+     }
+=20
+-    if (dpa_offset + 64 > int128_get64(ct3d->cxl_dstate.mem_size)) {
+-        return false;
+-    }
++	if (dpa_offset >=3D vmr_size + pmr_size + dc_size)
++		return false;
++	if (dpa_offset + 64 >=3D vmr_size + pmr_size && ct3d->dc.num_regions =3D=
+=3D 0)
++		return false;
+=20
+-    if (vmr) {
+-        if (dpa_offset <=3D int128_get64(vmr->size)) {
+-            as =3D &ct3d->hostvmem_as;
+-        } else {
+-            as =3D &ct3d->hostpmem_as;
+-            dpa_offset -=3D vmr->size;
+-        }
+-    } else {
+-        as =3D &ct3d->hostpmem_as;
+-    }
++	if (dpa_offset < vmr_size) {
++		as =3D &ct3d->hostvmem_as;
++	} else if (dpa_offset < vmr_size + pmr_size) {
++		as =3D &ct3d->hostpmem_as;
++		dpa_offset -=3D vmr->size;
++	} else {
++		as =3D &ct3d->dc.host_dc_as;
++		dpa_offset -=3D (vmr_size + pmr_size);
++	}
+=20
+     address_space_write(as, dpa_offset, MEMTXATTRS_UNSPECIFIED, &data, 64)=
+;
+     return true;
+@@ -1711,6 +1921,14 @@ static void qmp_cxl_process_dynamic_capacity_event(c=
+onst char *path, CxlEventLog
+ 		memcpy(&dCap.dynamic_capacity_extent, &extents[i]
+ 				, sizeof(CXLDCExtent_raw));
+=20
++		if (dCap.type =3D=3D 0x0)
++			set_region_block_backed(dcd, extents[i].start_dpa, extents[i].len);
++		else if (dCap.type =3D=3D 0x1)
++			clear_region_block_backed(dcd, extents[i].start_dpa,
++					extents[i].len);
++		else
++			error_setg(errp, "DC event not support yet, no bitmap op");
++
+ 		if (cxl_event_insert(cxlds, CXL_EVENT_TYPE_DYNAMIC_CAP,
+ 					(CXLEventRecordRaw *)&dCap)) {
+ 			;
 diff --git a/include/hw/cxl/cxl_device.h b/include/hw/cxl/cxl_device.h
-index 20ad5e7411..c0c8fcc24b 100644
+index c0c8fcc24b..d9b6776e2c 100644
 --- a/include/hw/cxl/cxl_device.h
 +++ b/include/hw/cxl/cxl_device.h
-@@ -131,7 +131,8 @@ typedef enum {
-     CXL_MBOX_INCORRECT_PASSPHRASE =3D 0x14,
-     CXL_MBOX_UNSUPPORTED_MAILBOX =3D 0x15,
-     CXL_MBOX_INVALID_PAYLOAD_LENGTH =3D 0x16,
--    CXL_MBOX_MAX =3D 0x17
-+	CXL_MBOX_INVALID_EXTENT_LIST =3D 0x17,
-+	CXL_MBOX_MAX =3D 0x18
- } CXLRetCode;
+@@ -211,7 +211,7 @@ typedef struct cxl_device_state {
+     } timestamp;
 =20
- struct cxl_cmd;
+     /* memory region size, HDM */
+-    uint64_t mem_size;
++	uint64_t static_mem_size;
+     uint64_t pmem_size;
+     uint64_t vmem_size;
+=20
+@@ -412,6 +412,7 @@ typedef struct CXLDCD_Region {
+ 	uint64_t block_size;
+ 	uint32_t dsmadhandle;
+ 	uint8_t flags;
++	unsigned long *blk_bitmap;
+ } CXLDCD_Region;
+=20
+ struct CXLType3Dev {
+@@ -447,12 +448,17 @@ struct CXLType3Dev {
+     uint64_t poison_list_overflow_ts;
+=20
+ 	struct dynamic_capacity {
++		HostMemoryBackend *host_dc;
++		AddressSpace host_dc_as;
++
++		uint8_t num_hosts; //Table 7-55
+ 		uint8_t num_regions; // 1-8
+ 		struct CXLDCD_Region regions[DCD_MAX_REGION_NUM];
+ 		CXLDCDExtentList extents;
+=20
+ 		uint32_t total_extent_count;
+ 		uint32_t ext_list_gen_seq;
++		uint64_t total_dynamic_capicity; // 256M aligned
+ 	} dc;
+ };
+=20
 --=20
 2.25.1
 
