@@ -2,85 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 861BD6FF6DF
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 May 2023 18:15:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 90C306FF6E0
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 May 2023 18:15:06 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1px8v4-0006ZE-Em; Thu, 11 May 2023 12:13:30 -0400
+	id 1px8w0-00077k-W0; Thu, 11 May 2023 12:14:29 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1px8v2-0006Z5-Os
- for qemu-devel@nongnu.org; Thu, 11 May 2023 12:13:28 -0400
-Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1px8v1-0001CI-36
- for qemu-devel@nongnu.org; Thu, 11 May 2023 12:13:28 -0400
-Received: by mail-wm1-x336.google.com with SMTP id
- 5b1f17b1804b1-3f49bf0223cso21338925e9.1
- for <qemu-devel@nongnu.org>; Thu, 11 May 2023 09:13:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1683821605; x=1686413605;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
- :message-id:reply-to;
- bh=5H8RtjP4IZ4Dsi09pBOsNwuUSFsT1+JbEtoiLHC68IM=;
- b=Ip/ZQA0kXYqYxFBnyQTRV7Lndx6bJbFINM+a6iSnU9H7JhqT74Ubsk1kF2/7eSXb1f
- x5AzqWxA56kw4Vk6chM6ppWy6Pm6A25QcSNKGIvfLENf01A8doVs4fPqDC0raCELql6P
- b6v/owYipZtHzDEbFhjgj2YY1GYO6BkbGiFyTK3Gu87CY8rMpx15e9wWnG3qM/qv9d9r
- +fHdpJDIZx4cvxlWA0QIqAHeK2RrjHERLciqWz7neTPWX3YA7zFOqccC1XCC3/gS9MWZ
- 2ZpHPKtwE+Zeztub1/co6XtkKnGlKkphmT9Av9uWxgE/MiKl2r6my5W48tyv1fUzdcwx
- Fr0A==
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1px8vz-00076Q-7W
+ for qemu-devel@nongnu.org; Thu, 11 May 2023 12:14:27 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1px8vx-0001Im-JN
+ for qemu-devel@nongnu.org; Thu, 11 May 2023 12:14:27 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1683821664;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=sAgNQ76oqWisqXMSQPCdukNBnQCr8ABM1Zb6YKFC+ow=;
+ b=de5a4R7mC8PJoNUHKDhi4U0MR0IfyiOqjPpHVqomwvy9VxAkZUQdknAi3288nm/jSThkBu
+ Hmr/LBLloUyVVuFbaF8p+L53kHTrFgYk+1RDOulNeLKpL19VJABRSc8bpgMNOY6zZ1MIBw
+ BpP9HaZWfyfUXDBRkFxEsXsA51+ix28=
+Received: from mail-ua1-f72.google.com (mail-ua1-f72.google.com
+ [209.85.222.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-298-sR_3day7OI6VwSvT3jThmw-1; Thu, 11 May 2023 12:14:22 -0400
+X-MC-Unique: sR_3day7OI6VwSvT3jThmw-1
+Received: by mail-ua1-f72.google.com with SMTP id
+ a1e0cc1a2514c-780e23ab096so1379017241.1
+ for <qemu-devel@nongnu.org>; Thu, 11 May 2023 09:14:22 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683821605; x=1686413605;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=5H8RtjP4IZ4Dsi09pBOsNwuUSFsT1+JbEtoiLHC68IM=;
- b=LdTIjzgtmPBHPf4uMIjM+HuBtmK/AO8isFHGx3RGjXcv5XkGuZ40TgBafMZitX95C6
- OH5TBsNwg4oCt6Yf4n7fvkByISxd1u6ZBxM+T5rtgqFP4h6lzTdf5URSGMjTJJNCIVT8
- SL72FeJ6785IL45R2NU0iNhupCxrRFDW7GJA2Cerr6OWYBrcoO0kuDMjmnkj7xmUqTpt
- 7pEzO3r05LiXs3haLBKyZc5AP98Nc/psVj5aXAANDZEnfUQpKGCICF5pxGzuEugUAfD6
- dK5C5gCjAUihdlNIUq50g10oR6hPuaoChUG5XGR75eXb/ZmxypxmOCFSalgoRBVk7rd/
- CH/w==
-X-Gm-Message-State: AC+VfDyDvUBE0X0Yejpd6+FQ1uEqxx8ZUa+NeSSjBXTq4lB1rMRLbmbg
- lVeCBnHUbhrnZR/WrDr2EyjLow==
-X-Google-Smtp-Source: ACHHUZ6m2QTfwMR4d/G2Nh2MmJeoQhkLAvS5GYdfaoyeu9lbjFQThQuyximsTk7ioZuoohgrNMHFiA==
-X-Received: by 2002:adf:fdcc:0:b0:307:7e68:3a47 with SMTP id
- i12-20020adffdcc000000b003077e683a47mr14835915wrs.37.1683821605247; 
- Thu, 11 May 2023 09:13:25 -0700 (PDT)
-Received: from zen.linaroharston ([85.9.250.243])
- by smtp.gmail.com with ESMTPSA id
- s18-20020a5d4252000000b00304aba2cfcbsm20977235wrr.7.2023.05.11.09.13.24
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 11 May 2023 09:13:25 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 5C44F1FFBB;
- Thu, 11 May 2023 17:13:24 +0100 (BST)
-References: <20230503072331.1747057-1-richard.henderson@linaro.org>
- <20230503072331.1747057-14-richard.henderson@linaro.org>
-User-agent: mu4e 1.11.4; emacs 29.0.90
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: ale@rev.ng, philmd@linaro.org, marcel.apfelbaum@gmail.com,
- wangyanan55@huawei.com, anjo@rev.ng, qemu-devel@nongnu.org
-Subject: Re: [PATCH 13/84] tcg: Remove TCGv from tcg_gen_atomic_*
-Date: Thu, 11 May 2023 17:09:49 +0100
-In-reply-to: <20230503072331.1747057-14-richard.henderson@linaro.org>
-Message-ID: <87ednm26e3.fsf@linaro.org>
+ d=1e100.net; s=20221208; t=1683821662; x=1686413662;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=sAgNQ76oqWisqXMSQPCdukNBnQCr8ABM1Zb6YKFC+ow=;
+ b=PqfU+/CujywbWYHECHyyeYH9C3tLsTRlzZ25GsOVZBhPx1ELJQj9T4j5S9Wi5jKcyi
+ 44Wk0+WIBX5pc+FrRTwN917DlzmmUQfCcgn9/uXtDEbv7Ck05S1tgqig1kIaQXRC8Glx
+ yWtBISGlT3fIYw4lfM4ZZKvuPdJptMqiLTOlnTmt9BmrrhEW8wS91K6MHTm1D0elNXbV
+ AG6XRipvOTFdnAqph/ZoHo4o2h8RVrN1/4xRx7spTyTZ+UCg6oMwB2yW3h32MCD3/1C6
+ cnnqBbn/+xGYnzugO5himRUqbbPTxUCiRMYDymhvMTfeOI8Hsbq9udHeBlrkkVcJ1X/a
+ stpw==
+X-Gm-Message-State: AC+VfDzwv5R5LhsRpqMIwWGOGoVlNvFcDvs7GS3CL6innqQn1F2bXi3G
+ wb+ZUZAUb2LmwiPKQguTh4cjKU4c0IDuuDlWRS5vRsVs68m8eqICo9ZxoMYJg3+n/re7hvkdu+s
+ aLJAIZFWmlaJWNIMvyseCckUCIC8K2A0=
+X-Received: by 2002:a05:6102:d3:b0:434:89e3:5a39 with SMTP id
+ u19-20020a05610200d300b0043489e35a39mr7710988vsp.10.1683821661907; 
+ Thu, 11 May 2023 09:14:21 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ7loAKXoPF6PBNY+1nDIspfvLL1f3dnBmnpvGpfm1D6iiSOh9cGZ7okM9R0RW5DkPkVz/KVRYvxOXweqOR7YJo=
+X-Received: by 2002:a05:6102:d3:b0:434:89e3:5a39 with SMTP id
+ u19-20020a05610200d300b0043489e35a39mr7710952vsp.10.1683821661666; Thu, 11
+ May 2023 09:14:21 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::336;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x336.google.com
+References: <20230511035435.734312-1-jsnow@redhat.com>
+ <20230511035435.734312-28-jsnow@redhat.com>
+ <ac20b31a-5018-186f-3d7c-ea9d7d0f11c4@redhat.com>
+ <CAFn=p-axwgCSju3e86rRHMBbdSkYiTMPaaL857DO+4bW5fu9WQ@mail.gmail.com>
+In-Reply-To: <CAFn=p-axwgCSju3e86rRHMBbdSkYiTMPaaL857DO+4bW5fu9WQ@mail.gmail.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Date: Thu, 11 May 2023 18:14:10 +0200
+Message-ID: <CABgObfYHpiHuRkFDVFU8YovqUqETzQBse9-tK7C+69VMFfrS2w@mail.gmail.com>
+Subject: Re: [PATCH 27/27] mkvenv.py: experiment; use distlib to generate
+ script entry points
+To: John Snow <jsnow@redhat.com>
+Cc: qemu-devel <qemu-devel@nongnu.org>, Warner Losh <imp@bsdimp.com>, 
+ Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
+ Ani Sinha <anisinha@redhat.com>, Beraldo Leal <bleal@redhat.com>, 
+ Markus Armbruster <armbru@redhat.com>, Ryo ONODERA <ryoon@netbsd.org>,
+ Kyle Evans <kevans@freebsd.org>, 
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
+ Michael Roth <michael.roth@amd.com>, Reinoud Zandijk <reinoud@netbsd.org>, 
+ =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>, 
+ Cleber Rosa <crosa@redhat.com>, Thomas Huth <thuth@redhat.com>, 
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
+ Wainer dos Santos Moschetta <wainersm@redhat.com>
+Content-Type: multipart/alternative; boundary="000000000000024fd705fb6d48f1"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -97,62 +108,56 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+--000000000000024fd705fb6d48f1
+Content-Type: text/plain; charset="UTF-8"
 
-Richard Henderson <richard.henderson@linaro.org> writes:
+Il gio 11 mag 2023, 17:58 John Snow <jsnow@redhat.com> ha scritto:
 
-> Expand from TCGv to TCGTemp inline in the translators,
-> and validate that the size matches tcg_ctx->addr_type.
+> I'll make that simplifying change, which will also allow me to just put
+>> the import in the global scope instead of trying to do it JIT to work
+>> around ensurepip shenanigans. Should be a few less "I know this is bad"
+>> comments for the linters, too.
 >
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  include/tcg/tcg-op.h | 184 ++++++++++++++++++++++++++++++----------
->  tcg/tcg-op-ldst.c    | 198 ++++++++++++++++++++++++++++---------------
->  2 files changed, 267 insertions(+), 115 deletions(-)
 >
-<snip>
-> diff --git a/tcg/tcg-op-ldst.c b/tcg/tcg-op-ldst.c
-> index a94a70e8c4..4624b0a25b 100644
-> --- a/tcg/tcg-op-ldst.c
-> +++ b/tcg/tcg-op-ldst.c
-<snip>
->=20=20
-> -static void do_atomic_op_i64(TCGv_i64 ret, TCGv addr, TCGv_i64 val,
-> +static void do_atomic_op_i64(TCGv_i64 ret, TCGTemp *addr, TCGv_i64 val,
->                               TCGArg idx, MemOp memop, void * const table=
-[])
->  {
->      memop =3D tcg_canonicalize_memop(memop, 1, 0);
->=20=20
->      if ((memop & MO_SIZE) =3D=3D MO_64) {
-> -#ifdef CONFIG_ATOMIC64
+I don't think you can do that because, until you are running in the new
+venv, you aren't guaranteed to have either distlib or pip. Once in the venv
+you'll get the latter via ensurepip, if it wasn't already present in the
+system site-packages.
 
-The commit message could briefly mention the table expansion is
-controlled by CONFIG_ATOMIC64 so why we don't check it here.
+Paolo
 
-> -        gen_atomic_op_i64 gen;
-> -        TCGv_i64 a64;
-> -        MemOpIdx oi;
-> +        gen_atomic_op_i64 gen =3D table[memop & (MO_SIZE | MO_BSWAP)];
->=20=20
-> -        gen =3D table[memop & (MO_SIZE | MO_BSWAP)];
-> -        tcg_debug_assert(gen !=3D NULL);
-> +        if (gen) {
-> +            MemOpIdx oi =3D make_memop_idx(memop & ~MO_SIGN, idx);
-> +            TCGv_i64 a64 =3D maybe_extend_addr64(addr);
-> +            gen(ret, cpu_env, a64, val, tcg_constant_i32(oi));
-> +            maybe_free_addr64(a64);
-> +            return;
-> +        }
+--js
+>
+>>
 
-personal preference nit, we don't need an early return, you could just
-hoist into the else leg.
+--000000000000024fd705fb6d48f1
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"auto"><br><br><div class=3D"gmail_quote" dir=3D"auto"><div dir=
+=3D"ltr" class=3D"gmail_attr">Il gio 11 mag 2023, 17:58 John Snow &lt;<a hr=
+ef=3D"mailto:jsnow@redhat.com">jsnow@redhat.com</a>&gt; ha scritto:<br></di=
+v><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:=
+1px #ccc solid;padding-left:1ex"><div dir=3D"auto"><div><div class=3D"gmail=
+_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border=
+-left:1px #ccc solid;padding-left:1ex">I&#39;ll make that simplifying chang=
+e, which will also allow me to just put the import in the global scope inst=
+ead of trying to do it JIT to work around ensurepip shenanigans. Should be =
+a few less &quot;I know this is bad&quot; comments for the linters, too.</b=
+lockquote></div></div></div></blockquote></div><div dir=3D"auto"><br></div>=
+<div dir=3D"auto">I don&#39;t think you can do that because, until you are =
+running in the new venv, you aren&#39;t guaranteed to have either distlib o=
+r pip. Once in the venv you&#39;ll get the latter via ensurepip, if it wasn=
+&#39;t already present in the system site-packages.</div><div dir=3D"auto">=
+<br></div><div dir=3D"auto">Paolo</div><div dir=3D"auto"><br></div><div cla=
+ss=3D"gmail_quote" dir=3D"auto"><blockquote class=3D"gmail_quote" style=3D"=
+margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div dir=3D"=
+auto"><div dir=3D"auto">--js<br></div><div dir=3D"auto"><div class=3D"gmail=
+_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border=
+-left:1px #ccc solid;padding-left:1ex">
+</blockquote></div></div></div>
+</blockquote></div></div>
 
-Otherwise:
+--000000000000024fd705fb6d48f1--
 
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-
---=20
-Alex Benn=C3=A9e
-Virtualisation Tech Lead @ Linaro
 
