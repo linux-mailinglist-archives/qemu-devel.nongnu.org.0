@@ -2,66 +2,99 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E0CB6FEE26
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 May 2023 10:59:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A76086FEE1A
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 May 2023 10:58:55 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1px29G-0008A9-Px; Thu, 11 May 2023 04:59:42 -0400
+	id 1px28F-0004y8-Bx; Thu, 11 May 2023 04:58:39 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1px28p-0007bM-P0
- for qemu-devel@nongnu.org; Thu, 11 May 2023 04:59:16 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167])
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1px28C-0004r0-V6
+ for qemu-devel@nongnu.org; Thu, 11 May 2023 04:58:36 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1px28o-0003tH-Dc
- for qemu-devel@nongnu.org; Thu, 11 May 2023 04:59:15 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=ilande.co.uk; s=20220518; h=Subject:Content-Transfer-Encoding:MIME-Version:
- References:In-Reply-To:Message-Id:Date:To:From:Sender:Reply-To:Cc:
- Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
- Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
- List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=/1EAtV9ozIx5RqiGdVoVYzK1DrV4ewSAV9CmS+LTqtk=; b=d4HLyS/YnCRWoUdMvWe+L46IJy
- US/K0W/tOJBIuBBLEl1NnFCSz2zZaFYuoRMNfreZ4wji0PeXcGmNTN5kDCwG22oEcHNqLN4oE7tGN
- xydSPZwUqKFFnvQB1qQ3ePnxwJ5ZfbYJam3XwyGBMkqdJJDrluShz5SnV4NrPXIScFtKJBcL+x2ck
- aG60Xb/d02hPhHsSy7L0mTMXE79PdY85uW+FvvS4emXfTz98kWnnRYmHAu2WjdLkHERMxB/JAOczP
- oR3ujRtCVTtoK2dAjl98JjBRVskMBxm+HuXxfEqzpqpHBEWxuLQ2d6iuuKs8vf9UHZ2GJ6STouGsJ
- oCSlIEF3VkkGANO2mPcfvUIbX+B8pGy8KTGJA4YUIYCLMERaPhVZfKTkKVeMPxiH4hMJQc5qdWc7B
- Q6rGBN5cc4jgL3uwztTlnrnBVVW9qhwD1ah2sm5xR8bnbXGhoOqvcIAgmskwEHYEy570e8TintzKs
- CbR859m+9xaMzuUhDpOmlFPW7sjLcdoUxKnmBOmoNL04vzDmmBLHeg+7ZNt76fIeZGX6AWOTsdwSO
- QlrpzjKM66l5tb+uanakc3dgeE19AIk3ofFoD60dkzjHRGaI7iSGnugVxAICiEADZJ3qh4z4EL6ja
- zPN8kJ9ua3Phn2jBIBGKQAc/baXzZB5/5G/XjRQYc=;
-Received: from host81-151-114-25.range81-151.btcentralplus.com
- ([81.151.114.25] helo=kentang.home)
- by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1px27c-0008g9-V3; Thu, 11 May 2023 09:58:05 +0100
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-To: mst@redhat.com, marcel.apfelbaum@gmail.com, philmd@linaro.org,
- alex.bennee@linaro.org, qemu-devel@nongnu.org
-Date: Thu, 11 May 2023 09:57:31 +0100
-Message-Id: <20230511085731.171565-19-mark.cave-ayland@ilande.co.uk>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20230511085731.171565-1-mark.cave-ayland@ilande.co.uk>
-References: <20230511085731.171565-1-mark.cave-ayland@ilande.co.uk>
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1px283-0003n9-Pv
+ for qemu-devel@nongnu.org; Thu, 11 May 2023 04:58:36 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1683795506;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=SZnbcja1AXkpW76bEJXa+Ia1trhta/y7mr+gMPujRco=;
+ b=J6keMVSKHB61uUJFqSdAx9wcvSpetub/8Rgd41VM5qdhoQVYNSKESGDad4zEok1vw45be3
+ rRAD1Nv/08BNp7UJmUnBMz/aWR1ixO3kCFvvAESaZlVE42CMAnvNe5+euJyih38FJevQCk
+ KM+V9H0aigwaWKwoCCr8Y9xqnoLG/F4=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-511-ubElLWI7NXqtpJ-68hFM7Q-1; Thu, 11 May 2023 04:58:25 -0400
+X-MC-Unique: ubElLWI7NXqtpJ-68hFM7Q-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ 5b1f17b1804b1-3f42bcef2acso12387735e9.2
+ for <qemu-devel@nongnu.org>; Thu, 11 May 2023 01:58:25 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1683795504; x=1686387504;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=SZnbcja1AXkpW76bEJXa+Ia1trhta/y7mr+gMPujRco=;
+ b=UyqAUSTpUI8SIo4Og7gxZ4cMLxEM7drmSl6bnSb6KLl8KT82l2LEIF7WJGt3YxDEg8
+ Q5vxXd0R/h10K6mOB8LlPPKJjSd6okktzVsRce2eXn8y/39iUoA5UcEPVZ1WTadMzwhK
+ RDgcUXTW96XyshAGTUMfVo7DP9zVh0py6oKnLJSUin5mFtnCIX+PwT0cD62EPNWcG8GV
+ yqBtfJ3y6QnWJNaBATkTfBPujm9wB6UpZYO5UH9lO8oKmGvcSng0Y40kQimj9T8x3Qs9
+ NtRgZJSH+z5OxZZ9wYQmO2nPENw7lo4NP8wLH8XSth3lDXtc+d3kjQpuLpJW7zabORzL
+ WxpA==
+X-Gm-Message-State: AC+VfDyw2qcFNjmuL+TNHuCwe+/JW6Y3cbwJOfRiYg6RNUTKs9sM3UNI
+ 8ec4OvwDa0fjqwdu3tsj3Ygdx2tNI3oOamrZUYetjosL9UUWM758TtteHeqD8/q/TEyMxUifJWr
+ /+9OPkj2YW06ooOYwzsprQz0=
+X-Received: by 2002:a1c:7210:0:b0:3f4:e850:64e4 with SMTP id
+ n16-20020a1c7210000000b003f4e85064e4mr1076648wmc.37.1683795504480; 
+ Thu, 11 May 2023 01:58:24 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ7/8wpRoVO0cogdpBr7Lj3BkbfOGrIwCzZwvhgg+n5LbATIAc/ciZ3h/jTacNxrPy4YZHMmtg==
+X-Received: by 2002:a1c:7210:0:b0:3f4:e850:64e4 with SMTP id
+ n16-20020a1c7210000000b003f4e85064e4mr1076634wmc.37.1683795504205; 
+ Thu, 11 May 2023 01:58:24 -0700 (PDT)
+Received: from [192.168.0.3] (ip-109-43-177-67.web.vodafone.de.
+ [109.43.177.67]) by smtp.gmail.com with ESMTPSA id
+ 14-20020a05600c230e00b003f4248dcfcbsm11891119wmo.30.2023.05.11.01.58.23
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 11 May 2023 01:58:23 -0700 (PDT)
+Message-ID: <1e0cf322-7c22-862c-f9c3-9b6099abaa54@redhat.com>
+Date: Thu, 11 May 2023 10:58:22 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH v10 1/8] memory: prevent dma-reentracy issues
+Content-Language: en-US
+To: Song Gao <gaosong@loongson.cn>
+Cc: qemu-devel@nongnu.org, maobibo@loongson.cn
+References: <20230427211013.2994127-1-alxndr@bu.edu>
+ <20230427211013.2994127-2-alxndr@bu.edu> <ZEt/3RwtL/jePTTv@redhat.com>
+ <828514c6-44f0-32f0-1eb1-a49f21617585@redhat.com>
+ <20230428091159.haydefdtq4m6z2tz@mozz.bu.edu>
+ <b151ecf7-0544-86ac-a182-1112a4dd7dca@redhat.com>
+ <c01a2b87-27be-e92a-3a5b-d561eadbc516@loongson.cn>
+ <981cdcd7-7326-08f0-9882-e66840175205@redhat.com>
+ <c4919eb6-74f1-7699-f924-6917cdf435bb@loongson.cn>
+ <faa1c6e0-abc2-f108-cc25-2b2cf71bd3d0@redhat.com>
+ <a5a05af5-bf26-ad10-f866-230e4525881f@loongson.cn>
+ <1b3f4f59-4773-014c-1c8e-e300d14b1d2e@redhat.com>
+ <d883eaaa-96e7-3cd9-9226-76a1fee874d8@loongson.cn>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <d883eaaa-96e7-3cd9-9226-76a1fee874d8@loongson.cn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 81.151.114.25
-X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: [RFC PATCH 18/18] hw/pci/pci.c: remove pci_allocate_irq()
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
-Received-SPF: pass client-ip=2001:41c9:1:41f::167;
- envelope-from=mark.cave-ayland@ilande.co.uk; helo=mail.ilande.co.uk
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -53
+X-Spam_score: -5.4
+X-Spam_bar: -----
+X-Spam_report: (-5.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-3.251, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -77,46 +110,17 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-This function is no longer used and can now be removed.
+On 11/05/2023 10.53, Song Gao wrote:
+...
+> And
+> Should we need add  '  @skipIf(os.getenv('GITLAB_CI'), 'Running on GitLab')' ?
+> 
+> I see some tests add this.
 
-Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
----
- hw/pci/pci.c         | 8 --------
- include/hw/pci/pci.h | 1 -
- 2 files changed, 9 deletions(-)
+No, please don't add that unless there is a good reason. That marker is only 
+required if the test does not work reliable on gitlab, e.g. if it sometimes 
+fails due to race conditions or if it takes incredibly long to finish.
 
-diff --git a/hw/pci/pci.c b/hw/pci/pci.c
-index 0dd3b24b62..79eb427709 100644
---- a/hw/pci/pci.c
-+++ b/hw/pci/pci.c
-@@ -1670,14 +1670,6 @@ static void pci_bus_irq_handler(void *opaque, int devfn, int level)
-     pci_irq_handler(pci_dev, intx, level);
- }
- 
--qemu_irq pci_allocate_irq(PCIDevice *pci_dev)
--{
--    int intx = pci_intx(pci_dev);
--    assert(0 <= intx && intx < PCI_NUM_PINS);
--
--    return qemu_allocate_irq(pci_irq_handler, pci_dev, intx);
--}
--
- void pci_set_irq(PCIDevice *pci_dev, int level)
- {
-     qemu_set_irq(pci_dev->irq, level);
-diff --git a/include/hw/pci/pci.h b/include/hw/pci/pci.h
-index 935b4b91b4..080c5a0df2 100644
---- a/include/hw/pci/pci.h
-+++ b/include/hw/pci/pci.h
-@@ -587,7 +587,6 @@ PCIDevice *pci_create_simple(PCIBus *bus, int devfn, const char *name);
- 
- void lsi53c8xx_handle_legacy_cmdline(DeviceState *lsi_dev);
- 
--qemu_irq pci_allocate_irq(PCIDevice *pci_dev);
- void pci_set_irq(PCIDevice *pci_dev, int level);
- 
- static inline void pci_irq_assert(PCIDevice *pci_dev)
--- 
-2.30.2
+  Thomas
 
 
