@@ -2,69 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 660366FF022
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 May 2023 12:50:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DCF306FF021
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 May 2023 12:50:01 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1px3rb-0001wM-G1; Thu, 11 May 2023 06:49:35 -0400
+	id 1px3rc-0001xD-3M; Thu, 11 May 2023 06:49:36 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1px3rY-0001tW-GF
- for qemu-devel@nongnu.org; Thu, 11 May 2023 06:49:32 -0400
-Received: from mail-ed1-x536.google.com ([2a00:1450:4864:20::536])
+ id 1px3rZ-0001va-De
+ for qemu-devel@nongnu.org; Thu, 11 May 2023 06:49:33 -0400
+Received: from mail-ed1-x529.google.com ([2a00:1450:4864:20::529])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1px3rP-0001z6-UD
+ id 1px3rP-0001z8-UK
  for qemu-devel@nongnu.org; Thu, 11 May 2023 06:49:26 -0400
-Received: by mail-ed1-x536.google.com with SMTP id
- 4fb4d7f45d1cf-50bc570b4a3so15312108a12.1
+Received: by mail-ed1-x529.google.com with SMTP id
+ 4fb4d7f45d1cf-50db7f0a1b4so5077446a12.3
  for <qemu-devel@nongnu.org>; Thu, 11 May 2023 03:49:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=linaro.org; s=google; t=1683802161; x=1686394161;
- h=content-transfer-encoding:mime-version:message-id:date:subject:to
- :from:from:to:cc:subject:date:message-id:reply-to;
- bh=95CgpBg1e5dQv9WqAlTjka0hxFE363FlJAvsX/bzAts=;
- b=PFC/zjOCMFzvQGTOjFqUyhooDZz9Px6dJq5GrM6+EGxODJigOlPTcAmjOW5Dikv3O4
- i77vWeQqJ8vnqVTTYsTvWXmp3kQlze9eE/kWpqul7ocBrrHRJg3FNW6GjywxYZRpZI4b
- ZBXoFB3wsm+BvK2qKslquuTCQcs5M1FLfdyt9658mvKyYxiatNGL67tOax/ELQx4SuAR
- rJRkH36fyXnfglJfHrxn/sJ7pVnmzLM7BHIMZ7uQTJ2OF6V9AlHMRN4m88+wbjecmZrw
- 1IV0qH32SzDuSrUMKUrpQuipvcClnifPSVdI0jDxyvyah93MWocrPwgk3wQ+N/CT+rhg
- nLCQ==
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=eVIm/LvjBJ24H9Pum25QZnkpQR/k68A0D+Z2VL214Rw=;
+ b=D9aIjctIQenO3p7ZyqVhOXTIpIl3Xe+/f4YV9Wn3YqQ3lgB16o3Yx/VaCNYqy5OXQX
+ ii/IqMjccSq7Nkc5OL7VXTAmGz6xlBKuVSw7uCSTFZbJInpR0WIbKqnTKS2xO8xDKK/7
+ hp2Y8KFGmWz6a2XyPrlLOEEmyEWAEUGI0LHteT5QRMGqwD1lsCQ4LeprATxwGfzAiY9D
+ w8BKjTMwALGSo0c+0mPzZs7yeM6wf2UBTMxOAaMthbTroUaNupFACLXnDkJHajVnVCSX
+ 1pd5Pv8KSCzriApwGh8i3e8To7bjlj0JcR6fYuTQ8sqjErjqyWuhCDNSSL+WtzKBR4oE
+ PTLg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20221208; t=1683802161; x=1686394161;
- h=content-transfer-encoding:mime-version:message-id:date:subject:to
- :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=95CgpBg1e5dQv9WqAlTjka0hxFE363FlJAvsX/bzAts=;
- b=iGcaex84aNXcDHSVlfjKI/uAOKNH6u5F7ZjDKKY89g0op8dL4X03hA8KW96o4TLD8E
- HvxlCYzej5iE5AICpbERC7Qn+PmHwOFrkYOURwnTsx7WjMhIMF/0L7rW0uitKCHIPw7k
- Jm+Uhd34x3os8BtKQz7BLRR5rYUQMohEyZr5yQ565K3OLDL5efm+OoJpEWjLpQsq+Uri
- 8QMv2fnX+ZNTr6lU4xPItfDEtdS1t4uS8RuWj5H1uFljEUwj8IAb11T5O/2mkIC42Ejs
- 51C7b1oRTysUr2ypCnEkZptGkb4Gj6LHfDtc+U5aocxvRLIDdA5nc300c3tx1H8Ls9yG
- dSIw==
-X-Gm-Message-State: AC+VfDxnuXT8Y/SWenr5aDTEFCK5l4oj7N/YXEer39WV0zSJ0pWsbHgW
- NzVny+GmtHm6KFAC36Z7JWDVD/Vf/ctrlJxmu0r0hA==
-X-Google-Smtp-Source: ACHHUZ6gIkCBXs86qvwo//c/0Lsb5Tb51A4Cx3so1H03trpnUKKHu8W2fwsiXxfXDtza+oWAO58KtA==
-X-Received: by 2002:a05:6402:104f:b0:50b:d863:30ea with SMTP id
- e15-20020a056402104f00b0050bd86330eamr16306075edu.0.1683802160875; 
- Thu, 11 May 2023 03:49:20 -0700 (PDT)
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=eVIm/LvjBJ24H9Pum25QZnkpQR/k68A0D+Z2VL214Rw=;
+ b=Vpsdue7QtLJyObUl4C+tCQ3TXvCG/PmQAABqcXGf/NI1zqAxu9u/FQniCgOjzPkLu+
+ LVltlM/R9xNnLNRByEVnO3obciISh55uL/25jj6CHC9PdcXsMiAkjFu5uAFOgdWw9+L+
+ +qeS1D6EDU01NtW5JH6h1wvTruJ4S2kjLUVbZ4oERLl3X/bx8nvaVDeK8+AYHCSjuI0y
+ 89+2nedR9GrYaMf/aOmXPnZ5CD2GGhnpn8OIOYHEMfL7UNeYUGPHcETooC+7egmalMSq
+ NSh4WdOik7+cnzvPddUq3xVPyL3dQGQGCWLD4DR7XNAHZHuDpVbP2kkqxwjegeAxPeMy
+ uYtA==
+X-Gm-Message-State: AC+VfDxAYssw+QuiCRmMM9XKQZsZtM7KD9TtrDVs+PnWC98xKRXBoj69
+ 5ifZUnPEc8O7ZFggYHDSYqIl/CCOyOfCVMwLhS12Eg==
+X-Google-Smtp-Source: ACHHUZ5nyIQXHledUsp1C9vPCIsh5bAk5DZQx9jQHnPlwnKWPMOZ+t2GSGMGPvChepfAa70hliRE5g==
+X-Received: by 2002:aa7:c60c:0:b0:50b:d755:8acc with SMTP id
+ h12-20020aa7c60c000000b0050bd7558accmr16474532edq.34.1683802161503; 
+ Thu, 11 May 2023 03:49:21 -0700 (PDT)
 Received: from stoup.. ([85.9.250.243]) by smtp.gmail.com with ESMTPSA id
  n25-20020a056402061900b0050a276e7ba8sm2914027edv.36.2023.05.11.03.49.20
- for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 11 May 2023 03:49:20 -0700 (PDT)
+ Thu, 11 May 2023 03:49:21 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL v2 00/53] tcg patch queue
-Date: Thu, 11 May 2023 11:49:18 +0100
-Message-Id: <20230511104919.875195-1-richard.henderson@linaro.org>
+Cc: Thomas Huth <thuth@redhat.com>
+Subject: [PULL v2 08/53] disas: Move disas.c into the target-independent
+ source set
+Date: Thu, 11 May 2023 11:49:19 +0100
+Message-Id: <20230511104919.875195-2-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20230511104919.875195-1-richard.henderson@linaro.org>
+References: <20230511104919.875195-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::536;
- envelope-from=richard.henderson@linaro.org; helo=mail-ed1-x536.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::529;
+ envelope-from=richard.henderson@linaro.org; helo=mail-ed1-x529.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,166 +91,67 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-v2: Remove poisoned symbol CONFIG_RISCV_DIS from disas.c.
-    Wasn't visible from x86 with gcc or clang;
-    was visible from macos clang;
-    was visible from native riscv clang.
+From: Thomas Huth <thuth@redhat.com>
 
+Use target_words_bigendian() instead of an ifdef.
 
-r~
+Remove CONFIG_RISCV_DIS from the check for riscv as a host; this is
+a poisoned identifier, and anyway will always be set by meson.build
+when building on a riscv host.
 
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+Message-Id: <20230508133745.109463-3-thuth@redhat.com>
+[rth: Type change done in a separate patch]
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ disas/disas.c     | 12 ++++++------
+ disas/meson.build |  3 ++-
+ 2 files changed, 8 insertions(+), 7 deletions(-)
 
-The following changes since commit fff86d48a2cdcdfa75f845cac3e0d3cdd848d9e4:
+diff --git a/disas/disas.c b/disas/disas.c
+index 45614af02d..0d2d06c2ec 100644
+--- a/disas/disas.c
++++ b/disas/disas.c
+@@ -122,11 +122,11 @@ void disas_initialize_debug_target(CPUDebug *s, CPUState *cpu)
+     s->cpu = cpu;
+     s->info.read_memory_func = target_read_memory;
+     s->info.print_address_func = print_address;
+-#if TARGET_BIG_ENDIAN
+-    s->info.endian = BFD_ENDIAN_BIG;
+-#else
+-    s->info.endian = BFD_ENDIAN_LITTLE;
+-#endif
++    if (target_words_bigendian()) {
++        s->info.endian = BFD_ENDIAN_BIG;
++    } else {
++        s->info.endian =  BFD_ENDIAN_LITTLE;
++    }
+ 
+     CPUClass *cc = CPU_GET_CLASS(cpu);
+     if (cc->disas_set_info) {
+@@ -164,7 +164,7 @@ static void initialize_debug_host(CPUDebug *s)
+ # ifdef _ARCH_PPC64
+     s->info.cap_mode = CS_MODE_64;
+ # endif
+-#elif defined(__riscv) && defined(CONFIG_RISCV_DIS)
++#elif defined(__riscv)
+ #if defined(_ILP32) || (__riscv_xlen == 32)
+     s->info.print_insn = print_insn_riscv32;
+ #elif defined(_LP64)
+diff --git a/disas/meson.build b/disas/meson.build
+index f40230c58f..832727e4b3 100644
+--- a/disas/meson.build
++++ b/disas/meson.build
+@@ -11,6 +11,7 @@ common_ss.add(when: 'CONFIG_SH4_DIS', if_true: files('sh4.c'))
+ common_ss.add(when: 'CONFIG_SPARC_DIS', if_true: files('sparc.c'))
+ common_ss.add(when: 'CONFIG_XTENSA_DIS', if_true: files('xtensa.c'))
+ common_ss.add(when: capstone, if_true: [files('capstone.c'), capstone])
++common_ss.add(files('disas.c'))
+ 
+ softmmu_ss.add(files('disas-mon.c'))
+-specific_ss.add(files('disas.c'), capstone)
++specific_ss.add(capstone)
+-- 
+2.34.1
 
-  Merge tag 'migration-20230509-pull-request' of https://gitlab.com/juan.quintela/qemu into staging (2023-05-11 05:55:12 +0100)
-
-are available in the Git repository at:
-
-  https://gitlab.com/rth7680/qemu.git tags/pull-tcg-20230511-2
-
-for you to fetch changes up to 335dfd253fc242b009a1b9b5d4fffbf4ea52928d:
-
-  target/loongarch: Do not include tcg-ldst.h (2023-05-11 09:53:41 +0100)
-
-----------------------------------------------------------------
-target/m68k: Fix gen_load_fp regression
-accel/tcg: Ensure fairness with icount
-disas: Move disas.c into the target-independent source sets
-tcg: Use common routines for calling slow path helpers
-tcg/*: Cleanups to qemu_ld/st constraints
-tcg: Remove TARGET_ALIGNED_ONLY
-accel/tcg: Reorg system mode load/store helpers
-
-----------------------------------------------------------------
-Jamie Iles (2):
-      cpu: expose qemu_cpu_list_lock for lock-guard use
-      accel/tcg/tcg-accel-ops-rr: ensure fairness with icount
-
-Richard Henderson (49):
-      target/m68k: Fix gen_load_fp for OS_LONG
-      accel/tcg: Fix atomic_mmu_lookup for reads
-      disas: Fix tabs and braces in disas.c
-      disas: Move disas.c to disas/
-      disas: Remove target_ulong from the interface
-      disas: Remove target-specific headers
-      tcg/i386: Introduce prepare_host_addr
-      tcg/i386: Use indexed addressing for softmmu fast path
-      tcg/aarch64: Introduce prepare_host_addr
-      tcg/arm: Introduce prepare_host_addr
-      tcg/loongarch64: Introduce prepare_host_addr
-      tcg/mips: Introduce prepare_host_addr
-      tcg/ppc: Introduce prepare_host_addr
-      tcg/riscv: Introduce prepare_host_addr
-      tcg/s390x: Introduce prepare_host_addr
-      tcg: Add routines for calling slow-path helpers
-      tcg/i386: Convert tcg_out_qemu_ld_slow_path
-      tcg/i386: Convert tcg_out_qemu_st_slow_path
-      tcg/aarch64: Convert tcg_out_qemu_{ld,st}_slow_path
-      tcg/arm: Convert tcg_out_qemu_{ld,st}_slow_path
-      tcg/loongarch64: Convert tcg_out_qemu_{ld,st}_slow_path
-      tcg/mips: Convert tcg_out_qemu_{ld,st}_slow_path
-      tcg/ppc: Convert tcg_out_qemu_{ld,st}_slow_path
-      tcg/riscv: Convert tcg_out_qemu_{ld,st}_slow_path
-      tcg/s390x: Convert tcg_out_qemu_{ld,st}_slow_path
-      tcg/loongarch64: Simplify constraints on qemu_ld/st
-      tcg/mips: Remove MO_BSWAP handling
-      tcg/mips: Reorg tlb load within prepare_host_addr
-      tcg/mips: Simplify constraints on qemu_ld/st
-      tcg/ppc: Reorg tcg_out_tlb_read
-      tcg/ppc: Adjust constraints on qemu_ld/st
-      tcg/ppc: Remove unused constraints A, B, C, D
-      tcg/ppc: Remove unused constraint J
-      tcg/riscv: Simplify constraints on qemu_ld/st
-      tcg/s390x: Use ALGFR in constructing softmmu host address
-      tcg/s390x: Simplify constraints on qemu_ld/st
-      target/mips: Add MO_ALIGN to gen_llwp, gen_scwp
-      target/mips: Add missing default_tcg_memop_mask
-      target/mips: Use MO_ALIGN instead of 0
-      target/mips: Remove TARGET_ALIGNED_ONLY
-      target/nios2: Remove TARGET_ALIGNED_ONLY
-      target/sh4: Use MO_ALIGN where required
-      target/sh4: Remove TARGET_ALIGNED_ONLY
-      tcg: Remove TARGET_ALIGNED_ONLY
-      accel/tcg: Add cpu_in_serial_context
-      accel/tcg: Introduce tlb_read_idx
-      accel/tcg: Reorg system mode load helpers
-      accel/tcg: Reorg system mode store helpers
-      target/loongarch: Do not include tcg-ldst.h
-
-Thomas Huth (2):
-      disas: Move softmmu specific code to separate file
-      disas: Move disas.c into the target-independent source set
-
- configs/targets/mips-linux-user.mak       |    1 -
- configs/targets/mips-softmmu.mak          |    1 -
- configs/targets/mips64-linux-user.mak     |    1 -
- configs/targets/mips64-softmmu.mak        |    1 -
- configs/targets/mips64el-linux-user.mak   |    1 -
- configs/targets/mips64el-softmmu.mak      |    1 -
- configs/targets/mipsel-linux-user.mak     |    1 -
- configs/targets/mipsel-softmmu.mak        |    1 -
- configs/targets/mipsn32-linux-user.mak    |    1 -
- configs/targets/mipsn32el-linux-user.mak  |    1 -
- configs/targets/nios2-softmmu.mak         |    1 -
- configs/targets/sh4-linux-user.mak        |    1 -
- configs/targets/sh4-softmmu.mak           |    1 -
- configs/targets/sh4eb-linux-user.mak      |    1 -
- configs/targets/sh4eb-softmmu.mak         |    1 -
- meson.build                               |    3 -
- accel/tcg/internal.h                      |    9 +
- accel/tcg/tcg-accel-ops-icount.h          |    3 +-
- disas/disas-internal.h                    |   21 +
- include/disas/disas.h                     |   23 +-
- include/exec/cpu-common.h                 |    1 +
- include/exec/cpu-defs.h                   |    7 +-
- include/exec/cpu_ldst.h                   |   26 +-
- include/exec/memop.h                      |   13 +-
- include/exec/poison.h                     |    1 -
- tcg/loongarch64/tcg-target-con-set.h      |    2 -
- tcg/loongarch64/tcg-target-con-str.h      |    1 -
- tcg/mips/tcg-target-con-set.h             |   13 +-
- tcg/mips/tcg-target-con-str.h             |    2 -
- tcg/mips/tcg-target.h                     |    4 +-
- tcg/ppc/tcg-target-con-set.h              |   11 +-
- tcg/ppc/tcg-target-con-str.h              |    7 -
- tcg/riscv/tcg-target-con-set.h            |    2 -
- tcg/riscv/tcg-target-con-str.h            |    1 -
- tcg/s390x/tcg-target-con-set.h            |    2 -
- tcg/s390x/tcg-target-con-str.h            |    1 -
- accel/tcg/cpu-exec-common.c               |    3 +
- accel/tcg/cputlb.c                        | 1113 ++++++++++++++++-------------
- accel/tcg/tb-maint.c                      |    2 +-
- accel/tcg/tcg-accel-ops-icount.c          |   21 +-
- accel/tcg/tcg-accel-ops-rr.c              |   37 +-
- bsd-user/elfload.c                        |    5 +-
- cpus-common.c                             |    2 +-
- disas/disas-mon.c                         |   65 ++
- disas.c => disas/disas.c                  |  111 +--
- linux-user/elfload.c                      |   18 +-
- migration/dirtyrate.c                     |   26 +-
- replay/replay.c                           |    3 +-
- target/loongarch/csr_helper.c             |    1 -
- target/loongarch/iocsr_helper.c           |    1 -
- target/m68k/translate.c                   |    1 +
- target/mips/tcg/mxu_translate.c           |    3 +-
- target/nios2/translate.c                  |   10 +
- target/sh4/translate.c                    |  102 ++-
- tcg/tcg.c                                 |  480 ++++++++++++-
- trace/control-target.c                    |    9 +-
- target/mips/tcg/micromips_translate.c.inc |   24 +-
- target/mips/tcg/mips16e_translate.c.inc   |   18 +-
- target/mips/tcg/nanomips_translate.c.inc  |   32 +-
- tcg/aarch64/tcg-target.c.inc              |  347 ++++-----
- tcg/arm/tcg-target.c.inc                  |  455 +++++-------
- tcg/i386/tcg-target.c.inc                 |  453 +++++-------
- tcg/loongarch64/tcg-target.c.inc          |  313 +++-----
- tcg/mips/tcg-target.c.inc                 |  870 +++++++---------------
- tcg/ppc/tcg-target.c.inc                  |  512 ++++++-------
- tcg/riscv/tcg-target.c.inc                |  304 ++++----
- tcg/s390x/tcg-target.c.inc                |  314 ++++----
- disas/meson.build                         |    6 +-
- 68 files changed, 2789 insertions(+), 3040 deletions(-)
- create mode 100644 disas/disas-internal.h
- create mode 100644 disas/disas-mon.c
- rename disas.c => disas/disas.c (78%)
 
