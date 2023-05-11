@@ -2,67 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94A7E6FED85
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 May 2023 10:07:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D667A6FEDA4
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 May 2023 10:14:17 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1px1It-00072o-W7; Thu, 11 May 2023 04:05:36 -0400
+	id 1px1JG-0007Rw-0r; Thu, 11 May 2023 04:05:58 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1px1Ik-0006e4-To
- for qemu-devel@nongnu.org; Thu, 11 May 2023 04:05:27 -0400
+ id 1px1Im-0006gE-Dg
+ for qemu-devel@nongnu.org; Thu, 11 May 2023 04:05:28 -0400
 Received: from mail-ed1-x534.google.com ([2a00:1450:4864:20::534])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1px1IZ-0000x5-EW
- for qemu-devel@nongnu.org; Thu, 11 May 2023 04:05:26 -0400
+ id 1px1Ia-00013H-Hu
+ for qemu-devel@nongnu.org; Thu, 11 May 2023 04:05:27 -0400
 Received: by mail-ed1-x534.google.com with SMTP id
- 4fb4d7f45d1cf-50bcb4a81ceso14613694a12.2
- for <qemu-devel@nongnu.org>; Thu, 11 May 2023 01:05:15 -0700 (PDT)
+ 4fb4d7f45d1cf-50c8d87c775so10951898a12.3
+ for <qemu-devel@nongnu.org>; Thu, 11 May 2023 01:05:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1683792314; x=1686384314;
+ d=linaro.org; s=google; t=1683792315; x=1686384315;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=9OBWczxe5h53DTHTDxSKKonJLPbtryLCHBXLUcxswCo=;
- b=nP3eyBSWtMqwFJbFkMkh/+vp+qTyqHp4G/hcDnCFsiWCTH82TieP6Nsd5LOn7oKZtu
- hEGOxrrLjg7aGziFgfnOGmUqOqop8bbGjlS9XHpAueqTMnUzfadPp6gFZlDzenKgGH+r
- uhf3Ko9AxtcVM43lEsBoLbJHDzfNaHnvbfmW4GyNQ0D4Ju7/+3stmP3TD8OHd+2vvf5P
- 3XqxzqNuzkEIB+tsWbmY5Bhq+FyAMz6K1hanQAweCGl28v9gxC1cmKvs1fUQwo0lF1dt
- uAnaHVWRoQAv59yfVX7J3SxT0zON1wS1yxj+6fulOEZUo2zL/wDVrD2RSpTGSUYwnNNf
- w04w==
+ bh=QU1syb+cc4YKGCG4Z49Hidz1m6+KfeR1vmxnC8mNNIs=;
+ b=jcIpcVMy0YbzCFwfBRLc1zrex+zsXqq9HSXo57XLJ10DjQgu7ElI2XxBgs1wBveVQO
+ DUR1Ph/PcCA3a3xfP/O8AB1awXAsq7UBrqQjEaHjKspOOMcGY4f9fSC6034q+4Sum7k6
+ /xuS4wuDNgOFoLTdeYkDrkM5pmaFcgKvuTHNUbxs0bNypDDTC5VWmdSu5FHi4QHb0Gye
+ sviAI/2LJuXpsX65ufR6OczoBo19tC9B+rNMdD2xFvEdNFdynIvVNUil57eF6tomdVnN
+ xyMEYJ7gmQgMVhlFNNk++BGty9Ji890lu1YhXZK2jyRxM8B0KMaNd1/Y5GMgCzvNBc9u
+ oQyQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683792314; x=1686384314;
+ d=1e100.net; s=20221208; t=1683792315; x=1686384315;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=9OBWczxe5h53DTHTDxSKKonJLPbtryLCHBXLUcxswCo=;
- b=fCqvdhByRmqaWKj6vWzhl8R/+Lf9z1j4608TnUM0/Q9UMGUM06klhCDhp+pW+Y0mQd
- asOJLws6kMBwguycJ7hkFiUoS8Xbs3vBGPd0fbmKL6DXbC8CE1BNG5KDY0PD+Cgmmi4A
- hum99ac/QTbRJ0zu6DOxFY12crGaR3lwKARq1EZdkb8Y6E1vBTgzNC3TjHXuL3xeOgCL
- VN9QoVaKB8O5ntRvSLMspCMf7pWfDSJ2tQYx4PaqcJjMzvVTKatGFJc0N+0GqfyApwOI
- qptb35o9ZkBuCNZpRkfDGnvcQwcfzlP0QVRxFO2GAP6iS5X0CIwpbUDHDa7YxKU43WLN
- QFvg==
-X-Gm-Message-State: AC+VfDwAEsfDpy6y2uVnnH8H2av8KdNAYt48ObIwjFXQ0QPdyIVBKC4/
- FhYn9UWkPtohgVcgwmnyA7IrhlKrDnOGEkOfVhwdPQ==
-X-Google-Smtp-Source: ACHHUZ4k2hMvspZaXrx8DTb15939ozrH40LK7h7bzwKbWBAeY6v6tJDmQqKZKNm1t1iBkm5jFoJhcQ==
-X-Received: by 2002:a50:ed99:0:b0:50b:d5cd:612e with SMTP id
- h25-20020a50ed99000000b0050bd5cd612emr15383180edr.3.1683792314664; 
- Thu, 11 May 2023 01:05:14 -0700 (PDT)
+ bh=QU1syb+cc4YKGCG4Z49Hidz1m6+KfeR1vmxnC8mNNIs=;
+ b=k21XHe0U1ppra+0piwEos3TRjDvVbxKiaKFfrfcsxMzgEZdqHlHhM0YZBGPOPdK70D
+ kJ048UNe+IaE3getlNBfxyA+csZ6H1IW1y60x2BeWqyaLVmTeya6knwNOBW0ExyvxbzR
+ SChem0ptp0CF4G4Izx4pL0QLiMBzsm1nj9yR4vglMWYLLsAzVPAvzG0vU/TWGVYBG6m5
+ gXkX0Wgu7CX0vIvz2lRDJ7elns33B513ovKE1HDNsVOMMAGoYd6fm3PBYBolSLOM+wus
+ A6AiQtXLwe10YcrvRlTy6vE4ctttDm8Ffyuzs+Rz3ohN5EdMI7E5O93UUe11bSkwS/vA
+ 2gcg==
+X-Gm-Message-State: AC+VfDzLXmzC3zP5zH0fgLCS+Pv4LUoZWyWFUmjXdOyvxDLVywvJ9vxb
+ gQPpVoruIClYIobWNYFhaYBlXGWe/pfOJlJdBrfz0g==
+X-Google-Smtp-Source: ACHHUZ6iiyZFlPJNVbkuIMjEgjsrzDJYFraAOPQjbVlt389DB553EyYUY+7EyhxB+SGwdW2658NZng==
+X-Received: by 2002:aa7:d705:0:b0:50d:8c5b:86b with SMTP id
+ t5-20020aa7d705000000b0050d8c5b086bmr15355053edq.21.1683792315238; 
+ Thu, 11 May 2023 01:05:15 -0700 (PDT)
 Received: from stoup.. ([85.9.250.243]) by smtp.gmail.com with ESMTPSA id
  i12-20020aa7c70c000000b0050bd7267a5csm2662095edq.58.2023.05.11.01.05.14
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Thu, 11 May 2023 01:05:14 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Cc: Daniel Henrique Barboza <danielhb413@gmail.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: [PULL 36/53] tcg/ppc: Remove unused constraints A, B, C, D
-Date: Thu, 11 May 2023 09:04:33 +0100
-Message-Id: <20230511080450.860923-37-richard.henderson@linaro.org>
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Subject: [PULL 37/53] tcg/ppc: Remove unused constraint J
+Date: Thu, 11 May 2023 09:04:34 +0100
+Message-Id: <20230511080450.860923-38-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230511080450.860923-1-richard.henderson@linaro.org>
 References: <20230511080450.860923-1-richard.henderson@linaro.org>
@@ -93,32 +91,49 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-These constraints have not been used for quite some time.
+Never used since its introduction.
 
-Fixes: 77b73de67632 ("Use rem/div[u]_i32 drop div[u]2_i32")
-Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Fixes: 3d582c6179c ("tcg-ppc64: Rearrange integer constant constraints")
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tcg/ppc/tcg-target-con-str.h | 4 ----
- 1 file changed, 4 deletions(-)
+ tcg/ppc/tcg-target-con-str.h | 1 -
+ tcg/ppc/tcg-target.c.inc     | 3 ---
+ 2 files changed, 4 deletions(-)
 
 diff --git a/tcg/ppc/tcg-target-con-str.h b/tcg/ppc/tcg-target-con-str.h
-index f3bf030bc3..9dcbc3df50 100644
+index 9dcbc3df50..094613cbcb 100644
 --- a/tcg/ppc/tcg-target-con-str.h
 +++ b/tcg/ppc/tcg-target-con-str.h
-@@ -10,10 +10,6 @@
+@@ -16,7 +16,6 @@ REGS('v', ALL_VECTOR_REGS)
+  * CONST(letter, TCG_CT_CONST_* bit set)
   */
- REGS('r', ALL_GENERAL_REGS)
- REGS('v', ALL_VECTOR_REGS)
--REGS('A', 1u << TCG_REG_R3)
--REGS('B', 1u << TCG_REG_R4)
--REGS('C', 1u << TCG_REG_R5)
--REGS('D', 1u << TCG_REG_R6)
+ CONST('I', TCG_CT_CONST_S16)
+-CONST('J', TCG_CT_CONST_U16)
+ CONST('M', TCG_CT_CONST_MONE)
+ CONST('T', TCG_CT_CONST_S32)
+ CONST('U', TCG_CT_CONST_U32)
+diff --git a/tcg/ppc/tcg-target.c.inc b/tcg/ppc/tcg-target.c.inc
+index fa016c02ee..29bfbfcc61 100644
+--- a/tcg/ppc/tcg-target.c.inc
++++ b/tcg/ppc/tcg-target.c.inc
+@@ -83,7 +83,6 @@
+ #define SZR  (TCG_TARGET_REG_BITS / 8)
  
- /*
-  * Define constraint letters for constants:
+ #define TCG_CT_CONST_S16  0x100
+-#define TCG_CT_CONST_U16  0x200
+ #define TCG_CT_CONST_S32  0x400
+ #define TCG_CT_CONST_U32  0x800
+ #define TCG_CT_CONST_ZERO 0x1000
+@@ -270,8 +269,6 @@ static bool tcg_target_const_match(int64_t val, TCGType type, int ct)
+ 
+     if ((ct & TCG_CT_CONST_S16) && val == (int16_t)val) {
+         return 1;
+-    } else if ((ct & TCG_CT_CONST_U16) && val == (uint16_t)val) {
+-        return 1;
+     } else if ((ct & TCG_CT_CONST_S32) && val == (int32_t)val) {
+         return 1;
+     } else if ((ct & TCG_CT_CONST_U32) && val == (uint32_t)val) {
 -- 
 2.34.1
 
