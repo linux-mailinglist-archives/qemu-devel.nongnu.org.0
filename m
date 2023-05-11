@@ -2,90 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88A3D6FF249
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 May 2023 15:13:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E720C6FF2C1
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 May 2023 15:26:13 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1px664-0003w5-4N; Thu, 11 May 2023 09:12:40 -0400
+	id 1px6He-0007ub-CY; Thu, 11 May 2023 09:24:38 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1px662-0003vo-7h
- for qemu-devel@nongnu.org; Thu, 11 May 2023 09:12:38 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1px65u-00005u-5u
- for qemu-devel@nongnu.org; Thu, 11 May 2023 09:12:37 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1683810749;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=1owvL7mc9vXwDXq35pvWSCK2PsaTDdwdgXye4IQlmXs=;
- b=Wfi9MogQ6sNCj5puN9lxMTup3XyAU1xaL9DFQJR37CRNJidoOo2fzB1XAaU62r0ycbdJrb
- bdqOq3e2pDf5VelNiZXer5GumrAD+IVPgxLpg9Mu5aDF41+JauI/Xi6f4Q6e77unmfOCtm
- yyOiqfsgJGuBgRIYC8BKiidUFrhOO7I=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-637-Rb5Z7pqwPHGP1ge-sb599Q-1; Thu, 11 May 2023 09:12:27 -0400
-X-MC-Unique: Rb5Z7pqwPHGP1ge-sb599Q-1
-Received: by mail-wm1-f71.google.com with SMTP id
- 5b1f17b1804b1-3f4245ffbb4so27645285e9.3
- for <qemu-devel@nongnu.org>; Thu, 11 May 2023 06:12:27 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1px6Hb-0007uA-NN
+ for qemu-devel@nongnu.org; Thu, 11 May 2023 09:24:35 -0400
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1px6Ha-00032I-27
+ for qemu-devel@nongnu.org; Thu, 11 May 2023 09:24:35 -0400
+Received: by mail-wr1-x429.google.com with SMTP id
+ ffacd0b85a97d-306f2b42a86so5681513f8f.3
+ for <qemu-devel@nongnu.org>; Thu, 11 May 2023 06:24:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1683811472; x=1686403472;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=tQNoxzGfkYt4h3RDyx6EMouW2T0Zlu9DWRgWcBQyp7Q=;
+ b=rHW82tNge9MQ9R2wiUDFzRIuQt2fUaRRoDMwL5SFxtj6gWqourcm8mFV74SG0L9F4i
+ kKh7itPW68kRq8iHx31sE3fu7B8sKyDFygkokAuqdhHaBlbiqiyc0sPNpH8gQVvsNAhG
+ HlzMw0G8mhXKH4iJUX+r6ius6B2lOKGY1cHxHSBfiukSOdcL0pV3UdOsDwKEf/WnNEHp
+ x3xd+01SE+P9GyPWfd4OJA2M3ob7B8MeLxopXY6t5Fypty3LKumOah3O5wXXQRgMmk4I
+ 7baJLYG2Uve/GzUwmsIYiIqfIYVdpfBGwclmaBEZNUwdNenhHrJNyAcrZRmpRfdGBO4i
+ CjHA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683810746; x=1686402746;
- h=mime-version:message-id:date:reply-to:user-agent:references
- :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=1owvL7mc9vXwDXq35pvWSCK2PsaTDdwdgXye4IQlmXs=;
- b=ImG3YJGR/z/TnjsxtVmtr/5lfgIYucjWORIHIUE54dxlhO9w55iXDyPTN9CDYu+wAz
- VCelcJxuwnPnHhgB61nInAO+E8y5jFMnTZ5jX4CKdkouthgy1P/Pru/bpnpyr1S8s+0D
- dhMFHiqKNT3n6WELBHNvS1tBKce4iWNeQ6IjZG4uT9gYtSOK1e35wJTeLVlBAikDR9bZ
- fTRAsoxGhnwekVzoW4ORFlp1u7Dvla9CnvuPA/qcIn1ol8V6Yqcc9kwM+G97zRvCtLon
- SxMYHjzhOtnsoBDrFPNr/5cplkZaBABIYTv8chmu5Zn55YSCFPak4SYOD/7Vzc3QA3ak
- C/DA==
-X-Gm-Message-State: AC+VfDxUiklSe2vNh6/f90nsBB9z+MoGdAuFx2t7JKPhC+i3f7ougwT/
- e9QiWK7Q8jW3zAZvtzoc0APJeaWnotianRV1fChpgggUvtn2ELNv6H7DOca3ikvTf5AGnaj5VxC
- Voy8sDx9H6BEIGPc=
-X-Received: by 2002:a5d:68cf:0:b0:306:30ea:a060 with SMTP id
- p15-20020a5d68cf000000b0030630eaa060mr16031036wrw.51.1683810746730; 
- Thu, 11 May 2023 06:12:26 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ4VatYFNeROjzLbOdfisWjJA4klRIJjgQqmYKapdcmTiuhzIUtrO48QI2PBv9l6KfRmZoHqOw==
-X-Received: by 2002:a5d:68cf:0:b0:306:30ea:a060 with SMTP id
- p15-20020a5d68cf000000b0030630eaa060mr16031012wrw.51.1683810746364; 
- Thu, 11 May 2023 06:12:26 -0700 (PDT)
-Received: from redhat.com (static-92-120-85-188.ipcom.comunitel.net.
- [188.85.120.92]) by smtp.gmail.com with ESMTPSA id
- e12-20020adfe7cc000000b002c54c9bd71fsm20498471wrn.93.2023.05.11.06.12.25
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 11 May 2023 06:12:25 -0700 (PDT)
-From: Juan Quintela <quintela@redhat.com>
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-devel@nongnu.org,  Andrei Gudkov <gudkov.andrei@huawei.com>,
- Leonardo Bras <leobras@redhat.com>,  Chuan Zheng <zhengchuan@huawei.com>,
- Peter Xu <peterx@redhat.com>,  Zhenzhong Duan <zhenzhong.duan@intel.com>
-Subject: Re: [PATCH 1/3] migration: Teach dirtyrate about
- qemu_target_page_size()
-In-Reply-To: <80a9bfb8-c99c-7b78-fac0-867f68779f21@linaro.org> (Richard
- Henderson's message of "Thu, 11 May 2023 12:07:58 +0100")
-References: <20230511092239.14607-1-quintela@redhat.com>
- <20230511092239.14607-2-quintela@redhat.com>
- <80a9bfb8-c99c-7b78-fac0-867f68779f21@linaro.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
-Date: Thu, 11 May 2023 15:12:24 +0200
-Message-ID: <87fs833tc7.fsf@secure.mitica>
+ d=1e100.net; s=20221208; t=1683811472; x=1686403472;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=tQNoxzGfkYt4h3RDyx6EMouW2T0Zlu9DWRgWcBQyp7Q=;
+ b=b67lw9Gx/yQqncC5fLqYSFRYLisoCgRXXavhH+8VxAb/W0MUfnQT4wo628EoDJCw94
+ A6fr57FOWN3qiAVyQGkYpxFAj9QT5pqOs1xWzt/fLul+2oBLeuug9PsACZW5fvLaF6ZN
+ CxP3WZVuoLON405ZyMpGIhFsQulks+vrXkfPe5vJWbY49wlsYU5fJXmYc+kmKyCXm0sd
+ By5oNLE9vjR+6Xu7A9HuUzTE65QthzGIaeOTrQzo4oy38X599zlWXP8CBC/o7gM49PJ1
+ FrDRLxhBMSMoY14KKm4XqUdQb43eDIQCQ9MRS/yMx4YAftUGms7mUzB+eKphNvpy4TlM
+ IpVA==
+X-Gm-Message-State: AC+VfDw+GA2UG0zoA4MyG4BRTshm1v+LVuc5V6hK677EcH6YNEwukHV6
+ t1j3cX1qo3rKXTHCZBH8hjsPDg==
+X-Google-Smtp-Source: ACHHUZ6dYXjVVwczsp9C2GsmJOfwYK20QbLXjl4vGa22FwfRGMDc6wydwqgL4zR737AaF6FDmI0Ekg==
+X-Received: by 2002:a5d:58e9:0:b0:306:340c:4737 with SMTP id
+ f9-20020a5d58e9000000b00306340c4737mr14060508wrd.67.1683811472174; 
+ Thu, 11 May 2023 06:24:32 -0700 (PDT)
+Received: from [192.168.110.227] ([85.9.250.243])
+ by smtp.gmail.com with ESMTPSA id
+ q13-20020adff78d000000b002cea9d931e6sm20448254wrp.78.2023.05.11.06.24.31
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 11 May 2023 06:24:31 -0700 (PDT)
+Message-ID: <e795151f-8eee-42f6-542f-e589dfc8e509@linaro.org>
+Date: Thu, 11 May 2023 14:24:30 +0100
 MIME-Version: 1.0
-Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PULL 11/15] include/exec: Change reserved_va semantics to last
+ byte
+Content-Language: en-US
+To: Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org
+Cc: peter.maydell@linaro.org, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
+ <philmd@linaro.org>
+References: <20230328225806.2278728-1-richard.henderson@linaro.org>
+ <20230328225806.2278728-12-richard.henderson@linaro.org>
+ <49a92210-ee40-e284-7bf8-ca3c13d2c087@vivier.eu>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <49a92210-ee40-e284-7bf8-ca3c13d2c087@vivier.eu>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x429.google.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.124,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -100,71 +95,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Richard Henderson <richard.henderson@linaro.org> wrote:
-> On 5/11/23 10:22, Juan Quintela wrote:
->> Signed-off-by: Juan Quintela <quintela@redhat.com>
->> ---
->>   migration/dirtyrate.c | 11 ++++++-----
->>   1 file changed, 6 insertions(+), 5 deletions(-)
->> diff --git a/migration/dirtyrate.c b/migration/dirtyrate.c
->> index 180ba38c7a..9aa092738c 100644
->> --- a/migration/dirtyrate.c
->> +++ b/migration/dirtyrate.c
->> @@ -17,6 +17,7 @@
->>   #include "cpu.h"
->>   #include "exec/ramblock.h"
->>   #include "exec/ram_addr.h"
->> +#include "exec/target_page.h"
->>   #include "qemu/rcu_queue.h"
->>   #include "qemu/main-loop.h"
->>   #include "qapi/qapi-commands-migration.h"
->> @@ -78,7 +79,7 @@ static int64_t do_calculate_dirtyrate(DirtyPageRecord dirty_pages,
->>       uint64_t increased_dirty_pages =
->>           dirty_pages.end_pages - dirty_pages.start_pages;
->>   -    memory_size_MB = (increased_dirty_pages * TARGET_PAGE_SIZE)
->> >> 20;
->> +    memory_size_MB = (increased_dirty_pages * qemu_target_page_size()) >> 20;
->
-> See the recent cleanups for dirtylimit_dirty_ring_full_time, folding
-> multiply+shift into subtract+shift.
+On 5/11/23 12:48, Laurent Vivier wrote:
+> This patch breaks something.
+> 
+> In LTP (20230127), fcntl36 fails now (all archs):
+> 
+> sudo unshare --time --ipc --uts --pid --fork --kill-child --mount --mount-proc --root 
+> chroot/m68k/sid
+> # /opt/ltp/testcases/bin/fcntl36
+> 
+> tst_test.c:1558: TINFO: Timeout per run is 0h 00m 30s
+> fcntl36.c:288: TINFO: OFD read lock vs OFD write lock
+> tst_kernel.c:87: TINFO: uname.machine=m68k kernel is 32bit
+> fcntl36.c:366: TPASS: Access between threads synchronized
+> fcntl36.c:288: TINFO: OFD write lock vs POSIX write lock
+> fcntl36.c:318: TBROK: pthread_create(0x40800330,(nil),0x80004328,0x40800068) failed: 
+> EAGAIN/EWOULDBLOCK
 
-I reviewed it and I had already forgotten!!
+Any idea where the failure is coming from?
+I don't see a matching syscall in -strace...
 
->>         return memory_size_MB * 1000 / calc_time_ms;
->>   }
->> @@ -291,8 +292,8 @@ static void update_dirtyrate_stat(struct RamblockDirtyInfo *info)
->>       DirtyStat.page_sampling.total_dirty_samples += info->sample_dirty_count;
->>       DirtyStat.page_sampling.total_sample_count += info->sample_pages_count;
->>       /* size of total pages in MB */
->> -    DirtyStat.page_sampling.total_block_mem_MB += (info->ramblock_pages *
->> -                                                   TARGET_PAGE_SIZE) >> 20;
->> +    DirtyStat.page_sampling.total_block_mem_MB +=
->> +        (info->ramblock_pages * qemu_target_page_size()) >> 20;
->
-> And a third copy?
-> Can we abstract this somewhere?
 
-I ended with this:
-
-/* Convert target pages to MiB (2**20). */
-size_t qemu_target_pages_to_MiB(size_t pages)
-{
-    int page_bits = TARGET_PAGE_BITS;
-
-    /* So far, the largest (non-huge) page size is 64k, i.e. 16 bits. */
-    g_assert(page_bits < 20);
-
-    return pages >> (20 - page_bits);
-}
-
-But only found 3 users, the one that you did and this two.
-
-Will resend the series on top of this.
-
-Thanks, Juan.
-
+r~
 
