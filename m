@@ -2,80 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E720C6FF2C1
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 May 2023 15:26:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14D696FF333
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 May 2023 15:40:08 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1px6He-0007ub-CY; Thu, 11 May 2023 09:24:38 -0400
+	id 1px6Ux-000345-30; Thu, 11 May 2023 09:38:23 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1px6Hb-0007uA-NN
- for qemu-devel@nongnu.org; Thu, 11 May 2023 09:24:35 -0400
-Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429])
+ id 1px6Uq-00033M-OD
+ for qemu-devel@nongnu.org; Thu, 11 May 2023 09:38:17 -0400
+Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1px6Ha-00032I-27
- for qemu-devel@nongnu.org; Thu, 11 May 2023 09:24:35 -0400
-Received: by mail-wr1-x429.google.com with SMTP id
- ffacd0b85a97d-306f2b42a86so5681513f8f.3
- for <qemu-devel@nongnu.org>; Thu, 11 May 2023 06:24:33 -0700 (PDT)
+ id 1px6Un-0005wk-3i
+ for qemu-devel@nongnu.org; Thu, 11 May 2023 09:38:16 -0400
+Received: by mail-wm1-x334.google.com with SMTP id
+ 5b1f17b1804b1-3f415a90215so64341335e9.0
+ for <qemu-devel@nongnu.org>; Thu, 11 May 2023 06:38:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1683811472; x=1686403472;
+ d=linaro.org; s=google; t=1683812291; x=1686404291;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=tQNoxzGfkYt4h3RDyx6EMouW2T0Zlu9DWRgWcBQyp7Q=;
- b=rHW82tNge9MQ9R2wiUDFzRIuQt2fUaRRoDMwL5SFxtj6gWqourcm8mFV74SG0L9F4i
- kKh7itPW68kRq8iHx31sE3fu7B8sKyDFygkokAuqdhHaBlbiqiyc0sPNpH8gQVvsNAhG
- HlzMw0G8mhXKH4iJUX+r6ius6B2lOKGY1cHxHSBfiukSOdcL0pV3UdOsDwKEf/WnNEHp
- x3xd+01SE+P9GyPWfd4OJA2M3ob7B8MeLxopXY6t5Fypty3LKumOah3O5wXXQRgMmk4I
- 7baJLYG2Uve/GzUwmsIYiIqfIYVdpfBGwclmaBEZNUwdNenhHrJNyAcrZRmpRfdGBO4i
- CjHA==
+ bh=CUiE33tbzpElVU6nlaY81j/AcKnyfmuJEga3wIfMjCo=;
+ b=h2+HrRwYBDQinl0bgmoOD/9b9/pV+BbSoITsRwGHiBTiywmtuxXIsTzj4sux0P95tP
+ EJ/HY1458RxHwK1O1T+NHWH4Ik8oGpDPbrn0oM7bwOLu5f+lohFgKAS7C/arHs4TvQJO
+ kha10VJJrFru0IAoKD0SSOyWiLLIG1mkWO5a4ahjjqtzvEdoblvTZ4Ei04KunmU0aVLZ
+ vlyZgFWVJsUxbDxwujF7PdbCTDfeevoppTPJfJiSSJyRLYEVHc9RgRyZY2qF6lzeZmZB
+ 3kV5Ro+pKOgVFtlSss6G2C7WjkFqwMo+BeeiY/rvESjNFlQjEHpnw9k56C84GGWrOo5Y
+ Ukqg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683811472; x=1686403472;
+ d=1e100.net; s=20221208; t=1683812291; x=1686404291;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=tQNoxzGfkYt4h3RDyx6EMouW2T0Zlu9DWRgWcBQyp7Q=;
- b=b67lw9Gx/yQqncC5fLqYSFRYLisoCgRXXavhH+8VxAb/W0MUfnQT4wo628EoDJCw94
- A6fr57FOWN3qiAVyQGkYpxFAj9QT5pqOs1xWzt/fLul+2oBLeuug9PsACZW5fvLaF6ZN
- CxP3WZVuoLON405ZyMpGIhFsQulks+vrXkfPe5vJWbY49wlsYU5fJXmYc+kmKyCXm0sd
- By5oNLE9vjR+6Xu7A9HuUzTE65QthzGIaeOTrQzo4oy38X599zlWXP8CBC/o7gM49PJ1
- FrDRLxhBMSMoY14KKm4XqUdQb43eDIQCQ9MRS/yMx4YAftUGms7mUzB+eKphNvpy4TlM
- IpVA==
-X-Gm-Message-State: AC+VfDw+GA2UG0zoA4MyG4BRTshm1v+LVuc5V6hK677EcH6YNEwukHV6
- t1j3cX1qo3rKXTHCZBH8hjsPDg==
-X-Google-Smtp-Source: ACHHUZ6dYXjVVwczsp9C2GsmJOfwYK20QbLXjl4vGa22FwfRGMDc6wydwqgL4zR737AaF6FDmI0Ekg==
-X-Received: by 2002:a5d:58e9:0:b0:306:340c:4737 with SMTP id
- f9-20020a5d58e9000000b00306340c4737mr14060508wrd.67.1683811472174; 
- Thu, 11 May 2023 06:24:32 -0700 (PDT)
+ bh=CUiE33tbzpElVU6nlaY81j/AcKnyfmuJEga3wIfMjCo=;
+ b=SlOxC4d8KiHCQH9noA6LHP/zF7CdYs7AVelHsdJzgzqklTRot5aI3VSj9GN7nQANYK
+ aeLlhymvd2ctChdiHvFUrrNSEVFo1/jq9PhgfqbY3olt8S/dA69pC2u2KPvKCoHq7mRe
+ jOy5XZNFoXnutNl3syMONqPGxcwENB702ijTuC44yeMnTB4tp+ZJOop4KLjKrI4k88XR
+ rQupP7z+6/bYxiPpKd7DGttCJ13dG/q6sPDfnPu3qi7a3wu0rav16VC3uaSuBq7v7oYu
+ 81JKoWNyNAQMfJiNj7gqRS8+RdSASjJW32tJAnx1upuGRHYTTz82aR0u9rAe9gbORga0
+ SDRw==
+X-Gm-Message-State: AC+VfDw0daVRdigTFVkmAWEdq2f27507FN6GmlRzabZ5mxt+tR+Ar0Rd
+ ucJEB58D6U+M5mw7uTjC0OGphQ==
+X-Google-Smtp-Source: ACHHUZ6A0E/kCi/WH4sUp74+UJxMXbc7FP8sXjQJBiR9Ud5hgPlWjyMumsIcXF/miWplHF2xtiAjjw==
+X-Received: by 2002:a7b:c404:0:b0:3f0:9cc6:daf0 with SMTP id
+ k4-20020a7bc404000000b003f09cc6daf0mr14829162wmi.27.1683812291176; 
+ Thu, 11 May 2023 06:38:11 -0700 (PDT)
 Received: from [192.168.110.227] ([85.9.250.243])
  by smtp.gmail.com with ESMTPSA id
- q13-20020adff78d000000b002cea9d931e6sm20448254wrp.78.2023.05.11.06.24.31
+ z18-20020a1c4c12000000b003f188f608b9sm25626712wmf.8.2023.05.11.06.38.10
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 11 May 2023 06:24:31 -0700 (PDT)
-Message-ID: <e795151f-8eee-42f6-542f-e589dfc8e509@linaro.org>
-Date: Thu, 11 May 2023 14:24:30 +0100
+ Thu, 11 May 2023 06:38:10 -0700 (PDT)
+Message-ID: <562ade29-8ff5-f9d9-ad32-1ef6a773c595@linaro.org>
+Date: Thu, 11 May 2023 14:38:08 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.10.0
-Subject: Re: [PULL 11/15] include/exec: Change reserved_va semantics to last
- byte
+Subject: Re: [PATCH 83/84] exec/poison: Do not poison CONFIG_SOFTMMU
 Content-Language: en-US
-To: Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org
-Cc: peter.maydell@linaro.org, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <philmd@linaro.org>
-References: <20230328225806.2278728-1-richard.henderson@linaro.org>
- <20230328225806.2278728-12-richard.henderson@linaro.org>
- <49a92210-ee40-e284-7bf8-ca3c13d2c087@vivier.eu>
+To: Thomas Huth <thuth@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ qemu-devel@nongnu.org
+Cc: ale@rev.ng, philmd@linaro.org, marcel.apfelbaum@gmail.com,
+ wangyanan55@huawei.com, anjo@rev.ng
+References: <20230503072331.1747057-1-richard.henderson@linaro.org>
+ <20230503072331.1747057-84-richard.henderson@linaro.org>
+ <c0e49af2-21dd-03db-0604-194a298d7a58@redhat.com>
+ <21998b5c-43a2-f7e5-9515-45745441a12e@redhat.com>
+ <b9739a63-0d87-1b74-c232-9c566ab821bf@redhat.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <49a92210-ee40-e284-7bf8-ca3c13d2c087@vivier.eu>
+In-Reply-To: <b9739a63-0d87-1b74-c232-9c566ab821bf@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::429;
- envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x429.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::334;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x334.google.com
 X-Spam_score_int: -41
 X-Spam_score: -4.2
 X-Spam_bar: ----
@@ -98,26 +100,44 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 5/11/23 12:48, Laurent Vivier wrote:
-> This patch breaks something.
+On 5/8/23 16:19, Thomas Huth wrote:
+> On 08/05/2023 17.14, Paolo Bonzini wrote:
+>> On 5/8/23 16:27, Thomas Huth wrote:
+>>> On 03/05/2023 09.23, Richard Henderson wrote:
+>>>> If CONFIG_USER_ONLY is ok generically, so is CONFIG_SOFTMMU,
+>>>> because they are exactly opposite.
+>>>
+>>> I thought there was a difference ... at least in the past?
+>>> But looking at meson.build they seem to be handled quite equally now:
+>>>
+>>> common_ss.add_all(when: 'CONFIG_SOFTMMU', if_true: [softmmu_ss])
+>>> common_ss.add_all(when: 'CONFIG_USER_ONLY', if_true: user_ss)
+>>>
+>>> Paolo, do you remember whether there was a difference in the past?
+>>
+>> No, I don't think so.  Really _none_ of them are okay in general, but now that we have 
+>> softmmu_ss/user_ss there is a usecase for using them in "generic" sourcesets.  So 
+>> perhaps we could have something like
+>>
+>> /* One of these is always defined in files that can use them.  */
+>> #if !defined CONFIG_SOFTMMU && !defined CONFIG_USER_ONLY
+>> #pragma GCC poison CONFIG_SOFTMMU
+>> #pragma GCC poison CONFIG_USER_ONLY
+>> #endif
 > 
-> In LTP (20230127), fcntl36 fails now (all archs):
+> That's the thing that I had in mind:
 > 
-> sudo unshare --time --ipc --uts --pid --fork --kill-child --mount --mount-proc --root 
-> chroot/m68k/sid
-> # /opt/ltp/testcases/bin/fcntl36
+> https://lists.gnu.org/archive/html/qemu-devel/2021-03/msg05269.html
 > 
-> tst_test.c:1558: TINFO: Timeout per run is 0h 00m 30s
-> fcntl36.c:288: TINFO: OFD read lock vs OFD write lock
-> tst_kernel.c:87: TINFO: uname.machine=m68k kernel is 32bit
-> fcntl36.c:366: TPASS: Access between threads synchronized
-> fcntl36.c:288: TINFO: OFD write lock vs POSIX write lock
-> fcntl36.c:318: TBROK: pthread_create(0x40800330,(nil),0x80004328,0x40800068) failed: 
-> EAGAIN/EWOULDBLOCK
+> ... so instead of removing the poison from CONFIG_SOFTMMU, we should likely rather try to 
+> get CONFIG_USER_ONLY poisoned, too.
 
-Any idea where the failure is coming from?
-I don't see a matching syscall in -strace...
+A worthy goal, but a large job, just looking at "exec/cpu-common.h".
+
+I will defer that to another patch set, and continue with non-poisoning of CONFIG_SOFTMMU 
+for now.
 
 
 r~
+
 
