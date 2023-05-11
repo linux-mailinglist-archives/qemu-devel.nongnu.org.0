@@ -2,149 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE3036FF092
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 May 2023 13:34:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 30ECF6FF0A2
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 May 2023 13:45:31 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1px4Wl-0007De-OA; Thu, 11 May 2023 07:32:07 -0400
+	id 1px4iF-0003Vg-M1; Thu, 11 May 2023 07:43:59 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <avihaih@nvidia.com>)
- id 1px4Wj-0007DJ-IL
- for qemu-devel@nongnu.org; Thu, 11 May 2023 07:32:05 -0400
-Received: from mail-bn7nam10on20610.outbound.protection.outlook.com
- ([2a01:111:f400:7e8a::610]
- helo=NAM10-BN7-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1px4iD-0003VU-38
+ for qemu-devel@nongnu.org; Thu, 11 May 2023 07:43:57 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <avihaih@nvidia.com>)
- id 1px4Wg-00032s-00
- for qemu-devel@nongnu.org; Thu, 11 May 2023 07:32:05 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=IVDGn8h+Faezer996c4tLTdwqQ4qJ7vh3EBuPRIZB5FC2JQHkREJmDXGEiUwET8+MjRM42+emdR5q6HJ8EmUCgjGvNAnrHrSwYN4+DwOofr7f6PajBtFnrXMDmf/ulnQDRQNnhPp2UpUG55GUZOCSYo96oh01XfuhepoKAkUDMjWjQNlIgdJNnx2Nc1EGr0K6/Z0xf0WWwOM9uBc77ae38Kzw/Bzf14N2OXIbGRpu29FY+VLwwBlF6JBaAI4t7VYFh+j1yPoK5rQnrsu6zmsdTP/4g50Czzr+rx1vG37OK+c3TC3XnWkqYW63aG3U9QgfbxhLrw7XkRrBsK2DuVOLg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=67CO2dkmmTZRleXKXxKvkmrvFeMJ5ZexL4zcBJPvWdo=;
- b=CNPRrT3tqP3xoTdyPzg0Dan1QpDbWRz7S65IS2UYNSv5LouvAl/CGCJd4Qgz8Hhsa5RJ4fe5eZuXIfkuwLOs9jTXFXtQ4IcDl7vTJYpd1klo41ZVjQNV0LNVRJDdSb4jsydU18OjsotWR9w6j0QpyHQ8co68sAGmrCLZt1dzQDGnZYVSTHsrB/GPW1kRLyYFHIz+bOdEi71Y9Zjv6RsmvOhPnRP01vQ8cJ9pqij33E6ljF9hxo9K3tIWlhFKNPdcDffXvZEXHjWOMUvEr8R2NAlCzFBP3Jw9W0I6gJupVlIFIKsDDKqrkfYMNfAXY9h6L7O1GYDA1pgExlnD7u2YcA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=67CO2dkmmTZRleXKXxKvkmrvFeMJ5ZexL4zcBJPvWdo=;
- b=HcoXz/Lwm2z2d5gxezTtAjAiCUzDxYgMhFGyf39TMjKw4mFLU589LnUL2ievzSTwO+/FaRD4LZh4A/+slH9UyaWOJkd7LF7bnfGBHuNy4J0cQGDUcBdOaQFgB6yg42p2vq/7bebRzgVyLvJ1vGmh5OBfZsSacxUcUUvzGAJvOHs2RKPx2aqRwob9CCJplS0xU/eftNaJ1fuw9BTxF+4GaBfb5uzKy1GCUlI1uI7Nf5XMsODtOoVF2C1lvcERzfHHiEaDtzWjLDHnIrD1syOZPGRCQpHGkQdOM3S4RNIWHnnGYVfwDgtMunpTxQea64x8qG2ClyFROLfpHA/by5vGMQ==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from DM6PR12MB5549.namprd12.prod.outlook.com (2603:10b6:5:209::13)
- by IA0PR12MB8840.namprd12.prod.outlook.com (2603:10b6:208:490::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6363.33; Thu, 11 May
- 2023 11:31:44 +0000
-Received: from DM6PR12MB5549.namprd12.prod.outlook.com
- ([fe80::a29a:c3cf:5edf:9dad]) by DM6PR12MB5549.namprd12.prod.outlook.com
- ([fe80::a29a:c3cf:5edf:9dad%7]) with mapi id 15.20.6387.020; Thu, 11 May 2023
- 11:31:43 +0000
-Message-ID: <acc6ec07-cd9d-bb0f-bdb9-56a2ced50e25@nvidia.com>
-Date: Thu, 11 May 2023 14:31:31 +0300
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.1
-Subject: Re: [PATCH 0/8] migration: Add precopy initial data capability and
- VFIO precopy support
-Content-Language: en-US
-To: quintela@redhat.com
-Cc: Peter Xu <peterx@redhat.com>, qemu-devel@nongnu.org,
- Alex Williamson <alex.williamson@redhat.com>,
- =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@redhat.com>,
- Leonardo Bras <leobras@redhat.com>, Eric Blake <eblake@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Yishai Hadas <yishaih@nvidia.com>, Jason Gunthorpe <jgg@nvidia.com>,
- Maor Gottlieb <maorg@nvidia.com>, Kirti Wankhede <kwankhede@nvidia.com>,
- Tarun Gupta <targupta@nvidia.com>, Joao Martins <joao.m.martins@oracle.com>,
- Daniel Berrange <berrange@redhat.com>
-References: <20230501140141.11743-1-avihaih@nvidia.com> <ZFGTerErJWnWHD6/@x1n>
- <72e14c81-a953-c288-c570-4987492b3569@nvidia.com>
- <87v8h08s9o.fsf@secure.mitica>
- <3bb652f6-4948-d6c2-fac5-e0a6c3edb62a@nvidia.com>
- <87jzxg6svr.fsf@secure.mitica>
-From: Avihai Horon <avihaih@nvidia.com>
-In-Reply-To: <87jzxg6svr.fsf@secure.mitica>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: FR2P281CA0070.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:9a::9) To DM6PR12MB5549.namprd12.prod.outlook.com
- (2603:10b6:5:209::13)
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1px4iB-0006AK-2w
+ for qemu-devel@nongnu.org; Thu, 11 May 2023 07:43:56 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1683805433;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=3Xh/4zJYjJPBZ1MOBhKOa7STK65fIBtLbHMrhCTF8JY=;
+ b=hUs7/Px95/j3m7zCyvbe2+C65eJJeMD4Nm4J452FEuQbSdrBtKr3TnqFWPPHYrk5isQAQa
+ eBXDjuFC1n/1iDNjz9tp22CzL+XmiWfNQZlvvZAOgYLNpUjJ7JlBIE5EBKq5DUM/tGkeT3
+ sBQJ6sLFY8nOBTdjMYMh3bVH2/QLqQw=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-202-HygMYZZdO0WZojensGt5pw-1; Thu, 11 May 2023 07:43:51 -0400
+X-MC-Unique: HygMYZZdO0WZojensGt5pw-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ ffacd0b85a97d-306286b3573so5202467f8f.2
+ for <qemu-devel@nongnu.org>; Thu, 11 May 2023 04:43:50 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1683805429; x=1686397429;
+ h=mime-version:message-id:date:reply-to:user-agent:references
+ :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=3Xh/4zJYjJPBZ1MOBhKOa7STK65fIBtLbHMrhCTF8JY=;
+ b=iS7/0MQR1c+tYfZ6+ZMgoG86VbIo2qo2cwbCcCZ/KbVzOMJgeR+4UyGSKE2l6yb71n
+ d6+az+7nX0YJEZSI6YvYNgGZRzLYVmGAKS73Oojvnih2JvIwj9IZkhxWXLSJeW7HVIFZ
+ JuzGBcLVvnyKVOAhEGCSXdLmCkRdDxW6geC5hiXQgdMMaie0NO+udQRZf5gdvNSH+FoI
+ AjVK9NEr6xcg3huRuKgXD0xO/MGl9JyvPF6lNcLGJ/j4rinS/lPHp3YqKmGsLbrFWtj2
+ nyTLQUhmCfKzRbX8kcKyYiIeRLGN5BY26CJC4kHHE1cM8xML+t2AC/9dAnKw+hYZoafQ
+ FWwQ==
+X-Gm-Message-State: AC+VfDxvnxGaxfoi35BRo4cwTzoeQnL2YAYDUzjm8XGsOn8f18sAnwxo
+ wuXKi7MbiEVudUT6IWRSkP1RWWmQNC6EhpLnxPYimudxJL+4QpQFlprF60Do/fchAT6lJdso41C
+ bVu5wrCv3IbQj4DE=
+X-Received: by 2002:a5d:4485:0:b0:306:2d32:8ec with SMTP id
+ j5-20020a5d4485000000b003062d3208ecmr15322276wrq.6.1683805429180; 
+ Thu, 11 May 2023 04:43:49 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ7c72jQvkrp5GE3yXMukgw5+oUyfCS6Y09xYXMX94YetKpOWn6CuqzxY/lN6VMMEbRDX+C7mg==
+X-Received: by 2002:a5d:4485:0:b0:306:2d32:8ec with SMTP id
+ j5-20020a5d4485000000b003062d3208ecmr15322256wrq.6.1683805428814; 
+ Thu, 11 May 2023 04:43:48 -0700 (PDT)
+Received: from redhat.com (static-92-120-85-188.ipcom.comunitel.net.
+ [188.85.120.92]) by smtp.gmail.com with ESMTPSA id
+ o1-20020a5d58c1000000b00306c5900c10sm20039249wrf.9.2023.05.11.04.43.47
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 11 May 2023 04:43:48 -0700 (PDT)
+From: Juan Quintela <quintela@redhat.com>
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Fiona Ebner <f.ebner@proxmox.com>,  Leonardo Bras <leobras@redhat.com>,
+ Eduardo Habkost <eduardo@habkost.net>,  Marcel Apfelbaum
+ <marcel.apfelbaum@gmail.com>,  Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?=
+ <philmd@linaro.org>,
+ Yanan Wang <wangyanan55@huawei.com>,  Peter Xu <peterx@redhat.com>,
+ qemu-devel@nongnu.org, Daniel Berrange <berrange@redhat.com>, Jiri
+ Denemark <jdenemar@redhat.com>
+Subject: Re: [PATCH v1 1/1] hw/pci: Disable PCI_ERR_UNCOR_MASK register for
+ machine type < 8.0
+In-Reply-To: <20230511064306-mutt-send-email-mst@kernel.org> (Michael
+ S. Tsirkin's message of "Thu, 11 May 2023 06:48:13 -0400")
+References: <20230503002701.854329-1-leobras@redhat.com>
+ <7f308149-5495-d415-5e51-1fa15fc20f84@proxmox.com>
+ <20230511064306-mutt-send-email-mst@kernel.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
+Date: Thu, 11 May 2023 13:43:47 +0200
+Message-ID: <8735435c0c.fsf@secure.mitica>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM6PR12MB5549:EE_|IA0PR12MB8840:EE_
-X-MS-Office365-Filtering-Correlation-Id: ef7ce173-3fff-4b11-7990-08db52134be7
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: l1+vbJaNBYJ0qdNfTO2mDOJB5fUN1RdBhv/Lsw8ZpPRPbnkghoE/bAo5v9cmvHaqxc/wvNIkGqI9q94ntGN9/41rk52idpGXnxZlZcrPTdKRp4uN5/bHFlx/yQy//GFsmrBfXI2AbCjlX7yx08U+JH/lglb7nvmefhaZa3kZyO6Buf0Gsc4mQ/Ur12KPNxWBKEH3M6JjVYp99iv4T7//Z+Ho5XO9lWyxiSyk4B0NhqSKpFxrRn+8aPMVIyEEqJaWBYI22JKIA1J/fbPzI/6BzPY4Fi4UckzJZFahjicjnkvYeqagtaXWTNxdWRFvphnbV3PAzXjO0NyfjNfC420gNUs4k96EKIEpSH2MbBp5szsiqK1DB6SXWdYhv1K1SgqWa5WKFDUhS/AfDgdAUPUZ2tWUrbSq33HPm6aDrKe+xn9Lx49MCUlNDThc/FsPh8BvsHiOxZlFCy/gWAsG1WCelVeBIsRJ8xZjb3qAS3nx7oiLvW9Nr2eWX9HoZN15oe/Y01V0foZ22TySroHX2t7XlvavQ/13TLyTaUrovcJEDdMAk2zoqfFFFl3d8MPR6rdjHg7FXzxUMQ8zspGJRWEDks77RSFGQzFqRCQKxx723KbgIs3xIjgiYVOFadwzg4+3SoqUIoXLFixCsRTROlA60Q==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM6PR12MB5549.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230028)(4636009)(366004)(396003)(346002)(376002)(136003)(39860400002)(451199021)(186003)(7416002)(6512007)(6666004)(2906002)(6486002)(31696002)(478600001)(86362001)(54906003)(966005)(36756003)(26005)(6506007)(53546011)(38100700002)(316002)(8936002)(8676002)(83380400001)(66476007)(2616005)(6916009)(31686004)(41300700001)(4326008)(66556008)(66946007)(5660300002)(43740500002)(45980500001);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?dXNsZ3FldFl4UXVESzZtTmFDZUVvY3ByZDNxRFNaNWthRnB5c2VXTlVhaEJV?=
- =?utf-8?B?UmVLeEpBTGx2NTJ4SmRlWUNya3NSZFhGbjFvdTBZckQ1dnpGc0tlUkFoZ3Er?=
- =?utf-8?B?ZjY3RjIvdG9GUUtieGxHZUFmbTJPa2ZiMUJLOHE2UHl0SDlFRmJ2TFhodDlz?=
- =?utf-8?B?M0Z0K1RiZGUvQkEwL0hSYk4ycFk1c2JQQlV5Z3JVdmN4U01JYzEvOHM3b0NP?=
- =?utf-8?B?R0Y1WnpuV0YyZ1JZNWwrNW5nMERpMHZqREtjR3hybTUva2lUOXNwNjMvL1d5?=
- =?utf-8?B?aE53dGd5NTNRdEpiNkRvanhKeVpXaDdrM0c5QnhlaFBRenR4WGRiRm9CbXRZ?=
- =?utf-8?B?clQ3WTZpR2pUaWhXaURqS1pLUlpNc0Z1TGhFRHlmSS80WFl3ek5vZXBPb2Mv?=
- =?utf-8?B?bmI5aGRKSGRMc3VHVmlxQkIwdTV5c1NYMWJzYk1ER1RrWmhqcERzSDJmaXM1?=
- =?utf-8?B?ZDRGMGdzT2o0QlpsdUFwZXlpM3RqMm00dE5SeVhIT2xEdXBkMG9DaDJDalJH?=
- =?utf-8?B?Ukd4dXU0N0JLaHZOQkpoYUtOTllIaHk1WGEwUTNpejUzUW02dU9ldVdVaERB?=
- =?utf-8?B?bHA4clIzZWZlc0ZtSVl1dUsrMGtad05TaWhYdnkvTlhaQWRMY3FZbVZ2NE0r?=
- =?utf-8?B?bTBFeDgrNXNlTDEySmpxQkVFazFNcFhtalNSblVVSnhET0o1ZWl4VEswRmJJ?=
- =?utf-8?B?UFM0bWR3WUNMYU5JNjlkSmhtb1RGcmdBRUI4Z0NtTE0yOUFqRXVWa1N4elhZ?=
- =?utf-8?B?dC80bEVNNVM3SlU4R3poVldVRjFEL29yWWw0ODJEQUZkaWtDR1BTMU5rck94?=
- =?utf-8?B?SUt5OUYza0xDMENMclBySlNhZGIwb0Mva0xpTkRFY202dlA5Rzg3RVRnVVBv?=
- =?utf-8?B?MWt4bCtTZjNJbmRSYUIxdjFjQ2lHWUY2UmQyY28rOE5VY0VaVnFDdzNYZ1Ju?=
- =?utf-8?B?NFlVUlZWVDFVWkxUSkFZSmVQUnFoa2dzeWlhT2JGOVNqOEt3TGhqUnhlSXBQ?=
- =?utf-8?B?OURTRW4xVi9ZTFg2N1V4bFIxN2t6TkJlN1loVzQ5YmdPL1QrTklnTXN6WG9H?=
- =?utf-8?B?M0NVTFB2dEVFclVjR2tiNi9XcHNmV0llZ3g0UGkyTkgrdERmRVNOalJXTjNO?=
- =?utf-8?B?ZTdwSlVjOGIvZnZUWjhKa3ZDb2Jsc2FqNk91R2xrckpQKzRJZXVTQkJuWTRs?=
- =?utf-8?B?Y0o5ajNyUFIySG5FS3ZmUkJLZXBiWFczSVJ1SEFYN1gveHd6eGxnekJPYkhF?=
- =?utf-8?B?NFRVWnFvN1BDSVpOTUZsbHRzVnVDUmx5OUZGanJJWXNWMmtaNXk5UEdiZTV3?=
- =?utf-8?B?enFDbXRSSzdUbWtVSnppbG1nMVo1L2FHZmtUYTQwRk5LSyszQkVJVCs4cmJI?=
- =?utf-8?B?a0NabDk4dVZWclpnODI1MmJJcVRqWUtEVUhCVWdPM3U3V25WVGV2WUN2VHV2?=
- =?utf-8?B?YUdlcDJlUUN3T3Arek1lSzFJUUluYkFyQmhTTVVYSDNHYWM3eC9kUWFRMU0r?=
- =?utf-8?B?ZWFXbUREbE5pNmprQUloMFJSczRwRHB3UXRpdWpNQjlRdTlydW5zNEowN3Vz?=
- =?utf-8?B?Qkl4NkZlRGxHdDcxdm5kNFRqcHBSNnNQeGtLc2tiY1BaeXVCTkFqeUZ2NlZj?=
- =?utf-8?B?d0phaCtXblRkclBIQzZHRFBPMkQwOFBiK2ZNSFhwdVBaOVhVZiszUzEvUUtR?=
- =?utf-8?B?MnhFbklYL0k3N3pUUkNiZWVQOFFnOUNacVc3ZmYyNDNMK3l2YmVzM1hWK3ZH?=
- =?utf-8?B?dXVRclFSZGRhKzVMbVZPU21kOXdiV3NOekZXQjF0eStXeFduNS9rUG1HUFZn?=
- =?utf-8?B?VHd1WVVaRjlsL3l4YTNDWWJuVTh4OUlKQ2lPSUduZjZ1eGpLVzVCalQ1aXBm?=
- =?utf-8?B?WlRwU2RMMTN5Uk44aHBPS1RMb3RJM254U0YrRDNjZThMTFRPVzB3VTYvL0sy?=
- =?utf-8?B?U0Q5TlVvMDN3OEY5ZW5mMHpSQ1ZvdXhzeXo5OW5wRW0vd21IQ0F2OUh5YlM2?=
- =?utf-8?B?NEZPWStPUFdvaDFPQTFTRGFLS0NiQTUwZ05SZ3J0T3pPaDVqODVFUm9XVDQw?=
- =?utf-8?B?ai9GdFpJalBDbGZJTnVoRC8wTFNLREVKczJoR1VQSTNIVHRJcEJuN0czMFRK?=
- =?utf-8?Q?vyt1t2xjDTZSnpz32C8s6Az2I?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ef7ce173-3fff-4b11-7990-08db52134be7
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR12MB5549.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 May 2023 11:31:43.6792 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: +xi7ITtk7i+EFQOZiwE8Vt6m2JAg4wxLzBadlieNk2gulDTtAdawJIlif/iHLw0IyF6xGrIE0Fa/0s6zaKVm7A==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR12MB8840
-Received-SPF: softfail client-ip=2a01:111:f400:7e8a::610;
- envelope-from=avihaih@nvidia.com;
- helo=NAM10-BN7-obe.outbound.protection.outlook.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-2.124, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -157,220 +104,236 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+"Michael S. Tsirkin" <mst@redhat.com> wrote:
 
-On 10/05/2023 19:41, Juan Quintela wrote:
-> External email: Use caution opening links or attachments
->
->
-> Avihai Horon <avihaih@nvidia.com> wrote:
->
->>> You have a point here.
->>> But I will approach this case in a different way:
->>>
->>> Destination QEMU needs to be older, because it don't have the feature.
->>> So we need to NOT being able to do the switchover for older machine
->>> types.
->>> And have something like this is qemu/hw/machine.c
->>>
->>> GlobalProperty hw_compat_7_2[] = {
->>>       { "our_device", "explicit-switchover", "off" },
->>> };
->>>
->>> Or whatever we want to call the device and the property, and not use it
->>> for older machine types to allow migration for that.
->> Let me see if I get this straight (I'm not that familiar with
->> hw_compat_x_y):
->>
->> You mean that device Y which adds support for explicit-switchover in
->> QEMU version Z should add a property
->> like you wrote above, and use it to disable explicit-switchover usage
->> for Y devices when Y device
->> from QEMU older than Z is migrated?
-> More that "from" "to"
->
-> Let me elaborate.  We have two QEMUs:
->
-> QEMU version X, has device dev. Let's call it qemu-X.
-> QEMU version Y (X+1) add feature foo to device dev.  Let's call it qemu-Y.
->
-> We have two machine types (for this exercise we don't care about
-> architectures)
->
-> PC-X.0
-> PC-Y.0
->
-> So, the possible combinations are:
->
-> First the easy cases, same qemu on both sides.  Different machine types.
->
-> $ qemu-X -M PC-X.0   -> to -> qemu-X -M PC-X.0
->
->    good. neither guest use feature foo.
->
-> $ qemu-X -M PC-Y.0   -> to -> qemu-X -M PC-Y.0
->
->    impossible. qemu-X don't have machine PC-Y.0.  So nothing to see here.
->
-> $ qemu-Y -M PC-X.0   -> to -> qemu-Y -M PC-X.0
->
->    good.  We have feature foo in both sides. Notice that I recomend here
->    to not use feature foo.  We will see on the difficult cases.
->
-> $ qemu-Y -M PC-Y.0   -> to -> qemu-Y -M PC-Y.0
->
->    good.  Both sides use feature foo.
->
-> Difficult cases, when we mix qemu versions.
->
-> $ qemu-X -M PC-X.0  -> to -> qemu-Y -M PC-X.0
->
->    source don't have feature foo.  Destination have feature foo.
->    But if we disable it for machine PC-X.0, it will work.
->
-> $ qemu-Y -M PC-X.0  -> to -> qemu-X -M PC-X.0
->
->    same than previous example.  But here we have feature foo on source
->    and not on destination.  Disabling it for machine PC-X.0 fixes the
->    problem.
->
-> We can't migrate a PC-Y.0 when one of the qemu's is qemu-X, so that case
-> is impossible.
->
-> Does this makes more sense?
->
-> And now, how hw_compat_X_Y works.
->
-> It is an array of registers with the format:
->
-> - name of device  (we give some rope here, for instance migration is a
->    device in this context)
->
-> - name of property: self explanatory.  The important bit is that
->    we can get the value of the property in the device driver.
->
-> - value of the property: self explanatory.
->
-> With this mechanism what we do when we add a feature to a device that
-> matters for migration is:
-> - for the machine type of the version that we are "developing" feature
->    is enabled by default.  For whatever that enable means.
->
-> - for old machine types we disable the feature, so it can be migrate
->    freely with old qemu. But using the old machine type.
->
-> - there is way to enable the feature on the command line even for old
->    machine types on new qemu, but only developers use that for testing.
->    Normal users/admins never do that.
->
-> what does hw_compat_7_2 means?
->
-> Ok, we need to know the versions.  New version is 8.0.
->
-> hw_compat_7_2 has all the properties represensing "features", defaults,
-> whatever that has changed since 7.2.  In other words, what features we
-> need to disable to get to the features that existed when 7.2 was
-> released.
->
-> To go to a real example.
->
-> In the development tree.  We have:
->
-> GlobalProperty hw_compat_8_0[] = {
->      { "migration", "multifd-flush-after-each-section", "on"},
-> };
-> const size_t hw_compat_8_0_len = G_N_ELEMENTS(hw_compat_8_0);
->
-> Feature is implemented in the following commits:
->
-> 77c259a4cb1c9799754b48f570301ebf1de5ded8
-> b05292c237030343516d073b1a1e5f49ffc017a8
-> 294e5a4034e81b3d8db03b4e0f691386f20d6ed3
->
-> When we are doing migration with multifd and we pass the end of memory
-> (i.e. we end one iteration through all the RAM) we need to make sure
-> that we don't send the same page through two channels, i.e. contents of
-> the page at iteration 1 through channel 1 and contents of the page at
-> iteration 2 through channel 2.  The problem is that they could arrive
-> out of order and the of page of iteration 1 arrive later than iteration
-> 2 and overwrite new data with old data.  Which is undesirable.
-> We could use complex algorithms to fix that, but one easy way of doing
-> it is:
->
-> - When we finish a run through all memory (i.e.) one iteration, we flush
->    all channels and make sure that everything arrives to destination
->    before starting sending data o the next iteration.  I call that
->    synchronize all channels.
->
-> And that is what we *should* have done.  But when I implemented the
-> feature, I did this synchronization everytime that we finish a cycle
-> (around 100miliseconds).  i.e. 10 times per second. This is called a
-> section for historical reasons. And when you are migrating
-> multiterabytes RAM machines with very fast networking, we end waiting
-> too much on the synchronizations.
->
-> Once detected the problem and found the cause, we change that.  The
-> problem is that if we are running an old qemu against a new qemu (or
-> viceversa) we would not be able to migrate, because one send/expects
-> synchronizations at different points.
->
-> So we have to maintain the old algorithm and the new algoritm.  That is
-> what we did here.  For machines older than <current in development>,
-> i.e. 8.0 we use the old algorithm (multifd-flush-after-earch section is
-> "on").
->
-> But the default for new machine types is the new algorithm, much faster.
->
-> I know that the explanation has been quite long, but inventing an
-> example was going to be even more complex.
->
-> Does this makes sense?
+[Added libvirt people to the party, see the end of the message ]
 
-Yes, thanks a lot for the full and detailed explanation!
-This indeed solves the problem in the scenario I mentioned above.
+> On Thu, May 11, 2023 at 10:27:35AM +0200, Fiona Ebner wrote:
+>> Am 03.05.23 um 02:27 schrieb Leonardo Bras:
+>> > Since it's implementation on v8.0.0-rc0, having the PCI_ERR_UNCOR_MASK
+>> > set for machine types < 8.0 will cause migration to fail if the target
+>> > QEMU version is < 8.0.0 :
+>> > 
+>> > qemu-system-x86_64: get_pci_config_device: Bad config data: i=0x10a read: 40 device: 0 cmask: ff wmask: 0 w1cmask:0
+>> > qemu-system-x86_64: Failed to load PCIDevice:config
+>> > qemu-system-x86_64: Failed to load e1000e:parent_obj
+>> > qemu-system-x86_64: error while loading state for instance 0x0 of device '0000:00:02.0/e1000e'
+>> > qemu-system-x86_64: load of migration failed: Invalid argument
+>> > 
+>> > The above test migrated a 7.2 machine type from QEMU master to QEMU 7.2.0,
+>> > with this cmdline:
+>> > 
+>> > ./qemu-system-x86_64 -M pc-q35-7.2 [-incoming XXX]
+>> > 
+>> > In order to fix this, property x-pcie-err-unc-mask was introduced to
+>> > control when PCI_ERR_UNCOR_MASK is enabled. This property is enabled by
+>> > default, but is disabled if machine type <= 7.2.
+>> > 
+>> > Fixes: 010746ae1d ("hw/pci/aer: Implement PCI_ERR_UNCOR_MASK register")
+>> > Suggested-by: Michael S. Tsirkin <mst@redhat.com>
+>> > Signed-off-by: Leonardo Bras <leobras@redhat.com>
+>> 
+>> Thank you for the patch!
+>> 
+>> Closes: https://gitlab.com/qemu-project/qemu/-/issues/1576
+>> 
+>> AFAICT, this breaks (forward) migration from 8.0 to 8.0 + this patch
+>> when using machine type <= 7.2. That is because after this patch, when
+>> using machine type <= 7.2, the wmask for the register is not set and
+>> when 8.0 sends a nonzero value for the register, the error condition in
+>> get_pci_config_device() will trigger again.
+>> 
+>> Is it necessary to also handle that? Maybe by special casing the error
+>> condition in get_pci_config_device() to be prepared to accept such a
+>> stream from 8.0?
+>> 
+>> If that is considered not worth it, consider this:
+>> 
+>> Tested-by: Fiona Ebner <f.ebner@proxmox.com>
+>> 
+>> Best Regards,
+>> Fiona
+>
+> Yes any fix is like that. We keep encountering bugs like this
+> but there does not seem to be will to create infrastructure
+> for fixing it, which would involve describing
+> version of qemu being migrated to.
 
-However, this relies on the fact that a device support for this feature 
-depends only on the QEMU version.
-This is not the case for VFIO devices.
-To support explicit-switchover, a VFIO device also needs host kernel 
-support for VFIO precopy, i.e., it needs to have the 
-VFIO_MIGRATION_PRE_COPY flag set.
-So, theoretically we could have the following:
-- Source and destination QEMU are the same version.
-- We migrate two different VFIO devices (i.e., they don't share the same 
-kernel driver), device X and device Y.
-- Host kernel in source supports VIFO precopy for device X but not for 
-device Y.
-- Host kernel in destination supports VFIO precopy for both device X and 
-device Y.
-Without explicit-switchover, migration should work.
-But if we enable explicit-switchover and do migration, we would end up 
-in the same situation where switchover_pending=2 in destination and it 
-never reaches zero so migration is stuck.
+You have it.
 
-This could be solved by moving the switchover_pending counter to the 
-source and sending multiple MIG_RP explicit-switchover ACK messages.
-However, I also raised a concern about this in my last mail to Peter 
-[1], where this is not guaranteed to work, depending on the device 
-implementation for explicit-switchover feature.
+qemu-8.0 -M pc-7.2 -> is going to migrate to an older qemu, so be extra
+careful.
 
-Not sure though if I'm digging too deep in some improbable future corner 
-cases.
+We tried (and faield) that you could always migrate to the next version
+without changing the machine type.
 
-Let's go back to the basic question, which is whether we need to send an 
-"advise" message for each device that supports explicit-switchover.
-I think it gives us more flexibility and although not needed at the 
-moment, might be useful in the future.
+That was a myth that never really worked, but sometimes it did.
 
-If you want I can send a v2 that addresses the comments and simplifies 
-the code in other areas and we'll continue discussing the necessity of 
-the "advise" message then.
+Now we say that we only support migration with same machine type,
+period.  And then you know what you are going to do.
 
-Thanks!
+And what we are debating here is something different.
 
-[1] 
-https://lore.kernel.org/qemu-devel/688acb4e-a4e6-428d-9124-7596e3666133@nvidia.com/
+$ qemu-7.2 -M pc-7.2 -> qemu-8.0 -M pc-7.2
+
+We broke it.  We don't have a time machine.  We can fix that for 8.0.
+
+And we have a fix.  But what the fix does is:
+
+$ qemu-7.2 -M pc-7.2 -> qemu-8.0.1 -M pc-7.2
+
+works again.
+
+But what Fiona was asking for is:
+
+$ qemu-8.0 -M pc-7.2 -> qemu-8.0.1 -M pc-7.2
+
+is broken right now.  But we can "fix" it.
+But that implies that we change pci to allow both the correct value
+(the old one, what qemu-7.2 sends), and the new value that qemu-8.0 -M
+pc-7.2 sends.  Yes, it is a kludge.  That is why I said that it depended
+on what PCI maintainers think.
+
+diff --git a/hw/pci/pcie_aer.c b/hw/pci/pcie_aer.c
+index 103667c368..374d593ead 100644
+--- a/hw/pci/pcie_aer.c
++++ b/hw/pci/pcie_aer.c
+@@ -112,10 +112,13 @@ int pcie_aer_init(PCIDevice *dev, uint8_t cap_ver,
+uint16_t offset,
+ 
+     pci_set_long(dev->w1cmask + offset + PCI_ERR_UNCOR_STATUS,
+                  PCI_ERR_UNC_SUPPORTED);
+-    pci_set_long(dev->config + offset + PCI_ERR_UNCOR_MASK,
+-                 PCI_ERR_UNC_MASK_DEFAULT);
+-    pci_set_long(dev->wmask + offset + PCI_ERR_UNCOR_MASK,
+-                 PCI_ERR_UNC_SUPPORTED);
++
++    if (dev->cap_present & QEMU_PCIE_ERR_UNC_MASK) {
++        pci_set_long(dev->config + offset + PCI_ERR_UNCOR_MASK,
++                     PCI_ERR_UNC_MASK_DEFAULT);
++        pci_set_long(dev->wmask + offset + PCI_ERR_UNCOR_MASK,
++                     PCI_ERR_UNC_SUPPORTED);
++    }
+ 
+     pci_set_long(dev->config + offset + PCI_ERR_UNCOR_SEVER,
+                  PCI_ERR_UNC_SEVERITY_DEFAULT);
+
+We do this at init time.
+But we need to a migration incoming time, that for old machine types we
+can find that this has been set up.  So they need to accept both ways.
+And this is in the middle of the pci configuration space.
+
+I have no clue how to do this and be sure that it is a valid pci
+configuration afterwards.
+
+With my migration knowledge, I know that the problem is in this function
+(ok, I know th error message gave you a big clue):
+
+static int get_pci_config_device(QEMUFile *f, void *pv, size_t size,
+                                 const VMStateField *field)
+{
+    PCIDevice *s = container_of(pv, PCIDevice, config);
+    uint8_t *config;
+    int i;
+
+    assert(size == pci_config_size(s));
+    config = g_malloc(size);
+
+    qemu_get_buffer(f, config, size);
+    for (i = 0; i < size; ++i) {
+        if ((config[i] ^ s->config[i]) &
+            s->cmask[i] & ~s->wmask[i] & ~s->w1cmask[i]) {
+
+-----> here --->>
+            error_report("%s: Bad config data: i=0x%x read: %x device: %x "
+                         "cmask: %x wmask: %x w1cmask:%x", __func__,
+                         i, config[i], s->config[i],
+                         s->cmask[i], s->wmask[i], s->w1cmask[i]);
+            g_free(config);
+            return -EINVAL;
+        }
+    }
+    memcpy(s->config, config, size);
+
+    pci_update_mappings(s);
+    if (IS_PCI_BRIDGE(s)) {
+        pci_bridge_update_mappings(PCI_BRIDGE(s));
+    }
+
+    memory_region_set_enabled(&s->bus_master_enable_region,
+                              pci_get_word(s->config + PCI_COMMAND)
+                              & PCI_COMMAND_MASTER);
+
+    g_free(config);
+    return 0;
+}
+
+But what is the kludge that I have to do to put in "here" a condition
+that says:
+
+if the problem is at dev->config + offset + PCI_ERR_UNCOR_MASK that is
+not enabled in local (target of migration) device but it was enabled in remote
+(source of migration) (the same for wmask)
+
++    if (dev->cap_present & QEMU_PCIE_ERR_UNC_MASK) {
++        pci_set_long(dev->config + offset + PCI_ERR_UNCOR_MASK,
++                     PCI_ERR_UNC_MASK_DEFAULT);
++        pci_set_long(dev->wmask + offset + PCI_ERR_UNCOR_MASK,
++                     PCI_ERR_UNC_SUPPORTED);
++    }
+
+just enable it locally and don't give an error.  And we have to maintain
+the kludge forever because every machine with a machine type older than
+qemu-8.0 that has started in qemu-8.0 (i.e. pre qemu-8.0.1 that has the
+fix) is going to have that enable when the machine definition says that
+it should be disabled.
+
+That would fix the:
+
+qemu-8.0 -M pc-7.2 -> qemu-8.0.1 -M pc-7.2
+
+It is worth it?  Dunno.  That is my question.
+
+And knowing from what qemu it has migrated from would not help.  We
+would need to add a new tweak and means:
+
+This is a pc-7.2 machine that has been isntantiated in a qemu-8.0 and
+has the pciaerr bug.  But wait, we have _that_.
+
+And it is called
+
++    { TYPE_PCI_DEVICE, "x-pcie-err-unc-mask", "off" },
+
+from the patch.
+
+We can teach libvirt about this glitch, and if he is migrating a pc-7.2
+machine in qemu-8.0 machine, And they want to migrate to a new qemu
+(call it qemu-8.1), it needs to be started:
+
+qemu-8.1 -M pc-7.2 <whatever pci devices need to do>,x-pci-err-unc-mask="true"
+
+Until the user reboots it and then that property can be reset to default
+value.
+
+So at the end, pci maintainers don't need to do anything (so they don't
+have to kill me).
+
+And now it is the libvirt people who is going to try to kill me.
+
+Sniff.
+
+It is worth it?  I don't know.
+
+But as seen, migration has the infrastructure to do it. But it is a very
+hard problem, and fixing it in general is very complicated.  We are very
+bad at testing that we have broken migration for
+
+qemu-X.Y -M pc-X.Y -> qemu-X.(Y+1) -M pc-X.Y
+
+Sorry for the long mail, Juan.
 
 
