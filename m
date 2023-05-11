@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89F316FEEA8
+	by mail.lfdr.de (Postfix) with ESMTPS id 90B386FEEAA
 	for <lists+qemu-devel@lfdr.de>; Thu, 11 May 2023 11:24:02 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1px2Vo-0004tT-Ec; Thu, 11 May 2023 05:23:00 -0400
+	id 1px2Vj-0004sh-Ke; Thu, 11 May 2023 05:22:55 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1px2Vl-0004sw-Da
- for qemu-devel@nongnu.org; Thu, 11 May 2023 05:22:57 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ id 1px2Vh-0004ru-K0
+ for qemu-devel@nongnu.org; Thu, 11 May 2023 05:22:53 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1px2Vk-0008NY-2T
- for qemu-devel@nongnu.org; Thu, 11 May 2023 05:22:57 -0400
+ id 1px2Vg-0008NH-6s
+ for qemu-devel@nongnu.org; Thu, 11 May 2023 05:22:53 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1683796975;
+ s=mimecast20190719; t=1683796971;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=lIQzWRK3c35eHzV92PtfkI5OakCDeM/9T6Vl7SUWqc8=;
- b=dqnQ7p8AUhePnmAZreNhtn1cL838/oqoMyBrBe5XuZXioMelVOj5zhmH12ls0f/6NyAQfu
- BoPCbxOZWGy7MgxyUm1HIuivUOhhPDRorJ6aAXdF7e3Y+6o3824wZ8TdwxDNpk4mPmlDFr
- j8i6bKDCf0T3JOP8OH3uh2p1vNBm784=
+ bh=T6GPsrIhs+hKzKaHzptXYsq/NFKQGH8ji3Q2xjKZvx4=;
+ b=BcyKPXeePoyUZiZdJ3gIji0QtKhPfpwnKMWseZV/8TZGM1YLdTvY62sjwiY8x+v6y2Aq3G
+ FsmZKlwkj0T7l3c7xI98CAtw1XEaOVGRoWG8c8H+jTMItmX3MFX+s8RJI1VbK8V91Zd2xz
+ ZknfQmRIZq0sNxl2twulMSWNUcfmatA=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-175-M0VfiIIhPIaVukifgPZLRg-1; Thu, 11 May 2023 05:22:46 -0400
-X-MC-Unique: M0VfiIIhPIaVukifgPZLRg-1
+ us-mta-250-XptaJIY0PjShoPemWqv5cw-1; Thu, 11 May 2023 05:22:48 -0400
+X-MC-Unique: XptaJIY0PjShoPemWqv5cw-1
 Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
  [10.11.54.9])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id DE7CF84AF33;
- Thu, 11 May 2023 09:22:45 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9641A101A551;
+ Thu, 11 May 2023 09:22:47 +0000 (UTC)
 Received: from secure.mitica (unknown [10.39.192.247])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7C8AF401061;
- Thu, 11 May 2023 09:22:44 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 31FA8400E89;
+ Thu, 11 May 2023 09:22:46 +0000 (UTC)
 From: Juan Quintela <quintela@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Andrei Gudkov <gudkov.andrei@huawei.com>,
  Leonardo Bras <leobras@redhat.com>, Chuan Zheng <zhengchuan@huawei.com>,
  Juan Quintela <quintela@redhat.com>, Peter Xu <peterx@redhat.com>,
  Zhenzhong Duan <zhenzhong.duan@intel.com>
-Subject: [PATCH 2/3] migration: Teach dirtyrate about qemu_target_page_bits()
-Date: Thu, 11 May 2023 11:22:38 +0200
-Message-Id: <20230511092239.14607-3-quintela@redhat.com>
+Subject: [PATCH 3/3] migration: Make dirtyrate.c target independent
+Date: Thu, 11 May 2023 11:22:39 +0200
+Message-Id: <20230511092239.14607-4-quintela@redhat.com>
 In-Reply-To: <20230511092239.14607-1-quintela@redhat.com>
 References: <20230511092239.14607-1-quintela@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,33 +80,44 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+After the previous two patches, there is nothing else that is target
+specific.
+
 Signed-off-by: Juan Quintela <quintela@redhat.com>
 ---
- migration/dirtyrate.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ migration/dirtyrate.c | 2 --
+ migration/meson.build | 5 ++---
+ 2 files changed, 2 insertions(+), 5 deletions(-)
 
 diff --git a/migration/dirtyrate.c b/migration/dirtyrate.c
-index 9aa092738c..76c8b96ab4 100644
+index 76c8b96ab4..f814745bf7 100644
 --- a/migration/dirtyrate.c
 +++ b/migration/dirtyrate.c
-@@ -374,7 +374,7 @@ static void get_ramblock_dirty_info(RAMBlock *block,
-                                 sample_pages_per_gigabytes) >> 30;
-     /* Right shift TARGET_PAGE_BITS to calc page count */
-     info->ramblock_pages = qemu_ram_get_used_length(block) >>
--                           TARGET_PAGE_BITS;
-+                           qemu_target_page_bits();
-     info->ramblock_addr = qemu_ram_get_host_addr(block);
-     strcpy(info->idstr, qemu_ram_get_idstr(block));
- }
-@@ -485,7 +485,7 @@ find_block_matched(RAMBlock *block, int count,
- 
-     if (infos[i].ramblock_addr != qemu_ram_get_host_addr(block) ||
-         infos[i].ramblock_pages !=
--            (qemu_ram_get_used_length(block) >> TARGET_PAGE_BITS)) {
-+            (qemu_ram_get_used_length(block) >> qemu_target_page_bits())) {
-         trace_find_page_matched(block->idstr);
-         return NULL;
-     }
+@@ -14,9 +14,7 @@
+ #include "qemu/error-report.h"
+ #include <zlib.h>
+ #include "qapi/error.h"
+-#include "cpu.h"
+ #include "exec/ramblock.h"
+-#include "exec/ram_addr.h"
+ #include "exec/target_page.h"
+ #include "qemu/rcu_queue.h"
+ #include "qemu/main-loop.h"
+diff --git a/migration/meson.build b/migration/meson.build
+index eb41b77db9..da437b4a27 100644
+--- a/migration/meson.build
++++ b/migration/meson.build
+@@ -40,8 +40,7 @@ if get_option('live_block_migration').allowed()
+   softmmu_ss.add(files('block.c'))
+ endif
+ softmmu_ss.add(when: zstd, if_true: files('multifd-zstd.c'))
+-
++softmmu_ss.add(when: 'CONFIG_SOFTMMU', if_true: files('dirtyrate.c'))
+ specific_ss.add(when: 'CONFIG_SOFTMMU',
+-                if_true: files('dirtyrate.c',
+-                               'ram.c',
++                if_true: files('ram.c',
+                                'target.c'))
 -- 
 2.40.1
 
