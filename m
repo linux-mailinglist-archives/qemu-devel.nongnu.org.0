@@ -2,88 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 849926FED23
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 May 2023 09:51:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E3A06FED56
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 May 2023 09:59:33 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1px13o-0001rm-Ov; Thu, 11 May 2023 03:50:00 -0400
+	id 1px1Bj-0003es-Rh; Thu, 11 May 2023 03:58:11 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1px13m-0001rb-QS
- for qemu-devel@nongnu.org; Thu, 11 May 2023 03:49:58 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1px13l-0006iA-6o
- for qemu-devel@nongnu.org; Thu, 11 May 2023 03:49:58 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1683791396;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=O+EpTHRhELHsLuG4M4weyK1/CnnqphqB0r0Y4ACpdyY=;
- b=dIclHzezLTnKChqjj8ft0X+5u6ywTX9/yj1Cl1Kb8JXlsniUj7fU3JGAYRuyWITydATYB7
- ZpgOl+TmpLB7B0+ouNxLf5GNRa2C743bcVXdzlzTGYsDxBfDQdA91yTGXOptEPWKJ1uFLq
- 8r37InkxHo7lJArNy8PWGY9JoJL3Kp4=
-Received: from mail-yb1-f197.google.com (mail-yb1-f197.google.com
- [209.85.219.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-608-YA_2XxRdOvOqi2W_u5yV5A-1; Thu, 11 May 2023 03:49:54 -0400
-X-MC-Unique: YA_2XxRdOvOqi2W_u5yV5A-1
-Received: by mail-yb1-f197.google.com with SMTP id
- 3f1490d57ef6-ba2d0b391d3so10086868276.2
- for <qemu-devel@nongnu.org>; Thu, 11 May 2023 00:49:54 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1px1Bh-0003eT-UM
+ for qemu-devel@nongnu.org; Thu, 11 May 2023 03:58:10 -0400
+Received: from mail-ed1-x529.google.com ([2a00:1450:4864:20::529])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1px1Bd-0008AK-R7
+ for qemu-devel@nongnu.org; Thu, 11 May 2023 03:58:08 -0400
+Received: by mail-ed1-x529.google.com with SMTP id
+ 4fb4d7f45d1cf-50bc3a2d333so12503636a12.0
+ for <qemu-devel@nongnu.org>; Thu, 11 May 2023 00:58:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1683791884; x=1686383884;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=BM2GxTzbZL4qJdxREaki/VEz1+4KHCQRW6W2cyVMwnE=;
+ b=gm/WPrg+Oi0ofwsYcO09ZDE2Udnt4q2NWVa5sVwD4Ih50AErlTVBksUtbNTjc1q407
+ 9eZTi63LK3c5CI/in514o5fUam9Mmd9GiBadDWHNk5YmpAuSvHRoaVmrUHa1qIrruLSg
+ VskWBXSASbliTvLVSPrD1V4BZ0rTPNWVcze+G8nqlhJ70jrRgBCLAcQFaZxGoWOFknHO
+ 5RWarSdL2iYeVBBsg/U0gjGikv6jgIVYMcmzbV68PdusmkaXfpVcUqGnDYQ6kNEJSQX8
+ z0emodw8/Q3gG7d6TfbcjtN08GDQySWRPW1RB8mdpt99eRKIoME8HWPgfvyzMDFbEsbQ
+ E7Vg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683791394; x=1686383394;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=O+EpTHRhELHsLuG4M4weyK1/CnnqphqB0r0Y4ACpdyY=;
- b=isTNAkEg99CUv9h7Lxf7RfgZWT+UulbTlBQKikGuUeJf7CrjGBpnruwC5XumVUZrsB
- DYSuiXaCFv4Ldog8fQPNjapkVCywM6EGTuNtJ7U73/U0EUo/gWHDH/hCzDdZCY/6hQhl
- 3rq1oQrrDDfCcKb67IYgBlfJi9miITxqXBw/IPeAmGE7X4AL5+MknOD/nAfX88a/I86n
- d2L7Z1vX4BiRGi4FngcWmGEJaOEAG/FAL6i3uiS/7LCUGeORJk4YQSj2DI76j3X56A4t
- UFhmInoHGx2PpjtPL53z4Elighb4UNcni0UP9iNCvI+L+2yvjelcCICyJpt3gbluzHd/
- xfgQ==
-X-Gm-Message-State: AC+VfDx/Io3J/I7jcn7pb9ESN4DlYiUv52JS/31thfXBw2VZB1SWpz8k
- POR6g+efOW5jKra1VBjWwXlEv3/iN+vShzUVa3gN2tJAZiTrmPZ0w+sInU5G5WToIoYP8b9S90g
- u7PwDJgfjJG8sQdJBUAxyP3sTd9Son2w=
-X-Received: by 2002:a25:2d18:0:b0:ba6:9e94:ed2f with SMTP id
- t24-20020a252d18000000b00ba69e94ed2fmr1493409ybt.25.1683791394178; 
- Thu, 11 May 2023 00:49:54 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ6+Zi587cLi0dFoQA0275dYu4ytMEcWN6t6QN2FD95FBlGuZqmr206kKPCj73WkoKF7OfAgbavt5yRFQdhTqyA=
-X-Received: by 2002:a25:2d18:0:b0:ba6:9e94:ed2f with SMTP id
- t24-20020a252d18000000b00ba69e94ed2fmr1493397ybt.25.1683791393895; Thu, 11
- May 2023 00:49:53 -0700 (PDT)
+ d=1e100.net; s=20221208; t=1683791884; x=1686383884;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=BM2GxTzbZL4qJdxREaki/VEz1+4KHCQRW6W2cyVMwnE=;
+ b=QRNniPbF8Cik+Y1QyNQScHf/Qip+kfoNoW3a3TOcue/o8scQY68TStRQzlVGGfFtzP
+ aovpVyTR5QYupAUG98XbZJXSaas+zdweiNYtIXdfaZB3fKk0j5/bU0lQj86PbfBVxq59
+ C80mlyb6vN+Y4iH5ibq1CV5563D6WQqkAbEqeQS6UOSXfLcb5CkZYjeCLhKPyzk6K9Av
+ iJ/OZGP2QturW//8pHIAdx/aXd91uC3eH7KZ4M3jelQJKX3nUMYxmi3eRquru+T6KO+W
+ rhOG1kyFUf0YD/cZNf32ZnyiOr7CMWnH99XhvdJi8cS75vo1mjS3mqdIl/AWIz6X5OlG
+ +gxg==
+X-Gm-Message-State: AC+VfDysQD/P94Rqt4erX+6FF3m6lsgk+sZv66YGKDM8cuhnHKs8+CAb
+ YbK0rIpw4OqwnajhXuwdVQSnWQ==
+X-Google-Smtp-Source: ACHHUZ7+Wi5HMM5xj8N6qw+1b3R8bcKt8YhTULclUawFSv7cmRbaRL+Xc/mEUyVBbUEX3TyU9DADTA==
+X-Received: by 2002:aa7:d705:0:b0:50d:8c5b:86b with SMTP id
+ t5-20020aa7d705000000b0050d8c5b086bmr15335225edq.21.1683791884156; 
+ Thu, 11 May 2023 00:58:04 -0700 (PDT)
+Received: from [192.168.4.243] ([85.9.250.243])
+ by smtp.gmail.com with ESMTPSA id
+ l1-20020a056402344100b0050504648fc4sm2683164edc.80.2023.05.11.00.58.03
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 11 May 2023 00:58:03 -0700 (PDT)
+Message-ID: <ec8c209a-1233-4abe-3008-53a16df96ea3@linaro.org>
+Date: Thu, 11 May 2023 08:58:01 +0100
 MIME-Version: 1.0
-References: <20230504092843.62493-1-sgarzare@redhat.com>
- <600fa0d6-5c01-c8e9-54d4-6d2695e92015@redhat.com>
-In-Reply-To: <600fa0d6-5c01-c8e9-54d4-6d2695e92015@redhat.com>
-From: Stefano Garzarella <sgarzare@redhat.com>
-Date: Thu, 11 May 2023 09:49:42 +0200
-Message-ID: <CAGxU2F7fW1K9g2vyEmUyVxrOUk0Y0=KB1dyAKdAoLwuENWLFGA@mail.gmail.com>
-Subject: Re: [PATCH v2 0/2] block/blkio: add 'fd' option to
- virtio-blk-vhost-vdpa driver
-To: Jonathon Jongsma <jjongsma@redhat.com>
-Cc: qemu-devel@nongnu.org, Hanna Reitz <hreitz@redhat.com>,
- qemu-block@nongnu.org, 
- Eric Blake <eblake@redhat.com>, Markus Armbruster <armbru@redhat.com>, 
- Stefan Hajnoczi <stefanha@redhat.com>, Kevin Wolf <kwolf@redhat.com>, 
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PULL 00/10] Migration 20230509 patches
+To: Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, Peter Xu <peterx@redhat.com>,
+ Eric Blake <eblake@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
+ "Dr. David Alan Gilbert" <dave@treblig.org>,
+ Markus Armbruster <armbru@redhat.com>, Leonardo Bras <leobras@redhat.com>,
+ qemu-block@nongnu.org, Hailiang Zhang <zhanghailiang@xfusion.com>,
  Paolo Bonzini <pbonzini@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=sgarzare@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+References: <20230510180938.6338-1-quintela@redhat.com>
+Content-Language: en-US
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20230510180938.6338-1-quintela@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::529;
+ envelope-from=richard.henderson@linaro.org; helo=mail-ed1-x529.google.com
+X-Spam_score_int: -53
+X-Spam_score: -5.4
+X-Spam_bar: -----
+X-Spam_report: (-5.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-3.251,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -99,49 +99,38 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, May 10, 2023 at 6:03=E2=80=AFPM Jonathon Jongsma <jjongsma@redhat.c=
-om> wrote:
->
-> On 5/4/23 4:28 AM, Stefano Garzarella wrote:
-> > v2:
-> > - added patch 01 to use monitor_fd_param() in the blkio module
-> > - use monitor_fd_param() to parse the fd like vhost devices [Stefan]
-> >
-> > v1: https://lore.kernel.org/qemu-devel/20230502145050.224615-1-sgarzare=
-@redhat.com/
-> >
-> > The virtio-blk-vhost-vdpa driver in libblkio 1.3.0 supports the new
-> > 'fd' property. Let's expose this to the user, so the management layer
-> > can pass the file descriptor of an already opened vhost-vdpa character
-> > device. This is useful especially when the device can only be accessed
-> > with certain privileges.
-> >
-> > Stefano Garzarella (2):
-> >    stubs/monitor: add monitor_fd_param()
-> >    block/blkio: add 'fd' option to virtio-blk-vhost-vdpa driver
-> >
-> >   qapi/block-core.json |  6 ++++-
-> >   block/blkio.c        | 53 +++++++++++++++++++++++++++++++++++++++++++=
--
-> >   stubs/monitor.c      |  6 +++++
-> >   3 files changed, 63 insertions(+), 2 deletions(-)
-> >
->
->
-> I mentioned this briefly off-list, but I'm following up here just to
-> provide a bit more visibility. From libvirt's point of view, it is
-> actually much easier if we could pass the fd via the existing 'path'
-> parameter (using /dev/fdset/N as the path, for example) due to how we
-> construct the commandline for qemu. So if I get a vote, I would
-> definitely vote for that approach over adding a new 'fd' property.
+On 5/10/23 19:09, Juan Quintela wrote:
+> The following changes since commit caa9cbd566877b34e9abcc04d936116fc5e0ab28:
+> 
+>    Merge tag 'for-upstream' of https://repo.or.cz/qemu/kevin into staging (2023-05-10 14:52:03 +0100)
+> 
+> are available in the Git repository at:
+> 
+>    https://gitlab.com/juan.quintela/qemu.git tags/migration-20230509-pull-request
+> 
+> for you to fetch changes up to 121ccedc2bf0c124e93991275336415d12d2e3df:
+> 
+>    migration: block incoming colo when capability is disabled (2023-05-10 18:48:12 +0200)
+> 
+> ----------------------------------------------------------------
+> Migration Pull request (20230509 vintage) take 2
+> 
+> Hi
+> 
+> In this take 2:
+> - Change uint -> uint32_t to fix mingw32 compilation.
+> 
+> Please apply.
+> [take 1]
+> In this PULL request:
+> - 1st part of colo support for multifd (lukas)
+> - 1st part of disabling colo option (vladimir)
+> 
+> Please, apply.
 
-Thanks for pointing that out.
-Since libvirt will be the main user of this feature, I think it is
-fine to support fd passing via `path`, using qemu_open().
+Applied, thanks.  Please update https://wiki.qemu.org/ChangeLog/8.1 as appropriate.
 
-I'll send a v3 with that change.
 
-Thanks,
-Stefano
+r~
 
 
