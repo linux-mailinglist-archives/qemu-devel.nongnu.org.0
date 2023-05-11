@@ -2,21 +2,21 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD2ED6FEE42
+	by mail.lfdr.de (Postfix) with ESMTPS id B2DB06FEE41
 	for <lists+qemu-devel@lfdr.de>; Thu, 11 May 2023 11:02:49 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1px287-0004o7-4W; Thu, 11 May 2023 04:58:31 -0400
+	id 1px287-0004oB-D0; Thu, 11 May 2023 04:58:31 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1px284-0004jY-4w
+ id 1px284-0004jI-3B
  for qemu-devel@nongnu.org; Thu, 11 May 2023 04:58:28 -0400
 Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1px282-0003mo-Ey
+ id 1px282-0003mq-D1
  for qemu-devel@nongnu.org; Thu, 11 May 2023 04:58:27 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=ilande.co.uk; s=20220518; h=Subject:Content-Transfer-Encoding:MIME-Version:
@@ -24,26 +24,26 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
  Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
  List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=mrtzQIt9LK6S+ps56iCzIQu15XyYgsBpPmtrBYQTHnM=; b=XVtiwbGuB//IpMhKkPKjr6wk3S
- 2PfLIOdIeMqC7O/aiSRbY9/jg1rgcZfMjj8ywwNJoTKqrmSLqwNEDWp+FSllcg+6t18TSgg7e7R9o
- O2lwL23sDOMAanmOOjXo4RCWQfcPvgmHgKC/4rS7RtQbMUKsyjXfsduJbR4nty3e0/RUhWU5804eg
- omv+g+EqgbzXrrLF4KCL0UOCIbVm4ArtnG7X34tuSTGUPvqMFb0YWSLYnnoye0+KJDmQ+Sn2BxjtV
- 3zBoC2eqAyzWDYbUQ06RjkX7DJ6utE9HLaMs2oZM4cFVyssukPjiEuaud4ueCXQXqjAQJaW97TBKi
- Qa3AhEYaIYwR+yTwEWiuQ43XirXAVw5+Zel81GdTbJ+iWmllaCNLArqxsX+pKPdPQ/lio88CTVcWf
- 9vnJR58uxbbLVzpmYt5q/w3iSEOUFzvbb7rRm57kMInYhVljtEOFeduyxR2y9SpveqVL1AOKeLl1o
- rhNYeas2CyRZrStaFSAd4I/48Qmtljy34i1v95/9Wmj/cnzqPg4m/wh7YCUkUdt4PLF3XkS9Rn28b
- vt0/WR7TeqBOHwhs5B7Kzbv5MaimZywiPoXfTxG2dm2U/lUdomILx++7c++RdfNfMWVU0ow6xp3I9
- RwDyrMSO7Mi9bx29Gz6KKQqfFkA37RbW5lnXBdltg=;
+ bh=+ZBzmdU37Pg4lw9mXaCP1QfvTBDdzMb0Y7ZxRGWf6Ss=; b=iVYvMoEmBh22EFIo3R37gSTDyf
+ aUmmFI1kAPJcM/imB4vjUeD6ICmun1/ngTl/NN4qI4m5DF5NxgvDASnS6kYEOXp9BMuntQr/6oxlz
+ HAoKhY6eHJSh/DqKK7I3DCQjIuDoqClRsM+DtqVW5uMmh8XHBP7o0xmnlHoltniHvQESrovQwtWji
+ WAGrBMp7MavRV7b8MXfvJk4795g4+VZ6cpOTaL/oIrXkzPdmvlaINibZC1CWJm+HrNQh7T9az/A9L
+ 7eRFJHOsv1G3V5oOqboKqRgzY6FZxERgtajqfHT8pVTZfRkmzd2HEnFSisN+NJmWma34DBaCg1PWh
+ 7gkPbSIGwBYkeviiF6XjCOeCI6AXt7g4r4OIFJv+JWcWLE/bp2zhmnxu4rovwOGDKHqRcGkutSu63
+ ovCW+uT4y+vO1IId70Re3wPikQG7eCW2w0Zslqj6AugtR/hLV4dq6mBuV13qTXCtkyT4b3ALzgO5+
+ 2MWaz6jAyGysGSJGGNqxqWxWSGB5QTD47rpOiIOJoeqHFuQoMOYp9a+tf7FvP8EnzkAfqA5Lt1+J9
+ AiwMTB/QuvnIttX9ahXcdOwVTcBgdbc9IozJpfZD8dayoe8bwIHTIM3qisDdAcHORs5tIuBHbeb/x
+ HUyvxlz/nZjCnp9p6Z4EHo93uO75Q3g7tBlKfFv0E=;
 Received: from host81-151-114-25.range81-151.btcentralplus.com
  ([81.151.114.25] helo=kentang.home)
  by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1px273-0008g9-Oi; Thu, 11 May 2023 09:57:25 +0100
+ id 1px274-0008g9-4W; Thu, 11 May 2023 09:57:26 +0100
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 To: mst@redhat.com, marcel.apfelbaum@gmail.com, philmd@linaro.org,
  alex.bennee@linaro.org, qemu-devel@nongnu.org
-Date: Thu, 11 May 2023 09:57:21 +0100
-Message-Id: <20230511085731.171565-9-mark.cave-ayland@ilande.co.uk>
+Date: Thu, 11 May 2023 09:57:22 +0100
+Message-Id: <20230511085731.171565-10-mark.cave-ayland@ilande.co.uk>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20230511085731.171565-1-mark.cave-ayland@ilande.co.uk>
 References: <20230511085731.171565-1-mark.cave-ayland@ilande.co.uk>
@@ -51,7 +51,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 81.151.114.25
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: [RFC PATCH 08/18] hw/net/can/can_pcm3680_pci.c: switch SerialState to
+Subject: [RFC PATCH 09/18] hw/net/can/ctucan_pci.c: switch CtuCanPCIState to
  use PCI device input gpio
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
@@ -83,31 +83,31 @@ qemu_free_irq() to be removed.
 
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 ---
- hw/net/can/can_pcm3680_pci.c | 4 +---
+ hw/net/can/ctucan_pci.c | 4 +---
  1 file changed, 1 insertion(+), 3 deletions(-)
 
-diff --git a/hw/net/can/can_pcm3680_pci.c b/hw/net/can/can_pcm3680_pci.c
-index 8ef3e4659c..50f01d02bd 100644
---- a/hw/net/can/can_pcm3680_pci.c
-+++ b/hw/net/can/can_pcm3680_pci.c
-@@ -163,7 +163,7 @@ static void pcm3680i_pci_realize(PCIDevice *pci_dev, Error **errp)
+diff --git a/hw/net/can/ctucan_pci.c b/hw/net/can/ctucan_pci.c
+index ea079e2af5..94f8f58518 100644
+--- a/hw/net/can/ctucan_pci.c
++++ b/hw/net/can/ctucan_pci.c
+@@ -173,7 +173,7 @@ static void ctucan_pci_realize(PCIDevice *pci_dev, Error **errp)
      pci_conf = pci_dev->config;
      pci_conf[PCI_INTERRUPT_PIN] = 0x01; /* interrupt pin A */
  
 -    d->irq = pci_allocate_irq(&d->dev);
 +    d->irq = qdev_get_gpio_in_named(DEVICE(pci_dev), "pci-input-irq", 0);
  
-     for (i = 0; i < PCM3680i_PCI_SJA_COUNT; i++) {
-         can_sja_init(&d->sja_state[i], d->irq);
-@@ -196,8 +196,6 @@ static void pcm3680i_pci_exit(PCIDevice *pci_dev)
-     for (i = 0; i < PCM3680i_PCI_SJA_COUNT; i++) {
-         can_sja_disconnect(&d->sja_state[i]);
+     for (i = 0 ; i < CTUCAN_PCI_CORE_COUNT; i++) {
+         ctucan_init(&d->ctucan_state[i], d->irq);
+@@ -207,8 +207,6 @@ static void ctucan_pci_exit(PCIDevice *pci_dev)
+     for (i = 0 ; i < CTUCAN_PCI_CORE_COUNT; i++) {
+         ctucan_disconnect(&d->ctucan_state[i]);
      }
 -
 -    qemu_free_irq(d->irq);
  }
  
- static const VMStateDescription vmstate_pcm3680i_pci = {
+ static const VMStateDescription vmstate_ctucan_pci = {
 -- 
 2.30.2
 
