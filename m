@@ -2,86 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86AB66FF0B7
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 May 2023 13:53:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D80C76FF0FD
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 May 2023 14:02:22 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1px4qe-0001vy-Rd; Thu, 11 May 2023 07:52:40 -0400
+	id 1px4yN-0003DW-Jg; Thu, 11 May 2023 08:00:39 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1px4qc-0001vc-JK
- for qemu-devel@nongnu.org; Thu, 11 May 2023 07:52:38 -0400
-Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1px4qa-00085R-WA
- for qemu-devel@nongnu.org; Thu, 11 May 2023 07:52:38 -0400
-Received: by mail-wm1-x32d.google.com with SMTP id
- 5b1f17b1804b1-3f41d087b3bso57582075e9.0
- for <qemu-devel@nongnu.org>; Thu, 11 May 2023 04:52:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1683805954; x=1686397954;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=PkIgVnduD1qqmEZViIeVIQlRDSqg6qbVEkP8MWFmQEs=;
- b=Xymqfn1CQ+L3rCKmauKzRFPYz5OiATT0vyYSmo/VzgFmXsjTsj4wY6ZpxazDGwHk02
- M+Z3X1c7g6ax1KhIlwe2cXFyFBdFmbgmgkgXGw4ItXswxF/xYy2M0GwtLAorgnW5Yxkf
- h4vzt7t+oky0Kf49H6TeOksTYgX4jGEk1v8WvXw3fuEUvt4767RcUiTkvsSiTjOuX7Va
- Oc7MvbpqDkJtXpnBpQTKViaI9O9/iusMdq1WvahouSbBVm69TvYL2CgM6gGNGuKXGi8A
- U49XfxvE9pYfcpiaySlSJHoReDak/Y4okUogGCxntZYj4VNo0z980dmIxiTiiBH0Yqzj
- c4+Q==
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1px4yK-0003CX-De
+ for qemu-devel@nongnu.org; Thu, 11 May 2023 08:00:36 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1px4yH-0001DV-78
+ for qemu-devel@nongnu.org; Thu, 11 May 2023 08:00:36 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1683806431;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=hvLuDVkGdwYrpQcyaIoCFABAr2EgWQbE9pBVlQAokKU=;
+ b=g0ImfD9PplKeNw5SpLeNCbO1gpQyyDxJeGyQgjDaOtOzSDMRaOBTSvvUT50uWnmd1/oapH
+ mBOjDdfy9eZc/fxmC0TDqLiX5JkSbXeiMx6T3rQzNsCaGQvTxfXeRc/Bt05mXRfZWkqOs9
+ Xidggdfua+dVhBUlRjjQRRr/vTLwHcg=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-5-E3-B-QikOXiq6DZxUm1htw-1; Thu, 11 May 2023 08:00:30 -0400
+X-MC-Unique: E3-B-QikOXiq6DZxUm1htw-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ 5b1f17b1804b1-3f4ef4bf00dso1701655e9.1
+ for <qemu-devel@nongnu.org>; Thu, 11 May 2023 05:00:30 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683805954; x=1686397954;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=PkIgVnduD1qqmEZViIeVIQlRDSqg6qbVEkP8MWFmQEs=;
- b=gVZgFC1QH270WIMcYEqeV2dpx2eJaqQTuzlbYkrPGffK4HpXa8jHq48doKjG6y++e5
- b0SWtf5iahGUUqRjFGxlzmDmjmXpnQ0OMMtZGaN9nPm5BEGlqFGB1tXwVUTuOxLwJpfg
- CnaYH9u6/O91Uz/e3nlOKjmXekrARxq2sqwezVdaw9FQ4sy6LAyjg+8djgV5L59HUyau
- PpiGG5vYefBrjWeG1R+pxUhaMzr3UlwRUSN6B+jsow5OWiZNHzKaDP+g3r8OmmZ9KYut
- gOuNGOyPwJRsZ2y3kN/adID/Jt6DCE0t8xgpMY3orOgCqlq9RDkyuVdXX+JRFAHshno8
- O2vg==
-X-Gm-Message-State: AC+VfDy4yuXQFBN3ul/25BO/+ouBSr2usn21BrC6Aaxn0UTYVXCuhjw4
- jdSpBzfUldccIN61Ww1SNUm6KQ==
-X-Google-Smtp-Source: ACHHUZ4O1N/GVwfQK23zuPV8u/64k4+ScJcxGZU0sHHcJBG5vl0JCgQL4n/JOT52W9J8yzxad4IzHQ==
-X-Received: by 2002:a05:600c:2056:b0:3f4:2bbf:40a with SMTP id
- p22-20020a05600c205600b003f42bbf040amr6258635wmg.37.1683805954321; 
- Thu, 11 May 2023 04:52:34 -0700 (PDT)
-Received: from [192.168.110.227] ([85.9.250.243])
- by smtp.gmail.com with ESMTPSA id
- n23-20020a7bc5d7000000b003ee74c25f12sm25471929wmk.35.2023.05.11.04.52.33
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 11 May 2023 04:52:34 -0700 (PDT)
-Message-ID: <21302f37-fc1f-a39c-639d-d9a9ccd3ca9f@linaro.org>
-Date: Thu, 11 May 2023 12:52:31 +0100
+ d=1e100.net; s=20221208; t=1683806429; x=1686398429;
+ h=mime-version:message-id:date:reply-to:user-agent:references
+ :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=hvLuDVkGdwYrpQcyaIoCFABAr2EgWQbE9pBVlQAokKU=;
+ b=UDUsQ+VH6sYTqSQI+RW9jHe2d+PhMFM4FDz9f9NSVfMxybwDATPzWoPQZ7Qi5CFbGN
+ Wx9WZxUGzIVrFa+mezAo+mPi1Y+Ng6bfhUD6oRpjxF88YNq0tTT0Dkf3MWLygPa559P4
+ sKIEM+CqSgHTy1bvknnHTh2vS/vVZmKaMGmrWcsRbZx8ZheGQtDzyc/qj/vBMAVWUNOX
+ DpSRdx0tHGghksUYnfvSOY0j5aLVearQl4k+FmKcXY11y5ep6fgCbai3tTwx7NGr6P7w
+ yXZSlaHE1LduNwz9mFKw53VqZIo7GP3wSf6x6ml9xTiHmkVO/LTjwrNTged0m+6NTpmH
+ k7Kg==
+X-Gm-Message-State: AC+VfDxYwDRDRtKrkuTUr0/Ga5i5xIXDnYubFZGSqc+Xq7zsR+cMe/zR
+ wGAxV5+noRcGdfHLl/1AhEKR/PF3cgaAFMzxZc0LodG3qc3F+fReEsRMK0I1gFlihD/XClmxXp+
+ 78bcjaPM9vaqwqlk=
+X-Received: by 2002:a7b:c012:0:b0:3f0:9d1a:223b with SMTP id
+ c18-20020a7bc012000000b003f09d1a223bmr15698540wmb.16.1683806429370; 
+ Thu, 11 May 2023 05:00:29 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ6FfnFA4GnkOKgKg/OVUPqiuaNO+FxqIHQ/7Uiad0hW5g6ca7dC2znlerg+YWXCwdEkZvxHYg==
+X-Received: by 2002:a7b:c012:0:b0:3f0:9d1a:223b with SMTP id
+ c18-20020a7bc012000000b003f09d1a223bmr15698513wmb.16.1683806429050; 
+ Thu, 11 May 2023 05:00:29 -0700 (PDT)
+Received: from redhat.com (static-92-120-85-188.ipcom.comunitel.net.
+ [188.85.120.92]) by smtp.gmail.com with ESMTPSA id
+ u4-20020a05600c00c400b003f4290720d0sm9272996wmm.47.2023.05.11.05.00.28
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 11 May 2023 05:00:28 -0700 (PDT)
+From: Juan Quintela <quintela@redhat.com>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+Cc: qemu-devel@nongnu.org,  Leonardo Bras <leobras@redhat.com>,  Peter Xu
+ <peterx@redhat.com>,  Avihai Horon <avihaih@nvidia.com>,  Thomas Huth
+ <thuth@redhat.com>,  Lukas Straub <lukasstraub2@web.de>,  Alex
+ =?utf-8?Q?Benn=C3=A9e?=
+ <alex.bennee@linaro.org>,  Daniel P . =?utf-8?Q?Berrang=C3=A9?=
+ <berrange@redhat.com>, Markus Armbruster <armbru@redhat.com>
+Subject: Re: [PATCH v2] migration: Add documentation for backwards compatiblity
+In-Reply-To: <2912b2c8-41c2-4a9d-64ac-b3a05e66028f@yandex-team.ru> (Vladimir
+ Sementsov-Ogievskiy's message of "Thu, 11 May 2023 13:23:12 +0300")
+References: <20230511082701.12828-1-quintela@redhat.com>
+ <2912b2c8-41c2-4a9d-64ac-b3a05e66028f@yandex-team.ru>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
+Date: Thu, 11 May 2023 14:00:27 +0200
+Message-ID: <87o7mr3wo4.fsf@secure.mitica>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH 3/3] migration: Make dirtyrate.c target independent
-Content-Language: en-US
-To: quintela@redhat.com
-Cc: qemu-devel@nongnu.org, Andrei Gudkov <gudkov.andrei@huawei.com>,
- Leonardo Bras <leobras@redhat.com>, Chuan Zheng <zhengchuan@huawei.com>,
- Peter Xu <peterx@redhat.com>, Zhenzhong Duan <zhenzhong.duan@intel.com>
-References: <20230511092239.14607-1-quintela@redhat.com>
- <20230511092239.14607-4-quintela@redhat.com>
- <858bcc8a-e6bc-c929-d007-723afe2b6562@linaro.org>
- <87ttwj3xbl.fsf@secure.mitica>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <87ttwj3xbl.fsf@secure.mitica>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
- envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x32d.google.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.124,
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -96,34 +101,117 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 5/11/23 12:46, Juan Quintela wrote:
->>> +softmmu_ss.add(when: 'CONFIG_SOFTMMU', if_true: files('dirtyrate.c'))
->>
->> This becomes
->>
->> softmmu_ss.add(files('dirtyrate.c'))
->>
->> the when: is redundant with 'softmmu_ss'.
-> 
-> It looked weird, but I didn't understand this stuff well enough, so I
-> just copyed what was there O:-)
-> 
-> Is there any documentation about this?  Because what I usually do is
-> search for a file that does (more or less) the same that I need and just
-> add it to that list.
+Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru> wrote:
+> On 11.05.23 11:27, Juan Quintela wrote:
+>> State what are the requeriments to get migration working between qemu
+>> versions.  And once there explain how one is supposed to implement a
+>> new feature/default value and not break migration.
+>> Signed-off-by: Juan Quintela <quintela@redhat.com>
+>
+> In general looks good to me:
+>
+> Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
 
-It's just top-level make^H^H^H^Hmeson.build related.
+Thanks.
 
-We have
+>> ---
+>> [v2]
+>> - Add all danp fixes
+>> [v1]
+>> I will really appreciate reviews:
+>> - I don't speak natively .rst format, so let me what I have done
+>>    wrong.
+>> - English is not my native language either (no points if had guessed
+>>    that).
+>
+> Same for me. Sometimes your wording seems awkward to me, but I don't
+> risk to propose my awkward replacement)
 
-common_ss.add_all(when: 'CONFIG_SOFTMMU', if_true: [softmmu_ss])
+happens to me all the time O:-)
 
-so everything in softmmu_ss is already protected by CONFIG_SOFTMMU.
+>> +When we do migration, we have to qemu process: the source and the
+>
+> two qemu processes
+
+Done.  Already reported by daniel.
+
+> (also probably we should say QEMU everywhere)
+
+Done.
+
+>> +target.  There are two cases, they are the same version or they are a
+>> +different version.  The easy case is when they are the same version.
+>> +The difficult one is when they are different versions.
+>> +
+>> +There are two things that are different, but they have very similar
+>> +names and sometimes get confused:
+>> +- qemu version
+>> +- machine version
+>> +
+>> +Let's start with a practical example, we start with:
+>> +
+>> +- qemu-system-x86_64 (v5.2), from now on qemu-5.2.
+>> +- qemu-system-x86_64 (v5.1), from now on qemu-5.1.
+>> +
+>> +Related to this are the "latest" machine types defined on each of
+>> +them:
+>> +
+>> +- pc-q35-5.2 (newer one in qemu-5.2) from now on pc-5.2
+>> +- pc-q35-5.1 (newer one qemu-5.1) from now on pc-5.1
+>
+> one in qemu-5.1
+
+done.
+
+>> +
+>> +First of all, migration is only supposed to work if you use the same
+>> +machine type in both source and destination. The qemu hardware
+>> +configuration needs to be the same also on source and destination.
+>> +Most aspects of the backend configuration can be changed at will,
+>> +except for a few cases where the backend features influence frontend
+>> +device feature exposure.  But that is not relevant for this section.
+>> +
+>> +I am going to list the number of combinations that we can have.  Let's
+>> +start with the trivial ones, qemu is the same on source and
+>> +destination:
+>> +
+>> +1 - qemu-5.2 -M pc-5.2  -> migrates to -> qemu-5.2 -M pc-5.2
+>> +
+>> +  This is the latest qemu with the latest machine type.
+>> +  This have to work, and if it don't work it is a bug.
+>
+> doesn't
+
+done.
+
+Search for all don't and replace lots of them.
+
+>> +
+>> +2 - qemu-5.1 -M pc-5.1  -> migrates to -> qemu-5.1 -M pc-5.1
+>> +
+>> +  Exactly the same case than the previous one, but for 5.1.
+>> +  Nothing to see here either.
+>> +
+>> +This are the easiest ones, we will not talk more about them in this
+>> +section.
+>> +
+>> +Now we start with the more interesting cases.  Let start with the
+>> +same qemu but not the same machine type.
+>
+> sounds like "different machine type on source and target" for me..
+>
+> Maybe, "not latest machine type" ?
+
+Now we start with the more interesting cases.  Let start with a the
+same QEMU process and a different QEMU version machine type.
+
+Better?
 
 
-r~
+Thanks, Juan.
 
 
