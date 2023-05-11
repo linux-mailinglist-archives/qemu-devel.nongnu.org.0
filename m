@@ -2,73 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 214766FF42B
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 May 2023 16:27:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B0CC96FF474
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 May 2023 16:33:51 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1px7Ex-0001tg-Jp; Thu, 11 May 2023 10:25:55 -0400
+	id 1px7Ly-0004Qp-6z; Thu, 11 May 2023 10:33:10 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shorne@gmail.com>) id 1px7Eu-0001sq-O6
- for qemu-devel@nongnu.org; Thu, 11 May 2023 10:25:52 -0400
-Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b])
+ (Exim 4.90_1) (envelope-from <shorne@gmail.com>) id 1px7Lw-0004Oy-7m
+ for qemu-devel@nongnu.org; Thu, 11 May 2023 10:33:08 -0400
+Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <shorne@gmail.com>) id 1px7Et-0008Oh-5A
- for qemu-devel@nongnu.org; Thu, 11 May 2023 10:25:52 -0400
-Received: by mail-wr1-x42b.google.com with SMTP id
- ffacd0b85a97d-305f0491e62so8355005f8f.3
- for <qemu-devel@nongnu.org>; Thu, 11 May 2023 07:25:50 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <shorne@gmail.com>) id 1px7Lu-00018S-My
+ for qemu-devel@nongnu.org; Thu, 11 May 2023 10:33:08 -0400
+Received: by mail-wm1-x331.google.com with SMTP id
+ 5b1f17b1804b1-3f41d087b3bso59549065e9.0
+ for <qemu-devel@nongnu.org>; Thu, 11 May 2023 07:33:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1683815149; x=1686407149;
+ d=gmail.com; s=20221208; t=1683815585; x=1686407585;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=SkyZOvx5qmGpsduQvq1ZNuG43m7DUiPCKnBykl3eb7A=;
- b=kcO99qNQ10y3Csiu0QV1nwZMtjt6pQq+YNOQFzTEP0W99IS86P3hogiNs9CjN7E0gT
- 4Mp8YE/g+xKYc3UPCVTDjBhcZKpdfnyg3NpgB2MKfSXSfbDyqS81yj49jCUfiCfoQjw2
- E7j9QZ3Gs/N4FFLLvTb+7g8AWgxfOKkAbumXVVnxn8LToViHnC2NNY5n15DmouIMBrAW
- K7fsn84XtmHOVhUEzzvN8GLknotqprcZWAKX3C8A6gzXqo/8fS/6X2j2M4XIbI19vaza
- JEHG17ClJmiJGXySRqIHOOEoCyqMX+3/YS7MM7/jgh9n6g0SmgkBjFCN3KjLriMOWpYS
- k0ew==
+ bh=KpHzLOSJrTCY3XJh7eVaSPkQ6h945WIPK/8UNUd2XSQ=;
+ b=se1oSMrLpho2+tfA02dn9DLPuw9mcNtZgx3zp+Hh2G4W/xpkCQXbUKOwQcCKV4JSw2
+ 9nV5amOnw1cf6eTGeIs7K9cvJ5YfpHfTZn/DOe16qF6AZ7uF019eNVV733ikVtSPW7V2
+ pKEwHh4BWzDPd59fbD6FcEjVs2c3SydqD8LEzQ4jfMKKqY8AwLbmt+dz7uyNcDFVBheh
+ MFFjDw6fzP7z2U49mA/eFMRV9Te7MYqmaxtGQF0tOI3Pf5vFqWHHkCR6lMod+/of9DxF
+ ZGQypNeRx/VFDd2gJN7QOO8rTjYmvPvmYxRg4cmShEVoDHjn/51N8bDb/p3OFRHwhtiZ
+ WRQg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683815149; x=1686407149;
+ d=1e100.net; s=20221208; t=1683815585; x=1686407585;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=SkyZOvx5qmGpsduQvq1ZNuG43m7DUiPCKnBykl3eb7A=;
- b=jc/wOOHg/3/sVkvO4LTko5TAGM/CgEnt7dVoWr7OVrw2lpX08kVPd8a+r+OoRiqhSP
- Kbic3TVldK8F/WXU4ATtu38YM3/UGr5Mx54hQxUfapfAhELYnUNbO06+imViHvcjYxeI
- 3jfVIxs3JDZVfBfru620y8sCDMCX/i7WUqrnHP/UPDQCn0lM+TQ1BascRBqr0aEX6TzL
- dmjJvLqnVmZGLc18leJrOZtTwLResM6d5iNLptGvUhDw2/ts3zNsNaUj3znDIeSUGwdl
- MIrXJfZ9VrWxOnWsGMz3ntgxLrXUsz2Ov+3Afk3fEZSvcJ+JHTQiM65+ibK9CRIl9IrC
- JoGg==
-X-Gm-Message-State: AC+VfDxg1A58++VlIooVPNuTRcs2y9hC2IrCkLOcrcmi1lOuTWgyp3+l
- arir3EMcLU2sxdqKceL33k8=
-X-Google-Smtp-Source: ACHHUZ6vEaH9Aojgk6BZANPEw9MVQELL/5I+FFf6agBqXqBGQ/9EMhyI0JK4h5Uu1PsLnGu1Lv9xCA==
-X-Received: by 2002:a05:6000:100d:b0:306:26d1:230a with SMTP id
- a13-20020a056000100d00b0030626d1230amr14338261wrx.65.1683815149424; 
- Thu, 11 May 2023 07:25:49 -0700 (PDT)
+ bh=KpHzLOSJrTCY3XJh7eVaSPkQ6h945WIPK/8UNUd2XSQ=;
+ b=kXteUGFqiDafDKWwq7qivXIG75bRFJCszlJGvtft+soYQCSPy75kAYge8unw8+jPxd
+ /SmSwmGkQaesraLDmAOnn+ItJIdbRp+EdQyFGb+1I8LS/jeAabwop3w5tLFnk2fcu/rc
+ a/dTO94CY14KkfGwL9tc66yzmAvKfFvx17wrJtVszVTXSUEQnyCsJjzZEp7LJktZeunK
+ cqmyq5HRev7tyelmSEWlUSm5+sSZiaP8n2ezyknox0cOB7yGUN2L7ILzoQcGgQeh/03j
+ 0EvwY90dEagn/t25KS8A/FaY8u5TUmxX8ORv/yKWHeAb1UQuzuVgQZi6FaW2PsYij16l
+ +gJg==
+X-Gm-Message-State: AC+VfDwbFBJcXAxPgnR0FU1AKVSasiGSlm1JAM+xptuJnhu2DiZzvFa7
+ xbwVLkghhtnaxK8CWMXEgzY=
+X-Google-Smtp-Source: ACHHUZ4P9KuQYmmiafte5mMjC9Qc0TLL7eBZpQj9OgS0ETheLOf9eOcUWZgk3zw4FBwLAgKZe7skzQ==
+X-Received: by 2002:a05:600c:243:b0:3f4:28db:f60b with SMTP id
+ 3-20020a05600c024300b003f428dbf60bmr7630206wmj.29.1683815585169; 
+ Thu, 11 May 2023 07:33:05 -0700 (PDT)
 Received: from localhost (cpc1-brnt4-2-0-cust862.4-2.cable.virginm.net.
  [86.9.131.95]) by smtp.gmail.com with ESMTPSA id
- p14-20020a1c740e000000b003f420667807sm15897024wmc.11.2023.05.11.07.25.48
+ l11-20020a05600c1d0b00b003f1978bbcd6sm12077257wms.3.2023.05.11.07.33.04
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 11 May 2023 07:25:48 -0700 (PDT)
-Date: Thu, 11 May 2023 15:25:48 +0100
+ Thu, 11 May 2023 07:33:04 -0700 (PDT)
+Date: Thu, 11 May 2023 15:33:04 +0100
 From: Stafford Horne <shorne@gmail.com>
 To: Richard Henderson <richard.henderson@linaro.org>
 Cc: QEMU Development <qemu-devel@nongnu.org>,
  Linux OpenRISC <linux-openrisc@vger.kernel.org>
-Subject: Re: [PATCH v2 1/3] target/openrisc: Allow fpcsr access in user mode
-Message-ID: <ZFz67B+EehEOx6g7@antec>
+Subject: Re: [PATCH v2 3/3] target/openrisc: Setup FPU for detecting tininess
+ before rounding
+Message-ID: <ZFz8oJ+hYdsoZeoi@antec>
 References: <20230510153228.264954-1-shorne@gmail.com>
- <20230510153228.264954-2-shorne@gmail.com>
- <c7e792c1-8229-8b6c-8e6a-1eda14d77c03@linaro.org>
+ <20230510153228.264954-4-shorne@gmail.com>
+ <390d7ef2-1240-55a3-4b13-ab8796921b7a@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <c7e792c1-8229-8b6c-8e6a-1eda14d77c03@linaro.org>
-Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
- envelope-from=shorne@gmail.com; helo=mail-wr1-x42b.google.com
+In-Reply-To: <390d7ef2-1240-55a3-4b13-ab8796921b7a@linaro.org>
+Received-SPF: pass client-ip=2a00:1450:4864:20::331;
+ envelope-from=shorne@gmail.com; helo=mail-wm1-x331.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -91,33 +92,39 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, May 10, 2023 at 05:13:03PM +0100, Richard Henderson wrote:
+On Wed, May 10, 2023 at 05:16:20PM +0100, Richard Henderson wrote:
 > On 5/10/23 16:32, Stafford Horne wrote:
-> >   void HELPER(mtspr)(CPUOpenRISCState *env, target_ulong spr, target_ulong rb)
-> >   {
-> > -#ifndef CONFIG_USER_ONLY
-> >       OpenRISCCPU *cpu = env_archcpu(env);
-> > +#ifndef CONFIG_USER_ONLY
-> >       CPUState *cs = env_cpu(env);
+> > OpenRISC defines tininess to be detected before rounding.  Setup qemu to
+> > obey this.
+> > 
+> > Signed-off-by: Stafford Horne <shorne@gmail.com>
+> > ---
+> > Since v1:
+> >   - Remove setting default NaN behavior.  I discussed with the FPU developers and
+> >     they mentioned the OpenRISC hardware should be IEEE compliant when handling
+> >     and forwarding NaN payloads, and they don't want try change this.
 > 
-> Pulled cpu out if ifdef here...
-> 
-> > @@ -204,10 +220,22 @@ target_ulong HELPER(mfspr)(CPUOpenRISCState *env, target_ulong rd,
-> >       OpenRISCCPU *cpu = env_archcpu(env);
-> >       CPUState *cs = env_cpu(env);
-> >       int idx;
-> > +#else
-> > +    OpenRISCCPU *cpu = env_archcpu(env);
-> >   #endif
-> 
-> But replicated it here.
+> There is no such thing as IEEE compliant for NaN payloads.
+> All of that is implementation defined.
 
-Right, let me make it consistent in this patch.
+I see, I haven't yet seen to IEEE 754 spec so I don't know how much is covered.
+It was incorrect to assume forwarding semantics was covered.
 
-> Otherwise,
+> All OpenRISC needs to do is document its intentions (and then double-check
+> that fpu/softfloat-specialize.c.inc does what is documented).
+
+Understood, that makes sense, also reading that code I see how all other
+architectures are able to ifdef their way to a specific behavior.  I will see
+what our current implementions do and update the spec and qemu as a separate
+task.
+
+> 
+> Anyway, back to this patch,
 > Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+> 
+> :-)
 
-Thank you,
+Thank you ^_^
 
 -Stafford
 
