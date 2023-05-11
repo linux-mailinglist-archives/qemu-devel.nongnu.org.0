@@ -2,85 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 208926FF674
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 May 2023 17:50:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A20F6FF67C
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 May 2023 17:52:48 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1px8YT-0003k4-DD; Thu, 11 May 2023 11:50:09 -0400
+	id 1px8aV-00052M-3v; Thu, 11 May 2023 11:52:15 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1px8YP-0003do-0f
- for qemu-devel@nongnu.org; Thu, 11 May 2023 11:50:05 -0400
-Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1px8YM-0003tv-9Z
- for qemu-devel@nongnu.org; Thu, 11 May 2023 11:50:04 -0400
-Received: by mail-wm1-x330.google.com with SMTP id
- 5b1f17b1804b1-3f423521b10so38216255e9.0
- for <qemu-devel@nongnu.org>; Thu, 11 May 2023 08:50:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1683820199; x=1686412199;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
- :message-id:reply-to;
- bh=BwN5tpuRN2cJdotGmcOb41yElIh/yWePobfoz5DoaZ0=;
- b=u6NZXWHg6kiaj23pAfKJLPWT+jw159Zb7t4MUlYgsRPrHXIMRY2Nm36L+cPhA6QsPy
- NSIW1hYFH+vTyiVsaUqp4BMHMsOTbDk5CfMlJ1xHR99gKp2WIZio/MXmvzWfA2ZI1rjQ
- v7D8qLC+8ZeLsEL8P/Qozdak/+8xhPXP8k0ABqgn/L9dTlZTJ9hP8cenDx9VOJ/qKl11
- Tfb4rIAbLMR+Nw0CgI9fSfL3FXRyKCZON0YZmkmzNG3EuB1IyHnFSUTOpWZbiTL7z69g
- b2dkt44Pgavic4X/zTPQwxQyJAuFKYdxNH7mDcfBMBbgY5iBTDHTOVONB5SEPFp8oqGu
- haUw==
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1px8aS-00052E-FZ
+ for qemu-devel@nongnu.org; Thu, 11 May 2023 11:52:12 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1px8aR-0004aL-1g
+ for qemu-devel@nongnu.org; Thu, 11 May 2023 11:52:12 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1683820329;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=FHToo8zfgQ4x4Uu9DcZA84tZXVu0Vpr3j+i8coqAUhQ=;
+ b=WHEEON1szCL3PMH0314qMZHiPoZNcPqZO5uJmnxtDS4eAvA+AL3xc2OWV86symPUp9G4tc
+ B2Hv2KlkQ1U4P8QzDnZvA5y1eCoeoDFD7ouIYlWApgIpUXuUQyFLrKP3SXhDDSa0K3hj15
+ TGrswk5OmHILZuvJS0lYzARFLoRDNAE=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-226-t7ec5d5EOMak4tx1VFLLAg-1; Thu, 11 May 2023 11:52:05 -0400
+X-MC-Unique: t7ec5d5EOMak4tx1VFLLAg-1
+Received: by mail-ed1-f72.google.com with SMTP id
+ 4fb4d7f45d1cf-50d89279d95so4447781a12.1
+ for <qemu-devel@nongnu.org>; Thu, 11 May 2023 08:52:03 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683820199; x=1686412199;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=BwN5tpuRN2cJdotGmcOb41yElIh/yWePobfoz5DoaZ0=;
- b=RnNQnr7KmfL6qUcsSt5oPHXKEp5g3STOHJHJBmpIL84X73raun65x8Q/8qZgCpsstF
- mFaOFIthC7eZtUQgwROFh6Z2HYYxXnKk6OVKk5keYftsnO/AijGal+BhyIpgvJYPK3Sl
- lTnI0/QOPClFaGs2gG+hjzomYhgP6FcadgLbr0VB5ndHci9H+NEAazOQadC9mLCXvlPg
- 43aC5/Ja5k2yu8qCSTL4bmoWGy6jeW2N8h67DNmo57ZNmIQw88AbOh2cKyLAXLB8rpdg
- xhPsCNM1qELTXJ5dGai3ZlhilKbxBAIglHn/4Y/QgGQgzv/VCSgKfyObrE4U0szW2NZL
- iz1w==
-X-Gm-Message-State: AC+VfDw79FJHX2oF4etrcZY4dRXY9rhsySLoUXEaCcvnFczwwGyUt+Dg
- xtozQKLD2ePKGWlYh71uEtfqUA==
-X-Google-Smtp-Source: ACHHUZ7GIIlncBM1Fl9CQp8FgOowZCqMSrvtE2t32BJmZpQynROG1mBKFq1DKqBcZIleANod6yGrPg==
-X-Received: by 2002:a7b:cb92:0:b0:3f4:2374:3515 with SMTP id
- m18-20020a7bcb92000000b003f423743515mr11135701wmi.5.1683820199245; 
- Thu, 11 May 2023 08:49:59 -0700 (PDT)
-Received: from zen.linaroharston ([85.9.250.243])
- by smtp.gmail.com with ESMTPSA id
- f12-20020a7bc8cc000000b003f4e4b5713esm3446778wml.37.2023.05.11.08.49.58
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 11 May 2023 08:49:59 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id A33161FFBB;
- Thu, 11 May 2023 16:49:58 +0100 (BST)
-References: <20230503072331.1747057-1-richard.henderson@linaro.org>
- <20230503072331.1747057-12-richard.henderson@linaro.org>
-User-agent: mu4e 1.11.4; emacs 29.0.90
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: ale@rev.ng, philmd@linaro.org, marcel.apfelbaum@gmail.com,
- wangyanan55@huawei.com, anjo@rev.ng, qemu-devel@nongnu.org
-Subject: Re: [PATCH 11/84] tcg: Add addr_type to TCGContext
-Date: Thu, 11 May 2023 16:49:54 +0100
-In-reply-to: <20230503072331.1747057-12-richard.henderson@linaro.org>
-Message-ID: <87mt2a27h5.fsf@linaro.org>
+ d=1e100.net; s=20221208; t=1683820320; x=1686412320;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=FHToo8zfgQ4x4Uu9DcZA84tZXVu0Vpr3j+i8coqAUhQ=;
+ b=l6bcLEQIqnyhqkbLYi1uMWy+8k1QNPDJBVn7VkuBFVB4c/IHQG2nfrkBe7KVymwjzB
+ 8Q+iCeA01EImkv6jbsfcuJ2b8GtQaVhxEcpAHDQ170is4DdiKaggk2/hA65AJPZgB8Mo
+ qQ8bGFF+WsSO+gDLXFuQqYoU/C49Ou+2OS2ISNDxAVkwhF1UEKI8AIAbLjqzge5j/cTU
+ 6sRwbx8DdA12sLWKZ+RIdyfA0N93qj8KHJd8E6+E06eYkAvU2bA48jXVMeWjixKRoIsk
+ 35jE6m0n5DcgBoU41v0FvX4ut3HSBR2CGuH+RSJqk0z0vxu9AvllfjkG/J7NLhIujbfu
+ IrOw==
+X-Gm-Message-State: AC+VfDxqVhXzE5m38TZCQ7bKJ/VAXV39V8+DlGvohNczqfWWywTHbxcp
+ vPUuMswSKbnRktfFOO5z5m/sST/bLIBmtWHVrGNDbrxYmQLwoIe8SYNlTHw4XM38C526HFUvqLF
+ iSd4is0DgiKVH5n4=
+X-Received: by 2002:a17:907:6290:b0:95f:af3a:be8c with SMTP id
+ nd16-20020a170907629000b0095faf3abe8cmr21075761ejc.18.1683820320087; 
+ Thu, 11 May 2023 08:52:00 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ4ufj/7KU2cKVt8IxK2tjkmGkzlNF07kePbbhqlNWzAuZJixwrNL9Y0Hx/73vO6iI0WHXopfA==
+X-Received: by 2002:a17:907:6290:b0:95f:af3a:be8c with SMTP id
+ nd16-20020a170907629000b0095faf3abe8cmr21075740ejc.18.1683820319796; 
+ Thu, 11 May 2023 08:51:59 -0700 (PDT)
+Received: from [192.168.8.104] (tmo-098-208.customers.d1-online.com.
+ [80.187.98.208]) by smtp.gmail.com with ESMTPSA id
+ jz14-20020a17090775ee00b00969cbd5718asm3942873ejc.48.2023.05.11.08.51.58
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 11 May 2023 08:51:59 -0700 (PDT)
+Message-ID: <7da3ca31-0faf-2c45-e34d-e45f2e93c906@redhat.com>
+Date: Thu, 11 May 2023 17:51:57 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::330;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x330.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH] configure: make clear that VirtFS is 9p
+Content-Language: en-US
+To: Christian Schoenebeck <qemu_oss@crudebyte.com>, qemu-devel@nongnu.org
+Cc: Greg Kurz <groug@kaod.org>, Paolo Bonzini <pbonzini@redhat.com>
+References: <E1px7Id-0000NE-OQ@lizzy.crudebyte.com>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <E1px7Id-0000NE-OQ@lizzy.crudebyte.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-2.124, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -97,16 +100,32 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On 11/05/2023 16.12, Christian Schoenebeck wrote:
+> Add '9P' to the summary output section of 'VirtFS' to avoid being
+> confused with virtiofs.
+> 
+> Based-on: <20230503130757.863824-1-pefoley@google.com>
+> Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
+> ---
+>   meson.build | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/meson.build b/meson.build
+> index 5d8373b608..5d65f53fec 100644
+> --- a/meson.build
+> +++ b/meson.build
+> @@ -3922,8 +3922,8 @@ if have_block
+>     summary_info += {'Block whitelist (rw)': get_option('block_drv_rw_whitelist')}
+>     summary_info += {'Block whitelist (ro)': get_option('block_drv_ro_whitelist')}
+>     summary_info += {'Use block whitelist in tools': get_option('block_drv_whitelist_in_tools')}
+> -  summary_info += {'VirtFS support':    have_virtfs}
+> -  summary_info += {'VirtFS Proxy Helper support': have_virtfs_proxy_helper}
+> +  summary_info += {'VirtFS (9P) support':    have_virtfs}
+> +  summary_info += {'VirtFS (9P) Proxy Helper support': have_virtfs_proxy_helper}
+>     summary_info += {'Live block migration': config_host_data.get('CONFIG_LIVE_BLOCK_MIGRATION')}
+>     summary_info += {'replication support': config_host_data.get('CONFIG_REPLICATION')}
+>     summary_info += {'bochs support':     get_option('bochs').allowed()}
 
-Richard Henderson <richard.henderson@linaro.org> writes:
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 
-> This will enable replacement of TARGET_LONG_BITS within tcg/.
->
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-
---=20
-Alex Benn=C3=A9e
-Virtualisation Tech Lead @ Linaro
 
