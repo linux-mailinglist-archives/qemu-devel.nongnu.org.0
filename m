@@ -2,74 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 214246FF161
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 May 2023 14:17:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A2066FF163
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 May 2023 14:17:24 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1px5DG-00024p-1y; Thu, 11 May 2023 08:16:02 -0400
+	id 1px5EG-00048r-JH; Thu, 11 May 2023 08:17:04 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1px5DE-00024h-2M
- for qemu-devel@nongnu.org; Thu, 11 May 2023 08:16:00 -0400
-Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f])
+ id 1px5EE-00047E-6z
+ for qemu-devel@nongnu.org; Thu, 11 May 2023 08:17:02 -0400
+Received: from mail-ed1-x534.google.com ([2a00:1450:4864:20::534])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1px5DC-0004GV-32
- for qemu-devel@nongnu.org; Thu, 11 May 2023 08:15:59 -0400
-Received: by mail-wm1-x32f.google.com with SMTP id
- 5b1f17b1804b1-3f450815d02so15010555e9.0
- for <qemu-devel@nongnu.org>; Thu, 11 May 2023 05:15:57 -0700 (PDT)
+ id 1px5EC-0004Xv-LH
+ for qemu-devel@nongnu.org; Thu, 11 May 2023 08:17:01 -0400
+Received: by mail-ed1-x534.google.com with SMTP id
+ 4fb4d7f45d1cf-50c8d87c775so11377767a12.3
+ for <qemu-devel@nongnu.org>; Thu, 11 May 2023 05:17:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1683807356; x=1686399356;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=mIuVJ6ykHzw4ioL1c99nRR9egoSoB8gzHzOh88//kps=;
- b=munzCX/kkb7U6qatvMHVScFgRTQxrRDwMAmgtvBRCXJCW5c29Et0m8GUSS0edP1ajQ
- Wv2nbgXgVVqbbPX76tldf46w5kepxstX0JEUzaSR11NFzHGil3V02YvvS0kfrnof8pXn
- azNrbjsd8znLguaM4xVGAA8WRIxS7G3oYmFRq40p3TRs1X1+xGKwfzZRBIaKhnTtxtMq
- yGjxyk7dAR7TN0sxqyukTxcM0QG/37KYGGaoPfnJflQhIT1Qm7Wso1Dx2hOfo2FBjjwy
- U0f5GttzZNhor92lgTBaJ7MIiiW9uLAoe5a8pU7jU6J5BXxKI9ywCLRcn2fK40gKMFFY
- 00xw==
+ d=linaro.org; s=google; t=1683807419; x=1686399419;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=4WollG2BpZBqizCm4Tf83bTEABl91igoWT2QwvIJG/Q=;
+ b=Oi713GD4Rvgl/qj8bdFkDuKpbvG/5OfSPSvKcg+aCtFZDFjfGcOMF2KcMHEreJP/yN
+ rP/i4owpAvZAG38mfhoX5qxpl8FMrhkSQ41cj4pd1Zt2Ca8ehCdHJXPcZNPTW70TrE8d
+ 2gFBMZZPV/1H+J4zCaxhIQwjUP+slV2EHpnS/2bNHGKMNdAT9mAKjwipYx3a8O9UGylY
+ 2oQ1obsvW25iLPw67qOOrLAeappF5l+mKX4s7vcrKlULeyKgSDJPoN6wbWM0zD2l0fWv
+ bUENojOjuIVkF14Sop1YXxd2ceRU3EBQmIo0FU5HLwOam6XEwkfUtJP/IBoLZGnBrcfH
+ 8TtQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683807356; x=1686399356;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=mIuVJ6ykHzw4ioL1c99nRR9egoSoB8gzHzOh88//kps=;
- b=I/grRAXVglMK8fYJhwYE+3H5DVpQ5b17YmpLU4CwnsQErRbzHe5W2cRJSOZ/kWbVmo
- 1Vd5X0tLWRdCL4gJR9zQagMpyFAqPlo7vy6TINEzIltGpd32H55xbh64Ao0FDznUbFzB
- q9soA3GcHc+eEtxVixuc8l+wCcaG7uzEBGezKwvbjAOKz7659NSVsCdNqYdjP0TAriIa
- 4H/iNVlY7VaqiAf+mqeuTJMrPaPRUOvrmsy9T4scdYEa0HG7Gibf20k4E+rN1j0YV4cZ
- b9L88PerlkiL9M2QbfgnB9QnaQbI2int6UuwHJM95agGqG7VBm5KonQrr4HYzE1LXkoc
- ekqA==
-X-Gm-Message-State: AC+VfDwKShywYLedI/SRmDCw6Rm2q41lu7UH19L+HUcKWak3CHlFaVJ2
- pgrjWwndEScaKEA/teuOfIjC9HFsd/FDAkhtYc0=
-X-Google-Smtp-Source: ACHHUZ4qHV7FO56Jc9kzqfgeTVTtCDjIvQAuT4rg79dRwPvjP8QlEZU+CIt1moZCO7rMmUYxXuOw6w==
-X-Received: by 2002:a7b:ca45:0:b0:3f4:22da:c3f1 with SMTP id
- m5-20020a7bca45000000b003f422dac3f1mr10043333wml.17.1683807356521; 
- Thu, 11 May 2023 05:15:56 -0700 (PDT)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
- by smtp.gmail.com with ESMTPSA id
- h5-20020a1ccc05000000b003ee5fa61f45sm25430649wmb.3.2023.05.11.05.15.56
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 11 May 2023 05:15:56 -0700 (PDT)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-devel@nongnu.org
-Cc: Markus Armbruster <armbru@redhat.com>,
-	Eric Blake <eblake@redhat.com>
-Subject: [PATCH v2 2/2] docs/interop: Delete qmp-intro.txt
-Date: Thu, 11 May 2023 13:15:53 +0100
-Message-Id: <20230511121553.3356127-3-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230511121553.3356127-1-peter.maydell@linaro.org>
-References: <20230511121553.3356127-1-peter.maydell@linaro.org>
+ d=1e100.net; s=20221208; t=1683807419; x=1686399419;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=4WollG2BpZBqizCm4Tf83bTEABl91igoWT2QwvIJG/Q=;
+ b=KPijosAmSwcDhU7twMptfOIt4kPt0X+azScJAOgIj3N8HTvotTOoNWiXPibEW0g6W2
+ aD77e5BccStjxKkPM7mk5lvpu+Q09/u6ybsK8sHlYGf97IFfRM3yIAldfRwDBueS5uPn
+ FbWg9gjj3UiDHkROStZGUG4vPhAUhysSMLSvgTmM3oMFqZylNoAvGD0CbX5Yuv6Ri3i9
+ voc9nRmmGyHJsiKdUsCxQZdXkSL7eVzCMrvx4JZwdrPIeJm/R3O5ZxHsLCJCQc4UpClm
+ zAY+WOJ4BK3SwxVufqDW7UE4blK/5KeNrlTPMPqVgurSQn+VS72L8V+cdGnjweERF3zX
+ 7Pgg==
+X-Gm-Message-State: AC+VfDwg/WclWpvUnH0EeTfaxy7pXPYwAgG1x41UC4qP37O2XLqSmLxy
+ TbMs8hODV3Rbz4kRrXrTuSxUr7YtyFZ7NpeCcLPlUQ==
+X-Google-Smtp-Source: ACHHUZ7ycjcehCnxaw0Nm1FzHLKb2bmOb9Mg+1v2yH+0RxoUYNPDJ+qYzxrLzbcaujxPz+RYsGfeFwg2PpZT5xza9a8=
+X-Received: by 2002:a05:6402:3d9:b0:50b:c45d:5808 with SMTP id
+ t25-20020a05640203d900b0050bc45d5808mr18553183edw.41.1683807418814; Thu, 11
+ May 2023 05:16:58 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32f.google.com
+References: <20230404011956.90375-1-dinahbaum123@gmail.com>
+In-Reply-To: <20230404011956.90375-1-dinahbaum123@gmail.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 11 May 2023 13:16:47 +0100
+Message-ID: <CAFEAcA-wGkaf0jXVoj-Qp5fC8UbBUBH3jWyunObuuTPZ8dk_Kg@mail.gmail.com>
+Subject: Re: [RESEND PATCH v2 0/3] Enable -cpu <cpu>,help
+To: Dinah Baum <dinahbaum123@gmail.com>
+Cc: qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::534;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x534.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -92,172 +84,56 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-qmp-intro.txt is quite small and provides very little information
-that isn't already in the documentation elsewhere.  Fold the example
-command lines into qemu-options.hx, and delete the now-unneeded plain
-text document.
+Markus, I think you said you would review this patchset?
 
-While we're touching the qemu-options.hx documentation text,
-wordsmith it a little bit and improve the rST formatting.
+thanks
+-- PMM
 
-Reviewed-by: Eric Blake <eblake@redhat.com>
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
----
-v1->v2: removed a trailing space spotted by Eric
----
- docs/interop/qmp-intro.txt | 88 --------------------------------------
- qemu-options.hx            | 28 +++++++++---
- 2 files changed, 22 insertions(+), 94 deletions(-)
- delete mode 100644 docs/interop/qmp-intro.txt
-
-diff --git a/docs/interop/qmp-intro.txt b/docs/interop/qmp-intro.txt
-deleted file mode 100644
-index 1c745a7af04..00000000000
---- a/docs/interop/qmp-intro.txt
-+++ /dev/null
-@@ -1,88 +0,0 @@
--                          QEMU Machine Protocol
--                          =====================
--
--Introduction
--------------
--
--The QEMU Machine Protocol (QMP) allows applications to operate a
--QEMU instance.
--
--QMP is JSON[1] based and features the following:
--
--- Lightweight, text-based, easy to parse data format
--- Asynchronous messages support (ie. events)
--- Capabilities Negotiation
--
--For detailed information on QMP's usage, please, refer to the following files:
--
--o qmp-spec.txt      QEMU Machine Protocol current specification
--o qemu-qmp-ref.html QEMU QMP commands and events (auto-generated at build-time)
--
--[1] https://www.json.org
--
--Usage
-------
--
--You can use the -qmp option to enable QMP. For example, the following
--makes QMP available on localhost port 4444:
--
--$ qemu [...] -qmp tcp:localhost:4444,server=on,wait=off
--
--However, for more flexibility and to make use of more options, the -mon
--command-line option should be used. For instance, the following example
--creates one HMP instance (human monitor) on stdio and one QMP instance
--on localhost port 4444:
--
--$ qemu [...] -chardev stdio,id=mon0 -mon chardev=mon0,mode=readline \
--             -chardev socket,id=mon1,host=localhost,port=4444,server=on,wait=off \
--             -mon chardev=mon1,mode=control,pretty=on
--
--Please, refer to QEMU's manpage for more information.
--
--Simple Testing
----------------
--
--To manually test QMP one can connect with telnet and issue commands by hand:
--
--$ telnet localhost 4444
--Trying 127.0.0.1...
--Connected to localhost.
--Escape character is '^]'.
--{
--    "QMP": {
--        "version": {
--            "qemu": {
--                "micro": 0,
--                "minor": 0,
--                "major": 3
--            },
--            "package": "v3.0.0"
--        },
--        "capabilities": [
--            "oob"
--        ]
--    }
--}
--
--{ "execute": "qmp_capabilities" }
--{
--    "return": {
--    }
--}
--
--{ "execute": "query-status" }
--{
--    "return": {
--        "status": "prelaunch", 
--        "singlestep": false, 
--        "running": false
--    }
--}
--
--Please refer to docs/interop/qemu-qmp-ref.* for a complete command
--reference, generated from qapi/qapi-schema.json.
--
--QMP wiki page
---------------
--
--https://wiki.qemu.org/QMP
-diff --git a/qemu-options.hx b/qemu-options.hx
-index 42b9094c10f..920f9640155 100644
---- a/qemu-options.hx
-+++ b/qemu-options.hx
-@@ -4170,26 +4170,42 @@ DEF("qmp", HAS_ARG, QEMU_OPTION_qmp, \
-     QEMU_ARCH_ALL)
- SRST
- ``-qmp dev``
--    Like -monitor but opens in 'control' mode.
-+    Like ``-monitor`` but opens in 'control' mode. For example, to make
-+    QMP available on localhost port 4444::
-+
-+        -qmp tcp:localhost:4444,server=on,wait=off
-+
-+    Not all options are configurable via this syntax; for maximum
-+    flexibility use the ``-mon`` option and an accompanying ``-chardev``.
-+
- ERST
- DEF("qmp-pretty", HAS_ARG, QEMU_OPTION_qmp_pretty, \
-     "-qmp-pretty dev like -qmp but uses pretty JSON formatting\n",
-     QEMU_ARCH_ALL)
- SRST
- ``-qmp-pretty dev``
--    Like -qmp but uses pretty JSON formatting.
-+    Like ``-qmp`` but uses pretty JSON formatting.
- ERST
- 
- DEF("mon", HAS_ARG, QEMU_OPTION_mon, \
-     "-mon [chardev=]name[,mode=readline|control][,pretty[=on|off]]\n", QEMU_ARCH_ALL)
- SRST
- ``-mon [chardev=]name[,mode=readline|control][,pretty[=on|off]]``
--    Setup monitor on chardev name. ``mode=control`` configures 
--    a QMP monitor (a JSON RPC-style protocol) and it is not the
--    same as HMP, the human monitor that has a "(qemu)" prompt.
--    ``pretty`` is only valid when ``mode=control``, 
-+    Set up a monitor connected to the chardev ``name``.
-+    QEMU supports two monitors: the Human Monitor Protocol
-+    (HMP; for human interaction), and the QEMU Monitor Protocol
-+    (QMP; a JSON RPC-style protocol).
-+    The default is HMP; ``mode=control`` selects QMP instead.
-+    ``pretty`` is only valid when ``mode=control``,
-     turning on JSON pretty printing to ease
-     human reading and debugging.
-+
-+    For example::
-+
-+      -chardev socket,id=mon1,host=localhost,port=4444,server=on,wait=off \
-+      -mon chardev=mon1,mode=control,pretty=on
-+
-+    enables the QMP monitor on localhost port 4444 with pretty-printing.
- ERST
- 
- DEF("debugcon", HAS_ARG, QEMU_OPTION_debugcon, \
--- 
-2.34.1
-
+On Tue, 4 Apr 2023 at 02:22, Dinah Baum <dinahbaum123@gmail.com> wrote:
+>
+> Part 1 is a refactor/code motion patch for
+> qapi/machine target required for setup of
+>
+> Part 2 which enables query-cpu-model-expansion
+> on all architectures
+>
+> Part 3 implements the '<cpu>,help' feature
+>
+> Limitations:
+> Currently only 'FULL' expansion queries are implemented since
+> that's the only type enabled on the architectures that
+> allow feature probing
+>
+> Unlike the 'device,help' command, default values aren't
+> printed
+>
+> Changes since v2: Rebase
+>
+> Dinah Baum (3):
+>   qapi/machine-target: refactor machine-target
+>   cpu, qapi, target/arm, i386, s390x: Generalize
+>     query-cpu-model-expansion
+>   cpu, qdict, vl: Enable printing options for CPU type
+>
+>  MAINTAINERS                      |   1 +
+>  cpu.c                            |  61 +++++++++++++++
+>  include/exec/cpu-common.h        |  10 +++
+>  include/qapi/qmp/qdict.h         |   2 +
+>  qapi/machine-target-common.json  | 130 +++++++++++++++++++++++++++++++
+>  qapi/machine-target.json         | 129 +-----------------------------
+>  qapi/meson.build                 |   1 +
+>  qemu-options.hx                  |   7 +-
+>  qobject/qdict.c                  |   5 ++
+>  softmmu/vl.c                     |  36 ++++++++-
+>  target/arm/arm-qmp-cmds.c        |   7 +-
+>  target/arm/cpu.h                 |   7 +-
+>  target/i386/cpu-sysemu.c         |   7 +-
+>  target/i386/cpu.h                |   6 ++
+>  target/s390x/cpu.h               |   7 ++
+>  target/s390x/cpu_models_sysemu.c |   6 +-
+>  16 files changed, 278 insertions(+), 144 deletions(-)
+>  create mode 100644 qapi/machine-target-common.json
+>
+> --
+> 2.30.2
 
