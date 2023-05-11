@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9EAAB6FEA5C
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 May 2023 05:56:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A753B6FEA76
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 May 2023 05:59:15 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pwxOM-0007be-Qo; Wed, 10 May 2023 23:54:58 -0400
+	id 1pwxON-0007dx-JJ; Wed, 10 May 2023 23:54:59 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1pwxOJ-0007bA-Kl
- for qemu-devel@nongnu.org; Wed, 10 May 2023 23:54:55 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1pwxOL-0007bi-9F
+ for qemu-devel@nongnu.org; Wed, 10 May 2023 23:54:57 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1pwxOG-0005LH-EL
- for qemu-devel@nongnu.org; Wed, 10 May 2023 23:54:55 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1pwxOJ-0005M1-Gi
+ for qemu-devel@nongnu.org; Wed, 10 May 2023 23:54:57 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1683777291;
+ s=mimecast20190719; t=1683777293;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=uSmDYX0uCXiSE6x8VrNHfsXcbHA8rEa/ltorMg1xxKw=;
- b=OTKfb20bhZD5+JpUzmZPxEfV4HvBpDJ9Mm+/X0bpNJ4bk+zl6Mh/4B4ovYckrtNhdrTuE3
- 2FFWp4VUWjzL9n6NAtOtgvb0XssMe5r69q52+7irM0Vm6FYxHYAXzAYnUdURabY262bz/9
- 7zT0L70wdA7nY9sZtofmjKspgZvtpN0=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=TnRA0NVsec4uEQ6x+hieIUXVlPGMFGzS5iFDHDJ/pS4=;
+ b=ES0llqwcIsU1d/9o4BAmMZ3R0PMzl3dJDGpvuFnBOI0rmxsdQHpUhrnx1MmBi5yFKIfpuG
+ i5FIsedcaUoggaSaHZ/BaB20yFxoRVwgaWPEH0FgBiAw7ca6wHgcTljdKX+jIF3AxmWnrA
+ yYJcmMfQqrw5dJ9TXDcc6kOGVjzUdeo=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-441-uFO6roNENj-3TxNanQdWtQ-1; Wed, 10 May 2023 23:54:48 -0400
-X-MC-Unique: uFO6roNENj-3TxNanQdWtQ-1
+ us-mta-439-IVbeugZWOleRPVeG0TLoqQ-1; Wed, 10 May 2023 23:54:48 -0400
+X-MC-Unique: IVbeugZWOleRPVeG0TLoqQ-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
  [10.11.54.1])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 744D53C0F229;
- Thu, 11 May 2023 03:54:47 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3E38E101A531;
+ Thu, 11 May 2023 03:54:48 +0000 (UTC)
 Received: from scv.redhat.com (unknown [10.22.34.188])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B9B1440C2076;
- Thu, 11 May 2023 03:54:46 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8504A40C2076;
+ Thu, 11 May 2023 03:54:47 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Warner Losh <imp@bsdimp.com>, Peter Maydell <peter.maydell@linaro.org>,
@@ -54,9 +54,9 @@ Cc: Warner Losh <imp@bsdimp.com>, Peter Maydell <peter.maydell@linaro.org>,
  "Michael S. Tsirkin" <mst@redhat.com>, John Snow <jsnow@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  Wainer dos Santos Moschetta <wainersm@redhat.com>
-Subject: [PATCH 14/27] python: add vendor.py utility
-Date: Wed, 10 May 2023 23:54:22 -0400
-Message-Id: <20230511035435.734312-15-jsnow@redhat.com>
+Subject: [PATCH 15/27] configure: create a python venv unconditionally
+Date: Wed, 10 May 2023 23:54:23 -0400
+Message-Id: <20230511035435.734312-16-jsnow@redhat.com>
 In-Reply-To: <20230511035435.734312-1-jsnow@redhat.com>
 References: <20230511035435.734312-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -86,102 +86,84 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-This is a teeny-tiny script that just downloads any packages we want to
-vendor from PyPI and stores them in qemu.git/python/wheels/. If I'm hit
-by a meteor, it'll be easy to replicate what I have done in order to
-udpate the vendored source.
+This patch changes the configure script so that it always creates and
+uses a python virtual environment unconditionally.
 
-We don't really care which python runs it; it exists as a meta-utility
-with no external dependencies and we won't package or install it. It
-will be monitored by the linters/type checkers, though; so it's
-guaranteed safe on python 3.6+.
+Meson bootstrapping is temporarily altered to force the use of meson
+from git or vendored source (as packaged in our source tarballs). A
+subsequent commit restores the use of distribution-vendored Meson.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- python/scripts/vendor.py | 74 ++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 74 insertions(+)
- create mode 100755 python/scripts/vendor.py
+ configure | 34 +++++++++++++++++++++++++++++-----
+ 1 file changed, 29 insertions(+), 5 deletions(-)
 
-diff --git a/python/scripts/vendor.py b/python/scripts/vendor.py
-new file mode 100755
-index 0000000000..23708430ea
---- /dev/null
-+++ b/python/scripts/vendor.py
-@@ -0,0 +1,74 @@
-+#!/usr/bin/env python3
-+"""
-+vendor - QEMU python vendoring utility
+diff --git a/configure b/configure
+index 243e2e0a0d..1d7db92ee3 100755
+--- a/configure
++++ b/configure
+@@ -625,7 +625,6 @@ check_py_version() {
+ python=
+ first_python=
+ if test -z "${PYTHON}"; then
+-    explicit_python=no
+     # A bare 'python' is traditionally python 2.x, but some distros
+     # have it as python 3.x, so check in both places.
+     for binary in python3 python python3.11 python3.10 python3.9 python3.8 python3.7 python3.6; do
+@@ -644,7 +643,6 @@ else
+     # Same as above, but only check the environment variable.
+     has "${PYTHON}" || error_exit "The PYTHON environment variable does not point to an executable"
+     python=$(command -v "$PYTHON")
+-    explicit_python=yes
+     if check_py_version "$python"; then
+         # This one is good.
+         first_python=
+@@ -729,7 +727,7 @@ for opt do
+   ;;
+   --install=*)
+   ;;
+-  --python=*) python="$optarg" ; explicit_python=yes
++  --python=*) python="$optarg"
+   ;;
+   --skip-meson) skip_meson=yes
+   ;;
+@@ -1090,8 +1088,34 @@ if ! check_py_version "$python"; then
+       "Use --python=/path/to/python to specify a supported Python."
+ fi
+ 
+-# Resolve PATH + suppress writing compiled files
+-python="$(command -v "$python") -B"
++# Resolve PATH
++python="$(command -v "$python")"
++explicit_python=yes
 +
-+usage: vendor [-h]
++# Create a Python virtual environment using our configured python.
++# The stdout of this script will be the location of a symlink that
++# points to the configured Python.
++# Entry point scripts for pip, meson, and sphinx are generated if those
++# packages are present.
 +
-+QEMU python vendoring utility
++# Defaults assumed for now:
++# - venv is cleared if it exists already;
++# - venv is allowed to use system packages;
++# - all setup is performed **offline**;
++# - No packages are installed by default;
++# - pip is not installed into the venv when possible,
++#   but ensurepip is called as a fallback when necessary.
 +
-+options:
-+  -h, --help  show this help message and exit
-+"""
++echo "python determined to be '$python'"
++echo "python version: $($python --version)"
 +
-+# Copyright (C) 2023 Red Hat, Inc.
-+#
-+# Authors:
-+#  John Snow <jsnow@redhat.com>
-+#
-+# This work is licensed under the terms of the GNU GPL, version 2 or
-+# later. See the COPYING file in the top-level directory.
++python="$($python -B "${source_path}/python/scripts/mkvenv.py" create pyvenv)"
++if test "$?" -ne 0 ; then
++    error_exit "python venv creation failed"
++fi
 +
-+import argparse
-+import os
-+from pathlib import Path
-+import subprocess
-+import sys
-+import tempfile
-+
-+
-+def main() -> int:
-+    """Run the vendoring utility. See module-level docstring."""
-+    loud = False
-+    if os.environ.get("DEBUG") or os.environ.get("V"):
-+        loud = True
-+
-+    # No options or anything for now, but I guess
-+    # you'll figure that out when you run --help.
-+    parser = argparse.ArgumentParser(
-+        prog="vendor",
-+        description="QEMU python vendoring utility",
-+    )
-+    parser.parse_args()
-+
-+    packages = {
-+        "meson==0.61.5":
-+        "58c2ddb5f885da0e929f15d89f38d8a7d97f981f56815bcba008414f8511f59a",
-+    }
-+
-+    vendor_dir = Path(__file__, "..", "..", "wheels").resolve()
-+
-+    with tempfile.NamedTemporaryFile(mode="w", encoding="utf-8") as file:
-+        for dep_spec, checksum in packages.items():
-+            file.write(f"{dep_spec} --hash=sha256:{checksum}")
-+        file.flush()
-+
-+        cli_args = [
-+            "pip",
-+            "download",
-+            "--dest",
-+            str(vendor_dir),
-+            "--require-hashes",
-+            "-r",
-+            file.name,
-+        ]
-+        if loud:
-+            cli_args.append("-v")
-+
-+        print(" ".join(cli_args))
-+        subprocess.run(cli_args, check=True)
-+
-+    return 0
-+
-+
-+if __name__ == "__main__":
-+    sys.exit(main())
++# Suppress writing compiled files
++python="$python -B"
+ 
+ has_meson() {
+   local python_dir=$(dirname "$python")
 -- 
 2.40.0
 
