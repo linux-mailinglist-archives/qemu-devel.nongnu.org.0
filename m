@@ -2,64 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C83A6FEF02
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 May 2023 11:38:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 356166FEF27
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 May 2023 11:49:31 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1px2jU-0002Nf-Ts; Thu, 11 May 2023 05:37:08 -0400
+	id 1px2tq-00066M-Q5; Thu, 11 May 2023 05:47:50 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1px2jT-0002NA-8y
- for qemu-devel@nongnu.org; Thu, 11 May 2023 05:37:07 -0400
-Received: from 7.mo548.mail-out.ovh.net ([46.105.33.25])
+ (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
+ id 1px2th-00065G-BD
+ for qemu-devel@nongnu.org; Thu, 11 May 2023 05:47:41 -0400
+Received: from mout.web.de ([212.227.15.3])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1px2jR-0002yn-7v
- for qemu-devel@nongnu.org; Thu, 11 May 2023 05:37:07 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.108.1.111])
- by mo548.mail-out.ovh.net (Postfix) with ESMTPS id 60E19227CF;
- Thu, 11 May 2023 09:37:00 +0000 (UTC)
-Received: from kaod.org (37.59.142.110) by DAG4EX2.mxp5.local (172.16.2.32)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.23; Thu, 11 May
- 2023 11:36:58 +0200
-Authentication-Results: garm.ovh; auth=pass
- (GARM-110S0046aed04de-8909-4e5a-9e28-a38d0650c780,
- 144821B34C2936864118ABACE4D2D33E1039104D) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <79077066-d12a-6584-5b73-9abadb51e98b@kaod.org>
-Date: Thu, 11 May 2023 11:36:58 +0200
+ (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
+ id 1px2tc-0005er-6E
+ for qemu-devel@nongnu.org; Thu, 11 May 2023 05:47:41 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de; s=s29768273;
+ t=1683798450; i=lukasstraub2@web.de;
+ bh=KF9MKqsQhXoxdMfmrOofIzK9VVsT7df2F+RBSvD9McM=;
+ h=X-UI-Sender-Class:Date:From:To:Cc:Subject:In-Reply-To:References;
+ b=eIIF1HAE+fkzlF30CAQo5VkwA84XeSSSEwoQeyuzxgsLapYJm/aRKSN/2/bBG+Je/
+ 8/Je7+ecS0PH+c2lSm7D2TaheRjlTCuHmfkt6dnaesFSMbPlY/2HrwBvXU4gI3KJtx
+ GnP9h9TpzVSVKsv1lgB4hIsruVsuzeuZy/vFgbWJE/pxffBEom4fkbA7jwFJiTMkIz
+ 9YGVRRORIkq3KwEaKxrbVe0FJdase3kFk9z4ymOC9OXPo4lFrrsAPpeUm/OQ/SRmHy
+ utb+aZzRjmeIUgicemP134O/+HLiq47DuBER0qKU5/t6BjnFvPXIUvANLvS2B139/1
+ bcI6NYhsZTjrw==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from gecko.fritz.box ([82.207.254.113]) by smtp.web.de (mrweb006
+ [213.165.67.108]) with ESMTPSA (Nemesis) id 1MTvvy-1pophT3a3m-00RJ2B; Thu, 11
+ May 2023 11:47:29 +0200
+Date: Thu, 11 May 2023 11:47:13 +0200
+From: Lukas Straub <lukasstraub2@web.de>
+To: Juan Quintela <quintela@redhat.com>
+Cc: qemu-devel@nongnu.org, Leonardo Bras <leobras@redhat.com>, Peter Xu
+ <peterx@redhat.com>
+Subject: Re: [PATCH] multifd: Add colo support
+Message-ID: <20230511094713.6f08730c@gecko.fritz.box>
+In-Reply-To: <20230509181528.84212-1-quintela@redhat.com>
+References: <20230509181528.84212-1-quintela@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH] pnv_lpc: disable reentrancy detection for lpc-hc
-Content-Language: en-US
-To: Alexander Bulekov <alxndr@bu.edu>
-CC: <qemu-devel@nongnu.org>, Thomas Huth <thuth@redhat.com>, "open
- list:PowerNV Non-Virtu..." <qemu-ppc@nongnu.org>
-References: <20230511085337.3688527-1-alxndr@bu.edu>
- <3102db7a-bbaa-f394-b739-23950fe81be0@kaod.org>
- <20230511091509.nypeyd5fhzxlvo47@mozz.bu.edu>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <20230511091509.nypeyd5fhzxlvo47@mozz.bu.edu>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.110]
-X-ClientProxiedBy: DAG3EX2.mxp5.local (172.16.2.22) To DAG4EX2.mxp5.local
- (172.16.2.32)
-X-Ovh-Tracer-GUID: fbbc1c77-4d26-4cd9-ae0a-ea0b306f4f98
-X-Ovh-Tracer-Id: 13203428208344730592
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvhedrfeegkedgudekucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtucfnvgcuifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeffudefleeiudejfeffhfejffeigffhhffhvdekieejheelvdeufffhjedtheeggeenucfkphepuddvjedrtddrtddruddpfeejrdehledrudegvddruddutddpkedvrdeigedrvdehtddrudejtdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeduvdejrddtrddtrddupdhmrghilhhfrhhomhepoegtlhhgsehkrghougdrohhrgheqpdhnsggprhgtphhtthhopedupdhrtghpthhtoheprghlgihnughrsegsuhdrvgguuhdpqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrghdpthhhuhhthhesrhgvughhrghtrdgtohhmpdhqvghmuhdqphhptgesnhhonhhgnhhurdhorhhgpdfovfetjfhoshhtpehmohehgeekpdhmohguvgepshhmthhpohhuth
-Received-SPF: pass client-ip=46.105.33.25; envelope-from=clg@kaod.org;
- helo=7.mo548.mail-out.ovh.net
-X-Spam_score_int: -51
-X-Spam_score: -5.2
-X-Spam_bar: -----
-X-Spam_report: (-5.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-3.251,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: multipart/signed; boundary="Sig_/QshliMyG7Nx0KzFFjm94Zux";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
+X-Provags-ID: V03:K1:zc/8oUoTGbGgCBPc5yY4iwqaeIQPTOwiKgK+kErCD2kv0blEgGB
+ jK0g7+J4bkkEyp+WCoAY3L2hKWMyQNj6Wn3fWLCUt6mioSFTcjgEQ6SfRLW/j3BXg0PBtKh
+ sB9YCaIPJdJf80mbq7JLa8e9k+yYzXR+HvyT1e7y2ZGIFrPkCMOAbS+1NHi+xQ0XWMqolc/
+ uzrY4gfED6wLhBvKZQGIA==
+UI-OutboundReport: notjunk:1;M01:P0:atXEx4SRK+0=;r9lqNAXKQMYXXk8+2Sx2eYKyLk5
+ c1MJjIRU3MpWbbGcjsKFHBD1wk/HF0GKuA/RDULYzgvSkq8Pgsqpg0Xxu/zW4FPZwpM2Qdib2
+ 3L+OLfnd1bTw1iS4dMbVvXE497Ug7vfPJ3oaqDvEj/5cIcyvjWVsx5EY2iB680bQ4h4ZX0UTV
+ YtPRl4WpEu622D2y3A5i4S2dMuZ9+n3SB8AxZtVWfi35TpUnArnWGXf/h9AhBqCK8NrR0jick
+ 4JZ5UICdQiotqkT04Z0f2tKxporAzBnJm3gCIZnAHRf1lGuaf48b9Vw87tfdbJJU1Q8LGhqrV
+ 5ZaRyfJnXcvcuoNBrv54YTcUMBVw6RQ0+mTp4sCp//Mqn1HD7kUn29S8sSOANv6OUBItb4Urx
+ /1i/BiiVSJCFcgQy+F+x9ozhU1lpf1HZ86uXFX+ESqOKHCLHzjOvXw+vTntqtTDS6cRrArbnS
+ k9mBH5zYyP+7uXFaVazzRGja8yYXUdthMghqNbU2eucf6tSUEePxFcabSRx01MCGRM+ataCsY
+ x/SPatbA6/juFzeDMpz/YoPXE6n/D/CPJQAteWpeC7ZcB8RwxFbMsdImuvMdkVw+HKCsAQT2a
+ 5624qui6vft0T6Wu4gCc3+OoPsytGlL8/RMIM1h4E+TPrr/jZCD1WOWo9IIr/oQlKnZFKbz+R
+ DSPxNfIfmmxP2q/Sqe2p4kq0Z4mmW2HW9x8oI6moYq2wrDG6t0ICaaJ6fy5ayBRP0dHoYwBUd
+ aJ/0ClaAaWWP7mas1wodBHGOXZom68ve33wI3/Nn2gwdPC4pj4MhM6p8oEqTJmQ4V4L2C8XHQ
+ 6hOJ94+aqXwjUW7SHp5KkwxoCeGGf5ClYL42NgDGH0eZ1NjeSK2AfkxPLThobMiFdkdWdzb3z
+ 0Mgwuc2mrmRR8NUN+7eQcoG6LhKeZmfB4s361SfHA7lDDnVYMsRKZl7BVNc33y6lGI748RBGy
+ 6/G5qYTlgOd4VRhYL9QTHEWi1ps=
+Received-SPF: pass client-ip=212.227.15.3; envelope-from=lukasstraub2@web.de;
+ helo=mout.web.de
+X-Spam_score_int: -25
+X-Spam_score: -2.6
+X-Spam_bar: --
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -75,60 +88,187 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 5/11/23 11:15, Alexander Bulekov wrote:
-> On 230511 1104, Cédric Le Goater wrote:
->> Hello Alexander
->>
->> On 5/11/23 10:53, Alexander Bulekov wrote:
->>> As lpc-hc is designed for re-entrant calls from xscom, mark it
->>> re-entrancy safe.
->>>
->>> Reported-by: Thomas Huth <thuth@redhat.com>
->>> Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
->>> ---
->>>    hw/ppc/pnv_lpc.c | 2 ++
->>>    1 file changed, 2 insertions(+)
->>>
->>> diff --git a/hw/ppc/pnv_lpc.c b/hw/ppc/pnv_lpc.c
->>> index 01f44c19eb..67fd049a7f 100644
->>> --- a/hw/ppc/pnv_lpc.c
->>> +++ b/hw/ppc/pnv_lpc.c
->>> @@ -738,6 +738,8 @@ static void pnv_lpc_realize(DeviceState *dev, Error **errp)
->>>                                    &lpc->opb_master_regs);
->>>        memory_region_init_io(&lpc->lpc_hc_regs, OBJECT(dev), &lpc_hc_ops, lpc,
->>>                              "lpc-hc", LPC_HC_REGS_OPB_SIZE);
->>> +    /* xscom writes to lpc-hc. As such mark lpc-hc re-entrancy safe */
->>> +    lpc->lpc_hc_regs.disable_reentrancy_guard = true;
->>>        memory_region_add_subregion(&lpc->opb_mr, LPC_HC_REGS_OPB_ADDR,
->>>                                    &lpc->lpc_hc_regs);
->>
->> The warning changed :
->>
->>    qemu-system-ppc64: warning: Blocked re-entrant IO on MemoryRegion: lpc-opb-master at addr: 0x8
->>
->> I will take a look unless you know exactly what to do.
->>
-> 
-> That does not show up for me with "./qemu-system-ppc64 -M powernv8"
-> Do I need to boot a kernel to see the message?
+--Sig_/QshliMyG7Nx0KzFFjm94Zux
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-There are other processors:
+On Tue,  9 May 2023 20:15:28 +0200
+Juan Quintela <quintela@redhat.com> wrote:
 
-powernv10            IBM PowerNV (Non-Virtualized) POWER10
-powernv8             IBM PowerNV (Non-Virtualized) POWER8
-powernv              IBM PowerNV (Non-Virtualized) POWER9 (alias of powernv9)
-powernv9             IBM PowerNV (Non-Virtualized) POWER9
+> From: Lukas Straub <lukasstraub2@web.de>
+>=20
+> Like in the normal ram_load() path, put the received pages into the
+> colo cache and mark the pages in the bitmap so that they will be
+> flushed to the guest later.
+>=20
+> Signed-off-by: Lukas Straub <lukasstraub2@web.de>
+>=20
+> ---
+>=20
+> Hi Lukas
+>=20
+> What about this instead of your other three patches?  I think it is
+> clearer, and I don't think that we are going to have anything else
+> that is going to hook there anytime soon.
+>=20
+> Notice that I put CONFIG_COLO waiting for Vladimir changes to get in
+> before I merge this.
+>=20
+> Notice also that I "lost" the line:
+>=20
+>   p->host =3D p->block->host;
+>=20
+> In the error case.  But in that case we are aborting the migration, so
+> we don't care.
+>=20
+> Can you check if it works for you?
+> Here it compiles, so it must be perfect.
+>=20
+> Thanks, Juan.
 
-Region lpc->opb_master_regs needs to be tagged also for powernv9 and
-powernv10.
+This way is okay for now. Though I will send a patch.
 
-Thanks,
+Regards,
+Lukas Straub
 
-C.
+> ---
+>  migration/meson.build    |  2 +-
+>  migration/multifd-colo.c | 49 ++++++++++++++++++++++++++++++++++++++++
+>  migration/multifd-colo.h | 24 ++++++++++++++++++++
+>  3 files changed, 74 insertions(+), 1 deletion(-)
+>  create mode 100644 migration/multifd-colo.c
+>  create mode 100644 migration/multifd-colo.h
+>=20
+> diff --git a/migration/meson.build b/migration/meson.build
+> index 75de868bb7..c9db40d4d4 100644
+> --- a/migration/meson.build
+> +++ b/migration/meson.build
+> @@ -23,7 +23,7 @@ softmmu_ss.add(files(
+>    'migration.c',
+>    'multifd.c',
+>    'multifd-zlib.c',
+> -  'multifd-zlib.c',
+> +  'multifd-colo.c',
+>    'ram-compress.c',
+>    'options.c',
+>    'postcopy-ram.c',
+> diff --git a/migration/multifd-colo.c b/migration/multifd-colo.c
+> new file mode 100644
+> index 0000000000..10fa1467fa
+> --- /dev/null
+> +++ b/migration/multifd-colo.c
+> @@ -0,0 +1,49 @@
+> +/*
+> + * multifd colo implementation
+> + *
+> + * Copyright (c) Lukas Straub <lukasstraub2@web.de>
+> + *
+> + * This work is licensed under the terms of the GNU GPL, version 2 or la=
+ter.
+> + * See the COPYING file in the top-level directory.
+> + */
+> +
+> +#include "qemu/osdep.h"
+> +#include "exec/target_page.h"
+> +#include "exec/ramblock.h"
+> +#include "qemu/error-report.h"
+> +#include "qapi/error.h"
+> +#include "ram.h"
+> +#include "multifd.h"
+> +#include "options.h"
+> +#include "io/channel-socket.h"
+> +#include "migration/colo.h"
+> +#include "multifd-colo.h"
+> +
+> +void multifd_colo_prepare_recv_pages(MultiFDRecvParams *p)
+> +{
+> +    if (migrate_colo()) {
+> +        /*
+> +         * While we're still in precopy mode, we copy received pages to =
+both guest
+> +         * and cache. No need to set dirty bits, since guest and cache m=
+emory are
+> +         * in sync.
+> +         */
+> +        if (migration_incoming_in_colo_state()) {
+> +            colo_record_bitmap(p->block, p->normal, p->normal_num);
+> +        }
+> +        p->host =3D p->block->colo_cache;
+> +    }
+> +}
+> +
+> +void multifd_colo_process_recv_pages(MultiFDRecvParams *p)
+> +{
+> +    if (migrate_colo()) {
+> +        if (!migration_incoming_in_colo_state()) {
+> +            for (int i =3D 0; i < p->normal_num; i++) {
+> +                void *guest =3D p->block->host + p->normal[i];
+> +                void *cache =3D p->host + p->normal[i];
+> +                memcpy(guest, cache, p->page_size);
+> +            }
+> +        }
+> +        p->host =3D p->block->host;
+> +    }
+> +}
+> diff --git a/migration/multifd-colo.h b/migration/multifd-colo.h
+> new file mode 100644
+> index 0000000000..1636c617fc
+> --- /dev/null
+> +++ b/migration/multifd-colo.h
+> @@ -0,0 +1,24 @@
+> +/*
+> + * multifd colo header
+> + *
+> + * Copyright (c) Lukas Straub <lukasstraub2@web.de>
+> + *
+> + * This work is licensed under the terms of the GNU GPL, version 2 or la=
+ter.
+> + * See the COPYING file in the top-level directory.
+> + */
+> +
+> +#ifndef QEMU_MIGRATION_MULTIFD_COLO_H
+> +#define QEMU_MIGRATION_MULTIFD_COLO_H
+> +
+> +#ifndef CONFIG_COLO
+> +
+> +void multifd_colo_prepare_recv_pages(MultiFDRecvParams *p);
+> +void multifd_colo_process_recv_pages(MultiFDRecvParams *p);
+> +
+> +#else
+> +
+> +static inline void multifd_colo_prepare_recv_pages(MultiFDRecvParams *p)=
+ {}
+> +static inline void multifd_colo_process_recv_pages(MultiFDRecvParams *p)=
+ {}
+> +
+> +#endif /* CONFIG_COLO */
+> +#endif
 
-> I was worried that there might be other re-entrant IO in this device.
-> Maybe there should be a way to just mark the whole device re-entrancy
-> safe.
 
 
+--=20
+
+
+--Sig_/QshliMyG7Nx0KzFFjm94Zux
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEg/qxWKDZuPtyYo+kNasLKJxdslgFAmRcuaEACgkQNasLKJxd
+slhb4A//VgyZRTB9HFqQVc/hpqV+pCcGJFg195Or/3Qfijmv7FPbkKAxmp9653h8
+pNc7+w/2i+jRzjW/0+yXQfpVvi5uN4HFuiZlFzF0OUlWgTVTFKKFcOEz4LoCJfQ3
+XOy4d/g4Su0HA1yWzVp8FF2071x32sjOtVEDD4LMeraKkUNxZUYDlOhc/XGPvmKN
+/0dp5LMjuHFY5n5H2ynjDOwGmO4XodHYch0CTCFlFTr8WTl71abc8o0ePbo8Lubx
+r1fDTtUt3d2Vr7Fn7bQkemyWvD+K89oLR9tvcwKjMAFszzWeEEquFZkV2yc830kK
+hxaA1XYw2TcniByPydYOeNw6LuOur65B1N+RoO7o7xNJEpRm6KBkhqiVloSHO7Kv
+XZqcH34rOA9OMm4u3VWbA8WGkuReW8Pv+oYI/DpdU1qvWqaol8G4yQSTLVcrIrPF
+h/SvtR2nqFT8jJeN9w+5b3EB5hTo66l12Q0XtBOcaN5hav8rbQ4Yr3MzcmSvMWrZ
+VeqyQ8UDJVSJ/KBNbavp56UGut0O8H5mDYGtrNQlOKqeIuTMODFVnIR6lDa9NY4q
+XTAxJpoPDO23wRNuG55Lea74IDjPVI9nQA6LR8B+ePoKcR8NZ0Mv3QydWmqcmO9D
+3bUlDJcJ+CqLFpTQzFrH8mXiF6zRCqlSyD2+QfgvLvRxbVHDjQw=
+=Wo4J
+-----END PGP SIGNATURE-----
+
+--Sig_/QshliMyG7Nx0KzFFjm94Zux--
 
