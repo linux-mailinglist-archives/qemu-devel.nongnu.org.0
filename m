@@ -2,64 +2,108 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3AF996FEE0D
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 May 2023 10:52:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FEE16FEE14
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 May 2023 10:54:46 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1px211-0000Tb-C1; Thu, 11 May 2023 04:51:11 -0400
+	id 1px23z-0001cl-Ij; Thu, 11 May 2023 04:54:15 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1px20w-0000TS-Ow
- for qemu-devel@nongnu.org; Thu, 11 May 2023 04:51:06 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1px23w-0001cM-Gv
+ for qemu-devel@nongnu.org; Thu, 11 May 2023 04:54:13 -0400
+Received: from esa5.hc2706-39.iphmx.com ([216.71.137.63])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1px20r-0002Hu-QJ
- for qemu-devel@nongnu.org; Thu, 11 May 2023 04:51:06 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1683795059;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=96lBFEimLSHy3Xg+JftRfj8tucNYhgSM9zJqOBqPh8Q=;
- b=PtaHYbr+vylotjb0uXvb6ykraWjIuvJjbxUEiC39MsoYAbNaGqK6i+1ecyKZgyUeA604T9
- V+ND/hhPYuqvAn00DOkZp/a5pxoX1M5ytmwbu7xtLOisHawEkXNVKRLLbpiTrKUkjkvx7s
- mOCeO9Oojq7fNy0jke6JzMSpByAUU3Y=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-375-PAqRjUqhMMuW6oKwGFFqPQ-1; Thu, 11 May 2023 04:50:58 -0400
-X-MC-Unique: PAqRjUqhMMuW6oKwGFFqPQ-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
- [10.11.54.5])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0862287082D;
- Thu, 11 May 2023 08:50:58 +0000 (UTC)
-Received: from secure.mitica (unknown [10.39.192.247])
- by smtp.corp.redhat.com (Postfix) with ESMTP id DF47342AB8;
- Thu, 11 May 2023 08:50:56 +0000 (UTC)
-From: Juan Quintela <quintela@redhat.com>
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1px23t-0002r3-6a
+ for qemu-devel@nongnu.org; Thu, 11 May 2023 04:54:11 -0400
+X-IronPort-RemoteIP: 209.85.160.200
+X-IronPort-MID: 290480387
+X-IronPort-Reputation: None
+X-IronPort-Listener: OutgoingMail
+X-IronPort-SenderGroup: RELAY_GSUITE
+X-IronPort-MailFlowPolicy: $RELAYED
+IronPort-Data: A9a23:L7W/Oq+LFR92rDFnwW8NDrUDPnyTJUtcMsCJ2f8bNWPcYEJGY0x3z
+ TFNCzqEPfuPNDHzfd1xOo+zpEoGuJXXm4c1SQs+rC4xFiIbosf7XuiUfxz6V8+wwmwvb67FA
+ +E2MISowBUcFyeEzvuVGuG96yI6jefQHeCU5NfsYkhZXRVjRDoqlSVtkus4hp8AqdWiCkaGt
+ MiaT/f3YTdJ4BYpdDNFg06/gEk35q+q5WpB5gVWic1j5zcyqVFEVPrzGonsdxMUcqEMdsamS
+ uDKyq2O/2+x13/B3fv8z94X2mVTKlLjFVHmZkh+AsBOsTAbzsAG6ZvXAdJHAathZ5RlqPgqo
+ DlFncTYpQ7EpcQgksxEO/VTO3gW0aGrZNYriJVw2CCe5xSuTpfi/xlhJEwmIqkWoOctO3AQ6
+ ORFMD8BTyuyhdvjldpXSsE07igiBMziPYdao205iD+DVa5gTpfETKHHo9Rf2V/chOgURaeYN
+ 5dfMGQ3Kk6YO3WjOX9OYH46tO6sln/zaRVStRSYqbdfD237ll0pjOi1a4qKEjCMbfp6nEnFo
+ iXPw33WJg8VLMWc7Dav91v504cjmgu+Aur+DoaQ7/NvnRify3IeDDUQUl20p+T/jVSxM++zM
+ GQR8ysq6LEurQmlFIGlGRK/p3GAs1gXXN84//AG1TxhA5H8u26xblXohBYaADD6nKfanQAX6
+ 2I=
+IronPort-HdrOrdr: A9a23:uH0p9KvHnbgv0Hwrq814ZTaA7skDrNV00zEX/kB9WHVpmwKj5q
+ STdZMgpGXJYVMqMk3I9urwXpVoLUmsl6KdgrNhRotKIjOWwVdARbsKheCSoAEIcxefygc379
+ YGT0ERMqyUMXFKyezX2k2XKeoB/fWw2JyUpI7lvgpQpMJRB52ILT0VNu9WKCNLrXF9dOIE/V
+ Oniat6mwY=
+X-Talos-CUID: 9a23:Jh18tmM1udi4B+5DVTl40EBOG5ofYyPA1CrILEOZMldrcejA
+X-Talos-MUID: 9a23:fL4DXQiLDJmmpTEcP4PIwcMpC+hq7PmqT0kxiLoipcacLC9VNx2YpWHi
+Received: from mail-qt1-f200.google.com ([209.85.160.200])
+ by ob1.hc2706-39.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
+ 11 May 2023 04:54:05 -0400
+Received: by mail-qt1-f200.google.com with SMTP id
+ d75a77b69052e-3f4e2e7c742so9430221cf.0
+ for <qemu-devel@nongnu.org>; Thu, 11 May 2023 01:54:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bu.edu; s=s1gsbu; t=1683795244; x=1686387244;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=17WiJmbprSj01CUtV1WWHWzwtN+21oPfApxnBIbGJ88=;
+ b=YtWo+0lnwZEN1cnmTeE2SuvM/Q92tu7hyMbvUr7UN9QKPM9JiGWMmmZ8Z9KDkHBqhI
+ ksa5/2WGM7HuEyuc3x964u5oG5e5Z5b/MjXQGgp6Qn8Z/L87v+IueKpT5N2yNOW6WW4X
+ TWkkzc/R4XaJSKCQoMqvkXCDAbvZbLE/6ah1u0JT4QQvXGS/0aOux7GWQfk4/AUU/MWH
+ DwFNE8a0ikr2xDXn6w5HC125Okv7VAsfRO9a9ls2Vioap3V4QnMlCVAUXME1fZFFTFPj
+ QIaUlZNNN0nls712nWLY4ymxinldEJXF/IBarL4xK3T0QSud/z6PA4J7EVhXPl61V8zy
+ UFIA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1683795244; x=1686387244;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=17WiJmbprSj01CUtV1WWHWzwtN+21oPfApxnBIbGJ88=;
+ b=XUYJHS+Ts2CK3gn0xsjyHrI8j5hU4Fgbo7ajVFXsfCEee0nNq3uSVcSd2xhh8/7Ojr
+ fe2zKIkrpQMYwOq81acnZdjcvpArXrq4+kUevTsdPg6Lb0tBWDKKH14w8Gpr7wSEG7IO
+ 9L1a2Vz8khp3tEKzXO33rPRMizAiruUwJf603OQ+Hr8q7DeNV5EAtHEEtnNW3gc8pKWH
+ apiLx8qDuqQ40T+oX5UaXriTOwuEaQq1S768RoM6ggziUnkgVtqaLqt2uUn9WW15+bcV
+ Jz9Zc57yNg8xvfna3g9wImZarICSn7Y3z22z3S+8HGyYAwyLAKzs5VcT+Bat3P+FWwSp
+ j+Mw==
+X-Gm-Message-State: AC+VfDwmBSmmQU1RnOgbHbOtNyCXeSIvPQt7b7mn9Sd4cDNqEktGBBCC
+ QaY1f0S+hK8nG+e9vzXRt2r6Ot53nwPHV/cHnhi2IqeUl0OkMVFVOC5GfqPgiPRfQf3suJlL83O
+ Aj0ErAPz1WDuwjsA+mmT31IjVTa5jfK1rkGBALMq8
+X-Received: by 2002:a05:622a:15c6:b0:3f4:e4c1:5f65 with SMTP id
+ d6-20020a05622a15c600b003f4e4c15f65mr2379260qty.23.1683795244746; 
+ Thu, 11 May 2023 01:54:04 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ4E4wnmDmpgm/PPOESGMccJQy1Y+738vgFt2U/DUo1wdjsdQssaUd6q2k4aTLRW2g94zNPpFg==
+X-Received: by 2002:a05:622a:15c6:b0:3f4:e4c1:5f65 with SMTP id
+ d6-20020a05622a15c600b003f4e4c15f65mr2379247qty.23.1683795244491; 
+ Thu, 11 May 2023 01:54:04 -0700 (PDT)
+Received: from mozz.bu.edu (mozz.bu.edu. [128.197.127.33])
+ by smtp.gmail.com with ESMTPSA id
+ j8-20020ac85c48000000b003edf043048bsm2085552qtj.9.2023.05.11.01.54.04
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 11 May 2023 01:54:04 -0700 (PDT)
+From: Alexander Bulekov <alxndr@bu.edu>
 To: qemu-devel@nongnu.org
-Cc: Laurent Vivier <laurent@vivier.eu>, Juan Quintela <quintela@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>
-Subject: [PATCH] linux-user: Drop uint and ulong
-Date: Thu, 11 May 2023 10:50:56 +0200
-Message-Id: <20230511085056.13809-1-quintela@redhat.com>
+Cc: Alexander Bulekov <alxndr@bu.edu>, Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
+ qemu-ppc@nongnu.org (open list:PowerNV Non-Virtu...)
+Subject: [PATCH] pnv_lpc: disable reentrancy detection for lpc-hc
+Date: Thu, 11 May 2023 04:53:37 -0400
+Message-Id: <20230511085337.3688527-1-alxndr@bu.edu>
+X-Mailer: git-send-email 2.39.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+X-CES-GSUITE_AUTH: bf3aNvsZpxl8
+Received-SPF: pass client-ip=216.71.137.63; envelope-from=alxndr@bu.edu;
+ helo=esa5.hc2706-39.iphmx.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ HK_RANDOM_ENVFROM=0.001, HK_RANDOM_FROM=0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -75,54 +119,29 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-These are types not used anymore anywhere else.
+As lpc-hc is designed for re-entrant calls from xscom, mark it
+re-entrancy safe.
 
-Signed-off-by: Juan Quintela <quintela@redhat.com>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Reported-by: Thomas Huth <thuth@redhat.com>
+Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
 ---
- linux-user/mmap.c    | 2 +-
- linux-user/syscall.c | 8 ++++----
- 2 files changed, 5 insertions(+), 5 deletions(-)
+ hw/ppc/pnv_lpc.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/linux-user/mmap.c b/linux-user/mmap.c
-index 0aa8ae7356..55dd143a10 100644
---- a/linux-user/mmap.c
-+++ b/linux-user/mmap.c
-@@ -859,7 +859,7 @@ abi_long target_mremap(abi_ulong old_addr, abi_ulong old_size,
+diff --git a/hw/ppc/pnv_lpc.c b/hw/ppc/pnv_lpc.c
+index 01f44c19eb..67fd049a7f 100644
+--- a/hw/ppc/pnv_lpc.c
++++ b/hw/ppc/pnv_lpc.c
+@@ -738,6 +738,8 @@ static void pnv_lpc_realize(DeviceState *dev, Error **errp)
+                                 &lpc->opb_master_regs);
+     memory_region_init_io(&lpc->lpc_hc_regs, OBJECT(dev), &lpc_hc_ops, lpc,
+                           "lpc-hc", LPC_HC_REGS_OPB_SIZE);
++    /* xscom writes to lpc-hc. As such mark lpc-hc re-entrancy safe */
++    lpc->lpc_hc_regs.disable_reentrancy_guard = true;
+     memory_region_add_subregion(&lpc->opb_mr, LPC_HC_REGS_OPB_ADDR,
+                                 &lpc->lpc_hc_regs);
  
- static bool can_passthrough_madvise(abi_ulong start, abi_ulong end)
- {
--    ulong addr;
-+    abi_ulong addr;
- 
-     if ((start | end) & ~qemu_host_page_mask) {
-         return false;
-diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index 69f740ff98..dd0349712b 100644
---- a/linux-user/syscall.c
-+++ b/linux-user/syscall.c
-@@ -309,16 +309,16 @@ _syscall0(int, sys_gettid)
- #endif
- 
- #if defined(TARGET_NR_getdents) && defined(EMULATE_GETDENTS_WITH_GETDENTS)
--_syscall3(int, sys_getdents, uint, fd, struct linux_dirent *, dirp, uint, count);
-+_syscall3(int, sys_getdents, unsigned int, fd, struct linux_dirent *, dirp, unsigned int, count);
- #endif
- #if (defined(TARGET_NR_getdents) && \
-       !defined(EMULATE_GETDENTS_WITH_GETDENTS)) || \
-     (defined(TARGET_NR_getdents64) && defined(__NR_getdents64))
--_syscall3(int, sys_getdents64, uint, fd, struct linux_dirent64 *, dirp, uint, count);
-+_syscall3(int, sys_getdents64, unsigned int, fd, struct linux_dirent64 *, dirp, unsigned int, count);
- #endif
- #if defined(TARGET_NR__llseek) && defined(__NR_llseek)
--_syscall5(int, _llseek,  uint,  fd, ulong, hi, ulong, lo,
--          loff_t *, res, uint, wh);
-+_syscall5(int, _llseek,  unsigned int,  fd, unsigned long, hi, unsigned long, lo,
-+          loff_t *, res, unsigned int, wh);
- #endif
- _syscall3(int, sys_rt_sigqueueinfo, pid_t, pid, int, sig, siginfo_t *, uinfo)
- _syscall4(int, sys_rt_tgsigqueueinfo, pid_t, pid, pid_t, tid, int, sig,
 -- 
-2.40.1
+2.39.0
 
 
