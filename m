@@ -2,78 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B51A36FEF39
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 May 2023 11:51:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F3B986FEF6B
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 May 2023 11:54:35 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1px2wv-0000S8-Lv; Thu, 11 May 2023 05:51:01 -0400
+	id 1px2wt-0000Pz-J9; Thu, 11 May 2023 05:50:59 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1px2wr-0000PM-VV
- for qemu-devel@nongnu.org; Thu, 11 May 2023 05:50:57 -0400
+ id 1px2ws-0000PZ-43
+ for qemu-devel@nongnu.org; Thu, 11 May 2023 05:50:58 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1px2wp-0006hw-Gi
+ id 1px2wq-0006iL-Ai
  for qemu-devel@nongnu.org; Thu, 11 May 2023 05:50:57 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1683798655;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:cc:mime-version:mime-version: content-type:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=oatJDTl34VOdD+nF5woex2lyIWfZcUc6as1VyFXvrrI=;
- b=fTFpGrkYT0UXsXGjwoHKhoQ+cdWV/0pxJzX8P2sfD0vtjH2Uf5KTmNc+jnM7guzwMIp/7X
- GsyEdgcibpnAbd6P1+hqMyuBS5ibI7nJYCukfy/8zYCd/ArXz9nnp+V4tvsD5+GsIPTQki
- YDTiq/LB0mQXU2I7aKv0dQ8RtgKDCGE=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=0D2wJ5DmgR5CzzS6zefwAJwP9qsoNw7m6ombVsmpwSA=;
+ b=KLW1kPhrw7bDmy5AA+NzFrn2WRYia4khGjIptuKK5Xn8H8Hrerip3iVSIUkfiqteQIMLN1
+ pSCwzXv0Z3KwYiLRAG/ndRtaeZOuCkUlyRlYxrtrzjekpWUQl89QcXkbnqg7/ZNyAr5CWd
+ wvPw0VR64Ak7d4KZ9eFO9qc8qNf3AiE=
+Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
+ [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-122-A2GFA8chORinYzzUSGi1pQ-1; Thu, 11 May 2023 05:50:53 -0400
-X-MC-Unique: A2GFA8chORinYzzUSGi1pQ-1
-Received: by mail-ed1-f70.google.com with SMTP id
- 4fb4d7f45d1cf-50b4bfb51b0so7752751a12.0
- for <qemu-devel@nongnu.org>; Thu, 11 May 2023 02:50:53 -0700 (PDT)
+ us-mta-180-3wfKBy9oMeCPadRCAU7MDQ-1; Thu, 11 May 2023 05:50:54 -0400
+X-MC-Unique: 3wfKBy9oMeCPadRCAU7MDQ-1
+Received: by mail-ej1-f69.google.com with SMTP id
+ a640c23a62f3a-96a0ce9215bso247443166b.2
+ for <qemu-devel@nongnu.org>; Thu, 11 May 2023 02:50:54 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683798652; x=1686390652;
+ d=1e100.net; s=20221208; t=1683798653; x=1686390653;
  h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=oatJDTl34VOdD+nF5woex2lyIWfZcUc6as1VyFXvrrI=;
- b=XLv+o9xyzkTiDK2NkCQ4Zn+PviSAgdcmC//itXAyriiHlakM58qCr7pmgDwmHTyovW
- G0bUxBInWEvYTombr+ebjB26+nSYMgunl5GCv8WMYwdiEwqEuXyZkK9lH9ACEEP9BAof
- izs0Uf6RcnJSJLvR1kIXa6PsDO4P/X7R4TrO4CBjNOs7RKeqoTlLs+q0qIH1aclC2V0j
- WqrQpRoRdiTt6BJ0wytz7vTqUi90Pg0ZkCUBhWSetpggcnMVEoX2ehzW8yuXUA7cwJxV
- uC8+PD2JBI5j3g7T96k641TXsaGYlxXCPPRD0vy8MaB/Ut2j8IFw15GF6gkttA2l38Tb
- QPnQ==
-X-Gm-Message-State: AC+VfDz002poGpcCJj1UzbZrE2HvO/d4+yeBcgDISCF+k6pCTvmptgpU
- +r03vAdV3UtcWSURkmbccsatroi5yrnsGL1EnoTZ3gc3bUyNRd1JhS65PPQj7w/jEr4fPxX3LQT
- 95UpfxO2pB6uQgyfs0Muv4zg+8+355PWNnP/R9rtCh13rye963ApnMCsUH3abtIZEMddrXc+QIV
- o=
-X-Received: by 2002:a17:907:3e83:b0:953:7bb2:28d8 with SMTP id
- hs3-20020a1709073e8300b009537bb228d8mr20545470ejc.21.1683798651577; 
- Thu, 11 May 2023 02:50:51 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ7Ngqyy0RRZrjPpw5SydbCZqWRVG5hPDtV6w9EibGJo4ivyiyCkkemEmdpINQCpjQYqSZZBww==
-X-Received: by 2002:a17:907:3e83:b0:953:7bb2:28d8 with SMTP id
- hs3-20020a1709073e8300b009537bb228d8mr20545460ejc.21.1683798651047; 
- Thu, 11 May 2023 02:50:51 -0700 (PDT)
+ bh=0D2wJ5DmgR5CzzS6zefwAJwP9qsoNw7m6ombVsmpwSA=;
+ b=VljjSwgN+mgra/tdiUALCGpy9/Cd+6/OymnaOUZLwq3GFvTogAu1OBRHoTvOt7H4iT
+ QvHaK0RxPr8Zm/z8wqSPMeaQM/se/5I5uPnLpGpF3LhyCFBcinUxune2s9xxUt9WnDgM
+ 2FepPhFSCmbwrM8MRPCvi6d+cUkfo9b7leqqjPZjzfuRorTz7ZajlBkVGdJ+5qXaqOqw
+ sC1LyhTD6ju4HW7cpLob0S9VKPKaGQf1PfX25I/xP9JVx84KPkQL2fwgrv+hQZQYNAXA
+ AG+WPR0fs+c1+gdCk9QtXqC3A0lYZ15LKRIM1zCCgkfkksi2ll+NeN5eq/0GpfESFFFb
+ j7HA==
+X-Gm-Message-State: AC+VfDw1v1VC5HU9l4dRqZZVrZA5+r3roX50tI6dYJ1WNETkIt99chI4
+ xujSmc2PiCZscVYyrUPpi54qNftenaXc59NiDqXjyF9pCpEUT3NhZ0ZaTM31tycYjYHm1Jvj2WM
+ +qtlljE7Cd3wumUB2GADl8NsYs5K6kFs9+LJO6KbqKO3+lAWXdgiH9kQCwSzkuLKBzj8lD1/7aL
+ k=
+X-Received: by 2002:a17:906:fe01:b0:951:756d:653c with SMTP id
+ wy1-20020a170906fe0100b00951756d653cmr17439489ejb.39.1683798652700; 
+ Thu, 11 May 2023 02:50:52 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ6EnWusLN5VS12yuUzX+SmrCCzopRK4bIUTOYoWC+eE0KsGMWSgbp7vBzaIhE3yOK9UyN3APg==
+X-Received: by 2002:a17:906:fe01:b0:951:756d:653c with SMTP id
+ wy1-20020a170906fe0100b00951756d653cmr17439481ejb.39.1683798652406; 
+ Thu, 11 May 2023 02:50:52 -0700 (PDT)
 Received: from [192.168.10.118] ([2001:b07:6468:f312:63a7:c72e:ea0e:6045])
  by smtp.gmail.com with ESMTPSA id
- hg8-20020a1709072cc800b00932fa67b48fsm3751951ejc.183.2023.05.11.02.50.49
- for <qemu-devel@nongnu.org>
+ lt14-20020a170906fa8e00b0094efdfe60dcsm3695174ejb.206.2023.05.11.02.50.51
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 11 May 2023 02:50:50 -0700 (PDT)
+ Thu, 11 May 2023 02:50:51 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 11/24] build: move sanitizer tests to meson
-Date: Thu, 11 May 2023 11:50:08 +0200
-Message-Id: <20230511095021.1397802-12-pbonzini@redhat.com>
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+Subject: [PATCH 12/24] build: move SafeStack tests to meson
+Date: Thu, 11 May 2023 11:50:09 +0200
+Message-Id: <20230511095021.1397802-13-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.40.1
 In-Reply-To: <20230511095021.1397802-1-pbonzini@redhat.com>
 References: <20230511095021.1397802-1-pbonzini@redhat.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
@@ -100,411 +101,209 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+This disables the old behavior of detecting SafeStack from environment
+CFLAGS.  SafeStack is now enabled purely based on the configure arguments.
+
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- configure                      | 147 ---------------------------------
- docs/devel/build-system.rst    |   4 -
- meson.build                    |  56 ++++++++++++-
- meson_options.txt              |   4 +
- scripts/meson-buildoptions.sh  |   6 ++
- tests/qemu-iotests/meson.build |   2 +-
- tests/unit/meson.build         |   2 +-
- 7 files changed, 66 insertions(+), 155 deletions(-)
+ configure                     | 73 -----------------------------------
+ meson.build                   | 26 +++++++++++++
+ meson_options.txt             |  2 +
+ scripts/meson-buildoptions.sh |  4 ++
+ 4 files changed, 32 insertions(+), 73 deletions(-)
 
 diff --git a/configure b/configure
-index 1edc6987dee5..a99fbaf3e7af 100755
+index a99fbaf3e7af..3989d2660e47 100755
 --- a/configure
 +++ b/configure
-@@ -275,9 +275,6 @@ EXTRA_OBJCFLAGS=""
- EXTRA_LDFLAGS=""
- 
- debug_tcg="no"
--sanitizers="no"
--tsan="no"
--fortify_source="yes"
- docs="auto"
- EXESUF=""
- prefix="/usr/local"
-@@ -417,14 +414,6 @@ EOF
-   compile_object
- }
- 
--check_include() {
--cat > $TMPC <<EOF
--#include <$1>
--int main(void) { return 0; }
--EOF
--  compile_object
--}
--
- write_c_skeleton() {
-     cat > $TMPC <<EOF
- int main(void) { return 0; }
-@@ -806,15 +795,6 @@ for opt do
-       debug_tcg="yes"
-       meson_option_parse --enable-debug-mutex ""
-       meson_option_add -Doptimization=0
--      fortify_source="no"
--  ;;
--  --enable-sanitizers) sanitizers="yes"
--  ;;
--  --disable-sanitizers) sanitizers="no"
--  ;;
--  --enable-tsan) tsan="yes"
--  ;;
--  --disable-tsan) tsan="no"
+@@ -227,7 +227,6 @@ cross_compile="no"
+ cross_prefix=""
+ host_cc="cc"
+ stack_protector=""
+-safe_stack=""
+ use_containers="yes"
+ gdb_bin=$(command -v "gdb-multiarch" || command -v "gdb")
+ gdb_arches=""
+@@ -830,10 +829,6 @@ for opt do
    ;;
-   --disable-tcg) tcg="disabled"
-                  plugins="no"
-@@ -1025,8 +1005,6 @@ Advanced options (experts only):
-                            desired devices in configs/devices/)
-   --with-devices-ARCH=NAME override default configs/devices
-   --enable-debug           enable common debug build options
--  --enable-sanitizers      enable default sanitizers
--  --enable-tsan            enable thread sanitizer
-   --disable-werror         disable compilation abort on warning
-   --disable-stack-protector disable compiler-provided stack protection
-   --cpu=CPU                Build for host CPU [$cpu]
-@@ -1633,87 +1611,6 @@ if ! compile_object "-Werror"; then
-     ccache_cpp2=yes
+   --disable-stack-protector) stack_protector="no"
+   ;;
+-  --enable-safe-stack) safe_stack="yes"
+-  ;;
+-  --disable-safe-stack) safe_stack="no"
+-  ;;
+   --enable-cfi)
+       cfi="true";
+       meson_option_add -Db_lto=true
+@@ -1024,8 +1019,6 @@ cat << EOF
+   pie             Position Independent Executables
+   debug-tcg       TCG debugging (default is disabled)
+   debug-info      debugging information
+-  safe-stack      SafeStack Stack Smash Protection. Depends on
+-                  clang/llvm and requires coroutine backend ucontext.
+ 
+ NOTE: The object files are built at the place where configure is launched
+ EOF
+@@ -1521,68 +1514,6 @@ else
+   esac
  fi
  
--#################################################
--# clang does not support glibc + FORTIFY_SOURCE.
+-##################################################
+-# SafeStack
 -
--if test "$fortify_source" != "no"; then
--  if echo | $cc -dM -E - | grep __clang__ > /dev/null 2>&1 ; then
--    fortify_source="no";
--  elif test -n "$cxx" && has $cxx &&
--       echo | $cxx -dM -E - | grep __clang__ >/dev/null 2>&1 ; then
--    fortify_source="no";
--  else
--    fortify_source="yes"
--  fi
--fi
 -
--##########################################
--# checks for sanitizers
--
--have_asan=no
--have_ubsan=no
--have_asan_iface_h=no
--have_asan_iface_fiber=no
--
--if test "$sanitizers" = "yes" ; then
--  write_c_skeleton
--  if compile_prog "$CPU_CFLAGS -Werror -fsanitize=address" ""; then
--      have_asan=yes
--  fi
--
--  # we could use a simple skeleton for flags checks, but this also
--  # detect the static linking issue of ubsan, see also:
--  # https://gcc.gnu.org/bugzilla/show_bug.cgi?id=84285
--  cat > $TMPC << EOF
--int main(int argc, char **argv)
+-if test "$safe_stack" = "yes"; then
+-cat > $TMPC << EOF
+-int main(void)
 -{
--    return argc + 1;
+-#if ! __has_feature(safe_stack)
+-#error SafeStack Disabled
+-#endif
+-    return 0;
 -}
 -EOF
--  if compile_prog "$CPU_CFLAGS -Werror -fsanitize=undefined" ""; then
--      have_ubsan=yes
--  fi
--
--  if check_include "sanitizer/asan_interface.h" ; then
--      have_asan_iface_h=yes
--  fi
--
--  cat > $TMPC << EOF
--#include <sanitizer/asan_interface.h>
--int main(void) {
--  __sanitizer_start_switch_fiber(0, 0, 0);
--  return 0;
--}
--EOF
--  if compile_prog "$CPU_CFLAGS -Werror -fsanitize=address" "" ; then
--      have_asan_iface_fiber=yes
--  fi
--fi
--
--# Thread sanitizer is, for now, much noisier than the other sanitizers;
--# keep it separate until that is not the case.
--if test "$tsan" = "yes" && test "$sanitizers" = "yes"; then
--  error_exit "TSAN is not supported with other sanitiziers."
--fi
--have_tsan=no
--have_tsan_iface_fiber=no
--if test "$tsan" = "yes" ; then
--  write_c_skeleton
--  if compile_prog "$CPU_CFLAGS -Werror -fsanitize=thread" "" ; then
--      have_tsan=yes
--  fi
--  cat > $TMPC << EOF
--#include <sanitizer/tsan_interface.h>
--int main(void) {
--  __tsan_create_fiber(0);
--  return 0;
--}
--EOF
--  if compile_prog "$CPU_CFLAGS -Werror -fsanitize=thread" "" ; then
--      have_tsan_iface_fiber=yes
--  fi
--fi
--
- ##########################################
- # functions to probe cross compilers
- 
-@@ -2139,42 +2036,6 @@ case "$vfio_user_server" in
-     ;;
- esac
- 
--##########################################
--# End of CC checks
--# After here, no more $cc or $ld runs
--
--write_c_skeleton
--
--if test "$fortify_source" = "yes" ; then
--  QEMU_CFLAGS="-U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=2 $QEMU_CFLAGS"
--fi
--
--if test "$have_asan" = "yes"; then
--  QEMU_CFLAGS="-fsanitize=address $QEMU_CFLAGS"
--  QEMU_LDFLAGS="-fsanitize=address $QEMU_LDFLAGS"
--  if test "$have_asan_iface_h" = "no" ; then
--      echo "ASAN build enabled, but ASAN header missing." \
--           "Without code annotation, the report may be inferior."
--  elif test "$have_asan_iface_fiber" = "no" ; then
--      echo "ASAN build enabled, but ASAN header is too old." \
--           "Without code annotation, the report may be inferior."
--  fi
--fi
--if test "$have_tsan" = "yes" ; then
--  if test "$have_tsan_iface_fiber" = "yes" ; then
--    QEMU_CFLAGS="-fsanitize=thread $QEMU_CFLAGS"
--    QEMU_LDFLAGS="-fsanitize=thread $QEMU_LDFLAGS"
+-  flag="-fsanitize=safe-stack"
+-  # Check that safe-stack is supported and enabled.
+-  if compile_prog "-Werror $flag" "$flag"; then
+-    # Flag needed both at compilation and at linking
+-    QEMU_CFLAGS="$QEMU_CFLAGS $flag"
+-    QEMU_LDFLAGS="$QEMU_LDFLAGS $flag"
 -  else
--    error_exit "Cannot enable TSAN due to missing fiber annotation interface."
+-    error_exit "SafeStack not supported by your compiler"
 -  fi
--elif test "$tsan" = "yes" ; then
--  error_exit "Cannot enable TSAN due to missing sanitize thread interface."
+-  if test "$coroutine" != "ucontext"; then
+-    error_exit "SafeStack is only supported by the coroutine backend ucontext"
+-  fi
+-else
+-cat > $TMPC << EOF
+-int main(void)
+-{
+-#if defined(__has_feature)
+-#if __has_feature(safe_stack)
+-#error SafeStack Enabled
+-#endif
+-#endif
+-    return 0;
+-}
+-EOF
+-if test "$safe_stack" = "no"; then
+-  # Make sure that safe-stack is disabled
+-  if ! compile_prog "-Werror" ""; then
+-    # SafeStack was already enabled, try to explicitly remove the feature
+-    flag="-fno-sanitize=safe-stack"
+-    if ! compile_prog "-Werror $flag" "$flag"; then
+-      error_exit "Configure cannot disable SafeStack"
+-    fi
+-    QEMU_CFLAGS="$QEMU_CFLAGS $flag"
+-    QEMU_LDFLAGS="$QEMU_LDFLAGS $flag"
+-  fi
+-else # "$safe_stack" = ""
+-  # Set safe_stack to yes or no based on pre-existing flags
+-  if compile_prog "-Werror" ""; then
+-    safe_stack="no"
+-  else
+-    safe_stack="yes"
+-    if test "$coroutine" != "ucontext"; then
+-      error_exit "SafeStack is only supported by the coroutine backend ucontext"
+-    fi
+-  fi
 -fi
--if test "$have_ubsan" = "yes"; then
--  QEMU_CFLAGS="-fsanitize=undefined $QEMU_CFLAGS"
--  QEMU_LDFLAGS="-fsanitize=undefined $QEMU_LDFLAGS"
 -fi
 -
- #######################################
- # cross-compiled firmware targets
- 
-@@ -2299,14 +2160,6 @@ fi
- 
- echo "CONFIG_COROUTINE_BACKEND=$coroutine" >> $config_host_mak
- 
--if test "$have_asan_iface_fiber" = "yes" ; then
--    echo "CONFIG_ASAN_IFACE_FIBER=y" >> $config_host_mak
--fi
--
--if test "$have_tsan" = "yes" && test "$have_tsan_iface_fiber" = "yes" ; then
--    echo "CONFIG_TSAN=y" >> $config_host_mak
--fi
--
- if test "$plugins" = "yes" ; then
-     echo "CONFIG_PLUGIN=y" >> $config_host_mak
+ ########################################
+ # check if ccache is interfering with
+ # semantic analysis of macros
+@@ -2242,10 +2173,6 @@ if test "$ccache_cpp2" = "yes"; then
+   echo "export CCACHE_CPP2=y" >> $config_host_mak
  fi
-diff --git a/docs/devel/build-system.rst b/docs/devel/build-system.rst
-index 66cfe7b8bdc8..4a733fc0a747 100644
---- a/docs/devel/build-system.rst
-+++ b/docs/devel/build-system.rst
-@@ -91,10 +91,6 @@ developers in checking for system features:
- ``check_define $NAME``
-    Determine if the macro $NAME is defined by the system C compiler
  
--``check_include $NAME``
--   Determine if the include $NAME file is available to the system C
--   compiler.  The replacement in Meson is ``cc.has_header()``.
+-if test "$safe_stack" = "yes"; then
+-  echo "CONFIG_SAFESTACK=y" >> $config_host_mak
+-fi
 -
- ``write_c_skeleton``
-    Write a minimal C program main() function to the temporary file
-    indicated by $TMPC
+ # tests/tcg configuration
+ (config_host_mak=tests/tcg/config-host.mak
+ mkdir -p tests/tcg
 diff --git a/meson.build b/meson.build
-index e194862e7e16..4a52c870813b 100644
+index 4a52c870813b..31151f240ad8 100644
 --- a/meson.build
 +++ b/meson.build
-@@ -211,6 +211,35 @@ if get_option('prefer_static')
+@@ -211,6 +211,31 @@ if get_option('prefer_static')
    qemu_ldflags += get_option('b_pie') ? '-static-pie' : '-static'
  endif
  
-+if get_option('sanitizers')
-+  if cc.has_argument('-fsanitize=address')
-+    qemu_cflags = ['-fsanitize=address'] + qemu_cflags
-+    qemu_ldflags = ['-fsanitize=address'] + qemu_ldflags
++# Compiles if SafeStack *not* enabled
++safe_stack_probe = '''
++  int main(void)
++  {
++  #if defined(__has_feature)
++  #if __has_feature(safe_stack)
++  #error SafeStack Enabled
++  #endif
++  #endif
++      return 0;
++  }'''
++if get_option('safe_stack') != not cc.compiles(safe_stack_probe)
++  safe_stack_arg = get_option('safe_stack') ? '-fsanitize=safe-stack' : '-fno-sanitize=safe-stack'
++  if get_option('safe_stack') != not cc.compiles(safe_stack_probe, args: safe_stack_arg)
++    error(get_option('safe_stack') \
++          ? 'SafeStack not supported by your compiler' \
++          : 'Cannot disable SafeStack')
 +  endif
-+
-+  # Detect static linking issue with ubsan - https://gcc.gnu.org/bugzilla/show_bug.cgi?id=84285
-+  if cc.links('int main(int argc, char **argv) { return argc + 1; }',
-+              args: [qemu_ldflags, '-fsanitize=undefined'])
-+    qemu_cflags = ['-fsanitize=undefined'] + qemu_cflags
-+    qemu_ldflags = ['-fsanitize=undefined'] + qemu_ldflags
-+  endif
++  qemu_cflags += safe_stack_arg
++  qemu_ldflags += safe_stack_arg
++endif
++if get_option('safe_stack') and config_host['CONFIG_COROUTINE_BACKEND'] != 'ucontext'
++  error('SafeStack is only supported with the ucontext coroutine backend')
 +endif
 +
-+# Thread sanitizer is, for now, much noisier than the other sanitizers;
-+# keep it separate until that is not the case.
-+if get_option('tsan')
-+  if get_option('sanitizers')
-+    error('TSAN is not supported with other sanitizers')
-+  endif
-+  if not cc.has_function('__tsan_create_fiber',
-+                         args: '-fsanitize=thread',
-+                         prefix: '#include <sanitizer/tsan_interface.h>')
-+    error('Cannot enable TSAN due to missing fiber annotation interface')
-+  endif
-+  qemu_cflags = ['-fsanitize=thread'] + qemu_cflags
-+  qemu_ldflags = ['-fsanitize=thread'] + qemu_ldflags
-+endif
-+
- # Detect support for PT_GNU_RELRO + DT_BIND_NOW.
- # The combination is known as "full relro", because .got.plt is read-only too.
- qemu_ldflags += cc.get_supported_link_arguments('-Wl,-z,relro', '-Wl,-z,now')
-@@ -221,7 +250,7 @@ if targetos == 'windows'
- endif
- 
- # Exclude --warn-common with TSan to suppress warnings from the TSan libraries.
--if targetos != 'sunos' and not config_host.has_key('CONFIG_TSAN')
-+if targetos != 'sunos' and not get_option('tsan')
-   qemu_ldflags += cc.get_supported_link_arguments('-Wl,--warn-common')
- endif
- 
-@@ -284,6 +313,16 @@ if 'cpp' in all_languages
-   endif
- endif
- 
-+# clang does not support glibc + FORTIFY_SOURCE (is it still true?)
-+if get_option('optimization') != '0' and targetos == 'linux'
-+  if cc.get_id() == 'gcc'
-+    qemu_cflags += ['-U_FORTIFY_SOURCE', '-D_FORTIFY_SOURCE=2']
-+  endif
-+  if 'cpp' in all_languages and cxx.get_id() == 'gcc'
-+    qemu_cxxflags += ['-U_FORTIFY_SOURCE', '-D_FORTIFY_SOURCE=2']
-+  endif
-+endif
-+
- add_project_arguments(qemu_cflags, native: false, language: 'c')
- add_project_arguments(qemu_cxxflags, native: false, language: 'cpp')
- add_project_arguments(qemu_objcflags, native: false, language: 'objc')
-@@ -1915,6 +1954,7 @@ if seccomp.found()
- endif
- config_host_data.set('CONFIG_SNAPPY', snappy.found())
- config_host_data.set('CONFIG_TPM', have_tpm)
-+config_host_data.set('CONFIG_TSAN', get_option('tsan'))
- config_host_data.set('CONFIG_USB_LIBUSB', libusb.found())
- config_host_data.set('CONFIG_VDE', vde.found())
- config_host_data.set('CONFIG_VHOST_NET', have_vhost_net)
-@@ -2045,6 +2085,18 @@ if rdma.found()
-                                        prefix: '#include <infiniband/verbs.h>'))
- endif
- 
-+have_asan_fiber = false
-+if get_option('sanitizers') and \
-+   not cc.has_function('__sanitizer_start_switch_fiber',
-+                         args: '-fsanitize=address',
-+                         prefix: '#include <sanitizer/asan_interface.h>')
-+  warning('Missing ASAN due to missing fiber annotation interface')
-+  warning('Without code annotation, the report may be inferior.')
-+else
-+  have_asan_fiber = true
-+endif
-+config_host_data.set('CONFIG_ASAN_IFACE_FIBER', have_asan_fiber)
-+
- # has_header_symbol
- config_host_data.set('CONFIG_EPOLL_CREATE1',
-                      cc.has_header_symbol('sys/epoll.h', 'epoll_create1'))
-@@ -3873,7 +3925,7 @@ else
- endif
- summary_info += {'gprof':             gprof_info}
- summary_info += {'gcov':              get_option('b_coverage')}
--summary_info += {'thread sanitizer':  config_host.has_key('CONFIG_TSAN')}
-+summary_info += {'thread sanitizer':  get_option('tsan')}
- summary_info += {'CFI support':       get_option('cfi')}
- if get_option('cfi')
-   summary_info += {'CFI debug support': get_option('cfi_debug')}
+ if get_option('sanitizers')
+   if cc.has_argument('-fsanitize=address')
+     qemu_cflags = ['-fsanitize=address'] + qemu_cflags
+@@ -1946,6 +1971,7 @@ config_host_data.set('CONFIG_OPENGL', opengl.found())
+ config_host_data.set('CONFIG_PROFILER', get_option('profiler'))
+ config_host_data.set('CONFIG_RBD', rbd.found())
+ config_host_data.set('CONFIG_RDMA', rdma.found())
++config_host_data.set('CONFIG_SAFESTACK', get_option('safe_stack'))
+ config_host_data.set('CONFIG_SDL', sdl.found())
+ config_host_data.set('CONFIG_SDL_IMAGE', sdl_image.found())
+ config_host_data.set('CONFIG_SECCOMP', seccomp.found())
 diff --git a/meson_options.txt b/meson_options.txt
-index b118258eb9a3..71cc9c85703f 100644
+index 71cc9c85703f..f04b12ca0783 100644
 --- a/meson_options.txt
 +++ b/meson_options.txt
-@@ -82,6 +82,10 @@ option('tcg', type: 'feature', value: 'enabled',
+@@ -82,6 +82,8 @@ option('tcg', type: 'feature', value: 'enabled',
         description: 'TCG support')
  option('tcg_interpreter', type: 'boolean', value: false,
         description: 'TCG with bytecode interpreter (slow)')
-+option('sanitizers', type: 'boolean', value: false,
-+       description: 'enable default sanitizers')
-+option('tsan', type: 'boolean', value: false,
-+       description: 'enable thread sanitizer')
- option('cfi', type: 'boolean', value: false,
-        description: 'Control-Flow Integrity (CFI)')
- option('cfi_debug', type: 'boolean', value: false,
++option('safe_stack', type: 'boolean', value: false,
++       description: 'SafeStack Stack Smash Protection (requires clang/llvm and coroutine backend ucontext)')
+ option('sanitizers', type: 'boolean', value: false,
+        description: 'enable default sanitizers')
+ option('tsan', type: 'boolean', value: false,
 diff --git a/scripts/meson-buildoptions.sh b/scripts/meson-buildoptions.sh
-index 7bc40c4d893a..7485012d4634 100644
+index 7485012d4634..5ea787deb89e 100644
 --- a/scripts/meson-buildoptions.sh
 +++ b/scripts/meson-buildoptions.sh
-@@ -39,11 +39,13 @@ meson_options_help() {
+@@ -39,6 +39,8 @@ meson_options_help() {
    printf "%s\n" '  --enable-profiler        profiler support'
    printf "%s\n" '  --enable-rng-none        dummy RNG, avoid using /dev/(u)random and'
    printf "%s\n" '                           getrandom()'
-+  printf "%s\n" '  --enable-sanitizers      enable default sanitizers'
++  printf "%s\n" '  --enable-safe-stack      SafeStack Stack Smash Protection (requires'
++  printf "%s\n" '                           clang/llvm and coroutine backend ucontext)'
+   printf "%s\n" '  --enable-sanitizers      enable default sanitizers'
    printf "%s\n" '  --enable-strip           Strip targets on install'
    printf "%s\n" '  --enable-tcg-interpreter TCG with bytecode interpreter (slow)'
-   printf "%s\n" '  --enable-trace-backends=CHOICES'
-   printf "%s\n" '                           Set available tracing backends [log] (choices:'
-   printf "%s\n" '                           dtrace/ftrace/log/nop/simple/syslog/ust)'
-+  printf "%s\n" '  --enable-tsan            enable thread sanitizer'
-   printf "%s\n" '  --firmwarepath=VALUES    search PATH for firmware files [share/qemu-'
-   printf "%s\n" '                           firmware]'
-   printf "%s\n" '  --iasl=VALUE             Path to ACPI disassembler'
-@@ -399,6 +401,8 @@ _meson_option_parse() {
+@@ -401,6 +403,8 @@ _meson_option_parse() {
      --disable-replication) printf "%s" -Dreplication=disabled ;;
      --enable-rng-none) printf "%s" -Drng_none=true ;;
      --disable-rng-none) printf "%s" -Drng_none=false ;;
-+    --enable-sanitizers) printf "%s" -Dsanitizers=true ;;
-+    --disable-sanitizers) printf "%s" -Dsanitizers=false ;;
++    --enable-safe-stack) printf "%s" -Dsafe_stack=true ;;
++    --disable-safe-stack) printf "%s" -Dsafe_stack=false ;;
+     --enable-sanitizers) printf "%s" -Dsanitizers=true ;;
+     --disable-sanitizers) printf "%s" -Dsanitizers=false ;;
      --enable-sdl) printf "%s" -Dsdl=enabled ;;
-     --disable-sdl) printf "%s" -Dsdl=disabled ;;
-     --enable-sdl-image) printf "%s" -Dsdl_image=enabled ;;
-@@ -437,6 +441,8 @@ _meson_option_parse() {
-     --disable-tpm) printf "%s" -Dtpm=disabled ;;
-     --enable-trace-backends=*) quote_sh "-Dtrace_backends=$2" ;;
-     --with-trace-file=*) quote_sh "-Dtrace_file=$2" ;;
-+    --enable-tsan) printf "%s" -Dtsan=true ;;
-+    --disable-tsan) printf "%s" -Dtsan=false ;;
-     --enable-u2f) printf "%s" -Du2f=enabled ;;
-     --disable-u2f) printf "%s" -Du2f=disabled ;;
-     --enable-usb-redir) printf "%s" -Dusb_redir=enabled ;;
-diff --git a/tests/qemu-iotests/meson.build b/tests/qemu-iotests/meson.build
-index 9735071a295b..44761e1e4d3e 100644
---- a/tests/qemu-iotests/meson.build
-+++ b/tests/qemu-iotests/meson.build
-@@ -2,7 +2,7 @@ if not have_tools or targetos == 'windows' or get_option('gprof')
-   subdir_done()
- endif
- 
--foreach cflag: config_host['QEMU_CFLAGS'].split()
-+foreach cflag: qemu_ldflags
-   if cflag.startswith('-fsanitize') and \
-      not cflag.contains('safe-stack') and not cflag.contains('cfi-icall')
-     message('Sanitizers are enabled ==> Disabled the qemu-iotests.')
-diff --git a/tests/unit/meson.build b/tests/unit/meson.build
-index 3bc78d8660a4..48ae66011b17 100644
---- a/tests/unit/meson.build
-+++ b/tests/unit/meson.build
-@@ -147,7 +147,7 @@ if have_system
-   # Some tests: test-char, test-qdev-global-props, and test-qga,
-   # are not runnable under TSan due to a known issue.
-   # https://github.com/google/sanitizers/issues/1116
--  if 'CONFIG_TSAN' not in config_host
-+  if not get_option('tsan')
-     if 'CONFIG_POSIX' in config_host
-         tests += {
-           'test-char': ['socket-helpers.c', qom, io, chardev]
 -- 
 2.40.1
 
