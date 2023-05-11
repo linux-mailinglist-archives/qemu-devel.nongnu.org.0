@@ -2,81 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 974026FF367
-	for <lists+qemu-devel@lfdr.de>; Thu, 11 May 2023 15:50:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 605086FF36A
+	for <lists+qemu-devel@lfdr.de>; Thu, 11 May 2023 15:51:20 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1px6gv-0001Z3-GS; Thu, 11 May 2023 09:50:45 -0400
+	id 1px6hC-0001jd-VD; Thu, 11 May 2023 09:51:03 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1px6gn-0001Wt-Ko
- for qemu-devel@nongnu.org; Thu, 11 May 2023 09:50:39 -0400
-Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1px6gj-00009m-DQ
- for qemu-devel@nongnu.org; Thu, 11 May 2023 09:50:35 -0400
-Received: by mail-wm1-x32b.google.com with SMTP id
- 5b1f17b1804b1-3f42d937d61so27783125e9.3
- for <qemu-devel@nongnu.org>; Thu, 11 May 2023 06:50:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1683813032; x=1686405032;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=pvAhG8el9HnDBEjEjTJvbQ+lctDntGbJsfvLRC7yqR8=;
- b=dYxybYXlApBZi8frZzQTvYU0kc5EvbiJklJg0NrTDv0AAitAaKyHeYGietCDCV8DKO
- HK38xCOMBEatVLGgVl8EpCSdkT+Vjb2gmvXFxV9TALKF1eI7cV7pS7JD9eUIWjcEzuTo
- vsGn01MRKg54zG4mpfzH7hNIxtNCwxvXptBiK/0GcInWGrF0pdA/WC8npwfTKImfsuVP
- qx9xowDIQJneCZqqB1vZtlZ1mzA7fpcFIHzLVCa2xY4XzQk88a4XPS8KPAjZMcYlpGjT
- ce7BbszE4y1lNGNyK1vJ9gEFjFkN4ABW6g0/UmOwrJsJXckc0SONT4Luwj2Jr7LvqhBx
- B4zg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683813032; x=1686405032;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=pvAhG8el9HnDBEjEjTJvbQ+lctDntGbJsfvLRC7yqR8=;
- b=e3Ah/FnqX4LcyrBi/Y2rAAfASe+vBWtvyHaJmkvX6WUOy3Xm2cVXjVzt9MjCUwcmO5
- rynCtE0n/gXgaLzN99AmtVsXS6adko6YGNO4kMNbUSa+oKfYeMXnilVXYlo/07COUQ+9
- GkE7f6nCzFsQxQobIHMkRUTtGrBiKHtnUcYh8B32tMVJYUYyMfXK0f9KwqLmZUa83gGA
- /zoDKOUou3xq0/FMvgJvTL6cRN5Y7BdDthgGYl6jSZbtIkg2yLVAcnqaeTAiDLBJa7fn
- Ndagxt9cIyiQSwzNAZc0b+RGwxtR86aXQ5hJ4SiLXCGLng4xQB98akcsAHSx0ZHJtdsC
- bDnw==
-X-Gm-Message-State: AC+VfDyhRghTjCY36+L7+gMNTWDRG9xs8YMPcantRfEeR+8WQ4KJsVCl
- /3TOb7oQq/h0Y9+abaZoSXDNEg==
-X-Google-Smtp-Source: ACHHUZ7rQZBJwdA24GuoHl0swxIl5ucZlIBYo49+ts1Z0UQON6CJEVn9tv8Xq5X5/5ildVGrbTnWPA==
-X-Received: by 2002:a7b:cbd0:0:b0:3f4:ebfb:7413 with SMTP id
- n16-20020a7bcbd0000000b003f4ebfb7413mr1762127wmi.32.1683813031798; 
- Thu, 11 May 2023 06:50:31 -0700 (PDT)
-Received: from [192.168.69.115] ([176.176.152.186])
- by smtp.gmail.com with ESMTPSA id
- w8-20020a1cf608000000b003f18b942338sm25694505wmc.3.2023.05.11.06.50.30
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 11 May 2023 06:50:31 -0700 (PDT)
-Message-ID: <2d36555a-b5c6-ac21-c1d3-a8668a05a7eb@linaro.org>
-Date: Thu, 11 May 2023 15:50:29 +0200
+ (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>)
+ id 1px6h7-0001eU-An; Thu, 11 May 2023 09:50:57 -0400
+Received: from isrv.corpit.ru ([86.62.121.231])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>)
+ id 1px6h5-0000HW-G8; Thu, 11 May 2023 09:50:57 -0400
+Received: from tsrv.corpit.ru (tsrv.tls.msk.ru [192.168.177.2])
+ by isrv.corpit.ru (Postfix) with ESMTP id 5B00C548E;
+ Thu, 11 May 2023 16:50:52 +0300 (MSK)
+Received: from [192.168.177.130] (mjt.wg.tls.msk.ru [192.168.177.130])
+ by tsrv.corpit.ru (Postfix) with ESMTP id 505843E63;
+ Thu, 11 May 2023 16:50:51 +0300 (MSK)
+Message-ID: <5e772a1c-df27-8d5d-21db-8cf021d64b6e@msgid.tls.msk.ru>
+Date: Thu, 11 May 2023 16:50:51 +0300
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.10.1
-Subject: Re: [PATCH 2/3] softmmu/ioport.c: QOMify MemoryRegionPortioList
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH 1/2] linux-user/s390x: Fix single-stepping SVC
 Content-Language: en-US
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, pbonzini@redhat.com,
- qemu-devel@nongnu.org
-References: <20230419151652.362717-1-mark.cave-ayland@ilande.co.uk>
- <20230419151652.362717-3-mark.cave-ayland@ilande.co.uk>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230419151652.362717-3-mark.cave-ayland@ilande.co.uk>
+To: Ilya Leoshkevich <iii@linux.ibm.com>, Laurent Vivier <laurent@vivier.eu>, 
+ Richard Henderson <richard.henderson@linaro.org>,
+ David Hildenbrand <david@redhat.com>, Thomas Huth <thuth@redhat.com>
+Cc: qemu-devel@nongnu.org, qemu-s390x@nongnu.org
+References: <20230510230213.330134-1-iii@linux.ibm.com>
+ <20230510230213.330134-2-iii@linux.ibm.com>
+ <10879612-818e-a1af-5994-56ef84c524cb@msgid.tls.msk.ru>
+ <cfb547465b6b6bd27c75bea8fdc4bb7be3229c93.camel@linux.ibm.com>
+ <d60cbe36-0bc0-b991-6fb7-b942527988f1@msgid.tls.msk.ru>
+ <8c1e5072a92d3160d7f906208e0b9f4c78fdaf84.camel@linux.ibm.com>
+From: Michael Tokarev <mjt@tls.msk.ru>
+In-Reply-To: <8c1e5072a92d3160d7f906208e0b9f4c78fdaf84.camel@linux.ibm.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x32b.google.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.124,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Received-SPF: pass client-ip=86.62.121.231; envelope-from=mjt@tls.msk.ru;
+ helo=isrv.corpit.ru
+X-Spam_score_int: -89
+X-Spam_score: -9.0
+X-Spam_bar: ---------
+X-Spam_report: (-9.0 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.124,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -93,41 +66,30 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 19/4/23 17:16, Mark Cave-Ayland wrote:
-> The aim of QOMification is so that the lifetime of the MemoryRegionPortioList
-> structure can be managed using QOM's in-built refcounting instead of having to
-> handle this manually.
+11.05.2023 16:45, Ilya Leoshkevich wrote:
+>> 11.05.2023 14:20, Ilya Leoshkevich wrote:
+
+>>> While I would personally love to see this in -stable, I don't think it
+>>> fits the official criteria - it's not a security fix and it's not a
+>>> regression.
+
+> Okay, then let's include it into -stable.
 > 
-> Due to the use of an opaque pointer it isn't possible to model the new
-> TYPE_MEMORY_REGION_PORTIO_LIST directly using QOM properties, however since
-> use of the new object is restricted to the portio API we can simply set the
-> opaque pointer (and the heap-allocated port list) internally.
+> It's just that I'm not too familiar with the QEMU -stable process, so
+> I read [1], and it sounded quite strict.
 > 
-> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-> ---
->   softmmu/ioport.c | 25 ++++++++++++++++++++++---
->   1 file changed, 22 insertions(+), 3 deletions(-)
+> [1] https://www.qemu.org/docs/master/devel/stable-process.html
 
+The text there reads:
 
->   static uint64_t unassigned_io_read(void *opaque, hwaddr addr, unsigned size)
->   {
-> @@ -228,7 +233,8 @@ static void portio_list_add_1(PortioList *piolist,
->       unsigned i;
->   
->       /* Copy the sub-list and null-terminate it.  */
-> -    mrpio = g_malloc0(sizeof(MemoryRegionPortioList));
-> +    mrpio = MEMORY_REGION_PORTIO_LIST(
-> +                object_new(TYPE_MEMORY_REGION_PORTIO_LIST));
+    If you think the patch would be important for users of
+    the current release (or for a distribution picking fixes),
+    it is usually a good candidate for stable.
 
-Shouldn't we need to replace the g_free() call by object_unref()
-in portio_list_destroy()?
+:)
 
->       mrpio->portio_opaque = piolist->opaque;
->       mrpio->ports = g_malloc0(sizeof(MemoryRegionPortio) * (count + 1));
->       memcpy(mrpio->ports, pio_init, sizeof(MemoryRegionPortio) * count);
-> @@ -298,3 +304,16 @@ void portio_list_del(PortioList *piolist)
->           memory_region_del_subregion(piolist->address_space, &mrpio->mr);
->       }
->   }
+Please Cc: qemu-stable@nongnu.org the next time you think
+something is good to have there.
 
+/mjt
 
