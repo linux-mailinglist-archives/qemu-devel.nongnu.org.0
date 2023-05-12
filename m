@@ -2,88 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5916A700A2F
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 May 2023 16:20:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E59EA700A42
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 May 2023 16:26:40 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pxTcP-0004yx-62; Fri, 12 May 2023 10:19:37 -0400
+	id 1pxThl-00061s-Mc; Fri, 12 May 2023 10:25:09 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <minhquangbui99@gmail.com>)
- id 1pxTcN-0004yU-6D
- for qemu-devel@nongnu.org; Fri, 12 May 2023 10:19:35 -0400
-Received: from mail-pg1-x52e.google.com ([2607:f8b0:4864:20::52e])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <minhquangbui99@gmail.com>)
- id 1pxTcL-0007fA-8C
- for qemu-devel@nongnu.org; Fri, 12 May 2023 10:19:34 -0400
-Received: by mail-pg1-x52e.google.com with SMTP id
- 41be03b00d2f7-52160f75920so6845268a12.2
- for <qemu-devel@nongnu.org>; Fri, 12 May 2023 07:19:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1683901171; x=1686493171;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=j69QwG+SHmI6eSeAVcOdBRKm2N64c5vfUPxIoSN2zNk=;
- b=ae7wrMrPVEss7s/zki9fhvQqZzYP3Z0tFyp1XyJJ3b5C7BiSZGtD9kNHOQuxp74exi
- Ewz33IvGLdA/IrBu03f/PIguW16d8JEN8VgfZmnFuE5351KXMiOyJ4c/GkrQ8XGPTKyr
- QxzOZg6HvUAA7jbZlE9GWCFA0RxkGiT/03qzTBbllnW+TABcUIHZtl5KTazJHzFNnSvo
- M0dgCwDSz1iW7Skkczhqy8Vvpp9bOOwb22bC9PF6UuxQgLiVTeTaqAOAHim9S5pQP/0J
- fp/J+pHVNpq9McoM5m1nb5h9szoEypQZAQox71mxDfHno54F5Ye4P/AVViliFdwAqCMe
- rOPg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683901171; x=1686493171;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=j69QwG+SHmI6eSeAVcOdBRKm2N64c5vfUPxIoSN2zNk=;
- b=mHMWoOIjk2Swo77g95TPsu9Emvy0B8VS3viOzLHFlLKyGWokzNJ8JURAINsInkycf2
- 3HVn3GjdWqVzJF92Zc+IhFzZBIlp1dJQ0btf3fQWqUorHBKB+sSGnd8SGiHxkPd6Akn5
- /29C4zHwIu2BZaONl0467RBKMb8dUuVoliDDazdXAn4so3amL4+PK+jtKN/lBQBbjUqj
- ay6a57pbKbLIu5gDQgKs850yR1FP7CZEqIxYNgAa5+4gwc/cF57PWKAZlRVZmaQouncr
- 4zED+bK6Iy6I6xo6cuUuPU9G1tAEeTi816V3q6P1ubYb5RuyZWDCZl11DN/1/SR1eXQO
- 1+lA==
-X-Gm-Message-State: AC+VfDxWvI9ekRNf6Mcu0FTmONFRVc/gMhL4xBLpW+bKaEI8+IHrWRU+
- L3MpTxuYO37SnV7HAab/1ZV/yAvJGddaCg==
-X-Google-Smtp-Source: ACHHUZ5z9Av43nRHBoDN8gsuKQvG4B2opB36+4fj+RYtKIVURAJHU9I8p98wtHDSY22aWA3mC4l7Ag==
-X-Received: by 2002:a17:90b:2307:b0:24e:165d:8f65 with SMTP id
- mt7-20020a17090b230700b0024e165d8f65mr24170827pjb.5.1683901169956; 
- Fri, 12 May 2023 07:19:29 -0700 (PDT)
-Received: from [192.168.0.115] ([113.173.119.15])
- by smtp.gmail.com with ESMTPSA id
- l5-20020a17090a408500b0024c1ac09394sm17270046pjg.19.2023.05.12.07.19.26
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 12 May 2023 07:19:29 -0700 (PDT)
-Message-ID: <8697995e-dde9-43ed-f482-7213e9b3f2a9@gmail.com>
-Date: Fri, 12 May 2023 21:19:23 +0700
+ (Exim 4.90_1) (envelope-from <gudkov.andrei@huawei.com>)
+ id 1pxThi-00061c-LU
+ for qemu-devel@nongnu.org; Fri, 12 May 2023 10:25:06 -0400
+Received: from frasgout.his.huawei.com ([185.176.79.56])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <gudkov.andrei@huawei.com>)
+ id 1pxThg-0000Wr-B8
+ for qemu-devel@nongnu.org; Fri, 12 May 2023 10:25:06 -0400
+Received: from lhrpeml500004.china.huawei.com (unknown [172.18.147.226])
+ by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4QHrb72jQgz67G90;
+ Fri, 12 May 2023 22:23:15 +0800 (CST)
+Received: from localhost (10.199.58.101) by lhrpeml500004.china.huawei.com
+ (7.191.163.9) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.23; Fri, 12 May
+ 2023 15:24:56 +0100
+Date: Fri, 12 May 2023 17:24:50 +0300
+To: Markus Armbruster <armbru@redhat.com>
+CC: Andrei Gudkov via <qemu-devel@nongnu.org>, <quintela@redhat.com>,
+ <eblake@redhat.com>, <berrange@redhat.com>, <zhengchuan@huawei.com>,
+ <gudkov.andrei@huawei.com>
+Subject: Re: [PATCH v2 2/4] migration/calc-dirty-rate: detailed stats in
+ sampling mode
+Message-ID: <ZF5MMv3RcvcmCZtG@DESKTOP-0LHM7NF.china.huawei.com>
+References: <cover.1682598010.git.gudkov.andrei@huawei.com>
+ <22436421241c49c9b6d9b9120d166392c40fb991.1682598010.git.gudkov.andrei@huawei.com>
+ <877ctfo0my.fsf@pond.sub.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [REPOST PATCH v3 0/5] Support x2APIC mode with TCG accelerator
-To: qemu-devel@nongnu.org
-Cc: David Woodhouse <dwmw2@infradead.org>, Paolo Bonzini
- <pbonzini@redhat.com>, Richard Henderson <richard.henderson@linaro.org>,
- Eduardo Habkost <eduardo@habkost.net>, "Michael S . Tsirkin"
- <mst@redhat.com>, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Igor Mammedov <imammedo@redhat.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
- <alex.bennee@linaro.org>
-References: <20230411142440.8018-1-minhquangbui99@gmail.com>
-Content-Language: en-US
-From: Bui Quang Minh <minhquangbui99@gmail.com>
-In-Reply-To: <20230411142440.8018-1-minhquangbui99@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52e;
- envelope-from=minhquangbui99@gmail.com; helo=mail-pg1-x52e.google.com
-X-Spam_score_int: -36
-X-Spam_score: -3.7
-X-Spam_bar: ---
-X-Spam_report: (-3.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-1.845,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <877ctfo0my.fsf@pond.sub.org>
+X-Originating-IP: [10.199.58.101]
+X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
+ lhrpeml500004.china.huawei.com (7.191.163.9)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=185.176.79.56;
+ envelope-from=gudkov.andrei@huawei.com; helo=frasgout.his.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -97,116 +64,176 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-to:  <gudkov.andrei@huawei.com>
+From: gudkov.andrei--- via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 4/11/23 21:24, Bui Quang Minh wrote:
-> [Reposting due to broken threading in previous post]
+On Thu, May 11, 2023 at 08:14:29AM +0200, Markus Armbruster wrote:
+> Andrei Gudkov via <qemu-devel@nongnu.org> writes:
 > 
-> Hi everyone,
+> > Collect number of dirty pages for progresseively increasing time
+> > periods starting with 125ms up to number of seconds specified with
+> > calc-dirty-rate. Report through qmp and hmp: 1) vector of dirty page
+> > measurements, 2) page size, 3) total number of VM pages, 4) number
+> > of sampled pages.
+> >
+> > Signed-off-by: Andrei Gudkov <gudkov.andrei@huawei.com>
 > 
-> This series implements x2APIC mode in userspace local APIC and the
-> RDMSR/WRMSR helper to access x2APIC registers in x2APIC mode. Intel iommu
-> and AMD iommu are adjusted to support x2APIC interrupt remapping. With this
-> series, we can now boot Linux kernel into x2APIC mode with TCG accelerator
-> using either Intel or AMD iommu.
+> [...]
 > 
-> Testing the emulated userspace APIC with kvm-unit-tests, disable test
-> device with this patch
+> > diff --git a/qapi/migration.json b/qapi/migration.json
+> > index 2c35b7b9cf..f818f51e0e 100644
+> > --- a/qapi/migration.json
+> > +++ b/qapi/migration.json
+> > @@ -1805,6 +1805,22 @@
+>    ##
+>    # @DirtyRateInfo:
+>    #
+>    # Information about current dirty page rate of vm.
+>    #
+>    # @dirty-rate: an estimate of the dirty page rate of the VM in units
+>    #     of MB/s, present only when estimating the rate has completed.
+>    #
+>    # @status: status containing dirtyrate query status includes
+>    #     'unstarted' or 'measuring' or 'measured'
 > 
-> diff --git a/lib/x86/fwcfg.c b/lib/x86/fwcfg.c
-> index 1734afb..f56fe1c 100644
-> --- a/lib/x86/fwcfg.c
-> +++ b/lib/x86/fwcfg.c
-> @@ -27,6 +27,7 @@ static void read_cfg_override(void)
->   
->          if ((str = getenv("TEST_DEVICE")))
->                  no_test_device = !atol(str);
-> +       no_test_device = true;
->   
->          if ((str = getenv("MEMLIMIT")))
->                  fw_override[FW_CFG_MAX_RAM] = atol(str) * 1024 * 1024;
+> Not this patch's fault, but here goes anyway:
 > 
-> ~ env QEMU=/home/minh/Desktop/oss/qemu/build/qemu-system-x86_64 ACCEL=tcg \
-> ./run_tests.sh -v -g apic
+> 0. "dirtyrate" isn't a word.  Spell it "dirty rate".  Many more
+>    instances elsewhere.
 > 
-> TESTNAME=apic-split TIMEOUT=90s ACCEL=tcg ./x86/run x86/apic.flat -smp 2
-> -cpu qemu64,+x2apic,+tsc-deadline -machine kernel_irqchip=split FAIL
-> apic-split (54 tests, 8 unexpected failures, 1 skipped)
-> TESTNAME=ioapic-split TIMEOUT=90s ACCEL=tcg ./x86/run x86/ioapic.flat -smp
-> 1 -cpu qemu64 -machine kernel_irqchip=split PASS ioapic-split (19 tests)
-> TESTNAME=x2apic TIMEOUT=30 ACCEL=tcg ./x86/run x86/apic.flat -smp 2 -cpu
-> qemu64,+x2apic,+tsc-deadline FAIL x2apic (54 tests, 8 unexpected failures,
-> 1 skipped) TESTNAME=xapic TIMEOUT=60 ACCEL=tcg ./x86/run x86/apic.flat -smp
-> 2 -cpu qemu64,-x2apic,+tsc-deadline -machine pit=off FAIL xapic (43 tests,
-> 6 unexpected failures, 2 skipped)
+> 1. "status containing status"... what has the poor English language done
+>    to us that we torture it so?
 > 
->    FAIL: apic_disable: *0xfee00030: 50014
->    FAIL: apic_disable: *0xfee00080: f0
->    FAIL: apic_disable: *0xfee00030: 50014
->    FAIL: apic_disable: *0xfee00080: f0
->    FAIL: apicbase: relocate apic
+> 2. "includes 'unstarted' or 'measuring' or 'measured' is confusing and
+>    entirely redundant with the type.  @status doesn't "include" these,
+>    these are the possible values, and all of them.
 > 
-> These errors are because we don't disable MMIO region when switching to
-> x2APIC and don't support relocate MMIO region yet. This is a problem
-> because, MMIO region is the same for all CPUs, in order to support these we
-> need to figure out how to allocate and manage different MMIO regions for
-> each CPUs. This can be an improvement in the future.
+> Suggest:
 > 
->    FAIL: nmi-after-sti
->    FAIL: multiple nmi
+>      @status: dirty rate measuring status
 > 
-> These errors are in the way we handle CPU_INTERRUPT_NMI in core TCG.
+> I do understand how difficult writing good English is for non-native
+> speakers.  This is mainly a failure of patch review.
 > 
->    FAIL: TMCCT should stay at zero
+>    #
+>    # @start-time: start time in units of second for calculation
+>    #
+>    # @calc-time: time in units of second for sample dirty pages
+>    #
+>    # @sample-pages: page count per GB for sample dirty pages the default
+>    #     value is 512 (since 6.1)
+>    #
+>    # @mode: mode containing method of calculate dirtyrate includes
+>    #     'page-sampling' and 'dirty-ring' (Since 6.2)
 > 
-> This error is related to APIC timer which should be addressed in separate
-> patch.
+> Still not this patch's fault:
 > 
-> Version 3 changes,
-> - Patch 2:
->    + Allow APIC ID > 255 only when x2APIC feature is supported on CPU
->    + Make physical destination mode IPI which has destination id 0xffffffff
->    a broadcast to xAPIC CPUs
->    + Make cluster address 0xf in cluster model of xAPIC logical destination
->    mode a broadcast to all clusters
->    + Create new extended_log_dest to store APIC_LDR information in x2APIC
->    instead of extending log_dest for backward compatibility in vmstate
+> 1. "mode containing method": more torture :)
 > 
-> Version 2 changes,
-> - Add support for APIC ID larger than 255
-> - Adjust AMD iommu for x2APIC suuport
-> - Reorganize and split patch 1,2 into patch 1,2,3 in version 2
+> 2. "includes 'page-sampling' and 'dirty-ring'" is confusing.
 > 
-> Thanks,
-> Quang Minh.
+>    When it was added in commit 0e21bf24608, it was confusing and
+>    redundant like the text for @status above.
 > 
-> Bui Quang Minh (5):
->    i386/tcg: implement x2APIC registers MSR access
->    apic: add support for x2APIC mode
->    apic, i386/tcg: add x2apic transitions
->    intel_iommu: allow Extended Interrupt Mode when using userspace APIC
->    amd_iommu: report x2APIC support to the operating system
+>    Then commit 826b8bc80cb added value 'dirty-bitmap' without updating
+>    the member doc here.
 > 
->   hw/i386/acpi-build.c                 |  28 +-
->   hw/i386/amd_iommu.c                  |  21 +-
->   hw/i386/amd_iommu.h                  |  16 +-
->   hw/i386/intel_iommu.c                |  11 -
->   hw/i386/x86.c                        |   8 +-
->   hw/intc/apic.c                       | 395 +++++++++++++++++++++------
->   hw/intc/apic_common.c                |  16 +-
->   hw/intc/trace-events                 |   4 +-
->   include/hw/i386/apic.h               |   6 +-
->   include/hw/i386/apic_internal.h      |   7 +-
->   target/i386/cpu-sysemu.c             |  18 +-
->   target/i386/cpu.c                    |   5 +-
->   target/i386/cpu.h                    |   9 +
->   target/i386/tcg/sysemu/misc_helper.c |  31 +++
->   14 files changed, 436 insertions(+), 139 deletions(-)
+> Suggest:
+> 
+>      @mode: dirty rate measuring mode
+> 
+>    #
+>    # @vcpu-dirty-rate: dirtyrate for each vcpu if dirty-ring mode
+>    #     specified (Since 6.2)
+>    #
+> > +# @page-size: page size in bytes (since 8.1)
+> > +#
+> > +# @n-total-pages: [page-sampling] total number of VM pages (since 8.1)
+> > +#
+> > +# @n-sampled-pages: [page-sampling] number of sampled VM pages (since 8.1)
+> > +#
+> > +# @periods: [page-sampling] array of time periods expressed in milliseconds
+> > +#           for which dirty-sample measurements were collected (since 8.1)
+> > +#
+> > +# @n-dirty-pages: [page-sampling] number of pages among all sampled pages
+> > +#                 that were observed as changed during respective time period.
+> > +#                 i-th element of this array corresponds to the i-th element
+> > +#                 of the @periods array, i.e. @n-dirty-pages[i] is the number
+> > +#                 of dirtied pages during period of @periods[i] milliseconds
+> > +#                 after the initiation of calc-dirty-rate (since 8.1)
+> > +#
+> 
+> Changed doc comment conventions landed yesterday (merge commit
+> 568992e3440).  Please format like this:
+> 
+>    # @page-size: page size in bytes (since 8.1)
+>    #
+>    # @n-total-pages: [page-sampling] total number of VM pages (since 8.1)
+>    #
+>    # @n-sampled-pages: [page-sampling] number of sampled VM pages (since
+>    #     8.1)
+>    #
+>    # @n-zero-pages: [page-sampling] number of observed all-zero pages
+>    #     among all sampled pages (since 8.1)
+>    #
+>    # @periods: [page-sampling] array of time periods expressed in
+>    #     milliseconds for which dirty-sample measurements were collected
+>    #     (since 8.1)
+>    #
+>    # @n-dirty-pages: [page-sampling] number of pages among all sampled
+>    #     pages that were observed as changed during respective time
+>    #     period.  i-th element of this array corresponds to the i-th
+>    #     element of the @periods array, i.e. @n-dirty-pages[i] is the
+>    #     number of dirtied pages during period of @periods[i]
+>    #     milliseconds after the initiation of calc-dirty-rate (since 8.1)
+> 
+> The meaning of "[page-sampling]" is unclear.  What are you trying to
+> express?
 
-Hello everyone, I just want to politely ping here. Could you spend some 
-time to review the series?
+There are two different measurements modes: page-sampling and dirty-ring.
+They gather different sets of metrics. All the metrics above are
+available only in page-sampling mode.
 
-Thank you very much,
-Quang Minh.
+> 
+> For better or worse, we try to avoid abbreviations in QMP.  The "n-"
+> prefix is one.  What does it stand for?
+
+This is the number of respective objects. I can replace it with something like
+"sampled-pages-count", "zero-pages-count", etc at the cost of longer names.
+
+> 
+> It's quite unclear how all these numbers relate to each other.  What's
+> the difference between @n-sampled-pages and @sample-pages?  I think
+> we're missing an overview of the dirty rate measurement feature.
+
+This looks like an easy thing to do. I will add some docs to
+@calc-dirty-rate related to page-sampling mode.
+
+> 
+> >  # Since: 5.2
+> >  ##
+> >  { 'struct': 'DirtyRateInfo',
+> > @@ -1814,7 +1830,13 @@
+> >             'calc-time': 'int64',
+> >             'sample-pages': 'uint64',
+> >             'mode': 'DirtyRateMeasureMode',
+> > -           '*vcpu-dirty-rate': [ 'DirtyRateVcpu' ] } }
+> > +           '*vcpu-dirty-rate': [ 'DirtyRateVcpu' ],
+> > +           'page-size': 'int64',
+> 
+> Shouldn't this be of type 'size'?
+> 
+> > +           '*n-total-pages': 'int64',
+> > +           '*n-sampled-pages': 'int64',
+> > +           '*periods': ['int64'],
+> > +           '*n-dirty-pages': ['int64'] } }
+> 
+> 'uint64', like @sample-pages?
+> 
+> > +
+> >  
+> >  ##
+> >  # @calc-dirty-rate:
 
