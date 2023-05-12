@@ -2,57 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 258837004B0
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 May 2023 12:06:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 33C497004AF
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 May 2023 12:06:10 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pxPdk-000660-6K; Fri, 12 May 2023 06:04:44 -0400
+	id 1pxPdl-00066B-Iq; Fri, 12 May 2023 06:04:45 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
- id 1pxPdd-00064z-EL
+ id 1pxPdd-00064v-4C
  for qemu-devel@nongnu.org; Fri, 12 May 2023 06:04:37 -0400
 Received: from mail.loongson.cn ([114.242.206.163] helo=loongson.cn)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <gaosong@loongson.cn>) id 1pxPdZ-00087p-VH
- for qemu-devel@nongnu.org; Fri, 12 May 2023 06:04:37 -0400
+ (envelope-from <gaosong@loongson.cn>) id 1pxPdZ-00087i-8j
+ for qemu-devel@nongnu.org; Fri, 12 May 2023 06:04:36 -0400
 Received: from loongson.cn (unknown [10.2.5.185])
- by gateway (Coremail) with SMTP id _____8CxVPApD15k3hUIAA--.13865S3;
- Fri, 12 May 2023 18:04:25 +0800 (CST)
+ by gateway (Coremail) with SMTP id _____8Cx+ekoD15k3RUIAA--.13792S3;
+ Fri, 12 May 2023 18:04:24 +0800 (CST)
 Received: from localhost.localdomain (unknown [10.2.5.185])
  by localhost.localdomain (Coremail) with SMTP id
- AQAAf8BxLb8mD15k_lFXAA--.23965S4; 
+ AQAAf8BxLb8mD15k_lFXAA--.23965S5; 
  Fri, 12 May 2023 18:04:24 +0800 (CST)
 From: Song Gao <gaosong@loongson.cn>
 To: qemu-devel@nongnu.org
 Cc: richard.henderson@linaro.org, philmd@linaro.org, maobibo@loongson.cn,
  yangxiaojuan@loongson.cn
-Subject: [PATCH v2 2/3] hw/loongarch/virt: Set max 256 cpus support on
- loongarch virt machine
-Date: Fri, 12 May 2023 18:04:20 +0800
-Message-Id: <20230512100421.1867848-3-gaosong@loongson.cn>
+Subject: [PATCH v2 3/3] hw/intc: Add NULL pointer check on LoongArch ipi device
+Date: Fri, 12 May 2023 18:04:21 +0800
+Message-Id: <20230512100421.1867848-4-gaosong@loongson.cn>
 X-Mailer: git-send-email 2.39.1
 In-Reply-To: <20230512100421.1867848-1-gaosong@loongson.cn>
 References: <20230512100421.1867848-1-gaosong@loongson.cn>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf8BxLb8mD15k_lFXAA--.23965S4
+X-CM-TRANSID: AQAAf8BxLb8mD15k_lFXAA--.23965S5
 X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
-X-Coremail-Antispam: 1Uk129KBjvJXoWxtF17tFyxXFyDAr1DtFWDJwb_yoW7Cw4fpr
- yDCr95Wr4UJFs7Ww4qga43Zr1DXFs3ury29FyakFZakF1DCryUZ3yktr9xXFyrCayktryq
- vF93Cw12g3WDAw7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
+X-Coremail-Antispam: 1Uk129KBjvJXoWxGw1kZF4DZF43XFy5Xr1xAFb_yoW5Cr1Dpr
+ 9F9wnIqr18tFZrXas5J34UXF15Jr4xW342yF43K34Fyr4kurykWFWrt3srZFn8C34rJFyY
+ vwn7Ar4jg3W7Xa7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
  qI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUIcSsGvfJTRUUU
  bn8Fc2x0x2IEx4CE42xK8VAvwI8IcIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4
- AK67xGY2AK021l84ACjcxK6xIIjxv20xvE14v26r4j6ryUM28EF7xvwVC0I7IYx2IY6xkF
+ AK67xGY2AK021l84ACjcxK6xIIjxv20xvE14v26r1I6r4UM28EF7xvwVC0I7IYx2IY6xkF
  7I0E14v26r4j6F4UM28EF7xvwVC2z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIEc7
  CjxVAFwI0_Cr1j6rxdM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12xvs2x26I8E
  6xACxx1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6x8ErcxFaVAv8VWrMcvjeVCFs4IE7x
  kEbVWUJVW8JwACjcxG0xvY0x0EwIxGrwCF04k20xvY0x0EwIxGrwCF04k20xvE74AGY7Cv
  6cx26rWl4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x
  8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r126r1DMIIYrxkI7VAKI48JMIIF0xvE
- 2Ix0cI8IcVAFwI0_JFI_Gr1lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42
+ 2Ix0cI8IcVAFwI0_JFI_Gr1lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42
  xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVW8JVWxJwCI42IY6I8E87Iv6xkF
  7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvj4RC_MaUUUUU
 Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
@@ -77,132 +75,108 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Add separate macro EXTIOI_CPUS for extioi interrupt controller, extioi
-only supports 4 cpu. And set macro LOONGARCH_MAX_CPUS as 256 so that
-loongarch virt machine supports more cpus.
+When ipi mailbox is used, cpu_index is decoded from iocsr register.
+cpu maybe does not exist. This patch adss NULL pointer check on
+ipi device.
 
-Interrupts from external devices can only be routed cpu 0-3 because
-of extioi limits, cpu internal interrupt such as timer/ipi can be
-triggered on all cpus.
-
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Song Gao <gaosong@loongson.cn>
 ---
- hw/intc/loongarch_extioi.c         |  4 ++--
- hw/loongarch/virt.c                | 13 +++++++++----
- include/hw/intc/loongarch_extioi.h | 10 ++++++----
- include/hw/loongarch/virt.h        |  2 +-
- 4 files changed, 18 insertions(+), 11 deletions(-)
+ hw/intc/loongarch_ipi.c | 40 +++++++++++++++++++++++++++++-----------
+ hw/intc/trace-events    |  1 +
+ 2 files changed, 30 insertions(+), 11 deletions(-)
 
-diff --git a/hw/intc/loongarch_extioi.c b/hw/intc/loongarch_extioi.c
-index 4b8ec3f28a..0e7a3e32f3 100644
---- a/hw/intc/loongarch_extioi.c
-+++ b/hw/intc/loongarch_extioi.c
-@@ -254,7 +254,7 @@ static const VMStateDescription vmstate_loongarch_extioi = {
-     .minimum_version_id = 1,
-     .fields = (VMStateField[]) {
-         VMSTATE_UINT32_ARRAY(bounce, LoongArchExtIOI, EXTIOI_IRQS_GROUP_COUNT),
--        VMSTATE_UINT32_2DARRAY(coreisr, LoongArchExtIOI, LOONGARCH_MAX_VCPUS,
-+        VMSTATE_UINT32_2DARRAY(coreisr, LoongArchExtIOI, EXTIOI_CPUS,
-                                EXTIOI_IRQS_GROUP_COUNT),
-         VMSTATE_UINT32_ARRAY(nodetype, LoongArchExtIOI,
-                              EXTIOI_IRQS_NODETYPE_COUNT / 2),
-@@ -281,7 +281,7 @@ static void loongarch_extioi_instance_init(Object *obj)
+diff --git a/hw/intc/loongarch_ipi.c b/hw/intc/loongarch_ipi.c
+index 054e143842..d6ab91721e 100644
+--- a/hw/intc/loongarch_ipi.c
++++ b/hw/intc/loongarch_ipi.c
+@@ -77,31 +77,42 @@ static void send_ipi_data(CPULoongArchState *env, uint64_t val, hwaddr addr)
  
-     qdev_init_gpio_in(DEVICE(obj), extioi_setirq, EXTIOI_IRQS);
+ static void ipi_send(uint64_t val)
+ {
+-    int cpuid, data;
++    uint32_t cpuid;
++    uint8_t vector;
+     CPULoongArchState *env;
+     CPUState *cs;
+     LoongArchCPU *cpu;
  
--    for (cpu = 0; cpu < LOONGARCH_MAX_VCPUS; cpu++) {
-+    for (cpu = 0; cpu < EXTIOI_CPUS; cpu++) {
-         memory_region_init_io(&s->extioi_iocsr_mem[cpu], OBJECT(s), &extioi_ops,
-                               s, "extioi_iocsr", 0x900);
-         sysbus_init_mmio(SYS_BUS_DEVICE(dev), &s->extioi_iocsr_mem[cpu]);
-diff --git a/hw/loongarch/virt.c b/hw/loongarch/virt.c
-index c8a01b1fb6..2b7588e32a 100644
---- a/hw/loongarch/virt.c
-+++ b/hw/loongarch/virt.c
-@@ -607,8 +607,13 @@ static void loongarch_irq_init(LoongArchMachineState *lams)
-         memory_region_add_subregion(&env->system_iocsr, MAIL_SEND_ADDR,
-                                     sysbus_mmio_get_region(SYS_BUS_DEVICE(ipi),
-                                     1));
--        /* extioi iocsr memory region */
--        memory_region_add_subregion(&env->system_iocsr, APIC_BASE,
-+        /*
-+	 * extioi iocsr memory region
-+	 * only one extioi is added on loongarch virt machine
-+	 * external device interrupt can only be routed to cpu 0-3
-+	 */
-+	if (cpu < EXTIOI_CPUS)
-+            memory_region_add_subregion(&env->system_iocsr, APIC_BASE,
-                                 sysbus_mmio_get_region(SYS_BUS_DEVICE(extioi),
-                                 cpu));
-     }
-@@ -617,7 +622,7 @@ static void loongarch_irq_init(LoongArchMachineState *lams)
-      * connect ext irq to the cpu irq
-      * cpu_pin[9:2] <= intc_pin[7:0]
-      */
--    for (cpu = 0; cpu < ms->smp.cpus; cpu++) {
-+    for (cpu = 0; cpu < MIN(ms->smp.cpus, EXTIOI_CPUS); cpu++) {
-         cpudev = DEVICE(qemu_get_cpu(cpu));
-         for (pin = 0; pin < LS3A_INTC_IP; pin++) {
-             qdev_connect_gpio_out(extioi, (cpu * 8 + pin),
-@@ -1026,7 +1031,7 @@ static void loongarch_class_init(ObjectClass *oc, void *data)
-     mc->default_ram_size = 1 * GiB;
-     mc->default_cpu_type = LOONGARCH_CPU_TYPE_NAME("la464");
-     mc->default_ram_id = "loongarch.ram";
--    mc->max_cpus = LOONGARCH_MAX_VCPUS;
-+    mc->max_cpus = LOONGARCH_MAX_CPUS;
-     mc->is_default = 1;
-     mc->default_kernel_irqchip_split = false;
-     mc->block_default_type = IF_VIRTIO;
-diff --git a/include/hw/intc/loongarch_extioi.h b/include/hw/intc/loongarch_extioi.h
-index 15b8c999f6..fbdef9a7b3 100644
---- a/include/hw/intc/loongarch_extioi.h
-+++ b/include/hw/intc/loongarch_extioi.h
-@@ -14,6 +14,8 @@
- #define LS3A_INTC_IP               8
- #define EXTIOI_IRQS                (256)
- #define EXTIOI_IRQS_BITMAP_SIZE    (256 / 8)
-+/* irq from EXTIOI is routed to no more than 4 cpus */
-+#define EXTIOI_CPUS                (4)
- /* map to ipnum per 32 irqs */
- #define EXTIOI_IRQS_IPMAP_SIZE     (256 / 32)
- #define EXTIOI_IRQS_COREMAP_SIZE   256
-@@ -46,17 +48,17 @@ struct LoongArchExtIOI {
-     uint32_t nodetype[EXTIOI_IRQS_NODETYPE_COUNT / 2];
-     uint32_t bounce[EXTIOI_IRQS_GROUP_COUNT];
-     uint32_t isr[EXTIOI_IRQS / 32];
--    uint32_t coreisr[LOONGARCH_MAX_VCPUS][EXTIOI_IRQS_GROUP_COUNT];
-+    uint32_t coreisr[EXTIOI_CPUS][EXTIOI_IRQS_GROUP_COUNT];
-     uint32_t enable[EXTIOI_IRQS / 32];
-     uint32_t ipmap[EXTIOI_IRQS_IPMAP_SIZE / 4];
-     uint32_t coremap[EXTIOI_IRQS / 4];
-     uint32_t sw_pending[EXTIOI_IRQS / 32];
--    DECLARE_BITMAP(sw_isr[LOONGARCH_MAX_VCPUS][LS3A_INTC_IP], EXTIOI_IRQS);
-+    DECLARE_BITMAP(sw_isr[EXTIOI_CPUS][LS3A_INTC_IP], EXTIOI_IRQS);
-     uint8_t  sw_ipmap[EXTIOI_IRQS_IPMAP_SIZE];
-     uint8_t  sw_coremap[EXTIOI_IRQS];
--    qemu_irq parent_irq[LOONGARCH_MAX_VCPUS][LS3A_INTC_IP];
-+    qemu_irq parent_irq[EXTIOI_CPUS][LS3A_INTC_IP];
-     qemu_irq irq[EXTIOI_IRQS];
--    MemoryRegion extioi_iocsr_mem[LOONGARCH_MAX_VCPUS];
-+    MemoryRegion extioi_iocsr_mem[EXTIOI_CPUS];
-     MemoryRegion extioi_system_mem;
- };
- #endif /* LOONGARCH_EXTIOI_H */
-diff --git a/include/hw/loongarch/virt.h b/include/hw/loongarch/virt.h
-index 54a9f595bb..f1659655c6 100644
---- a/include/hw/loongarch/virt.h
-+++ b/include/hw/loongarch/virt.h
-@@ -14,7 +14,7 @@
- #include "hw/intc/loongarch_ipi.h"
- #include "hw/block/flash.h"
+-    cpuid = (val >> 16) & 0x3ff;
++    cpuid = extract32(val, 16, 10);
++    if (cpuid >= LOONGARCH_MAX_CPUS) {
++        trace_loongarch_ipi_unsupported_cpuid("IOCSR_IPI_SEND", cpuid);
++        return;
++    }
++
+     /* IPI status vector */
+-    data = 1 << (val & 0x1f);
++    vector = extract8(val, 0, 5);
++
+     cs = qemu_get_cpu(cpuid);
+     cpu = LOONGARCH_CPU(cs);
+     env = &cpu->env;
+     address_space_stl(&env->address_space_iocsr, 0x1008,
+-                      data, MEMTXATTRS_UNSPECIFIED, NULL);
+-
++                      BIT(vector), MEMTXATTRS_UNSPECIFIED, NULL);
+ }
  
--#define LOONGARCH_MAX_VCPUS     4
-+#define LOONGARCH_MAX_CPUS      256
+ static void mail_send(uint64_t val)
+ {
+-    int cpuid;
++    uint32_t cpuid;
+     hwaddr addr;
+     CPULoongArchState *env;
+     CPUState *cs;
+     LoongArchCPU *cpu;
  
- #define VIRT_ISA_IO_BASE        0x18000000UL
- #define VIRT_ISA_IO_SIZE        0x0004000
+-    cpuid = (val >> 16) & 0x3ff;
++    cpuid = extract32(val, 16, 10);
++    if (cpuid >= LOONGARCH_MAX_CPUS) {
++        trace_loongarch_ipi_unsupported_cpuid("IOCSR_MAIL_SEND", cpuid);
++        return;
++    }
++
+     addr = 0x1020 + (val & 0x1c);
+     cs = qemu_get_cpu(cpuid);
+     cpu = LOONGARCH_CPU(cs);
+@@ -111,14 +122,21 @@ static void mail_send(uint64_t val)
+ 
+ static void any_send(uint64_t val)
+ {
+-    int cpuid;
++    uint32_t cpuid;
+     hwaddr addr;
+     CPULoongArchState *env;
++    CPUState *cs;
++    LoongArchCPU *cpu;
++
++    cpuid = extract32(val, 16, 10);
++    if (cpuid >= LOONGARCH_MAX_CPUS) {
++        trace_loongarch_ipi_unsupported_cpuid("IOCSR_ANY_SEND", cpuid);
++        return;
++    }
+ 
+-    cpuid = (val >> 16) & 0x3ff;
+     addr = val & 0xffff;
+-    CPUState *cs = qemu_get_cpu(cpuid);
+-    LoongArchCPU *cpu = LOONGARCH_CPU(cs);
++    cs = qemu_get_cpu(cpuid);
++    cpu = LOONGARCH_CPU(cs);
+     env = &cpu->env;
+     send_ipi_data(env, val, addr);
+ }
+diff --git a/hw/intc/trace-events b/hw/intc/trace-events
+index 50cadfb996..5c6094c457 100644
+--- a/hw/intc/trace-events
++++ b/hw/intc/trace-events
+@@ -292,6 +292,7 @@ sh_intc_set(int id, int enable) "setting interrupt group %d to %d"
+ # loongarch_ipi.c
+ loongarch_ipi_read(unsigned size, uint64_t addr, uint64_t val) "size: %u addr: 0x%"PRIx64 "val: 0x%"PRIx64
+ loongarch_ipi_write(unsigned size, uint64_t addr, uint64_t val) "size: %u addr: 0x%"PRIx64 "val: 0x%"PRIx64
++loongarch_ipi_unsupported_cpuid(const char *s, uint32_t cpuid) "%s unsupported cpuid 0x%" PRIx32
+ 
+ # loongarch_pch_pic.c
+ loongarch_pch_pic_irq_handler(int irq, int level) "irq %d level %d"
 -- 
 2.39.1
 
