@@ -2,108 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26C7B6FFDAC
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 May 2023 02:10:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F58C6FFEBF
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 May 2023 04:12:03 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pxGLv-0006d9-Lg; Thu, 11 May 2023 20:09:43 -0400
+	id 1pxIF4-0004gm-P3; Thu, 11 May 2023 22:10:46 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pasic@linux.ibm.com>)
- id 1pxGLt-0006cx-EU
- for qemu-devel@nongnu.org; Thu, 11 May 2023 20:09:41 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1pxIF2-0004gO-9E
+ for qemu-devel@nongnu.org; Thu, 11 May 2023 22:10:44 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pasic@linux.ibm.com>)
- id 1pxGLr-0004D7-If
- for qemu-devel@nongnu.org; Thu, 11 May 2023 20:09:41 -0400
-Received: from pps.filterd (m0353722.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 34C09Siu022814
- for <qemu-devel@nongnu.org>; Fri, 12 May 2023 00:09:38 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=date : from : to : cc :
- subject : message-id : in-reply-to : references : mime-version :
- content-type : content-transfer-encoding; s=pp1;
- bh=kLB0mBfcgiOXfxx+WTtYGcl/nAt481KQC85CP2CSKGs=;
- b=La30aNbq+FnMJRK0bSmKH/wTIAXhB6l6KApadBW/ejV5VKXhxkafVGCie6rrTHH0Jjkb
- 5BUDBbjE79O0uTpt/VsXu73N0ARk4LPK7xpB7JG5jf+3k1JPTJ8MJXM7aKFKvnZDlRAy
- DP0y7BA7QxeDpFZ0UN/quXAEp7YJygMhhLWaYdsEwHa7ARMwf1sfu9Ks3XxD2OshNidV
- wbtsoFRZl0T35sDlcpWdcjKcdwXd/RX8I78GfCtPgUGoNJmV7TcqB4gbRg2tH9r1Uthd
- JtxmY/clEDuKSuZF3isodSvhhGDiau7wVz/Nng9RURp/NuRTtWWN3HGw0EN4ZlEqcVjB Hg== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3qh8cybrxw-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Fri, 12 May 2023 00:09:37 +0000
-Received: from m0353722.ppops.net (m0353722.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 34C09aVA023455
- for <qemu-devel@nongnu.org>; Fri, 12 May 2023 00:09:36 GMT
-Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.102])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3qh8cybrt8-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 12 May 2023 00:09:35 +0000
-Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
- by ppma06ams.nl.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 34BNaDC8027300;
- Fri, 12 May 2023 00:05:24 GMT
-Received: from smtprelay03.fra02v.mail.ibm.com ([9.218.2.224])
- by ppma06ams.nl.ibm.com (PPS) with ESMTPS id 3qf896t0qy-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 12 May 2023 00:05:24 +0000
-Received: from smtpav07.fra02v.mail.ibm.com (smtpav07.fra02v.mail.ibm.com
- [10.20.54.106])
- by smtprelay03.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 34C05MRS43385144
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 12 May 2023 00:05:22 GMT
-Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 0BFE52004D;
- Fri, 12 May 2023 00:05:22 +0000 (GMT)
-Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id B14E120040;
- Fri, 12 May 2023 00:05:21 +0000 (GMT)
-Received: from li-ce58cfcc-320b-11b2-a85c-85e19b5285e0 (unknown [9.179.0.234])
- by smtpav07.fra02v.mail.ibm.com (Postfix) with SMTP;
- Fri, 12 May 2023 00:05:21 +0000 (GMT)
-Date: Fri, 12 May 2023 02:05:19 +0200
-From: Halil Pasic <pasic@linux.ibm.com>
-To: Markus Armbruster <armbru@redhat.com>
-Cc: Cornelia Huck <cohuck@redhat.com>, qemu-devel@nongnu.org, Halil Pasic
- <pasic@linux.ibm.com>
-Subject: Re: css_clear_io_interrupt() error handling
-Message-ID: <20230512020519.6dab1a81.pasic@linux.ibm.com>
-In-Reply-To: <87r0rnjbz0.fsf@pond.sub.org>
-References: <87fs87ny6e.fsf@pond.sub.org> <873547dwn0.fsf@redhat.com>
- <20230509193637.678780aa.pasic@linux.ibm.com>
- <874jokae8j.fsf@pond.sub.org>
- <20230511034355.0b916dcb.pasic@linux.ibm.com>
- <87r0rnjbz0.fsf@pond.sub.org>
-Organization: IBM
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1pxIF0-0000MB-5J
+ for qemu-devel@nongnu.org; Thu, 11 May 2023 22:10:44 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1683857438;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=/d9kzZlL/zr+sUwUhEjhX9iE91LRsMo01o8kX+1+bl4=;
+ b=daT7ar7bVmsGRzj+ZT7R0/kGxpJh8unouUXgXIXVckyEyzzoZb2WAmtSkitEJhnqCh4HgO
+ CvoGuu/5iOnaLyyvBAZjAO0W5S1K7yFyGnOWfZeeg7Vf1fTbg8qW1zSYvnG6qz6Wu8Ooe9
+ 21Tcl40HzU/AfLnVb4xH+iD+1YScpyo=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-643-vxVpEq7SO1qzDS2FAOb4lQ-1; Thu, 11 May 2023 22:10:35 -0400
+X-MC-Unique: vxVpEq7SO1qzDS2FAOb4lQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.4])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D82BA8037A8;
+ Fri, 12 May 2023 02:10:34 +0000 (UTC)
+Received: from green.redhat.com (unknown [10.2.16.49])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6C9C82026D16;
+ Fri, 12 May 2023 02:10:34 +0000 (UTC)
+From: Eric Blake <eblake@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: hreitz@redhat.com,
+	armbru@redhat.com,
+	richard.henderson@linaro.org
+Subject: [PATCH v2 00/19] Fix qemu_strtosz() read-out-of-bounds
+Date: Thu, 11 May 2023 21:10:14 -0500
+Message-Id: <20230512021033.1378730-1-eblake@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-type: text/plain
 Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: IF_7C4fGP8DfzbUe_kq44UVG_LuBccNk
-X-Proofpoint-ORIG-GUID: qm5lkBJIDUPQL4-Q2Qy5zkTIG3sG1CEP
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-05-11_19,2023-05-05_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxlogscore=725 clxscore=1015
- impostorscore=0 suspectscore=0 malwarescore=0 mlxscore=0 adultscore=0
- spamscore=0 lowpriorityscore=0 priorityscore=1501 phishscore=0 bulkscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2304280000
- definitions=main-2305110205
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=pasic@linux.ibm.com;
- helo=mx0b-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=eblake@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -120,53 +75,80 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, 11 May 2023 14:20:51 +0200
-Markus Armbruster <armbru@redhat.com> wrote:
-[..]
-> >
-> > In my opinion the best way to deal with such situations would be to
-> > abort() in test/development and log a warning in production. Of course  
-> 
-> Understand, but...
-> 
-> > assert() wouldn't give me that, and it wouldn't be locally consistent at
-> > all.  
-> 
-> ... nothing behaves like that so far.
-> 
+v1 was here:
+https://lists.gnu.org/archive/html/qemu-devel/2023-05/msg01988.html
 
-I understand. And I agree with all statements from your previous mail. 
+since then:
+- make parse_uint easier to use, then use it in qemu_strtosz
+- add even more unit tests
+- fix a bug in qemu_strtoui
+- avoid dereferencing randome memory during unit tests [Hanna]
+- other cleanups as I found them
+- compress the strtosz unit tests (the major cause of the large
+  interdiff statistics)
 
-> Let's try to come to a conclusion.  We can either keep the current
-> behavior, i.e. abort().  Or we change it to just print something.
-> 
-> If we want the latter: fprintf() to stderr, warn_report(), or trace
-> point?
-> 
-> You are the maintainer, so the decision is yours.
-> 
-> I could stick a patch into a series of error-related cleanup patches I'm
-> working on.
+backport-diff looks like:
 
-I would gladly take that offer. Given that we didn't see any crashes and
-thus violations of assumptions up till now, and that both the kvm and the
-qemu implementations are from my perspective stable, I think not forcing
-a crash is a good option. From the options you offered, warn_report()
-looks the most compelling to me, but I would trust your expertise to pick
-the actually best one.
+001/19:[----] [--] 'test-cutils: Avoid g_assert in unit tests'
+002/19:[----] [--] 'test-cutils: Use g_assert_cmpuint where appropriate'
+003/19:[----] [--] 'test-cutils: Test integral qemu_strto* value on failures'
+004/19:[down] 'test-cutils: Test more integer corner cases'
+005/19:[down] 'cutils: Fix wraparound parsing in qemu_strtoui'
+006/19:[down] 'cutils: Document differences between parse_uint and qemu_strtou64'
+007/19:[down] 'cutils: Adjust signature of parse_uint[_full]'
+008/19:[down] 'cutils: Allow NULL endptr in parse_uint()'
+009/19:[0147] [FC] 'test-cutils: Add coverage of qemu_strtod'
+010/19:[----] [--] 'test-cutils: Prepare for upcoming semantic change in qemu_strtosz'
+011/19:[down] 'test-cutils: Refactor qemu_strtosz tests for less boilerplate'
+012/19:[down] 'cutils: Allow NULL str in qemu_strtosz'
+013/19:[----] [--] 'numa: Check for qemu_strtosz_MiB error'
+014/19:[down] 'test-cutils: Add more coverage to qemu_strtosz11;rgb:1e1e/1e1e/1e1e'
+015/19:[0178] [FC] 'cutils: Set value in all qemu_strtosz* error paths'
+016/19:[----] [--] 'cutils: Set value in all integral qemu_strto* error paths'
+017/19:[down] 'cutils: Use parse_uint in qemu_strtosz for negative rejection'
+018/19:[0018] [FC] 'cutils: Improve qemu_strtod* error paths'
+019/19:[0107] [FC] 'cutils: Improve qemu_strtosz handling of fractions'
 
-Thank you very much.
 
-> 
-> 
-> [*] I'm rather fond of the trick to have oopsie() fork & crash.
+Eric Blake (19):
+  test-cutils: Avoid g_assert in unit tests
+  test-cutils: Use g_assert_cmpuint where appropriate
+  test-cutils: Test integral qemu_strto* value on failures
+  test-cutils: Test more integer corner cases
+  cutils: Fix wraparound parsing in qemu_strtoui
+  cutils: Document differences between parse_uint and qemu_strtou64
+  cutils: Adjust signature of parse_uint[_full]
+  cutils: Allow NULL endptr in parse_uint()
+  test-cutils: Add coverage of qemu_strtod
+  test-cutils: Prepare for upcoming semantic change in qemu_strtosz
+  test-cutils: Refactor qemu_strtosz tests for less boilerplate
+  cutils: Allow NULL str in qemu_strtosz
+  numa: Check for qemu_strtosz_MiB error
+  test-cutils: Add more coverage to qemu_strtosz11;rgb:1e1e/1e1e/1e1e
+  cutils: Set value in all qemu_strtosz* error paths
+  cutils: Set value in all integral qemu_strto* error paths
+  cutils: Use parse_uint in qemu_strtosz for negative rejection
+  cutils: Improve qemu_strtod* error paths
+  cutils: Improve qemu_strtosz handling of fractions
 
-I never thought of this, but I do actually find it very compelling
-to get a dump while keeping the workload alive. Especially if
-it was oopsie_once() so one does not get buried in dumps. But we don't
-do things like this in QEMU, or do we?
+ include/qemu/cutils.h         |    5 +-
+ audio/audio_legacy.c          |    4 +-
+ block/gluster.c               |    4 +-
+ block/nfs.c                   |    4 +-
+ blockdev.c                    |    4 +-
+ contrib/ivshmem-server/main.c |    4 +-
+ hw/core/numa.c                |   11 +-
+ qapi/opts-visitor.c           |   10 +-
+ tests/unit/test-cutils.c      | 2340 ++++++++++++++++++++++++---------
+ ui/vnc.c                      |    4 +-
+ util/cutils.c                 |  251 ++--
+ util/guest-random.c           |    4 +-
+ util/qemu-sockets.c           |   10 +-
+ 13 files changed, 1891 insertions(+), 764 deletions(-)
 
-Regards,
-Halil
+
+base-commit: 278238505d28d292927bff7683f39fb4fbca7fd1
+-- 
+2.40.1
 
 
