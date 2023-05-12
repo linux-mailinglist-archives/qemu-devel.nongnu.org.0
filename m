@@ -2,87 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3162E700CAA
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 May 2023 18:13:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 11942700CB0
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 May 2023 18:13:42 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pxVN5-0004Sz-EM; Fri, 12 May 2023 12:11:55 -0400
+	id 1pxVOI-0005K7-Ej; Fri, 12 May 2023 12:13:10 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcin.juszkiewicz@linaro.org>)
- id 1pxVN3-0004Sa-KJ
- for qemu-devel@nongnu.org; Fri, 12 May 2023 12:11:53 -0400
-Received: from mail-lj1-x22f.google.com ([2a00:1450:4864:20::22f])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <marcin.juszkiewicz@linaro.org>)
- id 1pxVN1-0004HP-PS
- for qemu-devel@nongnu.org; Fri, 12 May 2023 12:11:53 -0400
-Received: by mail-lj1-x22f.google.com with SMTP id
- 38308e7fff4ca-2ac82c08542so103453181fa.2
- for <qemu-devel@nongnu.org>; Fri, 12 May 2023 09:11:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1683907909; x=1686499909;
- h=content-transfer-encoding:in-reply-to:organization:from:references
- :cc:to:content-language:subject:user-agent:mime-version:date
- :message-id:from:to:cc:subject:date:message-id:reply-to;
- bh=LmMqtvpuVvsWNXvq79fqeCWxYOr+Z5E/6xkLNQol2P8=;
- b=gbXNPyOez+mFTXdml0PY5UHLzaqNPOC4xiwuN9w3yGprfBsIVmUwVNFuegHnTLwRs8
- rfxtrmR2VAi+sMO6vVlh5OPTs4TSD1Z4tw2SuH5UoMB/v3rgFFPQYSsNx8BVS71+bRzQ
- 640OcuYqzQzL8lq7PzJWqoDYs6H9eIPB39bAOPoay6W0blupmNiJPrweYVgYfLzXTAZI
- mJcAcP/0/JRaGeEPQxFxa/MBNStVVQHVdRtlgoSZFPh8+QJpWlyCoFIGmdnUIckK83ub
- ANnqvEkAKIlIYN0opcMWE2ozvMt0S5HVol8+VSUrAjioDphN88qzO7BKWXRJ1CuBjqnU
- 5wPQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683907909; x=1686499909;
- h=content-transfer-encoding:in-reply-to:organization:from:references
- :cc:to:content-language:subject:user-agent:mime-version:date
- :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=LmMqtvpuVvsWNXvq79fqeCWxYOr+Z5E/6xkLNQol2P8=;
- b=MTaijQFojQVzSIFxxBlpnnuqGD+78f/wQCuLHzisCFdMwdPqNlLPBhi16tdhKBg04n
- o62U4lp+v5oBcdZoY8Raxn5uzz/UXD5brBv2TG3B4OlLcWdxJldrItCnd5hhoANJhmSD
- jjbqWGQ92W47mI/VEMAnUfF/clVz/ZC+8KfHGE4gIlb4FnrbFOmZ8JL+lr6Gy7/4nbqR
- B3bO38TKLuqgLqcrsvMmQBbMTZzBQXVshtHhCV4T5/BjrPx9o+uN94s4fRD2yTbV4tAq
- AL23Yjf7OJ/rP/0EJ5wjUbdFxYzFWwzzhvQLlT1wAi9bP/kt+gstQDIPbqQPX5g27C4j
- jo1Q==
-X-Gm-Message-State: AC+VfDzntBMrRCnEyw+ruK3Rl66aREnDAhZHnwxZ8tcnYfMFeHREjavS
- AioTzCegdzoRIhjgTdmz/thKlw==
-X-Google-Smtp-Source: ACHHUZ451WNmM/ZPLVMjoqGd/Ngf6iuC/3Ln/P+tzLq/lk1caAUcX5KV+wGeIRxXjEj03DCaCFN1wA==
-X-Received: by 2002:a2e:9bd7:0:b0:2a8:ea1e:bde9 with SMTP id
- w23-20020a2e9bd7000000b002a8ea1ebde9mr4819461ljj.45.1683907909725; 
- Fri, 12 May 2023 09:11:49 -0700 (PDT)
-Received: from [192.168.200.206] (83.11.34.59.ipv4.supernova.orange.pl.
- [83.11.34.59]) by smtp.gmail.com with ESMTPSA id
- i1-20020a056512006100b004f148aa91f9sm1526337lfo.286.2023.05.12.09.11.48
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 12 May 2023 09:11:49 -0700 (PDT)
-Message-ID: <b85b70da-f5d6-c067-cb26-3af7d1ac1862@linaro.org>
-Date: Fri, 12 May 2023 18:11:48 +0200
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1pxVOF-0005JY-Cd
+ for qemu-devel@nongnu.org; Fri, 12 May 2023 12:13:07 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1pxVOC-0004QJ-4b
+ for qemu-devel@nongnu.org; Fri, 12 May 2023 12:13:07 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1683907976;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=sVfWRyqygSVwlvJIgXPLcFzZnf8QsQAjlTJogcuL7bY=;
+ b=XFLc5FBoNT7dQHos6m7b37ko7vXUu6L2uV+c5Po2z9ZpRgYPNUmdPB8Mluts4yVzydsulK
+ HUPdnpt27Kh07HaQbBeeMgCH4ehavMYLqI7BveVKDe+lLCU5ALlKrZTF2WtY6/m6M3vdjl
+ OHOE2mEkbkJk8KFRLd9E2H6JQ9rNyiY=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-404-ZlFlPLOxM9qCV9ivwIghcw-1; Fri, 12 May 2023 12:12:53 -0400
+X-MC-Unique: ZlFlPLOxM9qCV9ivwIghcw-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.10])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1CE593801F73;
+ Fri, 12 May 2023 16:12:53 +0000 (UTC)
+Received: from redhat.com (unknown [10.2.16.49])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5369F492C13;
+ Fri, 12 May 2023 16:12:52 +0000 (UTC)
+Date: Fri, 12 May 2023 11:12:50 -0500
+From: Eric Blake <eblake@redhat.com>
+To: Kevin Wolf <kwolf@redhat.com>
+Cc: qemu-block@nongnu.org, hreitz@redhat.com, stefanha@redhat.com, 
+ f.ebner@proxmox.com, qemu-devel@nongnu.org
+Subject: Re: [PATCH 1/8] block: Call .bdrv_co_create(_opts) unlocked
+Message-ID: <lqumtxeofbejjvf5f45zf5ywdrae2wckhgwrud5ggly4jganfz@sbb23gf53wbg>
+References: <20230510203601.418015-1-kwolf@redhat.com>
+ <20230510203601.418015-2-kwolf@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH] sbsa-ref: switch default cpu core to Neoverse-N1
-Content-Language: pl-PL, en-GB, en-HK
-To: Leif Lindholm <quic_llindhol@quicinc.com>,
- Peter Maydell <peter.maydell@linaro.org>
-Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org
-References: <20230506183417.1360427-1-marcin.juszkiewicz@linaro.org>
- <CAFEAcA-d2_3xXMNwMG+-WOw=y=zandSM24-GfcJ8s=3etqACcQ@mail.gmail.com>
- <88e30a90-71c3-0ded-8412-0f3af6ec3b37@quicinc.com>
-From: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
-Organization: Linaro
-In-Reply-To: <88e30a90-71c3-0ded-8412-0f3af6ec3b37@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::22f;
- envelope-from=marcin.juszkiewicz@linaro.org; helo=mail-lj1-x22f.google.com
-X-Spam_score_int: -39
-X-Spam_score: -4.0
-X-Spam_bar: ----
-X-Spam_report: (-4.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.845,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230510203601.418015-2-kwolf@redhat.com>
+User-Agent: NeoMutt/20230512
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eblake@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -99,14 +79,63 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-W dniu 12.05.2023 o 18:02, Leif Lindholm pisze:
-> Longer-term, I still want to move to "max" as the default, but that is 
-> likely to require some invasive changes to TF-A, and this is already a 
-> huge improvement.
 
-Firmware was main reason why I not moved to "max". It is easier to keep 
-system running when it models already existing core.
+On Wed, May 10, 2023 at 10:35:54PM +0200, Kevin Wolf wrote:
+> 
+> These are functions that modify the graph, so they must be able to take
+> a writer lock. This is impossible if they already hold the reader lock.
+> If they need a reader lock for some of their operations, they should
+> take it internally.
+> 
+> Many of them go through blk_*(), which will always take the lock itself.
+> Direct calls of bdrv_*() need to take the reader lock. Note that while
+> locking for bdrv_co_*() calls is checked by TSA, this is not the case
+> for the mixed_coroutine_fns bdrv_*(). Holding the lock is still required
+> when they are called from coroutine context like here!
+> 
+> This effectively reverts 4ec8df0183, but adds some internal locking
+> instead.
+> 
+> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+> ---
 
-For me "max" stopped booting when FEAT_FGT landed in QEMU. Took over 3 
-months to enable it in TF-A.
+> +++ b/block/qcow2.c
+
+> -static int coroutine_fn
+> +static int coroutine_fn GRAPH_UNLOCKED
+>  qcow2_co_create(BlockdevCreateOptions *create_options, Error **errp)
+>  {
+>      BlockdevCreateOptionsQcow2 *qcow2_opts;
+> @@ -3724,8 +3726,10 @@ qcow2_co_create(BlockdevCreateOptions *create_options, Error **errp)
+>          goto out;
+>      }
+>  
+> +    bdrv_graph_co_rdlock();
+>      ret = qcow2_alloc_clusters(blk_bs(blk), 3 * cluster_size);
+>      if (ret < 0) {
+> +        bdrv_graph_co_rdunlock();
+>          error_setg_errno(errp, -ret, "Could not allocate clusters for qcow2 "
+>                           "header and refcount table");
+>          goto out;
+> @@ -3743,6 +3747,8 @@ qcow2_co_create(BlockdevCreateOptions *create_options, Error **errp)
+>  
+>      /* Create a full header (including things like feature table) */
+>      ret = qcow2_update_header(blk_bs(blk));
+> +    bdrv_graph_co_rdunlock();
+> +
+
+If we ever inject any 'goto out' in the elided lines, we're in
+trouble.  Would this be any safer by wrapping the intervening
+statements in a scope-guarded lock?
+
+But what you have is correct, despite my worries about potential
+maintenance concerns.
+
+Reviewed-by: Eric Blake <eblake@redhat.com>
+
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3266
+Virtualization:  qemu.org | libvirt.org
+
 
