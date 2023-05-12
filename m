@@ -2,81 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A18C700DB7
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 May 2023 19:11:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 08C21700DC3
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 May 2023 19:19:30 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pxWHq-0004wN-08; Fri, 12 May 2023 13:10:34 -0400
+	id 1pxWPA-0007Lt-2L; Fri, 12 May 2023 13:18:08 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pxWHo-0004w6-1Q
- for qemu-devel@nongnu.org; Fri, 12 May 2023 13:10:32 -0400
-Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a])
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pxWP3-0007Jr-59
+ for qemu-devel@nongnu.org; Fri, 12 May 2023 13:18:04 -0400
+Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pxWHm-0003ZE-3L
- for qemu-devel@nongnu.org; Fri, 12 May 2023 13:10:31 -0400
-Received: by mail-wr1-x42a.google.com with SMTP id
- ffacd0b85a97d-3075e802738so9288592f8f.1
- for <qemu-devel@nongnu.org>; Fri, 12 May 2023 10:10:29 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pxWP1-0005HB-Eg
+ for qemu-devel@nongnu.org; Fri, 12 May 2023 13:18:00 -0400
+Received: by mail-wr1-x42b.google.com with SMTP id
+ ffacd0b85a97d-3063b5f32aaso6709063f8f.2
+ for <qemu-devel@nongnu.org>; Fri, 12 May 2023 10:17:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1683911427; x=1686503427;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
- :message-id:reply-to;
- bh=CowaXsTytpLcpAQBhAKBeZa2GQOPKs3Zx4x6XRv10Ts=;
- b=sfY1GYqqYhgM3RK6DKuQ+tPl/D8WCMh9w02oD1ZeO0njq9/JPaiSiaLl+UZsUqiApe
- 4XLJmKLF+DfV6Xu/ElvFx5UaMyv//FqFX9QODr5fSYQ+GGsd71d4Igs9CPe7dUVSDw2M
- 3e1dU10AWOtW8pMlPJszDGOWc8EBxSZ8KGaHxx98o3ePwekxqm8uAQ+sSJaotgW9VzqM
- pExDrS5bZRIP57nwDwfR/JKj9hUYoCWQR/4vCvS97s1U62EDgk47dn+aywfn7/018RGa
- ARvO0L3jaPxHl7h3CoFCh5Z8H7PKA8DfJfIm/xw8MjsGFhLpDLcMogeyMCEpi8VgWNQQ
- XRyg==
+ d=linaro.org; s=google; t=1683911876; x=1686503876;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:to
+ :from:from:to:cc:subject:date:message-id:reply-to;
+ bh=miBGGjW/ZQfOCs7U5dTa3vNRbLi2IQsdXFfT88TdwaM=;
+ b=ePDCiVkrEf0LQHw1xkBKNodcLt464K5eZ0IuIF5Is9ByYN8hVEGyjAjek1Qv+3Or7N
+ S8RwDOgUY3jsDblmrS4RaW28EjKa3QSTNrS6qUToWcM0v2XP4jHPEv/j1kCgnuI06GTq
+ 0lZJYYnTMZ8si+RhHEZeKeh4YBOPfn8bl0mp3p/YBlZHWQ/qGrCZPmCTSUcNWS/POpM6
+ HeMA9WaeHrlOxb4KcDFRtnJUwrYdXkKb37pFS6iUkHTjk9yFGEqFgNjcFYonujtmwJUE
+ p4OYYBLHWp2ClV7Wiel359atrqr+kISw5i+KcHj1UlnNDgVimrw4njQ5MaT610LWJ7AF
+ p7Yw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683911427; x=1686503427;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=CowaXsTytpLcpAQBhAKBeZa2GQOPKs3Zx4x6XRv10Ts=;
- b=aCMiYsXrMUPjlFTiC3T0HxANIcyF+AD6m1YiSJWNQ8ODuy3IuaodgzAu0WHL9/jfOF
- Qw3N4y7YQouutmbeCe+b9dO3zTtoibLQIPN/CuwuWfN3oW9jpnybllapYdcBsG3I0+3P
- 9Iv5V6JJa32Tb1RyKfEne2yM4on7Mv/OJl6rRvGA8G+MLJ1hIY67AA3L4MY3BfKG7ZWP
- a9UQXofZjwkfMYX4SRwbuKE7OOO0+NQT6rlfDcJ8gbDfQKlP5pSXSkCuw7mrkG9TldgO
- E1e7MsUfbzbirLSjZgEj/lG6tLSDBjTEhSFZvY0hPPJYjn3cTwSNtiqZSLkWmyiwfuJq
- 8/Bg==
-X-Gm-Message-State: AC+VfDyZvfVrTK0XWsk32yrulI+OP08Vy62xP3NBUdiZO/wL/Na+FkDR
- V3f/JpKn1f+xbGHIJsiIa9TR1g==
-X-Google-Smtp-Source: ACHHUZ7sELweoZ6KDCT2N5Nzu8MtFgNn3APKT3uqoOUleLe9XAaJTdZFsmi1vKxbR3yVo4z42Jod2A==
-X-Received: by 2002:adf:f142:0:b0:306:36b5:8ada with SMTP id
- y2-20020adff142000000b0030636b58adamr19510447wro.29.1683911426822; 
- Fri, 12 May 2023 10:10:26 -0700 (PDT)
-Received: from zen.linaroharston ([85.9.250.243])
- by smtp.gmail.com with ESMTPSA id
- w3-20020a5d6803000000b00307a83ea722sm10918594wru.58.2023.05.12.10.10.26
+ d=1e100.net; s=20221208; t=1683911876; x=1686503876;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=miBGGjW/ZQfOCs7U5dTa3vNRbLi2IQsdXFfT88TdwaM=;
+ b=kCxGEtnYdDGPJHuUZrVx8wUMepW0i3OlF/u+rEg+cLkB7Dp+rD5hKHJzC5BCGNqruH
+ FD/sdEcoFGFuvPSnm60oSYRXFHRkY8+dIFomKdTgKlI3Kno2bdxB+eL2egkH204Z98I7
+ VbmCBkRTUNvq9NpB2a/oRm5p1ow3opWcIEpMyJ04kFkD4weVCHuXF7BlJDQsUQrgxljJ
+ w2+ooO9KDNL7M47nJcodHC28gdZYdcI+23z54XOBVBQ+TecN4iILxiX/+1jDh2oTRFvT
+ CcprGWef0wIkJqUeSbKYrcPR99iqXtJLGBeNBYa8HEhGsK9a64WySBX+ehCg6jLmwmpH
+ jeVQ==
+X-Gm-Message-State: AC+VfDysSIPY0KoIP9+ARHUxuQtYZHfFz4B8SBz26QIB/yp5cT1DmXST
+ yJk1COL59v16AiISk6Q6lYQTyYmCPn2HMVytgSjSSg==
+X-Google-Smtp-Source: ACHHUZ6Uu6u1VQxqMI7Kc/TERJ2MPonQd1oD8TXC287MSuxIrtDqDZcRYX7SqfmxldQHAPPcaiX69g==
+X-Received: by 2002:a5d:5248:0:b0:307:aa7c:58 with SMTP id
+ k8-20020a5d5248000000b00307aa7c0058mr8638998wrc.40.1683911876536; 
+ Fri, 12 May 2023 10:17:56 -0700 (PDT)
+Received: from stoup.. ([83.98.42.3]) by smtp.gmail.com with ESMTPSA id
+ j18-20020a5d4492000000b003021288a56dsm24010620wrq.115.2023.05.12.10.17.56
+ for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 12 May 2023 10:10:26 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 08F8C1FFBB;
- Fri, 12 May 2023 18:10:26 +0100 (BST)
-References: <CAFEAcA8rZDtUFTM7Ya6aTTZw0bHYL0y-6Akjoru1SS=qeh+KWA@mail.gmail.com>
- <CAFEAcA_jbxsKrG0T_3Wi1Q-LZePqNqgVsdS8okQP1ADzqrL0hw@mail.gmail.com>
-User-agent: mu4e 1.11.4; emacs 29.0.90
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: QEMU Developers <qemu-devel@nongnu.org>, Phil =?utf-8?Q?Mathieu-Daud?=
- =?utf-8?Q?=C3=A9?=
- <philmd@linaro.org>, Beraldo Leal <bleal@redhat.com>, Cleber Rosa
- <crosa@redhat.com>, Wainer dos Santos Moschetta <wainersm@redhat.com>
-Subject: Re: command line, guest console output missing from avocado log
-Date: Fri, 12 May 2023 18:03:56 +0100
-In-reply-to: <CAFEAcA_jbxsKrG0T_3Wi1Q-LZePqNqgVsdS8okQP1ADzqrL0hw@mail.gmail.com>
-Message-ID: <87r0rlwk5a.fsf@linaro.org>
+ Fri, 12 May 2023 10:17:56 -0700 (PDT)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] tcg/i386: Set P_REXW in tcg_out_addi_ptr
+Date: Fri, 12 May 2023 18:17:55 +0100
+Message-Id: <20230512171755.1237329-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42a.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x42b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -99,73 +86,31 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+The REXW bit must be set to produce a 64-bit pointer result; the
+bit is disabled in 32-bit mode, so we can do this unconditionally.
 
-Peter Maydell <peter.maydell@linaro.org> writes:
+Fixes: 7d9e1ee424b0 ("tcg/i386: Adjust assert in tcg_out_addi_ptr")
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1592
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1642
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ tcg/i386/tcg-target.c.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> On Tue, 9 May 2023 at 19:58, Peter Maydell <peter.maydell@linaro.org> wro=
-te:
->>
->> I just noticed that the guest console output seems to no longer
->> be in the avocado log file. Can it be reinstated, please?
->> The console logs are typically the most useful clue to "why did this
->> test fail" and without it you're just guessing in the dark...
->> The details of what QEMU command line avocado is running
->> also seem to have vanished : that also is among the most
->> useful items of information to have in the log.
->
-> Ping? Where can I find these bits of the log for avocado
-> test runs now? I tried looking in the individual per-test
-> directories but they're not there either...
+diff --git a/tcg/i386/tcg-target.c.inc b/tcg/i386/tcg-target.c.inc
+index a01bfad773..9fc5592f5d 100644
+--- a/tcg/i386/tcg-target.c.inc
++++ b/tcg/i386/tcg-target.c.inc
+@@ -1091,7 +1091,7 @@ static void tcg_out_addi_ptr(TCGContext *s, TCGReg rd, TCGReg rs,
+ {
+     /* This function is only used for passing structs by reference. */
+     tcg_debug_assert(imm == (int32_t)imm);
+-    tcg_out_modrm_offset(s, OPC_LEA, rd, rs, imm);
++    tcg_out_modrm_offset(s, OPC_LEA | P_REXW, rd, rs, imm);
+ }
+ 
+ static inline void tcg_out_pushi(TCGContext *s, tcg_target_long val)
+-- 
+2.34.1
 
-Hmm they have indeed disappeared. According to the docs doing:
-
-  ./tests/venv/bin/avocado --show console:DEBUG run tests/avocado/tuxrun_ba=
-selines.py:TuxRunBaselineTest.test_arm64
-
-should be enough, and there is another option --store-logging-stream
-which takes the format. However I wasn't able to get this to work.
-However moving the logging into the avocado name space with the
-following:
-
---8<---------------cut here---------------start------------->8---
-modified   tests/avocado/avocado_qemu/__init__.py
-@@ -138,7 +138,7 @@ def _console_interaction(test, success_message, failure=
-_message,
-     if vm is None:
-         vm =3D test.vm
-     console =3D vm.console_socket.makefile(mode=3D'rb', encoding=3D'utf-8')
--    console_logger =3D logging.getLogger('console')
-+    console_logger =3D logging.getLogger('avocado.guest.console')
-     while True:
-         if send_string:
-             vm.console_socket.sendall(send_string.encode())
-@@ -407,7 +407,7 @@ class LinuxSSHMixIn:
-     """Contains utility methods for interacting with a guest via SSH."""
-=20
-     def ssh_connect(self, username, credential, credential_is_key=3DTrue):
--        self.ssh_logger =3D logging.getLogger('ssh')
-+        self.ssh_logger =3D logging.getLogger('avocado.guest.ssh')
-         res =3D self.vm.command('human-monitor-command',
-                               command_line=3D'info usernet')
-         port =3D get_info_usernet_hostfwd_port(res)
---8<---------------cut here---------------end--------------->8---
-
-then makes things work with --show avocado.guest.console:DEBUG and the
-job log automatically get the output in the logs.
-
-I note that:
-
-  https://avocado-framework.readthedocs.io/en/101.0/guides/writer/chapters/=
-logging.html
-
-has a big TODO note in it.
-
-Cleber,
-
-Is this the change we should make or should we be able to pick arbitary
-name-spaces for logging?
-
---=20
-Alex Benn=C3=A9e
-Virtualisation Tech Lead @ Linaro
 
