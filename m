@@ -2,69 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D4A7700AA0
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 May 2023 16:47:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B3A3A700AAA
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 May 2023 16:50:35 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pxU2v-0004zL-Di; Fri, 12 May 2023 10:47:01 -0400
+	id 1pxU5v-0007Eh-8o; Fri, 12 May 2023 10:50:07 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pxU2s-0004lo-PG
- for qemu-devel@nongnu.org; Fri, 12 May 2023 10:46:58 -0400
-Received: from mail-ed1-x52d.google.com ([2a00:1450:4864:20::52d])
+ id 1pxU5r-0007DF-Aa
+ for qemu-devel@nongnu.org; Fri, 12 May 2023 10:50:03 -0400
+Received: from mail-ed1-x534.google.com ([2a00:1450:4864:20::534])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pxU2q-0005qN-Fx
- for qemu-devel@nongnu.org; Fri, 12 May 2023 10:46:58 -0400
-Received: by mail-ed1-x52d.google.com with SMTP id
- 4fb4d7f45d1cf-50bc040c7b8so15250613a12.2
- for <qemu-devel@nongnu.org>; Fri, 12 May 2023 07:46:55 -0700 (PDT)
+ id 1pxU5k-0006eB-Lq
+ for qemu-devel@nongnu.org; Fri, 12 May 2023 10:50:01 -0400
+Received: by mail-ed1-x534.google.com with SMTP id
+ 4fb4d7f45d1cf-50bc570b4a3so18127259a12.1
+ for <qemu-devel@nongnu.org>; Fri, 12 May 2023 07:49:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1683902814; x=1686494814;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=iPU14pOSY/PCURzbFqEqxjo2Aqsydj5jxb0kRzQ6P2U=;
- b=EEMu1zau9+g0iR1edIn5kmkLoSvEVlH9XSLamM3qcF8RCbXvD82PrPGmDuyHxKx8TZ
- AZF7DcXPomRmQF7/lqYUYdbIZ0Ds28z45iTuH4xymEUSclIfPbrXXBlnowgm11X0aiNm
- dD47tr1INuIbzzpJg8IuafUuMkuy7Sjki6q8eiq+k+qGLJvAUVnfs3ey+mnRkgxBYfrh
- G5V0O78+bqvdrqX6tUWU3w1M910lm0/H4w2Ou6azHVrll/2XsKGklFjW+UADZaKJ4Vu2
- 6vFuiHQQSmhNG5ekm0Pe3CBuxl/NTZmo7WhFpT/qfgwhODjy4lGJU+UfUnLh1cmamTFx
- 9PfA==
+ d=linaro.org; s=google; t=1683902994; x=1686494994;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=xZBXrg330SH5MhDt+hBaIDpHCoQ1Ljx3OTOsDdySBYs=;
+ b=bUSZBhdclJMEbrjXxjoArJuet8hSNYvRWti2cvJCZKqyKAO6Z68UH40Z2WPS2h9HJZ
+ MscEpeZebLBb1x0XP9mclDFQcpOIaoHDoc5A6//4dp7iqy7IUusw2SsrYFBOls+1q6jP
+ jDYX9TifoagCvma5BPwjeFuc0QNKJg2r9UV/mrSC6v9JDd5GahDbB6tQWXXQ5zlOH9U0
+ z/VvkBoWh1CfUezvaudXn5aGjWVY3CiMyI0MaJohyTiaI6iq33AXDHuPckU4w6Ohprcr
+ qLrpLRfkVOUEE0rtczTyIPkNOgmr/xwVe3og3MhSdekydha6KJ8xXWcYvtAmehuWzwnU
+ V0ww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683902814; x=1686494814;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=iPU14pOSY/PCURzbFqEqxjo2Aqsydj5jxb0kRzQ6P2U=;
- b=Lz+Wh8hfBoUsLhKLXKNLJcCUzVb/cI604sLv3mIqEOGP5Ps11YiBc68e/AQvPjn0Bi
- 6QyEDQHX7g9Ov/BUL3gJO2xMqS/ZAOXMijGXxTB49G3y2c4qkEd47UESMSd/WMw0Lz5f
- IRgZ6xAb8Ms27c/Gkq0dknMoXQj3fMKzfa2YAvsmaWmOrKMyNGJdiwY3ucGJmUpk67ge
- pfG5D1QUSXuSTDs+Kde57b3AqkLz5TdggIztgMtXrCdU5xW+/WFmG15LYzW2MPN/hLUQ
- d/Rr9QRdYB3oQChbfhuKLCcNMz5vCvlc2vP8KQh+5G2EviC/yJlLsHY1q8W2dK/mewrp
- wYtQ==
-X-Gm-Message-State: AC+VfDxGCwsfLSGzT6Z2FVKR3SH8rBPwea1sqLBFTEUtkWY8qKEHe/Os
- iH7tEM3K+er2cPEtSneh4YVhRJ/dkYYsv2Vy2f9/9w==
-X-Google-Smtp-Source: ACHHUZ4GjB/j1FtEJpqZvWTNrvYUzxULpi89IfKQ0eB0iXd96pAMLmlpkCMv7Cg6tHdPcaF69BjHzuE1ZGPnQ1aRC98=
-X-Received: by 2002:a50:fe8c:0:b0:506:ba8d:c317 with SMTP id
- d12-20020a50fe8c000000b00506ba8dc317mr18569012edt.40.1683902814596; Fri, 12
- May 2023 07:46:54 -0700 (PDT)
+ d=1e100.net; s=20221208; t=1683902994; x=1686494994;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=xZBXrg330SH5MhDt+hBaIDpHCoQ1Ljx3OTOsDdySBYs=;
+ b=QeZLqqF5vRr4xZvSitxNIWdVq0C+68BDwiVOTUnKzdPoBBBH79Hr9U04q0+BKXgUTW
+ vQUOVcH7d8RWzyptJiCVaHpdWjIluVl+GS0Cj4mMvQsuf8966lz94/xzgMinVkHFrELu
+ W5r3Svf/FUcwmA+rr75fR/OHIYdSQWxemJOQ+sEqeBo1nHwEH74EiEWzqVQT8zjlnoHo
+ W9BwcMHgEWZzWWKwb4TJLNjrPrsZnO40pkBUHah/Qgvya8i5Wo5qWAM8Bhh1sQ+++xfo
+ f/Pwc6ahCDwFn+Mc3tUENrjKUupoLQIyqupjOPauWIpmJ2lUGz0fYtkVJVDfTzGE17rM
+ S9AQ==
+X-Gm-Message-State: AC+VfDyDdW97PYGGPp3FcPx9ja0P5QH70k6h51JA2i2FmJDiacKG0NL7
+ XSoRTxhKlJ1hKoAu9oqQc72B/yS4pZm2120ZnA+3hA==
+X-Google-Smtp-Source: ACHHUZ5PmAbepWDNcsTxHx4Efi8DMK4J6g0OfjVMDUhtlV/f4Xk9cLi9M/P58C+BquhFJUljRfL7KiIJJyNE7Mpf+Zc=
+X-Received: by 2002:aa7:c659:0:b0:504:b325:bd4d with SMTP id
+ z25-20020aa7c659000000b00504b325bd4dmr18041992edr.12.1683902993989; Fri, 12
+ May 2023 07:49:53 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230401104953.1325983-1-smostafa@google.com>
-In-Reply-To: <20230401104953.1325983-1-smostafa@google.com>
+References: <20230508181611.2621-1-farosas@suse.de>
+In-Reply-To: <20230508181611.2621-1-farosas@suse.de>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 12 May 2023 15:46:43 +0100
-Message-ID: <CAFEAcA8=sOzRW9QZqrpsLZh6q_erXmj2xfazfKrgg_ESR8Fy9Q@mail.gmail.com>
-Subject: Re: [RFC PATCH v3 00/10] Add stage-2 translation for SMMUv3
-To: Mostafa Saleh <smostafa@google.com>
-Cc: qemu-devel@nongnu.org, jean-philippe@linaro.org, eric.auger@redhat.com, 
- qemu-arm@nongnu.org, richard.henderson@linaro.org
+Date: Fri, 12 May 2023 15:49:43 +0100
+Message-ID: <CAFEAcA9gUthE_0VAH2EDz4pMqZL=Z=WC9piZNcMeJBFL8-_vnw@mail.gmail.com>
+Subject: Re: [PATCH v3 0/3] target/arm: disable-tcg and without-default-devices
+ fixes
+To: Fabiano Rosas <farosas@suse.de>
+Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org, 
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
+ Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
+ Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::52d;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::534;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x534.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,32 +89,30 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Sat, 1 Apr 2023 at 11:49, Mostafa Saleh <smostafa@google.com> wrote:
+On Mon, 8 May 2023 at 19:16, Fabiano Rosas <farosas@suse.de> wrote:
 >
-> This patch series adds stage-2 translation support for SMMUv3. It is
-> controlled by a new system property =E2=80=9Carm-smmuv3.stage=E2=80=9D.
-> - When set to =E2=80=9C1=E2=80=9D: Stage-1 only would be advertised and s=
-upported (default
-> behaviour)
-> - When set to =E2=80=9C2=E2=80=9D: Stage-2 only would be advertised and s=
-upported.
-> - Value =E2=80=9Call=E2=80=9D is reserved for nesting support. However it=
- is not
-> implemented in this patch series (more about this in the end)
+> Changed the cdrom test to apply to only the x86 and s390x cdrom boot
+> tests.
 >
-> Features implemented in stage-2 are mostly synonymous with stage-1
-> - VMID16.
-> - Only AArch64 translation tables are supported.
-> - Only little endian translation table supported.
-> - Stall is not supported.
-> - HTTU is not supported, SW is expected to maintain the Access flag.
+> CI run: https://gitlab.com/farosas/qemu/-/pipelines/860488769
+>
+> v2:
+> https://lore.kernel.org/r/20230505123524.23401-1-farosas@suse.de
+>
+> v1:
+> https://lore.kernel.org/r/20230503193833.29047-1-farosas@suse.de
+>
+> Here's the fix for the cdrom test failure that we discussed in the
+> list, plus 2 fixes for the ---without-default-devices build.
+>
+> When I moved the boards CONFIGs from default.mak to Kconfig, it became
+> possible (due to --without-default-devices) to disable the CONFIGs for
+> all the boards that require ARM_V7M. That breaks the build because
+> ARM_V7M is required to be always set.
 
-Eric: are you planning to review this v3? I think only
-patches 2, 4, 5, 8, 10 still need review.
 
-Mostafa: is there anything in particular here that means this
-patchset should stay an RFC and isn't ready to go into the tree?
 
-thanks
+Applied to target-arm.next, thanks.
+
 -- PMM
 
