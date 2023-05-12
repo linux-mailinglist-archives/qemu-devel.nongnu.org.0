@@ -2,65 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F9CC7003D0
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 May 2023 11:32:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8502F7003E7
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 May 2023 11:38:35 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pxP7b-0006nP-Ny; Fri, 12 May 2023 05:31:31 -0400
+	id 1pxPDI-0001J4-0s; Fri, 12 May 2023 05:37:24 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zenghao@kylinos.cn>)
- id 1pxP7V-0006io-PI; Fri, 12 May 2023 05:31:26 -0400
-Received: from mailgw.kylinos.cn ([124.126.103.232])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zenghao@kylinos.cn>)
- id 1pxP7S-0006YE-O3; Fri, 12 May 2023 05:31:25 -0400
-X-UUID: e288b10992cb4de7a799da77a14ab584-20230512
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.22, REQID:44b1e119-3b1a-41f9-9a88-54a68985f91c, IP:10,
- URL:0,TC:0,Content:-5,EDM:25,RT:0,SF:-9,FILE:0,BULK:0,RULE:Release_Ham,ACT
- ION:release,TS:21
-X-CID-INFO: VERSION:1.1.22, REQID:44b1e119-3b1a-41f9-9a88-54a68985f91c, IP:10,
- UR
- L:0,TC:0,Content:-5,EDM:25,RT:0,SF:-9,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
- N:release,TS:21
-X-CID-META: VersionHash:120426c, CLOUDID:3d7cf83a-de1e-4348-bc35-c96f92f1dcbb,
- B
- ulkID:230512173112RBIG3N3X,BulkQuantity:0,Recheck:0,SF:19|43|24|17|102,TC:
- nil,Content:0,EDM:5,IP:-2,URL:0,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI
- :0,OSA:0,AV:0
-X-CID-BVR: 0
-X-CID-BAS: 0,_,0,_
-X-UUID: e288b10992cb4de7a799da77a14ab584-20230512
-Received: from mail.kylinos.cn [(39.156.73.10)] by mailgw
- (envelope-from <zenghao@kylinos.cn>) (Generic MTA)
- with ESMTP id 506198866; Fri, 12 May 2023 17:31:11 +0800
-Received: from mail.kylinos.cn (localhost [127.0.0.1])
- by mail.kylinos.cn (NSMail) with SMTP id DABA9E0084A4;
- Fri, 12 May 2023 17:31:10 +0800 (CST)
-X-ns-mid: postfix-645E075E-67668141
-Received: from zdzh5-QiTianM428-A376.. (unknown [172.20.12.253])
- by mail.kylinos.cn (NSMail) with ESMTPA id 5AB8DE0084A4;
- Fri, 12 May 2023 17:31:10 +0800 (CST)
-From: Hao Zeng <zenghao@kylinos.cn>
-To: pbonzini@redhat.com
-Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org, qemu-devel@nongnu.org,
- Hao Zeng <zenghao@kylinos.cn>
-Subject: [PATCH V2] hw/arm: enable qxl for aarch64
-Date: Fri, 12 May 2023 17:31:08 +0800
-Message-Id: <20230512093108.1180726-1-zenghao@kylinos.cn>
-X-Mailer: git-send-email 2.37.2
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1pxPDE-0001Ik-2A
+ for qemu-devel@nongnu.org; Fri, 12 May 2023 05:37:20 -0400
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1pxPDC-000051-4d
+ for qemu-devel@nongnu.org; Fri, 12 May 2023 05:37:19 -0400
+Received: by mail-wr1-x42c.google.com with SMTP id
+ ffacd0b85a97d-3063afa2372so9025470f8f.0
+ for <qemu-devel@nongnu.org>; Fri, 12 May 2023 02:37:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1683884236; x=1686476236;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=20mL6ahqZNIiZWHzDkwRRqSTrSHs5qvtBtXea5jtm1c=;
+ b=o0W8fbvaq/veR/773+dfwlHXK8TABNbUHDrfLEddc5Kq4pge2MkISBPbCTbXDjruKZ
+ JmlEJImuH7b+Ngv4nGjkXpzoq6kC4zdP2UBJ4CSGOnL6ZYi7TTinegYc2Vu4GJJV7Ic6
+ JkEW/nJEnP1XRGSHizBrxARWYPH7JyFhtHKU2ldKV5CCHiOlLfjRDH1AVUfOXjGx5jXg
+ jkZHjIRYatqxMZT0/1iOfNEAlAXKcAPRBQJGBs64d7yvjmn6+CyYwuS6QjO2/mtUek9/
+ 9NUUfaw4M9CFEIqdqJSjidAA6Ojhhzrx5RW0OquDqjXWiQUiJecwasTNk0V8W+f90N+y
+ EVBg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1683884236; x=1686476236;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=20mL6ahqZNIiZWHzDkwRRqSTrSHs5qvtBtXea5jtm1c=;
+ b=gG4JD2UDIX9cA/i0xj404cQIyqXOIvTshBglqiwhuVt9E8wpIDr7oytiZMiOc7rENE
+ xfxUZBqUC8Z1v6sz0p5s6oorBWTQ/hfVFB5BnpG43oVT5dD/v1ww5O77+0sUHqzTDS9h
+ Qh35cxotdeD9qP9gc+9PQPtu/hztSigRKQ1cVD0OSJIgcNA4D26Yuhq+YzfKQa2jMBhV
+ VPQpTun3gtmztl4HH3UOESaj8OvD8sbntREJqknl1vSab6rKApJTZIQ7mc9J+55RTVIX
+ UYazWLcIY78aX30MnoeV8/kmbcm6lfkR4yEo+wibJ3u2B6WQani+8V3ZKa3l9+hjiUnj
+ we5Q==
+X-Gm-Message-State: AC+VfDypsRyjHZRad7lzAuYn092O+3ONv1bzCLPOxCxf0O0E+2m+a+/V
+ 8qAjTeYavM8CYV/oV+6KKmxSPQ==
+X-Google-Smtp-Source: ACHHUZ7Yrw5SedJMxpa+7I32dqyEhny15Yp7caZEXLaSndbGCKtdkOBZLOpFjG5snrPJbLu1q6pEXw==
+X-Received: by 2002:adf:e9cc:0:b0:306:45c0:f070 with SMTP id
+ l12-20020adfe9cc000000b0030645c0f070mr18545948wrn.39.1683884236427; 
+ Fri, 12 May 2023 02:37:16 -0700 (PDT)
+Received: from zen.linaroharston ([85.9.250.243])
+ by smtp.gmail.com with ESMTPSA id
+ n18-20020adfe792000000b002f7780eee10sm22948758wrm.59.2023.05.12.02.37.16
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 12 May 2023 02:37:16 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id A6C1B1FFBB;
+ Fri, 12 May 2023 10:37:15 +0100 (BST)
+References: <20230503072331.1747057-1-richard.henderson@linaro.org>
+ <20230503072331.1747057-30-richard.henderson@linaro.org>
+User-agent: mu4e 1.11.4; emacs 29.0.90
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: ale@rev.ng, philmd@linaro.org, marcel.apfelbaum@gmail.com,
+ wangyanan55@huawei.com, anjo@rev.ng, qemu-devel@nongnu.org
+Subject: Re: [PATCH 29/84] tcg: Remove TARGET_LONG_BITS, TCG_TYPE_TL
+Date: Fri, 12 May 2023 10:37:11 +0100
+In-reply-to: <20230503072331.1747057-30-richard.henderson@linaro.org>
+Message-ID: <878rdtyjp0.fsf@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=124.126.103.232; envelope-from=zenghao@kylinos.cn;
- helo=mailgw.kylinos.cn
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01,
- UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42c.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -76,27 +97,16 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Qemu does not support qxl graphics cards in arm, it is recommended to ena=
-ble
 
-Signed-off-by: Hao Zeng <zenghao@kylinos.cn>
----
- hw/arm/Kconfig | 1 +
- 1 file changed, 1 insertion(+)
+Richard Henderson <richard.henderson@linaro.org> writes:
 
-diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
-index 0f42c556d7..d0bedf9347 100644
---- a/hw/arm/Kconfig
-+++ b/hw/arm/Kconfig
-@@ -32,6 +32,7 @@ config ARM_VIRT
-     select VIRTIO_MEM_SUPPORTED
-     select ACPI_CXL
-     select ACPI_HMAT
-+    select QXL
-=20
- config CHEETAH
-     bool
+> All uses replaced with TCGContext.addr_type.
+>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+
 --=20
-2.37.2
-
+Alex Benn=C3=A9e
+Virtualisation Tech Lead @ Linaro
 
