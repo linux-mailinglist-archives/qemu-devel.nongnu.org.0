@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA9B56FFF82
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 May 2023 06:02:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7BA266FFF84
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 May 2023 06:03:22 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pxJxN-0006VN-K5; Fri, 12 May 2023 00:00:37 -0400
+	id 1pxJzd-00089Z-10; Fri, 12 May 2023 00:02:57 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pxJxJ-0006Uf-Ib
- for qemu-devel@nongnu.org; Fri, 12 May 2023 00:00:34 -0400
-Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pxJza-00087O-6W
+ for qemu-devel@nongnu.org; Fri, 12 May 2023 00:02:54 -0400
+Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pxJxH-0002te-IB
- for qemu-devel@nongnu.org; Fri, 12 May 2023 00:00:33 -0400
-Received: by mail-wm1-x32a.google.com with SMTP id
- 5b1f17b1804b1-3f315735514so306083785e9.1
- for <qemu-devel@nongnu.org>; Thu, 11 May 2023 21:00:30 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pxJzY-0003u8-Db
+ for qemu-devel@nongnu.org; Fri, 12 May 2023 00:02:53 -0400
+Received: by mail-wm1-x336.google.com with SMTP id
+ 5b1f17b1804b1-3f450815d02so20427005e9.0
+ for <qemu-devel@nongnu.org>; Thu, 11 May 2023 21:02:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1683864030; x=1686456030;
+ d=linaro.org; s=google; t=1683864171; x=1686456171;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=PMkAISeKfeZmlX05O6QAQtQ/X4/lGBBlkslZHo8wJNE=;
- b=nhzb/DkG2yZ9eU8UDCVIK+8r1wJo3fpYL+Fg9YOBXDBBhhj5iNsgmesWGXepOZ1B+E
- OjdjdSbEnC86rkl9/yguXnoIctRutvpWlUp/0cPfdj+Ua1MjRgKC/Pi475BhsMKmJMqF
- m4sJuYabPoR+WZGNvqD2iVXl9yX+HyYEIrrYDS4oUGaZ7FH71uw+U6wR/SV4BYwWRs/j
- FBwnl4sFEQ2HtVeFaK0SfbY+Q1mxXW7Lqqqf4j1VPtN9XW2xpv/ZkhOOM+Wm5xkUbViU
- UYreE3qXTfkI40LjbeDO3lmKD6LEgbE0AfotBR59D8nb5OPv/sl01M56YV1hzGjLg/aJ
- EDyg==
+ bh=t2o7w8RBwFGak+QYy/6Ay6dkOTj5vbc9lyltm5ngL+A=;
+ b=r8evVbfYvi9j9NYAkfZO1GB+LU0VvlbuUhZAH9p6lbSC/tdwTJLAV4iNAMtFzWTzWa
+ X2tCgwDCSLzGk61KI7qQwX3yNYH91AUyf56FsL+oA6LTjb9qdoOR2DF4+PW1GnZO2bp0
+ ZWMuKiQJ7p9roMnJa0XzbSXOUq8Z3npXCG761XxXEPGtLMFD1UATZvSBYZMw1qOV4NYl
+ N6INevl6qkOMW+bzEXpULRJYyDKNb5ABQ5EUr0ikXodDCXtbbbu0YQfhMO08roqQmHEv
+ PglMWXz57wZiClqifmNpkbgH1UmanSpV5UYc599dnPKD2frHLMIFJe4WkFcbHG63KP7w
+ rIDg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683864030; x=1686456030;
+ d=1e100.net; s=20221208; t=1683864171; x=1686456171;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=PMkAISeKfeZmlX05O6QAQtQ/X4/lGBBlkslZHo8wJNE=;
- b=QyzfXoSqeuwosWOXegcsv6MCZFdq4I2NZEegJ4rlcBOr6U7LlEkmxIW1rfom8IeFKT
- STsRs4BiiKVD1hK74E5n9nuWqyj0nVNE0N/ekmVtXTZtUJ0Gp6uS9Z/7vS1lrJkCzz8d
- WHHsChZXuTeNtw8/rOkcFaTCJzx7v7mqrxYryNji6N5SyZbGcQM8Yst1uroo+QvSXbY1
- YHhSijeX+QOjMpEEgAB7ZocxvkEtb+L1OszEI1H69Y6oHvOYqe9stTw4zjEtR8AQrYl2
- TWwrDxXxUlZymrWZDHbrBhXz2Fw6Zpv45+JrlOEq9+rHXCzoO9nWq/fFT9uP2ZhIvbr1
- l70g==
-X-Gm-Message-State: AC+VfDwk8j2gETEoxVTjq8pDutV7OMcpBkOZQ7evIeWU8iLPeNg8O6if
- KOU0sYiP7G5AA1xtX3xfwKAtuw==
-X-Google-Smtp-Source: ACHHUZ5RbOYsGDXjJ36MuoRkyJVqrFfp0GHpLXSFXRlMrCtOiRNVk9cVuhfjkPeJyrJBwM0tX2Y40g==
-X-Received: by 2002:a05:600c:4f16:b0:3f1:939e:2e3b with SMTP id
- l22-20020a05600c4f1600b003f1939e2e3bmr16488070wmq.19.1683864029741; 
- Thu, 11 May 2023 21:00:29 -0700 (PDT)
+ bh=t2o7w8RBwFGak+QYy/6Ay6dkOTj5vbc9lyltm5ngL+A=;
+ b=Gceaqe2+SaSSQUJlYmg4M5KT745mX6I2MNLEZtJXJqzcuqkDOJgg39V+AzgkW1aGx/
+ aFj9CRaORFv98ARzGHJ2JXAdp4F/tHQqSy20Bx5GO0NgLe+pBMHVnp8CMtBaTF7M55qR
+ H7ITQmCXq8l5U8y3JYFYE+Fpm1TvSRzz4zoKVhruwZiVXiKuWD3uCn5yYG7dulXqJ8bn
+ Z5V6Y3byWPTVprK7qxQDW6BXqhZOxX5IVEoI6VlznfQvJYGPFtOsLZDuK2tpzob3MKq+
+ dJshWf8mv2xsFQdZEESFiApUKWpSIKllIwoI1vBusQGhbDOfmgZebj5F8+OmPVd5P+HM
+ 9Hjw==
+X-Gm-Message-State: AC+VfDz5THHBecdyIlMAzqadc6zSWSnx2zaLhzpIBfyV9yX6Z8iN/nrP
+ KGQuKuBeklDYq3MZedAhuas/TQ==
+X-Google-Smtp-Source: ACHHUZ7pSX0lcwtx2g1rtX0/FiIA39jLWr1j3u8jts6iD2l3KjBjqGWqYHvYPmxY1QClVIU4RfcYXQ==
+X-Received: by 2002:a1c:7413:0:b0:3f4:bb58:d174 with SMTP id
+ p19-20020a1c7413000000b003f4bb58d174mr5209156wmc.22.1683864170687; 
+ Thu, 11 May 2023 21:02:50 -0700 (PDT)
 Received: from [192.168.69.115] ([176.176.152.186])
  by smtp.gmail.com with ESMTPSA id
- d6-20020a056000114600b00306344eaebfsm22135624wrx.28.2023.05.11.21.00.28
+ e19-20020a05600c219300b003f173419e7asm27067886wme.43.2023.05.11.21.02.49
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 11 May 2023 21:00:29 -0700 (PDT)
-Message-ID: <93d8146b-1490-a0ae-29b3-3b36d89ed64a@linaro.org>
-Date: Fri, 12 May 2023 06:00:27 +0200
+ Thu, 11 May 2023 21:02:50 -0700 (PDT)
+Message-ID: <aa83095b-64f5-584f-8ccc-0e1f6f2e6ae3@linaro.org>
+Date: Fri, 12 May 2023 06:02:48 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.10.1
-Subject: Re: [PULL 04/16] aspeed/smc: Cache AspeedSMCClass
+Subject: Re: [PULL 03/16] ssi: cache SSIPeripheralClass to avoid GET_CLASS()
 Content-Language: en-US
 To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>, qemu-arm@nongnu.org,
  qemu-devel@nongnu.org
@@ -68,13 +68,13 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, Joel Stanley <joel@jms.id.au>,
  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
  qemu-block@nongnu.org, =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
 References: <20221025152042.278287-1-clg@kaod.org>
- <20221025152042.278287-5-clg@kaod.org>
+ <20221025152042.278287-4-clg@kaod.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20221025152042.278287-5-clg@kaod.org>
+In-Reply-To: <20221025152042.278287-4-clg@kaod.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x32a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::336;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x336.google.com
 X-Spam_score_int: -41
 X-Spam_score: -4.2
 X-Spam_bar: ----
@@ -97,90 +97,115 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi Cédric,
+Hi Alex,
 
 On 25/10/22 17:20, Cédric Le Goater wrote:
-> Store a reference on the AspeedSMC class under the flash object and
-> use it when accessing the flash contents. Avoiding the class cast
-> checkers in these hot paths improves performance by 10% when running
-> the aspeed avocado tests.
+> From: Alex Bennée <alex.bennee@linaro.org>
+> 
+> Investigating why some BMC models are so slow compared to a plain ARM
+> virt machines I did some profiling of:
+> 
+>    ./qemu-system-arm -M romulus-bmc -nic user \
+>      -drive
+>      file=obmc-phosphor-image-romulus.static.mtd,format=raw,if=mtd \
+>      -nographic -serial mon:stdio
+> 
+> And saw that object_class_dynamic_cast_assert was dominating the
+> profile times. We have a number of cases in this model of the SSI bus.
+> As the class is static once the object is created we just cache it and
+> use it instead of the dynamic case macros.
+> 
+> Profiling against:
+> 
+>    ./tests/venv/bin/avocado run \
+>      tests/avocado/machine_aspeed.py:test_arm_ast2500_romulus_openbmc_v2_9_0
+> 
+> Before: 35.565 s ±  0.087 s
+> After: 15.713 s ±  0.287 s
 
-I doubt you still have your benchmark number, but do you remember
-if you were using --enable-qom-cast-debug ?
+Do you remember if you were using --enable-qom-cast-debug when
+profiling this?
 
-> Message-Id: <20220923084803.498337-7-clg@kaod.org>
+> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+> Cc: Cédric Le Goater <clg@kaod.org>
+> Tested-by: Cédric Le Goater <clg@kaod.org>
+> Reviewed-by: Cédric Le Goater <clg@kaod.org>
+> Message-Id: <20220811151413.3350684-6-alex.bennee@linaro.org>
+> Message-Id: <20220923084803.498337-6-clg@kaod.org>
 > Signed-off-by: Cédric Le Goater <clg@kaod.org>
 > ---
->   include/hw/ssi/aspeed_smc.h | 2 ++
->   hw/ssi/aspeed_smc.c         | 9 ++++-----
->   2 files changed, 6 insertions(+), 5 deletions(-)
+>   include/hw/ssi/ssi.h |  3 +++
+>   hw/ssi/ssi.c         | 18 ++++++++----------
+>   2 files changed, 11 insertions(+), 10 deletions(-)
 > 
-> diff --git a/include/hw/ssi/aspeed_smc.h b/include/hw/ssi/aspeed_smc.h
-> index 2d5f8f3d8f68..8e1dda556b91 100644
-> --- a/include/hw/ssi/aspeed_smc.h
-> +++ b/include/hw/ssi/aspeed_smc.h
-> @@ -30,6 +30,7 @@
->   #include "qom/object.h"
+> diff --git a/include/hw/ssi/ssi.h b/include/hw/ssi/ssi.h
+> index f411858ab083..6950f86810d3 100644
+> --- a/include/hw/ssi/ssi.h
+> +++ b/include/hw/ssi/ssi.h
+> @@ -59,6 +59,9 @@ struct SSIPeripheralClass {
+>   struct SSIPeripheral {
+>       DeviceState parent_obj;
 >   
->   struct AspeedSMCState;
-> +struct AspeedSMCClass;
+> +    /* cache the class */
+> +    SSIPeripheralClass *spc;
+> +
+>       /* Chip select state */
+>       bool cs;
+>   };
+> diff --git a/hw/ssi/ssi.c b/hw/ssi/ssi.c
+> index 003931fb509e..d54a109beeb5 100644
+> --- a/hw/ssi/ssi.c
+> +++ b/hw/ssi/ssi.c
+> @@ -38,9 +38,8 @@ static void ssi_cs_default(void *opaque, int n, int level)
+>       bool cs = !!level;
+>       assert(n == 0);
+>       if (s->cs != cs) {
+> -        SSIPeripheralClass *ssc = SSI_PERIPHERAL_GET_CLASS(s);
+> -        if (ssc->set_cs) {
+> -            ssc->set_cs(s, cs);
+> +        if (s->spc->set_cs) {
+> +            s->spc->set_cs(s, cs);
+>           }
+>       }
+>       s->cs = cs;
+> @@ -48,11 +47,11 @@ static void ssi_cs_default(void *opaque, int n, int level)
 >   
->   #define TYPE_ASPEED_SMC_FLASH "aspeed.smc.flash"
->   OBJECT_DECLARE_SIMPLE_TYPE(AspeedSMCFlash, ASPEED_SMC_FLASH)
-> @@ -37,6 +38,7 @@ struct AspeedSMCFlash {
->       SysBusDevice parent_obj;
->   
->       struct AspeedSMCState *controller;
-> +    struct AspeedSMCClass *asc;
->       uint8_t cs;
->   
->       MemoryRegion mmio;
-> diff --git a/hw/ssi/aspeed_smc.c b/hw/ssi/aspeed_smc.c
-> index faed7e0cbe17..22df4be528a7 100644
-> --- a/hw/ssi/aspeed_smc.c
-> +++ b/hw/ssi/aspeed_smc.c
-> @@ -388,7 +388,7 @@ static inline int aspeed_smc_flash_cmd(const AspeedSMCFlash *fl)
->   static inline int aspeed_smc_flash_addr_width(const AspeedSMCFlash *fl)
+>   static uint32_t ssi_transfer_raw_default(SSIPeripheral *dev, uint32_t val)
 >   {
->       const AspeedSMCState *s = fl->controller;
-> -    AspeedSMCClass *asc = ASPEED_SMC_GET_CLASS(s);
-> +    AspeedSMCClass *asc = fl->asc;
+> -    SSIPeripheralClass *ssc = SSI_PERIPHERAL_GET_CLASS(dev);
+> +    SSIPeripheralClass *ssc = dev->spc;
 >   
->       if (asc->addr_width) {
->           return asc->addr_width(s);
-> @@ -420,7 +420,7 @@ static uint32_t aspeed_smc_check_segment_addr(const AspeedSMCFlash *fl,
->                                                 uint32_t addr)
+>       if ((dev->cs && ssc->cs_polarity == SSI_CS_HIGH) ||
+> -            (!dev->cs && ssc->cs_polarity == SSI_CS_LOW) ||
+> -            ssc->cs_polarity == SSI_CS_NONE) {
+> +        (!dev->cs && ssc->cs_polarity == SSI_CS_LOW) ||
+> +        ssc->cs_polarity == SSI_CS_NONE) {
+>           return ssc->transfer(dev, val);
+>       }
+>       return 0;
+> @@ -67,6 +66,7 @@ static void ssi_peripheral_realize(DeviceState *dev, Error **errp)
+>               ssc->cs_polarity != SSI_CS_NONE) {
+>           qdev_init_gpio_in_named(dev, ssi_cs_default, SSI_GPIO_CS, 1);
+>       }
+> +    s->spc = ssc;
+>   
+>       ssc->realize(s, errp);
+>   }
+> @@ -115,13 +115,11 @@ uint32_t ssi_transfer(SSIBus *bus, uint32_t val)
 >   {
->       const AspeedSMCState *s = fl->controller;
-> -    AspeedSMCClass *asc = ASPEED_SMC_GET_CLASS(s);
-> +    AspeedSMCClass *asc = fl->asc;
->       AspeedSegments seg;
+>       BusState *b = BUS(bus);
+>       BusChild *kid;
+> -    SSIPeripheralClass *ssc;
+>       uint32_t r = 0;
 >   
->       asc->reg_to_segment(s, s->regs[R_SEG_ADDR0 + fl->cs], &seg);
-> @@ -1234,7 +1234,6 @@ static const TypeInfo aspeed_smc_info = {
->   static void aspeed_smc_flash_realize(DeviceState *dev, Error **errp)
->   {
->       AspeedSMCFlash *s = ASPEED_SMC_FLASH(dev);
-> -    AspeedSMCClass *asc;
->       g_autofree char *name = g_strdup_printf(TYPE_ASPEED_SMC_FLASH ".%d", s->cs);
->   
->       if (!s->controller) {
-> @@ -1242,14 +1241,14 @@ static void aspeed_smc_flash_realize(DeviceState *dev, Error **errp)
->           return;
+>       QTAILQ_FOREACH(kid, &b->children, sibling) {
+> -        SSIPeripheral *peripheral = SSI_PERIPHERAL(kid->child);
+> -        ssc = SSI_PERIPHERAL_GET_CLASS(peripheral);
+> -        r |= ssc->transfer_raw(peripheral, val);
+> +        SSIPeripheral *p = SSI_PERIPHERAL(kid->child);
+> +        r |= p->spc->transfer_raw(p, val);
 >       }
 >   
-> -    asc = ASPEED_SMC_GET_CLASS(s->controller);
-> +    s->asc = ASPEED_SMC_GET_CLASS(s->controller);
->   
->       /*
->        * Use the default segment value to size the memory region. This
->        * can be changed by FW at runtime.
->        */
->       memory_region_init_io(&s->mmio, OBJECT(s), &aspeed_smc_flash_ops,
-> -                          s, name, asc->segments[s->cs].size);
-> +                          s, name, s->asc->segments[s->cs].size);
->       sysbus_init_mmio(SYS_BUS_DEVICE(dev), &s->mmio);
->   }
->   
+>       return r;
 
 
