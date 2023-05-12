@@ -2,74 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9792700094
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 May 2023 08:31:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 810D1700097
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 May 2023 08:33:59 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pxMIP-0007Ab-B5; Fri, 12 May 2023 02:30:29 -0400
+	id 1pxMLL-00088c-Or; Fri, 12 May 2023 02:33:31 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
- id 1pxMID-0007AL-OR
- for qemu-devel@nongnu.org; Fri, 12 May 2023 02:30:19 -0400
+ id 1pxML9-00086P-Ji
+ for qemu-devel@nongnu.org; Fri, 12 May 2023 02:33:21 -0400
 Received: from mail.loongson.cn ([114.242.206.163] helo=loongson.cn)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <gaosong@loongson.cn>) id 1pxMI5-0003zl-0E
- for qemu-devel@nongnu.org; Fri, 12 May 2023 02:30:16 -0400
-Received: from loongson.cn (unknown [10.20.42.57])
- by gateway (Coremail) with SMTP id _____8Dxi+rp3F1khwcIAA--.13740S3;
- Fri, 12 May 2023 14:30:01 +0800 (CST)
-Received: from [10.20.42.57] (unknown [10.20.42.57])
+ (envelope-from <gaosong@loongson.cn>) id 1pxML6-0004bf-83
+ for qemu-devel@nongnu.org; Fri, 12 May 2023 02:33:19 -0400
+Received: from loongson.cn (unknown [10.2.5.185])
+ by gateway (Coremail) with SMTP id _____8AxX+uo3V1ksgcIAA--.13777S3;
+ Fri, 12 May 2023 14:33:12 +0800 (CST)
+Received: from localhost.localdomain (unknown [10.2.5.185])
  by localhost.localdomain (Coremail) with SMTP id
- AQAAf8Bxi7bn3F1kiw9XAA--.23282S3; 
- Fri, 12 May 2023 14:29:59 +0800 (CST)
-Subject: Re: [PATCH 2/3] hw/intc: Add NULL pointer check on LoongArch ipi
- device
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- qemu-devel@nongnu.org
-Cc: richard.henderson@linaro.org, maobibo@loongson.cn, yangxiaojuan@loongson.cn
-References: <20230406100052.3355632-1-gaosong@loongson.cn>
- <20230406100052.3355632-2-gaosong@loongson.cn>
- <0de07b1e-1371-9bad-11e0-e57d8fb379fe@linaro.org>
- <255a9693-3660-35b4-8213-a609018bbb2c@loongson.cn>
- <d7f544e1-abf2-1f77-00a8-b3c09852fd0c@linaro.org>
+ AQAAf8Axgjil3V1kPRBXAA--.22618S2; 
+ Fri, 12 May 2023 14:33:09 +0800 (CST)
 From: Song Gao <gaosong@loongson.cn>
-Message-ID: <f90b0620-ec09-bd2a-cc90-3f1a152328ca@loongson.cn>
-Date: Fri, 12 May 2023 14:29:59 +0800
-User-Agent: Mozilla/5.0 (X11; Linux loongarch64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+To: thuth@redhat.com,
+	qemu-devel@nongnu.org
+Cc: richard.henderson@linaro.org, peter.maydell@linaro.org, philmd@linaro.org,
+ pbonzini@redhat.com, alex.bennee@linaro.org, maobibo@loongson.cn,
+ yangxiaojuan@loongson.cn, lvivier@redhat.com, atar4qemu@gmail.com,
+ edgar.iglesias@gmail.com, wainersm@redhat.com, quic_llindhol@quicinc.com,
+ kraxel@redhat.com, deller@gmx.de, stefanha@redhat.com, crosa@redhat.com,
+ eduardo@habkost.net, quintela@redhat.com, jsnow@redhat.com,
+ ysato@users.sourceforge.jp, clg@kaod.org, iii@linux.ibm.com,
+ pavel.dovgaluk@ispras.ru, andrew@aj.id.au, kbastian@mail.uni-paderborn.de,
+ bleal@redhat.com, jcmvbkbc@gmail.com, marcandre.lureau@redhat.com,
+ mark.cave-ayland@ilande.co.uk, rad@semihalf.com, aurelien@aurel32.net,
+ david@redhat.com, armbru@redhat.com, joel@jms.id.au, berrange@redhat.com
+Subject: [PATCH v2] tests/avocado: Add LoongArch machine start test
+Date: Fri, 12 May 2023 14:33:05 +0800
+Message-Id: <20230512063305.1629046-1-gaosong@loongson.cn>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-In-Reply-To: <d7f544e1-abf2-1f77-00a8-b3c09852fd0c@linaro.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-CM-TRANSID: AQAAf8Bxi7bn3F1kiw9XAA--.23282S3
+X-CM-TRANSID: AQAAf8Axgjil3V1kPRBXAA--.22618S2
 X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
-X-Coremail-Antispam: 1Uk129KBjvJXoWxCryfCFW5AF45tr13JF13urg_yoW5urWxpr
- 1kJF43ZryUJrn7Jw1jqr1UXFyUtr18Xa4UWr1Sq3W8Xr4DZry0gr1UWr1vgr1DJw4xJr1U
- tr1UJr47uF17JaDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
+X-Coremail-Antispam: 1Uk129KBjvJXoWxAF47tFWUCw45Ar1xXFW8JFb_yoW5uw4fpr
+ 4jkr15Gr97AFs7Zrnag3sY9FyrXa1kCFy7JF42yrsY9F4DAr40g3WYkw1xZFWqqa1kWa4S
+ grykZw4fW3W8JFJanT9S1TB71UUUUbJqnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
  qI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUIcSsGvfJTRUUU
- bI8YFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s
- 1l1IIY67AEw4v_Jr0_Jr4l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xv
- wVC0I7IYx2IY67AKxVW8JVW5JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwA2z4
- x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6xkF7I0E14v26r4UJVWxJr1l
- e2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF0cIa020Ex4CE44I27wAqx4xG64xvF2
- IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_JrI_JrylYx0Ex4A2jsIE14v26r1j6r4U
- McvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwCYjI0SjxkI62AI1cAE67vIY487Mx
- AIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_
- Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUAVWUtwCIc40Y0x0EwI
- xGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8
- JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcV
- C2z280aVCY1x0267AKxVWUJVW8JbIYCTnIWIevJa73UjIFyTuYvjxUrNtxDUUUU
+ bcAFc2x0x2IEx4CE42xK8VAvwI8IcIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4
+ AK67xGY2AK021l84ACjcxK6xIIjxv20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF
+ 7I0E14v26r4j6F4UM28EF7xvwVC2z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIEc7
+ CjxVAFwI0_Gr1j6F4UJwAaw2AFwI0_Jw0_GFyle2I262IYc4CY6c8Ij28IcVAaY2xG8wAq
+ jxCEc2xF0cIa020Ex4CE44I27wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E74AGY7Cv6c
+ x26rWlOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcxkI7VAKI48JMxkF7I0En4kS14v26r1q
+ 6r43MxAIw28IcxkI7VAKI48JMxAIw28IcVCjz48v1sIEY20_WwCFx2IqxVCFs4IE7xkEbV
+ WUJVW8JwCFI7km07C267AKxVWUtVW8ZwC20s026c02F40E14v26r1j6r18MI8I3I0E7480
+ Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Wrv_Gr1UMIIYrxkI7VAKI48JMIIF0xvE2I
+ x0cI8IcVAFwI0_Gr0_Xr1lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42xK
+ 8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVW8JVWxJwCI42IY6I8E87Iv6xkF7I
+ 0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjxU18nYUUUUU
 Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
  helo=loongson.cn
-X-Spam_score_int: -39
-X-Spam_score: -4.0
-X-Spam_bar: ----
-X-Spam_report: (-4.0 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.124,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -85,102 +84,103 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+Add a new test in tests/avocado to check LoongArch virt machine start.
 
+Reviewed-by: Thomas Huth <thuth@redhat.com>
+Signed-off-by: Song Gao <gaosong@loongson.cn>
+---
+ MAINTAINERS                        |  1 +
+ tests/avocado/machine_loongarch.py | 68 ++++++++++++++++++++++++++++++
+ 2 files changed, 69 insertions(+)
+ create mode 100644 tests/avocado/machine_loongarch.py
 
-在 2023/5/12 上午11:45, Philippe Mathieu-Daudé 写道:
-> On 12/5/23 05:01, Song Gao wrote:
->> Hi,  Philippe
->>
->> 在 2023/5/12 上午3:03, Philippe Mathieu-Daudé 写道:
->>> On 6/4/23 12:00, Song Gao wrote:
->>>> When ipi mailbox is used, cpu index is decoded from iocsr register.
->>>> cpu maybe does not exist. This patch adss NULL pointer check on
->>>> ipi device.
->>>
->>> How can that happens from a guest vcpu context?
->>>
->> cpuid(cs->cpu_index)  is decoded from iocsr register.
->>
->>      cpuid = (val >> 16) & 0x3ff;   // ipi_sned [25:16]
->>
->> The value maybe invalid.  qemu only support 4 vcpu.
->
-> What about something like this?
->
-Nice,   thanks for you suggestion.
-
-Thanks
-Song Gao.
-> -- >8 --
-> -static void ipi_send(uint64_t val)
-> +static void ipi_send(uint32_t val)
->  {
-> -    int cpuid, data;
-> +    uint32_t cpuid;
-> +    uint8_t vector;
->      CPULoongArchState *env;
->      CPUState *cs;
->      LoongArchCPU *cpu;
->
-> -    cpuid = (val >> 16) & 0x3ff;
-> +    cpuid = extract32(val, 16, 10);
-> +    if (cpuid >= MAX_IPI_CORE_NUM) {
-> +        trace_loongarch_ipi_unsupported_cpuid("IOCSR_IPI_SEND", cpuid);
-> +        return;
-> +    }
->      /* IPI status vector */
-> -    data = 1 << (val & 0x1f);
-> +    vector = extract8(val, 0, 5);
-> +
->      cs = qemu_get_cpu(cpuid);
->      cpu = LOONGARCH_CPU(cs);
->      env = &cpu->env;
->      address_space_stl(&env->address_space_iocsr, 0x1008,
-> -                      data, MEMTXATTRS_UNSPECIFIED, NULL);
-> +                      BIT(vector), MEMTXATTRS_UNSPECIFIED, NULL);
->
->  }
-> ---
->
->> you can find more about ipi_send registers at:
->> https://github.com/loongson/LoongArch-Documentation/releases/download/2023.04.20/Loongson-3A5000-usermanual-v1.03-EN.pdf 
->>
->> Table 63. Processor core inter-processor communication registers
->>
->>>> Signed-off-by: Song Gao <gaosong@loongson.cn>
->>>> ---
->>>>   hw/intc/loongarch_ipi.c | 31 +++++++++++++++++++------------
->>>>   1 file changed, 19 insertions(+), 12 deletions(-)
->>>>
->>>> diff --git a/hw/intc/loongarch_ipi.c b/hw/intc/loongarch_ipi.c
->>>> index 0563d83a35..39e899df46 100644
->>>> --- a/hw/intc/loongarch_ipi.c
->>>> +++ b/hw/intc/loongarch_ipi.c
->>>> @@ -86,11 +86,12 @@ static void ipi_send(uint64_t val)
->>>>       /* IPI status vector */
->>>>       data = 1 << (val & 0x1f);
->>>>       cs = qemu_get_cpu(cpuid);
->>>> -    cpu = LOONGARCH_CPU(cs);
->>>> -    env = &cpu->env;
->>>> -    address_space_stl(&env->address_space_iocsr, 0x1008,
->>>> -                      data, MEMTXATTRS_UNSPECIFIED, NULL);
->>>> -
->>>> +    if (cs) {
->>>> +        cpu = LOONGARCH_CPU(cs);
->>>> +        env = &cpu->env;
->>>> +        address_space_stl(&env->address_space_iocsr, 0x1008,
->>>> +                          data, MEMTXATTRS_UNSPECIFIED, NULL);
->>>> +    }
->>>
->>> Is that the hardware behavior?
->>>
->> Yes.
->>> Could logging the invalid cpuid request be useful?
->>>
->> Sure.
->>
->> Thanks.
->> Song Gao
->>
+diff --git a/MAINTAINERS b/MAINTAINERS
+index f757369373..4c0d37a1aa 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -245,6 +245,7 @@ M: Xiaojuan Yang <yangxiaojuan@loongson.cn>
+ S: Maintained
+ F: target/loongarch/
+ F: tests/tcg/loongarch64/
++F: tests/avocado/machine_loongarch.py
+ 
+ M68K TCG CPUs
+ M: Laurent Vivier <laurent@vivier.eu>
+diff --git a/tests/avocado/machine_loongarch.py b/tests/avocado/machine_loongarch.py
+new file mode 100644
+index 0000000000..e8fcb578d7
+--- /dev/null
++++ b/tests/avocado/machine_loongarch.py
+@@ -0,0 +1,68 @@
++# SPDX-License-Identifier: GPL-2.0-or-later
++#
++# LoongArch virt test.
++#
++# Copyright (c) 2023 Loongson Technology Corporation Limited
++#
++
++import os
++import tempfile
++
++from avocado_qemu import QemuSystemTest
++from avocado_qemu import exec_command_and_wait_for_pattern
++from avocado_qemu import wait_for_console_pattern
++
++class LoongArchMachine(QemuSystemTest):
++    KERNEL_COMMON_COMMAND_LINE = 'printk.time=0 '
++
++    timeout = 120
++
++    def wait_for_console_pattern(self, success_message, vm=None):
++        wait_for_console_pattern(self, success_message,
++                                 failure_message='Kernel panic - not syncing',
++                                 vm=vm)
++
++    dmesg_clear_count = 1
++    def clear_guest_dmesg(self):
++        exec_command_and_wait_for_pattern(self, 'dmesg -c > /dev/null; '
++                    'echo dm_clear\ ' + str(self.dmesg_clear_count),
++                    'dm_clear ' + str(self.dmesg_clear_count))
++        self.dmesg_clear_count += 1
++
++    def test_loongarch64_devices(self):
++
++        """
++        :avocado: tags=arch:loongarch64
++        :avocado: tags=machine:virt
++        """
++
++        kernel_url = ('https://github.com/yangxiaojuan-loongson/qemu-binary/'
++                      'releases/download/binary-files/vmlinuz.efi')
++        kernel_hash = '951b485b16e3788b6db03a3e1793c067009e31a2'
++        kernel_path = self.fetch_asset(kernel_url, asset_hash=kernel_hash)
++
++        initrd_url = ('https://github.com/yangxiaojuan-loongson/qemu-binary/'
++                      'releases/download/binary-files/ramdisk')
++        initrd_hash = 'c67658d9b2a447ce7db2f73ba3d373c9b2b90ab2'
++        initrd_path = self.fetch_asset(initrd_url, asset_hash=initrd_hash)
++
++        bios_url = ('https://github.com/yangxiaojuan-loongson/qemu-binary/'
++                    'releases/download/binary-files/QEMU_EFI.fd')
++        bios_hash = ('dfc1bfba4853cd763b9d392d0031827e8addbca8')
++        bios_path = self.fetch_asset(bios_url, asset_hash=bios_hash)
++
++        self.vm.set_console()
++        kernel_command_line = (self.KERNEL_COMMON_COMMAND_LINE +
++                               'root=/dev/ram rdinit=/sbin/init console=ttyS0,115200')
++        self.vm.add_args('-nographic',
++                         '-smp', '4',
++                         '-m', '1024',
++                         '-cpu', 'la464',
++                         '-kernel', kernel_path,
++                         '-initrd', initrd_path,
++                         '-bios', bios_path,
++                         '-append', kernel_command_line)
++        self.vm.launch()
++        self.wait_for_console_pattern('Run /sbin/init as init process')
++        exec_command_and_wait_for_pattern(self, 'cat /proc/cpuinfo',
++                                          'processor		: 3')
+-- 
+2.31.1
 
 
