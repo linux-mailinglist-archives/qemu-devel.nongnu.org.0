@@ -2,74 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7731700A7B
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 May 2023 16:42:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D4A7700AA0
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 May 2023 16:47:09 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pxTxk-0007Hh-DI; Fri, 12 May 2023 10:41:40 -0400
+	id 1pxU2v-0004zL-Di; Fri, 12 May 2023 10:47:01 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pxTxh-0007Fc-TA
- for qemu-devel@nongnu.org; Fri, 12 May 2023 10:41:37 -0400
-Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334])
+ id 1pxU2s-0004lo-PG
+ for qemu-devel@nongnu.org; Fri, 12 May 2023 10:46:58 -0400
+Received: from mail-ed1-x52d.google.com ([2a00:1450:4864:20::52d])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pxTxO-0004gz-MA
- for qemu-devel@nongnu.org; Fri, 12 May 2023 10:41:37 -0400
-Received: by mail-wm1-x334.google.com with SMTP id
- 5b1f17b1804b1-3f4271185daso59004395e9.2
- for <qemu-devel@nongnu.org>; Fri, 12 May 2023 07:41:18 -0700 (PDT)
+ id 1pxU2q-0005qN-Fx
+ for qemu-devel@nongnu.org; Fri, 12 May 2023 10:46:58 -0400
+Received: by mail-ed1-x52d.google.com with SMTP id
+ 4fb4d7f45d1cf-50bc040c7b8so15250613a12.2
+ for <qemu-devel@nongnu.org>; Fri, 12 May 2023 07:46:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1683902478; x=1686494478;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ d=linaro.org; s=google; t=1683902814; x=1686494814;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=fG7jKUscSVjJMlHsTaJJ5ClPxjke4FkCI7ENnqBR0Mk=;
- b=IUgadMk7Xn+d2m4u+Ax0olBGmwqCSWLgWJGFWktAPgQLR+xMBbFI3WLYXQ7Q1t07XF
- 8ELzKL+HWzKDtGr3KJG2jsryLO/BG2wL+S6aEwKYlFZ7dmed4Cj+AoMvaJCR5iNxcCNN
- B+ufy5YUih0W1x8kcSteLbYMC1RqAEhZgoCGWeqVOhvoGWt+YC5FigV73FiE8rHtwD0T
- jIAda6Yk+oJ9LIOZgOJOS/JBRgk+xm7049VPgPWldUISupbk6I50vB6RlJFBnyDZRVjm
- sMlRG4bCp/iIL9dpe/SKic1sCRWUo+jE8iwvA04grWetSGkvFtgNUuPewpIyBAkvf501
- EvEw==
+ bh=iPU14pOSY/PCURzbFqEqxjo2Aqsydj5jxb0kRzQ6P2U=;
+ b=EEMu1zau9+g0iR1edIn5kmkLoSvEVlH9XSLamM3qcF8RCbXvD82PrPGmDuyHxKx8TZ
+ AZF7DcXPomRmQF7/lqYUYdbIZ0Ds28z45iTuH4xymEUSclIfPbrXXBlnowgm11X0aiNm
+ dD47tr1INuIbzzpJg8IuafUuMkuy7Sjki6q8eiq+k+qGLJvAUVnfs3ey+mnRkgxBYfrh
+ G5V0O78+bqvdrqX6tUWU3w1M910lm0/H4w2Ou6azHVrll/2XsKGklFjW+UADZaKJ4Vu2
+ 6vFuiHQQSmhNG5ekm0Pe3CBuxl/NTZmo7WhFpT/qfgwhODjy4lGJU+UfUnLh1cmamTFx
+ 9PfA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683902478; x=1686494478;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ d=1e100.net; s=20221208; t=1683902814; x=1686494814;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=fG7jKUscSVjJMlHsTaJJ5ClPxjke4FkCI7ENnqBR0Mk=;
- b=fNPi9cE/stq1l85ABAm4DJXp55Fvv/Li918HxuIxHSIalugFrG7sgQg96WlvaC3+Pw
- F5w7PQifBZLjxGy7SR0o6j+V1nqEQdQKDma2MxUXQGtLne83g6FcVeFUBSg49OVLsDWE
- sl4ErY5cfOUEQW5Z4rt74BsoInnkvssLV0fGgz1NehcHsyX6wMbKgJbq+56KNxZvCFRF
- reYGgZJfi51//1VLecIqogZZpwzknzx1yOu6xHUv23croKOfVcxsgxrDp0gj80hwZjMK
- 5nEw/S6jSA/aBc+7lsHC46szfzvypJP7hr2UDJf7Gw3wKa0MGSmu3HwRhN9EIZCy5L2K
- VeNQ==
-X-Gm-Message-State: AC+VfDzK0HdhtAc4SJreeYwZf/+ijU8Gx9CPXdRVfIsS9lMdQorBmJCi
- 7NW6UROg/00yfIw//VMRo+POhQ==
-X-Google-Smtp-Source: ACHHUZ7LyC3JhWUSbwsWdQDq2HCmzmaKwRDgGgG96TCFEq8cZhxEm+VcuKIayan0LpktmnnTs47P/g==
-X-Received: by 2002:a05:600c:2182:b0:3f4:2255:8608 with SMTP id
- e2-20020a05600c218200b003f422558608mr13880897wme.31.1683902477823; 
- Fri, 12 May 2023 07:41:17 -0700 (PDT)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
- by smtp.gmail.com with ESMTPSA id
- f12-20020a7bcc0c000000b003f17848673fsm28916167wmh.27.2023.05.12.07.41.17
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 12 May 2023 07:41:17 -0700 (PDT)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-arm@nongnu.org,
-	qemu-devel@nongnu.org
-Cc: Richard Henderson <richard.henderson@linaro.org>
-Subject: [PATCH 20/20] target/arm: Convert ERET, ERETAA, ERETAB to decodetree
-Date: Fri, 12 May 2023 15:41:06 +0100
-Message-Id: <20230512144106.3608981-21-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230512144106.3608981-1-peter.maydell@linaro.org>
-References: <20230512144106.3608981-1-peter.maydell@linaro.org>
+ bh=iPU14pOSY/PCURzbFqEqxjo2Aqsydj5jxb0kRzQ6P2U=;
+ b=Lz+Wh8hfBoUsLhKLXKNLJcCUzVb/cI604sLv3mIqEOGP5Ps11YiBc68e/AQvPjn0Bi
+ 6QyEDQHX7g9Ov/BUL3gJO2xMqS/ZAOXMijGXxTB49G3y2c4qkEd47UESMSd/WMw0Lz5f
+ IRgZ6xAb8Ms27c/Gkq0dknMoXQj3fMKzfa2YAvsmaWmOrKMyNGJdiwY3ucGJmUpk67ge
+ pfG5D1QUSXuSTDs+Kde57b3AqkLz5TdggIztgMtXrCdU5xW+/WFmG15LYzW2MPN/hLUQ
+ d/Rr9QRdYB3oQChbfhuKLCcNMz5vCvlc2vP8KQh+5G2EviC/yJlLsHY1q8W2dK/mewrp
+ wYtQ==
+X-Gm-Message-State: AC+VfDxGCwsfLSGzT6Z2FVKR3SH8rBPwea1sqLBFTEUtkWY8qKEHe/Os
+ iH7tEM3K+er2cPEtSneh4YVhRJ/dkYYsv2Vy2f9/9w==
+X-Google-Smtp-Source: ACHHUZ4GjB/j1FtEJpqZvWTNrvYUzxULpi89IfKQ0eB0iXd96pAMLmlpkCMv7Cg6tHdPcaF69BjHzuE1ZGPnQ1aRC98=
+X-Received: by 2002:a50:fe8c:0:b0:506:ba8d:c317 with SMTP id
+ d12-20020a50fe8c000000b00506ba8dc317mr18569012edt.40.1683902814596; Fri, 12
+ May 2023 07:46:54 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::334;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x334.google.com
+References: <20230401104953.1325983-1-smostafa@google.com>
+In-Reply-To: <20230401104953.1325983-1-smostafa@google.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 12 May 2023 15:46:43 +0100
+Message-ID: <CAFEAcA8=sOzRW9QZqrpsLZh6q_erXmj2xfazfKrgg_ESR8Fy9Q@mail.gmail.com>
+Subject: Re: [RFC PATCH v3 00/10] Add stage-2 translation for SMMUv3
+To: Mostafa Saleh <smostafa@google.com>
+Cc: qemu-devel@nongnu.org, jean-philippe@linaro.org, eric.auger@redhat.com, 
+ qemu-arm@nongnu.org, richard.henderson@linaro.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::52d;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -92,227 +87,32 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Convert the exception-return insns ERET, ERETA and ERETB to
-decodetree. These were the last insns left in the legacy
-decoder function disas_uncond_reg_b(), which allows us to
-remove it.
+On Sat, 1 Apr 2023 at 11:49, Mostafa Saleh <smostafa@google.com> wrote:
+>
+> This patch series adds stage-2 translation support for SMMUv3. It is
+> controlled by a new system property =E2=80=9Carm-smmuv3.stage=E2=80=9D.
+> - When set to =E2=80=9C1=E2=80=9D: Stage-1 only would be advertised and s=
+upported (default
+> behaviour)
+> - When set to =E2=80=9C2=E2=80=9D: Stage-2 only would be advertised and s=
+upported.
+> - Value =E2=80=9Call=E2=80=9D is reserved for nesting support. However it=
+ is not
+> implemented in this patch series (more about this in the end)
+>
+> Features implemented in stage-2 are mostly synonymous with stage-1
+> - VMID16.
+> - Only AArch64 translation tables are supported.
+> - Only little endian translation table supported.
+> - Stall is not supported.
+> - HTTU is not supported, SW is expected to maintain the Access flag.
 
-The old decoder explicitly decoded the DRPS instruction,
-only in order to call unallocated_encoding() on it, exactly
-as would have happened if it hadn't decoded it. This is
-because this insn always UNDEFs unless the CPU is in
-halting-debug state, which we don't emulate. So we list
-the pattern in a comment in a64.decode, but don't actively
-decode it.
+Eric: are you planning to review this v3? I think only
+patches 2, 4, 5, 8, 10 still need review.
 
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
----
- target/arm/tcg/a64.decode      |   8 ++
- target/arm/tcg/translate-a64.c | 160 +++++++++++----------------------
- 2 files changed, 60 insertions(+), 108 deletions(-)
+Mostafa: is there anything in particular here that means this
+patchset should stay an RFC and isn't ready to go into the tree?
 
-diff --git a/target/arm/tcg/a64.decode b/target/arm/tcg/a64.decode
-index 5b055efdc19..ae2874017d8 100644
---- a/target/arm/tcg/a64.decode
-+++ b/target/arm/tcg/a64.decode
-@@ -146,3 +146,11 @@ RETA            1101011 0010 11111 00001 m:1 11111 11111 &reta  # RETAA, RETAB
- &bra        rn rm m
- BRA             1101011 1000 11111 00001 m:1 rn:5 rm:5 &bra # BRAA, BRAB
- BLRA            1101011 1001 11111 00001 m:1 rn:5 rm:5 &bra # BLRAA, BLRAB
-+
-+ERET            1101011 0100 11111 000000 11111 00000
-+ERETA           1101011 0100 11111 00001 m:1 11111 11111 &reta  # ERETAA, ERETAB
-+
-+# We don't need to decode DRPS because it always UNDEFs except when
-+# the processor is in halting debug state (which we don't implement).
-+# The pattern is listed here as documentation.
-+# DRPS            1101011 0101 11111 000000 11111 00000
-diff --git a/target/arm/tcg/translate-a64.c b/target/arm/tcg/translate-a64.c
-index 54e3571a89c..2cd31f85d79 100644
---- a/target/arm/tcg/translate-a64.c
-+++ b/target/arm/tcg/translate-a64.c
-@@ -1539,6 +1539,58 @@ static bool trans_BLRA(DisasContext *s, arg_bra *a)
-     return true;
- }
- 
-+static bool trans_ERET(DisasContext *s, arg_ERET *a)
-+{
-+    TCGv_i64 dst;
-+
-+    if (s->current_el == 0) {
-+        return false;
-+    }
-+    if (s->fgt_eret) {
-+        gen_exception_insn_el(s, 0, EXCP_UDEF, 0, 2);
-+        return true;
-+    }
-+    dst = tcg_temp_new_i64();
-+    tcg_gen_ld_i64(dst, cpu_env,
-+                   offsetof(CPUARMState, elr_el[s->current_el]));
-+
-+    if (tb_cflags(s->base.tb) & CF_USE_ICOUNT) {
-+        gen_io_start();
-+    }
-+
-+    gen_helper_exception_return(cpu_env, dst);
-+    /* Must exit loop to check un-masked IRQs */
-+    s->base.is_jmp = DISAS_EXIT;
-+    return true;
-+}
-+
-+static bool trans_ERETA(DisasContext *s, arg_reta *a)
-+{
-+    TCGv_i64 dst;
-+
-+    if (!dc_isar_feature(aa64_pauth, s)) {
-+        return false;
-+    }
-+    /* The FGT trap takes precedence over an auth trap. */
-+    if (s->fgt_eret) {
-+        gen_exception_insn_el(s, 0, EXCP_UDEF, a->m ? 3 : 2, 2);
-+        return true;
-+    }
-+    dst = tcg_temp_new_i64();
-+    tcg_gen_ld_i64(dst, cpu_env,
-+                   offsetof(CPUARMState, elr_el[s->current_el]));
-+
-+    dst = auth_branch_target(s, dst, cpu_X[31], !a->m);
-+    if (tb_cflags(s->base.tb) & CF_USE_ICOUNT) {
-+        gen_io_start();
-+    }
-+
-+    gen_helper_exception_return(cpu_env, dst);
-+    /* Must exit loop to check un-masked IRQs */
-+    s->base.is_jmp = DISAS_EXIT;
-+    return true;
-+}
-+
- /* HINT instruction group, including various allocated HINTs */
- static void handle_hint(DisasContext *s, uint32_t insn,
-                         unsigned int op1, unsigned int op2, unsigned int crm)
-@@ -2307,111 +2359,6 @@ static void disas_exc(DisasContext *s, uint32_t insn)
-     }
- }
- 
--/* Unconditional branch (register)
-- *  31           25 24   21 20   16 15   10 9    5 4     0
-- * +---------------+-------+-------+-------+------+-------+
-- * | 1 1 0 1 0 1 1 |  opc  |  op2  |  op3  |  Rn  |  op4  |
-- * +---------------+-------+-------+-------+------+-------+
-- */
--static void disas_uncond_b_reg(DisasContext *s, uint32_t insn)
--{
--    unsigned int opc, op2, op3, rn, op4;
--    TCGv_i64 dst;
--    TCGv_i64 modifier;
--
--    opc = extract32(insn, 21, 4);
--    op2 = extract32(insn, 16, 5);
--    op3 = extract32(insn, 10, 6);
--    rn = extract32(insn, 5, 5);
--    op4 = extract32(insn, 0, 5);
--
--    if (op2 != 0x1f) {
--        goto do_unallocated;
--    }
--
--    switch (opc) {
--    case 0:
--    case 1:
--    case 2:
--    case 8:
--    case 9:
--        /*
--         * BR, BLR, RET, RETAA, RETAB, BRAAZ, BRABZ, BLRAAZ, BLRABZ,
--         * BRAA, BLRAA: handled in decodetree
--         */
--        goto do_unallocated;
--
--    case 4: /* ERET */
--        if (s->current_el == 0) {
--            goto do_unallocated;
--        }
--        switch (op3) {
--        case 0: /* ERET */
--            if (op4 != 0) {
--                goto do_unallocated;
--            }
--            if (s->fgt_eret) {
--                gen_exception_insn_el(s, 0, EXCP_UDEF, syn_erettrap(op3), 2);
--                return;
--            }
--            dst = tcg_temp_new_i64();
--            tcg_gen_ld_i64(dst, cpu_env,
--                           offsetof(CPUARMState, elr_el[s->current_el]));
--            break;
--
--        case 2: /* ERETAA */
--        case 3: /* ERETAB */
--            if (!dc_isar_feature(aa64_pauth, s)) {
--                goto do_unallocated;
--            }
--            if (rn != 0x1f || op4 != 0x1f) {
--                goto do_unallocated;
--            }
--            /* The FGT trap takes precedence over an auth trap. */
--            if (s->fgt_eret) {
--                gen_exception_insn_el(s, 0, EXCP_UDEF, syn_erettrap(op3), 2);
--                return;
--            }
--            dst = tcg_temp_new_i64();
--            tcg_gen_ld_i64(dst, cpu_env,
--                           offsetof(CPUARMState, elr_el[s->current_el]));
--            if (s->pauth_active) {
--                modifier = cpu_X[31];
--                if (op3 == 2) {
--                    gen_helper_autia(dst, cpu_env, dst, modifier);
--                } else {
--                    gen_helper_autib(dst, cpu_env, dst, modifier);
--                }
--            }
--            break;
--
--        default:
--            goto do_unallocated;
--        }
--        if (tb_cflags(s->base.tb) & CF_USE_ICOUNT) {
--            gen_io_start();
--        }
--
--        gen_helper_exception_return(cpu_env, dst);
--        /* Must exit loop to check un-masked IRQs */
--        s->base.is_jmp = DISAS_EXIT;
--        return;
--
--    case 5: /* DRPS */
--        if (op3 != 0 || op4 != 0 || rn != 0x1f) {
--            goto do_unallocated;
--        } else {
--            unallocated_encoding(s);
--        }
--        return;
--
--    default:
--    do_unallocated:
--        unallocated_encoding(s);
--        return;
--    }
--}
--
- /* Branches, exception generating and system instructions */
- static void disas_b_exc_sys(DisasContext *s, uint32_t insn)
- {
-@@ -2427,9 +2374,6 @@ static void disas_b_exc_sys(DisasContext *s, uint32_t insn)
-             disas_exc(s, insn);
-         }
-         break;
--    case 0x6b: /* Unconditional branch (register) */
--        disas_uncond_b_reg(s, insn);
--        break;
-     default:
-         unallocated_encoding(s);
-         break;
--- 
-2.34.1
-
+thanks
+-- PMM
 
