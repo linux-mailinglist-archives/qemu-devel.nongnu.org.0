@@ -2,88 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D74367003C9
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 May 2023 11:31:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F9CC7003D0
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 May 2023 11:32:11 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pxP6W-0005gr-1P; Fri, 12 May 2023 05:30:24 -0400
+	id 1pxP7b-0006nP-Ny; Fri, 12 May 2023 05:31:31 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pxP6M-0005gN-PH
- for qemu-devel@nongnu.org; Fri, 12 May 2023 05:30:15 -0400
-Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pxP6K-0006Mm-VT
- for qemu-devel@nongnu.org; Fri, 12 May 2023 05:30:14 -0400
-Received: by mail-wm1-x32d.google.com with SMTP id
- 5b1f17b1804b1-3f42c86543bso29720765e9.3
- for <qemu-devel@nongnu.org>; Fri, 12 May 2023 02:30:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1683883810; x=1686475810;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
- :message-id:reply-to;
- bh=LbcdtDS5cTiMFQSUFB7ZcoZiXethxMBbph6evnM5uV4=;
- b=PF5Z2rVaqNbRdj20drcWDhf2+w7em9LycZ69cZjXfO6qAqKCfqMa30db4jHfI3kyVK
- anIrcbqqK17IZZbq+jy30fexwxT3Z33LAojUlj7NK3t6jg7uBj/megsNHZ3RxYQkCy1F
- LWmiPVzL+ZwbUOIPWQHzN0RvTuKdeONP7VxXJd4jVENS8Q5XlSRerNeVEwzFfAxJEFw+
- K6Zn2f1Kp9/e684VzQzAUe7MPeYEqHbZkB5cd2rQTx462ZNiubse+sBIDHkeuZNkSfb/
- DHz8mHj4rSiRlDF5qk3+PaB1u0QqlJQbOl6+sX9Fdj0sitLt8V/UwsQOP2Z3kNS5Kj1Q
- oNbA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683883810; x=1686475810;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=LbcdtDS5cTiMFQSUFB7ZcoZiXethxMBbph6evnM5uV4=;
- b=ccvrLZaRAuVOd1yZm8myF9jckfYpsiMXn86tcOBugyWPArO2zzJqwwtiLqPjFH/Zi7
- UsjyIENLcrGWN98mf+ejluowC5M11+MdsQAhx+iaWYwbJK+XLcKrkfyYrvK7OcjgwkZr
- xEh1U+CYWytqksxtzrpoMgMaPJNvlg+NqmnaSbOISFYdCALnlRPItj7hLInuKri6cu6N
- qTH4PcAwNrCFP4GeNGxtTOtOEBfL0pdtijP1agqD6YA7xau1y1tv6n/awJTfsXf5L6e+
- xZge62xSlQM0Dr4gN6xdP4HiN66Iob7zapNtfsxtZNiVpVqUmrcmEuYMF4Zm20Ou5335
- 4rvQ==
-X-Gm-Message-State: AC+VfDyg1pNtDITrCQqLlFEHATPUJ3h3fKYkfedyB15CmR1k8Y7Wk5Vf
- 3IEOvO6spNAa70JI60CxKTsjnQ==
-X-Google-Smtp-Source: ACHHUZ74a/tkGORYrVgd2YBP+bTT0fP1lETTot7SteF0qAIXObPhbY9LpUzMWhHcKAP88v0UzuGPxA==
-X-Received: by 2002:a05:600c:21d0:b0:3f1:8aaa:c20c with SMTP id
- x16-20020a05600c21d000b003f18aaac20cmr16345052wmj.7.1683883809821; 
- Fri, 12 May 2023 02:30:09 -0700 (PDT)
-Received: from zen.linaroharston ([85.9.250.243])
- by smtp.gmail.com with ESMTPSA id
- l2-20020a1c7902000000b003f195d540d9sm27810654wme.14.2023.05.12.02.30.09
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 12 May 2023 02:30:09 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id C03361FFBB;
- Fri, 12 May 2023 10:30:08 +0100 (BST)
-References: <20230421132421.1617479-1-fei2.wu@intel.com>
- <87wn259n4g.fsf@linaro.org>
- <1b2aae6d-ebce-65a9-0cda-84bf0fcc8b1e@intel.com>
- <87lehux7ao.fsf@linaro.org>
- <97cd91c9-2604-4dd6-1ef0-b33a11061621@intel.com>
-User-agent: mu4e 1.11.4; emacs 29.0.90
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: "Wu, Fei" <fei2.wu@intel.com>
-Cc: richard.henderson@linaro.org, qemu-devel@nongnu.org
-Subject: Re: [PATCH v11 00/14] TCG code quality tracking
-Date: Fri, 12 May 2023 10:29:01 +0100
-In-reply-to: <97cd91c9-2604-4dd6-1ef0-b33a11061621@intel.com>
-Message-ID: <87cz35yk0v.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <zenghao@kylinos.cn>)
+ id 1pxP7V-0006io-PI; Fri, 12 May 2023 05:31:26 -0400
+Received: from mailgw.kylinos.cn ([124.126.103.232])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <zenghao@kylinos.cn>)
+ id 1pxP7S-0006YE-O3; Fri, 12 May 2023 05:31:25 -0400
+X-UUID: e288b10992cb4de7a799da77a14ab584-20230512
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.22, REQID:44b1e119-3b1a-41f9-9a88-54a68985f91c, IP:10,
+ URL:0,TC:0,Content:-5,EDM:25,RT:0,SF:-9,FILE:0,BULK:0,RULE:Release_Ham,ACT
+ ION:release,TS:21
+X-CID-INFO: VERSION:1.1.22, REQID:44b1e119-3b1a-41f9-9a88-54a68985f91c, IP:10,
+ UR
+ L:0,TC:0,Content:-5,EDM:25,RT:0,SF:-9,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
+ N:release,TS:21
+X-CID-META: VersionHash:120426c, CLOUDID:3d7cf83a-de1e-4348-bc35-c96f92f1dcbb,
+ B
+ ulkID:230512173112RBIG3N3X,BulkQuantity:0,Recheck:0,SF:19|43|24|17|102,TC:
+ nil,Content:0,EDM:5,IP:-2,URL:0,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI
+ :0,OSA:0,AV:0
+X-CID-BVR: 0
+X-CID-BAS: 0,_,0,_
+X-UUID: e288b10992cb4de7a799da77a14ab584-20230512
+Received: from mail.kylinos.cn [(39.156.73.10)] by mailgw
+ (envelope-from <zenghao@kylinos.cn>) (Generic MTA)
+ with ESMTP id 506198866; Fri, 12 May 2023 17:31:11 +0800
+Received: from mail.kylinos.cn (localhost [127.0.0.1])
+ by mail.kylinos.cn (NSMail) with SMTP id DABA9E0084A4;
+ Fri, 12 May 2023 17:31:10 +0800 (CST)
+X-ns-mid: postfix-645E075E-67668141
+Received: from zdzh5-QiTianM428-A376.. (unknown [172.20.12.253])
+ by mail.kylinos.cn (NSMail) with ESMTPA id 5AB8DE0084A4;
+ Fri, 12 May 2023 17:31:10 +0800 (CST)
+From: Hao Zeng <zenghao@kylinos.cn>
+To: pbonzini@redhat.com
+Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org, qemu-devel@nongnu.org,
+ Hao Zeng <zenghao@kylinos.cn>
+Subject: [PATCH V2] hw/arm: enable qxl for aarch64
+Date: Fri, 12 May 2023 17:31:08 +0800
+Message-Id: <20230512093108.1180726-1-zenghao@kylinos.cn>
+X-Mailer: git-send-email 2.37.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32d.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=124.126.103.232; envelope-from=zenghao@kylinos.cn;
+ helo=mailgw.kylinos.cn
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01,
+ UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -99,72 +76,27 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+Qemu does not support qxl graphics cards in arm, it is recommended to ena=
+ble
 
-"Wu, Fei" <fei2.wu@intel.com> writes:
+Signed-off-by: Hao Zeng <zenghao@kylinos.cn>
+---
+ hw/arm/Kconfig | 1 +
+ 1 file changed, 1 insertion(+)
 
-> On 5/12/2023 4:42 PM, Alex Benn=C3=A9e wrote:
->>=20
->> "Wu, Fei" <fei2.wu@intel.com> writes:
->>=20
->>> On 4/22/2023 12:42 AM, Alex Benn=C3=A9e wrote:
->>>>
->>>> Fei Wu <fei2.wu@intel.com> writes:
->>>>
->>>>> This patch series were done by Vanderson and Alex originally in 2019,=
- I
->>>>> (Fei Wu) rebased them on latest upstream from:
->>>>>     https://github.com/stsquad/qemu/tree/tcg/tbstats-and-perf-v10
->>>>> and send out this review per Alex's request, I will continue to addre=
-ss
->>>>> any future review comments here. As it's been a very long time and th=
-ere
->>>>> are lots of conflicts during rebase, it's my fault if I introduce any
->>>>> problems during the process.
->>>>
->>>> Hi Fei,
->>>>
->>>> Thanks for picking this up. I can confirm that this applies cleanly to
->>>> master and I have kicked the tyres and things still seem to work. I'm
->>>> not sure if I can provide much review on code I wrote but a few things
->>>> to point out:
->>>>
->>> Hi Alex,
->>>
->>> There are several new files added, should I put your name as their
->>> maintainer? Also, should I signed-off these patches or not, definitely
->>> the original signed-offs will be kept.
->>=20
->> I assume they would just become part of the accel/tcg stuff rather than
->> be maintained as a separate subsystem.
->>=20
-> ok. I see ./scripts/checkpatch.pl reports some warnings as follows:
->
-> WARNING: added, moved or deleted file(s), does MAINTAINERS need
-> updating?
-
-All the stuff under accel/tcg should already be caught by:
-
-Overall TCG CPUs
-...
-F: accel/tcg/
-
-but I suspect the new headers will need explicit entries in the
-MAINTAINERS file adding.
-
->
->> For sign-offs you should keep the original authors and add your own.
->> Each s-o-b is a statement by the person working with the code that they
->> are "legally okay to contribute this and happy for it to go into QEMU".
->> So it is totally normal for work that goes through several trees before
->> being merged to have multiple sign-offs. When the maintainer creates
->> their pull request they will add theirs as well.
->>=20
-> Got it, thank you.
->
-> Fei.
-
-
+diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
+index 0f42c556d7..d0bedf9347 100644
+--- a/hw/arm/Kconfig
++++ b/hw/arm/Kconfig
+@@ -32,6 +32,7 @@ config ARM_VIRT
+     select VIRTIO_MEM_SUPPORTED
+     select ACPI_CXL
+     select ACPI_HMAT
++    select QXL
+=20
+ config CHEETAH
+     bool
 --=20
-Alex Benn=C3=A9e
-Virtualisation Tech Lead @ Linaro
+2.37.2
+
 
