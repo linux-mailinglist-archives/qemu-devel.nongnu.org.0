@@ -2,19 +2,19 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 872C0700848
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 May 2023 14:43:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8049670084F
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 May 2023 14:43:56 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pxS4y-0007e0-NG; Fri, 12 May 2023 08:41:00 -0400
+	id 1pxS50-0007eq-T3; Fri, 12 May 2023 08:41:02 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pxS4x-0007dd-JR
- for qemu-devel@nongnu.org; Fri, 12 May 2023 08:40:59 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pxS4y-0007dx-3I
+ for qemu-devel@nongnu.org; Fri, 12 May 2023 08:41:00 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pxS4w-0006Rp-5n
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pxS4w-0006SJ-GV
  for qemu-devel@nongnu.org; Fri, 12 May 2023 08:40:59 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1683895257;
@@ -22,33 +22,33 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=m1TfEzhhgBLzSdsPNYs8ubruiYedg6bXskeo2HyXArU=;
- b=TReKgvQYGx/LEmJZ6Hm/zQXlya/q0hQwXPq45/qpuW+1CFUBu5lzzAamboubwUWs+7ph7G
- I4z4nl4bozghl+vhFfqK7JACZwguOhAarb2YxCzK1JM67H9YUr4GCenhrivF2wuetgZ4Qd
- 6M7y16MfRdKwwdqZXdbzw80eqmgKdRM=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=7xQAXtMPdmj+EhnsOx5jBo5h+S+Tq/OMiEpXn9KYpDE=;
+ b=IE7kbEJl28gVpYt8qCeOOpGX/l6UOF76BwkGW48O6EsnMEYvQrRG4bgbNEzbZt76BQUOBT
+ fnqCxNWlB7ZitxFhcpL/CczGKc25kuYY4esSLKEjFy91DZW5kCxNJGMWu5wqnPrB2R7yP8
+ 3ToC8mEDERe1hhAQdJqAITDaiJJxKP8=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-244-mdt7N3-zOuiOYEvLLIGKyw-1; Fri, 12 May 2023 08:40:54 -0400
-X-MC-Unique: mdt7N3-zOuiOYEvLLIGKyw-1
+ us-mta-106-qu3dANHsP9-seiyDtuDRGQ-1; Fri, 12 May 2023 08:40:56 -0400
+X-MC-Unique: qu3dANHsP9-seiyDtuDRGQ-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
  [10.11.54.3])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D6D3388D013;
- Fri, 12 May 2023 12:40:53 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 900D82A59555;
+ Fri, 12 May 2023 12:40:55 +0000 (UTC)
 Received: from thuth.com (unknown [10.39.192.251])
- by smtp.corp.redhat.com (Postfix) with ESMTP id DCD911121314;
- Fri, 12 May 2023 12:40:47 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8149A1121314;
+ Fri, 12 May 2023 12:40:54 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  Fabiano Rosas <farosas@suse.de>
 Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PATCH 09/18] hw/i386: Ignore the default parallel port if it has not
- been compiled into QEMU
-Date: Fri, 12 May 2023 14:40:24 +0200
-Message-Id: <20230512124033.502654-10-thuth@redhat.com>
+Subject: [PATCH 10/18] hw/sparc64/sun4u: Use MachineClass->default_nic and
+ MachineClass->no_parallel
+Date: Fri, 12 May 2023 14:40:25 +0200
+Message-Id: <20230512124033.502654-11-thuth@redhat.com>
 In-Reply-To: <20230512124033.502654-1-thuth@redhat.com>
 References: <20230512124033.502654-1-thuth@redhat.com>
 MIME-Version: 1.0
@@ -78,63 +78,65 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Don't try to instantiate the parallel port if it has not been
-enabled in the build configuration.
+Announce the default NIC via MachineClass->default_nic and set up
+MachineClass->no_parallel according to the availability of the
+"isa-parallel" device, so that the Sun machines also work when
+QEMU has been configured with "--without-default-devices".
 
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- hw/i386/pc_piix.c | 3 +++
- hw/i386/pc_q35.c  | 2 ++
- 2 files changed, 5 insertions(+)
+ hw/sparc64/sun4u.c | 11 ++++++++---
+ 1 file changed, 8 insertions(+), 3 deletions(-)
 
-diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
-index 1a3712ada0..ab1c4a414e 100644
---- a/hw/i386/pc_piix.c
-+++ b/hw/i386/pc_piix.c
-@@ -26,6 +26,7 @@
- #include CONFIG_DEVICES
+diff --git a/hw/sparc64/sun4u.c b/hw/sparc64/sun4u.c
+index eae7589462..e2858a0331 100644
+--- a/hw/sparc64/sun4u.c
++++ b/hw/sparc64/sun4u.c
+@@ -553,6 +553,7 @@ static void sun4uv_init(MemoryRegion *address_space_mem,
+                         MachineState *machine,
+                         const struct hwdef *hwdef)
+ {
++    MachineClass *mc = MACHINE_GET_CLASS(machine);
+     SPARCCPU *cpu;
+     Nvram *nvram;
+     unsigned int i;
+@@ -645,15 +646,15 @@ static void sun4uv_init(MemoryRegion *address_space_mem,
+         PCIBus *bus;
+         nd = &nd_table[i];
  
- #include "qemu/units.h"
-+#include "hw/char/parallel.h"
- #include "hw/dma/i8257.h"
- #include "hw/loader.h"
- #include "hw/i386/x86.h"
-@@ -450,6 +451,7 @@ static void pc_i440fx_machine_options(MachineClass *m)
-     m->default_machine_opts = "firmware=bios-256k.bin";
-     m->default_display = "std";
-     m->default_nic = "e1000";
-+    m->no_parallel = !module_object_class_by_name(TYPE_ISA_PARALLEL);
-     machine_class_allow_dynamic_sysbus_dev(m, TYPE_RAMFB_DEVICE);
-     machine_class_allow_dynamic_sysbus_dev(m, TYPE_VMBUS_BRIDGE);
+-        if (!nd->model || strcmp(nd->model, "sunhme") == 0) {
++        if (!nd->model || strcmp(nd->model, mc->default_nic) == 0) {
+             if (!onboard_nic) {
+                 pci_dev = pci_new_multifunction(PCI_DEVFN(1, 1),
+-                                                   true, "sunhme");
++                                                   true, mc->default_nic);
+                 bus = pci_busA;
+                 memcpy(&macaddr, &nd->macaddr.a, sizeof(MACAddr));
+                 onboard_nic = true;
+             } else {
+-                pci_dev = pci_new(-1, "sunhme");
++                pci_dev = pci_new(-1, mc->default_nic);
+                 bus = pci_busB;
+             }
+         } else {
+@@ -816,6 +817,8 @@ static void sun4u_class_init(ObjectClass *oc, void *data)
+     mc->default_cpu_type = SPARC_CPU_TYPE_NAME("TI-UltraSparc-IIi");
+     mc->ignore_boot_device_suffixes = true;
+     mc->default_display = "std";
++    mc->default_nic = "sunhme";
++    mc->no_parallel = !module_object_class_by_name(TYPE_ISA_PARALLEL);
+     fwc->get_dev_path = sun4u_fw_dev_path;
  }
-@@ -878,6 +880,7 @@ static void isapc_machine_options(MachineClass *m)
-     pcmc->has_reserved_memory = false;
-     m->default_nic = "ne2k_isa";
-     m->default_cpu_type = X86_CPU_TYPE_NAME("486");
-+    m->no_parallel = !module_object_class_by_name(TYPE_ISA_PARALLEL);
+ 
+@@ -840,6 +843,8 @@ static void sun4v_class_init(ObjectClass *oc, void *data)
+     mc->default_boot_order = "c";
+     mc->default_cpu_type = SPARC_CPU_TYPE_NAME("Sun-UltraSparc-T1");
+     mc->default_display = "std";
++    mc->default_nic = "sunhme";
++    mc->no_parallel = !module_object_class_by_name(TYPE_ISA_PARALLEL);
  }
  
- DEFINE_PC_MACHINE(isapc, "isapc", pc_init_isa,
-diff --git a/hw/i386/pc_q35.c b/hw/i386/pc_q35.c
-index 5dc13af8d6..1109d2c4d0 100644
---- a/hw/i386/pc_q35.c
-+++ b/hw/i386/pc_q35.c
-@@ -30,6 +30,7 @@
- 
- #include "qemu/osdep.h"
- #include "qemu/units.h"
-+#include "hw/char/parallel.h"
- #include "hw/loader.h"
- #include "hw/i2c/smbus_eeprom.h"
- #include "hw/rtc/mc146818rtc.h"
-@@ -366,6 +367,7 @@ static void pc_q35_machine_options(MachineClass *m)
-     m->default_nic = "e1000e";
-     m->default_kernel_irqchip_split = false;
-     m->no_floppy = 1;
-+    m->no_parallel = !module_object_class_by_name(TYPE_ISA_PARALLEL);
-     machine_class_allow_dynamic_sysbus_dev(m, TYPE_AMD_IOMMU_DEVICE);
-     machine_class_allow_dynamic_sysbus_dev(m, TYPE_INTEL_IOMMU_DEVICE);
-     machine_class_allow_dynamic_sysbus_dev(m, TYPE_RAMFB_DEVICE);
+ static const TypeInfo sun4v_type = {
 -- 
 2.31.1
 
