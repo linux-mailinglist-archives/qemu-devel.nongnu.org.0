@@ -2,75 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08C21700DC3
+	by mail.lfdr.de (Postfix) with ESMTPS id 468F9700DC4
 	for <lists+qemu-devel@lfdr.de>; Fri, 12 May 2023 19:19:30 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pxWPA-0007Lt-2L; Fri, 12 May 2023 13:18:08 -0400
+	id 1pxWPe-0007c6-9O; Fri, 12 May 2023 13:18:38 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pxWP3-0007Jr-59
- for qemu-devel@nongnu.org; Fri, 12 May 2023 13:18:04 -0400
-Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pxWPc-0007bQ-TS
+ for qemu-devel@nongnu.org; Fri, 12 May 2023 13:18:36 -0400
+Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pxWP1-0005HB-Eg
- for qemu-devel@nongnu.org; Fri, 12 May 2023 13:18:00 -0400
-Received: by mail-wr1-x42b.google.com with SMTP id
- ffacd0b85a97d-3063b5f32aaso6709063f8f.2
- for <qemu-devel@nongnu.org>; Fri, 12 May 2023 10:17:57 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pxWPb-0005T0-DI
+ for qemu-devel@nongnu.org; Fri, 12 May 2023 13:18:36 -0400
+Received: by mail-wm1-x329.google.com with SMTP id
+ 5b1f17b1804b1-3f41dceb9c9so52575845e9.3
+ for <qemu-devel@nongnu.org>; Fri, 12 May 2023 10:18:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1683911876; x=1686503876;
- h=content-transfer-encoding:mime-version:message-id:date:subject:to
- :from:from:to:cc:subject:date:message-id:reply-to;
- bh=miBGGjW/ZQfOCs7U5dTa3vNRbLi2IQsdXFfT88TdwaM=;
- b=ePDCiVkrEf0LQHw1xkBKNodcLt464K5eZ0IuIF5Is9ByYN8hVEGyjAjek1Qv+3Or7N
- S8RwDOgUY3jsDblmrS4RaW28EjKa3QSTNrS6qUToWcM0v2XP4jHPEv/j1kCgnuI06GTq
- 0lZJYYnTMZ8si+RhHEZeKeh4YBOPfn8bl0mp3p/YBlZHWQ/qGrCZPmCTSUcNWS/POpM6
- HeMA9WaeHrlOxb4KcDFRtnJUwrYdXkKb37pFS6iUkHTjk9yFGEqFgNjcFYonujtmwJUE
- p4OYYBLHWp2ClV7Wiel359atrqr+kISw5i+KcHj1UlnNDgVimrw4njQ5MaT610LWJ7AF
- p7Yw==
+ d=linaro.org; s=google; t=1683911910; x=1686503910;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=V5xBRxPHKW+2lunBgIqBggurjCyZEOlIZ0a+n07+h4o=;
+ b=HQgEEHjOPJw/F3Avd1uA9u7SICEH6UflMJtQYOYBprJDdL7VSaCMraqJFAPfrkQQRu
+ O1gG0hMRFDUwp9wVUPL8UVOhqGL/OHhwSywcexXaJIvecPH2IRuVYUBGOD0Y6fqbmSFg
+ e3e5O9nM3Rmdqk5ceYOAOCYrSUgF+hNHNKvil9iv75/4bcoZt83ndj+ctmkLulk/92Q1
+ 6lfx6oIagqJMKwUfjIlxGsaNCJsHN3S9mShQNvBSmxLMZACtya+o6fR0om7BEKjjFPNZ
+ G0YagDKiywBymaHsj8XiVJtt8/b3Po12Zj3N7zXzfdqUxAwRn2U693C4wE2EU0NBpuir
+ H+ug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683911876; x=1686503876;
- h=content-transfer-encoding:mime-version:message-id:date:subject:to
- :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=miBGGjW/ZQfOCs7U5dTa3vNRbLi2IQsdXFfT88TdwaM=;
- b=kCxGEtnYdDGPJHuUZrVx8wUMepW0i3OlF/u+rEg+cLkB7Dp+rD5hKHJzC5BCGNqruH
- FD/sdEcoFGFuvPSnm60oSYRXFHRkY8+dIFomKdTgKlI3Kno2bdxB+eL2egkH204Z98I7
- VbmCBkRTUNvq9NpB2a/oRm5p1ow3opWcIEpMyJ04kFkD4weVCHuXF7BlJDQsUQrgxljJ
- w2+ooO9KDNL7M47nJcodHC28gdZYdcI+23z54XOBVBQ+TecN4iILxiX/+1jDh2oTRFvT
- CcprGWef0wIkJqUeSbKYrcPR99iqXtJLGBeNBYa8HEhGsK9a64WySBX+ehCg6jLmwmpH
- jeVQ==
-X-Gm-Message-State: AC+VfDysSIPY0KoIP9+ARHUxuQtYZHfFz4B8SBz26QIB/yp5cT1DmXST
- yJk1COL59v16AiISk6Q6lYQTyYmCPn2HMVytgSjSSg==
-X-Google-Smtp-Source: ACHHUZ6Uu6u1VQxqMI7Kc/TERJ2MPonQd1oD8TXC287MSuxIrtDqDZcRYX7SqfmxldQHAPPcaiX69g==
-X-Received: by 2002:a5d:5248:0:b0:307:aa7c:58 with SMTP id
- k8-20020a5d5248000000b00307aa7c0058mr8638998wrc.40.1683911876536; 
- Fri, 12 May 2023 10:17:56 -0700 (PDT)
-Received: from stoup.. ([83.98.42.3]) by smtp.gmail.com with ESMTPSA id
- j18-20020a5d4492000000b003021288a56dsm24010620wrq.115.2023.05.12.10.17.56
- for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 12 May 2023 10:17:56 -0700 (PDT)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] tcg/i386: Set P_REXW in tcg_out_addi_ptr
-Date: Fri, 12 May 2023 18:17:55 +0100
-Message-Id: <20230512171755.1237329-1-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.34.1
+ d=1e100.net; s=20221208; t=1683911910; x=1686503910;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=V5xBRxPHKW+2lunBgIqBggurjCyZEOlIZ0a+n07+h4o=;
+ b=ibbqaqO+fVSgakSM9Df8wck2QKzSzubDJm5qJrMJ/VNQZZ1U8mrflJt99oDKYqp5VT
+ CVVXDU97kqG2O+L6HdM3ftVxLLhRmbeH55eCyP/AgY0DAGmRIxQdeI/+S1YYJ3A5fis/
+ SXLPjM4madquHhpyPuOWVkoXs5d1n1gvMKncYr+muL0buDFj7jlV1nVdGDyeFEkygfiu
+ 7VrgFjKd4FjL8tRqdwcss9wukgyTXp5wdSFH43Uzl01dFHps1ZOvQDUXDggR4bCjPteq
+ 6e+EB4+CI5l04h/bbZZZmKpaoASJd8iCxOVxpiy6tk5de4Ncg5fY40K/vVgdKmoKdjuO
+ gmzw==
+X-Gm-Message-State: AC+VfDx/zMwW7dpPYNC0E6vRZTDHwZX4BNzCiRqHD4CYGtifA4cDoWnH
+ 5NJyU81dv0kKv8vyHE29z00uFDYkOkcLwhup+reLEQ==
+X-Google-Smtp-Source: ACHHUZ7deNwVJ2U6dZDJ9UcTng3UwSh1VlqD863jYoO2LjIXFbuhYN/dhuhqqtsgl8PvcVG5e2Tpig==
+X-Received: by 2002:a05:600c:b42:b0:3f4:f0c2:125 with SMTP id
+ k2-20020a05600c0b4200b003f4f0c20125mr3471184wmr.23.1683911910245; 
+ Fri, 12 May 2023 10:18:30 -0700 (PDT)
+Received: from [192.168.69.115] ([176.176.153.246])
+ by smtp.gmail.com with ESMTPSA id
+ k9-20020a05600c1c8900b003f4283f5c1bsm18483293wms.2.2023.05.12.10.18.29
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 12 May 2023 10:18:30 -0700 (PDT)
+Message-ID: <592fe193-0bb5-4559-f5ee-5aaf1f4ec941@linaro.org>
+Date: Fri, 12 May 2023 19:18:23 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.10.1
+Subject: Re: [PATCH v2 1/3] hw/loongarch/virt: Modify ipi as percpu device
+Content-Language: en-US
+To: Song Gao <gaosong@loongson.cn>, qemu-devel@nongnu.org
+Cc: richard.henderson@linaro.org, maobibo@loongson.cn, yangxiaojuan@loongson.cn
+References: <20230512100421.1867848-1-gaosong@loongson.cn>
+ <20230512100421.1867848-2-gaosong@loongson.cn>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20230512100421.1867848-2-gaosong@loongson.cn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
- envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x42b.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+Received-SPF: pass client-ip=2a00:1450:4864:20::329;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x329.google.com
+X-Spam_score_int: -39
+X-Spam_score: -4.0
+X-Spam_bar: ----
+X-Spam_report: (-4.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.845,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -86,31 +93,24 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The REXW bit must be set to produce a 64-bit pointer result; the
-bit is disabled in 32-bit mode, so we can do this unconditionally.
+On 12/5/23 12:04, Song Gao wrote:
+> ipi is used to communicate between cpus, this patch modified
+> loongarch ipi device as percpu deivce, so that there are
 
-Fixes: 7d9e1ee424b0 ("tcg/i386: Adjust assert in tcg_out_addi_ptr")
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1592
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1642
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- tcg/i386/tcg-target.c.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+"device"
 
-diff --git a/tcg/i386/tcg-target.c.inc b/tcg/i386/tcg-target.c.inc
-index a01bfad773..9fc5592f5d 100644
---- a/tcg/i386/tcg-target.c.inc
-+++ b/tcg/i386/tcg-target.c.inc
-@@ -1091,7 +1091,7 @@ static void tcg_out_addi_ptr(TCGContext *s, TCGReg rd, TCGReg rs,
- {
-     /* This function is only used for passing structs by reference. */
-     tcg_debug_assert(imm == (int32_t)imm);
--    tcg_out_modrm_offset(s, OPC_LEA, rd, rs, imm);
-+    tcg_out_modrm_offset(s, OPC_LEA | P_REXW, rd, rs, imm);
- }
- 
- static inline void tcg_out_pushi(TCGContext *s, tcg_target_long val)
--- 
-2.34.1
+> 2 MemoryRegions with ipi device, rather than 2*cpus
+> MemoryRegions, which may be large than QDEV_MAX_MMIO if
+> more cpus are added on loongarch virt machine.
+> 
+> Signed-off-by: Song Gao <gaosong@loongson.cn>
+> ---
+>   hw/intc/loongarch_ipi.c         | 44 ++++++++++++---------------------
+>   hw/loongarch/virt.c             | 12 ++++-----
+>   include/hw/intc/loongarch_ipi.h | 10 +++-----
+>   include/hw/loongarch/virt.h     |  1 -
+>   4 files changed, 26 insertions(+), 41 deletions(-)
+
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
 
