@@ -2,73 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8FDFB70086B
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 May 2023 14:50:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4519070084B
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 May 2023 14:43:36 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pxSDf-0007n3-6s; Fri, 12 May 2023 08:49:59 -0400
+	id 1pxS4l-0007XS-HS; Fri, 12 May 2023 08:40:47 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <andrew@daynix.com>) id 1pxSDd-0007mj-Jg
- for qemu-devel@nongnu.org; Fri, 12 May 2023 08:49:57 -0400
-Received: from mail-yw1-x112d.google.com ([2607:f8b0:4864:20::112d])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <andrew@daynix.com>) id 1pxSDb-0000fD-Up
- for qemu-devel@nongnu.org; Fri, 12 May 2023 08:49:57 -0400
-Received: by mail-yw1-x112d.google.com with SMTP id
- 00721157ae682-55a44a2637bso145454927b3.2
- for <qemu-devel@nongnu.org>; Fri, 12 May 2023 05:49:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=daynix-com.20221208.gappssmtp.com; s=20221208; t=1683895795; x=1686487795;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=0t9SxAL60HDgbGFCf7CVa/x85Pz3rSUuACZTNnolz+c=;
- b=ELod8YTkiCloZeSskXFQke3oLzhPHHAnkkxzvu6R4MMymHQW59dYqM2/OHOzJ/FgVx
- NM7Lihk1M+zQG3Wk2sp83ncemhIyYGnArE+TnGNQAKBvjOajJc9vVl8lKMK+CSR+BMNA
- 07UqD0sIQtnYkazgSlthBDDANKqijbumf9pnd8VqNo8uqM6fINInPRYCfKFwKxkM4Fpq
- 0Gu8RtjeTBjpfUMR79X5H9XJVAO7JcyuTopmGNcrZQ8mwKD4iNxpqPGD5+Z3ZR+KV6pO
- nEorgYO3+ZBS3g1TnY4ueLrT4od1pPc5noBb+tVeAH4SDxFposfr4wdXNja0d0QYdnYa
- e/1Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683895795; x=1686487795;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=0t9SxAL60HDgbGFCf7CVa/x85Pz3rSUuACZTNnolz+c=;
- b=d3zjQuU+j7f0JpfnC2s5f4sB2aH8x38zKUOpHnskUf9FtFabgzznclKy2IBMZVY4LP
- K8TLarjRMo93N/bkTsun5xiBdxG7vPaetugoDqwbqg84TzLE5uPJQplF8whDkV9WARXF
- 1v5YXpflwEOStvNE5GlpeL6VyWnCf1oAqw2PNY3ohItJQJxF+Qk0bwoMJ7EcZSZqB01g
- dpsCYP2zN3F0YkFTPC5+VhrVPZlwPNfTWXSvs/UAvn7uYXh1iKhDfvO3MUaeWP7RD5wR
- I+00V9xU9um0/dCwNhmUleHPtX/+Gn5osDGPAeQlcQP+mIgC91zt/oBp9z+tN7K6gZmX
- Nfag==
-X-Gm-Message-State: AC+VfDzTWiuosSVOXLusoNzrgDF5y6eTX22w8Ztep6211Yxjj37y9EsF
- tHigS6C12weJcvqcderuXLJlg4cQm7hYxvkjLMHcMA==
-X-Google-Smtp-Source: ACHHUZ6LYsH+557CeHr8NUDL+fm5O+f834+LhHIqBuFUnhh2EMbO7odEB3qYQb2d6fa3RFiX0K6LLTImoNSOXotrQsg=
-X-Received: by 2002:a81:6008:0:b0:54f:8b56:bb3 with SMTP id
- u8-20020a816008000000b0054f8b560bb3mr24370463ywb.5.1683895794929; Fri, 12 May
- 2023 05:49:54 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pxS4k-0007X4-4T
+ for qemu-devel@nongnu.org; Fri, 12 May 2023 08:40:46 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pxS4h-0006JN-3A
+ for qemu-devel@nongnu.org; Fri, 12 May 2023 08:40:45 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1683895241;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=pQ9G+0Q9LtZd7Z/x+VcjdThAy/+HKzkS7YLfxR3nd7Y=;
+ b=ChYnvGxjENwxMstSQhWfbNSta8pGvyDYROjQWZu/HpMaT+WJxDoRacHGg16CWRt4K390l0
+ q/xEjI44Yg+kkZebI7XREAdGNe9BJRx2qbx3XtEsoOhjuxFHMU4T+s0m451DwaLRYbyBqK
+ PqY4aCr434O2Xs2mp9a3kJt8ltfiROc=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-527-92l0xEXVNHuTfV89eEd3Lw-1; Fri, 12 May 2023 08:40:36 -0400
+X-MC-Unique: 92l0xEXVNHuTfV89eEd3Lw-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.3])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 86B2285A5A3;
+ Fri, 12 May 2023 12:40:36 +0000 (UTC)
+Received: from thuth.com (unknown [10.39.192.251])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6BB6F1121314;
+ Fri, 12 May 2023 12:40:35 +0000 (UTC)
+From: Thomas Huth <thuth@redhat.com>
+To: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Fabiano Rosas <farosas@suse.de>
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+Subject: [PATCH 00/18] Allow qtests with --without-default-devices (part 1)
+Date: Fri, 12 May 2023 14:40:15 +0200
+Message-Id: <20230512124033.502654-1-thuth@redhat.com>
 MIME-Version: 1.0
-References: <20230512122902.34345-1-andrew@daynix.com>
-In-Reply-To: <20230512122902.34345-1-andrew@daynix.com>
-From: Andrew Melnichenko <andrew@daynix.com>
-Date: Fri, 12 May 2023 15:31:10 +0300
-Message-ID: <CABcq3pFr7Fa9SkFmF4dVvmuvjr76QnYmDffSxN0M1dARoHuy_w@mail.gmail.com>
-Subject: Re: [PATCH v2 0/6] eBPF RSS through QMP support.
-To: jasowang@redhat.com, mst@redhat.com, armbru@redhat.com, eblake@redhat.com, 
- qemu-devel@nongnu.org, berrange@redhat.com
-Cc: yuri.benditovich@daynix.com, yan@daynix.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: none client-ip=2607:f8b0:4864:20::112d;
- envelope-from=andrew@daynix.com; helo=mail-yw1-x112d.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -84,54 +74,87 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi all,
-Also, a possible solution for libvirt may look like this:
-https://github.com/daynix/libvirt/tree/RSS_eBPF (WIP)
+When configuring QEMU with --without-default-devices, many qtests
+fail since they run QEMU without "-no-defaults", i.e. the QEMU
+binary tries to instantiate a default VGA and a NIC device - which
+fails when it has not been enabled in the config.
 
-On Fri, May 12, 2023 at 3:47=E2=80=AFPM Andrew Melnychenko <andrew@daynix.c=
-om> wrote:
->
-> This series of patches provides the ability to retrieve eBPF program
-> through qmp, so management application may load bpf blob with proper capa=
-bilities.
-> Now, virtio-net devices can accept eBPF programs and maps through propert=
-ies
-> as external file descriptors. Access to the eBPF map is direct through mm=
-ap()
-> call, so it should not require additional capabilities to bpf* calls.
-> eBPF file descriptors can be passed to QEMU from parent process or by uni=
-x
-> socket with sendfd() qmp command.
->
-> Changes since v1:
->  * refactored code.
->  * eBPF program ids implemented as enums
->
-> Andrew Melnychenko (6):
->   ebpf: Added eBPF map update through mmap.
->   ebpf: Added eBPF initialization by fds.
->   virtio-net: Added property to load eBPF RSS with fds.
->   ebpf: Added declaration/initialization routines.
->   qmp: Added new command to retrieve eBPF blob.
->   ebpf: Updated eBPF program and skeleton.
->
->  ebpf/ebpf.c                    |   54 ++
->  ebpf/ebpf.h                    |   31 +
->  ebpf/ebpf_rss-stub.c           |    6 +
->  ebpf/ebpf_rss.c                |  149 +++-
->  ebpf/ebpf_rss.h                |   10 +
->  ebpf/meson.build               |    1 +
->  ebpf/rss.bpf.skeleton.h        | 1469 ++++++++++++++++----------------
->  hw/net/virtio-net.c            |   55 +-
->  include/hw/virtio/virtio-net.h |    1 +
->  monitor/qmp-cmds.c             |   16 +
->  qapi/misc.json                 |   38 +
->  tools/ebpf/rss.bpf.c           |    2 +-
->  12 files changed, 1073 insertions(+), 759 deletions(-)
->  create mode 100644 ebpf/ebpf.c
->  create mode 100644 ebpf/ebpf.h
->
-> --
-> 2.39.1
->
+Here's now my attempt to fix these issues: The basic idea is to
+use the default_display and the new default_nic setting in the
+MachineClass to determine whether the default device is available
+in the binary or not, and in the latter case skip the instantiation.
+Some qtests also need some more check for optional devices on top,
+but then it's possible to run "make check" for --without-default-devices
+builds, too.
+
+This series only tackles with x86 and the targets that are tested
+in the "build-without-defaults" gitlab CI pipeline. If these changes
+are acceptable, I can continue this cleanup for the other targets,
+too.
+
+Thomas Huth (18):
+  hw/i386/Kconfig: ISAPC works fine without VGA_ISA
+  softmmu/vl.c: Check for the availability of the VGA device before
+    using it
+  hw: Move the default NIC machine class setting from the x86 to the
+    generic one
+  softmmu/vl.c: Disable default NIC if it has not been compiled into the
+    binary
+  hw/ppc: Use MachineClass->default_nic in the ppc machines
+  hw/s390x: Use MachineClass->default_nic in the s390x machine
+  hw/sh4: Use MachineClass->default_nic in the sh4 r2d machine
+  hw/char/parallel: Move TYPE_ISA_PARALLEL to the header file
+  hw/i386: Ignore the default parallel port if it has not been compiled
+    into QEMU
+  hw/sparc64/sun4u: Use MachineClass->default_nic and
+    MachineClass->no_parallel
+  tests/qtest/readconfig-test: Check for the availability of USB
+    controllers
+  tests/qtest/usb-hcd-uhci-test: Skip test if UHCI controller is not
+    available
+  tests/qtest/cdrom-test: Fix the test to also work without optional
+    devices
+  tests/qtest/virtio-ccw-test: Remove superfluous tests
+  tests/qtest: Check for the availability of virtio-ccw devices before
+    using them
+  tests/qtest/meson.build: Run the net filter tests only with default
+    devices
+  tests/qemu-iotests/172: Run QEMU with -vga none and -nic none
+  .gitlab-ci.d/buildtest.yml: Run full "make check" with
+    --without-default-devices
+
+ include/hw/boards.h             |  1 +
+ include/hw/char/parallel.h      |  2 ++
+ include/hw/i386/pc.h            |  1 -
+ hw/char/parallel-isa.c          |  2 +-
+ hw/char/parallel.c              |  1 -
+ hw/i386/pc.c                    |  3 ++-
+ hw/i386/pc_piix.c               |  7 ++++--
+ hw/i386/pc_q35.c                |  8 +++---
+ hw/isa/isa-superio.c            |  3 ++-
+ hw/ppc/e500.c                   |  3 ++-
+ hw/ppc/e500plat.c               |  1 +
+ hw/ppc/mac_newworld.c           |  4 ++-
+ hw/ppc/mac_oldworld.c           |  4 ++-
+ hw/ppc/mpc8544ds.c              |  1 +
+ hw/ppc/ppc440_bamboo.c          |  4 ++-
+ hw/ppc/prep.c                   |  4 ++-
+ hw/s390x/s390-virtio-ccw.c      |  4 ++-
+ hw/sh4/r2d.c                    |  4 ++-
+ hw/sparc64/sun4u.c              | 11 ++++++---
+ softmmu/vl.c                    | 20 ++++++++++++++-
+ tests/qtest/cdrom-test.c        | 18 +++++++++++---
+ tests/qtest/device-plug-test.c  |  9 ++++++-
+ tests/qtest/readconfig-test.c   |  5 +++-
+ tests/qtest/usb-hcd-uhci-test.c |  5 ++++
+ tests/qtest/virtio-ccw-test.c   | 43 ++++++++++-----------------------
+ .gitlab-ci.d/buildtest.yml      |  2 +-
+ hw/i386/Kconfig                 |  2 +-
+ tests/qemu-iotests/172          |  2 +-
+ tests/qtest/meson.build         | 10 +++-----
+ 29 files changed, 118 insertions(+), 66 deletions(-)
+
+-- 
+2.31.1
+
 
