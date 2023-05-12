@@ -2,67 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06CA96FFECD
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 May 2023 04:13:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC1346FFF2A
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 May 2023 05:03:30 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pxIFa-0004rJ-9A; Thu, 11 May 2023 22:11:18 -0400
+	id 1pxJ2T-0005as-Bp; Thu, 11 May 2023 23:01:49 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1pxIFW-0004p4-Ph
- for qemu-devel@nongnu.org; Thu, 11 May 2023 22:11:14 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1pxIFF-0000Qd-4K
- for qemu-devel@nongnu.org; Thu, 11 May 2023 22:11:14 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1683857451;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=AKFOfNNi9BdkRp7/+X9Cab6BuRiu5XuzIp3gc5roTWI=;
- b=ISURy9eSOPmEZuRfi00lfCWgQBb9c+/FS4EenlVQBRGKV/Mvb6IbXSJuMjUtFNI3I070oA
- SF5TaTvBYYAtWAFGLiOB02zByQp9xGd1yW91VqQ7MCyqTDvK5gjF05JFLEXbU3qWnDtce4
- ONjGJdIrPjn4mywHmXRsp8auGYq8sBg=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-668-46IOOHTJNfCqpzLAXZrz7A-1; Thu, 11 May 2023 22:10:50 -0400
-X-MC-Unique: 46IOOHTJNfCqpzLAXZrz7A-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
- [10.11.54.4])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E2E6885A588;
- Fri, 12 May 2023 02:10:49 +0000 (UTC)
-Received: from green.redhat.com (unknown [10.2.16.49])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 812EC2027043;
- Fri, 12 May 2023 02:10:49 +0000 (UTC)
-From: Eric Blake <eblake@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: hreitz@redhat.com,
-	armbru@redhat.com,
-	richard.henderson@linaro.org
-Subject: [PATCH v2 19/19] cutils: Improve qemu_strtosz handling of fractions
-Date: Thu, 11 May 2023 21:10:33 -0500
-Message-Id: <20230512021033.1378730-20-eblake@redhat.com>
-In-Reply-To: <20230512021033.1378730-1-eblake@redhat.com>
-References: <20230512021033.1378730-1-eblake@redhat.com>
+ (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
+ id 1pxJ2Q-0005aV-6s
+ for qemu-devel@nongnu.org; Thu, 11 May 2023 23:01:46 -0400
+Received: from mail.loongson.cn ([114.242.206.163] helo=loongson.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <gaosong@loongson.cn>) id 1pxJ2N-0000tU-Gm
+ for qemu-devel@nongnu.org; Thu, 11 May 2023 23:01:45 -0400
+Received: from loongson.cn (unknown [10.20.42.57])
+ by gateway (Coremail) with SMTP id _____8Cx_eoOrF1kLf0HAA--.13381S3;
+ Fri, 12 May 2023 11:01:35 +0800 (CST)
+Received: from [10.20.42.57] (unknown [10.20.42.57])
+ by localhost.localdomain (Coremail) with SMTP id
+ AQAAf8BxLb8NrF1kYNhWAA--.23307S3; 
+ Fri, 12 May 2023 11:01:33 +0800 (CST)
+Subject: Re: [PATCH 2/3] hw/intc: Add NULL pointer check on LoongArch ipi
+ device
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ qemu-devel@nongnu.org
+Cc: richard.henderson@linaro.org, maobibo@loongson.cn, yangxiaojuan@loongson.cn
+References: <20230406100052.3355632-1-gaosong@loongson.cn>
+ <20230406100052.3355632-2-gaosong@loongson.cn>
+ <0de07b1e-1371-9bad-11e0-e57d8fb379fe@linaro.org>
+From: Song Gao <gaosong@loongson.cn>
+Message-ID: <255a9693-3660-35b4-8213-a609018bbb2c@loongson.cn>
+Date: Fri, 12 May 2023 11:01:33 +0800
+User-Agent: Mozilla/5.0 (X11; Linux loongarch64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-Content-type: text/plain
+In-Reply-To: <0de07b1e-1371-9bad-11e0-e57d8fb379fe@linaro.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Language: en-US
+X-CM-TRANSID: AQAAf8BxLb8NrF1kYNhWAA--.23307S3
+X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
+X-Coremail-Antispam: 1Uk129KBjvJXoW7Kw13CryktF1fZr45Cry3Jwb_yoW8Zryrpr
+ n3Cw43CrWjyFyxJwnrJryUXFy5Gr1kWa47CrySva4rXr1DZry09r1jgryvgFy2yw4xJr1U
+ tr1UJr47uF15JaDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
+ qI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUIcSsGvfJTRUUU
+ bI8YFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s
+ 1l1IIY67AEw4v_JrI_Jryl8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xv
+ wVC0I7IYx2IY67AKxVW8JVW5JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwA2z4
+ x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6xkF7I0E14v26r4UJVWxJr1l
+ e2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF0cIa020Ex4CE44I27wAqx4xG64xvF2
+ IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_JrI_JrylYx0Ex4A2jsIE14v26r1j6r4U
+ McvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwCYjI0SjxkI62AI1cAE67vIY487Mx
+ AIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_
+ Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUAVWUtwCIc40Y0x0EwI
+ xGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8
+ JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcV
+ C2z280aVCY1x0267AKxVWUJVW8JbIYCTnIWIevJa73UjIFyTuYvjxUzZ2-UUUUU
+Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
+ helo=loongson.cn
+X-Spam_score_int: -39
+X-Spam_score: -4.0
+X-Spam_bar: ----
+X-Spam_report: (-4.0 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.124,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -78,295 +83,59 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-We have several limitations and bugs worth fixing; they are
-inter-related enough that it is not worth splitting this patch into
-smaller pieces:
+Hi,  Philippe
 
-* ".5k" should work to specify 512, just as "0.5k" does
-* "1.9999k" and "1." + "9"*50 + "k" should both produce the same
-  result of 2048 after rounding
-* "1." + "0"*350 + "1B" should not be treated the same as "1.0B";
-  underflow in the fraction should not be lost
-* "7.99e99" and "7.99e999" look similar, but our code was doing a
-  read-out-of-bounds on the latter because it was not expecting ERANGE
-  due to overflow. While we document that scientific notation is not
-  supported, and the previous patch actually fixed
-  qemu_strtod_finite() to no longer return ERANGE overflows, it is
-  easier to pre-filter than to try and determine after the fact if
-  strtod() consumed more than we wanted.  Note that this is a
-  low-level semantic change (when endptr is not NULL, we can now
-  successfully parse with a scale of 'E' and then report trailing
-  junk, instead of failing outright with EINVAL); but an earlier
-  commit already argued that this is not a high-level semantic change
-  since the only caller passing in a non-NULL endptr also checks that
-  the tail is whitespace-only.
+在 2023/5/12 上午3:03, Philippe Mathieu-Daudé 写道:
+> On 6/4/23 12:00, Song Gao wrote:
+>> When ipi mailbox is used, cpu index is decoded from iocsr register.
+>> cpu maybe does not exist. This patch adss NULL pointer check on
+>> ipi device.
+>
+> How can that happens from a guest vcpu context?
+>
+cpuid(cs->cpu_index)  is decoded from iocsr register.
 
-Fixes: https://gitlab.com/qemu-project/qemu/-/issues/1629
-Fixes: cf923b78 ("utils: Improve qemu_strtosz() to have 64 bits of precision", 6.0.0)
-Fixes: 7625a1ed ("utils: Use fixed-point arithmetic in qemu_strtosz", 6.0.0)
-Signed-off-by: Eric Blake <eblake@redhat.com>
+     cpuid = (val >> 16) & 0x3ff;   // ipi_sned [25:16]
 
----
+The value maybe invalid.  qemu only support 4 vcpu.
 
-v2: more changes, handle negatives differently, catch fractions that
-round to 0 but don't underflow [Hanna]
----
- tests/unit/test-cutils.c | 50 +++++++++-------------
- util/cutils.c            | 89 ++++++++++++++++++++++++++++++----------
- 2 files changed, 86 insertions(+), 53 deletions(-)
+you can find more about ipi_send registers at:
+https://github.com/loongson/LoongArch-Documentation/releases/download/2023.04.20/Loongson-3A5000-usermanual-v1.03-EN.pdf
+Table 63. Processor core inter-processor communication registers
 
-diff --git a/tests/unit/test-cutils.c b/tests/unit/test-cutils.c
-index 8f2dd335f13..67c3de00c82 100644
---- a/tests/unit/test-cutils.c
-+++ b/tests/unit/test-cutils.c
-@@ -3285,19 +3285,18 @@ static void test_qemu_strtosz_float(void)
-     /* An empty fraction tail is tolerated */
-     do_strtosz("1.k", 0, 1024, 3);
+>> Signed-off-by: Song Gao <gaosong@loongson.cn>
+>> ---
+>>   hw/intc/loongarch_ipi.c | 31 +++++++++++++++++++------------
+>>   1 file changed, 19 insertions(+), 12 deletions(-)
+>>
+>> diff --git a/hw/intc/loongarch_ipi.c b/hw/intc/loongarch_ipi.c
+>> index 0563d83a35..39e899df46 100644
+>> --- a/hw/intc/loongarch_ipi.c
+>> +++ b/hw/intc/loongarch_ipi.c
+>> @@ -86,11 +86,12 @@ static void ipi_send(uint64_t val)
+>>       /* IPI status vector */
+>>       data = 1 << (val & 0x1f);
+>>       cs = qemu_get_cpu(cpuid);
+>> -    cpu = LOONGARCH_CPU(cs);
+>> -    env = &cpu->env;
+>> -    address_space_stl(&env->address_space_iocsr, 0x1008,
+>> -                      data, MEMTXATTRS_UNSPECIFIED, NULL);
+>> -
+>> +    if (cs) {
+>> +        cpu = LOONGARCH_CPU(cs);
+>> +        env = &cpu->env;
+>> +        address_space_stl(&env->address_space_iocsr, 0x1008,
+>> +                          data, MEMTXATTRS_UNSPECIFIED, NULL);
+>> +    }
+>
+> Is that the hardware behavior?
+>
+Yes.
+> Could logging the invalid cpuid request be useful?
+>
+Sure.
 
--    /* FIXME An empty fraction head should be tolerated */
--    do_strtosz(" .5k", -EINVAL /* FIXME 0 */, 0 /* FIXME 512 */,
--               0 /* FIXME 4 */);
-+    /* An empty fraction head is tolerated */
-+    do_strtosz(" .5k", 0, 512, 4);
-
-     /* For convenience, we permit values that are not byte-exact */
-     do_strtosz("12.345M", 0, (uint64_t) (12.345 * MiB + 0.5), 7);
-
--    /* FIXME Fraction tail should round correctly */
-+    /* Fraction tail can round up */
-     do_strtosz("1.9999k", 0, 2048, 7);
-     do_strtosz("1.9999999999999999999999999999999999999999999999999999k", 0,
--               1024 /* FIXME 2048 */, 55);
-+               2048, 55);
-
--    /* FIXME ERANGE underflow in the fraction tail should not matter for 'k' */
-+    /* ERANGE underflow in the fraction tail does not matter for 'k' */
-     do_strtosz("1."
-                "00000000000000000000000000000000000000000000000000"
-                "00000000000000000000000000000000000000000000000000"
-@@ -3306,7 +3305,7 @@ static void test_qemu_strtosz_float(void)
-                "00000000000000000000000000000000000000000000000000"
-                "00000000000000000000000000000000000000000000000000"
-                "00000000000000000000000000000000000000000000000000"
--               "1k", 0, 1 /* FIXME 1024 */, 354);
-+               "1k", 0, 1024, 354);
- }
-
- static void test_qemu_strtosz_invalid(void)
-@@ -3330,10 +3329,9 @@ static void test_qemu_strtosz_invalid(void)
-     do_strtosz("1.1B", -EINVAL, 0, 0);
-     do_strtosz("1.1", -EINVAL, 0, 0);
-
--    /* FIXME underflow in the fraction tail should matter for 'B' */
-+    /* 'B' cannot have any nonzero fraction, even with rounding or underflow */
-     do_strtosz("1.00001B", -EINVAL, 0, 0);
--    do_strtosz("1.00000000000000000001B", 0 /* FIXME -EINVAL */,
--               1 /* FIXME 0 */, 23 /* FIXME 0 */);
-+    do_strtosz("1.00000000000000000001B", -EINVAL, 0, 0);
-     do_strtosz("1."
-                "00000000000000000000000000000000000000000000000000"
-                "00000000000000000000000000000000000000000000000000"
-@@ -3342,8 +3340,7 @@ static void test_qemu_strtosz_invalid(void)
-                "00000000000000000000000000000000000000000000000000"
-                "00000000000000000000000000000000000000000000000000"
-                "00000000000000000000000000000000000000000000000000"
--               "1B", 0 /* FIXME -EINVAL */, 1 /* FIXME 0 */,
--               354 /* FIXME 0 */);
-+               "1B", -EINVAL, 0, 0);
-
-     /* No hex fractions */
-     do_strtosz("0x1.8k", -EINVAL, 0, 0);
-@@ -3389,28 +3386,20 @@ static void test_qemu_strtosz_trailing(void)
-     do_strtosz_full("123-45", qemu_strtosz, 0, 123, 3, -EINVAL, 0);
-     do_strtosz_full(" 123 - 45", qemu_strtosz, 0, 123, 4, -EINVAL, 0);
-
--    /* FIXME should stop parse after 'e'. No floating point exponents */
--    do_strtosz_full("1.5e1k", qemu_strtosz, -EINVAL /* FIXME 0 */,
--                    0 /* FIXME EiB * 1.5 */, 0 /* FIXME 4 */,
--                    -EINVAL, 0);
--    do_strtosz_full("1.5E+0k", qemu_strtosz, -EINVAL /* FIXME 0 */,
--                    0 /* FIXME EiB * 1.5 */, 0 /* FIXME 4 */,
--                    -EINVAL, 0);
--
--    /* FIXME overflow in fraction is still buggy */
--    do_strtosz_full("1.5E999", qemu_strtosz, 0, 1 /* FIXME EiB * 1.5 */,
--                    2 /* FIXME 4 */, -EINVAL, 0);
-+    /* Parse stops at 'e', which is not a floating point exponent */
-+    do_strtosz_full("1.5e1k", qemu_strtosz, 0, EiB * 1.5, 4, -EINVAL, 0);
-+    do_strtosz_full("1.5E+0k", qemu_strtosz, 0, EiB * 1.5, 4, -EINVAL, 0);
-+    do_strtosz_full("1.5E999", qemu_strtosz, 0, EiB * 1.5, 4, -EINVAL, 0);
- }
-
- static void test_qemu_strtosz_erange(void)
- {
--    /* FIXME negative values fit better as ERANGE */
-+    /* no negative values */
-     do_strtosz(" -0", -ERANGE, 0, 3);
-     do_strtosz("-1", -ERANGE, 0, 2);
-     do_strtosz_full("-2M", qemu_strtosz, -ERANGE, 0, 2, -EINVAL, 0);
--    do_strtosz(" -.0", -EINVAL /* FIXME -ERANGE */, 0, 0 /* FIXME 4 */);
--    do_strtosz_full("-.1k", qemu_strtosz, -EINVAL /* FIXME -ERANGE */, 0,
--                    0 /* FIXME 3 */, -EINVAL, 0);
-+    do_strtosz(" -.0", -ERANGE, 0, 4);
-+    do_strtosz_full("-.1k", qemu_strtosz, -ERANGE, 0, 3, -EINVAL, 0);
-     do_strtosz_full(" -."
-                     "00000000000000000000000000000000000000000000000000"
-                     "00000000000000000000000000000000000000000000000000"
-@@ -3419,17 +3408,16 @@ static void test_qemu_strtosz_erange(void)
-                     "00000000000000000000000000000000000000000000000000"
-                     "00000000000000000000000000000000000000000000000000"
-                     "00000000000000000000000000000000000000000000000000"
--                    "1M", qemu_strtosz, -EINVAL /* FIXME -ERANGE */, 0,
--                    0 /* FIXME 354 */, -EINVAL, 0);
-+                    "1M", qemu_strtosz, -ERANGE, 0, 354, -EINVAL, 0);
-
-     /* 2^64; see strtosz_simple for 2^64-1 */
-     do_strtosz("18446744073709551616", -ERANGE, 0, 20);
-
-     do_strtosz("20E", -ERANGE, 0, 3);
-
--    /* FIXME Fraction tail can cause ERANGE overflow */
-+    /* Fraction tail can cause ERANGE overflow */
-     do_strtosz("15.9999999999999999999999999999999999999999999999999999E",
--               0 /* FIXME -ERANGE */, 15ULL * EiB /* FIXME 0 */, 56);
-+               -ERANGE, 0, 56);
-
-     /* EINVAL has priority over ERANGE */
-     do_strtosz_full("100000Pjunk", qemu_strtosz, -ERANGE, 0, 7, -EINVAL, 0);
-diff --git a/util/cutils.c b/util/cutils.c
-index 25c95b0933e..20b732176fa 100644
---- a/util/cutils.c
-+++ b/util/cutils.c
-@@ -194,15 +194,18 @@ static int64_t suffix_mul(char suffix, int64_t unit)
-  * - 12345 - decimal, scale determined by @default_suffix and @unit
-  * - 12345{bBkKmMgGtTpPeE} - decimal, scale determined by suffix and @unit
-  * - 12345.678{kKmMgGtTpPeE} - decimal, scale determined by suffix, and
-- *   fractional portion is truncated to byte
-+ *   fractional portion is truncated to byte, either side of . may be empty
-  * - 0x7fEE - hexadecimal, unit determined by @default_suffix
-  *
-  * The following are intentionally not supported
-- * - hex with scaling suffix, such as 0x20M
-- * - octal, such as 08
-- * - fractional hex, such as 0x1.8
-- * - negative values, including -0
-- * - floating point exponents, such as 1e3
-+ * - hex with scaling suffix, such as 0x20M (0x1b is 27, not 1)
-+ * - octal, such as 08 (parsed as decimal instead)
-+ * - binary, such as 0b1000 (parsed as 0b with trailing garbage "1000")
-+ * - fractional hex, such as 0x1.8 (parsed as 0 with trailing garbage "x1.8")
-+ * - negative values, including -0 (fail with -ERANGE)
-+ * - floating point exponents, such as 1e3 (parsed as 1e with trailing
-+ *   garbage "3") or 0x1p3 (parsed as 1 with trailing garbage "p3")
-+ * - non-finite values, such as inf or NaN (fail with -EINVAL)
-  *
-  * The end pointer will be returned in *end, if not NULL.  If there is
-  * no fraction, the input can be decimal or hexadecimal; if there is a
-@@ -221,17 +224,17 @@ static int do_strtosz(const char *nptr, const char **end,
-                       uint64_t *result)
- {
-     int retval;
--    const char *endptr, *f;
-+    const char *endptr;
-     unsigned char c;
--    uint64_t val, valf = 0;
-+    uint64_t val = 0, valf = 0;
-     int64_t mul;
-
-     /* Parse integral portion as decimal. */
-     retval = parse_uint(nptr, &endptr, 10, &val);
--    if (retval) {
-+    if (retval == -ERANGE || !nptr) {
-         goto out;
-     }
--    if (val == 0 && (*endptr == 'x' || *endptr == 'X')) {
-+    if (retval == 0 && val == 0 && (*endptr == 'x' || *endptr == 'X')) {
-         /* Input looks like hex; reparse, and insist on no fraction or suffix. */
-         retval = qemu_strtou64(nptr, &endptr, 16, &val);
-         if (retval) {
-@@ -242,27 +245,69 @@ static int do_strtosz(const char *nptr, const char **end,
-             retval = -EINVAL;
-             goto out;
-         }
--    } else if (*endptr == '.') {
-+    } else if (*endptr == '.' || (endptr == nptr && strchr(nptr, '.'))) {
-         /*
-          * Input looks like a fraction.  Make sure even 1.k works
--         * without fractional digits.  If we see an exponent, treat
--         * the entire input as invalid instead.
-+         * without fractional digits.  strtod tries to treat 'e' as an
-+         * exponent, but we want to treat it as a scaling suffix;
-+         * doing this requires modifying a copy of the fraction.
-          */
--        double fraction;
-+        double fraction = 0.0;
-
--        f = endptr;
--        retval = qemu_strtod_finite(f, &endptr, &fraction);
--        if (retval) {
-+        if (retval == 0 && *endptr == '.' && !isdigit(endptr[1])) {
-+            /* If we got here, we parsed at least one digit already. */
-             endptr++;
--        } else if (memchr(f, 'e', endptr - f) || memchr(f, 'E', endptr - f)) {
--            endptr = nptr;
--            retval = -EINVAL;
--            goto out;
-         } else {
--            /* Extract into a 64-bit fixed-point fraction. */
-+            char *e;
-+            const char *tail;
-+            g_autofree char *copy = g_strdup(endptr);
-+
-+            e = strchr(copy, 'e');
-+            if (e) {
-+                *e = '\0';
-+            }
-+            e = strchr(copy, 'E');
-+            if (e) {
-+                *e = '\0';
-+            }
-+            /*
-+             * If this is a floating point, we are guaranteed that '.'
-+             * appears before any possible digits in copy.  If it is
-+             * not a floating point, strtod will fail.  Either way,
-+             * there is now no exponent in copy, so if it parses, we
-+             * know 0.0 <= abs(result) <= 1.0 (after rounding), and
-+             * ERANGE is only possible on underflow which is okay.
-+             */
-+            retval = qemu_strtod_finite(copy, &tail, &fraction);
-+            endptr += tail - copy;
-+            if (signbit(fraction)) {
-+                retval = -ERANGE;
-+                goto out;
-+            }
-+        }
-+
-+        /* Extract into a 64-bit fixed-point fraction. */
-+        if (fraction == 1.0) {
-+            if (val == UINT64_MAX) {
-+                retval = -ERANGE;
-+                goto out;
-+            }
-+            val++;
-+        } else if (retval == -ERANGE) {
-+            /* See comments above about underflow */
-+            valf = 1;
-+            retval = 0;
-+        } else {
-+            /* We want non-zero valf for any non-zero fraction */
-             valf = (uint64_t)(fraction * 0x1p64);
-+            if (valf == 0 && fraction > 0.0) {
-+                valf = 1;
-+            }
-         }
-     }
-+    if (retval) {
-+        goto out;
-+    }
-     c = *endptr;
-     mul = suffix_mul(c, unit);
-     if (mul > 0) {
--- 
-2.40.1
+Thanks.
+Song Gao
 
 
