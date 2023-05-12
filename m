@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8915D700842
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 May 2023 14:42:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 74DD5700841
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 May 2023 14:42:32 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pxS57-0007hY-Hj; Fri, 12 May 2023 08:41:09 -0400
+	id 1pxS5A-0007jD-MP; Fri, 12 May 2023 08:41:12 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pxS56-0007h7-7V
- for qemu-devel@nongnu.org; Fri, 12 May 2023 08:41:08 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pxS58-0007iB-2P
+ for qemu-devel@nongnu.org; Fri, 12 May 2023 08:41:10 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pxS54-0006Zi-MV
- for qemu-devel@nongnu.org; Fri, 12 May 2023 08:41:07 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pxS56-0006aO-FY
+ for qemu-devel@nongnu.org; Fri, 12 May 2023 08:41:09 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1683895266;
+ s=mimecast20190719; t=1683895267;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=8zWO62XupdTAYW3pa+bQpzFtK116FOv+BUO2k8rAXDM=;
- b=Qa4Ri+DhiOOk2rJ5hmpxxxnH7jfreDjXcaSOh7jZye4aCSi6dcjLuizdvoQu+sSiZVmFO2
- MhVNHhHl9//r5QypVRUl/Lj2p340Wyb97cApvLSSVq1H4UNLfQGb3Yo5m2BGEjoKpHdurX
- KWwHZ3X7EN4qsq4+0/TzrqbQEZYTwAU=
+ bh=Swl9UtyzMhyVX2XP6pu5/NXIfZKlQCEnebl2D8xEnBM=;
+ b=P50EV+DbpJd444v5Px7Q2KUBMCvWOohmqPpDXtAsavr8XwFecQ8319s98rytBTESj0g/RA
+ qnvAkM8FNav6odBTXupkPZ4iO0Ls+b+2W3XzfIBfQfKIRDyYHoJr1QQMxPSzy69Ind65Iz
+ F07gR5y28+BphiJ+tpgQuWWOw/GcQoQ=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-442-5OzJdbiQMEmyOC6A9fqGQA-1; Fri, 12 May 2023 08:41:02 -0400
-X-MC-Unique: 5OzJdbiQMEmyOC6A9fqGQA-1
+ us-mta-413-RaTq_wLbPb-IPAl06OAXbA-1; Fri, 12 May 2023 08:41:04 -0400
+X-MC-Unique: RaTq_wLbPb-IPAl06OAXbA-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
  [10.11.54.3])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7EEF681D9EC;
- Fri, 12 May 2023 12:41:02 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D77478037A8;
+ Fri, 12 May 2023 12:41:03 +0000 (UTC)
 Received: from thuth.com (unknown [10.39.192.251])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6156A1121314;
- Fri, 12 May 2023 12:41:01 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C61081121314;
+ Fri, 12 May 2023 12:41:02 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  Fabiano Rosas <farosas@suse.de>
 Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PATCH 15/18] tests/qtest: Check for the availability of virtio-ccw
- devices before using them
-Date: Fri, 12 May 2023 14:40:30 +0200
-Message-Id: <20230512124033.502654-16-thuth@redhat.com>
+Subject: [PATCH 16/18] tests/qtest/meson.build: Run the net filter tests only
+ with default devices
+Date: Fri, 12 May 2023 14:40:31 +0200
+Message-Id: <20230512124033.502654-17-thuth@redhat.com>
 In-Reply-To: <20230512124033.502654-1-thuth@redhat.com>
 References: <20230512124033.502654-1-thuth@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -78,66 +78,42 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The devices might not have been compiled into the QEMU binary, so we
-have to check before we can use them.
+These tests rely on a default NIC to be available. Skip them if we
+used the "--without-default-devices" configure option.
 
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- tests/qtest/device-plug-test.c |  9 ++++++++-
- tests/qtest/virtio-ccw-test.c  | 20 +++++++++++++-------
- 2 files changed, 21 insertions(+), 8 deletions(-)
+ tests/qtest/meson.build | 10 ++++------
+ 1 file changed, 4 insertions(+), 6 deletions(-)
 
-diff --git a/tests/qtest/device-plug-test.c b/tests/qtest/device-plug-test.c
-index 01cecd6e20..abd544b70c 100644
---- a/tests/qtest/device-plug-test.c
-+++ b/tests/qtest/device-plug-test.c
-@@ -156,7 +156,14 @@ static void test_q35_pci_unplug_json_request(void)
+diff --git a/tests/qtest/meson.build b/tests/qtest/meson.build
+index 48cd35b5b2..8fec3103b5 100644
+--- a/tests/qtest/meson.build
++++ b/tests/qtest/meson.build
+@@ -35,9 +35,9 @@ qtests_cxl = \
+   (config_all_devices.has_key('CONFIG_CXL') ? ['cxl-test'] : [])
  
- static void test_ccw_unplug(void)
- {
--    QTestState *qtest = qtest_initf("-device virtio-balloon-ccw,id=dev0");
-+    QTestState *qtest;
-+
-+    if (!qtest_has_device("virtio-balloon-ccw")) {
-+        g_test_skip("Device virtio-balloon-ccw not available");
-+        return;
-+    }
-+
-+    qtest = qtest_initf("-device virtio-balloon-ccw,id=dev0");
+ qtests_filter = \
+-  (slirp.found() ? ['test-netfilter'] : []) + \
+-  (config_host.has_key('CONFIG_POSIX') ? ['test-filter-mirror'] : []) + \
+-  (config_host.has_key('CONFIG_POSIX') ? ['test-filter-redirector'] : [])
++  (get_option('default_devices') and slirp.found() ? ['test-netfilter'] : []) + \
++  (get_option('default_devices') and config_host.has_key('CONFIG_POSIX') ? ['test-filter-mirror'] : []) + \
++  (get_option('default_devices') and config_host.has_key('CONFIG_POSIX') ? ['test-filter-redirector'] : [])
  
-     qtest_qmp_device_del_send(qtest, "dev0");
-     wait_device_deleted_event(qtest, "dev0");
-diff --git a/tests/qtest/virtio-ccw-test.c b/tests/qtest/virtio-ccw-test.c
-index c0790e3ba2..f4f5858b84 100644
---- a/tests/qtest/virtio-ccw-test.c
-+++ b/tests/qtest/virtio-ccw-test.c
-@@ -76,13 +76,19 @@ static void virtio_scsi_hotplug(void)
- int main(int argc, char **argv)
- {
-     g_test_init(&argc, &argv, NULL);
--    qtest_add_func("/virtio/console/nop", virtconsole_nop);
--    qtest_add_func("/virtio/serialport/nop", virtserialport_nop);
--    qtest_add_func("/virtio/serial/nop", virtio_serial_nop);
--    qtest_add_func("/virtio/serial/hotplug", virtio_serial_hotplug);
--    qtest_add_func("/virtio/rng/nop", virtio_rng_nop);
--    qtest_add_func("/virtio/scsi/nop", virtio_scsi_nop);
--    qtest_add_func("/virtio/scsi/hotplug", virtio_scsi_hotplug);
-+    if (qtest_has_device("virtio-serial-ccw")) {
-+        qtest_add_func("/virtio/console/nop", virtconsole_nop);
-+        qtest_add_func("/virtio/serialport/nop", virtserialport_nop);
-+        qtest_add_func("/virtio/serial/nop", virtio_serial_nop);
-+        qtest_add_func("/virtio/serial/hotplug", virtio_serial_hotplug);
-+    }
-+    if (qtest_has_device("virtio-rng-ccw")) {
-+        qtest_add_func("/virtio/rng/nop", virtio_rng_nop);
-+    }
-+    if (qtest_has_device("virtio-rng-ccw")) {
-+        qtest_add_func("/virtio/scsi/nop", virtio_scsi_nop);
-+        qtest_add_func("/virtio/scsi/hotplug", virtio_scsi_hotplug);
-+    }
+ qtests_i386 = \
+   (slirp.found() ? ['pxe-test'] : []) + \
+@@ -221,9 +221,7 @@ qtests_aarch64 = \
+    'migration-test']
  
-     return g_test_run();
- }
+ qtests_s390x = \
+-  (slirp.found() ? ['pxe-test', 'test-netfilter'] : []) +                 \
+-  (config_host.has_key('CONFIG_POSIX') ? ['test-filter-mirror'] : []) +                         \
+-  (config_host.has_key('CONFIG_POSIX') ? ['test-filter-redirector'] : []) +                     \
++  qtests_filter + \
+   ['boot-serial-test',
+    'drive_del-test',
+    'device-plug-test',
 -- 
 2.31.1
 
