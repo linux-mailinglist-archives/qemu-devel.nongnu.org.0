@@ -2,60 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0919E7006AF
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B7917006B0
 	for <lists+qemu-devel@lfdr.de>; Fri, 12 May 2023 13:24:37 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pxQrL-00061n-Ce; Fri, 12 May 2023 07:22:51 -0400
+	id 1pxQrI-0005zK-SB; Fri, 12 May 2023 07:22:48 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pxQrI-0005zF-2u
- for qemu-devel@nongnu.org; Fri, 12 May 2023 07:22:48 -0400
-Received: from mout.kundenserver.de ([212.227.126.133])
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pxQrG-0005yK-HJ
+ for qemu-devel@nongnu.org; Fri, 12 May 2023 07:22:46 -0400
+Received: from mout.kundenserver.de ([212.227.126.130])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pxQrG-0002Oa-K4
- for qemu-devel@nongnu.org; Fri, 12 May 2023 07:22:47 -0400
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pxQrF-0002Nx-0X
+ for qemu-devel@nongnu.org; Fri, 12 May 2023 07:22:46 -0400
 Received: from quad ([82.142.8.70]) by mrelayeu.kundenserver.de (mreue012
- [212.227.15.167]) with ESMTPSA (Nemesis) id 1MTfgb-1plee70rq1-00U4e4; Fri, 12
+ [212.227.15.167]) with ESMTPSA (Nemesis) id 1MiuGK-1qRHy22WXc-00esN3; Fri, 12
  May 2023 13:22:42 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Cc: Thomas Huth <thuth@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+Cc: =?UTF-8?q?Thomas=20Wei=C3=9Fschuh?= <thomas@t-8ch.de>,
  Laurent Vivier <laurent@vivier.eu>
-Subject: [PULL 5/9] linux-user/main: Use list_cpus() instead of cpu_list()
-Date: Fri, 12 May 2023 13:22:34 +0200
-Message-Id: <20230512112238.85272-6-laurent@vivier.eu>
+Subject: [PULL 6/9] linux-user: Add new flag VERIFY_NONE
+Date: Fri, 12 May 2023 13:22:35 +0200
+Message-Id: <20230512112238.85272-7-laurent@vivier.eu>
 X-Mailer: git-send-email 2.40.1
 In-Reply-To: <20230512112238.85272-1-laurent@vivier.eu>
 References: <20230512112238.85272-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:VTO7fFvcDJnQf1xL20Q6ZxS1TwiZu6aIq588bgnD6Xr2Gf3cp+4
- s7ZL9Pw7bTg1LN7i3UinIIgrKCCeAlnF3ofT50vqcyB+imrXyt9DnJ+SSFngdPT9tVWcKRx
- xf/kDyWbWZgFLeEHQGHmI/XLs8/0vubj1zKk02lLoimnMRVIv83biZcWzxyG/zAUhCDizWL
- 35p/LEt7eL9TkD2Cg8vRQ==
-UI-OutboundReport: notjunk:1;M01:P0:K3P2rFZUWn4=;t5fxcI8pejON6nUJ/MYnDnCBZEq
- MMT1VL/e/7fzwokwgcKEMJCxdu7KacKTYEdO1eX71C1F7VPfuxuEmFVLoAEPKmbuvntj6Frf/
- YQX9zhf/hEYd8lHAU+xucXIHpCfEvxWdXZuFMXj/Ut2jyERXPK9Jap+4b+Wpmv1RXY3ScZVsL
- Fi3irBDsswQovLH/n5+CYToOlR5zejV+KcGQetvGXN9rZk5bWzbkjlXv/fHgfS6NMrDb0vNl9
- YfhbuiZJAwt3kqnJpsnxiRSSEhf0rK9MHdPaPG+gWT+ES0gSI/iVjYPGKWwM8UKCSlfu4l2cd
- iGID05HVLKVe5/vyGDnkySNXrdv6K72XWBxO5uHahmGPadhB9FxaqntaEWyj+FnfUg2+YG9DZ
- IjjVv322E42bBEoIeyKKDni0+Afqzg4JzYd+0Bta1xclkErWQoqTlLdXCuSdyJkZ+MIrDIJVk
- BZsgSqQvWRxlwoNeen5jPvyGDq2EfCW/xO70IzdlCttJYW1DiPJ1j2s/7gRBN9ffCP7YS82dN
- SoI4dqO9Y/+iJ4LygVessVVPtDtrucixc2tllELjRi96oMf89sOIAf+iVaQ0sLfcFJkD5pVjI
- XBudwj92Qpfo/+ds9oZ9PwlKgErZjo/cGw4Uq3UZVN/6SCS5d8/6QeiRZzRZbO2yK090xkXlc
- vui88d67wIfkyx9cezCfYUFHSlxZpsHm2AlzFX86jQ==
-Received-SPF: none client-ip=212.227.126.133; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:+xfPM3iDdaLbeBVT++aWi23UYN92M5nHH0NUXbj6UzguDtFcrL2
+ FTPYde8iFLEbh3Qx8c2gvBHkia/4MP+Vfao1fbAVQN2YhsjwoIdeQrk/DmcfbEGnmwC5kGe
+ M7rMtDVpJPCN+JIETUFe1wbUs+Q/mm2HlAVYK68X/+olmAqqjSxZMwyk2YH6/QWZR3Ve8w3
+ 1YoEL2cjksXlkFPtGsgZQ==
+UI-OutboundReport: notjunk:1;M01:P0:qfM9XZ/vedY=;Q62LfUdFee6vl7PbCKaSCYpwiGw
+ 6/U5r18ddctOWSsohng9gowTudb9a731Dw9RpVjrddvaexYcEI15MgfVKjK1ZTwSWjiPBJqMN
+ 8ew89SvKb52Ufg4EQN06NNmnz8+DIcLQif55cMjsXtIrd1esisTgg0Jby4D1vXyfzgn8h0bD9
+ 3bCToWfU+RYOilrwj0BcrZTIL4LpeUlz4MNanuIYDIJ58xbaAD1/LkmAiEpCUtCQqTbIC8jpJ
+ szmDu74IePoM4hWUGT+rqTTiosQUbx0JIuDawAuPZBa+6WMhEWRDZH504oXU7H6ZUe6JT7gyC
+ xhPCWcD7HQin98Ns9IzgOadQ73MN8NEE81eOoXvyXch1z8DvfGlkcs0mq0GLya2x7MBKVB/OD
+ fQhK6HondrVtcMLf2ZlRLrHWGwIvR1dmeTAdW3nw5dU9l2GkhLJbE41z/MS4k2XUuvb5LKNhD
+ ezLNu2Ljq0suEvNDlzqThN6Br0qM3Yx/Dq+Z9iUIsNoA4xn9zfBk3iK7+9B+yHRjTN3tuSOZl
+ siIUG8Xf954GdwqER/jS2z1PerLfxB42ES9kUYsH9GoG9G4ebfU4DqJ34xzyb3BAtL1pnJZG6
+ 3Xap6FCm6+d7bzqQmxuE/rY4JXvHgRNYu+F7CNoLBqRcx+HGR6z+xDrS/+sqncr1qzWMU/CHR
+ 9b0SipoxSCapyV69mYAtp66roFClyKDiix2YamooKw==
+Received-SPF: none client-ip=212.227.126.130; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_NONE=0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -72,36 +70,33 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Thomas Huth <thuth@redhat.com>
+From: Thomas Weißschuh <thomas@t-8ch.de>
 
-This way we can get rid of the if'deffery and the XXX comment
-here (it's repeated in the list_cpus() function anyway).
+This can be used to validate that an address range is mapped but without
+being readable or writable.
 
-Signed-off-by: Thomas Huth <thuth@redhat.com>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-Message-Id: <20230424122126.236586-1-thuth@redhat.com>
+It will be used by an updated implementation of mincore().
+
+Signed-off-by: Thomas Weißschuh <thomas@t-8ch.de>
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+Message-Id: <20230422100314.1650-2-thomas@t-8ch.de>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- linux-user/main.c | 5 +----
- 1 file changed, 1 insertion(+), 4 deletions(-)
+ linux-user/qemu.h | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/linux-user/main.c b/linux-user/main.c
-index fe03293516a5..aece4d9e9119 100644
---- a/linux-user/main.c
-+++ b/linux-user/main.c
-@@ -359,10 +359,7 @@ static void handle_arg_cpu(const char *arg)
- {
-     cpu_model = strdup(arg);
-     if (cpu_model == NULL || is_help_option(cpu_model)) {
--        /* XXX: implement xxx_cpu_list for targets that still miss it */
--#if defined(cpu_list)
--        cpu_list();
--#endif
-+        list_cpus();
-         exit(EXIT_FAILURE);
-     }
- }
+diff --git a/linux-user/qemu.h b/linux-user/qemu.h
+index e2e93fbd1d5d..92f9f5af41c7 100644
+--- a/linux-user/qemu.h
++++ b/linux-user/qemu.h
+@@ -168,6 +168,7 @@ abi_long do_brk(abi_ulong new_brk);
+ 
+ /* user access */
+ 
++#define VERIFY_NONE  0
+ #define VERIFY_READ  PAGE_READ
+ #define VERIFY_WRITE (PAGE_READ | PAGE_WRITE)
+ 
 -- 
 2.40.1
 
