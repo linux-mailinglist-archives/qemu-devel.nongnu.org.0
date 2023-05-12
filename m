@@ -2,56 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11942700CB0
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 May 2023 18:13:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 89EA1700CC0
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 May 2023 18:17:31 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pxVOI-0005K7-Ej; Fri, 12 May 2023 12:13:10 -0400
+	id 1pxVRU-0006iF-44; Fri, 12 May 2023 12:16:28 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1pxVOF-0005JY-Cd
- for qemu-devel@nongnu.org; Fri, 12 May 2023 12:13:07 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1pxVRH-0006gV-SE
+ for qemu-devel@nongnu.org; Fri, 12 May 2023 12:16:17 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1pxVOC-0004QJ-4b
- for qemu-devel@nongnu.org; Fri, 12 May 2023 12:13:07 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1pxVRC-00058y-FX
+ for qemu-devel@nongnu.org; Fri, 12 May 2023 12:16:13 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1683907976;
+ s=mimecast20190719; t=1683908168;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=sVfWRyqygSVwlvJIgXPLcFzZnf8QsQAjlTJogcuL7bY=;
- b=XFLc5FBoNT7dQHos6m7b37ko7vXUu6L2uV+c5Po2z9ZpRgYPNUmdPB8Mluts4yVzydsulK
- HUPdnpt27Kh07HaQbBeeMgCH4ehavMYLqI7BveVKDe+lLCU5ALlKrZTF2WtY6/m6M3vdjl
- OHOE2mEkbkJk8KFRLd9E2H6JQ9rNyiY=
+ bh=DbLSM4woTnGi4SHmnadHjZlBQi+OwXgYnHTXGlixFFg=;
+ b=M1MZrNiWZQ5UZoTIdFwPE8UEadffTW9kYehY60xNPkZRUTSJwnvN8FAjyi9I5ye+iCAWgu
+ 78r5w9GFRn1haR43/C3I/Qn0v3eqXDv3aigzqQffQRBFUMj/S6Mnc7zQ/NViml0bzRV52e
+ H8ufIPsBA7EowPQ/VyaCAnOtQqgS9SM=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-404-ZlFlPLOxM9qCV9ivwIghcw-1; Fri, 12 May 2023 12:12:53 -0400
-X-MC-Unique: ZlFlPLOxM9qCV9ivwIghcw-1
+ us-mta-590-2ZJuGA4ZMFGz9IayedQJrg-1; Fri, 12 May 2023 12:16:06 -0400
+X-MC-Unique: 2ZJuGA4ZMFGz9IayedQJrg-1
 Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
  [10.11.54.10])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1CE593801F73;
- Fri, 12 May 2023 16:12:53 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1A3E63801ECA;
+ Fri, 12 May 2023 16:16:06 +0000 (UTC)
 Received: from redhat.com (unknown [10.2.16.49])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 5369F492C13;
- Fri, 12 May 2023 16:12:52 +0000 (UTC)
-Date: Fri, 12 May 2023 11:12:50 -0500
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 71A5D492C13;
+ Fri, 12 May 2023 16:16:05 +0000 (UTC)
+Date: Fri, 12 May 2023 11:16:03 -0500
 From: Eric Blake <eblake@redhat.com>
 To: Kevin Wolf <kwolf@redhat.com>
 Cc: qemu-block@nongnu.org, hreitz@redhat.com, stefanha@redhat.com, 
  f.ebner@proxmox.com, qemu-devel@nongnu.org
-Subject: Re: [PATCH 1/8] block: Call .bdrv_co_create(_opts) unlocked
-Message-ID: <lqumtxeofbejjvf5f45zf5ywdrae2wckhgwrud5ggly4jganfz@sbb23gf53wbg>
+Subject: Re: [PATCH 2/8] block/export: Fix null pointer dereference in error
+ path
+Message-ID: <o7omdrdgit2m5pktwdzblyp255lk4qegqizmhlnx5gm7v6tz32@xjfyu7h6za2a>
 References: <20230510203601.418015-1-kwolf@redhat.com>
- <20230510203601.418015-2-kwolf@redhat.com>
+ <20230510203601.418015-3-kwolf@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230510203601.418015-2-kwolf@redhat.com>
+In-Reply-To: <20230510203601.418015-3-kwolf@redhat.com>
 User-Agent: NeoMutt/20230512
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=eblake@redhat.com;
@@ -80,58 +81,54 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 
-On Wed, May 10, 2023 at 10:35:54PM +0200, Kevin Wolf wrote:
+On Wed, May 10, 2023 at 10:35:55PM +0200, Kevin Wolf wrote:
 > 
-> These are functions that modify the graph, so they must be able to take
-> a writer lock. This is impossible if they already hold the reader lock.
-> If they need a reader lock for some of their operations, they should
-> take it internally.
+> There are some error paths in blk_exp_add() that jump to 'fail:' before
+> 'exp' is even created. So we can't just unconditionally access exp->blk.
 > 
-> Many of them go through blk_*(), which will always take the lock itself.
-> Direct calls of bdrv_*() need to take the reader lock. Note that while
-> locking for bdrv_co_*() calls is checked by TSA, this is not the case
-> for the mixed_coroutine_fns bdrv_*(). Holding the lock is still required
-> when they are called from coroutine context like here!
+> Add a NULL check, and switch from exp->blk to blk, which is available
+> earlier, just to be extra sure that we really cover all cases where
+> BlockDevOps could have been set for it (in practice, this only happens
+> in drv->create() today, so this part of the change isn't strictly
+> necessary).
 > 
-> This effectively reverts 4ec8df0183, but adds some internal locking
-> instead.
-> 
+> Fixes: de79b52604e43fdeba6cee4f5af600b62169f2d2
+
+Sorry for missing that on my first review, and this does look better.
+
+I'm assuming you plan to take this in with the rest of the series
+through your tree, but let me know if I should push it faster through
+the NBD tree.
+
 > Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 > ---
-
-> +++ b/block/qcow2.c
-
-> -static int coroutine_fn
-> +static int coroutine_fn GRAPH_UNLOCKED
->  qcow2_co_create(BlockdevCreateOptions *create_options, Error **errp)
->  {
->      BlockdevCreateOptionsQcow2 *qcow2_opts;
-> @@ -3724,8 +3726,10 @@ qcow2_co_create(BlockdevCreateOptions *create_options, Error **errp)
->          goto out;
->      }
->  
-> +    bdrv_graph_co_rdlock();
->      ret = qcow2_alloc_clusters(blk_bs(blk), 3 * cluster_size);
->      if (ret < 0) {
-> +        bdrv_graph_co_rdunlock();
->          error_setg_errno(errp, -ret, "Could not allocate clusters for qcow2 "
->                           "header and refcount table");
->          goto out;
-> @@ -3743,6 +3747,8 @@ qcow2_co_create(BlockdevCreateOptions *create_options, Error **errp)
->  
->      /* Create a full header (including things like feature table) */
->      ret = qcow2_update_header(blk_bs(blk));
-> +    bdrv_graph_co_rdunlock();
-> +
-
-If we ever inject any 'goto out' in the elided lines, we're in
-trouble.  Would this be any safer by wrapping the intervening
-statements in a scope-guarded lock?
-
-But what you have is correct, despite my worries about potential
-maintenance concerns.
+>  block/export/export.c | 6 ++++--
+>  1 file changed, 4 insertions(+), 2 deletions(-)
 
 Reviewed-by: Eric Blake <eblake@redhat.com>
+
+> 
+> diff --git a/block/export/export.c b/block/export/export.c
+> index 62c7c22d45..a5c8f42f53 100644
+> --- a/block/export/export.c
+> +++ b/block/export/export.c
+> @@ -192,8 +192,10 @@ BlockExport *blk_exp_add(BlockExportOptions *export, Error **errp)
+>      return exp;
+>  
+>  fail:
+> -    blk_set_dev_ops(exp->blk, NULL, NULL);
+> -    blk_unref(blk);
+> +    if (blk) {
+> +        blk_set_dev_ops(blk, NULL, NULL);
+> +        blk_unref(blk);
+> +    }
+>      aio_context_release(ctx);
+>      if (exp) {
+>          g_free(exp->id);
+> -- 
+> 2.40.1
+> 
+> 
 
 -- 
 Eric Blake, Principal Software Engineer
