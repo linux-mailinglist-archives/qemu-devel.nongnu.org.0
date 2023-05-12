@@ -2,83 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A172970092D
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 May 2023 15:26:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 94F76700984
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 May 2023 15:52:59 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pxSlg-0007ze-HZ; Fri, 12 May 2023 09:25:08 -0400
+	id 1pxTBk-0003DU-Rc; Fri, 12 May 2023 09:52:04 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pxSlX-0007yf-5N
- for qemu-devel@nongnu.org; Fri, 12 May 2023 09:25:00 -0400
-Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a])
+ (Exim 4.90_1) (envelope-from <viktor@daynix.com>) id 1pxTBc-00037o-7p
+ for qemu-devel@nongnu.org; Fri, 12 May 2023 09:51:56 -0400
+Received: from mail-lj1-x233.google.com ([2a00:1450:4864:20::233])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pxSlU-0007ov-MF
- for qemu-devel@nongnu.org; Fri, 12 May 2023 09:24:58 -0400
-Received: by mail-wm1-x32a.google.com with SMTP id
- 5b1f17b1804b1-3f4c6c4b425so20509085e9.2
- for <qemu-devel@nongnu.org>; Fri, 12 May 2023 06:24:55 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <viktor@daynix.com>) id 1pxTBZ-0006SG-JY
+ for qemu-devel@nongnu.org; Fri, 12 May 2023 09:51:55 -0400
+Received: by mail-lj1-x233.google.com with SMTP id
+ 38308e7fff4ca-2ac733b813fso106645351fa.1
+ for <qemu-devel@nongnu.org>; Fri, 12 May 2023 06:51:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1683897894; x=1686489894;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=swUN+p55CYRM2qdDeGnp5qu+tTOGHjayVFgtchathsc=;
- b=Arv6qAgZgye/CS7LAspD69Xl8Riyo8rdx/h715iAHJiA24fRCTSrPMWdm/P3E6Zf+A
- 6K0IPVG3Hr3fqIZocsosTZaMfKKyI99puQpqz9N7J3lvXxhtHW+XzlldnRDS8ygxk8UR
- 4hhdkrMLVXeWnIC4vAcFPGveYPH4Qgs6GJr8uPVHZuepZORHkzxRYfqCXJ+b2yb2pRJf
- heUYAHJzorR3KVC7NAB9OKtG74n//6+/qQ7LjdCGB6rOBU6VkULtIENMouMEz1X5Ch2c
- 9Fpyi0n4DIyxfBjV5VZdNsb57GDUjwoXx/m8Wf//xdGCHkbcBSawKr8PlDwHjsaXm9Gq
- CqQg==
+ d=daynix-com.20221208.gappssmtp.com; s=20221208; t=1683899511; x=1686491511;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=eEWfcUs5CScFWa8QYLjWQ4P/myP95FLUFeikpmSyFT4=;
+ b=lWDwB6xPHGTH/LjQj4bUGXIc7tMfepvr843AusL7+rLUWRuWQyVBTOES4dmvkrkpvs
+ 0uwofDTjgLygNAlPyJ9vM3RPmyAUG56iaQIsIXCJymbaW6UGtzL4vSwOsL1O/FXUZv3c
+ fMa/XrQveytqCgPd//KCgHMDw1dNUgxUbvHNiVW5sFGG+IGlxPUAcXKgCVFvrULuMO2e
+ dAkp2lcaWST7FK2poW8s5H4Pg8h/8XJ228RF34sANzQbiwlUJK84qKJOfrMGNyuV3XZY
+ 7bTibhgwBG/Jq9zv8adoRgPfb2BaQ60BfFawdZPUk/V5FHdmqEb3bM3uL25+yFQeVZZq
+ uNHQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683897894; x=1686489894;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=swUN+p55CYRM2qdDeGnp5qu+tTOGHjayVFgtchathsc=;
- b=N1B2VQa544IV3DU38+NpQNvVAiiJwr7Iw/TVxTN1VfM58J6mzKmdk7Wu0IauiVoyDq
- MEP/fU2jUOYgrxxB5KebZTFEeXwTIKCJsS2xCmivSlxJGJXnv8Cm064yd5efmTcVdaNk
- Z82ljp4oNHnEpK8LMWy3eS7WxAk8NIK+wODtHK6V9TfABNSUWF4sUkvpWNNKAILoto/f
- WacRRjsqByl/29wk5OgffsJdwSLaglz4/P894AvEkbfzeGj5uE1vruynFVRZKgiDEqPe
- anaMj7YhGZi9D1//nb+aKuzqTuuM3GlYmgUL8j7os6o5cvgCCcQzhtgMzvCnLoMGoreJ
- U/8Q==
-X-Gm-Message-State: AC+VfDxT2fv8bu274Ir9ocZik5UV3CSMOk7JZfMB80+xG2BS5ONuEPhb
- niVag5WysQBHw0ufbMqAT1cmyA==
-X-Google-Smtp-Source: ACHHUZ4RY/S888cRpRtVw8f1KgK/R7fi+4IkyaYDVQHfXEZJwuAGgQxq4PDjIigZUkjej9+OD0lY5Q==
-X-Received: by 2002:adf:ec41:0:b0:307:8ad1:4932 with SMTP id
- w1-20020adfec41000000b003078ad14932mr15429743wrn.11.1683897894093; 
- Fri, 12 May 2023 06:24:54 -0700 (PDT)
-Received: from [192.168.220.175] (92.red-88-29-191.dynamicip.rima-tde.net.
- [88.29.191.92]) by smtp.gmail.com with ESMTPSA id
- f16-20020a5d4dd0000000b003062ad45243sm23346816wru.14.2023.05.12.06.24.52
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 12 May 2023 06:24:53 -0700 (PDT)
-Message-ID: <1b91c223-ee2d-8451-6f31-f4dc54f4d73c@linaro.org>
-Date: Fri, 12 May 2023 15:24:51 +0200
+ d=1e100.net; s=20221208; t=1683899511; x=1686491511;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=eEWfcUs5CScFWa8QYLjWQ4P/myP95FLUFeikpmSyFT4=;
+ b=DNCtMU9wlkJBWPQbNFusktuA9zxJ+Yh7KFKzzQqkWk3X7CmWDx5EeCGnZOl9kz+7S3
+ VIA1mwetcmuF03K35jq4oORaLWBtudVC+C3JJ1HZLD5Zz7z47FmwFLh+hH7GpAm6mZk6
+ v2Cd4cbfslXnnU6oHULFFpZFvG83slA227XOVfMWXJOVCKQCs36e1ZOkVRPDjldFyLkt
+ Ub7iat4vNV0yygahzBDyonKy6VA5LqMManRtJ3okxegsBfeVufzNTQQeJIUW3CdUWGzb
+ /4RoyXxg5JriZksfZitpMJqnOneAsalgyFVBt9mt23WIgRy6MxFBB/HQCgv288LZsoc7
+ 8U6Q==
+X-Gm-Message-State: AC+VfDzkyMZJ5vWTMNmYOvAucf0c/XPyJuw43aGeVoC7BPhfMmP0QccP
+ XLYi+FCrGwGz3WaIRkMBit2izA==
+X-Google-Smtp-Source: ACHHUZ7Q7oO0nsY3Uow9gQDAz+c3XAspavAOBy3V6Q+iE27cnk1m0bDkBkvWywPRACH5ipQp0LWvPQ==
+X-Received: by 2002:a2e:9985:0:b0:2a8:bc08:a9a3 with SMTP id
+ w5-20020a2e9985000000b002a8bc08a9a3mr5037896lji.28.1683899510900; 
+ Fri, 12 May 2023 06:51:50 -0700 (PDT)
+Received: from vp-pc.. (109-252-115-147.nat.spd-mgts.ru. [109.252.115.147])
+ by smtp.gmail.com with ESMTPSA id
+ o7-20020a2e90c7000000b002ad994b0b51sm1744283ljg.16.2023.05.12.06.51.50
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 12 May 2023 06:51:50 -0700 (PDT)
+From: Viktor Prutyanov <viktor@daynix.com>
+To: mst@redhat.com,
+	jasowang@redhat.com
+Cc: qemu-devel@nongnu.org, viktor@daynix.com, yan@daynix.com,
+ yuri.benditovich@daynix.com
+Subject: [PATCH v3 0/3] vhost: register and change IOMMU flag depending on ATS
+ state
+Date: Fri, 12 May 2023 16:51:19 +0300
+Message-Id: <20230512135122.70403-1-viktor@daynix.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.10.1
-Subject: Re: [PATCH v2 3/3] hw/intc: Add NULL pointer check on LoongArch ipi
- device
-Content-Language: en-US
-To: Song Gao <gaosong@loongson.cn>, qemu-devel@nongnu.org
-Cc: richard.henderson@linaro.org, maobibo@loongson.cn, yangxiaojuan@loongson.cn
-References: <20230512100421.1867848-1-gaosong@loongson.cn>
- <20230512100421.1867848-4-gaosong@loongson.cn>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230512100421.1867848-4-gaosong@loongson.cn>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x32a.google.com
-X-Spam_score_int: -39
-X-Spam_score: -4.0
-X-Spam_bar: ----
-X-Spam_report: (-4.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.845,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Received-SPF: none client-ip=2a00:1450:4864:20::233;
+ envelope-from=viktor@daynix.com; helo=mail-lj1-x233.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,20 +88,50 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 12/5/23 12:04, Song Gao wrote:
-> When ipi mailbox is used, cpu_index is decoded from iocsr register.
-> cpu maybe does not exist. This patch adss NULL pointer check on
+When IOMMU and vhost are enabled together, QEMU tracks IOTLB or
+Device-TLB unmap events depending on whether Device-TLB is enabled. But
+even if Device-TLB and PCI ATS is enabled, the guest can reject to use
+it. For example, this situation appears when Windows Server 2022 is
+running with intel-iommu with device-iotlb=on and virtio-net-pci with
+vhost=on. The guest implies that no address translation info cached in
+device IOTLB and doesn't send device IOTLB invalidation commands. So,
+it leads to irrelevant address translations in vhost-net in the host
+kernel. Therefore network frames from the guest in host tap interface
+contains wrong payload data.
 
-"adds"
+This series adds checking of ATS state for proper unmap flag register
+(IOMMU_NOTIFIER_UNMAP or IOMMU_NOTIFIER_DEVIOTLB_UNMAP).
 
-> ipi device.
-> 
-> Signed-off-by: Song Gao <gaosong@loongson.cn>
-> ---
->   hw/intc/loongarch_ipi.c | 40 +++++++++++++++++++++++++++++-----------
->   hw/intc/trace-events    |  1 +
->   2 files changed, 30 insertions(+), 11 deletions(-)
+Tested on Windows Server 2022, Windows 11 and Fedora guests with
+ -device virtio-net-pci,bus=pci.3,netdev=nd0,iommu_platform=on,ats=on
+ -netdev tap,id=nd0,ifname=tap1,script=no,downscript=no,vhost=on
+ -device intel-iommu,intremap=on,eim=on,device-iotlb=on/off
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=2001312
+
+v3: call virtio_pci_ats_ctrl_trigger directly, remove
+    IOMMU_NOTIFIER_UNMAP fallbacks
+v2: remove memory_region_iommu_notify_flags_changed, move trigger to
+    VirtioDeviceClass, use vhost_ops, use device_iotlb name
+
+Viktor Prutyanov (3):
+  virtio-pci: add handling of PCI ATS and Device-TLB enable/disable
+  vhost: register and change IOMMU flag depending on Device-TLB state
+  virtio-net: pass Device-TLB enable/disable events to vhost
+
+ hw/net/vhost_net.c                | 11 ++++++++++
+ hw/net/virtio-net.c               |  7 +++++++
+ hw/virtio/vhost-backend.c         |  6 ++++++
+ hw/virtio/vhost.c                 | 30 +++++++++++++++-----------
+ hw/virtio/virtio-pci.c            | 35 +++++++++++++++++++++++++++++++
+ include/hw/virtio/vhost-backend.h |  3 +++
+ include/hw/virtio/vhost.h         |  1 +
+ include/hw/virtio/virtio.h        |  2 ++
+ include/net/vhost_net.h           |  2 ++
+ 9 files changed, 85 insertions(+), 12 deletions(-)
+
+
+-- 
+2.35.1
 
 
