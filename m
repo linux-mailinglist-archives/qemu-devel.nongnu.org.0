@@ -2,65 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 408067007D7
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 May 2023 14:26:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3081870085F
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 May 2023 14:48:42 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pxRpV-0000xI-LK; Fri, 12 May 2023 08:25:01 -0400
+	id 1pxSBs-0003Db-Pc; Fri, 12 May 2023 08:48:11 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1pxRpS-0000x7-N8
- for qemu-devel@nongnu.org; Fri, 12 May 2023 08:24:58 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1pxRpQ-0000GA-TG
- for qemu-devel@nongnu.org; Fri, 12 May 2023 08:24:58 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1683894295;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=/eYwVNIvKVi1IRHNrIc8SKtLHpjAXmuWQ1eOlTtDoJk=;
- b=GKRD9Ig+B6Nmpu8MC23PwdqUg7EwMAwBF7VexFJLreJnP9z3YpNcje0XA/0d4H8l/7ZNgu
- I8QF+E6+pGoxcorlZnjY0+SzIhFgp738dnI7lAKMqz1l7nu63mcryE/onT2dpni2EXqd/d
- U9/alJuwz79W+wj2Bnmocgbb1bZjpnM=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-300-5zZXb_-lM7W5K-PlbaFswA-1; Fri, 12 May 2023 08:24:53 -0400
-X-MC-Unique: 5zZXb_-lM7W5K-PlbaFswA-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
- [10.11.54.1])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7B07D185A78B;
- Fri, 12 May 2023 12:24:53 +0000 (UTC)
-Received: from redhat.com (unknown [10.2.16.49])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 187AC40C2076;
- Fri, 12 May 2023 12:24:53 +0000 (UTC)
-Date: Fri, 12 May 2023 07:24:51 -0500
-From: Eric Blake <eblake@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: hreitz@redhat.com, armbru@redhat.com, richard.henderson@linaro.org
-Subject: Re: [PATCH v2 00/19] Fix qemu_strtosz() read-out-of-bounds
-Message-ID: <qh7n3rd7ykpvpczp72omzysht2tcaybmypqmmp6scjxyyqz3d6@74viadsteikq>
-References: <20230512021033.1378730-1-eblake@redhat.com>
+ (Exim 4.90_1) (envelope-from <andrew@daynix.com>) id 1pxSBh-0003CI-LV
+ for qemu-devel@nongnu.org; Fri, 12 May 2023 08:47:57 -0400
+Received: from mail-ej1-x634.google.com ([2a00:1450:4864:20::634])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <andrew@daynix.com>) id 1pxSBf-0000Jv-4m
+ for qemu-devel@nongnu.org; Fri, 12 May 2023 08:47:56 -0400
+Received: by mail-ej1-x634.google.com with SMTP id
+ a640c23a62f3a-96622bca286so1445762766b.1
+ for <qemu-devel@nongnu.org>; Fri, 12 May 2023 05:47:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=daynix-com.20221208.gappssmtp.com; s=20221208; t=1683895672; x=1686487672;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=sMy10c/2zeDBQKu5955DezN44GqqW0s4+xHIEBzOFqY=;
+ b=LhHik3tH8sWGYSa9RdURgseciKXqnwlRbLxKkPqPhL23u0kBBotPmb7uYRQJtFqbwt
+ PuMF64WWJvlJlwKcQx6UqMSFDFUiObrrcYrgW51LNBrkaxt8OPVlZKPp5SkWs5AU6wFp
+ IS4ALxixRZ+/PcrDfZly9yK497N4IvqpIsN5Gjtd/5gg13rlXUePB4NGVMph+ul0L43D
+ qSHslNsxSf8dlPptsdt5t2JUbLKc2GJVD7fMedhQ6617MDk+pyJ3cqxRpdhWcPMB+GYP
+ 45jx+vt6hmg6CIuBJhfEQAEnbwvH/EDIc1O5KHf62pZDQJ6zxfdKVpvb6ZpP9JilHaY3
+ BrcA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1683895672; x=1686487672;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=sMy10c/2zeDBQKu5955DezN44GqqW0s4+xHIEBzOFqY=;
+ b=CrYnTxYOSI5dBvufDZsPkkNAQ2646fIf8rHdPjs6LYlRT2bZ5AqNxwb4VBM19GInKg
+ tLoyQE/zwkpdBonz6owXVp7p2fyYSresQNXsil/QZ7MAKjBxX5v9RveFx/telmhzw7GA
+ ek9IBBcGeri+ETXm8qW61Axu1geXNNxczFB3ONFANLZIynfvFmd+Cg/7t+asCFf0ZGkJ
+ FtW5BfnUSIdCUYQBZe8DG0KNi2JhpLAYpxbdMZsOk+NcUd6zlm+4qW2dk66eDMsudTdw
+ F+Cd/vv6b8/oLkxCouuQSNwoa2LGJf8HLeihU8I5r341BisJSRXQGyBP+9e+kbW1qMG1
+ VoTw==
+X-Gm-Message-State: AC+VfDxzSKB2PXQ+m4IZwboTp99OLXRn4GawhYKfOH2knb1I3jB/VL8q
+ 18K7VffI38Dn9WYlq5SeDatbCw==
+X-Google-Smtp-Source: ACHHUZ6ipaZJVduEIKQ+tol5sb7SlsjzQNQWJJ/gLt0BuRjohygHDuDvIKUk1I8mDc3QkkNMwXeD+A==
+X-Received: by 2002:a17:907:7b91:b0:969:bac4:8e22 with SMTP id
+ ne17-20020a1709077b9100b00969bac48e22mr13737157ejc.26.1683895672583; 
+ Fri, 12 May 2023 05:47:52 -0700 (PDT)
+Received: from localhost.localdomain (178-133-109-64.mobile.vf-ua.net.
+ [178.133.109.64]) by smtp.gmail.com with ESMTPSA id
+ ze11-20020a170906ef8b00b00965b0eb7b0csm5322585ejb.103.2023.05.12.05.47.50
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 12 May 2023 05:47:52 -0700 (PDT)
+From: Andrew Melnychenko <andrew@daynix.com>
+To: jasowang@redhat.com, mst@redhat.com, armbru@redhat.com, eblake@redhat.com,
+ qemu-devel@nongnu.org, berrange@redhat.com
+Cc: yuri.benditovich@daynix.com,
+	yan@daynix.com
+Subject: [PATCH v2 0/6] eBPF RSS through QMP support.
+Date: Fri, 12 May 2023 15:28:56 +0300
+Message-Id: <20230512122902.34345-1-andrew@daynix.com>
+X-Mailer: git-send-email 2.39.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230512021033.1378730-1-eblake@redhat.com>
-User-Agent: NeoMutt/20230407
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: none client-ip=2a00:1450:4864:20::634;
+ envelope-from=andrew@daynix.com; helo=mail-ej1-x634.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -76,58 +87,43 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, May 11, 2023 at 09:10:14PM -0500, Eric Blake wrote:
-> v1 was here:
-> https://lists.gnu.org/archive/html/qemu-devel/2023-05/msg01988.html
-> 
-> since then:
-> - make parse_uint easier to use, then use it in qemu_strtosz
-> - add even more unit tests
-> - fix a bug in qemu_strtoui
-> - avoid dereferencing randome memory during unit tests [Hanna]
-> - other cleanups as I found them
-> - compress the strtosz unit tests (the major cause of the large
->   interdiff statistics)
-> 
-> backport-diff looks like:
-> 
-> 001/19:[----] [--] 'test-cutils: Avoid g_assert in unit tests'
-> 002/19:[----] [--] 'test-cutils: Use g_assert_cmpuint where appropriate'
-> 003/19:[----] [--] 'test-cutils: Test integral qemu_strto* value on failures'
-> 004/19:[down] 'test-cutils: Test more integer corner cases'
-> 005/19:[down] 'cutils: Fix wraparound parsing in qemu_strtoui'
-> 006/19:[down] 'cutils: Document differences between parse_uint and qemu_strtou64'
-> 007/19:[down] 'cutils: Adjust signature of parse_uint[_full]'
-> 008/19:[down] 'cutils: Allow NULL endptr in parse_uint()'
-> 009/19:[0147] [FC] 'test-cutils: Add coverage of qemu_strtod'
-> 010/19:[----] [--] 'test-cutils: Prepare for upcoming semantic change in qemu_strtosz'
-> 011/19:[down] 'test-cutils: Refactor qemu_strtosz tests for less boilerplate'
-> 012/19:[down] 'cutils: Allow NULL str in qemu_strtosz'
-> 013/19:[----] [--] 'numa: Check for qemu_strtosz_MiB error'
-> 014/19:[down] 'test-cutils: Add more coverage to qemu_strtosz11;rgb:1e1e/1e1e/1e1e'
+This series of patches provides the ability to retrieve eBPF program
+through qmp, so management application may load bpf blob with proper capabilities.
+Now, virtio-net devices can accept eBPF programs and maps through properties
+as external file descriptors. Access to the eBPF map is direct through mmap()
+call, so it should not require additional capabilities to bpf* calls.
+eBPF file descriptors can be passed to QEMU from parent process or by unix
+socket with sendfd() qmp command.
 
-Not sure how I managed to corrupt that subject line while rebasing
-(looks like a read race on /dev/tty where my editor intercepted bytes
-intended to go to the shell's terminal); a corrected version is now
-available at:
+Changes since v1:
+ * refactored code.
+ * eBPF program ids implemented as enums
 
-git fetch https://repo.or.cz/qemu/ericb.git strtosz
-https://repo.or.cz/qemu/ericb.git/tree/refs/heads/strtosz
+Andrew Melnychenko (6):
+  ebpf: Added eBPF map update through mmap.
+  ebpf: Added eBPF initialization by fds.
+  virtio-net: Added property to load eBPF RSS with fds.
+  ebpf: Added declaration/initialization routines.
+  qmp: Added new command to retrieve eBPF blob.
+  ebpf: Updated eBPF program and skeleton.
 
-and with that fixed, this line changes to:
-
-014/18:[0335] [FC] 'test-cutils: Add more coverage to qemu_strtosz'
-
-> 015/19:[0178] [FC] 'cutils: Set value in all qemu_strtosz* error paths'
-> 016/19:[----] [--] 'cutils: Set value in all integral qemu_strto* error paths'
-> 017/19:[down] 'cutils: Use parse_uint in qemu_strtosz for negative rejection'
-> 018/19:[0018] [FC] 'cutils: Improve qemu_strtod* error paths'
-> 019/19:[0107] [FC] 'cutils: Improve qemu_strtosz handling of fractions'
-> 
+ ebpf/ebpf.c                    |   54 ++
+ ebpf/ebpf.h                    |   31 +
+ ebpf/ebpf_rss-stub.c           |    6 +
+ ebpf/ebpf_rss.c                |  149 +++-
+ ebpf/ebpf_rss.h                |   10 +
+ ebpf/meson.build               |    1 +
+ ebpf/rss.bpf.skeleton.h        | 1469 ++++++++++++++++----------------
+ hw/net/virtio-net.c            |   55 +-
+ include/hw/virtio/virtio-net.h |    1 +
+ monitor/qmp-cmds.c             |   16 +
+ qapi/misc.json                 |   38 +
+ tools/ebpf/rss.bpf.c           |    2 +-
+ 12 files changed, 1073 insertions(+), 759 deletions(-)
+ create mode 100644 ebpf/ebpf.c
+ create mode 100644 ebpf/ebpf.h
 
 -- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3266
-Virtualization:  qemu.org | libvirt.org
+2.39.1
 
 
