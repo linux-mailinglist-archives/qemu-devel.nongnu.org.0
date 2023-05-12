@@ -2,57 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D7517006AA
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 May 2023 13:23:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2171C70070B
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 May 2023 13:43:22 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pxQrL-00061q-VD; Fri, 12 May 2023 07:22:51 -0400
+	id 1pxR9l-0006Na-9G; Fri, 12 May 2023 07:41:53 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pxQrJ-0005zt-5M
- for qemu-devel@nongnu.org; Fri, 12 May 2023 07:22:49 -0400
-Received: from mout.kundenserver.de ([212.227.126.133])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pxQrH-0002Om-52
- for qemu-devel@nongnu.org; Fri, 12 May 2023 07:22:48 -0400
-Received: from quad ([82.142.8.70]) by mrelayeu.kundenserver.de (mreue012
- [212.227.15.167]) with ESMTPSA (Nemesis) id 1MlsWZ-1qfG4N2waJ-00iyZG; Fri, 12
- May 2023 13:22:44 +0200
-From: Laurent Vivier <laurent@vivier.eu>
-To: qemu-devel@nongnu.org
-Cc: Michael Tokarev <mjt@tls.msk.ru>,
-	Laurent Vivier <laurent@vivier.eu>
-Subject: [PULL 9/9] linux-user: fix getgroups/setgroups allocations
-Date: Fri, 12 May 2023 13:22:38 +0200
-Message-Id: <20230512112238.85272-10-laurent@vivier.eu>
-X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20230512112238.85272-1-laurent@vivier.eu>
-References: <20230512112238.85272-1-laurent@vivier.eu>
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1pxR9j-0006MH-1r
+ for qemu-devel@nongnu.org; Fri, 12 May 2023 07:41:51 -0400
+Received: from mail-ej1-x62e.google.com ([2a00:1450:4864:20::62e])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1pxR9h-0006ga-5D
+ for qemu-devel@nongnu.org; Fri, 12 May 2023 07:41:50 -0400
+Received: by mail-ej1-x62e.google.com with SMTP id
+ a640c23a62f3a-965c3f9af2aso1492181066b.0
+ for <qemu-devel@nongnu.org>; Fri, 12 May 2023 04:41:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1683891707; x=1686483707;
+ h=content-transfer-encoding:mime-version:message-id:references
+ :in-reply-to:subject:cc:to:from:date:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=qPdxhncpdA+Cs9nKW55LIueGY421O1IzKmKeIEN1D68=;
+ b=B54E/SzpioqAy+SaZKZ7nHGc9JhanoYi/NmSnKkM1PJYhorznhxRg/R8Jm6DrdU8bp
+ 27rF8BkGsJ9r5Z1g+JN+iYghBkkmCIEqQdR0PDJYVoTLoctUbT2hWhk/BlMUcnDg09GJ
+ OQ+K/1hkzwgPKN/9Sna+QA/0qSsXh4kxQmsd3vt16GfcK4VnRcE9Fg0964aUb4ZOwMJP
+ u75hofr08BV+MgY33gu+dIMNPKlntNWJ6SuqGZraoHFRwOUd0GppTvvhRzysr3dBoweG
+ vREERfKUl1044VlHY+ytn2lHxp4oD8lOFPa1x9iLthqMypJWd4pQFbJEyjxubX0fcUTA
+ TMyA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1683891707; x=1686483707;
+ h=content-transfer-encoding:mime-version:message-id:references
+ :in-reply-to:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=qPdxhncpdA+Cs9nKW55LIueGY421O1IzKmKeIEN1D68=;
+ b=gyV3p0SPXvM9AX77ZPQtVI56foZFFkicaKEa0utFKhYHsrQd2g0x1qw+dPaPAen5xA
+ hVUwBOSMAfaqQR5bD1yjTCnlcpMMmkAfqjhXv63B+igc1ltHjJyNjDI2iSx1VP1SYuyq
+ 2ZSUx7wZAR/lbPo12HN6ofyixUKDvwgZ7RYDus5dFYvxxDvOaJDLsxBJ/aQV2bhYTeOF
+ moV53eusDg9V83C0z7hkp4I9zjHuWI9RKUic7emjs6+CCmklc46pnvuJkPgtEkALPXe7
+ dVUyrVVJWHx9mr5ttiLDKFqsgjV/y2iiIhVx8e3RHbzSdhgf78BFd5ypK83/KOykvmE9
+ HoMQ==
+X-Gm-Message-State: AC+VfDxSGyQ36qA6pjSptWjUGr69i8q4YjqHjtzOhSONsauNcBEeSk/Z
+ g0C6Xd52po6uZjFhFIJnZ+w=
+X-Google-Smtp-Source: ACHHUZ7pM9AwKK8bNdvT2P5gNzceT7y5E9mNBGR2nnohVSCTa/7UJG9PRG9odbvmrdQLrfdNxUnlKQ==
+X-Received: by 2002:a17:907:7293:b0:969:dda1:38a4 with SMTP id
+ dt19-20020a170907729300b00969dda138a4mr13652128ejc.38.1683891707122; 
+ Fri, 12 May 2023 04:41:47 -0700 (PDT)
+Received: from [127.0.0.1] (dynamic-077-013-129-055.77.13.pool.telefonica.de.
+ [77.13.129.55]) by smtp.gmail.com with ESMTPSA id
+ n10-20020aa7db4a000000b005027d31615dsm3788662edt.62.2023.05.12.04.41.46
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 12 May 2023 04:41:46 -0700 (PDT)
+Date: Fri, 12 May 2023 11:41:33 +0000
+From: Bernhard Beschow <shentey@gmail.com>
+To: quintela@redhat.com, Juan Quintela <quintela@redhat.com>, afaerber@suse.de
+CC: ale@rev.ng, anjo@rev.ng, bazulay@redhat.com, bbauman@redhat.com,
+ chao.p.peng@linux.intel.com, cjia@nvidia.com, cw@f00f.org,
+ david.edmondson@oracle.com, dustin.kirkland@canonical.com, eblake@redhat.com, 
+ edgar.iglesias@gmail.com, elena.ufimtseva@oracle.com, eric.auger@redhat.com,
+ f4bug@amsat.org, Felipe Franciosi <felipe.franciosi@nutanix.com>,
+ "iggy@theiggy.com" <iggy@kws1.com>, Warner Losh <wlosh@bsdimp.com>,
+ jan.kiszka@web.de, jgg@nvidia.com, jidong.xiao@gmail.com,
+ jjherne@linux.vnet.ibm.com, joao.m.martins@oracle.com,
+ konrad.wilk@oracle.com, kvm@vger.kernel.org, mburton@qti.qualcomm.com,
+ mdean@redhat.com, mimu@linux.vnet.ibm.com, peter.maydell@linaro.org,
+ qemu-devel@nongnu.org, richard.henderson@linaro.org,
+ shameerali.kolothum.thodi@huawei.com, stefanha@gmail.com,
+ wei.w.wang@intel.com, z.huo@139.com, zwu.kernel@gmail.com
+Subject: Re: QEMU developers fortnightly call for agenda for 2023-05-16
+In-Reply-To: <871qjm3su8.fsf@secure.mitica>
+References: <calendar-f9e06ce0-8972-4775-9a3d-7269ec566398@google.com>
+ <871qjm3su8.fsf@secure.mitica>
+Message-ID: <452B32A5-8C9E-4A61-B14B-C8AB47D0A3ED@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:iRJlWj3Gcwv32sYb+8bRrL7E6Z7BK0F/lJCUdcrclFucul2udKF
- YA2Goa9O3gbUAIYaLy3Vm9NvoNUhIlHO+PgGUGsVCWc3WbMx/jgApJCs6WTqT+HzEbkUj1e
- j9BOBm8GYZjhy5vuMwzg+FPLCP89BW0Aj0UndEKai8X/ncqdP4aLi1S1sr4CklBgbuJZQjN
- aOPlBEK2PSU16bQDLamTA==
-UI-OutboundReport: notjunk:1;M01:P0:pJQgYKHQdis=;nwUO9pwLQzc8LIN4INzbxIODITf
- zVqTn62hnKRapSA55MASZ4s0b6h8Yx5oV8nnCsc9yQre+8rYVLUk0wpJpq0ZeG2m22cSk9ebJ
- A7G8mAsESZhArzJ3aV2LHa9EhpII7cPil9MsTqb8EbVfIW5X02c1uAgKa+Ybma1DVdh1y9LcF
- ZXismGvZvq+GOJihOvRU8rwPdYJRButOT3wMi2luLV9JqN8yLhnlpBeZabnDKpeXJ4Q4av9Au
- 1oTcstdkX0/cHy0sCydAyCg8HbRzkwf1vzaR9O/A51kaYV/wdR1dDxFvtHB1zREUUwdkKPbhz
- n8/VGG8tpp1JBzyG1vqNTIN4V3N1c8FmOJTZ7BYyb3Q3zPO7xm+k8vlCJgPxCL1ygQNwJGoJH
- qJyIZedfcMRBZy3BU90XuVMJ8eVUtdkDNJS9ezeTWqjuKiXTJWWBd6b4Bk45b7B8kx7UDTD33
- FcqDQjKl6KtzMohTW3Q6S7rix0ujR1d8HnK44X0RDPI+Hp1/KnniOdh1tu0PQ9BCJGH04o9yp
- j1TswZqrJY7CDbWh+4KzhGhqjkYyNcy6y9DNPifEqiLXZfdJFkydI9ddWy7cY7edMOtx2jm/u
- uF5xLSgIifNTiG6EdBvEBuTpIbde17epVBV6wa8u2fgSlEzBZozdwfuak4rlh6MqHS7Mz5Kvz
- jgaMJXfq41DPfJ7YODtyR4VYvUodmLgDuzfZgScDqA==
-Received-SPF: none client-ip=212.227.126.133; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001,
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::62e;
+ envelope-from=shentey@gmail.com; helo=mail-ej1-x62e.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -69,201 +103,92 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Michael Tokarev <mjt@tls.msk.ru>
 
-linux-user getgroups(), setgroups(), getgroups32() and setgroups32()
-used alloca() to allocate grouplist arrays, with unchecked gidsetsize
-coming from the "guest".  With NGROUPS_MAX being 65536 (linux, and it
-is common for an application to allocate NGROUPS_MAX for getgroups()),
-this means a typical allocation is half the megabyte on the stack.
-Which just overflows stack, which leads to immediate SIGSEGV in actual
-system getgroups() implementation.
 
-An example of such issue is aptitude, eg
-https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=811087#72
+Am 12=2E Mai 2023 07:35:27 UTC schrieb Juan Quintela <quintela@redhat=2Eco=
+m>:
+>juan=2Equintela@gmail=2Ecom wrote:
+>> Hi If you are interested in any topic, please let me know=2E Later, Jua=
+n=2E
+>
+>Hi folks
+>
+>So far what we have in the agenda is:
+>
+>questions from Mark:
+>- Update on single binary?
+>- What=E2=80=99s the status on the =E2=80=9Cicount=E2=80=9D plugin ?
+>- Also I could do with some help on a specific issue on KVM/HVF memory ha=
+ndling
+>
+>From me:
+>- Small update on what is going on with all the migration changes
+>
+>Later, Juan=2E
+>
+>
+>> QEMU developers fortnightly conference call
+>> Tuesday 2023-05-16 =E2=8B=85 15:00 =E2=80=93 16:00
+>> Central European Time - Madrid
+>>
+>> Location
+>> https://meet=2Ejit=2Esi/kvmcallmeeting=09
 
-Cap gidsetsize to NGROUPS_MAX (return EINVAL if it is larger than that),
-and use heap allocation for grouplist instead of alloca().  While at it,
-fix coding style and make all 4 implementations identical.
+Hi Juan,
 
-Try to not impose random limits - for example, allow gidsetsize to be
-negative for getgroups() - just do not allocate negative-sized grouplist
-in this case but still do actual getgroups() call.  But do not allow
-negative gidsetsize for setgroups() since its argument is unsigned.
+Would it be possible to offer a public calendar entry -- perhaps in =2Eics=
+ format -- with above information? Which can be conveniently subscribed to =
+via a smartphone app? Which gets updated regularly under the same link? Whi=
+ch doesn't (needlessly, anyway) require authentcation?=20
 
-Capping by NGROUPS_MAX seems a bit arbitrary, - we can do more, it is
-not an error if set size will be NGROUPS_MAX+1. But we should not allow
-integer overflow for the array being allocated. Maybe it is enough to
-just call g_try_new() and return ENOMEM if it fails.
+Thanks,
+Bernhard
 
-Maybe there's also no need to convert setgroups() since this one is
-usually smaller and known beforehand (KERN_NGROUPS_MAX is actually 63, -
-this is apparently a kernel-imposed limit for runtime group set).
-
-The patch fixes aptitude segfault mentioned above.
-
-Signed-off-by: Michael Tokarev <mjt@tls.msk.ru>
-Message-Id: <20230409105327.1273372-1-mjt@msgid.tls.msk.ru>
-Signed-off-by: Laurent Vivier <laurent@vivier.eu>
----
- linux-user/syscall.c | 99 ++++++++++++++++++++++++++++++--------------
- 1 file changed, 68 insertions(+), 31 deletions(-)
-
-diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index 7170332041ca..f49fbd0529d9 100644
---- a/linux-user/syscall.c
-+++ b/linux-user/syscall.c
-@@ -11559,39 +11559,58 @@ static abi_long do_syscall1(CPUArchState *cpu_env, int num, abi_long arg1,
-         {
-             int gidsetsize = arg1;
-             target_id *target_grouplist;
--            gid_t *grouplist;
-+            g_autofree gid_t *grouplist = NULL;
-             int i;
- 
--            grouplist = alloca(gidsetsize * sizeof(gid_t));
-+            if (gidsetsize > NGROUPS_MAX) {
-+                return -TARGET_EINVAL;
-+            }
-+            if (gidsetsize > 0) {
-+                grouplist = g_try_new(gid_t, gidsetsize);
-+                if (!grouplist) {
-+                    return -TARGET_ENOMEM;
-+                }
-+            }
-             ret = get_errno(getgroups(gidsetsize, grouplist));
--            if (gidsetsize == 0)
--                return ret;
--            if (!is_error(ret)) {
--                target_grouplist = lock_user(VERIFY_WRITE, arg2, gidsetsize * sizeof(target_id), 0);
--                if (!target_grouplist)
-+            if (!is_error(ret) && gidsetsize > 0) {
-+                target_grouplist = lock_user(VERIFY_WRITE, arg2,
-+                                             gidsetsize * sizeof(target_id), 0);
-+                if (!target_grouplist) {
-                     return -TARGET_EFAULT;
--                for(i = 0;i < ret; i++)
-+                }
-+                for (i = 0; i < ret; i++) {
-                     target_grouplist[i] = tswapid(high2lowgid(grouplist[i]));
--                unlock_user(target_grouplist, arg2, gidsetsize * sizeof(target_id));
-+                }
-+                unlock_user(target_grouplist, arg2,
-+                            gidsetsize * sizeof(target_id));
-             }
-+            return ret;
-         }
--        return ret;
-     case TARGET_NR_setgroups:
-         {
-             int gidsetsize = arg1;
-             target_id *target_grouplist;
--            gid_t *grouplist = NULL;
-+            g_autofree gid_t *grouplist = NULL;
-             int i;
--            if (gidsetsize) {
--                grouplist = alloca(gidsetsize * sizeof(gid_t));
--                target_grouplist = lock_user(VERIFY_READ, arg2, gidsetsize * sizeof(target_id), 1);
-+
-+            if (gidsetsize > NGROUPS_MAX || gidsetsize < 0) {
-+                return -TARGET_EINVAL;
-+            }
-+            if (gidsetsize > 0) {
-+                grouplist = g_try_new(gid_t, gidsetsize);
-+                if (!grouplist) {
-+                    return -TARGET_ENOMEM;
-+                }
-+                target_grouplist = lock_user(VERIFY_READ, arg2,
-+                                             gidsetsize * sizeof(target_id), 1);
-                 if (!target_grouplist) {
-                     return -TARGET_EFAULT;
-                 }
-                 for (i = 0; i < gidsetsize; i++) {
-                     grouplist[i] = low2highgid(tswapid(target_grouplist[i]));
-                 }
--                unlock_user(target_grouplist, arg2, 0);
-+                unlock_user(target_grouplist, arg2,
-+                            gidsetsize * sizeof(target_id));
-             }
-             return get_errno(setgroups(gidsetsize, grouplist));
-         }
-@@ -11876,41 +11895,59 @@ static abi_long do_syscall1(CPUArchState *cpu_env, int num, abi_long arg1,
-         {
-             int gidsetsize = arg1;
-             uint32_t *target_grouplist;
--            gid_t *grouplist;
-+            g_autofree gid_t *grouplist = NULL;
-             int i;
- 
--            grouplist = alloca(gidsetsize * sizeof(gid_t));
-+            if (gidsetsize > NGROUPS_MAX) {
-+                return -TARGET_EINVAL;
-+            }
-+            if (gidsetsize > 0) {
-+                grouplist = g_try_new(gid_t, gidsetsize);
-+                if (!grouplist) {
-+                    return -TARGET_ENOMEM;
-+                }
-+            }
-             ret = get_errno(getgroups(gidsetsize, grouplist));
--            if (gidsetsize == 0)
--                return ret;
--            if (!is_error(ret)) {
--                target_grouplist = lock_user(VERIFY_WRITE, arg2, gidsetsize * 4, 0);
-+            if (!is_error(ret) && gidsetsize > 0) {
-+                target_grouplist = lock_user(VERIFY_WRITE, arg2,
-+                                             gidsetsize * 4, 0);
-                 if (!target_grouplist) {
-                     return -TARGET_EFAULT;
-                 }
--                for(i = 0;i < ret; i++)
-+                for (i = 0; i < ret; i++) {
-                     target_grouplist[i] = tswap32(grouplist[i]);
-+                }
-                 unlock_user(target_grouplist, arg2, gidsetsize * 4);
-             }
-+            return ret;
-         }
--        return ret;
- #endif
- #ifdef TARGET_NR_setgroups32
-     case TARGET_NR_setgroups32:
-         {
-             int gidsetsize = arg1;
-             uint32_t *target_grouplist;
--            gid_t *grouplist;
-+            g_autofree gid_t *grouplist = NULL;
-             int i;
- 
--            grouplist = alloca(gidsetsize * sizeof(gid_t));
--            target_grouplist = lock_user(VERIFY_READ, arg2, gidsetsize * 4, 1);
--            if (!target_grouplist) {
--                return -TARGET_EFAULT;
-+            if (gidsetsize > NGROUPS_MAX || gidsetsize < 0) {
-+                return -TARGET_EINVAL;
-+            }
-+            if (gidsetsize > 0) {
-+                grouplist = g_try_new(gid_t, gidsetsize);
-+                if (!grouplist) {
-+                    return -TARGET_ENOMEM;
-+                }
-+                target_grouplist = lock_user(VERIFY_READ, arg2,
-+                                             gidsetsize * 4, 1);
-+                if (!target_grouplist) {
-+                    return -TARGET_EFAULT;
-+                }
-+                for (i = 0; i < gidsetsize; i++) {
-+                    grouplist[i] = tswap32(target_grouplist[i]);
-+                }
-+                unlock_user(target_grouplist, arg2, 0);
-             }
--            for(i = 0;i < gidsetsize; i++)
--                grouplist[i] = tswap32(target_grouplist[i]);
--            unlock_user(target_grouplist, arg2, 0);
-             return get_errno(setgroups(gidsetsize, grouplist));
-         }
- #endif
--- 
-2.40.1
-
+>> https://www=2Egoogle=2Ecom/url?q=3Dhttps%3A%2F%2Fmeet=2Ejit=2Esi%2Fkvmc=
+allmeeting&sa=3DD&ust=3D1684065960000000&usg=3DAOvVaw14RNXU52XvArxijoKSmVbR
+>>
+>>
+>>
+>> If you need call details, please contact me: quintela@redhat=2Ecom
+>>
+>> Guests
+>> Philippe Mathieu-Daud=C3=A9
+>> Joao Martins
+>> quintela@redhat=2Ecom
+>> Meirav Dean
+>> Felipe Franciosi
+>> afaerber@suse=2Ede
+>> bazulay@redhat=2Ecom
+>> bbauman@redhat=2Ecom
+>> cw@f00f=2Eorg
+>> dustin=2Ekirkland@canonical=2Ecom
+>> eblake@redhat=2Ecom
+>> edgar=2Eiglesias@gmail=2Ecom
+>> eric=2Eauger@redhat=2Ecom
+>> iggy@theiggy=2Ecom
+>> jan=2Ekiszka@web=2Ede
+>> jidong=2Exiao@gmail=2Ecom
+>> jjherne@linux=2Evnet=2Eibm=2Ecom
+>> mimu@linux=2Evnet=2Eibm=2Ecom
+>> Peter Maydell
+>> richard=2Ehenderson@linaro=2Eorg
+>> stefanha@gmail=2Ecom
+>> Warner Losh
+>> z=2Ehuo@139=2Ecom
+>> zwu=2Ekernel@gmail=2Ecom
+>> Jason Gunthorpe
+>> Neo Jia
+>> David Edmondson
+>> Elena Ufimtseva
+>> Konrad Wilk
+>> ale@rev=2Eng
+>> anjo@rev=2Eng
+>> Shameerali Kolothum Thodi
+>> Wang, Wei W
+>> Chao Peng
+>> kvm-devel
+>> qemu-devel@nongnu=2Eorg
+>> mburton@qti=2Equalcomm=2Ecom
+>
+>
 
