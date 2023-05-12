@@ -2,49 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A3F97006A6
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 May 2023 13:23:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 422137006B1
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 May 2023 13:24:37 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pxQrF-0005xi-3a; Fri, 12 May 2023 07:22:45 -0400
+	id 1pxQrN-00062U-Hf; Fri, 12 May 2023 07:22:53 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pxQrD-0005xa-DC
- for qemu-devel@nongnu.org; Fri, 12 May 2023 07:22:43 -0400
-Received: from mout.kundenserver.de ([212.227.126.133])
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pxQrL-00061o-CF
+ for qemu-devel@nongnu.org; Fri, 12 May 2023 07:22:51 -0400
+Received: from mout.kundenserver.de ([212.227.126.135])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pxQrB-0002N0-Mz
- for qemu-devel@nongnu.org; Fri, 12 May 2023 07:22:43 -0400
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pxQrJ-0002PM-HD
+ for qemu-devel@nongnu.org; Fri, 12 May 2023 07:22:51 -0400
 Received: from quad ([82.142.8.70]) by mrelayeu.kundenserver.de (mreue012
- [212.227.15.167]) with ESMTPSA (Nemesis) id 1MzCMN-1qAa5M1B6x-00wGGQ; Fri, 12
- May 2023 13:22:39 +0200
+ [212.227.15.167]) with ESMTPSA (Nemesis) id 1MCXhr-1q5vJj114l-009dog; Fri, 12
+ May 2023 13:22:40 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Cc: Laurent Vivier <laurent@vivier.eu>
-Subject: [PULL 0/9] Linux user for 8.1 patches
-Date: Fri, 12 May 2023 13:22:29 +0200
-Message-Id: <20230512112238.85272-1-laurent@vivier.eu>
+Cc: Afonso Bordado <afonsobordado@gmail.com>,
+ Palmer Dabbelt <palmer@rivosinc.com>, Laurent Vivier <laurent@vivier.eu>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
+Subject: [PULL 1/9] linux-user: Emulate /proc/cpuinfo output for riscv
+Date: Fri, 12 May 2023 13:22:30 +0200
+Message-Id: <20230512112238.85272-2-laurent@vivier.eu>
 X-Mailer: git-send-email 2.40.1
+In-Reply-To: <20230512112238.85272-1-laurent@vivier.eu>
+References: <20230512112238.85272-1-laurent@vivier.eu>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:95CSJXoMDnIsr/M7+fzjbV7+0d5NBf2aT5D0Ou8D08YGhnHQA5U
- eH0bAAC7sKCTGoZDl6MGL/PDnj7vtH4Sb6+cjrGDsXsNzPL2F/k3ZVDcXJBAFri44IlyNld
- GuvJLNDO4XzwZ+QtoSjSeveZDyGQdnCgBUHk0wFzQZr8V+ecTZn5xBzNt4BlRukfiwvi2TF
- 99D/936d9Ck7ttBX5BdJw==
-UI-OutboundReport: notjunk:1;M01:P0:NJc8m7y8TMY=;WyJkqWeJrITNyVk+sARJD07Oley
- jCg3A3oiR5nA1qncesUpwA4NbSbqlDc1RfZcV740E4gunWlBqQgtO53t7cpjKD04sXmJT4mLq
- +0GssCtfo1XdrSl+A8OHmtYKOO4wdI3z8LnLqVHIgpfDlDGjw7amV7srsZBTBaO70YASaAEj1
- z/eN0vyLxZWqmvkIyB/HRB3QK8DpaHHgME0xFXAn63THZoDeilZM64QPDd9cLMJGSKsjhJ8ct
- keS3DI9vLVR0AWeXq8ZWNnGMNVmvQAT+zuLePxPrpRV1/59tGsyRwV6ia+TYhk2wOp+xySi3k
- NoTlMsXO1yTOn3gkcwW/tXrgpVe22K15AqIaz8HnluclicQj9KuZoJsk4kZDZAWAEmafWgKLy
- +27/KTr3Kd4haSS8gGjVPP6u5C/F/KWpKg3xWEkJz+R+8kr9d+k5KiuLDq4+RDBTtteCM8Gad
- Zy4N3r1d5TTKzh0P/PM4U1/BKRAt+LkRk3Y4phceMSZD2yXdDfTsfKh6K3FRtegPcAo+0kkD/
- H5J4ClY9+Uw01+0cqPpixTNa0eIAwdLSXmOU6SNGDnLpXpBHUYOeUMatm0wpVxkUJC5QZSUJp
- DzeRCv9zmo12P8gi3wJeQSHCzLSQv90P6/2gbl4VrP0ULYhdwC9KYksH/pk23eHtT/gzD9n62
- k8s+phkdMwX8oEG9z7J8UOax0m0hLqeKLM0AkjzkBg==
-Received-SPF: none client-ip=212.227.126.133; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:I4rMKSwAL0IuP4QDTZP5cBkepjeqY/TU5Co7ldp0YnY9Tpy9vov
+ BOQPnRui93RoJ8fscfsBSYaAiXpwUJTnbJ/5fzfNLfg7eww384x7Wqwv96qpMQJG1BnaiLT
+ xQmxibZa9Apbs4KDKW83wiMdI8VTJm/affDmuuu95n6+LJ/t4idQWKe/aIU7FE9Cp9XnICp
+ 6yzonAQ+VQtFv/1rAaraw==
+UI-OutboundReport: notjunk:1;M01:P0:36wJv0rPpp4=;W0QapBdhMtYy5xZ5FdRfRIk/AgW
+ p/HRw419lbUgq4h2eeLEwYqqv10M9nOu6GcNbDd9rsWp9JpXjm2ZRDWLn7At/hwF1S68oXrau
+ RifoPvmvCvcxIH3m1gdGLhv9X8MvKWz5/329/XDmBBYH3UN2+uO+7qDBJSVv3mHpETn80J2RS
+ pAugn8yZ5X1KDNvKaKk6vTmzAY7Dv48Szvss9Qf5b4AhfIKd5/0MrkFqscxPAwHSdYHL+rYeX
+ QI1ruKbXvhJhYufw5+A4LoBjZLL4PnjUAdfGojCtiCLg+OpQDuY1OBa84APR2IybYfwtbHZtl
+ 06hk6KG0IEPK47QYjz7MIrN4oK31HS/1sRhFW0j09Rvn7eumIwKLcv2ruNNjCBYTjyGNgpvSk
+ LUOIXYbFZR7/9PGMXsOSQbtXIE5fV6quUtVOYt0K/u2Tw2XRN2UQezXl+Uo+2Y2gq+/a8U5OZ
+ HJFGHBwdChEiJIP5MsKhOW1/eR4LFbDotBqUGkBDENC1Ia2M2u7h1bIQoqayGoF3rgE5SVxT6
+ rV71qt3bHQQs02NRJ6inY5m+enAOX/ftXLt5Uwjdbis+oDiKhLmuEDfrzwYWjtmp0D5pEK/4R
+ hc8lC8XD8P8ruDh8X0zUI0svDrDqtkU8YC3Qq9hbASz84fWciUkyaPVXnKQWtYCfPtrAME2oi
+ 6w16eHG8XlNoPEg1g+SpMnBewmKLnXu27cePiMkboA==
+Received-SPF: none client-ip=212.227.126.135; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -67,55 +71,137 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The following changes since commit 7c18f2d663521f1b31b821a13358ce38075eaf7d:
+From: Afonso Bordado <afonsobordado@gmail.com>
 
-  Merge tag 'for-upstream' of https://gitlab.com/bonzini/qemu into staging (2023-04-29 23:07:17 +0100)
+RISC-V does not expose all extensions via hwcaps, thus some userspace
+applications may want to query these via /proc/cpuinfo.
 
-are available in the Git repository at:
+Currently when querying this file the host's file is shown instead
+which is slightly confusing. Emulate a basic /proc/cpuinfo file
+with mmu info and an ISA string.
 
-  https://github.com/vivier/qemu.git tags/linux-user-for-8.1-pull-request
-
-for you to fetch changes up to 3e7f6c76d529dd4096d043cbd16593e40b469e70:
-
-  linux-user: fix getgroups/setgroups allocations (2023-05-05 14:37:05 +0200)
-
-----------------------------------------------------------------
-linux-user pull request 20230512
-
-add open_tree(), move_mount()
-add /proc/cpuinfo for riscv
-fixes and cleanup
-
-----------------------------------------------------------------
-
-Afonso Bordado (1):
-  linux-user: Emulate /proc/cpuinfo output for riscv
-
-Daniil Kovalev (1):
-  linux-user: Fix mips fp64 executables loading
-
-Michael Tokarev (1):
-  linux-user: fix getgroups/setgroups allocations
-
-Thomas Huth (1):
-  linux-user/main: Use list_cpus() instead of cpu_list()
-
-Thomas Weißschuh (5):
-  linux-user: report ENOTTY for unknown ioctls
-  linux-user: Add move_mount() syscall
-  linux-user: Add open_tree() syscall
-  linux-user: Add new flag VERIFY_NONE
-  linux-user: Don't require PROT_READ for mincore
-
- linux-user/main.c                 |   5 +-
- linux-user/mips/cpu_loop.c        |   5 +-
- linux-user/qemu.h                 |   1 +
- linux-user/syscall.c              | 195 ++++++++++++++++++++++++------
- tests/tcg/riscv64/Makefile.target |   1 +
- tests/tcg/riscv64/cpuinfo.c       |  30 +++++
- 6 files changed, 195 insertions(+), 42 deletions(-)
+Signed-off-by: Afonso Bordado <afonsobordado@gmail.com>
+Reviewed-by: Palmer Dabbelt <palmer@rivosinc.com>
+Acked-by: Palmer Dabbelt <palmer@rivosinc.com>
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Reviewed-by: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
+Message-Id: <167873059442.9885.15152085316575248452-0@git.sr.ht>
+Signed-off-by: Laurent Vivier <laurent@vivier.eu>
+---
+ linux-user/syscall.c              | 34 +++++++++++++++++++++++++++++--
+ tests/tcg/riscv64/Makefile.target |  1 +
+ tests/tcg/riscv64/cpuinfo.c       | 30 +++++++++++++++++++++++++++
+ 3 files changed, 63 insertions(+), 2 deletions(-)
  create mode 100644 tests/tcg/riscv64/cpuinfo.c
 
+diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+index 69f740ff98c8..085ce530213e 100644
+--- a/linux-user/syscall.c
++++ b/linux-user/syscall.c
+@@ -8231,7 +8231,8 @@ void target_exception_dump(CPUArchState *env, const char *fmt, int code)
+ }
+ 
+ #if HOST_BIG_ENDIAN != TARGET_BIG_ENDIAN || \
+-    defined(TARGET_SPARC) || defined(TARGET_M68K) || defined(TARGET_HPPA)
++    defined(TARGET_SPARC) || defined(TARGET_M68K) || defined(TARGET_HPPA) || \
++    defined(TARGET_RISCV)
+ static int is_proc(const char *filename, const char *entry)
+ {
+     return strcmp(filename, entry) == 0;
+@@ -8309,6 +8310,35 @@ static int open_cpuinfo(CPUArchState *cpu_env, int fd)
+ }
+ #endif
+ 
++#if defined(TARGET_RISCV)
++static int open_cpuinfo(CPUArchState *cpu_env, int fd)
++{
++    int i;
++    int num_cpus = sysconf(_SC_NPROCESSORS_ONLN);
++    RISCVCPU *cpu = env_archcpu(cpu_env);
++    const RISCVCPUConfig *cfg = riscv_cpu_cfg((CPURISCVState *) cpu_env);
++    char *isa_string = riscv_isa_string(cpu);
++    const char *mmu;
++
++    if (cfg->mmu) {
++        mmu = (cpu_env->xl == MXL_RV32) ? "sv32"  : "sv48";
++    } else {
++        mmu = "none";
++    }
++
++    for (i = 0; i < num_cpus; i++) {
++        dprintf(fd, "processor\t: %d\n", i);
++        dprintf(fd, "hart\t\t: %d\n", i);
++        dprintf(fd, "isa\t\t: %s\n", isa_string);
++        dprintf(fd, "mmu\t\t: %s\n", mmu);
++        dprintf(fd, "uarch\t\t: qemu\n\n");
++    }
++
++    g_free(isa_string);
++    return 0;
++}
++#endif
++
+ #if defined(TARGET_M68K)
+ static int open_hardware(CPUArchState *cpu_env, int fd)
+ {
+@@ -8333,7 +8363,7 @@ static int do_openat(CPUArchState *cpu_env, int dirfd, const char *pathname, int
+ #if HOST_BIG_ENDIAN != TARGET_BIG_ENDIAN
+         { "/proc/net/route", open_net_route, is_proc },
+ #endif
+-#if defined(TARGET_SPARC) || defined(TARGET_HPPA)
++#if defined(TARGET_SPARC) || defined(TARGET_HPPA) || defined(TARGET_RISCV)
+         { "/proc/cpuinfo", open_cpuinfo, is_proc },
+ #endif
+ #if defined(TARGET_M68K)
+diff --git a/tests/tcg/riscv64/Makefile.target b/tests/tcg/riscv64/Makefile.target
+index 9973ba3b5f8c..2da65dccaf6a 100644
+--- a/tests/tcg/riscv64/Makefile.target
++++ b/tests/tcg/riscv64/Makefile.target
+@@ -4,6 +4,7 @@
+ VPATH += $(SRC_PATH)/tests/tcg/riscv64
+ TESTS += test-div
+ TESTS += noexec
++TESTS += cpuinfo
+ 
+ # Disable compressed instructions for test-noc
+ TESTS += test-noc
+diff --git a/tests/tcg/riscv64/cpuinfo.c b/tests/tcg/riscv64/cpuinfo.c
+new file mode 100644
+index 000000000000..296abd0a8cf9
+--- /dev/null
++++ b/tests/tcg/riscv64/cpuinfo.c
+@@ -0,0 +1,30 @@
++#include <stdio.h>
++#include <stdlib.h>
++#include <string.h>
++#include <assert.h>
++
++#define BUFFER_SIZE 1024
++
++int main(void)
++{
++    char buffer[BUFFER_SIZE];
++    FILE *fp = fopen("/proc/cpuinfo", "r");
++    assert(fp != NULL);
++
++    while (fgets(buffer, BUFFER_SIZE, fp) != NULL) {
++        if (strstr(buffer, "processor") != NULL) {
++            assert(strstr(buffer, "processor\t: ") == buffer);
++        } else if (strstr(buffer, "hart") != NULL) {
++            assert(strstr(buffer, "hart\t\t: ") == buffer);
++        } else if (strstr(buffer, "isa") != NULL) {
++            assert(strcmp(buffer, "isa\t\t: rv64imafdc_zicsr_zifencei\n") == 0);
++        } else if (strstr(buffer, "mmu") != NULL) {
++            assert(strcmp(buffer, "mmu\t\t: sv48\n") == 0);
++        } else if (strstr(buffer, "uarch") != NULL) {
++            assert(strcmp(buffer, "uarch\t\t: qemu\n") == 0);
++        }
++    }
++
++    fclose(fp);
++    return 0;
++}
 -- 
 2.40.1
 
