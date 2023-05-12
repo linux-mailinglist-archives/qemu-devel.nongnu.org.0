@@ -2,85 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A256570055C
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 May 2023 12:25:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB6C8700678
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 May 2023 13:15:21 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pxPvv-0002iX-RE; Fri, 12 May 2023 06:23:32 -0400
+	id 1pxQis-0004Gm-PS; Fri, 12 May 2023 07:14:06 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pxPve-0002fT-BK
- for qemu-devel@nongnu.org; Fri, 12 May 2023 06:23:19 -0400
-Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pxPvX-0004Ow-8k
- for qemu-devel@nongnu.org; Fri, 12 May 2023 06:23:13 -0400
-Received: by mail-wm1-x334.google.com with SMTP id
- 5b1f17b1804b1-3f4c6c4b425so19168445e9.2
- for <qemu-devel@nongnu.org>; Fri, 12 May 2023 03:23:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1683886985; x=1686478985;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=N68ilWCNl8zG0k8YElDl+VMOZi+Sris90Be+W7WtwZg=;
- b=M5gBA1YY+O189Ulm13TDgi0BLepzTP526QWken1UJCTZO58UhGFYBmY3uXdiP4A0Wi
- fQCQnngUjZeBboJWiqMMUfXu0WBy7EsggqJ7IOQrQQAtMbdWL4mlvqm6d4WYgYhFBhQc
- 8Lr8eMGKu2QCdixwsDbE2hTa2Yx24TJab52RXvwPEJe6eVJ72jwXLa+CwBNhaHb3TZ8A
- XKVGu8v/BvotWsPR8q1vUJaxwZ1nGkC6eqZKMXTXipA+R+7LwRPtjDiCoIsT/ZjY6F0X
- LkXbRRwQg3UEUywJqA5RKymf7fmGYiQiqlNdyZrEVzP7ZcuOhSpkzWq8wFOoXgFcm4O3
- k5ZQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683886985; x=1686478985;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=N68ilWCNl8zG0k8YElDl+VMOZi+Sris90Be+W7WtwZg=;
- b=XZ5T4ucP410fsCZgHFsfss+wFJ+h3K3/UmJwWj9Q57kKLmIZw40s8vc8bBfEI7VCAs
- 8M17GJvyW6G0RdfbqzVA+Ws3+TduNr959wGuesZshlM0nCXex4ETdSv7pDgKxNg4/Zal
- fEjo3OfMmiHFinpuY9xCHe8Ve7co0smR538EL2XF716z1xyxMDT1nTwPGHc1GBPb/cue
- GfXfdxm49/gpZib1nQ1euri46i+DGeRLwzD2A96HHJiHS6dDdz4ktdd2ga/USf7iLARL
- 0NgRE2MIIJenaO+tnNRjOiujN2pivw5iqo30n44wi3+3GT22wYCaUKGnXg9M99YM2mm8
- 9NAQ==
-X-Gm-Message-State: AC+VfDwfSCGbS2QwPowN0v58HsrjNJxuk1YhHdb+Etws6nMAUc4QX/kJ
- rUj5fgBad/cvI0iUoHbGzbe85w==
-X-Google-Smtp-Source: ACHHUZ7PxHW+btMKhT1Cavxq2MccwnhRSPeticcddvBv/28Q4qoSO4iJDqzRsNLb4Vm3uNx/ldgEvA==
-X-Received: by 2002:a1c:4c04:0:b0:3f4:2158:68ae with SMTP id
- z4-20020a1c4c04000000b003f4215868aemr14192519wmf.15.1683886984877; 
- Fri, 12 May 2023 03:23:04 -0700 (PDT)
-Received: from [192.168.15.175] (153.red-88-29-177.dynamicip.rima-tde.net.
- [88.29.177.153]) by smtp.gmail.com with ESMTPSA id
- q3-20020a1cf303000000b003f3157988f8sm28184648wmq.26.2023.05.12.03.22.57
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 12 May 2023 03:23:04 -0700 (PDT)
-Message-ID: <997e44b4-a7dc-d63a-1aea-2597dc87fb0d@linaro.org>
-Date: Fri, 12 May 2023 12:22:56 +0200
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
+ id 1pxQir-0004GY-FY; Fri, 12 May 2023 07:14:05 -0400
+Received: from mout.kundenserver.de ([217.72.192.75])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
+ id 1pxQip-0000PY-9P; Fri, 12 May 2023 07:14:05 -0400
+Received: from [192.168.100.30] ([82.142.8.70]) by mrelayeu.kundenserver.de
+ (mreue109 [212.227.15.184]) with ESMTPSA (Nemesis) id
+ 1N0o3X-1q9zJe1wjF-00wkLY; Fri, 12 May 2023 13:13:31 +0200
+Message-ID: <f1df90aa-8c5a-4b37-59c2-d62e3912cef6@vivier.eu>
+Date: Fri, 12 May 2023 13:13:29 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.10.1
-Subject: Re: [PATCH] hw/arm: enable qxl for aarch64
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PULL 1/6] linux-user/sparc: Don't use 16-bit UIDs on SPARC V9
 Content-Language: en-US
-To: Peter Maydell <peter.maydell@linaro.org>,
- Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Cc: Hao Zeng <zenghao@kylinos.cn>, pbonzini@redhat.com, qemu-arm@nongnu.org,
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
  qemu-devel@nongnu.org
-References: <20230512090803.1170154-1-zenghao@kylinos.cn>
- <20230512101122.00006c73@Huawei.com>
- <CAFEAcA8tWWWvOAS=GCTnGD=Sv6h5pUWf3Cy4ux-FeF8s_BjzVw@mail.gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <CAFEAcA8tWWWvOAS=GCTnGD=Sv6h5pUWf3Cy4ux-FeF8s_BjzVw@mail.gmail.com>
+Cc: Titus Rwantare <titusr@google.com>, Jiaxun Yang
+ <jiaxun.yang@flygoat.com>, qemu-block@nongnu.org,
+ Gregor Riepl <onitake@gmail.com>,
+ John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+ Zach van Rijn <me@zv.io>, Richard Henderson <richard.henderson@linaro.org>
+References: <20230330131856.94210-1-philmd@linaro.org>
+ <20230330131856.94210-2-philmd@linaro.org>
+From: Laurent Vivier <laurent@vivier.eu>
+In-Reply-To: <20230330131856.94210-2-philmd@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::334;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x334.google.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.124,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:aMq7J+cBsEu/64qYbyOPg4/iH7EI8hNP64+a80Aby+fae0IyekQ
+ LfKsIHqCWknaTjx/LUtJ7fkZ14Z/rt4rj9Dp08x+V3o0OrynFY6W5r/dYH9c4HlXmjLGuAC
+ +nlpb7h3Q0Ru5Sbu6kCJhHClth4cL0OjEaJtSWuTPUXgrQj1uWtsl0DbMFQF7HI+qKKKA1j
+ kyAmKt+mSCe/YnhMl8KTA==
+UI-OutboundReport: notjunk:1;M01:P0:hXMtwTFmQn0=;4rulsfzU2Ix9Q6y2DFyTUvopsAe
+ m4QVI7VmBls2RQuPr7nEEhfOYGaUUQqbVLescOUdoz5ZpkSJKvh/cEVqzWiP3dx0KIbQN3GXL
+ 52eIa4F4FtwiZVoH93UxAEZM7KDAcxpRSZD1vwCJPYNNgIQsHKEpA0OX5zVCIcI7sOY+hfBVh
+ 1Fq0ri7dkuRFgFesS3s9KbB6dV9FKveWEGBJWGJ31jLvcye2IvSK6DmFdFtNYPVAkS7HVyyee
+ zmTuerIreQHyq0NEMZAL51Gh30oYX3n7RcrIs2Hoibm+SXnRYykZg9UgRcsmR99p4rf32VRFb
+ 8UhMf0003WZhzCY6OsgBM6b0mGP0qbmPHjWxjp3+eiHlR7FKzLJkTvO8IUvo/zBqxYvw+u7zx
+ fkRtA4p4Wj2m9GVrxvtowzHntIGRRnl7NsnoBUWvEI4ziZYK47cJTdYB7eTXZ/4ZqbIu0fFSU
+ 0JrKzg6VJK+/JU56Mrgg5WVEK5Vk5R8+Z3gVebXUSVjXtT/+WaUujy38mfxXlNEc5MeNEcTh7
+ OoSFaLOP2a9fJBxKImO1vZpUxkYU9+0WQg0NwlWRQn8YW4YVgVnK8Abb1UJ2/9DacwkgBJSIM
+ svX6aAP9Ju5ARry4ANgD5a5IUUM6aQQ/0a5habvrIzXDGC4Nvh5uheb5aaOe+T4jpHcldVJr5
+ 9sc6oPbGioei/4V8CzzlLLKW+3J5PIyFKbbTBRwXeQ==
+Received-SPF: none client-ip=217.72.192.75; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-Spam_score_int: -37
+X-Spam_score: -3.8
+X-Spam_bar: ---
+X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.845,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,54 +77,62 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 12/5/23 11:56, Peter Maydell wrote:
-> On Fri, 12 May 2023 at 10:11, Jonathan Cameron
-> <Jonathan.Cameron@huawei.com> wrote:
->>
->> On Fri, 12 May 2023 17:08:03 +0800
->> Hao Zeng <zenghao@kylinos.cn> wrote:
->>
->>> Qemu does not support qxl graphics cards in arm, it is recommended to enable
->>>
->>> Signed-off-by: Hao Zeng <zenghao@kylinos.cn>
->>
->> Drive by comment.
->>
->>> ---
->>>   hw/arm/Kconfig | 2 +-
->>>   1 file changed, 1 insertion(+), 1 deletion(-)
->>>
->>> diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
->>> index 0f42c556d7..0305a4f4f3 100644
->>> --- a/hw/arm/Kconfig
->>> +++ b/hw/arm/Kconfig
->>> @@ -32,7 +32,7 @@ config ARM_VIRT
->>>       select VIRTIO_MEM_SUPPORTED
->>>       select ACPI_CXL
->>>       select ACPI_HMAT
->>> -
->>> +    select QXL
->> Keep the blank line here.
+On 3/30/23 15:18, Philippe Mathieu-Daudé wrote:
+> The 64-bit SPARC V9 syscall ABI uses 32-bit UIDs. Only enable
+> the 16-bit UID wrappers for 32-bit SPARC (V7 and V8).
 > 
-> I don't understand why QXL is special here -- isn't it
-> just another PCI card? We already "imply PCI_DEVICES"
-> so I would have expected that to work.
+> Possibly missed in commit 992f48a036 ("Support for 32 bit
+> ABI on 64 bit targets (only enabled Sparc64)").
 > 
-> I notice that the x86 "config PC" has an "imply QXL",
-> though, so presumably it doesn't. Paolo, should this
-> be fixed by making PCI_DEVICES pull in QXL, or by
-> adding an "imply QXL" to the virt board ?
+> Reported-by: Gregor Riepl <onitake@gmail.com>
+> Tested-by: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
+> Tested-by: Zach van Rijn <me@zv.io>
+> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1394
+> Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+> Acked-by: Laurent Vivier <laurent@vivier.eu>
+> Message-Id: <20230327131910.78564-1-philmd@linaro.org>
+> ---
+>   linux-user/syscall_defs.h | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> As a third option, the mips "config LOONGSON3V"
-> has "imply QXL if SPICE".
-> 
-> I don't know what the right answer is here, but I
-> suspect it should be the same thing in all three
-> cases, not three different things :-)
+> diff --git a/linux-user/syscall_defs.h b/linux-user/syscall_defs.h
+> index 614a1cbc8e..cc37054cb5 100644
+> --- a/linux-user/syscall_defs.h
+> +++ b/linux-user/syscall_defs.h
+> @@ -61,7 +61,7 @@
+>   
+>   #if (defined(TARGET_I386) && defined(TARGET_ABI32)) \
+>       || (defined(TARGET_ARM) && defined(TARGET_ABI32)) \
+> -    || defined(TARGET_SPARC) \
+> +    || (defined(TARGET_SPARC) && defined(TARGET_ABI32)) \
+>       || defined(TARGET_M68K) || defined(TARGET_SH4) || defined(TARGET_CRIS)
+>       /* 16 bit uid wrappers emulation */
+>   #define USE_UID16
 
-I'm also confused because we already have in hw/display/Kconfig:
+This patch breaks something with LTP (20230127) test fchown05_16 on sid/sparc64:
 
-   config QXL
-       bool
-       depends on SPICE && PCI
+tst_test.c:1558: TINFO: Timeout per run is 0h 00m 30s
+fchown05.c:44: TPASS: fchown(3, 700, 701), change owner/group ids passed
+fchown05.c:44: TPASS: fchown(3, 702, -1), change owner id only passed
+fchown05.c:49: TFAIL: testfile: incorrect ownership set, expected 702 701
+fchown05.c:44: TPASS: fchown(3, 703, 701), change owner id only passed
+fchown05.c:44: TPASS: fchown(3, -1, 704), change group id only passed
+fchown05.c:49: TFAIL: testfile: incorrect ownership set, expected 703 704
+fchown05.c:44: TPASS: fchown(3, 703, 705), change group id only passed
+fchown05.c:44: TPASS: fchown(3, -1, -1), no change passed
+fchown05.c:49: TFAIL: testfile: incorrect ownership set, expected 703 705
+
+expected result;
+
+tst_test.c:1558: TINFO: Timeout per run is 0h 00m 30s
+fchown05.c:44: TPASS: fchown(3, 700, 701), change owner/group ids passed
+fchown05.c:44: TPASS: fchown(3, 702, -1), change owner id only passed
+fchown05.c:44: TPASS: fchown(3, 703, 701), change owner id only passed
+fchown05.c:44: TPASS: fchown(3, -1, 704), change group id only passed
+fchown05.c:44: TPASS: fchown(3, 703, 705), change group id only passed
+fchown05.c:44: TPASS: fchown(3, -1, -1), no change passed
+
+Thanks,
+Laurent
 
