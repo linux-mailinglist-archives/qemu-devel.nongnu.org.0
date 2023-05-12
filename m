@@ -2,59 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72E4C700CD0
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 May 2023 18:19:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B409700CDE
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 May 2023 18:21:21 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pxVUE-0008MT-3i; Fri, 12 May 2023 12:19:18 -0400
+	id 1pxVVI-0000yb-KS; Fri, 12 May 2023 12:20:24 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1pxVUB-0008Lo-6j
- for qemu-devel@nongnu.org; Fri, 12 May 2023 12:19:15 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1pxVVH-0000yK-6M
+ for qemu-devel@nongnu.org; Fri, 12 May 2023 12:20:23 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1pxVU8-0005ai-Ns
- for qemu-devel@nongnu.org; Fri, 12 May 2023 12:19:14 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1pxVVF-00061E-Q4
+ for qemu-devel@nongnu.org; Fri, 12 May 2023 12:20:22 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1683908352;
+ s=mimecast20190719; t=1683908421;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=Ip6sSCVYNf7FPR0S39qUaW+zr/U0+e34j2ilnMNyZ2Y=;
- b=HTyhPexto8iRNN7d37RDIluKW+vhctMczr7rr3yTbFADf5lVBBUTLEgACbmxtCweKVSI5D
- iRvU/uX2+kT4NKshRzKlq0rt5svWP/NgOLUGvVTMQhbSltMBOS6JTftB0XMhg1uphUKJHh
- RmMdvk0FKRChcZwYtuHzGGJyvdd3KY4=
+ bh=kBHvmC+kPJ4LoxX1Es3fifgukw/e/EbJsNkUpcH7CHw=;
+ b=VGUTQ7lwhTlYLdCnKEQ0yjyfB14cUYPPno8mCyscUjZ7H1oH4CNH9ePxZQ2pQGZnsZxpR8
+ 8xBJMXDZBMkjcOGk2Yh4lshLBPSP4RjLdgg4GftGy0Dd9pl9tPZjhn4z04vECHt9jCtlQ7
+ pmP4rJZlyHFT5s6ZxiKVSKNsbOtROSU=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-175-7hnrBXrdNxGakLKWHA88sw-1; Fri, 12 May 2023 12:19:08 -0400
-X-MC-Unique: 7hnrBXrdNxGakLKWHA88sw-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
- [10.11.54.7])
+ us-mta-607-Z8yHBS-TPaqD9iuppWEsSA-1; Fri, 12 May 2023 12:20:17 -0400
+X-MC-Unique: Z8yHBS-TPaqD9iuppWEsSA-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.9])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2CB0B185A78B;
- Fri, 12 May 2023 16:19:08 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4F8FF185A78B;
+ Fri, 12 May 2023 16:20:17 +0000 (UTC)
 Received: from redhat.com (unknown [10.2.16.49])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 8186A14152F6;
- Fri, 12 May 2023 16:19:07 +0000 (UTC)
-Date: Fri, 12 May 2023 11:19:05 -0500
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 1786B400E89;
+ Fri, 12 May 2023 16:20:16 +0000 (UTC)
+Date: Fri, 12 May 2023 11:20:14 -0500
 From: Eric Blake <eblake@redhat.com>
 To: Kevin Wolf <kwolf@redhat.com>
 Cc: qemu-block@nongnu.org, hreitz@redhat.com, stefanha@redhat.com, 
  f.ebner@proxmox.com, qemu-devel@nongnu.org
-Subject: Re: [PATCH 3/8] qcow2: Unlock the graph in qcow2_do_open() where
- necessary
-Message-ID: <cpre2hu7fdlmpcjbk2eje2eawgxhutijedojlyvv42uiij6gde@2tu3regbojoc>
+Subject: Re: [PATCH 4/8] qemu-img: Take graph lock more selectively
+Message-ID: <xvbwpnlvwofjcv7z7ud5rjitgtlw65oisoat2qdcyssnqln7ab@ki5kcwcmh6bl>
 References: <20230510203601.418015-1-kwolf@redhat.com>
- <20230510203601.418015-4-kwolf@redhat.com>
+ <20230510203601.418015-5-kwolf@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230510203601.418015-4-kwolf@redhat.com>
+In-Reply-To: <20230510203601.418015-5-kwolf@redhat.com>
 User-Agent: NeoMutt/20230512
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=eblake@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
@@ -80,17 +79,17 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 
-On Wed, May 10, 2023 at 10:35:56PM +0200, Kevin Wolf wrote:
+On Wed, May 10, 2023 at 10:35:57PM +0200, Kevin Wolf wrote:
 > 
-> qcow2_do_open() calls a few no_co_wrappers that wrap functions taking
-> the graph lock internally as a writer. Therefore, it can't hold the
-> reader lock across these calls, it causes deadlocks. Drop the lock
-> temporarily around the calls.
+> If we take a reader lock, we can't call any functions that take a writer
+> lock internally without causing deadlocks once the reader lock is
+> actually enforced in the main thread, too. Take the reader lock only
+> where it is actually needed.
 > 
 > Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 > ---
->  block/qcow2.c | 6 ++++++
->  1 file changed, 6 insertions(+)
+>  qemu-img.c | 5 +++--
+>  1 file changed, 3 insertions(+), 2 deletions(-)
 
 Reviewed-by: Eric Blake <eblake@redhat.com>
 
