@@ -2,73 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 489A9700C03
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 May 2023 17:37:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BD2C700C04
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 May 2023 17:37:23 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pxUmx-0003JG-Tg; Fri, 12 May 2023 11:34:35 -0400
+	id 1pxUmx-0003JD-U9; Fri, 12 May 2023 11:34:35 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pxUmr-0003Gj-GT
- for qemu-devel@nongnu.org; Fri, 12 May 2023 11:34:29 -0400
-Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329])
+ id 1pxUms-0003Gt-BG
+ for qemu-devel@nongnu.org; Fri, 12 May 2023 11:34:32 -0400
+Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pxUmp-000609-OU
+ id 1pxUmq-00060D-7I
  for qemu-devel@nongnu.org; Fri, 12 May 2023 11:34:29 -0400
-Received: by mail-wm1-x329.google.com with SMTP id
- 5b1f17b1804b1-3f475366514so26006345e9.2
+Received: by mail-wr1-x434.google.com with SMTP id
+ ffacd0b85a97d-3062db220a3so6639294f8f.0
  for <qemu-devel@nongnu.org>; Fri, 12 May 2023 08:34:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=linaro.org; s=google; t=1683905666; x=1686497666;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=3kxMyAH7DEu9p7Eb72s1jRjc73fovhzyjF2BxfQDUZY=;
- b=fTSw3C4Ht9XJyF93hxmbmlHZkCr3sK5FbVww9cDypT17FbAG6vYHJAC3agAOeahj1J
- yA+CHODmGEQjKeHWsTW2oHFxzoEZzpTb49gMfSYJZINu0g5JwZO62hzGJmh1t51+thc6
- tC7DkONdzI4M1IDX2Xo8QwOr7NP+bQR6KT2Xf3MU3/m1nNpnIyeTaGBp6gJYvB2Ldllo
- SuROXKGkpsO7JpEvPgOsUj91iD4GjbLMe/VU1h8uSCnrM5wEYZfULmZg1Zw2LgHIR4aJ
- TbSSV0Spa0WOiFaQqYiKD+Xk10YkhS3rVSBg5E4sce9QHve+1uXv8Rg2IM+uT+fuOyUe
- rUCw==
+ :reply-to; bh=kyd9YD67afENN/WZ4WK9/2k+BPiSbgkUwINKrCywvQA=;
+ b=H3qpNy6hXN04uU2348n0hetl6MGGNPcOTXmMYiTpcg6t5LPAiZCh2RLYootv7VmPEq
+ cmaMF0jazu4dhlVAfXM2DnI7x4r4UWoqn8IOlIXO73qFK45xs95/+R0d2zoYqFr747R8
+ ma5pM4BHmcUKudTds7uVfwPmgafM4PREr87Oqd3LSdwPc8qImHMcTU6Y652FfBYKXsk7
+ tnxMmI42JCeilrwc6xg0ttVyT7Wb/NhNUrIgEhOfxZijogzuXFciP/LqjeYY7wCTe8IO
+ Gv4Bp8yIFiPBx2iBGPNu7p3LPwDKT1KREibfUMn8o5RvhMjat8CD5YEIk10PtMvqmdic
+ YAOg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20221208; t=1683905666; x=1686497666;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=3kxMyAH7DEu9p7Eb72s1jRjc73fovhzyjF2BxfQDUZY=;
- b=fV01+82Mp+3RB0b0bJWJJEgjLk9KlwGvzld26zUcYV2efIT3fnDUV90KYrg4HuVRCd
- vFft3JJOJFOhz/h7WxQl0uIm88ZvgVXLrzZCYwMHyC4ebzTYKDSjnLrnfuu7zRpismwU
- MNCntC4OUdiZor4MTBk/IvfXtgsXr1Y+AFZ8IYYr4BtC/VfPhW/6b6DUzMZuVTLHH7xh
- 7BKHZ528oEasQ9Z5g9oSaY6Pt+46QZR/e1BryPHmaZ/4Mub8fCv1vALfTfCDuHjle8lP
- jPJ0UqnjnDfM2TZFKcIURrst7oFP//YV1oXhGnLBUog8FObh6OSkuJtRiYHP1H4byG/M
- 0JmA==
-X-Gm-Message-State: AC+VfDy4E6UCfgR3WqnMJY+H9MtdAl1IohR3xBMf5whBdUodBrsn7qQl
- XSJO0/B9hAFTEPQsVNjNIUFWWeYaJ+UE04imlQ0=
-X-Google-Smtp-Source: ACHHUZ4Bz/9ic4BvQZZ4lOnLHoc98vyeXkLWtYgkyhKxM/DBTpkmJk1G95bcoFCd1NccgRO2FFXq+g==
-X-Received: by 2002:a1c:7308:0:b0:3ef:6819:b2ad with SMTP id
- d8-20020a1c7308000000b003ef6819b2admr17513769wmb.37.1683905666295; 
+ bh=kyd9YD67afENN/WZ4WK9/2k+BPiSbgkUwINKrCywvQA=;
+ b=Teg33hzb4l9TcLrdAWAFPiaSqDWGYF4t/TCh/sPTpTl1lxXwOYrodCJsPbmqeyS48R
+ sljISkLxL75lRI5G1My4mDABGvAV9rTMs7CusLMEWr5RArVtgO62UtPEaK5eg+boC/tH
+ 8D3NeLzHK7GkmlOwCuyZiRTXnJyT3U8xdOXCgJ+aO38ONlA8u0a1dBqAWwzUfVqdxx3k
+ YTyWMCE3+7/EG8v2daLO5YO/QJFJNxJsCnTOTR+g2+FN48VRunelPx5tKc4hdDFBf5MB
+ naQy2b5uUnCX2FElO2LBs809sZ8J7xEi7pFD4lfMfpDIn/2iI2qXM18h1J9fESx0kOI1
+ 4vEg==
+X-Gm-Message-State: AC+VfDxwDomrjGbhDv8zzNQT/7P1+sKUStOfHUb1iAo5k0OpLJLsSI9g
+ jVXBHo3y/WOFL55lvEQGQ3LvYmSDYSOpzQdIYHA=
+X-Google-Smtp-Source: ACHHUZ58Xu4nf66gDCrnVbI19y0jfSMURpyG2hXR/C/1Sf8edLo2Y3IN3Y4MxVlG+PG4RBcTufPDeA==
+X-Received: by 2002:a5d:5503:0:b0:306:2d3d:a108 with SMTP id
+ b3-20020a5d5503000000b003062d3da108mr18030517wrv.11.1683905666762; 
  Fri, 12 May 2023 08:34:26 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- b6-20020adfee86000000b002feea065cc9sm11721297wro.111.2023.05.12.08.34.25
+ b6-20020adfee86000000b002feea065cc9sm11721297wro.111.2023.05.12.08.34.26
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 12 May 2023 08:34:25 -0700 (PDT)
+ Fri, 12 May 2023 08:34:26 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 02/12] target/arm: Move helper-{a64,mve,sme,sve}.h to tcg/
-Date: Fri, 12 May 2023 16:34:13 +0100
-Message-Id: <20230512153423.3704893-3-peter.maydell@linaro.org>
+Subject: [PULL 03/12] target/arm: Don't allow stage 2 page table walks to
+ downgrade to NS
+Date: Fri, 12 May 2023 16:34:14 +0100
+Message-Id: <20230512153423.3704893-4-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230512153423.3704893-1-peter.maydell@linaro.org>
 References: <20230512153423.3704893-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::329;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x329.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::434;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x434.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -91,62 +92,53 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Richard Henderson <richard.henderson@linaro.org>
+Bit 63 in a Table descriptor is only the NSTable bit for stage 1
+translations; in stage 2 it is RES0.  We were incorrectly looking at
+it all the time.
 
-While we cannot move the main "helper.h" out of target/arm/,
-due to usage by generic code, we can move the sub-includes.
+This causes problems if:
+ * the stage 2 table descriptor was incorrectly setting the RES0 bit
+ * we are doing a stage 2 translation in Secure address space for
+   a NonSecure stage 1 regime -- in this case we would incorrectly
+   do an immediate downgrade to NonSecure
 
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Fabiano Rosas <farosas@suse.de>
-Message-id: 20230504110412.1892411-3-richard.henderson@linaro.org
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+A bug elsewhere in the code currently prevents us from getting
+to the second situation, but when we fix that it will be possible.
+
+Cc: qemu-stable@nongnu.org
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Message-id: 20230504135425.2748672-2-peter.maydell@linaro.org
 ---
- target/arm/helper.h               | 8 ++++----
- target/arm/{ => tcg}/helper-a64.h | 0
- target/arm/{ => tcg}/helper-mve.h | 0
- target/arm/{ => tcg}/helper-sme.h | 0
- target/arm/{ => tcg}/helper-sve.h | 0
- 5 files changed, 4 insertions(+), 4 deletions(-)
- rename target/arm/{ => tcg}/helper-a64.h (100%)
- rename target/arm/{ => tcg}/helper-mve.h (100%)
- rename target/arm/{ => tcg}/helper-sme.h (100%)
- rename target/arm/{ => tcg}/helper-sve.h (100%)
+ target/arm/ptw.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/target/arm/helper.h b/target/arm/helper.h
-index 018b00ea75b..3335c2b10b9 100644
---- a/target/arm/helper.h
-+++ b/target/arm/helper.h
-@@ -1039,9 +1039,9 @@ DEF_HELPER_FLAGS_5(gvec_uclamp_d, TCG_CALL_NO_RWG,
-                    void, ptr, ptr, ptr, ptr, i32)
+diff --git a/target/arm/ptw.c b/target/arm/ptw.c
+index bd75da8dbcf..8ac6d9b1d0c 100644
+--- a/target/arm/ptw.c
++++ b/target/arm/ptw.c
+@@ -1415,17 +1415,18 @@ static bool get_phys_addr_lpae(CPUARMState *env, S1Translate *ptw,
+     descaddrmask &= ~indexmask_grainsize;
  
- #ifdef TARGET_AARCH64
--#include "helper-a64.h"
--#include "helper-sve.h"
--#include "helper-sme.h"
-+#include "tcg/helper-a64.h"
-+#include "tcg/helper-sve.h"
-+#include "tcg/helper-sme.h"
- #endif
+     /*
+-     * Secure accesses start with the page table in secure memory and
++     * Secure stage 1 accesses start with the page table in secure memory and
+      * can be downgraded to non-secure at any step. Non-secure accesses
+      * remain non-secure. We implement this by just ORing in the NSTable/NS
+      * bits at each step.
++     * Stage 2 never gets this kind of downgrade.
+      */
+     tableattrs = is_secure ? 0 : (1 << 4);
  
--#include "helper-mve.h"
-+#include "tcg/helper-mve.h"
-diff --git a/target/arm/helper-a64.h b/target/arm/tcg/helper-a64.h
-similarity index 100%
-rename from target/arm/helper-a64.h
-rename to target/arm/tcg/helper-a64.h
-diff --git a/target/arm/helper-mve.h b/target/arm/tcg/helper-mve.h
-similarity index 100%
-rename from target/arm/helper-mve.h
-rename to target/arm/tcg/helper-mve.h
-diff --git a/target/arm/helper-sme.h b/target/arm/tcg/helper-sme.h
-similarity index 100%
-rename from target/arm/helper-sme.h
-rename to target/arm/tcg/helper-sme.h
-diff --git a/target/arm/helper-sve.h b/target/arm/tcg/helper-sve.h
-similarity index 100%
-rename from target/arm/helper-sve.h
-rename to target/arm/tcg/helper-sve.h
+  next_level:
+     descaddr |= (address >> (stride * (4 - level))) & indexmask;
+     descaddr &= ~7ULL;
+-    nstable = extract32(tableattrs, 4, 1);
++    nstable = !regime_is_stage2(mmu_idx) && extract32(tableattrs, 4, 1);
+     if (nstable) {
+         /*
+          * Stage2_S -> Stage2 or Phys_S -> Phys_NS
 -- 
 2.34.1
 
