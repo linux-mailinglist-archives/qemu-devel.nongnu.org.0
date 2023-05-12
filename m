@@ -2,64 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33C497004AF
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 May 2023 12:06:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A256570055C
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 May 2023 12:25:23 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pxPdl-00066B-Iq; Fri, 12 May 2023 06:04:45 -0400
+	id 1pxPvv-0002iX-RE; Fri, 12 May 2023 06:23:32 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
- id 1pxPdd-00064v-4C
- for qemu-devel@nongnu.org; Fri, 12 May 2023 06:04:37 -0400
-Received: from mail.loongson.cn ([114.242.206.163] helo=loongson.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <gaosong@loongson.cn>) id 1pxPdZ-00087i-8j
- for qemu-devel@nongnu.org; Fri, 12 May 2023 06:04:36 -0400
-Received: from loongson.cn (unknown [10.2.5.185])
- by gateway (Coremail) with SMTP id _____8Cx+ekoD15k3RUIAA--.13792S3;
- Fri, 12 May 2023 18:04:24 +0800 (CST)
-Received: from localhost.localdomain (unknown [10.2.5.185])
- by localhost.localdomain (Coremail) with SMTP id
- AQAAf8BxLb8mD15k_lFXAA--.23965S5; 
- Fri, 12 May 2023 18:04:24 +0800 (CST)
-From: Song Gao <gaosong@loongson.cn>
-To: qemu-devel@nongnu.org
-Cc: richard.henderson@linaro.org, philmd@linaro.org, maobibo@loongson.cn,
- yangxiaojuan@loongson.cn
-Subject: [PATCH v2 3/3] hw/intc: Add NULL pointer check on LoongArch ipi device
-Date: Fri, 12 May 2023 18:04:21 +0800
-Message-Id: <20230512100421.1867848-4-gaosong@loongson.cn>
-X-Mailer: git-send-email 2.39.1
-In-Reply-To: <20230512100421.1867848-1-gaosong@loongson.cn>
-References: <20230512100421.1867848-1-gaosong@loongson.cn>
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pxPve-0002fT-BK
+ for qemu-devel@nongnu.org; Fri, 12 May 2023 06:23:19 -0400
+Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pxPvX-0004Ow-8k
+ for qemu-devel@nongnu.org; Fri, 12 May 2023 06:23:13 -0400
+Received: by mail-wm1-x334.google.com with SMTP id
+ 5b1f17b1804b1-3f4c6c4b425so19168445e9.2
+ for <qemu-devel@nongnu.org>; Fri, 12 May 2023 03:23:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1683886985; x=1686478985;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=N68ilWCNl8zG0k8YElDl+VMOZi+Sris90Be+W7WtwZg=;
+ b=M5gBA1YY+O189Ulm13TDgi0BLepzTP526QWken1UJCTZO58UhGFYBmY3uXdiP4A0Wi
+ fQCQnngUjZeBboJWiqMMUfXu0WBy7EsggqJ7IOQrQQAtMbdWL4mlvqm6d4WYgYhFBhQc
+ 8Lr8eMGKu2QCdixwsDbE2hTa2Yx24TJab52RXvwPEJe6eVJ72jwXLa+CwBNhaHb3TZ8A
+ XKVGu8v/BvotWsPR8q1vUJaxwZ1nGkC6eqZKMXTXipA+R+7LwRPtjDiCoIsT/ZjY6F0X
+ LkXbRRwQg3UEUywJqA5RKymf7fmGYiQiqlNdyZrEVzP7ZcuOhSpkzWq8wFOoXgFcm4O3
+ k5ZQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1683886985; x=1686478985;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=N68ilWCNl8zG0k8YElDl+VMOZi+Sris90Be+W7WtwZg=;
+ b=XZ5T4ucP410fsCZgHFsfss+wFJ+h3K3/UmJwWj9Q57kKLmIZw40s8vc8bBfEI7VCAs
+ 8M17GJvyW6G0RdfbqzVA+Ws3+TduNr959wGuesZshlM0nCXex4ETdSv7pDgKxNg4/Zal
+ fEjo3OfMmiHFinpuY9xCHe8Ve7co0smR538EL2XF716z1xyxMDT1nTwPGHc1GBPb/cue
+ GfXfdxm49/gpZib1nQ1euri46i+DGeRLwzD2A96HHJiHS6dDdz4ktdd2ga/USf7iLARL
+ 0NgRE2MIIJenaO+tnNRjOiujN2pivw5iqo30n44wi3+3GT22wYCaUKGnXg9M99YM2mm8
+ 9NAQ==
+X-Gm-Message-State: AC+VfDwfSCGbS2QwPowN0v58HsrjNJxuk1YhHdb+Etws6nMAUc4QX/kJ
+ rUj5fgBad/cvI0iUoHbGzbe85w==
+X-Google-Smtp-Source: ACHHUZ7PxHW+btMKhT1Cavxq2MccwnhRSPeticcddvBv/28Q4qoSO4iJDqzRsNLb4Vm3uNx/ldgEvA==
+X-Received: by 2002:a1c:4c04:0:b0:3f4:2158:68ae with SMTP id
+ z4-20020a1c4c04000000b003f4215868aemr14192519wmf.15.1683886984877; 
+ Fri, 12 May 2023 03:23:04 -0700 (PDT)
+Received: from [192.168.15.175] (153.red-88-29-177.dynamicip.rima-tde.net.
+ [88.29.177.153]) by smtp.gmail.com with ESMTPSA id
+ q3-20020a1cf303000000b003f3157988f8sm28184648wmq.26.2023.05.12.03.22.57
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 12 May 2023 03:23:04 -0700 (PDT)
+Message-ID: <997e44b4-a7dc-d63a-1aea-2597dc87fb0d@linaro.org>
+Date: Fri, 12 May 2023 12:22:56 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf8BxLb8mD15k_lFXAA--.23965S5
-X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
-X-Coremail-Antispam: 1Uk129KBjvJXoWxGw1kZF4DZF43XFy5Xr1xAFb_yoW5Cr1Dpr
- 9F9wnIqr18tFZrXas5J34UXF15Jr4xW342yF43K34Fyr4kurykWFWrt3srZFn8C34rJFyY
- vwn7Ar4jg3W7Xa7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
- qI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUIcSsGvfJTRUUU
- bn8Fc2x0x2IEx4CE42xK8VAvwI8IcIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4
- AK67xGY2AK021l84ACjcxK6xIIjxv20xvE14v26r1I6r4UM28EF7xvwVC0I7IYx2IY6xkF
- 7I0E14v26r4j6F4UM28EF7xvwVC2z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIEc7
- CjxVAFwI0_Cr1j6rxdM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12xvs2x26I8E
- 6xACxx1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6x8ErcxFaVAv8VWrMcvjeVCFs4IE7x
- kEbVWUJVW8JwACjcxG0xvY0x0EwIxGrwCF04k20xvY0x0EwIxGrwCF04k20xvE74AGY7Cv
- 6cx26rWl4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x
- 8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r126r1DMIIYrxkI7VAKI48JMIIF0xvE
- 2Ix0cI8IcVAFwI0_JFI_Gr1lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42
- xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVW8JVWxJwCI42IY6I8E87Iv6xkF
- 7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvj4RC_MaUUUUU
-Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
- helo=loongson.cn
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.10.1
+Subject: Re: [PATCH] hw/arm: enable qxl for aarch64
+Content-Language: en-US
+To: Peter Maydell <peter.maydell@linaro.org>,
+ Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Cc: Hao Zeng <zenghao@kylinos.cn>, pbonzini@redhat.com, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org
+References: <20230512090803.1170154-1-zenghao@kylinos.cn>
+ <20230512101122.00006c73@Huawei.com>
+ <CAFEAcA8tWWWvOAS=GCTnGD=Sv6h5pUWf3Cy4ux-FeF8s_BjzVw@mail.gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <CAFEAcA8tWWWvOAS=GCTnGD=Sv6h5pUWf3Cy4ux-FeF8s_BjzVw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::334;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x334.google.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.124,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -75,109 +96,54 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-When ipi mailbox is used, cpu_index is decoded from iocsr register.
-cpu maybe does not exist. This patch adss NULL pointer check on
-ipi device.
+On 12/5/23 11:56, Peter Maydell wrote:
+> On Fri, 12 May 2023 at 10:11, Jonathan Cameron
+> <Jonathan.Cameron@huawei.com> wrote:
+>>
+>> On Fri, 12 May 2023 17:08:03 +0800
+>> Hao Zeng <zenghao@kylinos.cn> wrote:
+>>
+>>> Qemu does not support qxl graphics cards in arm, it is recommended to enable
+>>>
+>>> Signed-off-by: Hao Zeng <zenghao@kylinos.cn>
+>>
+>> Drive by comment.
+>>
+>>> ---
+>>>   hw/arm/Kconfig | 2 +-
+>>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>>
+>>> diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
+>>> index 0f42c556d7..0305a4f4f3 100644
+>>> --- a/hw/arm/Kconfig
+>>> +++ b/hw/arm/Kconfig
+>>> @@ -32,7 +32,7 @@ config ARM_VIRT
+>>>       select VIRTIO_MEM_SUPPORTED
+>>>       select ACPI_CXL
+>>>       select ACPI_HMAT
+>>> -
+>>> +    select QXL
+>> Keep the blank line here.
+> 
+> I don't understand why QXL is special here -- isn't it
+> just another PCI card? We already "imply PCI_DEVICES"
+> so I would have expected that to work.
+> 
+> I notice that the x86 "config PC" has an "imply QXL",
+> though, so presumably it doesn't. Paolo, should this
+> be fixed by making PCI_DEVICES pull in QXL, or by
+> adding an "imply QXL" to the virt board ?
+> 
+> As a third option, the mips "config LOONGSON3V"
+> has "imply QXL if SPICE".
+> 
+> I don't know what the right answer is here, but I
+> suspect it should be the same thing in all three
+> cases, not three different things :-)
 
-Signed-off-by: Song Gao <gaosong@loongson.cn>
----
- hw/intc/loongarch_ipi.c | 40 +++++++++++++++++++++++++++++-----------
- hw/intc/trace-events    |  1 +
- 2 files changed, 30 insertions(+), 11 deletions(-)
+I'm also confused because we already have in hw/display/Kconfig:
 
-diff --git a/hw/intc/loongarch_ipi.c b/hw/intc/loongarch_ipi.c
-index 054e143842..d6ab91721e 100644
---- a/hw/intc/loongarch_ipi.c
-+++ b/hw/intc/loongarch_ipi.c
-@@ -77,31 +77,42 @@ static void send_ipi_data(CPULoongArchState *env, uint64_t val, hwaddr addr)
- 
- static void ipi_send(uint64_t val)
- {
--    int cpuid, data;
-+    uint32_t cpuid;
-+    uint8_t vector;
-     CPULoongArchState *env;
-     CPUState *cs;
-     LoongArchCPU *cpu;
- 
--    cpuid = (val >> 16) & 0x3ff;
-+    cpuid = extract32(val, 16, 10);
-+    if (cpuid >= LOONGARCH_MAX_CPUS) {
-+        trace_loongarch_ipi_unsupported_cpuid("IOCSR_IPI_SEND", cpuid);
-+        return;
-+    }
-+
-     /* IPI status vector */
--    data = 1 << (val & 0x1f);
-+    vector = extract8(val, 0, 5);
-+
-     cs = qemu_get_cpu(cpuid);
-     cpu = LOONGARCH_CPU(cs);
-     env = &cpu->env;
-     address_space_stl(&env->address_space_iocsr, 0x1008,
--                      data, MEMTXATTRS_UNSPECIFIED, NULL);
--
-+                      BIT(vector), MEMTXATTRS_UNSPECIFIED, NULL);
- }
- 
- static void mail_send(uint64_t val)
- {
--    int cpuid;
-+    uint32_t cpuid;
-     hwaddr addr;
-     CPULoongArchState *env;
-     CPUState *cs;
-     LoongArchCPU *cpu;
- 
--    cpuid = (val >> 16) & 0x3ff;
-+    cpuid = extract32(val, 16, 10);
-+    if (cpuid >= LOONGARCH_MAX_CPUS) {
-+        trace_loongarch_ipi_unsupported_cpuid("IOCSR_MAIL_SEND", cpuid);
-+        return;
-+    }
-+
-     addr = 0x1020 + (val & 0x1c);
-     cs = qemu_get_cpu(cpuid);
-     cpu = LOONGARCH_CPU(cs);
-@@ -111,14 +122,21 @@ static void mail_send(uint64_t val)
- 
- static void any_send(uint64_t val)
- {
--    int cpuid;
-+    uint32_t cpuid;
-     hwaddr addr;
-     CPULoongArchState *env;
-+    CPUState *cs;
-+    LoongArchCPU *cpu;
-+
-+    cpuid = extract32(val, 16, 10);
-+    if (cpuid >= LOONGARCH_MAX_CPUS) {
-+        trace_loongarch_ipi_unsupported_cpuid("IOCSR_ANY_SEND", cpuid);
-+        return;
-+    }
- 
--    cpuid = (val >> 16) & 0x3ff;
-     addr = val & 0xffff;
--    CPUState *cs = qemu_get_cpu(cpuid);
--    LoongArchCPU *cpu = LOONGARCH_CPU(cs);
-+    cs = qemu_get_cpu(cpuid);
-+    cpu = LOONGARCH_CPU(cs);
-     env = &cpu->env;
-     send_ipi_data(env, val, addr);
- }
-diff --git a/hw/intc/trace-events b/hw/intc/trace-events
-index 50cadfb996..5c6094c457 100644
---- a/hw/intc/trace-events
-+++ b/hw/intc/trace-events
-@@ -292,6 +292,7 @@ sh_intc_set(int id, int enable) "setting interrupt group %d to %d"
- # loongarch_ipi.c
- loongarch_ipi_read(unsigned size, uint64_t addr, uint64_t val) "size: %u addr: 0x%"PRIx64 "val: 0x%"PRIx64
- loongarch_ipi_write(unsigned size, uint64_t addr, uint64_t val) "size: %u addr: 0x%"PRIx64 "val: 0x%"PRIx64
-+loongarch_ipi_unsupported_cpuid(const char *s, uint32_t cpuid) "%s unsupported cpuid 0x%" PRIx32
- 
- # loongarch_pch_pic.c
- loongarch_pch_pic_irq_handler(int irq, int level) "irq %d level %d"
--- 
-2.39.1
-
+   config QXL
+       bool
+       depends on SPICE && PCI
 
