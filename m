@@ -2,82 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2008700A8D
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 May 2023 16:43:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0BE93700A9A
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 May 2023 16:45:43 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pxTxX-0006xZ-3J; Fri, 12 May 2023 10:41:27 -0400
+	id 1pxTxM-0006mH-9p; Fri, 12 May 2023 10:41:16 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pxTxU-0006uv-Ns
- for qemu-devel@nongnu.org; Fri, 12 May 2023 10:41:24 -0400
-Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431])
+ id 1pxTxK-0006m5-SE
+ for qemu-devel@nongnu.org; Fri, 12 May 2023 10:41:14 -0400
+Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pxTxG-0004hR-O2
- for qemu-devel@nongnu.org; Fri, 12 May 2023 10:41:24 -0400
-Received: by mail-wr1-x431.google.com with SMTP id
- ffacd0b85a97d-30789a4c537so5092239f8f.0
- for <qemu-devel@nongnu.org>; Fri, 12 May 2023 07:41:10 -0700 (PDT)
+ id 1pxTxH-0004ha-CQ
+ for qemu-devel@nongnu.org; Fri, 12 May 2023 10:41:14 -0400
+Received: by mail-wm1-x333.google.com with SMTP id
+ 5b1f17b1804b1-3f450815d0bso37254185e9.0
+ for <qemu-devel@nongnu.org>; Fri, 12 May 2023 07:41:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1683902469; x=1686494469;
+ d=linaro.org; s=google; t=1683902470; x=1686494470;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=F7ZdreOn7GzP2/qhzWCJzqHK4hMlTf1RtG4DdFV8A+I=;
- b=ruCmCfeAjlWFv6ZAPQ1UCtxDHaOIBb3VUZxb6qXl4HP1Q4Vtwp4zJh6LG6zDL17gqI
- gQtGlrIR0fUBGWUyD8zMvHUMPAYMc2Xh1Eb5Jyy/oMANuGsrKI1Hz/y3Q06bC9/+RBYN
- zKzm07JtdFVOu8qwjznHxzsgW4YtdpUDN+rcWSOsbWe6aYTOCWRwekXgjTYRxSWxHBLw
- 0Z+kUMUrUS5oGJyh1eE2AGyC03HVpg5KftAyIk/8k7RKhA4foVXbViTxRSWQqEYkVy01
- eo0GnWXEgTzdTfgSbrE2F7l5GAYuuSR8S3x3nrZYCIkIv2azjQGJrDpgoYXAE8SeGYr/
- aGfg==
+ bh=aGMeEb09oEnMrpyNK209IcBkUtOebSdaEKZrMIshndE=;
+ b=daK08hxLQ2i3lifTHbEReBfJe+G/1ujqs81fDAvariEV4QSzhLcjSHFxmQR+NDpME1
+ iDmQLpU8mAx4mrsyCqZ019gpE/4yqKUmqugSnkW6Qa0F+ODkIktZ5/1zNgqfv5C3BwYZ
+ hRmUjhoGXxo8X6qfnLlJDPq2zSI4eDVS4EAFJcwd0rfOvltoANFnfWXF1U1twZgMG/dt
+ IghiQdMOWjjtjEEafMglDQczj0i1zUXxF0XuL5u620sUF1f7LhZd3VzoYhCiQTv1aTR5
+ M/wqeijcTlyCVpLUi34WddBScXtMSIkSzH8lVHawpx41HfwIFROeOcXXDl39ZbXNk+w+
+ jKtg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683902469; x=1686494469;
+ d=1e100.net; s=20221208; t=1683902470; x=1686494470;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=F7ZdreOn7GzP2/qhzWCJzqHK4hMlTf1RtG4DdFV8A+I=;
- b=LlYtH9dLm+7PynGCTbOco+mL9Tfi8cZGwT9eNiuw11XGHwqjBmZcSQOHbLdbitDCLk
- aN5eJCcLjm5+i5zKQUImqxTBKtitGWrlouHu1pHNF3XDpp4gb5nTjIjugt/bRbCSy7wn
- 8UDxWKbqigmxDXYvm3vytGVNpVmgmj3nSJUdoUVgE4u5Vw4p6p4/NQdQBuvqUb8wYBA3
- KLkyVwjfych/rlFuuNPG615YsW0ofOGNfTIJtiDFM/dEOsho6Tw2Ce10D/c2zlBkxeyu
- VBEeiOPUhK7WrNRB43aaUE5XOQ7l98LBBllfr5DTvXwgNRHiEIpkyQPudCkKUYGiiDCB
- 6cVg==
-X-Gm-Message-State: AC+VfDwxDDATabcO8BizypAmTEqgdQm3Zv4W13CBvA1MAfXd05GJbS00
- HLr2itvosAn+QtrmVyj3t8F21g==
-X-Google-Smtp-Source: ACHHUZ4ynFIKNJ5+x8jXIa2gDLJLhQmnWnzpybhkNhtVhLpLJBefNX0KTwxtCON8w7lpqLFTa1SGDg==
-X-Received: by 2002:adf:e991:0:b0:307:a58f:5f7b with SMTP id
- h17-20020adfe991000000b00307a58f5f7bmr8780705wrm.64.1683902469393; 
+ bh=aGMeEb09oEnMrpyNK209IcBkUtOebSdaEKZrMIshndE=;
+ b=RaF6VkrtAZ5ja0s1zUGO0DP7IsTwhyPGD1rki6chAILfJW2ur+lkbg0/sBGbcc0vNh
+ bGPFkbLW0sEwfUCVE44taABc+4c+E2Io/PrhuFT3X6JpN3nu5z0wt1exKuYI3N0vkl9r
+ d+cI8n9ZWlyGp8QQkeB4mQA8/eBZGu4cI6Y1ZncIM99cBJd3p5Xce22lkIlQhH7iqopZ
+ cLmmzD6T1nPvradJQ3TyI02be2KUVRT3CgMnt9ccwWVqGfI64XvvvBjZMG/sa3ZyKUVW
+ uc8K0dAYDUgmNG2DSICEvQUEdCbWWegF0m7dYvC/Q6aP8lgvrRJiTTnvmHDgvs0uoaEd
+ SYGw==
+X-Gm-Message-State: AC+VfDzOMNbSxkVQihl6mRnzvVADS+sD4DkQMlBbrS7iM3HC2UYIMUxj
+ OKhQ5p947TJKOxiVkZVUIiyeQA==
+X-Google-Smtp-Source: ACHHUZ4uGV/j990UZ9scgnBLtAwTvs3+Wy4oyzXfCe9CZZg8qF+kkaN95URquO1nzT5Y9oDdzD/hAA==
+X-Received: by 2002:a1c:750a:0:b0:3f4:16bc:bd19 with SMTP id
+ o10-20020a1c750a000000b003f416bcbd19mr16088948wmc.23.1683902469997; 
  Fri, 12 May 2023 07:41:09 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- f12-20020a7bcc0c000000b003f17848673fsm28916167wmh.27.2023.05.12.07.41.08
+ f12-20020a7bcc0c000000b003f17848673fsm28916167wmh.27.2023.05.12.07.41.09
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 12 May 2023 07:41:08 -0700 (PDT)
+ Fri, 12 May 2023 07:41:09 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
 Cc: Richard Henderson <richard.henderson@linaro.org>
-Subject: [PATCH 03/20] target/arm: Pull calls to disas_sve() and disas_sme()
- out of legacy decoder
-Date: Fri, 12 May 2023 15:40:49 +0100
-Message-Id: <20230512144106.3608981-4-peter.maydell@linaro.org>
+Subject: [PATCH 04/20] target/arm: Convert PC-rel addressing to decodetree
+Date: Fri, 12 May 2023 15:40:50 +0100
+Message-Id: <20230512144106.3608981-5-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230512144106.3608981-1-peter.maydell@linaro.org>
 References: <20230512144106.3608981-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::431;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x431.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::333;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x333.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,62 +92,100 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The SVE and SME decode is already done by decodetree.  Pull the calls
-to these decoders out of the legacy decoder.  This doesn't change
-behaviour because all the patterns in sve.decode and sme.decode
-already require the bits that the legacy decoder is decoding to have
-the correct values.
+From: Richard Henderson <richard.henderson@linaro.org>
 
+Convert the ADR and ADRP instructions.
+
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+[PMM: Rebased]
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/tcg/translate-a64.c | 20 ++++----------------
- 1 file changed, 4 insertions(+), 16 deletions(-)
+ target/arm/tcg/a64.decode      | 13 ++++++++++++
+ target/arm/tcg/translate-a64.c | 38 +++++++++++++---------------------
+ 2 files changed, 27 insertions(+), 24 deletions(-)
 
+diff --git a/target/arm/tcg/a64.decode b/target/arm/tcg/a64.decode
+index 43321bbbb05..bcf46fc37d7 100644
+--- a/target/arm/tcg/a64.decode
++++ b/target/arm/tcg/a64.decode
+@@ -18,3 +18,16 @@
+ #
+ # This file is processed by scripts/decodetree.py
+ #
++
++&ri              rd imm
++
++
++### Data Processing - Immediate
++
++# PC-rel addressing
++
++%imm_pcrel      5:s19 29:2
++@pcrel          . .. ..... ................... rd:5     &ri imm=%imm_pcrel
++
++ADR             0 .. 10000 ................... .....    @pcrel
++ADRP            1 .. 10000 ................... .....    @pcrel
 diff --git a/target/arm/tcg/translate-a64.c b/target/arm/tcg/translate-a64.c
-index 7862e9dd4e3..2845febb713 100644
+index 2845febb713..ce3e8b1d08e 100644
 --- a/target/arm/tcg/translate-a64.c
 +++ b/target/arm/tcg/translate-a64.c
-@@ -14205,19 +14205,6 @@ static bool btype_destination_ok(uint32_t insn, bool bt, int btype)
- static void disas_a64_legacy(DisasContext *s, uint32_t insn)
- {
-     switch (extract32(insn, 25, 4)) {
--    case 0x0:
--        if (!extract32(insn, 31, 1) || !disas_sme(s, insn)) {
--            unallocated_encoding(s);
--        }
--        break;
--    case 0x1: case 0x3: /* UNALLOCATED */
--        unallocated_encoding(s);
--        break;
--    case 0x2:
--        if (!disas_sve(s, insn)) {
--            unallocated_encoding(s);
--        }
--        break;
-     case 0x8: case 0x9: /* Data processing - immediate */
-         disas_data_proc_imm(s, insn);
-         break;
-@@ -14239,7 +14226,7 @@ static void disas_a64_legacy(DisasContext *s, uint32_t insn)
-         disas_data_proc_simd_fp(s, insn);
-         break;
-     default:
--        assert(FALSE); /* all 15 cases should be handled above */
-+        unallocated_encoding(s);
-         break;
+@@ -4179,31 +4179,24 @@ static void disas_ldst(DisasContext *s, uint32_t insn)
      }
  }
-@@ -14445,8 +14432,9 @@ static void aarch64_tr_translate_insn(DisasContextBase *dcbase, CPUState *cpu)
-         disas_sme_fa64(s, insn);
-     }
  
+-/* PC-rel. addressing
+- *   31  30   29 28       24 23                5 4    0
+- * +----+-------+-----------+-------------------+------+
+- * | op | immlo | 1 0 0 0 0 |       immhi       |  Rd  |
+- * +----+-------+-----------+-------------------+------+
++/*
++ * PC-rel. addressing
+  */
+-static void disas_pc_rel_adr(DisasContext *s, uint32_t insn)
++
++static bool trans_ADR(DisasContext *s, arg_ri *a)
+ {
+-    unsigned int page, rd;
+-    int64_t offset;
++    gen_pc_plus_diff(s, cpu_reg(s, a->rd), a->imm);
++    return true;
++}
+ 
+-    page = extract32(insn, 31, 1);
+-    /* SignExtend(immhi:immlo) -> offset */
+-    offset = sextract64(insn, 5, 19);
+-    offset = offset << 2 | extract32(insn, 29, 2);
+-    rd = extract32(insn, 0, 5);
++static bool trans_ADRP(DisasContext *s, arg_ri *a)
++{
++    int64_t offset = (int64_t)a->imm << 12;
+ 
+-    if (page) {
+-        /* ADRP (page based) */
+-        offset <<= 12;
+-        /* The page offset is ok for CF_PCREL. */
+-        offset -= s->pc_curr & 0xfff;
+-    }
 -
--    if (!disas_a64(s, insn)) {
-+    if (!disas_a64(s, insn) &&
-+        !disas_sme(s,insn) &&
-+        !disas_sve(s, insn)) {
-         disas_a64_legacy(s, insn);
-     }
+-    gen_pc_plus_diff(s, cpu_reg(s, rd), offset);
++    /* The page offset is ok for CF_PCREL. */
++    offset -= s->pc_curr & 0xfff;
++    gen_pc_plus_diff(s, cpu_reg(s, a->rd), offset);
++    return true;
+ }
  
+ /*
+@@ -4656,9 +4649,6 @@ static void disas_extract(DisasContext *s, uint32_t insn)
+ static void disas_data_proc_imm(DisasContext *s, uint32_t insn)
+ {
+     switch (extract32(insn, 23, 6)) {
+-    case 0x20: case 0x21: /* PC-rel. addressing */
+-        disas_pc_rel_adr(s, insn);
+-        break;
+     case 0x22: /* Add/subtract (immediate) */
+         disas_add_sub_imm(s, insn);
+         break;
 -- 
 2.34.1
 
