@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 767E57006A7
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 May 2023 13:23:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CFF437006AD
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 May 2023 13:24:09 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pxQrH-0005yR-6t; Fri, 12 May 2023 07:22:47 -0400
+	id 1pxQrI-0005zJ-Pj; Fri, 12 May 2023 07:22:48 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pxQrF-0005xy-9J
- for qemu-devel@nongnu.org; Fri, 12 May 2023 07:22:45 -0400
-Received: from mout.kundenserver.de ([212.227.126.187])
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pxQrG-0005yF-DO
+ for qemu-devel@nongnu.org; Fri, 12 May 2023 07:22:46 -0400
+Received: from mout.kundenserver.de ([212.227.126.131])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pxQrD-0002NQ-M9
- for qemu-devel@nongnu.org; Fri, 12 May 2023 07:22:45 -0400
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pxQrE-0002Nc-FK
+ for qemu-devel@nongnu.org; Fri, 12 May 2023 07:22:46 -0400
 Received: from quad ([82.142.8.70]) by mrelayeu.kundenserver.de (mreue012
- [212.227.15.167]) with ESMTPSA (Nemesis) id 1Ml3ym-1qcFGX1HEC-00lT0P; Fri, 12
+ [212.227.15.167]) with ESMTPSA (Nemesis) id 1MdNwm-1qWlbl2vdw-00ZOC9; Fri, 12
  May 2023 13:22:41 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
 Cc: =?UTF-8?q?Thomas=20Wei=C3=9Fschuh?= <thomas@t-8ch.de>,
  Laurent Vivier <laurent@vivier.eu>
-Subject: [PULL 3/9] linux-user: Add move_mount() syscall
-Date: Fri, 12 May 2023 13:22:32 +0200
-Message-Id: <20230512112238.85272-4-laurent@vivier.eu>
+Subject: [PULL 4/9] linux-user: Add open_tree() syscall
+Date: Fri, 12 May 2023 13:22:33 +0200
+Message-Id: <20230512112238.85272-5-laurent@vivier.eu>
 X-Mailer: git-send-email 2.40.1
 In-Reply-To: <20230512112238.85272-1-laurent@vivier.eu>
 References: <20230512112238.85272-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:hvN8bIFdImY//8+dCAbzXbVCpAbVL3mEo7cifPGLTgquh5CxzDm
- bUtuXK0LvWkc7q9hK2lfMHyTrRyTmvpBmkXGJjDqMkkiWw36jnYIR7qkh1DMTvnvjlowk7X
- Cmu2bDcSxEUbpiyfsepf7qIWkXOZ7FUlygfRS9nUJ9J4b/ZLnJjKYXRh2Knxfg0uK11t8uR
- M2fgf9Gw1CRFdfcEBStgQ==
-UI-OutboundReport: notjunk:1;M01:P0:6Hmxy6q8dyU=;YHT11MqpgHSKdcQXj1eSynI4bTQ
- 1TmNCwdVdYxJX8SCzZUPOV/8e9imvu0Wu0NehZvcGBRiwPuzGGpvElpIZmRIJkNT2IG2lio51
- mQDuqrZ0Ds0fMtO3vKBTcYlSq20vyEgweZS2RLCYSf+TxXjFEtC1IQwJv4KVvN73Odifc1nLP
- W4kyHKfEaBm2QDdI7C6dXrxGMutZDJHLsZ2XHU01YIMOgpXvjxT+JFgOUVcG7B8p+P7QS8GX7
- BSoo62ziYloCxzfn8XnuyjgeHW84+Y9QDHjhYqQSY1D0ziyK/LcCEz50nd3U3ZILQqMok3uBH
- 8DFv6ewYXuNT5CSUpdha0cPaP5GiswkCQv4Be8K7pYWe4lZ04ZEHMo8/DcxOk9C1BtMURGaAO
- XKDsYJGzzDu8BQ0GzLgkfRnaqHBUm55MjV6+2PfhxWNnPPwWWNgHFlH6c1tE0D0DrvIWGHUzi
- o0zmFcWsptDmOrOOuyf91KI8b5K7DKntxrYeRV31Ivnz36u0I4pSaUz7kFVI36Cr8SbH9Aar9
- J10z0N3/RdJlnk76N7100gfSfgxrWOAX74ushLro7r8RK8WjG69pnVtrFeTe2SdU/vmNINGaN
- pf52I9I4HQzJnxmTvf4i7h2afGam5HJhZqhMv3pAmXaUyXOY4tI4k4cZcj4LhBvWq/CojyjMk
- aorR3KKVXdQGgxUo5/uDUpFDAZuPAY/z+Pa2ugf63g==
-Received-SPF: none client-ip=212.227.126.187; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:k31WPcUb3Wzr14sVJOGDuT4UgyB34ZMQXCpbobdXMa7ExMAIqwE
+ FG9BOvRJ4Yu2DdOLW+34WMWgiWpiCKBA6Te5ZpfzmdS/wymc5YyKEA8TSeRx9auAtNKYVsq
+ gEXVLkuZUqH+ovbVjPLHhMdiHnGfvR5JFIYuvpycE3xntf1aP+Erz6LUVL06F8w5agEzZrQ
+ CrcD4+S94IVqzMJNdK5pA==
+UI-OutboundReport: notjunk:1;M01:P0:UlQd+4hqhpw=;GCYYZISm9BDxr7x5tTbpPICd9fA
+ o5qnZPs7E6sjHB0tlZkgJ3B0MfuhhHd7SgqZVO65bW6I9BxxC8OGtq3q2Zs0ySYGolcjw4TtV
+ htkzajzxQcIfGuFA1i9j8vAcHGB4yAKCxHMawbNjw+u6+H4ONinRxugJxPfjmJ3LvEeqIJLQn
+ VTfMI1lCjV6qdJfQD9y0SqObDqr6dXgsi/o30WcRocM1ex7CWjokhyEc9gzJD50Jf41Vaswrk
+ JIibr4aYGuzURZ6McbvAg0NScuTqHPKY74DXSYQ4H/SFdWX7aD7skunc/iDTQmc/ZToB5kxWB
+ iCh/Lvp1/4DqAyJfeh1fQUOUvqq92ccF8i7/TbOlpIfptwM+d5tR3ZBS103loZUy/eW5OMQGf
+ 3Jv7Srj82YmMKgJyBhmhvE0CGdFfWseIpfXvc4azAPmhRD3uKm5X0gak/to5fSnTKa0Dh5iPF
+ ReGG1Bsl9g6mvFK1/Zb9tvR8f2QRXMvWrW90bP83OLCqtvafS9FpLDd2F//5as5tjSleQDsmx
+ lX/ESqwcPdUgPPky8yAj6v0vGWHCXqD0GsWUoaN/504JQhwLgBO6IyyvSOvrxOjDXgaP9E1pV
+ O/1LvWCn/lCxY3PlMS5vzbvi7C320bAtlKS6sshUQpNOUTStSxIaeiWWHM8V0Ygk8gQdo6hBN
+ vhhRQ0r3A63r5JsDsrJ7GU/+TI+Mx6eb7h7nhKPr/Q==
+Received-SPF: none client-ip=212.227.126.131; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -74,26 +74,28 @@ From: Thomas Weißschuh <thomas@t-8ch.de>
 
 Signed-off-by: Thomas Weißschuh <thomas@t-8ch.de>
 Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-Message-Id: <20230424153429.276788-1-thomas@t-8ch.de>
+Message-Id: <20230424153429.276788-2-thomas@t-8ch.de>
+[lv: move declaration at the beginning of the block]
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
  linux-user/syscall.c | 27 +++++++++++++++++++++++++++
  1 file changed, 27 insertions(+)
 
 diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index 954ed14df4c0..fccc46e609c6 100644
+index fccc46e609c6..95da74ab1234 100644
 --- a/linux-user/syscall.c
 +++ b/linux-user/syscall.c
-@@ -9169,6 +9169,33 @@ static abi_long do_syscall1(CPUArchState *cpu_env, int num, abi_long arg1,
-         unlock_user(p, arg1, 0);
-         return ret;
+@@ -9196,6 +9196,33 @@ static abi_long do_syscall1(CPUArchState *cpu_env, int num, abi_long arg1,
+             return ret;
+         }
  #endif
-+#ifdef TARGET_NR_move_mount
-+    case TARGET_NR_move_mount:
++#ifdef TARGET_NR_open_tree
++    case TARGET_NR_open_tree:
 +        {
-+            void *p2, *p4;
++            void *p2;
++            int host_flags;
 +
-+            if (!arg2 || !arg4) {
++            if (!arg2) {
 +                return -TARGET_EFAULT;
 +            }
 +
@@ -102,15 +104,14 @@ index 954ed14df4c0..fccc46e609c6 100644
 +                return -TARGET_EFAULT;
 +            }
 +
-+            p4 = lock_user_string(arg4);
-+            if (!p4) {
-+                unlock_user(p2, arg2, 0);
-+                return -TARGET_EFAULT;
++            host_flags = arg3 & ~TARGET_O_CLOEXEC;
++            if (arg3 & TARGET_O_CLOEXEC) {
++                host_flags |= O_CLOEXEC;
 +            }
-+            ret = get_errno(move_mount(arg1, p2, arg3, p4, arg5));
++
++            ret = get_errno(open_tree(arg1, p2, host_flags));
 +
 +            unlock_user(p2, arg2, 0);
-+            unlock_user(p4, arg4, 0);
 +
 +            return ret;
 +        }
