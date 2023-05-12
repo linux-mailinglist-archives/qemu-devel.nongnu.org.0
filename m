@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4E9A700A60
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 May 2023 16:34:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 55584700A66
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 May 2023 16:35:01 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pxTpR-0007vS-Jb; Fri, 12 May 2023 10:33:05 -0400
+	id 1pxTpP-0007uR-7F; Fri, 12 May 2023 10:33:03 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <het.gala@nutanix.com>)
- id 1pxTpP-0007uY-Ei
- for qemu-devel@nongnu.org; Fri, 12 May 2023 10:33:03 -0400
+ id 1pxTpN-0007tm-TQ
+ for qemu-devel@nongnu.org; Fri, 12 May 2023 10:33:01 -0400
 Received: from mx0b-002c1b01.pphosted.com ([148.163.155.12])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <het.gala@nutanix.com>)
- id 1pxTpM-0002cC-UP
- for qemu-devel@nongnu.org; Fri, 12 May 2023 10:33:03 -0400
+ id 1pxTpM-0002cN-0Z
+ for qemu-devel@nongnu.org; Fri, 12 May 2023 10:33:01 -0400
 Received: from pps.filterd (m0127841.ppops.net [127.0.0.1])
  by mx0b-002c1b01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 34C9NQJl024537; Fri, 12 May 2023 07:32:56 -0700
+ 34C9NQJm024537; Fri, 12 May 2023 07:32:57 -0700
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nutanix.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references :
  content-transfer-encoding : content-type : mime-version;
- s=proofpoint20171006; bh=UDZn05OAEca7HLJfI4lSENEtwMOG6fFshWxgZ2GPeJY=;
- b=o/XZ57sqce89y64h3iF8YKNd1LhNEUtt53H20EJ4F7MppVnWBNp/4baBu3wjKt8xKdlU
- 2MO9Kogl0ubRJdvNLttPNHXnUd7fsdBm0fFG7aSBHcq9vzys1kzjAL2TLRfJeCxpuHWL
- /SWjN7zH9MT4iHXlWPMpolc/1Aoh9OH1on/JchQAWflVFEUnk1/iDhTnnzJVQgpP8m+V
- +U9/RDrSLnYM4ayKEPsGmyrhEN8wF8XyVf7um6t3xvtSJULhoKQftPNg3fS/345auql2
- TKkcYij0wIMLWfEKnQ0OQRlljjFgT40DmSrLJwQLPr8qDkAvSmNGOxi8GBbcB6gKmHnn 2Q== 
+ s=proofpoint20171006; bh=qNf8zk9R1ok9mC1KssQChP9FHfwfh7BRpQvMUbN7qAM=;
+ b=S4GkdDV2PbwUgP09/MtGc2FJ1s/6QQUfin2sY3ST4XC+0v84Mmh4hiSc2mTAXKfPJYTF
+ mJQOCL0+8cvfWuOtsqWUl4J0/NgHVVCF9QYQQLof4z0mVxby9udrNRLVGyOtBAadyN1T
+ yvtGjexgTQ9+XEHZixa8rjpJRjxaUQulW0UDDUrAurk0JKUkzMPcKmwZDYb08u4KUsYJ
+ 3M72pAFeyGaAyT7kfZvzWv+SYfIwnkQt9h8gt/sD/gldfrDhpZ02SuXBW4r+a4AQDstI
+ lSMq+zg51E5iag0rVC3VY1DndQbi6Qvpz5IX+Qt+vPKPMZCiY3Yyh991iE60FpeCYrUW lg== 
 Received: from nam12-mw2-obe.outbound.protection.outlook.com
  (mail-mw2nam12lp2046.outbound.protection.outlook.com [104.47.66.46])
- by mx0b-002c1b01.pphosted.com (PPS) with ESMTPS id 3qf7g6a11r-1
+ by mx0b-002c1b01.pphosted.com (PPS) with ESMTPS id 3qf7g6a11r-2
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 12 May 2023 07:32:55 -0700
+ Fri, 12 May 2023 07:32:57 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=SrXKYBDo5/qainL0d+DpKYwSjgCndtHcgV7+lPbw6l07PXjNL2Y1arGwl9thMnBywO8pkvpo8dFP3hznkSSUsPs6rNDq+vtqlKTbFwtnjDP/A/xVwB8VvGrn1vL5jAJZ7V3H2PC79EA/dHanTkYdDqxdTCgg00TfRdOnwrGGkLi9C5IiUUrpB06H+yT1ZJvcOUtGcmnxnznZncSjFYEnNTIJDaJuXR20CPkqvBE8znQIoFCl0kJJDBEnuad5fdJF7EW1PDJhT799f+lWFoslPxGRPrOTODP8aMhJ0bjLBOuK/Z1hCIiOZurMQpQvVSVdaF2PZ+Wu6ashROoFPnaLtQ==
+ b=JgC6yd1eodXLY8haUL51Ijc5Fb8TdjvAB9pjRmJ90/rVzHi5D9ULNrMbYjVMt3pc8WuhvCPesDtOHSZcRkm4d75r/qJhbJEc/qoDsTPZbuRjTaVrIXXqTyjqZLxUof5wvvx8gHPj3Su023aHW7NGEADkB+tVdhDbT55WVLf2jt+QpTgrggGqlsE0n8oqhW6V4OT4I+goQSUEC1SQHwAamNhC6eWnPvKUEWwO8VShbziKfze1xlS6teiHddY2y7s0KHbZDuaIUwZeIhAIw9psZ3IKPWEtdw1/Q0nV9YOLLartmVPBSUaOWKhe2iw+VQPjrdNzu1SxKqMgSO7/R+q5BA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=UDZn05OAEca7HLJfI4lSENEtwMOG6fFshWxgZ2GPeJY=;
- b=D1W/CBMtychWZkubpbpRjuqSufN1t5/u1zUv7sUs38DIsqJU7K96HpDLKCUvMPR+AKXUTcy0AbWbVvJAHGlDvi8NsjZFwlQaSgq/Ksh2n6r3/agCaX7k/cG4zJ3qJAtmckirhI56eOTfeBlIPCoS0o6y2EFTXfFP9eGfhGcKcQ5l2rhGa0TYcKnueyhdMb8m3shjIf6k4vIuSZnHO4Q4gU1kvuSQgE7QyjW4cHmQDfta5ozzggpK03GG1KdUJ3vqZmXdkdhBwNZlGJIvjmrEdLJFBxQiWpAZWOuJgl6u7z4ptJD2bHEtFs5PfTb8p0q2r4E1uHaHlJl/pBjJNYRPZw==
+ bh=qNf8zk9R1ok9mC1KssQChP9FHfwfh7BRpQvMUbN7qAM=;
+ b=KHBjIvXXCbESUmiiROMdfo3EFeE80Mt5SdwcqPynLVdcLdWfnSXxvj3BMr8Sxc6Nk0aUtYhCUzfAHzNPVWwxI7m+1qgrlDhQAnObu1VVU+HdyfIXNQPOzWlQH361FcN4gqYuyjSzdl4TQKLm0OUIfWilx0vMVyHs/yEyT0QgTp3y51RHs3P1fnrXox/1SBpfWqpoGtqhdu4A6YtAfC0HrPanW1uqrRVJNI0EvmB8sun9VjqH0bg0PUCM6z2sQWZSwVxBTrCDl8crYULfB2q2wL6fssnLn79GDWGNI+BE0T9uxTk/8IWTAd/8NTcE7HsSnISUJLD058ICzGwmome4mA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nutanix.com; dmarc=pass action=none header.from=nutanix.com;
  dkim=pass header.d=nutanix.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nutanix.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=UDZn05OAEca7HLJfI4lSENEtwMOG6fFshWxgZ2GPeJY=;
- b=H98u5+1W/3/uSjLaPw+48T9sXVnxNEJbWWeqZXYInn5uhOzH8OY9xD2ZvBeKUZyw+fG5D8EPyZj3OmYhydMPN7CW2BjNZoP8YkXrlB0EXYgUsKiFlOUtK3lp/1/qxVhr5Szs4TjbhoclZyBoUzi9hP3AdTWyYqw4uPjxcRCDm/8mt6vHjE36EekVeDHUOrcRPPeK6lnZHgphfaP6qWGrYOJ7zUXK9L+PPF0ZLJhRrLrmWLtgFdMzKBXHV/c3b4gW4JaANt3NxOcbsfDPGmHnWIhJcPaCW+MKxjDf05nBH+PlwNIUe57DBsPyU3nZWwvk5cF3lDnHNVsRahnARTI1Ug==
+ bh=qNf8zk9R1ok9mC1KssQChP9FHfwfh7BRpQvMUbN7qAM=;
+ b=v64U/XxwBL7u5uyvQet8c28ZGhMUxhLteSQ1waLBrwjbiy0Ickb6TT/p+kUld+oLm3U5UQr4W5hb5a+7w2GX2n6oW+KlmbFJ63XzFtEZsI/ME0PTyJ0NPpcAbRXV7E9jprZYRzLN41HmFU67JBpMI4QR1/1k18J+/QDVFBzZK5lCAHKQGx8+OViiUbwMhbMAbzilSsyGj9TJU0LbNWYh4fW8yj5MD7my6U9fCZyDooXZzE4RoxW9KD+uxZ9AZBsQXZb/cmttgz+ktn2cBpTFXyyMtisJsJ5h6TbU22+ShEbnqlaPWlVVCfqsKx1+OVv2oUd+57vSQq+IT1kVnxg3mg==
 Received: from BYAPR02MB4343.namprd02.prod.outlook.com (2603:10b6:a03:57::18)
  by BL3PR02MB8282.namprd02.prod.outlook.com (2603:10b6:208:345::7)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6387.23; Fri, 12 May
- 2023 14:32:52 +0000
+ 2023 14:32:53 +0000
 Received: from BYAPR02MB4343.namprd02.prod.outlook.com
  ([fe80::4500:569:a3d6:71c9]) by BYAPR02MB4343.namprd02.prod.outlook.com
  ([fe80::4500:569:a3d6:71c9%6]) with mapi id 15.20.6387.020; Fri, 12 May 2023
- 14:32:52 +0000
+ 14:32:53 +0000
 From: Het Gala <het.gala@nutanix.com>
 To: qemu-devel@nongnu.org
 Cc: prerna.saxena@nutanix.com, quintela@redhat.com, dgilbert@redhat.com,
  pbonzini@redhat.com, berrange@redhat.com, armbru@redhat.com,
  eblake@redhat.com, manish.mishra@nutanix.com,
  aravind.retnakaran@nutanix.com, Het Gala <het.gala@nutanix.com>
-Subject: [PATCH v4 4/8] migration: converts rdma backend to accept
- MigrateAddress struct
-Date: Fri, 12 May 2023 14:32:36 +0000
-Message-Id: <20230512143240.192504-5-het.gala@nutanix.com>
+Subject: [PATCH v4 5/8] migration: converts exec backend to accept
+ MigrateAddress struct.
+Date: Fri, 12 May 2023 14:32:37 +0000
+Message-Id: <20230512143240.192504-6-het.gala@nutanix.com>
 X-Mailer: git-send-email 2.22.3
 In-Reply-To: <20230512143240.192504-1-het.gala@nutanix.com>
 References: <20230512143240.192504-1-het.gala@nutanix.com>
@@ -81,56 +81,56 @@ X-ClientProxiedBy: BY5PR04CA0014.namprd04.prod.outlook.com
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: BYAPR02MB4343:EE_|BL3PR02MB8282:EE_
-X-MS-Office365-Filtering-Correlation-Id: 9c64e46b-80b4-4dd6-3cd5-08db52f5c45d
+X-MS-Office365-Filtering-Correlation-Id: aa794c4b-fbca-4cc4-681d-08db52f5c550
 x-proofpoint-crosstenant: true
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: KlGiK4a6sKLgMzibT5xFGrjChr/egRI8a11/x23PVTIwyXy6B+3U/2+sO1/9zW1kDOsFwh0hDF8wr64Ifax8deHQPM9rKnZRPrSBjdWZq2NJh4cE9enlmT3O+a25qfIJ8pCnz/MqK1y8oSyCAAlwvainkQmq8LQ5sHIK8SjudgX5u5W9AMDPeA3aM1CFP6wl2FrK7la/sIMogUcjzWSPLqh0N1dLvlPQQw0z9w2p3xK0GEwMOzBaGUC7cb2MALnKKa4/GoSo3IDWTHjsCHDuLc+1PM6kK5JPNzFqFb+hr6B9dUG+S/oX4HA5h5eUWVBihVI2JbjU0mhQudVqh1GkTNJREvNPH5RfZnBBhStw7bOJXwiN/gvmCa6sX9DQcFkahuAsNnvG64b2yaiviKhmXaO6zS4BACMTmMJlNdYgHNRcmV7b+xo9aNOvHa0OMIY31G4+mBKzTp/OrpTL69UjZOHdkVyM6SONjWSap14S8f3muXfQQX3OcVQLQfSpKCs3P1RM10D4Ep+RnHjAicv9woVACboZVOUp14kjJGcH8QUnMtlDXp6xVEvIlRP2bsYAezONF8i9ux3+J66lkjfdD6+eI0LgxNC3/5Ds7vF9FEgFmNRBBvaUNTYWHh6mqzVM
+X-Microsoft-Antispam-Message-Info: Bi/OsGMq5Z42yb8hppSnKFjjk4TyTyboU31WBj7igRkqymWEWAfhKUZsltEzMq6/r0oGDG5ZHQxYTynzyxiQTakyltmq/4oDDRmfeZLdTVoZfebnsBhZbLosIRKP7M/26fDZ5qfNqa01EIPRyBY8cZr1SlDE4//wnzgbGAlsf8lshsWK/sggyTHQZ/atH7+temtTNsXvuvGZyzO6cPkDxoMqX375SCintqSiSJr1zmRI8Ngd3iFCdGQvOfT7/yAvcuFOhBibKsg437OtihfBZPUlb2JThmgXzBEY4+naMEEPP+FNcU/xj/B09Qsw8xGm3wH0fhVt0tiPiW1ykf3kxFQlPj3taHRA28Sneouay0Tb+zHNJ31g97GkChstEJp20XxOYqUsfs8aUMDbd68TMS/rQr3eK3/KxI4io+WKVqXNnv3ldxtzXz5rL1XC9gWFaZJ1AvCnPpAEaAXkdfvtkVRChJcl86epsmZtDaedOSx5sgWiKeQk27K9SNrs+nCbz6SWvqa6ENlluH+uizxBjaqsT8L5OZb5+GMpK6gGo/i4hlIMZ/InxB+zqsEoMY3kdiWTuBmMy31u0P1J8jba9PtoYcTEDLJR/ZdXsmJ0RaSNuiJUbSZUJbD6/D91yLec
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:BYAPR02MB4343.namprd02.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(13230028)(39860400002)(346002)(396003)(136003)(376002)(366004)(451199021)(5660300002)(26005)(6512007)(83380400001)(1076003)(38350700002)(186003)(52116002)(2616005)(38100700002)(6506007)(2906002)(107886003)(44832011)(8676002)(8936002)(36756003)(478600001)(6486002)(6666004)(41300700001)(316002)(86362001)(66556008)(4326008)(66476007)(66946007)(6916009);
  DIR:OUT; SFP:1102; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?VcBBoUs7f8ZkoU18cQZKr4GNFrh7dGfuTDDIMik+JSoX9+Sqzf9pjfiSCI94?=
- =?us-ascii?Q?96uJvjycWNfge3omq2hiGq4pSbQrD5aISWVRzJ+2Q4cGsVWewd5QaFQlcI++?=
- =?us-ascii?Q?1uE6qIsmdTH1ktxGxpo2qvnwh+AtDa47xqLmUpAtfZGAlRhPM1z4r5sBsJyf?=
- =?us-ascii?Q?A0eMF5VgPPVjDcB6hB3A9SO2gHUT9Xs+oqhGE60QyeQsOezwVTBpfDEB7mNF?=
- =?us-ascii?Q?oL4QKV3Onee7uNuax2JHCPEFox+KNGw24VqrGF8/6UDW+pOtAIiTZ0ynyB30?=
- =?us-ascii?Q?kOADAV//jLVRZiXDdcxbobVLs7gvtvgBTKow6ziJ8kymMBOIv7YXM9oRx0na?=
- =?us-ascii?Q?XBgsJ1jKXa5RdcE0hpY5jMEjLxQjegpg/9u0Lt8JFnG7OknxQnvuKhiAqoYg?=
- =?us-ascii?Q?ZOVOrGaU9wCQa7LUTUZMelbJ+HfY+Hl1n6caluOJe8Hn3Oz13CYSOU3T1SpD?=
- =?us-ascii?Q?fzFjPpHeBieOfHruxCBE0p7zjE3cV/W0yBpv8trbdwVfT9ND19fqBDm672vK?=
- =?us-ascii?Q?5H3op+bxMG23MDMHp1KUQLrLj5hmUo/bUyMaktX5OlS3tcSujmdwJmj05tUW?=
- =?us-ascii?Q?cWusYvguZZoGp/KTXhTIP98l+gPykNTSWAoGbJrazUxht2Y4E+0bispLlS84?=
- =?us-ascii?Q?JGmcZkGSNficmsUYoncif1dSnJZOLoyovvBu4+WJv85Drcn+dzCsZ24djZLo?=
- =?us-ascii?Q?ryz3vFbZ+Zw/8eKDICf2olpCAYwoKqGJp3fmd+s9xcsALFg1PgONaN0UZLWU?=
- =?us-ascii?Q?uQI0OY/A1dlrVL0RQADB70cM3LBDYGuxPVZPDFR+K7Y+1PGsse+VpjXSi+yx?=
- =?us-ascii?Q?/usl4pG1r1B6pVii49KlYjv6JnxXkEQEoEN9UDwY37gLhw4CsOrOhoPwczcd?=
- =?us-ascii?Q?2soegD6JhtseLZrCUVQDxsjQmsKpSUXm9y8DSGnstCGsTj71uzXPgUdiok8N?=
- =?us-ascii?Q?uzdrP1DhCOny3RKSASzK4hLd7jy2hejorsohi93zGAmGTeKOS2o4CQ52QZDE?=
- =?us-ascii?Q?X0uU+uD7mCuM6i4lbR6YmNtXzIPMA2GxSt/cUrv7/uL1iFFGf8HdMetNg/cE?=
- =?us-ascii?Q?vrgGqbybsY9OSVW9SfLey819BW0AU2YNLIhhD2sJ0S5uUZYb2+2F4WJ/Tn2v?=
- =?us-ascii?Q?6oMIKnmH3ccx6Qfi0PGwR/Oq6hh3PHSTzTtyiV3ghA7R3YH2cCu2Cp8FfoM1?=
- =?us-ascii?Q?bvr0RY7HOTK7tYezFmYN9rO4GXQDjwmFOxTdZvzx1GablxFKKzPwFn1TjbIQ?=
- =?us-ascii?Q?U1SG/NlBQdkOHzW52ZZBrS1wL3UHy7bN8Kr0tJna3IONPeg6SruV+j1BsdRP?=
- =?us-ascii?Q?xpE2HmDwNBv6cLWuStygkoLz7MKVKO+z7RLrMa7BMSRV4eLTR6SXNZCroU5p?=
- =?us-ascii?Q?Bcuxcn0K7skYYmh8/hfoz3puPaGLo6d3cFpa02oryG2YnGR2C5Lv9wKynsoj?=
- =?us-ascii?Q?1bHNJdk1o2nB/Re3WHe8iSRIrsJpj6h1CySdX59Cc82rtIJdilSEkR86cXac?=
- =?us-ascii?Q?dnqjW7p8q6xDv9Akf+lRP2IqLLVlM84Bq06BJ3i4GHWWHNo/EyJW4dKk5Onq?=
- =?us-ascii?Q?Uq1mEoTIsFdeR7vsJUsqb6m0aqtLUmU51Qdwum3K?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?bgmUd/1pytkp7pfsrmXZFB1uZjkcw4hMoAgzrgQkwFp68gBGMBci3G9jYGBj?=
+ =?us-ascii?Q?sPgG6xQd7mxMqrF8qw0I4wWLHFsnA2TrO1BfqwNV4C5hgUemkOqkTlHYvs5s?=
+ =?us-ascii?Q?llMZgbOsF9lUknfP3QO90JEA7fPy36uiZ2iDIo97iq/m5UIZ4Pxsb6o18jKI?=
+ =?us-ascii?Q?T3dndcsF1JeEjDeoKjjrw7Ectui4IgUzyFcHn2VN5IwD9g1Age47aqzfQ91h?=
+ =?us-ascii?Q?u7IoVP5N2M0fgNDC4jpps5dwJfmGXHjpxDxls42kIhC0ZKzi6S0XpyTgcAR8?=
+ =?us-ascii?Q?SWw/JRdnTeVwVwM7xas1qv4fBiQO+dH3Y3OnZ4q6jeJgcTYSGb9Gl9J3Yzjc?=
+ =?us-ascii?Q?StR7AcYta2dcrUSUcJA0p/0V4c/Q247YeEabDvLavJuVemPOzL9ea6YVg530?=
+ =?us-ascii?Q?CYp5KML2T8kqBklH25UU+HRyc7GpBP6u9/pkCoCxHTvg451jwG9KHT3O40yk?=
+ =?us-ascii?Q?eis2aZKNV5C97ejTDrl4jgGfYgzXoEQcN4Lga35a7+0uXO4h4I4nnpCIeazY?=
+ =?us-ascii?Q?soi6HCF29uMFpBoYikGcSX3XAW3I4Xik49mRrNBPjqzbuBCCES6A9YpO3kV9?=
+ =?us-ascii?Q?jwy9P8mny+TxLr3O3wIH2vALRetO3/ogi8HqxjUFh+Drfp2Cwcovj0Pm2IVn?=
+ =?us-ascii?Q?azLFuqGiXZCPaf0VeJBijfNiRdv/kFSt2sRv40dfeJ2feQG9NJRDGS1cfA0M?=
+ =?us-ascii?Q?y1Qt+Ex1UzOy5hy0gRM7ze5TnroLaXrZa5x0140jmuWCFhchL6Jh9eMAggPl?=
+ =?us-ascii?Q?ZtHhDH5zFqGTCtVyH9BNLfuJpUhH8bN4tBt8zFKafbJU5sJGhgWEPljZpCao?=
+ =?us-ascii?Q?LXyS011MiaxgoxHs9084pAFxtf6sUQQTi4b41MFazQ3Ea7xUxFN9yONSQMSR?=
+ =?us-ascii?Q?oRryxYEmYEM1x6GBRwLCqvQi1URCVONJWavkYxhQh4vru+uB5BQD2FL97Usj?=
+ =?us-ascii?Q?3BMnZRaV+x4zra5SNhppXPIBkh/i0ANJ/HYhXy3Ppp7UDaU6Sk0SnnanaBwb?=
+ =?us-ascii?Q?MG7fN3SQdXMbj5i7zLxQCI8Dusq+y5vxYHO5gB6XJTFVZZKPFK3fGSKBFhcH?=
+ =?us-ascii?Q?X8wD4ZVlnth/Cm3Qaw6RFPG2tl5rOx+IeK3O5iy2pQ/VkYVqINDQCIbR4hTa?=
+ =?us-ascii?Q?Mhuccc5O0G6dxB544Q2MEzmyDknaw+xYKJQvtJFrIhzxvHsI28gnixJVgWZ/?=
+ =?us-ascii?Q?UQHiqy7eafl3bzuRSQ4GzpAac14AUzlrmfeerp2DhCF/e9v7YDxSax+ye1E7?=
+ =?us-ascii?Q?yKN04+78P4/rC7zbAjPX/a4deUsf1fZ9cHpk6DyGvbm5jx7AgYlTHqO624fM?=
+ =?us-ascii?Q?Qts4CIO6D/bORhrEqas+4tavZXG+Pl0leNyeOkYQRN/jnoXxYUbsqdlGO7H/?=
+ =?us-ascii?Q?h7GLwQ82IrniMVcOSvFv6SJ38Zo9DQzaVqHO65eiWVLgK0dJiA4lL9mhM56N?=
+ =?us-ascii?Q?6rNfvDqphVBq8jd4WBL01fyyERy0DtjmSBu8gkWPhiESomc4Y4+ViQuOlHKW?=
+ =?us-ascii?Q?R3USWF+erQX7rlwjpWTGFSeiO4YqDplQCqIDYSzKxZE5N15/M/Lo+XD/fXi8?=
+ =?us-ascii?Q?EDZJ3s9XAddSIsa16P1Wg2F5QuLLFnFV0JU9N+u1?=
 X-OriginatorOrg: nutanix.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9c64e46b-80b4-4dd6-3cd5-08db52f5c45d
+X-MS-Exchange-CrossTenant-Network-Message-Id: aa794c4b-fbca-4cc4-681d-08db52f5c550
 X-MS-Exchange-CrossTenant-AuthSource: BYAPR02MB4343.namprd02.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 May 2023 14:32:52.0341 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 May 2023 14:32:53.6387 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: bb047546-786f-4de1-bd75-24e5b6f79043
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: fTUCRl4JOrdL9Qrr14aqXtlbuEcd+WRadNd7uHxAcId8Sncf3EqN7FLPGiaNwKVQJP2RQ8oSXTD7hXPQ+drW8g==
+X-MS-Exchange-CrossTenant-UserPrincipalName: IpKwPgak7d2rYH0X1FIDNEbik/o/8Bxg3dJ3fDMnxoC+NdjVHqk7grK4XzLA3j+ritxp/c4o/maL+olUdP49ug==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL3PR02MB8282
-X-Proofpoint-GUID: JxDZnpDzS--d4EdDMyVPo8abtnErqe9g
-X-Proofpoint-ORIG-GUID: JxDZnpDzS--d4EdDMyVPo8abtnErqe9g
+X-Proofpoint-GUID: wa3f_34T9Oeu-mnISc2Ehy7nIjQ61r3K
+X-Proofpoint-ORIG-GUID: wa3f_34T9Oeu-mnISc2Ehy7nIjQ61r3K
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
  definitions=2023-05-12_08,2023-05-05_01,2023-02-09_01
@@ -159,188 +159,170 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-RDMA based transport backend for 'migrate'/'migrate-incoming' QAPIs
-accept new wire protocol of MigrateAddress struct.
+Exec transport backend for 'migrate'/'migrate-incoming' QAPIs accept
+new wire protocol of MigrateAddress struct.
 
 It is achived by parsing 'uri' string and storing migration parameters
-required for RDMA connection into well defined InetSocketAddress struct.
+required for exec connection into strList struct.
 
 Suggested-by: Aravind Retnakaran <aravind.retnakaran@nutanix.com>
 Signed-off-by: Het Gala <het.gala@nutanix.com>
 ---
- migration/migration.c |  8 ++++----
- migration/rdma.c      | 38 ++++++++++++++++----------------------
- migration/rdma.h      |  6 ++++--
- 3 files changed, 24 insertions(+), 28 deletions(-)
+ migration/exec.c      | 58 ++++++++++++++++++++++++++++++++-----------
+ migration/exec.h      |  4 +--
+ migration/migration.c | 10 +++-----
+ 3 files changed, 50 insertions(+), 22 deletions(-)
 
+diff --git a/migration/exec.c b/migration/exec.c
+index c4a3293246..210f4e9400 100644
+--- a/migration/exec.c
++++ b/migration/exec.c
+@@ -39,22 +39,51 @@ const char *exec_get_cmd_path(void)
+ }
+ #endif
+ 
+-void exec_start_outgoing_migration(MigrationState *s, const char *command,
++/* provides the length of strList */
++static int
++str_list_length(strList *list)
++{
++    int len = 0;
++    strList *elem;
++
++    for (elem = list; elem != NULL; elem = elem->next) {
++        len++;
++    }
++
++    return len;
++}
++
++static void
++init_exec_array(strList *command, const char **argv, Error **errp)
++{
++    int i = 0;
++    strList *lst;
++
++    for (lst = command; lst; lst = lst->next) {
++        argv[i++] = lst->value;
++    }
++
++    argv[i] = NULL;
++    return;
++}
++
++void exec_start_outgoing_migration(MigrationState *s, strList *command,
+                                    Error **errp)
+ {
+     QIOChannel *ioc;
+ 
+-#ifdef WIN32
+-    const char *argv[] = { exec_get_cmd_path(), "/c", command, NULL };
+-#else
+-    const char *argv[] = { "/bin/sh", "-c", command, NULL };
+-#endif
++    int length = str_list_length(command);
++    const char **argv = g_malloc0(length * sizeof(const char *));
+ 
+-    trace_migration_exec_outgoing(command);
++    init_exec_array(command, argv, errp);
++    char *new_command = g_strjoinv(" ", (char **)argv);
++
++    trace_migration_exec_outgoing(new_command);
+     ioc = QIO_CHANNEL(qio_channel_command_new_spawn(argv,
+                                                     O_RDWR,
+                                                     errp));
+     if (!ioc) {
++        g_free(argv);
+         return;
+     }
+ 
+@@ -72,21 +101,22 @@ static gboolean exec_accept_incoming_migration(QIOChannel *ioc,
+     return G_SOURCE_REMOVE;
+ }
+ 
+-void exec_start_incoming_migration(const char *command, Error **errp)
++void exec_start_incoming_migration(strList *command, Error **errp)
+ {
+     QIOChannel *ioc;
+ 
+-#ifdef WIN32
+-    const char *argv[] = { exec_get_cmd_path(), "/c", command, NULL };
+-#else
+-    const char *argv[] = { "/bin/sh", "-c", command, NULL };
+-#endif
++    int length = str_list_length(command);
++    const char **argv = g_malloc0(length * sizeof(const char *));
++
++    init_exec_array(command, argv, errp);
++    char *new_command = g_strjoinv(" ", (char **)argv);
+ 
+-    trace_migration_exec_incoming(command);
++    trace_migration_exec_incoming(new_command);
+     ioc = QIO_CHANNEL(qio_channel_command_new_spawn(argv,
+                                                     O_RDWR,
+                                                     errp));
+     if (!ioc) {
++        g_free(argv);
+         return;
+     }
+ 
+diff --git a/migration/exec.h b/migration/exec.h
+index 736cd71028..3107f205e3 100644
+--- a/migration/exec.h
++++ b/migration/exec.h
+@@ -23,8 +23,8 @@
+ #ifdef WIN32
+ const char *exec_get_cmd_path(void);
+ #endif
+-void exec_start_incoming_migration(const char *host_port, Error **errp);
++void exec_start_incoming_migration(strList *host_port, Error **errp);
+ 
+-void exec_start_outgoing_migration(MigrationState *s, const char *host_port,
++void exec_start_outgoing_migration(MigrationState *s, strList *host_port,
+                                    Error **errp);
+ #endif
 diff --git a/migration/migration.c b/migration/migration.c
-index 61f52d2f90..b7c3b939d5 100644
+index b7c3b939d5..6abd69df8d 100644
 --- a/migration/migration.c
 +++ b/migration/migration.c
-@@ -480,8 +480,8 @@ static void qemu_start_incoming_migration(const char *uri, Error **errp)
-             fd_start_incoming_migration(saddr->u.fd.str, &local_err);
-         }
- #ifdef CONFIG_RDMA
--    } else if (strstart(uri, "rdma:", &p)) {
--        rdma_start_incoming_migration(p, errp);
-+    } else if (channel->transport == MIGRATE_TRANSPORT_RDMA) {
-+        rdma_start_incoming_migration(&channel->u.rdma, &local_err);
- #endif
-     } else if (strstart(uri, "exec:", &p)) {
-         exec_start_incoming_migration(p, errp);
-@@ -1737,8 +1737,8 @@ void qmp_migrate(const char *uri, bool has_blk, bool blk,
-             fd_start_outgoing_migration(s, saddr->u.fd.str, &local_err);
-         }
- #ifdef CONFIG_RDMA
--    } else if (strstart(uri, "rdma:", &p)) {
--        rdma_start_outgoing_migration(s, p, &local_err);
-+    } else if (channel->transport == MIGRATE_TRANSPORT_RDMA) {
-+        rdma_start_outgoing_migration(s, &channel->u.rdma, &local_err);
- #endif
-     } else if (strstart(uri, "exec:", &p)) {
-         exec_start_outgoing_migration(s, p, &local_err);
-diff --git a/migration/rdma.c b/migration/rdma.c
-index 2cd8f1cc66..32b4b8099e 100644
---- a/migration/rdma.c
-+++ b/migration/rdma.c
-@@ -319,7 +319,6 @@ typedef struct RDMALocalBlocks {
- typedef struct RDMAContext {
-     char *host;
-     int port;
--    char *host_port;
- 
-     RDMAWorkRequestData wr_data[RDMA_WRID_MAX];
- 
-@@ -2455,9 +2454,7 @@ static void qemu_rdma_cleanup(RDMAContext *rdma)
-         rdma->channel = NULL;
-     }
-     g_free(rdma->host);
--    g_free(rdma->host_port);
-     rdma->host = NULL;
--    rdma->host_port = NULL;
- }
- 
- 
-@@ -2739,28 +2736,17 @@ static void qemu_rdma_return_path_dest_init(RDMAContext *rdma_return_path,
-     rdma_return_path->is_return_path = true;
- }
- 
--static void *qemu_rdma_data_init(const char *host_port, Error **errp)
-+static void *qemu_rdma_data_init(InetSocketAddress *saddr, Error **errp)
+@@ -455,7 +455,6 @@ static bool migrate_uri_parse(const char *uri,
+ static void qemu_start_incoming_migration(const char *uri, Error **errp)
  {
-     RDMAContext *rdma = NULL;
--    InetSocketAddress *addr;
+     Error *local_err = NULL;
+-    const char *p = NULL;
+     MigrateAddress *channel = g_new0(MigrateAddress, 1);
+     SocketAddress *saddr;
  
--    if (host_port) {
-+    if (saddr) {
-         rdma = g_new0(RDMAContext, 1);
-         rdma->current_index = -1;
-         rdma->current_chunk = -1;
- 
--        addr = g_new(InetSocketAddress, 1);
--        if (!inet_parse(addr, host_port, NULL)) {
--            rdma->port = atoi(addr->port);
--            rdma->host = g_strdup(addr->host);
--            rdma->host_port = g_strdup(host_port);
--        } else {
--            ERROR(errp, "bad RDMA migration address '%s'", host_port);
--            g_free(rdma);
--            rdma = NULL;
--        }
--
--        qapi_free_InetSocketAddress(addr);
-+        rdma->host = g_strdup(saddr->host);
-+        rdma->port = atoi(saddr->port);
-     }
- 
-     return rdma;
-@@ -3360,10 +3346,12 @@ static int qemu_rdma_accept(RDMAContext *rdma)
-                                             .private_data_len = sizeof(cap),
-                                          };
-     RDMAContext *rdma_return_path = NULL;
-+    InetSocketAddress *isock = g_new0(InetSocketAddress, 1);
-     struct rdma_cm_event *cm_event;
-     struct ibv_context *verbs;
-     int ret = -EINVAL;
-     int idx;
-+    char arr[8];
- 
-     ret = rdma_get_cm_event(rdma->channel, &cm_event);
-     if (ret) {
-@@ -3375,13 +3363,17 @@ static int qemu_rdma_accept(RDMAContext *rdma)
-         goto err_rdma_dest_wait;
-     }
- 
-+    isock->host = rdma->host;
-+    sprintf(arr,"%d", rdma->port);
-+    isock->port = arr;
-+
-     /*
-      * initialize the RDMAContext for return path for postcopy after first
-      * connection request reached.
-      */
-     if ((migrate_postcopy() || migrate_return_path())
-         && !rdma->is_return_path) {
--        rdma_return_path = qemu_rdma_data_init(rdma->host_port, NULL);
-+        rdma_return_path = qemu_rdma_data_init(isock, NULL);
-         if (rdma_return_path == NULL) {
-             rdma_ack_cm_event(cm_event);
-             goto err_rdma_dest_wait;
-@@ -3506,6 +3498,8 @@ static int qemu_rdma_accept(RDMAContext *rdma)
- err_rdma_dest_wait:
-     rdma->error_state = ret;
-     qemu_rdma_cleanup(rdma);
-+    qapi_free_InetSocketAddress(isock);
-+    g_free(arr);
-     g_free(rdma_return_path);
-     return ret;
- }
-@@ -4114,7 +4108,8 @@ static void rdma_accept_incoming_migration(void *opaque)
-     }
- }
- 
--void rdma_start_incoming_migration(const char *host_port, Error **errp)
-+void rdma_start_incoming_migration(InetSocketAddress *host_port,
-+                                   Error **errp)
- {
-     int ret;
-     RDMAContext *rdma;
-@@ -4160,13 +4155,12 @@ err:
-     error_propagate(errp, local_err);
-     if (rdma) {
-         g_free(rdma->host);
--        g_free(rdma->host_port);
-     }
-     g_free(rdma);
- }
- 
- void rdma_start_outgoing_migration(void *opaque,
--                            const char *host_port, Error **errp)
-+                            InetSocketAddress *host_port, Error **errp)
- {
-     MigrationState *s = opaque;
-     RDMAContext *rdma_return_path = NULL;
-diff --git a/migration/rdma.h b/migration/rdma.h
-index de2ba09dc5..ee89296555 100644
---- a/migration/rdma.h
-+++ b/migration/rdma.h
-@@ -14,12 +14,14 @@
-  *
-  */
- 
-+#include "qemu/sockets.h"
-+
- #ifndef QEMU_MIGRATION_RDMA_H
- #define QEMU_MIGRATION_RDMA_H
- 
--void rdma_start_outgoing_migration(void *opaque, const char *host_port,
-+void rdma_start_outgoing_migration(void *opaque, InetSocketAddress *host_port,
-                                    Error **errp);
- 
--void rdma_start_incoming_migration(const char *host_port, Error **errp);
-+void rdma_start_incoming_migration(InetSocketAddress *host_port, Error **errp);
- 
+@@ -483,8 +482,8 @@ static void qemu_start_incoming_migration(const char *uri, Error **errp)
+     } else if (channel->transport == MIGRATE_TRANSPORT_RDMA) {
+         rdma_start_incoming_migration(&channel->u.rdma, &local_err);
  #endif
+-    } else if (strstart(uri, "exec:", &p)) {
+-        exec_start_incoming_migration(p, errp);
++    } else if (channel->transport == MIGRATE_TRANSPORT_EXEC) {
++        exec_start_incoming_migration(channel->u.exec.args, &local_err);
+     } else {
+         error_setg(errp, "unknown migration protocol: %s", uri);
+     }
+@@ -1701,7 +1700,6 @@ void qmp_migrate(const char *uri, bool has_blk, bool blk,
+ {
+     Error *local_err = NULL;
+     MigrationState *s = migrate_get_current();
+-    const char *p = NULL;
+     MigrateAddress *channel = g_new0(MigrateAddress, 1);
+     SocketAddress *saddr;
+ 
+@@ -1740,8 +1738,8 @@ void qmp_migrate(const char *uri, bool has_blk, bool blk,
+     } else if (channel->transport == MIGRATE_TRANSPORT_RDMA) {
+         rdma_start_outgoing_migration(s, &channel->u.rdma, &local_err);
+ #endif
+-    } else if (strstart(uri, "exec:", &p)) {
+-        exec_start_outgoing_migration(s, p, &local_err);
++    } else if (channel->transport == MIGRATE_TRANSPORT_EXEC) {
++        exec_start_outgoing_migration(s, channel->u.exec.args, &local_err);
+     } else {
+         if (!(has_resume && resume)) {
+             yank_unregister_instance(MIGRATION_YANK_INSTANCE);
 -- 
 2.22.3
 
