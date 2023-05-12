@@ -2,73 +2,109 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C2D4700715
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 May 2023 13:45:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5251C70075F
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 May 2023 13:58:34 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pxRCZ-00076i-BR; Fri, 12 May 2023 07:44:47 -0400
+	id 1pxROL-0000ao-GG; Fri, 12 May 2023 07:56:57 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1pxRCX-00076Z-6w
- for qemu-devel@nongnu.org; Fri, 12 May 2023 07:44:45 -0400
-Received: from smtpout2.mo529.mail-out.ovh.net ([79.137.123.220])
+ (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
+ id 1pxROH-0000aP-Oh; Fri, 12 May 2023 07:56:53 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1pxRCU-00075m-V9
- for qemu-devel@nongnu.org; Fri, 12 May 2023 07:44:44 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.109.143.118])
- by mo529.mail-out.ovh.net (Postfix) with ESMTPS id CB2D2213E3;
- Fri, 12 May 2023 11:44:36 +0000 (UTC)
-Received: from kaod.org (37.59.142.96) by DAG4EX2.mxp5.local (172.16.2.32)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.23; Fri, 12 May
- 2023 13:44:35 +0200
-Authentication-Results: garm.ovh; auth=pass
- (GARM-96R0010cee0740-ad89-4992-86fd-7ce1dc2fc2f8,
- 4B091FD28FA57C32BD8EB216DEE262B02F305603) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <526023cc-1469-4d3b-fec9-71ad127c400a@kaod.org>
-Date: Fri, 12 May 2023 13:44:29 +0200
+ (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
+ id 1pxROF-0001eR-NU; Fri, 12 May 2023 07:56:53 -0400
+Received: from pps.filterd (m0353724.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 34CBdf83016991; Fri, 12 May 2023 11:56:41 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=TIu4W2JADrOOBltS0BTTn7tPlDY4abInPcWT8inBHFE=;
+ b=VxVKKXrNEWG9qw0NB9kvUw7TzdJEfJYuL7pNhDv6GiFGLBlK+BS6GS4KNHmliHSMOGwH
+ iuBJQTzTorzttSoMvezbZWVORXrZrim04rsM8fvc//12aSSjkNX5MW1P/OZzkFjtO4Ji
+ S7NYM7qmzYciWkpeHmIFZkyhCVTxeE0FjR3RYN9V1c+n65uTHjAlmajZtr93WH+UutFY
+ zHn0PXx8llDwpLGscr9gA7vvIgWtK4aXoKEAcXtR6rO7XdztM5Hsa/3YPQyNQ2J3R8vY
+ fb3HRffAFruMzZB65rXOe/DSoWvwvekYQ2Wsfxos7ReqBwhvRThGPvFjOZguGzK4rD25 zg== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3qhk82ucup-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 12 May 2023 11:56:40 +0000
+Received: from m0353724.ppops.net (m0353724.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 34CBeAtG023910;
+ Fri, 12 May 2023 11:56:38 GMT
+Received: from ppma06fra.de.ibm.com (48.49.7a9f.ip4.static.sl-reverse.com
+ [159.122.73.72])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3qhk82uctq-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 12 May 2023 11:56:38 +0000
+Received: from pps.filterd (ppma06fra.de.ibm.com [127.0.0.1])
+ by ppma06fra.de.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 34CBahv2002931;
+ Fri, 12 May 2023 11:56:36 GMT
+Received: from smtprelay04.fra02v.mail.ibm.com ([9.218.2.228])
+ by ppma06fra.de.ibm.com (PPS) with ESMTPS id 3qf7e0swde-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 12 May 2023 11:56:36 +0000
+Received: from smtpav02.fra02v.mail.ibm.com (smtpav02.fra02v.mail.ibm.com
+ [10.20.54.101])
+ by smtprelay04.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 34CBuUKE34472598
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 12 May 2023 11:56:31 GMT
+Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id D653A2004B;
+ Fri, 12 May 2023 11:56:30 +0000 (GMT)
+Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 7937520040;
+ Fri, 12 May 2023 11:56:29 +0000 (GMT)
+Received: from [9.171.54.237] (unknown [9.171.54.237])
+ by smtpav02.fra02v.mail.ibm.com (Postfix) with ESMTPS;
+ Fri, 12 May 2023 11:56:29 +0000 (GMT)
+Message-ID: <635572ce-44ae-c9f5-6b80-d48770cdffbe@linux.ibm.com>
+Date: Fri, 12 May 2023 13:56:28 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH v2] tests/avocado: Add LoongArch machine start test
-To: Song Gao <gaosong@loongson.cn>, <thuth@redhat.com>, <qemu-devel@nongnu.org>
-CC: <richard.henderson@linaro.org>, <peter.maydell@linaro.org>,
- <philmd@linaro.org>, <pbonzini@redhat.com>, <alex.bennee@linaro.org>,
- <maobibo@loongson.cn>, <yangxiaojuan@loongson.cn>, <lvivier@redhat.com>,
- <atar4qemu@gmail.com>, <edgar.iglesias@gmail.com>, <wainersm@redhat.com>,
- <quic_llindhol@quicinc.com>, <kraxel@redhat.com>, <deller@gmx.de>,
- <stefanha@redhat.com>, <crosa@redhat.com>, <eduardo@habkost.net>,
- <quintela@redhat.com>, <jsnow@redhat.com>, <ysato@users.sourceforge.jp>,
- <iii@linux.ibm.com>, <pavel.dovgaluk@ispras.ru>, <andrew@aj.id.au>,
- <kbastian@mail.uni-paderborn.de>, <bleal@redhat.com>, <jcmvbkbc@gmail.com>,
- <marcandre.lureau@redhat.com>, <mark.cave-ayland@ilande.co.uk>,
- <rad@semihalf.com>, <aurelien@aurel32.net>, <david@redhat.com>,
- <armbru@redhat.com>, <joel@jms.id.au>, <berrange@redhat.com>
-References: <20230512063305.1629046-1-gaosong@loongson.cn>
+ Thunderbird/102.8.0
+Subject: Re: [PATCH v20 12/21] qapi/s390x/cpu topology: query-cpu-polarization
+ qmp command
 Content-Language: en-US
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <20230512063305.1629046-1-gaosong@loongson.cn>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+To: Nina Schoetterl-Glausch <nsg@linux.ibm.com>, qemu-s390x@nongnu.org
+Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
+ richard.henderson@linaro.org, david@redhat.com, thuth@redhat.com,
+ cohuck@redhat.com, mst@redhat.com, pbonzini@redhat.com,
+ kvm@vger.kernel.org, ehabkost@redhat.com, marcel.apfelbaum@gmail.com,
+ eblake@redhat.com, armbru@redhat.com, seiden@linux.ibm.com,
+ nrb@linux.ibm.com, frankja@linux.ibm.com, berrange@redhat.com, clg@kaod.org
+References: <20230425161456.21031-1-pmorel@linux.ibm.com>
+ <20230425161456.21031-13-pmorel@linux.ibm.com>
+ <2fa507c7894c6085d6306b1bda23c392d151a680.camel@linux.ibm.com>
+From: Pierre Morel <pmorel@linux.ibm.com>
+In-Reply-To: <2fa507c7894c6085d6306b1bda23c392d151a680.camel@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [37.59.142.96]
-X-ClientProxiedBy: DAG6EX2.mxp5.local (172.16.2.52) To DAG4EX2.mxp5.local
- (172.16.2.32)
-X-Ovh-Tracer-GUID: 0a2d7e79-135d-4f83-af15-77409fad9cdf
-X-Ovh-Tracer-Id: 2784350473824275203
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvhedrfeehtddggeefucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgihesthejredttdefjeenucfhrhhomhepveorughrihgtucfnvgcuifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeeffffgleevgfduveefjeehheetgfefveeluedvjeekieelleettdeivdekleeiveenucffohhmrghinhepghhithhhuhgsrdgtohhmnecukfhppeduvdejrddtrddtrddupdefjedrheelrddugedvrdeliedpkedvrdeigedrvdehtddrudejtdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeduvdejrddtrddtrddupdhmrghilhhfrhhomhepoegtlhhgsehkrghougdrohhrgheqpdhnsggprhgtphhtthhopedupdhrtghpthhtohepghgrohhsohhngheslhhoohhnghhsohhnrdgtnhdpqhhuihhnthgvlhgrsehrvgguhhgrthdrtghomhdpjhhsnhhofiesrhgvughhrghtrdgtohhmpdihshgrthhosehushgvrhhsrdhsohhurhgtvghfohhrghgvrdhjphdpihhiiheslhhinhhugidrihgsmhdrtghomhdpphgrvhgvlhdrughovhhgrghluhhksehishhprhgrshdrrhhupdgrnhgurhgvfiesrghjrdhiugdrrghupdhksggrshhtih
- grnhesmhgrihhlrdhunhhiqdhprgguvghrsghorhhnrdguvgdpsghlvggrlhesrhgvughhrghtrdgtohhmpdhjtghmvhgskhgstgesghhmrghilhdrtghomhdpmhgrrhgtrghnughrvgdrlhhurhgvrghusehrvgguhhgrthdrtghomhdpmhgrrhhkrdgtrghvvgdqrgihlhgrnhgusehilhgrnhguvgdrtghordhukhdprhgrugesshgvmhhihhgrlhhfrdgtohhmpdgruhhrvghlihgvnhesrghurhgvlhefvddrnhgvthdpuggrvhhiugesrhgvughhrghtrdgtohhmpdgrrhhmsghruhesrhgvughhrghtrdgtohhmpdgvughurghrughosehhrggskhhoshhtrdhnvghtpdhjohgvlhesjhhmshdrihgurdgruhdptghrohhsrgesrhgvughhrghtrdgtohhmpdguvghllhgvrhesghhmgidruggvpdhthhhuthhhsehrvgguhhgrthdrtghomhdpqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrghdprhhitghhrghrugdrhhgvnhguvghrshhonheslhhinhgrrhhordhorhhgpdhpvghtvghrrdhmrgihuggvlhhlsehlihhnrghrohdrohhrghdpphhhihhlmhgusehlihhnrghrohdrohhrghdpphgsohhniihinhhisehrvgguhhgrthdrtghomhdprghlvgigrdgsvghnnhgvvgeslhhinhgrrhhordhorhhgpdhmrghosghisghosehlohhonhhgshhonhdrtghnpdihrghnghigihgrohhjuhgrnheslhhoohhnghhsohhnrdgtnhdplhhvihhvihgvrhesrhgvughhrghtrdgtohhmpdgrthgrrhegqhgvmhhusehgmhgrihhlrdgtohhmpdgvugh
- grghrrdhighhlvghsihgrshesghhmrghilhdrtghomhdpfigrihhnvghrshhmsehrvgguhhgrthdrtghomhdpqhhuihgtpghllhhinhguhhholhesqhhuihgtihhntgdrtghomhdpkhhrrgigvghlsehrvgguhhgrthdrtghomhdpshhtvghfrghnhhgrsehrvgguhhgrthdrtghomhdpsggvrhhrrghnghgvsehrvgguhhgrthdrtghomhdpoffvtefjohhsthepmhhohedvledpmhhouggvpehsmhhtphhouhht
-Received-SPF: pass client-ip=79.137.123.220; envelope-from=clg@kaod.org;
- helo=smtpout2.mo529.mail-out.ovh.net
-X-Spam_score_int: -37
-X-Spam_score: -3.8
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: AFU2XzCAtMUyMJv6b4VduiRtefJMuM0X
+X-Proofpoint-GUID: iMPHJGwcWSj2ri_gWOQ4tPC9t22KQaT7
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-05-12_08,2023-05-05_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501
+ impostorscore=0 mlxlogscore=999 lowpriorityscore=0 mlxscore=0 bulkscore=0
+ malwarescore=0 phishscore=0 adultscore=0 suspectscore=0 spamscore=0
+ clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2304280000 definitions=main-2305120096
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=pmorel@linux.ibm.com;
+ helo=mx0b-001b2d01.pphosted.com
+X-Spam_score_int: -38
+X-Spam_score: -3.9
 X-Spam_bar: ---
-X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.845,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-3.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.845,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -85,111 +121,127 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hello,
 
-On 5/12/23 08:33, Song Gao wrote:
-> Add a new test in tests/avocado to check LoongArch virt machine start.
-> 
-> Reviewed-by: Thomas Huth <thuth@redhat.com>
-> Signed-off-by: Song Gao <gaosong@loongson.cn>
-> ---
->   MAINTAINERS                        |  1 +
->   tests/avocado/machine_loongarch.py | 68 ++++++++++++++++++++++++++++++
->   2 files changed, 69 insertions(+)
->   create mode 100644 tests/avocado/machine_loongarch.py
-> 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index f757369373..4c0d37a1aa 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -245,6 +245,7 @@ M: Xiaojuan Yang <yangxiaojuan@loongson.cn>
->   S: Maintained
->   F: target/loongarch/
->   F: tests/tcg/loongarch64/
-> +F: tests/avocado/machine_loongarch.py
->   
->   M68K TCG CPUs
->   M: Laurent Vivier <laurent@vivier.eu>
-> diff --git a/tests/avocado/machine_loongarch.py b/tests/avocado/machine_loongarch.py
-> new file mode 100644
-> index 0000000000..e8fcb578d7
-> --- /dev/null
-> +++ b/tests/avocado/machine_loongarch.py
-> @@ -0,0 +1,68 @@
-> +# SPDX-License-Identifier: GPL-2.0-or-later
-> +#
-> +# LoongArch virt test.
-> +#
-> +# Copyright (c) 2023 Loongson Technology Corporation Limited
-> +#
-> +
-> +import os
-> +import tempfile
-> +
-> +from avocado_qemu import QemuSystemTest
-> +from avocado_qemu import exec_command_and_wait_for_pattern
-> +from avocado_qemu import wait_for_console_pattern
-> +
-> +class LoongArchMachine(QemuSystemTest):
-> +    KERNEL_COMMON_COMMAND_LINE = 'printk.time=0 '
-> +
-> +    timeout = 120
-> +
-> +    def wait_for_console_pattern(self, success_message, vm=None):
-> +        wait_for_console_pattern(self, success_message,
-> +                                 failure_message='Kernel panic - not syncing',
-> +                                 vm=vm)
-> +
-> +    dmesg_clear_count = 1
-> +    def clear_guest_dmesg(self):
-> +        exec_command_and_wait_for_pattern(self, 'dmesg -c > /dev/null; '
-> +                    'echo dm_clear\ ' + str(self.dmesg_clear_count),
-> +                    'dm_clear ' + str(self.dmesg_clear_count))
-> +        self.dmesg_clear_count += 1
+On 5/10/23 14:04, Nina Schoetterl-Glausch wrote:
+> On Tue, 2023-04-25 at 18:14 +0200, Pierre Morel wrote:
+>> The query-cpu-polarization qmp command returns the current
+>> CPU polarization of the machine.
+>>
+>> Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
+>> ---
+>>   qapi/machine-target.json | 30 ++++++++++++++++++++++++++++++
+>>   hw/s390x/cpu-topology.c  | 14 ++++++++++++++
+>>   2 files changed, 44 insertions(+)
+>>
+>> diff --git a/qapi/machine-target.json b/qapi/machine-target.json
+>> index ffde2e9cbd..8eb05755cd 100644
+>> --- a/qapi/machine-target.json
+>> +++ b/qapi/machine-target.json
+>> @@ -4,6 +4,7 @@
+>>   # This work is licensed under the terms of the GNU GPL, version 2 or later.
+>>   # See the COPYING file in the top-level directory.
+>>   
+>> +{ 'include': 'common.json' }
+> Why do you need this?
 
-Routine clear_guest_dmesg() doesn't seem to be used anywhere.
+exact, I do not need it.
+
+
+>
+>>   { 'include': 'machine-common.json' }
+>>   
+>>   ##
+>> @@ -424,3 +425,32 @@
+>>     'features': [ 'unstable' ],
+>>     'if': { 'all': [ 'TARGET_S390X', 'CONFIG_KVM' ] }
+>>   }
+>> +
+>> +##
+>> +# @CpuPolarizationInfo:
+>> +#
+>> +# The result of a cpu polarization
+>> +#
+>> +# @polarization: the CPU polarization
+>> +#
+>> +# Since: 2.8
+> 2.8?
+
+yes, 8.1
+
+
+>
+>> +##
+>> +{ 'struct': 'CpuPolarizationInfo',
+>> +  'data': { 'polarization': 'CpuS390Polarization' },
+>> +  'if': { 'all': [ 'TARGET_S390X', 'CONFIG_KVM' ] }
+>> +}
+>> +
+>> +##
+>> +# @query-cpu-polarization:
+>> +#
+>> +# Features:
+>> +# @unstable: This command may still be modified.
+>> +#
+>> +# Returns: the machine polarization
+>> +#
+>> +# Since: 8.1
+>> +##
+>> +{ 'command': 'query-cpu-polarization', 'returns': 'CpuPolarizationInfo',
+> Do you need the struct or could you use CpuS390Polarization directly here?
+> The struct allows for more flexibility in the future, I can't imagine a reason
+> why it'd be necessary, but I'm not opposed.
+
+That is what I thought, keeping flexibility.
+
+
+
+>
+>
+>> +  'features': [ 'unstable' ],
+>> +  'if': { 'all': [ 'TARGET_S390X', 'CONFIG_KVM' ] }
+>> +}
+>> diff --git a/hw/s390x/cpu-topology.c b/hw/s390x/cpu-topology.c
+>> index e8b140d623..d440e8a3c6 100644
+>> --- a/hw/s390x/cpu-topology.c
+>> +++ b/hw/s390x/cpu-topology.c
+>> @@ -18,6 +18,7 @@
+>>   #include "hw/s390x/cpu-topology.h"
+>>   #include "qapi/qapi-commands-machine-target.h"
+>>   #include "qapi/qapi-events-machine-target.h"
+>> +#include "qapi/type-helpers.h"
+> What do you need this include for?
+
+I do not need it.
+
+
+>
+>>   
+>>   /*
+>>    * s390_topology is used to keep the topology information.
+>> @@ -468,3 +469,16 @@ void qmp_set_cpu_topology(uint16_t core,
+>>                            has_drawer, drawer, has_entitlement, entitlement,
+>>                            has_dedicated, dedicated, errp);
+>>   }
+>> +
+>> +CpuPolarizationInfo *qmp_query_cpu_polarization(Error **errp)
+>> +{
+>> +    CpuPolarizationInfo *info = g_new0(CpuPolarizationInfo, 1);
+>> +
+>> +    if (s390_topology.vertical_polarization) {
+>> +        info->polarization = S390_CPU_POLARIZATION_VERTICAL;
+>> +    } else {
+>> +        info->polarization = S390_CPU_POLARIZATION_HORIZONTAL;
+>> +    }
+>> +
+>> +    return info;
+>> +}
 
 Thanks,
 
-C.
+I will clean this leftovers from the first draw.
 
-> +
-> +    def test_loongarch64_devices(self):
-> +
-> +        """
-> +        :avocado: tags=arch:loongarch64
-> +        :avocado: tags=machine:virt
-> +        """
-> +
-> +        kernel_url = ('https://github.com/yangxiaojuan-loongson/qemu-binary/'
-> +                      'releases/download/binary-files/vmlinuz.efi')
-> +        kernel_hash = '951b485b16e3788b6db03a3e1793c067009e31a2'
-> +        kernel_path = self.fetch_asset(kernel_url, asset_hash=kernel_hash)
-> +
-> +        initrd_url = ('https://github.com/yangxiaojuan-loongson/qemu-binary/'
-> +                      'releases/download/binary-files/ramdisk')
-> +        initrd_hash = 'c67658d9b2a447ce7db2f73ba3d373c9b2b90ab2'
-> +        initrd_path = self.fetch_asset(initrd_url, asset_hash=initrd_hash)
-> +
-> +        bios_url = ('https://github.com/yangxiaojuan-loongson/qemu-binary/'
-> +                    'releases/download/binary-files/QEMU_EFI.fd')
-> +        bios_hash = ('dfc1bfba4853cd763b9d392d0031827e8addbca8')
-> +        bios_path = self.fetch_asset(bios_url, asset_hash=bios_hash)
-> +
-> +        self.vm.set_console()
-> +        kernel_command_line = (self.KERNEL_COMMON_COMMAND_LINE +
-> +                               'root=/dev/ram rdinit=/sbin/init console=ttyS0,115200')
-> +        self.vm.add_args('-nographic',
-> +                         '-smp', '4',
-> +                         '-m', '1024',
-> +                         '-cpu', 'la464',
-> +                         '-kernel', kernel_path,
-> +                         '-initrd', initrd_path,
-> +                         '-bios', bios_path,
-> +                         '-append', kernel_command_line)
-> +        self.vm.launch()
-> +        self.wait_for_console_pattern('Run /sbin/init as init process')
-> +        exec_command_and_wait_for_pattern(self, 'cat /proc/cpuinfo',
-> +                                          'processor		: 3')
+Regards
+
+Pierre
 
 
