@@ -2,90 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2171C70070B
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 May 2023 13:43:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C2D4700715
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 May 2023 13:45:27 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pxR9l-0006Na-9G; Fri, 12 May 2023 07:41:53 -0400
+	id 1pxRCZ-00076i-BR; Fri, 12 May 2023 07:44:47 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1pxR9j-0006MH-1r
- for qemu-devel@nongnu.org; Fri, 12 May 2023 07:41:51 -0400
-Received: from mail-ej1-x62e.google.com ([2a00:1450:4864:20::62e])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1pxR9h-0006ga-5D
- for qemu-devel@nongnu.org; Fri, 12 May 2023 07:41:50 -0400
-Received: by mail-ej1-x62e.google.com with SMTP id
- a640c23a62f3a-965c3f9af2aso1492181066b.0
- for <qemu-devel@nongnu.org>; Fri, 12 May 2023 04:41:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1683891707; x=1686483707;
- h=content-transfer-encoding:mime-version:message-id:references
- :in-reply-to:subject:cc:to:from:date:from:to:cc:subject:date
- :message-id:reply-to;
- bh=qPdxhncpdA+Cs9nKW55LIueGY421O1IzKmKeIEN1D68=;
- b=B54E/SzpioqAy+SaZKZ7nHGc9JhanoYi/NmSnKkM1PJYhorznhxRg/R8Jm6DrdU8bp
- 27rF8BkGsJ9r5Z1g+JN+iYghBkkmCIEqQdR0PDJYVoTLoctUbT2hWhk/BlMUcnDg09GJ
- OQ+K/1hkzwgPKN/9Sna+QA/0qSsXh4kxQmsd3vt16GfcK4VnRcE9Fg0964aUb4ZOwMJP
- u75hofr08BV+MgY33gu+dIMNPKlntNWJ6SuqGZraoHFRwOUd0GppTvvhRzysr3dBoweG
- vREERfKUl1044VlHY+ytn2lHxp4oD8lOFPa1x9iLthqMypJWd4pQFbJEyjxubX0fcUTA
- TMyA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683891707; x=1686483707;
- h=content-transfer-encoding:mime-version:message-id:references
- :in-reply-to:subject:cc:to:from:date:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=qPdxhncpdA+Cs9nKW55LIueGY421O1IzKmKeIEN1D68=;
- b=gyV3p0SPXvM9AX77ZPQtVI56foZFFkicaKEa0utFKhYHsrQd2g0x1qw+dPaPAen5xA
- hVUwBOSMAfaqQR5bD1yjTCnlcpMMmkAfqjhXv63B+igc1ltHjJyNjDI2iSx1VP1SYuyq
- 2ZSUx7wZAR/lbPo12HN6ofyixUKDvwgZ7RYDus5dFYvxxDvOaJDLsxBJ/aQV2bhYTeOF
- moV53eusDg9V83C0z7hkp4I9zjHuWI9RKUic7emjs6+CCmklc46pnvuJkPgtEkALPXe7
- dVUyrVVJWHx9mr5ttiLDKFqsgjV/y2iiIhVx8e3RHbzSdhgf78BFd5ypK83/KOykvmE9
- HoMQ==
-X-Gm-Message-State: AC+VfDxSGyQ36qA6pjSptWjUGr69i8q4YjqHjtzOhSONsauNcBEeSk/Z
- g0C6Xd52po6uZjFhFIJnZ+w=
-X-Google-Smtp-Source: ACHHUZ7pM9AwKK8bNdvT2P5gNzceT7y5E9mNBGR2nnohVSCTa/7UJG9PRG9odbvmrdQLrfdNxUnlKQ==
-X-Received: by 2002:a17:907:7293:b0:969:dda1:38a4 with SMTP id
- dt19-20020a170907729300b00969dda138a4mr13652128ejc.38.1683891707122; 
- Fri, 12 May 2023 04:41:47 -0700 (PDT)
-Received: from [127.0.0.1] (dynamic-077-013-129-055.77.13.pool.telefonica.de.
- [77.13.129.55]) by smtp.gmail.com with ESMTPSA id
- n10-20020aa7db4a000000b005027d31615dsm3788662edt.62.2023.05.12.04.41.46
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 12 May 2023 04:41:46 -0700 (PDT)
-Date: Fri, 12 May 2023 11:41:33 +0000
-From: Bernhard Beschow <shentey@gmail.com>
-To: quintela@redhat.com, Juan Quintela <quintela@redhat.com>, afaerber@suse.de
-CC: ale@rev.ng, anjo@rev.ng, bazulay@redhat.com, bbauman@redhat.com,
- chao.p.peng@linux.intel.com, cjia@nvidia.com, cw@f00f.org,
- david.edmondson@oracle.com, dustin.kirkland@canonical.com, eblake@redhat.com, 
- edgar.iglesias@gmail.com, elena.ufimtseva@oracle.com, eric.auger@redhat.com,
- f4bug@amsat.org, Felipe Franciosi <felipe.franciosi@nutanix.com>,
- "iggy@theiggy.com" <iggy@kws1.com>, Warner Losh <wlosh@bsdimp.com>,
- jan.kiszka@web.de, jgg@nvidia.com, jidong.xiao@gmail.com,
- jjherne@linux.vnet.ibm.com, joao.m.martins@oracle.com,
- konrad.wilk@oracle.com, kvm@vger.kernel.org, mburton@qti.qualcomm.com,
- mdean@redhat.com, mimu@linux.vnet.ibm.com, peter.maydell@linaro.org,
- qemu-devel@nongnu.org, richard.henderson@linaro.org,
- shameerali.kolothum.thodi@huawei.com, stefanha@gmail.com,
- wei.w.wang@intel.com, z.huo@139.com, zwu.kernel@gmail.com
-Subject: Re: QEMU developers fortnightly call for agenda for 2023-05-16
-In-Reply-To: <871qjm3su8.fsf@secure.mitica>
-References: <calendar-f9e06ce0-8972-4775-9a3d-7269ec566398@google.com>
- <871qjm3su8.fsf@secure.mitica>
-Message-ID: <452B32A5-8C9E-4A61-B14B-C8AB47D0A3ED@gmail.com>
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1pxRCX-00076Z-6w
+ for qemu-devel@nongnu.org; Fri, 12 May 2023 07:44:45 -0400
+Received: from smtpout2.mo529.mail-out.ovh.net ([79.137.123.220])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1pxRCU-00075m-V9
+ for qemu-devel@nongnu.org; Fri, 12 May 2023 07:44:44 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.109.143.118])
+ by mo529.mail-out.ovh.net (Postfix) with ESMTPS id CB2D2213E3;
+ Fri, 12 May 2023 11:44:36 +0000 (UTC)
+Received: from kaod.org (37.59.142.96) by DAG4EX2.mxp5.local (172.16.2.32)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.23; Fri, 12 May
+ 2023 13:44:35 +0200
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-96R0010cee0740-ad89-4992-86fd-7ce1dc2fc2f8,
+ 4B091FD28FA57C32BD8EB216DEE262B02F305603) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <526023cc-1469-4d3b-fec9-71ad127c400a@kaod.org>
+Date: Fri, 12 May 2023 13:44:29 +0200
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::62e;
- envelope-from=shentey@gmail.com; helo=mail-ej1-x62e.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH v2] tests/avocado: Add LoongArch machine start test
+To: Song Gao <gaosong@loongson.cn>, <thuth@redhat.com>, <qemu-devel@nongnu.org>
+CC: <richard.henderson@linaro.org>, <peter.maydell@linaro.org>,
+ <philmd@linaro.org>, <pbonzini@redhat.com>, <alex.bennee@linaro.org>,
+ <maobibo@loongson.cn>, <yangxiaojuan@loongson.cn>, <lvivier@redhat.com>,
+ <atar4qemu@gmail.com>, <edgar.iglesias@gmail.com>, <wainersm@redhat.com>,
+ <quic_llindhol@quicinc.com>, <kraxel@redhat.com>, <deller@gmx.de>,
+ <stefanha@redhat.com>, <crosa@redhat.com>, <eduardo@habkost.net>,
+ <quintela@redhat.com>, <jsnow@redhat.com>, <ysato@users.sourceforge.jp>,
+ <iii@linux.ibm.com>, <pavel.dovgaluk@ispras.ru>, <andrew@aj.id.au>,
+ <kbastian@mail.uni-paderborn.de>, <bleal@redhat.com>, <jcmvbkbc@gmail.com>,
+ <marcandre.lureau@redhat.com>, <mark.cave-ayland@ilande.co.uk>,
+ <rad@semihalf.com>, <aurelien@aurel32.net>, <david@redhat.com>,
+ <armbru@redhat.com>, <joel@jms.id.au>, <berrange@redhat.com>
+References: <20230512063305.1629046-1-gaosong@loongson.cn>
+Content-Language: en-US
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <20230512063305.1629046-1-gaosong@loongson.cn>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [37.59.142.96]
+X-ClientProxiedBy: DAG6EX2.mxp5.local (172.16.2.52) To DAG4EX2.mxp5.local
+ (172.16.2.32)
+X-Ovh-Tracer-GUID: 0a2d7e79-135d-4f83-af15-77409fad9cdf
+X-Ovh-Tracer-Id: 2784350473824275203
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvhedrfeehtddggeefucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgihesthejredttdefjeenucfhrhhomhepveorughrihgtucfnvgcuifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeeffffgleevgfduveefjeehheetgfefveeluedvjeekieelleettdeivdekleeiveenucffohhmrghinhepghhithhhuhgsrdgtohhmnecukfhppeduvdejrddtrddtrddupdefjedrheelrddugedvrdeliedpkedvrdeigedrvdehtddrudejtdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeduvdejrddtrddtrddupdhmrghilhhfrhhomhepoegtlhhgsehkrghougdrohhrgheqpdhnsggprhgtphhtthhopedupdhrtghpthhtohepghgrohhsohhngheslhhoohhnghhsohhnrdgtnhdpqhhuihhnthgvlhgrsehrvgguhhgrthdrtghomhdpjhhsnhhofiesrhgvughhrghtrdgtohhmpdihshgrthhosehushgvrhhsrdhsohhurhgtvghfohhrghgvrdhjphdpihhiiheslhhinhhugidrihgsmhdrtghomhdpphgrvhgvlhdrughovhhgrghluhhksehishhprhgrshdrrhhupdgrnhgurhgvfiesrghjrdhiugdrrghupdhksggrshhtih
+ grnhesmhgrihhlrdhunhhiqdhprgguvghrsghorhhnrdguvgdpsghlvggrlhesrhgvughhrghtrdgtohhmpdhjtghmvhgskhgstgesghhmrghilhdrtghomhdpmhgrrhgtrghnughrvgdrlhhurhgvrghusehrvgguhhgrthdrtghomhdpmhgrrhhkrdgtrghvvgdqrgihlhgrnhgusehilhgrnhguvgdrtghordhukhdprhgrugesshgvmhhihhgrlhhfrdgtohhmpdgruhhrvghlihgvnhesrghurhgvlhefvddrnhgvthdpuggrvhhiugesrhgvughhrghtrdgtohhmpdgrrhhmsghruhesrhgvughhrghtrdgtohhmpdgvughurghrughosehhrggskhhoshhtrdhnvghtpdhjohgvlhesjhhmshdrihgurdgruhdptghrohhsrgesrhgvughhrghtrdgtohhmpdguvghllhgvrhesghhmgidruggvpdhthhhuthhhsehrvgguhhgrthdrtghomhdpqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrghdprhhitghhrghrugdrhhgvnhguvghrshhonheslhhinhgrrhhordhorhhgpdhpvghtvghrrdhmrgihuggvlhhlsehlihhnrghrohdrohhrghdpphhhihhlmhgusehlihhnrghrohdrohhrghdpphgsohhniihinhhisehrvgguhhgrthdrtghomhdprghlvgigrdgsvghnnhgvvgeslhhinhgrrhhordhorhhgpdhmrghosghisghosehlohhonhhgshhonhdrtghnpdihrghnghigihgrohhjuhgrnheslhhoohhnghhsohhnrdgtnhdplhhvihhvihgvrhesrhgvughhrghtrdgtohhmpdgrthgrrhegqhgvmhhusehgmhgrihhlrdgtohhmpdgvugh
+ grghrrdhighhlvghsihgrshesghhmrghilhdrtghomhdpfigrihhnvghrshhmsehrvgguhhgrthdrtghomhdpqhhuihgtpghllhhinhguhhholhesqhhuihgtihhntgdrtghomhdpkhhrrgigvghlsehrvgguhhgrthdrtghomhdpshhtvghfrghnhhgrsehrvgguhhgrthdrtghomhdpsggvrhhrrghnghgvsehrvgguhhgrthdrtghomhdpoffvtefjohhsthepmhhohedvledpmhhouggvpehsmhhtphhouhht
+Received-SPF: pass client-ip=79.137.123.220; envelope-from=clg@kaod.org;
+ helo=smtpout2.mo529.mail-out.ovh.net
+X-Spam_score_int: -37
+X-Spam_score: -3.8
+X-Spam_bar: ---
+X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.845,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -103,92 +85,111 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+Hello,
 
+On 5/12/23 08:33, Song Gao wrote:
+> Add a new test in tests/avocado to check LoongArch virt machine start.
+> 
+> Reviewed-by: Thomas Huth <thuth@redhat.com>
+> Signed-off-by: Song Gao <gaosong@loongson.cn>
+> ---
+>   MAINTAINERS                        |  1 +
+>   tests/avocado/machine_loongarch.py | 68 ++++++++++++++++++++++++++++++
+>   2 files changed, 69 insertions(+)
+>   create mode 100644 tests/avocado/machine_loongarch.py
+> 
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index f757369373..4c0d37a1aa 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -245,6 +245,7 @@ M: Xiaojuan Yang <yangxiaojuan@loongson.cn>
+>   S: Maintained
+>   F: target/loongarch/
+>   F: tests/tcg/loongarch64/
+> +F: tests/avocado/machine_loongarch.py
+>   
+>   M68K TCG CPUs
+>   M: Laurent Vivier <laurent@vivier.eu>
+> diff --git a/tests/avocado/machine_loongarch.py b/tests/avocado/machine_loongarch.py
+> new file mode 100644
+> index 0000000000..e8fcb578d7
+> --- /dev/null
+> +++ b/tests/avocado/machine_loongarch.py
+> @@ -0,0 +1,68 @@
+> +# SPDX-License-Identifier: GPL-2.0-or-later
+> +#
+> +# LoongArch virt test.
+> +#
+> +# Copyright (c) 2023 Loongson Technology Corporation Limited
+> +#
+> +
+> +import os
+> +import tempfile
+> +
+> +from avocado_qemu import QemuSystemTest
+> +from avocado_qemu import exec_command_and_wait_for_pattern
+> +from avocado_qemu import wait_for_console_pattern
+> +
+> +class LoongArchMachine(QemuSystemTest):
+> +    KERNEL_COMMON_COMMAND_LINE = 'printk.time=0 '
+> +
+> +    timeout = 120
+> +
+> +    def wait_for_console_pattern(self, success_message, vm=None):
+> +        wait_for_console_pattern(self, success_message,
+> +                                 failure_message='Kernel panic - not syncing',
+> +                                 vm=vm)
+> +
+> +    dmesg_clear_count = 1
+> +    def clear_guest_dmesg(self):
+> +        exec_command_and_wait_for_pattern(self, 'dmesg -c > /dev/null; '
+> +                    'echo dm_clear\ ' + str(self.dmesg_clear_count),
+> +                    'dm_clear ' + str(self.dmesg_clear_count))
+> +        self.dmesg_clear_count += 1
 
-Am 12=2E Mai 2023 07:35:27 UTC schrieb Juan Quintela <quintela@redhat=2Eco=
-m>:
->juan=2Equintela@gmail=2Ecom wrote:
->> Hi If you are interested in any topic, please let me know=2E Later, Jua=
-n=2E
->
->Hi folks
->
->So far what we have in the agenda is:
->
->questions from Mark:
->- Update on single binary?
->- What=E2=80=99s the status on the =E2=80=9Cicount=E2=80=9D plugin ?
->- Also I could do with some help on a specific issue on KVM/HVF memory ha=
-ndling
->
->From me:
->- Small update on what is going on with all the migration changes
->
->Later, Juan=2E
->
->
->> QEMU developers fortnightly conference call
->> Tuesday 2023-05-16 =E2=8B=85 15:00 =E2=80=93 16:00
->> Central European Time - Madrid
->>
->> Location
->> https://meet=2Ejit=2Esi/kvmcallmeeting=09
-
-Hi Juan,
-
-Would it be possible to offer a public calendar entry -- perhaps in =2Eics=
- format -- with above information? Which can be conveniently subscribed to =
-via a smartphone app? Which gets updated regularly under the same link? Whi=
-ch doesn't (needlessly, anyway) require authentcation?=20
+Routine clear_guest_dmesg() doesn't seem to be used anywhere.
 
 Thanks,
-Bernhard
 
->> https://www=2Egoogle=2Ecom/url?q=3Dhttps%3A%2F%2Fmeet=2Ejit=2Esi%2Fkvmc=
-allmeeting&sa=3DD&ust=3D1684065960000000&usg=3DAOvVaw14RNXU52XvArxijoKSmVbR
->>
->>
->>
->> If you need call details, please contact me: quintela@redhat=2Ecom
->>
->> Guests
->> Philippe Mathieu-Daud=C3=A9
->> Joao Martins
->> quintela@redhat=2Ecom
->> Meirav Dean
->> Felipe Franciosi
->> afaerber@suse=2Ede
->> bazulay@redhat=2Ecom
->> bbauman@redhat=2Ecom
->> cw@f00f=2Eorg
->> dustin=2Ekirkland@canonical=2Ecom
->> eblake@redhat=2Ecom
->> edgar=2Eiglesias@gmail=2Ecom
->> eric=2Eauger@redhat=2Ecom
->> iggy@theiggy=2Ecom
->> jan=2Ekiszka@web=2Ede
->> jidong=2Exiao@gmail=2Ecom
->> jjherne@linux=2Evnet=2Eibm=2Ecom
->> mimu@linux=2Evnet=2Eibm=2Ecom
->> Peter Maydell
->> richard=2Ehenderson@linaro=2Eorg
->> stefanha@gmail=2Ecom
->> Warner Losh
->> z=2Ehuo@139=2Ecom
->> zwu=2Ekernel@gmail=2Ecom
->> Jason Gunthorpe
->> Neo Jia
->> David Edmondson
->> Elena Ufimtseva
->> Konrad Wilk
->> ale@rev=2Eng
->> anjo@rev=2Eng
->> Shameerali Kolothum Thodi
->> Wang, Wei W
->> Chao Peng
->> kvm-devel
->> qemu-devel@nongnu=2Eorg
->> mburton@qti=2Equalcomm=2Ecom
->
->
+C.
+
+> +
+> +    def test_loongarch64_devices(self):
+> +
+> +        """
+> +        :avocado: tags=arch:loongarch64
+> +        :avocado: tags=machine:virt
+> +        """
+> +
+> +        kernel_url = ('https://github.com/yangxiaojuan-loongson/qemu-binary/'
+> +                      'releases/download/binary-files/vmlinuz.efi')
+> +        kernel_hash = '951b485b16e3788b6db03a3e1793c067009e31a2'
+> +        kernel_path = self.fetch_asset(kernel_url, asset_hash=kernel_hash)
+> +
+> +        initrd_url = ('https://github.com/yangxiaojuan-loongson/qemu-binary/'
+> +                      'releases/download/binary-files/ramdisk')
+> +        initrd_hash = 'c67658d9b2a447ce7db2f73ba3d373c9b2b90ab2'
+> +        initrd_path = self.fetch_asset(initrd_url, asset_hash=initrd_hash)
+> +
+> +        bios_url = ('https://github.com/yangxiaojuan-loongson/qemu-binary/'
+> +                    'releases/download/binary-files/QEMU_EFI.fd')
+> +        bios_hash = ('dfc1bfba4853cd763b9d392d0031827e8addbca8')
+> +        bios_path = self.fetch_asset(bios_url, asset_hash=bios_hash)
+> +
+> +        self.vm.set_console()
+> +        kernel_command_line = (self.KERNEL_COMMON_COMMAND_LINE +
+> +                               'root=/dev/ram rdinit=/sbin/init console=ttyS0,115200')
+> +        self.vm.add_args('-nographic',
+> +                         '-smp', '4',
+> +                         '-m', '1024',
+> +                         '-cpu', 'la464',
+> +                         '-kernel', kernel_path,
+> +                         '-initrd', initrd_path,
+> +                         '-bios', bios_path,
+> +                         '-append', kernel_command_line)
+> +        self.vm.launch()
+> +        self.wait_for_console_pattern('Run /sbin/init as init process')
+> +        exec_command_and_wait_for_pattern(self, 'cat /proc/cpuinfo',
+> +                                          'processor		: 3')
+
 
