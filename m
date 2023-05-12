@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B255700983
+	by mail.lfdr.de (Postfix) with ESMTPS id B95AF700985
 	for <lists+qemu-devel@lfdr.de>; Fri, 12 May 2023 15:52:59 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pxTBe-00038L-Kz; Fri, 12 May 2023 09:51:58 -0400
+	id 1pxTBh-0003CR-2b; Fri, 12 May 2023 09:52:01 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <viktor@daynix.com>) id 1pxTBb-000369-8q
- for qemu-devel@nongnu.org; Fri, 12 May 2023 09:51:55 -0400
-Received: from mail-lj1-x229.google.com ([2a00:1450:4864:20::229])
+ (Exim 4.90_1) (envelope-from <viktor@daynix.com>) id 1pxTBc-000389-Hl
+ for qemu-devel@nongnu.org; Fri, 12 May 2023 09:51:56 -0400
+Received: from mail-lj1-x235.google.com ([2a00:1450:4864:20::235])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <viktor@daynix.com>) id 1pxTBZ-0006SQ-JZ
- for qemu-devel@nongnu.org; Fri, 12 May 2023 09:51:55 -0400
-Received: by mail-lj1-x229.google.com with SMTP id
- 38308e7fff4ca-2ac88d9edf3so96260151fa.0
- for <qemu-devel@nongnu.org>; Fri, 12 May 2023 06:51:52 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <viktor@daynix.com>) id 1pxTBa-0006Sk-1d
+ for qemu-devel@nongnu.org; Fri, 12 May 2023 09:51:56 -0400
+Received: by mail-lj1-x235.google.com with SMTP id
+ 38308e7fff4ca-2ac82b07eb3so101117691fa.1
+ for <qemu-devel@nongnu.org>; Fri, 12 May 2023 06:51:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=daynix-com.20221208.gappssmtp.com; s=20221208; t=1683899511; x=1686491511;
+ d=daynix-com.20221208.gappssmtp.com; s=20221208; t=1683899512; x=1686491512;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=VUbUhFUIT7zvA0dV/gO0XR4/4OQmYfc2bPvzMXOSlZs=;
- b=u/L/umvslmhgC2EsS2jT93ybtE+BfTS4w/I0Oni+VFgzPVDctFfFzCffDkpUORPlm+
- Oh4ocTCB3U3Ia2FPB9DunFwXWNGtvxpKUCBgoM1wtZfDHHM/3zSAwmsGVEjTS5EIqu+a
- 3YZXga5fbJklERu+4Kd9V+8PgvE1NXmX2Ksp/IJ1TBdMMJiCddglQ0dmHZhPKoGmUL4h
- 3daqJNBeb7FdWQ9wlsN9TQvcHv2ulN/qxpMNsN7stiWvYhVs2zYNB26FEQK7c7jyHxQj
- NHc+9h5cLZVuRDYDCw0ErFV+8VOvl2NPTdvCYmduYahBvt+P8Bq6b2n2MaYwTE8Qn7zu
- iTYw==
+ bh=IksVQBM2UDb2f/oZ2W8mYBornY1QQeR85JYcDBnnKbg=;
+ b=zZW/DtTV9XIU4GoTyFQnCotMI78+RKsoFpNcS8hnhZqRnxIjdT73KEKRCaBz/V6gbx
+ kfmBT/zt/YqJglK5mBeJiMV+35VbS12TBkO6JCFmsk1eMIYi56wR3nT0EZDebWkYW21z
+ 64z4Q+2Hdv/WU/grssrVEY6h9U9gwI3xOPXAwByL0+e25v8YlzNCN5jxBxoj/UiqWPZM
+ 2m7+Xt6Wgeor9Sd017KCLZ+pn3Xs6JuojodU5L63uWAlPn8EgrfsWif9Xr4BzX//GeiO
+ RIQAnOOunr/oy+KQlYhlD76G+GBidGIn8t1jc0faqkL2JMMqlWzmBYVogqrVOurKyYSn
+ 0UaQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683899511; x=1686491511;
+ d=1e100.net; s=20221208; t=1683899512; x=1686491512;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=VUbUhFUIT7zvA0dV/gO0XR4/4OQmYfc2bPvzMXOSlZs=;
- b=bKEAE1ILebHx8bBZZtm8iYflkd0MY5I4hZjf0g1IjdkYyYJ41X8gzN2ukvBzgDbnCD
- 7NIT+mbh4mJbfpkee4eFlTyxXk/k4Rv+d2rVC+kkrG1blyjnmgPIqRRzxq+hdrQygIKo
- OyLh/z5CDyeT86w6xfTu7JKhtl/X646ZMgeFvdh1cZhaJkrWgtgPvCPPwfVylkrVip46
- 1RLcxRi0WsGZ49ei5h/YZ5I2zvcLVvlsPhEJJcxtmPJm6MXs8UcLnFiOA0m9kSroquDB
- zuxynzF8lekt1e/rMk1OCZFoJkBAW+zHs4cnc+LIGc8NE0IqhxCYvy7Dw7+GCUoHsFRY
- 5GCA==
-X-Gm-Message-State: AC+VfDwYlpIVCGCV4rrtEO8eRqrgTv8yidCR92uY+Dlvdt026yCkAOSd
- qcSbhqYtgPHn2KR6WXqlx6Es9g==
-X-Google-Smtp-Source: ACHHUZ4ojP4VxrmyhKC3Gy0SldrXsjd2T0YeE+jn5+UDDooJkzlUyiHXvPz8F1bl8+iQeAU/Nh4EVg==
-X-Received: by 2002:a2e:7004:0:b0:2ac:e6d4:2c02 with SMTP id
- l4-20020a2e7004000000b002ace6d42c02mr4549076ljc.27.1683899511718; 
- Fri, 12 May 2023 06:51:51 -0700 (PDT)
+ bh=IksVQBM2UDb2f/oZ2W8mYBornY1QQeR85JYcDBnnKbg=;
+ b=gSIQu0afpGhQxc0bSPbuEKJfuLsNS8MxAghn9ywqCdqSltB8V5XgihvxpxIuzfLkoS
+ XQ/RvRNRyCGqvkIjHRV90rHMRLe//BMhmKi2G4fekjweX7Uh5qEGILdB7jvKk9Ke+FXo
+ 4ZBjvcabTAAf5g6UGQHV2gVBKNxx1vdjimpiNPvHHq2h05Chjgm+W7bMD8W2e5w32AwZ
+ pt42MhbRNZr/RZkVQ3WqzlENLAIycQouyNEWYylIGqTcOr46zc3gtk6YlN/Z9GfWz0jE
+ X+sGthiOB9XwoJNFoPPF3TiJjv7Y+BT1bAXwHMinKE6Ou0WWiSpkUZfvk8koE3KWp9Pv
+ fK1A==
+X-Gm-Message-State: AC+VfDwJHzFpo0K/zur/fFyBXVPqEH8IPRFS564/V2TXMkE9NxUCD8uo
+ e+YdbZv5Z3zpP4oIJfToqedA+A==
+X-Google-Smtp-Source: ACHHUZ4hm69LXBoSvIiz1kqUNrk2S2ZmdPLGQvUNv81LITB9LQaXUAUXtJsn3axLysIE7fgVKCNhnw==
+X-Received: by 2002:a2e:894c:0:b0:2ad:d6cd:efe0 with SMTP id
+ b12-20020a2e894c000000b002add6cdefe0mr756638ljk.37.1683899512502; 
+ Fri, 12 May 2023 06:51:52 -0700 (PDT)
 Received: from vp-pc.. (109-252-115-147.nat.spd-mgts.ru. [109.252.115.147])
  by smtp.gmail.com with ESMTPSA id
  o7-20020a2e90c7000000b002ad994b0b51sm1744283ljg.16.2023.05.12.06.51.51
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 12 May 2023 06:51:51 -0700 (PDT)
+ Fri, 12 May 2023 06:51:52 -0700 (PDT)
 From: Viktor Prutyanov <viktor@daynix.com>
 To: mst@redhat.com,
 	jasowang@redhat.com
 Cc: qemu-devel@nongnu.org, viktor@daynix.com, yan@daynix.com,
  yuri.benditovich@daynix.com
-Subject: [PATCH v3 1/3] virtio-pci: add handling of PCI ATS and Device-TLB
- enable/disable
-Date: Fri, 12 May 2023 16:51:20 +0300
-Message-Id: <20230512135122.70403-2-viktor@daynix.com>
+Subject: [PATCH v3 2/3] vhost: register and change IOMMU flag depending on
+ Device-TLB state
+Date: Fri, 12 May 2023 16:51:21 +0300
+Message-Id: <20230512135122.70403-3-viktor@daynix.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20230512135122.70403-1-viktor@daynix.com>
 References: <20230512135122.70403-1-viktor@daynix.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2a00:1450:4864:20::229;
- envelope-from=viktor@daynix.com; helo=mail-lj1-x229.google.com
+Received-SPF: none client-ip=2a00:1450:4864:20::235;
+ envelope-from=viktor@daynix.com; helo=mail-lj1-x235.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -91,92 +91,140 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-According to PCIe Address Translation Services specification 5.1.3.,
-ATS Control Register has Enable bit to enable/disable ATS. Guest may
-enable/disable PCI ATS and, accordingly, Device-TLB for the VirtIO PCI
-device. So, raise/lower a flag and call a trigger function to pass this
-event to a device implementation.
+The guest can disable or never enable Device-TLB. In these cases,
+it can't be used even if enabled in QEMU. So, check Device-TLB state
+before registering IOMMU notifier and select unmap flag depending on
+that. Also, implement a way to change IOMMU notifier flag if Device-TLB
+state is changed.
 
+Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=2001312
 Signed-off-by: Viktor Prutyanov <viktor@daynix.com>
 ---
- hw/virtio/virtio-pci.c     | 36 ++++++++++++++++++++++++++++++++++++
- include/hw/virtio/virtio.h |  2 ++
- 2 files changed, 38 insertions(+)
+ hw/virtio/vhost-backend.c         |  6 ++++++
+ hw/virtio/vhost.c                 | 30 ++++++++++++++++++------------
+ include/hw/virtio/vhost-backend.h |  3 +++
+ include/hw/virtio/vhost.h         |  1 +
+ 4 files changed, 28 insertions(+), 12 deletions(-)
 
-diff --git a/hw/virtio/virtio-pci.c b/hw/virtio/virtio-pci.c
-index 02fb84a8fa..edbc0daa18 100644
---- a/hw/virtio/virtio-pci.c
-+++ b/hw/virtio/virtio-pci.c
-@@ -716,6 +716,38 @@ virtio_address_space_read(VirtIOPCIProxy *proxy, hwaddr addr,
+diff --git a/hw/virtio/vhost-backend.c b/hw/virtio/vhost-backend.c
+index 8e581575c9..d39bfefd2d 100644
+--- a/hw/virtio/vhost-backend.c
++++ b/hw/virtio/vhost-backend.c
+@@ -297,6 +297,11 @@ static void vhost_kernel_set_iotlb_callback(struct vhost_dev *dev,
+         qemu_set_fd_handler((uintptr_t)dev->opaque, NULL, NULL, NULL);
+ }
+ 
++static void vhost_kernel_toggle_device_iotlb(struct vhost_dev *dev)
++{
++    vhost_toggle_device_iotlb(dev);
++}
++
+ const VhostOps kernel_ops = {
+         .backend_type = VHOST_BACKEND_TYPE_KERNEL,
+         .vhost_backend_init = vhost_kernel_init,
+@@ -328,6 +333,7 @@ const VhostOps kernel_ops = {
+         .vhost_vsock_set_running = vhost_kernel_vsock_set_running,
+         .vhost_set_iotlb_callback = vhost_kernel_set_iotlb_callback,
+         .vhost_send_device_iotlb_msg = vhost_kernel_send_device_iotlb_msg,
++        .vhost_toggle_device_iotlb = vhost_kernel_toggle_device_iotlb,
+ };
+ #endif
+ 
+diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
+index 746d130c74..41c9fbf286 100644
+--- a/hw/virtio/vhost.c
++++ b/hw/virtio/vhost.c
+@@ -781,7 +781,6 @@ static void vhost_iommu_region_add(MemoryListener *listener,
+     Int128 end;
+     int iommu_idx;
+     IOMMUMemoryRegion *iommu_mr;
+-    int ret;
+ 
+     if (!memory_region_is_iommu(section->mr)) {
+         return;
+@@ -796,7 +795,9 @@ static void vhost_iommu_region_add(MemoryListener *listener,
+     iommu_idx = memory_region_iommu_attrs_to_index(iommu_mr,
+                                                    MEMTXATTRS_UNSPECIFIED);
+     iommu_notifier_init(&iommu->n, vhost_iommu_unmap_notify,
+-                        IOMMU_NOTIFIER_DEVIOTLB_UNMAP,
++                        dev->vdev->device_iotlb_enabled ?
++                            IOMMU_NOTIFIER_DEVIOTLB_UNMAP :
++                            IOMMU_NOTIFIER_UNMAP,
+                         section->offset_within_region,
+                         int128_get64(end),
+                         iommu_idx);
+@@ -804,16 +805,8 @@ static void vhost_iommu_region_add(MemoryListener *listener,
+     iommu->iommu_offset = section->offset_within_address_space -
+                           section->offset_within_region;
+     iommu->hdev = dev;
+-    ret = memory_region_register_iommu_notifier(section->mr, &iommu->n, NULL);
+-    if (ret) {
+-        /*
+-         * Some vIOMMUs do not support dev-iotlb yet.  If so, try to use the
+-         * UNMAP legacy message
+-         */
+-        iommu->n.notifier_flags = IOMMU_NOTIFIER_UNMAP;
+-        memory_region_register_iommu_notifier(section->mr, &iommu->n,
+-                                              &error_fatal);
+-    }
++    memory_region_register_iommu_notifier(section->mr, &iommu->n,
++                                          &error_fatal);
+     QLIST_INSERT_HEAD(&dev->iommu_list, iommu, iommu_next);
+     /* TODO: can replay help performance here? */
+ }
+@@ -841,6 +834,19 @@ static void vhost_iommu_region_del(MemoryListener *listener,
      }
  }
  
-+static void virtio_pci_ats_ctrl_trigger(PCIDevice *pci_dev, bool enable)
++void vhost_toggle_device_iotlb(struct vhost_dev *dev)
 +{
-+    VirtIOPCIProxy *proxy = VIRTIO_PCI(pci_dev);
-+    VirtIODevice *vdev = virtio_bus_get_device(&proxy->bus);
-+    VirtioDeviceClass *k = VIRTIO_DEVICE_GET_CLASS(vdev);
++    struct vhost_iommu *iommu;
 +
-+    vdev->device_iotlb_enabled = enable;
-+
-+    if (k->toggle_device_iotlb) {
-+        k->toggle_device_iotlb(vdev);
++    QLIST_FOREACH(iommu, &dev->iommu_list, iommu_next) {
++        memory_region_unregister_iommu_notifier(iommu->mr, &iommu->n);
++        iommu->n.notifier_flags = dev->vdev->device_iotlb_enabled ?
++                IOMMU_NOTIFIER_DEVIOTLB_UNMAP : IOMMU_NOTIFIER_UNMAP;
++        memory_region_register_iommu_notifier(iommu->mr, &iommu->n,
++                                              &error_fatal);
 +    }
 +}
 +
-+static void pcie_ats_config_write(PCIDevice *dev, uint32_t address,
-+                                  uint32_t val, int len)
-+{
-+    uint32_t off;
-+    uint16_t ats_cap = dev->exp.ats_cap;
-+
-+    if (!ats_cap || address < ats_cap) {
-+        return;
-+    }
-+    off = address - ats_cap;
-+    if (off >= PCI_EXT_CAP_ATS_SIZEOF) {
-+        return;
-+    }
-+
-+    if (range_covers_byte(off, len, PCI_ATS_CTRL + 1)) {
-+        virtio_pci_ats_ctrl_trigger(dev, !!(val & PCI_ATS_CTRL_ENABLE));
-+    }
-+}
-+
- static void virtio_write_config(PCIDevice *pci_dev, uint32_t address,
-                                 uint32_t val, int len)
- {
-@@ -729,6 +761,10 @@ static void virtio_write_config(PCIDevice *pci_dev, uint32_t address,
-         pcie_cap_flr_write_config(pci_dev, address, val, len);
-     }
+ static int vhost_virtqueue_set_addr(struct vhost_dev *dev,
+                                     struct vhost_virtqueue *vq,
+                                     unsigned idx, bool enable_log)
+diff --git a/include/hw/virtio/vhost-backend.h b/include/hw/virtio/vhost-backend.h
+index ec3fbae58d..10a3c36b4b 100644
+--- a/include/hw/virtio/vhost-backend.h
++++ b/include/hw/virtio/vhost-backend.h
+@@ -133,6 +133,8 @@ typedef int (*vhost_set_config_call_op)(struct vhost_dev *dev,
  
-+    if (proxy->flags & VIRTIO_PCI_FLAG_ATS) {
-+        pcie_ats_config_write(pci_dev, address, val, len);
-+    }
+ typedef void (*vhost_reset_status_op)(struct vhost_dev *dev);
+ 
++typedef void (*vhost_toggle_device_iotlb_op)(struct vhost_dev *dev);
 +
-     if (range_covers_byte(address, len, PCI_COMMAND)) {
-         if (!(pci_dev->config[PCI_COMMAND] & PCI_COMMAND_MASTER)) {
-             virtio_set_disabled(vdev, true);
-diff --git a/include/hw/virtio/virtio.h b/include/hw/virtio/virtio.h
-index f6b38f7e9c..af86ed7249 100644
---- a/include/hw/virtio/virtio.h
-+++ b/include/hw/virtio/virtio.h
-@@ -155,6 +155,7 @@ struct VirtIODevice
-     QLIST_HEAD(, VirtQueue) *vector_queues;
-     QTAILQ_ENTRY(VirtIODevice) next;
-     EventNotifier config_notifier;
-+    bool device_iotlb_enabled;
- };
+ typedef struct VhostOps {
+     VhostBackendType backend_type;
+     vhost_backend_init vhost_backend_init;
+@@ -181,6 +183,7 @@ typedef struct VhostOps {
+     vhost_force_iommu_op vhost_force_iommu;
+     vhost_set_config_call_op vhost_set_config_call;
+     vhost_reset_status_op vhost_reset_status;
++    vhost_toggle_device_iotlb_op vhost_toggle_device_iotlb;
+ } VhostOps;
  
- struct VirtioDeviceClass {
-@@ -212,6 +213,7 @@ struct VirtioDeviceClass {
-     const VMStateDescription *vmsd;
-     bool (*primary_unplug_pending)(void *opaque);
-     struct vhost_dev *(*get_vhost)(VirtIODevice *vdev);
-+    void (*toggle_device_iotlb)(VirtIODevice *vdev);
- };
+ int vhost_backend_update_device_iotlb(struct vhost_dev *dev,
+diff --git a/include/hw/virtio/vhost.h b/include/hw/virtio/vhost.h
+index a52f273347..785832ed46 100644
+--- a/include/hw/virtio/vhost.h
++++ b/include/hw/virtio/vhost.h
+@@ -320,6 +320,7 @@ bool vhost_has_free_slot(void);
+ int vhost_net_set_backend(struct vhost_dev *hdev,
+                           struct vhost_vring_file *file);
  
- void virtio_instance_init_common(Object *proxy_obj, void *data,
++void vhost_toggle_device_iotlb(struct vhost_dev *dev);
+ int vhost_device_iotlb_miss(struct vhost_dev *dev, uint64_t iova, int write);
+ 
+ int vhost_virtqueue_start(struct vhost_dev *dev, struct VirtIODevice *vdev,
 -- 
 2.35.1
 
