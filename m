@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8408F700839
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 May 2023 14:41:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB6F7700849
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 May 2023 14:43:27 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pxS4s-0007bA-1S; Fri, 12 May 2023 08:40:54 -0400
+	id 1pxS4v-0007cd-4T; Fri, 12 May 2023 08:40:57 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pxS4q-0007Z8-0B
- for qemu-devel@nongnu.org; Fri, 12 May 2023 08:40:52 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pxS4t-0007cV-8Q
+ for qemu-devel@nongnu.org; Fri, 12 May 2023 08:40:55 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pxS4o-0006N7-HY
- for qemu-devel@nongnu.org; Fri, 12 May 2023 08:40:51 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pxS4r-0006Pl-Pw
+ for qemu-devel@nongnu.org; Fri, 12 May 2023 08:40:54 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1683895249;
+ s=mimecast20190719; t=1683895253;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=0nGUQD8EZlJXc9dE6rra94SJVZpPSebIZMXaTiD2cGA=;
- b=PMQX10BnDdaIke+PRXdO1SyTDufRGagjJc07tFJa/9DlVxeMKVvA4oRGperUcFmU81DHjs
- ThpPFLukQ9Rsyna6Dcva4Bx00sR+xzghOFI7Pd6ZzAv/S8UH3OSJ+ZsyUPeBOcHG7pm2dx
- /aRMJ22lI5YJHfArOHUx5KIZkVVkqDU=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=dgSKIZgI/IsKXwtaD5w+tiRm7X9BddTVA/sC2oj91TE=;
+ b=aVUX5OkNDaeHP27ErG+0F0x5fICNj2AA1DwjSWfqIzWLpAOUPst/bX3xIimXFhoBZgtsbU
+ /JHpdr96Xn0JGYyoIEChPh7U9fY30Sfod64JdWFg90hRyeNqCVQ7qiWZQZmlTosRno0hje
+ VHrZZ0gsQpbfgC3Velp9hAo/HVh3Ak8=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-169-_e0oo8AAN5CC4439jJlurg-1; Fri, 12 May 2023 08:40:46 -0400
-X-MC-Unique: _e0oo8AAN5CC4439jJlurg-1
+ us-mta-595-1UBcgRFsPe2bHpmQIzCPdw-1; Fri, 12 May 2023 08:40:48 -0400
+X-MC-Unique: 1UBcgRFsPe2bHpmQIzCPdw-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
  [10.11.54.3])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2245985A5A3;
- Fri, 12 May 2023 12:40:46 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 99A1C2A59555;
+ Fri, 12 May 2023 12:40:47 +0000 (UTC)
 Received: from thuth.com (unknown [10.39.192.251])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 102A51121314;
- Fri, 12 May 2023 12:40:44 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 83C3D1121314;
+ Fri, 12 May 2023 12:40:46 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  Fabiano Rosas <farosas@suse.de>
 Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PATCH 07/18] hw/sh4: Use MachineClass->default_nic in the sh4 r2d
- machine
-Date: Fri, 12 May 2023 14:40:22 +0200
-Message-Id: <20230512124033.502654-8-thuth@redhat.com>
+Subject: [PATCH 08/18] hw/char/parallel: Move TYPE_ISA_PARALLEL to the header
+ file
+Date: Fri, 12 May 2023 14:40:23 +0200
+Message-Id: <20230512124033.502654-9-thuth@redhat.com>
 In-Reply-To: <20230512124033.502654-1-thuth@redhat.com>
 References: <20230512124033.502654-1-thuth@redhat.com>
 MIME-Version: 1.0
@@ -78,45 +78,76 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Mark the default NIC via the new MachineClass->default_nic setting
-so that the machine-defaults code in vl.c can decide whether the
-default NIC is usable or not (for example when compiling with the
-"--without-default-devices" configure switch).
+We are going to require the macro from other files, too, so move
+this #define to the header file.
 
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- hw/sh4/r2d.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ include/hw/char/parallel.h | 2 ++
+ hw/char/parallel-isa.c     | 2 +-
+ hw/char/parallel.c         | 1 -
+ hw/isa/isa-superio.c       | 3 ++-
+ 4 files changed, 5 insertions(+), 3 deletions(-)
 
-diff --git a/hw/sh4/r2d.c b/hw/sh4/r2d.c
-index 826a0a31b5..4944994e9c 100644
---- a/hw/sh4/r2d.c
-+++ b/hw/sh4/r2d.c
-@@ -232,6 +232,7 @@ static void r2d_init(MachineState *machine)
-     const char *kernel_filename = machine->kernel_filename;
-     const char *kernel_cmdline = machine->kernel_cmdline;
-     const char *initrd_filename = machine->initrd_filename;
-+    MachineClass *mc = MACHINE_GET_CLASS(machine);
-     SuperHCPU *cpu;
-     CPUSH4State *env;
-     ResetData *reset_info;
-@@ -310,7 +311,7 @@ static void r2d_init(MachineState *machine)
-     /* NIC: rtl8139 on-board, and 2 slots. */
-     for (i = 0; i < nb_nics; i++)
-         pci_nic_init_nofail(&nd_table[i], pci_bus,
--                            "rtl8139", i == 0 ? "2" : NULL);
-+                            mc->default_nic, i == 0 ? "2" : NULL);
+diff --git a/include/hw/char/parallel.h b/include/hw/char/parallel.h
+index 0a23c0f57e..29d2876d00 100644
+--- a/include/hw/char/parallel.h
++++ b/include/hw/char/parallel.h
+@@ -4,6 +4,8 @@
+ #include "hw/isa/isa.h"
+ #include "chardev/char.h"
  
-     /* USB keyboard */
-     usb_create_simple(usb_bus_find(-1), "usb-kbd");
-@@ -375,6 +376,7 @@ static void r2d_machine_init(MachineClass *mc)
-     mc->init = r2d_init;
-     mc->block_default_type = IF_IDE;
-     mc->default_cpu_type = TYPE_SH7751R_CPU;
-+    mc->default_nic = "rtl8139";
- }
++#define TYPE_ISA_PARALLEL "isa-parallel"
++
+ void parallel_hds_isa_init(ISABus *bus, int n);
  
- DEFINE_MACHINE("r2d", r2d_machine_init)
+ bool parallel_mm_init(MemoryRegion *address_space,
+diff --git a/hw/char/parallel-isa.c b/hw/char/parallel-isa.c
+index 1ccbb96e70..547ae69304 100644
+--- a/hw/char/parallel-isa.c
++++ b/hw/char/parallel-isa.c
+@@ -21,7 +21,7 @@ static void parallel_init(ISABus *bus, int index, Chardev *chr)
+     DeviceState *dev;
+     ISADevice *isadev;
+ 
+-    isadev = isa_new("isa-parallel");
++    isadev = isa_new(TYPE_ISA_PARALLEL);
+     dev = DEVICE(isadev);
+     qdev_prop_set_uint32(dev, "index", index);
+     qdev_prop_set_chr(dev, "chardev", chr);
+diff --git a/hw/char/parallel.c b/hw/char/parallel.c
+index af551e7864..3d32589bb3 100644
+--- a/hw/char/parallel.c
++++ b/hw/char/parallel.c
+@@ -93,7 +93,6 @@ typedef struct ParallelState {
+     PortioList portio_list;
+ } ParallelState;
+ 
+-#define TYPE_ISA_PARALLEL "isa-parallel"
+ OBJECT_DECLARE_SIMPLE_TYPE(ISAParallelState, ISA_PARALLEL)
+ 
+ struct ISAParallelState {
+diff --git a/hw/isa/isa-superio.c b/hw/isa/isa-superio.c
+index c81bfe58ef..9292ec3bcf 100644
+--- a/hw/isa/isa-superio.c
++++ b/hw/isa/isa-superio.c
+@@ -16,6 +16,7 @@
+ #include "qapi/error.h"
+ #include "sysemu/blockdev.h"
+ #include "chardev/char.h"
++#include "hw/char/parallel.h"
+ #include "hw/block/fdc.h"
+ #include "hw/isa/superio.h"
+ #include "hw/qdev-properties.h"
+@@ -51,7 +52,7 @@ static void isa_superio_realize(DeviceState *dev, Error **errp)
+             } else {
+                 name = g_strdup_printf("parallel%d", i);
+             }
+-            isa = isa_new("isa-parallel");
++            isa = isa_new(TYPE_ISA_PARALLEL);
+             d = DEVICE(isa);
+             qdev_prop_set_uint32(d, "index", i);
+             if (k->parallel.get_iobase) {
 -- 
 2.31.1
 
