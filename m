@@ -2,147 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 233E6700A62
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 May 2023 16:34:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BCBE2700A76
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 May 2023 16:40:13 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pxTpT-0007w5-Om; Fri, 12 May 2023 10:33:07 -0400
+	id 1pxTvz-0005mL-Eu; Fri, 12 May 2023 10:39:51 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <het.gala@nutanix.com>)
- id 1pxTpQ-0007vI-VZ
- for qemu-devel@nongnu.org; Fri, 12 May 2023 10:33:04 -0400
-Received: from mx0b-002c1b01.pphosted.com ([148.163.155.12])
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pxTvp-0005lJ-9l
+ for qemu-devel@nongnu.org; Fri, 12 May 2023 10:39:41 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <het.gala@nutanix.com>)
- id 1pxTpO-0002eg-SI
- for qemu-devel@nongnu.org; Fri, 12 May 2023 10:33:04 -0400
-Received: from pps.filterd (m0127844.ppops.net [127.0.0.1])
- by mx0b-002c1b01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 34C9Pmi8017311; Fri, 12 May 2023 07:33:02 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nutanix.com;
- h=from : to : cc :
- subject : date : message-id : in-reply-to : references :
- content-transfer-encoding : content-type : mime-version;
- s=proofpoint20171006; bh=3Yd5kC0D4rNzGKiRIMojhcJTyTVHmGbfKAk22G1gh3k=;
- b=x+seFw4WxhWZs507L0g0SsiMCsfkznL1uuYNzLCBBkZp5KS/Gjbi707HdPpjFDr42GZJ
- F7cGwTsN6lH0lRXOZeDeiwCLDwkS8bJrfYQ0t6SOjBYOh4nGgUOO/eM6F5VfjVzgjv6K
- Yvh08R35JoHWH2E7LqFY0H3MStF6d6Sh12/AoF9MZm42qGCSZGxU52MYmI3vnI2l8Pja
- AfybKmL1VuAV80dWtu4VK3d3A8FQJcXFgCGev/DB6Aa17BPReIMtG0f47rwWkvp+GIMk
- noXwlbtGmcF6wiqQ3UAhWGqecDBj6ZIAqtxuTAtfqvtlMf9UKnDQiF09N8fybfxf5X15 QA== 
-Received: from nam12-mw2-obe.outbound.protection.outlook.com
- (mail-mw2nam12lp2046.outbound.protection.outlook.com [104.47.66.46])
- by mx0b-002c1b01.pphosted.com (PPS) with ESMTPS id 3qf7vv9x22-2
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 12 May 2023 07:33:01 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=X4aA6InTe0kT0cjpjBQxcoVE0+0twdi+XPskJvfd7jo7VVa8Cl7HTO2RpzgEkhLu5Yrikl9B+F9a60fts7BPgEQEPn+XdTUIYEUgYIf2T9OmUr3z51SizArOFCYEcFZ1PEpdYKdsSyMhF5qRBsALtd/fciKVqxmj4qK4eZjCrOK2a/pSsbpfMO52SinKmR0+BD9QR9ET/0WytPfW/BOBuRMbF6t2Zwla7WXfZlhRGBB2wF77hnmPa3D2xkrGeThFqgJzicx1tcYh6WNo0ugOd3QUjrSEay6vcxLDgHQl40348nFmTVH60toUMzlDyigV7LLXVV47CvJT5vqmEw+NTQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=3Yd5kC0D4rNzGKiRIMojhcJTyTVHmGbfKAk22G1gh3k=;
- b=iWqXVkCZbb+0/r2DLTLsiPP2sDpKaOywVGVrgeTKY0MdGPRXD9v8MhE/NiEUzRBhe0hEwG+kW3OLMzlXKIagvHzsnh/nhvwu4rjOhDRsTQKo2DMS16BruClWAL1vIV4HFjy45sD7nA/9ZLp+Ff77SJ3Wy6SDHNjiwXwMGcn6/sTi2NJg2g8NCk5S9u2unG0qDLWql0EHUSw2+SBi8FwbYNCKBjiW7I3AtW7xKrBBUXs/OMmwTTQq44YCUSAThKJBJH4RxRmGOY+9jpcTQ1bLVDmgZgF3H2DnXJB48k5ftM69kceGRtQs2YkkkHtxN5Ucq4RNT1Fa1Nn0wYfeRtkEJQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nutanix.com; dmarc=pass action=none header.from=nutanix.com;
- dkim=pass header.d=nutanix.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nutanix.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=3Yd5kC0D4rNzGKiRIMojhcJTyTVHmGbfKAk22G1gh3k=;
- b=MLYrBIPvYWFFRxf0VHxyNWg9O/wJte71XAsdc6DzFwS130KC9YK5Nii8g+Y3z9ShhuMpcM8xv+35Y6Ijaqe5ao6S7BKnJQbZ4TBuMw4BtDIEymAXWRS9r4sp2vbDpJkjAh92yA/0B6pZ2Lj5dFS4EKdrlho223wifMoVDhOYaWtc8TWjAL/+PsBNwh6497dh11v+aJtgiyudXRPyQYq0HtcAV6YJ4gTWPbpeqcrUjPKy3QiaJtnMSONa+U626iKrvPaWON23EJzFHfmbYaNE6fMTc9IvFJWJAWDKlF+zinSWXQOsBxsEK9IZcFl2gh0/8aXjUcbDzqc/1aXd6IZTDQ==
-Received: from BYAPR02MB4343.namprd02.prod.outlook.com (2603:10b6:a03:57::18)
- by BL3PR02MB8282.namprd02.prod.outlook.com (2603:10b6:208:345::7)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6387.23; Fri, 12 May
- 2023 14:32:58 +0000
-Received: from BYAPR02MB4343.namprd02.prod.outlook.com
- ([fe80::4500:569:a3d6:71c9]) by BYAPR02MB4343.namprd02.prod.outlook.com
- ([fe80::4500:569:a3d6:71c9%6]) with mapi id 15.20.6387.020; Fri, 12 May 2023
- 14:32:58 +0000
-From: Het Gala <het.gala@nutanix.com>
-To: qemu-devel@nongnu.org
-Cc: prerna.saxena@nutanix.com, quintela@redhat.com, dgilbert@redhat.com,
- pbonzini@redhat.com, berrange@redhat.com, armbru@redhat.com,
- eblake@redhat.com, manish.mishra@nutanix.com,
- aravind.retnakaran@nutanix.com, Het Gala <het.gala@nutanix.com>
-Subject: [PATCH v4 8/8] migration: Introduced MigrateChannelList struct to
- migration code flow.
-Date: Fri, 12 May 2023 14:32:40 +0000
-Message-Id: <20230512143240.192504-9-het.gala@nutanix.com>
-X-Mailer: git-send-email 2.22.3
-In-Reply-To: <20230512143240.192504-1-het.gala@nutanix.com>
-References: <20230512143240.192504-1-het.gala@nutanix.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: BY5PR04CA0014.namprd04.prod.outlook.com
- (2603:10b6:a03:1d0::24) To BYAPR02MB4343.namprd02.prod.outlook.com
- (2603:10b6:a03:57::18)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pxTvn-0004Ba-45
+ for qemu-devel@nongnu.org; Fri, 12 May 2023 10:39:41 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1683902376;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=tpipHPIE87YgBgu/TWQfJxaMPdlTcPbLQxFhjCQ3wjE=;
+ b=EZhlY2bMlF6tnZm5Uw8Bf9qqIBaBnV4vR2jEZLH4iiOpgjrdJOUiziv2J23fWJJ0ux2y8q
+ 10helJiSdATDbsVqiG3nywk3mKJIRgzh9RJSVZnR1fVDprj/+8eD8c+jkxVa9YQSVIA3cF
+ 2bZIQrJ3leoQiOXnEaWjetUIyUQOJyw=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-443-IgCAkjBuNrqS49rPM9f0yg-1; Fri, 12 May 2023 10:39:35 -0400
+X-MC-Unique: IgCAkjBuNrqS49rPM9f0yg-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ ffacd0b85a97d-30641258c9eso3522946f8f.2
+ for <qemu-devel@nongnu.org>; Fri, 12 May 2023 07:39:35 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1683902374; x=1686494374;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=tpipHPIE87YgBgu/TWQfJxaMPdlTcPbLQxFhjCQ3wjE=;
+ b=UtqIK8mkqjroM9xkhHvnygmOuhBxy3a7SJXMOsWTa13KxJC/ItJwzTo84DF+PREIfb
+ DafL77crgUf/51hZ2NN+GlH6QVp6My/hoyaxnKkEUjtJIzZVWDa9bBMYdoV6vAStRlqy
+ P9ZHsEFCYN+P4LHDE4XRwykvst90lNv7iPD952GNhiCINYQ4HNNd1uCFuq2BIbnb9W63
+ MzQSVWcX3ENiQg6ZrPY5NtovRkAWtrFBdSgd3QTEEEhfMPtG70zRz28z9DmO+homBGDL
+ POY4t1XPcvWM/lCJXJXylpIsVfVRZbUApOXLLFszXmp7q2+4Nx8Bwgb3qa32pYsr03OX
+ iYlw==
+X-Gm-Message-State: AC+VfDyUuuAStNnbXNncYk7JEU2L7OWeUfAdW8N1we9SXSNOeHx1kWQl
+ J29p0Zu7iuX6ZyvNxI1LqS/f7MBQ2OSoouSdBReD5oICZfJOo0TtQd5tfg+si9LUa/gRZGzDHOA
+ Yeu2w1L39I013Mic=
+X-Received: by 2002:a05:6000:48:b0:307:7c2d:dc79 with SMTP id
+ k8-20020a056000004800b003077c2ddc79mr18003790wrx.16.1683902373783; 
+ Fri, 12 May 2023 07:39:33 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ6+dYV1oYC9sxQvkyOC/aI44l21kYZWrkS9geZzx8PD03lYlN7dqp+1qhoNMSLMcApKUaowEw==
+X-Received: by 2002:a05:6000:48:b0:307:7c2d:dc79 with SMTP id
+ k8-20020a056000004800b003077c2ddc79mr18003761wrx.16.1683902373428; 
+ Fri, 12 May 2023 07:39:33 -0700 (PDT)
+Received: from redhat.com ([31.187.78.61]) by smtp.gmail.com with ESMTPSA id
+ k15-20020a5d518f000000b003077a19cf75sm23216172wrv.60.2023.05.12.07.39.30
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 12 May 2023 07:39:32 -0700 (PDT)
+Date: Fri, 12 May 2023 10:39:28 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Bui Quang Minh <minhquangbui99@gmail.com>
+Cc: qemu-devel@nongnu.org, David Woodhouse <dwmw2@infradead.org>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Eduardo Habkost <eduardo@habkost.net>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Igor Mammedov <imammedo@redhat.com>,
+ Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
+Subject: Re: [REPOST PATCH v3 5/5] amd_iommu: report x2APIC support to the
+ operating system
+Message-ID: <20230512102159-mutt-send-email-mst@kernel.org>
+References: <20230411142440.8018-1-minhquangbui99@gmail.com>
+ <20230411142440.8018-6-minhquangbui99@gmail.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BYAPR02MB4343:EE_|BL3PR02MB8282:EE_
-X-MS-Office365-Filtering-Correlation-Id: 7c3522b4-98a6-4f69-5ef9-08db52f5c83f
-x-proofpoint-crosstenant: true
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: ej9qIYu8g+EQF4kmorUek2L4HCqT+ulHtBIokVLmc4jMXvudJFwAJiMYo4mpfoRM8CE7e72xtxJDSJgOhdFJ2rsDR7mSL0sljvuhekkXu/chQsUBeHSlw/tjH/04H8gpYYOftSBO91xTEj5qQ1UEd+bSkyMop4a6q0jD2RmzOZLmHWxj4It27YBlXB0Hvw87JKfdF9io4w2e8X639SJeZyvSL7epM1gm/kY17BQyciUJX8ycznipZO8kQS6iiXbFhZsClveZcE0EiSTumGzAbf4qjJ6LVlTLr/0hxrMFA3XjH7GMNx/qW4ygaGNO3lR8st6SPrIkJOv9osnBSW0JrgjNL+C12qnQHtLy6v+JXSsu50KDJ3U29oc9XFz0AxiVE026Z8tCCtBwUGJGjqTFjtZlzOQ+I8g0+detJ4qoFQxjs0vnSDPn7HNIqR7QHeIhBW/8+RVgCt7yG0jmPphXParCFE/vt+V+7B4cPemSJMWMP9OnvNHX/ZMiLTHkVzx5suqRrw6UC2eaHsLKYwJenQ+/nuw1Nm0otovNXqMV+e9qYSF56e5KHrb9yFk997nVUqqvKpPv0RlhVgqNe9R29h4DLLifDi76a3UzvTDlo85xViotVJsWaqR+OkGCiPzQ
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BYAPR02MB4343.namprd02.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230028)(39860400002)(346002)(396003)(136003)(376002)(366004)(451199021)(5660300002)(26005)(6512007)(83380400001)(1076003)(38350700002)(186003)(52116002)(2616005)(38100700002)(6506007)(2906002)(107886003)(44832011)(8676002)(8936002)(36756003)(478600001)(6486002)(6666004)(41300700001)(316002)(86362001)(66556008)(4326008)(66476007)(66946007)(6916009);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?C15J2YtDlCcU0tgkljPOsvVmFpAS8VuGTNdkUIndROcfUbajIPVRwFEQNhp8?=
- =?us-ascii?Q?4vCOZSs8+GHWvGqnMsgWToAS4OCq5pfDSoo9RTxzoC2kWAxKm1TaObO/qd7M?=
- =?us-ascii?Q?+pNYC2q/2a8pelWslcih79WgLP/CT+OaWjo3Hhph8YrXfPaIiaaY4O3iJJlO?=
- =?us-ascii?Q?HitVxmzVFNcr+iZKkXJv+QjUQksOCU6HyUIIJ27Fd1BDErp7Hjbkh1Bpm+Kp?=
- =?us-ascii?Q?Ju+7ob5AFGxlJvyTR2+BQgvtve4rA3q5hLtlpQyi2OPFZcbqmfIEgMBTAknG?=
- =?us-ascii?Q?FiKbJN5V0VKfnlk4sit2Vq4YMDyBAPRyshMLJMSOO+p2PZJ9YDl8J7i5g9D/?=
- =?us-ascii?Q?DDZyLy70Falk2/imV7CSMmQAV4KyMkZxi+vqMZxhvOd7wkShK3b94DT7qARa?=
- =?us-ascii?Q?TKOW8PB21ZFlSI01PtjRxw5lJ6RIRbYiixnqUXSFKfklVj21PQnyid7H2VKi?=
- =?us-ascii?Q?QAxDnFTJ6yrGzqEN0Q/Xx+fTZ0maXXk0KlPTSfd2KEPmjwHyZ3ri5G2JKCLt?=
- =?us-ascii?Q?qBfBTIMEzKyk37ezuW1EjYG958vW+Z/6OOZUR9TAgDz/ObSR3OA34C5AmsM1?=
- =?us-ascii?Q?zOiW8TZCVRirkLl24z7FrPUP5cWckd5CK0mIe/B+aGI6lDrJxiT6YLOT7X0D?=
- =?us-ascii?Q?8xZnH5ndaLpvy+aQNGdo8CcfCXZn3YqY+lpIH5QRglv/ML19ZOf2uiKbMj/r?=
- =?us-ascii?Q?Th1E5KsonOqd4wE9gY3MuL8GTycHXQZff4AZiNPVoYEp7XlSAH58vjygJK1v?=
- =?us-ascii?Q?EY9cpN5Er8w2DbGjMS7HXQU16v4Hg/ifztJkWpUbP12A5xlZiwK7uZwdSXfL?=
- =?us-ascii?Q?iGBu26pQRXwtSMYObZWOWDyZfVk2wZSjhvT/ULyPe6NrC5lbCafzgl5A9Z+e?=
- =?us-ascii?Q?vt8TMelCg0dDflP5NBHxmyPe1xzrwKagnLi1DxiqOABwxqgXSEPQdc4VOba3?=
- =?us-ascii?Q?6Ko2UZpn3USdlz4dgRrSHkl9cKFaFUx35IpCcHNrNZ+g70cf8vvrSeNRVbug?=
- =?us-ascii?Q?8HD2m5D852ZirZWKYl3wKi8YDdwy1BgmDmgT4H845chPK3qkEt5yfonxIFuj?=
- =?us-ascii?Q?CGuIm6GNYNCGp8CC9oNlwwOPMZEVE4xwOhj55p5ymiLhBzU88HLCvm1fk3dD?=
- =?us-ascii?Q?0g2mmagzFdKG9OvYLJwWasX3sHJndgWnDHq9WFCffzrc+8hZiZzWdBEPtqFK?=
- =?us-ascii?Q?BREO/3xzDBiy818B3tDJFntNHdKHb5YKN1Jxim7GWuKeMx/tDszt9QQKf2qo?=
- =?us-ascii?Q?RqrspFQ11whRUFE04n2Lk9YpFuLbJHj90vrB8v774R/TLOXGoCHY4p5nzjGC?=
- =?us-ascii?Q?VyLGgyBTGI+PQ8SlE+eEeNEJjrjyw1yl1kCQsPID2Eh7Q5QZ5hBZnVmLwsZy?=
- =?us-ascii?Q?dGLahdBExbaWa2Ygtp7QN0vQr/eASXK885ZvlzkonhbpSdhzQ5LfV6/1rqJx?=
- =?us-ascii?Q?T8pLR9Mwon5f4+T4TiP3hsfyIkWzrKZan54jcP1dAyOfnFqHrH85iTdhbkOz?=
- =?us-ascii?Q?5iHm9u87LTS05l/UAlm629mRlRAiNSagQfS/ahcLOUPBtyFM4SI3YykM5aOg?=
- =?us-ascii?Q?NmznoD5MrfpG23GufyRB80T1Lw35gZQ+vudyWfUo?=
-X-OriginatorOrg: nutanix.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7c3522b4-98a6-4f69-5ef9-08db52f5c83f
-X-MS-Exchange-CrossTenant-AuthSource: BYAPR02MB4343.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 May 2023 14:32:58.5375 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: bb047546-786f-4de1-bd75-24e5b6f79043
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Srw0PbydX9rf3tQ6XndnMBn1GjhWyR7kvZ6MMbnXBCINCKHWrZWrrfvIL0XgqesenKKCQfWll4QJx5Jz9Y4OCw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL3PR02MB8282
-X-Proofpoint-ORIG-GUID: tAw8w_gKxIw_L3OKZZinI-jrZD7exRbA
-X-Proofpoint-GUID: tAw8w_gKxIw_L3OKZZinI-jrZD7exRbA
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-05-12_08,2023-05-05_01,2023-02-09_01
-X-Proofpoint-Spam-Reason: safe
-Received-SPF: pass client-ip=148.163.155.12; envelope-from=het.gala@nutanix.com;
- helo=mx0b-002c1b01.pphosted.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230411142440.8018-6-minhquangbui99@gmail.com>
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -159,246 +102,230 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Integrated MigrateChannelList with all transport backends (socket, exec
-and rdma) for both source and destination migration code flow.
+On Tue, Apr 11, 2023 at 09:24:40PM +0700, Bui Quang Minh wrote:
+> This commit adds XTSup configuration to let user choose to whether enable
+> this feature or not. When XTSup is enabled, additional bytes in IRTE with
+> enabled guest virtual VAPIC are used to support 32-bit destination id.
+> 
+> Additionally, this commit changes to use IVHD type 0x11 in ACPI table for
+> feature report to operating system. This is because Linux does not use
+> XTSup in IOMMU Feature Reporting field of IVHD type 0x10 but only use XTSup
+> bit in EFR Register Image of IVHD 0x11 to indicate x2APIC support (see
+> init_iommu_one in linux/drivers/iommu/amd/init.c)
+> 
+> Signed-off-by: Bui Quang Minh <minhquangbui99@gmail.com>
 
-Suggested-by: Aravind Retnakaran <aravind.retnakaran@nutanix.com>
-Signed-off-by: Het Gala <het.gala@nutanix.com>
----
- migration/migration.c | 95 +++++++++++++++++++++++++++----------------
- migration/socket.c    |  5 ++-
- 2 files changed, 64 insertions(+), 36 deletions(-)
+I'm concerned that switching to type 11 will break some older guests.
+It would be better if we could export both type 10 and type 11
+ivhd. A question however would be how does this interact
+with older guests. For example:
+https://lists.linuxfoundation.org/pipermail/iommu/2016-January/015310.html
+it looks like linux before 2016 only expected one ivhd entry?
 
-diff --git a/migration/migration.c b/migration/migration.c
-index de058643a6..a37eba29e3 100644
---- a/migration/migration.c
-+++ b/migration/migration.c
-@@ -410,10 +410,11 @@ void migrate_add_address(SocketAddress *address)
- }
- 
- static bool migrate_uri_parse(const char *uri,
--                              MigrateAddress **channel,
-+                              MigrateChannel **channel,
-                               Error **errp)
- {
-     Error *local_err = NULL;
-+    MigrateChannel *val = g_new0(MigrateChannel, 1);
-     MigrateAddress *addrs = g_new0(MigrateAddress, 1);
-     SocketAddress *saddr;
-     InetSocketAddress *isock = &addrs->u.rdma;
-@@ -441,6 +442,7 @@ static bool migrate_uri_parse(const char *uri,
-     }
- 
-     if (local_err) {
-+        qapi_free_MigrateChannel(val);
-         qapi_free_MigrateAddress(addrs);
-         qapi_free_SocketAddress(saddr);
-         qapi_free_InetSocketAddress(isock);
-@@ -448,7 +450,9 @@ static bool migrate_uri_parse(const char *uri,
-         return false;
-     }
- 
--    *channel = addrs;
-+    val->channeltype = MIGRATE_CHANNEL_TYPE_MAIN;
-+    val->addr = addrs;
-+    *channel = val;
-     return true;
- }
- 
-@@ -457,8 +461,9 @@ static void qemu_start_incoming_migration(const char *uri, bool has_channels,
-                                           Error **errp)
- {
-     Error *local_err = NULL;
--    MigrateAddress *channel = g_new0(MigrateAddress, 1);
-+    MigrateAddress *addrs;
-     SocketAddress *saddr;
-+    MigrateChannel *channel = NULL;
- 
-     /*
-      * Having preliminary checks for uri and channel
-@@ -467,22 +472,30 @@ static void qemu_start_incoming_migration(const char *uri, bool has_channels,
-         error_setg(errp, "'uri' and 'channels' arguments are mutually "
-                    "exclusive; exactly one of the two should be present in "
-                    "'migrate-incoming' qmp command ");
--        return;
--    }
--
--    /* URI is not suitable for migration? */
--    if (!migration_channels_and_uri_compatible(uri, errp)) {
-         goto out;
--    }
-+    } else if (channels) {
-+        /* To verify that Migrate channel list has only item */
-+        if (channels->next) {
-+            error_setg(errp, "Channel list has more than one entries");
-+            goto out;
-+        }
-+        channel = channels->value;
-+    } else {
-+        /* URI is not suitable for migration? */
-+        if (!migration_channels_and_uri_compatible(uri, errp)) {
-+            goto out;
-+        }
- 
--    if (uri && !migrate_uri_parse(uri, &channel, errp)) {
--        error_setg(errp, "Error parsing uri");
--        goto out;
-+        if (uri && !migrate_uri_parse(uri, &channel, errp)) {
-+            error_setg(errp, "Error parsing uri");
-+            goto out;
-+        }
-     }
- 
--    saddr = &channel->u.socket;
-+    addrs = channel->addr;
-+    saddr = &channel->addr->u.socket;
-     qapi_event_send_migration(MIGRATION_STATUS_SETUP);
--    if (channel->transport == MIGRATE_TRANSPORT_SOCKET) {
-+    if (addrs->transport == MIGRATE_TRANSPORT_SOCKET) {
-         if (saddr->type == SOCKET_ADDRESS_TYPE_INET ||
-             saddr->type == SOCKET_ADDRESS_TYPE_UNIX ||
-             saddr->type == SOCKET_ADDRESS_TYPE_VSOCK) {
-@@ -491,23 +504,25 @@ static void qemu_start_incoming_migration(const char *uri, bool has_channels,
-             fd_start_incoming_migration(saddr->u.fd.str, &local_err);
-         }
- #ifdef CONFIG_RDMA
--    } else if (channel->transport == MIGRATE_TRANSPORT_RDMA) {
--        rdma_start_incoming_migration(&channel->u.rdma, &local_err);
-+    } else if (addrs->transport == MIGRATE_TRANSPORT_RDMA) {
-+        rdma_start_incoming_migration(&addrs->u.rdma, &local_err);
- #endif
--    } else if (channel->transport == MIGRATE_TRANSPORT_EXEC) {
--        exec_start_incoming_migration(channel->u.exec.args, &local_err);
-+    } else if (addrs->transport == MIGRATE_TRANSPORT_EXEC) {
-+        exec_start_incoming_migration(addrs->u.exec.args, &local_err);
-     } else {
-         error_setg(errp, "unknown migration protocol: %s", uri);
-     }
- 
-     if (local_err) {
-+        qapi_free_MigrateAddress(addrs);
-         qapi_free_SocketAddress(saddr);
-         error_propagate(errp, local_err);
-         return;
-     }
- 
- out:
--    qapi_free_MigrateAddress(channel);
-+    qapi_free_MigrateChannel(channel);
-+    return;
- }
- 
- static void process_incoming_migration_bh(void *opaque)
-@@ -1714,8 +1729,9 @@ void qmp_migrate(const char *uri, bool has_channels,
- {
-     Error *local_err = NULL;
-     MigrationState *s = migrate_get_current();
--    MigrateAddress *channel = g_new0(MigrateAddress, 1);
-+    MigrateAddress *addrs;
-     SocketAddress *saddr;
-+    MigrateChannel *channel = NULL;
- 
-     /*
-      * Having preliminary checks for uri and channel
-@@ -1724,17 +1740,24 @@ void qmp_migrate(const char *uri, bool has_channels,
-         error_setg(errp, "'uri' and 'channels' arguments are mutually "
-                    "exclusive; exactly one of the two should be present in "
-                    "'migrate' qmp command ");
--        return;
--    }
--
--    /* URI is not suitable for migration? */
--    if (!migration_channels_and_uri_compatible(uri, errp)) {
-         goto out;
--    }
-+    } else if (channels) {
-+        /* To verify that Migrate channel list has only item */
-+        if (channels->next) {
-+            error_setg(errp, "Channel list has more than one entries");
-+            goto out;
-+        }
-+        channel = channels->value;
-+    } else {
-+        /* URI is not suitable for migration? */
-+        if (!migration_channels_and_uri_compatible(uri, errp)) {
-+            goto out;
-+        }
- 
--    if (!migrate_uri_parse(uri, &channel, &local_err)) {
--        error_setg(errp, "Error parsing uri");
--        goto out;
-+        if (!migrate_uri_parse(uri, &channel, &local_err)) {
-+            error_setg(errp, "Error parsing uri");
-+            goto out;
-+        }
-     }
- 
-     if (!migrate_prepare(s, has_blk && blk, has_inc && inc,
-@@ -1749,8 +1772,9 @@ void qmp_migrate(const char *uri, bool has_channels,
-         }
-     }
- 
--    saddr = &channel->u.socket;
--    if (channel->transport == MIGRATE_TRANSPORT_SOCKET) {
-+    addrs = channel->addr;
-+    saddr = &channel->addr->u.socket;
-+    if (addrs->transport == MIGRATE_TRANSPORT_SOCKET) {
-         if (saddr->type == SOCKET_ADDRESS_TYPE_INET ||
-             saddr->type == SOCKET_ADDRESS_TYPE_UNIX ||
-             saddr->type == SOCKET_ADDRESS_TYPE_VSOCK) {
-@@ -1759,11 +1783,11 @@ void qmp_migrate(const char *uri, bool has_channels,
-             fd_start_outgoing_migration(s, saddr->u.fd.str, &local_err);
-         }
- #ifdef CONFIG_RDMA
--    } else if (channel->transport == MIGRATE_TRANSPORT_RDMA) {
--        rdma_start_outgoing_migration(s, &channel->u.rdma, &local_err);
-+    } else if (addrs->transport == MIGRATE_TRANSPORT_RDMA) {
-+        rdma_start_outgoing_migration(s, &addrs->u.rdma, &local_err);
- #endif
--    } else if (channel->transport == MIGRATE_TRANSPORT_EXEC) {
--        exec_start_outgoing_migration(s, channel->u.exec.args, &local_err);
-+    } else if (addrs->transport == MIGRATE_TRANSPORT_EXEC) {
-+        exec_start_outgoing_migration(s, addrs->u.exec.args, &local_err);
-     } else {
-         if (!(has_resume && resume)) {
-             yank_unregister_instance(MIGRATION_YANK_INSTANCE);
-@@ -1780,6 +1804,7 @@ void qmp_migrate(const char *uri, bool has_channels,
-         if (!(has_resume && resume)) {
-             yank_unregister_instance(MIGRATION_YANK_INSTANCE);
-         }
-+        qapi_free_MigrateAddress(addrs);
-         qapi_free_SocketAddress(saddr);
-         migrate_fd_error(s, local_err);
-         error_propagate(errp, local_err);
-diff --git a/migration/socket.c b/migration/socket.c
-index 8e7430b266..98e3ea1514 100644
---- a/migration/socket.c
-+++ b/migration/socket.c
-@@ -28,6 +28,8 @@
- #include "trace.h"
- #include "postcopy-ram.h"
- #include "options.h"
-+#include "qapi/clone-visitor.h"
-+#include "qapi/qapi-visit-sockets.h"
- 
- struct SocketOutgoingArgs {
-     SocketAddress *saddr;
-@@ -114,12 +116,13 @@ void socket_start_outgoing_migration(MigrationState *s,
- {
-     QIOChannelSocket *sioc = qio_channel_socket_new();
-     struct SocketConnectData *data = g_new0(struct SocketConnectData, 1);
-+    SocketAddress *addr = QAPI_CLONE(SocketAddress, saddr);
- 
-     data->s = s;
- 
-     /* in case previous migration leaked it */
-     qapi_free_SocketAddress(outgoing_args.saddr);
--    outgoing_args.saddr = saddr;
-+    outgoing_args.saddr = addr;
- 
-     if (saddr->type == SOCKET_ADDRESS_TYPE_INET) {
-         data->hostname = g_strdup(saddr->u.inet.host);
--- 
-2.22.3
+Some research and testing here would be benefitial.
+Similarly for windows guests.
+
+Thanks!
+
+
+
+> ---
+>  hw/i386/acpi-build.c | 28 ++++++++++++++--------------
+>  hw/i386/amd_iommu.c  | 21 +++++++++++++++++++--
+>  hw/i386/amd_iommu.h  | 16 +++++++++++-----
+>  3 files changed, 44 insertions(+), 21 deletions(-)
+> 
+> diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
+> index ec857a117e..72d6bb2892 100644
+> --- a/hw/i386/acpi-build.c
+> +++ b/hw/i386/acpi-build.c
+> @@ -2339,7 +2339,7 @@ static void
+>  build_amd_iommu(GArray *table_data, BIOSLinker *linker, const char *oem_id,
+>                  const char *oem_table_id)
+>  {
+> -    int ivhd_table_len = 24;
+> +    int ivhd_table_len = 40;
+>      AMDVIState *s = AMD_IOMMU_DEVICE(x86_iommu_get_default());
+>      GArray *ivhd_blob = g_array_new(false, true, 1);
+>      AcpiTable table = { .sig = "IVRS", .rev = 1, .oem_id = oem_id,
+> @@ -2349,18 +2349,19 @@ build_amd_iommu(GArray *table_data, BIOSLinker *linker, const char *oem_id,
+>      /* IVinfo - IO virtualization information common to all
+>       * IOMMU units in a system
+>       */
+> -    build_append_int_noprefix(table_data, 40UL << 8/* PASize */, 4);
+> +    build_append_int_noprefix(table_data,
+> +                             (1UL << 0) | /* EFRSup */
+> +                             (40UL << 8), /* PASize */
+> +                             4);
+>      /* reserved */
+>      build_append_int_noprefix(table_data, 0, 8);
+>  
+> -    /* IVHD definition - type 10h */
+> -    build_append_int_noprefix(table_data, 0x10, 1);
+> +    /* IVHD definition - type 11h */
+> +    build_append_int_noprefix(table_data, 0x11, 1);
+>      /* virtualization flags */
+>      build_append_int_noprefix(table_data,
+>                               (1UL << 0) | /* HtTunEn      */
+> -                             (1UL << 4) | /* iotblSup     */
+
+btw this should have been iotlbsup?
+
+> -                             (1UL << 6) | /* PrefSup      */
+> -                             (1UL << 7),  /* PPRSup       */
+> +                             (1UL << 4),  /* iotblSup     */
+>                               1);
+>  
+>      /*
+
+hmm why are you removing these other flags?
+
+> @@ -2404,13 +2405,12 @@ build_amd_iommu(GArray *table_data, BIOSLinker *linker, const char *oem_id,
+>      build_append_int_noprefix(table_data, 0, 2);
+>      /* IOMMU info */
+>      build_append_int_noprefix(table_data, 0, 2);
+> -    /* IOMMU Feature Reporting */
+> -    build_append_int_noprefix(table_data,
+> -                             (48UL << 30) | /* HATS   */
+> -                             (48UL << 28) | /* GATS   */
+> -                             (1UL << 2)   | /* GTSup  */
+> -                             (1UL << 6),    /* GASup  */
+> -                             4);
+> +    /* IOMMU Attributes */
+> +    build_append_int_noprefix(table_data, 0, 4);
+> +    /* EFR Register Image */
+> +    build_append_int_noprefix(table_data, s->efr_reg, 8);
+> +    /* EFR Register Image 2 */
+> +    build_append_int_noprefix(table_data, 0, 8);
+
+
+here too. what's going on?
+
+>  
+>      /* IVHD entries as found above */
+>      g_array_append_vals(table_data, ivhd_blob->data, ivhd_blob->len);
+> diff --git a/hw/i386/amd_iommu.c b/hw/i386/amd_iommu.c
+> index bcd016f5c5..5dfa93d945 100644
+> --- a/hw/i386/amd_iommu.c
+> +++ b/hw/i386/amd_iommu.c
+> @@ -31,6 +31,7 @@
+>  #include "hw/i386/apic_internal.h"
+>  #include "trace.h"
+>  #include "hw/i386/apic-msidef.h"
+> +#include "hw/qdev-properties.h"
+>  
+>  /* used AMD-Vi MMIO registers */
+>  const char *amdvi_mmio_low[] = {
+> @@ -1155,7 +1156,12 @@ static int amdvi_int_remap_ga(AMDVIState *iommu,
+>      irq->vector = irte.hi.fields.vector;
+>      irq->dest_mode = irte.lo.fields_remap.dm;
+>      irq->redir_hint = irte.lo.fields_remap.rq_eoi;
+> -    irq->dest = irte.lo.fields_remap.destination;
+> +    if (!iommu->xtsup) {
+> +        irq->dest = irte.lo.fields_remap.destination & 0xff;
+> +    } else {
+> +        irq->dest = irte.lo.fields_remap.destination |
+> +                    (irte.hi.fields.destination_hi << 24);
+> +    }
+
+Weird way to put it. Why not if (iommu->xtsup) ... ?
+
+>  
+>      return 0;
+>  }
+> @@ -1503,10 +1509,15 @@ static void amdvi_init(AMDVIState *s)
+>      s->enabled = false;
+>      s->ats_enabled = false;
+>      s->cmdbuf_enabled = false;
+> +    s->efr_reg = AMDVI_DEFAULT_EXT_FEATURES;
+> +
+> +    if (s->xtsup) {
+> +        s->efr_reg |= AMDVI_FEATURE_XT;
+> +    }
+>  
+>      /* reset MMIO */
+>      memset(s->mmior, 0, AMDVI_MMIO_SIZE);
+> -    amdvi_set_quad(s, AMDVI_MMIO_EXT_FEATURES, AMDVI_EXT_FEATURES,
+> +    amdvi_set_quad(s, AMDVI_MMIO_EXT_FEATURES, s->efr_reg,
+>              0xffffffffffffffef, 0);
+>      amdvi_set_quad(s, AMDVI_MMIO_STATUS, 0, 0x98, 0x67);
+>  
+> @@ -1586,6 +1597,11 @@ static void amdvi_sysbus_realize(DeviceState *dev, Error **errp)
+>      amdvi_init(s);
+>  }
+>  
+> +static Property amdvi_properties[] = {
+> +    DEFINE_PROP_BOOL("xtsup", AMDVIState, xtsup, false),
+> +    DEFINE_PROP_END_OF_LIST(),
+> +};
+> +
+>  static const VMStateDescription vmstate_amdvi_sysbus = {
+>      .name = "amd-iommu",
+>      .unmigratable = 1
+> @@ -1612,6 +1628,7 @@ static void amdvi_sysbus_class_init(ObjectClass *klass, void *data)
+>      dc->user_creatable = true;
+>      set_bit(DEVICE_CATEGORY_MISC, dc->categories);
+>      dc->desc = "AMD IOMMU (AMD-Vi) DMA Remapping device";
+> +    device_class_set_props(dc, amdvi_properties);
+>  }
+>  
+>  static const TypeInfo amdvi_sysbus = {
+> diff --git a/hw/i386/amd_iommu.h b/hw/i386/amd_iommu.h
+> index 79d38a3e41..96df7b0400 100644
+> --- a/hw/i386/amd_iommu.h
+> +++ b/hw/i386/amd_iommu.h
+> @@ -154,6 +154,7 @@
+>  
+>  #define AMDVI_FEATURE_PREFETCH            (1ULL << 0) /* page prefetch       */
+>  #define AMDVI_FEATURE_PPR                 (1ULL << 1) /* PPR Support         */
+> +#define AMDVI_FEATURE_XT                  (1ULL << 2) /* x2APIC Support      */
+>  #define AMDVI_FEATURE_GT                  (1ULL << 4) /* Guest Translation   */
+>  #define AMDVI_FEATURE_IA                  (1ULL << 6) /* inval all support   */
+>  #define AMDVI_FEATURE_GA                  (1ULL << 7) /* guest VAPIC support */
+> @@ -173,8 +174,9 @@
+>  #define AMDVI_IOTLB_MAX_SIZE 1024
+>  #define AMDVI_DEVID_SHIFT    36
+>  
+> -/* extended feature support */
+> -#define AMDVI_EXT_FEATURES (AMDVI_FEATURE_PREFETCH | AMDVI_FEATURE_PPR | \
+> +/* default extended feature */
+> +#define AMDVI_DEFAULT_EXT_FEATURES \
+> +        (AMDVI_FEATURE_PREFETCH | AMDVI_FEATURE_PPR | \
+>          AMDVI_FEATURE_IA | AMDVI_FEATURE_GT | AMDVI_FEATURE_HE | \
+>          AMDVI_GATS_MODE | AMDVI_HATS_MODE | AMDVI_FEATURE_GA)
+>  
+> @@ -278,8 +280,8 @@ union irte_ga_lo {
+>                  dm:1,
+>                  /* ------ */
+>                  guest_mode:1,
+> -                destination:8,
+> -                rsvd_1:48;
+> +                destination:24,
+> +                rsvd_1:32;
+>    } fields_remap;
+>  };
+>  
+> @@ -287,7 +289,8 @@ union irte_ga_hi {
+>    uint64_t val;
+>    struct {
+>        uint64_t  vector:8,
+> -                rsvd_2:56;
+> +                rsvd_2:48,
+> +                destination_hi:8;
+>    } fields;
+>  };
+>  
+> @@ -367,6 +370,9 @@ struct AMDVIState {
+>  
+>      /* Interrupt remapping */
+>      bool ga_enabled;
+> +    bool xtsup;
+> +
+> +    uint64_t efr_reg;            /* extended feature register */
+>  };
+>  
+>  #endif
+> -- 
+> 2.25.1
 
 
