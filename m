@@ -2,84 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BB13700A10
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 May 2023 16:15:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5916A700A2F
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 May 2023 16:20:09 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pxTXH-0003MJ-FB; Fri, 12 May 2023 10:14:19 -0400
+	id 1pxTcP-0004yx-62; Fri, 12 May 2023 10:19:37 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pxTX2-0003LL-C0
- for qemu-devel@nongnu.org; Fri, 12 May 2023 10:14:04 -0400
-Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a])
+ (Exim 4.90_1) (envelope-from <minhquangbui99@gmail.com>)
+ id 1pxTcN-0004yU-6D
+ for qemu-devel@nongnu.org; Fri, 12 May 2023 10:19:35 -0400
+Received: from mail-pg1-x52e.google.com ([2607:f8b0:4864:20::52e])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pxTX0-0006IA-Bs
- for qemu-devel@nongnu.org; Fri, 12 May 2023 10:14:04 -0400
-Received: by mail-wm1-x32a.google.com with SMTP id
- 5b1f17b1804b1-3f42bcf5df1so45438085e9.3
- for <qemu-devel@nongnu.org>; Fri, 12 May 2023 07:14:00 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <minhquangbui99@gmail.com>)
+ id 1pxTcL-0007fA-8C
+ for qemu-devel@nongnu.org; Fri, 12 May 2023 10:19:34 -0400
+Received: by mail-pg1-x52e.google.com with SMTP id
+ 41be03b00d2f7-52160f75920so6845268a12.2
+ for <qemu-devel@nongnu.org>; Fri, 12 May 2023 07:19:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1683900839; x=1686492839;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
+ d=gmail.com; s=20221208; t=1683901171; x=1686493171;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=fahuPkjbOPq65n7Zo4uP5iqTMhy+C09Ng3Ez9malXSU=;
- b=XfInYyDnABPEsnm7z0Yq7mOt/JNvNnY79XPFO6aU1rHc3O/LTyEoLGV6HjdnY/akiZ
- vCBnSJdk6H8k2lxlzu74DmdrysB+Am3FXc1s7iEwbMOAUwA3m80vuzZsAByhXw7ET+3M
- lyH6Pwzhd3m11QUZ/XF9XRvEAMdQrV6xk4JycR0DWNH61BtOyY7Qthzr25FIp+b11XuC
- liyaRoJQEr7QJDwSkhyd/PpK+7+WOLDFfvtvdE19gVVGFlaFYxcBzIGRFhTaIcTaUb+6
- WMeOmvF5k+NQTqSLr6PVjNL275TODn5q2S5rc1LvPC5Mi2TkkdI6SO1J2h3mndjPIUK8
- qerg==
+ bh=j69QwG+SHmI6eSeAVcOdBRKm2N64c5vfUPxIoSN2zNk=;
+ b=ae7wrMrPVEss7s/zki9fhvQqZzYP3Z0tFyp1XyJJ3b5C7BiSZGtD9kNHOQuxp74exi
+ Ewz33IvGLdA/IrBu03f/PIguW16d8JEN8VgfZmnFuE5351KXMiOyJ4c/GkrQ8XGPTKyr
+ QxzOZg6HvUAA7jbZlE9GWCFA0RxkGiT/03qzTBbllnW+TABcUIHZtl5KTazJHzFNnSvo
+ M0dgCwDSz1iW7Skkczhqy8Vvpp9bOOwb22bC9PF6UuxQgLiVTeTaqAOAHim9S5pQP/0J
+ fp/J+pHVNpq9McoM5m1nb5h9szoEypQZAQox71mxDfHno54F5Ye4P/AVViliFdwAqCMe
+ rOPg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683900839; x=1686492839;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
+ d=1e100.net; s=20221208; t=1683901171; x=1686493171;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=fahuPkjbOPq65n7Zo4uP5iqTMhy+C09Ng3Ez9malXSU=;
- b=EwsunX8HlHqGXhuCFMLWYTKxGxqCRdrUdL5wCL/h7pS5GwFPNwUvCW/QEiHYnc/ICm
- V6daV0gPXEBPnmgQ2CFOay/63HpawSzLxnfbIStB4hRyyJvpLtdI7mBdtmaVoUoiCVLi
- ByFk61V7xKvlVH9IKpkbo/rzu+Pim/GGLKO5Wy8Ka5BHTMCEzu6te/9IbHLauL3Z7G2X
- vf5ZK2q8q5lEnPX5pHS3nFeskOA033c4RFxy39qnNlUrRfzXJf0IcX0Z9bblZD2c7Bho
- srhPW0HFOMhKMFsKTfSfGCU2ixHktpRmkOb14eHvuuJZXccG+NJoS1ao5SgP+57ulKAJ
- Wpeg==
-X-Gm-Message-State: AC+VfDxPoHfXwotu8XEtCxBsgNQZqjYDaICoi7wQrYiquSck6fXX8Jj3
- CghreHhFR4HYysn1h4atFXgBFzwVzC+IM51Ow0Y5Nw==
-X-Google-Smtp-Source: ACHHUZ7N639xpYlf+/+E7mHyVl8P30rSpgM211uMWKmqfziKfOhcgICSnEYkF1roSSCNyKWRUbEHvg==
-X-Received: by 2002:a1c:f204:0:b0:3f3:f7f0:2203 with SMTP id
- s4-20020a1cf204000000b003f3f7f02203mr16859346wmc.12.1683900838803; 
- Fri, 12 May 2023 07:13:58 -0700 (PDT)
-Received: from [192.168.69.115] ([176.176.153.246])
+ bh=j69QwG+SHmI6eSeAVcOdBRKm2N64c5vfUPxIoSN2zNk=;
+ b=mHMWoOIjk2Swo77g95TPsu9Emvy0B8VS3viOzLHFlLKyGWokzNJ8JURAINsInkycf2
+ 3HVn3GjdWqVzJF92Zc+IhFzZBIlp1dJQ0btf3fQWqUorHBKB+sSGnd8SGiHxkPd6Akn5
+ /29C4zHwIu2BZaONl0467RBKMb8dUuVoliDDazdXAn4so3amL4+PK+jtKN/lBQBbjUqj
+ ay6a57pbKbLIu5gDQgKs850yR1FP7CZEqIxYNgAa5+4gwc/cF57PWKAZlRVZmaQouncr
+ 4zED+bK6Iy6I6xo6cuUuPU9G1tAEeTi816V3q6P1ubYb5RuyZWDCZl11DN/1/SR1eXQO
+ 1+lA==
+X-Gm-Message-State: AC+VfDxWvI9ekRNf6Mcu0FTmONFRVc/gMhL4xBLpW+bKaEI8+IHrWRU+
+ L3MpTxuYO37SnV7HAab/1ZV/yAvJGddaCg==
+X-Google-Smtp-Source: ACHHUZ5z9Av43nRHBoDN8gsuKQvG4B2opB36+4fj+RYtKIVURAJHU9I8p98wtHDSY22aWA3mC4l7Ag==
+X-Received: by 2002:a17:90b:2307:b0:24e:165d:8f65 with SMTP id
+ mt7-20020a17090b230700b0024e165d8f65mr24170827pjb.5.1683901169956; 
+ Fri, 12 May 2023 07:19:29 -0700 (PDT)
+Received: from [192.168.0.115] ([113.173.119.15])
  by smtp.gmail.com with ESMTPSA id
- o19-20020a1c7513000000b003f31cb7a203sm28432959wmc.14.2023.05.12.07.13.57
+ l5-20020a17090a408500b0024c1ac09394sm17270046pjg.19.2023.05.12.07.19.26
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 12 May 2023 07:13:58 -0700 (PDT)
-Message-ID: <492d6a94-2937-eeec-3855-8ba14046957c@linaro.org>
-Date: Fri, 12 May 2023 16:13:57 +0200
+ Fri, 12 May 2023 07:19:29 -0700 (PDT)
+Message-ID: <8697995e-dde9-43ed-f482-7213e9b3f2a9@gmail.com>
+Date: Fri, 12 May 2023 21:19:23 +0700
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.10.1
-Subject: Re: [PATCH 3/3] softmmu/ioport.c: make MemoryRegionPortioList owner
- of portio_list MemoryRegions
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [REPOST PATCH v3 0/5] Support x2APIC mode with TCG accelerator
+To: qemu-devel@nongnu.org
+Cc: David Woodhouse <dwmw2@infradead.org>, Paolo Bonzini
+ <pbonzini@redhat.com>, Richard Henderson <richard.henderson@linaro.org>,
+ Eduardo Habkost <eduardo@habkost.net>, "Michael S . Tsirkin"
+ <mst@redhat.com>, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Igor Mammedov <imammedo@redhat.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
+ <alex.bennee@linaro.org>
+References: <20230411142440.8018-1-minhquangbui99@gmail.com>
 Content-Language: en-US
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, pbonzini@redhat.com,
- qemu-devel@nongnu.org
-Cc: Markus Armbruster <armbru@redhat.com>
-References: <20230419151652.362717-1-mark.cave-ayland@ilande.co.uk>
- <20230419151652.362717-4-mark.cave-ayland@ilande.co.uk>
- <0f030dfa-9c3e-b44a-584a-22deca1680f7@linaro.org>
- <3591883e-c121-efda-b2eb-cb4e58da291f@ilande.co.uk>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <3591883e-c121-efda-b2eb-cb4e58da291f@ilande.co.uk>
+From: Bui Quang Minh <minhquangbui99@gmail.com>
+In-Reply-To: <20230411142440.8018-1-minhquangbui99@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x32a.google.com
-X-Spam_score_int: -39
-X-Spam_score: -4.0
-X-Spam_bar: ----
-X-Spam_report: (-4.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.845,
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52e;
+ envelope-from=minhquangbui99@gmail.com; helo=mail-pg1-x52e.google.com
+X-Spam_score_int: -36
+X-Spam_score: -3.7
+X-Spam_bar: ---
+X-Spam_report: (-3.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-1.845,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -97,136 +100,113 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 12/5/23 08:56, Mark Cave-Ayland wrote:
-> On 11/05/2023 20:22, Philippe Mathieu-Daudé wrote:
+On 4/11/23 21:24, Bui Quang Minh wrote:
+> [Reposting due to broken threading in previous post]
 > 
->> On 19/4/23 17:16, Mark Cave-Ayland wrote:
->>> Currently when portio_list MemoryRegions are freed using 
->>> portio_list_destroy() the RCU
->>> thread segfaults generating a backtrace similar to that below:
->>>
->>>      #0 0x5555599a34b6 in phys_section_destroy ../softmmu/physmem.c:996
->>>      #1 0x5555599a37a3 in phys_sections_free ../softmmu/physmem.c:1011
->>>      #2 0x5555599b24aa in address_space_dispatch_free 
->>> ../softmmu/physmem.c:2430
->>>      #3 0x55555996a283 in flatview_destroy ../softmmu/memory.c:292
->>>      #4 0x55555a2cb9fb in call_rcu_thread ../util/rcu.c:284
->>>      #5 0x55555a29b71d in qemu_thread_start 
->>> ../util/qemu-thread-posix.c:541
->>>      #6 0x7ffff4a0cea6 in start_thread nptl/pthread_create.c:477
->>>      #7 0x7ffff492ca2e in __clone 
->>> (/lib/x86_64-linux-gnu/libc.so.6+0xfca2e)
->>>
->>> The problem here is that portio_list_destroy() unparents the 
->>> portio_list MemoryRegions
->>> causing them to be freed immediately, however the flatview still has 
->>> a reference to the
->>> MemoryRegion and so causes a use-after-free segfault when the RCU 
->>> thread next updates
->>> the flatview.
->>>
->>> Solve the lifetime issue by making MemoryRegionPortioList the owner 
->>> of the portio_list
->>> MemoryRegions, and then reparenting them to the portio_list owner. 
->>> This ensures that they
->>> can be accessed as QOM childen via the portio_list owner, yet the 
->>> MemoryRegionPortioList
->>
->> "children"
+> Hi everyone,
 > 
-> Ooops, thanks - I'll correct that on the next respin.
+> This series implements x2APIC mode in userspace local APIC and the
+> RDMSR/WRMSR helper to access x2APIC registers in x2APIC mode. Intel iommu
+> and AMD iommu are adjusted to support x2APIC interrupt remapping. With this
+> series, we can now boot Linux kernel into x2APIC mode with TCG accelerator
+> using either Intel or AMD iommu.
 > 
->>> owns the refcount.
->>>
->>> Update portio_list_destroy() to unparent the MemoryRegion from the 
->>> portio_list owner and
->>> then add a finalize() method to MemoryRegionPortioList, so that the 
->>> portio_list
->>> MemoryRegions remain allocated until flatview_destroy() removes the 
->>> final refcount upon
->>> the next flatview update.
->>>
->>> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
->>> ---
->>>   softmmu/ioport.c | 34 +++++++++++++++++++++++++++++++---
->>>   1 file changed, 31 insertions(+), 3 deletions(-)
->>
->>
->>> @@ -230,6 +230,8 @@ static void portio_list_add_1(PortioList *piolist,
->>>                                 unsigned off_low, unsigned off_high)
->>>   {
->>>       MemoryRegionPortioList *mrpio;
->>> +    Object *owner;
->>> +    char *name;
->>>       unsigned i;
->>>       /* Copy the sub-list and null-terminate it.  */
->>> @@ -246,8 +248,25 @@ static void portio_list_add_1(PortioList *piolist,
->>>           mrpio->ports[i].base = start + off_low;
->>>       }
->>> -    memory_region_init_io(&mrpio->mr, piolist->owner, &portio_ops, 
->>> mrpio,
->>> +    /*
->>> +     * The MemoryRegion owner is the MemoryRegionPortioList since 
->>> that manages
->>> +     * the lifecycle via the refcount
->>> +     */
->>> +    memory_region_init_io(&mrpio->mr, OBJECT(mrpio), &portio_ops, 
->>> mrpio,
->>>                             piolist->name, off_high - off_low);
->>> +
->>> +    /* Reparent the MemoryRegion to the piolist owner */
->>> +    object_ref(&mrpio->mr);
->>> +    object_unparent(OBJECT(&mrpio->mr));
->>
->> Out of this patch scope, but could this part <...
->>
->>> +    if (!piolist->owner) {
->>> +        owner = container_get(qdev_get_machine(), "/unattached");
->>> +    } else {
->>> +        owner = piolist->owner;
->>> +    }
->>> +    name = g_strdup_printf("%s[*]", piolist->name);
->>> +    object_property_add_child(owner, name, OBJECT(&mrpio->mr));
->>> +    g_free(name);
->>
->> ...> be extracted as qdev_add_child()? It seems to duplicate
->> code from device_set_realized().
+> Testing the emulated userspace APIC with kvm-unit-tests, disable test
+> device with this patch
 > 
-> I would say no for 2 reasons: firstly qdev itself only has the concept 
-> of devices and buses: the fact that devices appear as children of their 
-> bus is an artifact of how they are modelled in QOM, rather than being 
-> part of the qdev design philosophy.
+> diff --git a/lib/x86/fwcfg.c b/lib/x86/fwcfg.c
+> index 1734afb..f56fe1c 100644
+> --- a/lib/x86/fwcfg.c
+> +++ b/lib/x86/fwcfg.c
+> @@ -27,6 +27,7 @@ static void read_cfg_override(void)
+>   
+>          if ((str = getenv("TEST_DEVICE")))
+>                  no_test_device = !atol(str);
+> +       no_test_device = true;
+>   
+>          if ((str = getenv("MEMLIMIT")))
+>                  fw_override[FW_CFG_MAX_RAM] = atol(str) * 1024 * 1024;
+> 
+> ~ env QEMU=/home/minh/Desktop/oss/qemu/build/qemu-system-x86_64 ACCEL=tcg \
+> ./run_tests.sh -v -g apic
+> 
+> TESTNAME=apic-split TIMEOUT=90s ACCEL=tcg ./x86/run x86/apic.flat -smp 2
+> -cpu qemu64,+x2apic,+tsc-deadline -machine kernel_irqchip=split FAIL
+> apic-split (54 tests, 8 unexpected failures, 1 skipped)
+> TESTNAME=ioapic-split TIMEOUT=90s ACCEL=tcg ./x86/run x86/ioapic.flat -smp
+> 1 -cpu qemu64 -machine kernel_irqchip=split PASS ioapic-split (19 tests)
+> TESTNAME=x2apic TIMEOUT=30 ACCEL=tcg ./x86/run x86/apic.flat -smp 2 -cpu
+> qemu64,+x2apic,+tsc-deadline FAIL x2apic (54 tests, 8 unexpected failures,
+> 1 skipped) TESTNAME=xapic TIMEOUT=60 ACCEL=tcg ./x86/run x86/apic.flat -smp
+> 2 -cpu qemu64,-x2apic,+tsc-deadline -machine pit=off FAIL xapic (43 tests,
+> 6 unexpected failures, 2 skipped)
+> 
+>    FAIL: apic_disable: *0xfee00030: 50014
+>    FAIL: apic_disable: *0xfee00080: f0
+>    FAIL: apic_disable: *0xfee00030: 50014
+>    FAIL: apic_disable: *0xfee00080: f0
+>    FAIL: apicbase: relocate apic
+> 
+> These errors are because we don't disable MMIO region when switching to
+> x2APIC and don't support relocate MMIO region yet. This is a problem
+> because, MMIO region is the same for all CPUs, in order to support these we
+> need to figure out how to allocate and manage different MMIO regions for
+> each CPUs. This can be an improvement in the future.
+> 
+>    FAIL: nmi-after-sti
+>    FAIL: multiple nmi
+> 
+> These errors are in the way we handle CPU_INTERRUPT_NMI in core TCG.
+> 
+>    FAIL: TMCCT should stay at zero
+> 
+> This error is related to APIC timer which should be addressed in separate
+> patch.
+> 
+> Version 3 changes,
+> - Patch 2:
+>    + Allow APIC ID > 255 only when x2APIC feature is supported on CPU
+>    + Make physical destination mode IPI which has destination id 0xffffffff
+>    a broadcast to xAPIC CPUs
+>    + Make cluster address 0xf in cluster model of xAPIC logical destination
+>    mode a broadcast to all clusters
+>    + Create new extended_log_dest to store APIC_LDR information in x2APIC
+>    instead of extending log_dest for backward compatibility in vmstate
+> 
+> Version 2 changes,
+> - Add support for APIC ID larger than 255
+> - Adjust AMD iommu for x2APIC suuport
+> - Reorganize and split patch 1,2 into patch 1,2,3 in version 2
+> 
+> Thanks,
+> Quang Minh.
+> 
+> Bui Quang Minh (5):
+>    i386/tcg: implement x2APIC registers MSR access
+>    apic: add support for x2APIC mode
+>    apic, i386/tcg: add x2apic transitions
+>    intel_iommu: allow Extended Interrupt Mode when using userspace APIC
+>    amd_iommu: report x2APIC support to the operating system
+> 
+>   hw/i386/acpi-build.c                 |  28 +-
+>   hw/i386/amd_iommu.c                  |  21 +-
+>   hw/i386/amd_iommu.h                  |  16 +-
+>   hw/i386/intel_iommu.c                |  11 -
+>   hw/i386/x86.c                        |   8 +-
+>   hw/intc/apic.c                       | 395 +++++++++++++++++++++------
+>   hw/intc/apic_common.c                |  16 +-
+>   hw/intc/trace-events                 |   4 +-
+>   include/hw/i386/apic.h               |   6 +-
+>   include/hw/i386/apic_internal.h      |   7 +-
+>   target/i386/cpu-sysemu.c             |  18 +-
+>   target/i386/cpu.c                    |   5 +-
+>   target/i386/cpu.h                    |   9 +
+>   target/i386/tcg/sysemu/misc_helper.c |  31 +++
+>   14 files changed, 436 insertions(+), 139 deletions(-)
 
-Right.
+Hello everyone, I just want to politely ping here. Could you spend some 
+time to review the series?
 
-> Secondly there is actually only one user of portio_list which doesn't 
-> have an owner, and that is our old friend the PCI IDE controller. That's 
-> because everything else is done through isa_register_ioport(), and in 
-> fact we have both attempted to solve this previously (see my comments at 
-> https://patchew.org/QEMU/20230302224058.43315-1-philmd@linaro.org/20230302224058.43315-9-philmd@linaro.org/#ca177083-b24d-90cd-9f3c-c99653bc9a08@ilande.co.uk and https://patchew.org/QEMU/20230302224058.43315-1-philmd@linaro.org/#6bc0dc92-3787-5379-b139-a8b5973d87fc@ilande.co.uk).
-> 
-> My preference would be to merge this in its current form and then remove 
-> the part handling NULL piolist->owner and replace it with 
-> assert(piolist->owner) once one of the PCI IDE controller/ISA ioport 
-> patches have been merged.
-
-Sure, I'm not asking for change on this series.
-Possibly the maintainer taking this can fix the typo.
-
-> 
->>>       if (piolist->flush_coalesced_mmio) {
->>>           memory_region_set_flush_coalesced(&mrpio->mr);
->>>       }
->>> @@ -305,10 +324,19 @@ void portio_list_del(PortioList *piolist)
->>>       }
->>>   }
->>
->> Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-> 
-> 
-> ATB,
-> 
-> Mark.
-> 
-
+Thank you very much,
+Quang Minh.
 
