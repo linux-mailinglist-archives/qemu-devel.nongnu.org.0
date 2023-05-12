@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B58470084A
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 May 2023 14:43:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8408F700839
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 May 2023 14:41:45 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pxS4x-0007d4-4C; Fri, 12 May 2023 08:40:59 -0400
+	id 1pxS4s-0007bA-1S; Fri, 12 May 2023 08:40:54 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pxS4v-0007ci-9a
- for qemu-devel@nongnu.org; Fri, 12 May 2023 08:40:57 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pxS4q-0007Z8-0B
+ for qemu-devel@nongnu.org; Fri, 12 May 2023 08:40:52 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pxS4t-0006QK-S4
- for qemu-devel@nongnu.org; Fri, 12 May 2023 08:40:57 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pxS4o-0006N7-HY
+ for qemu-devel@nongnu.org; Fri, 12 May 2023 08:40:51 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1683895255;
+ s=mimecast20190719; t=1683895249;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=aIB+ovZerG0ccnmBXZPESU0t/A5sJiaaWAt1pFb5Qa8=;
- b=OkW3ZgPHP3RuoiQrFL8jLbMlHksR70BYFR/2hNyQeAt0zIb0uIKRDWb/0ZwahuIYx0L8+q
- IsmMTzvL/vTZ4XA+qRFigrecgIE7gpjC1P+aPuzDULQhGLsiTLbXbVgtpOiUEyXEakWVc4
- tI7OF72wwZOia+SNsQSbafQCEEK2kfE=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=0nGUQD8EZlJXc9dE6rra94SJVZpPSebIZMXaTiD2cGA=;
+ b=PMQX10BnDdaIke+PRXdO1SyTDufRGagjJc07tFJa/9DlVxeMKVvA4oRGperUcFmU81DHjs
+ ThpPFLukQ9Rsyna6Dcva4Bx00sR+xzghOFI7Pd6ZzAv/S8UH3OSJ+ZsyUPeBOcHG7pm2dx
+ /aRMJ22lI5YJHfArOHUx5KIZkVVkqDU=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-645-P35hFIQNOGif643PRjG2jQ-1; Fri, 12 May 2023 08:40:45 -0400
-X-MC-Unique: P35hFIQNOGif643PRjG2jQ-1
+ us-mta-169-_e0oo8AAN5CC4439jJlurg-1; Fri, 12 May 2023 08:40:46 -0400
+X-MC-Unique: _e0oo8AAN5CC4439jJlurg-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
  [10.11.54.3])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B9A383C0ED5B;
- Fri, 12 May 2023 12:40:44 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2245985A5A3;
+ Fri, 12 May 2023 12:40:46 +0000 (UTC)
 Received: from thuth.com (unknown [10.39.192.251])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9A29C1121314;
- Fri, 12 May 2023 12:40:43 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 102A51121314;
+ Fri, 12 May 2023 12:40:44 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  Fabiano Rosas <farosas@suse.de>
 Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PATCH 06/18] hw/s390x: Use MachineClass->default_nic in the s390x
+Subject: [PATCH 07/18] hw/sh4: Use MachineClass->default_nic in the sh4 r2d
  machine
-Date: Fri, 12 May 2023 14:40:21 +0200
-Message-Id: <20230512124033.502654-7-thuth@redhat.com>
+Date: Fri, 12 May 2023 14:40:22 +0200
+Message-Id: <20230512124033.502654-8-thuth@redhat.com>
 In-Reply-To: <20230512124033.502654-1-thuth@redhat.com>
 References: <20230512124033.502654-1-thuth@redhat.com>
 MIME-Version: 1.0
@@ -85,38 +85,38 @@ default NIC is usable or not (for example when compiling with the
 
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- hw/s390x/s390-virtio-ccw.c | 4 +++-
+ hw/sh4/r2d.c | 4 +++-
  1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
-index e6f2c62625..fe30722e33 100644
---- a/hw/s390x/s390-virtio-ccw.c
-+++ b/hw/s390x/s390-virtio-ccw.c
-@@ -245,6 +245,7 @@ static void s390_create_sclpconsole(const char *type, Chardev *chardev)
- 
- static void ccw_init(MachineState *machine)
- {
+diff --git a/hw/sh4/r2d.c b/hw/sh4/r2d.c
+index 826a0a31b5..4944994e9c 100644
+--- a/hw/sh4/r2d.c
++++ b/hw/sh4/r2d.c
+@@ -232,6 +232,7 @@ static void r2d_init(MachineState *machine)
+     const char *kernel_filename = machine->kernel_filename;
+     const char *kernel_cmdline = machine->kernel_cmdline;
+     const char *initrd_filename = machine->initrd_filename;
 +    MachineClass *mc = MACHINE_GET_CLASS(machine);
-     int ret;
-     VirtualCssBus *css_bus;
-     DeviceState *dev;
-@@ -292,7 +293,7 @@ static void ccw_init(MachineState *machine)
-     }
+     SuperHCPU *cpu;
+     CPUSH4State *env;
+     ResetData *reset_info;
+@@ -310,7 +311,7 @@ static void r2d_init(MachineState *machine)
+     /* NIC: rtl8139 on-board, and 2 slots. */
+     for (i = 0; i < nb_nics; i++)
+         pci_nic_init_nofail(&nd_table[i], pci_bus,
+-                            "rtl8139", i == 0 ? "2" : NULL);
++                            mc->default_nic, i == 0 ? "2" : NULL);
  
-     /* Create VirtIO network adapters */
--    s390_create_virtio_net(BUS(css_bus), "virtio-net-ccw");
-+    s390_create_virtio_net(BUS(css_bus), mc->default_nic);
+     /* USB keyboard */
+     usb_create_simple(usb_bus_find(-1), "usb-kbd");
+@@ -375,6 +376,7 @@ static void r2d_machine_init(MachineClass *mc)
+     mc->init = r2d_init;
+     mc->block_default_type = IF_IDE;
+     mc->default_cpu_type = TYPE_SH7751R_CPU;
++    mc->default_nic = "rtl8139";
+ }
  
-     /* init consoles */
-     if (serial_hd(0)) {
-@@ -746,6 +747,7 @@ static void ccw_machine_class_init(ObjectClass *oc, void *data)
-     hc->unplug_request = s390_machine_device_unplug_request;
-     nc->nmi_monitor_handler = s390_nmi;
-     mc->default_ram_id = "s390.ram";
-+    mc->default_nic = "virtio-net-ccw";
- 
-     object_class_property_add_bool(oc, "aes-key-wrap",
-                                    machine_get_aes_key_wrap,
+ DEFINE_MACHINE("r2d", r2d_machine_init)
 -- 
 2.31.1
 
