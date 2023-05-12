@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CBF6C700BFB
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 May 2023 17:36:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1319D700BFC
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 May 2023 17:36:25 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pxUn0-0003KQ-9S; Fri, 12 May 2023 11:34:38 -0400
+	id 1pxUmy-0003JP-GJ; Fri, 12 May 2023 11:34:36 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pxUmw-0003IM-UL
+ id 1pxUmw-0003IR-Vj
  for qemu-devel@nongnu.org; Fri, 12 May 2023 11:34:34 -0400
-Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330])
+Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pxUmu-00061B-Q7
+ id 1pxUmu-00061G-Pu
  for qemu-devel@nongnu.org; Fri, 12 May 2023 11:34:34 -0400
-Received: by mail-wm1-x330.google.com with SMTP id
- 5b1f17b1804b1-3f49bf0223cso33382965e9.1
+Received: by mail-wr1-x42e.google.com with SMTP id
+ ffacd0b85a97d-3063b5f32aaso6631309f8f.2
  for <qemu-devel@nongnu.org>; Fri, 12 May 2023 08:34:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=linaro.org; s=google; t=1683905670; x=1686497670;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=LpqeiGLd9+Zpci9T4aU8zCO1St33HFkig64yWhzOPRs=;
- b=WwTkAsKZxuQIxOfwcQAEJZcXjLxTSG4nMBqYdLVhvac4/IaMDbrRO6cdldHNXtyk2+
- CwYqnRrRJOExgT6Us48FNUIrM4MhOllWLQFLh1VTMryS0/mVOxfnAORimM/u3KOTs2nC
- ihdfnCKAzvATRqm0p6CmsZvd6llO12g5l4jPPHLtULk6qyk55CdoLzSfc8n2TlbvHLNA
- 9ZYnk8i97qtJ0whkSCUqw4kH2PE+GGuhEgj6cbHruLWroKOcG+7tpGLlWnPnXpPFgJhv
- dvPgh8WpX+dhwxeH/+S3bLl26iZq6Hr3PrgS4zUgJ4pwYydmQrvOKvt5ZjeNqaulWIdP
- 5rSg==
+ :reply-to; bh=RnW/AUyjUxOEXR5d7HBrhpE2wftw/HzIlcz6MIiCreU=;
+ b=uYM0Rd2Sq90rnDSSW1Nr9qyRXPnbAuSAxTZnzs/HCbRDbhp0MK0A+KYLyCxsQ6f6MT
+ sFhR7/Bvw4IXpLLEEz/J2AX3OLp8Jdm8DeL/GKfK3Laz0ErBCmztgVemW6ZRK1E0zMVA
+ LHLMxoACsR8Gl/V7inGgy4OrUBxGtkLVTj5P3vRncdktwTzbgHw5AWidXW3vLNkX9Atg
+ /O9TaaXO9yXIpON+3S/WTZUHLCus0igj21SavPtmEdBMLKllpWkFXsEtEKkbec5Otxyl
+ MNwyf7sjYbOlaZdUt8KUwm+057i6eACr5ikj0TnQ3AbWHIFIxLtltJJapNJasn2T91Fl
+ Xctg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20221208; t=1683905670; x=1686497670;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=LpqeiGLd9+Zpci9T4aU8zCO1St33HFkig64yWhzOPRs=;
- b=RqbgkioHOGbH2/iarxVlln2cF/IKNQr8FxzuVy6OB5Roc6DXYHgdwER2UpH8xJ+7aX
- 4MqC+RwETFNIT2BoerAQhL9XiDiezedigVRBpKtgE65lHeL+MlXHSZSJGP0jcEPMuthf
- fWkfha3vAOBMSY8wG0+Fx27ZdcRngFtR8yEVk1nmTAu7Q1xUO9qXqAe7WcxUR0oASbDJ
- YWV43W9JM6Wr2z/QaDv6xSqNgJ1x7/gK69haZRaUrl6EAFMoTjI/b2+F6lilOXIkUjFL
- V5CcL2XaMz1CSOuZu5PrnKeJqZg13pInLJvLV5YCSdxuJaF2Iu5CziywM2LeYWSgGi6N
- BNyA==
-X-Gm-Message-State: AC+VfDx4a/AkpyBno1+JQjiJOOxd/Lu2APWUxZzrDnoa8LEEmVIhSLSf
- a7eB5fs829VVNT1yHKFvTK3HJdcY2/zL0UGxSk4=
-X-Google-Smtp-Source: ACHHUZ7aSglKKDYjAf7K9eybnS9xN7V56mdZoeBgQW7YnEQ5Q98OKQUpygWfGRXah9eY/aOXRTQCKw==
-X-Received: by 2002:a7b:c357:0:b0:3ee:19b4:a2e6 with SMTP id
- l23-20020a7bc357000000b003ee19b4a2e6mr16154929wmj.19.1683905670141; 
+ bh=RnW/AUyjUxOEXR5d7HBrhpE2wftw/HzIlcz6MIiCreU=;
+ b=OXucfXqqf4sUMFUSosuo6s4fc9VxJr8Ca/q0fef1L7E2g4eTzrzob8Owatyamj14TZ
+ 5kxEyobApTLTRhge/PF1MJdm0heFRZs6T/bIc5X+hpY8ycxg+/Rj/Yz5IrgAea+BGD+I
+ paDMC1QsfjUpy/2E1TjTIawjNwyrpEVGPhp5gP0KXAdJstVlNSZpoXuawK895dPbluL6
+ e5cXBRZui55yb4rRxuunzrrniD0mjs0eIXlD4D8SsOswqhpGDMB6h96d4nd/1RGyu98r
+ NOGW7aEwcyecWhd/zkkw591TKTJRQrcdN3fzvUIY3XoWaQbCysfITeB1y65n0PTOTMgr
+ N6UQ==
+X-Gm-Message-State: AC+VfDzVaL7ipvS46ZSZ+4sVaTUqv3aNIu1aVejuPytNTVJ3ZZ0o8x3J
+ imUZtJzI6619XxG0oi9cF3kqkeJIgQOJG8lwixA=
+X-Google-Smtp-Source: ACHHUZ4pASZbN/Q6aRn2CtBsGs/VNGkeE1JruFbwpG0v4MucdGWKNGnhbTbBDtnpRh+WcwH4jVwJUw==
+X-Received: by 2002:a1c:f313:0:b0:3f3:468c:a780 with SMTP id
+ q19-20020a1cf313000000b003f3468ca780mr17727931wmq.4.1683905670555; 
  Fri, 12 May 2023 08:34:30 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- b6-20020adfee86000000b002feea065cc9sm11721297wro.111.2023.05.12.08.34.29
+ b6-20020adfee86000000b002feea065cc9sm11721297wro.111.2023.05.12.08.34.30
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 12 May 2023 08:34:29 -0700 (PDT)
+ Fri, 12 May 2023 08:34:30 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 09/12] target/arm: Select SEMIHOSTING when using TCG
-Date: Fri, 12 May 2023 16:34:20 +0100
-Message-Id: <20230512153423.3704893-10-peter.maydell@linaro.org>
+Subject: [PULL 10/12] target/arm: Select CONFIG_ARM_V7M when TCG is enabled
+Date: Fri, 12 May 2023 16:34:21 +0100
+Message-Id: <20230512153423.3704893-11-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230512153423.3704893-1-peter.maydell@linaro.org>
 References: <20230512153423.3704893-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::330;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x330.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -92,40 +92,38 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Fabiano Rosas <farosas@suse.de>
 
-Semihosting has been made a 'default y' entry in Kconfig, which does
-not work because when building --without-default-devices, the
-semihosting code would not be available.
+We cannot allow this config to be disabled at the moment as not all of
+the relevant code is protected by it.
 
-Make semihosting unconditional when TCG is present.
+Commit 29d9efca16 ("arm/Kconfig: Do not build TCG-only boards on a
+KVM-only build") moved the CONFIGs of several boards to Kconfig, so it
+is now possible that nothing selects ARM_V7M (e.g. when doing a
+--without-default-devices build).
+
+Return the CONFIG_ARM_V7M entry to a state where it is always selected
+whenever TCG is available.
 
 Fixes: 29d9efca16 ("arm/Kconfig: Do not build TCG-only boards on a KVM-only build")
 Signed-off-by: Fabiano Rosas <farosas@suse.de>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20230508181611.2621-2-farosas@suse.de
+Message-id: 20230508181611.2621-3-farosas@suse.de
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/Kconfig | 8 +-------
- 1 file changed, 1 insertion(+), 7 deletions(-)
+ target/arm/Kconfig | 1 +
+ 1 file changed, 1 insertion(+)
 
 diff --git a/target/arm/Kconfig b/target/arm/Kconfig
-index 39f05b6420a..3fffdcb61b6 100644
+index 3fffdcb61b6..5947366f6e4 100644
 --- a/target/arm/Kconfig
 +++ b/target/arm/Kconfig
-@@ -1,13 +1,7 @@
+@@ -1,6 +1,7 @@
  config ARM
      bool
-+    select ARM_COMPATIBLE_SEMIHOSTING if TCG
+     select ARM_COMPATIBLE_SEMIHOSTING if TCG
++    select ARM_V7M if TCG
  
  config AARCH64
      bool
-     select ARM
--
--# This config exists just so we can make SEMIHOSTING default when TCG
--# is selected without also changing it for other architectures.
--config ARM_SEMIHOSTING
--    bool
--    default y if TCG && ARM
--    select ARM_COMPATIBLE_SEMIHOSTING
 -- 
 2.34.1
 
