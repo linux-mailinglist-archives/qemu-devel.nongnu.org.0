@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6AC6F6FFF37
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 May 2023 05:22:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A89FA6FFF3F
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 May 2023 05:25:46 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pxJLD-0000i6-Cb; Thu, 11 May 2023 23:21:11 -0400
+	id 1pxJP9-0001ZB-Qa; Thu, 11 May 2023 23:25:15 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pxJLB-0000ht-5i
- for qemu-devel@nongnu.org; Thu, 11 May 2023 23:21:09 -0400
-Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pxJP7-0001Yw-CZ
+ for qemu-devel@nongnu.org; Thu, 11 May 2023 23:25:13 -0400
+Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pxJL6-0004Lq-RK
- for qemu-devel@nongnu.org; Thu, 11 May 2023 23:21:08 -0400
-Received: by mail-wr1-x42a.google.com with SMTP id
- ffacd0b85a97d-30789a4c537so4601883f8f.0
- for <qemu-devel@nongnu.org>; Thu, 11 May 2023 20:21:03 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pxJP5-0005Be-8i
+ for qemu-devel@nongnu.org; Thu, 11 May 2023 23:25:13 -0400
+Received: by mail-wr1-x434.google.com with SMTP id
+ ffacd0b85a97d-30644c18072so6299275f8f.2
+ for <qemu-devel@nongnu.org>; Thu, 11 May 2023 20:25:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1683861661; x=1686453661;
+ d=linaro.org; s=google; t=1683861909; x=1686453909;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=rqg4bShYWwgnVnAeEEtsGQWJbdLqc+tuFjCQGlQDIbY=;
- b=VQgHfFC3GTFKkiqbKrUYF9bH8fF6qATSKh2IrqBIU3NvgeweZ5laRnp8HhT4KpK8cG
- ZQNBNKRJ0YpLCdC0Y05RohA3XpXwkJ7CM56h9YFqjSdGHCAVZE/n86cXIKo1ptl5K5hh
- kMublGyklIiCsm/cSIW8EfxIlyar2zc4cEjrxyBkbvbr/ymwUMqhuP8mL0VDsPi4Sohr
- MWdaYEz5UZKUtp652LyuARx12MXixY3PJWR0SsXpS6AHbbWBFHIqDR1Y3s34F9i7HQ4P
- OWnl+m2AOQG/T6CDkDgyGptnCyDBuB+vBf6VMeHtbLXE2BSuw6dcc8I9he6Mw+8dSXus
- uLHg==
+ bh=QRvAxaik4RZZnOAIdBo0G7KIfq+uDjkkRb8Z763Jb6A=;
+ b=Dc43lHcLUj85llYqQud+FslcPLQWtpmYoG9bHh/7h2bb2uofJoqzIgZTzxV/0zaQPT
+ zd9HF0XFUm1CIgjycuoG1h/zDpg+FcX89zB7NP5M2uCalz9X5b1MmTJXziXOvun3Kboq
+ xuhu9+xYsI6L908a+LAdMjjzBiL0lhqEzrar9k43ySsTsSIpaupgvMenLKJjD6YIlQ7k
+ dFtWkJPk9KInKChS3yrRYTS1iKc2nSC5EmqS+ULHG3PdMxzENgQ0e6kvbdrhEHHrC0a7
+ ddnUNbbhGcmKwnQAdqf5hjqZj+4x69Txx1LYCb30HeZ153919Xjf3vWrrgj+3s8kXpcs
+ WYwQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683861661; x=1686453661;
+ d=1e100.net; s=20221208; t=1683861909; x=1686453909;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=rqg4bShYWwgnVnAeEEtsGQWJbdLqc+tuFjCQGlQDIbY=;
- b=UYMHhdlgFWjH/UQqEEnAfnAGS7jEwT+RO1kkSpkgtj3ItOrpIBhk7YKlbORA+vMr5b
- 6WbC0/5hI2x77k3drtGFqQ0nW9e8JfTtZukgIjA14e9/JfR7HbdRndmLUIYMAPBzISaS
- uZHUcJI3QnPzw7GmIwnNjAsHh9HM+NjADcRiKkEfDhSGGfMxWH6Jbq6wimwM/38BB7ue
- so4wyLjxjs0bMKYpMlj4u4/JZtiIFsLt7EgxBVeti2EvwMD3zGRde4Lo3k+MknJWy14G
- tbY7Iwas23hYNQk0Kw9t6SSZ0RuSYEbdY/JDLId18WNNFdCcRiERv86AsizHKfO2zbsF
- XG9w==
-X-Gm-Message-State: AC+VfDyl86GirIC8vS1Z73mUMxsBggRSGHh9gOf+kKyGQNSkHWQJDud/
- H/jgOGJZij6Yk51+/NLfi+gaSA==
-X-Google-Smtp-Source: ACHHUZ4udcvlMK62pYKTvcq6w54XczE0osjJ+D2Op1/0EnGdhopeyOq/Hp6pnNewhfG4fkFLdAUo7g==
-X-Received: by 2002:a5d:668c:0:b0:2fe:2775:6067 with SMTP id
- l12-20020a5d668c000000b002fe27756067mr16663886wru.28.1683861661495; 
- Thu, 11 May 2023 20:21:01 -0700 (PDT)
+ bh=QRvAxaik4RZZnOAIdBo0G7KIfq+uDjkkRb8Z763Jb6A=;
+ b=O/PeNO1PKr+SebhM10hxQb4eoRjiKsYPp1ntOCjz7eiUXMvVlFvcdlj7wgZ+KWZrZ8
+ jzvfERBBi9Thf6OQLhErHRrxLz7DnfUKtjYdLaKShKi6dqyXRRz6Q8MK+rfOnzFh8WQS
+ HikVUJbf+5gonzQHVc6pTna7MMgxz14Ao6Oxo8oc0eUNUTleG99kVcFSOCzLLYXCRZ12
+ b2NJHwkHIkO1X499X9gqDJQSuasyQFTnWRgimPlsWn2QjSJOI93s32DKZmgeiWp/huy0
+ qfZKtfPVa13hfpw+oe09bKtRmxuVX0f4shWzLIwo+j9ZzaDKvnJXSHRCnz8Edeef8p78
+ G7FA==
+X-Gm-Message-State: AC+VfDxCX0MGj6NDQ5OCgOdFGYYVZaqqnnQIKDD9OL8m37Rj1aGG4uGL
+ dmjmGNHuz1cUnFkMj9FpE634Pg==
+X-Google-Smtp-Source: ACHHUZ5tDP0CBBqwGA5U1ZPRc9X4vsdtqY5u98H4eghD9O2Uz+IFarrVulfwRkYR3y5ctb2bieELaQ==
+X-Received: by 2002:a05:6000:c:b0:306:32fa:6737 with SMTP id
+ h12-20020a056000000c00b0030632fa6737mr16062358wrx.8.1683861909666; 
+ Thu, 11 May 2023 20:25:09 -0700 (PDT)
 Received: from [192.168.69.115] ([176.176.152.186])
  by smtp.gmail.com with ESMTPSA id
- v1-20020a5d6101000000b003062b57ffd1sm22196089wrt.50.2023.05.11.20.21.00
+ q5-20020adfea05000000b00307acec258esm7245437wrm.3.2023.05.11.20.25.08
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 11 May 2023 20:21:01 -0700 (PDT)
-Message-ID: <12e3140b-54e6-04df-04b6-839e2ad8dad6@linaro.org>
-Date: Fri, 12 May 2023 05:20:59 +0200
+ Thu, 11 May 2023 20:25:09 -0700 (PDT)
+Message-ID: <81ce7b34-99ff-0d50-8b15-177d0d7aae1a@linaro.org>
+Date: Fri, 12 May 2023 05:25:07 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.10.1
-Subject: Re: [PATCH v2 01/19] test-cutils: Avoid g_assert in unit tests
+Subject: Re: [PATCH v2 12/19] cutils: Allow NULL str in qemu_strtosz
 Content-Language: en-US
 To: Eric Blake <eblake@redhat.com>, qemu-devel@nongnu.org
 Cc: hreitz@redhat.com, armbru@redhat.com, richard.henderson@linaro.org
 References: <20230512021033.1378730-1-eblake@redhat.com>
- <20230512021033.1378730-2-eblake@redhat.com>
+ <20230512021033.1378730-13-eblake@redhat.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230512021033.1378730-2-eblake@redhat.com>
+In-Reply-To: <20230512021033.1378730-13-eblake@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x42a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::434;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x434.google.com
 X-Spam_score_int: -41
 X-Spam_score: -4.2
 X-Spam_bar: ----
@@ -94,27 +94,15 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On 12/5/23 04:10, Eric Blake wrote:
-> glib documentation[1] is clear: g_assert() should be avoided in unit
-> tests because it is ineffective if G_DISABLE_ASSERT is defined; unit
-> tests should stick to constructs based on g_assert_true() instead.
-> Note that since commit 262a69f428, we intentionally state that you
-> cannot define G_DISABLE_ASSERT that while building qemu; but our code
-> can be copied to other projects without that restriction, so we should
-> be consistent.
-> 
-> For most of the replacements in this patch, using g_assert_cmpstr()
-> would be a regression in quality - although it would helpfully display
-> the string contents of both pointers on test failure, here, we really
-> do care about pointer equality, not just string content equality.  But
-> when a NULL pointer is expected, g_assert_null works fine.
-> 
-> [1] https://libsoup.org/glib/glib-Testing.html#g-assert
+> All the other qemu_strto* and parse_uint allow a NULL str.  Having
+> qemu_strtosz crash on qemu_strtosz(NULL, NULL, &value) is an easy fix
+> that adds some consistency between our string parsers.
 > 
 > Signed-off-by: Eric Blake <eblake@redhat.com>
-> Reviewed-by: Hanna Czenczek <hreitz@redhat.com>
 > ---
->   tests/unit/test-cutils.c | 324 +++++++++++++++++++--------------------
->   1 file changed, 162 insertions(+), 162 deletions(-)
+>   tests/unit/test-cutils.c | 3 +++
+>   util/cutils.c            | 2 +-
+>   2 files changed, 4 insertions(+), 1 deletion(-)
 
 Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
