@@ -2,71 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC1346FFF2A
-	for <lists+qemu-devel@lfdr.de>; Fri, 12 May 2023 05:03:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6AC6F6FFF37
+	for <lists+qemu-devel@lfdr.de>; Fri, 12 May 2023 05:22:35 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pxJ2T-0005as-Bp; Thu, 11 May 2023 23:01:49 -0400
+	id 1pxJLD-0000i6-Cb; Thu, 11 May 2023 23:21:11 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
- id 1pxJ2Q-0005aV-6s
- for qemu-devel@nongnu.org; Thu, 11 May 2023 23:01:46 -0400
-Received: from mail.loongson.cn ([114.242.206.163] helo=loongson.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <gaosong@loongson.cn>) id 1pxJ2N-0000tU-Gm
- for qemu-devel@nongnu.org; Thu, 11 May 2023 23:01:45 -0400
-Received: from loongson.cn (unknown [10.20.42.57])
- by gateway (Coremail) with SMTP id _____8Cx_eoOrF1kLf0HAA--.13381S3;
- Fri, 12 May 2023 11:01:35 +0800 (CST)
-Received: from [10.20.42.57] (unknown [10.20.42.57])
- by localhost.localdomain (Coremail) with SMTP id
- AQAAf8BxLb8NrF1kYNhWAA--.23307S3; 
- Fri, 12 May 2023 11:01:33 +0800 (CST)
-Subject: Re: [PATCH 2/3] hw/intc: Add NULL pointer check on LoongArch ipi
- device
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- qemu-devel@nongnu.org
-Cc: richard.henderson@linaro.org, maobibo@loongson.cn, yangxiaojuan@loongson.cn
-References: <20230406100052.3355632-1-gaosong@loongson.cn>
- <20230406100052.3355632-2-gaosong@loongson.cn>
- <0de07b1e-1371-9bad-11e0-e57d8fb379fe@linaro.org>
-From: Song Gao <gaosong@loongson.cn>
-Message-ID: <255a9693-3660-35b4-8213-a609018bbb2c@loongson.cn>
-Date: Fri, 12 May 2023 11:01:33 +0800
-User-Agent: Mozilla/5.0 (X11; Linux loongarch64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pxJLB-0000ht-5i
+ for qemu-devel@nongnu.org; Thu, 11 May 2023 23:21:09 -0400
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pxJL6-0004Lq-RK
+ for qemu-devel@nongnu.org; Thu, 11 May 2023 23:21:08 -0400
+Received: by mail-wr1-x42a.google.com with SMTP id
+ ffacd0b85a97d-30789a4c537so4601883f8f.0
+ for <qemu-devel@nongnu.org>; Thu, 11 May 2023 20:21:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1683861661; x=1686453661;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=rqg4bShYWwgnVnAeEEtsGQWJbdLqc+tuFjCQGlQDIbY=;
+ b=VQgHfFC3GTFKkiqbKrUYF9bH8fF6qATSKh2IrqBIU3NvgeweZ5laRnp8HhT4KpK8cG
+ ZQNBNKRJ0YpLCdC0Y05RohA3XpXwkJ7CM56h9YFqjSdGHCAVZE/n86cXIKo1ptl5K5hh
+ kMublGyklIiCsm/cSIW8EfxIlyar2zc4cEjrxyBkbvbr/ymwUMqhuP8mL0VDsPi4Sohr
+ MWdaYEz5UZKUtp652LyuARx12MXixY3PJWR0SsXpS6AHbbWBFHIqDR1Y3s34F9i7HQ4P
+ OWnl+m2AOQG/T6CDkDgyGptnCyDBuB+vBf6VMeHtbLXE2BSuw6dcc8I9he6Mw+8dSXus
+ uLHg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1683861661; x=1686453661;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=rqg4bShYWwgnVnAeEEtsGQWJbdLqc+tuFjCQGlQDIbY=;
+ b=UYMHhdlgFWjH/UQqEEnAfnAGS7jEwT+RO1kkSpkgtj3ItOrpIBhk7YKlbORA+vMr5b
+ 6WbC0/5hI2x77k3drtGFqQ0nW9e8JfTtZukgIjA14e9/JfR7HbdRndmLUIYMAPBzISaS
+ uZHUcJI3QnPzw7GmIwnNjAsHh9HM+NjADcRiKkEfDhSGGfMxWH6Jbq6wimwM/38BB7ue
+ so4wyLjxjs0bMKYpMlj4u4/JZtiIFsLt7EgxBVeti2EvwMD3zGRde4Lo3k+MknJWy14G
+ tbY7Iwas23hYNQk0Kw9t6SSZ0RuSYEbdY/JDLId18WNNFdCcRiERv86AsizHKfO2zbsF
+ XG9w==
+X-Gm-Message-State: AC+VfDyl86GirIC8vS1Z73mUMxsBggRSGHh9gOf+kKyGQNSkHWQJDud/
+ H/jgOGJZij6Yk51+/NLfi+gaSA==
+X-Google-Smtp-Source: ACHHUZ4udcvlMK62pYKTvcq6w54XczE0osjJ+D2Op1/0EnGdhopeyOq/Hp6pnNewhfG4fkFLdAUo7g==
+X-Received: by 2002:a5d:668c:0:b0:2fe:2775:6067 with SMTP id
+ l12-20020a5d668c000000b002fe27756067mr16663886wru.28.1683861661495; 
+ Thu, 11 May 2023 20:21:01 -0700 (PDT)
+Received: from [192.168.69.115] ([176.176.152.186])
+ by smtp.gmail.com with ESMTPSA id
+ v1-20020a5d6101000000b003062b57ffd1sm22196089wrt.50.2023.05.11.20.21.00
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 11 May 2023 20:21:01 -0700 (PDT)
+Message-ID: <12e3140b-54e6-04df-04b6-839e2ad8dad6@linaro.org>
+Date: Fri, 12 May 2023 05:20:59 +0200
 MIME-Version: 1.0
-In-Reply-To: <0de07b1e-1371-9bad-11e0-e57d8fb379fe@linaro.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.10.1
+Subject: Re: [PATCH v2 01/19] test-cutils: Avoid g_assert in unit tests
 Content-Language: en-US
-X-CM-TRANSID: AQAAf8BxLb8NrF1kYNhWAA--.23307S3
-X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
-X-Coremail-Antispam: 1Uk129KBjvJXoW7Kw13CryktF1fZr45Cry3Jwb_yoW8Zryrpr
- n3Cw43CrWjyFyxJwnrJryUXFy5Gr1kWa47CrySva4rXr1DZry09r1jgryvgFy2yw4xJr1U
- tr1UJr47uF15JaDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
- qI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUIcSsGvfJTRUUU
- bI8YFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s
- 1l1IIY67AEw4v_JrI_Jryl8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xv
- wVC0I7IYx2IY67AKxVW8JVW5JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwA2z4
- x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6xkF7I0E14v26r4UJVWxJr1l
- e2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF0cIa020Ex4CE44I27wAqx4xG64xvF2
- IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_JrI_JrylYx0Ex4A2jsIE14v26r1j6r4U
- McvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwCYjI0SjxkI62AI1cAE67vIY487Mx
- AIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_
- Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUAVWUtwCIc40Y0x0EwI
- xGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8
- JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcV
- C2z280aVCY1x0267AKxVWUJVW8JbIYCTnIWIevJa73UjIFyTuYvjxUzZ2-UUUUU
-Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
- helo=loongson.cn
-X-Spam_score_int: -39
-X-Spam_score: -4.0
+To: Eric Blake <eblake@redhat.com>, qemu-devel@nongnu.org
+Cc: hreitz@redhat.com, armbru@redhat.com, richard.henderson@linaro.org
+References: <20230512021033.1378730-1-eblake@redhat.com>
+ <20230512021033.1378730-2-eblake@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20230512021033.1378730-2-eblake@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x42a.google.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
 X-Spam_bar: ----
-X-Spam_report: (-4.0 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.124,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.124,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,59 +93,29 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi,  Philippe
+On 12/5/23 04:10, Eric Blake wrote:
+> glib documentation[1] is clear: g_assert() should be avoided in unit
+> tests because it is ineffective if G_DISABLE_ASSERT is defined; unit
+> tests should stick to constructs based on g_assert_true() instead.
+> Note that since commit 262a69f428, we intentionally state that you
+> cannot define G_DISABLE_ASSERT that while building qemu; but our code
+> can be copied to other projects without that restriction, so we should
+> be consistent.
+> 
+> For most of the replacements in this patch, using g_assert_cmpstr()
+> would be a regression in quality - although it would helpfully display
+> the string contents of both pointers on test failure, here, we really
+> do care about pointer equality, not just string content equality.  But
+> when a NULL pointer is expected, g_assert_null works fine.
+> 
+> [1] https://libsoup.org/glib/glib-Testing.html#g-assert
+> 
+> Signed-off-by: Eric Blake <eblake@redhat.com>
+> Reviewed-by: Hanna Czenczek <hreitz@redhat.com>
+> ---
+>   tests/unit/test-cutils.c | 324 +++++++++++++++++++--------------------
+>   1 file changed, 162 insertions(+), 162 deletions(-)
 
-在 2023/5/12 上午3:03, Philippe Mathieu-Daudé 写道:
-> On 6/4/23 12:00, Song Gao wrote:
->> When ipi mailbox is used, cpu index is decoded from iocsr register.
->> cpu maybe does not exist. This patch adss NULL pointer check on
->> ipi device.
->
-> How can that happens from a guest vcpu context?
->
-cpuid(cs->cpu_index)  is decoded from iocsr register.
-
-     cpuid = (val >> 16) & 0x3ff;   // ipi_sned [25:16]
-
-The value maybe invalid.  qemu only support 4 vcpu.
-
-you can find more about ipi_send registers at:
-https://github.com/loongson/LoongArch-Documentation/releases/download/2023.04.20/Loongson-3A5000-usermanual-v1.03-EN.pdf
-Table 63. Processor core inter-processor communication registers
-
->> Signed-off-by: Song Gao <gaosong@loongson.cn>
->> ---
->>   hw/intc/loongarch_ipi.c | 31 +++++++++++++++++++------------
->>   1 file changed, 19 insertions(+), 12 deletions(-)
->>
->> diff --git a/hw/intc/loongarch_ipi.c b/hw/intc/loongarch_ipi.c
->> index 0563d83a35..39e899df46 100644
->> --- a/hw/intc/loongarch_ipi.c
->> +++ b/hw/intc/loongarch_ipi.c
->> @@ -86,11 +86,12 @@ static void ipi_send(uint64_t val)
->>       /* IPI status vector */
->>       data = 1 << (val & 0x1f);
->>       cs = qemu_get_cpu(cpuid);
->> -    cpu = LOONGARCH_CPU(cs);
->> -    env = &cpu->env;
->> -    address_space_stl(&env->address_space_iocsr, 0x1008,
->> -                      data, MEMTXATTRS_UNSPECIFIED, NULL);
->> -
->> +    if (cs) {
->> +        cpu = LOONGARCH_CPU(cs);
->> +        env = &cpu->env;
->> +        address_space_stl(&env->address_space_iocsr, 0x1008,
->> +                          data, MEMTXATTRS_UNSPECIFIED, NULL);
->> +    }
->
-> Is that the hardware behavior?
->
-Yes.
-> Could logging the invalid cpuid request be useful?
->
-Sure.
-
-Thanks.
-Song Gao
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
 
