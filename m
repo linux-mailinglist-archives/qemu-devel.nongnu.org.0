@@ -2,83 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1ED62701620
-	for <lists+qemu-devel@lfdr.de>; Sat, 13 May 2023 12:23:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 807E7701664
+	for <lists+qemu-devel@lfdr.de>; Sat, 13 May 2023 13:27:50 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pxmOL-0006Ax-C2; Sat, 13 May 2023 06:22:21 -0400
+	id 1pxnOA-0000WK-Ju; Sat, 13 May 2023 07:26:14 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pxmOI-0006AU-Th
- for qemu-devel@nongnu.org; Sat, 13 May 2023 06:22:18 -0400
-Received: from mail-ed1-x536.google.com ([2a00:1450:4864:20::536])
+ id 1pxnO6-0000Vr-9p
+ for qemu-devel@nongnu.org; Sat, 13 May 2023 07:26:10 -0400
+Received: from mail-ed1-x533.google.com ([2a00:1450:4864:20::533])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pxmOH-0006v9-5A
- for qemu-devel@nongnu.org; Sat, 13 May 2023 06:22:18 -0400
-Received: by mail-ed1-x536.google.com with SMTP id
- 4fb4d7f45d1cf-50bc22805d3so16427905a12.1
- for <qemu-devel@nongnu.org>; Sat, 13 May 2023 03:22:16 -0700 (PDT)
+ id 1pxnO4-0005Nm-Ok
+ for qemu-devel@nongnu.org; Sat, 13 May 2023 07:26:10 -0400
+Received: by mail-ed1-x533.google.com with SMTP id
+ 4fb4d7f45d1cf-50bc25f0c7dso19651605a12.3
+ for <qemu-devel@nongnu.org>; Sat, 13 May 2023 04:26:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1683973335; x=1686565335;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
+ d=linaro.org; s=google; t=1683977167; x=1686569167;
+ h=content-transfer-encoding:in-reply-to:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=wGLR4IVkMPntJRLilMPGdfFFYpmZb4O68hDXPYWGoiU=;
- b=LY0Lq/cNpZkWcK1RpU1/YjgDBnrqJxHuQoqSZuD6fFBLWBnN3AM7R6ZkBNuBkVKpXk
- tpJ/hVqD/RPyhXIAV1HshtQyO5URP2QtcZCXxsCFCUPmKjvG/I04AqHkef3x0VwEba+L
- 8rHmvMRmuX4c+i1c4QdVy24lBOAMdf9IIUhWp+DpnRfBZpxzdt6OnchyABfCpYiQQXve
- FjqqPXyGbe8bRajR9ylUdwZ7FxbZvPw3v+zfhKh4rd3w3qEHQ7JwZTP6yfzVoInAKoag
- gZjV80jAcnsaZ+ScZJqgxK7SsQxLA4dBh1Sv59M0pAyTb7YQteQuZUnEbgbToQkfimb4
- ZZ7w==
+ bh=Y8E8C+yE5MHCFBvwa5cWNm7L553/azPboyO3J+hpsDg=;
+ b=iQHV0e2nIhR9+XpyWmhzWAPWkKwLluPb/tXEEmfsV0Va8F7ybqLeXRHfsSmlsAIwru
+ V9ILt4Zt339H6T89mRJzn/Q3GRfoXYkFvjYDVphUuWh041y9wEM96WCKHlFlThnV+Qzq
+ UQ6pkCmBEkgI3dktg29L0GZqO5+byPRqFnb30amxbCxBvSmEQq2eKZXP0Y1CrIj9o57/
+ zZFXKHEhgxRbzPhTc9vSB9/2c8+/GVUJ5uZ2u4CORMc3aoMwJXv9/K/VNGCr9cYPPAkU
+ ll/GEUYJUP62KQuWzK6l6Q1nyhFnYuU2HBUDrgx+0RWrYh5eC4asCFh21rZAm0ZfgR98
+ o/8w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683973335; x=1686565335;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
+ d=1e100.net; s=20221208; t=1683977167; x=1686569167;
+ h=content-transfer-encoding:in-reply-to:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=wGLR4IVkMPntJRLilMPGdfFFYpmZb4O68hDXPYWGoiU=;
- b=SSn3RlJTY9ycY6nIoVonREr6Bn1kM6ALCOtsZE9poSKRL8Er+SoHkqHXm/TisNR5ra
- rsvDHhrd2uuT93MhU44+bxTcLMuFOhan4mYzBsUi098PtKcfpl8zFJd9cedAUknEUHCD
- iPn02AiTrjaMTONepzIYnRg/TywItSxUEZPnnghdC/RMhLi1hU2RLKsPemqp3rGjd+dP
- UcP3XNpgIvif7KP9XlS/aqTMgrVi3WATQoq7xuQzAyHu9DyNzRZ4PKBnKfpEEhpknR/5
- AZrM6pS/8WPZQPHzjl3FHja+2+86co1bQyZqcNMn2AQVNTCQmzwzYlQco6nexyWPpmd4
- RHeQ==
-X-Gm-Message-State: AC+VfDyf1a8unmdRRBwE2GaVyJO37mGOYC7fYO6qr+Z5CjsLvPZiTGH1
- NfAuVx6ub8hQhlp+h2eNrVVbyg==
-X-Google-Smtp-Source: ACHHUZ77Zhw7CwPK0tkPx4FYbUwUsO8B9cuD4WwGVS2Yp4d6cFnmJu2WAbUV5JYZDu2nlxOtl0LTew==
-X-Received: by 2002:aa7:d945:0:b0:50b:d26d:c57e with SMTP id
- l5-20020aa7d945000000b0050bd26dc57emr20154900eds.12.1683973335316; 
- Sat, 13 May 2023 03:22:15 -0700 (PDT)
+ bh=Y8E8C+yE5MHCFBvwa5cWNm7L553/azPboyO3J+hpsDg=;
+ b=O5ZucZrSTT/nR9a+AQHKkG8SlgifiXNavsLVUKfx8CJJe6yIWkv+fDFcEj1mlKLiIm
+ 0MnDOiHjqllxpPNoNM3T1jO9/F1gFlJ+nPrz51LK2hszAP4wKGmVeqFiKv0UdRF/89Mp
+ 3EmSGhDb15aFiPXtqB3xdGrQwmfG5Hm3713MOozaVV9hWX/LYipXXv5htVG3ttx8luV7
+ OAkHTmwScCFexeEetOSliImMuZSeori5KkKQCYsaPgAwKKUX0qXMR8Ekk3G68EYWP93R
+ ciQfLz30ME/k+30X4VTIWuZeRbqCse8V1e2bGtCCNJusBKogvDp7ABe+V4XCDI11FOCe
+ mfKQ==
+X-Gm-Message-State: AC+VfDzdH5RHQwSxm0aq42z/o0OQHuJ5pqNa2mo7IjZT82Nutqhp7BlG
+ zFO3B52iZl8nM8urDOvSOPO1Yg==
+X-Google-Smtp-Source: ACHHUZ5BRuWxzNiReB6oe8+T4UgVKLkpR8Djg4EFFKL40rhH3JcPH+IjfLFk1+bMdKmuyvnFfOfsdQ==
+X-Received: by 2002:a05:6402:128c:b0:50b:c72a:2b1b with SMTP id
+ w12-20020a056402128c00b0050bc72a2b1bmr21061153edv.19.1683977167054; 
+ Sat, 13 May 2023 04:26:07 -0700 (PDT)
 Received: from [192.168.190.227] ([109.144.17.21])
  by smtp.gmail.com with ESMTPSA id
- e19-20020a056402089300b0050bd9d3ddf3sm4701678edy.42.2023.05.13.03.22.12
+ d14-20020a50fb0e000000b0050bc6d0e880sm4694825edq.61.2023.05.13.04.26.06
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 13 May 2023 03:22:14 -0700 (PDT)
-Message-ID: <bb4d8b79-6616-44bf-0446-fcabdd85f248@linaro.org>
-Date: Sat, 13 May 2023 11:22:09 +0100
+ Sat, 13 May 2023 04:26:06 -0700 (PDT)
+Message-ID: <8d26d18a-139b-a32f-a9ce-12a14232de29@linaro.org>
+Date: Sat, 13 May 2023 12:26:04 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.10.0
-Subject: Re: [PULL 00/44] Hexagon update
-To: Taylor Simpson <tsimpson@quicinc.com>, qemu-devel@nongnu.org
-Cc: philmd@linaro.org, peter.maydell@linaro.org, bcain@quicinc.com,
- quic_mathbern@quicinc.com, stefanha@redhat.com, ale@rev.ng, anjo@rev.ng,
- quic_mliebel@quicinc.com
-References: <20230512214706.946068-1-tsimpson@quicinc.com>
+Subject: Re: [PATCH 17/20] target/arm: Convert BR, BLR, RET to decodetree
 Content-Language: en-US
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org
+References: <20230512144106.3608981-1-peter.maydell@linaro.org>
+ <20230512144106.3608981-18-peter.maydell@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20230512214706.946068-1-tsimpson@quicinc.com>
+In-Reply-To: <20230512144106.3608981-18-peter.maydell@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::536;
- envelope-from=richard.henderson@linaro.org; helo=mail-ed1-x536.google.com
-X-Spam_score_int: -39
-X-Spam_score: -4.0
-X-Spam_bar: ----
-X-Spam_report: (-4.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.845,
+Received-SPF: pass client-ip=2a00:1450:4864:20::533;
+ envelope-from=richard.henderson@linaro.org; helo=mail-ed1-x533.google.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.923,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -96,43 +95,17 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 5/12/23 22:46, Taylor Simpson wrote:
-> The following changes since commit 278238505d28d292927bff7683f39fb4fbca7fd1:
+On 5/12/23 15:41, Peter Maydell wrote:
+> Convert the simple (non-pointer-auth) BR, BLR and RET insns
+> to decodetree.
 > 
->    Merge tag 'pull-tcg-20230511-2' ofhttps://gitlab.com/rth7680/qemu  into staging (2023-05-11 11:44:23 +0100)
-> 
-> are available in the Git repository at:
-> 
->    https://github.com/quic/qemu  tags/pull-hex-20230512-1
-> 
-> for you to fetch changes up to a1c042e1cc4c1da209f7c3e04aec5e622c7bcdc0:
-> 
->    Hexagon (linux-user/hexagon): handle breakpoints (2023-05-12 14:43:14 -0700)
-> 
-> ----------------------------------------------------------------
-> This PR can be broken down into the following parts
-> - Add support for new architecture versions v68/v69/v71/v73
-> - Short-circuit writes to temporaries when packet semantics permit this
-> - Move bookkeeping items from CPUHexagonState to DisasContext
-> - Correct '-cpu help' output and handling of unknown Hexagon versions
-> - Enable LLDB debugging
-> - Miscellaneous fixes and improvements
+> Signed-off-by: Peter Maydell<peter.maydell@linaro.org>
+> ---
+>   target/arm/tcg/a64.decode      |  5 ++++
+>   target/arm/tcg/translate-a64.c | 55 ++++++++++++++++++++++++++++++----
+>   2 files changed, 54 insertions(+), 6 deletions(-)
 
-Please always test 32-bit host.  You have a CI failure:
-
-https://gitlab.com/qemu-project/qemu/-/jobs/4279656830#L873
-
-/builds/qemu-project/qemu/target/hexagon/idef-parser/idef-parser.lex: In function 'yylex':
-/builds/qemu-project/qemu/target/hexagon/idef-parser/idef-parser.lex:435:38: error: format 
-'%lx' expects argument of type 'long unsigned int', but argument 2 has type 'int64_t' {aka 
-'long long int'} [-Werror=format=]
-   435 |                               printf("value = 0x%lx\n", value);
-       |                                      ^~~~~~~~~~~~~~~~~  ~~~~~
-       |                                                         |
-       |                                                         int64_t {aka long long int}
-
-
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 r~
-
 
