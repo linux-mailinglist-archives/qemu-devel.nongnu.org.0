@@ -2,81 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6E63701687
-	for <lists+qemu-devel@lfdr.de>; Sat, 13 May 2023 13:57:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F3973701690
+	for <lists+qemu-devel@lfdr.de>; Sat, 13 May 2023 14:23:23 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pxnsM-0008Ix-Pu; Sat, 13 May 2023 07:57:26 -0400
+	id 1pxoFm-0004Xv-3t; Sat, 13 May 2023 08:21:38 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pxnsL-0008Ip-Cf
- for qemu-devel@nongnu.org; Sat, 13 May 2023 07:57:25 -0400
-Received: from mail-ej1-x634.google.com ([2a00:1450:4864:20::634])
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
+ id 1pxoFh-0004XG-Jy; Sat, 13 May 2023 08:21:34 -0400
+Received: from mail-ej1-x635.google.com ([2a00:1450:4864:20::635])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pxnsJ-0001cV-Mw
- for qemu-devel@nongnu.org; Sat, 13 May 2023 07:57:25 -0400
-Received: by mail-ej1-x634.google.com with SMTP id
- a640c23a62f3a-96adcb66f37so95909366b.1
- for <qemu-devel@nongnu.org>; Sat, 13 May 2023 04:57:23 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
+ id 1pxoFf-0005cZ-NO; Sat, 13 May 2023 08:21:33 -0400
+Received: by mail-ej1-x635.google.com with SMTP id
+ a640c23a62f3a-96aae59bbd6so312285466b.3; 
+ Sat, 13 May 2023 05:21:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1683979042; x=1686571042;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=SV/a6APIQrFA2Ihoo6jNdZ14T8OlZaWf5ZzS2lMWmz0=;
- b=BkBVRqBQRTHV7sF1o1r/RIede0jxbjUs+OKmqRPI+hqNxufNw01lCl4V1T0BCLyq0u
- mnKX9L6XGxgjTmEtODckvfwlzQfxhsAoCvPWME9flO2h8IbrHBfvNpldW+mjCTZ+Kuj1
- BLp40Zp2Nd3DbbCyu+yHlzFpzg82AfS7i3UO8rrh4ZvQeKiY0bH7cDeDENm0zbX53TS+
- BPeKIXGPqBq9+hFtT9nOBY2UBBo/v+JUlDbLpG/r61zkKIo7wBszLkP0uoTC9IOalP+T
- uDuQRxCFLYD3KRUgSMj/kUAp2KgKNLAKTKFlfVIf0x10n7cCrnGErxgyVdM21l/FdIhE
- gr1A==
+ d=gmail.com; s=20221208; t=1683980489; x=1686572489;
+ h=content-transfer-encoding:mime-version:message-id:references
+ :in-reply-to:subject:cc:to:from:date:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=QhJlq3cLAvYYgsw6EK+4vG0vmuFRJ4fmOVJ/2SBAcQQ=;
+ b=am8Tq32Qerzg+fHFhOfkcsloUynaSMVgcbjWVlVzeszSDgGoESPar7LLwgEQkHxn2+
+ wsvTZ37cd++FfHaLmimsqtbMWuXNWhSTBX3NwHTNmLBgvego7nrsfj0DgH7UswObeBrp
+ S3XNzjGodjNyE8/LfUO1MGrSlQm0xYhkstPprNy7piYHpWcqahE1aOOl7SGmc5ejNAXh
+ bF1vOV61keD6uU4bFxhESktyj24PZmLSqgkRKvfGSA66nnfRk0Lv1elW+nmsQ02C8yOJ
+ vOaYl5pvOhZH3Lq/ib7dN/z35a0dHmKJJT2HxdbSFr80RQzqQV+LPml4gT4u9+CbxJ3S
+ wYHQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683979042; x=1686571042;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=SV/a6APIQrFA2Ihoo6jNdZ14T8OlZaWf5ZzS2lMWmz0=;
- b=BxRHVyfyoJOaqhkjncppOwEucWvmhdlpAjqihmikr0Qa3HDssJi99TRIhN3xxMl5zq
- 6jW2/zEtTJhZyzSZbD+Lm0HErhBhF06hL6sH/cFMLkvEt+/HlA9Q7RmgwA351Co/zO20
- XP7LGiByyHxjFTqBBHyRqssPd3dihtxOXudSrdJ6FIF+DeSxi3j0YkbY4h+vCnQnXJVv
- P+0HsWlvpJl/K/M/by9hEwtpLfmhSPZnCjldH4JSPjvUdwfO2dtzywswboeMciw0duwG
- fTrQ8nbfTwZLvXhx4AGDmZNupODRDEg0+OqYx/KdSOc1sZKhgj1x0ZLNaPu4fKR6OCbL
- Fmug==
-X-Gm-Message-State: AC+VfDyiCB9Q3rIeKzx7I+EBOjRvKD9WBK2NkNSCKzrO7UpOB+fn9Cv/
- iSbkCB6HFPzYb/REzqOP7q4h7w==
-X-Google-Smtp-Source: ACHHUZ5Uk31xTNgzMVitoGNJofZ/nEY+BcXyBq8siM9CZAU6npqU80mmajNP4NufIauBoDScwGveyA==
-X-Received: by 2002:a17:907:8688:b0:96a:3005:61b7 with SMTP id
- qa8-20020a170907868800b0096a300561b7mr10457966ejc.74.1683979042022; 
- Sat, 13 May 2023 04:57:22 -0700 (PDT)
-Received: from [192.168.190.227] ([109.144.17.21])
- by smtp.gmail.com with ESMTPSA id
- s1-20020a1709070b2100b0096a16761ab4sm5263594ejl.144.2023.05.13.04.57.21
+ d=1e100.net; s=20221208; t=1683980489; x=1686572489;
+ h=content-transfer-encoding:mime-version:message-id:references
+ :in-reply-to:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=QhJlq3cLAvYYgsw6EK+4vG0vmuFRJ4fmOVJ/2SBAcQQ=;
+ b=ffTZCE86+m2bbCfEW8+WQHx4BXZWOZgRKWqR9DrSiglB6GTfRgD3uJIgsY/YQMYisU
+ zZ9QKmkUNr8h6nLe85OMEdQY4MREsSrihQDkQ7BTUPYosYweqpH+/YPA2DY9HAbcQLr4
+ yRlwvwDJa+zTeKhZpXDwckDJCD1kA9/qrYdQuZcmyyQC9phSuSZFRxJBV34ny2ol+xsu
+ ImpZvuJrcgVPp9e1YguCohR4pEi5Q1itvcdi1n22nAipBIwq8JbbB79EXLxoC0zZypYO
+ GiaHef7/WILMRBmxD1YKtjG0pX2zq7vNcnPqzsTTZUfatt6xqit2GlASW9ThA8j8YYdA
+ ytxA==
+X-Gm-Message-State: AC+VfDw/viYxIGnPd3i5qdsLM2A3tWihkaR/z6dSz76duBOGhh5ELEyh
+ PDnHHXiBj70czZFQB6z5wuw=
+X-Google-Smtp-Source: ACHHUZ66HZJotMCX/i06hmO0k2fww0CrkUGSkDR7XTGpPP2ljge1myNsK5YMKkAMzMjuNZ/MfLYW6Q==
+X-Received: by 2002:a17:906:ee82:b0:94f:1a23:2f1c with SMTP id
+ wt2-20020a170906ee8200b0094f1a232f1cmr23023406ejb.50.1683980489244; 
+ Sat, 13 May 2023 05:21:29 -0700 (PDT)
+Received: from [127.0.0.1] (dynamic-077-013-174-037.77.13.pool.telefonica.de.
+ [77.13.174.37]) by smtp.gmail.com with ESMTPSA id
+ sa40-20020a1709076d2800b00965d4b2bd4csm6848553ejc.141.2023.05.13.05.21.28
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 13 May 2023 04:57:21 -0700 (PDT)
-Message-ID: <38f9b939-69c0-8ce8-28cb-8e5e6b787767@linaro.org>
-Date: Sat, 13 May 2023 12:57:19 +0100
+ Sat, 13 May 2023 05:21:28 -0700 (PDT)
+Date: Sat, 13 May 2023 12:21:24 +0000
+From: Bernhard Beschow <shentey@gmail.com>
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org
+CC: qemu-block@nongnu.org, Jiaxun Yang <jiaxun.yang@flygoat.com>,
+ BALATON Zoltan <balaton@eik.bme.hu>, John Snow <jsnow@redhat.com>,
+ Huacai Chen <chenhuacai@kernel.org>,
+ =?ISO-8859-1?Q?Philippe_Mathieu-Daud=E9?= <philmd@linaro.org>,
+ qemu-ppc@nongnu.org
+Subject: Re: [PATCH 10/13] hw/ide/piix: Reuse PCIIDEState::{cmd,data}_ops
+In-Reply-To: <3d9a88eb-e9f3-4335-2a00-34d249c17289@ilande.co.uk>
+References: <20230422150728.176512-1-shentey@gmail.com>
+ <20230422150728.176512-11-shentey@gmail.com>
+ <4ed18370-3a92-3ae5-912f-1f6dafab37d1@ilande.co.uk>
+ <612DFA62-40DC-44D3-88A9-797FB4EC1F48@gmail.com>
+ <CD1A2767-74AD-4285-ADF8-1757B8DD7953@gmail.com>
+ <698457dc-ca0a-956d-f20d-c3b353fbf0c3@ilande.co.uk>
+ <6D292D6F-D82B-4425-8A03-7A51AA7791B0@gmail.com>
+ <3d9a88eb-e9f3-4335-2a00-34d249c17289@ilande.co.uk>
+Message-ID: <0E1C9281-7688-44FF-917B-0E4AB99C1EE1@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH] linux-user: fix incorrect alignment of pretcode
-Content-Language: en-US
-To: fanwj@mail.ustc.edu.cn, qemu-devel@nongnu.org
-Cc: laurent@vivier.eu, peter.maydell@linaro.org
-References: <7478fbcd.65885.188109d27f2.Coremail.fanwj@mail.ustc.edu.cn>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <7478fbcd.65885.188109d27f2.Coremail.fanwj@mail.ustc.edu.cn>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::634;
- envelope-from=richard.henderson@linaro.org; helo=mail-ej1-x634.google.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.923,
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::635;
+ envelope-from=shentey@gmail.com; helo=mail-ej1-x635.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -94,33 +101,171 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 5/12/23 16:38, fanwj@mail.ustc.edu.cn wrote:
-> sigframe::pretcode & rt_sigframe::pretcode must align of 16n-sizeof(void*) instead of 16n, Because rsp align of 16n before instruction "call" in caller, After "call", push address of "call" in caller. sp of begin in callee is 16n-sizeof(void*)
-> 
-> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1648
-> Signed-off-by: Fan WenJie <fanwj@mail.ustc.edu.cn>
-> 
-> ---
->   linux-user/i386/signal.c | 9 ++++++---
->   1 file changed, 6 insertions(+), 3 deletions(-)
-> 
-> diff --git a/linux-user/i386/signal.c b/linux-user/i386/signal.c
-> index 60fa07d6f9c..1f019689ae7 100644
-> --- a/linux-user/i386/signal.c
-> +++ b/linux-user/i386/signal.c
-> @@ -197,7 +197,8 @@ struct sigframe {
->        * to it ensures that the base of the frame has an appropriate alignment
->        * too.
->        */
-> -    struct target_fpstate fpstate QEMU_ALIGNED(8);
-> +    abi_ulong unused QEMU_ALIGNED(8);
-> +    struct target_fpstate fpstate;
->   };
-
-This is not the correct way to fix this problem.
-
-You need to adjust get_sigframe(), for one, to give you the allocation desired.
 
 
-r~
+Am 3=2E Mai 2023 19:52:41 UTC schrieb Mark Cave-Ayland <mark=2Ecave-ayland=
+@ilande=2Eco=2Euk>:
+>On 27/04/2023 19:15, Bernhard Beschow wrote:
+>
+>> Am 27=2E April 2023 10:52:17 UTC schrieb Mark Cave-Ayland <mark=2Ecave-=
+ayland@ilande=2Eco=2Euk>:
+>>> On 26/04/2023 21:14, Bernhard Beschow wrote:
+>>>=20
+>>>> Am 26=2E April 2023 18:18:35 UTC schrieb Bernhard Beschow <shentey@gm=
+ail=2Ecom>:
+>>>>>=20
+>>>>>=20
+>>>>> Am 26=2E April 2023 11:37:48 UTC schrieb Mark Cave-Ayland <mark=2Eca=
+ve-ayland@ilande=2Eco=2Euk>:
+>>>>>> On 22/04/2023 16:07, Bernhard Beschow wrote:
+>>>>>>=20
+>>>>>>> Now that PCIIDEState::{cmd,data}_ops are initialized in the base c=
+lass
+>>>>>>> constructor there is an opportunity for PIIX to reuse these attrib=
+utes=2E This
+>>>>>>> resolves usage of ide_init_ioport() which would fall back internal=
+ly to using
+>>>>>>> the isabus global due to NULL being passed as ISADevice by PIIX=2E
+>>>>>>>=20
+>>>>>>> Signed-off-by: Bernhard Beschow <shentey@gmail=2Ecom>
+>>>>>>> ---
+>>>>>>>     hw/ide/piix=2Ec | 30 +++++++++++++-----------------
+>>>>>>>     1 file changed, 13 insertions(+), 17 deletions(-)
+>>>>>>>=20
+>>>>>>> diff --git a/hw/ide/piix=2Ec b/hw/ide/piix=2Ec
+>>>>>>> index a3a15dc7db=2E=2E406a67fa0f 100644
+>>>>>>> --- a/hw/ide/piix=2Ec
+>>>>>>> +++ b/hw/ide/piix=2Ec
+>>>>>>> @@ -104,34 +104,32 @@ static void piix_ide_reset(DeviceState *dev)
+>>>>>>>         pci_set_byte(pci_conf + 0x20, 0x01);  /* BMIBA: 20-23h */
+>>>>>>>     }
+>>>>>>>     -static bool pci_piix_init_bus(PCIIDEState *d, unsigned i, ISA=
+Bus *isa_bus,
+>>>>>>> -                              Error **errp)
+>>>>>>> +static void pci_piix_init_bus(PCIIDEState *d, unsigned i, ISABus =
+*isa_bus)
+>>>>>>>     {
+>>>>>>>         static const struct {
+>>>>>>>             int iobase;
+>>>>>>>             int iobase2;
+>>>>>>>             int isairq;
+>>>>>>>         } port_info[] =3D {
+>>>>>>> -        {0x1f0, 0x3f6, 14},
+>>>>>>> -        {0x170, 0x376, 15},
+>>>>>>> +        {0x1f0, 0x3f4, 14},
+>>>>>>> +        {0x170, 0x374, 15},
+>>>>>>>         };
+>>>>>>> -    int ret;
+>>>>>>> +    MemoryRegion *address_space_io =3D pci_address_space_io(PCI_D=
+EVICE(d));
+>>>>>>>           ide_bus_init(&d->bus[i], sizeof(d->bus[i]), DEVICE(d), i=
+, 2);
+>>>>>>> -    ret =3D ide_init_ioport(&d->bus[i], NULL, port_info[i]=2Eioba=
+se,
+>>>>>>> -                          port_info[i]=2Eiobase2);
+>>>>>>> -    if (ret) {
+>>>>>>> -        error_setg_errno(errp, -ret, "Failed to realize %s port %=
+u",
+>>>>>>> -                         object_get_typename(OBJECT(d)), i);
+>>>>>>> -        return false;
+>>>>>>> -    }
+>>>>>>> +    memory_region_add_subregion(address_space_io, port_info[i]=2E=
+iobase,
+>>>>>>> +                                &d->data_ops[i]);
+>>>>>>> +    /*
+>>>>>>> +     * PIIX forwards the last byte of cmd_ops to ISA=2E Model thi=
+s using a low
+>>>>>>> +     * prio so competing memory regions take precedence=2E
+>>>>>>> +     */
+>>>>>>> +    memory_region_add_subregion_overlap(address_space_io, port_in=
+fo[i]=2Eiobase2,
+>>>>>>> +                                        &d->cmd_ops[i], -1);
+>>>>>>=20
+>>>>>> Interesting=2E Is this behaviour documented somewhere and/or used i=
+n one of your test images at all? If I'd have seen this myself, I probably =
+thought that the addresses were a typo=2E=2E=2E
+>>>>>=20
+>>>>> I first  stumbled upon this and wondered why this code was working w=
+ith VIA_IDE (through my pc-via branch)=2E Then I found the correct offsets =
+there which are confirmed in the piix datasheet, e=2Eg=2E: "Secondary Contr=
+ol Block Offset: 0374h"
+>>>>=20
+>>>> In case you were wondering about the forwarding of the last byte the =
+datasheet says: "Accesses to byte 3 of the Control Block are forwarded to I=
+SA where the floppy disk controller responds=2E"
+>>>=20
+>>> Ahhh okay okay I see what's happening here: the PIIX IDE is assuming t=
+hat the legacy ioport semantics are in operation here, which as you note ab=
+ove is where the FDC controller is also accessed via the above byte in the =
+IDE control block=2E This is also why you need to change the address above =
+from 0x3f6/0x376 to 0x3f4/0x374 when trying to use the MemoryRegions used f=
+or the PCI BARs since the PCI IDE controller specification requires a 4 byt=
+e allocation for the Control Block - see sections 2=2E0 and 2=2E2=2E
+>>=20
+>> Yes, PIIX assuming that might be the case=2E Why does it contradict the=
+ PCI IDE specification? PIIX seems to apply the apprppriate "workarounds" h=
+ere=2E
+>
+>Can you explain a bit more about where you see the contradiction? At firs=
+t glance it looks okay to me=2E
+>
+>>> And that's fine, because the portio_lists used in ide_init_ioport() se=
+t up the legacy IDE ioports so that FDC accesses done in this way can succe=
+ed, and the PIIX IDE is hard-coded to legacy mode=2E So in fact PIIX IDE sh=
+ould keep using ide_init_ioport() rather than trying to re-use the BAR Memo=
+ryRegions so I think this patch should just be dropped=2E
+>>=20
+>> I was hoping to keep that patch=2E=2E=2E
+>
+>Perhaps a different way to think about it is that from QEMU's perspective=
+ a BAR is a MemoryRegion that can be dynamically assigned/updated and canno=
+t overlap, whereas the portio_list implementation also handles unaligned ac=
+cesses and overlapping sparse accesses=2E Since the latter is the exact cas=
+e here with the IDE/FDC then it seems the existing portio_list solution alr=
+eady does the "right thing" instead of having to manually emulate the overl=
+apping dispatch=2E
+
+I've had another look into the "PCI IDE Controller Specification Revision =
+1=2E0" which says:
+
+"The Control Block registers consist of two bytes used for control/status =
+of the IDE device=2E The second byte of this pair is read-only and has the =
+interesting quirk where the top bit of this byte is shared with the floppy =
+controller when the IDE device is mapped at 'compatibility' locations=2E It=
+ turns out that software controlling IDE devices (BIOS, drivers, etc=2E) do=
+es not use this register at all=2E
+
+The exception for PCI IDE controllers to the ATA Standard is that only the=
+ first of the two bytes defined in the Control Block registers is implement=
+ed=2E This byte provides Alternate Status on reads and Device Control on wr=
+ites=2E Accesses to the second byte of the Control Block registers (Drive A=
+ddress) should be ignored by the PCI IDE controller=2E"
+
+So in fact the real PIIX does adhere to this standard and there is no reas=
+on to reject the idea behind this patch -- which is to make our PIIX device=
+ model implement this standard=2E
+
+It's just that all our other PCI-IDE implementations need to implement thi=
+s quirk as long as they implement the standard=2E And according to the Linu=
+x kernel they all do -- see its CONFIG_ATA_SFF=2E
+
+Since this patch actually uncovered a small bug in the other device models=
+ I'd rather fix those, too=2E One way I could do this is to decrease the si=
+ze of the memory region or to map with lower priority=2E What is the prefer=
+red fix? Any other ideas?
+
+Note that this and the next patch resolve the last dependencies on the "is=
+abus" global=2E So after this series we could apply some small patches post=
+ed before and get rid of the global entirely=2E=2E=2E And have as many ISA =
+and LPC buses as we want!
+
+Best regards,
+Bernhard
+
+>
+>
+>ATB,
+>
+>Mark=2E
+>
 
