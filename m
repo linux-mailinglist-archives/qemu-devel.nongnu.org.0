@@ -2,87 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E29770160A
-	for <lists+qemu-devel@lfdr.de>; Sat, 13 May 2023 12:11:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1ED62701620
+	for <lists+qemu-devel@lfdr.de>; Sat, 13 May 2023 12:23:33 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pxmC7-0008KG-1G; Sat, 13 May 2023 06:09:43 -0400
+	id 1pxmOL-0006Ax-C2; Sat, 13 May 2023 06:22:21 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1pxmBw-0008GM-D2; Sat, 13 May 2023 06:09:32 -0400
-Received: from mail-ej1-x629.google.com ([2a00:1450:4864:20::629])
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pxmOI-0006AU-Th
+ for qemu-devel@nongnu.org; Sat, 13 May 2023 06:22:18 -0400
+Received: from mail-ed1-x536.google.com ([2a00:1450:4864:20::536])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1pxmBu-0004NB-EF; Sat, 13 May 2023 06:09:32 -0400
-Received: by mail-ej1-x629.google.com with SMTP id
- a640c23a62f3a-965a68abfd4so2060899566b.2; 
- Sat, 13 May 2023 03:09:29 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pxmOH-0006v9-5A
+ for qemu-devel@nongnu.org; Sat, 13 May 2023 06:22:18 -0400
+Received: by mail-ed1-x536.google.com with SMTP id
+ 4fb4d7f45d1cf-50bc22805d3so16427905a12.1
+ for <qemu-devel@nongnu.org>; Sat, 13 May 2023 03:22:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1683972567; x=1686564567;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=5JoEHRzJl8ppxGRgpapWnu2BXy56o3xTN1pN/oM5GCA=;
- b=dQsjrenu5PhTCwhpVL4cDMvJQkhp9vBmY3axtpESbxfAWTxBHjMOZlb2PDMTlG1dRE
- LUJxa0tBRY6NO80AV/9+7efG7D+CF9STBrpFpfbd3V3rmwla/tBeYfCTfHg47FJ6JOTK
- 0yKFGFISK2E/Wyfw0k7+Y6mpBfF7yz2hLVQpRZ9fNY9qBRATEaoBR7cRf+45QxztAns1
- +cToYCNlVSzKVKeKeDUwj9MP0BQEaRy1F4xH+Y87pG2AybhPec7qAOba3q8BdpkppCyb
- E4+FuT4oFhH9Qa/fZZz3tj+tjZBoN3YYAK+R43ZDxRrf02WyHk461Zs4XL5KU3Lm69Q5
- bhSA==
+ d=linaro.org; s=google; t=1683973335; x=1686565335;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=wGLR4IVkMPntJRLilMPGdfFFYpmZb4O68hDXPYWGoiU=;
+ b=LY0Lq/cNpZkWcK1RpU1/YjgDBnrqJxHuQoqSZuD6fFBLWBnN3AM7R6ZkBNuBkVKpXk
+ tpJ/hVqD/RPyhXIAV1HshtQyO5URP2QtcZCXxsCFCUPmKjvG/I04AqHkef3x0VwEba+L
+ 8rHmvMRmuX4c+i1c4QdVy24lBOAMdf9IIUhWp+DpnRfBZpxzdt6OnchyABfCpYiQQXve
+ FjqqPXyGbe8bRajR9ylUdwZ7FxbZvPw3v+zfhKh4rd3w3qEHQ7JwZTP6yfzVoInAKoag
+ gZjV80jAcnsaZ+ScZJqgxK7SsQxLA4dBh1Sv59M0pAyTb7YQteQuZUnEbgbToQkfimb4
+ ZZ7w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683972567; x=1686564567;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=5JoEHRzJl8ppxGRgpapWnu2BXy56o3xTN1pN/oM5GCA=;
- b=N0xqCyKSpno3YiQEWSwZU/tcTNiIMDSkga2omxCCJdYWMWqBfYSOgWT9BiqGTeDcKV
- rHPe7lbRRpv2SxkLf3p7vCR1l0RYVsjMWWMnk0gOs9f6980PTa6AXFuspZfPYE9PympV
- Ru04ySTgawvGE0iHTyvzxVCwqzvR0D3CFjuCAMAbCmyOBrDTfoklRgF5/NGhbww2+lSI
- SzorN/XIJ2gGxW/blsx4K/phWAjzlPXzBv/6QjvNt/JVp/4HlQ4IqyyLT/nCgjOY6foL
- lUJLJRzpPvKlV0MV914jwtn6xOa/WOeEArpElkZhnhSygXza7TLYmg3us9dsnmNUouYZ
- jTYQ==
-X-Gm-Message-State: AC+VfDzvJCyU0CfM7VqCODQfXC4Yq1NpWFetIygg/z726Q0zCQj71bXS
- k/G9iZLGPRYebNAwuwPH3wiz0xiCRBg=
-X-Google-Smtp-Source: ACHHUZ4Z3TXj1grMuaqYvPEnYY7ARKZaaop6OS84mSOH20zEN0eHyVYjZ3f6TzhNbuiXqvrcJJASqg==
-X-Received: by 2002:a17:907:7e9e:b0:96a:41ed:e3fa with SMTP id
- qb30-20020a1709077e9e00b0096a41ede3famr10622053ejc.22.1683972567409; 
- Sat, 13 May 2023 03:09:27 -0700 (PDT)
-Received: from Provence.localdomain
- (dynamic-077-013-174-037.77.13.pool.telefonica.de. [77.13.174.37])
+ d=1e100.net; s=20221208; t=1683973335; x=1686565335;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=wGLR4IVkMPntJRLilMPGdfFFYpmZb4O68hDXPYWGoiU=;
+ b=SSn3RlJTY9ycY6nIoVonREr6Bn1kM6ALCOtsZE9poSKRL8Er+SoHkqHXm/TisNR5ra
+ rsvDHhrd2uuT93MhU44+bxTcLMuFOhan4mYzBsUi098PtKcfpl8zFJd9cedAUknEUHCD
+ iPn02AiTrjaMTONepzIYnRg/TywItSxUEZPnnghdC/RMhLi1hU2RLKsPemqp3rGjd+dP
+ UcP3XNpgIvif7KP9XlS/aqTMgrVi3WATQoq7xuQzAyHu9DyNzRZ4PKBnKfpEEhpknR/5
+ AZrM6pS/8WPZQPHzjl3FHja+2+86co1bQyZqcNMn2AQVNTCQmzwzYlQco6nexyWPpmd4
+ RHeQ==
+X-Gm-Message-State: AC+VfDyf1a8unmdRRBwE2GaVyJO37mGOYC7fYO6qr+Z5CjsLvPZiTGH1
+ NfAuVx6ub8hQhlp+h2eNrVVbyg==
+X-Google-Smtp-Source: ACHHUZ77Zhw7CwPK0tkPx4FYbUwUsO8B9cuD4WwGVS2Yp4d6cFnmJu2WAbUV5JYZDu2nlxOtl0LTew==
+X-Received: by 2002:aa7:d945:0:b0:50b:d26d:c57e with SMTP id
+ l5-20020aa7d945000000b0050bd26dc57emr20154900eds.12.1683973335316; 
+ Sat, 13 May 2023 03:22:15 -0700 (PDT)
+Received: from [192.168.190.227] ([109.144.17.21])
  by smtp.gmail.com with ESMTPSA id
- jr18-20020a170906515200b00965f5d778e3sm6645285ejc.120.2023.05.13.03.09.26
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 13 May 2023 03:09:26 -0700 (PDT)
-From: Bernhard Beschow <shentey@gmail.com>
-To: qemu-devel@nongnu.org
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-arm@nongnu.org,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- =?UTF-8?q?Herv=C3=A9=20Poussineau?= <hpoussin@reactos.org>,
- Michael Tokarev <mjt@tls.msk.ru>, Laurent Vivier <laurent@vivier.eu>,
- Eduardo Habkost <eduardo@habkost.net>, qemu-trivial@nongnu.org,
- qemu-ppc@nongnu.org,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- Bernhard Beschow <shentey@gmail.com>
-Subject: [PATCH 4/4] hw/isa/i82378: Remove unused "io" attribute
-Date: Sat, 13 May 2023 12:09:06 +0200
-Message-Id: <20230513100906.46672-5-shentey@gmail.com>
-X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20230513100906.46672-1-shentey@gmail.com>
-References: <20230513100906.46672-1-shentey@gmail.com>
+ e19-20020a056402089300b0050bd9d3ddf3sm4701678edy.42.2023.05.13.03.22.12
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 13 May 2023 03:22:14 -0700 (PDT)
+Message-ID: <bb4d8b79-6616-44bf-0446-fcabdd85f248@linaro.org>
+Date: Sat, 13 May 2023 11:22:09 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::629;
- envelope-from=shentey@gmail.com; helo=mail-ej1-x629.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PULL 00/44] Hexagon update
+To: Taylor Simpson <tsimpson@quicinc.com>, qemu-devel@nongnu.org
+Cc: philmd@linaro.org, peter.maydell@linaro.org, bcain@quicinc.com,
+ quic_mathbern@quicinc.com, stefanha@redhat.com, ale@rev.ng, anjo@rev.ng,
+ quic_mliebel@quicinc.com
+References: <20230512214706.946068-1-tsimpson@quicinc.com>
+Content-Language: en-US
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20230512214706.946068-1-tsimpson@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::536;
+ envelope-from=richard.henderson@linaro.org; helo=mail-ed1-x536.google.com
+X-Spam_score_int: -39
+X-Spam_score: -4.0
+X-Spam_bar: ----
+X-Spam_report: (-4.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.845,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -100,27 +96,43 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The attribute isn't used since commit 5c9736789b79ea49cd236ac326f0a414f63b1015
-"i82378: Cleanup implementation".
+On 5/12/23 22:46, Taylor Simpson wrote:
+> The following changes since commit 278238505d28d292927bff7683f39fb4fbca7fd1:
+> 
+>    Merge tag 'pull-tcg-20230511-2' ofhttps://gitlab.com/rth7680/qemu  into staging (2023-05-11 11:44:23 +0100)
+> 
+> are available in the Git repository at:
+> 
+>    https://github.com/quic/qemu  tags/pull-hex-20230512-1
+> 
+> for you to fetch changes up to a1c042e1cc4c1da209f7c3e04aec5e622c7bcdc0:
+> 
+>    Hexagon (linux-user/hexagon): handle breakpoints (2023-05-12 14:43:14 -0700)
+> 
+> ----------------------------------------------------------------
+> This PR can be broken down into the following parts
+> - Add support for new architecture versions v68/v69/v71/v73
+> - Short-circuit writes to temporaries when packet semantics permit this
+> - Move bookkeeping items from CPUHexagonState to DisasContext
+> - Correct '-cpu help' output and handling of unknown Hexagon versions
+> - Enable LLDB debugging
+> - Miscellaneous fixes and improvements
 
-Signed-off-by: Bernhard Beschow <shentey@gmail.com>
----
- hw/isa/i82378.c | 1 -
- 1 file changed, 1 deletion(-)
+Please always test 32-bit host.  You have a CI failure:
 
-diff --git a/hw/isa/i82378.c b/hw/isa/i82378.c
-index 5432ab5065..63e0857208 100644
---- a/hw/isa/i82378.c
-+++ b/hw/isa/i82378.c
-@@ -34,7 +34,6 @@ struct I82378State {
- 
-     qemu_irq cpu_intr;
-     qemu_irq *isa_irqs_in;
--    MemoryRegion io;
- };
- 
- static const VMStateDescription vmstate_i82378 = {
--- 
-2.40.1
+https://gitlab.com/qemu-project/qemu/-/jobs/4279656830#L873
+
+/builds/qemu-project/qemu/target/hexagon/idef-parser/idef-parser.lex: In function 'yylex':
+/builds/qemu-project/qemu/target/hexagon/idef-parser/idef-parser.lex:435:38: error: format 
+'%lx' expects argument of type 'long unsigned int', but argument 2 has type 'int64_t' {aka 
+'long long int'} [-Werror=format=]
+   435 |                               printf("value = 0x%lx\n", value);
+       |                                      ^~~~~~~~~~~~~~~~~  ~~~~~
+       |                                                         |
+       |                                                         int64_t {aka long long int}
+
+
+
+r~
 
 
