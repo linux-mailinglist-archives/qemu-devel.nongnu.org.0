@@ -2,72 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03E5270152E
-	for <lists+qemu-devel@lfdr.de>; Sat, 13 May 2023 10:07:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0305870152D
+	for <lists+qemu-devel@lfdr.de>; Sat, 13 May 2023 10:07:06 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pxkGF-0000go-69; Sat, 13 May 2023 04:05:51 -0400
+	id 1pxkGG-0000gt-K0; Sat, 13 May 2023 04:05:52 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shorne@gmail.com>) id 1pxkGB-0000ba-4u
+ (Exim 4.90_1) (envelope-from <shorne@gmail.com>) id 1pxkGB-0000bq-Sm
  for qemu-devel@nongnu.org; Sat, 13 May 2023 04:05:47 -0400
-Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f])
+Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <shorne@gmail.com>) id 1pxkG9-000576-Ih
- for qemu-devel@nongnu.org; Sat, 13 May 2023 04:05:46 -0400
-Received: by mail-wr1-x42f.google.com with SMTP id
- ffacd0b85a97d-3062db220a3so7019877f8f.0
+ (Exim 4.90_1) (envelope-from <shorne@gmail.com>) id 1pxkGA-000578-3e
+ for qemu-devel@nongnu.org; Sat, 13 May 2023 04:05:47 -0400
+Received: by mail-wr1-x430.google.com with SMTP id
+ ffacd0b85a97d-30626f4d74aso7022606f8f.0
  for <qemu-devel@nongnu.org>; Sat, 13 May 2023 01:05:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1683965143; x=1686557143;
+ d=gmail.com; s=20221208; t=1683965144; x=1686557144;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=kk1SZdthGI97ZtAraCpLe6062EPa77UtYxoYCQVHTcE=;
- b=eImgkpUpqSWydxD4C3I0DbQwcWoro2oqZcqKqhGWaHOZJffYgPQeXIkxNDfgbsU8HA
- 1I2eKHrzivOU2tqfeJ1swlqBXc4odIVlWg9E3Q9kGhN/a8wSxTlUmjwlXflagqdsqvm4
- 8Dpcn2lpq5NcMRTlk4oYex6X5d66e4RIGL1Bdu5GIdtEfXudGa0VRe3sO+CHq51/WliY
- hfef34hCKuuxZDGw9ibjpjSBoqj3tbNDRT9tIPuKvKSosCCRX32NSTiJdQzMulFnma83
- 44YlSqk45cuKvliLbPgXCHWXZbHFqx1cJz/5MOsueD47Ti8xIHaZMzxptOG1akV8YvDz
- cSLg==
+ bh=3qQzmOCm9I15s8dR1uKLFgkkYWJssm91+59ldpNI9f0=;
+ b=DW1nJ5NkvvzmvExIbWU6HJeBzGWZ+HxQWRVjxVwJqWZVKBFurr7n20nZ1wNh2kn0rF
+ HXHJwLtwLFLo8Y1IdIQbaEKf6jV0JdssbkGfYLuHJZkW33n/AWZdnr6ivDu/etCo2n7Q
+ z3soC3EclabGlwLim7AYiTRwyYqj+uanXqyWPk9iMq5tOb/8Yo/j8EjGx5ios8Ob2ovU
+ KNjVDYuq7Twi2VSqu91/xuaQOpAsXctyGuH/SVzK0V7jyuH1kRjuquGzh/eMFXbZgK0E
+ rcwp2wQsu7TS684CV+upVrsiHg7fxR50UD+xudbj/67HgvWAIjJBiGAjDmDCacm8JNmZ
+ Sg7A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683965143; x=1686557143;
+ d=1e100.net; s=20221208; t=1683965144; x=1686557144;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=kk1SZdthGI97ZtAraCpLe6062EPa77UtYxoYCQVHTcE=;
- b=IrdYtTvLmNdsF36DBbudifSs7xew1pTPHZhgXZZ4QK6wkm1iJ+FYlumwyj+Zq+Mkxk
- jx3xZlljvBZNJpAFffyt5eySRf0TR2/XmkGng0n8o+R78YERIHZ1seQCFxuG8wUH2/FE
- CAX7pzC4+sc9Kx1WC+2uURXAs/taFgVgCUCg1pNplhx9olBhgh+/JS+9Wsob2Bmzbv+p
- xrpNnxpXnfIS0etIM+X3Hzs46mcpgOG1xD1hbRurq0KTbl8ND9ZdLWQpAaxQWdt0P8wE
- oLxlN+7yx1kpGyRYcTLZE2HFgU/CWI0kFdpZtHLiYES4ffCLpY+BnQBIvtghZV8oUfEH
- hdzA==
-X-Gm-Message-State: AC+VfDyNuLFkHfjOqCX1hUaGpxXOh+sFLvg5zL5E+yHhkmB2cQN7Mvjb
- NYC41Wnj9Ac5nunJChYziFDb/70iM/o=
-X-Google-Smtp-Source: ACHHUZ5GIVTsrQ3IHSnYgIzRrva92+28hg251EyYh1v4sR+UvbfmXbpD/SgHxWMgY8Yq9Vt4HmFUeQ==
-X-Received: by 2002:a05:6000:104b:b0:2e4:eebe:aee3 with SMTP id
- c11-20020a056000104b00b002e4eebeaee3mr17115701wrx.60.1683965142741; 
- Sat, 13 May 2023 01:05:42 -0700 (PDT)
+ bh=3qQzmOCm9I15s8dR1uKLFgkkYWJssm91+59ldpNI9f0=;
+ b=FZtzSppPGknvH5Em6fRuEXhbDBP2KWYfrmMIV9XBMXAyjuRmY9o/wLZUAtmmOilKaL
+ e0p8Jnw1UnDIbxlWW/Utp2uXuCgMLtgNXrdBJUqaZptCg4pu9di/LpCiVooQDOnIGI2e
+ Im+wsMb+NSs8wY2PtAXWFRa6CpVtOa8F/F3NPydLc/NA3CVYVbr0IEMEl65YBEq/V9/m
+ vVx/I1eiUxTdDWnRQudYuEjdLEKD2mJtjGp7BKeHhY+OrRvdO0QpRZtkdQcdN7X62cdQ
+ crjfvIyZM6hz6xuHU7FyHEpJNv82UuQN0thKBTdofxEukIG4KGeA2aF/rddUA0De+ozT
+ +t9g==
+X-Gm-Message-State: AC+VfDyL9VeGcLY/gnVTSUYdTwePMl20OCoZOi5ubrCUGQ+cFPvIkX/j
+ 5qHjZLm05Jx0LDlpyUnSH+a75xjjqY0=
+X-Google-Smtp-Source: ACHHUZ6wD9Iwe14wdDZIsLyYcUjLL34JF9m24I+5YALt4+Kg8NyOewMlbvrIWnxI9Fsdap9T5NPifA==
+X-Received: by 2002:adf:e784:0:b0:309:99c:f23f with SMTP id
+ n4-20020adfe784000000b00309099cf23fmr949514wrm.63.1683965143785; 
+ Sat, 13 May 2023 01:05:43 -0700 (PDT)
 Received: from localhost (cpc1-brnt4-2-0-cust862.4-2.cable.virginm.net.
  [86.9.131.95]) by smtp.gmail.com with ESMTPSA id
- x18-20020a5d6b52000000b002ff2c39d072sm25752559wrw.104.2023.05.13.01.05.42
+ x20-20020a1c7c14000000b003f17af4c4e0sm30625293wmc.9.2023.05.13.01.05.43
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 13 May 2023 01:05:42 -0700 (PDT)
+ Sat, 13 May 2023 01:05:43 -0700 (PDT)
 From: Stafford Horne <shorne@gmail.com>
 To: QEMU Development <qemu-devel@nongnu.org>
 Cc: Stafford Horne <shorne@gmail.com>,
  Richard Henderson <richard.henderson@linaro.org>
-Subject: [PULL 2/3] target/openrisc: Set PC to cpu state on FPU exception
-Date: Sat, 13 May 2023 09:05:33 +0100
-Message-Id: <20230513080534.580800-3-shorne@gmail.com>
+Subject: [PULL 3/3] target/openrisc: Setup FPU for detecting tininess before
+ rounding
+Date: Sat, 13 May 2023 09:05:34 +0100
+Message-Id: <20230513080534.580800-4-shorne@gmail.com>
 X-Mailer: git-send-email 2.39.1
 In-Reply-To: <20230513080534.580800-1-shorne@gmail.com>
 References: <20230513080534.580800-1-shorne@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
- envelope-from=shorne@gmail.com; helo=mail-wr1-x42f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::430;
+ envelope-from=shorne@gmail.com; helo=mail-wr1-x430.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,54 +91,37 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Store the PC to ensure the correct value can be read in the exception
-handler.
+OpenRISC defines tininess to be detected before rounding.  Setup qemu to
+obey this.
 
 Signed-off-by: Stafford Horne <shorne@gmail.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/openrisc/fpu_helper.c | 13 +++++++++++--
- 1 file changed, 11 insertions(+), 2 deletions(-)
+ target/openrisc/cpu.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/target/openrisc/fpu_helper.c b/target/openrisc/fpu_helper.c
-index f9e34fa2cc..8b81d2f62f 100644
---- a/target/openrisc/fpu_helper.c
-+++ b/target/openrisc/fpu_helper.c
-@@ -20,8 +20,8 @@
- 
- #include "qemu/osdep.h"
+diff --git a/target/openrisc/cpu.c b/target/openrisc/cpu.c
+index 0ce4f796fa..61d748cfdc 100644
+--- a/target/openrisc/cpu.c
++++ b/target/openrisc/cpu.c
+@@ -22,6 +22,7 @@
+ #include "qemu/qemu-print.h"
  #include "cpu.h"
-+#include "exec/exec-all.h"
- #include "exec/helper-proto.h"
--#include "exception.h"
- #include "fpu/softfloat.h"
+ #include "exec/exec-all.h"
++#include "fpu/softfloat-helpers.h"
+ #include "tcg/tcg.h"
  
- static int ieee_ex_to_openrisc(int fexcp)
-@@ -45,6 +45,15 @@ static int ieee_ex_to_openrisc(int fexcp)
-     return ret;
- }
+ static void openrisc_cpu_set_pc(CPUState *cs, vaddr value)
+@@ -90,6 +91,9 @@ static void openrisc_cpu_reset_hold(Object *obj)
+     s->exception_index = -1;
+     cpu_set_fpcsr(&cpu->env, 0);
  
-+static G_NORETURN
-+void do_fpe(CPUOpenRISCState *env, uintptr_t pc)
-+{
-+    CPUState *cs = env_cpu(env);
++    set_float_detect_tininess(float_tininess_before_rounding,
++                              &cpu->env.fp_status);
 +
-+    cs->exception_index = EXCP_FPE;
-+    cpu_loop_exit_restore(cs, pc);
-+}
-+
- void HELPER(update_fpcsr)(CPUOpenRISCState *env)
- {
-     int tmp = get_float_exception_flags(&env->fp_status);
-@@ -55,7 +64,7 @@ void HELPER(update_fpcsr)(CPUOpenRISCState *env)
-         if (tmp) {
-             env->fpcsr |= tmp;
-             if (env->fpcsr & FPCSR_FPEE) {
--                helper_exception(env, EXCP_FPE);
-+                do_fpe(env, GETPC());
-             }
-         }
-     }
+ #ifndef CONFIG_USER_ONLY
+     cpu->env.picmr = 0x00000000;
+     cpu->env.picsr = 0x00000000;
 -- 
 2.39.1
 
