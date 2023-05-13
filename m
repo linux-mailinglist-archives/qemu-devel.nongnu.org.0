@@ -2,77 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7BA27014E4
-	for <lists+qemu-devel@lfdr.de>; Sat, 13 May 2023 09:14:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3EE337014E5
+	for <lists+qemu-devel@lfdr.de>; Sat, 13 May 2023 09:14:33 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pxjQu-0003lu-RD; Sat, 13 May 2023 03:12:48 -0400
+	id 1pxjRr-0004A9-59; Sat, 13 May 2023 03:13:47 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pxjQs-0003lS-Kj
- for qemu-devel@nongnu.org; Sat, 13 May 2023 03:12:46 -0400
-Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330])
+ id 1pxjRq-00049x-01
+ for qemu-devel@nongnu.org; Sat, 13 May 2023 03:13:46 -0400
+Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pxjQq-0002rI-Va
- for qemu-devel@nongnu.org; Sat, 13 May 2023 03:12:46 -0400
-Received: by mail-wm1-x330.google.com with SMTP id
- 5b1f17b1804b1-3f41dceb9d1so79949355e9.1
- for <qemu-devel@nongnu.org>; Sat, 13 May 2023 00:12:44 -0700 (PDT)
+ id 1pxjRo-0002xB-JG
+ for qemu-devel@nongnu.org; Sat, 13 May 2023 03:13:45 -0400
+Received: by mail-wr1-x435.google.com with SMTP id
+ ffacd0b85a97d-305f0491e62so10350237f8f.3
+ for <qemu-devel@nongnu.org>; Sat, 13 May 2023 00:13:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1683961963; x=1686553963;
+ d=linaro.org; s=google; t=1683962023; x=1686554023;
  h=content-transfer-encoding:in-reply-to:from:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=xY3LuMzgJn8hRRnGX90DqbNAadAx1G1L3Sd+GeVqc2I=;
- b=vP9RWs++McFV8Enh3dKunshuXatGE9eCINJTtuvf2dXAQRcJVlIaKQjxfEwIXejQHz
- c80ATP9VuNEnfU81iOWU43IoFe/zcBiDCIqtU+V9Wrfli4SXjbFPZefJRrgFBtxn6dCi
- u5qymdX2BQ4cgLTCdRwKZWMh6eMp3SzLQoKg9gPD74aO+WNWV0zJMRYsqDawt+RtW+Fj
- 7vnKK1gI/wJx71m7W7Z+K3IsQztaRwK42rp+2Hg1vTc8QUWAQhq0sruUpK9xDCrCqnQv
- KAOrXroYHjvacahNGIlsA6TWNZijmt+al7C65TcA96pdUEXI7heZxhAf7xjIIqduDFCp
- JiLQ==
+ bh=Kft68YGtsW7enD6vkFYY61UTThQw1gZx1T+MVAdMcQA=;
+ b=L77nMj0WYx8MXs1Vv+skLNn1vdbB48dxgtqqqb7raw25PPET6vv1pr/80SKC1WFR6N
+ gTywTxxcP9PFUULYeTCcFTDVvC+s0cEQAVKwnb7OjFp7UPab0MKbnuyf4Or2pTxHkTZi
+ B6XZ9mV0wMqFMZLtwMaf34sHxtQpQFd55zXr5dPlltrjKskaKycbR4XHGPjnwwg+sxGb
+ hSAJS9TvFfkQvy6paywJK3QaZO5AiJ7I3hWi6X/vIyYf+DvjQBA+S/3KopAT1KZgakkJ
+ CpKobgFl96a7RBzp9cOi+SvmNm6xGDy83CZh8BX/AktQ+5GKrJih8I6uEN0pk+6p8dyb
+ 11kg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683961963; x=1686553963;
+ d=1e100.net; s=20221208; t=1683962023; x=1686554023;
  h=content-transfer-encoding:in-reply-to:from:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=xY3LuMzgJn8hRRnGX90DqbNAadAx1G1L3Sd+GeVqc2I=;
- b=L4RZ8dmUp6QEoyVHPrVB55pMAC0peDJTsUhnKWxStp9YToReCTKOumwd1cGwMYt4ot
- QNh7CXMeIwsbSyt+yzQpCEpfbkfakAlpfOJEQHd2srLMSrDAz4tHSJftU4JpG/I9ZhiS
- IPeSstPJeCMZMapHVgtB5+sfXoKZBm3kHbMCccSICi5lve5RfGEdPIDQkrWT2v2oKfK/
- GzVN1SbrCCRyCLMdJs0KX8IsXI3oBP3H0ITcsLr1MZuwrRVUwVWpYd0EB1KWILYnn1Hb
- Nw95GkBlUs2YQDGWwflsglZqUetDAmdyeqKGsly3lGDST02+K/TcCgZ5+OMPEIjB3rpo
- Lbeg==
-X-Gm-Message-State: AC+VfDylaaC9yIvS/z+XrFH295Hes7MgVFYL01dsEdAV4cFapF+pNT8f
- YfeCCUu2UxYQF8T+kE2vV2Z8mA==
-X-Google-Smtp-Source: ACHHUZ7Q4yNRUeTZm5YbVULALIgfK4WhT3eK66rdgSEJNGrrs3T6KZISNBfNGKNiRgODM1xJy6zZgg==
-X-Received: by 2002:a05:600c:22d6:b0:3f4:f0c2:127 with SMTP id
- 22-20020a05600c22d600b003f4f0c20127mr5206857wmg.22.1683961963272; 
- Sat, 13 May 2023 00:12:43 -0700 (PDT)
+ bh=Kft68YGtsW7enD6vkFYY61UTThQw1gZx1T+MVAdMcQA=;
+ b=DEQXlZkrtk+1uiJqxHN3d6Q8C2Y3GuAcHmUhaUtUVYXbbUiffycQ0eYDKK8CLSdRYz
+ WK6vITeovvNTR9VHBt66+oMgByd83Yo5wvl9eSVCW3h1U/T7ulEsxbLxCMOm5su/b/43
+ 5NgA/aR+H0+KyKvOdUQaQA9AsaSReEwmaOUaiyBjdxhZ8nTpOILQMSxDnCjBeGqRyVjk
+ nc5U8iPtjZBhngL0fvcLcWKNdRdC/aVN/LegaEd1GgzRJisNI5sw1TK8C/jruYqRDtRy
+ OTL8x1dxITEk5CkRzkxFQ2n3wOsTNYOR+bwyxFWpXLbWWxvF50gfXcZlir/Rs9l2qenO
+ VXaQ==
+X-Gm-Message-State: AC+VfDyII49dKQgKMoF6w61F8bKm70c5mPQLjZojUG7z2TPGeSyWq4Oy
+ UDjPgsWhYeyWoS5dM30JopiB9w==
+X-Google-Smtp-Source: ACHHUZ6cFKPJC3KbjCOoy6QJ3veMfoNo3fFFPbPjsEJ9wUxDomEC8gBkbC+yuXXNX0MzbZ/D0W70AQ==
+X-Received: by 2002:a5d:62c1:0:b0:307:8548:f793 with SMTP id
+ o1-20020a5d62c1000000b003078548f793mr19395468wrv.53.1683962023033; 
+ Sat, 13 May 2023 00:13:43 -0700 (PDT)
 Received: from [192.168.190.227] ([83.98.42.3])
  by smtp.gmail.com with ESMTPSA id
- z22-20020a7bc7d6000000b003f42813b315sm15395072wmk.32.2023.05.13.00.12.42
+ q10-20020adfcd8a000000b00307c8d6b4a0sm6889577wrj.26.2023.05.13.00.13.42
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 13 May 2023 00:12:42 -0700 (PDT)
-Message-ID: <6c78cc26-ac0b-ea29-0f8c-f2f6538be749@linaro.org>
-Date: Sat, 13 May 2023 08:12:40 +0100
+ Sat, 13 May 2023 00:13:42 -0700 (PDT)
+Message-ID: <7f6fc514-95c8-9a98-2565-c3c90d9a0274@linaro.org>
+Date: Sat, 13 May 2023 08:13:40 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.10.0
-Subject: Re: [PATCH 02/20] target/arm: Create decodetree skeleton for A64
+Subject: Re: [PATCH 03/20] target/arm: Pull calls to disas_sve() and
+ disas_sme() out of legacy decoder
 Content-Language: en-US
 To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
  qemu-devel@nongnu.org
 References: <20230512144106.3608981-1-peter.maydell@linaro.org>
- <20230512144106.3608981-3-peter.maydell@linaro.org>
+ <20230512144106.3608981-4-peter.maydell@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20230512144106.3608981-3-peter.maydell@linaro.org>
+In-Reply-To: <20230512144106.3608981-4-peter.maydell@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::330;
- envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x330.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x435.google.com
 X-Spam_score_int: -39
 X-Spam_score: -4.0
 X-Spam_bar: ----
@@ -96,27 +97,12 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On 5/12/23 15:40, Peter Maydell wrote:
-> The A64 translator uses a hand-written decoder for everything except
-> SVE or SME.  It's fairly well structured, but it's becoming obvious
-> that it's still more painful to add instructions to than the A32
-> translator, because putting a new instruction into the right place in
-> a hand-written decoder is much harder than adding new instruction
-> patterns to a decodetree file.
-> 
-> As the first step in conversion to decodetree, create the skeleton of
-> the decodetree decoder; where it does not handle instructions we will
-> fall back to the legacy decoder (which will be for everything at the
-> moment, since there are no patterns in a64.decode).
-> 
-> Signed-off-by: Peter Maydell<peter.maydell@linaro.org>
-> ---
->   target/arm/tcg/a64.decode      | 20 ++++++++++++++++++++
->   target/arm/tcg/translate-a64.c | 18 +++++++++++-------
->   target/arm/tcg/meson.build     |  1 +
->   3 files changed, 32 insertions(+), 7 deletions(-)
->   create mode 100644 target/arm/tcg/a64.decode
+> +        !disas_sme(s,insn) &&
+
+Space after comma.  Otherwise,
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+
 
 r~
 
