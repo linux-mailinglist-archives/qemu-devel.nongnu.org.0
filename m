@@ -2,42 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68FFC701A22
-	for <lists+qemu-devel@lfdr.de>; Sat, 13 May 2023 23:56:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD275701B0E
+	for <lists+qemu-devel@lfdr.de>; Sun, 14 May 2023 03:25:51 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pxxCC-0006rO-Dz; Sat, 13 May 2023 17:54:32 -0400
+	id 1py0T7-0007te-Jf; Sat, 13 May 2023 21:24:13 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <outgoing@sr.ht>) id 1pxxC9-0006r5-WC
- for qemu-devel@nongnu.org; Sat, 13 May 2023 17:54:30 -0400
-Received: from mail-b.sr.ht ([173.195.146.151])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <outgoing@sr.ht>) id 1pxxC8-0002jl-2b
- for qemu-devel@nongnu.org; Sat, 13 May 2023 17:54:29 -0400
-Authentication-Results: mail-b.sr.ht; dkim=none 
-Received: from git.sr.ht (unknown [173.195.146.142])
- by mail-b.sr.ht (Postfix) with ESMTPSA id E902E11EED7;
- Sat, 13 May 2023 21:54:26 +0000 (UTC)
-From: ~rmsyn <rmsyn@git.sr.ht>
-Date: Sat, 13 May 2023 19:32:36 +0000
-Subject: [PATCH qemu] hw: add ATmega16u4 and ATmega32u4 MCUs
-Message-ID: <168401486673.12341.14012259683871048547-0@git.sr.ht>
-X-Mailer: git.sr.ht
-To: Qemu-devel <qemu-devel@nongnu.org>
-Cc: Michael Rolnik <mrolnik@gmail.com>,
- Philippe =?utf-8?q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1py0T5-0007tG-7G
+ for qemu-devel@nongnu.org; Sat, 13 May 2023 21:24:11 -0400
+Received: from mail-pg1-x535.google.com ([2607:f8b0:4864:20::535])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1py0T3-0004t1-Ey
+ for qemu-devel@nongnu.org; Sat, 13 May 2023 21:24:10 -0400
+Received: by mail-pg1-x535.google.com with SMTP id
+ 41be03b00d2f7-53202149ae2so376010a12.3
+ for <qemu-devel@nongnu.org>; Sat, 13 May 2023 18:24:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1684027447; x=1686619447;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:to:subject:user-agent:mime-version:date:message-id:from
+ :to:cc:subject:date:message-id:reply-to;
+ bh=jPGM3MqseMnQjncWi8WsTuDPPlTK1Qbi+ea6EUXRNnU=;
+ b=hOdsq8qbnNyT3TYspWlhekdXHkNyV30qCOv+mAf+Bg6SnLncIGzVj3erTn2EVRjYNu
+ oj6Whr9AfiY6UmVtfem/04U15HyFqPaxs2IG/MsHImW5zbH8tJNYiC7ZAAyxcolq3OIl
+ eEaievukbFiBL9fsRXeU6S0zOLMs23ci7uCZQqH7/L+ztQ4Icy/Y3o9RzKQHuES6n2MH
+ 4LbWnlPTzyZ2i3ckqFN+fBHjQM/mQy4XM8SC8rfdfGEK2q/pVm8M1ytQ7DLVRSEvy37s
+ ftDSKyWDhIkCz3twpu09VJoYQAbJw81OioMtX+3yyzbBlmcHA+AYTZ7tM5PLoMFZ16F9
+ Wr1Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1684027447; x=1686619447;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=jPGM3MqseMnQjncWi8WsTuDPPlTK1Qbi+ea6EUXRNnU=;
+ b=JOfMQeZFe3QoVhOuHfPCDsGDmj32xowuNZ4HeT1aQI/WlzrJQ7QWDsZHeXi2lUkewP
+ nHdKD7xu2CNrbUyfuKo71dP+zjCcSNgbRDOJ+4XUpml0zpYNZnB679Yu68eyC3Izezad
+ Sw2PeIbv1qAnxcbC0OOpwjTp/7XcX0AZpyrK/u0QBTAfCCG83opbbeIAjhRgAD7o9XOd
+ Li6LfsCTj+QmLrlcktCES1mMyy/CJRD+aMuEOudKJe+tHozQ2hUYn4igSyZlXlGvDs1+
+ P9OUBH/EIDz0LyEl66RCgHXDRP0z8/ieBRl2MwarWD4gHN9sepC+p0ydp56Z2SrET7jk
+ VaMA==
+X-Gm-Message-State: AC+VfDxQFSPakIDEFbRocaaYPJik6YoyOkJGf9P2JqI/QmQW3D+gWVm8
+ qo08iIpGl9fbtbXEp80CAI0jwg==
+X-Google-Smtp-Source: ACHHUZ7JSNjQqvQa2o1C/hEw4gnffW+4feFA9Z6hmf8GTT1ERbImECJE4DSJXnxsxfvKAsHdXbeFdw==
+X-Received: by 2002:a17:902:e5c3:b0:1ad:fa2e:17fc with SMTP id
+ u3-20020a170902e5c300b001adfa2e17fcmr4635409plf.2.1684027447085; 
+ Sat, 13 May 2023 18:24:07 -0700 (PDT)
+Received: from ?IPV6:2602:ae:1598:4c01:5b03:bb2:1811:391a?
+ ([2602:ae:1598:4c01:5b03:bb2:1811:391a])
+ by smtp.gmail.com with ESMTPSA id
+ jj18-20020a170903049200b001ac2f98e953sm10394001plb.216.2023.05.13.18.24.06
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 13 May 2023 18:24:06 -0700 (PDT)
+Message-ID: <c01de2fb-85c6-ce08-3e33-0e7861434ebd@linaro.org>
+Date: Sat, 13 May 2023 18:24:04 -0700
 MIME-Version: 1.0
-Received-SPF: pass client-ip=173.195.146.151; envelope-from=outgoing@sr.ht;
- helo=mail-b.sr.ht
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PULL 0/3] OpenRISC FPU Updates for 8.1
+To: Stafford Horne <shorne@gmail.com>, QEMU Development <qemu-devel@nongnu.org>
+References: <20230513080534.580800-1-shorne@gmail.com>
+Content-Language: en-US
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20230513080534.580800-1-shorne@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::535;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x535.google.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.923,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -50,263 +91,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: ~rmsyn <synchlsrm@proton.me>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: rmsyn <rmsynchls@gmail.com>
+On 5/13/23 01:05, Stafford Horne wrote:
+> The following changes since commit c1eb2ddf0f8075faddc5f7c3d39feae3e8e9d6b4:
+> 
+>    Update version for v8.0.0 release (2023-04-19 17:27:13 +0100)
+> 
+> are available in the Git repository at:
+> 
+>    https://github.com/stffrdhrn/qemu.git  tags/or1k-pull-request-20230513
+> 
+> for you to fetch changes up to 874c52991e1fbe020812b4b15440b6875369aacf:
+> 
+>    target/openrisc: Setup FPU for detecting tininess before rounding (2023-05-11 15:40:28 +0100)
+> 
+> ----------------------------------------------------------------
+> OpenRISC FPU Updates for 8.1
+> 
+> A few fixes and updates to bring OpenRISC inline with the latest
+> architecture spec updates:
+> 
+>   - Allow FPCSR to be accessed in user mode
+>   - Select tininess detection before rounding
+>   - Fix FPE Exception PC value
 
-Adds support for ATmega16u4 and ATmega32u4 MCU definitions.
+Applied, thanks.  Please update https://wiki.qemu.org/ChangeLog/8.1 as appropriate.
 
-Defines interrupts, memory layout, and machine types for generic
-ATmega16u4 and ATmega32u4 MCUs.
 
-Signed-off-by: rmsyn <rmsynchls@gmail.com>
----
- hw/avr/arduino.c |  36 ++++++++++++++
- hw/avr/atmega.c  | 122 +++++++++++++++++++++++++++++++++++++++++++++++
- hw/avr/atmega.h  |   2 +
- 3 files changed, 160 insertions(+)
+r~
 
-diff --git a/hw/avr/arduino.c b/hw/avr/arduino.c
-index 48ef478346..be04e412e6 100644
---- a/hw/avr/arduino.c
-+++ b/hw/avr/arduino.c
-@@ -129,6 +129,34 @@ static void arduino_mega2560_class_init(ObjectClass *oc,=
- void *data)
-     amc->xtal_hz    =3D 16 * 1000 * 1000; /* CSTCE16M0V53-R0 */
- };
-=20
-+static void arduino_mega16u4_class_init(ObjectClass *oc, void *data)
-+{
-+    MachineClass *mc =3D MACHINE_CLASS(oc);
-+    ArduinoMachineClass *amc =3D ARDUINO_MACHINE_CLASS(oc);
-+
-+    /*
-+     * https://ww1.microchip.com/downloads/en/devicedoc/atmel-7766-8-bit-avr=
--atmega16u4-32u4_datasheet.pdf
-+     */
-+    mc->desc        =3D "Arduino Mega 16u4 (ATmega16u4)";
-+    mc->alias       =3D "mega16u4";
-+    amc->mcu_type   =3D TYPE_ATMEGA16U4_MCU;
-+    amc->xtal_hz    =3D 16 * 1000 * 1000; /* CSTCE16M0V53-R0 */
-+};
-+
-+static void arduino_mega32u4_class_init(ObjectClass *oc, void *data)
-+{
-+    MachineClass *mc =3D MACHINE_CLASS(oc);
-+    ArduinoMachineClass *amc =3D ARDUINO_MACHINE_CLASS(oc);
-+
-+    /*
-+     * https://ww1.microchip.com/downloads/en/devicedoc/atmel-7766-8-bit-avr=
--atmega16u4-32u4_datasheet.pdf
-+     */
-+    mc->desc        =3D "Arduino Mega 32u4 (ATmega32u4)";
-+    mc->alias       =3D "mega32u4";
-+    amc->mcu_type   =3D TYPE_ATMEGA32U4_MCU;
-+    amc->xtal_hz    =3D 16 * 1000 * 1000; /* CSTCE16M0V53-R0 */
-+};
-+
- static const TypeInfo arduino_machine_types[] =3D {
-     {
-         .name          =3D MACHINE_TYPE_NAME("arduino-duemilanove"),
-@@ -146,6 +174,14 @@ static const TypeInfo arduino_machine_types[] =3D {
-         .name          =3D MACHINE_TYPE_NAME("arduino-mega-2560-v3"),
-         .parent        =3D TYPE_ARDUINO_MACHINE,
-         .class_init    =3D arduino_mega2560_class_init,
-+    }, {
-+        .name          =3D MACHINE_TYPE_NAME("arduino-mega-16u4"),
-+        .parent        =3D TYPE_ARDUINO_MACHINE,
-+        .class_init    =3D arduino_mega16u4_class_init,
-+    }, {
-+        .name          =3D MACHINE_TYPE_NAME("arduino-mega-32u4"),
-+        .parent        =3D TYPE_ARDUINO_MACHINE,
-+        .class_init    =3D arduino_mega32u4_class_init,
-     }, {
-         .name           =3D TYPE_ARDUINO_MACHINE,
-         .parent         =3D TYPE_MACHINE,
-diff --git a/hw/avr/atmega.c b/hw/avr/atmega.c
-index a34803e642..292ad9a447 100644
---- a/hw/avr/atmega.c
-+++ b/hw/avr/atmega.c
-@@ -27,6 +27,17 @@ enum AtmegaPeripheral {
-     GPIOG, GPIOH, GPIOI, GPIOJ, GPIOK, GPIOL,
-     USART0, USART1, USART2, USART3,
-     TIMER0, TIMER1, TIMER2, TIMER3, TIMER4, TIMER5,
-+    RESET,
-+    INT0, INT1, INT2, INT3, INT4, INT5, INT6,
-+    PCINT0,
-+    USB_GEN, USB_EP,
-+    WDT,
-+    SPI,
-+    ANALOG_COMP,
-+    ADC,
-+    EE_READY,
-+    TWI,
-+    SPM_READY,
-     PERIFMAX
- };
-=20
-@@ -98,6 +109,30 @@ static const peripheral_cfg dev168_328[PERIFMAX] =3D {
-     [GPIOC]         =3D {  0x26 },
-     [GPIOB]         =3D {  0x23 },
-     [GPIOA]         =3D {  0x20 },
-+}, dev16u4_32u4[PERIFMAX] =3D {
-+    [POWER1]        =3D {  0x65 },
-+    [POWER0]        =3D {  0x64 },
-+    [TIMER4]        =3D {  0x4c, POWER1, 4, 0x72, 0x39, true },=20
-+    [SPM_READY]     =3D {  0x4a },
-+    [TWI]           =3D {  0x48 },
-+    [TIMER3]        =3D {  0x3e, POWER1, 3, 0x71, 0x38, true },
-+    [EE_READY]      =3D {  0x3c },
-+    [ADC]           =3D {  0x3a },
-+    [ANALOG_COMP]   =3D {  0x38 },
-+    [USART1]        =3D {  0x32, POWER1, 0 },
-+    [SPI]           =3D {  0x30 },
-+    [TIMER0]        =3D {  0x2a, POWER0, 5, 0x6e, 0x35, true },
-+    [TIMER1]        =3D {  0x20, POWER0, 3, 0x6f, 0x36, true },
-+    [WDT]           =3D {  0x18 },
-+    [USB_GEN]       =3D {  0x14 },
-+    [USB_EP]        =3D {  0x16 },
-+    [PCINT0]        =3D {  0x12 },
-+    [INT6]          =3D {  0x0e },
-+    [INT3]          =3D {  0x08 },
-+    [INT2]          =3D {  0x06 },
-+    [INT1]          =3D {  0x04 },
-+    [INT0]          =3D {  0x02 },
-+    [RESET]         =3D {  0x00 },
- };
-=20
- enum AtmegaIrq {
-@@ -117,6 +152,17 @@ enum AtmegaIrq {
-         TIMER4_COMPC_IRQ, TIMER4_OVF_IRQ,
-     TIMER5_CAPT_IRQ, TIMER5_COMPA_IRQ, TIMER5_COMPB_IRQ,
-         TIMER5_COMPC_IRQ, TIMER5_OVF_IRQ,
-+    RESET_IRQ,
-+    INT0_IRQ, INT1_IRQ, INT2_IRQ, INT3_IRQ, INT4_IRQ, INT5_IRQ, INT6_IRQ,
-+    PCINT0_IRQ,
-+    USB_GEN_IRQ, USB_EP_IRQ,
-+    WDT_IRQ,
-+    SPI_IRQ,
-+    ANALOG_COMP_IRQ,
-+    ADC_IRQ,
-+    EE_READY_IRQ,
-+    TWI_IRQ,
-+    SPM_READY_IRQ,
-     IRQ_COUNT
- };
-=20
-@@ -184,6 +230,44 @@ static const uint8_t irq168_328[IRQ_COUNT] =3D {
-     [USART3_RXC_IRQ]        =3D 55,
-     [USART3_DRE_IRQ]        =3D 56,
-     [USART3_TXC_IRQ]        =3D 57,
-+}, irq16u4_32u4[IRQ_COUNT] =3D {
-+    [RESET_IRQ]             =3D  1,
-+    [INT0_IRQ]              =3D  2,
-+    [INT1_IRQ]              =3D  3,
-+    [INT2_IRQ]              =3D  4,
-+    [INT3_IRQ]              =3D  5,
-+    [INT6_IRQ]              =3D  8,
-+    [PCINT0_IRQ]            =3D 10,
-+    [USB_GEN_IRQ]           =3D 11,
-+    [USB_EP_IRQ]            =3D 12,
-+    [WDT_IRQ]               =3D 13,
-+    [TIMER1_CAPT_IRQ]       =3D 17,
-+    [TIMER1_COMPA_IRQ]      =3D 18,
-+    [TIMER1_COMPB_IRQ]      =3D 19,
-+    [TIMER1_COMPC_IRQ]      =3D 20,
-+    [TIMER1_OVF_IRQ]        =3D 21,
-+    [TIMER0_COMPA_IRQ]      =3D 22,
-+    [TIMER0_COMPB_IRQ]      =3D 23,
-+    [TIMER0_OVF_IRQ]        =3D 24,
-+    [SPI_IRQ]               =3D 25,
-+    [USART0_RXC_IRQ]        =3D 26,
-+    [USART0_DRE_IRQ]        =3D 27,
-+    [USART0_TXC_IRQ]        =3D 28,
-+    [ANALOG_COMP]           =3D 29,
-+    [ADC_IRQ]               =3D 30,
-+    [EE_READY_IRQ]          =3D 31,
-+    [TIMER3_CAPT_IRQ]       =3D 32,
-+    [TIMER3_COMPA_IRQ]      =3D 33,
-+    [TIMER3_COMPB_IRQ]      =3D 34,
-+    [TIMER3_COMPC_IRQ]      =3D 35,
-+    [TIMER3_OVF_IRQ]        =3D 36,
-+    [TWI_IRQ]               =3D 37,
-+    [SPM_READY_IRQ]         =3D 38,
-+    [TIMER4_COMPA_IRQ]      =3D 39,
-+    [TIMER4_COMPB_IRQ]      =3D 40,
-+    [TIMER4_COMPC_IRQ]      =3D 41,
-+    [TIMER4_OVF_IRQ]        =3D 42,
-+    /*[TIMER4_FPF_IRQ]        =3D 43,*/
- };
-=20
- static void connect_peripheral_irq(const AtmegaMcuClass *k,
-@@ -427,6 +511,36 @@ static void atmega2560_class_init(ObjectClass *oc, void =
-*data)
-     amc->dev =3D dev1280_2560;
- };
-=20
-+static void atmega16u4_class_init(ObjectClass *oc, void *data)
-+{
-+    AtmegaMcuClass *amc =3D ATMEGA_MCU_CLASS(oc);
-+
-+    amc->cpu_type =3D AVR_CPU_TYPE_NAME("avr5");
-+    amc->flash_size =3D 16 * KiB;
-+    amc->eeprom_size =3D 512;
-+    amc->sram_size =3D KiB + 256;
-+    amc->io_size =3D 64;
-+    amc->gpio_count =3D 32;
-+    amc->adc_count =3D 12;
-+    amc->irq =3D irq16u4_32u4;
-+    amc->dev =3D dev16u4_32u4;
-+};
-+
-+static void atmega32u4_class_init(ObjectClass *oc, void *data)
-+{
-+    AtmegaMcuClass *amc =3D ATMEGA_MCU_CLASS(oc);
-+
-+    amc->cpu_type =3D AVR_CPU_TYPE_NAME("avr5");
-+    amc->flash_size =3D 32 * KiB;
-+    amc->eeprom_size =3D KiB;
-+    amc->sram_size =3D 2 * KiB + 512;
-+    amc->io_size =3D 64;
-+    amc->gpio_count =3D 32;
-+    amc->adc_count =3D 12;
-+    amc->irq =3D irq16u4_32u4;
-+    amc->dev =3D dev16u4_32u4;
-+};
-+
- static const TypeInfo atmega_mcu_types[] =3D {
-     {
-         .name           =3D TYPE_ATMEGA168_MCU,
-@@ -444,6 +558,14 @@ static const TypeInfo atmega_mcu_types[] =3D {
-         .name           =3D TYPE_ATMEGA2560_MCU,
-         .parent         =3D TYPE_ATMEGA_MCU,
-         .class_init     =3D atmega2560_class_init,
-+    }, {
-+        .name           =3D TYPE_ATMEGA16U4_MCU,
-+        .parent         =3D TYPE_ATMEGA_MCU,
-+        .class_init     =3D atmega16u4_class_init,
-+    }, {
-+        .name           =3D TYPE_ATMEGA32U4_MCU,
-+        .parent         =3D TYPE_ATMEGA_MCU,
-+        .class_init     =3D atmega32u4_class_init,
-     }, {
-         .name           =3D TYPE_ATMEGA_MCU,
-         .parent         =3D TYPE_SYS_BUS_DEVICE,
-diff --git a/hw/avr/atmega.h b/hw/avr/atmega.h
-index a99ee15c7e..37d36b9b69 100644
---- a/hw/avr/atmega.h
-+++ b/hw/avr/atmega.h
-@@ -22,6 +22,8 @@
- #define TYPE_ATMEGA328_MCU  "ATmega328"
- #define TYPE_ATMEGA1280_MCU "ATmega1280"
- #define TYPE_ATMEGA2560_MCU "ATmega2560"
-+#define TYPE_ATMEGA16U4_MCU "ATmega16U4"
-+#define TYPE_ATMEGA32U4_MCU "ATmega32U4"
-=20
- typedef struct AtmegaMcuState AtmegaMcuState;
- DECLARE_INSTANCE_CHECKER(AtmegaMcuState, ATMEGA_MCU,
---=20
-2.38.4
 
