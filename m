@@ -2,79 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE38A701CAA
-	for <lists+qemu-devel@lfdr.de>; Sun, 14 May 2023 11:40:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 387D7701CCF
+	for <lists+qemu-devel@lfdr.de>; Sun, 14 May 2023 12:03:49 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1py8C6-0000gf-Ln; Sun, 14 May 2023 05:39:10 -0400
+	id 1py8YW-0003ut-EN; Sun, 14 May 2023 06:02:20 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1py8Bx-0000cW-7K
- for qemu-devel@nongnu.org; Sun, 14 May 2023 05:39:04 -0400
-Received: from mail-pf1-x434.google.com ([2607:f8b0:4864:20::434])
+ id 1py8YU-0003ug-IP
+ for qemu-devel@nongnu.org; Sun, 14 May 2023 06:02:18 -0400
+Received: from mail-pj1-x102f.google.com ([2607:f8b0:4864:20::102f])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1py8Bt-0006Tl-F5
- for qemu-devel@nongnu.org; Sun, 14 May 2023 05:39:00 -0400
-Received: by mail-pf1-x434.google.com with SMTP id
- d2e1a72fcca58-6438d95f447so8072253b3a.3
- for <qemu-devel@nongnu.org>; Sun, 14 May 2023 02:38:57 -0700 (PDT)
+ id 1py8YT-0003Vn-0G
+ for qemu-devel@nongnu.org; Sun, 14 May 2023 06:02:18 -0400
+Received: by mail-pj1-x102f.google.com with SMTP id
+ 98e67ed59e1d1-250175762b8so10106574a91.1
+ for <qemu-devel@nongnu.org>; Sun, 14 May 2023 03:02:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1684057136; x=1686649136;
- h=content-transfer-encoding:in-reply-to:from:references:to
+ d=linaro.org; s=google; t=1684058535; x=1686650535;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=r2g5PXOwr40p6HO+Bm2Oq9nKiLzZ2rVVlujSultU7uI=;
- b=c++rcWCk+f9T3ZAUNdgPXGVcTQ1lCM1tBR1/w0Iz8uPzQDVfL6CTMWWoIeihHnu75v
- 0tUlPVUtllGvVkWyJzDo7PPgKZ9xZEZfohnveFSIOpAowLRNyqW7OxbjlMkntFZn4GEZ
- y8IN85Ry99oRKMiGdN0hA7x+r7wrvD0PzZeAyiL91WFoVOohH8Kw1NpTBlVPhlXut5MY
- 2eNPofycSeudTpXSKnvwhPk9WlIkrG1CsjcuCCEN9CsezImmfXEUAjfYuc2h8X6SfXoA
- rGcVe1f/sV5GwBtLJwWJieMng8UXEzdO/JNKJ2uP65i0JvnKPk+EJcqJu0xloOkwpI5O
- IKlA==
+ bh=T5svcYrDgWzzeCb3Gx7K9secPhyPCWNCIhTPSmEj500=;
+ b=NeXwNLdfc8bVdUfHnAigo/5ZehitQHAE3zmD2STXWMOEyApyQl+k94e2Vqp99RJWHq
+ TB0zaeMEl6xlwaQk3Ft++3b6A+1OE83+HCNUs4rQrXtXMAfAKFH9UgPmYnA2CsQRPfag
+ 3kxWk4rHM+/ZcirF9RmLOTtR0EotHrk4ttVIJBpDiy7HmP1vrz4rPibmy6b0PQBqKPEb
+ TISDJ0oTmBnxvrqCk+RTKGLi0PgMVSWHM5miFm2bISLzHR7FsULJ3zW9Azj5FzlQNTYQ
+ d8mhD2ak1xDNBD/bc9nVachQvPJ26bSmlUdHMktp1E80N0mJZixnutH3e3tuBMkP9eKj
+ 2aAQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1684057136; x=1686649136;
- h=content-transfer-encoding:in-reply-to:from:references:to
+ d=1e100.net; s=20221208; t=1684058535; x=1686650535;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=r2g5PXOwr40p6HO+Bm2Oq9nKiLzZ2rVVlujSultU7uI=;
- b=ghjL4fKCne06z320qFJEJFmyGh6wqcxB3akviceoo9A/lSjz7viZKVZRXmEW3ft/J7
- sS4zdfQ3cEr5zjmnlFP1NzWzWf3lIQHOD6xYrcY5HOD2c8NWunPngkTbm5onkCR/ooPo
- Y0UPHXFxEhXMUwqnuFzISSpx15EOJw2y1qDNOTBz27wWemGSyTNUyPwmHlEmL+oBa0Gr
- qbVNLOxOq57HPsLOMNsgpxswmsV43L6DSOKIhBun31WupE4qS1yJMNw1kt9KbTo3+Psw
- pKYNS/an6zYjLn8gNgBleSA9kiiAXmsygmL3ot+vpMKkODhJUkkDuy5aq+gF/vT9csP7
- ogNg==
-X-Gm-Message-State: AC+VfDw2zj/VDHPsYxMpwoao3gd4y/8yM6zSIREMIvPCovgDDxTH5mbo
- XcivLxPIlLlRCoB0bntxxhd+iA==
-X-Google-Smtp-Source: ACHHUZ6n6BHjZezFo4bGcE8K3hXc9l0owzwXJQtPzEmKJsdbnNW+HRvZwfBByTRuSywUdjDyg/arwg==
-X-Received: by 2002:a05:6a20:158a:b0:105:66d3:8538 with SMTP id
- h10-20020a056a20158a00b0010566d38538mr3397502pzj.8.1684057135889; 
- Sun, 14 May 2023 02:38:55 -0700 (PDT)
+ bh=T5svcYrDgWzzeCb3Gx7K9secPhyPCWNCIhTPSmEj500=;
+ b=l5yyaO/krkLSZs++GaemmS5HjcjypWeax3qgY1VPf3PSyKGmXnxfC/jWie0ejVc5SI
+ AOPEcRTI2w2NGz7w3sMRQI2abnbXEgyFrAHJyo+xPhLKK4HPOr8b1Z08CiPPNPsuFP/t
+ gi75dhj1TJ8Dkal1yaYePah6riUoQSmFVd0rIGYFjyFUWyMXjlUp4673mW/1eDMg5yWs
+ K8dJYMC07C/Bfmtl/6ZLCjaeNjZHX1+pQTGZeVMt1d9fknyzjyzwyl/ptAdW1uv1tWwX
+ 67zta5xxQAKTinQeqw7QbizUjnPMNakXHGjuYaO1gy5G/MJa3qsuo9wvcN669U6kedyE
+ fDqQ==
+X-Gm-Message-State: AC+VfDxDiFa7wzMMn2LXhC+ixAOc0zoGEzvggIH4SL1tSFROwDLgoDXt
+ srOMFpsxGBCfwPnFXDbgmnRpBg==
+X-Google-Smtp-Source: ACHHUZ7Pq42RynLtE/uplGuAR6osTc5LX/q/rK2ckQ3TBwOELgwmirSdk3SSKRK9VEsJFxq/XckFVA==
+X-Received: by 2002:a17:90b:4aca:b0:247:4f32:d108 with SMTP id
+ mh10-20020a17090b4aca00b002474f32d108mr30924222pjb.13.1684058535160; 
+ Sun, 14 May 2023 03:02:15 -0700 (PDT)
 Received: from ?IPV6:2602:ae:1598:4c01:1836:b4ca:fe24:b474?
  ([2602:ae:1598:4c01:1836:b4ca:fe24:b474])
  by smtp.gmail.com with ESMTPSA id
- u17-20020a62ed11000000b00649ac17779csm5618870pfh.160.2023.05.14.02.38.55
+ t3-20020a17090a024300b0024499d4b72esm20578192pje.51.2023.05.14.03.02.14
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 14 May 2023 02:38:55 -0700 (PDT)
-Message-ID: <45ca2fa9-3d72-e0c4-aecb-10849c5c90d2@linaro.org>
-Date: Sun, 14 May 2023 02:38:53 -0700
+ Sun, 14 May 2023 03:02:14 -0700 (PDT)
+Message-ID: <136af23c-558b-614a-92d3-91efd8fd00e3@linaro.org>
+Date: Sun, 14 May 2023 03:02:12 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.10.0
-Subject: Re: [PATCH 2/2] hw/arm/vexpress: Avoid trivial memory leak of
- 'flashalias'
+Subject: Re: [PATCH v2 3/3] hw/intc: Add NULL pointer check on LoongArch ipi
+ device
 Content-Language: en-US
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org
-References: <20230512170223.3801643-1-peter.maydell@linaro.org>
- <20230512170223.3801643-3-peter.maydell@linaro.org>
+To: Song Gao <gaosong@loongson.cn>, qemu-devel@nongnu.org
+Cc: philmd@linaro.org, maobibo@loongson.cn, yangxiaojuan@loongson.cn
+References: <20230512100421.1867848-1-gaosong@loongson.cn>
+ <20230512100421.1867848-4-gaosong@loongson.cn>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20230512170223.3801643-3-peter.maydell@linaro.org>
+In-Reply-To: <20230512100421.1867848-4-gaosong@loongson.cn>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::434;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x434.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102f.google.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
 X-Spam_bar: ---
@@ -97,30 +97,16 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 5/12/23 10:02, Peter Maydell wrote:
-> In the vexpress board code, we allocate a new MemoryRegion at the top
-> of vexpress_common_init() but only set it up and use it inside the
-> "if (map[VE_NORFLASHALIAS] != -1)" conditional, so we leak it if not.
-> This isn't a very interesting leak as it's a tiny amount of memory
-> once at startup, but it's easy to fix.
+On 5/12/23 03:04, Song Gao wrote:
+> When ipi mailbox is used, cpu_index is decoded from iocsr register.
+> cpu maybe does not exist. This patch adss NULL pointer check on
+> ipi device.
 > 
-> We could silence Coverity simply by moving the g_new() into the
-> if() block, but this use of g_new(MemoryRegion, 1) is a legacy from
-> when this board model was originally written; we wouldn't do that
-> if we wrote it today. The MemoryRegions are conceptually a part of
-> the board and must not go away until the whole board is done with
-> (at the end of the simulation), so they belong in its state struct.
-> 
-> This machine already has a VexpressMachineState struct that extends
-> MachineState, so statically put the MemoryRegions in there instead of
-> dynamically allocating them separately at runtime.
-> 
-> Spotted by Coverity (CID 1509083).
-> 
-> Signed-off-by: Peter Maydell<peter.maydell@linaro.org>
+> Signed-off-by: Song Gao<gaosong@loongson.cn>
 > ---
->   hw/arm/vexpress.c | 40 ++++++++++++++++++++--------------------
->   1 file changed, 20 insertions(+), 20 deletions(-)
+>   hw/intc/loongarch_ipi.c | 40 +++++++++++++++++++++++++++++-----------
+>   hw/intc/trace-events    |  1 +
+>   2 files changed, 30 insertions(+), 11 deletions(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
