@@ -2,45 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B41CF701D47
-	for <lists+qemu-devel@lfdr.de>; Sun, 14 May 2023 14:28:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ACBE6701D4A
+	for <lists+qemu-devel@lfdr.de>; Sun, 14 May 2023 14:29:50 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pyAoP-0001K8-FF; Sun, 14 May 2023 08:26:53 -0400
+	id 1pyAqT-0002MC-2E; Sun, 14 May 2023 08:29:02 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1pyAoN-0001JL-JF; Sun, 14 May 2023 08:26:51 -0400
+ id 1pyAqF-0002LW-TJ; Sun, 14 May 2023 08:28:49 -0400
 Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1pyAoL-0002kx-UO; Sun, 14 May 2023 08:26:51 -0400
+ id 1pyAqD-000398-Ui; Sun, 14 May 2023 08:28:47 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=ilande.co.uk; s=20220518; h=Subject:Content-Transfer-Encoding:Content-Type:
  In-Reply-To:From:References:Cc:To:MIME-Version:Date:Message-ID:Sender:
  Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
  :Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
  List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=p03hJuGoM7wf368ES+rV1ZI45MHe9pjb6uSaHTVKOCI=; b=hv6uJZbdof+FTf6BLU0PD7FR75
- N9h5kjvgOdVdziJSZkyGFUvT9uZkjIDRg536YmovmVvoU9K78vzki1gJybe8j7W1Ji4cwdIvmnngS
- W6kJFRFxyqrQtk3KR7DxfXhwDtRTKVZIF1fjcxVhUz9gy1vuuekFIemjentTucMwCWVBDPrKC/+Sn
- DNAY2ZemyCQHYchKWeWqW6lRHQ2Fsaszdqwlo7IsYHblzNX7P3AXQKb74TocaXhIjuAgHNLzdjxNb
- gEE9Q4cAaRKb7pyyFgF3TLDuGDlp7WlOIpt5CwJu/HgQWnh8ON0gANm1Xjkt2cin/mIeKcCnmy6CD
- /7ab0gTPmOuT05ToV0qn+YJHWgLFdCFwCBe9QDKc0FwvcOfq65aHtpMuu38p+1pbp0SPaKutW96Mh
- HjcqRaYQM0jWsXfbn99O24enplCZlsdaa5uz7Ig4kiWUIWd9Ke07j8Ty/3orNnLKHjkkrYN8HJIst
- 6U2BG9/ri14f8bujXo5n0y5QA6dhGbU0Jb/Ihj2oHrOFfhiQiw53RtCWx1v2TxyNAGR0tNPBYBPNH
- gzDSRvycGUBKgJLIjJil9266tCpY+XKEphNintvDXnuPNwCe73cMUVjTvgR3uMcZiPF6qE1OhaF7S
- ZxvDmaggqOZ+HEetgKp6NOsPia//ocsNXB7KYumgA=;
+ bh=q5S79XUuI1ZIvlasYKnvWNHO5Ub7qvuhOhrOlYK7eBk=; b=fXQKwxXi7rXxJVeqf9454Sqrl5
+ WTBIv7lVT4879Nm3N1Ehfx2ZAirOg9jevOQlKZY+xqkZ3cl2kQMSAbwKzDfhug1DPMImoUX4/jz6Y
+ wIUAmKw+R1U2thAS3ElhYlOTht4a9ifyspiCA71yaMmE3WajCiGZLh49XTxdHJxgkM82GQQgxsX+z
+ H7YmhOlOdhrmACjGu1uJHct9H3BwU+iIZAAmQXtqwDbpjSxioUkHBbE9QX+zeu2SW5fcfO9ftIzIg
+ H8Rv0Jlz2POVeVgYh+YbzJG/hnPeAb7WChDAdSz7qnsw6wd6+fZd2kFbvI5kQxHe0pUSJ/xClQWn7
+ nUi40bUd4X1jHAXGM+41DNvIULzsXcCuQFmeYmHuqVmtoC2btyiIDyKo4h7nKXl7tKqdIsr5Sdqot
+ G08uLcMGFKl0/g3zVgUczujqYSz7GqN50lEkvHixf9tN0fy8yUORb1Nw73Ox5oLrhJ4GHMsiElc3d
+ 5NzsI3Ji1kD5faTTysNHiUPXMkN8o+fIOL9xOJs88tUylZ0l5D/CRUH5Cp1rytZ5arkCxhZaIPY9U
+ ZpWRVUiXwRqxEBoszRrv8SEMjEzPK/hx6RMfRbGPKOJQ6d4JZXNIKbVdtDM3uYUENepo7P6xshKSg
+ ZXkf6G77plSAOU9dnpdnfNC+WM75xM2M2rElgPAls=;
 Received: from [2a00:23c4:8bac:6900:b726:cf58:4c12:f013]
  by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1pyAn7-00037v-IL; Sun, 14 May 2023 13:25:37 +0100
-Message-ID: <a8719d71-0343-e2a2-3e7a-d48eef40c49f@ilande.co.uk>
-Date: Sun, 14 May 2023 13:26:27 +0100
+ id 1pyAp7-00039K-GZ; Sun, 14 May 2023 13:27:41 +0100
+Message-ID: <dae15445-d03f-1bfa-b32c-91acd5cc8182@ilande.co.uk>
+Date: Sun, 14 May 2023 13:28:33 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.10.0
+Content-Language: en-US
 To: Bernhard Beschow <shentey@gmail.com>, qemu-devel@nongnu.org
 Cc: Paolo Bonzini <pbonzini@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>, qemu-arm@nongnu.org,
@@ -52,16 +53,14 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>,
  qemu-ppc@nongnu.org, =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?=
  <marcandre.lureau@redhat.com>, Peter Maydell <peter.maydell@linaro.org>
 References: <20230513100906.46672-1-shentey@gmail.com>
- <20230513100906.46672-2-shentey@gmail.com>
-Content-Language: en-US
+ <20230513100906.46672-3-shentey@gmail.com>
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-In-Reply-To: <20230513100906.46672-2-shentey@gmail.com>
+In-Reply-To: <20230513100906.46672-3-shentey@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-SA-Exim-Connect-IP: 2a00:23c4:8bac:6900:b726:cf58:4c12:f013
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [PATCH 1/4] hw/timer/i8254_common: Share "iobase" property via
- base class
+Subject: Re: [PATCH 2/4] hw/arm/omap: Remove unused omap_uart_attach()
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
 Received-SPF: pass client-ip=2001:41c9:1:41f::167;
@@ -90,77 +89,47 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On 13/05/2023 11:09, Bernhard Beschow wrote:
 
-> Both TYPE_KVM_I8254 and TYPE_I8254 have their own but same implementation of
-> the "iobase" property. The storage for the property already resides in
-> PITCommonState, so also move the property definition there.
+> The function is unused since commit
+> bdad3654d3c55f478e538037d9eccd204e5fc8ee ('hw/arm/nseries: Remove
+> invalid/unnecessary n8x0_uart_setup()').
 > 
 > Signed-off-by: Bernhard Beschow <shentey@gmail.com>
 > ---
->   hw/i386/kvm/i8254.c     | 1 -
->   hw/timer/i8254.c        | 6 ------
->   hw/timer/i8254_common.c | 6 ++++++
->   3 files changed, 6 insertions(+), 7 deletions(-)
+>   include/hw/arm/omap.h | 1 -
+>   hw/char/omap_uart.c   | 9 ---------
+>   2 files changed, 10 deletions(-)
 > 
-> diff --git a/hw/i386/kvm/i8254.c b/hw/i386/kvm/i8254.c
-> index 191a26fa57..6a7383d877 100644
-> --- a/hw/i386/kvm/i8254.c
-> +++ b/hw/i386/kvm/i8254.c
-> @@ -301,7 +301,6 @@ static void kvm_pit_realizefn(DeviceState *dev, Error **errp)
->   }
+> diff --git a/include/hw/arm/omap.h b/include/hw/arm/omap.h
+> index c275d9b681..067e9419f7 100644
+> --- a/include/hw/arm/omap.h
+> +++ b/include/hw/arm/omap.h
+> @@ -724,7 +724,6 @@ struct omap_uart_s *omap2_uart_init(MemoryRegion *sysmem,
+>                   qemu_irq txdma, qemu_irq rxdma,
+>                   const char *label, Chardev *chr);
+>   void omap_uart_reset(struct omap_uart_s *s);
+> -void omap_uart_attach(struct omap_uart_s *s, Chardev *chr);
 >   
->   static Property kvm_pit_properties[] = {
-> -    DEFINE_PROP_UINT32("iobase", PITCommonState, iobase,  -1),
->       DEFINE_PROP_LOSTTICKPOLICY("lost_tick_policy", KVMPITState,
->                                  lost_tick_policy, LOST_TICK_POLICY_DELAY),
->       DEFINE_PROP_END_OF_LIST(),
-> diff --git a/hw/timer/i8254.c b/hw/timer/i8254.c
-> index c8388ea432..c235496fc9 100644
-> --- a/hw/timer/i8254.c
-> +++ b/hw/timer/i8254.c
-> @@ -350,11 +350,6 @@ static void pit_realizefn(DeviceState *dev, Error **errp)
->       pc->parent_realize(dev, errp);
->   }
+>   struct omap_mpuio_s;
+>   qemu_irq *omap_mpuio_in_get(struct omap_mpuio_s *s);
+> diff --git a/hw/char/omap_uart.c b/hw/char/omap_uart.c
+> index 1c890b9201..6848bddb4e 100644
+> --- a/hw/char/omap_uart.c
+> +++ b/hw/char/omap_uart.c
+> @@ -175,12 +175,3 @@ struct omap_uart_s *omap2_uart_init(MemoryRegion *sysmem,
 >   
-> -static Property pit_properties[] = {
-> -    DEFINE_PROP_UINT32("iobase", PITCommonState, iobase,  -1),
-> -    DEFINE_PROP_END_OF_LIST(),
-> -};
+>       return s;
+>   }
 > -
->   static void pit_class_initfn(ObjectClass *klass, void *data)
->   {
->       PITClass *pc = PIT_CLASS(klass);
-> @@ -366,7 +361,6 @@ static void pit_class_initfn(ObjectClass *klass, void *data)
->       k->get_channel_info = pit_get_channel_info_common;
->       k->post_load = pit_post_load;
->       dc->reset = pit_reset;
-> -    device_class_set_props(dc, pit_properties);
->   }
->   
->   static const TypeInfo pit_info = {
-> diff --git a/hw/timer/i8254_common.c b/hw/timer/i8254_common.c
-> index 050875b497..e4093e2904 100644
-> --- a/hw/timer/i8254_common.c
-> +++ b/hw/timer/i8254_common.c
-> @@ -240,6 +240,11 @@ static const VMStateDescription vmstate_pit_common = {
->       }
->   };
->   
-> +static Property pit_common_properties[] = {
-> +    DEFINE_PROP_UINT32("iobase", PITCommonState, iobase,  -1),
-> +    DEFINE_PROP_END_OF_LIST(),
-> +};
-> +
->   static void pit_common_class_init(ObjectClass *klass, void *data)
->   {
->       DeviceClass *dc = DEVICE_CLASS(klass);
-> @@ -252,6 +257,7 @@ static void pit_common_class_init(ObjectClass *klass, void *data)
->        * done by board code.
->        */
->       dc->user_creatable = false;
-> +    device_class_set_props(dc, pit_common_properties);
->   }
->   
->   static const TypeInfo pit_common_type = {
+> -void omap_uart_attach(struct omap_uart_s *s, Chardev *chr)
+> -{
+> -    /* TODO: Should reuse or destroy current s->serial */
+> -    s->serial = serial_mm_init(get_system_memory(), s->base, 2, s->irq,
+> -                               omap_clk_getrate(s->fclk) / 16,
+> -                               chr ?: qemu_chr_new("null", "null", NULL),
+> -                               DEVICE_NATIVE_ENDIAN);
+> -}
+
+A quick grep agrees, so:
 
 Reviewed-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 
