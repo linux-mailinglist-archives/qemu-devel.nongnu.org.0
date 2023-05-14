@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B734701F1A
-	for <lists+qemu-devel@lfdr.de>; Sun, 14 May 2023 20:57:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4BA7B701F1B
+	for <lists+qemu-devel@lfdr.de>; Sun, 14 May 2023 20:58:25 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pyGt5-0002Gw-2M; Sun, 14 May 2023 14:56:07 -0400
+	id 1pyGuw-00039r-QG; Sun, 14 May 2023 14:58:02 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <nieklinnenbank@gmail.com>)
- id 1pyGsx-0002Fv-8w; Sun, 14 May 2023 14:55:59 -0400
-Received: from mail-yw1-x1130.google.com ([2607:f8b0:4864:20::1130])
+ id 1pyGut-00039E-Sp; Sun, 14 May 2023 14:57:59 -0400
+Received: from mail-yb1-xb31.google.com ([2607:f8b0:4864:20::b31])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <nieklinnenbank@gmail.com>)
- id 1pyGsv-0002Xq-Dd; Sun, 14 May 2023 14:55:59 -0400
-Received: by mail-yw1-x1130.google.com with SMTP id
- 00721157ae682-55a010774a5so178718577b3.3; 
- Sun, 14 May 2023 11:55:56 -0700 (PDT)
+ id 1pyGus-0002f7-15; Sun, 14 May 2023 14:57:59 -0400
+Received: by mail-yb1-xb31.google.com with SMTP id
+ 3f1490d57ef6-ba6e8965227so4821273276.0; 
+ Sun, 14 May 2023 11:57:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1684090556; x=1686682556;
+ d=gmail.com; s=20221208; t=1684090676; x=1686682676;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=saV+v6EvrbCOiFO3oNVFTh6QFhB9wkDSdFDJ+AFRKRQ=;
- b=cse0Tr/GNMTMf+nXYWLwnSQmPe87N8WJuB+SEHd3SQLYxMZvKQK8cSH2x4DI1PVHxV
- SaJ7/nDafha+IFAfWHvSXRn0VkGmNPapsLIaxCA4feR3LA5naDUX0w/VI+5z/TOr9/Mq
- RYlJCfLBsKRdOQywzwU8iN/WefMpsoVFa6FhSfo36klBPm4Xb4rasWtC1ZcCQ+sm5rN4
- ZQgtbnIb53dJwF2P90CVag4QuIVMYkQcbmjgY41TpYSREG8W2hnMwouqTnZa0NUkT+mb
- 4o64TNMQwLY4ujgQBwk1ljor+/psrRaWmRBlNSSpLjIhvx1RvLPhNH/t6FlRYnWwFM8I
- vSAg==
+ bh=PBotCoFUep/tSLp81rfgkdBfAyKNZLJqNP820ARp47k=;
+ b=pkbMFbWwyD+2/3jw+zuPFudg5bYxwvAC/fQyABJJJCbkFynuCQ0hkEOva4vUVbKVyI
+ w35QGb0S70hmXF+hz/jC6PdcEPCo2uXg8mhHP9u7UIxj53w7n2yjWx/fHaJqM4ztrUV0
+ dwwdrpXR7pNxIv+dsCqjfyz+i8gyYOClSGNZrlcdwXj1M99BV7EDl7DeUHIRoVwp4ocb
+ LXJNH+3mimc5ffaGeR7hQ3RU4vNWL6NvYJgvKNKTQX3+FHjvz8tFuG6RYKmiou7NnRkx
+ 8GaHwnw4dC1WWv1m6/bEZ9obEQfJyOE68SHMm5jPyovE694JW0qanmHKfMlJoPoIU/ps
+ fjFw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1684090556; x=1686682556;
+ d=1e100.net; s=20221208; t=1684090676; x=1686682676;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=saV+v6EvrbCOiFO3oNVFTh6QFhB9wkDSdFDJ+AFRKRQ=;
- b=DozUo/S/WlcarKfQwvfPErDHaIOJKl6uGgM969pu1yKPz5wU1hzGuz02nB99NqHIIF
- R+8CDsezw4/LPxFgLaGXe65d7B2awJsNIQHe9VDN+THxqBcybtU2URRpMSS50CfNwhGK
- XCtt8xc6IIuV0uNr/OWVd3RE5w4nmUvdPwz71zQgYOI0yHS5Ai1Ddv9NsnW8kgAFVad1
- 4mdmaJeUadIt/PerEt8ZaYiA4MAMiKtrr/VUXsBkuFdUgZFKxoiSfgk7kBBgg1NtWUtf
- ldgZzAqWeokfry1rE3uaS/C4tEmY+QF16VoIR3Y6+D26Xz4DxWdV7SCXd09LBQi656pL
- Lc4w==
-X-Gm-Message-State: AC+VfDwsgGIWKDq89WUkUy95YJz78FP5qphrep6ixga3tyKcbzYbMQjB
- RKyIwKI7tfuuAKcEXhMPI1QYGiajp1kx1xYyXB4=
-X-Google-Smtp-Source: ACHHUZ5V2iipcPoq+I15q03Z2Rv/B8wuDfuOhs87mFBcCdhCbqQIb+GfPzRUemhoxgb63NYkjzhb+jnUxzZkKyroDkg=
-X-Received: by 2002:a0d:d90d:0:b0:55a:8fe8:c90b with SMTP id
- b13-20020a0dd90d000000b0055a8fe8c90bmr29152221ywe.35.1684090555918; Sun, 14
- May 2023 11:55:55 -0700 (PDT)
+ bh=PBotCoFUep/tSLp81rfgkdBfAyKNZLJqNP820ARp47k=;
+ b=de0tQT4ulzeX9fkgfTHifqriik8NlpVRvRrKTIpJIdlIt6XOxixrC0k9ZDDKVpv3m1
+ OH8G9bolHtAoLdQ3DClptD5bCh58sTiHN5CQ77SGYhL4LS7Z2guGdstKTTeADVLf91V1
+ oWmMrU8jEXgf3uBbSefPE/rSg3UQHsFvRAhB18c1RHvrSG21FVGC2IbNt/KMZXMqU5EX
+ ypDhWBoCmY5GDhxiG7lE8MqtCM9B0OVXn0GOugGFOEdS1+tek9Cw1paLM5y2m6quEi5N
+ FZ4e76ZiC+YQBgZThJxkLmW07M/oU3phTRgk6Q10zBpxZURkRq84rnub8lTIc6jlm3Ad
+ Kxfw==
+X-Gm-Message-State: AC+VfDz0D7+gj2SJNSItWH8mVJaGe0GL9qo7k5rDO09hWJRO6dW1iuI7
+ 77eMfmS7QRHoNSXkFM9Jjfz7AK8T1Qt9k9cDnz8=
+X-Google-Smtp-Source: ACHHUZ5OffsfVpsPojiBa8qNFWjg8mfo4LbOGn0mFs5vlf+ffS4je6QVUcrJoDcHeaSRWk3r1PIee0ErsGL513e4WEU=
+X-Received: by 2002:a25:ad4f:0:b0:ba1:8788:1706 with SMTP id
+ l15-20020a25ad4f000000b00ba187881706mr27803768ybe.22.1684090675667; Sun, 14
+ May 2023 11:57:55 -0700 (PDT)
 MIME-Version: 1.0
 References: <20230510103004.30015-1-qianfanguijin@163.com>
- <20230510103004.30015-4-qianfanguijin@163.com>
-In-Reply-To: <20230510103004.30015-4-qianfanguijin@163.com>
+ <20230510103004.30015-5-qianfanguijin@163.com>
+In-Reply-To: <20230510103004.30015-5-qianfanguijin@163.com>
 From: Niek Linnenbank <nieklinnenbank@gmail.com>
-Date: Sun, 14 May 2023 20:55:45 +0200
-Message-ID: <CAPan3WrHGhcTWh5R3Uw1BFuVmTLf=jbXpTKTWSz0qNx8JrPszw@mail.gmail.com>
-Subject: Re: [PATCH v4 03/11] hw: allwinner-r40: Complete uart devices
+Date: Sun, 14 May 2023 20:57:44 +0200
+Message-ID: <CAPan3WrpOBdW8pWv_LdKu=AO8=z8rOBZos+UTYmedWVPQwhSDA@mail.gmail.com>
+Subject: Re: [PATCH v4 04/11] hw: arm: allwinner-r40: Add i2c0 device
 To: qianfanguijin@163.com
 Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, 
  Strahinja Jankovic <strahinja.p.jankovic@gmail.com>,
  Peter Maydell <peter.maydell@linaro.org>, 
  Beniamino Galvani <b.galvani@gmail.com>,
  =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>
-Content-Type: multipart/alternative; boundary="0000000000005aee6605fbabe32a"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1130;
- envelope-from=nieklinnenbank@gmail.com; helo=mail-yw1-x1130.google.com
+Content-Type: multipart/alternative; boundary="0000000000007e2bd705fbabeadf"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b31;
+ envelope-from=nieklinnenbank@gmail.com; helo=mail-yb1-xb31.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,129 +87,112 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
---0000000000005aee6605fbabe32a
+--0000000000007e2bd705fbabeadf
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-
-Hi Qianfan,
-
 
 On Wed, May 10, 2023 at 12:30=E2=80=AFPM <qianfanguijin@163.com> wrote:
 
 > From: qianfan Zhao <qianfanguijin@163.com>
 >
-> R40 has eight UARTs, support both 16450 and 16550 compatible modes.
+> TWI(i2c) is designed to be used as an interface between CPU host and the
+> serial 2-Wire bus. It can support all standard 2-Wire transfer, can be
+> operated in standard mode(100kbit/s) or fast-mode, supporting data rate
+> up to 400kbit/s.
 >
 > Signed-off-by: qianfan Zhao <qianfanguijin@163.com>
+>
+Reviewed-by: Niek Linnenbank <nieklinnenbank@gmail.com>
+
 > ---
->  hw/arm/allwinner-r40.c         | 31 ++++++++++++++++++++++++++++---
->  include/hw/arm/allwinner-r40.h |  8 ++++++++
->  2 files changed, 36 insertions(+), 3 deletions(-)
+>  hw/arm/allwinner-r40.c         | 11 ++++++++++-
+>  include/hw/arm/allwinner-r40.h |  3 +++
+>  2 files changed, 13 insertions(+), 1 deletion(-)
 >
 > diff --git a/hw/arm/allwinner-r40.c b/hw/arm/allwinner-r40.c
-> index 128c0ca470..537a90b23d 100644
+> index 537a90b23d..4bc582630c 100644
 > --- a/hw/arm/allwinner-r40.c
 > +++ b/hw/arm/allwinner-r40.c
-> @@ -45,6 +45,13 @@ const hwaddr allwinner_r40_memmap[] =3D {
->      [AW_R40_DEV_CCU]        =3D 0x01c20000,
->      [AW_R40_DEV_PIT]        =3D 0x01c20c00,
->      [AW_R40_DEV_UART0]      =3D 0x01c28000,
-> +    [AW_R40_DEV_UART1]      =3D 0x01c28400,
-> +    [AW_R40_DEV_UART2]      =3D 0x01c28800,
-> +    [AW_R40_DEV_UART3]      =3D 0x01c28c00,
-> +    [AW_R40_DEV_UART4]      =3D 0x01c29000,
-> +    [AW_R40_DEV_UART5]      =3D 0x01c29400,
-> +    [AW_R40_DEV_UART6]      =3D 0x01c29800,
-> +    [AW_R40_DEV_UART7]      =3D 0x01c29c00,
->
-
-After adding the uarts to the memory map here, you should remove them from
-the unimplemented array.
-
-     [AW_R40_DEV_GIC_DIST]   =3D 0x01c81000,
+> @@ -52,6 +52,7 @@ const hwaddr allwinner_r40_memmap[] =3D {
+>      [AW_R40_DEV_UART5]      =3D 0x01c29400,
+>      [AW_R40_DEV_UART6]      =3D 0x01c29800,
+>      [AW_R40_DEV_UART7]      =3D 0x01c29c00,
+> +    [AW_R40_DEV_TWI0]       =3D 0x01c2ac00,
+>      [AW_R40_DEV_GIC_DIST]   =3D 0x01c81000,
 >      [AW_R40_DEV_GIC_CPU]    =3D 0x01c82000,
 >      [AW_R40_DEV_GIC_HYP]    =3D 0x01c84000,
-> @@ -160,6 +167,10 @@ enum {
+> @@ -115,7 +116,6 @@ static struct AwR40Unimplemented r40_unimplemented[] =
+=3D
+> {
+>      { "uart7",      0x01c29c00, 1 * KiB },
+>      { "ps20",       0x01c2a000, 1 * KiB },
+>      { "ps21",       0x01c2a400, 1 * KiB },
+> -    { "twi0",       0x01c2ac00, 1 * KiB },
+>      { "twi1",       0x01c2b000, 1 * KiB },
+>      { "twi2",       0x01c2b400, 1 * KiB },
+>      { "twi3",       0x01c2b800, 1 * KiB },
+> @@ -167,6 +167,7 @@ enum {
 >      AW_R40_GIC_SPI_UART1     =3D  2,
 >      AW_R40_GIC_SPI_UART2     =3D  3,
 >      AW_R40_GIC_SPI_UART3     =3D  4,
+> +    AW_R40_GIC_SPI_TWI0      =3D  7,
+>      AW_R40_GIC_SPI_UART4     =3D 17,
+>      AW_R40_GIC_SPI_UART5     =3D 18,
+>      AW_R40_GIC_SPI_UART6     =3D 19,
+> @@ -270,6 +271,8 @@ static void allwinner_r40_init(Object *obj)
+>          object_initialize_child(obj, mmc_names[i], &s->mmc[i],
+>                                  TYPE_AW_SDHOST_SUN5I);
+>      }
+> +
+> +    object_initialize_child(obj, "twi0", &s->i2c0, TYPE_AW_I2C_SUN6I);
+>  }
 >
-
-Since you put the addition of UART1-7 in this patch, probably it makes
-sense to have adding the lines 'AW_R40_GIC_SPI_UART1/2/3' also part of this
-patch.
-
-With the two above remarks resolved, the patch looks good to me.
-
-Reviewed-by: Niek Linnenbank <nieklinnenbank@gmail.com>
-
-Regards,
-Niek
-
-> +    AW_R40_GIC_SPI_UART4     =3D 17,
-> +    AW_R40_GIC_SPI_UART5     =3D 18,
-> +    AW_R40_GIC_SPI_UART6     =3D 19,
-> +    AW_R40_GIC_SPI_UART7     =3D 20,
->      AW_R40_GIC_SPI_TIMER0    =3D 22,
->      AW_R40_GIC_SPI_TIMER1    =3D 23,
->      AW_R40_GIC_SPI_MMC0      =3D 32,
-> @@ -387,9 +398,23 @@ static void allwinner_r40_realize(DeviceState *dev,
+>  static void allwinner_r40_realize(DeviceState *dev, Error **errp)
+> @@ -416,6 +419,12 @@ static void allwinner_r40_realize(DeviceState *dev,
 > Error **errp)
+>                         115200, serial_hd(i), DEVICE_NATIVE_ENDIAN);
 >      }
 >
->      /* UART0. For future clocktree API: All UARTS are connected to
-> APB2_CLK. */
-> -    serial_mm_init(get_system_memory(), s->memmap[AW_R40_DEV_UART0], 2,
-> -                   qdev_get_gpio_in(DEVICE(&s->gic),
-> AW_R40_GIC_SPI_UART0),
-> -                   115200, serial_hd(0), DEVICE_NATIVE_ENDIAN);
-> +    for (int i =3D 0; i < AW_R40_NUM_UARTS; i++) {
-> +        static const int uart_irqs[AW_R40_NUM_UARTS] =3D {
-> +            AW_R40_GIC_SPI_UART0,
-> +            AW_R40_GIC_SPI_UART1,
-> +            AW_R40_GIC_SPI_UART2,
-> +            AW_R40_GIC_SPI_UART3,
-> +            AW_R40_GIC_SPI_UART4,
-> +            AW_R40_GIC_SPI_UART5,
-> +            AW_R40_GIC_SPI_UART6,
-> +            AW_R40_GIC_SPI_UART7,
-> +        };
-> +        const hwaddr addr =3D s->memmap[AW_R40_DEV_UART0 + i];
+> +    /* I2C */
+> +    sysbus_realize(SYS_BUS_DEVICE(&s->i2c0), &error_fatal);
+> +    sysbus_mmio_map(SYS_BUS_DEVICE(&s->i2c0), 0,
+> s->memmap[AW_R40_DEV_TWI0]);
+> +    sysbus_connect_irq(SYS_BUS_DEVICE(&s->i2c0), 0,
+> +                       qdev_get_gpio_in(DEVICE(&s->gic),
+> AW_R40_GIC_SPI_TWI0));
 > +
-> +        serial_mm_init(get_system_memory(), addr, 2,
-> +                       qdev_get_gpio_in(DEVICE(&s->gic), uart_irqs[i]),
-> +                       115200, serial_hd(i), DEVICE_NATIVE_ENDIAN);
-> +    }
->
 >      /* Unimplemented devices */
 >      for (i =3D 0; i < ARRAY_SIZE(r40_unimplemented); i++) {
+>          create_unimplemented_device(r40_unimplemented[i].device_name,
 > diff --git a/include/hw/arm/allwinner-r40.h
 > b/include/hw/arm/allwinner-r40.h
-> index 3be9dc962b..959b5dc4e0 100644
+> index 959b5dc4e0..95366f4eee 100644
 > --- a/include/hw/arm/allwinner-r40.h
 > +++ b/include/hw/arm/allwinner-r40.h
-> @@ -41,6 +41,13 @@ enum {
->      AW_R40_DEV_CCU,
->      AW_R40_DEV_PIT,
->      AW_R40_DEV_UART0,
-> +    AW_R40_DEV_UART1,
-> +    AW_R40_DEV_UART2,
-> +    AW_R40_DEV_UART3,
-> +    AW_R40_DEV_UART4,
-> +    AW_R40_DEV_UART5,
-> +    AW_R40_DEV_UART6,
-> +    AW_R40_DEV_UART7,
+> @@ -26,6 +26,7 @@
+>  #include "hw/intc/arm_gic.h"
+>  #include "hw/sd/allwinner-sdhost.h"
+>  #include "hw/misc/allwinner-r40-ccu.h"
+> +#include "hw/i2c/allwinner-i2c.h"
+>  #include "target/arm/cpu.h"
+>  #include "sysemu/block-backend.h"
+>
+> @@ -48,6 +49,7 @@ enum {
+>      AW_R40_DEV_UART5,
+>      AW_R40_DEV_UART6,
+>      AW_R40_DEV_UART7,
+> +    AW_R40_DEV_TWI0,
 >      AW_R40_DEV_GIC_DIST,
 >      AW_R40_DEV_GIC_CPU,
 >      AW_R40_DEV_GIC_HYP,
-> @@ -70,6 +77,7 @@ OBJECT_DECLARE_SIMPLE_TYPE(AwR40State, AW_R40)
->   * which are currently emulated by the R40 SoC code.
->   */
->  #define AW_R40_NUM_MMCS         4
-> +#define AW_R40_NUM_UARTS        8
->
->  struct AwR40State {
->      /*< private >*/
+> @@ -89,6 +91,7 @@ struct AwR40State {
+>      AwA10PITState timer;
+>      AwSdHostState mmc[AW_R40_NUM_MMCS];
+>      AwR40ClockCtlState ccu;
+> +    AWI2CState i2c0;
+>      GICState gic;
+>      MemoryRegion sram_a1;
+>      MemoryRegion sram_a2;
 > --
 > 2.25.1
 >
@@ -218,140 +201,141 @@ Niek
 --=20
 Niek Linnenbank
 
---0000000000005aee6605fbabe32a
+--0000000000007e2bd705fbabeadf
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div>Hi Qianfan,</div><div><br></div><br><div class=3D"gma=
-il_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, May 10, 2023 at 12:=
-30=E2=80=AFPM &lt;<a href=3D"mailto:qianfanguijin@163.com">qianfanguijin@16=
-3.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"ma=
-rgin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:=
-1ex">From: qianfan Zhao &lt;<a href=3D"mailto:qianfanguijin@163.com" target=
-=3D"_blank">qianfanguijin@163.com</a>&gt;<br>
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Wed, May 10, 2023 at 12:30=E2=80=
+=AFPM &lt;<a href=3D"mailto:qianfanguijin@163.com">qianfanguijin@163.com</a=
+>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px=
+ 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Fro=
+m: qianfan Zhao &lt;<a href=3D"mailto:qianfanguijin@163.com" target=3D"_bla=
+nk">qianfanguijin@163.com</a>&gt;<br>
 <br>
-R40 has eight UARTs, support both 16450 and 16550 compatible modes.<br>
+TWI(i2c) is designed to be used as an interface between CPU host and the<br=
+>
+serial 2-Wire bus. It can support all standard 2-Wire transfer, can be<br>
+operated in standard mode(100kbit/s) or fast-mode, supporting data rate<br>
+up to 400kbit/s.<br>
 <br>
 Signed-off-by: qianfan Zhao &lt;<a href=3D"mailto:qianfanguijin@163.com" ta=
-rget=3D"_blank">qianfanguijin@163.com</a>&gt;<br>
+rget=3D"_blank">qianfanguijin@163.com</a>&gt;<br></blockquote><div>Reviewed=
+-by: Niek Linnenbank &lt;<a href=3D"mailto:nieklinnenbank@gmail.com">niekli=
+nnenbank@gmail.com</a>&gt; <br></div><blockquote class=3D"gmail_quote" styl=
+e=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);paddin=
+g-left:1ex">
 ---<br>
-=C2=A0hw/arm/allwinner-r40.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 31 ++++++++=
-++++++++++++++++++++---<br>
-=C2=A0include/hw/arm/allwinner-r40.h |=C2=A0 8 ++++++++<br>
-=C2=A02 files changed, 36 insertions(+), 3 deletions(-)<br>
+=C2=A0hw/arm/allwinner-r40.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 11 ++++++++=
+++-<br>
+=C2=A0include/hw/arm/allwinner-r40.h |=C2=A0 3 +++<br>
+=C2=A02 files changed, 13 insertions(+), 1 deletion(-)<br>
 <br>
 diff --git a/hw/arm/allwinner-r40.c b/hw/arm/allwinner-r40.c<br>
-index 128c0ca470..537a90b23d 100644<br>
+index 537a90b23d..4bc582630c 100644<br>
 --- a/hw/arm/allwinner-r40.c<br>
 +++ b/hw/arm/allwinner-r40.c<br>
-@@ -45,6 +45,13 @@ const hwaddr allwinner_r40_memmap[] =3D {<br>
-=C2=A0 =C2=A0 =C2=A0[AW_R40_DEV_CCU]=C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D 0x01c20=
-000,<br>
-=C2=A0 =C2=A0 =C2=A0[AW_R40_DEV_PIT]=C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D 0x01c20=
-c00,<br>
-=C2=A0 =C2=A0 =C2=A0[AW_R40_DEV_UART0]=C2=A0 =C2=A0 =C2=A0 =3D 0x01c28000,<=
+@@ -52,6 +52,7 @@ const hwaddr allwinner_r40_memmap[] =3D {<br>
+=C2=A0 =C2=A0 =C2=A0[AW_R40_DEV_UART5]=C2=A0 =C2=A0 =C2=A0 =3D 0x01c29400,<=
 br>
-+=C2=A0 =C2=A0 [AW_R40_DEV_UART1]=C2=A0 =C2=A0 =C2=A0 =3D 0x01c28400,<br>
-+=C2=A0 =C2=A0 [AW_R40_DEV_UART2]=C2=A0 =C2=A0 =C2=A0 =3D 0x01c28800,<br>
-+=C2=A0 =C2=A0 [AW_R40_DEV_UART3]=C2=A0 =C2=A0 =C2=A0 =3D 0x01c28c00,<br>
-+=C2=A0 =C2=A0 [AW_R40_DEV_UART4]=C2=A0 =C2=A0 =C2=A0 =3D 0x01c29000,<br>
-+=C2=A0 =C2=A0 [AW_R40_DEV_UART5]=C2=A0 =C2=A0 =C2=A0 =3D 0x01c29400,<br>
-+=C2=A0 =C2=A0 [AW_R40_DEV_UART6]=C2=A0 =C2=A0 =C2=A0 =3D 0x01c29800,<br>
-+=C2=A0 =C2=A0 [AW_R40_DEV_UART7]=C2=A0 =C2=A0 =C2=A0 =3D 0x01c29c00,<br></=
-blockquote><div><br></div><div>After adding the uarts to the memory map her=
-e, you should remove them from the unimplemented array.</div><div><br></div=
-><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border=
--left:1px solid rgb(204,204,204);padding-left:1ex">
+=C2=A0 =C2=A0 =C2=A0[AW_R40_DEV_UART6]=C2=A0 =C2=A0 =C2=A0 =3D 0x01c29800,<=
+br>
+=C2=A0 =C2=A0 =C2=A0[AW_R40_DEV_UART7]=C2=A0 =C2=A0 =C2=A0 =3D 0x01c29c00,<=
+br>
++=C2=A0 =C2=A0 [AW_R40_DEV_TWI0]=C2=A0 =C2=A0 =C2=A0 =C2=A0=3D 0x01c2ac00,<=
+br>
 =C2=A0 =C2=A0 =C2=A0[AW_R40_DEV_GIC_DIST]=C2=A0 =C2=A0=3D 0x01c81000,<br>
 =C2=A0 =C2=A0 =C2=A0[AW_R40_DEV_GIC_CPU]=C2=A0 =C2=A0 =3D 0x01c82000,<br>
 =C2=A0 =C2=A0 =C2=A0[AW_R40_DEV_GIC_HYP]=C2=A0 =C2=A0 =3D 0x01c84000,<br>
-@@ -160,6 +167,10 @@ enum {<br>
+@@ -115,7 +116,6 @@ static struct AwR40Unimplemented r40_unimplemented[] =
+=3D {<br>
+=C2=A0 =C2=A0 =C2=A0{ &quot;uart7&quot;,=C2=A0 =C2=A0 =C2=A0 0x01c29c00, 1 =
+* KiB },<br>
+=C2=A0 =C2=A0 =C2=A0{ &quot;ps20&quot;,=C2=A0 =C2=A0 =C2=A0 =C2=A00x01c2a00=
+0, 1 * KiB },<br>
+=C2=A0 =C2=A0 =C2=A0{ &quot;ps21&quot;,=C2=A0 =C2=A0 =C2=A0 =C2=A00x01c2a40=
+0, 1 * KiB },<br>
+-=C2=A0 =C2=A0 { &quot;twi0&quot;,=C2=A0 =C2=A0 =C2=A0 =C2=A00x01c2ac00, 1 =
+* KiB },<br>
+=C2=A0 =C2=A0 =C2=A0{ &quot;twi1&quot;,=C2=A0 =C2=A0 =C2=A0 =C2=A00x01c2b00=
+0, 1 * KiB },<br>
+=C2=A0 =C2=A0 =C2=A0{ &quot;twi2&quot;,=C2=A0 =C2=A0 =C2=A0 =C2=A00x01c2b40=
+0, 1 * KiB },<br>
+=C2=A0 =C2=A0 =C2=A0{ &quot;twi3&quot;,=C2=A0 =C2=A0 =C2=A0 =C2=A00x01c2b80=
+0, 1 * KiB },<br>
+@@ -167,6 +167,7 @@ enum {<br>
 =C2=A0 =C2=A0 =C2=A0AW_R40_GIC_SPI_UART1=C2=A0 =C2=A0 =C2=A0=3D=C2=A0 2,<br=
 >
 =C2=A0 =C2=A0 =C2=A0AW_R40_GIC_SPI_UART2=C2=A0 =C2=A0 =C2=A0=3D=C2=A0 3,<br=
 >
 =C2=A0 =C2=A0 =C2=A0AW_R40_GIC_SPI_UART3=C2=A0 =C2=A0 =C2=A0=3D=C2=A0 4,<br=
-></blockquote><div><br></div><div>Since you put the addition of UART1-7 in =
-this patch, probably it makes sense to have adding the lines &#39;AW_R40_GI=
-C_SPI_UART1/2/3&#39; also part of this patch.</div><div><br></div><div>With=
- the two above remarks resolved, the patch looks good to me.</div><div><br>=
-</div><div>Reviewed-by: Niek Linnenbank &lt;<a href=3D"mailto:nieklinnenban=
-k@gmail.com">nieklinnenbank@gmail.com</a>&gt;<br></div><div><br></div><div>=
-Regards,</div><div>Niek<br></div><blockquote class=3D"gmail_quote" style=3D=
-"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-le=
-ft:1ex">
-+=C2=A0 =C2=A0 AW_R40_GIC_SPI_UART4=C2=A0 =C2=A0 =C2=A0=3D 17,<br>
-+=C2=A0 =C2=A0 AW_R40_GIC_SPI_UART5=C2=A0 =C2=A0 =C2=A0=3D 18,<br>
-+=C2=A0 =C2=A0 AW_R40_GIC_SPI_UART6=C2=A0 =C2=A0 =C2=A0=3D 19,<br>
-+=C2=A0 =C2=A0 AW_R40_GIC_SPI_UART7=C2=A0 =C2=A0 =C2=A0=3D 20,<br>
-=C2=A0 =C2=A0 =C2=A0AW_R40_GIC_SPI_TIMER0=C2=A0 =C2=A0 =3D 22,<br>
-=C2=A0 =C2=A0 =C2=A0AW_R40_GIC_SPI_TIMER1=C2=A0 =C2=A0 =3D 23,<br>
-=C2=A0 =C2=A0 =C2=A0AW_R40_GIC_SPI_MMC0=C2=A0 =C2=A0 =C2=A0 =3D 32,<br>
-@@ -387,9 +398,23 @@ static void allwinner_r40_realize(DeviceState *dev, Er=
+>
++=C2=A0 =C2=A0 AW_R40_GIC_SPI_TWI0=C2=A0 =C2=A0 =C2=A0 =3D=C2=A0 7,<br>
+=C2=A0 =C2=A0 =C2=A0AW_R40_GIC_SPI_UART4=C2=A0 =C2=A0 =C2=A0=3D 17,<br>
+=C2=A0 =C2=A0 =C2=A0AW_R40_GIC_SPI_UART5=C2=A0 =C2=A0 =C2=A0=3D 18,<br>
+=C2=A0 =C2=A0 =C2=A0AW_R40_GIC_SPI_UART6=C2=A0 =C2=A0 =C2=A0=3D 19,<br>
+@@ -270,6 +271,8 @@ static void allwinner_r40_init(Object *obj)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0object_initialize_child(obj, mmc_names[i]=
+, &amp;s-&gt;mmc[i],<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0TYPE_AW_SDHOST_SUN5I);<br>
+=C2=A0 =C2=A0 =C2=A0}<br>
++<br>
++=C2=A0 =C2=A0 object_initialize_child(obj, &quot;twi0&quot;, &amp;s-&gt;i2=
+c0, TYPE_AW_I2C_SUN6I);<br>
+=C2=A0}<br>
+<br>
+=C2=A0static void allwinner_r40_realize(DeviceState *dev, Error **errp)<br>
+@@ -416,6 +419,12 @@ static void allwinner_r40_realize(DeviceState *dev, Er=
 ror **errp)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 115200, serial_hd(i), DEVICE_NATIVE_ENDIAN);<br>
 =C2=A0 =C2=A0 =C2=A0}<br>
 <br>
-=C2=A0 =C2=A0 =C2=A0/* UART0. For future clocktree API: All UARTS are conne=
-cted to APB2_CLK. */<br>
--=C2=A0 =C2=A0 serial_mm_init(get_system_memory(), s-&gt;memmap[AW_R40_DEV_=
-UART0], 2,<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0qdev_=
-get_gpio_in(DEVICE(&amp;s-&gt;gic), AW_R40_GIC_SPI_UART0),<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A011520=
-0, serial_hd(0), DEVICE_NATIVE_ENDIAN);<br>
-+=C2=A0 =C2=A0 for (int i =3D 0; i &lt; AW_R40_NUM_UARTS; i++) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 static const int uart_irqs[AW_R40_NUM_UARTS] =
-=3D {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 AW_R40_GIC_SPI_UART0,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 AW_R40_GIC_SPI_UART1,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 AW_R40_GIC_SPI_UART2,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 AW_R40_GIC_SPI_UART3,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 AW_R40_GIC_SPI_UART4,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 AW_R40_GIC_SPI_UART5,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 AW_R40_GIC_SPI_UART6,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 AW_R40_GIC_SPI_UART7,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 };<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 const hwaddr addr =3D s-&gt;memmap[AW_R40_DEV_=
-UART0 + i];<br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 serial_mm_init(get_system_memory(), addr, 2,<b=
++=C2=A0 =C2=A0 /* I2C */<br>
++=C2=A0 =C2=A0 sysbus_realize(SYS_BUS_DEVICE(&amp;s-&gt;i2c0), &amp;error_f=
+atal);<br>
++=C2=A0 =C2=A0 sysbus_mmio_map(SYS_BUS_DEVICE(&amp;s-&gt;i2c0), 0, s-&gt;me=
+mmap[AW_R40_DEV_TWI0]);<br>
++=C2=A0 =C2=A0 sysbus_connect_irq(SYS_BUS_DEVICE(&amp;s-&gt;i2c0), 0,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0qdev_get_gpio_in(DEVICE(&amp;s-&gt;gic), AW_R40_GIC_SPI_TWI0));<b=
 r>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0qdev_get_gpio_in(DEVICE(&amp;s-&gt;gic), uart_irqs[i]),<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0115200, serial_hd(i), DEVICE_NATIVE_ENDIAN);<br>
-+=C2=A0 =C2=A0 }<br>
-<br>
++<br>
 =C2=A0 =C2=A0 =C2=A0/* Unimplemented devices */<br>
 =C2=A0 =C2=A0 =C2=A0for (i =3D 0; i &lt; ARRAY_SIZE(r40_unimplemented); i++=
 ) {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0create_unimplemented_device(r40_unimpleme=
+nted[i].device_name,<br>
 diff --git a/include/hw/arm/allwinner-r40.h b/include/hw/arm/allwinner-r40.=
 h<br>
-index 3be9dc962b..959b5dc4e0 100644<br>
+index 959b5dc4e0..95366f4eee 100644<br>
 --- a/include/hw/arm/allwinner-r40.h<br>
 +++ b/include/hw/arm/allwinner-r40.h<br>
-@@ -41,6 +41,13 @@ enum {<br>
-=C2=A0 =C2=A0 =C2=A0AW_R40_DEV_CCU,<br>
-=C2=A0 =C2=A0 =C2=A0AW_R40_DEV_PIT,<br>
-=C2=A0 =C2=A0 =C2=A0AW_R40_DEV_UART0,<br>
-+=C2=A0 =C2=A0 AW_R40_DEV_UART1,<br>
-+=C2=A0 =C2=A0 AW_R40_DEV_UART2,<br>
-+=C2=A0 =C2=A0 AW_R40_DEV_UART3,<br>
-+=C2=A0 =C2=A0 AW_R40_DEV_UART4,<br>
-+=C2=A0 =C2=A0 AW_R40_DEV_UART5,<br>
-+=C2=A0 =C2=A0 AW_R40_DEV_UART6,<br>
-+=C2=A0 =C2=A0 AW_R40_DEV_UART7,<br>
+@@ -26,6 +26,7 @@<br>
+=C2=A0#include &quot;hw/intc/arm_gic.h&quot;<br>
+=C2=A0#include &quot;hw/sd/allwinner-sdhost.h&quot;<br>
+=C2=A0#include &quot;hw/misc/allwinner-r40-ccu.h&quot;<br>
++#include &quot;hw/i2c/allwinner-i2c.h&quot;<br>
+=C2=A0#include &quot;target/arm/cpu.h&quot;<br>
+=C2=A0#include &quot;sysemu/block-backend.h&quot;<br>
+<br>
+@@ -48,6 +49,7 @@ enum {<br>
+=C2=A0 =C2=A0 =C2=A0AW_R40_DEV_UART5,<br>
+=C2=A0 =C2=A0 =C2=A0AW_R40_DEV_UART6,<br>
+=C2=A0 =C2=A0 =C2=A0AW_R40_DEV_UART7,<br>
++=C2=A0 =C2=A0 AW_R40_DEV_TWI0,<br>
 =C2=A0 =C2=A0 =C2=A0AW_R40_DEV_GIC_DIST,<br>
 =C2=A0 =C2=A0 =C2=A0AW_R40_DEV_GIC_CPU,<br>
 =C2=A0 =C2=A0 =C2=A0AW_R40_DEV_GIC_HYP,<br>
-@@ -70,6 +77,7 @@ OBJECT_DECLARE_SIMPLE_TYPE(AwR40State, AW_R40)<br>
-=C2=A0 * which are currently emulated by the R40 SoC code.<br>
-=C2=A0 */<br>
-=C2=A0#define AW_R40_NUM_MMCS=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A04<br>
-+#define AW_R40_NUM_UARTS=C2=A0 =C2=A0 =C2=A0 =C2=A0 8<br>
-<br>
-=C2=A0struct AwR40State {<br>
-=C2=A0 =C2=A0 =C2=A0/*&lt; private &gt;*/<br>
+@@ -89,6 +91,7 @@ struct AwR40State {<br>
+=C2=A0 =C2=A0 =C2=A0AwA10PITState timer;<br>
+=C2=A0 =C2=A0 =C2=A0AwSdHostState mmc[AW_R40_NUM_MMCS];<br>
+=C2=A0 =C2=A0 =C2=A0AwR40ClockCtlState ccu;<br>
++=C2=A0 =C2=A0 AWI2CState i2c0;<br>
+=C2=A0 =C2=A0 =C2=A0GICState gic;<br>
+=C2=A0 =C2=A0 =C2=A0MemoryRegion sram_a1;<br>
+=C2=A0 =C2=A0 =C2=A0MemoryRegion sram_a2;<br>
 -- <br>
 2.25.1<br>
 <br>
@@ -359,5 +343,5 @@ index 3be9dc962b..959b5dc4e0 100644<br>
 fix">-- </span><br><div dir=3D"ltr" class=3D"gmail_signature"><div dir=3D"l=
 tr"><div>Niek Linnenbank<br><br></div></div></div></div>
 
---0000000000005aee6605fbabe32a--
+--0000000000007e2bd705fbabeadf--
 
