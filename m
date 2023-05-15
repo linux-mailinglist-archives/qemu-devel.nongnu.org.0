@@ -2,71 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 576A5702A6A
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 May 2023 12:25:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D95A702A72
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 May 2023 12:28:43 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pyVNc-0003yL-Us; Mon, 15 May 2023 06:24:36 -0400
+	id 1pyVQr-000545-2J; Mon, 15 May 2023 06:27:57 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pyVNa-0003yA-Dm
- for qemu-devel@nongnu.org; Mon, 15 May 2023 06:24:34 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <quic_llindhol@quicinc.com>)
+ id 1pyVQm-00053o-TP; Mon, 15 May 2023 06:27:53 -0400
+Received: from mx0a-0031df01.pphosted.com ([205.220.168.131])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pyVNY-0005Vo-Nq
- for qemu-devel@nongnu.org; Mon, 15 May 2023 06:24:34 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1684146272;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=ycwK7qdH7B10v/XFqfpqzz1EWZSPqN4yvVXjcsNyfd8=;
- b=Ii+4skciZC/FXIaCpbqkpXUMuRDPSwsrPbPreJeVOQ6U5/2jbA9NgJ0yoDH57cU+DFKh5i
- NnjjTrWvybtt933ZLo5VJyHyQ4MallSE1W1NtGgv3os+apmpAAHXeBoYfinRGJT1x/jwZg
- wBXBQeOf760kgXcrDN761WnbCa/B9Hs=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-369-5UBtnGueNMykrTJBSKI0Qg-1; Mon, 15 May 2023 06:24:30 -0400
-X-MC-Unique: 5UBtnGueNMykrTJBSKI0Qg-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
- [10.11.54.4])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1B1E188B773;
- Mon, 15 May 2023 10:24:30 +0000 (UTC)
-Received: from redhat.com (unknown [10.42.28.48])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9E8AF2026D16;
- Mon, 15 May 2023 10:24:28 +0000 (UTC)
-Date: Mon, 15 May 2023 11:24:21 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Het Gala <het.gala@nutanix.com>
-Cc: qemu-devel@nongnu.org, prerna.saxena@nutanix.com, quintela@redhat.com,
- dgilbert@redhat.com, pbonzini@redhat.com, armbru@redhat.com,
- eblake@redhat.com, manish.mishra@nutanix.com,
- aravind.retnakaran@nutanix.com
-Subject: Re: [PATCH v4 4/8] migration: converts rdma backend to accept
- MigrateAddress struct
-Message-ID: <ZGIIVc83VbEMgUhB@redhat.com>
-References: <20230512143240.192504-1-het.gala@nutanix.com>
- <20230512143240.192504-5-het.gala@nutanix.com>
+ (Exim 4.90_1) (envelope-from <quic_llindhol@quicinc.com>)
+ id 1pyVQl-0006aj-3P; Mon, 15 May 2023 06:27:52 -0400
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 34FAKmGu030103; Mon, 15 May 2023 10:27:46 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=/XGrPybuYdxlQPathNDYMH1dryw/BG9DhywDoxHoNM4=;
+ b=PdXNCao2O34AghvskPu7aGGlfRFS0zqiQjBUDvZ/tni1X6jUxVp5FDLq7lMLW7oXVOqF
+ FI/PbNZs0kER3kaSu8ga3S66KjffmtX5CtGQ2JOU4WWEJKk7BNel6njoKaAgNWFtPYXg
+ ffA4P9+6f8cgKBte7hi/UCITMbfkFSHo2PiyPqQ4kq4kzKVqHutzXEyPw6lPZfhlPmfy
+ XMFM99nNvYph/42ManUxQmjy/R60F/C/dcDXc0lnzF5BRCSGiGPQayVrNZEoYcMM8b1Z
+ UnE1UXIpIOJH+TSuItxXXRUJgFmrnqrL6J6HVUvRaDFxdBHtFG26XwV5hM+eJ2bnnILq 7Q== 
+Received: from nasanppmta03.qualcomm.com (i-global254.qualcomm.com
+ [199.106.103.254])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3qkjwdr0df-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 15 May 2023 10:27:46 +0000
+Received: from nasanex01c.na.qualcomm.com (nasanex01c.na.qualcomm.com
+ [10.45.79.139])
+ by NASANPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 34FARjkM024719
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 15 May 2023 10:27:45 GMT
+Received: from [10.251.41.85] (10.80.80.8) by nasanex01c.na.qualcomm.com
+ (10.45.79.139) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.42; Mon, 15 May
+ 2023 03:27:44 -0700
+Message-ID: <55d7cfbd-7256-2780-59e2-11e532e08cfe@quicinc.com>
+Date: Mon, 15 May 2023 11:27:37 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20230512143240.192504-5-het.gala@nutanix.com>
-User-Agent: Mutt/2.2.9 (2022-11-12)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.1
+Subject: Re: [PATCH] hw/arm/sbsa-ref: add GIC node into DT
+To: Peter Maydell <peter.maydell@linaro.org>, Marcin Juszkiewicz
+ <marcin.juszkiewicz@linaro.org>
+CC: <qemu-devel@nongnu.org>, <qemu-arm@nongnu.org>
+References: <20230515100438.359690-1-marcin.juszkiewicz@linaro.org>
+ <CAFEAcA_beOoOH2GHQuaCyBU10yhkJ44FSrdVsHi7wTSz9QQxmA@mail.gmail.com>
+From: Leif Lindholm <quic_llindhol@quicinc.com>
+In-Reply-To: <CAFEAcA_beOoOH2GHQuaCyBU10yhkJ44FSrdVsHi7wTSz9QQxmA@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nasanex01c.na.qualcomm.com (10.45.79.139)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: VK7QfxJ3BupCpqVAbUqEFOZbdnxUbI_V
+X-Proofpoint-GUID: VK7QfxJ3BupCpqVAbUqEFOZbdnxUbI_V
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-05-15_06,2023-05-05_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501
+ phishscore=0 spamscore=0 lowpriorityscore=0 impostorscore=0 adultscore=0
+ mlxlogscore=604 bulkscore=0 suspectscore=0 mlxscore=0 clxscore=1015
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2304280000 definitions=main-2305150090
+Received-SPF: pass client-ip=205.220.168.131;
+ envelope-from=quic_llindhol@quicinc.com; helo=mx0a-0031df01.pphosted.com
+X-Spam_score_int: -36
+X-Spam_score: -3.7
+X-Spam_bar: ---
+X-Spam_report: (-3.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.93,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -80,142 +96,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, May 12, 2023 at 02:32:36PM +0000, Het Gala wrote:
-> RDMA based transport backend for 'migrate'/'migrate-incoming' QAPIs
-> accept new wire protocol of MigrateAddress struct.
+On 2023-05-15 11:15, Peter Maydell wrote:
+> On Mon, 15 May 2023 at 11:04, Marcin Juszkiewicz
+> <marcin.juszkiewicz@linaro.org> wrote:
+>>
+>> Let add GIC information into DeviceTree as part of SBSA-REF versioning.
+>>
+>> Trusted Firmware will read it and provide to next firmware level.
+>>
+>> Bumps platform version to 0.1 one so we can check is node is present.
 > 
-> It is achived by parsing 'uri' string and storing migration parameters
-> required for RDMA connection into well defined InetSocketAddress struct.
+> (Missing signed-off-by.)
 > 
-> Suggested-by: Aravind Retnakaran <aravind.retnakaran@nutanix.com>
-> Signed-off-by: Het Gala <het.gala@nutanix.com>
-> ---
->  migration/migration.c |  8 ++++----
->  migration/rdma.c      | 38 ++++++++++++++++----------------------
->  migration/rdma.h      |  6 ++++--
->  3 files changed, 24 insertions(+), 28 deletions(-)
+> I thought the idea with the sbsa-ref dtb was that it was
+> really just a minimal provision of data to the firmware,
+> not a real DTB, and that (as on real hardware) creating
+> the DTB to pass to the next level of the guest code was
+> the job of the guest firmware.
 > 
+> Why do we need to provide a full GIC DTB node ?
 
-> @@ -3360,10 +3346,12 @@ static int qemu_rdma_accept(RDMAContext *rdma)
->                                              .private_data_len = sizeof(cap),
->                                           };
->      RDMAContext *rdma_return_path = NULL;
-> +    InetSocketAddress *isock = g_new0(InetSocketAddress, 1);
->      struct rdma_cm_event *cm_event;
->      struct ibv_context *verbs;
->      int ret = -EINVAL;
->      int idx;
-> +    char arr[8];
->  
->      ret = rdma_get_cm_event(rdma->channel, &cm_event);
->      if (ret) {
-> @@ -3375,13 +3363,17 @@ static int qemu_rdma_accept(RDMAContext *rdma)
->          goto err_rdma_dest_wait;
->      }
->  
-> +    isock->host = rdma->host;
-> +    sprintf(arr,"%d", rdma->port);
-> +    isock->port = arr;
+This was actually something we were discussing in private, but felt 
+useful bringing public (for future reference if nothing else).
+I believe this is a near-verbatim copy from the virt machine to kick 
+that off :)
 
-While Inet ports are 16-bit, and so 65535 fits in a char[8], nothing
-at the QAPI parser level is enforcing this.
+Longer-term, I want to be able to present different specific gic 
+implementations through this interface.
+I believe the 0.1 variant needs only the Distributor and Redistributors 
+base addresses.
 
-IOW, someone can pass QEMU a QAPI config with port = 235252353253253253232
-and casue this sprintf to smash the stack.
-
-Also this is assigning a stack variable to isock->port which
-expects a heap variable. qapi_free_InetSocketAddress() will
-call free(isock->port) which will again crash.
-
-Just do
-
-  g_autoptr(InetSocketAddress) isock = g_new0(InetSocketAddress, 1);
-
-  isock->port = g_strdup_printf("%d", rdma->port);
-
-> +
->      /*
->       * initialize the RDMAContext for return path for postcopy after first
->       * connection request reached.
->       */
->      if ((migrate_postcopy() || migrate_return_path())
->          && !rdma->is_return_path) {
-> -        rdma_return_path = qemu_rdma_data_init(rdma->host_port, NULL);
-> +        rdma_return_path = qemu_rdma_data_init(isock, NULL);
->          if (rdma_return_path == NULL) {
->              rdma_ack_cm_event(cm_event);
->              goto err_rdma_dest_wait;
-> @@ -3506,6 +3498,8 @@ static int qemu_rdma_accept(RDMAContext *rdma)
->  err_rdma_dest_wait:
->      rdma->error_state = ret;
->      qemu_rdma_cleanup(rdma);
-> +    qapi_free_InetSocketAddress(isock);
-> +    g_free(arr);
-
-Free'ing a stack variable 
-
->      g_free(rdma_return_path);
->      return ret;
->  }
-> @@ -4114,7 +4108,8 @@ static void rdma_accept_incoming_migration(void *opaque)
->      }
->  }
->  
-> -void rdma_start_incoming_migration(const char *host_port, Error **errp)
-> +void rdma_start_incoming_migration(InetSocketAddress *host_port,
-> +                                   Error **errp)
->  {
->      int ret;
->      RDMAContext *rdma;
-> @@ -4160,13 +4155,12 @@ err:
->      error_propagate(errp, local_err);
->      if (rdma) {
->          g_free(rdma->host);
-> -        g_free(rdma->host_port);
->      }
->      g_free(rdma);
->  }
->  
->  void rdma_start_outgoing_migration(void *opaque,
-> -                            const char *host_port, Error **errp)
-> +                            InetSocketAddress *host_port, Error **errp)
->  {
->      MigrationState *s = opaque;
->      RDMAContext *rdma_return_path = NULL;
-> diff --git a/migration/rdma.h b/migration/rdma.h
-> index de2ba09dc5..ee89296555 100644
-> --- a/migration/rdma.h
-> +++ b/migration/rdma.h
-> @@ -14,12 +14,14 @@
->   *
->   */
->  
-> +#include "qemu/sockets.h"
-> +
->  #ifndef QEMU_MIGRATION_RDMA_H
->  #define QEMU_MIGRATION_RDMA_H
->  
-> -void rdma_start_outgoing_migration(void *opaque, const char *host_port,
-> +void rdma_start_outgoing_migration(void *opaque, InetSocketAddress *host_port,
->                                     Error **errp);
->  
-> -void rdma_start_incoming_migration(const char *host_port, Error **errp);
-> +void rdma_start_incoming_migration(InetSocketAddress *host_port, Error **errp);
->  
->  #endif
-> -- 
-> 2.22.3
-> 
-
-With regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+/
+     Leif
 
 
