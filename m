@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 230B8702748
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 May 2023 10:33:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA245702750
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 May 2023 10:34:33 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pyTcK-0003j9-Mk; Mon, 15 May 2023 04:31:42 -0400
+	id 1pyTd1-0003kg-8W; Mon, 15 May 2023 04:32:23 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pyTc4-0003hW-AF
- for qemu-devel@nongnu.org; Mon, 15 May 2023 04:31:24 -0400
-Received: from mout.kundenserver.de ([212.227.17.10])
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pyTc5-0003hm-7e
+ for qemu-devel@nongnu.org; Mon, 15 May 2023 04:31:28 -0400
+Received: from mout.kundenserver.de ([217.72.192.74])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pyTc2-00023j-PF
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pyTc3-000245-L2
  for qemu-devel@nongnu.org; Mon, 15 May 2023 04:31:24 -0400
 Received: from quad ([37.169.188.112]) by mrelayeu.kundenserver.de (mreue108
- [212.227.15.183]) with ESMTPSA (Nemesis) id 1MDykM-1pqjr20cpo-009xMc; Mon, 15
- May 2023 10:31:20 +0200
+ [212.227.15.183]) with ESMTPSA (Nemesis) id 1McpS0-1qY5Xu3Joo-00Ztzk; Mon, 15
+ May 2023 10:31:21 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
 Cc: =?UTF-8?q?Thomas=20Wei=C3=9Fschuh?= <thomas@t-8ch.de>,
  Laurent Vivier <laurent@vivier.eu>
-Subject: [PULL 6/9] linux-user: Add new flag VERIFY_NONE
-Date: Mon, 15 May 2023 10:31:10 +0200
-Message-Id: <20230515083113.107056-7-laurent@vivier.eu>
+Subject: [PULL 7/9] linux-user: Don't require PROT_READ for mincore
+Date: Mon, 15 May 2023 10:31:11 +0200
+Message-Id: <20230515083113.107056-8-laurent@vivier.eu>
 X-Mailer: git-send-email 2.40.1
 In-Reply-To: <20230515083113.107056-1-laurent@vivier.eu>
 References: <20230515083113.107056-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:w+dGeldcqM4BE2uD9BGBUlH9VV6JqJq6RDfc3MLowwFWljHvtzp
- eOBqAEfWVenZrfawkpdLmdN2pheXbMcorl9cPdrrlVs0wtkiSgZGTgdviiB7TH3CbwF4UO1
- 1tZHhu8FVaF31z03egD94NeAU9rQTdiYHdLP1eBqnezfthS/aIJJ+QcZSbPFD/SE1huwMyT
- OxDNdoifAsKU/2hN2OgZA==
-UI-OutboundReport: notjunk:1;M01:P0:saVxXJJWVHg=;Cl+5vQRukEqlv1pniWViIFT+lb3
- Extuj0/a/s+zDgZwX0mpDnIwnr8RJyHctD9kufFIhYUMk/K1xDmjyY3HUkzYuK66SVjIf80jH
- Th9W1JCu0hE4dxapOW5yx7I8z+lZiYCDGHYBA917j0S0cvSlltN9PLqdJvfKuF1InZ0uvO4kK
- STHmY5MmOY7bhs7Rd7L3i7pjpuHFcV6h5f79fHLHLbW09cfWoCJd5gPSCFLtafUpXunhtrzDF
- hAmLsuRLgtQsnG92CO123/AZ3CzzouYbdpb/N8lXdSPn/xdQMgIj3bGAZZgadIdQ/s9mh8v+/
- DyPqIrvTOypJRumQK3w7pHa7FqVPcnqNmnbYBscVHpts0B/97JvUn/MGfyJWusd5D6M2nggh1
- A3uJm+4l2UlgP6sY6eEvCKsRFk0926Jn41wMLTcQHVWTZw8ddWTbQ9yA7wliKvjt6M7SzgSod
- YKo+kc3YrZuqchveb+o/lpfGZ9HjEMJNo9Ur2DM7SV/mvz0Qu745m2Zh1EPnNs39Kb13FnUqo
- 5JPDgnx4VuPWFhWZCBZsc/bJOvAuj39pteBiqq5XugB+YwCg+ToXwwE6W/JBxCco9+zakJMKz
- IKYqEHQbGyWH3dE0Idg3p0zVJAU01j28VXDEjmQiSGrbrX+Q8wY9DoynFiq4CDwG3RYFGGRlH
- Jicqsa3swvi1UXQ4qx5A6hkUCMosn0EwNFRs+bCi1A==
-Received-SPF: none client-ip=212.227.17.10; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:POYU1FMBrgY1llzvC1Uzovqgy+EWww/hd+9jojtKk5RnZkDzcRc
+ EnHaEcXijtwo3ONrI3UnpgHw9S/AhqeLsV/tVFkjhvNIiPVE6ZLtAeSwlICPXB+Fnau/tKt
+ y+RJUmQquGJiGKxmD3dXBh2ZoYCmQ/aXoFU7z8iMtpsASWU5OPKqkyOTiPimM7XKrNXIROu
+ vyFJYD4Ae5O0oFsIx6s4Q==
+UI-OutboundReport: notjunk:1;M01:P0:Qh1NnHwdgXA=;XNPqZh3zcqNsrgxAqTlpOaHeS8G
+ aAYFZvFBA3ySwNxfaBf1ABg7vLFG8XyHK4LTsvs9B+m4SNttr6cM5vLzk/mDvg27FlwocDJri
+ K50Dspywg0kWGcJyP1OYHrQMAwqLX9eC5ABa7p0iVqE3qIvCCs1/5ynUWnpC7qxz+IK6JuLd7
+ FSTWtm1cYzLhc7ukVKOpWwb+uqELLV/5ueqa8+Uv9wT9lhIKpD9ptWIEId3IozfSmZ+juOYX/
+ +23bXgx0Xq4L9AdzT5854zblpaHR63PAzEVNxvVgE9wPJNEsl1GHj4xGX8DVMcWozyLpGZMDN
+ NrW3wPcMcGDMRqMhaTaxJ8M+k5VfP6MPZMW378yayMnI4IgxX36eMB8UUvafEa3XrsRwVwoZJ
+ X4PJWSPqyeYHK29hpwA0n9+6A5HdnNZc2tTRVla8BAyJT0pAmKpW3zumw/z3Rq7ykTHfZXL7W
+ xQpRRRDrPOc04VIwqWkoU6pW1epfEmwfAJ79YD7YpzrBuuu9RJOP2sBV5fuIcC1LFMdltxS6d
+ ncAOnksdVuvVSWAuKJPn+WEtTBDhzWFPuNFwlAo5qV9mAyQ2ZHj67+qe1So+4f6AVLN04XJl/
+ uViNe/BGgro59hQmpuFpW9X6t7RYYKljuCuP3uOoQkMWPIg0COOHnQr+GYgjQeY6Dph0PCIsx
+ sFYmxLRGKJY17uPw+97FHZo272wU9OxYhnH+6fKxmA==
+Received-SPF: none client-ip=217.72.192.74; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -72,31 +72,46 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Thomas Weißschuh <thomas@t-8ch.de>
 
-This can be used to validate that an address range is mapped but without
-being readable or writable.
+The kernel does not require PROT_READ for addresses passed to mincore.
+For example the fincore(1) tool from util-linux uses PROT_NONE and
+currently does not work under qemu-user.
 
-It will be used by an updated implementation of mincore().
+Example (with fincore(1) from util-linux 2.38):
+
+$ fincore /proc/self/exe
+RES PAGES  SIZE FILE
+24K     6 22.1K /proc/self/exe
+
+$ qemu-x86_64 /usr/bin/fincore /proc/self/exe
+fincore: failed to do mincore: /proc/self/exe: Cannot allocate memory
+
+With this patch:
+
+$ ./build/qemu-x86_64 /usr/bin/fincore /proc/self/exe
+RES PAGES  SIZE FILE
+24K     6 22.1K /proc/self/exe
 
 Signed-off-by: Thomas Weißschuh <thomas@t-8ch.de>
 Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-Message-Id: <20230422100314.1650-2-thomas@t-8ch.de>
+Message-Id: <20230422100314.1650-3-thomas@t-8ch.de>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- linux-user/qemu.h | 1 +
- 1 file changed, 1 insertion(+)
+ linux-user/syscall.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/linux-user/qemu.h b/linux-user/qemu.h
-index e2e93fbd1d5d..92f9f5af41c7 100644
---- a/linux-user/qemu.h
-+++ b/linux-user/qemu.h
-@@ -168,6 +168,7 @@ abi_long do_brk(abi_ulong new_brk);
- 
- /* user access */
- 
-+#define VERIFY_NONE  0
- #define VERIFY_READ  PAGE_READ
- #define VERIFY_WRITE (PAGE_READ | PAGE_WRITE)
- 
+diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+index 00a779797efb..6655982821ba 100644
+--- a/linux-user/syscall.c
++++ b/linux-user/syscall.c
+@@ -11993,7 +11993,7 @@ static abi_long do_syscall1(CPUArchState *cpu_env, int num, abi_long arg1,
+ #ifdef TARGET_NR_mincore
+     case TARGET_NR_mincore:
+         {
+-            void *a = lock_user(VERIFY_READ, arg1, arg2, 0);
++            void *a = lock_user(VERIFY_NONE, arg1, arg2, 0);
+             if (!a) {
+                 return -TARGET_ENOMEM;
+             }
 -- 
 2.40.1
 
