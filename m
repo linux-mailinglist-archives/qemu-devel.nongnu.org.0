@@ -2,94 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 396BA7027A4
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 May 2023 10:55:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 327CF7027B4
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 May 2023 10:58:38 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pyTzM-0008A0-Ut; Mon, 15 May 2023 04:55:28 -0400
+	id 1pyU1g-0005wb-Sq; Mon, 15 May 2023 04:57:53 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pyTzJ-00084F-Ey
- for qemu-devel@nongnu.org; Mon, 15 May 2023 04:55:25 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pyU1d-0005qJ-M1
+ for qemu-devel@nongnu.org; Mon, 15 May 2023 04:57:49 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pyTzD-0006Y2-K9
- for qemu-devel@nongnu.org; Mon, 15 May 2023 04:55:25 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pyU1b-0006rg-UO
+ for qemu-devel@nongnu.org; Mon, 15 May 2023 04:57:49 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1684140918;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
+ s=mimecast20190719; t=1684141066;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=+lxCFLeb/CJjEAlJNk9ShHxl5KY9C6nTvh827u5t2YA=;
- b=KZxDZAHTJ47OD8n2KvjAawuc75pN6qAFTGSAWbwLFwlMGUIuj9QnbKqdcKY9uhN5mlzrqM
- C55yyvMoZHpnfW1b4E/1ukAZlfJm88Rwms+9JR0WfuYjNSuuXd3LKwJxuOyq776q+OxJuc
- 0TBMF1bZouNuRA6wErYOinQ2WFywGI0=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=+spIdfM7adVFfTpjTGqsknjyFAplDWUobVosj2lT5yY=;
+ b=LREgbB6FIjXxhmvZ8dr8Vx7QAgLA6RF5MpKL2GGeI+ElytL/B6KLqKp1gG8XLqKyb0HB+4
+ oNUuW5nLGv3Zxuz4Kl3j9dxEafmqtJzHt9PX9Qu4POWPNtyz89tm4v4oW06h7m94T8Pk25
+ xALjKg3hEfXo0JsegGKuzg5/cONz3zU=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-649-vmZHfBmCNMuFfPHuok5qAw-1; Mon, 15 May 2023 04:55:17 -0400
-X-MC-Unique: vmZHfBmCNMuFfPHuok5qAw-1
-Received: by mail-wm1-f71.google.com with SMTP id
- 5b1f17b1804b1-3f33f8ffa95so46409385e9.3
- for <qemu-devel@nongnu.org>; Mon, 15 May 2023 01:55:16 -0700 (PDT)
+ us-mta-564-8xIofdhKOXOrYrtOkpKydQ-1; Mon, 15 May 2023 04:57:45 -0400
+X-MC-Unique: 8xIofdhKOXOrYrtOkpKydQ-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ ffacd0b85a97d-306281812d6so4855496f8f.2
+ for <qemu-devel@nongnu.org>; Mon, 15 May 2023 01:57:45 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1684140916; x=1686732916;
- h=content-transfer-encoding:mime-version:message-id:date:reply-to
- :user-agent:references:in-reply-to:subject:cc:to:from
+ d=1e100.net; s=20221208; t=1684141064; x=1686733064;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=+lxCFLeb/CJjEAlJNk9ShHxl5KY9C6nTvh827u5t2YA=;
- b=OQuLxw8IzdZTiFTPTkBU++uq2YKaLcPwSIOWHm+giJMdI1I9uZDJpuc9D9ZxduUeXi
- edNcX4vbE8OAtfg2pKW3XiXFpVgdfU4564qLJc+ULKSvt/xP6fNs6+0AIg4z9izymmhg
- dTMRj1BWHtn+bgh2dvl/pSfsV7v+VGckH/rF/mtAg4nEW2Fq9xYfoZt9K8unoZ/tOL08
- C4lbwkanG2AF9KLlwnSUxsgZADmrt5Ao+h1XY7xO+d4RVKXGMeJD3ofreoCIauVGTD4E
- 91OxVlWzUwMq08tvrgvecON7vhNZ+8u17WetbqtDgZ/eQ5XjKlqwMPDStVRabEgKuroA
- ugzA==
-X-Gm-Message-State: AC+VfDzRhkTzendq3NL6U83X6JKxZDxNdZ8acUQbhEguxBrIpnNSAAQ1
- EKQqz8CgMZljL74pM9j/fOfN8evoCaq+uoNmNvS2uoizbRS54hKkigRlU0rsVBfL5ct4f2u5Vtb
- fGHCPMzeV6AEj3F4=
-X-Received: by 2002:a1c:cc19:0:b0:3f5:bc8:e395 with SMTP id
- h25-20020a1ccc19000000b003f50bc8e395mr1241648wmb.11.1684140915941; 
- Mon, 15 May 2023 01:55:15 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ5u5RMXbskyZ0qmC/SsgufhD1DZqLGr9zO1lmTSWgvpJTr1yyl0mw2NKFfKtyft88NK3TrWrQ==
-X-Received: by 2002:a1c:cc19:0:b0:3f5:bc8:e395 with SMTP id
- h25-20020a1ccc19000000b003f50bc8e395mr1241638wmb.11.1684140915636; 
- Mon, 15 May 2023 01:55:15 -0700 (PDT)
-Received: from redhat.com (static-92-120-85-188.ipcom.comunitel.net.
- [188.85.120.92]) by smtp.gmail.com with ESMTPSA id
- q6-20020adff946000000b003078cd719ffsm26636180wrr.95.2023.05.15.01.55.14
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 15 May 2023 01:55:15 -0700 (PDT)
-From: Juan Quintela <quintela@redhat.com>
-To: Het Gala <het.gala@nutanix.com>
-Cc: qemu-devel@nongnu.org,  prerna.saxena@nutanix.com,  dgilbert@redhat.com,
- pbonzini@redhat.com,  berrange@redhat.com,  armbru@redhat.com,
- eblake@redhat.com,  manish.mishra@nutanix.com,
- aravind.retnakaran@nutanix.com
-Subject: Re: [PATCH v4 3/8] migration: converts socket backend to accept
- MigrateAddress struct
-In-Reply-To: <20230512143240.192504-4-het.gala@nutanix.com> (Het Gala's
- message of "Fri, 12 May 2023 14:32:35 +0000")
-References: <20230512143240.192504-1-het.gala@nutanix.com>
- <20230512143240.192504-4-het.gala@nutanix.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
-Date: Mon, 15 May 2023 10:55:14 +0200
-Message-ID: <87wn1a0ya5.fsf@secure.mitica>
+ bh=+spIdfM7adVFfTpjTGqsknjyFAplDWUobVosj2lT5yY=;
+ b=M8LRHLozad+Nol80AwizF3hIHVYbsHBgbfhERxpHSnAMVlR9FlNChF9WCAfJie53C6
+ hX7bkKLxg0OwTrrW+zotyacdDnFMuR5VHSno9wki2Eu5bAS/V2iVg0AKIBVPkue8HLEj
+ aoM/rNbk6GFNwd+PKxQQWbQ71B1pOLtqo2qBtznII+lKgyzYXsArHO2pfY6IThGXWWb/
+ MLA2KR+EV4eUSV31uyVvTcY/xeemZ9jtX3SHl+Z43BMwtlIXi/skGp1sp+IK0rk6n9W3
+ pUbO+gGNx94Qb9cnmKGNAGYTiyUolhWspve6XsPOD0kz7ccYe6nkK/wp6sPIW7qJyxjI
+ mKjg==
+X-Gm-Message-State: AC+VfDwXxeg6qCiWTwNEag6oV4Q/3R2YGhvoUqIY+Tva4iuYV6w18hgL
+ ch4K2izPC0T2wZF2C20NBT695OnaTOORIvXvfPvkq8vbrYhYyO6cFSRr6fwwbHS+YuvS1u2M192
+ sClj2dsL5AvPXSlY=
+X-Received: by 2002:a05:6000:1b8f:b0:306:2b31:5935 with SMTP id
+ r15-20020a0560001b8f00b003062b315935mr18915990wru.55.1684141064420; 
+ Mon, 15 May 2023 01:57:44 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ5we4wTnQIpy03l249dp7ymqfebZqT4LfwsOIJcuLd1SK87+8Xu/txBkiKZ8jAxBcAONN9t/A==
+X-Received: by 2002:a05:6000:1b8f:b0:306:2b31:5935 with SMTP id
+ r15-20020a0560001b8f00b003062b315935mr18915981wru.55.1684141064091; 
+ Mon, 15 May 2023 01:57:44 -0700 (PDT)
+Received: from [192.168.0.3] (ip-109-43-176-139.web.vodafone.de.
+ [109.43.176.139]) by smtp.gmail.com with ESMTPSA id
+ s18-20020a5d4252000000b00304aba2cfcbsm32043525wrr.7.2023.05.15.01.57.43
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 15 May 2023 01:57:43 -0700 (PDT)
+Message-ID: <abd7ff41-ce60-26e6-a863-cf656ae875b2@redhat.com>
+Date: Mon, 15 May 2023 10:57:42 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH v2 1/1] s390x/pv: Fix spurious warning with asynchronous
+ teardown
+Content-Language: en-US
+To: Claudio Imbrenda <imbrenda@linux.ibm.com>, qemu-devel@nongnu.org
+Cc: qemu-s390x@nongnu.org, borntraeger@de.ibm.com, nsg@linux.ibm.com,
+ nrb@linux.ibm.com, frankja@linux.ibm.com, pasic@linux.ibm.com,
+ mhartmay@linux.ibm.com
+References: <20230510105531.30623-1-imbrenda@linux.ibm.com>
+ <20230510105531.30623-2-imbrenda@linux.ibm.com>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <20230510105531.30623-2-imbrenda@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ NICE_REPLY_A=-0.93, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -103,127 +101,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Het Gala <het.gala@nutanix.com> wrote:
-> Socket transport backend for 'migrate'/'migrate-incoming' QAPIs accept
-> new wire protocol of MigrateAddress struct.
->
-> It is achived by parsing 'uri' string and storing migration parameters
-> required for socket connection into well defined SocketAddress struct.
->
-> Suggested-by: Aravind Retnakaran <aravind.retnakaran@nutanix.com>
-> Signed-off-by: Het Gala <het.gala@nutanix.com>
+On 10/05/2023 12.55, Claudio Imbrenda wrote:
+> Kernel commit 292a7d6fca33 ("KVM: s390: pv: fix asynchronous teardown
+> for small VMs") causes the KVM_PV_ASYNC_CLEANUP_PREPARE ioctl to fail
+> if the VM is not larger than 2GiB. QEMU would attempt it and fail,
+> print an error message, and then proceed with a normal teardown.
+> 
+> Avoid attempting to use asynchronous teardown altogether when the VM is
+> not larger than 2 GiB. This will avoid triggering the error message and
+> also avoid pointless overhead; normal teardown is fast enough for small
+> VMs.
+> 
+> Reported-by: Marc Hartmayer <mhartmay@linux.ibm.com>
+> Fixes: c3a073c610 ("s390x/pv: Add support for asynchronous teardown for reboot")
+> Link: https://lore.kernel.org/all/20230421085036.52511-2-imbrenda@linux.ibm.com/
+> Signed-off-by: Claudio Imbrenda <imbrenda@linux.ibm.com>
 > ---
->  migration/exec.c      |  4 ++--
->  migration/exec.h      |  4 ++++
->  migration/migration.c | 44 +++++++++++++++++++++++++++++++------------
->  migration/socket.c    | 34 +++++----------------------------
->  migration/socket.h    |  7 ++++---
->  5 files changed, 47 insertions(+), 46 deletions(-)
->
-> diff --git a/migration/exec.c b/migration/exec.c
-> index 2bf882bbe1..c4a3293246 100644
-> --- a/migration/exec.c
-> +++ b/migration/exec.c
-> @@ -27,7 +27,6 @@
->  #include "qemu/cutils.h"
->=20=20
->  #ifdef WIN32
-> -const char *exec_get_cmd_path(void);
->  const char *exec_get_cmd_path(void)
->  {
->      g_autofree char *detected_path =3D g_new(char, MAX_PATH);
+...
+> diff --git a/include/hw/s390x/pv.h b/include/hw/s390x/pv.h
+> index 966306a9db..6766557fb7 100644
+> --- a/include/hw/s390x/pv.h
+> +++ b/include/hw/s390x/pv.h
+> @@ -41,7 +41,7 @@ static inline bool s390_is_pv(void)
+>   int s390_pv_query_info(void);
+>   int s390_pv_vm_enable(void);
+>   void s390_pv_vm_disable(void);
+> -bool s390_pv_vm_try_disable_async(void);
+> +bool s390_pv_vm_try_disable_async(S390CcwMachineState *ms);
+>   int s390_pv_set_sec_parms(uint64_t origin, uint64_t length);
+>   int s390_pv_unpack(uint64_t addr, uint64_t size, uint64_t tweak);
+>   void s390_pv_prep_reset(void);
 
-Make this and related chunks it its own patch.
+I'll squash this on top to fix a build failure on non-s390x host systems:
 
+diff --git a/include/hw/s390x/pv.h b/include/hw/s390x/pv.h
+--- a/include/hw/s390x/pv.h
++++ b/include/hw/s390x/pv.h
+@@ -61,7 +61,7 @@ static inline bool s390_is_pv(void) { return false; }
+  static inline int s390_pv_query_info(void) { return 0; }
+  static inline int s390_pv_vm_enable(void) { return 0; }
+  static inline void s390_pv_vm_disable(void) {}
+-static inline bool s390_pv_vm_try_disable_async(void) { return false; }
++static inline bool s390_pv_vm_try_disable_async(S390CcwMachineState *ms) { return false; }
+  static inline int s390_pv_set_sec_parms(uint64_t origin, uint64_t length) { return 0; }
+  static inline int s390_pv_unpack(uint64_t addr, uint64_t size, uint64_t tweak) { return 0; }
+  static inline void s390_pv_prep_reset(void) {}
 
-> @@ -40,7 +39,8 @@ const char *exec_get_cmd_path(void)
->  }
->  #endif
->=20=20
-> -void exec_start_outgoing_migration(MigrationState *s, const char *comman=
-d, Error **errp)
-> +void exec_start_outgoing_migration(MigrationState *s, const char *comman=
-d,
-> +                                   Error **errp)
->  {
->      QIOChannel *ioc;
->=20=20
-
-Drop this bit.  If you want to cleanup longer that 80 chars lines, do it
-in a sperate patch.
-
-
-> +    if (local_err) {
-> +        qapi_free_SocketAddress(saddr);
-> +        error_propagate(errp, local_err);
-> +        return;
-> +    }
-
-Aha, I see what you want to do here, but I=20
-
-From include/qapi/error.h
-
- * - Whenever practical, also return a value that indicates success /
- *   failure.  This can make the error checking more concise, and can
- *   avoid useless error object creation and destruction.  Note that
- *   we still have many functions returning void.  We recommend
- *   =E2=80=A2 bool-valued functions return true on success / false on fail=
-ure,
- *   =E2=80=A2 pointer-valued functions return non-null / null pointer, and
- *   =E2=80=A2 integer-valued functions return non-negative / negative.
- *
-
-
-I think that what you have to do here is drop local_err and just change
-
-socket_start_incoming_migration() and fd_start_incoming_migration() to
-return a bool.
-
-> -void socket_start_outgoing_migration(MigrationState *s,
-> -                                     const char *str,
-> -                                     Error **errp)
-> -{
-> -    Error *err =3D NULL;
-> -    SocketAddress *saddr =3D socket_parse(str, &err);
-> -    if (!err) {
-> -        socket_start_outgoing_migration_internal(s, saddr, &err);
-> -    }
-> -    error_propagate(errp, err);
-> -}
-
-And here we are.  This function got it wrong, and you copied from here.
-My understanding is that this function should have been written as:
-
-void socket_start_outgoing_migration(MigrationState *s,
-                                     const char *str,
-                                     Error **errp)
-{
-    SocketAddress *saddr =3D socket_parse(str, &err);
-    if (!saddr) {
-        socket_start_outgoing_migration_internal(s, saddr, &err);
-    }
-}
-
-
-> -void socket_start_incoming_migration(const char *str, Error **errp)
-> -{
-> -    Error *err =3D NULL;
-> -    SocketAddress *saddr =3D socket_parse(str, &err);
-> -    if (!err) {
-> -        socket_start_incoming_migration_internal(saddr, &err);
-> -    }
-> -    qapi_free_SocketAddress(saddr);
-> -    error_propagate(errp, err);
-> -}
-
-Exactly the same here.
-
-Not your fault, but can you do the changes, please?
-
-Later, Juan.
+  Thomas
 
 
