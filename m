@@ -2,63 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C680C702F4E
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 May 2023 16:11:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CEC27702F65
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 May 2023 16:16:33 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pyYtJ-0003j4-0g; Mon, 15 May 2023 10:09:33 -0400
+	id 1pyYy2-0005eA-QI; Mon, 15 May 2023 10:14:26 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1pyYtG-0003iB-M6
- for qemu-devel@nongnu.org; Mon, 15 May 2023 10:09:30 -0400
-Received: from frasgout.his.huawei.com ([185.176.79.56])
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1pyYy1-0005dv-9d
+ for qemu-devel@nongnu.org; Mon, 15 May 2023 10:14:25 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1pyYtB-0000Jy-Se
- for qemu-devel@nongnu.org; Mon, 15 May 2023 10:09:30 -0400
-Received: from lhrpeml500005.china.huawei.com (unknown [172.18.147.206])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4QKh2t73htz6J72P;
- Mon, 15 May 2023 22:05:10 +0800 (CST)
-Received: from localhost (10.202.227.76) by lhrpeml500005.china.huawei.com
- (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.23; Mon, 15 May
- 2023 15:09:18 +0100
-Date: Mon, 15 May 2023 15:09:17 +0100
-To: Fan Ni <fan.ni@samsung.com>
-CC: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>,
- "gregory.price@memverge.com" <gregory.price@memverge.com>,
- "hchkuo@avery-design.com.tw" <hchkuo@avery-design.com.tw>,
- "cbrowy@avery-design.com" <cbrowy@avery-design.com>, "ira.weiny@intel.com"
- <ira.weiny@intel.com>, "dan.j.williams@intel.com" <dan.j.williams@intel.com>, 
- Adam Manzanares <a.manzanares@samsung.com>, "dave@stgolabs.net"
- <dave@stgolabs.net>, "nmtadam.samsung@gmail.com" <nmtadam.samsung@gmail.com>, 
- "nifan@outlook.com" <nifan@outlook.com>
-Subject: Re: [RFC 4/7] hw/mem/cxl_type3: Add DC extent representative to cxl
- type3 device
-Message-ID: <20230515150917.000038ef@Huawei.com>
-In-Reply-To: <20230511175609.2091136-5-fan.ni@samsung.com>
-References: <20230511175609.2091136-1-fan.ni@samsung.com>
- <CGME20230511175641uscas1p2b70d27b1f20dc2dd54a0530170117530@uscas1p2.samsung.com>
- <20230511175609.2091136-5-fan.ni@samsung.com>
-Organization: Huawei Technologies Research and Development (UK) Ltd.
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-w64-mingw32)
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1pyYxz-0001Sp-8b
+ for qemu-devel@nongnu.org; Mon, 15 May 2023 10:14:25 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1684160062;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Dj8xEBYoMDl5UOgLbFWX08xwNmMIAPEyXBg6tk7gdMQ=;
+ b=H7hS8UIXVF1QIZJCegVAf2w+UM74tNN7qyFvv6oB59kcp1vb8H36+YwwfqYvS52m/HmS7T
+ qOf7l/wZxYo4/rHtEiEy8maGPdXqs5pwa5sotttwN3e/m3RwU4LZ8uetrMn/hFvv+C14CQ
+ h28H/q5enpQhaaeqcUyp0FGiRi0fId4=
+Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
+ [209.85.160.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-36-tGegXzkvMEW2-SzAJGUIZA-1; Mon, 15 May 2023 10:14:20 -0400
+X-MC-Unique: tGegXzkvMEW2-SzAJGUIZA-1
+Received: by mail-qt1-f198.google.com with SMTP id
+ d75a77b69052e-3f5307dd7dfso4931191cf.2
+ for <qemu-devel@nongnu.org>; Mon, 15 May 2023 07:14:20 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1684160060; x=1686752060;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:reply-to:user-agent:mime-version:date
+ :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=Dj8xEBYoMDl5UOgLbFWX08xwNmMIAPEyXBg6tk7gdMQ=;
+ b=QlQPVIHXYMJ6ImgTNQmbrryEO9QzFZ1yUs9P+QR3qd1yCOLVyUwnXc5Ib8V6g8DjRg
+ Uay35CRVWKe/LE8kI/s3JsbjeCMMiWNj3HTY2BqM/5g9al0qXbC78aLZvb5y4Kv5aWQ8
+ N7o0WXpJMEEQGJ820ZpY+5/ExSQ2wEsFMPWAAELMMq63KhpIjOZFY7j20VSFtDpAIYav
+ fxAjTR1h5gxVoEFlZhjk/j8c708GpfLE+nU6nKhXIykEAq8Nou5Rva/z+6lQS5j9JgVR
+ 8mbPhmexjzHRwJJLRzohCgOri7RsVLPHO7NG1PnGnrWD5VUfme/rsFzp8jPotJ/qUUsU
+ MlLg==
+X-Gm-Message-State: AC+VfDxywY9deoieFXSaob4q5ZTDydQkaU14gFxEoTwCArKlwUN40UQI
+ PJ19fQtyaYmhLaUNtuMwU9NCOw0AwriV2Tbsql/ks4k9N7dlhCG4ezxcsXQkN7reIKYJghgs64J
+ uSI3J7QYcQ75UBEI=
+X-Received: by 2002:ac8:7d54:0:b0:3f5:442:a5bf with SMTP id
+ h20-20020ac87d54000000b003f50442a5bfmr18383860qtb.24.1684160060146; 
+ Mon, 15 May 2023 07:14:20 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ6bd9zKWNoSWM4DeBwhhHpaMrV0n2DnSmXBr1VKszWukGrOJR4zLvzclBPxuQufmCw81U7u0A==
+X-Received: by 2002:ac8:7d54:0:b0:3f5:442:a5bf with SMTP id
+ h20-20020ac87d54000000b003f50442a5bfmr18383818qtb.24.1684160059796; 
+ Mon, 15 May 2023 07:14:19 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:59e:9d80:527b:9dff:feef:3874?
+ ([2a01:e0a:59e:9d80:527b:9dff:feef:3874])
+ by smtp.gmail.com with ESMTPSA id
+ z14-20020a05620a100e00b0075937d227e0sm1465985qkj.17.2023.05.15.07.14.17
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 15 May 2023 07:14:18 -0700 (PDT)
+Message-ID: <ee890a2b-946e-1a04-4f00-b7c60b31af76@redhat.com>
+Date: Mon, 15 May 2023 16:14:16 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.202.227.76]
-X-ClientProxiedBy: lhrpeml100006.china.huawei.com (7.191.160.224) To
- lhrpeml500005.china.huawei.com (7.191.163.240)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=185.176.79.56;
- envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.0
+Subject: Re: [RFC PATCH v3 08/10] hw/arm/smmuv3: Add CMDs related to stage-2
+Content-Language: en-US
+To: Mostafa Saleh <smostafa@google.com>, qemu-devel@nongnu.org
+Cc: jean-philippe@linaro.org, peter.maydell@linaro.org, qemu-arm@nongnu.org,
+ richard.henderson@linaro.org
+References: <20230401104953.1325983-1-smostafa@google.com>
+ <20230401104953.1325983-9-smostafa@google.com>
+From: Eric Auger <eric.auger@redhat.com>
+In-Reply-To: <20230401104953.1325983-9-smostafa@google.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124;
+ envelope-from=eric.auger@redhat.com; helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -58
+X-Spam_score: -5.9
+X-Spam_bar: -----
+X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-3.811, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -72,221 +104,229 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-to:  Jonathan Cameron <Jonathan.Cameron@Huawei.com>
-From:  Jonathan Cameron via <qemu-devel@nongnu.org>
+Reply-To: eric.auger@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, 11 May 2023 17:56:40 +0000
-Fan Ni <fan.ni@samsung.com> wrote:
-
-> From: Fan Ni <nifan@outlook.com>
-> 
-> Add dynamic capacity extent information to the definition of
-> CXLType3Dev and add get DC extent list mailbox command based on
-> CXL.spec.3.0:.8.2.9.8.9.2.
-> 
-> With this command, we can create dc regions as below:
-> 
-> region=$(cat /sys/bus/cxl/devices/decoder0.0/create_dc_region)
-> echo $region> /sys/bus/cxl/devices/decoder0.0/create_dc_region
-> echo 256 > /sys/bus/cxl/devices/$region/interleave_granularity
-> echo 1 > /sys/bus/cxl/devices/$region/interleave_ways
-> 
-> echo "dc" >/sys/bus/cxl/devices/decoder2.0/mode
-> echo 0x30000000 >/sys/bus/cxl/devices/decoder2.0/dpa_size
-> 
-> echo 0x30000000 > /sys/bus/cxl/devices/$region/size
-> echo  "decoder2.0" > /sys/bus/cxl/devices/$region/target0
-> echo 1 > /sys/bus/cxl/devices/$region/commit
-> echo $region > /sys/bus/cxl/drivers/cxl_region/bind
-> 
-> Signed-off-by: Fan Ni <fan.ni@samsung.com>
-Hi Fan,
-
-A few comments inline,
-
-Thanks,
-
-Jonathan
-
+Hi Mostafa,
+On 4/1/23 12:49, Mostafa Saleh wrote:
+> CMD_TLBI_S2_IPA: As S1+S2 is not enabled, for now this can be the
+> same as CMD_TLBI_NH_VAA.
+>
+> CMD_TLBI_S12_VMALL: Added new function to invalidate TLB by VMID.
+>
+> For stage-1 only commands, add a check to throw CERROR_ILL if used
+> when stage-1 is not supported.
+>
+> Signed-off-by: Mostafa Saleh <smostafa@google.com>
 > ---
->  hw/cxl/cxl-mailbox-utils.c  | 73 ++++++++++++++++++++++++++++++++++++-
->  hw/mem/cxl_type3.c          |  1 +
->  include/hw/cxl/cxl_device.h | 23 ++++++++++++
->  3 files changed, 96 insertions(+), 1 deletion(-)
-> 
-> diff --git a/hw/cxl/cxl-mailbox-utils.c b/hw/cxl/cxl-mailbox-utils.c
-> index 61c77e52d8..ed2ac154cb 100644
-> --- a/hw/cxl/cxl-mailbox-utils.c
-> +++ b/hw/cxl/cxl-mailbox-utils.c
-> @@ -83,6 +83,7 @@ enum {
->          #define CLEAR_POISON           0x2
->  	DCD_CONFIG = 0x48, /*8.2.9.8.9*/
->  		#define GET_DC_REGION_CONFIG   0x0
-> +		#define GET_DYN_CAP_EXT_LIST   0x1
->      PHYSICAL_SWITCH = 0x51
->          #define IDENTIFY_SWITCH_DEVICE      0x0
->  };
-> @@ -938,7 +939,7 @@ static CXLRetCode cmd_media_clear_poison(struct cxl_cmd *cmd,
->  }
+> Changes in v3:
+> - Log guest error for all illegal commands.
+> Changes in v2:
+> - Add checks for stage-1 only commands
+> - Rename smmuv3_s1_range_inval to smmuv3_range_inval
+> ---
+>  hw/arm/smmu-common.c         | 16 +++++++++++
+>  hw/arm/smmuv3.c              | 53 ++++++++++++++++++++++++++++++------
+>  hw/arm/trace-events          |  4 ++-
+>  include/hw/arm/smmu-common.h |  1 +
+>  4 files changed, 65 insertions(+), 9 deletions(-)
+>
+> diff --git a/hw/arm/smmu-common.c b/hw/arm/smmu-common.c
+> index 72ed6edd48..45e9d7e752 100644
+> --- a/hw/arm/smmu-common.c
+> +++ b/hw/arm/smmu-common.c
+> @@ -135,6 +135,16 @@ static gboolean smmu_hash_remove_by_asid(gpointer key, gpointer value,
 >  
->  /*
-> - * cxl spec 3.0: 8.2.9.8.9.2
-> + * cxl spec 3.0: 8.2.9.8.9.1
-
-Push that back to earlier patch.
-
->   * Get Dynamic Capacity Configuration
->   **/
->  static CXLRetCode cmd_dcd_get_dyn_cap_config(struct cxl_cmd *cmd,
-> @@ -1001,6 +1002,73 @@ static CXLRetCode cmd_dcd_get_dyn_cap_config(struct cxl_cmd *cmd,
->  	return CXL_MBOX_SUCCESS;
+>      return SMMU_IOTLB_ASID(*iotlb_key) == asid;
 >  }
->  
-> +/*
-> + * cxl spec 3.0: 8.2.9.8.9.2
-> + * Get Dynamic Capacity Extent List (Opcode 4810h)
-> + **/
-> +static CXLRetCode cmd_dcd_get_dyn_cap_ext_list(struct cxl_cmd *cmd,
-> +		CXLDeviceState *cxl_dstate,
-> +		uint16_t *len)
+> +
+> +static gboolean smmu_hash_remove_by_vmid(gpointer key, gpointer value,
+> +                                         gpointer user_data)
 > +{
-> +	struct get_dyn_cap_ext_list_in_pl {
-> +		uint32_t extent_cnt;
-> +		uint32_t start_extent_id;
-> +	} QEMU_PACKED;
+> +    uint16_t vmid = *(uint16_t *)user_data;
+> +    SMMUIOTLBKey *iotlb_key = (SMMUIOTLBKey *)key;
 > +
-> +	struct get_dyn_cap_ext_list_out_pl {
-> +		uint32_t count;
-> +		uint32_t total_extents;
-> +		uint32_t generation_num;
-> +		uint8_t rsvd[4];
-> +		struct {
-> +			uint64_t start_dpa;
-> +			uint64_t len;
-> +			uint8_t tag[0x10];
-> +			uint16_t shared_seq;
-> +			uint8_t rsvd[6];
-> +		} QEMU_PACKED records[];
-> +	} QEMU_PACKED;
-> +
-> +	struct get_dyn_cap_ext_list_in_pl *in = (void *)cmd->payload;
-> +	struct get_dyn_cap_ext_list_out_pl *out = (void *)cmd->payload;
-> +	struct CXLType3Dev *ct3d = container_of(cxl_dstate, CXLType3Dev, cxl_dstate);
-> +	uint16_t record_count = 0, i = 0, record_done = 0;
-> +	CXLDCDExtentList *extent_list = &ct3d->dc.extents;
-> +	CXLDCD_Extent *ent;
-> +	uint16_t out_pl_len;
-> +
-> +	if (in->start_extent_id > ct3d->dc.total_extent_count)
-> +		return CXL_MBOX_INVALID_INPUT;
-> +
-> +	if (ct3d->dc.total_extent_count - in->start_extent_id < in->extent_cnt)
-> +		record_count = ct3d->dc.total_extent_count - in->start_extent_id;
-> +	else
-> +		record_count = in->extent_cnt;
-> +
-> +	out_pl_len = sizeof(*out) + record_count * sizeof(out->records[0]);
-> +	assert(out_pl_len <= CXL_MAILBOX_MAX_PAYLOAD_SIZE);
-> +
-> +	memset(out, 0, out_pl_len);
-> +	stl_le_p(&out->count, record_count);
-> +	stl_le_p(&out->total_extents, ct3d->dc.total_extent_count);
-> +	stl_le_p(&out->generation_num, ct3d->dc.ext_list_gen_seq);
-> +
-> +	QTAILQ_FOREACH(ent, extent_list, node) {
-> +		if (i++ < in->start_extent_id)
-> +			continue;
-> +		stq_le_p(&out->records[i].start_dpa, ent->start_dpa);
-
-I has been incrementing for the records skipped.  By now it may be well off
-the end of records.  You need a separate index for the ones you are filling
-that is incremented only when you write one.
-record_done for example.
-	out->records[record_done].len etc
-
-
-> +		stq_le_p(&out->records[i].len, ent->len);
-> +		memcpy(&out->records[i].tag, ent->tag, 0x10);
-> +		stw_le_p(&out->records[i].shared_seq, ent->shared_seq);
-> +		record_done++;
-> +		if (record_done == record_count)
-> +			break;
-> +	}
-> +
-> +	*len = out_pl_len;
-> +	return CXL_MBOX_SUCCESS;
+> +    return SMMU_IOTLB_VMID(*iotlb_key) == vmid;
 > +}
 > +
->  #define IMMEDIATE_CONFIG_CHANGE (1 << 1)
->  #define IMMEDIATE_DATA_CHANGE (1 << 2)
->  #define IMMEDIATE_POLICY_CHANGE (1 << 3)
-> @@ -1041,6 +1109,9 @@ static struct cxl_cmd cxl_cmd_set[256][256] = {
->          cmd_media_clear_poison, 72, 0 },
->  	[DCD_CONFIG][GET_DC_REGION_CONFIG] = { "DCD_GET_DC_REGION_CONFIG",
->  		cmd_dcd_get_dyn_cap_config, 2, 0 },
-> +	[DCD_CONFIG][GET_DYN_CAP_EXT_LIST] = {
-> +		"DCD_GET_DYNAMIC_CAPACITY_EXTENT_LIST", cmd_dcd_get_dyn_cap_ext_list,
-> +		8, 0 },
->  };
->  
->  static struct cxl_cmd cxl_cmd_set_sw[256][256] = {
-> diff --git a/hw/mem/cxl_type3.c b/hw/mem/cxl_type3.c
-> index b9c375d9b4..23954711b5 100644
-> --- a/hw/mem/cxl_type3.c
-> +++ b/hw/mem/cxl_type3.c
-> @@ -708,6 +708,7 @@ static int cxl_create_toy_regions(CXLType3Dev *ct3d)
->  
->  		region_base += region->len;
->  	}
-> +	QTAILQ_INIT(&ct3d->dc.extents);
->  
->  	return 0;
+>  static gboolean smmu_hash_remove_by_asid_vmid_iova(gpointer key, gpointer value,
+>                                                gpointer user_data)
+>  {
+> @@ -187,6 +197,12 @@ void smmu_iotlb_inv_asid(SMMUState *s, uint16_t asid)
+>      g_hash_table_foreach_remove(s->iotlb, smmu_hash_remove_by_asid, &asid);
 >  }
-> diff --git a/include/hw/cxl/cxl_device.h b/include/hw/cxl/cxl_device.h
-> index 8a04e53e90..20ad5e7411 100644
-> --- a/include/hw/cxl/cxl_device.h
-> +++ b/include/hw/cxl/cxl_device.h
-> @@ -385,6 +385,25 @@ typedef QLIST_HEAD(, CXLPoison) CXLPoisonList;
 >  
->  #define DCD_MAX_REGION_NUM 8
+> +inline void smmu_iotlb_inv_vmid(SMMUState *s, uint16_t vmid)
+> +{
+> +    trace_smmu_iotlb_inv_vmid(vmid);
+> +    g_hash_table_foreach_remove(s->iotlb, smmu_hash_remove_by_vmid, &vmid);
+> +}
+> +
+>  /* VMSAv8-64 Translation */
 >  
-> +typedef struct CXLDCD_Extent_raw {
-> +	uint64_t start_dpa;
-> +	uint64_t len;
-> +	uint8_t tag[0x10];
-> +	uint16_t shared_seq;
-> +	uint8_t rsvd[0x6];
-> +} QEMU_PACKED CXLDCExtent_raw;
+>  /**
+> diff --git a/hw/arm/smmuv3.c b/hw/arm/smmuv3.c
+> index d7e7003da9..3b5b1fad1a 100644
+> --- a/hw/arm/smmuv3.c
+> +++ b/hw/arm/smmuv3.c
+> @@ -1069,7 +1069,7 @@ static void smmuv3_inv_notifiers_iova(SMMUState *s, int asid, dma_addr_t iova,
+>      }
+>  }
+>  
+> -static void smmuv3_s1_range_inval(SMMUState *s, Cmd *cmd)
+> +static void smmuv3_range_inval(SMMUState *s, Cmd *cmd)
+>  {
+>      dma_addr_t end, addr = CMD_ADDR(cmd);
+>      uint8_t type = CMD_TYPE(cmd);
+> @@ -1094,7 +1094,7 @@ static void smmuv3_s1_range_inval(SMMUState *s, Cmd *cmd)
+>      }
+>  
+>      if (!tg) {
+> -        trace_smmuv3_s1_range_inval(vmid, asid, addr, tg, 1, ttl, leaf);
+> +        trace_smmuv3_range_inval(vmid, asid, addr, tg, 1, ttl, leaf);
+>          smmuv3_inv_notifiers_iova(s, asid, addr, tg, 1);
+>          smmu_iotlb_inv_iova(s, asid, vmid, addr, tg, 1, ttl);
+>          return;
+> @@ -1112,7 +1112,7 @@ static void smmuv3_s1_range_inval(SMMUState *s, Cmd *cmd)
+>          uint64_t mask = dma_aligned_pow2_mask(addr, end, 64);
+>  
+>          num_pages = (mask + 1) >> granule;
+> -        trace_smmuv3_s1_range_inval(vmid, asid, addr, tg, num_pages, ttl, leaf);
+> +        trace_smmuv3_range_inval(vmid, asid, addr, tg, num_pages, ttl, leaf);
+>          smmuv3_inv_notifiers_iova(s, asid, addr, tg, num_pages);
+>          smmu_iotlb_inv_iova(s, asid, vmid, addr, tg, num_pages, ttl);
+>          addr += mask + 1;
+> @@ -1246,12 +1246,22 @@ static int smmuv3_cmdq_consume(SMMUv3State *s)
+>          {
+>              uint16_t asid = CMD_ASID(&cmd);
+>  
+> +            if (!STAGE1_SUPPORTED(s)) {
+> +                cmd_error = SMMU_CERROR_ILL;
+> +                break;
+> +            }
+> +
+>              trace_smmuv3_cmdq_tlbi_nh_asid(asid);
+>              smmu_inv_notifiers_all(&s->smmu_state);
+>              smmu_iotlb_inv_asid(bs, asid);
+>              break;
+>          }
+>          case SMMU_CMD_TLBI_NH_ALL:
+> +            if (!STAGE1_SUPPORTED(s)) {
+> +                cmd_error = SMMU_CERROR_ILL;
+> +                break;
+> +            }
+> +            QEMU_FALLTHROUGH;
+>          case SMMU_CMD_TLBI_NSNH_ALL:
+>              trace_smmuv3_cmdq_tlbi_nh();
+>              smmu_inv_notifiers_all(&s->smmu_state);
+> @@ -1259,7 +1269,34 @@ static int smmuv3_cmdq_consume(SMMUv3State *s)
+>              break;
+>          case SMMU_CMD_TLBI_NH_VAA:
+>          case SMMU_CMD_TLBI_NH_VA:
+> -            smmuv3_s1_range_inval(bs, &cmd);
+> +            if (!STAGE1_SUPPORTED(s)) {
+> +                cmd_error = SMMU_CERROR_ILL;
+> +                break;
+> +            }
+> +            smmuv3_range_inval(bs, &cmd);
+> +            break;
+> +        case SMMU_CMD_TLBI_S12_VMALL:
+> +            uint16_t vmid = CMD_VMID(&cmd);
+I get
+../hw/arm/smmuv3.c: In function ‘smmuv3_cmdq_consume’:
+../hw/arm/smmuv3.c:1295:13: error: a label can only be part of a
+statement and a declaration is not a statement
+             uint16_t vmid = CMD_VMID(&cmd);
 
-What's this for?
+you should put the case into a block.
 
+
+Eric
 > +
-> +typedef struct CXLDCD_Extent {
-> +	uint64_t start_dpa;
-> +	uint64_t len;
-> +	uint8_t tag[0x10];
-> +	uint16_t shared_seq;
-> +	uint8_t rsvd[0x6];
+> +            if (!STAGE2_SUPPORTED(s)) {
+> +                cmd_error = SMMU_CERROR_ILL;
+> +                break;
+> +            }
 > +
-> +	QTAILQ_ENTRY(CXLDCD_Extent) node;
-> +} CXLDCD_Extent;
-> +typedef QTAILQ_HEAD(, CXLDCD_Extent) CXLDCDExtentList;
-> +
->  typedef struct CXLDCD_Region {
->  	uint64_t base;
->  	uint64_t decode_len; /* in multiples of 256MB */
-> @@ -429,6 +448,10 @@ struct CXLType3Dev {
->  	struct dynamic_capacity {
->  		uint8_t num_regions; // 1-8
->  		struct CXLDCD_Region regions[DCD_MAX_REGION_NUM];
-> +		CXLDCDExtentList extents;
-> +
-> +		uint32_t total_extent_count;
-> +		uint32_t ext_list_gen_seq;
->  	} dc;
->  };
+> +            trace_smmuv3_cmdq_tlbi_s12_vmid(vmid);
+> +            smmu_inv_notifiers_all(&s->smmu_state);
+> +            smmu_iotlb_inv_vmid(bs, vmid);
+> +            break;
+> +        case SMMU_CMD_TLBI_S2_IPA:
+> +            if (!STAGE2_SUPPORTED(s)) {
+> +                cmd_error = SMMU_CERROR_ILL;
+> +                break;
+> +            }
+> +            /*
+> +             * As currently only either s1 or s2 are supported
+> +             * we can reuse same function for s2.
+> +             */
+> +            smmuv3_range_inval(bs, &cmd);
+>              break;
+>          case SMMU_CMD_TLBI_EL3_ALL:
+>          case SMMU_CMD_TLBI_EL3_VA:
+> @@ -1267,8 +1304,6 @@ static int smmuv3_cmdq_consume(SMMUv3State *s)
+>          case SMMU_CMD_TLBI_EL2_ASID:
+>          case SMMU_CMD_TLBI_EL2_VA:
+>          case SMMU_CMD_TLBI_EL2_VAA:
+> -        case SMMU_CMD_TLBI_S12_VMALL:
+> -        case SMMU_CMD_TLBI_S2_IPA:
+>          case SMMU_CMD_ATC_INV:
+>          case SMMU_CMD_PRI_RESP:
+>          case SMMU_CMD_RESUME:
+> @@ -1277,12 +1312,14 @@ static int smmuv3_cmdq_consume(SMMUv3State *s)
+>              break;
+>          default:
+>              cmd_error = SMMU_CERROR_ILL;
+> -            qemu_log_mask(LOG_GUEST_ERROR,
+> -                          "Illegal command type: %d\n", CMD_TYPE(&cmd));
+>              break;
+>          }
+>          qemu_mutex_unlock(&s->mutex);
+>          if (cmd_error) {
+> +            if (cmd_error == SMMU_CERROR_ILL) {
+> +                qemu_log_mask(LOG_GUEST_ERROR,
+> +                              "Illegal command type: %d\n", CMD_TYPE(&cmd));
+> +            }
+>              break;
+>          }
+>          /*
+> diff --git a/hw/arm/trace-events b/hw/arm/trace-events
+> index 705104e58b..f8fdf1ca9f 100644
+> --- a/hw/arm/trace-events
+> +++ b/hw/arm/trace-events
+> @@ -12,6 +12,7 @@ smmu_ptw_block_pte(int stage, int level, uint64_t baseaddr, uint64_t pteaddr, ui
+>  smmu_get_pte(uint64_t baseaddr, int index, uint64_t pteaddr, uint64_t pte) "baseaddr=0x%"PRIx64" index=0x%x, pteaddr=0x%"PRIx64", pte=0x%"PRIx64
+>  smmu_iotlb_inv_all(void) "IOTLB invalidate all"
+>  smmu_iotlb_inv_asid(uint16_t asid) "IOTLB invalidate asid=%d"
+> +smmu_iotlb_inv_vmid(uint16_t vmid) "IOTLB invalidate vmid=%d"
+>  smmu_iotlb_inv_iova(uint16_t asid, uint64_t addr) "IOTLB invalidate asid=%d addr=0x%"PRIx64
+>  smmu_inv_notifiers_mr(const char *name) "iommu mr=%s"
+>  smmu_iotlb_lookup_hit(uint16_t asid, uint16_t vmid, uint64_t addr, uint32_t hit, uint32_t miss, uint32_t p) "IOTLB cache HIT asid=%d vmid=%d addr=0x%"PRIx64" hit=%d miss=%d hit rate=%d"
+> @@ -45,9 +46,10 @@ smmuv3_cmdq_cfgi_ste_range(int start, int end) "start=0x%x - end=0x%x"
+>  smmuv3_cmdq_cfgi_cd(uint32_t sid) "sid=0x%x"
+>  smmuv3_config_cache_hit(uint32_t sid, uint32_t hits, uint32_t misses, uint32_t perc) "Config cache HIT for sid=0x%x (hits=%d, misses=%d, hit rate=%d)"
+>  smmuv3_config_cache_miss(uint32_t sid, uint32_t hits, uint32_t misses, uint32_t perc) "Config cache MISS for sid=0x%x (hits=%d, misses=%d, hit rate=%d)"
+> -smmuv3_s1_range_inval(int vmid, int asid, uint64_t addr, uint8_t tg, uint64_t num_pages, uint8_t ttl, bool leaf) "vmid=%d asid=%d addr=0x%"PRIx64" tg=%d num_pages=0x%"PRIx64" ttl=%d leaf=%d"
+> +smmuv3_range_inval(int vmid, int asid, uint64_t addr, uint8_t tg, uint64_t num_pages, uint8_t ttl, bool leaf) "vmid=%d asid=%d addr=0x%"PRIx64" tg=%d num_pages=0x%"PRIx64" ttl=%d leaf=%d"
+>  smmuv3_cmdq_tlbi_nh(void) ""
+>  smmuv3_cmdq_tlbi_nh_asid(uint16_t asid) "asid=%d"
+> +smmuv3_cmdq_tlbi_s12_vmid(uint16_t vmid) "vmid=%d"
+>  smmuv3_config_cache_inv(uint32_t sid) "Config cache INV for sid=0x%x"
+>  smmuv3_notify_flag_add(const char *iommu) "ADD SMMUNotifier node for iommu mr=%s"
+>  smmuv3_notify_flag_del(const char *iommu) "DEL SMMUNotifier node for iommu mr=%s"
+> diff --git a/include/hw/arm/smmu-common.h b/include/hw/arm/smmu-common.h
+> index 3cbb4998ad..fd8d772da1 100644
+> --- a/include/hw/arm/smmu-common.h
+> +++ b/include/hw/arm/smmu-common.h
+> @@ -193,6 +193,7 @@ SMMUIOTLBKey smmu_get_iotlb_key(uint16_t asid, uint16_t vmid, uint64_t iova,
+>                                  uint8_t tg, uint8_t level);
+>  void smmu_iotlb_inv_all(SMMUState *s);
+>  void smmu_iotlb_inv_asid(SMMUState *s, uint16_t asid);
+> +void smmu_iotlb_inv_vmid(SMMUState *s, uint16_t vmid);
+>  void smmu_iotlb_inv_iova(SMMUState *s, int asid, int vmid, dma_addr_t iova,
+>                           uint8_t tg, uint64_t num_pages, uint8_t ttl);
 >  
 
 
