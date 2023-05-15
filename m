@@ -2,66 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E722A702E0B
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 May 2023 15:26:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 41175702E1A
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 May 2023 15:29:30 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pyYDE-0001t0-Un; Mon, 15 May 2023 09:26:07 -0400
+	id 1pyYFw-0004du-G4; Mon, 15 May 2023 09:28:52 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1pyYCu-0001ke-8L
- for qemu-devel@nongnu.org; Mon, 15 May 2023 09:25:45 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1pyYFn-0004dU-Mq; Mon, 15 May 2023 09:28:43 -0400
+Received: from 3.mo548.mail-out.ovh.net ([188.165.32.156])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1pyYCs-00064c-R9
- for qemu-devel@nongnu.org; Mon, 15 May 2023 09:25:44 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1684157142;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=S9o0QNevMqpddJMHQq11zj9p18/ClEXY/7rpkbkNk9w=;
- b=JDau+jaBdX14LcL8d98AosJnea8XSRhcTxaQYr6XBH52nutf3Z+21mvg7oSPu4VLD36GMm
- BjZJMeiTkYm+GSsY+92IH9NZNaAnUbr5wQ2hA6dCTfJDB8Dr48gyOIRVfIOvexYMjAe2nx
- T8ybhQayYuGqLNkwsTZgTcEj5AVFCoA=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-78-foTUavDfPgaeH9kcUqgFiw-1; Mon, 15 May 2023 09:25:40 -0400
-X-MC-Unique: foTUavDfPgaeH9kcUqgFiw-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9070E3823A02
- for <qemu-devel@nongnu.org>; Mon, 15 May 2023 13:25:40 +0000 (UTC)
-Received: from localhost (unknown [10.39.208.28])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A068140C6EC4;
- Mon, 15 May 2023 13:25:39 +0000 (UTC)
-From: marcandre.lureau@redhat.com
-To: qemu-devel@nongnu.org
-Cc: kraxel@redhat.com,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
-Subject: [PATCH] ui/dbus: add a FIXME about texture/dmabuf scanout handling
-Date: Mon, 15 May 2023 17:25:36 +0400
-Message-Id: <20230515132537.1026310-1-marcandre.lureau@redhat.com>
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1pyYFl-0006fO-KM; Mon, 15 May 2023 09:28:43 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.109.143.188])
+ by mo548.mail-out.ovh.net (Postfix) with ESMTPS id 2F46120F02;
+ Mon, 15 May 2023 13:28:38 +0000 (UTC)
+Received: from kaod.org (37.59.142.107) by DAG4EX2.mxp5.local (172.16.2.32)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.23; Mon, 15 May
+ 2023 15:28:36 +0200
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-107S001502c21d8-a6b6-4c84-b75a-d470bc9853d5,
+ C2820DDF228AE5DDDBFD944B87CC7F3B41DD1A91) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <eda6df92-f363-ef12-3f70-e07b26ed0512@kaod.org>
+Date: Mon, 15 May 2023 15:28:35 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH 10/21] migration: Move rate_limit_max and rate_limit_used
+ to migration_stats
+Content-Language: en-US
+To: <quintela@redhat.com>
+CC: <qemu-devel@nongnu.org>, Daniel Henrique Barboza <danielhb413@gmail.com>, 
+ Christian Borntraeger <borntraeger@linux.ibm.com>, David Hildenbrand
+ <david@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ <qemu-block@nongnu.org>, Eric Blake <eblake@redhat.com>, Vladimir
+ Sementsov-Ogievskiy <vsementsov@yandex-team.ru>, John Snow
+ <jsnow@redhat.com>, Halil Pasic <pasic@linux.ibm.com>, Peter Xu
+ <peterx@redhat.com>, Richard Henderson <richard.henderson@linaro.org>, David
+ Gibson <david@gibson.dropbear.id.au>, Harsh Prateek Bora
+ <harshpb@linux.ibm.com>, Eric Farman <farman@linux.ibm.com>, Greg Kurz
+ <groug@kaod.org>, <qemu-ppc@nongnu.org>, <qemu-s390x@nongnu.org>, Fam Zheng
+ <fam@euphon.net>, Thomas Huth <thuth@redhat.com>, Leonardo Bras
+ <leobras@redhat.com>, Ilya Leoshkevich <iii@linux.ibm.com>
+References: <20230508130909.65420-1-quintela@redhat.com>
+ <20230508130909.65420-11-quintela@redhat.com>
+ <4a7fcac1-a8f1-44d2-1a5a-284a80486633@kaod.org>
+ <87h6sdzqoo.fsf@secure.mitica>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <87h6sdzqoo.fsf@secure.mitica>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
-Received-SPF: pass client-ip=170.10.133.124;
- envelope-from=marcandre.lureau@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Originating-IP: [37.59.142.107]
+X-ClientProxiedBy: DAG5EX2.mxp5.local (172.16.2.42) To DAG4EX2.mxp5.local
+ (172.16.2.32)
+X-Ovh-Tracer-GUID: 5bdb8741-c003-4b25-898a-cbfec2e337b6
+X-Ovh-Tracer-Id: 3712654946403715993
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvhedrfeehjedgieehucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtucfnvgcuifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeffudefleeiudejfeffhfejffeigffhhffhvdekieejheelvdeufffhjedtheeggeenucfkphepuddvjedrtddrtddruddpfeejrdehledrudegvddruddtjedpkedvrdeigedrvdehtddrudejtdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeduvdejrddtrddtrddupdhmrghilhhfrhhomhepoegtlhhgsehkrghougdrohhrgheqpdhnsggprhgtphhtthhopedupdhrtghpthhtohepqhhuihhnthgvlhgrsehrvgguhhgrthdrtghomhdpthhhuhhthhesrhgvughhrghtrdgtohhmpdhfrghmsegvuhhphhhonhdrnhgvthdpqhgvmhhuqdhsfeeltdigsehnohhnghhnuhdrohhrghdpqhgvmhhuqdhpphgtsehnohhnghhnuhdrohhrghdpfhgrrhhmrghnsehlihhnuhigrdhisghmrdgtohhmpdhhrghrshhhphgssehlihhnuhigrdhisghmrdgtohhmpdgurghvihgusehgihgsshhonhdrughrohhpsggvrghrrdhiugdrrghupdhrih
+ gthhgrrhgurdhhvghnuggvrhhsohhnsehlihhnrghrohdrohhrghdplhgvohgsrhgrshesrhgvughhrghtrdgtohhmpdhpvghtvghrgiesrhgvughhrghtrdgtohhmpdhjshhnohifsehrvgguhhgrthdrtghomhdpvhhsvghmvghnthhsohhvseihrghnuggvgidqthgvrghmrdhruhdpvggslhgrkhgvsehrvgguhhgrthdrtghomhdpqhgvmhhuqdgslhhotghksehnohhnghhnuhdrohhrghdpshhtvghfrghnhhgrsehrvgguhhgrthdrtghomhdpuggrvhhiugesrhgvughhrghtrdgtohhmpdgsohhrnhhtrhgrvghgvghrsehlihhnuhigrdhisghmrdgtohhmpdgurghnihgvlhhhsgegudefsehgmhgrihhlrdgtohhmpdhqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhgpdhprghsihgtsehlihhnuhigrdhisghmrdgtohhmpdhiihhisehlihhnuhigrdhisghmrdgtohhmpdhgrhhouhhgsehkrghougdrohhrghdpoffvtefjohhsthepmhhoheegkedpmhhouggvpehsmhhtphhouhht
+Received-SPF: pass client-ip=188.165.32.156; envelope-from=clg@kaod.org;
+ helo=3.mo548.mail-out.ovh.net
+X-Spam_score_int: -50
+X-Spam_score: -5.1
+X-Spam_bar: -----
+X-Spam_report: (-5.1 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-3.811,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01,
+ URG_BIZ=0.573 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -77,41 +89,76 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Marc-André Lureau <marcandre.lureau@redhat.com>
+On 5/15/23 15:09, Juan Quintela wrote:
+> Cédric Le Goater <clg@kaod.org> wrote:
+>> On 5/8/23 15:08, Juan Quintela wrote:
+>>> This way we can make them atomic and use this functions from any
+>>> place.  I also moved all functions that use rate_limit to
+>>> migration-stats.
+>>> Functions got renamed, they are not qemu_file anymore.
+>>> qemu_file_rate_limit -> migration_rate_limit_exceeded
+>>> qemu_file_set_rate_limit -> migration_rate_limit_set
+>>> qemu_file_get_rate_limit -> migration_rate_limit_get
+>>> qemu_file_reset_rate_limit -> migration_rate_limit_reset
+>>> qemu_file_acct_rate_limit -> migration_rate_limit_account.
+>>> Signed-off-by: Juan Quintela <quintela@redhat.com>
+>>> ---
+>>> If you have any good suggestion for better names, I am all ears.
+>>
+>> May be :
+>>
+>>   qemu_file_rate_limit -> migration_rate_limit_is_exceeded
+> 
+> I try not to put _is_ in function names.  If it needs to be there, I
+> think that I need to rename the functino.
 
-Except SDL, display backends seem to fail at handing full scanout
-geometry correctly. It would need some test/reproducer to actually check
-it. In the meantime, fill some missing fields, and leave a FIXME.
+It is common practice for functions doing a simple test and returning a bool.
+No big deal anyway.
+  
+> migration_rate_limit_exceeded()
+> 
+> seems clear to me.
+> 
+>>   qemu_file_acct_rate_limit -> migration_rate_limit_inc
+> 
+> My problem for this one is that we are not increasing the rate_limit, we
+> are "decreasing" the amount of data we have for this period.  That is
+> why I thought about _account(), but who knows.
+> 
+> 
+>> Also, migration_rate_limit() would need some prefix to understand what is
+>> its purpose.
+> 
+> What do you mean here?
 
-Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
----
- ui/dbus-listener.c | 5 +++++
- 1 file changed, 5 insertions(+)
+I am referring to :
 
-diff --git a/ui/dbus-listener.c b/ui/dbus-listener.c
-index defe2220c0..23034eebf9 100644
---- a/ui/dbus-listener.c
-+++ b/ui/dbus-listener.c
-@@ -102,6 +102,7 @@ static void dbus_scanout_dmabuf(DisplayChangeListener *dcl,
-         return;
-     }
- 
-+    /* FIXME: add missing x/y/w/h support */
-     qemu_dbus_display1_listener_call_scanout_dmabuf(
-         ddl->proxy,
-         g_variant_new_handle(0),
-@@ -129,6 +130,10 @@ static void dbus_scanout_texture(DisplayChangeListener *dcl,
-         .width = backing_width,
-         .height = backing_height,
-         .y0_top = backing_y_0_top,
-+        .x = x,
-+        .y = y,
-+        .scanout_width = w,
-+        .scanout_height = h,
-     };
- 
-     assert(tex_id);
--- 
-2.40.1
+   /* Returns true if the rate limiting was broken by an urgent request */
+   bool migration_rate_limit(void)
+   {
+       ...
+       return urgent;
+   }
+
+which existed prior to the name changes and I thought migration_rate_limit()
+would suffer the same fate. May be keep the '_limit' suffix for this one if
+you remove it for the others ?
+
+Thanks,
+
+C.
+
+
+> This is the only rate_limit that I can think in migration.
+> 
+>> Do we really need "_limit" in the names ?
+> 
+> You have a point here.
+> 
+> If nobody complains/suggest anything else, I will drop the _limit for
+> the next submission.
+> 
+> Thanks very much.
+> 
 
 
