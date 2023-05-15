@@ -2,61 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2472D702548
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 May 2023 08:49:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3449E70256A
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 May 2023 08:53:02 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pyS0K-0007NC-6d; Mon, 15 May 2023 02:48:20 -0400
+	id 1pyS4S-0008RI-2g; Mon, 15 May 2023 02:52:36 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mads@ynddal.dk>) id 1pyS0D-0007N2-Rn
- for qemu-devel@nongnu.org; Mon, 15 May 2023 02:48:13 -0400
-Received: from pv50p00im-ztbu10021601.me.com ([17.58.6.57])
+ (Exim 4.90_1) (envelope-from <mads@ynddal.dk>) id 1pyS4P-0008Pc-Jq
+ for qemu-devel@nongnu.org; Mon, 15 May 2023 02:52:33 -0400
+Received: from pv50p00im-tydg10011801.me.com ([17.58.6.52])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mads@ynddal.dk>) id 1pyS0A-0005yO-9t
- for qemu-devel@nongnu.org; Mon, 15 May 2023 02:48:13 -0400
+ (Exim 4.90_1) (envelope-from <mads@ynddal.dk>) id 1pyS4O-0006Y0-2n
+ for qemu-devel@nongnu.org; Mon, 15 May 2023 02:52:33 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ynddal.dk; s=sig1;
- t=1684133283; bh=I0iqNvkDgxXG/4g3LDKW0wDuvDMcin962Kxjpn4BSCQ=;
+ t=1684133548; bh=2pUsLdnzV/nrYVHfcQRA0LWNux6a0mtOR49RSCkzBzI=;
  h=Content-Type:Mime-Version:Subject:From:Date:Message-Id:To;
- b=F0k+nkzu1WbNl6hyD5vVSjQAUNwkYvDKrVowzp6ZtZWEoLneFx4j06rUnt/k+80li
- 9lUrA7I6zV1q/Oql7yF1bKT2SRVlyuLjRIGuaufTTcYTgGk2ygGDuY5wdO7r4fpvxj
- lZM7ydjCe1uKTrvVJMHZbiJx17KRfTV+E15RY9PFwmQU0t11cqgxpqZCkUwWamQV1r
- 0lRZ3qU2HYOg70418b+koBZ4T0tSatsVFrEOSrNa2Ko13R3max3evkC0ze32ISMVZb
- sS0V27OKlg1ipM2E06Zk1gTzMN2TnFMY2tA4T7BEHouHAtIJOPDuH6MZv8CbbDUwB3
- SjJoX/ATJTWqA==
+ b=QlTKeUp2E8FLfJda7oui48uN+nGe5eXb1/+A+aNXOSOV5CmVWE5ykrOAo6MjMVg8n
+ WNIlazKZ2Ie2Hmk8UmnlbAIfOJE7KCiihSP7RIaRWtLGzW2crz2LtjtMSkeWbvr4GA
+ N4GAoeyeB3UcfR9uI7WTc/4dL+aqv9UbfUZF7KosgItU45B3BFGkSfHKTRrWbHXbhW
+ 8M3xB7sw2yVTqXEFfi9uNGLV6QnTt7Hko58L0bd4u4krcQAjNR3RyPy6lolsEJhoEh
+ 2Aimp7WCrprAiWcu1Vp/8FCsjc9vFwdaWeklSDHCLgz6hbB+Yq0oQPvueM//MN5WHl
+ bDn+WhU4tuGbA==
 Received: from smtpclient.apple (pv50p00im-dlb-asmtp-mailmevip.me.com
  [17.56.9.10])
- by pv50p00im-ztbu10021601.me.com (Postfix) with ESMTPSA id 074388038A;
- Mon, 15 May 2023 06:48:01 +0000 (UTC)
+ by pv50p00im-tydg10011801.me.com (Postfix) with ESMTPSA id 26C42800796;
+ Mon, 15 May 2023 06:52:26 +0000 (UTC)
 Content-Type: text/plain;
 	charset=us-ascii
 Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3731.400.51.1.1\))
-Subject: Re: [PATCH v2 04/12] simpletrace: update code for Python 3.11
+Subject: Re: [PATCH v2 02/12] simpletrace: Annotate magic constants from QEMU
+ code
 From: Mads Ynddal <mads@ynddal.dk>
-In-Reply-To: <20230509143849.GG1008478@fedora>
-Date: Mon, 15 May 2023 08:47:49 +0200
+In-Reply-To: <20230509143454.GE1008478@fedora>
+Date: Mon, 15 May 2023 08:51:55 +0200
 Cc: qemu-devel@nongnu.org, Cleber Rosa <crosa@redhat.com>,
  John Snow <jsnow@redhat.com>
 Content-Transfer-Encoding: 7bit
-Message-Id: <5C9DE1B6-5C37-4974-AE74-EB47E841A6DA@ynddal.dk>
+Message-Id: <AEB2BC52-A085-4D37-AAE0-033556C3964F@ynddal.dk>
 References: <20230502092339.27341-1-mads@ynddal.dk>
- <20230502092339.27341-5-mads@ynddal.dk> <20230509143849.GG1008478@fedora>
+ <20230502092339.27341-3-mads@ynddal.dk> <20230509143454.GE1008478@fedora>
 To: Stefan Hajnoczi <stefanha@redhat.com>
 X-Mailer: Apple Mail (2.3731.400.51.1.1)
-X-Proofpoint-GUID: 5xNIHmlJFZgnnwKpRm5Koea0pb61q6fU
-X-Proofpoint-ORIG-GUID: 5xNIHmlJFZgnnwKpRm5Koea0pb61q6fU
+X-Proofpoint-GUID: 4hxrcEb7SRf4YIbzElzbg3fZ01yPGOGh
+X-Proofpoint-ORIG-GUID: 4hxrcEb7SRf4YIbzElzbg3fZ01yPGOGh
 X-Proofpoint-Virus-Version: =?UTF-8?Q?vendor=3Dfsecure_engine=3D1.1.170-22c6f66c430a71ce266a39bfe25bc?=
- =?UTF-8?Q?2903e8d5c8f:6.0.517,18.0.883,17.11.64.514.0000000_definitions?=
- =?UTF-8?Q?=3D2022-06-21=5F08:2022-06-21=5F01,2022-06-21=5F08,2022-02-23?=
- =?UTF-8?Q?=5F01_signatures=3D0?=
+ =?UTF-8?Q?2903e8d5c8f:6.0.517,18.0.883,17.0.605.474.0000000_definitions?=
+ =?UTF-8?Q?=3D2022-06-21=5F08:2022-06-21=5F01,2022-06-21=5F08,2020-01-23?=
+ =?UTF-8?Q?=5F02_signatures=3D0?=
 X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0
- adultscore=0 clxscore=1030
- mlxscore=0 malwarescore=0 spamscore=0 suspectscore=0 phishscore=0
- mlxlogscore=699 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2212070000 definitions=main-2305150060
-Received-SPF: pass client-ip=17.58.6.57; envelope-from=mads@ynddal.dk;
- helo=pv50p00im-ztbu10021601.me.com
+ spamscore=0 mlxscore=0
+ adultscore=0 suspectscore=0 clxscore=1030 malwarescore=0 mlxlogscore=713
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2212070000 definitions=main-2305150061
+Received-SPF: pass client-ip=17.58.6.52; envelope-from=mads@ynddal.dk;
+ helo=pv50p00im-tydg10011801.me.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
@@ -79,22 +80,26 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+> 
+> From my reply to v1 of this patch series:
+> 
+> This is fragile since this information will be outdated if the C source
+> code changes (e.g. renaming files or variables).
+> 
+> Instead I would add the following comment:
+> 
+>  # This is the binary format that the QEMU "simple" trace backend
+>  # emits. There is no specification documentation because the format is
+>  # not guaranteed to be stable. Trace files must be parsed with the
+>  # same trace-events-all file and the same simpletrace.py file that
+>  # QEMU was built with.
+> 
+> I hope that clarifies the scope of the binary format and someone wishing
+> to look into the format would then know to look at the "simple" trace
+> backend.
+> 
+> Stefan
 
-> On 9 May 2023, at 16.38, Stefan Hajnoczi <stefanha@redhat.com> wrote:
-> 
-> On Tue, May 02, 2023 at 11:23:31AM +0200, Mads Ynddal wrote:
->> From: Mads Ynddal <m.ynddal@samsung.com>
->> 
->> The call to `getargspec` was deprecated and in Python 3.11 it has been
->> removed in favor of `getfullargspec`.
-> 
-> Please add that getfullargspec() is available in Python 3.6, the minimum
-> Python version required by QEMU.
-> 
-> That makes it clear that its safe to merge this patch.
-> 
-> Otherwise:
-> Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 
-I'll get this added.
+I must have missed that. I'll add this too.
 
