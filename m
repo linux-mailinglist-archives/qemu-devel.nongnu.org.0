@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC04170287E
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 May 2023 11:28:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C346F70287A
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 May 2023 11:28:04 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pyUUJ-0004c9-Vf; Mon, 15 May 2023 05:27:27 -0400
+	id 1pyUUM-0004dV-P3; Mon, 15 May 2023 05:27:31 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <npiggin@gmail.com>)
- id 1pyUUD-0004Yg-D6; Mon, 15 May 2023 05:27:21 -0400
-Received: from mail-pf1-x429.google.com ([2607:f8b0:4864:20::429])
+ id 1pyUUG-0004bN-JB; Mon, 15 May 2023 05:27:24 -0400
+Received: from mail-pf1-x430.google.com ([2607:f8b0:4864:20::430])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <npiggin@gmail.com>)
- id 1pyUUB-0002sy-IW; Mon, 15 May 2023 05:27:21 -0400
-Received: by mail-pf1-x429.google.com with SMTP id
- d2e1a72fcca58-643995a47f7so13012570b3a.1; 
- Mon, 15 May 2023 02:27:18 -0700 (PDT)
+ id 1pyUUF-0002tq-3U; Mon, 15 May 2023 05:27:24 -0400
+Received: by mail-pf1-x430.google.com with SMTP id
+ d2e1a72fcca58-6434e263962so9179158b3a.2; 
+ Mon, 15 May 2023 02:27:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1684142837; x=1686734837;
+ d=gmail.com; s=20221208; t=1684142841; x=1686734841;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=B1gtYriqMp6KeH+Cm1mqAljc/h3SB/6QVeC+84ggT8g=;
- b=VCZIv8a8d5oDHc/pQzaVy9qqRVxwGI6qTWRHd6uKSpWkzcEjlVyVZjB+cxLWw/ZZld
- vRuS1bN8aP/mTpHd1NYbmKYzg6K1MClQ5hjK9mlxzhnNZY9jIQ7qsGW2cW2YbETtqxgV
- WrzNFA58eegN/Y4lvKqP95/VawiQ++kLWkplF/SusQT79yUsU4nrLEGNJ4n8Vx/M4fmK
- D7QgF0Fxz7B9GvECO6ojgUShqk9omIRA0TOKUPgP6d0NXeQDRllZT42Iphgzh4c7+mA4
- kyl+8muN0Qm2+cPGLWypi5MxV1Rc43cjuK0HlYwKLTMP1NjVMs/n039/NYTUxFTaFE7X
- +KhA==
+ bh=NzoCdEXbfhZ/bRqBlmISivmhbZ7+0QvG20U3xWbXUGU=;
+ b=fHXVS3KPfkp/DgmTuGThMXgwZpMS6Qw/wuVb017kQMOo0Vk9zXgProva58dS1IrD+I
+ ZD3GbVQWwNExXI478qx+793uVAkzNlta4n2B1x+FXRbROkJnSY91ON6xb3nmfSwHUP0i
+ urbki+a2Db6meWsfTHLAY+SlxRe6QWIBjkyFNwc/tlqsj/ZehgLRXGF3PkN4XGYv/Lzs
+ TuaL2sObDSoHghNTHzd4KfGR2S9kgoRb3Oet6pOL16wmEGdUt9P+5ZdDmSu2v//X+Uuh
+ QyHJB9vNTp3b6nRN8Rmu/yfl69L/VpexQDc9oi0HNjuW47XRaQNIJmFvNHA5XuDp1ipk
+ Yzag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1684142837; x=1686734837;
+ d=1e100.net; s=20221208; t=1684142841; x=1686734841;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=B1gtYriqMp6KeH+Cm1mqAljc/h3SB/6QVeC+84ggT8g=;
- b=lqGh36CLqaxnPC3Ty/gK2pmDxwwHaVFHV9kCJlIUVTwp27EXacyQS5zhmYUrXFtXgo
- Vbg0ETpmMJMA4j+y5Tcvg1z2oVlkWGxNA0DL1IwE2GppECG99I7hToMgwQyT7bnn/2DM
- MzKcmRqvl3qgtDP3c5SjHenXUYv46W02BZR21l1Fe56u2+2hkT2PFKY4zRpIV8c7eza/
- 8XqFrmoe2H6bZV4uGtUsgJzKRwXZZidUVWG29tC492VgH8CljgjtPfv0ulQ1HE6Ft+pm
- My7Y+WhtRNNasLSv25iNmMiuuZ9+j9WDiKFx8vIL1BXmdWMX4/PAt4Ufe0inL3QhYFp/
- 46lw==
-X-Gm-Message-State: AC+VfDxEb7auPC2vlGNWzKSKrTkfSpse/E+uM9t+2Tr5Ut17Z9jXOIQT
- 0gVk+pLE11gdA6hFMNiART3sWXdmJD4=
-X-Google-Smtp-Source: ACHHUZ50E/O+e5Fjwk64EGHCz+vWtqcuJ+qZNYbdzdHyHcTsmHl623fqsq6Hg7DlNiho63gun07Esg==
-X-Received: by 2002:a05:6a00:a15:b0:647:5409:5d0b with SMTP id
- p21-20020a056a000a1500b0064754095d0bmr32060903pfh.19.1684142837428; 
- Mon, 15 May 2023 02:27:17 -0700 (PDT)
+ bh=NzoCdEXbfhZ/bRqBlmISivmhbZ7+0QvG20U3xWbXUGU=;
+ b=fAVak6Dz//mG8gG0t8QGBXgyiEiHlMd1Iq3T08ULNLC7YULOlWg3fJG/CqMJKtv8r8
+ B61jhzZjbsrLD3FwiQ3fFehFN+4BJoBsq4CAAxcHp1SmGSSsiNimoITAQw/Wgdcxb30I
+ 5y9ktQpVF/AywUMPfESfWJRD7fipSyERl+J/466/otzFGfrEHPmv5f+1awdBXHyQcbM1
+ MJgdYq2c23+pURGByK3R7FUPQDsoP0yLDNEdE0C3DwMCPyxV9W1eMwpfjDXmoBQGej8h
+ F/JnjaWTcDaSMl9CWDawPmQ7bH/oW1vPn1T1EOASKfHNnsldTAOnKq3O5m4iZQedxYtw
+ 0ycw==
+X-Gm-Message-State: AC+VfDw9RRTXQITmom4KIIY/W0ED9nB8vbMn9nVBYroGwy1gKGogcADY
+ bVyjX9pgBLopWNXm/wv1isd/fdsMP0o=
+X-Google-Smtp-Source: ACHHUZ4O3yjpN7I5X9syu4UneYI9JFgcH2Oe0JUGq8U44Erpizq/4sO7q+0ry0jSj/6X5UWQ5Rk1hA==
+X-Received: by 2002:a05:6a00:2d0e:b0:641:699:f353 with SMTP id
+ fa14-20020a056a002d0e00b006410699f353mr45612894pfb.22.1684142840898; 
+ Mon, 15 May 2023 02:27:20 -0700 (PDT)
 Received: from wheely.local0.net ([202.168.30.146])
  by smtp.gmail.com with ESMTPSA id
- n20-20020aa79054000000b006466f0be263sm11387818pfo.73.2023.05.15.02.27.14
+ n20-20020aa79054000000b006466f0be263sm11387818pfo.73.2023.05.15.02.27.17
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 15 May 2023 02:27:17 -0700 (PDT)
+ Mon, 15 May 2023 02:27:20 -0700 (PDT)
 From: Nicholas Piggin <npiggin@gmail.com>
 To: qemu-ppc@nongnu.org
 Cc: Nicholas Piggin <npiggin@gmail.com>, qemu-devel@nongnu.org,
  Daniel Henrique Barboza <dbarboza@ventanamicro.com>,
  Fabiano Rosas <farosas@suse.de>
-Subject: [PATCH v3 3/9] target/ppc: Fix instruction loading endianness in
- alignment interrupt
-Date: Mon, 15 May 2023 19:26:49 +1000
-Message-Id: <20230515092655.171206-4-npiggin@gmail.com>
+Subject: [PATCH v3 4/9] target/ppc: Alignment faults do not set DSISR in ISA
+ v3.0 onward
+Date: Mon, 15 May 2023 19:26:50 +1000
+Message-Id: <20230515092655.171206-5-npiggin@gmail.com>
 X-Mailer: git-send-email 2.40.1
 In-Reply-To: <20230515092655.171206-1-npiggin@gmail.com>
 References: <20230515092655.171206-1-npiggin@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::429;
- envelope-from=npiggin@gmail.com; helo=mail-pf1-x429.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::430;
+ envelope-from=npiggin@gmail.com; helo=mail-pf1-x430.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -92,56 +92,50 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-powerpc ifetch endianness depends on MSR[LE] so it has to byteswap
-after cpu_ldl_code(). This corrects DSISR bits in alignment
-interrupts when running in little endian mode.
+This optional behavior was removed from the ISA in v3.0, see
+Summary of Changes preface:
+
+  Data Storage Interrupt Status Register for Alignment Interrupt:
+  Simplifies the Alignment interrupt by remov- ing the Data Storage
+  Interrupt Status Register (DSISR) from the set of registers modified
+  by the Alignment interrupt.
 
 Reviewed-by: Fabiano Rosas <farosas@suse.de>
 Signed-off-by: Nicholas Piggin <npiggin@gmail.com>
 ---
 Since v2: no change.
 
- target/ppc/excp_helper.c | 20 +++++++++++++++++++-
- 1 file changed, 19 insertions(+), 1 deletion(-)
+ target/ppc/excp_helper.c | 17 ++++++++++-------
+ 1 file changed, 10 insertions(+), 7 deletions(-)
 
 diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
-index 199328f4b6..bc2be4a726 100644
+index bc2be4a726..453750a9d6 100644
 --- a/target/ppc/excp_helper.c
 +++ b/target/ppc/excp_helper.c
-@@ -133,6 +133,24 @@ static void dump_hcall(CPUPPCState *env)
-                   env->nip);
- }
- 
-+/* Return true iff byteswap is needed in a scalar memop */
-+static inline bool need_byteswap(CPUArchState *env)
-+{
-+    /* SOFTMMU builds TARGET_BIG_ENDIAN. Need to swap when MSR[LE] is set */
-+    return !!(env->msr & ((target_ulong)1 << MSR_LE));
-+}
-+
-+static uint32_t ppc_ldl_code(CPUArchState *env, abi_ptr addr)
-+{
-+    uint32_t insn = cpu_ldl_code(env, addr);
-+
-+    if (need_byteswap(env)) {
-+        insn = bswap32(insn);
-+    }
-+
-+    return insn;
-+}
-+
- static void ppc_excp_debug_sw_tlb(CPUPPCState *env, int excp)
- {
-     const char *es;
-@@ -3097,7 +3115,7 @@ void ppc_cpu_do_unaligned_access(CPUState *cs, vaddr vaddr,
- 
-     /* Restore state and reload the insn we executed, for filling in DSISR.  */
-     cpu_restore_state(cs, retaddr);
--    insn = cpu_ldl_code(env, env->nip);
-+    insn = ppc_ldl_code(env, env->nip);
- 
-     switch (env->mmu_model) {
-     case POWERPC_MMU_SOFT_4xx:
+@@ -1449,13 +1449,16 @@ static void powerpc_excp_books(PowerPCCPU *cpu, int excp)
+         break;
+     }
+     case POWERPC_EXCP_ALIGN:     /* Alignment exception                      */
+-        /* Get rS/rD and rA from faulting opcode */
+-        /*
+-         * Note: the opcode fields will not be set properly for a
+-         * direct store load/store, but nobody cares as nobody
+-         * actually uses direct store segments.
+-         */
+-        env->spr[SPR_DSISR] |= (env->error_code & 0x03FF0000) >> 16;
++        /* Optional DSISR update was removed from ISA v3.0 */
++        if (!(env->insns_flags2 & PPC2_ISA300)) {
++            /* Get rS/rD and rA from faulting opcode */
++            /*
++             * Note: the opcode fields will not be set properly for a
++             * direct store load/store, but nobody cares as nobody
++             * actually uses direct store segments.
++             */
++            env->spr[SPR_DSISR] |= (env->error_code & 0x03FF0000) >> 16;
++        }
+         break;
+     case POWERPC_EXCP_PROGRAM:   /* Program exception                        */
+         switch (env->error_code & ~0xF) {
 -- 
 2.40.1
 
