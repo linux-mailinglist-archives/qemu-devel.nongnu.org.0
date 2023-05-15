@@ -2,39 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32EE2702DF8
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 May 2023 15:21:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D4678702E8E
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 May 2023 15:41:20 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pyXrn-0004yS-Pj; Mon, 15 May 2023 09:03:56 -0400
+	id 1pyXsX-0008Ld-EC; Mon, 15 May 2023 09:04:41 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1pyXqw-0004Yl-F7
- for qemu-devel@nongnu.org; Mon, 15 May 2023 09:03:03 -0400
-Received: from 3.mo552.mail-out.ovh.net ([178.33.254.192])
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1pyXr5-0004iT-Of; Mon, 15 May 2023 09:03:11 -0400
+Received: from smtpout2.mo529.mail-out.ovh.net ([79.137.123.220])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1pyXqr-00011o-LC
- for qemu-devel@nongnu.org; Mon, 15 May 2023 09:03:00 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.109.138.227])
- by mo552.mail-out.ovh.net (Postfix) with ESMTPS id 05C7D2A6FE;
- Mon, 15 May 2023 13:02:52 +0000 (UTC)
-Received: from kaod.org (37.59.142.109) by DAG4EX2.mxp5.local (172.16.2.32)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1pyXqx-00014L-TB; Mon, 15 May 2023 09:03:07 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.108.4.108])
+ by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 23BD420B93;
+ Mon, 15 May 2023 13:03:00 +0000 (UTC)
+Received: from kaod.org (37.59.142.101) by DAG4EX2.mxp5.local (172.16.2.32)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.23; Mon, 15 May
- 2023 15:02:51 +0200
+ 2023 15:02:58 +0200
 Authentication-Results: garm.ovh; auth=pass
- (GARM-109S0037f908f18-019a-4860-be4f-4c4170bdac6e,
+ (GARM-101G0042bf98b37-5662-4180-b36d-273fe31ae05b,
  C2820DDF228AE5DDDBFD944B87CC7F3B41DD1A91) smtp.auth=clg@kaod.org
 X-OVh-ClientIp: 82.64.250.170
-Message-ID: <67353b14-29c5-6064-2d9a-3e8d99b2ee6e@kaod.org>
-Date: Mon, 15 May 2023 15:02:50 +0200
+Message-ID: <01a6a3c4-ac59-4fe5-4f0e-32ec7787a488@kaod.org>
+Date: Mon, 15 May 2023 15:02:53 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.10.0
 From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-Subject: Re: [PATCH 12/21] migration: Add a trace for
- migration_transferred_bytes
+Subject: Re: [PATCH 13/21] migration: Use migration_transferred_bytes() to
+ calculate rate_limit
 To: Juan Quintela <quintela@redhat.com>, <qemu-devel@nongnu.org>
 CC: Daniel Henrique Barboza <danielhb413@gmail.com>, Christian Borntraeger
  <borntraeger@linux.ibm.com>, David Hildenbrand <david@redhat.com>, Stefan
@@ -49,27 +49,27 @@ CC: Daniel Henrique Barboza <danielhb413@gmail.com>, Christian Borntraeger
  <thuth@redhat.com>, Leonardo Bras <leobras@redhat.com>, Ilya Leoshkevich
  <iii@linux.ibm.com>
 References: <20230508130909.65420-1-quintela@redhat.com>
- <20230508130909.65420-13-quintela@redhat.com>
+ <20230508130909.65420-14-quintela@redhat.com>
 Content-Language: en-US
-In-Reply-To: <20230508130909.65420-13-quintela@redhat.com>
+In-Reply-To: <20230508130909.65420-14-quintela@redhat.com>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.109]
-X-ClientProxiedBy: DAG6EX2.mxp5.local (172.16.2.52) To DAG4EX2.mxp5.local
+X-Originating-IP: [37.59.142.101]
+X-ClientProxiedBy: DAG7EX1.mxp5.local (172.16.2.61) To DAG4EX2.mxp5.local
  (172.16.2.32)
-X-Ovh-Tracer-GUID: 4facc445-1818-4788-a4f1-5adc6ea17444
-X-Ovh-Tracer-Id: 3277494631473712025
+X-Ovh-Tracer-GUID: 180b0d1c-5df3-44af-8b41-7d51f1ab75cb
+X-Ovh-Tracer-Id: 3279464955124616089
 X-VR-SPAMSTATE: OK
 X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvhedrfeehjedgiedtucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfhffuvfevfhgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtucfnvgcuifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeeivefgteeltdefleeiiedutdfhledvhedutdeuteetvdejkeejgeeigfeileffgeenucfkphepuddvjedrtddrtddruddpfeejrdehledrudegvddruddtledpkedvrdeigedrvdehtddrudejtdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeduvdejrddtrddtrddupdhmrghilhhfrhhomhepoegtlhhgsehkrghougdrohhrgheqpdhnsggprhgtphhtthhopedupdhrtghpthhtohepqhhuihhnthgvlhgrsehrvgguhhgrthdrtghomhdpthhhuhhthhesrhgvughhrghtrdgtohhmpdhfrghmsegvuhhphhhonhdrnhgvthdpqhgvmhhuqdhsfeeltdigsehnohhnghhnuhdrohhrghdpqhgvmhhuqdhpphgtsehnohhnghhnuhdrohhrghdpfhgrrhhmrghnsehlihhnuhigrdhisghmrdgtohhmpdhhrghrshhhphgssehlihhnuhigrdhisghmrdgtohhmpdgurghvihgusehgihgsshhonhdrughrohhpsggvrghrrdhiugdrrghupdhrih
- gthhgrrhgurdhhvghnuggvrhhsohhnsehlihhnrghrohdrohhrghdplhgvohgsrhgrshesrhgvughhrghtrdgtohhmpdhpvghtvghrgiesrhgvughhrghtrdgtohhmpdhjshhnohifsehrvgguhhgrthdrtghomhdpvhhsvghmvghnthhsohhvseihrghnuggvgidqthgvrghmrdhruhdpvggslhgrkhgvsehrvgguhhgrthdrtghomhdpqhgvmhhuqdgslhhotghksehnohhnghhnuhdrohhrghdpshhtvghfrghnhhgrsehrvgguhhgrthdrtghomhdpuggrvhhiugesrhgvughhrghtrdgtohhmpdgsohhrnhhtrhgrvghgvghrsehlihhnuhigrdhisghmrdgtohhmpdgurghnihgvlhhhsgegudefsehgmhgrihhlrdgtohhmpdhqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhgpdhprghsihgtsehlihhnuhigrdhisghmrdgtohhmpdhiihhisehlihhnuhigrdhisghmrdgtohhmpdhgrhhouhhgsehkrghougdrohhrghdpoffvtefjohhsthepmhhoheehvddpmhhouggvpehsmhhtphhouhht
-Received-SPF: pass client-ip=178.33.254.192; envelope-from=clg@kaod.org;
- helo=3.mo552.mail-out.ovh.net
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvhedrfeehjedgieduucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfhffuvfevfhgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtucfnvgcuifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeeivefgteeltdefleeiiedutdfhledvhedutdeuteetvdejkeejgeeigfeileffgeenucfkphepuddvjedrtddrtddruddpfeejrdehledrudegvddruddtuddpkedvrdeigedrvdehtddrudejtdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeduvdejrddtrddtrddupdhmrghilhhfrhhomhepoegtlhhgsehkrghougdrohhrgheqpdhnsggprhgtphhtthhopedupdhrtghpthhtohepqhhuihhnthgvlhgrsehrvgguhhgrthdrtghomhdpthhhuhhthhesrhgvughhrghtrdgtohhmpdhfrghmsegvuhhphhhonhdrnhgvthdpqhgvmhhuqdhsfeeltdigsehnohhnghhnuhdrohhrghdpqhgvmhhuqdhpphgtsehnohhnghhnuhdrohhrghdpfhgrrhhmrghnsehlihhnuhigrdhisghmrdgtohhmpdhhrghrshhhphgssehlihhnuhigrdhisghmrdgtohhmpdgurghvihgusehgihgsshhonhdrughrohhpsggvrghrrdhiugdrrghupdhrih
+ gthhgrrhgurdhhvghnuggvrhhsohhnsehlihhnrghrohdrohhrghdplhgvohgsrhgrshesrhgvughhrghtrdgtohhmpdhpvghtvghrgiesrhgvughhrghtrdgtohhmpdhjshhnohifsehrvgguhhgrthdrtghomhdpvhhsvghmvghnthhsohhvseihrghnuggvgidqthgvrghmrdhruhdpvggslhgrkhgvsehrvgguhhgrthdrtghomhdpqhgvmhhuqdgslhhotghksehnohhnghhnuhdrohhrghdpshhtvghfrghnhhgrsehrvgguhhgrthdrtghomhdpuggrvhhiugesrhgvughhrghtrdgtohhmpdgsohhrnhhtrhgrvghgvghrsehlihhnuhigrdhisghmrdgtohhmpdgurghnihgvlhhhsgegudefsehgmhgrihhlrdgtohhmpdhqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhgpdhprghsihgtsehlihhnuhigrdhisghmrdgtohhmpdhiihhisehlihhnuhigrdhisghmrdgtohhmpdhgrhhouhhgsehkrghougdrohhrghdpoffvtefjohhsthepmhhohedvledpmhhouggvpehsmhhtphhouhht
+Received-SPF: pass client-ip=79.137.123.220; envelope-from=clg@kaod.org;
+ helo=smtpout2.mo529.mail-out.ovh.net
 X-Spam_score_int: -56
 X-Spam_score: -5.7
 X-Spam_bar: -----
 X-Spam_report: (-5.7 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-3.811,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -91,53 +91,77 @@ On 5/8/23 15:09, Juan Quintela wrote:
 
 Reviewed-by: Cédric Le Goater <clg@kaod.org>
 
-Thanks,
-
 C.
 
-
 > ---
->   migration/migration-stats.c | 8 ++++++--
->   migration/trace-events      | 3 +++
->   2 files changed, 9 insertions(+), 2 deletions(-)
+>   migration/migration-stats.c | 7 +++++--
+>   migration/migration-stats.h | 6 +++++-
+>   migration/migration.c       | 2 +-
+>   3 files changed, 11 insertions(+), 4 deletions(-)
 > 
 > diff --git a/migration/migration-stats.c b/migration/migration-stats.c
-> index fba66c4577..46b2b0d06e 100644
+> index 46b2b0d06e..eb1a2c1ad4 100644
 > --- a/migration/migration-stats.c
 > +++ b/migration/migration-stats.c
-> @@ -14,6 +14,7 @@
->   #include "qemu/stats64.h"
->   #include "qemu/timer.h"
->   #include "qemu-file.h"
-> +#include "trace.h"
->   #include "migration-stats.h"
+> @@ -31,7 +31,9 @@ bool migration_rate_limit_exceeded(QEMUFile *f)
+>           return true;
+>       }
 >   
->   MigrationAtomicStats mig_stats;
-> @@ -66,6 +67,9 @@ void migration_rate_limit_account(uint64_t len)
+> -    uint64_t rate_limit_used = stat64_get(&mig_stats.rate_limit_used);
+> +    uint64_t rate_limit_start = stat64_get(&mig_stats.rate_limit_start);
+> +    uint64_t rate_limit_current = migration_transferred_bytes(f);
+> +    uint64_t rate_limit_used = rate_limit_current - rate_limit_start;
+>       uint64_t rate_limit_max = stat64_get(&mig_stats.rate_limit_max);
+>       /*
+>        *  rate_limit_max == 0 means no rate_limit enfoncement.
+> @@ -55,9 +57,10 @@ void migration_rate_limit_set(uint64_t limit)
+>       stat64_set(&mig_stats.rate_limit_max, limit);
+>   }
 >   
->   uint64_t migration_transferred_bytes(QEMUFile *f)
+> -void migration_rate_limit_reset(void)
+> +void migration_rate_limit_reset(QEMUFile *f)
 >   {
-> -    return qemu_file_transferred(f) + stat64_get(&mig_stats.multifd_bytes);
-> -}
-> +    uint64_t multifd = stat64_get(&mig_stats.multifd_bytes);
-> +    uint64_t qemu_file = qemu_file_transferred(f);
+>       stat64_set(&mig_stats.rate_limit_used, 0);
+> +    stat64_set(&mig_stats.rate_limit_start, migration_transferred_bytes(f));
+>   }
 >   
-> +    trace_migration_transferred_bytes(qemu_file, multifd);
-> +    return qemu_file + multifd;
-> +}
-> diff --git a/migration/trace-events b/migration/trace-events
-> index 92161eeac5..4b6e802833 100644
-> --- a/migration/trace-events
-> +++ b/migration/trace-events
-> @@ -186,6 +186,9 @@ process_incoming_migration_co_end(int ret, int ps) "ret=%d postcopy-state=%d"
->   process_incoming_migration_co_postcopy_end_main(void) ""
->   postcopy_preempt_enabled(bool value) "%d"
+>   void migration_rate_limit_account(uint64_t len)
+> diff --git a/migration/migration-stats.h b/migration/migration-stats.h
+> index c82fce9608..4029f1deab 100644
+> --- a/migration/migration-stats.h
+> +++ b/migration/migration-stats.h
+> @@ -69,6 +69,10 @@ typedef struct {
+>        * Number of bytes sent during precopy stage.
+>        */
+>       Stat64 precopy_bytes;
+> +    /*
+> +     * Amount of transferred data at the start of current cycle.
+> +     */
+> +    Stat64 rate_limit_start;
+>       /*
+>        * Maximum amount of data we can send in a cycle.
+>        */
+> @@ -126,7 +130,7 @@ uint64_t migration_rate_limit_get(void);
+>    *
+>    * This is called when we know we start a new transfer cycle.
+>    */
+> -void migration_rate_limit_reset(void);
+> +void migration_rate_limit_reset(QEMUFile *f);
 >   
-> +# migration-stats
-> +migration_transferred_bytes(uint64_t qemu_file, uint64_t multifd) "qemu_file %" PRIu64 " multifd %" PRIu64
-> +
->   # channel.c
->   migration_set_incoming_channel(void *ioc, const char *ioctype) "ioc=%p ioctype=%s"
->   migration_set_outgoing_channel(void *ioc, const char *ioctype, const char *hostname, void *err)  "ioc=%p ioctype=%s hostname=%s err=%p"
+>   /**
+>    * migration_rate_limit_set: Set the maximum amount that can be transferred.
+> diff --git a/migration/migration.c b/migration/migration.c
+> index e6d262ffe1..6922c612e4 100644
+> --- a/migration/migration.c
+> +++ b/migration/migration.c
+> @@ -2684,7 +2684,7 @@ static void migration_update_counters(MigrationState *s,
+>               stat64_get(&mig_stats.dirty_bytes_last_sync) / bandwidth;
+>       }
+>   
+> -    migration_rate_limit_reset();
+> +    migration_rate_limit_reset(s->to_dst_file);
+>   
+>       update_iteration_initial_status(s);
+>   
 
 
