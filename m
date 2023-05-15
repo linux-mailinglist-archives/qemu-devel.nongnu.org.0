@@ -2,64 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96678702E34
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 May 2023 15:35:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A8457702E99
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 May 2023 15:44:31 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pyXr6-0004Zi-O7; Mon, 15 May 2023 09:03:12 -0400
+	id 1pyXsW-00083L-0f; Mon, 15 May 2023 09:04:40 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1pyXqi-0004OO-LL
- for qemu-devel@nongnu.org; Mon, 15 May 2023 09:02:48 -0400
-Received: from frasgout.his.huawei.com ([185.176.79.56])
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1pyXr5-0004hy-M4
+ for qemu-devel@nongnu.org; Mon, 15 May 2023 09:03:11 -0400
+Received: from 5.mo548.mail-out.ovh.net ([188.165.49.213])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1pyXqg-0000zM-Si
- for qemu-devel@nongnu.org; Mon, 15 May 2023 09:02:48 -0400
-Received: from lhrpeml500005.china.huawei.com (unknown [172.18.147.226])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4QKfZ40PhTz6J70t;
- Mon, 15 May 2023 20:58:36 +0800 (CST)
-Received: from localhost (10.202.227.76) by lhrpeml500005.china.huawei.com
- (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1pyXqw-00012P-6c
+ for qemu-devel@nongnu.org; Mon, 15 May 2023 09:03:06 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.109.138.132])
+ by mo548.mail-out.ovh.net (Postfix) with ESMTPS id CE9D920DCA;
+ Mon, 15 May 2023 13:02:55 +0000 (UTC)
+Received: from kaod.org (37.59.142.105) by DAG4EX2.mxp5.local (172.16.2.32)
+ with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.23; Mon, 15 May
- 2023 14:02:43 +0100
-Date: Mon, 15 May 2023 14:02:42 +0100
-To: Fan Ni <fan.ni@samsung.com>
-CC: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>,
- "gregory.price@memverge.com" <gregory.price@memverge.com>,
- "hchkuo@avery-design.com.tw" <hchkuo@avery-design.com.tw>,
- "cbrowy@avery-design.com" <cbrowy@avery-design.com>, "ira.weiny@intel.com"
- <ira.weiny@intel.com>, "dan.j.williams@intel.com" <dan.j.williams@intel.com>, 
- Adam Manzanares <a.manzanares@samsung.com>, "dave@stgolabs.net"
- <dave@stgolabs.net>, "nmtadam.samsung@gmail.com" <nmtadam.samsung@gmail.com>, 
- "nifan@outlook.com" <nifan@outlook.com>
-Subject: Re: [RFC 1/7] hw/cxl/cxl-mailbox-utils: Add dc_event_log_size field
- to output payload of identify memory device command
-Message-ID: <20230515140242.00006764@Huawei.com>
-In-Reply-To: <20230511175609.2091136-2-fan.ni@samsung.com>
-References: <20230511175609.2091136-1-fan.ni@samsung.com>
- <CGME20230511175641uscas1p2e2dd6a5b681f73870e33869af0247c06@uscas1p2.samsung.com>
- <20230511175609.2091136-2-fan.ni@samsung.com>
-Organization: Huawei Technologies Research and Development (UK) Ltd.
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-w64-mingw32)
+ 2023 15:02:54 +0200
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-105G006ee9472a0-e754-4c51-b164-33909c634dfa,
+ C2820DDF228AE5DDDBFD944B87CC7F3B41DD1A91) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <12e604ae-e9e2-2564-926d-1a1cbbcf68ce@kaod.org>
+Date: Mon, 15 May 2023 15:02:47 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.202.227.76]
-X-ClientProxiedBy: lhrpeml500004.china.huawei.com (7.191.163.9) To
- lhrpeml500005.china.huawei.com (7.191.163.240)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=185.176.79.56;
- envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+Subject: Re: [PATCH 11/21] migration: Move migration_total_bytes() to
+ migration-stats.c
+To: Juan Quintela <quintela@redhat.com>, <qemu-devel@nongnu.org>
+CC: Daniel Henrique Barboza <danielhb413@gmail.com>, Christian Borntraeger
+ <borntraeger@linux.ibm.com>, David Hildenbrand <david@redhat.com>, Stefan
+ Hajnoczi <stefanha@redhat.com>, <qemu-block@nongnu.org>, Eric Blake
+ <eblake@redhat.com>, Vladimir Sementsov-Ogievskiy
+ <vsementsov@yandex-team.ru>, John Snow <jsnow@redhat.com>, Halil Pasic
+ <pasic@linux.ibm.com>, Peter Xu <peterx@redhat.com>, Richard Henderson
+ <richard.henderson@linaro.org>, David Gibson <david@gibson.dropbear.id.au>,
+ Harsh Prateek Bora <harshpb@linux.ibm.com>, Eric Farman
+ <farman@linux.ibm.com>, Greg Kurz <groug@kaod.org>, <qemu-ppc@nongnu.org>,
+ <qemu-s390x@nongnu.org>, Fam Zheng <fam@euphon.net>, Thomas Huth
+ <thuth@redhat.com>, Leonardo Bras <leobras@redhat.com>, Ilya Leoshkevich
+ <iii@linux.ibm.com>
+References: <20230508130909.65420-1-quintela@redhat.com>
+ <20230508130909.65420-12-quintela@redhat.com>
+Content-Language: en-US
+In-Reply-To: <20230508130909.65420-12-quintela@redhat.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [37.59.142.105]
+X-ClientProxiedBy: DAG7EX2.mxp5.local (172.16.2.62) To DAG4EX2.mxp5.local
+ (172.16.2.32)
+X-Ovh-Tracer-GUID: 878cb9d5-e953-425a-9c54-04f4639b0011
+X-Ovh-Tracer-Id: 3278339055298251673
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvhedrfeehjedgiedtucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfhffuvfevfhgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtucfnvgcuifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeeivefgteeltdefleeiiedutdfhledvhedutdeuteetvdejkeejgeeigfeileffgeenucfkphepuddvjedrtddrtddruddpfeejrdehledrudegvddruddthedpkedvrdeigedrvdehtddrudejtdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeduvdejrddtrddtrddupdhmrghilhhfrhhomhepoegtlhhgsehkrghougdrohhrgheqpdhnsggprhgtphhtthhopedupdhrtghpthhtohepqhhuihhnthgvlhgrsehrvgguhhgrthdrtghomhdpthhhuhhthhesrhgvughhrghtrdgtohhmpdhfrghmsegvuhhphhhonhdrnhgvthdpqhgvmhhuqdhsfeeltdigsehnohhnghhnuhdrohhrghdpqhgvmhhuqdhpphgtsehnohhnghhnuhdrohhrghdpfhgrrhhmrghnsehlihhnuhigrdhisghmrdgtohhmpdhhrghrshhhphgssehlihhnuhigrdhisghmrdgtohhmpdgurghvihgusehgihgsshhonhdrughrohhpsggvrghrrdhiugdrrghupdhrih
+ gthhgrrhgurdhhvghnuggvrhhsohhnsehlihhnrghrohdrohhrghdplhgvohgsrhgrshesrhgvughhrghtrdgtohhmpdhpvghtvghrgiesrhgvughhrghtrdgtohhmpdhjshhnohifsehrvgguhhgrthdrtghomhdpvhhsvghmvghnthhsohhvseihrghnuggvgidqthgvrghmrdhruhdpvggslhgrkhgvsehrvgguhhgrthdrtghomhdpqhgvmhhuqdgslhhotghksehnohhnghhnuhdrohhrghdpshhtvghfrghnhhgrsehrvgguhhgrthdrtghomhdpuggrvhhiugesrhgvughhrghtrdgtohhmpdgsohhrnhhtrhgrvghgvghrsehlihhnuhigrdhisghmrdgtohhmpdgurghnihgvlhhhsgegudefsehgmhgrihhlrdgtohhmpdhqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhgpdhprghsihgtsehlihhnuhigrdhisghmrdgtohhmpdhiihhisehlihhnuhigrdhisghmrdgtohhmpdhgrhhouhhgsehkrghougdrohhrghdpoffvtefjohhsthepmhhoheegkedpmhhouggvpehsmhhtphhouhht
+Received-SPF: pass client-ip=188.165.49.213; envelope-from=clg@kaod.org;
+ helo=5.mo548.mail-out.ovh.net
+X-Spam_score_int: -56
+X-Spam_score: -5.7
+X-Spam_bar: -----
+X-Spam_report: (-5.7 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-3.811,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -72,65 +83,97 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-to:  Jonathan Cameron <Jonathan.Cameron@Huawei.com>
-From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, 11 May 2023 17:56:40 +0000
-Fan Ni <fan.ni@samsung.com> wrote:
-
-> From: Fan Ni <nifan@outlook.com>
+On 5/8/23 15:08, Juan Quintela wrote:
+> Once there rename it to migration_transferred_bytes() and pass a
+> QEMUFile instead of a migration object.
 > 
-> Based on CXL spec 3.0 Table 8-94 (Identify Memory Device Output
-> Payload), dynamic capacity event log size should be part of
-> output of the Identify command.
-> Add dc_event_log_size to the output payload for the host to get the info.
-> 
-> Signed-off-by: Fan Ni <fan.ni@samsung.com>
+> Signed-off-by: Juan Quintela <quintela@redhat.com>
 
-Trivial formatting aside, looks good to me.
+Reviewed-by: Cédric Le Goater <clg@kaod.org>
 
-Jonathan
+C.
 
 
 > ---
->  hw/cxl/cxl-mailbox-utils.c | 6 +++++-
->  1 file changed, 5 insertions(+), 1 deletion(-)
+>   migration/migration-stats.c |  6 ++++++
+>   migration/migration-stats.h |  9 +++++++++
+>   migration/migration.c       | 13 +++----------
+>   3 files changed, 18 insertions(+), 10 deletions(-)
 > 
-> diff --git a/hw/cxl/cxl-mailbox-utils.c b/hw/cxl/cxl-mailbox-utils.c
-> index 9f8e6722d7..7ff4fbdf22 100644
-> --- a/hw/cxl/cxl-mailbox-utils.c
-> +++ b/hw/cxl/cxl-mailbox-utils.c
-> @@ -21,6 +21,8 @@
->  #include "sysemu/hostmem.h"
->  
->  #define CXL_CAPACITY_MULTIPLIER   (256 * MiB)
-> +/* Experimental value: dynamic capacity event log size */
-> +#define CXL_DC_EVENT_LOG_SIZE 8
->  
->  /*
->   * How to add a new command, example. The command set FOO, with cmd BAR.
-> @@ -519,8 +521,9 @@ static CXLRetCode cmd_identify_memory_device(struct cxl_cmd *cmd,
->          uint16_t inject_poison_limit;
->          uint8_t poison_caps;
->          uint8_t qos_telemetry_caps;
-> +		uint16_t dc_event_log_size;
-Qemu uses 4 space indentation not tabs.
-
->      } QEMU_PACKED *id;
-> -    QEMU_BUILD_BUG_ON(sizeof(*id) != 0x43);
-> +    QEMU_BUILD_BUG_ON(sizeof(*id) != 0x45);
->  
->      CXLType3Dev *ct3d = container_of(cxl_dstate, CXLType3Dev, cxl_dstate);
->      CXLType3Class *cvc = CXL_TYPE3_GET_CLASS(ct3d);
-> @@ -543,6 +546,7 @@ static CXLRetCode cmd_identify_memory_device(struct cxl_cmd *cmd,
->      st24_le_p(id->poison_list_max_mer, 256);
->      /* No limit - so limited by main poison record limit */
->      stw_le_p(&id->inject_poison_limit, 0);
-> +	stw_le_p(&id->dc_event_log_size, CXL_DC_EVENT_LOG_SIZE);
->  
->      *len = sizeof(*id);
->      return CXL_MBOX_SUCCESS;
+> diff --git a/migration/migration-stats.c b/migration/migration-stats.c
+> index e01842cabc..fba66c4577 100644
+> --- a/migration/migration-stats.c
+> +++ b/migration/migration-stats.c
+> @@ -63,3 +63,9 @@ void migration_rate_limit_account(uint64_t len)
+>   {
+>       stat64_add(&mig_stats.rate_limit_used, len);
+>   }
+> +
+> +uint64_t migration_transferred_bytes(QEMUFile *f)
+> +{
+> +    return qemu_file_transferred(f) + stat64_get(&mig_stats.multifd_bytes);
+> +}
+> +
+> diff --git a/migration/migration-stats.h b/migration/migration-stats.h
+> index 65f11ec7d1..c82fce9608 100644
+> --- a/migration/migration-stats.h
+> +++ b/migration/migration-stats.h
+> @@ -137,4 +137,13 @@ void migration_rate_limit_reset(void);
+>    */
+>   void migration_rate_limit_set(uint64_t new_rate);
+>   
+> +/**
+> + * migration_transferred_bytes: Return number of bytes transferred
+> + *
+> + * Returtns how many bytes have we transferred since the beginning of
+> + * the migration.  It accounts for bytes sent through any migration
+> + * channel, multifd, qemu_file, rdma, ....
+> + */
+> +uint64_t migration_transferred_bytes(QEMUFile *f);
+> +
+>   #endif
+> diff --git a/migration/migration.c b/migration/migration.c
+> index 370998600e..e6d262ffe1 100644
+> --- a/migration/migration.c
+> +++ b/migration/migration.c
+> @@ -2617,16 +2617,9 @@ static MigThrError migration_detect_error(MigrationState *s)
+>       }
+>   }
+>   
+> -/* How many bytes have we transferred since the beginning of the migration */
+> -static uint64_t migration_total_bytes(MigrationState *s)
+> -{
+> -    return qemu_file_transferred(s->to_dst_file) +
+> -        stat64_get(&mig_stats.multifd_bytes);
+> -}
+> -
+>   static void migration_calculate_complete(MigrationState *s)
+>   {
+> -    uint64_t bytes = migration_total_bytes(s);
+> +    uint64_t bytes = migration_transferred_bytes(s->to_dst_file);
+>       int64_t end_time = qemu_clock_get_ms(QEMU_CLOCK_REALTIME);
+>       int64_t transfer_time;
+>   
+> @@ -2652,7 +2645,7 @@ static void update_iteration_initial_status(MigrationState *s)
+>        * wrong speed calculation.
+>        */
+>       s->iteration_start_time = qemu_clock_get_ms(QEMU_CLOCK_REALTIME);
+> -    s->iteration_initial_bytes = migration_total_bytes(s);
+> +    s->iteration_initial_bytes = migration_transferred_bytes(s->to_dst_file);
+>       s->iteration_initial_pages = ram_get_total_transferred_pages();
+>   }
+>   
+> @@ -2667,7 +2660,7 @@ static void migration_update_counters(MigrationState *s,
+>           return;
+>       }
+>   
+> -    current_bytes = migration_total_bytes(s);
+> +    current_bytes = migration_transferred_bytes(s->to_dst_file);
+>       transferred = current_bytes - s->iteration_initial_bytes;
+>       time_spent = current_time - s->iteration_start_time;
+>       bandwidth = (double)transferred / time_spent;
 
 
