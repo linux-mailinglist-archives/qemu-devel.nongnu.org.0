@@ -2,75 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F39A7025F1
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 May 2023 09:19:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1AD2D702605
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 May 2023 09:27:42 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pySUK-0005i4-Hx; Mon, 15 May 2023 03:19:20 -0400
+	id 1pySb8-0007Sp-84; Mon, 15 May 2023 03:26:26 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1pySUB-0005hJ-PN
- for qemu-devel@nongnu.org; Mon, 15 May 2023 03:19:11 -0400
-Received: from smtpout2.mo529.mail-out.ovh.net ([79.137.123.220])
+ (Exim 4.90_1) (envelope-from <shahuang@redhat.com>)
+ id 1pySaY-0007OM-Fh
+ for qemu-devel@nongnu.org; Mon, 15 May 2023 03:25:46 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1pySU9-0002Dg-Tn
- for qemu-devel@nongnu.org; Mon, 15 May 2023 03:19:11 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.108.16.139])
- by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 63DC12095D;
- Mon, 15 May 2023 07:18:57 +0000 (UTC)
-Received: from kaod.org (37.59.142.97) by DAG4EX2.mxp5.local (172.16.2.32)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.23; Mon, 15 May
- 2023 09:18:55 +0200
-Authentication-Results: garm.ovh; auth=pass
- (GARM-97G002e0bd8323-34c5-43cb-905e-f48b1f5b0b92,
- C2820DDF228AE5DDDBFD944B87CC7F3B41DD1A91) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <7c8382cb-c1a0-3557-5d05-330a47d70583@kaod.org>
-Date: Mon, 15 May 2023 09:18:54 +0200
+ (Exim 4.90_1) (envelope-from <shahuang@redhat.com>)
+ id 1pySaV-0003V5-VA
+ for qemu-devel@nongnu.org; Mon, 15 May 2023 03:25:46 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1684135535;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=/S2eYSKJnwfoPIHT5pwUtY9lbcWZORchQNUb2AkrBK4=;
+ b=Zw+mGC6w/I7RHXYy+diby1SfOx1ySKTH+W6HCF2Zas4MKuDzpJOhFe7nkd5spTG3WMfHbS
+ PGaSbw0XwFI9UqzL6xJwFOcPE/6geqcrflzWdSd9vDowwfAa/NMz4X8TS8Y0knJbGLCTiI
+ GPHfClKif/OVMjRcZDPs0527xZpVBSk=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-42-lrRyHuJOOo61jHXRU5djKA-1; Mon, 15 May 2023 03:25:30 -0400
+X-MC-Unique: lrRyHuJOOo61jHXRU5djKA-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.5])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9708E185A79C;
+ Mon, 15 May 2023 07:25:29 +0000 (UTC)
+Received: from virt-mtcollins-01.lab.eng.rdu2.redhat.com
+ (virt-mtcollins-01.lab.eng.rdu2.redhat.com [10.8.1.196])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 695BA63F3D;
+ Mon, 15 May 2023 07:25:29 +0000 (UTC)
+From: Shaoqin Huang <shahuang@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: Shaoqin Huang <shahuang@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
+ Eduardo Habkost <eduardo@habkost.net>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Yanan Wang <wangyanan55@huawei.com>
+Subject: [PATCH] hw: Fix format for comments
+Date: Mon, 15 May 2023 03:25:25 -0400
+Message-Id: <20230515072525.886221-1-shahuang@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH v3] tests/avocado: Add LoongArch machine start test
-Content-Language: en-US
-To: Song Gao <gaosong@loongson.cn>
-CC: <thuth@redhat.com>, <qemu-devel@nongnu.org>,
- <richard.henderson@linaro.org>, <peter.maydell@linaro.org>,
- <philmd@linaro.org>, <pbonzini@redhat.com>, <alex.bennee@linaro.org>,
- <maobibo@loongson.cn>, <yangxiaojuan@loongson.cn>, <lvivier@redhat.com>,
- <atar4qemu@gmail.com>, <edgar.iglesias@gmail.com>, <wainersm@redhat.com>,
- <quic_llindhol@quicinc.com>, <kraxel@redhat.com>, <deller@gmx.de>,
- <stefanha@redhat.com>, <crosa@redhat.com>, <eduardo@habkost.net>,
- <quintela@redhat.com>, <jsnow@redhat.com>, <ysato@users.sourceforge.jp>,
- <iii@linux.ibm.com>, <pavel.dovgaluk@ispras.ru>, <andrew@aj.id.au>,
- <kbastian@mail.uni-paderborn.de>, <bleal@redhat.com>, <jcmvbkbc@gmail.com>,
- <marcandre.lureau@redhat.com>, <mark.cave-ayland@ilande.co.uk>,
- <rad@semihalf.com>, <aurelien@aurel32.net>, <david@redhat.com>,
- <armbru@redhat.com>, <joel@jms.id.au>, <berrange@redhat.com>
-References: <20230513012744.1885728-1-gaosong@loongson.cn>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <20230513012744.1885728-1-gaosong@loongson.cn>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.97]
-X-ClientProxiedBy: DAG8EX1.mxp5.local (172.16.2.71) To DAG4EX2.mxp5.local
- (172.16.2.32)
-X-Ovh-Tracer-GUID: 4fba0b31-b3ba-4655-b4b2-25020df7de09
-X-Ovh-Tracer-Id: 15915721086257629955
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvhedrfeehiedguddukecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfevfhfhjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitgcunfgvucfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepfefgkeetkeegleehueejgefhteekteelieduueffkeetgfekheeuffehveevkeejnecuffhomhgrihhnpehgihhthhhusgdrtghomhenucfkphepuddvjedrtddrtddruddpfeejrdehledrudegvddrleejpdekvddrieegrddvhedtrddujedtnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepuddvjedrtddrtddruddpmhgrihhlfhhrohhmpeeotghlgheskhgrohgurdhorhhgqedpnhgspghrtghpthhtohepuddprhgtphhtthhopehgrghoshhonhhgsehlohhonhhgshhonhdrtghnpdhquhhinhhtvghlrgesrhgvughhrghtrdgtohhmpdhjshhnohifsehrvgguhhgrthdrtghomhdphihsrghtohesuhhsvghrshdrshhouhhrtggvfhhorhhgvgdrjhhppdhiihhisehlihhnuhigrdhisghmrdgtohhmpdhprghvvghlrdguohhvghgrlhhukhesihhsphhrrghsrdhruhdprghnughrvgifsegrjhdrihgurdgruhdpkhgsrghsth
- hirghnsehmrghilhdruhhnihdqphgruggvrhgsohhrnhdruggvpdgslhgvrghlsehrvgguhhgrthdrtghomhdpjhgtmhhvsghksggtsehgmhgrihhlrdgtohhmpdhmrghrtggrnhgurhgvrdhluhhrvggruhesrhgvughhrghtrdgtohhmpdhmrghrkhdrtggrvhgvqdgrhihlrghnugesihhlrghnuggvrdgtohdruhhkpdhrrggusehsvghmihhhrghlfhdrtghomhdprghurhgvlhhivghnsegruhhrvghlfedvrdhnvghtpdgurghvihgusehrvgguhhgrthdrtghomhdprghrmhgsrhhusehrvgguhhgrthdrtghomhdpvgguuhgrrhguoheshhgrsghkohhsthdrnhgvthdpjhhovghlsehjmhhsrdhiugdrrghupdgtrhhoshgrsehrvgguhhgrthdrtghomhdpuggvlhhlvghrsehgmhigrdguvgdpthhhuhhthhesrhgvughhrghtrdgtohhmpdhqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhgpdhrihgthhgrrhgurdhhvghnuggvrhhsohhnsehlihhnrghrohdrohhrghdpphgvthgvrhdrmhgrhiguvghllheslhhinhgrrhhordhorhhgpdhphhhilhhmugeslhhinhgrrhhordhorhhgpdhpsghonhiiihhnihesrhgvughhrghtrdgtohhmpdgrlhgvgidrsggvnhhnvggvsehlihhnrghrohdrohhrghdpmhgrohgsihgsoheslhhoohhnghhsohhnrdgtnhdphigrnhhggihirghojhhurghnsehlohhonhhgshhonhdrtghnpdhlvhhivhhivghrsehrvgguhhgrthdrtghomhdprghtrghrgehqvghmuhesghhmrghilhdrtghomhdpvgg
- ughgrrhdrihhglhgvshhirghssehgmhgrihhlrdgtohhmpdifrghinhgvrhhsmhesrhgvughhrghtrdgtohhmpdhquhhitggplhhlihhnughhohhlsehquhhitghinhgtrdgtohhmpdhkrhgrgigvlhesrhgvughhrghtrdgtohhmpdhsthgvfhgrnhhhrgesrhgvughhrghtrdgtohhmpdgsvghrrhgrnhhgvgesrhgvughhrghtrdgtohhmpdfovfetjfhoshhtpehmohehvdelpdhmohguvgepshhmthhpohhuth
-Received-SPF: pass client-ip=79.137.123.220; envelope-from=clg@kaod.org;
- helo=smtpout2.mo529.mail-out.ovh.net
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=shahuang@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.93,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -86,99 +79,34 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 5/13/23 03:27, Song Gao wrote:
-> Add a new test in tests/avocado to check LoongArch virt machine start.
-> 
-> Reviewed-by: Thomas Huth <thuth@redhat.com>
-> Signed-off-by: Song Gao <gaosong@loongson.cn>
+Simply fix the #vcpus_count to @vcpus_count in CPUArchId comments. Since
+we are at here, resort the parameters in comments to match the sequence
+of parameters which defined in the CPUArchId.
 
-Reviewed-by: Cédric Le Goater <clg@redhat.com>
+CC: Igor Mammedov <imammedo@redhat.com>
+Signed-off-by: Shaoqin Huang <shahuang@redhat.com>
+---
+ include/hw/boards.h | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Thanks,
-
-C.
-
-> ---
->   MAINTAINERS                        |  1 +
->   tests/avocado/machine_loongarch.py | 58 ++++++++++++++++++++++++++++++
->   2 files changed, 59 insertions(+)
->   create mode 100644 tests/avocado/machine_loongarch.py
-> 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index f757369373..4c0d37a1aa 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -245,6 +245,7 @@ M: Xiaojuan Yang <yangxiaojuan@loongson.cn>
->   S: Maintained
->   F: target/loongarch/
->   F: tests/tcg/loongarch64/
-> +F: tests/avocado/machine_loongarch.py
->   
->   M68K TCG CPUs
->   M: Laurent Vivier <laurent@vivier.eu>
-> diff --git a/tests/avocado/machine_loongarch.py b/tests/avocado/machine_loongarch.py
-> new file mode 100644
-> index 0000000000..7d8a3c1fa5
-> --- /dev/null
-> +++ b/tests/avocado/machine_loongarch.py
-> @@ -0,0 +1,58 @@
-> +# SPDX-License-Identifier: GPL-2.0-or-later
-> +#
-> +# LoongArch virt test.
-> +#
-> +# Copyright (c) 2023 Loongson Technology Corporation Limited
-> +#
-> +
-> +from avocado_qemu import QemuSystemTest
-> +from avocado_qemu import exec_command_and_wait_for_pattern
-> +from avocado_qemu import wait_for_console_pattern
-> +
-> +class LoongArchMachine(QemuSystemTest):
-> +    KERNEL_COMMON_COMMAND_LINE = 'printk.time=0 '
-> +
-> +    timeout = 120
-> +
-> +    def wait_for_console_pattern(self, success_message, vm=None):
-> +        wait_for_console_pattern(self, success_message,
-> +                                 failure_message='Kernel panic - not syncing',
-> +                                 vm=vm)
-> +
-> +    def test_loongarch64_devices(self):
-> +
-> +        """
-> +        :avocado: tags=arch:loongarch64
-> +        :avocado: tags=machine:virt
-> +        """
-> +
-> +        kernel_url = ('https://github.com/yangxiaojuan-loongson/qemu-binary/'
-> +                      'releases/download/binary-files/vmlinuz.efi')
-> +        kernel_hash = '951b485b16e3788b6db03a3e1793c067009e31a2'
-> +        kernel_path = self.fetch_asset(kernel_url, asset_hash=kernel_hash)
-> +
-> +        initrd_url = ('https://github.com/yangxiaojuan-loongson/qemu-binary/'
-> +                      'releases/download/binary-files/ramdisk')
-> +        initrd_hash = 'c67658d9b2a447ce7db2f73ba3d373c9b2b90ab2'
-> +        initrd_path = self.fetch_asset(initrd_url, asset_hash=initrd_hash)
-> +
-> +        bios_url = ('https://github.com/yangxiaojuan-loongson/qemu-binary/'
-> +                    'releases/download/binary-files/QEMU_EFI.fd')
-> +        bios_hash = ('dfc1bfba4853cd763b9d392d0031827e8addbca8')
-> +        bios_path = self.fetch_asset(bios_url, asset_hash=bios_hash)
-> +
-> +        self.vm.set_console()
-> +        kernel_command_line = (self.KERNEL_COMMON_COMMAND_LINE +
-> +                               'root=/dev/ram rdinit=/sbin/init console=ttyS0,115200')
-> +        self.vm.add_args('-nographic',
-> +                         '-smp', '4',
-> +                         '-m', '1024',
-> +                         '-cpu', 'la464',
-> +                         '-kernel', kernel_path,
-> +                         '-initrd', initrd_path,
-> +                         '-bios', bios_path,
-> +                         '-append', kernel_command_line)
-> +        self.vm.launch()
-> +        self.wait_for_console_pattern('Run /sbin/init as init process')
-> +        exec_command_and_wait_for_pattern(self, 'cat /proc/cpuinfo',
-> +                                          'processor		: 3')
+diff --git a/include/hw/boards.h b/include/hw/boards.h
+index f4117fdb9a..cefa3d5897 100644
+--- a/include/hw/boards.h
++++ b/include/hw/boards.h
+@@ -101,10 +101,10 @@ MemoryRegion *machine_consume_memdev(MachineState *machine,
+ /**
+  * CPUArchId:
+  * @arch_id - architecture-dependent CPU ID of present or possible CPU
++ * @vcpus_count - number of threads provided by @cpu object
++ * @props - CPU object properties, initialized by board
+  * @cpu - pointer to corresponding CPU object if it's present on NULL otherwise
+  * @type - QOM class name of possible @cpu object
+- * @props - CPU object properties, initialized by board
+- * #vcpus_count - number of threads provided by @cpu object
+  */
+ typedef struct CPUArchId {
+     uint64_t arch_id;
+-- 
+2.39.1
 
 
