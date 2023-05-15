@@ -2,92 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 128587029FF
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 May 2023 12:05:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 728687029FC
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 May 2023 12:05:20 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pyV4M-0001AW-99; Mon, 15 May 2023 06:04:42 -0400
+	id 1pyV4Y-0001Kt-34; Mon, 15 May 2023 06:04:54 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pyV3w-00017J-7W
- for qemu-devel@nongnu.org; Mon, 15 May 2023 06:04:16 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <marcin.juszkiewicz@linaro.org>)
+ id 1pyV4V-0001KZ-IW; Mon, 15 May 2023 06:04:51 -0400
+Received: from muminek.juszkiewicz.com.pl ([213.251.184.221])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pyV3u-0000V8-OX
- for qemu-devel@nongnu.org; Mon, 15 May 2023 06:04:15 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1684145052;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=cOHUkT3woYFV0ZzUV+4G2B9k0fRw9PXZayiMh3vaJXk=;
- b=iybOhsl4ykNb5cJw5kMOxv7+8XhqVqFVX7hWSVwdJryi9LHkNMMAsQgsIiq+4Cci7GMbPz
- z2aNNzqEURSYHj34YfYHUOM1i2rkcnw56DxbmK3DEYh6H6ID7xxO6hYDgUQG96D7WiZGWl
- w8AnRgqHwywHNHK9SxKvgSeWiY6FmPM=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-214-3VsmAI-gNW-HbUts6lw6dw-1; Mon, 15 May 2023 06:04:11 -0400
-X-MC-Unique: 3VsmAI-gNW-HbUts6lw6dw-1
-Received: by mail-wm1-f69.google.com with SMTP id
- 5b1f17b1804b1-3f41dcf1e28so33493215e9.3
- for <qemu-devel@nongnu.org>; Mon, 15 May 2023 03:04:11 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1684145050; x=1686737050;
- h=mime-version:message-id:date:reply-to:user-agent:references
- :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=cOHUkT3woYFV0ZzUV+4G2B9k0fRw9PXZayiMh3vaJXk=;
- b=BQ+U7X1U+uVoiTZzYd0QdyLK+IsloeFa0bIRLWlCpsCfPY32HMqrtuxl7xb/e1Kje6
- bXDy3hkVbNDUei52VQP/G6jz2ASrENKa2AlZGEP0qHfLGd6J7wCC72oRBggy1jPzV1hi
- 1H6bx0j0i1jGcj4AvO0i5BrK+nlqWxmWUMUfnxE0sVhB2DlPHCeBhoQHDJbq+aPrMJNK
- 2rcaSjU5G3GYQxJwYFZm7SDw1DC+bS+OixS5J0Ox6u+tcu5NmvXBW0HiUbEfTNRNc9ej
- g7biB+jYZC8tWQdiTkMouRF9TDQwMSMgf11fYKK/Wzd+vywUdxqqv+S2ZCQQfv34c7Uk
- moCQ==
-X-Gm-Message-State: AC+VfDxobyuLyDF9T3Z7ke3fiM8Q+Smgw/PD+k69Z+k9kM606/EDoC+I
- NN0FT1p8E3cnt1SV69jFt5zjWt48H9595XwcsNqa7n+z3B0tuYFoYkqT6jJ/80py6q0x3vMiSmk
- 4lkVKNB40mkqW5d0=
-X-Received: by 2002:a1c:e908:0:b0:3f4:2b1a:553b with SMTP id
- q8-20020a1ce908000000b003f42b1a553bmr14475451wmc.28.1684145050508; 
- Mon, 15 May 2023 03:04:10 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ7uVCxwiZvja7KKAdaMprea9rhngpnEZD4ud075Fr/fPxcDvUjOv82CM7wRSjROVco+9orFzA==
-X-Received: by 2002:a1c:e908:0:b0:3f4:2b1a:553b with SMTP id
- q8-20020a1ce908000000b003f42b1a553bmr14475431wmc.28.1684145050218; 
- Mon, 15 May 2023 03:04:10 -0700 (PDT)
-Received: from redhat.com (static-92-120-85-188.ipcom.comunitel.net.
- [188.85.120.92]) by smtp.gmail.com with ESMTPSA id
- a6-20020a1cf006000000b003f0aefcc457sm36507921wmb.45.2023.05.15.03.04.09
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 15 May 2023 03:04:09 -0700 (PDT)
-From: Juan Quintela <quintela@redhat.com>
-To: Het Gala <het.gala@nutanix.com>
-Cc: qemu-devel@nongnu.org,  prerna.saxena@nutanix.com,  dgilbert@redhat.com,
- pbonzini@redhat.com,  berrange@redhat.com,  armbru@redhat.com,
- eblake@redhat.com,  manish.mishra@nutanix.com,
- aravind.retnakaran@nutanix.com
-Subject: Re: [PATCH v4 8/8] migration: Introduced MigrateChannelList struct
- to migration code flow.
-In-Reply-To: <20230512143240.192504-9-het.gala@nutanix.com> (Het Gala's
- message of "Fri, 12 May 2023 14:32:40 +0000")
-References: <20230512143240.192504-1-het.gala@nutanix.com>
- <20230512143240.192504-9-het.gala@nutanix.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
-Date: Mon, 15 May 2023 12:04:08 +0200
-Message-ID: <87fs7x29nr.fsf@secure.mitica>
+ (Exim 4.90_1) (envelope-from <marcin.juszkiewicz@linaro.org>)
+ id 1pyV4T-0000ZJ-Vg; Mon, 15 May 2023 06:04:51 -0400
+Received: from localhost (localhost [127.0.0.1])
+ by muminek.juszkiewicz.com.pl (Postfix) with ESMTP id 15977260BA9;
+ Mon, 15 May 2023 12:04:44 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at juszkiewicz.com.pl
+Received: from muminek.juszkiewicz.com.pl ([127.0.0.1])
+ by localhost (muminek.juszkiewicz.com.pl [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id Ukay9FGXesDs; Mon, 15 May 2023 12:04:42 +0200 (CEST)
+Received: from applejack.lan (83.11.34.59.ipv4.supernova.orange.pl
+ [83.11.34.59])
+ by muminek.juszkiewicz.com.pl (Postfix) with ESMTPSA id B90F1260BA8;
+ Mon, 15 May 2023 12:04:41 +0200 (CEST)
+From: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
+To: qemu-devel@nongnu.org
+Cc: qemu-arm@nongnu.org, Leif Lindholm <quic_llindhol@quicinc.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
+Subject: [PATCH] hw/arm/sbsa-ref: add GIC node into DT
+Date: Mon, 15 May 2023 12:04:38 +0200
+Message-Id: <20230515100438.359690-1-marcin.juszkiewicz@linaro.org>
+X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
-Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: softfail client-ip=213.251.184.221;
+ envelope-from=marcin.juszkiewicz@linaro.org; helo=muminek.juszkiewicz.com.pl
+X-Spam_score_int: -11
+X-Spam_score: -1.2
+X-Spam_bar: -
+X-Spam_report: (-1.2 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_SOFTFAIL=0.665, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -100,29 +57,89 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Het Gala <het.gala@nutanix.com> wrote:
-> Integrated MigrateChannelList with all transport backends (socket, exec
-> and rdma) for both source and destination migration code flow.
->
-> Suggested-by: Aravind Retnakaran <aravind.retnakaran@nutanix.com>
-> Signed-off-by: Het Gala <het.gala@nutanix.com>
+Let add GIC information into DeviceTree as part of SBSA-REF versioning.
 
-Nothing especially wrong appears here, will wait for 2nd submission with
-the previous fixes done (specially the local_error bits).
+Trusted Firmware will read it and provide to next firmware level.
 
-And in another order of events, you are not changing
-tests/qtest/migration-test.c
+Bumps platform version to 0.1 one so we can check is node is present.
+---
+ hw/arm/sbsa-ref.c | 38 +++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 37 insertions(+), 1 deletion(-)
 
-My suggestion will be that for things that have more than one test
-(i.e. tcp/unix/...) just change some of them to use the new syntax for
-channels.
-
-What do you think?
-
-Later, Juan.
+diff --git a/hw/arm/sbsa-ref.c b/hw/arm/sbsa-ref.c
+index 06bd1c5ec4..55dde901f0 100644
+--- a/hw/arm/sbsa-ref.c
++++ b/hw/arm/sbsa-ref.c
+@@ -29,6 +29,7 @@
+ #include "exec/hwaddr.h"
+ #include "kvm_arm.h"
+ #include "hw/arm/boot.h"
++#include "hw/arm/fdt.h"
+ #include "hw/arm/smmuv3.h"
+ #include "hw/block/flash.h"
+ #include "hw/boards.h"
+@@ -170,6 +171,39 @@ static uint64_t sbsa_ref_cpu_mp_affinity(SBSAMachineState *sms, int idx)
+     return arm_cpu_mp_affinity(idx, clustersz);
+ }
+ 
++static void sbsa_fdt_add_gic_node(SBSAMachineState *sms)
++{
++    char *nodename;
++    int gic_phandle;
++
++    gic_phandle = qemu_fdt_alloc_phandle(sms->fdt);
++    qemu_fdt_setprop_cell(sms->fdt, "/", "interrupt-parent", gic_phandle);
++
++    nodename = g_strdup_printf("/intc@%" PRIx64,
++                               sbsa_ref_memmap[SBSA_GIC_DIST].base);
++    qemu_fdt_add_subnode(sms->fdt, nodename);
++    qemu_fdt_setprop_cell(sms->fdt, nodename, "#interrupt-cells", 3);
++    qemu_fdt_setprop(sms->fdt, nodename, "interrupt-controller", NULL, 0);
++    qemu_fdt_setprop_cell(sms->fdt, nodename, "#address-cells", 0x2);
++    qemu_fdt_setprop_cell(sms->fdt, nodename, "#size-cells", 0x2);
++    qemu_fdt_setprop(sms->fdt, nodename, "ranges", NULL, 0);
++
++    qemu_fdt_setprop_string(sms->fdt, nodename, "compatible",
++                            "arm,gic-v3");
++
++    qemu_fdt_setprop_sized_cells(sms->fdt, nodename, "reg",
++                                 2, sbsa_ref_memmap[SBSA_GIC_DIST].base,
++                                 2, sbsa_ref_memmap[SBSA_GIC_DIST].size,
++                                 2, sbsa_ref_memmap[SBSA_GIC_REDIST].base,
++                                 2, sbsa_ref_memmap[SBSA_GIC_REDIST].size);
++
++    qemu_fdt_setprop_cells(sms->fdt, nodename, "interrupts",
++			   GIC_FDT_IRQ_TYPE_PPI, ARCH_GIC_MAINT_IRQ,
++                           GIC_FDT_IRQ_FLAGS_LEVEL_HI);
++
++    qemu_fdt_setprop_cell(sms->fdt, nodename, "phandle", gic_phandle);
++    g_free(nodename);
++}
+ /*
+  * Firmware on this machine only uses ACPI table to load OS, these limited
+  * device tree nodes are just to let firmware know the info which varies from
+@@ -206,7 +240,7 @@ static void create_fdt(SBSAMachineState *sms)
+      *                        fw compatibility.
+      */
+     qemu_fdt_setprop_cell(fdt, "/", "machine-version-major", 0);
+-    qemu_fdt_setprop_cell(fdt, "/", "machine-version-minor", 0);
++    qemu_fdt_setprop_cell(fdt, "/", "machine-version-minor", 1);
+ 
+     if (ms->numa_state->have_numa_distance) {
+         int size = nb_numa_nodes * nb_numa_nodes * 3 * sizeof(uint32_t);
+@@ -262,6 +296,8 @@ static void create_fdt(SBSAMachineState *sms)
+ 
+         g_free(nodename);
+     }
++
++    sbsa_fdt_add_gic_node(sms);
+ }
+ 
+ #define SBSA_FLASH_SECTOR_SIZE (256 * KiB)
+-- 
+2.40.1
 
 
