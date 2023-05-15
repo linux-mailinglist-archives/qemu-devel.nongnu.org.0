@@ -2,67 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4753702A07
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 May 2023 12:06:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A56B702A1C
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 May 2023 12:12:02 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pyV65-0003I5-OO; Mon, 15 May 2023 06:06:29 -0400
+	id 1pyVAT-0004Xe-8D; Mon, 15 May 2023 06:11:01 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pyV5x-0003En-Ff
- for qemu-devel@nongnu.org; Mon, 15 May 2023 06:06:23 -0400
+ (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
+ id 1pyVAD-0004VI-NJ
+ for qemu-devel@nongnu.org; Mon, 15 May 2023 06:10:48 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pyV5v-000102-V6
- for qemu-devel@nongnu.org; Mon, 15 May 2023 06:06:21 -0400
+ (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
+ id 1pyVAA-0001mY-AR
+ for qemu-devel@nongnu.org; Mon, 15 May 2023 06:10:45 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1684145179;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
+ s=mimecast20190719; t=1684145430;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=b2Pq+PQPpSHKVez9tH9rCyOuN/opd467nIQkrD5Dm9U=;
- b=NUPaKG3qCcEUt+l1Shh9GOXErfTTorLrktKnhgVxVflaY09LM7COcPLdgIdHhnyhRna2qZ
- pkBd1leR6nY+ohZxE9/vT/nvzgIuhtUcR3V3Z3AA9KlGbuD7wR/IK/GdKWlwFxviRIXe24
- G1+dywcWU84YefGUgfn9Cnl1YGI57G8=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-371-rjA3A0okO7O_cn9uAjZoHw-1; Mon, 15 May 2023 06:06:17 -0400
-X-MC-Unique: rjA3A0okO7O_cn9uAjZoHw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
- [10.11.54.1])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 50FA480080E;
- Mon, 15 May 2023 10:06:17 +0000 (UTC)
-Received: from redhat.com (unknown [10.42.28.48])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 5E7C140C2063;
- Mon, 15 May 2023 10:06:15 +0000 (UTC)
-Date: Mon, 15 May 2023 11:06:13 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Het Gala <het.gala@nutanix.com>
-Cc: qemu-devel@nongnu.org, prerna.saxena@nutanix.com, quintela@redhat.com,
- dgilbert@redhat.com, pbonzini@redhat.com, armbru@redhat.com,
- eblake@redhat.com, manish.mishra@nutanix.com,
- aravind.retnakaran@nutanix.com
-Subject: Re: [PATCH v4 1/8] migration: introduced 'MigrateAddress' in QAPI
- for migration wire protocol.
-Message-ID: <ZGIEFXRIlLwBemri@redhat.com>
-References: <20230512143240.192504-1-het.gala@nutanix.com>
- <20230512143240.192504-2-het.gala@nutanix.com>
+ bh=brUKJMDZUGpLDeLqIJDvUBN3Li8wqepRWSbTu0nIGBY=;
+ b=MO+AtmVziERsLSwp82wtEeAZAn/b6F47sxhEHLF9DOVC/A+UX/dwSX7sEixrmxDkjnMRnC
+ k8WjdkXIMAEoY0En2qGwxJl+t/qNMRM2BklLYjImu19FOBY7rQtxmHRRBuRZNC0SVY5Nkq
+ wdKyqaKZglRzpZI7Cn0Z16Vg59wnahs=
+Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
+ [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-607-6w3XRsUHOASX6ZhFUTtnmA-1; Mon, 15 May 2023 06:10:29 -0400
+X-MC-Unique: 6w3XRsUHOASX6ZhFUTtnmA-1
+Received: by mail-ej1-f71.google.com with SMTP id
+ a640c23a62f3a-94a34e35f57so1245137666b.3
+ for <qemu-devel@nongnu.org>; Mon, 15 May 2023 03:10:28 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1684145428; x=1686737428;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=brUKJMDZUGpLDeLqIJDvUBN3Li8wqepRWSbTu0nIGBY=;
+ b=V7iziPKPX29A3q7dqIutuiBZ0FwfULn+loou2+aRb+Bn5IZwxPMkO8iYj/SL+Z8zZt
+ j1eHa62MNxH/dTvNDaosGIZPXkAQyKfkyuBP92JuhMjnHhe4AX3NKTlXmbt6TMQWFhGM
+ 0hDQket33Ob4ESPREULN0prwkH85vCMyOa/cSg/jZecnmkdeQtY/FuFqD2R/ExQFvIw8
+ 9+jvTb05Pw6vEvPJnzMLdcUxK7PBQQpLONbazAvi4rJwbJjEglr2Uk/jNAqXggORz9/k
+ HrMHBxZx6y5s1yLqdcKaCyDZz0nr1LZR4JxupkHbU/0oQFpXHut7oUlilAMUzZrgQEQt
+ G9Dg==
+X-Gm-Message-State: AC+VfDymugFDfuKinYuvVJGnTpymgEpYTLJ6YO/4kMYY8OYOE9O/kood
+ DPwbHZhdLue6B3a9OvLIlBI6OECT2p4Gz5T4CMMDY3E70376k0I2FOiG+DyFf9LLxoTvFmG2bEu
+ lQ0hzF7J3n9f7cIs=
+X-Received: by 2002:a17:906:9b86:b0:96a:5a59:92cb with SMTP id
+ dd6-20020a1709069b8600b0096a5a5992cbmr15633456ejc.47.1684145428118; 
+ Mon, 15 May 2023 03:10:28 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ5yFhfw6E8Ttm2AqwJ+ssORVo91uiqnM76yUEPCqp21jv2MioupnpJ/BCdPBr4ZslyhWUb7TQ==
+X-Received: by 2002:a17:906:9b86:b0:96a:5a59:92cb with SMTP id
+ dd6-20020a1709069b8600b0096a5a5992cbmr15633428ejc.47.1684145427733; 
+ Mon, 15 May 2023 03:10:27 -0700 (PDT)
+Received: from sgarzare-redhat (c-115-213.cust-q.wadsl.it. [212.43.115.213])
+ by smtp.gmail.com with ESMTPSA id
+ ov17-20020a170906fc1100b0096aa0ca9b5fsm4702584ejb.106.2023.05.15.03.10.26
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 15 May 2023 03:10:26 -0700 (PDT)
+Date: Mon, 15 May 2023 12:10:24 +0200
+From: Stefano Garzarella <sgarzare@redhat.com>
+To: Jonathon Jongsma <jjongsma@redhat.com>
+Cc: qemu-devel@nongnu.org, Kevin Wolf <kwolf@redhat.com>, 
+ Stefan Hajnoczi <stefanha@redhat.com>, qemu-block@nongnu.org,
+ Hanna Reitz <hreitz@redhat.com>
+Subject: Re: [PATCH v3 1/1] block/blkio: use qemu_open() to support fd
+ passing for virtio-blk
+Message-ID: <q2odwrndg3gt6z25hdxb3t2xxavd64hkp4b23zhzycevhrwx64@25r5r6sidyok>
+References: <20230511091527.46620-1-sgarzare@redhat.com>
+ <20230511091527.46620-2-sgarzare@redhat.com>
+ <1a89ee2e-2368-4051-f9ec-018641721484@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii; format=flowed
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230512143240.192504-2-het.gala@nutanix.com>
-User-Agent: Mutt/2.2.9 (2022-11-12)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
+In-Reply-To: <1a89ee2e-2368-4051-f9ec-018641721484@redhat.com>
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=sgarzare@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -70,7 +86,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,36 +99,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, May 12, 2023 at 02:32:33PM +0000, Het Gala wrote:
-> This patch introduces well defined MigrateAddress struct and its related child
-> objects.
-> 
-> The existing argument of 'migrate' and 'migrate-incoming' QAPI - 'uri' is of
-> string type. The current migration flow follows double encoding scheme for
-> fetching migration parameters such as 'uri' and this is not an ideal design.
-> 
-> Motive for intoducing struct level design is to prevent double encoding of QAPI
-> arguments, as Qemu should be able to directly use the QAPI arguments without
-> any level of encoding.
-> 
-> Suggested-by: Aravind Retnakaran <aravind.retnakaran@nutanix.com>
-> Signed-off-by: Het Gala <het.gala@nutanix.com>
-> ---
->  qapi/migration.json | 41 +++++++++++++++++++++++++++++++++++++++++
->  1 file changed, 41 insertions(+)
+On Thu, May 11, 2023 at 11:03:22AM -0500, Jonathon Jongsma wrote:
+>On 5/11/23 4:15 AM, Stefano Garzarella wrote:
+>>The virtio-blk-vhost-vdpa driver in libblkio 1.3.0 supports the new
+>>'fd' property. Let's expose this to the user, so the management layer
+>>can pass the file descriptor of an already opened vhost-vdpa character
+>>device. This is useful especially when the device can only be accessed
+>>with certain privileges.
+>>
+>>If the libblkio virtio-blk driver supports fd passing, let's always
+>>use qemu_open() to open the `path`, so we can handle fd passing
+>>from the management layer through the "/dev/fdset/N" special path.
+>>
+>>Signed-off-by: Stefano Garzarella <sgarzare@redhat.com>
+>>---
+>>
+>>Notes:
+>>     v3:
+>>     - use qemu_open() on `path` to simplify libvirt code [Jonathon]
+>
+>
+>Thanks
+>
+>The one drawback now is that it doesn't seem possible for libvirt to 
+>introspect whether or not qemu supports passing an fd to the driver or 
+>not.
 
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+Yep, this was because the libblkio library did not support this new way.
 
+>When I was writing my initial patch (before I realized that it was 
+>missing fd-passing), I just checked for the existence of the 
+>virtio-blk-vhost-vdpa device. But we actually need to know both that 
+>this device exists and supports fd passing.
 
-With regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+Yep, this was one of the advantages of using the new `fd` parameter.
+Can't libvirt handle the later failure?
+
+>As far as I can tell, versions 7.2.0 and 8.0.0 include this device but 
+>won't accept fds.
+
+Right.
+
+How do you suggest to proceed?
+
+Thanks,
+Stefano
 
 
