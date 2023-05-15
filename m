@@ -2,87 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3FB8D702A86
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 May 2023 12:33:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 222CC702AA8
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 May 2023 12:36:18 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pyVVC-0007T0-4d; Mon, 15 May 2023 06:32:26 -0400
+	id 1pyVYO-000136-W7; Mon, 15 May 2023 06:35:45 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcin.juszkiewicz@linaro.org>)
- id 1pyVVA-0007Sk-2W
- for qemu-devel@nongnu.org; Mon, 15 May 2023 06:32:24 -0400
-Received: from mail-ej1-x636.google.com ([2a00:1450:4864:20::636])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <marcin.juszkiewicz@linaro.org>)
- id 1pyVV8-0007Yj-BJ
- for qemu-devel@nongnu.org; Mon, 15 May 2023 06:32:23 -0400
-Received: by mail-ej1-x636.google.com with SMTP id
- a640c23a62f3a-965ab8ed1c0so2106581866b.2
- for <qemu-devel@nongnu.org>; Mon, 15 May 2023 03:32:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1684146740; x=1686738740;
- h=content-transfer-encoding:in-reply-to:organization:from:references
- :cc:to:content-language:subject:user-agent:mime-version:date
- :message-id:from:to:cc:subject:date:message-id:reply-to;
- bh=1dQNzAhAMICyuaUlp3QZt8dpZVBzS0bz4gGXnrdBr7I=;
- b=NMXKozM+7TzkJ7fKq98DSA/t6N6Zjc9dZ/fUlwV3OoPDdJbRNvVcoy/jxvBGDAERD4
- c8AkDCs/1q/Gm2Agr4/ky7lj0dU77pnlD4lW+O8kzevhQIJiWVq3ronLv5veT9WAJ+k4
- YJOTv/mjTUmQ3LzGKSljtsLAgZbiTwXO/d5nL1p2WjvwzlzlFPGuEiUK/J0dDxFhslG5
- c9GyWHBTQe/RCxwzoSGnMor/UsPoL0VSrY1bgmAighfXbH0fGDkaAc/pS1Sknoms0g7W
- kqwzzzavunO5jbTXr7BsXOckEGcutdkVtP/Y6TyY8tmZ5JK/fTRn5C1T0Nhjm8lwzgNF
- jVEA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1684146740; x=1686738740;
- h=content-transfer-encoding:in-reply-to:organization:from:references
- :cc:to:content-language:subject:user-agent:mime-version:date
- :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=1dQNzAhAMICyuaUlp3QZt8dpZVBzS0bz4gGXnrdBr7I=;
- b=Re56D03eLbyeojX+EfqNSi//HlIvVUEK463Vbu/RKnfkr6iFL67/dHviAO2Q1Og6d0
- ZX1XsZgxNaTybPDjWU1Z73lOii2KBlVcmkA1DjL3pMK23ZR3VvH9JMO3UInwsvi5CRpp
- SJemJg6wCTHXQYbKFJj4JNoa1j+rsQcrsjfZtGeFoAmEVFkIdylG13M0mK1NFkUnU3Fq
- QDeIBKKLNtOviGVpcYCZMvNEPBgRKCuiW69X9IFECJ2sdFxBu5bN/rO804isw627E9IT
- K9rDpTxTlQJYIl/2AlobIMaVgaf52njrCv5UiYWyRps6FlM6BYRfOphGTWvAVBq2DMN/
- Yp8A==
-X-Gm-Message-State: AC+VfDyEHvDjFp2bKqMeX0CVhA4ty24jJQBTqrv9lfwPTMol5GwdeWxr
- Tlz47t9uZ9vKCvugbRlz75PkEg==
-X-Google-Smtp-Source: ACHHUZ5aQJvskI3hAKl3k8ZCJnHqRH0AyAvEQDRT0wYmtgFP39m0UuuN7XHHYFkWZhSzC7GgF9EG2Q==
-X-Received: by 2002:a17:906:db07:b0:94f:6058:4983 with SMTP id
- xj7-20020a170906db0700b0094f60584983mr26121119ejb.76.1684146740392; 
- Mon, 15 May 2023 03:32:20 -0700 (PDT)
-Received: from [192.168.200.206] (83.11.34.59.ipv4.supernova.orange.pl.
- [83.11.34.59]) by smtp.gmail.com with ESMTPSA id
- tl14-20020a170907c30e00b00961277a426dsm9166244ejc.205.2023.05.15.03.32.19
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 15 May 2023 03:32:20 -0700 (PDT)
-Message-ID: <5ecddd25-09ef-b6b2-3673-70e819e8cbc7@linaro.org>
-Date: Mon, 15 May 2023 12:32:19 +0200
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1pyVYL-00012A-Sh
+ for qemu-devel@nongnu.org; Mon, 15 May 2023 06:35:41 -0400
+Received: from 7.mo548.mail-out.ovh.net ([46.105.33.25])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1pyVYI-0008Cx-Uh
+ for qemu-devel@nongnu.org; Mon, 15 May 2023 06:35:41 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.109.143.134])
+ by mo548.mail-out.ovh.net (Postfix) with ESMTPS id 0015B209E9;
+ Mon, 15 May 2023 10:35:34 +0000 (UTC)
+Received: from kaod.org (37.59.142.95) by DAG4EX2.mxp5.local (172.16.2.32)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.23; Mon, 15 May
+ 2023 12:35:33 +0200
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-95G001b06aa98c-15cc-4f4c-bba3-34e228fddce4,
+ C2820DDF228AE5DDDBFD944B87CC7F3B41DD1A91) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <f977b30c-448a-6791-affe-6c74b7d64fc4@kaod.org>
+Date: Mon, 15 May 2023 12:35:26 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.10.0
-Subject: Re: [PATCH] hw/arm/sbsa-ref: add GIC node into DT
-Content-Language: pl-PL, en-GB, en-HK
-To: Leif Lindholm <quic_llindhol@quicinc.com>,
- Peter Maydell <peter.maydell@linaro.org>
-Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org
-References: <20230515100438.359690-1-marcin.juszkiewicz@linaro.org>
- <CAFEAcA_beOoOH2GHQuaCyBU10yhkJ44FSrdVsHi7wTSz9QQxmA@mail.gmail.com>
- <55d7cfbd-7256-2780-59e2-11e532e08cfe@quicinc.com>
-From: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
-Organization: Linaro
-In-Reply-To: <55d7cfbd-7256-2780-59e2-11e532e08cfe@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::636;
- envelope-from=marcin.juszkiewicz@linaro.org; helo=mail-ej1-x636.google.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.93,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Subject: Re: [PATCH 08/21] migration: Move setup_time to mig_stats
+Content-Language: en-US
+To: Juan Quintela <quintela@redhat.com>, <qemu-devel@nongnu.org>
+CC: Daniel Henrique Barboza <danielhb413@gmail.com>, Christian Borntraeger
+ <borntraeger@linux.ibm.com>, David Hildenbrand <david@redhat.com>, Stefan
+ Hajnoczi <stefanha@redhat.com>, <qemu-block@nongnu.org>, Eric Blake
+ <eblake@redhat.com>, Vladimir Sementsov-Ogievskiy
+ <vsementsov@yandex-team.ru>, John Snow <jsnow@redhat.com>, Halil Pasic
+ <pasic@linux.ibm.com>, Peter Xu <peterx@redhat.com>, Richard Henderson
+ <richard.henderson@linaro.org>, David Gibson <david@gibson.dropbear.id.au>,
+ Harsh Prateek Bora <harshpb@linux.ibm.com>, Eric Farman
+ <farman@linux.ibm.com>, Greg Kurz <groug@kaod.org>, <qemu-ppc@nongnu.org>,
+ <qemu-s390x@nongnu.org>, Fam Zheng <fam@euphon.net>, Thomas Huth
+ <thuth@redhat.com>, Leonardo Bras <leobras@redhat.com>, Ilya Leoshkevich
+ <iii@linux.ibm.com>
+References: <20230508130909.65420-1-quintela@redhat.com>
+ <20230508130909.65420-9-quintela@redhat.com>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <20230508130909.65420-9-quintela@redhat.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [37.59.142.95]
+X-ClientProxiedBy: DAG8EX1.mxp5.local (172.16.2.71) To DAG4EX2.mxp5.local
+ (172.16.2.32)
+X-Ovh-Tracer-GUID: 92485f31-3b05-4eb7-95d0-6643bc6dffd1
+X-Ovh-Tracer-Id: 789818787571272601
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvhedrfeehjedgfeduucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgihesthejredttdefjeenucfhrhhomhepveorughrihgtucfnvgcuifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeeuuddtteelgeejhfeikeegffekhfelvefgfeejveffjeeiveegfeehgfdtgfeitdenucfkphepuddvjedrtddrtddruddpfeejrdehledrudegvddrleehpdekvddrieegrddvhedtrddujedtnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepuddvjedrtddrtddruddpmhgrihhlfhhrohhmpeeotghlgheskhgrohgurdhorhhgqedpnhgspghrtghpthhtohepuddprhgtphhtthhopehquhhinhhtvghlrgesrhgvughhrghtrdgtohhmpdhthhhuthhhsehrvgguhhgrthdrtghomhdpfhgrmhesvghuphhhohhnrdhnvghtpdhqvghmuhdqshefledtgiesnhhonhhgnhhurdhorhhgpdhqvghmuhdqphhptgesnhhonhhgnhhurdhorhhgpdhfrghrmhgrnheslhhinhhugidrihgsmhdrtghomhdphhgrrhhshhhpsgeslhhinhhugidrihgsmhdrtghomhdpuggrvhhiugesghhisghsohhnrdgurhhophgsvggrrhdrihgurdgruhdprhhitg
+ hhrghrugdrhhgvnhguvghrshhonheslhhinhgrrhhordhorhhgpdhlvghosghrrghssehrvgguhhgrthdrtghomhdpphgvthgvrhigsehrvgguhhgrthdrtghomhdpjhhsnhhofiesrhgvughhrghtrdgtohhmpdhvshgvmhgvnhhtshhovheshigrnhguvgigqdhtvggrmhdrrhhupdgvsghlrghkvgesrhgvughhrghtrdgtohhmpdhqvghmuhdqsghlohgtkhesnhhonhhgnhhurdhorhhgpdhsthgvfhgrnhhhrgesrhgvughhrghtrdgtohhmpdgurghvihgusehrvgguhhgrthdrtghomhdpsghorhhnthhrrggvghgvrheslhhinhhugidrihgsmhdrtghomhdpuggrnhhivghlhhgsgedufeesghhmrghilhdrtghomhdpqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrghdpphgrshhitgeslhhinhhugidrihgsmhdrtghomhdpihhiiheslhhinhhugidrihgsmhdrtghomhdpghhrohhugheskhgrohgurdhorhhgpdfovfetjfhoshhtpehmohehgeekpdhmohguvgepshhmthhpohhuth
+Received-SPF: pass client-ip=46.105.33.25; envelope-from=clg@kaod.org;
+ helo=7.mo548.mail-out.ovh.net
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.93,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -99,17 +85,141 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-W dniu 15.05.2023 o 12:27, Leif Lindholm pisze:
-> On 2023-05-15 11:15, Peter Maydell wrote:
+On 5/8/23 15:08, Juan Quintela wrote:
+> It is a time that needs to be cleaned each time cancel migration.
+> Once there ccreate calculate_time_since() to calculate how time since
+> a time in the past.
+> 
+> Signed-off-by: Juan Quintela <quintela@redhat.com>
+> ---
+>   migration/migration-stats.c |  7 +++++++
+>   migration/migration-stats.h | 14 ++++++++++++++
+>   migration/migration.c       |  9 ++++-----
+>   migration/migration.h       |  1 -
+>   4 files changed, 25 insertions(+), 6 deletions(-)
+> 
+> diff --git a/migration/migration-stats.c b/migration/migration-stats.c
+> index 2f2cea965c..5278c6c821 100644
+> --- a/migration/migration-stats.c
+> +++ b/migration/migration-stats.c
+> @@ -12,6 +12,13 @@
+>   
+>   #include "qemu/osdep.h"
+>   #include "qemu/stats64.h"
+> +#include "qemu/timer.h"
+>   #include "migration-stats.h"
+>   
+>   MigrationAtomicStats mig_stats;
+> +
+> +void calculate_time_since(Stat64 *val, int64_t since)
+> +{
+> +    int64_t now = qemu_clock_get_ms(QEMU_CLOCK_HOST);
+> +    stat64_set(val, now - since);
+> +}
+> diff --git a/migration/migration-stats.h b/migration/migration-stats.h
+> index cf8a4f0410..73c73d75b9 100644
+> --- a/migration/migration-stats.h
+> +++ b/migration/migration-stats.h
+> @@ -69,6 +69,10 @@ typedef struct {
+>        * Number of bytes sent during precopy stage.
+>        */
+>       Stat64 precopy_bytes;
+> +    /*
+> +     * How long has the setup stage took.
+> +     */
+> +    Stat64 setup_time;
+>       /*
+>        * Total number of bytes transferred.
+>        */
+> @@ -81,4 +85,14 @@ typedef struct {
+>   
+>   extern MigrationAtomicStats mig_stats;
+>   
+> +/**
+> + * calculate_time_since: Calculate how much time has passed
+> + *
+> + * @val: stat64 where to store the time
+> + * @since: reference time since we want to calculate
+> + *
+> + * Returns: Nothing.  The time is stored in val.
+> + */
+> +
+> +void calculate_time_since(Stat64 *val, int64_t since);
 
->> Why do we need to provide a full GIC DTB node ?
+Since this routine is in the "migration" namespace, I would rename it to
 
-> Longer-term, I want to be able to present different specific gic 
-> implementations through this interface.
-> I believe the 0.1 variant needs only the Distributor and Redistributors 
-> base addresses.
+   void migration_time_since(Stat64 *val, int64_t since);
 
-TF-A uses only those from this node and ignores rest.
+of even
 
-https://review.trustedfirmware.org/c/TF-A/trusted-firmware-a/+/20953
+   void migration_time_since(MigrationAtomicStats *stat, int64_t since);
+
+Do you need it elsewhere than in migration.c ?
+
+Thanks,
+
+C.
+
+>   #endif
+> diff --git a/migration/migration.c b/migration/migration.c
+> index b1cfb56523..72286de969 100644
+> --- a/migration/migration.c
+> +++ b/migration/migration.c
+> @@ -884,7 +884,7 @@ static void populate_time_info(MigrationInfo *info, MigrationState *s)
+>   {
+>       info->has_status = true;
+>       info->has_setup_time = true;
+> -    info->setup_time = s->setup_time;
+> +    info->setup_time = stat64_get(&mig_stats.setup_time);
+>   
+>       if (s->state == MIGRATION_STATUS_COMPLETED) {
+>           info->has_total_time = true;
+> @@ -1387,7 +1387,6 @@ void migrate_init(MigrationState *s)
+>       s->pages_per_second = 0.0;
+>       s->downtime = 0;
+>       s->expected_downtime = 0;
+> -    s->setup_time = 0;
+>       s->start_postcopy = false;
+>       s->postcopy_after_devices = false;
+>       s->migration_thread_running = false;
+> @@ -2640,7 +2639,7 @@ static void migration_calculate_complete(MigrationState *s)
+>           s->downtime = end_time - s->downtime_start;
+>       }
+>   
+> -    transfer_time = s->total_time - s->setup_time;
+> +    transfer_time = s->total_time - stat64_get(&mig_stats.setup_time);
+>       if (transfer_time) {
+>           s->mbps = ((double) bytes * 8.0) / transfer_time / 1000;
+>       }
+> @@ -2965,7 +2964,7 @@ static void *migration_thread(void *opaque)
+>       qemu_savevm_wait_unplug(s, MIGRATION_STATUS_SETUP,
+>                                  MIGRATION_STATUS_ACTIVE);
+>   
+> -    s->setup_time = qemu_clock_get_ms(QEMU_CLOCK_HOST) - setup_start;
+> +    calculate_time_since(&mig_stats.setup_time, setup_start);
+>   
+>       trace_migration_thread_setup_complete();
+>   
+> @@ -3077,7 +3076,7 @@ static void *bg_migration_thread(void *opaque)
+>       qemu_savevm_wait_unplug(s, MIGRATION_STATUS_SETUP,
+>                                  MIGRATION_STATUS_ACTIVE);
+>   
+> -    s->setup_time = qemu_clock_get_ms(QEMU_CLOCK_HOST) - setup_start;
+> +    calculate_time_since(&mig_stats.setup_time, setup_start);
+>   
+>       trace_migration_thread_setup_complete();
+>       s->downtime_start = qemu_clock_get_ms(QEMU_CLOCK_REALTIME);
+> diff --git a/migration/migration.h b/migration/migration.h
+> index 3a918514e7..7f554455ac 100644
+> --- a/migration/migration.h
+> +++ b/migration/migration.h
+> @@ -311,7 +311,6 @@ struct MigrationState {
+>       int64_t downtime;
+>       int64_t expected_downtime;
+>       bool capabilities[MIGRATION_CAPABILITY__MAX];
+> -    int64_t setup_time;
+>       /*
+>        * Whether guest was running when we enter the completion stage.
+>        * If migration is interrupted by any reason, we need to continue
+
 
