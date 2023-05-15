@@ -2,92 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 799AF702763
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 May 2023 10:40:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 95CD070275F
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 May 2023 10:39:35 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pyTiG-00078L-T6; Mon, 15 May 2023 04:37:48 -0400
+	id 1pyTj6-0007DY-LW; Mon, 15 May 2023 04:38:40 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pyTiD-00075i-3z
- for qemu-devel@nongnu.org; Mon, 15 May 2023 04:37:45 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1pyTix-0007CV-9Z
+ for qemu-devel@nongnu.org; Mon, 15 May 2023 04:38:32 -0400
+Received: from smtpout2.mo529.mail-out.ovh.net ([79.137.123.220])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pyTiB-0003T8-F2
- for qemu-devel@nongnu.org; Mon, 15 May 2023 04:37:44 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1684139862;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=uycywLDTlVxNKYvAeYFf+amTd5OBZMEtpMq6zU3s3b8=;
- b=XOlS2/aOGJQ0mGsCxDTown9wvDeZeScDPhbi3m5pU6ZIgt/1Mz35zyZ70pmkgi6erRd8sc
- +P9Q3AMjmAYFeBXyD/TDsdhmspntmUSHYI2jU6fVmAIzIc1eXG+bgDNUpSWdjjINH/fr5J
- 4Kq+iJex3Hd0wgWc6zG6ZHNLHGompDw=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-629-_qr7ZTu6OHu0lLH0isyaHg-1; Mon, 15 May 2023 04:37:40 -0400
-X-MC-Unique: _qr7ZTu6OHu0lLH0isyaHg-1
-Received: by mail-wr1-f70.google.com with SMTP id
- ffacd0b85a97d-3078ad2f421so6248869f8f.2
- for <qemu-devel@nongnu.org>; Mon, 15 May 2023 01:37:40 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1684139859; x=1686731859;
- h=mime-version:message-id:date:reply-to:user-agent:references
- :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=uycywLDTlVxNKYvAeYFf+amTd5OBZMEtpMq6zU3s3b8=;
- b=dYbdWYOJLmjFnGwBYOMe5/xL95PcLOwBGBfrFZAyld2oxJnN3lWiWeixj3R9y6uFUl
- VgqNXcDSDsYc3iLEcmComMb4YSz2XLLJZONY0/jobwS3u+rP0Q5+Z7gKQETzY22htgxM
- XkQ0oAytFB5G/QqXJVLV4tVCHwDoGPTHo4FTQHJocRLcmP3hAdt6uqPNe2kSddtCvYGL
- WCE+JEBbwL9ilfpBq9Xi6frr7owpIM/DTO3M+Z9pRzQhWRS5eVglRDkvPG2pvsEVNEjc
- wi4GgiaftaCWe0ZNPUzEck8H2vasg3GQm+l4CWMHIiUCGJ2MF42Y4DNti0yzTrJF7YuS
- e7Ag==
-X-Gm-Message-State: AC+VfDxuJD+9TkwOpYQKvu6SB5YDY7khZjY0dX5cfhyw9Q31qrPsmB+b
- tfv4eyQE9Cle3PaKjRPG7zi42X3TejOzIqfEbdZKh30i/ojQxEspe25y61J3pLPK3lZYdNtCbma
- nnVx8jZGAePIDUao=
-X-Received: by 2002:adf:f208:0:b0:2fb:1d3a:93ff with SMTP id
- p8-20020adff208000000b002fb1d3a93ffmr24146691wro.61.1684139859562; 
- Mon, 15 May 2023 01:37:39 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ5APdqf1SHQTHyiucH3MZagVTn8zQKAuHfUUBJ+///I3dQiHDhq8Tl08aCaDj6gOQRVFgcPrQ==
-X-Received: by 2002:adf:f208:0:b0:2fb:1d3a:93ff with SMTP id
- p8-20020adff208000000b002fb1d3a93ffmr24146670wro.61.1684139859274; 
- Mon, 15 May 2023 01:37:39 -0700 (PDT)
-Received: from redhat.com (static-92-120-85-188.ipcom.comunitel.net.
- [188.85.120.92]) by smtp.gmail.com with ESMTPSA id
- w3-20020a05600018c300b002fe96f0b3acsm31926689wrq.63.2023.05.15.01.37.38
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 15 May 2023 01:37:38 -0700 (PDT)
-From: Juan Quintela <quintela@redhat.com>
-To: Het Gala <het.gala@nutanix.com>
-Cc: qemu-devel@nongnu.org,  prerna.saxena@nutanix.com,  dgilbert@redhat.com,
- pbonzini@redhat.com,  berrange@redhat.com,  armbru@redhat.com,
- eblake@redhat.com,  manish.mishra@nutanix.com,
- aravind.retnakaran@nutanix.com
-Subject: Re: [PATCH v4 1/8] migration: introduced 'MigrateAddress' in QAPI
- for migration wire protocol.
-In-Reply-To: <20230512143240.192504-2-het.gala@nutanix.com> (Het Gala's
- message of "Fri, 12 May 2023 14:32:33 +0000")
-References: <20230512143240.192504-1-het.gala@nutanix.com>
- <20230512143240.192504-2-het.gala@nutanix.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
-Date: Mon, 15 May 2023 10:37:37 +0200
-Message-ID: <878rdq2dny.fsf@secure.mitica>
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1pyTiv-0003ar-2c
+ for qemu-devel@nongnu.org; Mon, 15 May 2023 04:38:31 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.109.146.59])
+ by mo529.mail-out.ovh.net (Postfix) with ESMTPS id ACED620A05;
+ Mon, 15 May 2023 08:38:24 +0000 (UTC)
+Received: from kaod.org (37.59.142.109) by DAG4EX2.mxp5.local (172.16.2.32)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.23; Mon, 15 May
+ 2023 10:38:23 +0200
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-109S00332a1fe3a-bb4d-4645-aab5-6c47967496a5,
+ C2820DDF228AE5DDDBFD944B87CC7F3B41DD1A91) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <d21c0d95-58e5-a274-ea91-2bd275db8a9b@kaod.org>
+Date: Mon, 15 May 2023 10:38:22 +0200
 MIME-Version: 1.0
-Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH 03/21] migration: We set the rate_limit by a second
+Content-Language: en-US
+To: Juan Quintela <quintela@redhat.com>, <qemu-devel@nongnu.org>
+CC: Daniel Henrique Barboza <danielhb413@gmail.com>, Christian Borntraeger
+ <borntraeger@linux.ibm.com>, David Hildenbrand <david@redhat.com>, Stefan
+ Hajnoczi <stefanha@redhat.com>, <qemu-block@nongnu.org>, Eric Blake
+ <eblake@redhat.com>, Vladimir Sementsov-Ogievskiy
+ <vsementsov@yandex-team.ru>, John Snow <jsnow@redhat.com>, Halil Pasic
+ <pasic@linux.ibm.com>, Peter Xu <peterx@redhat.com>, Richard Henderson
+ <richard.henderson@linaro.org>, David Gibson <david@gibson.dropbear.id.au>,
+ Harsh Prateek Bora <harshpb@linux.ibm.com>, Eric Farman
+ <farman@linux.ibm.com>, Greg Kurz <groug@kaod.org>, <qemu-ppc@nongnu.org>,
+ <qemu-s390x@nongnu.org>, Fam Zheng <fam@euphon.net>, Thomas Huth
+ <thuth@redhat.com>, Leonardo Bras <leobras@redhat.com>, Ilya Leoshkevich
+ <iii@linux.ibm.com>
+References: <20230508130909.65420-1-quintela@redhat.com>
+ <20230508130909.65420-4-quintela@redhat.com>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <20230508130909.65420-4-quintela@redhat.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [37.59.142.109]
+X-ClientProxiedBy: DAG5EX2.mxp5.local (172.16.2.42) To DAG4EX2.mxp5.local
+ (172.16.2.32)
+X-Ovh-Tracer-GUID: 4db0d695-16c8-4216-a37d-3546ecf1209e
+X-Ovh-Tracer-Id: 17257793775043185561
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvhedrfeehjedgtdejucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtucfnvgcuifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeffudefleeiudejfeffhfejffeigffhhffhvdekieejheelvdeufffhjedtheeggeenucfkphepuddvjedrtddrtddruddpfeejrdehledrudegvddruddtledpkedvrdeigedrvdehtddrudejtdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeduvdejrddtrddtrddupdhmrghilhhfrhhomhepoegtlhhgsehkrghougdrohhrgheqpdhnsggprhgtphhtthhopedupdhrtghpthhtohepqhhuihhnthgvlhgrsehrvgguhhgrthdrtghomhdpthhhuhhthhesrhgvughhrghtrdgtohhmpdhfrghmsegvuhhphhhonhdrnhgvthdpqhgvmhhuqdhsfeeltdigsehnohhnghhnuhdrohhrghdpqhgvmhhuqdhpphgtsehnohhnghhnuhdrohhrghdpfhgrrhhmrghnsehlihhnuhigrdhisghmrdgtohhmpdhhrghrshhhphgssehlihhnuhigrdhisghmrdgtohhmpdgurghvihgusehgihgsshhonhdrughrohhpsggvrghrrdhiugdrrghupdhrih
+ gthhgrrhgurdhhvghnuggvrhhsohhnsehlihhnrghrohdrohhrghdplhgvohgsrhgrshesrhgvughhrghtrdgtohhmpdhpvghtvghrgiesrhgvughhrghtrdgtohhmpdhjshhnohifsehrvgguhhgrthdrtghomhdpvhhsvghmvghnthhsohhvseihrghnuggvgidqthgvrghmrdhruhdpvggslhgrkhgvsehrvgguhhgrthdrtghomhdpqhgvmhhuqdgslhhotghksehnohhnghhnuhdrohhrghdpshhtvghfrghnhhgrsehrvgguhhgrthdrtghomhdpuggrvhhiugesrhgvughhrghtrdgtohhmpdgsohhrnhhtrhgrvghgvghrsehlihhnuhigrdhisghmrdgtohhmpdgurghnihgvlhhhsgegudefsehgmhgrihhlrdgtohhmpdhqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhgpdhprghsihgtsehlihhnuhigrdhisghmrdgtohhmpdhiihhisehlihhnuhigrdhisghmrdgtohhmpdhgrhhouhhgsehkrghougdrohhrghdpoffvtefjohhsthepmhhohedvledpmhhouggvpehsmhhtphhouhht
+Received-SPF: pass client-ip=79.137.123.220; envelope-from=clg@kaod.org;
+ helo=smtpout2.mo529.mail-out.ovh.net
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.93,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -100,89 +82,104 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Het Gala <het.gala@nutanix.com> wrote:
-> This patch introduces well defined MigrateAddress struct and its related child
-> objects.
->
-> The existing argument of 'migrate' and 'migrate-incoming' QAPI - 'uri' is of
-> string type. The current migration flow follows double encoding scheme for
-> fetching migration parameters such as 'uri' and this is not an ideal design.
->
-> Motive for intoducing struct level design is to prevent double encoding of QAPI
-> arguments, as Qemu should be able to directly use the QAPI arguments without
-> any level of encoding.
->
-> Suggested-by: Aravind Retnakaran <aravind.retnakaran@nutanix.com>
-> Signed-off-by: Het Gala <het.gala@nutanix.com>
+On 5/8/23 15:08, Juan Quintela wrote:
+> That the implementation does the check every 100 milliseconds is an
+> implementation detail that shouldn't be seen on the interfaz.
+
+Si. Pero, "interface" es mejor aqui.
+
+> Notice that all callers of qemu_file_set_rate_limit() used the
+> division or pass 0, so this change is a NOP.
+> 
+> Signed-off-by: Juan Quintela <quintela@redhat.com>
+
+
+Reviewed-by: Cédric Le Goater <clg@kaod.org>
+
+C.
+
+
 > ---
->  qapi/migration.json | 41 +++++++++++++++++++++++++++++++++++++++++
->  1 file changed, 41 insertions(+)
->
-> diff --git a/qapi/migration.json b/qapi/migration.json
-> index 82000adce4..bf90bd8fe2 100644
-> --- a/qapi/migration.json
-> +++ b/qapi/migration.json
-> @@ -1423,6 +1423,47 @@
->  ##
->  { 'command': 'migrate-continue', 'data': {'state': 'MigrationStatus'} }
->  
-> +##
-> +# @MigrateTransport:
-> +#
-> +# The supported communication transport mechanisms for migration
-> +#
-> +# @socket: Supported communication type between two devices for migration.
-> +#          Socket is able to cover all of 'tcp', 'unix', 'vsock' and
-> +#          'fd' already
-> +#
-> +# @exec: Supported communication type to redirect migration stream into file.
-> +#
-> +# @rdma: Supported communication type to redirect rdma type migration stream.
-> +#
-> +# Since 8.0
-
-8.1
-
-I can fix that if it gets acked from someone from QAPI.
-
-> +##
-> +{ 'enum': 'MigrateTransport',
-> +  'data': ['socket', 'exec', 'rdma'] }
-> +
-> +##
-> +# @MigrateExecCommand:
-> + #
-> + # Since 8.0
-> + ##
-> +{ 'struct': 'MigrateExecCommand',
-> +   'data': {'args': [ 'str' ] } }
-> +
-> +##
-> +# @MigrateAddress:
-> +#
-> +# The options available for communication transport mechanisms for migration
-> +#
-> +# Since 8.0
-> +##
-> +{ 'union': 'MigrateAddress',
-> +  'base': { 'transport' : 'MigrateTransport'},
-> +  'discriminator': 'transport',
-> +  'data': {
-> +    'socket': 'SocketAddress',
-> +    'exec': 'MigrateExecCommand',
-> +    'rdma': 'InetSocketAddress' } }
-> +
->  ##
->  # @migrate:
->  #
-
-I will wait for a comment from QAPI people, from migration point of
-view:
-
-Reviewed-by: Juan Quintela <quintela@redhat.com>
+>   migration/migration.c | 7 +++----
+>   migration/options.c   | 4 ++--
+>   migration/qemu-file.c | 6 +++++-
+>   3 files changed, 10 insertions(+), 7 deletions(-)
+> 
+> diff --git a/migration/migration.c b/migration/migration.c
+> index 3979a98949..e17a6538b4 100644
+> --- a/migration/migration.c
+> +++ b/migration/migration.c
+> @@ -2117,7 +2117,7 @@ static int postcopy_start(MigrationState *ms)
+>        * will notice we're in POSTCOPY_ACTIVE and not actually
+>        * wrap their state up here
+>        */
+> -    qemu_file_set_rate_limit(ms->to_dst_file, bandwidth / XFER_LIMIT_RATIO);
+> +    qemu_file_set_rate_limit(ms->to_dst_file, bandwidth);
+>       if (migrate_postcopy_ram()) {
+>           /* Ping just for debugging, helps line traces up */
+>           qemu_savevm_send_ping(ms->to_dst_file, 2);
+> @@ -3207,11 +3207,10 @@ void migrate_fd_connect(MigrationState *s, Error *error_in)
+>   
+>       if (resume) {
+>           /* This is a resumed migration */
+> -        rate_limit = migrate_max_postcopy_bandwidth() /
+> -            XFER_LIMIT_RATIO;
+> +        rate_limit = migrate_max_postcopy_bandwidth();
+>       } else {
+>           /* This is a fresh new migration */
+> -        rate_limit = migrate_max_bandwidth() / XFER_LIMIT_RATIO;
+> +        rate_limit = migrate_max_bandwidth();
+>   
+>           /* Notify before starting migration thread */
+>           notifier_list_notify(&migration_state_notifiers, s);
+> diff --git a/migration/options.c b/migration/options.c
+> index 2e759cc306..d04b5fbc3a 100644
+> --- a/migration/options.c
+> +++ b/migration/options.c
+> @@ -1243,7 +1243,7 @@ static void migrate_params_apply(MigrateSetParameters *params, Error **errp)
+>           s->parameters.max_bandwidth = params->max_bandwidth;
+>           if (s->to_dst_file && !migration_in_postcopy()) {
+>               qemu_file_set_rate_limit(s->to_dst_file,
+> -                                s->parameters.max_bandwidth / XFER_LIMIT_RATIO);
+> +                                s->parameters.max_bandwidth);
+>           }
+>       }
+>   
+> @@ -1275,7 +1275,7 @@ static void migrate_params_apply(MigrateSetParameters *params, Error **errp)
+>           s->parameters.max_postcopy_bandwidth = params->max_postcopy_bandwidth;
+>           if (s->to_dst_file && migration_in_postcopy()) {
+>               qemu_file_set_rate_limit(s->to_dst_file,
+> -                    s->parameters.max_postcopy_bandwidth / XFER_LIMIT_RATIO);
+> +                    s->parameters.max_postcopy_bandwidth);
+>           }
+>       }
+>       if (params->has_max_cpu_throttle) {
+> diff --git a/migration/qemu-file.c b/migration/qemu-file.c
+> index 745361d238..12cf7fb04e 100644
+> --- a/migration/qemu-file.c
+> +++ b/migration/qemu-file.c
+> @@ -29,6 +29,7 @@
+>   #include "migration.h"
+>   #include "qemu-file.h"
+>   #include "trace.h"
+> +#include "options.h"
+>   #include "qapi/error.h"
+>   
+>   #define IO_BUF_SIZE 32768
+> @@ -747,7 +748,10 @@ int64_t qemu_file_get_rate_limit(QEMUFile *f)
+>   
+>   void qemu_file_set_rate_limit(QEMUFile *f, int64_t limit)
+>   {
+> -    f->rate_limit_max = limit;
+> +    /*
+> +     * 'limit' is per second.  But we check it each 100 miliseconds.
+> +     */
+> +    f->rate_limit_max = limit / XFER_LIMIT_RATIO;
+>   }
+>   
+>   void qemu_file_reset_rate_limit(QEMUFile *f)
 
 
