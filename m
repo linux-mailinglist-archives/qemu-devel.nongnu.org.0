@@ -2,52 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B47BE702E05
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 May 2023 15:24:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 600AF702E08
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 May 2023 15:25:23 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pyYBN-0000M5-Hn; Mon, 15 May 2023 09:24:09 -0400
+	id 1pyYC7-0000a2-Rg; Mon, 15 May 2023 09:24:55 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1pyYBJ-0000Lw-NL
- for qemu-devel@nongnu.org; Mon, 15 May 2023 09:24:05 -0400
+ id 1pyYC2-0000V4-8K
+ for qemu-devel@nongnu.org; Mon, 15 May 2023 09:24:51 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1pyYBA-0005PT-WF
- for qemu-devel@nongnu.org; Mon, 15 May 2023 09:24:05 -0400
+ id 1pyYC0-0005fZ-PG
+ for qemu-devel@nongnu.org; Mon, 15 May 2023 09:24:50 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1684157034;
+ s=mimecast20190719; t=1684157088;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding;
- bh=jjS4WNOgBCkBwjlG5As3yYV02ewC5fgq+aSGmOk3k28=;
- b=ek9bPnROgdGG5pA0CaS2XM6U6yKzkmlQHbZq5BmWeOoAH/y7KZHxaaGlEs9Uq0B1Al8g+w
- zs68wuNOcDcG655itHl6hnVy/d+13cFSEk5TkDhpyaAVt9Z6HNYZa4nCnzeBbbekTGlMPh
- kIRxHNbo7Ynj70xRCzzeaG7d3ooMLTU=
+ bh=2gejgFtOIKkxVCEgs2subIwJOc9s9H8jJPdkSyz9dqY=;
+ b=gCTid0S01K3MqDLoFf3IU13ilRaFWN3Skl2fIEZbvXST8nDi74FJjUg5JhISpAlyRVvPKM
+ oGkhCrgbYkiMnqlE6LORDF99ZtuEU5j9SwwoI+eLFv6ret2ntdgSn9s+d0Xg+9CnvwCIq7
+ xnDOc74vtRmgoLcjOtb0CZSrgprgrl0=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-331-zpThg5ZqOru_B7EpWoQihg-1; Mon, 15 May 2023 09:23:53 -0400
-X-MC-Unique: zpThg5ZqOru_B7EpWoQihg-1
+ us-mta-267-aQuLJGY4MHSiaQXVHA_cTA-1; Mon, 15 May 2023 09:24:45 -0400
+X-MC-Unique: aQuLJGY4MHSiaQXVHA_cTA-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
  [10.11.54.3])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D2EA5101A54F
- for <qemu-devel@nongnu.org>; Mon, 15 May 2023 13:23:52 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A71A8800047;
+ Mon, 15 May 2023 13:24:44 +0000 (UTC)
 Received: from localhost (unknown [10.39.208.28])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 41AC01121314;
- Mon, 15 May 2023 13:23:50 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 379BD1121314;
+ Mon, 15 May 2023 13:24:42 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
-Cc: kraxel@redhat.com,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
-Subject: [PATCH] ui/dbus: fix compilation when GBM && !OPENGL
-Date: Mon, 15 May 2023 17:23:48 +0400
-Message-Id: <20230515132348.1024663-1-marcandre.lureau@redhat.com>
+Cc: kraxel@redhat.com, berrange@redhat.com,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ Stefan Weil <sw@weilnetz.de>
+Subject: [PATCH] win32: wrap socket close() with an exception handler
+Date: Mon, 15 May 2023 17:24:40 +0400
+Message-Id: <20230515132440.1025315-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -79,65 +80,78 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-commit 4814d3cbf ("ui/dbus: restrict opengl to gbm-enabled config")
-assumes that whenever GBM is available, OpenGL is. This is not always
-the case, let's further restrict opengl-related paths and fix some
-compilation issues.
+Since commit abe34282 ("win32: avoid mixing SOCKET and file descriptor
+space"), we set HANDLE_FLAG_PROTECT_FROM_CLOSE on the socket FD, to
+prevent closing the HANDLE with CloseHandle. This raises an exception
+which under gdb is fatal, and qemu exits.
+
+Let's catch the expected error instead.
+
+Note: this appears to work, but the mingw64 macro is not well documented
+or tested, and it's not obvious how it is meant to be used.
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 ---
- ui/dbus-listener.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ include/sysemu/os-win32.h |  4 ++++
+ util/oslib-win32.c        | 23 +++++++++++++++++------
+ 2 files changed, 21 insertions(+), 6 deletions(-)
 
-diff --git a/ui/dbus-listener.c b/ui/dbus-listener.c
-index 911acdc529..defe2220c0 100644
---- a/ui/dbus-listener.c
-+++ b/ui/dbus-listener.c
-@@ -50,7 +50,7 @@ struct _DBusDisplayListener {
+diff --git a/include/sysemu/os-win32.h b/include/sysemu/os-win32.h
+index 15c296e0eb..65f6c9ea57 100644
+--- a/include/sysemu/os-win32.h
++++ b/include/sysemu/os-win32.h
+@@ -259,6 +259,10 @@ ssize_t qemu_recv_wrap(int sockfd, void *buf, size_t len, int flags);
+ ssize_t qemu_recvfrom_wrap(int sockfd, void *buf, size_t len, int flags,
+                            struct sockaddr *addr, socklen_t *addrlen);
  
- G_DEFINE_TYPE(DBusDisplayListener, dbus_display_listener, G_TYPE_OBJECT)
- 
--#ifdef CONFIG_GBM
-+#if defined(CONFIG_OPENGL) && defined(CONFIG_GBM)
- static void dbus_update_gl_cb(GObject *source_object,
-                            GAsyncResult *res,
-                            gpointer user_data)
-@@ -239,7 +239,7 @@ static void dbus_refresh(DisplayChangeListener *dcl)
-     graphic_hw_update(dcl->con);
++EXCEPTION_DISPOSITION
++win32_close_exception_handler(struct _EXCEPTION_RECORD*, void*,
++                              struct _CONTEXT*, void*);
++
+ #ifdef __cplusplus
+ }
+ #endif
+diff --git a/util/oslib-win32.c b/util/oslib-win32.c
+index a98638729a..fafbab80b4 100644
+--- a/util/oslib-win32.c
++++ b/util/oslib-win32.c
+@@ -479,6 +479,13 @@ int qemu_bind_wrap(int sockfd, const struct sockaddr *addr,
+     return ret;
  }
  
--#ifdef CONFIG_GBM
-+#if defined(CONFIG_OPENGL) && defined(CONFIG_GBM)
- static void dbus_gl_gfx_update(DisplayChangeListener *dcl,
-                                int x, int y, int w, int h)
++EXCEPTION_DISPOSITION
++win32_close_exception_handler(struct _EXCEPTION_RECORD*,
++                              void*, struct _CONTEXT*, void*)
++{
++    return EXCEPTION_EXECUTE_HANDLER;
++}
++
+ #undef close
+ int qemu_close_socket_osfhandle(int fd)
  {
-@@ -302,7 +302,7 @@ static void dbus_gfx_update(DisplayChangeListener *dcl,
-         DBUS_DEFAULT_TIMEOUT, NULL, NULL, NULL);
- }
- 
--#ifdef CONFIG_GBM
-+#if defined(CONFIG_OPENGL) && defined(CONFIG_GBM)
- static void dbus_gl_gfx_switch(DisplayChangeListener *dcl,
-                                struct DisplaySurface *new_surface)
- {
-@@ -369,7 +369,7 @@ static void dbus_cursor_define(DisplayChangeListener *dcl,
-         NULL);
- }
- 
--#ifdef CONFIG_GBM
-+#if defined(CONFIG_OPENGL) && defined(CONFIG_GBM)
- const DisplayChangeListenerOps dbus_gl_dcl_ops = {
-     .dpy_name                = "dbus-gl",
-     .dpy_gfx_update          = dbus_gl_gfx_update,
-@@ -417,7 +417,7 @@ dbus_display_listener_constructed(GObject *object)
-     DBusDisplayListener *ddl = DBUS_DISPLAY_LISTENER(object);
- 
-     ddl->dcl.ops = &dbus_dcl_ops;
--#ifdef CONFIG_GBM
-+#if defined(CONFIG_OPENGL) && defined(CONFIG_GBM)
-     if (display_opengl) {
-         ddl->dcl.ops = &dbus_gl_dcl_ops;
+@@ -504,12 +511,16 @@ int qemu_close_socket_osfhandle(int fd)
+         return -1;
      }
+ 
+-    /*
+-     * close() returns EBADF since we PROTECT_FROM_CLOSE the underlying handle,
+-     * but the FD is actually freed
+-     */
+-    if (close(fd) < 0 && errno != EBADF) {
+-        return -1;
++    __try1(win32_close_exception_handler) {
++        /*
++         * close() returns EBADF since we PROTECT_FROM_CLOSE the underlying
++         * handle, but the FD is actually freed
++         */
++        if (close(fd) < 0 && errno != EBADF) {
++            return -1;
++        }
++    }
++    __except1 {
+     }
+ 
+     if (!SetHandleInformation((HANDLE)s, flags, flags)) {
 -- 
 2.40.1
 
