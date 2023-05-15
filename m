@@ -2,91 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15617702EDF
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 May 2023 15:57:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4728B702EF4
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 May 2023 15:59:28 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pyYhU-0004re-HK; Mon, 15 May 2023 09:57:20 -0400
+	id 1pyYij-0005Xl-Bw; Mon, 15 May 2023 09:58:37 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pyYhP-0004rQ-Sg
- for qemu-devel@nongnu.org; Mon, 15 May 2023 09:57:16 -0400
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1pyYig-0005Vq-Oe
+ for qemu-devel@nongnu.org; Mon, 15 May 2023 09:58:34 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pyYhO-0006IA-3u
- for qemu-devel@nongnu.org; Mon, 15 May 2023 09:57:15 -0400
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1pyYib-0006QS-Ga
+ for qemu-devel@nongnu.org; Mon, 15 May 2023 09:58:34 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1684159032;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=JDzky7tH8pWfEVbI7PK8fdHZ49kS8Hcvy3LXt8kcxx8=;
- b=VLAZzFEmuyc4m9IcJpstbR9gvyXicOqKE0odbcZPk8TS2WWt8QPdM746VSElxgcTcNeNNB
- oCxbXA27JfbhERhEUE1PNIBkgkflA4IcHPrdkncsZuvY0tvg2h8yVGo1tBcRcvZUN/NHnE
- KVnk9aw3k9wvM9NzAYlYnYdC0rFuiSg=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ s=mimecast20190719; t=1684159108;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version: content-type:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=iLk666Lb0MJpuDjqpMEEZwiejkqdJewNDxu/Du9I2/E=;
+ b=NAYAokPRjJ5DHtIVxFgZe4USrI7K8AkkqBY3Ri7rwpdBelVQYN+bdAb2eh8rvDzDI8qMa5
+ 5cig9FttiSd3bSUnNXiMxjNggkAhBixLImGWDXdPNaYQM9/OZSfBd2BFqIlb/HyK9Vm6Ed
+ 9tKmTYCbP12j/Xr165i4EYRGNvtr3AY=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-99-_962eAc0PxCtD9mNlRupPQ-1; Mon, 15 May 2023 09:57:10 -0400
-X-MC-Unique: _962eAc0PxCtD9mNlRupPQ-1
-Received: by mail-wm1-f71.google.com with SMTP id
- 5b1f17b1804b1-3f4231d7893so56516025e9.2
- for <qemu-devel@nongnu.org>; Mon, 15 May 2023 06:57:09 -0700 (PDT)
+ us-mta-57-FIbk9ACcNQS2ILbwx0xSJw-1; Mon, 15 May 2023 09:58:27 -0400
+X-MC-Unique: FIbk9ACcNQS2ILbwx0xSJw-1
+Received: by mail-ed1-f69.google.com with SMTP id
+ 4fb4d7f45d1cf-50d89279d95so24594010a12.1
+ for <qemu-devel@nongnu.org>; Mon, 15 May 2023 06:58:27 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1684159029; x=1686751029;
- h=mime-version:message-id:date:reply-to:user-agent:references
- :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=JDzky7tH8pWfEVbI7PK8fdHZ49kS8Hcvy3LXt8kcxx8=;
- b=KSTEtz7Elp7RX6tMhaDT34eli+Qz0r8ZHW+KavML36EPuxNQgczQcRonsBoNlmD5Yg
- F56K7Mw1B9f6GLHnwhYVuLG5qTwkVpiSNyr6sNR7AjKlp2yAxv9E+2OcU09fzpORqY4j
- vel4qb6VKCvMpAjn/8kjKjl97ErPKmBT0grQiH5LHxXHT93SrM5A7IaoyndNxA8Wzfi0
- ev80XQbH0/OCP2CTxsdzBEBb7HLB9dUoRZrZXRkB3myU8Or6gy6oK06vQnBj7BcfUM+j
- Md0Dudn3i95QF8XqaUmoNNrVtTD9enW5boI9ZmfXo207CiSH+XeEuruuSC55QSlF0Yw2
- JdEg==
-X-Gm-Message-State: AC+VfDzMCrG1pDHe0hmUHBFJ6J1Ps20cf9ZM2AaJNJtivYvJ1cMDllUS
- yNbI58E6pFLbW0jxKeMRllscqmB8pZ6omdw8xoGgmle2115P/5KDicLItvPxxTMIpRZ9iggty4m
- uiOjB4QuyIILA4jw=
-X-Received: by 2002:a1c:f202:0:b0:3f1:75b0:dc47 with SMTP id
- s2-20020a1cf202000000b003f175b0dc47mr24466698wmc.15.1684159029019; 
- Mon, 15 May 2023 06:57:09 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ7sABpvgRHHFznhyED886iL2+b3yvxMV7Fr3XcYRSHXCxDpMLik/X5K9rg6rzLzKXkuv1cNKQ==
-X-Received: by 2002:a1c:f202:0:b0:3f1:75b0:dc47 with SMTP id
- s2-20020a1cf202000000b003f175b0dc47mr24466679wmc.15.1684159028669; 
- Mon, 15 May 2023 06:57:08 -0700 (PDT)
-Received: from redhat.com (static-92-120-85-188.ipcom.comunitel.net.
- [188.85.120.92]) by smtp.gmail.com with ESMTPSA id
- y17-20020a1c4b11000000b003f4fbd9cdb3sm8098830wma.34.2023.05.15.06.57.07
+ d=1e100.net; s=20221208; t=1684159105; x=1686751105;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=iLk666Lb0MJpuDjqpMEEZwiejkqdJewNDxu/Du9I2/E=;
+ b=MydizF3FEp5rkU9wDT+YzWGw2fN4xaKFUtVUW7lSk8rOPKPiyWMquHWNpsvRXWNg0C
+ 982LfvDc1+Tch4O/81qFckcbdIj+ND3zJicCrBIBOlfpEhdfKv14kHcW1rUUqFAlsJcn
+ h+4w2zSxjlKe5K9rE5mFGzTopHrAWHljseNubU4QoyeZPJh0364/7EZE4tzV6WZnjML6
+ uqu0KKZY80SrMRydnDUj93J53qEqvsJMfJMIlX1tV923CbFAvOm90jJehbv6MY4oKrjT
+ RvFiv4sPjq1obz0FUgHNeauke0ISWL8ybnmFJ2VRqlscKPPWENTnoOlpKwRsH1e4nm1U
+ L3rQ==
+X-Gm-Message-State: AC+VfDywCJZlf+ceUJ50bG9U/tzutm+Zb55msqJ/0k2YrHxKD3sUsbXz
+ YOHfFnuas/++IolrKCQIOtsgfgjtjz1PLrFOladfX8Llp9D5S4SpN82x/XUZZoKiKamsd7zLAcw
+ zWrT9pIPPTCrrgudE6lHJv63CQGgTj+xvw+HToTpefuE4Eqs47KjO0KBzN42qwWf3/Hks71jrd0
+ E=
+X-Received: by 2002:a17:906:dc8e:b0:965:f69b:4949 with SMTP id
+ cs14-20020a170906dc8e00b00965f69b4949mr28691633ejc.36.1684159105648; 
+ Mon, 15 May 2023 06:58:25 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ5240Lj8Mxp1Lk86w0om8T0gSp1jzO+xwjGmfg8ApQZ+0Mb+x1wen2uYf8rBoLiDMDgMfswYg==
+X-Received: by 2002:a17:906:dc8e:b0:965:f69b:4949 with SMTP id
+ cs14-20020a170906dc8e00b00965f69b4949mr28691614ejc.36.1684159105231; 
+ Mon, 15 May 2023 06:58:25 -0700 (PDT)
+Received: from [192.168.10.118] ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
+ by smtp.gmail.com with ESMTPSA id
+ kz23-20020a17090777d700b009659fed3612sm9483460ejc.24.2023.05.15.06.58.24
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 15 May 2023 06:57:08 -0700 (PDT)
-From: Juan Quintela <quintela@redhat.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-Cc: qemu-devel@nongnu.org,  jasowang@redhat.com,  philmd@linaro.org,
- thuth@redhat.com,  berrange@redhat.com,  marcandre.lureau@redhat.com,
- pbonzini@redhat.com,  leobras@redhat.com,  peterx@redhat.com,
- zhanghailiang@xfusion.com,  chen.zhang@intel.com,  lukasstraub2@web.de
-Subject: Re: [PATCH v5 2/3] migration: split migration_incoming_co
-In-Reply-To: <20230515130640.46035-3-vsementsov@yandex-team.ru> (Vladimir
- Sementsov-Ogievskiy's message of "Mon, 15 May 2023 16:06:39 +0300")
-References: <20230515130640.46035-1-vsementsov@yandex-team.ru>
- <20230515130640.46035-3-vsementsov@yandex-team.ru>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
-Date: Mon, 15 May 2023 15:57:07 +0200
-Message-ID: <871qjhzoi4.fsf@secure.mitica>
+ Mon, 15 May 2023 06:58:24 -0700 (PDT)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: =?UTF-8?q?Th=C3=A9o=20Maillart?= <tmaillart@freebox.fr>,
+ qemu-stable@nongnu.org
+Subject: [PATCH] scsi-generic: fix buffer overflow on block limits inquiry
+Date: Mon, 15 May 2023 15:58:23 +0200
+Message-Id: <20230515135823.382388-1-pbonzini@redhat.com>
+X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
-Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
+Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01,
+ T_SPF_TEMPERROR=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -99,43 +96,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru> wrote:
-> Originally, migration_incoming_co was introduced by
-> 25d0c16f625feb3b6
->    "migration: Switch to COLO process after finishing loadvm"
-> to be able to enter from COLO code to one specific yield point, added
-> by 25d0c16f625feb3b6.
->
-> Later in 923709896b1b0
->  "migration: poll the cm event for destination qemu"
-> we reused this variable to wake the migration incoming coroutine from
-> RDMA code.
->
-> That was doubtful idea. Entering coroutines is a very fragile thing:
-> you should be absolutely sure which yield point you are going to enter.
->
-> I don't know how much is it safe to enter during qemu_loadvm_state()
-> which I think what RDMA want to do. But for sure RDMA shouldn't enter
-> the special COLO-related yield-point. As well, COLO code doesn't want
-> to enter during qemu_loadvm_state(), it want to enter it's own specific
-> yield-point.
->
-> As well, when in 8e48ac95865ac97d
->  "COLO: Add block replication into colo process" we added
-> bdrv_invalidate_cache_all() call (now it's called activate_all())
-> it became possible to enter the migration incoming coroutine during
-> that call which is wrong too.
->
-> So, let't make these things separate and disjoint: loadvm_co for RDMA,
-> non-NULL during qemu_loadvm_state(), and colo_incoming_co for COLO,
-> non-NULL only around specific yield.
->
-> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+Using linux 6.x guest, at boot time, an inquiry on a scsi-generic
+device makes qemu crash.  This is caused by a buffer overflow when
+scsi-generic patches the block limits VPD page.
 
-Reviewed-by: Juan Quintela <quintela@redhat.com>
+Do the operations on a temporary on-stack buffer that is guaranteed
+to be large enough.
+
+Reported-by: Théo Maillart <tmaillart@freebox.fr>
+Analyzed-by: Théo Maillart <tmaillart@freebox.fr>
+Cc: qemu-stable@nongnu.org
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
+ hw/scsi/scsi-generic.c | 13 ++++++++-----
+ 1 file changed, 8 insertions(+), 5 deletions(-)
+
+diff --git a/hw/scsi/scsi-generic.c b/hw/scsi/scsi-generic.c
+index ac9fa662b4e3..373fab0a2a61 100644
+--- a/hw/scsi/scsi-generic.c
++++ b/hw/scsi/scsi-generic.c
+@@ -191,12 +191,15 @@ static int scsi_handle_inquiry_reply(SCSIGenericReq *r, SCSIDevice *s, int len)
+     if ((s->type == TYPE_DISK || s->type == TYPE_ZBC) &&
+         (r->req.cmd.buf[1] & 0x01)) {
+         page = r->req.cmd.buf[2];
+-        if (page == 0xb0) {
++        if (page == 0xb0 && r->buflen >= 8) {
++            uint8_t buf[16] = {};
+             uint64_t max_transfer = calculate_max_transfer(s);
+-            stl_be_p(&r->buf[8], max_transfer);
+-            /* Also take care of the opt xfer len. */
+-            stl_be_p(&r->buf[12],
+-                    MIN_NON_ZERO(max_transfer, ldl_be_p(&r->buf[12])));
++
++            memcpy(buf, r->buf, r->buflen);
++            stl_be_p(&buf[8], max_transfer);
++            stl_be_p(&buf[12], MIN_NON_ZERO(max_transfer, ldl_be_p(&buf[12])));
++            memcpy(r->buf + 8, buf + 8, r->buflen - 8);
++
+         } else if (s->needs_vpd_bl_emulation && page == 0x00 && r->buflen >= 4) {
+             /*
+              * Now we're capable of supplying the VPD Block Limits
+-- 
+2.40.1
 
 
