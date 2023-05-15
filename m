@@ -2,69 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3449E70256A
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 May 2023 08:53:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5AB997025B5
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 May 2023 09:11:11 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pyS4S-0008RI-2g; Mon, 15 May 2023 02:52:36 -0400
+	id 1pySKm-00027f-O7; Mon, 15 May 2023 03:09:29 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mads@ynddal.dk>) id 1pyS4P-0008Pc-Jq
- for qemu-devel@nongnu.org; Mon, 15 May 2023 02:52:33 -0400
-Received: from pv50p00im-tydg10011801.me.com ([17.58.6.52])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mads@ynddal.dk>) id 1pyS4O-0006Y0-2n
- for qemu-devel@nongnu.org; Mon, 15 May 2023 02:52:33 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ynddal.dk; s=sig1;
- t=1684133548; bh=2pUsLdnzV/nrYVHfcQRA0LWNux6a0mtOR49RSCkzBzI=;
- h=Content-Type:Mime-Version:Subject:From:Date:Message-Id:To;
- b=QlTKeUp2E8FLfJda7oui48uN+nGe5eXb1/+A+aNXOSOV5CmVWE5ykrOAo6MjMVg8n
- WNIlazKZ2Ie2Hmk8UmnlbAIfOJE7KCiihSP7RIaRWtLGzW2crz2LtjtMSkeWbvr4GA
- N4GAoeyeB3UcfR9uI7WTc/4dL+aqv9UbfUZF7KosgItU45B3BFGkSfHKTRrWbHXbhW
- 8M3xB7sw2yVTqXEFfi9uNGLV6QnTt7Hko58L0bd4u4krcQAjNR3RyPy6lolsEJhoEh
- 2Aimp7WCrprAiWcu1Vp/8FCsjc9vFwdaWeklSDHCLgz6hbB+Yq0oQPvueM//MN5WHl
- bDn+WhU4tuGbA==
-Received: from smtpclient.apple (pv50p00im-dlb-asmtp-mailmevip.me.com
- [17.56.9.10])
- by pv50p00im-tydg10011801.me.com (Postfix) with ESMTPSA id 26C42800796;
- Mon, 15 May 2023 06:52:26 +0000 (UTC)
-Content-Type: text/plain;
-	charset=us-ascii
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3731.400.51.1.1\))
-Subject: Re: [PATCH v2 02/12] simpletrace: Annotate magic constants from QEMU
- code
-From: Mads Ynddal <mads@ynddal.dk>
-In-Reply-To: <20230509143454.GE1008478@fedora>
-Date: Mon, 15 May 2023 08:51:55 +0200
-Cc: qemu-devel@nongnu.org, Cleber Rosa <crosa@redhat.com>,
- John Snow <jsnow@redhat.com>
-Content-Transfer-Encoding: 7bit
-Message-Id: <AEB2BC52-A085-4D37-AAE0-033556C3964F@ynddal.dk>
-References: <20230502092339.27341-1-mads@ynddal.dk>
- <20230502092339.27341-3-mads@ynddal.dk> <20230509143454.GE1008478@fedora>
-To: Stefan Hajnoczi <stefanha@redhat.com>
-X-Mailer: Apple Mail (2.3731.400.51.1.1)
-X-Proofpoint-GUID: 4hxrcEb7SRf4YIbzElzbg3fZ01yPGOGh
-X-Proofpoint-ORIG-GUID: 4hxrcEb7SRf4YIbzElzbg3fZ01yPGOGh
-X-Proofpoint-Virus-Version: =?UTF-8?Q?vendor=3Dfsecure_engine=3D1.1.170-22c6f66c430a71ce266a39bfe25bc?=
- =?UTF-8?Q?2903e8d5c8f:6.0.517,18.0.883,17.0.605.474.0000000_definitions?=
- =?UTF-8?Q?=3D2022-06-21=5F08:2022-06-21=5F01,2022-06-21=5F08,2020-01-23?=
- =?UTF-8?Q?=5F02_signatures=3D0?=
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0
- spamscore=0 mlxscore=0
- adultscore=0 suspectscore=0 clxscore=1030 malwarescore=0 mlxlogscore=713
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2212070000 definitions=main-2305150061
-Received-SPF: pass client-ip=17.58.6.52; envelope-from=mads@ynddal.dk;
- helo=pv50p00im-tydg10011801.me.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pySKe-00026m-Kt
+ for qemu-devel@nongnu.org; Mon, 15 May 2023 03:09:23 -0400
+Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pySKd-0000aL-5C
+ for qemu-devel@nongnu.org; Mon, 15 May 2023 03:09:20 -0400
+Received: by mail-wm1-x329.google.com with SMTP id
+ 5b1f17b1804b1-3f42b984405so44388045e9.3
+ for <qemu-devel@nongnu.org>; Mon, 15 May 2023 00:09:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1684134554; x=1686726554;
+ h=content-transfer-encoding:in-reply-to:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=3TiKq1J8IY0O1HXOuweIKO2GcSqXLJr9CSOV6xyifKU=;
+ b=p4zHuoNQdtjg/Ro515Txj0E5Az8hhdRAQQf68trgMijhenQGsx6o4RvtcKdZUBIDj9
+ NbzrkV0YwM2UgdA5ouSPT+b4AtciI+AWVfQ0y1CgOmqJQw9amNqxtccGGbVnvaa+N6Pu
+ zRq+ZmOYMr7cja4HIRxKUwMGSLYfni/MJYyEjAo9ihtcYym0Tg/QZ1PjioALmiCQSzPQ
+ on9gX/FoR1XTpwCsC66bXwT4X+Dyd49N8jfpeG2Js1JlyniQJ8GaSMAissFqzBf3Qu80
+ RJhyj+uql3I3kFeRtQpPuOIS5esgunw4tYSBSyzwIa4ebosxdSScWFCOFc2D7szu4g5v
+ tbSw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1684134554; x=1686726554;
+ h=content-transfer-encoding:in-reply-to:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=3TiKq1J8IY0O1HXOuweIKO2GcSqXLJr9CSOV6xyifKU=;
+ b=V0vWW+XQJBr37OfKoJtC6NHvgVYpoZWHnhYQM+F/TNWe0dFcEJcHQ4se/bY7OjGx8R
+ dpS1ccoTJujg5nONwHq8ZmCw/sTRO9SpNnB2ULwwjPSdD7P7Y2D3uC/LCdBQ3tpKqMjQ
+ TIWafA322Fie52SbhoBI0jvBz2EzH3U3iy41cWv9zsG8HLa7HKWih1znDcytCea2nLr5
+ o/bOEudvKma8tPzX3ZANF1eOgWXcj7iGXvmgmK/+KB0ef2rXYXt+oW9y/gkngyqzai83
+ 4pGfwC1qAVFyhWmwi9P5ye4lDjJTwu0sFZCkvIHDSXL467c6u5FECMgo3esNf/71Lvoh
+ EglA==
+X-Gm-Message-State: AC+VfDxfy3RP31MsqJ8DBYCql5l5r0yp8vtxoZZXXG0cw0sxmtPFB4Oq
+ W82uSVPEqAisO4ohcitq55Zk7A==
+X-Google-Smtp-Source: ACHHUZ5o7G5eMstT9Jw7w71rf7cUG5pB8tGEGnA8AFPoXEBwAINV0t4yyAMUq4f1JE/olqW1cYcdkQ==
+X-Received: by 2002:a05:600c:2905:b0:3f4:e7c6:989a with SMTP id
+ i5-20020a05600c290500b003f4e7c6989amr8599785wmd.32.1684134554025; 
+ Mon, 15 May 2023 00:09:14 -0700 (PDT)
+Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
+ l19-20020a1c7913000000b003f42ceb3bf4sm17443413wme.32.2023.05.15.00.09.13
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 15 May 2023 00:09:13 -0700 (PDT)
+Message-ID: <75a51254-55fa-4030-baf5-234bad51d97c@linaro.org>
+Date: Mon, 15 May 2023 09:09:12 +0200
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.10.1
+Subject: Re: [PATCH 2/2] hw/arm/vexpress: Avoid trivial memory leak of
+ 'flashalias'
+Content-Language: en-US
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org
+References: <20230512170223.3801643-1-peter.maydell@linaro.org>
+ <20230512170223.3801643-3-peter.maydell@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20230512170223.3801643-3-peter.maydell@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::329;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x329.google.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.93,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,26 +93,31 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On 12/5/23 19:02, Peter Maydell wrote:
+> In the vexpress board code, we allocate a new MemoryRegion at the top
+> of vexpress_common_init() but only set it up and use it inside the
+> "if (map[VE_NORFLASHALIAS] != -1)" conditional, so we leak it if not.
+> This isn't a very interesting leak as it's a tiny amount of memory
+> once at startup, but it's easy to fix.
 > 
-> From my reply to v1 of this patch series:
+> We could silence Coverity simply by moving the g_new() into the
+> if() block, but this use of g_new(MemoryRegion, 1) is a legacy from
+> when this board model was originally written; we wouldn't do that
+> if we wrote it today. The MemoryRegions are conceptually a part of
+> the board and must not go away until the whole board is done with
+> (at the end of the simulation), so they belong in its state struct.
 > 
-> This is fragile since this information will be outdated if the C source
-> code changes (e.g. renaming files or variables).
+> This machine already has a VexpressMachineState struct that extends
+> MachineState, so statically put the MemoryRegions in there instead of
+> dynamically allocating them separately at runtime.
 > 
-> Instead I would add the following comment:
+> Spotted by Coverity (CID 1509083).
 > 
->  # This is the binary format that the QEMU "simple" trace backend
->  # emits. There is no specification documentation because the format is
->  # not guaranteed to be stable. Trace files must be parsed with the
->  # same trace-events-all file and the same simpletrace.py file that
->  # QEMU was built with.
-> 
-> I hope that clarifies the scope of the binary format and someone wishing
-> to look into the format would then know to look at the "simple" trace
-> backend.
-> 
-> Stefan
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> ---
+>   hw/arm/vexpress.c | 40 ++++++++++++++++++++--------------------
+>   1 file changed, 20 insertions(+), 20 deletions(-)
 
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
-I must have missed that. I'll add this too.
 
