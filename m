@@ -2,80 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99FEC702339
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 May 2023 07:17:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E9C357024C4
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 May 2023 08:33:56 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pyQYc-0007cs-R6; Mon, 15 May 2023 01:15:38 -0400
+	id 1pyRl1-00048g-Ng; Mon, 15 May 2023 02:32:31 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1pyQYF-0007cd-Uf; Mon, 15 May 2023 01:15:16 -0400
-Received: from mail-ua1-x92e.google.com ([2607:f8b0:4864:20::92e])
+ (Exim 4.90_1) (envelope-from <npiggin@gmail.com>)
+ id 1pyRko-00047F-IF; Mon, 15 May 2023 02:32:19 -0400
+Received: from mail-pf1-x42e.google.com ([2607:f8b0:4864:20::42e])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1pyQY4-0004lk-Dz; Mon, 15 May 2023 01:15:10 -0400
-Received: by mail-ua1-x92e.google.com with SMTP id
- a1e0cc1a2514c-780bb3b96e0so6159267241.0; 
- Sun, 14 May 2023 22:15:01 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <npiggin@gmail.com>)
+ id 1pyRkl-0003Pr-4Q; Mon, 15 May 2023 02:32:18 -0400
+Received: by mail-pf1-x42e.google.com with SMTP id
+ d2e1a72fcca58-643ac91c51fso7892647b3a.1; 
+ Sun, 14 May 2023 23:32:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1684127700; x=1686719700;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
+ d=gmail.com; s=20221208; t=1684132333; x=1686724333;
+ h=in-reply-to:references:cc:to:from:subject:message-id:date
+ :content-transfer-encoding:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=uwUYxZVfEPnQruDWJQLoNn1xCuct0OpkqvfNpdsjNts=;
- b=oU7Qm8s0rAMkTX4WXL5BkiWWTcIBqT/Avs0w9EXa4xjYc4AufBLkulnbNgzTpegvmt
- 5cccVKfptcm1JLVX6VPYDtlSRbZZaltl4pzwFKW9fDF+csqK4ix3ff/oWbFlOAfIzyb1
- E3OFpmUf0IvtLV9e0uz60dP939uhtmAKlWsZHZeLVvKjzmpjUBBWStiRY3TsUJ+QaRQW
- 9Kqps/KLXJNyqwgUeDIj0LoH9Ovm0urHM/nVmoxnE6TkfUvg0g9rKvEPv9f5Qih0ZhG/
- aBHCgjjNeTA8FgSic2Eu31rZaCFilJelu6Kg0tMBHvIE14xguOPHLqlxpQFo/9HGhcft
- kljg==
+ bh=xAirHYwph2UTXTEcM2zVtFG9b9kb0IP66rHrC/WC5Lc=;
+ b=seL2PQOHa2Dn9t7UwTXsYoJCfux1r4X29xqukQR5rX1K4OIC96Ubg2/bqIQGfHUf8j
+ G4T9yBzJkUlRQoFntc8ZO38wR9d6x0nfHVaSYUSAcVSkklnsXajblBhCu/84uU2qR67U
+ tHvl+QzqmIVCz5kDhQXqCvdSRkYYnyAO9w7uS00XvMRF5mNeKIa7Rd3j8yB9xaXoiFGD
+ hd53/ylbPZmOSGgKNJCR6U+hZX96kdYDvjqzakTsWOfpV4PcjXwn1kELUhdfWJUmn7P3
+ VHwo0lGUS2xxT4MLUhTNjblKuV8j3xKtj4GuD7Ld9YwUH6tkh6LC4MHps8qX9NkbRwKn
+ ijJg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1684127700; x=1686719700;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=uwUYxZVfEPnQruDWJQLoNn1xCuct0OpkqvfNpdsjNts=;
- b=l4SZUEHflbDeR5Eri9AcejqUCWerJCd4i1XxIzp7xGsDLTJ1IQRWeFHTWGsed0GLtN
- 9FQOtgbtaeiYrg2Wfk8ktus/4oRwvFpxyWnAs12uI4UXRYdaD6AmW+qInjyE9MKMMaW7
- H+iRLSJ4UdbVDn2+HvnUihZiTCpPZpIu5mKpJaqo7psd6ASayZ8vnFspWwVF7y7F0Rtf
- ux0YvvYKH/Cvn3mlxeeJzx7Ge6DZQFb6fhvgBTMj5EjiWCbUboQO3eRZ86qbbzS4osmO
- lp02FhQBA4SykRgaDBf/eym28fi28nR00hkdaafvqsC1FYNwMVKwBW87L8rrDqDRWm0v
- zE4A==
-X-Gm-Message-State: AC+VfDwlDOjx/p6eGjv0GawHVHvLMmiD6u3Xn7IqIXBEl0gH6IBXgN+7
- UA3XMIeu8qdMhxh0HghWbDLzo05AZ7ihxeD2d1VIRZ0Aeyxqiw==
-X-Google-Smtp-Source: ACHHUZ721I3PGX00L2Edh27pzs2CEFlqmhic6yAg1XO7d/UVZD2rdRqHL6bRfwWQLnI26hgCbnhrZi7DmAxrYW3ocQY=
-X-Received: by 2002:a1f:3fc1:0:b0:453:8523:c9dd with SMTP id
- m184-20020a1f3fc1000000b004538523c9ddmr5456176vka.8.1684127699953; Sun, 14
- May 2023 22:14:59 -0700 (PDT)
-MIME-Version: 1.0
-References: <20230425073509.3618388-1-yong.li@intel.com>
- <CAKmqyKPOuryjYD=c=aJ0n0hfSx29HebGsyKwwUUa9U0GpfwOxg@mail.gmail.com>
- <8cea83b6-38eb-88a2-2ca5-fef6e67df75c@intel.com>
-In-Reply-To: <8cea83b6-38eb-88a2-2ca5-fef6e67df75c@intel.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Mon, 15 May 2023 15:14:33 +1000
-Message-ID: <CAKmqyKOrwK+EzHskfG67hjYDfEeaX8scvFj5CyNnDTDzZmKYyA@mail.gmail.com>
-Subject: Re: [PATCH v3] hw/riscv/virt: Add a second UART for secure world
-To: "Li, Yong" <yong.li@intel.com>
-Cc: qemu-devel@nongnu.org, LIU Zhiwei <zhiwei_liu@linux.alibaba.com>, 
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
- Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <alistair.francis@wdc.com>, 
- Bin Meng <bin.meng@windriver.com>, Weiwei Li <liweiwei@iscas.ac.cn>, 
- Daniel Henrique Barboza <dbarboza@ventanamicro.com>, 
- "open list:RISC-V TCG CPUs" <qemu-riscv@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
+ d=1e100.net; s=20221208; t=1684132333; x=1686724333;
+ h=in-reply-to:references:cc:to:from:subject:message-id:date
+ :content-transfer-encoding:mime-version:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=xAirHYwph2UTXTEcM2zVtFG9b9kb0IP66rHrC/WC5Lc=;
+ b=Z5RK/fwtRAemfOEd///Iw1giulFaDEkOXy3pq+mRuOh+KquAkzZx0ErZj2fb157by/
+ 7VfJGn6MIy0u5c05tv3S3h2fdKoJc4dgpxiI53BpV9w62uLRnLEl9YHUAzx71oXmmKYV
+ 9NS8eo9nOG0qZV9DF0yMiNzBnzTSbNmZo0H3ZaFA7pxexp53R47cogZ5te7pwxrATGQ0
+ 5cIOJc4kNPIv3PbJIKa1KBEO+Q9w/ZNRpUYT9wE3iTdkCCFQDG+I95tHydMqCFHVYu44
+ fSzrsaWmc40PpGkuwllfwQT4zbJ/yj0+CMQDVXfxPd0d/0HeY6nRLK9eUapwHcCWFHfr
+ /mMg==
+X-Gm-Message-State: AC+VfDyIQELun3wjoFS0Kh8Ju63TvdLwjnytPb0oV38jAMzR3RuMx5Kh
+ GBr3FandrB5ssqa2yKfxlLU=
+X-Google-Smtp-Source: ACHHUZ7jhNGJbYOPFv4Yzbb8vsNMgqZ4PyduLPPnR+h6DMKjdIvEyZ+iZwV5+LlH+cFjLd8KVHvj9A==
+X-Received: by 2002:a05:6a00:1311:b0:648:c1be:483 with SMTP id
+ j17-20020a056a00131100b00648c1be0483mr19760633pfu.4.1684132332908; 
+ Sun, 14 May 2023 23:32:12 -0700 (PDT)
+Received: from localhost ([1.146.119.84]) by smtp.gmail.com with ESMTPSA id
+ n1-20020aa78a41000000b0064550f76efesm11041776pfa.29.2023.05.14.23.32.06
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 14 May 2023 23:32:12 -0700 (PDT)
+Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::92e;
- envelope-from=alistair23@gmail.com; helo=mail-ua1-x92e.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+Content-Type: text/plain; charset=UTF-8
+Date: Mon, 15 May 2023 16:32:03 +1000
+Message-Id: <CSMN30SCVNA1.DOF9IMJOJRM5@wheely>
+Subject: Re: [PATCH] target: ppc: Correctly initialize HILE in HID-0 for
+ book3s processors
+From: "Nicholas Piggin" <npiggin@gmail.com>
+To: "Fabiano Rosas" <farosas@suse.de>, "Vaibhav Jain"
+ <vaibhav@linux.ibm.com>, "Narayana Murty N" <nnmlinux@linux.ibm.com>,
+ <danielhb413@gmail.com>, <clg@kaod.org>, <david@gibson.dropbear.id.au>,
+ <groug@kaod.org>
+Cc: <qemu-ppc@nongnu.org>, <qemu-devel@nongnu.org>, <npiggin@linux.ibm.com>,
+ <vajain21@linux.ibm.com>, <harshpb@linux.ibm.com>, <sbhat@linux.ibm.com>
+X-Mailer: aerc 0.14.0
+References: <20230420145055.10196-1-nnmlinux@linux.ibm.com>
+ <87v8hq8lgz.fsf@suse.de> <87y1mcfvzo.fsf@vajain21.in.ibm.com>
+ <87sfckrsd9.fsf@suse.de>
+In-Reply-To: <87sfckrsd9.fsf@suse.de>
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42e;
+ envelope-from=npiggin@gmail.com; helo=mail-pf1-x42e.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -93,160 +96,131 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, May 8, 2023 at 11:48=E2=80=AFAM Li, Yong <yong.li@intel.com> wrote:
+On Sat Apr 29, 2023 at 12:30 AM AEST, Fabiano Rosas wrote:
+> Vaibhav Jain <vaibhav@linux.ibm.com> writes:
 >
-> Hi Alistair,
->
-> Thanks for the information, what I'm doing is to implement the
-> StandaloneMm and secure boot feature for RISC-V by following the ARM's wa=
-y
->
-> https://trustedfirmware-a.readthedocs.io/en/latest/components/secure-part=
-ition-manager-mm.html
-
-That is something worth including in the commit message, to help
-explain what your patch is trying to do.
-
->
-> So here what I need from virt is actually the VIRT_SECURE_UART which
-> will be delicately and isolated/used for secure world like it is in arm
-> virt
->
-> (the isolation could be controlled by riscv worldguard feature if qemu
-> will support)
->
-> Similar definition in ARM virt is
-> https://github.com/qemu/qemu/blob/38441756b70eec5807b5f60dad11a93a9119986=
-6/hw/arm/virt.c#L142
-
-The ARM implementation isn't the same as this patch though. The ARM
-virt machine added a secure memory region and guarded the entire
-change behind a flag.
-
-You can see the below commit for more details on the ARM implementation
-
-commit 3df708eb48180fcf11956b81fd6a036cd13ed5f1
-Author: Peter Maydell <peter.maydell@linaro.org>
-Date:   Thu Jan 21 14:15:07 2016 +0000
-
-   hw/arm/virt: add secure memory region and UART
-
-   Add a secure memory region to the virt board, which is the
-   same as the nonsecure memory region except that it also has
-   a secure-only UART in it. This is only created if the
-   board is started with the '-machine secure=3Don' property.
-
->
-> I guess the secure uart should not be pass-through from the pcie, it
-> would be more reasonable to make it a dedicated one in virt.c compared
-> to the UART0 in normal world.
-
-Why can't the secure world not use the existing UART and the
-non-secure world use a PCIe UART?
-
->
->
-> So sorry, I did not know the background and did not make it clear in the
-> patch (it is not a second uart for normal world usage for vm,
-> application and etc),
-
-The patch does add a second UART for use by anyone though. It's not
-only available to secure world
-
->
-> It is an UART for secure world. I guess I can re-do the patch and change
-> the VIRT_UART1 to VIRT_SECURE_UART  to make it clear.
-
-It would also be worth pointing to documentation or a spec that
-describes why having a second UART is important for secure world.
-
-It's probably worth sending a v4 with a detailed commit message
-describing why this patch is required. That should include details
-about why a second UART is important for secure world. That helps the
-patch get accepted in the first place, but also include useful
-information for future users.
-
-Alistair
-
->
-> Please let me know if further comments. Thanks so much!
->
->
-> On 2023/5/8 7:05, Alistair Francis wrote:
-> > On Tue, Apr 25, 2023 at 5:36=E2=80=AFPM Yong Li <yong.li@intel.com> wro=
-te:
-> >> The virt machine can have two UARTs and the second UART
-> >> can be used by the secure payload, firmware or OS residing
-> >> in secure world. Will include the UART device to FDT in a
-> >> seperated patch.
-> >>
-> >> Signed-off-by: Yong Li <yong.li@intel.com>
-> >> Reviewed-by: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
-> >> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
-> > This has come up before (see
-> > https://gitlab.com/qemu-project/qemu/-/issues/955) and we decided that
-> > we don't want to add a second UART. If you would like a second one you
-> > can attach it via PCIe.
+> > Hi Fabiano,
 > >
-> > I think we need a really compelling reason to add another UART. There
-> > was a push recently to move more towards a "PCIe board" where
-> > everything is attached via PCIe, and this is going in the opposite
-> > direction.
+> > Thanks for looking into this patch and apologies for the delayed repons=
+e.
+> > Fabiano Rosas <farosas@suse.de> writes:
 > >
-> > Alistair
+> >> Narayana Murty N <nnmlinux@linux.ibm.com> writes:
+> >>
+> >>> On PPC64 the HILE(Hypervisor Interrupt Little Endian) bit in HID-0
+> >>> register needs to be initialized as per isa 3.0b[1] section
+> >>> 2.10. This bit gets copied to the MSR_LE when handling interrupts tha=
+t
+> >>> are handled in HV mode to establish the Endianess mode of the interru=
+pt
+> >>> handler.
+> >>>
+> >>> Qemu's ppc_interrupts_little_endian() depends on HILE to determine Ho=
+st
+> >>> endianness which is then used to determine the endianess of the guest=
+ dump.
+> >>>
+> >>
+> >> Not quite. We use the interrupt endianness as a proxy to guest
+> >> endianness to avoid reading MSR_LE at an inopportune moment when the
+> >> guest is switching endianness.
+> > Agreed
 > >
-> >> ---
-> >>   hw/riscv/virt.c         | 4 ++++
-> >>   include/hw/riscv/virt.h | 2 ++
-> >>   2 files changed, 6 insertions(+)
+> >> This is not dependent on host
+> >> endianness. The HILE check is used when taking a memory dump of a
+> >> HV-capable machine such as the emulated powernv.
+> >
+> > I think one concern which the patch tries to address is the guest memor=
+ydump file
+> > generated of a BigEndian(BE) guest on a LittleEndian(LE) host is not re=
+adable on
+> > the same LE host since 'crash' doesnt support cross endianess
+> > dumps. Also even for a LE guest on LE host the memory dumps are marked =
+as BE
+> > making it not possible to analyze any guest memory dumps on the host.
+> >
+>
+> From QEMU's perspective there's no "host" in this equation. We'll
+> generate a BE dump for a BE guest and a LE dump for a LE guest. Anything
+> different is a bug in QEMU (as the one this patch addresses).
+
+I'm trying to figure out what's going on here. On one hand we are
+creating a dump for/in the host. The dump is just a format that
+describes register metadata, the same values can be represented just
+fine with either endian. Memory has no endianness (without data
+structures). So from that perspective, we do want to dump host endian
+format.
+
+OTOH crash could be taught foreign-endianness in which case the
+endianness of the ELF file could be useful metadata about the
+target I suppose. But ILE !=3D MSR[LE] at any given time.
+
+ILE seems like a half way house. It doesn't always give host endian
+dumps so crash won't always work. It doesn't always give the machine
+operating mode either. So why is it better to take guest ILE mode than
+HV ILE mode?
+
+I guess the first thing we need is a better and precise description of
+the problem and the desired resolution. PPC64 has powernv and pseries,
+both of which can support guests in various ways (PR, HV, nested HV),
+and then when running guests the target itself also functions as a host,
+so need to make all that unambiguous and use correct terminoogy in
+the changelog.
+
+> > However setting the HILE based on host endianess of qemu might not be
+> > the right way to fix this problem. Based on an off mailing list discuss=
+ion
+> > with Narayana, he is working on another patch which doesnt set HILE
+> > based on host endianess. However the problem seems to be stemming from
+> > fact that qemu on KVM is using the HILE to set up the endianess of
+> > memory-dump elf and since its not setup correctly the memory dumps are
+> > in wrong endianess.
+> >
+> >> I think the actual issue might be that we're calling
+> >> ppc_interrupts_little_endian with hv=3Dtrue for the dump.
 > >>
-> >> diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
-> >> index 4e3efbee16..8e11c4b9b3 100644
-> >> --- a/hw/riscv/virt.c
-> >> +++ b/hw/riscv/virt.c
-> >> @@ -88,6 +88,7 @@ static const MemMapEntry virt_memmap[] =3D {
-> >>       [VIRT_APLIC_S] =3D      {  0xd000000, APLIC_SIZE(VIRT_CPUS_MAX) =
-},
-> >>       [VIRT_UART0] =3D        { 0x10000000,         0x100 },
-> >>       [VIRT_VIRTIO] =3D       { 0x10001000,        0x1000 },
-> >> +    [VIRT_UART1] =3D        { 0x10002000,         0x100 },
-> >>       [VIRT_FW_CFG] =3D       { 0x10100000,          0x18 },
-> >>       [VIRT_FLASH] =3D        { 0x20000000,     0x4000000 },
-> >>       [VIRT_IMSIC_M] =3D      { 0x24000000, VIRT_IMSIC_MAX_SIZE },
-> >> @@ -1506,6 +1507,9 @@ static void virt_machine_init(MachineState *mach=
-ine)
-> >>       serial_mm_init(system_memory, memmap[VIRT_UART0].base,
-> >>           0, qdev_get_gpio_in(DEVICE(mmio_irqchip), UART0_IRQ), 399193=
-,
-> >>           serial_hd(0), DEVICE_LITTLE_ENDIAN);
-> >> +    serial_mm_init(system_memory, memmap[VIRT_UART1].base,
-> >> +        0, qdev_get_gpio_in(DEVICE(mmio_irqchip), UART1_IRQ), 399193,
-> >> +        serial_hd(1), DEVICE_LITTLE_ENDIAN);
+> > Yes, that is currently the case with cpu_get_dump_info(). Excerpt from
+> > that function below that sets the endianess of the dump:
+> >
+> >     if (ppc_interrupts_little_endian(cpu, cpu->env.has_hv_mode)) {
+>
+> This should probably be looking at cpu->vhyp or MSR_HVB since
+> has_hv_mode will not change after we init the cpu.
+>
+> >         info->d_endian =3D ELFDATA2LSB;
+> >     } else {
+> >         info->d_endian =3D ELFDATA2MSB;
+> >     }
+> >
+> > for pseries kvm guest cpu->env.has_hv_mode is already set hence
+> > ppc_interrupts_little_endian() assumes its running in 'hv' mode. The ne=
+w
+> > patch from Narayana will be addressing this.
+> >
+> >>> Currently the HILE bit is never set in the HID0 register even if the
+> >>> qemu is running in Little-Endian mode. This causes the guest dumps to=
+ be
+> >>> always taken in Big-Endian byte ordering. A guest memory dump of a
+> >>> Little-Endian guest running on Little-Endian qemu guest fails with th=
+e
+> >>> crash tool as illustrated below:
+> >>>
 > >>
-> >>       sysbus_create_simple("goldfish_rtc", memmap[VIRT_RTC].base,
-> >>           qdev_get_gpio_in(DEVICE(mmio_irqchip), RTC_IRQ));
-> >> diff --git a/include/hw/riscv/virt.h b/include/hw/riscv/virt.h
-> >> index e5c474b26e..8d2f8f225d 100644
-> >> --- a/include/hw/riscv/virt.h
-> >> +++ b/include/hw/riscv/virt.h
-> >> @@ -74,6 +74,7 @@ enum {
-> >>       VIRT_APLIC_S,
-> >>       VIRT_UART0,
-> >>       VIRT_VIRTIO,
-> >> +    VIRT_UART1,
-> >>       VIRT_FW_CFG,
-> >>       VIRT_IMSIC_M,
-> >>       VIRT_IMSIC_S,
-> >> @@ -88,6 +89,7 @@ enum {
-> >>   enum {
-> >>       UART0_IRQ =3D 10,
-> >>       RTC_IRQ =3D 11,
-> >> +    UART1_IRQ =3D 12,
-> >>       VIRTIO_IRQ =3D 1, /* 1 to 8 */
-> >>       VIRTIO_COUNT =3D 8,
-> >>       PCIE_IRQ =3D 0x20, /* 32 to 35 */
-> >> --
-> >> 2.25.1
-> >>
-> >>
+> >> Could you describe in more detail what is your setup? Specifically
+> >> whether both guests are running TCG or KVM (info kvm) and the state of
+> >> the nested-hv capability in QEMU command line.
+> > Currently the issue is seen with any pseries KVM guest running on a Pow=
+erNV host.
+
+Okay originally I thought you were talking about a powernv target
+that is running a pseries guest and dumping that. But after re-reading, I
+think you're talking about dumping a pseries target?
+
+Questions still remain about why that's the best way to go. If the
+target was running a nested-HV guest, is it reasonable that the guest
+can change the endinaness of the target dump on a whim by changing its
+ILE?
+
+Thanks,
+Nick
 
