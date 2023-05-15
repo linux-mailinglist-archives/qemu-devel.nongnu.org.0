@@ -2,106 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0599F702B5E
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 May 2023 13:24:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B769702BAA
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 May 2023 13:40:10 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pyWIt-0007Y1-EC; Mon, 15 May 2023 07:23:47 -0400
+	id 1pyWXH-0002XC-DU; Mon, 15 May 2023 07:38:39 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pyWIp-0007VO-BI
- for qemu-devel@nongnu.org; Mon, 15 May 2023 07:23:44 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pyWIn-0002I3-He
- for qemu-devel@nongnu.org; Mon, 15 May 2023 07:23:42 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1684149820;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Fd0GrrK3Nat6wJhnJbTQKaHlJgsHg91+Y5TyYv7kstY=;
- b=caUSdYypWwkQ73YMFyqHpC36Szl0y9lYqg+Bpcw/3jWht4MbcNSJLX1iCoQGhCVRcgRpHA
- GyrDYxbaCstOLlf3hTZwWFTuDiDwEqizDlJeXpPb8MYiTfxkteHWslbXpPsVNvaw7+yPfr
- BIAF0XZI1Tche4JnSY3WtF/FxjwhUIM=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-338-RV6dPGE4MDumZRQzmxkd7Q-1; Mon, 15 May 2023 07:23:39 -0400
-X-MC-Unique: RV6dPGE4MDumZRQzmxkd7Q-1
-Received: by mail-wm1-f72.google.com with SMTP id
- 5b1f17b1804b1-3f420ec766dso58549845e9.1
- for <qemu-devel@nongnu.org>; Mon, 15 May 2023 04:23:38 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1pyWXD-0002Wc-Jy
+ for qemu-devel@nongnu.org; Mon, 15 May 2023 07:38:35 -0400
+Received: from mail-lf1-x134.google.com ([2a00:1450:4864:20::134])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1pyWX0-0005WD-OS
+ for qemu-devel@nongnu.org; Mon, 15 May 2023 07:38:24 -0400
+Received: by mail-lf1-x134.google.com with SMTP id
+ 2adb3069b0e04-4f2510b2b98so10424542e87.3
+ for <qemu-devel@nongnu.org>; Mon, 15 May 2023 04:38:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1684150696; x=1686742696;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=xvf3hV3dOUYPq+ST529nAjJ0JWosKJsHlMCh/YsHiWU=;
+ b=kc2laDc3UgLwto4Q4LX5ZsudUwkqFGSB+aujfF4J2fhF1IvlP672oshOb/o9AEohPf
+ ddPP72hzjntU/NdDQektzb1QnxH47FiW/4BlfTgK5mb8+pJIwGAIVg+ApWiYFZgxnisb
+ jA0Tvl2R4Z7KsrpWZscsPNTFhgzrAo2nEeWiFIEmlyPIfNUoMPQ8kIJDbcU6k/POcOu+
+ sHVA8PAU5Qlp0enKb6fzeqsz13HY8lVHAWFgsJjGvSSFurLaHzoCqve+3dN2nvtHA7oF
+ BQl7XkAQjHK7YHUoKcVy5LF4LqcRPIBnmFPkA547xTdPbgbQ5FMT/6VZhIBuDdqUdrHD
+ Beyg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1684149818; x=1686741818;
- h=content-transfer-encoding:mime-version:message-id:date:reply-to
- :user-agent:references:in-reply-to:subject:cc:to:from
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Fd0GrrK3Nat6wJhnJbTQKaHlJgsHg91+Y5TyYv7kstY=;
- b=e7PCpTjxPZ5T7HNUnUE8xy6LNRyGErsrMqygqjTLj3J0XGcJf1v223xXQkqutifsmL
- ea0tJa2tCvyyfKc2aDuAJ4IaeT4HJM/ypFVddzzFzUpx7nHmUwpTDb3+OvbS9SzoLtGD
- ipOV6BZ6BYMdkMf8iwFwrmrqaU2Kxg0wCl++8lkWkJ+FDMAfOB7lvumUGmoQSM2oBFTH
- ifElRL3N/9iB1tv5Uy105U7I0i3+MijvcOT41LOHAGCh1B8Bbha8xp7iIjDyJJ2SigFC
- 06N02AQqnIG3vmegYk09hCKyYMByHJvb68fHODBy5jtv+WBf7eRecdEsXnqVoosNEgYb
- 73IA==
-X-Gm-Message-State: AC+VfDyX4GAg8ga4WGIpkitZe2iPsv13isFxj8yOmJK1nwjAtuj25yDm
- DMinh1KpoWnNPdnTd9ghOM0KWWpM0LeAv5hbZaKKGhPP+o9ik+fhoMb1/Jq9mJ6VzfDTmaOwZiT
- IzdYGPPxbt8ii2MI=
-X-Received: by 2002:adf:df0c:0:b0:2f9:cee4:b7d with SMTP id
- y12-20020adfdf0c000000b002f9cee40b7dmr20745986wrl.70.1684149817989; 
- Mon, 15 May 2023 04:23:37 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ5R6mL1cgDdM9E5n+AE34BL1b5MrW/ad6rtr/SpLbsORvDablA5E0HgHeKmr4/N0HbKSYMj6w==
-X-Received: by 2002:adf:df0c:0:b0:2f9:cee4:b7d with SMTP id
- y12-20020adfdf0c000000b002f9cee40b7dmr20745960wrl.70.1684149817661; 
- Mon, 15 May 2023 04:23:37 -0700 (PDT)
-Received: from redhat.com (static-92-120-85-188.ipcom.comunitel.net.
- [188.85.120.92]) by smtp.gmail.com with ESMTPSA id
- j15-20020a05600c1c0f00b003f1738d0d13sm28102545wms.1.2023.05.15.04.23.36
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 15 May 2023 04:23:37 -0700 (PDT)
-From: Juan Quintela <quintela@redhat.com>
-To: =?utf-8?Q?C=C3=A9dric?= Le Goater <clg@kaod.org>
-Cc: <qemu-devel@nongnu.org>,  Daniel Henrique Barboza
- <danielhb413@gmail.com>,  Christian Borntraeger
- <borntraeger@linux.ibm.com>,  David Hildenbrand <david@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>,  <qemu-block@nongnu.org>,  Eric
- Blake <eblake@redhat.com>,  Vladimir Sementsov-Ogievskiy
- <vsementsov@yandex-team.ru>,  John Snow <jsnow@redhat.com>,  Halil Pasic
- <pasic@linux.ibm.com>,  Peter Xu <peterx@redhat.com>,  Richard Henderson
- <richard.henderson@linaro.org>,  David Gibson
- <david@gibson.dropbear.id.au>,  Harsh Prateek Bora
- <harshpb@linux.ibm.com>,  Eric Farman <farman@linux.ibm.com>,  Greg Kurz
- <groug@kaod.org>,  <qemu-ppc@nongnu.org>,  <qemu-s390x@nongnu.org>,  Fam
- Zheng <fam@euphon.net>,  Thomas Huth <thuth@redhat.com>,  Leonardo Bras
- <leobras@redhat.com>,  Ilya Leoshkevich <iii@linux.ibm.com>
-Subject: Re: [PATCH 08/21] migration: Move setup_time to mig_stats
-In-Reply-To: <f977b30c-448a-6791-affe-6c74b7d64fc4@kaod.org>
- (=?utf-8?Q?=22C=C3=A9dric?= Le
- Goater"'s message of "Mon, 15 May 2023 12:35:26 +0200")
-References: <20230508130909.65420-1-quintela@redhat.com>
- <20230508130909.65420-9-quintela@redhat.com>
- <f977b30c-448a-6791-affe-6c74b7d64fc4@kaod.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
-Date: Mon, 15 May 2023 13:23:36 +0200
-Message-ID: <87353x25zb.fsf@secure.mitica>
+ d=1e100.net; s=20221208; t=1684150696; x=1686742696;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=xvf3hV3dOUYPq+ST529nAjJ0JWosKJsHlMCh/YsHiWU=;
+ b=WcSGEG5EPJZ+2VOAhivexiAzsXhrtYs8C1fXwTtPye3jlBlZtBvXG6hc5hoyzgJG/w
+ C+TH5lRzXv4SGZzhTbetgNqT6mkBBk01t42bTu8ZMXQTrj5dfCTifJcHfRHWAUgDx63o
+ H4W2+GGX1tnQx6HKK8HqSJchxxEY4LPc3WFLBZC8PXIYhYDAez2+dBSk3p/PHROfiL5k
+ XRuaFRypPl81Gce0/6IbePYLygtVYoC3Y1zqvqQCE96l0yX8cuB/G72Tepe09UhH8ry3
+ KotJxtIIMQOoBif7jJPbyJZaBCwXqqQ+7pNhgA/xfm0Rxire8wm93vfWWzdIqyJeKobo
+ ykwA==
+X-Gm-Message-State: AC+VfDysxSAgndy7nFtM+3BUPQFbgfk00p1XSKgFc6/3ht3XjXtQ5koU
+ LKDBVpLU26Td1cCkkgIiyR2pR/i0D+FZ5hpxEJ8=
+X-Google-Smtp-Source: ACHHUZ5GYHF7wQseypyarCtrOsBgXbHSzdbfPKMQIpmejbwI/dL3KvN49j1KetZ5ab62SCoHa3Xj8wqfJxEu6m6wqp8=
+X-Received: by 2002:ac2:4e63:0:b0:4f0:1a32:ca23 with SMTP id
+ y3-20020ac24e63000000b004f01a32ca23mr6019593lfs.40.1684150696120; Mon, 15 May
+ 2023 04:38:16 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+References: <20230511125803.594963-1-ernunes@redhat.com>
+In-Reply-To: <20230511125803.594963-1-ernunes@redhat.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Mon, 15 May 2023 15:38:04 +0400
+Message-ID: <CAJ+F1CK8+kPrGZfhWnk=91tUQCAggH=qHXjZ73K9ZF0t-1aTBA@mail.gmail.com>
+Subject: Re: [PATCH 0/2] vhost-user-gpu get_edid feature
+To: Erico Nunes <ernunes@redhat.com>
+Cc: qemu-devel@nongnu.org, mst@redhat.com, kraxel@redhat.com
+Content-Type: multipart/alternative; boundary="000000000000fd97a005fbb9e3d5"
+Received-SPF: pass client-ip=2a00:1450:4864:20::134;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-lf1-x134.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -114,81 +81,174 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-C=C3=A9dric Le Goater <clg@kaod.org> wrote:
-> On 5/8/23 15:08, Juan Quintela wrote:
->> It is a time that needs to be cleaned each time cancel migration.
->> Once there ccreate calculate_time_since() to calculate how time since
->> a time in the past.
->> Signed-off-by: Juan Quintela <quintela@redhat.com>
->> ---
->>   migration/migration-stats.c |  7 +++++++
->>   migration/migration-stats.h | 14 ++++++++++++++
->>   migration/migration.c       |  9 ++++-----
->>   migration/migration.h       |  1 -
->>   4 files changed, 25 insertions(+), 6 deletions(-)
->> diff --git a/migration/migration-stats.c
->> b/migration/migration-stats.c
->> index 2f2cea965c..5278c6c821 100644
->> --- a/migration/migration-stats.c
->> +++ b/migration/migration-stats.c
->> @@ -12,6 +12,13 @@
->>     #include "qemu/osdep.h"
->>   #include "qemu/stats64.h"
->> +#include "qemu/timer.h"
->>   #include "migration-stats.h"
->>     MigrationAtomicStats mig_stats;
->> +
->> +void calculate_time_since(Stat64 *val, int64_t since)
->> +{
->> +    int64_t now =3D qemu_clock_get_ms(QEMU_CLOCK_HOST);
->> +    stat64_set(val, now - since);
->> +}
->> diff --git a/migration/migration-stats.h b/migration/migration-stats.h
->> index cf8a4f0410..73c73d75b9 100644
->> --- a/migration/migration-stats.h
->> +++ b/migration/migration-stats.h
->> @@ -69,6 +69,10 @@ typedef struct {
->>        * Number of bytes sent during precopy stage.
->>        */
->>       Stat64 precopy_bytes;
->> +    /*
->> +     * How long has the setup stage took.
->> +     */
->> +    Stat64 setup_time;
->>       /*
->>        * Total number of bytes transferred.
->>        */
->> @@ -81,4 +85,14 @@ typedef struct {
->>     extern MigrationAtomicStats mig_stats;
->>   +/**
->> + * calculate_time_since: Calculate how much time has passed
->> + *
->> + * @val: stat64 where to store the time
->> + * @since: reference time since we want to calculate
->> + *
->> + * Returns: Nothing.  The time is stored in val.
->> + */
->> +
->> +void calculate_time_since(Stat64 *val, int64_t since);
->
-> Since this routine is in the "migration" namespace, I would rename it to
->
->   void migration_time_since(Stat64 *val, int64_t since);
->
-> of even
->
->   void migration_time_since(MigrationAtomicStats *stat, int64_t since);
->
-> Do you need it elsewhere than in migration.c ?
+--000000000000fd97a005fbb9e3d5
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Not yet.
+Hi
 
-I can change to this and later change if needed.
+On Thu, May 11, 2023 at 5:02=E2=80=AFPM Erico Nunes <ernunes@redhat.com> wr=
+ote:
 
-Thanks, Juan.
+> This adds support to the virtio-gpu get_edid command when using the
+> vhost-user-gpu implementation in contrib/.
+> So far, qemu has been outputting the following message:
+>   EDID requested but the backend doesn't support it.
+> when using that implementation.
+>
+> This is tested with vhost-user-gpu, the dbus ui backend and the
+> monitor-edid application, which now shows complete "QEMU Monitor" edid
+> data.
+>
+> In this v1, I would appreciate some feedback especially regarding:
+> - Can we enable it by default or do need to create another config option
+>   flag for it?
+>
 
+Enabled as default is ok I think
+
+
+> - Can we now also remove the "EDID requested but the backend doesn't
+>   support it." warning and logic from hw/display or do we still want to
+>   keep that around for other potential implementations of
+>   vhost-user-gpu?
+>
+
+Imho, that should remain. (vhost-user-gpu could have set edid=3Dfalse by
+default to avoid this error, but then it would need to be explicitly turned
+on to match the backend implementation)
+
+
+> - The structs used as payloads of the vhost-user-gpu messages. Looks
+>   like there was no command so far requiring bidirectional messages with
+>   different payloads so I just based it on similar available ones.
+>
+>
+That looks fine to me
+
+
+> Thanks
+>
+>
+> Erico Nunes (2):
+>   virtio-gpu: refactor generate_edid function to virtio_gpu_base
+>   vhost-user-gpu: implement get_edid feature
+>
+>  contrib/vhost-user-gpu/vhost-user-gpu.c | 53 ++++++++++++++++++++++++-
+>  contrib/vhost-user-gpu/virgl.c          |  3 ++
+>  contrib/vhost-user-gpu/vugpu.h          |  8 ++++
+>  docs/interop/vhost-user-gpu.rst         |  9 +++++
+>  hw/display/vhost-user-gpu.c             | 31 +++++++++++++++
+>  hw/display/virtio-gpu-base.c            | 17 ++++++++
+>  hw/display/virtio-gpu.c                 | 20 +---------
+>  include/hw/virtio/virtio-gpu.h          |  2 +
+>  8 files changed, 122 insertions(+), 21 deletions(-)
+>
+> --
+> 2.39.2
+>
+>
+>
+I wonder if the backend couldn't have avoided the need for calling the
+front-end (the VHOST_USER_GPU_GET_EDID call). But after all, it can still
+implement it on its own, so it's optional anyway.
+
+However, I worry about using the new backend (calling GET_EDID) with an
+older front-end/QEMU. It may just hang, since
+vhost_user_gpu_handle_display() won't reply to unknown messages. That's
+what PROTOCOL_FEATURES were meant for, iirc. Can you check? thanks
+
+
+--=20
+Marc-Andr=C3=A9 Lureau
+
+--000000000000fd97a005fbb9e3d5
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr">Hi<br></div><br><div class=3D"gmail_quote=
+"><div dir=3D"ltr" class=3D"gmail_attr">On Thu, May 11, 2023 at 5:02=E2=80=
+=AFPM Erico Nunes &lt;<a href=3D"mailto:ernunes@redhat.com">ernunes@redhat.=
+com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"marg=
+in:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1e=
+x">This adds support to the virtio-gpu get_edid command when using the<br>
+vhost-user-gpu implementation in contrib/.<br>
+So far, qemu has been outputting the following message:<br>
+=C2=A0 EDID requested but the backend doesn&#39;t support it.<br>
+when using that implementation.<br>
+<br>
+This is tested with vhost-user-gpu, the dbus ui backend and the<br>
+monitor-edid application, which now shows complete &quot;QEMU Monitor&quot;=
+ edid<br>
+data.<br>
+<br>
+In this v1, I would appreciate some feedback especially regarding:<br>
+- Can we enable it by default or do need to create another config option<br=
+>
+=C2=A0 flag for it?<br></blockquote><div><br></div><div>Enabled as default =
+is ok I think</div><div>=C2=A0<br></div><blockquote class=3D"gmail_quote" s=
+tyle=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);pad=
+ding-left:1ex">
+- Can we now also remove the &quot;EDID requested but the backend doesn&#39=
+;t<br>
+=C2=A0 support it.&quot; warning and logic from hw/display or do we still w=
+ant to<br>
+=C2=A0 keep that around for other potential implementations of<br>
+=C2=A0 vhost-user-gpu?<br></blockquote><div><br></div><div>Imho, that shoul=
+d remain. (vhost-user-gpu could have set edid=3Dfalse by default to avoid t=
+his error, but then it would need to be explicitly turned on to match the b=
+ackend implementation)<br></div><div>=C2=A0<br></div><blockquote class=3D"g=
+mail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204=
+,204,204);padding-left:1ex">
+- The structs used as payloads of the vhost-user-gpu messages. Looks<br>
+=C2=A0 like there was no command so far requiring bidirectional messages wi=
+th<br>
+=C2=A0 different payloads so I just based it on similar available ones.<br>
+<br></blockquote><div><br></div><div>That looks fine to me</div><div>=C2=A0=
+<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8=
+ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+Thanks<br>
+<br>
+<br>
+Erico Nunes (2):<br>
+=C2=A0 virtio-gpu: refactor generate_edid function to virtio_gpu_base<br>
+=C2=A0 vhost-user-gpu: implement get_edid feature<br>
+<br>
+=C2=A0contrib/vhost-user-gpu/vhost-user-gpu.c | 53 ++++++++++++++++++++++++=
+-<br>
+=C2=A0contrib/vhost-user-gpu/virgl.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=
+=A0 3 ++<br>
+=C2=A0contrib/vhost-user-gpu/vugpu.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=
+=A0 8 ++++<br>
+=C2=A0docs/interop/vhost-user-gpu.rst=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=
+=A0 9 +++++<br>
+=C2=A0hw/display/vhost-user-gpu.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0| 31 +++++++++++++++<br>
+=C2=A0hw/display/virtio-gpu-base.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ | 17 ++++++++<br>
+=C2=A0hw/display/virtio-gpu.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0| 20 +---------<br>
+=C2=A0include/hw/virtio/virtio-gpu.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=
+=A0 2 +<br>
+=C2=A08 files changed, 122 insertions(+), 21 deletions(-)<br>
+<br>
+-- <br>
+2.39.2<br>
+<br>
+<br>
+</blockquote></div><div><br></div><div>I wonder if the backend couldn&#39;t=
+ have avoided the need for calling the front-end (the VHOST_USER_GPU_GET_ED=
+ID call). But after all, it can still implement it on its own, so it&#39;s =
+optional anyway.<br></div><div><br></div><div>However, I worry about using =
+the new backend (calling GET_EDID) with an older front-end/QEMU. It may jus=
+t hang, since vhost_user_gpu_handle_display() won&#39;t reply to unknown me=
+ssages. That&#39;s what PROTOCOL_FEATURES were meant for, iirc. Can you che=
+ck? thanks<br></div><div><br></div><br><span class=3D"gmail_signature_prefi=
+x">-- </span><br><div dir=3D"ltr" class=3D"gmail_signature">Marc-Andr=C3=A9=
+ Lureau<br></div></div>
+
+--000000000000fd97a005fbb9e3d5--
 
