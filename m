@@ -2,52 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67644702E7F
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 May 2023 15:39:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC0E6702E71
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 May 2023 15:39:00 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pyXsc-0000QB-7G; Mon, 15 May 2023 09:04:46 -0400
+	id 1pyXsY-000072-Ns; Mon, 15 May 2023 09:04:42 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pyXr9-0004wI-5f
- for qemu-devel@nongnu.org; Mon, 15 May 2023 09:03:18 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pyXr7-0004rL-3A
+ for qemu-devel@nongnu.org; Mon, 15 May 2023 09:03:13 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pyXr4-000164-PA
- for qemu-devel@nongnu.org; Mon, 15 May 2023 09:03:14 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pyXr5-00016K-2i
+ for qemu-devel@nongnu.org; Mon, 15 May 2023 09:03:12 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1684155784;
+ s=mimecast20190719; t=1684155785;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=nb4qfQobMu8tycA5mZhp3qIIojYb2TvITMampjx8tr0=;
- b=hbQwF8VyNudSn7WMxhH1NzaSowCr5MYTahJ6n0M8HHof+n/rgcqytTRVWyTlY6f9Bb41Kb
- J3q5gxUXacvf15+U7TAZZHpEu1bF5VJP0C52REuJ/wNlcLdeWZksa+swvS0vCbnMV7AQM/
- bUER7gfeVc07b2n+IZIPEUsCdpHEOb8=
+ bh=3cvVo1HLTG3tB+XejkUsy3xh5m+2mDmGhHSUoVztGec=;
+ b=QJfYISPqMelen5/rOFU9oTrkRI5VVGWrLPPfeqT3UMI/V/dd6DqY/tyFXCzz9wUzEXfGel
+ jpMYSala+37JzcZHsI0ChuOK2Puk9gyU4rfhRcJY60ZRJdRceTDr7bvLYH8p2f36dEWuL3
+ voug2qsCI/uJKogIU4ATwTFSTXra/VM=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-426-eTxCykL-NHyAjQ0KeYBwvg-1; Mon, 15 May 2023 09:03:01 -0400
-X-MC-Unique: eTxCykL-NHyAjQ0KeYBwvg-1
+ us-mta-108-uPnS1xMsPmK7LSnrn77whg-1; Mon, 15 May 2023 09:03:03 -0400
+X-MC-Unique: uPnS1xMsPmK7LSnrn77whg-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
  [10.11.54.2])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 317803C00270;
- Mon, 15 May 2023 13:03:00 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3446D3C0CF0B;
+ Mon, 15 May 2023 13:03:01 +0000 (UTC)
 Received: from thuth.com (unknown [10.39.192.236])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5680C40C6EC4;
- Mon, 15 May 2023 13:02:59 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 72FCC40C6EC4;
+ Mon, 15 May 2023 13:03:00 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org,
 	Richard Henderson <richard.henderson@linaro.org>
-Cc: Ilya Leoshkevich <iii@linux.ibm.com>,
- Nina Schoetterl-Glausch <nsg@linux.ibm.com>
-Subject: [PULL 20/21] target/s390x: Fix EXECUTE of relative branches
-Date: Mon, 15 May 2023 15:02:32 +0200
-Message-Id: <20230515130233.418183-21-thuth@redhat.com>
+Cc: Ilya Leoshkevich <iii@linux.ibm.com>
+Subject: [PULL 21/21] tests/tcg/s390x: Test EXECUTE of relative branches
+Date: Mon, 15 May 2023 15:02:33 +0200
+Message-Id: <20230515130233.418183-22-thuth@redhat.com>
 In-Reply-To: <20230515130233.418183-1-thuth@redhat.com>
 References: <20230515130233.418183-1-thuth@redhat.com>
 MIME-Version: 1.0
@@ -79,204 +78,194 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Ilya Leoshkevich <iii@linux.ibm.com>
 
-Fix a problem similar to the one fixed by commit 703d03a4aaf3
-("target/s390x: Fix EXECUTE of relative long instructions"), but now
-for relative branches.
+Add a small test to prevent regressions.
 
-Reported-by: Nina Schoetterl-Glausch <nsg@linux.ibm.com>
 Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20230426235813.198183-2-iii@linux.ibm.com>
+Acked-by: Richard Henderson <richard.henderson@linaro.org>
+Message-Id: <20230426235813.198183-3-iii@linux.ibm.com>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- target/s390x/tcg/translate.c | 81 ++++++++++++++++++++++++++----------
- 1 file changed, 58 insertions(+), 23 deletions(-)
+ tests/tcg/s390x/ex-branch.c     | 158 ++++++++++++++++++++++++++++++++
+ tests/tcg/s390x/Makefile.target |   1 +
+ 2 files changed, 159 insertions(+)
+ create mode 100644 tests/tcg/s390x/ex-branch.c
 
-diff --git a/target/s390x/tcg/translate.c b/target/s390x/tcg/translate.c
-index a05205beb1..d6670e6a87 100644
---- a/target/s390x/tcg/translate.c
-+++ b/target/s390x/tcg/translate.c
-@@ -1534,18 +1534,51 @@ static DisasJumpType op_bal(DisasContext *s, DisasOps *o)
-     }
- }
- 
-+/*
-+ * Disassemble the target of a branch. The results are returned in a form
-+ * suitable for passing into help_branch():
-+ *
-+ * - bool IS_IMM reflects whether the target is fixed or computed. Non-EXECUTEd
-+ *   branches, whose DisasContext *S contains the relative immediate field RI,
-+ *   are considered fixed. All the other branches are considered computed.
-+ * - int IMM is the value of RI.
-+ * - TCGv_i64 CDEST is the address of the computed target.
-+ */
-+#define disas_jdest(s, ri, is_imm, imm, cdest) do {                            \
-+    if (have_field(s, ri)) {                                                   \
-+        if (unlikely(s->ex_value)) {                                           \
-+            cdest = tcg_temp_new_i64();                                        \
-+            tcg_gen_ld_i64(cdest, cpu_env, offsetof(CPUS390XState, ex_target));\
-+            tcg_gen_addi_i64(cdest, cdest, (int64_t)get_field(s, ri) * 2);     \
-+            is_imm = false;                                                    \
-+        } else {                                                               \
-+            is_imm = true;                                                     \
-+        }                                                                      \
-+    } else {                                                                   \
-+        is_imm = false;                                                        \
+diff --git a/tests/tcg/s390x/ex-branch.c b/tests/tcg/s390x/ex-branch.c
+new file mode 100644
+index 0000000000..c606719152
+--- /dev/null
++++ b/tests/tcg/s390x/ex-branch.c
+@@ -0,0 +1,158 @@
++/* Check EXECUTE with relative branch instructions as targets. */
++#include <assert.h>
++#include <stdbool.h>
++#include <stdio.h>
++#include <stdlib.h>
++#include <string.h>
++
++struct test {
++    const char *name;
++    void (*func)(long *link, long *magic);
++    long exp_link;
++};
++
++/* Branch instructions and their expected effects. */
++#define LINK_64(test) ((long)test ## _exp_link)
++#define LINK_NONE(test) -1L
++#define FOR_EACH_INSN(F)                                                       \
++    F(bras,  "%[link]",     LINK_64)                                           \
++    F(brasl, "%[link]",     LINK_64)                                           \
++    F(brc,   "0x8",         LINK_NONE)                                         \
++    F(brcl,  "0x8",         LINK_NONE)                                         \
++    F(brct,  "%%r0",        LINK_NONE)                                         \
++    F(brctg, "%%r0",        LINK_NONE)                                         \
++    F(brxh,  "%%r2,%%r0",   LINK_NONE)                                         \
++    F(brxhg, "%%r2,%%r0",   LINK_NONE)                                         \
++    F(brxle, "%%r0,%%r1",   LINK_NONE)                                         \
++    F(brxlg, "%%r0,%%r1",   LINK_NONE)                                         \
++    F(crj,   "%%r0,%%r0,8", LINK_NONE)                                         \
++    F(cgrj,  "%%r0,%%r0,8", LINK_NONE)                                         \
++    F(cij,   "%%r0,0,8",    LINK_NONE)                                         \
++    F(cgij,  "%%r0,0,8",    LINK_NONE)                                         \
++    F(clrj,  "%%r0,%%r0,8", LINK_NONE)                                         \
++    F(clgrj, "%%r0,%%r0,8", LINK_NONE)                                         \
++    F(clij,  "%%r0,0,8",    LINK_NONE)                                         \
++    F(clgij, "%%r0,0,8",    LINK_NONE)
++
++#define INIT_TEST                                                              \
++    "xgr %%r0,%%r0\n"  /* %r0 = 0; %cc = 0 */                                  \
++    "lghi %%r1,1\n"    /* %r1 = 1 */                                           \
++    "lghi %%r2,2\n"    /* %r2 = 2 */
++
++#define CLOBBERS_TEST "cc", "0", "1", "2"
++
++#define DEFINE_TEST(insn, args, exp_link)                                      \
++    extern char insn ## _exp_link[];                                           \
++    static void test_ ## insn(long *link, long *magic)                         \
++    {                                                                          \
++        asm(INIT_TEST                                                          \
++            #insn " " args ",0f\n"                                             \
++            ".globl " #insn "_exp_link\n"                                      \
++            #insn "_exp_link:\n"                                               \
++            ".org . + 90\n"                                                    \
++            "0: lgfi %[magic],0x12345678\n"                                    \
++            : [link] "+r" (*link)                                              \
++            , [magic] "+r" (*magic)                                            \
++            : : CLOBBERS_TEST);                                                \
 +    }                                                                          \
-+    imm = is_imm ? get_field(s, ri) : 0;                                       \
-+} while (false)
++    extern char ex_ ## insn ## _exp_link[];                                    \
++    static void test_ex_ ## insn(long *link, long *magic)                      \
++    {                                                                          \
++        unsigned long target;                                                  \
++                                                                               \
++        asm(INIT_TEST                                                          \
++            "larl %[target],0f\n"                                              \
++            "ex %%r0,0(%[target])\n"                                           \
++            ".globl ex_" #insn "_exp_link\n"                                   \
++            "ex_" #insn "_exp_link:\n"                                         \
++            ".org . + 60\n"                                                    \
++            "0: " #insn " " args ",1f\n"                                       \
++            ".org . + 120\n"                                                   \
++            "1: lgfi %[magic],0x12345678\n"                                    \
++            : [target] "=r" (target)                                           \
++            , [link] "+r" (*link)                                              \
++            , [magic] "+r" (*magic)                                            \
++            : : CLOBBERS_TEST);                                                \
++    }                                                                          \
++    extern char exrl_ ## insn ## _exp_link[];                                  \
++    static void test_exrl_ ## insn(long *link, long *magic)                    \
++    {                                                                          \
++        asm(INIT_TEST                                                          \
++            "exrl %%r0,0f\n"                                                   \
++            ".globl exrl_" #insn "_exp_link\n"                                 \
++            "exrl_" #insn "_exp_link:\n"                                       \
++            ".org . + 60\n"                                                    \
++            "0: " #insn " " args ",1f\n"                                       \
++            ".org . + 120\n"                                                   \
++            "1: lgfi %[magic],0x12345678\n"                                    \
++            : [link] "+r" (*link)                                              \
++            , [magic] "+r" (*magic)                                            \
++            : : CLOBBERS_TEST);                                                \
++    }
 +
- static DisasJumpType op_basi(DisasContext *s, DisasOps *o)
- {
-+    DisasCompare c;
-+    bool is_imm;
-+    int imm;
++/* Test functions. */
++FOR_EACH_INSN(DEFINE_TEST)
 +
-     pc_to_link_info(o->out, s, s->pc_tmp);
--    return help_goto_direct(s, s->base.pc_next + (int64_t)get_field(s, i2) * 2);
++/* Test definitions. */
++#define REGISTER_TEST(insn, args, _exp_link)                                   \
++    {                                                                          \
++        .name = #insn,                                                         \
++        .func = test_ ## insn,                                                 \
++        .exp_link = (_exp_link(insn)),                                         \
++    },                                                                         \
++    {                                                                          \
++        .name = "ex " #insn,                                                   \
++        .func = test_ex_ ## insn,                                              \
++        .exp_link = (_exp_link(ex_ ## insn)),                                  \
++    },                                                                         \
++    {                                                                          \
++        .name = "exrl " #insn,                                                 \
++        .func = test_exrl_ ## insn,                                            \
++        .exp_link = (_exp_link(exrl_ ## insn)),                                \
++    },
 +
-+    disas_jdest(s, i2, is_imm, imm, o->in2);
-+    disas_jcc(s, &c, 0xf);
-+    return help_branch(s, &c, is_imm, imm, o->in2);
- }
++static const struct test tests[] = {
++    FOR_EACH_INSN(REGISTER_TEST)
++};
++
++int main(int argc, char **argv)
++{
++    const struct test *test;
++    int ret = EXIT_SUCCESS;
++    bool verbose = false;
++    long link, magic;
++    size_t i;
++
++    for (i = 1; i < argc; i++) {
++        if (strcmp(argv[i], "-v") == 0) {
++            verbose = true;
++        }
++    }
++
++    for (i = 0; i < sizeof(tests) / sizeof(tests[0]); i++) {
++        test = &tests[i];
++        if (verbose) {
++            fprintf(stderr, "[ RUN      ] %s\n", test->name);
++        }
++        link = -1;
++        magic = -1;
++        test->func(&link, &magic);
++#define ASSERT_EQ(expected, actual) do {                                       \
++    if (expected != actual) {                                                  \
++        fprintf(stderr, "%s: " #expected " (0x%lx) != " #actual " (0x%lx)\n",  \
++                test->name, expected, actual);                                 \
++        ret = EXIT_FAILURE;                                                    \
++    }                                                                          \
++} while (0)
++        ASSERT_EQ(test->exp_link, link);
++        ASSERT_EQ(0x12345678L, magic);
++#undef ASSERT_EQ
++    }
++
++    if (verbose) {
++        fprintf(stderr, ret == EXIT_SUCCESS ? "[  PASSED  ]\n" :
++                                              "[  FAILED  ]\n");
++    }
++
++    return ret;
++}
+diff --git a/tests/tcg/s390x/Makefile.target b/tests/tcg/s390x/Makefile.target
+index 0031868b13..23dc8b6a63 100644
+--- a/tests/tcg/s390x/Makefile.target
++++ b/tests/tcg/s390x/Makefile.target
+@@ -34,6 +34,7 @@ TESTS+=cdsg
+ TESTS+=chrl
+ TESTS+=rxsbg
+ TESTS+=ex-relative-long
++TESTS+=ex-branch
  
- static DisasJumpType op_bc(DisasContext *s, DisasOps *o)
- {
-     int m1 = get_field(s, m1);
--    bool is_imm = have_field(s, i2);
--    int imm = is_imm ? get_field(s, i2) : 0;
-     DisasCompare c;
-+    bool is_imm;
-+    int imm;
- 
-     /* BCR with R2 = 0 causes no branching */
-     if (have_field(s, r2) && get_field(s, r2) == 0) {
-@@ -1562,6 +1595,7 @@ static DisasJumpType op_bc(DisasContext *s, DisasOps *o)
-         return DISAS_NEXT;
-     }
- 
-+    disas_jdest(s, i2, is_imm, imm, o->in2);
-     disas_jcc(s, &c, m1);
-     return help_branch(s, &c, is_imm, imm, o->in2);
- }
-@@ -1569,10 +1603,10 @@ static DisasJumpType op_bc(DisasContext *s, DisasOps *o)
- static DisasJumpType op_bct32(DisasContext *s, DisasOps *o)
- {
-     int r1 = get_field(s, r1);
--    bool is_imm = have_field(s, i2);
--    int imm = is_imm ? get_field(s, i2) : 0;
-     DisasCompare c;
-+    bool is_imm;
-     TCGv_i64 t;
-+    int imm;
- 
-     c.cond = TCG_COND_NE;
-     c.is_64 = false;
-@@ -1584,6 +1618,7 @@ static DisasJumpType op_bct32(DisasContext *s, DisasOps *o)
-     c.u.s32.b = tcg_constant_i32(0);
-     tcg_gen_extrl_i64_i32(c.u.s32.a, t);
- 
-+    disas_jdest(s, i2, is_imm, imm, o->in2);
-     return help_branch(s, &c, is_imm, imm, o->in2);
- }
- 
-@@ -1611,9 +1646,9 @@ static DisasJumpType op_bcth(DisasContext *s, DisasOps *o)
- static DisasJumpType op_bct64(DisasContext *s, DisasOps *o)
- {
-     int r1 = get_field(s, r1);
--    bool is_imm = have_field(s, i2);
--    int imm = is_imm ? get_field(s, i2) : 0;
-     DisasCompare c;
-+    bool is_imm;
-+    int imm;
- 
-     c.cond = TCG_COND_NE;
-     c.is_64 = true;
-@@ -1622,6 +1657,7 @@ static DisasJumpType op_bct64(DisasContext *s, DisasOps *o)
-     c.u.s64.a = regs[r1];
-     c.u.s64.b = tcg_constant_i64(0);
- 
-+    disas_jdest(s, i2, is_imm, imm, o->in2);
-     return help_branch(s, &c, is_imm, imm, o->in2);
- }
- 
-@@ -1629,10 +1665,10 @@ static DisasJumpType op_bx32(DisasContext *s, DisasOps *o)
- {
-     int r1 = get_field(s, r1);
-     int r3 = get_field(s, r3);
--    bool is_imm = have_field(s, i2);
--    int imm = is_imm ? get_field(s, i2) : 0;
-     DisasCompare c;
-+    bool is_imm;
-     TCGv_i64 t;
-+    int imm;
- 
-     c.cond = (s->insn->data ? TCG_COND_LE : TCG_COND_GT);
-     c.is_64 = false;
-@@ -1645,6 +1681,7 @@ static DisasJumpType op_bx32(DisasContext *s, DisasOps *o)
-     tcg_gen_extrl_i64_i32(c.u.s32.b, regs[r3 | 1]);
-     store_reg32_i64(r1, t);
- 
-+    disas_jdest(s, i2, is_imm, imm, o->in2);
-     return help_branch(s, &c, is_imm, imm, o->in2);
- }
- 
-@@ -1652,9 +1689,9 @@ static DisasJumpType op_bx64(DisasContext *s, DisasOps *o)
- {
-     int r1 = get_field(s, r1);
-     int r3 = get_field(s, r3);
--    bool is_imm = have_field(s, i2);
--    int imm = is_imm ? get_field(s, i2) : 0;
-     DisasCompare c;
-+    bool is_imm;
-+    int imm;
- 
-     c.cond = (s->insn->data ? TCG_COND_LE : TCG_COND_GT);
-     c.is_64 = true;
-@@ -1668,6 +1705,7 @@ static DisasJumpType op_bx64(DisasContext *s, DisasOps *o)
-     tcg_gen_add_i64(regs[r1], regs[r1], regs[r3]);
-     c.u.s64.a = regs[r1];
- 
-+    disas_jdest(s, i2, is_imm, imm, o->in2);
-     return help_branch(s, &c, is_imm, imm, o->in2);
- }
- 
-@@ -1685,10 +1723,9 @@ static DisasJumpType op_cj(DisasContext *s, DisasOps *o)
-     c.u.s64.a = o->in1;
-     c.u.s64.b = o->in2;
- 
--    is_imm = have_field(s, i4);
--    if (is_imm) {
--        imm = get_field(s, i4);
--    } else {
-+    o->out = NULL;
-+    disas_jdest(s, i4, is_imm, imm, o->out);
-+    if (!is_imm && !o->out) {
-         imm = 0;
-         o->out = get_address(s, 0, get_field(s, b4),
-                              get_field(s, d4));
-@@ -5764,15 +5801,13 @@ static void in2_a2(DisasContext *s, DisasOps *o)
- 
- static TCGv gen_ri2(DisasContext *s)
- {
--    int64_t delta = (int64_t)get_field(s, i2) * 2;
--    TCGv ri2;
-+    TCGv ri2 = NULL;
-+    bool is_imm;
-+    int imm;
- 
--    if (unlikely(s->ex_value)) {
--        ri2 = tcg_temp_new_i64();
--        tcg_gen_ld_i64(ri2, cpu_env, offsetof(CPUS390XState, ex_target));
--        tcg_gen_addi_i64(ri2, ri2, delta);
--    } else {
--        ri2 = tcg_constant_i64(s->base.pc_next + delta);
-+    disas_jdest(s, i2, is_imm, imm, ri2);
-+    if (is_imm) {
-+        ri2 = tcg_constant_i64(s->base.pc_next + imm * 2);
-     }
- 
-     return ri2;
+ cdsg: CFLAGS+=-pthread
+ cdsg: LDFLAGS+=-pthread
 -- 
 2.31.1
 
