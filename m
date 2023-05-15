@@ -2,66 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55461702EF1
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 May 2023 15:59:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A9E8702F23
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 May 2023 16:01:35 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pyYip-0005Ym-Dp; Mon, 15 May 2023 09:58:43 -0400
+	id 1pyYks-00083I-VB; Mon, 15 May 2023 10:00:51 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1pyYin-0005YL-J3
- for qemu-devel@nongnu.org; Mon, 15 May 2023 09:58:41 -0400
-Received: from frasgout.his.huawei.com ([185.176.79.56])
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1pyYkn-00082z-Vy
+ for qemu-devel@nongnu.org; Mon, 15 May 2023 10:00:46 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1pyYil-0006Se-P0
- for qemu-devel@nongnu.org; Mon, 15 May 2023 09:58:41 -0400
-Received: from lhrpeml500005.china.huawei.com (unknown [172.18.147.206])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4QKgpX6yMgz6J724;
- Mon, 15 May 2023 21:54:28 +0800 (CST)
-Received: from localhost (10.202.227.76) by lhrpeml500005.china.huawei.com
- (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.23; Mon, 15 May
- 2023 14:58:36 +0100
-Date: Mon, 15 May 2023 14:58:35 +0100
-To: Nathan Fontenot <nafonten@amd.com>
-CC: Fan Ni <fan.ni@samsung.com>, "qemu-devel@nongnu.org"
- <qemu-devel@nongnu.org>, "linux-cxl@vger.kernel.org"
- <linux-cxl@vger.kernel.org>, "gregory.price@memverge.com"
- <gregory.price@memverge.com>, "hchkuo@avery-design.com.tw"
- <hchkuo@avery-design.com.tw>, "cbrowy@avery-design.com"
- <cbrowy@avery-design.com>, "ira.weiny@intel.com" <ira.weiny@intel.com>,
- "dan.j.williams@intel.com" <dan.j.williams@intel.com>, Adam Manzanares
- <a.manzanares@samsung.com>, "dave@stgolabs.net" <dave@stgolabs.net>,
- "nmtadam.samsung@gmail.com" <nmtadam.samsung@gmail.com>, "nifan@outlook.com"
- <nifan@outlook.com>
-Subject: Re: [RFC 2/7] hw/cxl/cxl-mailbox-utils: Add dynamic capacity region
- representative and mailbox command support
-Message-ID: <20230515145835.000076b9@Huawei.com>
-In-Reply-To: <5cf2a93d-1a20-c87b-5276-69feb5056e72@amd.com>
-References: <20230511175609.2091136-1-fan.ni@samsung.com>
- <CGME20230511175641uscas1p165a19a1416facf6603bf1a417121f0dc@uscas1p1.samsung.com>
- <20230511175609.2091136-3-fan.ni@samsung.com>
- <5cf2a93d-1a20-c87b-5276-69feb5056e72@amd.com>
-Organization: Huawei Technologies Research and Development (UK) Ltd.
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-w64-mingw32)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1pyYkl-0006xr-Sa
+ for qemu-devel@nongnu.org; Mon, 15 May 2023 10:00:45 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1684159242;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=s4UDkO3Kdy5NCRIXg9Om8yA7mbqwupVdh0F2UuY1x8M=;
+ b=RwjIZ2X6BYKf4b9gHPXKvjbCmeui6hCqJbig0dSTYBkLgbuBfvefsAttA5B5VFOEVGbIbL
+ DnWoaUbSIWsPSgAwArOlVgBulzOIu5FDBDDiI66HWcFYQZnnUQgXLUb/M4NuU9WGg7/b02
+ bLC6WjFJ4jvO2YgWSbmLgxnHjyIw6tM=
+Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
+ [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-460-V4-WAw0YPImyWmSZf6WvIw-1; Mon, 15 May 2023 10:00:40 -0400
+X-MC-Unique: V4-WAw0YPImyWmSZf6WvIw-1
+Received: by mail-ej1-f71.google.com with SMTP id
+ a640c23a62f3a-969c378d138so826035666b.1
+ for <qemu-devel@nongnu.org>; Mon, 15 May 2023 07:00:40 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1684159238; x=1686751238;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=s4UDkO3Kdy5NCRIXg9Om8yA7mbqwupVdh0F2UuY1x8M=;
+ b=OBTJ/cHsHT2Cw8bvej3i8UmdylB1gaFGVndbTMlgGOZ0XtS05hWP5tSOWI56EAxR3r
+ PI9753/h5PKWE/v16vpbRB4mbtrKF6dZ7La3JbSzdTujEiNphnxj6RnI63YNA3PsUpCY
+ /JKNRk7NDdYPzV1g78GadPHMZUKVmbs6CCLpZTH38pePUCHp5w7YMlJUFRe9o6EyNt+3
+ qlABUYT9hn1n6e2YK2Tt4ttjNiDBXE9lTRzwAfchkVINvZFU6OkE67oO/23+ouaI9DEr
+ 6hZdIjRvpqp76apGyfjUVEfXpF1v2Rj8yknJ0bVjSlDusDfTtXqmxscPnaRzKxNG/OJo
+ eH9A==
+X-Gm-Message-State: AC+VfDydp1/edrBHp/KaI08OkDc665RXwwoWsksmyHGcAjoxEoQ+UGDL
+ l2SLjNp696BbPFCDA1JXAUEQubozVh6hkE1izcp5eI2Ew+AFtdfF0MtgYloplnIQXnqn5blvLf1
+ Yg0sER3Hi9HxBdbMF6rhcYVHKDumcBAHF/KmgxhmVMPzl1plnhabROos6qQUNG3vDX0rcCgLOn9
+ w=
+X-Received: by 2002:a17:907:6e9e:b0:95f:1e0d:8e01 with SMTP id
+ sh30-20020a1709076e9e00b0095f1e0d8e01mr39293775ejc.13.1684159238679; 
+ Mon, 15 May 2023 07:00:38 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ7/4Q8DPdh0b2OboM4stqVNHbodVYzUVURoG1EUry9gKC47pUQg/i7KamxUrX3CLxAV1Kn6mg==
+X-Received: by 2002:a17:907:6e9e:b0:95f:1e0d:8e01 with SMTP id
+ sh30-20020a1709076e9e00b0095f1e0d8e01mr39293730ejc.13.1684159238241; 
+ Mon, 15 May 2023 07:00:38 -0700 (PDT)
+Received: from [192.168.10.118] ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
+ by smtp.gmail.com with ESMTPSA id
+ fh3-20020a1709073a8300b009666523d52dsm9635403ejc.156.2023.05.15.07.00.37
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 15 May 2023 07:00:37 -0700 (PDT)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: peter.maydell@linaro.org
+Subject: [PATCH] coverity: the definitive COMPONENTS.md update
+Date: Mon, 15 May 2023 16:00:36 +0200
+Message-Id: <20230515140036.383046-1-pbonzini@redhat.com>
+X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.202.227.76]
-X-ClientProxiedBy: lhrpeml100005.china.huawei.com (7.191.160.25) To
- lhrpeml500005.china.huawei.com (7.191.163.240)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=185.176.79.56;
- envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -74,182 +94,130 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-to:  Jonathan Cameron <Jonathan.Cameron@Huawei.com>
-From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, 11 May 2023 16:53:23 -0500
-Nathan Fontenot <nafonten@amd.com> wrote:
+The ordering here tries to be logical and matches the one in the
+website.
 
-> On 5/11/23 12:56, Fan Ni wrote:
-> > From: Fan Ni <nifan@outlook.com>
-> > 
-> > Per cxl spec 3.0, add dynamic capacity region representative based on
-> > Table 8-126 and extend the cxl type3 device definition to include dc region
-> > information. Also, based on info in 8.2.9.8.9.1, add 'Get Dynamic Capacity
-> > Configuration' mailbox support.
-> > 
-> > Signed-off-by: Fan Ni <fan.ni@samsung.com>
-> > ---
-> >  hw/cxl/cxl-mailbox-utils.c  | 68 +++++++++++++++++++++++++++++++++++++
-> >  include/hw/cxl/cxl_device.h | 16 +++++++++
-> >  2 files changed, 84 insertions(+)
-> > 
-> > diff --git a/hw/cxl/cxl-mailbox-utils.c b/hw/cxl/cxl-mailbox-utils.c
-> > index 7ff4fbdf22..61c77e52d8 100644
-> > --- a/hw/cxl/cxl-mailbox-utils.c
-> > +++ b/hw/cxl/cxl-mailbox-utils.c
-> > @@ -81,6 +81,8 @@ enum {
-> >          #define GET_POISON_LIST        0x0
-> >          #define INJECT_POISON          0x1
-> >          #define CLEAR_POISON           0x2
-> > +	DCD_CONFIG = 0x48, /*8.2.9.8.9*/
-> > +		#define GET_DC_REGION_CONFIG   0x0
-> >      PHYSICAL_SWITCH = 0x51
-> >          #define IDENTIFY_SWITCH_DEVICE      0x0
-> >  };
-> > @@ -935,6 +937,70 @@ static CXLRetCode cmd_media_clear_poison(struct cxl_cmd *cmd,
-> >      return CXL_MBOX_SUCCESS;
-> >  }
-> >  
-> > +/*
-> > + * cxl spec 3.0: 8.2.9.8.9.2
-> > + * Get Dynamic Capacity Configuration
-> > + **/
-> > +static CXLRetCode cmd_dcd_get_dyn_cap_config(struct cxl_cmd *cmd,
-> > +		CXLDeviceState *cxl_dstate,
-> > +		uint16_t *len)
-> > +{
-> > +	struct get_dyn_cap_config_in_pl {
-> > +		uint8_t region_cnt;
-> > +		uint8_t start_region_id;
-> > +	} QEMU_PACKED;
-> > +
-> > +    struct get_dyn_cap_config_out_pl {
-> > +		uint8_t num_regions;
-> > +		uint8_t rsvd1[7];
-> > +		struct {
-> > +			uint64_t base;
-> > +			uint64_t decode_len;
-> > +			uint64_t region_len;
-> > +			uint64_t block_size;
-> > +			uint32_t dsmadhandle;
-> > +			uint8_t flags;
-> > +			uint8_t rsvd2[3];
-> > +		} QEMU_PACKED records[];  
-> 
-> Could you declare CXLDCD_Region as QEMU_PACKED and use it here instead of
-> re-defining the region structure?
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
+ scripts/coverity-scan/COMPONENTS.md | 45 +++++++++++++++++++----------
+ 1 file changed, 30 insertions(+), 15 deletions(-)
 
-Could be done, but care needed on the endian conversions.  I wouldn't
-mind seeing this always held as little endian state though. We'd have
-done that anyway if it was a memory mapped command set rather than read
-via the mailbox so there is plenty of precedence.
-
-Jonathan
-
-> 
-> > +	} QEMU_PACKED;
-> > +
-> > +	struct get_dyn_cap_config_in_pl *in = (void *)cmd->payload;
-> > +	struct get_dyn_cap_config_out_pl *out = (void *)cmd->payload;
-> > +	struct CXLType3Dev *ct3d = container_of(cxl_dstate, CXLType3Dev, cxl_dstate);
-> > +	uint16_t record_count = 0, i = 0;
-> > +	uint16_t out_pl_len;
-> > +
-> > +	if (in->start_region_id >= ct3d->dc.num_regions)
-> > +		record_count = 0;
-> > +	else if (ct3d->dc.num_regions - in->start_region_id < in->region_cnt)
-> > +		record_count = ct3d->dc.num_regions - in->start_region_id;
-> > +	else
-> > +		record_count = in->region_cnt;
-> > +
-> > +	out_pl_len = sizeof(*out) + record_count * sizeof(out->records[0]);
-> > +	assert(out_pl_len <= CXL_MAILBOX_MAX_PAYLOAD_SIZE);
-> > +
-> > +	memset(out, 0, out_pl_len);
-> > +	out->num_regions = record_count;
-> > +	for (; i < record_count; i++) {
-> > +		stq_le_p(&out->records[i].base,
-> > +			ct3d->dc.regions[in->start_region_id+i].base);
-> > +		stq_le_p(&out->records[i].decode_len,
-> > +			ct3d->dc.regions[in->start_region_id+i].decode_len);
-> > +		stq_le_p(&out->records[i].region_len,
-> > +			ct3d->dc.regions[in->start_region_id+i].len);
-> > +		stq_le_p(&out->records[i].block_size,
-> > +			ct3d->dc.regions[in->start_region_id+i].block_size);
-> > +		stl_le_p(&out->records[i].dsmadhandle,
-> > +			ct3d->dc.regions[in->start_region_id+i].dsmadhandle);
-> > +		out->records[i].flags
-> > +			= ct3d->dc.regions[in->start_region_id+i].flags;  
-> 
-> In this loop your reading from 'in' and writing to 'out' where in and out both
-> point to the same payload buffer. It works because of the structure layouts but
-> feels like a bug waiting to happen. Perhaps saving start_region to a local variable
-> and using that for the loop?
-
-Does it work?  There is a memset of out above.
-Definitely need a local copy of start_region_id before that.
-This might only be working because of good fortune / compilers being 'clever'.
-
-Jonathan
-
-
-> 
-> -Nathan
-> 
-> > +	}
-> > +
-> > +	*len = out_pl_len;
-> > +	return CXL_MBOX_SUCCESS;
-> > +}
-> > +
-> >  #define IMMEDIATE_CONFIG_CHANGE (1 << 1)
-> >  #define IMMEDIATE_DATA_CHANGE (1 << 2)
-> >  #define IMMEDIATE_POLICY_CHANGE (1 << 3)
-> > @@ -973,6 +1039,8 @@ static struct cxl_cmd cxl_cmd_set[256][256] = {
-> >          cmd_media_inject_poison, 8, 0 },
-> >      [MEDIA_AND_POISON][CLEAR_POISON] = { "MEDIA_AND_POISON_CLEAR_POISON",
-> >          cmd_media_clear_poison, 72, 0 },
-> > +	[DCD_CONFIG][GET_DC_REGION_CONFIG] = { "DCD_GET_DC_REGION_CONFIG",
-> > +		cmd_dcd_get_dyn_cap_config, 2, 0 },
-> >  };
-> >  
-> >  static struct cxl_cmd cxl_cmd_set_sw[256][256] = {
-> > diff --git a/include/hw/cxl/cxl_device.h b/include/hw/cxl/cxl_device.h
-> > index e285369693..8a04e53e90 100644
-> > --- a/include/hw/cxl/cxl_device.h
-> > +++ b/include/hw/cxl/cxl_device.h
-> > @@ -383,6 +383,17 @@ typedef struct CXLPoison {
-> >  typedef QLIST_HEAD(, CXLPoison) CXLPoisonList;
-> >  #define CXL_POISON_LIST_LIMIT 256
-> >  
-> > +#define DCD_MAX_REGION_NUM 8
-> > +
-> > +typedef struct CXLDCD_Region {
-> > +	uint64_t base;
-> > +	uint64_t decode_len; /* in multiples of 256MB */
-> > +	uint64_t len;
-> > +	uint64_t block_size;
-> > +	uint32_t dsmadhandle;
-> > +	uint8_t flags;
-> > +} CXLDCD_Region;
-> > +
-> >  struct CXLType3Dev {
-> >      /* Private */
-> >      PCIDevice parent_obj;
-> > @@ -414,6 +425,11 @@ struct CXLType3Dev {
-> >      unsigned int poison_list_cnt;
-> >      bool poison_list_overflowed;
-> >      uint64_t poison_list_overflow_ts;
-> > +
-> > +	struct dynamic_capacity {
-> > +		uint8_t num_regions; // 1-8
-> > +		struct CXLDCD_Region regions[DCD_MAX_REGION_NUM];
-> > +	} dc;
-> >  };
-> >  
-> >  #define TYPE_CXL_TYPE3 "cxl-type3"  
+diff --git a/scripts/coverity-scan/COMPONENTS.md b/scripts/coverity-scan/COMPONENTS.md
+index 7c48e0f1d215..883da95aff22 100644
+--- a/scripts/coverity-scan/COMPONENTS.md
++++ b/scripts/coverity-scan/COMPONENTS.md
+@@ -24,6 +24,9 @@ hppa
+ i386
+   ~ (/qemu)?((/include)?/hw/i386/.*|/target/i386/.*|/hw/intc/[^/]*apic[^/]*\.c)
+ 
++loongarch
++  ~ (/qemu)?((/include)?/hw/(loongarch/.*|.*/loongarch.*)|/target/loongarch/.*)
++
+ m68k
+   ~ (/qemu)?((/include)?/hw/m68k/.*|/target/m68k/.*|(/include)?/hw(/.*)?/mcf.*|(/include)?/hw/nubus/.*)
+ 
+@@ -36,11 +39,14 @@ mips
+ nios2
+   ~ (/qemu)?((/include)?/hw/nios2/.*|/target/nios2/.*)
+ 
++openrisc
++  ~ (/qemu)?((/include)?/hw/openrisc/.*|/target/openrisc/.*)
++
+ ppc
+   ~ (/qemu)?((/include)?/hw/ppc/.*|/target/ppc/.*|/hw/pci-host/(uninorth.*|dec.*|prep.*|ppc.*)|/hw/misc/macio/.*|(/include)?/hw/.*/(xics|openpic|spapr).*)
+ 
+ riscv
+-  ~ (/qemu)?((/include)?/hw/riscv/.*|/target/riscv/.*)
++  ~ (/qemu)?((/include)?/hw/riscv/.*|/target/riscv/.*|/hw/.*/(riscv_|ibex_|sifive_).*)
+ 
+ rx
+   ~ (/qemu)?((/include)?/hw/rx/.*|/target/rx/.*)
+@@ -54,12 +60,12 @@ sh4
+ sparc
+   ~ (/qemu)?((/include)?/hw/sparc(64)?.*|/target/sparc/.*|/hw/.*/grlib.*|/hw/display/cg3.c)
+ 
+-tilegx
+-  ~ (/qemu)?(/target/tilegx/.*)
+-
+ tricore
+   ~ (/qemu)?((/include)?/hw/tricore/.*|/target/tricore/.*)
+ 
++xtensa
++  ~ (/qemu)?((/include)?/hw/xtensa/.*|/target/xtensa/.*)
++
+ 9pfs
+   ~ (/qemu)?(/hw/9pfs/.*|/fsdev/.*)
+ 
+@@ -73,7 +79,7 @@ char
+   ~ (/qemu)?(/qemu-char\.c|/include/sysemu/char\.h|(/include)?/hw/char/.*)
+ 
+ crypto
+-  ~ (/qemu)?((/include)?/crypto/.*|/hw/.*/crypto.*)
++  ~ (/qemu)?((/include)?/crypto/.*|/hw/.*/.*crypto.*|(/include/sysemu|/backends)/cryptodev.*)
+ 
+ disas
+   ~ (/qemu)?((/include)?/disas.*)
+@@ -100,7 +106,7 @@ net
+   ~ (/qemu)?((/include)?(/hw)?/(net|rdma)/.*)
+ 
+ pci
+-  ~ (/qemu)?(/hw/pci.*|/include/hw/pci.*)
++  ~ (/qemu)?(/include)?/hw/(cxl/|pci).*
+ 
+ qemu-ga
+   ~ (/qemu)?(/qga/.*)
+@@ -108,9 +114,6 @@ qemu-ga
+ scsi
+   ~ (/qemu)?(/scsi/.*|/hw/scsi/.*|/include/hw/scsi/.*)
+ 
+-tcg
+-  ~ (/qemu)?(/accel/tcg/.*|/replay/.*|/(.*/)?softmmu.*)
+-
+ trace
+   ~ (/qemu)?(/.*trace.*\.[ch])
+ 
+@@ -126,9 +129,27 @@ user
+ util
+   ~ (/qemu)?(/util/.*|/include/qemu/.*)
+ 
++vfio
++  ~ (/qemu)?(/include)?/hw/vfio/.*
++
++virtio
++  ~ (/qemu)?(/include)?/hw/virtio/.*
++
+ xen
+   ~ (/qemu)?(.*/xen.*)
+ 
++hvf
++  ~ (/qemu)?(.*/hvf.*)
++
++kvm
++  ~ (/qemu)?(.*/kvm.*)
++
++tcg
++  ~ (/qemu)?(/accel/tcg|/replay|/tcg)/.*
++
++sysemu
++  ~ (/qemu)?(/softmmu/.*|/accel/.*)
++
+ (headers)
+   ~ (/qemu)?(/include/.*)
+ 
+@@ -137,9 +158,3 @@ testlibs
+ 
+ tests
+   ~ (/qemu)?(/tests/.*)
+-
+-loongarch
+-  ~ (/qemu)?((/include)?/hw/(loongarch/.*|.*/loongarch.*)|/target/loongarch/.*)
+-
+-riscv
+-  ~ (/qemu)?((/include)?/hw/riscv/.*|/target/riscv/.*|/hw/.*/(riscv_|ibex_|sifive_).*)
+-- 
+2.40.1
 
 
