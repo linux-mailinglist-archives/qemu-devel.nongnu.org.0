@@ -2,84 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5362A70298A
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 May 2023 11:51:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 96FC0702995
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 May 2023 11:53:54 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pyUrh-0004bZ-M0; Mon, 15 May 2023 05:51:37 -0400
+	id 1pyUtX-0005S9-7z; Mon, 15 May 2023 05:53:31 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pyUrf-0004bC-Lw
- for qemu-devel@nongnu.org; Mon, 15 May 2023 05:51:35 -0400
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1pyUtV-0005Rx-6J
+ for qemu-devel@nongnu.org; Mon, 15 May 2023 05:53:29 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pyUrd-0006r8-9p
- for qemu-devel@nongnu.org; Mon, 15 May 2023 05:51:35 -0400
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1pyUtT-00077G-PE
+ for qemu-devel@nongnu.org; Mon, 15 May 2023 05:53:28 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1684144292;
+ s=mimecast20190719; t=1684144406;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=7MpMXVlMKyb8bCL9DosR1CVGe0Tr1uaPsqpU5pT3FiU=;
- b=c5J+WCChznDf7V02qgIMROJyqOjmgPj7ZbVZRoC+t10zOop9rWoXt+wrf5Gjgx9KK5rg5E
- F8FvzlEBa0GZfPSsM2YENxKkA1B7Nu2FVrmMolkzu8uvVz6R1J1rApcQZnDlaqpHUeeGvZ
- 1DkNQpd0KV/x2Aw/FwYSQXxydHqzg/M=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-369-dW1G4q_RP3ex866WPUqvDA-1; Mon, 15 May 2023 05:51:31 -0400
-X-MC-Unique: dW1G4q_RP3ex866WPUqvDA-1
-Received: by mail-wr1-f72.google.com with SMTP id
- ffacd0b85a97d-306311a2b99so4880985f8f.1
- for <qemu-devel@nongnu.org>; Mon, 15 May 2023 02:51:30 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1684144290; x=1686736290;
- h=mime-version:message-id:date:reply-to:user-agent:references
- :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=7MpMXVlMKyb8bCL9DosR1CVGe0Tr1uaPsqpU5pT3FiU=;
- b=GMyfUlQ27utsQTqKekuNWFo6BGBhHLiuMXkSk43UZnrH64EBXF8qDjSziaSFxf0IXr
- VCQAiRLUwwXQsMJ6zma/ZKzeKncF71bOkL4/m1MGa2oBv4YQ3UMyquZdBMDIPVT13j+U
- IO+/h9i0E0//RiGWzyAPUSgchYgHOo3eRW7uhkje/cX6Mh4HTrb5kzCkqdDiv/uQJkt1
- QMZdJdQhhoXxBNZlfu9474Lue60o9jRvQqvES3e0Ew4tD1vlDCTHTjkIkrbvLDotqPqJ
- 2XLkhTBD9ttYwtwOnEC+74ZXboGFsdhjbg+0I/Q+CSD4xoD0a024VISQfoteiMrqd86x
- G15g==
-X-Gm-Message-State: AC+VfDxGoOt9PA7O27JjbyojqB4IywxdaBV+2JxOGp6i7bOhLhf41chb
- imdBglqjW4JDiIcCC8+HeGXpxckbJwqGX1gn1A/6DOZBv8YeORElESo41ccFwXhSpt7GI6TjpDy
- 9JujcRjWyXO+mfEw=
-X-Received: by 2002:adf:dc04:0:b0:307:a33d:d054 with SMTP id
- t4-20020adfdc04000000b00307a33dd054mr15125515wri.49.1684144290021; 
- Mon, 15 May 2023 02:51:30 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ6tOI3//FwiVZetyNCbfBwkT4GV/FF9fdYyo0m5cVYCVniXvU+HNklCZDzjx0KWr8H9xQQtPg==
-X-Received: by 2002:adf:dc04:0:b0:307:a33d:d054 with SMTP id
- t4-20020adfdc04000000b00307a33dd054mr15125504wri.49.1684144289743; 
- Mon, 15 May 2023 02:51:29 -0700 (PDT)
-Received: from redhat.com (static-92-120-85-188.ipcom.comunitel.net.
- [188.85.120.92]) by smtp.gmail.com with ESMTPSA id
- e15-20020a5d594f000000b0030771c6e443sm31703032wri.42.2023.05.15.02.51.29
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 15 May 2023 02:51:29 -0700 (PDT)
-From: Juan Quintela <quintela@redhat.com>
-To: Het Gala <het.gala@nutanix.com>
-Cc: qemu-devel@nongnu.org,  prerna.saxena@nutanix.com,  dgilbert@redhat.com,
- pbonzini@redhat.com,  berrange@redhat.com,  armbru@redhat.com,
- eblake@redhat.com,  manish.mishra@nutanix.com,
- aravind.retnakaran@nutanix.com
-Subject: Re: [PATCH v4 4/8] migration: converts rdma backend to accept
- MigrateAddress struct
-In-Reply-To: <20230512143240.192504-5-het.gala@nutanix.com> (Het Gala's
- message of "Fri, 12 May 2023 14:32:36 +0000")
-References: <20230512143240.192504-1-het.gala@nutanix.com>
- <20230512143240.192504-5-het.gala@nutanix.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
-Date: Mon, 15 May 2023 11:51:28 +0200
-Message-ID: <87sfbx2a8v.fsf@secure.mitica>
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=jU2ZRLdlCa+6agMlurZuAcsOfIAmMApkBEkVu3XSkLE=;
+ b=ioZPpFqdqlaEARHTqIN7biJtsFak3rKvez9oGC5g2GCMgojYeH47zq+RLPKW98/ELnM8Zu
+ IPb4w9T+XZXm1gHn2EeWd2D+YqGFSIB6qQGoE8qWMv38aRiBoDR4SqSrTO5GT3jUZJ7MXe
+ ahQhRZWEQCG5iiHmlcVoJErs2AqUViY=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-453-x83C5-g1Pjm8XXuUwIo0mA-1; Mon, 15 May 2023 05:53:23 -0400
+X-MC-Unique: x83C5-g1Pjm8XXuUwIo0mA-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.9])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id DC133101A553;
+ Mon, 15 May 2023 09:53:22 +0000 (UTC)
+Received: from redhat.com (unknown [10.42.28.48])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C223D492B00;
+ Mon, 15 May 2023 09:53:21 +0000 (UTC)
+Date: Mon, 15 May 2023 10:53:19 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Andrew Melnychenko <andrew@daynix.com>
+Cc: jasowang@redhat.com, mst@redhat.com, armbru@redhat.com,
+ eblake@redhat.com, qemu-devel@nongnu.org,
+ yuri.benditovich@daynix.com, yan@daynix.com
+Subject: Re: [PATCH v2 6/6] ebpf: Updated eBPF program and skeleton.
+Message-ID: <ZGIBD1ux3NrJwTbt@redhat.com>
+References: <20230512122902.34345-1-andrew@daynix.com>
+ <20230512122902.34345-7-andrew@daynix.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230512122902.34345-7-andrew@daynix.com>
+User-Agent: Mutt/2.2.9 (2022-11-12)
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -100,20 +81,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: quintela@redhat.com
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Het Gala <het.gala@nutanix.com> wrote:
-> RDMA based transport backend for 'migrate'/'migrate-incoming' QAPIs
-> accept new wire protocol of MigrateAddress struct.
->
-> It is achived by parsing 'uri' string and storing migration parameters
-> required for RDMA connection into well defined InetSocketAddress struct.
->
-> Suggested-by: Aravind Retnakaran <aravind.retnakaran@nutanix.com>
-> Signed-off-by: Het Gala <het.gala@nutanix.com>
+On Fri, May 12, 2023 at 03:29:02PM +0300, Andrew Melnychenko wrote:
+> Updated section name, so libbpf should init/gues proper
+> program type without specifications during open/load.
+> 
+> Signed-off-by: Andrew Melnychenko <andrew@daynix.com>
+> ---
+>  ebpf/rss.bpf.skeleton.h | 1469 ++++++++++++++++++++-------------------
+>  tools/ebpf/rss.bpf.c    |    2 +-
+>  2 files changed, 741 insertions(+), 730 deletions(-)
 
-Reviewed-by: Juan Quintela <quintela@redhat.com>
+..snip..
+
+Can't say I've verified the big hex blob, but I'll asume its a faithful
+compilation of the change below:
+
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+
+
+> diff --git a/tools/ebpf/rss.bpf.c b/tools/ebpf/rss.bpf.c
+> index 20f227e2acc..d32b6fb42a4 100644
+> --- a/tools/ebpf/rss.bpf.c
+> +++ b/tools/ebpf/rss.bpf.c
+> @@ -528,7 +528,7 @@ static inline __u32 calculate_rss_hash(struct __sk_buff *skb,
+>      return result;
+>  }
+>  
+> -SEC("tun_rss_steering")
+> +SEC("socket")
+>  int tun_rss_steering_prog(struct __sk_buff *skb)
+>  {
+>  
+> -- 
+> 2.39.1
+> 
+
+With regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
