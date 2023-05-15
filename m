@@ -2,69 +2,104 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7EF23702752
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 May 2023 10:35:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 971C170276D
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 May 2023 10:41:35 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pyTdI-0004s7-1x; Mon, 15 May 2023 04:32:40 -0400
+	id 1pyTlW-0002v9-0H; Mon, 15 May 2023 04:41:10 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pyTcv-0004Fe-Qa
- for qemu-devel@nongnu.org; Mon, 15 May 2023 04:32:20 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <harshpb@linux.ibm.com>)
+ id 1pyTlT-0002uS-HB; Mon, 15 May 2023 04:41:07 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pyTct-0002Nm-36
- for qemu-devel@nongnu.org; Mon, 15 May 2023 04:32:17 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1684139534;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=CwKN/yEJNJ9uXQUZc+CwrYISzJUR+/bSEU/M2EF/hcs=;
- b=BIGwnqKj9YJEuR2J0Njems/fiAZhMsx8AzGRtOrwew+n1GMGqtMfG3nNgAYBu/QKStKw6w
- sdcGd5j/7PA+b56TXcPjuNrEnTaNGA1to/QWSvgvsM3yRixIo+lOHmyQI9/gURRpVpyjUD
- nuVsram+yCFoQxff6Q0LV6qZXMkLHpY=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-589-CqCTC8AKPPCDIay7hbM-og-1; Mon, 15 May 2023 04:32:11 -0400
-X-MC-Unique: CqCTC8AKPPCDIay7hbM-og-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
- [10.11.54.10])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A81C7857E13;
- Mon, 15 May 2023 08:32:10 +0000 (UTC)
-Received: from secure.mitica (unknown [10.39.194.171])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 20E11483EC2;
- Mon, 15 May 2023 08:32:08 +0000 (UTC)
-From: Juan Quintela <quintela@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: "Michael S . Tsirkin" <mst@redhat.com>, Leonardo Bras <leobras@redhat.com>,
- Peter Xu <peterx@redhat.com>, Jiri Denemark <jdenemar@redhat.com>,
- Avihai Horon <avihaih@nvidia.com>, Juan Quintela <quintela@redhat.com>,
- Fiona Ebner <f.ebner@proxmox.com>,
- =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>
-Subject: [PATCH v3 3/3] migration/doc: We broke backwards compatibility
-Date: Mon, 15 May 2023 10:32:01 +0200
-Message-Id: <20230515083201.55060-4-quintela@redhat.com>
-In-Reply-To: <20230515083201.55060-1-quintela@redhat.com>
-References: <20230515083201.55060-1-quintela@redhat.com>
+ (Exim 4.90_1) (envelope-from <harshpb@linux.ibm.com>)
+ id 1pyTlN-0004Ax-Se; Mon, 15 May 2023 04:41:05 -0400
+Received: from pps.filterd (m0353723.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 34F8dh9u016067; Mon, 15 May 2023 08:40:46 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=LBc4ETvndVok6fTz64XsdCxEw/kATNfsj/W6yigU8E8=;
+ b=CwMqX06hozxL/JSPw7iFacA2caqqDRycoiICHuJdOOVJrnxcST/KmipDg/VjQlLZzZm9
+ rZi4DcBMDgXXoY0acQf/nPmskdoUFGF4wHxl7bP0zV5lWNh39YZMtRm6Lgeho27RZBk4
+ 2hTm+7MgVbziEe99H6MAe4b17mBuRhzINuwdgbtq8/Eu7FdCvOnGrumqwobykVd6ECbD
+ JoFpcC6CHsHU9bZDQ5QfiZl4k7JqeITsa8yAiJKOV2o0+hUHsrrUhLQjUJ2sZ2eualD7
+ a2ubaDbtN25aJGjZ0dNr+SumJrEOJ/E0BRdXpt42j6Cmvp7lr5Ar5nsQOVE3wBEFVRik yw== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3qkdy9nywx-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 15 May 2023 08:40:45 +0000
+Received: from m0353723.ppops.net (m0353723.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 34F8e4fP019055;
+ Mon, 15 May 2023 08:40:25 GMT
+Received: from ppma01dal.us.ibm.com (83.d6.3fa9.ip4.static.sl-reverse.com
+ [169.63.214.131])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3qkdy9nxs2-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 15 May 2023 08:40:21 +0000
+Received: from pps.filterd (ppma01dal.us.ibm.com [127.0.0.1])
+ by ppma01dal.us.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 34F76t0s007333;
+ Mon, 15 May 2023 08:32:23 GMT
+Received: from smtprelay05.wdc07v.mail.ibm.com ([9.208.129.117])
+ by ppma01dal.us.ibm.com (PPS) with ESMTPS id 3qj265mqnd-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 15 May 2023 08:32:23 +0000
+Received: from smtpav06.dal12v.mail.ibm.com (smtpav06.dal12v.mail.ibm.com
+ [10.241.53.105])
+ by smtprelay05.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 34F8WLHJ56492390
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 15 May 2023 08:32:22 GMT
+Received: from smtpav06.dal12v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id A682558060;
+ Mon, 15 May 2023 08:32:21 +0000 (GMT)
+Received: from smtpav06.dal12v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 0FB2758055;
+ Mon, 15 May 2023 08:32:20 +0000 (GMT)
+Received: from [9.43.90.211] (unknown [9.43.90.211])
+ by smtpav06.dal12v.mail.ibm.com (Postfix) with ESMTP;
+ Mon, 15 May 2023 08:32:19 +0000 (GMT)
+Message-ID: <67fcac44-675b-67b3-ba7b-61730c356f50@linux.ibm.com>
+Date: Mon, 15 May 2023 14:02:17 +0530
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH 6/6] target/ppc: Implement HEIR SPR
+To: Nicholas Piggin <npiggin@gmail.com>
+Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
+References: <20230323022237.1807512-1-npiggin@gmail.com>
+ <20230323022237.1807512-6-npiggin@gmail.com>
+ <ZFoXjN/PUyDhMDG1@li-1901474c-32f3-11b2-a85c-fc5ff2c001f3.ibm.com>
+ <CSMPI9KZ5TT5.GAWG3D1ZUQ3H@wheely>
+Content-Language: en-US
+From: Harsh Prateek Bora <harshpb@linux.ibm.com>
+In-Reply-To: <CSMPI9KZ5TT5.GAWG3D1ZUQ3H@wheely>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: s5yp-JZeBFj9pM8bjpiZUZ-J9wFVbIDH
+X-Proofpoint-GUID: MLFUOG9JmD7uV2iJLhnMn4sa47_XP_Rf
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-05-15_06,2023-05-05_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 adultscore=0
+ mlxscore=0 suspectscore=0 mlxlogscore=878 malwarescore=0
+ priorityscore=1501 impostorscore=0 bulkscore=0 lowpriorityscore=0
+ clxscore=1015 spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2304280000 definitions=main-2305150073
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=harshpb@linux.ibm.com;
+ helo=mx0b-001b2d01.pphosted.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.93,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,223 +116,75 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-When we detect that we have broken backwards compantibility in a
-released version, we can't do anything for that version.  But once we
-fix that bug on the next released version, we can "mitigate" that
-problem when migrating to new versions to give a way out of that
-machine until it does a hard reboot.
 
-Signed-off-by: Juan Quintela <quintela@redhat.com>
----
- docs/devel/migration.rst | 194 +++++++++++++++++++++++++++++++++++++++
- 1 file changed, 194 insertions(+)
 
-diff --git a/docs/devel/migration.rst b/docs/devel/migration.rst
-index 95e797ee60..97b6f48474 100644
---- a/docs/devel/migration.rst
-+++ b/docs/devel/migration.rst
-@@ -451,6 +451,200 @@ binary in both sides of the migration.  If we use different QEMU
- versions process, then we need to have into account all other
- differences and the examples become even more complicated.
- 
-+How to mitigate when we have a backward compatibility error
-+-----------------------------------------------------------
-+
-+We broke migration for old machine types continously during
-+development.  But as soon as we find that there is a problem, we fix
-+it.  The problem is what happens when we detect after we have done a
-+release that something has gone wrong.
-+
-+Let see how it worked with one example.
-+
-+After the release of qemu-8.0 we found a problem when doing migration
-+of the machine type pc-7.2.
-+
-+- $ qemu-7.2 -M pc-7.2  ->  qemu-7.2 -M pc-7.2
-+
-+  This migration works
-+
-+- $ qemu-8.0 -M pc-7.2  ->  qemu-8.0 -M pc-7.2
-+
-+  This migration works
-+
-+- $ qemu-8.0 -M pc-7.2  ->  qemu-7.2 -M pc-7.2
-+
-+  This migration fails
-+
-+- $ qemu-7.2 -M pc-7.2  ->  qemu-8.0 -M pc-7.2
-+
-+  This migration fails
-+
-+So clearly something fails when migration between qemu-7.2 and
-+qemu-8.0 with machine type pc-7.2.  The error messages, and git bisect
-+pointed to this commit.
-+
-+In qemu-8.0 we got this commit: ::
-+
-+    commit 9a6ef182c03eaa138bae553f0fbb5a123bef9a53
-+    Author: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-+    Date:   Thu Mar 2 13:37:03 2023 +0000
-+
-+        hw/pci/aer: Add missing routing for AER errors
-+
-+The relevant bits of the commit for our example are this ones:
-+
-+    --- a/hw/pci/pcie_aer.c
-+    +++ b/hw/pci/pcie_aer.c
-+    @@ -112,6 +112,10 @@ int pcie_aer_init(PCIDevice *dev,
-+
-+         pci_set_long(dev->w1cmask + offset + PCI_ERR_UNCOR_STATUS,
-+                      PCI_ERR_UNC_SUPPORTED);
-+    +    pci_set_long(dev->config + offset + PCI_ERR_UNCOR_MASK,
-+    +                 PCI_ERR_UNC_MASK_DEFAULT);
-+    +    pci_set_long(dev->wmask + offset + PCI_ERR_UNCOR_MASK,
-+    +                 PCI_ERR_UNC_SUPPORTED);
-+
-+         pci_set_long(dev->config + offset + PCI_ERR_UNCOR_SEVER,
-+                     PCI_ERR_UNC_SEVERITY_DEFAULT);
-+
-+The patch changes how we configure pci space for AER.  But qemu fails
-+when the pci space configuration is different betwwen source and
-+destination.
-+
-+The following commit show how this got fixed:
-+
-+<put info of the commit once that it arrives upstream>
-+
-+The relevant parts of the fix are as follow:
-+
-+First, we create a new property for the device to be able to configure
-+the old behaviour or the new behaviour. ::
-+
-+    diff --git a/hw/pci/pci.c b/hw/pci/pci.c
-+    index 8a87ccc8b0..5153ad63d6 100644
-+    --- a/hw/pci/pci.c
-+    +++ b/hw/pci/pci.c
-+    @@ -79,6 +79,8 @@ static Property pci_props[] = {
-+         DEFINE_PROP_STRING("failover_pair_id", PCIDevice,
-+                            failover_pair_id),
-+         DEFINE_PROP_UINT32("acpi-index",  PCIDevice, acpi_index, 0),
-+    +    DEFINE_PROP_BIT("x-pcie-err-unc-mask", PCIDevice, cap_present,
-+    +                    QEMU_PCIE_ERR_UNC_MASK_BITNR, true),
-+         DEFINE_PROP_END_OF_LIST()
-+     };
-+
-+Notice that we enable te feature for new machine types.
-+
-+Now we see how the fix is done.  This is going to depend on what kind
-+of breakage happens, but in this case it is quite simple. ::
-+
-+    diff --git a/hw/pci/pcie_aer.c b/hw/pci/pcie_aer.c
-+    index 103667c368..374d593ead 100644
-+    --- a/hw/pci/pcie_aer.c
-+    +++ b/hw/pci/pcie_aer.c
-+    @@ -112,10 +112,13 @@ int pcie_aer_init(PCIDevice *dev, uint8_t cap_ver,
-+    uint16_t offset,
-+
-+         pci_set_long(dev->w1cmask + offset + PCI_ERR_UNCOR_STATUS,
-+                      PCI_ERR_UNC_SUPPORTED);
-+    -    pci_set_long(dev->config + offset + PCI_ERR_UNCOR_MASK,
-+    -                 PCI_ERR_UNC_MASK_DEFAULT);
-+    -    pci_set_long(dev->wmask + offset + PCI_ERR_UNCOR_MASK,
-+    -                 PCI_ERR_UNC_SUPPORTED);
-+    +
-+    +    if (dev->cap_present & QEMU_PCIE_ERR_UNC_MASK) {
-+    +        pci_set_long(dev->config + offset + PCI_ERR_UNCOR_MASK,
-+    +                     PCI_ERR_UNC_MASK_DEFAULT);
-+    +        pci_set_long(dev->wmask + offset + PCI_ERR_UNCOR_MASK,
-+    +                     PCI_ERR_UNC_SUPPORTED);
-+    +    }
-+
-+         pci_set_long(dev->config + offset + PCI_ERR_UNCOR_SEVER,
-+                      PCI_ERR_UNC_SEVERITY_DEFAULT);
-+
-+I.e. If the property bit is enabled, we configure it as we did for
-+qemu-8.0.  If the property bit is not set, we configure it as it was in 7.2.
-+
-+And now, everything that is missing is disable the feature for old
-+machine types: ::
-+
-+    diff --git a/hw/core/machine.c b/hw/core/machine.c
-+    index 47a34841a5..07f763eb2e 100644
-+    --- a/hw/core/machine.c
-+    +++ b/hw/core/machine.c
-+    @@ -48,6 +48,7 @@ GlobalProperty hw_compat_7_2[] = {
-+         { "e1000e", "migrate-timadj", "off" },
-+         { "virtio-mem", "x-early-migration", "false" },
-+         { "migration", "x-preempt-pre-7-2", "true" },
-+    +    { TYPE_PCI_DEVICE, "x-pcie-err-unc-mask", "off" },
-+     };
-+     const size_t hw_compat_7_2_len = G_N_ELEMENTS(hw_compat_7_2);
-+
-+And now, when qemu-8.0.1 is released with this fix, all combinations
-+are going to work as supposed.
-+
-+- $ qemu-7.2 -M pc-7.2  ->  qemu-7.2 -M pc-7.2 (works)
-+- $ qemu-8.0.1 -M pc-7.2  ->  qemu-8.0.1 -M pc-7.2 (works)
-+- $ qemu-8.0.1 -M pc-7.2  ->  qemu-7.2 -M pc-7.2 (works)
-+- $ qemu-7.2 -M pc-7.2  ->  qemu-8.0.1 -M pc-7.2 (works)
-+
-+So the normality has been restaured and everything is ok, no?
-+
-+Not really, now our matrix is much bigger.  We started with the easy
-+cases, migration from the same version to the same version always
-+works:
-+
-+- $ qemu-7.2 -M pc-7.2  ->  qemu-7.2 -M pc-7.2
-+- $ qemu-8.0 -M pc-7.2  ->  qemu-8.0 -M pc-7.2
-+- $ qemu-8.0.1 -M pc-7.2  ->  qemu-8.0.1 -M pc-7.2
-+
-+Now the interesting ones.  When the QEMU processes versions are
-+different.  For the 1st set, their fail and we can do nothing, both
-+versions are relased and we can't change anything.
-+
-+- $ qemu-7.2 -M pc-7.2  ->  qemu-8.0 -M pc-7.2
-+- $ qemu-8.0 -M pc-7.2  ->  qemu-7.2 -M pc-7.2
-+
-+This two are the ones that work. The whole point of making the
-+change in qemu-8.0.1 release was to fix this issue:
-+
-+- $ qemu-7.2 -M pc-7.2  ->  qemu-8.0.1 -M pc-7.2
-+- $ qemu-8.0.1 -M pc-7.2  ->  qemu-7.2 -M pc-7.2
-+
-+But now we found that qemu-8.0 neither can migrate to qemu-7.2 not
-+qemu-8.0.1.
-+
-+- $ qemu-8.0 -M pc-7.2  ->  qemu-8.0.1 -M pc-7.2
-+- $ qemu-8.0.1 -M pc-7.2  ->  qemu-8.0 -M pc-7.2
-+
-+So, if we start a pc-7.2 machine in qemu-8.0 we can't migrate it to
-+anything except to qemu-8.0.
-+
-+Can we do better?
-+
-+Yeap.  If we know that we are gonig to do this migration:
-+
-+- $ qemu-8.0 -M pc-7.2  ->  qemu-8.0.1 -M pc-7.2
-+
-+We can launche the appropiate devices with
-+
-+--device...,x-pci-e-err-unc-mask=on
-+
-+And now we can receive a migration from 8.0.  And from now on, we can
-+do that migration to new machine types if we remember to enable that
-+property for pc-7.2.  Notice that we need to remember, it is not
-+enough to know that the source of the migration is qemu-8.0.  Think of this example:
-+
-+$ qemu-8.0 -M pc-7.2 -> qemu-8.0.1 -M pc-7.2 -> qemu-8.2 -M pc-7.2
-+
-+In the second migration, the source is not qemu-8.0, but we still have
-+that "problem" and have that property enabled.  Notice that we need to
-+continue having this mark/property until we have this machine
-+rebooted.  But it is not a normal reboot (that don't reload qemu) we
-+need the mapchine to poweroff/poweron on a fixed qemu.  And from now
-+on we can use the proper real machine.
-+
- VMState
- -------
- 
--- 
-2.40.1
+On 5/15/23 13:56, Nicholas Piggin wrote:
+> On Tue May 9, 2023 at 7:51 PM AEST, Harsh Prateek Bora wrote:
+>> On Thu, Mar 23, 2023 at 12:22:37PM +1000, Nicholas Piggin wrote:
+>>> The hypervisor emulation assistance interrupt modifies HEIR to
+>>> contain the value of the instruction which caused the exception.
+>>>
+>>> Signed-off-by: Nicholas Piggin <npiggin@gmail.com>
+>>> ---
+>>>   target/ppc/cpu.h         |  1 +
+>>>   target/ppc/cpu_init.c    | 23 +++++++++++++++++++++++
+>>>   target/ppc/excp_helper.c | 12 +++++++++++-
+>>>   3 files changed, 35 insertions(+), 1 deletion(-)
+>>>
+>>
+>> <snip>
+>>
+>>> diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
+>>> index 2e0321ab69..d206903562 100644
+>>> --- a/target/ppc/excp_helper.c
+>>> +++ b/target/ppc/excp_helper.c
+>>> @@ -1614,13 +1614,23 @@ static void powerpc_excp_books(PowerPCCPU *cpu, int excp)
+>>>       case POWERPC_EXCP_HDECR:     /* Hypervisor decrementer exception         */
+>>>       case POWERPC_EXCP_HDSI:      /* Hypervisor data storage exception        */
+>>>       case POWERPC_EXCP_SDOOR_HV:  /* Hypervisor Doorbell interrupt            */
+>>> -    case POWERPC_EXCP_HV_EMU:
+>>>       case POWERPC_EXCP_HVIRT:     /* Hypervisor virtualization                */
+>>>           srr0 = SPR_HSRR0;
+>>>           srr1 = SPR_HSRR1;
+>>>           new_msr |= (target_ulong)MSR_HVB;
+>>>           new_msr |= env->msr & ((target_ulong)1 << MSR_RI);
+>>>           break;
+>>> +    case POWERPC_EXCP_HV_EMU:
+>>> +        env->spr[SPR_HEIR] = insn;
+>>> +        if (is_prefix_excp(env, insn)) {
+>>> +            uint32_t insn2 = ppc_ldl_code(env, env->nip + 4);
+>>> +            env->spr[SPR_HEIR] |= (uint64_t)insn2 << 32;
+>>> +        }
+>>> +        srr0 = SPR_HSRR0;
+>>> +        srr1 = SPR_HSRR1;
+>>> +        new_msr |= (target_ulong)MSR_HVB;
+>>> +        new_msr |= env->msr & ((target_ulong)1 << MSR_RI);
+>>> +        break;
+>>
+>> Since there is a common code, this could be better written like:
+>>      case POWERPC_EXCP_HV_EMU:
+>>          env->spr[SPR_HEIR] = insn;
+>>          if (is_prefix_excp(env, insn)) {
+>>              uint32_t insn2 = ppc_ldl_code(env, env->nip + 4);
+>>              env->spr[SPR_HEIR] |= (uint64_t)insn2 << 32;
+>>          }
+>> 	/* fall through below common code for EXCP_HVIRT */
+>>      case POWERPC_EXCP_HVIRT:     /* Hypervisor virtualization                */
+>>          srr0 = SPR_HSRR0;
+>>          srr1 = SPR_HSRR1;
+>>          new_msr |= (target_ulong)MSR_HVB;
+>>          new_msr |= env->msr & ((target_ulong)1 << MSR_RI);
+>>          break;
+> 
+> That would be wrong for the other HSRR fallthroughs above it.
+> 
+Oh yeh, in that case, may be move it to top of the EXCP_HISI, it would 
+need duplicating one line of assignment though (relatively better?).
 
+regards,
+Harsh
+
+> Thanks,
+> Nick
+> 
 
