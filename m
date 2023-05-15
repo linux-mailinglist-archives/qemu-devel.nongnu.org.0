@@ -2,94 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23029702B45
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 May 2023 13:19:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B543D702B48
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 May 2023 13:19:46 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pyWDa-0000vM-9z; Mon, 15 May 2023 07:18:18 -0400
+	id 1pyWE7-00012E-JA; Mon, 15 May 2023 07:18:51 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pyWDX-0000uL-Ht
- for qemu-devel@nongnu.org; Mon, 15 May 2023 07:18:15 -0400
+ id 1pyWE2-000113-9A
+ for qemu-devel@nongnu.org; Mon, 15 May 2023 07:18:46 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pyWDV-0001Pa-Px
- for qemu-devel@nongnu.org; Mon, 15 May 2023 07:18:15 -0400
+ id 1pyWDz-0001T9-Tw
+ for qemu-devel@nongnu.org; Mon, 15 May 2023 07:18:44 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1684149492;
+ s=mimecast20190719; t=1684149522;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=LCYKKaNQDDp3ADPQjBBlblVmNTO+RTVxuxIZT58iqJg=;
- b=F5leBwWxz3zL7tRDDkmnmUxTuGdKnfw2TeNkA+2FPWW6SoJfMLylGsFVjYlPiXZTK3nmY6
- pBbQ6MbVfaPF6J3Sgr6b5RiczqW3dTLWW3vGWb3Cs3Uv0xSwQa2RNh79hY8d3UhWgcgjK2
- 7xiOE3ILBIcrCyjKZb562B3j78bR6FI=
+ bh=y0T4nl+4gymHALkNNOz2y0ZDf/qKC7dyqqmwC1sC2A0=;
+ b=QPkiwrTyEyqA83P6A16sbTAfQK9YVgDAHEbxfeR6S7WTd1Dp0ToxPqy2CMIxF9L02pFGr0
+ QT5ETCq4ilVfLwo7kG0e5lPt1fI0yyawrKznf1Csy+UOE73gFfvtAeg4olJMSphRgztMA0
+ RRuaVGdlE1ju3qI2PCWbj9bMC1LQjgo=
 Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
  [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-492-u8ZD_wxQNnO4Y1RS4EzqMg-1; Mon, 15 May 2023 07:18:11 -0400
-X-MC-Unique: u8ZD_wxQNnO4Y1RS4EzqMg-1
+ us-mta-222-OxtOB4LXNeCFkpsuAxQlcg-1; Mon, 15 May 2023 07:18:41 -0400
+X-MC-Unique: OxtOB4LXNeCFkpsuAxQlcg-1
 Received: by mail-wm1-f69.google.com with SMTP id
- 5b1f17b1804b1-3f420742d40so33262635e9.2
- for <qemu-devel@nongnu.org>; Mon, 15 May 2023 04:18:11 -0700 (PDT)
+ 5b1f17b1804b1-3f33f8ffa37so43288325e9.2
+ for <qemu-devel@nongnu.org>; Mon, 15 May 2023 04:18:41 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1684149490; x=1686741490;
+ d=1e100.net; s=20221208; t=1684149520; x=1686741520;
  h=content-transfer-encoding:mime-version:message-id:date:reply-to
  :user-agent:references:in-reply-to:subject:cc:to:from
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=LCYKKaNQDDp3ADPQjBBlblVmNTO+RTVxuxIZT58iqJg=;
- b=PXOpXVFMDmJ52tbcP9q+fyYbiLkapYQ7HW0WERYsq+lv8S29jvecFvORXKypqXSDDw
- TILfCc2KzQBYkuNV/dhwcszgEexOBitPH5+9sg06YwtvLNEUXlrqnVr8KJPVRopmk+Dr
- Tb0/l7JEUpQw/9glINyRfTpjxuxcLX8vVvbHe61gHdv7bgvs8nbhKMorfjUTFGE1Xlw8
- CSa/nzDocU2QqrlzoS8NiKnUO7jVtEVdAp5nkyKWfc7ILgQmZ26iycPh/m0Z3/D0Gymx
- OcnZKVnVk1KDfzODR2xepaDJ4EecUL99PfIEqIIpGg6xagkohkX0gh/hWTfE6ZqRmx/H
- H8sw==
-X-Gm-Message-State: AC+VfDyyxHPNBYcC411Z/msPpaaH+p2VYqDfkDDH4qNp5VMfMnECrjCZ
- sriItJAmXtf5mcDvhLa8mJ00UD9t5OOQCweA4guCCsHinP7DSro4GNyo0HV9fXoTowl/L72wVXO
- j3XyjTf8ehTyOXQQ=
-X-Received: by 2002:a7b:cd94:0:b0:3f4:266d:5901 with SMTP id
- y20-20020a7bcd94000000b003f4266d5901mr18735560wmj.35.1684149490350; 
- Mon, 15 May 2023 04:18:10 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ5E+KW45my+R65oH70S6X2RCIrZpDNXCQUuNv/OrNtaxCYG+5SQ1oyQO+fFoQWSSqaSvS/fdA==
-X-Received: by 2002:a7b:cd94:0:b0:3f4:266d:5901 with SMTP id
- y20-20020a7bcd94000000b003f4266d5901mr18735533wmj.35.1684149490047; 
- Mon, 15 May 2023 04:18:10 -0700 (PDT)
+ bh=y0T4nl+4gymHALkNNOz2y0ZDf/qKC7dyqqmwC1sC2A0=;
+ b=hAxL8JnGgouwUiGWqfvoszySIoUBkiOM42LAhInexIq/LgRQNFnslTtssJQEXRdpoK
+ sBzQmuRAfHEOLchEcb+zoB8dG5XwMdbr9jy9SV9pZv9SJIrZrDxLLyJg0pRuvS1W494G
+ H4WUQuoJjZ32JWF6VQq/qlHxDfaWK4gMVwA4ZBQP6bhaFsHpbEqfAzjgWtaTlN8Yarzy
+ jEnHFrm+sMtPLE1wEqVklLPGLFtMecAaRYyWD8iCEKveA9gVmboYIuUY594vgI6jPqcH
+ +OVBFyHQJDhgZRDkYZJpPNer6vYXZO4PfieSP1JNPWRyBOZqNx/GPCZshX4hW9g/5KZg
+ 0PVQ==
+X-Gm-Message-State: AC+VfDySgVD2XyjJm/zh7Mz5/rR7d59cwEUTnm5EsdQS7PUOtWdjel5B
+ Hu+b3kmwQBHI0Um1h3RLigAPeN3JHvmdNPeIN36qCLmsufTWptnWbQn4OKFuw0kcVLMaQCz5Q+B
+ 1FzSs0mfL8douWWI=
+X-Received: by 2002:a05:600c:2313:b0:3f4:2266:8cf0 with SMTP id
+ 19-20020a05600c231300b003f422668cf0mr18015938wmo.10.1684149520376; 
+ Mon, 15 May 2023 04:18:40 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ69TDnptM5ruIUaiWRqM4KzteWJS6EhxUwWYGBbNy6KwfqCzanyB9+41nG0ELHKlQC+RmcBdg==
+X-Received: by 2002:a05:600c:2313:b0:3f4:2266:8cf0 with SMTP id
+ 19-20020a05600c231300b003f422668cf0mr18015909wmo.10.1684149520085; 
+ Mon, 15 May 2023 04:18:40 -0700 (PDT)
 Received: from redhat.com (static-92-120-85-188.ipcom.comunitel.net.
  [188.85.120.92]) by smtp.gmail.com with ESMTPSA id
- e26-20020a05600c219a00b003f50d6ee334sm1729070wme.47.2023.05.15.04.18.09
+ l2-20020a1c7902000000b003f195d540d9sm36451058wme.14.2023.05.15.04.18.39
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 15 May 2023 04:18:09 -0700 (PDT)
+ Mon, 15 May 2023 04:18:39 -0700 (PDT)
 From: Juan Quintela <quintela@redhat.com>
 To: =?utf-8?Q?C=C3=A9dric?= Le Goater <clg@kaod.org>
-Cc: Harsh Prateek Bora <harshpb@linux.ibm.com>,  <qemu-devel@nongnu.org>,
- Daniel Henrique Barboza <danielhb413@gmail.com>,  Christian Borntraeger
+Cc: <qemu-devel@nongnu.org>,  Daniel Henrique Barboza
+ <danielhb413@gmail.com>,  Christian Borntraeger
  <borntraeger@linux.ibm.com>,  David Hildenbrand <david@redhat.com>,
  Stefan Hajnoczi <stefanha@redhat.com>,  <qemu-block@nongnu.org>,  Eric
  Blake <eblake@redhat.com>,  Vladimir Sementsov-Ogievskiy
  <vsementsov@yandex-team.ru>,  John Snow <jsnow@redhat.com>,  Halil Pasic
  <pasic@linux.ibm.com>,  Peter Xu <peterx@redhat.com>,  Richard Henderson
  <richard.henderson@linaro.org>,  David Gibson
- <david@gibson.dropbear.id.au>,  Eric Farman <farman@linux.ibm.com>,  Greg
- Kurz <groug@kaod.org>,  <qemu-ppc@nongnu.org>,  <qemu-s390x@nongnu.org>,
- Fam Zheng <fam@euphon.net>,  Thomas Huth <thuth@redhat.com>,  Leonardo
- Bras <leobras@redhat.com>,  Ilya Leoshkevich <iii@linux.ibm.com>
-Subject: Re: [PATCH 02/21] migration: Don't use INT64_MAX for unlimited rate
-In-Reply-To: <0e21e709-211b-86b5-5b71-760c436e2319@kaod.org>
+ <david@gibson.dropbear.id.au>,  Harsh Prateek Bora
+ <harshpb@linux.ibm.com>,  Eric Farman <farman@linux.ibm.com>,  Greg Kurz
+ <groug@kaod.org>,  <qemu-ppc@nongnu.org>,  <qemu-s390x@nongnu.org>,  Fam
+ Zheng <fam@euphon.net>,  Thomas Huth <thuth@redhat.com>,  Leonardo Bras
+ <leobras@redhat.com>,  Ilya Leoshkevich <iii@linux.ibm.com>
+Subject: Re: [PATCH 03/21] migration: We set the rate_limit by a second
+In-Reply-To: <d21c0d95-58e5-a274-ea91-2bd275db8a9b@kaod.org>
  (=?utf-8?Q?=22C=C3=A9dric?= Le
- Goater"'s message of "Mon, 15 May 2023 10:34:22 +0200")
+ Goater"'s message of "Mon, 15 May 2023 10:38:22 +0200")
 References: <20230508130909.65420-1-quintela@redhat.com>
- <20230508130909.65420-3-quintela@redhat.com>
- <9ab54244-b804-e066-580f-3d4e89fb7862@linux.ibm.com>
- <87cz39en8j.fsf@secure.mitica>
- <0e21e709-211b-86b5-5b71-760c436e2319@kaod.org>
+ <20230508130909.65420-4-quintela@redhat.com>
+ <d21c0d95-58e5-a274-ea91-2bd275db8a9b@kaod.org>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
-Date: Mon, 15 May 2023 13:18:08 +0200
-Message-ID: <87bkil268f.fsf@secure.mitica>
+Date: Mon, 15 May 2023 13:18:38 +0200
+Message-ID: <877ct9267l.fsf@secure.mitica>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
@@ -119,40 +118,22 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 C=C3=A9dric Le Goater <clg@kaod.org> wrote:
-> On 5/9/23 13:51, Juan Quintela wrote:
->> Harsh Prateek Bora <harshpb@linux.ibm.com> wrote:
->>> On 5/8/23 18:38, Juan Quintela wrote:
->>>> Use 0 instead.
->>>> Signed-off-by: Juan Quintela <quintela@redhat.com>
->>>> ---
->>>>    migration/migration.c | 4 ++--
->>>>    migration/qemu-file.c | 3 +++
->>>>    2 files changed, 5 insertions(+), 2 deletions(-)
->>>> diff --git a/migration/migration.c b/migration/migration.c
->>>> index 1192f1ebf1..3979a98949 100644
->>>> --- a/migration/migration.c
->>>> +++ b/migration/migration.c
->>>> @@ -2296,7 +2296,7 @@ static void migration_completion(MigrationState =
-*s)
->>>>                }
->>>>                if (ret >=3D 0) {
->>>>                    s->block_inactive =3D !migrate_colo();
->>>> -                qemu_file_set_rate_limit(s->to_dst_file, INT64_MAX);
->>>> +                qemu_file_set_rate_limit(s->to_dst_file, 0);
->>>
->>> #define RATE_LIMIT_MAX 0
->>>
->>> How about having a macro and use that which conveys the meaning in all
->>> call instances wherever it is getting passed ?
->> I almost preffer the macro.
->>        qemu_file_set_rate_limit(s->to_dst_file, RATE_LIMIT_MAX);
->> seems quite explanatory?
+> On 5/8/23 15:08, Juan Quintela wrote:
+>> That the implementation does the check every 100 milliseconds is an
+>> implementation detail that shouldn't be seen on the interfaz.
 >
-> yep. and I would drop the comment qemu_file_rate_limit().
+> Si. Pero, "interface" es mejor aqui.
 
-I dropped it once by error.
-And reviewer didn't noticed either.
+Muchas gracias.
 
-So ....
+>
+>> Notice that all callers of qemu_file_set_rate_limit() used the
+>> division or pass 0, so this change is a NOP.
+>> Signed-off-by: Juan Quintela <quintela@redhat.com>
+>
+>
+> Reviewed-by: C=C3=A9dric Le Goater <clg@kaod.org>
+
+Gracias de nuevo.
 
 
