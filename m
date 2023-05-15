@@ -2,120 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DCEF70279E
+	by mail.lfdr.de (Postfix) with ESMTPS id 482B670279D
 	for <lists+qemu-devel@lfdr.de>; Mon, 15 May 2023 10:53:33 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pyTwO-00081X-Um; Mon, 15 May 2023 04:52:24 -0400
+	id 1pyTwR-0008IH-AA; Mon, 15 May 2023 04:52:27 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <harshpb@linux.ibm.com>)
- id 1pyTw5-0007ST-FZ; Mon, 15 May 2023 04:52:14 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1pyTwP-0008G8-1F
+ for qemu-devel@nongnu.org; Mon, 15 May 2023 04:52:25 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <harshpb@linux.ibm.com>)
- id 1pyTw2-00062r-MA; Mon, 15 May 2023 04:52:04 -0400
-Received: from pps.filterd (m0353727.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 34F8cDH1003377; Mon, 15 May 2023 08:51:44 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=2Q6nRT3p2naC1gF7fEjbXGA6CUWMQlpLVi5Y7TlHWrQ=;
- b=pTlbi/fvYkD3u1i0H/rVQeDTZtXl6Axvzg0ViUeq1Me2IB/+u0jG12jLx8K5meEYYLyu
- pwxt+fWwt+5relyCHIpthuzYkTfqrhUYzMZLEqwfqjxZI82/Wq8gT6K4vAl7BZvozqbD
- JeUKm2HL2F7nsYluLPFWe8MvUBFoHMK2BtCRtkpct+Ildnc/5uGb46wx1xtHfgTHYpYt
- lBnoitRwhOHUGrkQ5EQC7YirDBDry6hJ2PnsgY19b8cyFTqaYYjkrf7RlQTlIVPON99s
- TtMYBO6bOcw/2WjblTp0vZ8kif6cAFlGMLqZJREMJwDM6Qrp/Jc2nlkVsKVEq4Ht01M7 1Q== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3qkd3mqy8s-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 15 May 2023 08:51:44 +0000
-Received: from m0353727.ppops.net (m0353727.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 34F8kDQn011108;
- Mon, 15 May 2023 08:51:43 GMT
-Received: from ppma04wdc.us.ibm.com (1a.90.2fa9.ip4.static.sl-reverse.com
- [169.47.144.26])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3qkd3mqy81-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 15 May 2023 08:51:43 +0000
-Received: from pps.filterd (ppma04wdc.us.ibm.com [127.0.0.1])
- by ppma04wdc.us.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 34F6EiZ1009147;
- Mon, 15 May 2023 08:51:41 GMT
-Received: from smtprelay06.wdc07v.mail.ibm.com ([9.208.129.118])
- by ppma04wdc.us.ibm.com (PPS) with ESMTPS id 3qj265a7yw-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 15 May 2023 08:51:41 +0000
-Received: from smtpav06.dal12v.mail.ibm.com (smtpav06.dal12v.mail.ibm.com
- [10.241.53.105])
- by smtprelay06.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 34F8pd1r8716752
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 15 May 2023 08:51:40 GMT
-Received: from smtpav06.dal12v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id D592158043;
- Mon, 15 May 2023 08:51:39 +0000 (GMT)
-Received: from smtpav06.dal12v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 1F74258055;
- Mon, 15 May 2023 08:51:32 +0000 (GMT)
-Received: from [9.43.90.211] (unknown [9.43.90.211])
- by smtpav06.dal12v.mail.ibm.com (Postfix) with ESMTP;
- Mon, 15 May 2023 08:51:31 +0000 (GMT)
-Message-ID: <7e502900-a639-b027-11af-7ccba60eb532@linux.ibm.com>
-Date: Mon, 15 May 2023 14:21:30 +0530
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1pyTwN-00065R-55
+ for qemu-devel@nongnu.org; Mon, 15 May 2023 04:52:24 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1684140740;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=NZVlOg28FdbfZwVK8jpACnAXAjM1hk1fGYx5M9A0rZU=;
+ b=THqdor2OxTJYiBi99MBMBQQm0aO158nznArcSGqKUSt+Zo0DQDd+ByNTjFlz2R6xdJm1kG
+ 9uNOtSvAE5CJ+ZgRqLa0APdk9UYLtB2FufCwKC2kmtIoSenKTFZK2UCB0fx8+zEup4Kzif
+ iM671VLS+KZK0J4FRRnn94KQLC64I2o=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-450-lYKL0opTPO--kS8McbUP0Q-1; Mon, 15 May 2023 04:52:17 -0400
+X-MC-Unique: lYKL0opTPO--kS8McbUP0Q-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.8])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2618D88B770;
+ Mon, 15 May 2023 08:52:17 +0000 (UTC)
+Received: from redhat.com (unknown [10.42.28.48])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 73406C16026;
+ Mon, 15 May 2023 08:52:14 +0000 (UTC)
+Date: Mon, 15 May 2023 09:52:12 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Hao Zeng <zenghao@kylinos.cn>
+Cc: pbonzini@redhat.com, peter.maydell@linaro.org, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>
+Subject: Re: [PATCH V2] hw/arm: enable qxl for aarch64
+Message-ID: <ZGHyvBb8BQdKhWEy@redhat.com>
+References: <20230512093108.1180726-1-zenghao@kylinos.cn>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH 10/21] migration: Move rate_limit_max and rate_limit_used
- to migration_stats
-Content-Language: en-US
-To: quintela@redhat.com
-Cc: qemu-devel@nongnu.org, Daniel Henrique Barboza <danielhb413@gmail.com>,
- Christian Borntraeger <borntraeger@linux.ibm.com>,
- David Hildenbrand <david@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, qemu-block@nongnu.org,
- Eric Blake <eblake@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
- John Snow <jsnow@redhat.com>, Halil Pasic <pasic@linux.ibm.com>,
- Peter Xu <peterx@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- David Gibson <david@gibson.dropbear.id.au>,
- Eric Farman <farman@linux.ibm.com>, Greg Kurz <groug@kaod.org>,
- qemu-ppc@nongnu.org, qemu-s390x@nongnu.org, Fam Zheng <fam@euphon.net>,
- Thomas Huth <thuth@redhat.com>, =?UTF-8?Q?C=c3=a9dric_Le_Goater?=
- <clg@kaod.org>, Leonardo Bras <leobras@redhat.com>,
- Ilya Leoshkevich <iii@linux.ibm.com>
-References: <20230508130909.65420-1-quintela@redhat.com>
- <20230508130909.65420-11-quintela@redhat.com>
- <303c2198-c7a5-0f3c-496b-eed7b931e51a@linux.ibm.com>
- <87lehxep5g.fsf@secure.mitica>
-From: Harsh Prateek Bora <harshpb@linux.ibm.com>
-In-Reply-To: <87lehxep5g.fsf@secure.mitica>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: 5j9kN-F3p9iHHCQ1D_MMjhTg7i2sVSAa
-X-Proofpoint-ORIG-GUID: klW455HnkXQHmmvaWoYrUYGh7odFIry0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-05-15_06,2023-05-05_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0
- priorityscore=1501 lowpriorityscore=0 phishscore=0 suspectscore=0
- adultscore=0 mlxlogscore=730 bulkscore=0 malwarescore=0 clxscore=1015
- mlxscore=0 spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2304280000 definitions=main-2305150073
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=harshpb@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20230512093108.1180726-1-zenghao@kylinos.cn>
+User-Agent: Mutt/2.2.9 (2022-11-12)
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.93,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -128,26 +76,81 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On Fri, May 12, 2023 at 05:31:08PM +0800, Hao Zeng wrote:
+> Qemu does not support qxl graphics cards in arm, it is recommended to enable
+
+Who recommends this and why ?
+
+The recommendations from Gerd are what I tend to point poeple to
+for display devices:
+
+  https://www.kraxel.org/blog/2019/09/display-devices-in-qemu/
+
+and it had this to say about arm:
+
+  "On arm systems display devices with a pci memory bar do
+   not work, which reduces the choices alot. We are left with:
+
+    virtio gpu, if your guest has drivers
+    ramfb"
+
+Not sure if anything has changed in this respect ?
 
 
-On 5/9/23 16:40, Juan Quintela wrote:
-> Harsh Prateek Bora <harshpb@linux.ibm.com> wrote:
->> On 5/8/23 18:38, Juan Quintela wrote:
->>> This way we can make them atomic and use this functions from any
->>
->> s/this/these
->>
-> 
-> Fixed.
-> 
-Sure, providing ack from ppc/spapr perspective.
+The QXL graphics card is an incredibly complex device, offering
+2d acceleration that is not very interesting for modern guest OS
+desktops since they're largely focused on 3d acceleration. This
+complexity is bad from a security POV.
 
-Reviewed-by: Harsh Prateek Bora <harshpb@linux.ibm.com>
+It would also require a guest driver to take advantage of QXL
+features and while I presume the Linux driver will build, it is
+still mostly pointless because of lack of interest in 2d acceleration.
+I'm not sure about status of the Windows QXL driver for aarch64 ?
 
-> Thanks.
+Further QXL is only useful when combined with SPICE graphics and
+the SPICE project is largely inactive.
+
+Overall, IMHO, we should keep QXL restricted to as few build scenarios
+as possible. Given the status of SPICE, possibly we'll even want to
+deprecate it on x86 eventually, not add it to more arches. 
+
+What are you seeing as the compelling use case that requires QXL to
+exist on aarch64 ?
+
+
+
+> 
+> Signed-off-by: Hao Zeng <zenghao@kylinos.cn>
+> ---
+>  hw/arm/Kconfig | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
+> index 0f42c556d7..d0bedf9347 100644
+> --- a/hw/arm/Kconfig
+> +++ b/hw/arm/Kconfig
+> @@ -32,6 +32,7 @@ config ARM_VIRT
+>      select VIRTIO_MEM_SUPPORTED
+>      select ACPI_CXL
+>      select ACPI_HMAT
+> +    select QXL
+>  
+>  config CHEETAH
+>      bool
+> -- 
+> 2.37.2
 > 
 > 
+
+With regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+
 
