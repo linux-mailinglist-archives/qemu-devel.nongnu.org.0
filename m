@@ -2,107 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 709DF702AF0
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 May 2023 12:56:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B1308702B23
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 May 2023 13:10:29 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pyVrJ-0007qb-Ca; Mon, 15 May 2023 06:55:17 -0400
+	id 1pyW3y-0003mX-QD; Mon, 15 May 2023 07:08:22 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <harshpb@linux.ibm.com>)
- id 1pyVrE-0007qD-BN; Mon, 15 May 2023 06:55:12 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pyW3k-0003lX-NZ
+ for qemu-devel@nongnu.org; Mon, 15 May 2023 07:08:11 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <harshpb@linux.ibm.com>)
- id 1pyVrA-0003Je-P6; Mon, 15 May 2023 06:55:12 -0400
-Received: from pps.filterd (m0353724.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 34FAbOoF002024; Mon, 15 May 2023 10:55:06 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=8wbnxqcqbAHZ+W1BaqDtJBA7rB7zg18RP58lK+poOVk=;
- b=JPkSMWS/f7f9Ey7/Avx8lxa5xPfdESrGHKGA4RcX1ljf3RjMgTAp3O3o2SUBIb6ir2Fd
- 2N/7BK8GJS9tIxfMEEEznGH1/DXiR5+if54Wtwgg/46zzMeM7Ej6cCQGzFzVrsf8AApL
- mVXbuVn+mEVtT+DtOhCjKt0nzcN7QXBsP+jFpr64wQiY2qKkcrP110ug02gNJ4QZo8DL
- 0/lKdmo+szNeRHigEnhq2f2ULhIrCXXajsSaKVrl0zq/rk0GBhNnGbEpRSKIPsq4Tg1N
- IAleFGkcX8WSQdfLXvkVwfCuEhpJEFpVpUeNPYBn5Fs4FtCu0F2tYpk9yfp3fDLw2n5C Jw== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3qkjm89rw7-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 15 May 2023 10:55:05 +0000
-Received: from m0353724.ppops.net (m0353724.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 34FAcCU4008368;
- Mon, 15 May 2023 10:55:05 GMT
-Received: from ppma02dal.us.ibm.com (a.bd.3ea9.ip4.static.sl-reverse.com
- [169.62.189.10])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3qkjm89rw1-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 15 May 2023 10:55:05 +0000
-Received: from pps.filterd (ppma02dal.us.ibm.com [127.0.0.1])
- by ppma02dal.us.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 34FA9fBC025346;
- Mon, 15 May 2023 10:55:04 GMT
-Received: from smtprelay07.dal12v.mail.ibm.com ([9.208.130.99])
- by ppma02dal.us.ibm.com (PPS) with ESMTPS id 3qj265ncjv-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 15 May 2023 10:55:04 +0000
-Received: from smtpav06.dal12v.mail.ibm.com (smtpav06.dal12v.mail.ibm.com
- [10.241.53.105])
- by smtprelay07.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 34FAt3JA33489578
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 15 May 2023 10:55:03 GMT
-Received: from smtpav06.dal12v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 2DB2258059;
- Mon, 15 May 2023 10:55:03 +0000 (GMT)
-Received: from smtpav06.dal12v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 8626D5805D;
- Mon, 15 May 2023 10:55:01 +0000 (GMT)
-Received: from [9.43.90.211] (unknown [9.43.90.211])
- by smtpav06.dal12v.mail.ibm.com (Postfix) with ESMTP;
- Mon, 15 May 2023 10:55:01 +0000 (GMT)
-Message-ID: <acd8477f-8ec4-5887-4ac2-faf7d559c8eb@linux.ibm.com>
-Date: Mon, 15 May 2023 16:24:59 +0530
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pyW3j-0007rl-6r
+ for qemu-devel@nongnu.org; Mon, 15 May 2023 07:08:08 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1684148886;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=V9uunHdkIcrxkaU1Qm32hCojthWVMq6i/lWy7g4lK3U=;
+ b=Dx8AVET2gEWZqWqxEkoyNxBJ6Zw+TIlvYCk2oKW5fDjPLWSbkwyBTfKeijIK+r96ewciGi
+ L/6bInDH1xWOx5uJvrLR6nHNSqkKymIiAA811tw8tOC53UaWK/9R4VvLbIq4RziNzSwh2K
+ 3qmb/k5BAv2Nd+bCsPhjJVlyOqhlpV4=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-259-No5pCQDONd2HGWz0gSxLVQ-1; Mon, 15 May 2023 07:08:02 -0400
+X-MC-Unique: No5pCQDONd2HGWz0gSxLVQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.5])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7E23C3C0254E;
+ Mon, 15 May 2023 11:08:02 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.39.192.91])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 3FFE363ABB;
+ Mon, 15 May 2023 11:08:02 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 1EEC621E681C; Mon, 15 May 2023 13:08:01 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Fabiano Rosas <farosas@suse.de>
+Cc: qemu-devel@nongnu.org,  kwolf@redhat.com,  eesposit@redhat.com,
+ vsementsov@yandex-team.ru
+Subject: Re: Question about QMP and BQL
+References: <87h6sh2zug.fsf@suse.de>
+Date: Mon, 15 May 2023 13:08:01 +0200
+In-Reply-To: <87h6sh2zug.fsf@suse.de> (Fabiano Rosas's message of "Fri, 12 May
+ 2023 15:01:43 -0300")
+Message-ID: <87y1lpyhri.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH 6/6] target/ppc: Implement HEIR SPR
-Content-Language: en-US
-To: Nicholas Piggin <npiggin@gmail.com>
-Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
-References: <20230323022237.1807512-1-npiggin@gmail.com>
- <20230323022237.1807512-6-npiggin@gmail.com>
- <ZFoXjN/PUyDhMDG1@li-1901474c-32f3-11b2-a85c-fc5ff2c001f3.ibm.com>
- <CSMPI9KZ5TT5.GAWG3D1ZUQ3H@wheely>
- <67fcac44-675b-67b3-ba7b-61730c356f50@linux.ibm.com>
- <9d7d3ca6-85d2-ec00-148f-963a12bbc0ad@linux.ibm.com>
- <CSMSGPCJPT00.3T2WYV13GBGT3@wheely>
-From: Harsh Prateek Bora <harshpb@linux.ibm.com>
-In-Reply-To: <CSMSGPCJPT00.3T2WYV13GBGT3@wheely>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: ZwapeQVxb41wpZbna4fBb71RcI0iTH9m
-X-Proofpoint-ORIG-GUID: Nu35quchsXUIWqZRqnTdH_iiL8bd7xvt
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-05-15_06,2023-05-05_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 spamscore=0
- lowpriorityscore=0 suspectscore=0 impostorscore=0 adultscore=0
- priorityscore=1501 phishscore=0 clxscore=1015 bulkscore=0 malwarescore=0
- mlxlogscore=445 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2304280000 definitions=main-2305150091
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=harshpb@linux.ibm.com;
- helo=mx0b-001b2d01.pphosted.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.93,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -119,30 +79,38 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+Kevin, any advice?
 
+Fabiano Rosas <farosas@suse.de> writes:
 
-On 5/15/23 16:15, Nicholas Piggin wrote:
-> On Mon May 15, 2023 at 7:32 PM AEST, Harsh Prateek Bora wrote:
->>
->>
->> On 5/15/23 14:02, Harsh Prateek Bora wrote:
->>>>
->>>> That would be wrong for the other HSRR fallthroughs above it.
->>>>
->>> Oh yeh, in that case, may be move it to top of the EXCP_HISI, it would
->>> need duplicating one line of assignment though (relatively better?).
->>
->> correcting myself, no duplication needed if keeping above EXCP_HISI.
-> 
-> No, because HV_EMU interrupts get an error code that can not be put
-> into HSRR1.
-> 
-Oh ok, thanks for clarifying.
+> Is there a way to execute a long-standing QMP command outside of the
+> BQL?
+>
+> The situation we're seeing is a slow query-block due to a slow system
+> call (fstat over NFS) causing the main thread to spend too long
+> holding the global mutex and locking up the vcpu thread when it goes
+> out of the guest for MMIO.
+>
+> The call chain for QMP is:
+>
+> qmp_query_block
+> bdrv_query_info
+> bdrv_block_device_info
+> bdrv_query_image_info
+> bdrv_do_query_node_info
+> bdrv_get_allocated_file_size
+> bdrv_poll_co <- Waiting with qemu_global_mutex locked
+>
+> [coroutine] bdrv_co_get_allocated_file_size_entry
+> bdrv_co_get_allocated_file_size
+> raw_co_get_allocated_file_size
+> fstat <- SLOW!
+>
+> The closest I got was moving the coroutine into a separate iothread,
+> unlocking the global mutex and releasing the bdrv aio_context around
+> aio_poll. It feels wrong though because we're technically still
+> operating on the block state but not holding the context.
+>
+> Is there a more standard way if doing this? Is it possible at all?
 
-regards,
-Harsh
-
-> Thanks,
-> Nick
-> 
 
