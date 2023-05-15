@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B616702E0C
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 May 2023 15:26:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E722A702E0B
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 May 2023 15:26:21 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pyYCn-0001PD-I2; Mon, 15 May 2023 09:25:37 -0400
+	id 1pyYDE-0001t0-Un; Mon, 15 May 2023 09:26:07 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1pyYCl-0001N8-6p
- for qemu-devel@nongnu.org; Mon, 15 May 2023 09:25:35 -0400
+ id 1pyYCu-0001ke-8L
+ for qemu-devel@nongnu.org; Mon, 15 May 2023 09:25:45 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1pyYCj-00063R-K7
- for qemu-devel@nongnu.org; Mon, 15 May 2023 09:25:34 -0400
+ id 1pyYCs-00064c-R9
+ for qemu-devel@nongnu.org; Mon, 15 May 2023 09:25:44 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1684157133;
+ s=mimecast20190719; t=1684157142;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding;
- bh=7h8SCOVDOPoz31u20aTZKWCXI0D1XQXizD3uRKY4VII=;
- b=ErwQSyn7Fu2ldVdPfUeJwkbFYEtwSbzTPeWWYSIYyHZ5gwcKXqODHn4CqPTGLV6mXPRRpx
- +mISG2omiH20hGnoTvvFHpJ5e5twWRkzWtBOlPceIfo19PwqyTlRkYqFohwDeiQNO4DcIn
- pKajVYAcldBxu/aHpecAe+hX3oSBuvw=
+ bh=S9o0QNevMqpddJMHQq11zj9p18/ClEXY/7rpkbkNk9w=;
+ b=JDau+jaBdX14LcL8d98AosJnea8XSRhcTxaQYr6XBH52nutf3Z+21mvg7oSPu4VLD36GMm
+ BjZJMeiTkYm+GSsY+92IH9NZNaAnUbr5wQ2hA6dCTfJDB8Dr48gyOIRVfIOvexYMjAe2nx
+ T8ybhQayYuGqLNkwsTZgTcEj5AVFCoA=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-626-70H6crisM26__KZJ-XGB6g-1; Mon, 15 May 2023 09:25:31 -0400
-X-MC-Unique: 70H6crisM26__KZJ-XGB6g-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
- [10.11.54.6])
+ us-mta-78-foTUavDfPgaeH9kcUqgFiw-1; Mon, 15 May 2023 09:25:40 -0400
+X-MC-Unique: foTUavDfPgaeH9kcUqgFiw-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2AB813823A08
- for <qemu-devel@nongnu.org>; Mon, 15 May 2023 13:25:31 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9070E3823A02
+ for <qemu-devel@nongnu.org>; Mon, 15 May 2023 13:25:40 +0000 (UTC)
 Received: from localhost (unknown [10.39.208.28])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 079E42166B26;
- Mon, 15 May 2023 13:25:29 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A068140C6EC4;
+ Mon, 15 May 2023 13:25:39 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
 Cc: kraxel@redhat.com,
  =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
-Subject: [PATCH] gtk: add gl-area support on win32
-Date: Mon, 15 May 2023 17:25:27 +0400
-Message-Id: <20230515132527.1026064-1-marcandre.lureau@redhat.com>
+Subject: [PATCH] ui/dbus: add a FIXME about texture/dmabuf scanout handling
+Date: Mon, 15 May 2023 17:25:36 +0400
+Message-Id: <20230515132537.1026310-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
 Received-SPF: pass client-ip=170.10.133.124;
  envelope-from=marcandre.lureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
@@ -79,33 +79,38 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-On Windows, we don't use the low-level GBM/EGL helpers (no dmabuf etc),
-we can turn on GL area support for the rest of rendering.
-
-(fwiw, GDK backend may be either WGL or EGL)
+Except SDL, display backends seem to fail at handing full scanout
+geometry correctly. It would need some test/reproducer to actually check
+it. In the meantime, fill some missing fields, and leave a FIXME.
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 ---
- ui/gtk.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+ ui/dbus-listener.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/ui/gtk.c b/ui/gtk.c
-index f16e0f8dee..0a39b1935b 100644
---- a/ui/gtk.c
-+++ b/ui/gtk.c
-@@ -2445,6 +2445,12 @@ static void early_gtk_display_init(DisplayOptions *opts)
-             gtk_use_gl_area = true;
-             gtk_gl_area_init();
-         } else
-+#endif
-+#if defined(GDK_WINDOWING_WIN32)
-+        if (GDK_IS_WIN32_DISPLAY(gdk_display_get_default())) {
-+            gtk_use_gl_area = true;
-+            gtk_gl_area_init();
-+        } else
- #endif
-         {
- #ifdef CONFIG_X11
+diff --git a/ui/dbus-listener.c b/ui/dbus-listener.c
+index defe2220c0..23034eebf9 100644
+--- a/ui/dbus-listener.c
++++ b/ui/dbus-listener.c
+@@ -102,6 +102,7 @@ static void dbus_scanout_dmabuf(DisplayChangeListener *dcl,
+         return;
+     }
+ 
++    /* FIXME: add missing x/y/w/h support */
+     qemu_dbus_display1_listener_call_scanout_dmabuf(
+         ddl->proxy,
+         g_variant_new_handle(0),
+@@ -129,6 +130,10 @@ static void dbus_scanout_texture(DisplayChangeListener *dcl,
+         .width = backing_width,
+         .height = backing_height,
+         .y0_top = backing_y_0_top,
++        .x = x,
++        .y = y,
++        .scanout_width = w,
++        .scanout_height = h,
+     };
+ 
+     assert(tex_id);
 -- 
 2.40.1
 
