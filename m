@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F93870305D
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 May 2023 16:43:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C0BC70306B
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 May 2023 16:45:21 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pyZIz-00020e-BM; Mon, 15 May 2023 10:36:06 -0400
+	id 1pyZJV-0003Vh-7b; Mon, 15 May 2023 10:36:37 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pyZHh-0007AI-U5
- for qemu-devel@nongnu.org; Mon, 15 May 2023 10:34:47 -0400
-Received: from mail-pl1-x62c.google.com ([2607:f8b0:4864:20::62c])
+ id 1pyZHr-0007Ic-Br
+ for qemu-devel@nongnu.org; Mon, 15 May 2023 10:34:56 -0400
+Received: from mail-pl1-x633.google.com ([2607:f8b0:4864:20::633])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pyZHc-00053H-6P
- for qemu-devel@nongnu.org; Mon, 15 May 2023 10:34:45 -0400
-Received: by mail-pl1-x62c.google.com with SMTP id
- d9443c01a7336-1aafa03f541so124390515ad.0
- for <qemu-devel@nongnu.org>; Mon, 15 May 2023 07:33:46 -0700 (PDT)
+ id 1pyZHg-00053W-MS
+ for qemu-devel@nongnu.org; Mon, 15 May 2023 10:34:54 -0400
+Received: by mail-pl1-x633.google.com with SMTP id
+ d9443c01a7336-1aad6f2be8eso118636985ad.3
+ for <qemu-devel@nongnu.org>; Mon, 15 May 2023 07:33:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1684161225; x=1686753225;
+ d=linaro.org; s=google; t=1684161226; x=1686753226;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=OL2XP1Zb93dTXqFgRsxjJukwO3HhoSqGjshmJLLIfT8=;
- b=cW31/wa8O7gdur2bQrthPNfiw1vDI1ei6DdH3XU5CIRFHuNlMCoEt3lA6NLG5wgLXE
- PqGzocd3VhnlLedTsaFWmnLPt2a0Y6MuGzN7nk2meDGIvg3XHJyidACNmy/2/ilUHYCX
- l0F1+hs2Fc7GF3Mg6pDGx7jR5tSnWexI+FW6W8gtC2m9uBuWssp3RLBKSedPLc6l934a
- /3daWL4d1qciIV26Lf3yttNkT1gNV5y/iopBV4S5Ny7hldhJIUdBPG4v1E9BcsW2rV29
- 8sirB/vSanMSB18TMSSbj64RukzOzKQzTR0AwpRAA7F9caqu3OitgZ9TdWsw3OzE7/jl
- Q/Nw==
+ bh=kNGmF8W7v6Sxbzk1GnBwY+ErFtp6C+F1QfXFPbibcyI=;
+ b=eQt0RcAWhzyW2Wopvg07MsRwJi1ZEuf6nPyHHDqUfCSAcNYMq2343bqW2PeRl1uKlz
+ m8QY53+nzWBJCub/B6y2gc5xJfl773zXd1YE8mgSqhG+DmuhuMK8gSXnOjvJojvAevMp
+ i6QUhrwpQRIFgVKtkdMpRRrMzG/ossiX/eist+TN1WV4Qn9Jl6I+FFRIvI5XFx3l5+0K
+ q4DaEjHHok+EtMSr/WvlDbyY6JImSnh7II8Rx9/cOkdIhFTHgkA6YnNIHnRNLdhCKoWE
+ bVuxfEb7TzQUPmbYLY+SaaZSltbXkSOQwFO+GnNAhIazJI8sXCK9EqF6rZTddth+SYXi
+ JRyg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1684161225; x=1686753225;
+ d=1e100.net; s=20221208; t=1684161226; x=1686753226;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=OL2XP1Zb93dTXqFgRsxjJukwO3HhoSqGjshmJLLIfT8=;
- b=L+52U2DLSAAX2wNU4+i2wrt5MsFImHsJUDWsQ7RRdn/2CwAGS3Q36njcpYVLdvmCrz
- ciWcmb/bKt7HpFsFw/6vxLUeIktT5ofOViuVOzKhH1w1j/LeubsYtuJbjEEAxE67NAFI
- JhHNspLIbfmQm+MrrX3fW6/uAnxLdt183qGjhiL51NwOJN9xSlUTZh6Ywx1PfA1XrIRC
- M30dezutX3ykpx+nK5btDdHhcg5EhaNMGKT9owMNcRKGAnUXsGiUuL7nlXaSbMnLA0JA
- 4/hrTxRsEVP47BVaUF3Q3I9BVCt9IZNi66fGerksHoowCuSb66YD1GJtfbRcxy71booc
- BnXA==
-X-Gm-Message-State: AC+VfDwh3Acw6wc9rD1LtJdYe4xiJGOTmCXHCpNAcTEe19nNF6ZD0sLe
- xiniKnk62aDHn/RA11V44Lw4prKWj4TPOo+JuwM=
-X-Google-Smtp-Source: ACHHUZ7XqVkAnsyA/a9SfaF5RBDZg4ByY2hwVsUoVrEYzEGycOY24yODiIOuIbvwkqRKl7IQeNoHvA==
-X-Received: by 2002:a17:902:b08d:b0:1ad:e099:fc04 with SMTP id
- p13-20020a170902b08d00b001ade099fc04mr11824812plr.38.1684161225613; 
- Mon, 15 May 2023 07:33:45 -0700 (PDT)
+ bh=kNGmF8W7v6Sxbzk1GnBwY+ErFtp6C+F1QfXFPbibcyI=;
+ b=aPES8ezTSHawpTKTWIKsnYPpxct/5M5dNOaASsBIbL6faFW90YT98LCODIGrxm8r4M
+ l4+9/NqjZ38V1NRgtT5TUnDPGkj9BPn5SM3BcItZ2Hfp9lPTRYtWtyX8XoiReB4g83I4
+ tbCTPHRsa3CLo4i7gSJK/okA92DtsO8U3+6h6QQnPOPHzOarVAUcHidM9ZfcruBjV4Up
+ APmNaUFXdTkIhaK+mFx+szRyb9sjM0NKp6dml2uLnpPXKUZkz4bDHBnvALRRnnuwvDNx
+ fQXINaDP7WZyhC96hqE+eTzhtmyqSbUsyDFCGfWWa5n76JV0nVlQ4Yugc4SFfO+sgdOY
+ IKjg==
+X-Gm-Message-State: AC+VfDyqMjEGcLbTe8dkwsmLnvXvYjs3pnprAd130WCtuzlYpBl7tDG1
+ B2whlBjdtRrJXPAQnCya1qXryoJYuXL3C8vI5Pc=
+X-Google-Smtp-Source: ACHHUZ6L/q4oZHAYLcySaFhpNwrT0gg9rmU3Fl+nJI7VpmC1uN8wDdfbj0oS2ObhCwd/8BMw9iayFw==
+X-Received: by 2002:a17:902:c94b:b0:1ab:14f2:e7e6 with SMTP id
+ i11-20020a170902c94b00b001ab14f2e7e6mr42088614pla.65.1684161226395; 
+ Mon, 15 May 2023 07:33:46 -0700 (PDT)
 Received: from stoup.. ([2602:ae:1598:4c01:9902:96ac:8d8c:4366])
  by smtp.gmail.com with ESMTPSA id
- ik9-20020a170902ab0900b001ab0aec388bsm13694335plb.135.2023.05.15.07.33.44
+ ik9-20020a170902ab0900b001ab0aec388bsm13694335plb.135.2023.05.15.07.33.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 15 May 2023 07:33:45 -0700 (PDT)
+ Mon, 15 May 2023 07:33:46 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: qemu-arm@nongnu.org,
 	qemu-s390x@nongnu.org
-Subject: [PATCH v5 36/54] tcg: Introduce tcg_out_movext3
-Date: Mon, 15 May 2023 07:32:55 -0700
-Message-Id: <20230515143313.734053-37-richard.henderson@linaro.org>
+Subject: [PATCH v5 37/54] tcg: Merge tcg_out_helper_load_regs into caller
+Date: Mon, 15 May 2023 07:32:56 -0700
+Message-Id: <20230515143313.734053-38-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230515143313.734053-1-richard.henderson@linaro.org>
 References: <20230515143313.734053-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62c;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62c.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::633;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x633.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -92,192 +92,124 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-With x86_64 as host, we do not have any temporaries with which to
-resolve cycles, but we do have xchg.   As a side bonus, the set of
-graphs that can be made with 3 nodes and all nodes conflicting is
-small: two.  We can solve the cycle with a single temp.
-
-This is required for x86_64 to handle stores of i128: 1 address
-register and 2 data registers.
+Now that tcg_out_helper_load_regs is not recursive, we can
+merge it into its only caller, tcg_out_helper_load_slots.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tcg/tcg.c | 138 ++++++++++++++++++++++++++++++++++++++++++------------
- 1 file changed, 107 insertions(+), 31 deletions(-)
+ tcg/tcg.c | 89 +++++++++++++++++++++++++------------------------------
+ 1 file changed, 41 insertions(+), 48 deletions(-)
 
 diff --git a/tcg/tcg.c b/tcg/tcg.c
-index aa0a6c3763..8688248284 100644
+index 8688248284..ff7aec23e7 100644
 --- a/tcg/tcg.c
 +++ b/tcg/tcg.c
-@@ -532,6 +532,82 @@ static void tcg_out_movext2(TCGContext *s, const TCGMovExtend *i1,
-     tcg_out_movext1_new_src(s, i1, src1);
+@@ -5223,12 +5223,50 @@ static int tcg_out_helper_stk_ofs(TCGType type, unsigned slot)
+     return ofs;
  }
  
-+/**
-+ * tcg_out_movext3 -- move and extend three pair
-+ * @s: tcg context
-+ * @i1: first move description
-+ * @i2: second move description
-+ * @i3: third move description
-+ * @scratch: temporary register, or -1 for none
-+ *
-+ * As tcg_out_movext, for all of @i1, @i2 and @i3, caring for overlap
-+ * between the sources and destinations.
-+ */
-+
-+static void tcg_out_movext3(TCGContext *s, const TCGMovExtend *i1,
-+                            const TCGMovExtend *i2, const TCGMovExtend *i3,
-+                            int scratch)
-+{
-+    TCGReg src1 = i1->src;
-+    TCGReg src2 = i2->src;
-+    TCGReg src3 = i3->src;
-+
-+    if (i1->dst != src2 && i1->dst != src3) {
-+        tcg_out_movext1(s, i1);
-+        tcg_out_movext2(s, i2, i3, scratch);
-+        return;
-+    }
-+    if (i2->dst != src1 && i2->dst != src3) {
-+        tcg_out_movext1(s, i2);
-+        tcg_out_movext2(s, i1, i3, scratch);
-+        return;
-+    }
-+    if (i3->dst != src1 && i3->dst != src2) {
-+        tcg_out_movext1(s, i3);
-+        tcg_out_movext2(s, i1, i2, scratch);
-+        return;
-+    }
-+
-+    /*
-+     * There is a cycle.  Since there are only 3 nodes, the cycle is
-+     * either "clockwise" or "anti-clockwise", and can be solved with
-+     * a single scratch or two xchg.
-+     */
-+    if (i1->dst == src2 && i2->dst == src3 && i3->dst == src1) {
-+        /* "Clockwise" */
-+        if (tcg_out_xchg(s, MAX(i1->src_type, i2->src_type), src1, src2)) {
-+            tcg_out_xchg(s, MAX(i2->src_type, i3->src_type), src2, src3);
-+            /* The data is now in the correct registers, now extend. */
-+            tcg_out_movext1_new_src(s, i1, i1->dst);
-+            tcg_out_movext1_new_src(s, i2, i2->dst);
-+            tcg_out_movext1_new_src(s, i3, i3->dst);
-+        } else {
-+            tcg_debug_assert(scratch >= 0);
-+            tcg_out_mov(s, i1->src_type, scratch, src1);
-+            tcg_out_movext1(s, i3);
-+            tcg_out_movext1(s, i2);
-+            tcg_out_movext1_new_src(s, i1, scratch);
-+        }
-+    } else if (i1->dst == src3 && i2->dst == src1 && i3->dst == src2) {
-+        /* "Anti-clockwise" */
-+        if (tcg_out_xchg(s, MAX(i2->src_type, i3->src_type), src2, src3)) {
-+            tcg_out_xchg(s, MAX(i1->src_type, i2->src_type), src1, src2);
-+            /* The data is now in the correct registers, now extend. */
-+            tcg_out_movext1_new_src(s, i1, i1->dst);
-+            tcg_out_movext1_new_src(s, i2, i2->dst);
-+            tcg_out_movext1_new_src(s, i3, i3->dst);
-+        } else {
-+            tcg_debug_assert(scratch >= 0);
-+            tcg_out_mov(s, i1->src_type, scratch, src1);
-+            tcg_out_movext1(s, i2);
-+            tcg_out_movext1(s, i3);
-+            tcg_out_movext1_new_src(s, i1, scratch);
-+        }
-+    } else {
-+        g_assert_not_reached();
-+    }
-+}
-+
- #define C_PFX1(P, A)                    P##A
- #define C_PFX2(P, A, B)                 P##A##_##B
- #define C_PFX3(P, A, B, C)              P##A##_##B##_##C
-@@ -5149,46 +5225,46 @@ static int tcg_out_helper_stk_ofs(TCGType type, unsigned slot)
- 
- static void tcg_out_helper_load_regs(TCGContext *s,
-                                      unsigned nmov, TCGMovExtend *mov,
--                                     unsigned ntmp, const int *tmp)
-+                                     const TCGLdstHelperParam *parm)
+-static void tcg_out_helper_load_regs(TCGContext *s,
+-                                     unsigned nmov, TCGMovExtend *mov,
+-                                     const TCGLdstHelperParam *parm)
++static void tcg_out_helper_load_slots(TCGContext *s,
++                                      unsigned nmov, TCGMovExtend *mov,
++                                      const TCGLdstHelperParam *parm)
  {
-+    TCGReg dst3;
++    unsigned i;
+     TCGReg dst3;
+ 
++    /*
++     * Start from the end, storing to the stack first.
++     * This frees those registers, so we need not consider overlap.
++     */
++    for (i = nmov; i-- > 0; ) {
++        unsigned slot = mov[i].dst;
++
++        if (arg_slot_reg_p(slot)) {
++            goto found_reg;
++        }
++
++        TCGReg src = mov[i].src;
++        TCGType dst_type = mov[i].dst_type;
++        MemOp dst_mo = dst_type == TCG_TYPE_I32 ? MO_32 : MO_64;
++
++        /* The argument is going onto the stack; extend into scratch. */
++        if ((mov[i].src_ext & MO_SIZE) != dst_mo) {
++            tcg_debug_assert(parm->ntmp != 0);
++            mov[i].dst = src = parm->tmp[0];
++            tcg_out_movext1(s, &mov[i]);
++        }
++
++        tcg_out_st(s, dst_type, src, TCG_REG_CALL_STACK,
++                   tcg_out_helper_stk_ofs(dst_type, slot));
++    }
++    return;
++
++ found_reg:
++    /*
++     * The remaining arguments are in registers.
++     * Convert slot numbers to argument registers.
++     */
++    nmov = i + 1;
++    for (i = 0; i < nmov; ++i) {
++        mov[i].dst = tcg_target_call_iarg_regs[mov[i].dst];
++    }
 +
      switch (nmov) {
--    default:
-+    case 4:
+     case 4:
          /* The backend must have provided enough temps for the worst case. */
--        tcg_debug_assert(ntmp + 1 >= nmov);
-+        tcg_debug_assert(parm->ntmp >= 2);
+@@ -5269,51 +5307,6 @@ static void tcg_out_helper_load_regs(TCGContext *s,
+     }
+ }
  
--        for (unsigned i = nmov - 1; i >= 2; --i) {
--            TCGReg dst = mov[i].dst;
+-static void tcg_out_helper_load_slots(TCGContext *s,
+-                                      unsigned nmov, TCGMovExtend *mov,
+-                                      const TCGLdstHelperParam *parm)
+-{
+-    unsigned i;
 -
--            for (unsigned j = 0; j < i; ++j) {
--                if (dst == mov[j].src) {
--                    /*
--                     * Conflict.
--                     * Copy the source to a temporary, recurse for the
--                     * remaining moves, perform the extension from our
--                     * scratch on the way out.
--                     */
--                    TCGReg scratch = tmp[--ntmp];
--                    tcg_out_mov(s, mov[i].src_type, scratch, mov[i].src);
--                    mov[i].src = scratch;
+-    /*
+-     * Start from the end, storing to the stack first.
+-     * This frees those registers, so we need not consider overlap.
+-     */
+-    for (i = nmov; i-- > 0; ) {
+-        unsigned slot = mov[i].dst;
 -
--                    tcg_out_helper_load_regs(s, i, mov, ntmp, tmp);
--                    tcg_out_movext1(s, &mov[i]);
--                    return;
--                }
-+        dst3 = mov[3].dst;
-+        for (unsigned j = 0; j < 3; ++j) {
-+            if (dst3 == mov[j].src) {
-+                /*
-+                 * Conflict. Copy the source to a temporary, perform the
-+                 * remaining moves, then the extension from our scratch
-+                 * on the way out.
-+                 */
-+                TCGReg scratch = parm->tmp[1];
-+                tcg_out_movext3(s, mov, mov + 1, mov + 2, parm->tmp[0]);
-+                tcg_out_movext1_new_src(s, &mov[3], scratch);
-+                break;
-             }
+-        if (arg_slot_reg_p(slot)) {
+-            goto found_reg;
+-        }
 -
--            /* No conflicts: perform this move and continue. */
+-        TCGReg src = mov[i].src;
+-        TCGType dst_type = mov[i].dst_type;
+-        MemOp dst_mo = dst_type == TCG_TYPE_I32 ? MO_32 : MO_64;
+-
+-        /* The argument is going onto the stack; extend into scratch. */
+-        if ((mov[i].src_ext & MO_SIZE) != dst_mo) {
+-            tcg_debug_assert(parm->ntmp != 0);
+-            mov[i].dst = src = parm->tmp[0];
 -            tcg_out_movext1(s, &mov[i]);
-         }
--        /* fall through for the final two moves */
- 
-+        /* No conflicts: perform this move and continue. */
-+        tcg_out_movext1(s, &mov[3]);
-+        /* fall through */
-+
-+    case 3:
-+        tcg_out_movext3(s, mov, mov + 1, mov + 2,
-+                        parm->ntmp ? parm->tmp[0] : -1);
-+        break;
-     case 2:
--        tcg_out_movext2(s, mov, mov + 1, ntmp ? tmp[0] : -1);
--        return;
-+        tcg_out_movext2(s, mov, mov + 1,
-+                        parm->ntmp ? parm->tmp[0] : -1);
-+        break;
-     case 1:
-         tcg_out_movext1(s, mov);
--        return;
--    case 0:
-+        break;
-+    default:
-         g_assert_not_reached();
-     }
- }
-@@ -5235,7 +5311,7 @@ static void tcg_out_helper_load_slots(TCGContext *s,
-     for (i = 0; i < nmov; ++i) {
-         mov[i].dst = tcg_target_call_iarg_regs[mov[i].dst];
-     }
--    tcg_out_helper_load_regs(s, nmov, mov, parm->ntmp, parm->tmp);
-+    tcg_out_helper_load_regs(s, nmov, mov, parm);
- }
- 
+-        }
+-
+-        tcg_out_st(s, dst_type, src, TCG_REG_CALL_STACK,
+-                   tcg_out_helper_stk_ofs(dst_type, slot));
+-    }
+-    return;
+-
+- found_reg:
+-    /*
+-     * The remaining arguments are in registers.
+-     * Convert slot numbers to argument registers.
+-     */
+-    nmov = i + 1;
+-    for (i = 0; i < nmov; ++i) {
+-        mov[i].dst = tcg_target_call_iarg_regs[mov[i].dst];
+-    }
+-    tcg_out_helper_load_regs(s, nmov, mov, parm);
+-}
+-
  static void tcg_out_helper_load_imm(TCGContext *s, unsigned slot,
+                                     TCGType type, tcg_target_long imm,
+                                     const TCGLdstHelperParam *parm)
 -- 
 2.34.1
 
