@@ -2,72 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EDF84702A76
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 May 2023 12:30:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FB8D702A86
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 May 2023 12:33:22 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pyVSa-0005rm-RR; Mon, 15 May 2023 06:29:44 -0400
+	id 1pyVVC-0007T0-4d; Mon, 15 May 2023 06:32:26 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pyVST-0005rb-SX
- for qemu-devel@nongnu.org; Mon, 15 May 2023 06:29:38 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pyVSE-0006po-HM
- for qemu-devel@nongnu.org; Mon, 15 May 2023 06:29:37 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1684146561;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=EJKGIWVoS4G4yQF7qyWjSqSwhcDSTo+tDOgtbXnhTAk=;
- b=eezuTOQQog4z/CHiuej8MeW+JP+/m0k95gX66H8wiLEINLaUHjHxs4HbEGUbvP4Ya3uUej
- A3CESYGOO4O9lISYlvXMnyr9zvt418cv6afKNYDqeW+9dydn9fLAq9q6iSUlVn7/Z7aRw8
- MDnqzU5D5OQxXf0oV4hzezNULwf1qbo=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-272-DwH4YOCwOLSL2QNzAoALmA-1; Mon, 15 May 2023 06:29:18 -0400
-X-MC-Unique: DwH4YOCwOLSL2QNzAoALmA-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
- [10.11.54.7])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1365D867955;
- Mon, 15 May 2023 10:29:18 +0000 (UTC)
-Received: from redhat.com (unknown [10.42.28.48])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id AFA3814152F6;
- Mon, 15 May 2023 10:29:16 +0000 (UTC)
-Date: Mon, 15 May 2023 11:29:14 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Het Gala <het.gala@nutanix.com>
-Cc: qemu-devel@nongnu.org, prerna.saxena@nutanix.com, quintela@redhat.com,
- dgilbert@redhat.com, pbonzini@redhat.com, armbru@redhat.com,
- eblake@redhat.com, manish.mishra@nutanix.com,
- aravind.retnakaran@nutanix.com
-Subject: Re: [PATCH v4 5/8] migration: converts exec backend to accept
- MigrateAddress struct.
-Message-ID: <ZGIJehrjvkchRbeX@redhat.com>
-References: <20230512143240.192504-1-het.gala@nutanix.com>
- <20230512143240.192504-6-het.gala@nutanix.com>
+ (Exim 4.90_1) (envelope-from <marcin.juszkiewicz@linaro.org>)
+ id 1pyVVA-0007Sk-2W
+ for qemu-devel@nongnu.org; Mon, 15 May 2023 06:32:24 -0400
+Received: from mail-ej1-x636.google.com ([2a00:1450:4864:20::636])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <marcin.juszkiewicz@linaro.org>)
+ id 1pyVV8-0007Yj-BJ
+ for qemu-devel@nongnu.org; Mon, 15 May 2023 06:32:23 -0400
+Received: by mail-ej1-x636.google.com with SMTP id
+ a640c23a62f3a-965ab8ed1c0so2106581866b.2
+ for <qemu-devel@nongnu.org>; Mon, 15 May 2023 03:32:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1684146740; x=1686738740;
+ h=content-transfer-encoding:in-reply-to:organization:from:references
+ :cc:to:content-language:subject:user-agent:mime-version:date
+ :message-id:from:to:cc:subject:date:message-id:reply-to;
+ bh=1dQNzAhAMICyuaUlp3QZt8dpZVBzS0bz4gGXnrdBr7I=;
+ b=NMXKozM+7TzkJ7fKq98DSA/t6N6Zjc9dZ/fUlwV3OoPDdJbRNvVcoy/jxvBGDAERD4
+ c8AkDCs/1q/Gm2Agr4/ky7lj0dU77pnlD4lW+O8kzevhQIJiWVq3ronLv5veT9WAJ+k4
+ YJOTv/mjTUmQ3LzGKSljtsLAgZbiTwXO/d5nL1p2WjvwzlzlFPGuEiUK/J0dDxFhslG5
+ c9GyWHBTQe/RCxwzoSGnMor/UsPoL0VSrY1bgmAighfXbH0fGDkaAc/pS1Sknoms0g7W
+ kqwzzzavunO5jbTXr7BsXOckEGcutdkVtP/Y6TyY8tmZ5JK/fTRn5C1T0Nhjm8lwzgNF
+ jVEA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1684146740; x=1686738740;
+ h=content-transfer-encoding:in-reply-to:organization:from:references
+ :cc:to:content-language:subject:user-agent:mime-version:date
+ :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=1dQNzAhAMICyuaUlp3QZt8dpZVBzS0bz4gGXnrdBr7I=;
+ b=Re56D03eLbyeojX+EfqNSi//HlIvVUEK463Vbu/RKnfkr6iFL67/dHviAO2Q1Og6d0
+ ZX1XsZgxNaTybPDjWU1Z73lOii2KBlVcmkA1DjL3pMK23ZR3VvH9JMO3UInwsvi5CRpp
+ SJemJg6wCTHXQYbKFJj4JNoa1j+rsQcrsjfZtGeFoAmEVFkIdylG13M0mK1NFkUnU3Fq
+ QDeIBKKLNtOviGVpcYCZMvNEPBgRKCuiW69X9IFECJ2sdFxBu5bN/rO804isw627E9IT
+ K9rDpTxTlQJYIl/2AlobIMaVgaf52njrCv5UiYWyRps6FlM6BYRfOphGTWvAVBq2DMN/
+ Yp8A==
+X-Gm-Message-State: AC+VfDyEHvDjFp2bKqMeX0CVhA4ty24jJQBTqrv9lfwPTMol5GwdeWxr
+ Tlz47t9uZ9vKCvugbRlz75PkEg==
+X-Google-Smtp-Source: ACHHUZ5aQJvskI3hAKl3k8ZCJnHqRH0AyAvEQDRT0wYmtgFP39m0UuuN7XHHYFkWZhSzC7GgF9EG2Q==
+X-Received: by 2002:a17:906:db07:b0:94f:6058:4983 with SMTP id
+ xj7-20020a170906db0700b0094f60584983mr26121119ejb.76.1684146740392; 
+ Mon, 15 May 2023 03:32:20 -0700 (PDT)
+Received: from [192.168.200.206] (83.11.34.59.ipv4.supernova.orange.pl.
+ [83.11.34.59]) by smtp.gmail.com with ESMTPSA id
+ tl14-20020a170907c30e00b00961277a426dsm9166244ejc.205.2023.05.15.03.32.19
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 15 May 2023 03:32:20 -0700 (PDT)
+Message-ID: <5ecddd25-09ef-b6b2-3673-70e819e8cbc7@linaro.org>
+Date: Mon, 15 May 2023 12:32:19 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20230512143240.192504-6-het.gala@nutanix.com>
-User-Agent: Mutt/2.2.9 (2022-11-12)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH] hw/arm/sbsa-ref: add GIC node into DT
+Content-Language: pl-PL, en-GB, en-HK
+To: Leif Lindholm <quic_llindhol@quicinc.com>,
+ Peter Maydell <peter.maydell@linaro.org>
+Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org
+References: <20230515100438.359690-1-marcin.juszkiewicz@linaro.org>
+ <CAFEAcA_beOoOH2GHQuaCyBU10yhkJ44FSrdVsHi7wTSz9QQxmA@mail.gmail.com>
+ <55d7cfbd-7256-2780-59e2-11e532e08cfe@quicinc.com>
+From: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
+Organization: Linaro
+In-Reply-To: <55d7cfbd-7256-2780-59e2-11e532e08cfe@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::636;
+ envelope-from=marcin.juszkiewicz@linaro.org; helo=mail-ej1-x636.google.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.93,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,144 +96,20 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, May 12, 2023 at 02:32:37PM +0000, Het Gala wrote:
-> Exec transport backend for 'migrate'/'migrate-incoming' QAPIs accept
-> new wire protocol of MigrateAddress struct.
-> 
-> It is achived by parsing 'uri' string and storing migration parameters
-> required for exec connection into strList struct.
-> 
-> Suggested-by: Aravind Retnakaran <aravind.retnakaran@nutanix.com>
-> Signed-off-by: Het Gala <het.gala@nutanix.com>
-> ---
->  migration/exec.c      | 58 ++++++++++++++++++++++++++++++++-----------
->  migration/exec.h      |  4 +--
->  migration/migration.c | 10 +++-----
->  3 files changed, 50 insertions(+), 22 deletions(-)
-> 
-> diff --git a/migration/exec.c b/migration/exec.c
-> index c4a3293246..210f4e9400 100644
-> --- a/migration/exec.c
-> +++ b/migration/exec.c
-> @@ -39,22 +39,51 @@ const char *exec_get_cmd_path(void)
->  }
->  #endif
->  
-> -void exec_start_outgoing_migration(MigrationState *s, const char *command,
-> +/* provides the length of strList */
-> +static int
-> +str_list_length(strList *list)
-> +{
-> +    int len = 0;
-> +    strList *elem;
-> +
-> +    for (elem = list; elem != NULL; elem = elem->next) {
-> +        len++;
-> +    }
-> +
-> +    return len;
-> +}
-> +
-> +static void
-> +init_exec_array(strList *command, const char **argv, Error **errp)
-> +{
-> +    int i = 0;
-> +    strList *lst;
-> +
-> +    for (lst = command; lst; lst = lst->next) {
-> +        argv[i++] = lst->value;
-> +    }
-> +
-> +    argv[i] = NULL;
-> +    return;
-> +}
-> +
-> +void exec_start_outgoing_migration(MigrationState *s, strList *command,
->                                     Error **errp)
->  {
->      QIOChannel *ioc;
->  
-> -#ifdef WIN32
-> -    const char *argv[] = { exec_get_cmd_path(), "/c", command, NULL };
-> -#else
-> -    const char *argv[] = { "/bin/sh", "-c", command, NULL };
-> -#endif
-> +    int length = str_list_length(command);
-> +    const char **argv = g_malloc0(length * sizeof(const char *));
+W dniu 15.05.2023 o 12:27, Leif Lindholm pisze:
+> On 2023-05-15 11:15, Peter Maydell wrote:
 
-g_malloc0 is almost never desirable to use, instead:
+>> Why do we need to provide a full GIC DTB node ?
 
-        g_new0(const char *, length);
+> Longer-term, I want to be able to present different specific gic 
+> implementations through this interface.
+> I believe the 0.1 variant needs only the Distributor and Redistributors 
+> base addresses.
 
->  
-> -    trace_migration_exec_outgoing(command);
-> +    init_exec_array(command, argv, errp);
-> +    char *new_command = g_strjoinv(" ", (char **)argv);
+TF-A uses only those from this node and ignores rest.
 
-Never freed - use
-
-   g_autofree char *new_command...
-   
-> +    trace_migration_exec_outgoing(new_command);
-
-
->      ioc = QIO_CHANNEL(qio_channel_command_new_spawn(argv,
->                                                      O_RDWR,
->                                                      errp));
->      if (!ioc) {
-> +        g_free(argv);
->          return;
->      }
-
-argv needs freeing in success too. Simpler to declare it
-with
-
-    g_auto(GStrv) argv = .....
-
-
-
->  
-> @@ -72,21 +101,22 @@ static gboolean exec_accept_incoming_migration(QIOChannel *ioc,
->      return G_SOURCE_REMOVE;
->  }
->  
-> -void exec_start_incoming_migration(const char *command, Error **errp)
-> +void exec_start_incoming_migration(strList *command, Error **errp)
->  {
->      QIOChannel *ioc;
->  
-> -#ifdef WIN32
-> -    const char *argv[] = { exec_get_cmd_path(), "/c", command, NULL };
-> -#else
-> -    const char *argv[] = { "/bin/sh", "-c", command, NULL };
-> -#endif
-> +    int length = str_list_length(command);
-> +    const char **argv = g_malloc0(length * sizeof(const char *));
-> +
-> +    init_exec_array(command, argv, errp);
-> +    char *new_command = g_strjoinv(" ", (char **)argv);
->  
-> -    trace_migration_exec_incoming(command);
-> +    trace_migration_exec_incoming(new_command);
->      ioc = QIO_CHANNEL(qio_channel_command_new_spawn(argv,
->                                                      O_RDWR,
->                                                      errp));
->      if (!ioc) {
-> +        g_free(argv);
->          return;
->      }
-
-All the same comments as the outgoing case.
-
-With regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-
+https://review.trustedfirmware.org/c/TF-A/trusted-firmware-a/+/20953
 
