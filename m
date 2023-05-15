@@ -2,64 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3D15702E21
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 May 2023 15:30:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B73A702E88
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 May 2023 15:40:23 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pyXv3-00021v-Tn; Mon, 15 May 2023 09:07:18 -0400
+	id 1pyXvX-0002m4-8U; Mon, 15 May 2023 09:07:49 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1pyXun-0001yC-P3
- for qemu-devel@nongnu.org; Mon, 15 May 2023 09:07:03 -0400
-Received: from forwardcorp1b.mail.yandex.net ([178.154.239.136])
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pyXvU-0002ku-RG
+ for qemu-devel@nongnu.org; Mon, 15 May 2023 09:07:44 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1pyXuk-0001xf-SC
- for qemu-devel@nongnu.org; Mon, 15 May 2023 09:07:01 -0400
-Received: from mail-nwsmtp-smtp-corp-main-34.sas.yp-c.yandex.net
- (mail-nwsmtp-smtp-corp-main-34.sas.yp-c.yandex.net
- [IPv6:2a02:6b8:c14:750a:0:640:e46:0])
- by forwardcorp1b.mail.yandex.net (Yandex) with ESMTP id 0398F60094;
- Mon, 15 May 2023 16:06:54 +0300 (MSK)
-Received: from vsementsov-nix.yandex.net (unknown
- [2a02:6b8:8f:4:7a31:c1ff:fef2:bf07])
- by mail-nwsmtp-smtp-corp-main-34.sas.yp-c.yandex.net (smtpcorp/Yandex) with
- ESMTPSA id f6aGDc2OcCg0-bFZyLkkH; Mon, 15 May 2023 16:06:53 +0300
-X-Yandex-Fwd: 1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
- s=default; 
- t=1684156013; bh=eh4HIu7Bu7VzD3j2R39m4GK9mBS+eAsuXhq07/vb8CY=;
- h=Message-Id:Date:In-Reply-To:Cc:Subject:References:To:From;
- b=ORBv2a6yjLCvxzt40V99Mxvge4bt88HqBjd5ViY/Yks7puWYylPVepUAjcas4ZwAl
- N5WBPxzVncXcZNHZIeVvA3Rb90J/6zFEmj+HdkyctkhxJTMUuWPT50taCwWLqsXw04
- fW3prJ9gmUgc22/a9TDjyR7IXOc6O29K34atuOqw=
-Authentication-Results: mail-nwsmtp-smtp-corp-main-34.sas.yp-c.yandex.net;
- dkim=pass header.i=@yandex-team.ru
-From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-To: qemu-devel@nongnu.org
-Cc: jasowang@redhat.com, philmd@linaro.org, thuth@redhat.com,
- berrange@redhat.com, marcandre.lureau@redhat.com, pbonzini@redhat.com,
- leobras@redhat.com, peterx@redhat.com, quintela@redhat.com,
- zhanghailiang@xfusion.com, chen.zhang@intel.com, lukasstraub2@web.de,
- vsementsov@yandex-team.ru
-Subject: [PATCH v5 3/3] migration: process_incoming_migration_co(): move colo
- part to colo
-Date: Mon, 15 May 2023 16:06:40 +0300
-Message-Id: <20230515130640.46035-4-vsementsov@yandex-team.ru>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230515130640.46035-1-vsementsov@yandex-team.ru>
-References: <20230515130640.46035-1-vsementsov@yandex-team.ru>
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pyXvR-00022l-9b
+ for qemu-devel@nongnu.org; Mon, 15 May 2023 09:07:44 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1684156060;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=k9Fa0HEhRxdVZe5uNN5yoLI+82dQV9oUN7icIfG9dw4=;
+ b=VycLHvFGPzwPuc1a2sb0NJoVDcQzNS0A5pBYmmmILEeuoK/itNYJd4DJXjkKxcjFWwAwDO
+ gxwCwVS4p/vvYlGRncO6T7q767qeGD47LT0fUVdo3nyHTAzKESUN7FAInU8xVaWvBXYy4M
+ lR2dGdX1dQfIs5VVU2+HSBAET/ao/IY=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-341-5Hgk1FgMPvSwyGuFlCfDkA-1; Mon, 15 May 2023 09:07:35 -0400
+X-MC-Unique: 5Hgk1FgMPvSwyGuFlCfDkA-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.3])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D40AA867946;
+ Mon, 15 May 2023 13:07:33 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.194.135])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 209431121315;
+ Mon, 15 May 2023 13:07:32 +0000 (UTC)
+Date: Mon, 15 May 2023 15:07:31 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: Michael Tokarev <mjt@tls.msk.ru>
+Cc: qemu-block@nongnu.org, richard.henderson@linaro.org, qemu-devel@nongnu.org
+Subject: Re: [PULL 09/28] block: bdrv/blk_co_unref() for calls in coroutine
+ context
+Message-ID: <ZGIuk9w6t9m+sYbN@redhat.com>
+References: <20230510122111.46566-1-kwolf@redhat.com>
+ <20230510122111.46566-10-kwolf@redhat.com>
+ <e91bbebc-3b28-c05a-293c-c02f1fefe085@msgid.tls.msk.ru>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=178.154.239.136;
- envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1b.mail.yandex.net
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <e91bbebc-3b28-c05a-293c-c02f1fefe085@msgid.tls.msk.ru>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -77,170 +78,27 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Let's make better public interface for COLO: instead of
-colo_process_incoming_thread and not trivial logic around creating the
-thread let's make simple colo_incoming_co(), hiding implementation from
-generic code.
+Am 11.05.2023 um 17:32 hat Michael Tokarev geschrieben:
+> 10.05.2023 15:20, Kevin Wolf wrote:
+> > These functions must not be called in coroutine context, because they
+> > need write access to the graph.
+> 
+> How important for this and 2 surrounding changes to be for 7.2-stable
+> (if we'll ever release one)? It smells like real bugs are being fixed
+> here, is it ever possible to hit those in 7.2?
+> 
+> Provided that whole no_coroutine_fn &Co infrastructure is missing there,
+> including the no_co_wrapper parts?  It's not difficult to back-port some
+> of that stuff to 7.2.
 
-Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
----
- include/migration/colo.h |  9 ++++++++-
- migration/colo.c         | 39 ++++++++++++++++++++++++++++++++++++++-
- migration/migration.c    | 28 ++--------------------------
- stubs/colo.c             |  6 ++----
- 4 files changed, 50 insertions(+), 32 deletions(-)
+In theory this has always been wrong, but we've only seen actual bugs
+manifesting in 8.0 with the other multiqueue-related changes. So I think
+it's safe to skip them for 7.2.
 
-diff --git a/include/migration/colo.h b/include/migration/colo.h
-index 7ef315473e..eaac07f26d 100644
---- a/include/migration/colo.h
-+++ b/include/migration/colo.h
-@@ -28,7 +28,6 @@ bool migration_in_colo_state(void);
- int migration_incoming_enable_colo(void);
- void migration_incoming_disable_colo(void);
- bool migration_incoming_colo_enabled(void);
--void *colo_process_incoming_thread(void *opaque);
- bool migration_incoming_in_colo_state(void);
- 
- COLOMode get_colo_mode(void);
-@@ -44,5 +43,13 @@ void colo_do_failover(void);
-  */
- void colo_checkpoint_delay_set(void);
- 
-+/*
-+ * Starts COLO incoming process. Called from process_incoming_migration_co()
-+ * after loading the state.
-+ *
-+ * Called with BQL locked, may temporary release BQL.
-+ */
-+int coroutine_fn colo_incoming_co(void);
-+
- void colo_shutdown(void);
- #endif
-diff --git a/migration/colo.c b/migration/colo.c
-index a688ac553a..72f4f7b37e 100644
---- a/migration/colo.c
-+++ b/migration/colo.c
-@@ -817,7 +817,7 @@ void colo_shutdown(void)
-     }
- }
- 
--void *colo_process_incoming_thread(void *opaque)
-+static void *colo_process_incoming_thread(void *opaque)
- {
-     MigrationIncomingState *mis = opaque;
-     QEMUFile *fb = NULL;
-@@ -918,3 +918,40 @@ out:
-     rcu_unregister_thread();
-     return NULL;
- }
-+
-+int coroutine_fn colo_incoming_co(void)
-+{
-+    MigrationIncomingState *mis = migration_incoming_get_current();
-+    Error *local_err = NULL;
-+    QemuThread th;
-+
-+    assert(qemu_mutex_iothread_locked());
-+
-+    if (!migration_incoming_colo_enabled()) {
-+        return 0;
-+    }
-+
-+    /* Make sure all file formats throw away their mutable metadata */
-+    bdrv_activate_all(&local_err);
-+    if (local_err) {
-+        error_report_err(local_err);
-+        return -EINVAL;
-+    }
-+
-+    qemu_thread_create(&th, "COLO incoming", colo_process_incoming_thread,
-+                       mis, QEMU_THREAD_JOINABLE);
-+
-+    mis->colo_incoming_co = qemu_coroutine_self();
-+    qemu_coroutine_yield();
-+    mis->colo_incoming_co = NULL;
-+
-+    qemu_mutex_unlock_iothread();
-+    /* Wait checkpoint incoming thread exit before free resource */
-+    qemu_thread_join(&th);
-+    qemu_mutex_lock_iothread();
-+
-+    /* We hold the global iothread lock, so it is safe here */
-+    colo_release_ram_cache();
-+
-+    return 0;
-+}
-diff --git a/migration/migration.c b/migration/migration.c
-index e66b06d3ec..9d1896d6af 100644
---- a/migration/migration.c
-+++ b/migration/migration.c
-@@ -511,7 +511,6 @@ process_incoming_migration_co(void *opaque)
-     MigrationIncomingState *mis = migration_incoming_get_current();
-     PostcopyState ps;
-     int ret;
--    Error *local_err = NULL;
- 
-     assert(mis->from_src_file);
- 
-@@ -555,37 +554,14 @@ process_incoming_migration_co(void *opaque)
-         goto fail;
-     }
- 
--    /* we get COLO info, and know if we are in COLO mode */
--    if (migration_incoming_colo_enabled()) {
--        QemuThread colo_incoming_thread;
--
--        /* Make sure all file formats throw away their mutable metadata */
--        bdrv_activate_all(&local_err);
--        if (local_err) {
--            error_report_err(local_err);
--            goto fail;
--        }
--
--        qemu_thread_create(&colo_incoming_thread, "COLO incoming",
--             colo_process_incoming_thread, mis, QEMU_THREAD_JOINABLE);
--
--        mis->colo_incoming_co = qemu_coroutine_self();
--        qemu_coroutine_yield();
--        mis->colo_incoming_co = NULL;
--
--        qemu_mutex_unlock_iothread();
--        /* Wait checkpoint incoming thread exit before free resource */
--        qemu_thread_join(&colo_incoming_thread);
--        qemu_mutex_lock_iothread();
--        /* We hold the global iothread lock, so it is safe here */
--        colo_release_ram_cache();
-+    if (colo_incoming_co() < 0) {
-+        goto fail;
-     }
- 
-     mis->bh = qemu_bh_new(process_incoming_migration_bh, mis);
-     qemu_bh_schedule(mis->bh);
-     return;
- fail:
--    local_err = NULL;
-     migrate_set_state(&mis->state, MIGRATION_STATUS_ACTIVE,
-                       MIGRATION_STATUS_FAILED);
-     qemu_fclose(mis->from_src_file);
-diff --git a/stubs/colo.c b/stubs/colo.c
-index cf9816d368..f33379d0fd 100644
---- a/stubs/colo.c
-+++ b/stubs/colo.c
-@@ -10,11 +10,9 @@ void colo_shutdown(void)
- {
- }
- 
--void *colo_process_incoming_thread(void *opaque)
-+int coroutine_fn colo_incoming_co(void)
- {
--    error_report("Impossible happend: trying to start COLO thread when COLO "
--                 "module is not built in");
--    abort();
-+    return 0;
- }
- 
- void colo_checkpoint_delay_set(void)
--- 
-2.34.1
+The bug fixed by the previous patch (bdrv_activate()) might not even
+theoretically be a problem while bdrv_co_activate() didn't exist, though
+I haven't investigated this in detail.
+
+Kevin
 
 
