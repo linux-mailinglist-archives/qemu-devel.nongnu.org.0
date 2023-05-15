@@ -2,74 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E1F2703019
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 May 2023 16:38:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA0D3703020
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 May 2023 16:39:11 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pyZI6-0007VP-2F; Mon, 15 May 2023 10:35:10 -0400
+	id 1pyZI8-0007Vl-EG; Mon, 15 May 2023 10:35:12 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pyZH5-0006qp-1w
- for qemu-devel@nongnu.org; Mon, 15 May 2023 10:34:15 -0400
-Received: from mail-pl1-x632.google.com ([2607:f8b0:4864:20::632])
+ id 1pyZHQ-0006wr-Oo
+ for qemu-devel@nongnu.org; Mon, 15 May 2023 10:34:33 -0400
+Received: from mail-pl1-x633.google.com ([2607:f8b0:4864:20::633])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pyZGP-0004td-4p
- for qemu-devel@nongnu.org; Mon, 15 May 2023 10:33:35 -0400
-Received: by mail-pl1-x632.google.com with SMTP id
- d9443c01a7336-1adc913094aso45799925ad.0
- for <qemu-devel@nongnu.org>; Mon, 15 May 2023 07:33:24 -0700 (PDT)
+ id 1pyZGP-0004q9-SC
+ for qemu-devel@nongnu.org; Mon, 15 May 2023 10:33:36 -0400
+Received: by mail-pl1-x633.google.com with SMTP id
+ d9443c01a7336-1ab13da70a3so124359735ad.1
+ for <qemu-devel@nongnu.org>; Mon, 15 May 2023 07:33:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1684161203; x=1686753203;
+ d=linaro.org; s=google; t=1684161205; x=1686753205;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=qq/bfx/cnVfgddia2Z24C2Fe0/LSiH7rE9uM4DdN6u4=;
- b=DePA+PM+BOtrodLW+PFFvwWQ3nNBMcmf5p9EyBz8Zq+xK+VlTZ3UK1mYbU8XW6+D5L
- a4ncrrydjYt+iYtVOTRXAsn4jTIvx0kU52BAyZasInblt11bg5zjyniNSdJQbESxS89l
- B7ZI8Coro054XOok1JWAomt/OL/y8Z6FGPtoIdJFzawBRmoGrqNW3yCU9wijOEcfUpO1
- Ctp56jdc5xi6Trvne3PxLi22YbQmG4GhqNpqV3v+hwXGfAMbosiS6JeY73GxYgYOOE85
- o29VMq8s48zsJBjTcfFwRj0xvR0dwbDt9hdRuTl3SowZxblpEOUdop/L4kN07YzaYBPF
- m4ew==
+ bh=vwB32Lu8jReXcA/wvC/qx9nAhkYXsChfxxD2grqRfag=;
+ b=BvisT1N3QcyJn+HIcURGy7vgTVeVGmWfGpUbBahF7IYPxhfkg2FVuq5+hi3EsMLJB2
+ Lswr1bhQT90XOdsuO9YtoEwXnES88HJW547919/UvgVKKrGn7MK8uzsgDz/wH7o6EQo9
+ k1HuIS0v9dHuktoHpkVC9Ba+mXlO/2sX7aYzuC3aGjYLmMg2pMf/KNj1cdQhZrwoMu6Y
+ w2Ft0Dxf6WZ57SxpjAA3snn+YD8UBU3gOYxsBRyMt8gdM2GpxyCTgIE2Xo8tlFfoPsBm
+ J1IPEYypC+Gdi72T+fBqBB4IHdb2ISLA1FrbxH55fOLdY7wldvFy9c2D9WnYoGL5yWMD
+ SuAw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1684161203; x=1686753203;
+ d=1e100.net; s=20221208; t=1684161205; x=1686753205;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=qq/bfx/cnVfgddia2Z24C2Fe0/LSiH7rE9uM4DdN6u4=;
- b=CeoJQgdQ8Ia0ZHOMLGd3e8R5n7kQJ3dJsZNuYq/M6z1oBuqZLVIEe4Iyj9XHoRLqH6
- /abkTfJFCGh+qOukljc5TfpqwxUj/Wyu96o3h2xHdUUYivufPc5z81xdnPcPFODITInD
- YlGAwzc4087xYng4InmHBJTlNiATx9z0EG8qdeBukFgsd7hKlWxN49XOVoaR8AAujrd3
- FOpTNPy/ZROrJwSGjuZSMKkYZGjeCxtSiVbESwGMQdjX+xjgtoHEntBaCPJfxxbu0b2W
- YNKvOtSu3iyTPDMD1EnaY8YWqkJjCpISovfP1NvJEE23w7Al7TzJRvnhHEKpmdlIxYUl
- t10w==
-X-Gm-Message-State: AC+VfDxyonFPNR3sLRIlZYksN0qsgglr2xZj+IJsnEVAbPJMt2T4RQiJ
- v8ZAu6x//KltJPne1FurEJV4Ye8Av77uJwJmy1E=
-X-Google-Smtp-Source: ACHHUZ63IOVB9eJ637EgFvgej1oi1033qRuxRt+dYe7V6FX3ykF0CA/PDoxvED6sjKIWHlfOwcqVxA==
-X-Received: by 2002:a17:902:b707:b0:1ac:aaf6:ee3a with SMTP id
- d7-20020a170902b70700b001acaaf6ee3amr19980240pls.32.1684161203683; 
- Mon, 15 May 2023 07:33:23 -0700 (PDT)
+ bh=vwB32Lu8jReXcA/wvC/qx9nAhkYXsChfxxD2grqRfag=;
+ b=f2efdyJoVEVyeSat1QeOOvegMAqBHd0EESKqweL3bxL5cgkih0Gs1WQdPUP86BhaEy
+ 9MIKPzXnCzRhyRsnZFt85Zx4ruaKgvwBwNjSzMWVApZQVI75+CcFc+luKAICkMfA+H9b
+ ntmWYCYHP/6OxQx3/9qmHXRSGowUVhMfDEhOv9h81hxzGO87LsFpNR+XOkILz4uW1S5q
+ HDFDzrQFm1oTqh1ixAWw0yak/7v8EeRA3CPvWuROjJsFNJRwCdhullxHJvtk6k1WZo3A
+ FP2+8c4mS8deDQBlD+c1CpK5H4zpr3tix10m+96FwAYCipc5DgwNhQdy+uwN7TouMiSy
+ 4D/A==
+X-Gm-Message-State: AC+VfDz0VHVa6jbD9Vi/hKLKh8ZK+uQ66WPo4+JnTLwN3I55iO7GOQNT
+ 61PW14tk/lB748LLYzQjLEJXeZuvtlJMOQzwvEI=
+X-Google-Smtp-Source: ACHHUZ6rtnqFqeMIlAW8AUd6/hRP0IZUDH7U3MyyH5UxZmt6aRIOBo0ud5KtbfJTID3hk2tgyQ/pmg==
+X-Received: by 2002:a17:902:ee8a:b0:1ac:6c26:c32f with SMTP id
+ a10-20020a170902ee8a00b001ac6c26c32fmr29497439pld.46.1684161204522; 
+ Mon, 15 May 2023 07:33:24 -0700 (PDT)
 Received: from stoup.. ([2602:ae:1598:4c01:9902:96ac:8d8c:4366])
  by smtp.gmail.com with ESMTPSA id
  ik9-20020a170902ab0900b001ab0aec388bsm13694335plb.135.2023.05.15.07.33.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 15 May 2023 07:33:23 -0700 (PDT)
+ Mon, 15 May 2023 07:33:24 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: qemu-arm@nongnu.org,
 	qemu-s390x@nongnu.org
-Subject: [PATCH v5 10/54] accel/tcg: Use have_atomic16 in ldst_atomicity.c.inc
-Date: Mon, 15 May 2023 07:32:29 -0700
-Message-Id: <20230515143313.734053-11-richard.henderson@linaro.org>
+Subject: [PATCH v5 11/54] accel/tcg: Add aarch64 specific support in
+ ldst_atomicity
+Date: Mon, 15 May 2023 07:32:30 -0700
+Message-Id: <20230515143313.734053-12-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230515143313.734053-1-richard.henderson@linaro.org>
 References: <20230515143313.734053-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::632;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x632.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::633;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x633.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -92,126 +93,101 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hosts using Intel and AMD AVX cpus are quite common.
-Add fast paths through ldst_atomicity using this.
-
-Only enable with CONFIG_INT128; some older clang versions do not
-support __int128_t, and the inline assembly won't work on structures.
+We have code in atomic128.h noting that through GCC 8, there
+was no support for atomic operations on __uint128.  This has
+been fixed in GCC 10.  But we can still improve over any
+basic compare-and-swap loop using the ldxp/stxp instructions.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- accel/tcg/ldst_atomicity.c.inc | 76 +++++++++++++++++++++++++++-------
- 1 file changed, 60 insertions(+), 16 deletions(-)
+ accel/tcg/ldst_atomicity.c.inc | 60 ++++++++++++++++++++++++++++++++--
+ 1 file changed, 57 insertions(+), 3 deletions(-)
 
 diff --git a/accel/tcg/ldst_atomicity.c.inc b/accel/tcg/ldst_atomicity.c.inc
-index dd387c9bdd..69c1c61997 100644
+index 69c1c61997..c3b2b35823 100644
 --- a/accel/tcg/ldst_atomicity.c.inc
 +++ b/accel/tcg/ldst_atomicity.c.inc
-@@ -35,6 +35,14 @@
- 
- #if defined(CONFIG_ATOMIC128)
- # define HAVE_al16_fast    true
-+#elif defined(CONFIG_TCG_INTERPRETER)
-+/*
-+ * FIXME: host specific detection for this is in tcg/$host/,
-+ * but we're using tcg/tci/ instead.
-+ */
-+# define HAVE_al16_fast    false
-+#elif defined(__x86_64__) && defined(CONFIG_INT128)
-+# define HAVE_al16_fast    likely(have_atomic16)
- #else
- # define HAVE_al16_fast    false
- #endif
-@@ -178,6 +186,12 @@ load_atomic16(void *pv)
- 
-     r.u = qatomic_read__nocheck(p);
-     return r.s;
-+#elif defined(__x86_64__) && defined(CONFIG_INT128)
-+    Int128Alias r;
+@@ -263,7 +263,22 @@ static Int128 load_atomic16_or_exit(CPUArchState *env, uintptr_t ra, void *pv)
+      * In system mode all guest pages are writable, and for user-only
+      * we have just checked writability.  Try cmpxchg.
+      */
+-#if defined(CONFIG_CMPXCHG128)
++#if defined(__aarch64__)
++    /* We can do better than cmpxchg for AArch64.  */
++    {
++        uint64_t l, h;
++        uint32_t fail;
 +
-+    /* Via HAVE_al16_fast, have_atomic16 is true. */
-+    asm("vmovdqa %1, %0" : "=x" (r.u) : "m" (*(Int128 *)pv));
-+    return r.s;
- #else
-     qemu_build_not_reached();
- #endif
-@@ -399,6 +413,24 @@ load_atom_extract_al16_or_al8(void *pv, int s)
-         r = qatomic_read__nocheck(p16);
++        /* The load must be paired with the store to guarantee not tearing. */
++        asm("0: ldxp %0, %1, %3\n\t"
++            "stxp %w2, %0, %1, %3\n\t"
++            "cbnz %w2, 0b"
++            : "=&r"(l), "=&r"(h), "=&r"(fail) : "Q"(*p));
++
++        qemu_build_assert(!HOST_BIG_ENDIAN);
++        return int128_make128(l, h);
++    }
++#elif defined(CONFIG_CMPXCHG128)
+     /* Swap 0 with 0, with the side-effect of returning the old value. */
+     {
+         Int128Alias r;
+@@ -759,7 +774,22 @@ store_atomic16(void *pv, Int128Alias val)
+         return;
      }
-     return r >> shr;
-+#elif defined(__x86_64__) && defined(CONFIG_INT128)
-+    uintptr_t pi = (uintptr_t)pv;
-+    int shr = (pi & 7) * 8;
-+    uint64_t a, b;
-+
-+    /* Via HAVE_al16_fast, have_atomic16 is true. */
-+    pv = (void *)(pi & ~7);
-+    if (pi & 8) {
-+        uint64_t *p8 = __builtin_assume_aligned(pv, 16, 8);
-+        a = qatomic_read__nocheck(p8);
-+        b = qatomic_read__nocheck(p8 + 1);
-+    } else {
-+        asm("vmovdqa %2, %0\n\tvpextrq $1, %0, %1"
-+            : "=x"(a), "=r"(b) : "m" (*(__uint128_t *)pv));
-+    }
-+    asm("shrd %b2, %1, %0" : "+r"(a) : "r"(b), "c"(shr));
-+
-+    return a;
- #else
-     qemu_build_not_reached();
  #endif
-@@ -715,23 +747,35 @@ static inline void ATTRIBUTE_ATOMIC128_OPT
- store_atomic16(void *pv, Int128Alias val)
+-#if defined(CONFIG_CMPXCHG128)
++#if defined(__aarch64__)
++    /* We can do better than cmpxchg for AArch64.  */
++    {
++        uint64_t l, h, t;
++
++        qemu_build_assert(!HOST_BIG_ENDIAN);
++        l = int128_getlo(val.s);
++        h = int128_gethi(val.s);
++
++        asm("0: ldxp %0, xzr, %1\n\t"
++            "stxp %w0, %2, %3, %1\n\t"
++            "cbnz %w0, 0b"
++            : "=&r"(t), "=Q"(*(__uint128_t *)pv) : "r"(l), "r"(h));
++        return;
++    }
++#elif defined(CONFIG_CMPXCHG128)
+     {
+         __uint128_t *pu = __builtin_assume_aligned(pv, 16);
+         __uint128_t o;
+@@ -857,7 +887,31 @@ static void store_atom_insert_al8(uint64_t *p, uint64_t val, uint64_t msk)
+ static void ATTRIBUTE_ATOMIC128_OPT
+ store_atom_insert_al16(Int128 *ps, Int128Alias val, Int128Alias msk)
  {
- #if defined(CONFIG_ATOMIC128)
--    __uint128_t *pu = __builtin_assume_aligned(pv, 16);
--    qatomic_set__nocheck(pu, val.u);
--#elif defined(CONFIG_CMPXCHG128)
--    __uint128_t *pu = __builtin_assume_aligned(pv, 16);
--    __uint128_t o;
--
--    /*
--     * Without CONFIG_ATOMIC128, __atomic_compare_exchange_n will always
--     * defer to libatomic, so we must use __sync_*_compare_and_swap_16
--     * and accept the sequential consistency that comes with it.
--     */
--    do {
--        o = *pu;
--    } while (!__sync_bool_compare_and_swap_16(pu, o, val.u));
--#else
--    qemu_build_not_reached();
-+    {
-+        __uint128_t *pu = __builtin_assume_aligned(pv, 16);
-+        qatomic_set__nocheck(pu, val.u);
-+        return;
-+    }
- #endif
-+#if defined(__x86_64__) && defined(CONFIG_INT128)
-+    if (HAVE_al16_fast) {
-+        asm("vmovdqa %1, %0" : "=m"(*(__uint128_t *)pv) : "x" (val.u));
-+        return;
-+    }
-+#endif
-+#if defined(CONFIG_CMPXCHG128)
-+    {
-+        __uint128_t *pu = __builtin_assume_aligned(pv, 16);
-+        __uint128_t o;
+-#if defined(CONFIG_ATOMIC128)
++#if defined(__aarch64__)
++    /*
++     * GCC only implements __sync* primitives for int128 on aarch64.
++     * We can do better without the barriers, and integrating the
++     * arithmetic into the load-exclusive/store-conditional pair.
++     */
++    uint64_t tl, th, vl, vh, ml, mh;
++    uint32_t fail;
 +
-+        /*
-+         * Without CONFIG_ATOMIC128, __atomic_compare_exchange_n will always
-+         * defer to libatomic, so we must use __sync_*_compare_and_swap_16
-+         * and accept the sequential consistency that comes with it.
-+         */
-+        do {
-+            o = *pu;
-+        } while (!__sync_bool_compare_and_swap_16(pu, o, val.u));
-+        return;
-+    }
-+#endif
-+    qemu_build_not_reached();
- }
++    qemu_build_assert(!HOST_BIG_ENDIAN);
++    vl = int128_getlo(val.s);
++    vh = int128_gethi(val.s);
++    ml = int128_getlo(msk.s);
++    mh = int128_gethi(msk.s);
++
++    asm("0: ldxp %[l], %[h], %[mem]\n\t"
++        "bic %[l], %[l], %[ml]\n\t"
++        "bic %[h], %[h], %[mh]\n\t"
++        "orr %[l], %[l], %[vl]\n\t"
++        "orr %[h], %[h], %[vh]\n\t"
++        "stxp %w[f], %[l], %[h], %[mem]\n\t"
++        "cbnz %w[f], 0b\n"
++        : [mem] "+Q"(*ps), [f] "=&r"(fail), [l] "=&r"(tl), [h] "=&r"(th)
++        : [vl] "r"(vl), [vh] "r"(vh), [ml] "r"(ml), [mh] "r"(mh));
++#elif defined(CONFIG_ATOMIC128)
+     __uint128_t *pu, old, new;
  
- /**
+     /* With CONFIG_ATOMIC128, we can avoid the memory barriers. */
 -- 
 2.34.1
 
