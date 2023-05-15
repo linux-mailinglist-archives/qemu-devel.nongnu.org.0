@@ -2,33 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F5077026E7
+	by mail.lfdr.de (Postfix) with ESMTPS id DED8A7026E8
 	for <lists+qemu-devel@lfdr.de>; Mon, 15 May 2023 10:13:24 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pyTJb-0001Lr-P7; Mon, 15 May 2023 04:12:20 -0400
+	id 1pyTJe-0001a8-Ix; Mon, 15 May 2023 04:12:22 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mads@ynddal.dk>) id 1pyTJP-0001CX-FW
- for qemu-devel@nongnu.org; Mon, 15 May 2023 04:12:07 -0400
-Received: from mr85p00im-zteg06011501.me.com ([17.58.23.182])
+ (Exim 4.90_1) (envelope-from <mads@ynddal.dk>) id 1pyTJP-0001Cy-Ju
+ for qemu-devel@nongnu.org; Mon, 15 May 2023 04:12:09 -0400
+Received: from mr85p00im-hyfv06011401.me.com ([17.58.23.191])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mads@ynddal.dk>) id 1pyTJM-0002qk-Uc
- for qemu-devel@nongnu.org; Mon, 15 May 2023 04:12:06 -0400
+ (Exim 4.90_1) (envelope-from <mads@ynddal.dk>) id 1pyTJM-0002qc-3n
+ for qemu-devel@nongnu.org; Mon, 15 May 2023 04:12:07 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ynddal.dk; s=sig1;
- t=1684138323; bh=cHWKCHa/u8Jb3woqk96E7imQsC5hDpOtckfnJPPkwBc=;
+ t=1684138320; bh=cHWKCHa/u8Jb3woqk96E7imQsC5hDpOtckfnJPPkwBc=;
  h=Content-Type:Mime-Version:Subject:From:Date:Message-Id:To;
- b=TltJnGraUDsfIXU8O761skIGRLvetlZgb3yzgkS9RZpoCcE8J9tl2hUuqmw6uWruD
- co4TCgT+3jbfGhDwlsjU7XVYjf/K7jc/7Gb/0cqREu5migxVr7grHXo90ySaLjHsOS
- Oo4k4QgCsKE4RSuY37mbkJ+zMFjBrOy4IIo8yJHk4nchCZV7i7A3MoYHJID50AH2Zw
- QZcArRwwjuO6gH38UmrZTBE5diMmnTTJ6xHNcz0YbLdIsrVztnzkan0EWbYKwG5qNL
- ufE0k+APBCcaHmZf9DshJ56x+ptoO18JOj6lvyzohYJMjbP19eh0vuRL0QEMpvZtEi
- F43PCZ/ts+CYQ==
+ b=PrJedPo1yIeN+ITO3pZW20qVnY1fRFN/6yUDUfl9KMh9AgOLgjO47IZY2fLlKLnUs
+ F63kVoOaevfLHoJUBLmzKpxSyaON6hkxb4yVfLrnCpBSU6WIbI7l9nb1egFhgk2h85
+ Zsb6zMKUmvDNze89ngVCOq7xO1cQRrzQTyjsQJQBuEYhj+m/aOqXFBaLCwZ5/21ToC
+ UGdd1znOiZ9k7lO1O7Jp/54sRm8iz2mtY2QA5vUqpOjt/P+wzcxuxGklmrSpyEtqUi
+ Ip+Oyq+HSpg8vjnP9NOKCCaMy3hWkacgeB50LVcgZm/6mx+QFhDJzPoiVKzAjms0Aw
+ D2WI/MGh74HLA==
 Received: from smtpclient.apple (mr38p00im-dlb-asmtp-mailmevip.me.com
  [17.57.152.18])
- by mr85p00im-zteg06011501.me.com (Postfix) with ESMTPSA id 034D9480184;
- Mon, 15 May 2023 08:12:01 +0000 (UTC)
+ by mr85p00im-hyfv06011401.me.com (Postfix) with ESMTPSA id 8DF64357AC9F;
+ Mon, 15 May 2023 08:11:59 +0000 (UTC)
 Content-Type: text/plain;
 	charset=us-ascii
 Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3731.400.51.1.1\))
@@ -45,26 +45,27 @@ References: <20230502092339.27341-1-mads@ynddal.dk>
  <20230502092339.27341-7-mads@ynddal.dk> <20230509144045.GI1008478@fedora>
 To: Stefan Hajnoczi <stefanha@redhat.com>
 X-Mailer: Apple Mail (2.3731.400.51.1.1)
-X-Proofpoint-ORIG-GUID: vlxvKA-jcgHKTLok66chKAp3SQ9h-MPE
-X-Proofpoint-GUID: vlxvKA-jcgHKTLok66chKAp3SQ9h-MPE
+X-Proofpoint-GUID: SY0UFy5mlx_W4Tjf-anKDaYomVlF8J_i
+X-Proofpoint-ORIG-GUID: SY0UFy5mlx_W4Tjf-anKDaYomVlF8J_i
 X-Proofpoint-Virus-Version: =?UTF-8?Q?vendor=3Dfsecure_engine=3D1.1.170-22c6f66c430a71ce266a39bfe25bc?=
- =?UTF-8?Q?2903e8d5c8f:6.0.425,18.0.816,17.11.62.513.0000000_definitions?=
- =?UTF-8?Q?=3D2022-01-18=5F01:2022-01-14=5F01,2022-01-18=5F01,2021-12-02?=
- =?UTF-8?Q?=5F01_signatures=3D0?=
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0
- spamscore=0 mlxlogscore=622
- phishscore=0 suspectscore=0 adultscore=0 malwarescore=0 mlxscore=0
- clxscore=1030 classifier=spam adjust=0 reason=mlx scancount=1
+ =?UTF-8?Q?2903e8d5c8f:6.0.425,18.0.572,17.0.605.474.0000000_definitions?=
+ =?UTF-8?Q?=3D2022-01-14=5F01:2022-01-14=5F01,2020-02-14=5F11,2020-01-23?=
+ =?UTF-8?Q?=5F02_signatures=3D0?=
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
+ bulkscore=0 suspectscore=0
+ mlxlogscore=622 spamscore=0 malwarescore=0 clxscore=1030 mlxscore=0
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2212070000 definitions=main-2305150072
-Received-SPF: pass client-ip=17.58.23.182; envelope-from=mads@ynddal.dk;
- helo=mr85p00im-zteg06011501.me.com
+Received-SPF: pass client-ip=17.58.23.191; envelope-from=mads@ynddal.dk;
+ helo=mr85p00im-hyfv06011401.me.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
