@@ -2,64 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 846847029B7
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 May 2023 11:57:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 929497029C9
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 May 2023 11:59:11 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pyUwr-0006J9-2l; Mon, 15 May 2023 05:56:57 -0400
+	id 1pyUyX-00074S-G5; Mon, 15 May 2023 05:58:41 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zenghao@kylinos.cn>)
- id 1pyUwo-0006Ii-27; Mon, 15 May 2023 05:56:54 -0400
-Received: from mailgw.kylinos.cn ([124.126.103.232])
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1pyUyV-000746-Bg
+ for qemu-devel@nongnu.org; Mon, 15 May 2023 05:58:39 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zenghao@kylinos.cn>)
- id 1pyUwj-0007ce-Qe; Mon, 15 May 2023 05:56:53 -0400
-X-UUID: ce3c9677ed1c4a949bab496bfeff5d1b-20230515
-X-CID-O-RULE: Release_Ham
-X-CID-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.22, REQID:1b854ef3-94bb-40dc-86a1-8bf488fe4bcc, IP:15,
- URL:25,TC:0,Content:0,EDM:0,RT:0,SF:-9,FILE:0,BULK:0,RULE:Release_Ham,ACTI
- ON:release,TS:31
-X-CID-INFO: VERSION:1.1.22, REQID:1b854ef3-94bb-40dc-86a1-8bf488fe4bcc, IP:15,
- UR
- L:25,TC:0,Content:0,EDM:0,RT:0,SF:-9,FILE:0,BULK:0,RULE:Release_Ham,ACTION
- :release,TS:31
-X-CID-META: VersionHash:120426c, CLOUDID:37e1343b-de1e-4348-bc35-c96f92f1dcbb,
- B
- ulkID:2305151652320MOLAW3V,BulkQuantity:4,Recheck:0,SF:24|17|19|43|102,TC:
- nil,Content:0,EDM:-3,IP:-2,URL:11|1,File:nil,Bulk:40,QS:nil,BEC:nil,COL:0,
- OSI:0,OSA:0,AV:0
-X-CID-BVR: 0,NGT
-X-CID-BAS: 0,NGT,0,_
-X-UUID: ce3c9677ed1c4a949bab496bfeff5d1b-20230515
-X-User: zenghao@kylinos.cn
-Received: from [172.20.12.253] [(116.128.244.169)] by mailgw
- (envelope-from <zenghao@kylinos.cn>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 350305384; Mon, 15 May 2023 17:56:36 +0800
-Message-ID: <e2d06c7a6528a16b6ae58360d49a1fc9c7e8ade5.camel@kylinos.cn>
-Subject: Re: [PATCH V2] hw/arm: enable qxl for aarch64
-From: Hao Zeng <zenghao@kylinos.cn>
-To: "Daniel P." =?ISO-8859-1?Q?Berrang=E9?= <berrange@redhat.com>
-Cc: pbonzini@redhat.com, peter.maydell@linaro.org, qemu-arm@nongnu.org, 
- qemu-devel@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>
-Date: Mon, 15 May 2023 17:56:32 +0800
-In-Reply-To: <ZGHyvBb8BQdKhWEy@redhat.com>
-References: <20230512093108.1180726-1-zenghao@kylinos.cn>
- <ZGHyvBb8BQdKhWEy@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.1-0ubuntu1 
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1pyUyU-0007sL-0d
+ for qemu-devel@nongnu.org; Mon, 15 May 2023 05:58:39 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1684144717;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=k0x/N0GXyNyvNJ8Nx4mCZ72crPadF4QYYaAgIxTxsGw=;
+ b=i7RtFXLdtW+T9SYVEr1q0flFSgQBxLBpyEPRkn6Av9auAWi/HwIfTzS3mNEC6gWBExb80N
+ T7xHX6tt/SOIfDSPWwo4Xxr6XgqTYUM5VRVupTk1l6iWx5FQJnP+15u2x0vMov2SZgsxot
+ Jc8znymQ23LJyw3lQLSSDqARI9knetU=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-369-MQ0CA0_uNty3QisamqXZ-g-1; Mon, 15 May 2023 05:58:35 -0400
+X-MC-Unique: MQ0CA0_uNty3QisamqXZ-g-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ 5b1f17b1804b1-3f422150893so56437815e9.2
+ for <qemu-devel@nongnu.org>; Mon, 15 May 2023 02:58:35 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1684144715; x=1686736715;
+ h=mime-version:message-id:date:reply-to:user-agent:references
+ :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=k0x/N0GXyNyvNJ8Nx4mCZ72crPadF4QYYaAgIxTxsGw=;
+ b=Wi3PL4+umZyFYazQNbw1WNQ/PKHwh0uezv8vsYGijvsftlwScL15LU1F0AcN2Htxjk
+ q4Q8CtbgN5ICokgR7ehhYiur/LgaEwuormpn+pJpCAlWcEj0mIBcdTxmM6we+rFxmNPB
+ wC0ll5AzKBerojPGUwR3nU+j0ZIokCQzOTMa4E2w42GgA73iJuuMzfjyC+M8iKnNOdui
+ TvOCq6jFAwAqIJ5gaiGC7VzmiY9QNP2wS5q43xh6W+pE/nhglSwo5cEpQxzZAXRrE52K
+ gPmWnxV5P9kZvLT+K7TUM/0L+FrM+naZjl7dY9LzvOO15L8q7VbDv1oeHkzwe6z5rLwr
+ BLfQ==
+X-Gm-Message-State: AC+VfDwXDIV8aRXXtY4m47PRPYMbNhyQFhxts4oNX2AF8B4wWe9Wihi7
+ 9/s0TP1Ew1DsqMblnRicRAiNbXyt/tjG0oh0Ly5/veeJs+mhXXqD8eh75qqinE8B1oJ0UPza0GU
+ JPRQ2A1yEHsxcUEI=
+X-Received: by 2002:a7b:c388:0:b0:3f5:170:30a7 with SMTP id
+ s8-20020a7bc388000000b003f5017030a7mr3128443wmj.41.1684144714775; 
+ Mon, 15 May 2023 02:58:34 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ49p0ITe1YWJGjnpYulMYMWDPsLqlHmOFby8F1aqMdQNqA0rYtdpRXwCuWdtvIUGKd/aInyxw==
+X-Received: by 2002:a7b:c388:0:b0:3f5:170:30a7 with SMTP id
+ s8-20020a7bc388000000b003f5017030a7mr3128435wmj.41.1684144714456; 
+ Mon, 15 May 2023 02:58:34 -0700 (PDT)
+Received: from redhat.com (static-92-120-85-188.ipcom.comunitel.net.
+ [188.85.120.92]) by smtp.gmail.com with ESMTPSA id
+ a22-20020a1cf016000000b003f42d8dd7ffsm17073749wmb.19.2023.05.15.02.58.33
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 15 May 2023 02:58:34 -0700 (PDT)
+From: Juan Quintela <quintela@redhat.com>
+To: Het Gala <het.gala@nutanix.com>
+Cc: qemu-devel@nongnu.org,  prerna.saxena@nutanix.com,  dgilbert@redhat.com,
+ pbonzini@redhat.com,  berrange@redhat.com,  armbru@redhat.com,
+ eblake@redhat.com,  manish.mishra@nutanix.com,
+ aravind.retnakaran@nutanix.com
+Subject: Re: [PATCH v4 5/8] migration: converts exec backend to accept
+ MigrateAddress struct.
+In-Reply-To: <20230512143240.192504-6-het.gala@nutanix.com> (Het Gala's
+ message of "Fri, 12 May 2023 14:32:37 +0000")
+References: <20230512143240.192504-1-het.gala@nutanix.com>
+ <20230512143240.192504-6-het.gala@nutanix.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
+Date: Mon, 15 May 2023 11:58:33 +0200
+Message-ID: <87o7ml29x2.fsf@secure.mitica>
 MIME-Version: 1.0
-Received-SPF: pass client-ip=124.126.103.232; envelope-from=zenghao@kylinos.cn;
- helo=mailgw.kylinos.cn
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -72,92 +100,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+Het Gala <het.gala@nutanix.com> wrote:
+> Exec transport backend for 'migrate'/'migrate-incoming' QAPIs accept
+> new wire protocol of MigrateAddress struct.
+>
+> It is achived by parsing 'uri' string and storing migration parameters
+> required for exec connection into strList struct.
+>
+> Suggested-by: Aravind Retnakaran <aravind.retnakaran@nutanix.com>
+> Signed-off-by: Het Gala <het.gala@nutanix.com>
+> ---
+>  migration/exec.c      | 58 ++++++++++++++++++++++++++++++++-----------
+>  migration/exec.h      |  4 +--
+>  migration/migration.c | 10 +++-----
+>  3 files changed, 50 insertions(+), 22 deletions(-)
+>
+> diff --git a/migration/exec.c b/migration/exec.c
+> index c4a3293246..210f4e9400 100644
+> --- a/migration/exec.c
+> +++ b/migration/exec.c
+> @@ -39,22 +39,51 @@ const char *exec_get_cmd_path(void)
+>  }
+>  #endif
+>  
+> -void exec_start_outgoing_migration(MigrationState *s, const char *command,
+> +/* provides the length of strList */
+> +static int
+> +str_list_length(strList *list)
+> +{
+> +    int len = 0;
+> +    strList *elem;
+> +
+> +    for (elem = list; elem != NULL; elem = elem->next) {
+> +        len++;
+> +    }
+> +
+> +    return len;
+> +}
 
-On Mon, 2023-05-15 at 09:52 +0100, Daniel P. Berrang=C3=A9 wrote:
-> On Fri, May 12, 2023 at 05:31:08PM +0800, Hao Zeng wrote:
-> > Qemu does not support qxl graphics cards in arm, it is recommended
-> > to enable
->=20
-> Who recommends this and why ?
->=20
-> The recommendations from Gerd are what I tend to point poeple to
-> for display devices:
->=20
-> =C2=A0 https://www.kraxel.org/blog/2019/09/display-devices-in-qemu/
->=20
-> and it had this to say about arm:
->=20
-> =C2=A0 "On arm systems display devices with a pci memory bar do
-> =C2=A0=C2=A0 not work, which reduces the choices alot. We are left with:
->=20
-> =C2=A0=C2=A0=C2=A0 virtio gpu, if your guest has drivers
-> =C2=A0=C2=A0=C2=A0 ramfb"
->=20
-> Not sure if anything has changed in this respect ?
->=20
->=20
-> The QXL graphics card is an incredibly complex device, offering
-> 2d acceleration that is not very interesting for modern guest OS
-> desktops since they're largely focused on 3d acceleration. This
-> complexity is bad from a security POV.
->=20
-> It would also require a guest driver to take advantage of QXL
-> features and while I presume the Linux driver will build, it is
-> still mostly pointless because of lack of interest in 2d
-> acceleration.
-> I'm not sure about status of the Windows QXL driver for aarch64 ?
->=20
-> Further QXL is only useful when combined with SPICE graphics and
-> the SPICE project is largely inactive.
->=20
-> Overall, IMHO, we should keep QXL restricted to as few build
-> scenarios
-> as possible. Given the status of SPICE, possibly we'll even want to
-> deprecate it on x86 eventually, not add it to more arches.=20
->=20
-> What are you seeing as the compelling use case that requires QXL to
-> exist on aarch64 ?
->=20
-hi Daniel:
-   Thank you for your answer, it made me learn a lot. No use case, just
-outside customer feedback on the ARM architecture qxl use has problems,
-I compiled the community qemu, found that the default does not support
-qxl display, so the submitted enablement.
-  I agree with you, please ignore this commit.
+I can't believe tat we have a list type and we don't have a length()
+function for that type.
 
-I apologize for the disturbance to you all.
+Sniff.
 
-Best regards,
-> Hao
->=20
->=20
-> >=20
-> > Signed-off-by: Hao Zeng <zenghao@kylinos.cn>
-> > ---
-> > =C2=A0hw/arm/Kconfig | 1 +
-> > =C2=A01 file changed, 1 insertion(+)
-> >=20
-> > diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
-> > index 0f42c556d7..d0bedf9347 100644
-> > --- a/hw/arm/Kconfig
-> > +++ b/hw/arm/Kconfig
-> > @@ -32,6 +32,7 @@ config ARM_VIRT
-> > =C2=A0=C2=A0=C2=A0=C2=A0 select VIRTIO_MEM_SUPPORTED
-> > =C2=A0=C2=A0=C2=A0=C2=A0 select ACPI_CXL
-> > =C2=A0=C2=A0=C2=A0=C2=A0 select ACPI_HMAT
-> > +=C2=A0=C2=A0=C2=A0 select QXL
-> > =C2=A0
-> > =C2=A0config CHEETAH
-> > =C2=A0=C2=A0=C2=A0=C2=A0 bool
-> > --=20
-> > 2.37.2
-> >=20
-> >=20
->=20
-> With regards,
-> Daniel
+Reviewed-by: Juan Quintela <quintela@redhat.com>
 
 
