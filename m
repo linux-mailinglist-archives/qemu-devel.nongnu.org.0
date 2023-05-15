@@ -2,82 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF81D70206F
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 May 2023 00:26:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B2D9C7020E6
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 May 2023 02:58:42 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pyK9M-0007pB-FH; Sun, 14 May 2023 18:25:08 -0400
+	id 1pyMWF-0001gL-IL; Sun, 14 May 2023 20:56:55 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pyK9G-0007of-2J
- for qemu-devel@nongnu.org; Sun, 14 May 2023 18:25:05 -0400
-Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334])
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1pyMWA-0001fz-KL; Sun, 14 May 2023 20:56:51 -0400
+Received: from mail-ed1-x52b.google.com ([2a00:1450:4864:20::52b])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pyK9E-0002Qr-Hb
- for qemu-devel@nongnu.org; Sun, 14 May 2023 18:25:01 -0400
-Received: by mail-wm1-x334.google.com with SMTP id
- 5b1f17b1804b1-3f4c6c4b51eso50256045e9.2
- for <qemu-devel@nongnu.org>; Sun, 14 May 2023 15:24:59 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1pyMW7-00038q-89; Sun, 14 May 2023 20:56:48 -0400
+Received: by mail-ed1-x52b.google.com with SMTP id
+ 4fb4d7f45d1cf-50bcb229adaso22135436a12.2; 
+ Sun, 14 May 2023 17:56:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1684103098; x=1686695098;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
+ d=gmail.com; s=20221208; t=1684112204; x=1686704204;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=c5eTRE5IecA7P9uHtqhqXt3Ln1YZxBj9QndbVr8rHTY=;
- b=NmwI4ff5TqYKjUl22LZPWzV1Oy1+OlH3YK6XRrZh2gxcbtCtEp3S4OkF4PYlDPVaTE
- Crs7gkv47w6KrRokTk8dkob9aLT0iPmHIrRm4f1oP6HknX7w+HlK3TdLdem+8iSRliZ8
- yz223Thw4Xa7oqFEDDznHypolnH2nTxp0FbrQbclta5WAhdSAg+VOurovQnQkv7nntaL
- cMhMxlCd8IsbsNu7oc09klvuhBvIlba33ANUpNDy+eVxnMsV5kdSDP/yKnQ/4Fkhew8G
- oaea1C8cBPLYWEKtvK2Psxrp2ybJCr4tM8uNIu8F45DW+Z5aOwyCghlxj9uSKzyNucae
- W8pA==
+ bh=j4zr8SbQKdddhNOvk/XiTcVjCbgQXJxUCGwLe9TzGCc=;
+ b=NXZd40+sfVxnysd+7HLv16OBELfa7aUsyzoA1YtTrGAX7Zl4waXEx9LjHgaNn3K2Ue
+ 9bU8Jh7xuwdVIgpwBnUObk3Y9d89YrD8nMzlZnNG01Xl+/Sp5eLauC0ZXe1t2y27Lmwy
+ GhrNIg52Rqpx57CGmsZAm8dxG35vwuNO6dHiEiS4bTGOAPK2s7EZEX7hQP7PxVjwtlyF
+ fmR6JAkGBWNOBMabulZClFkyF2Ih0NXXU3PbuR1rv5Y2gQSeDVFZm4SE2GLHrzmVTM3h
+ xCQfKx1FofT54AeftNpK0AaxNOiZPaul45rOvxEsE7vBI0Qcm9YJZy0Dxm+m0Fyk0i9t
+ Et2w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1684103098; x=1686695098;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=c5eTRE5IecA7P9uHtqhqXt3Ln1YZxBj9QndbVr8rHTY=;
- b=hnQR3D492xVCa+0dUs7IamOG+pGXY1pVTx9TRPnt8AqUhWlB2zkWem27kMSVgZEExc
- +heEzFUH08Edu7BiCt0roMBDD9geh1Tyxq6sCBw7rw7nCBX2JxxyH3+kk/DkgBDeno+K
- 2Al/wfJWlRL1tsJcKvsF/uKFromFoThHBq+wQL1rJcAuejKVK0fd0ZtQAAfaBNSBnt4V
- 0NXGBycvvuh6mTvkOMBxiu9mCbYqCyqYLPM94djcmOyahaUmVRQOivcshLQ7qGZLb6Ko
- 1++o6jygxHbxLmvuaYVcSM2QKIJw2KB7i814+hm+vgVkrkgJCC/IN5LsRA9Tk6BpEc9X
- G2Xw==
-X-Gm-Message-State: AC+VfDzcY+oulwVfqQUt3SH5MBjTBhdLbwkW/8eodOWyyr2V0T19T1kR
- ijIEMcPTTm1yDTtPWfm/4IaFN4KGaB3ppuqIVd0qOg==
-X-Google-Smtp-Source: ACHHUZ4BPFfIz229XD70YjeoINV9Ol6MNFzV8p4+uSvEIfQzw+rtpMopnWnowlT22Ysn3WWTAf2EbA==
-X-Received: by 2002:a5d:560c:0:b0:306:3381:67fe with SMTP id
- l12-20020a5d560c000000b00306338167femr22814714wrv.27.1684103098054; 
- Sun, 14 May 2023 15:24:58 -0700 (PDT)
-Received: from zen.linaroharston ([85.9.250.243])
- by smtp.gmail.com with ESMTPSA id
- c15-20020a05600c0acf00b003f427687ba7sm20176999wmr.41.2023.05.14.15.24.57
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 14 May 2023 15:24:57 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 251371FFBB;
- Sun, 14 May 2023 23:24:57 +0100 (BST)
-References: <HE1P193MB00580265AE8BA41151B8E203A37A9@HE1P193MB0058.EURP193.PROD.OUTLOOK.COM>
-User-agent: mu4e 1.11.5; emacs 29.0.90
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Maxim Kostin <ttxinee@outlook.com>
-Cc: qemu-devel@nongnu.org
-Subject: Re: [PATCH] virtio: Prepend "virtio" prefix in virtio_error
-Date: Sun, 14 May 2023 23:24:52 +0100
-In-reply-to: <HE1P193MB00580265AE8BA41151B8E203A37A9@HE1P193MB0058.EURP193.PROD.OUTLOOK.COM>
-Message-ID: <87a5y6pn47.fsf@linaro.org>
+ d=1e100.net; s=20221208; t=1684112204; x=1686704204;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=j4zr8SbQKdddhNOvk/XiTcVjCbgQXJxUCGwLe9TzGCc=;
+ b=h13o/gwhgGIZRkEUrO869XLjKuY/8boeQwnCA7oyw1gRgcN52wOg9EFjw9muWSqAZO
+ z499fPcPChDUKjJh2dSwyrcLsPMjYxkD2Mo+MgO3VpwzS8j8Nj9eLfgdTorJNATufnGD
+ cUzW5uaHMVo2F+md7TIyuHY2SfwURtbCnccwvGhRl1MoaZH+SrfyWkUYWml1wUFmqxWD
+ NC67Pm5xNtO7ndpVUvQxad2p3U7W5uhpy8Uss/HWlINfWIGTnVMcoeNO8+nMZGtVEQlx
+ 3RIrINSIMDoSqBmFLChHfCNvpfb+X9QD8Quuc6n48dVBQ/0JXlnk60dv9VSQGJG49lQo
+ z29Q==
+X-Gm-Message-State: AC+VfDyOMZ+bz24URbpPjeqp4DlmY6xB8Il0k/WkWN9BHrrcijcwqeAN
+ MK7JWTZkCUshkoQQar8lEGZJd8UxZl7mXbJ/Xv4=
+X-Google-Smtp-Source: ACHHUZ5dO+M2J1JXQ+lo974UmAUBge2RwM6lb6KzL6ga3OYlbDOI2Zugp2us2JMfg8ACxMC5bq31g2i6haSADygLqbA=
+X-Received: by 2002:a05:6402:213:b0:50b:c380:a929 with SMTP id
+ t19-20020a056402021300b0050bc380a929mr26166287edv.10.1684112203451; Sun, 14
+ May 2023 17:56:43 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+References: <20230508120314.59274-1-thuth@redhat.com>
+In-Reply-To: <20230508120314.59274-1-thuth@redhat.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Mon, 15 May 2023 10:56:11 +1000
+Message-ID: <CAKmqyKNhy2esz6r1T6Ya+tfR+nurGD1bhRwPh=n+dtwhYXBmOg@mail.gmail.com>
+Subject: Re: [PATCH] hw/net: Move xilinx_ethlite.c to the target-independent
+ source set
+To: Thomas Huth <thuth@redhat.com>
+Cc: qemu-devel@nongnu.org, "Edgar E. Iglesias" <edgar.iglesias@gmail.com>, 
+ Alistair Francis <alistair@alistair23.me>, Jason Wang <jasowang@redhat.com>,
+ qemu-arm@nongnu.org, Peter Maydell <peter.maydell@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::334;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x334.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+Received-SPF: pass client-ip=2a00:1450:4864:20::52b;
+ envelope-from=alistair23@gmail.com; helo=mail-ed1-x52b.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -95,19 +88,57 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-
-Maxim Kostin <ttxinee@outlook.com> writes:
-
-> Rename virtio_error function to virtio_error_impl and wrap it with
-> virtio_error macro, it adds the "virtio" prefix to the error message.
+On Mon, May 8, 2023 at 10:04=E2=80=AFPM Thomas Huth <thuth@redhat.com> wrot=
+e:
 >
-> Remove redundant "virtio" prefixes in virtio_error calls.
+> Now that the tswap() functions are available for target-independent
+> code, too, we can move xilinx_ethlite.c from specific_ss to softmmu_ss
+> to avoid that we have to compile this file multiple times.
 >
-> Signed-off-by: Maxim Kostin <ttxinee@outlook.com>
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
 
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
---=20
-Alex Benn=C3=A9e
-Virtualisation Tech Lead @ Linaro
+Alistair
+
+> ---
+>  hw/net/xilinx_ethlite.c | 2 +-
+>  hw/net/meson.build      | 2 +-
+>  2 files changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/hw/net/xilinx_ethlite.c b/hw/net/xilinx_ethlite.c
+> index 99c22819ea..89f4f3b254 100644
+> --- a/hw/net/xilinx_ethlite.c
+> +++ b/hw/net/xilinx_ethlite.c
+> @@ -25,7 +25,7 @@
+>  #include "qemu/osdep.h"
+>  #include "qemu/module.h"
+>  #include "qom/object.h"
+> -#include "cpu.h" /* FIXME should not use tswap* */
+> +#include "exec/tswap.h"
+>  #include "hw/sysbus.h"
+>  #include "hw/irq.h"
+>  #include "hw/qdev-properties.h"
+> diff --git a/hw/net/meson.build b/hw/net/meson.build
+> index e2be0654a1..a7860c5efe 100644
+> --- a/hw/net/meson.build
+> +++ b/hw/net/meson.build
+> @@ -43,7 +43,7 @@ softmmu_ss.add(when: 'CONFIG_NPCM7XX', if_true: files('=
+npcm7xx_emc.c'))
+>  softmmu_ss.add(when: 'CONFIG_ETRAXFS', if_true: files('etraxfs_eth.c'))
+>  softmmu_ss.add(when: 'CONFIG_COLDFIRE', if_true: files('mcf_fec.c'))
+>  specific_ss.add(when: 'CONFIG_PSERIES', if_true: files('spapr_llan.c'))
+> -specific_ss.add(when: 'CONFIG_XILINX_ETHLITE', if_true: files('xilinx_et=
+hlite.c'))
+> +softmmu_ss.add(when: 'CONFIG_XILINX_ETHLITE', if_true: files('xilinx_eth=
+lite.c'))
+>
+>  softmmu_ss.add(when: 'CONFIG_VIRTIO_NET', if_true: files('net_rx_pkt.c')=
+)
+>  specific_ss.add(when: 'CONFIG_VIRTIO_NET', if_true: files('virtio-net.c'=
+))
+> --
+> 2.31.1
+>
+>
 
