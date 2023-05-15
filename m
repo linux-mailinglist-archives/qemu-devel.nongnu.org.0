@@ -2,74 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C346F70287A
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 May 2023 11:28:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF4C0702880
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 May 2023 11:28:26 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pyUUM-0004dV-P3; Mon, 15 May 2023 05:27:31 -0400
+	id 1pyUUO-0004gE-3M; Mon, 15 May 2023 05:27:32 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <npiggin@gmail.com>)
- id 1pyUUG-0004bN-JB; Mon, 15 May 2023 05:27:24 -0400
-Received: from mail-pf1-x430.google.com ([2607:f8b0:4864:20::430])
+ id 1pyUUK-0004dG-OL; Mon, 15 May 2023 05:27:28 -0400
+Received: from mail-pg1-x533.google.com ([2607:f8b0:4864:20::533])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <npiggin@gmail.com>)
- id 1pyUUF-0002tq-3U; Mon, 15 May 2023 05:27:24 -0400
-Received: by mail-pf1-x430.google.com with SMTP id
- d2e1a72fcca58-6434e263962so9179158b3a.2; 
- Mon, 15 May 2023 02:27:22 -0700 (PDT)
+ id 1pyUUJ-0002uF-4E; Mon, 15 May 2023 05:27:28 -0400
+Received: by mail-pg1-x533.google.com with SMTP id
+ 41be03b00d2f7-52c30fbccd4so11524268a12.0; 
+ Mon, 15 May 2023 02:27:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1684142841; x=1686734841;
+ d=gmail.com; s=20221208; t=1684142844; x=1686734844;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=NzoCdEXbfhZ/bRqBlmISivmhbZ7+0QvG20U3xWbXUGU=;
- b=fHXVS3KPfkp/DgmTuGThMXgwZpMS6Qw/wuVb017kQMOo0Vk9zXgProva58dS1IrD+I
- ZD3GbVQWwNExXI478qx+793uVAkzNlta4n2B1x+FXRbROkJnSY91ON6xb3nmfSwHUP0i
- urbki+a2Db6meWsfTHLAY+SlxRe6QWIBjkyFNwc/tlqsj/ZehgLRXGF3PkN4XGYv/Lzs
- TuaL2sObDSoHghNTHzd4KfGR2S9kgoRb3Oet6pOL16wmEGdUt9P+5ZdDmSu2v//X+Uuh
- QyHJB9vNTp3b6nRN8Rmu/yfl69L/VpexQDc9oi0HNjuW47XRaQNIJmFvNHA5XuDp1ipk
- Yzag==
+ bh=Zkh/PAEKN8BVQW6YM5l0nufuvJOuPOvJMEVEtv3f5V8=;
+ b=bEkz9Y0N3WFyLWUppWkd8JOyGmGIx038IU4q8XNCuy0/ruXRvTLbB0kCnt6YH4lqL9
+ 84EIhcjoLYe1/xeUJQIj3QuDziJwQ4Tdr45fKcqLdJWIueLK/xr94cdP+A6okvkygDEV
+ NI3xt5FY/jojj0zWM3F/9AbIVHaGZUJhguN1AlNvZoLmDVe6Z1VYgv6Rqr8Iy+jV8lSE
+ vLjPjui4Epoe3Tjz77TMtgFUPu9NFM5M0hEmtc0xhkES5jTjOxVn6/MOOC18/SungyoW
+ vHK3AKHvOFYaMzAemr7w6D8ZOj+v7lpaU1Ykqcc+d5CnBj7qJIsWJV6wO3UASO/7kXrt
+ Zc3A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1684142841; x=1686734841;
+ d=1e100.net; s=20221208; t=1684142844; x=1686734844;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=NzoCdEXbfhZ/bRqBlmISivmhbZ7+0QvG20U3xWbXUGU=;
- b=fAVak6Dz//mG8gG0t8QGBXgyiEiHlMd1Iq3T08ULNLC7YULOlWg3fJG/CqMJKtv8r8
- B61jhzZjbsrLD3FwiQ3fFehFN+4BJoBsq4CAAxcHp1SmGSSsiNimoITAQw/Wgdcxb30I
- 5y9ktQpVF/AywUMPfESfWJRD7fipSyERl+J/466/otzFGfrEHPmv5f+1awdBXHyQcbM1
- MJgdYq2c23+pURGByK3R7FUPQDsoP0yLDNEdE0C3DwMCPyxV9W1eMwpfjDXmoBQGej8h
- F/JnjaWTcDaSMl9CWDawPmQ7bH/oW1vPn1T1EOASKfHNnsldTAOnKq3O5m4iZQedxYtw
- 0ycw==
-X-Gm-Message-State: AC+VfDw9RRTXQITmom4KIIY/W0ED9nB8vbMn9nVBYroGwy1gKGogcADY
- bVyjX9pgBLopWNXm/wv1isd/fdsMP0o=
-X-Google-Smtp-Source: ACHHUZ4O3yjpN7I5X9syu4UneYI9JFgcH2Oe0JUGq8U44Erpizq/4sO7q+0ry0jSj/6X5UWQ5Rk1hA==
-X-Received: by 2002:a05:6a00:2d0e:b0:641:699:f353 with SMTP id
- fa14-20020a056a002d0e00b006410699f353mr45612894pfb.22.1684142840898; 
- Mon, 15 May 2023 02:27:20 -0700 (PDT)
+ bh=Zkh/PAEKN8BVQW6YM5l0nufuvJOuPOvJMEVEtv3f5V8=;
+ b=k2P19FPTuYoIEEL7VgXIC9fIhMPeBbjE6NoKoh5asESbdOlXU40iU2fk3eySnLxvwC
+ 3ulUbc5wU+/jByXefnzGbMZshUdZsZDp6XFoVWge54e9/3XgEXKpw5JzmKf5vHd0V8xs
+ H4mzSK08IGm9345uAxD65aqfPqCEhRn9R34RkcLsR0u//Hwk+sH9mMJ1YfPAvPZhNA2B
+ yAxCd7aakvH2lsq+f+zuCmjRUPg5x60DZAtrNuEDiYDMjUvXMNS1DfEg7A120VSSPcU2
+ UqwQX0q2KaJwn8otXKA1PULaPpneDU/BgS07oZk4MnNmIQfcAZOmhp9XgzZIbzQ4b6O6
+ gt3w==
+X-Gm-Message-State: AC+VfDyV8dPreMWUwkXyTu70fgWpm1a3dkbrJoRTqpDcbsFO1czhesuM
+ LgyvMzOnqqqucqopg/itz9jgIAldaDo=
+X-Google-Smtp-Source: ACHHUZ51v6GiIGvQcgYAIRGwkd5VMaDB46x2nCSEDW0H6rbBR9La6DyEmrDP0+nIGs6t/jWZf/U3Rg==
+X-Received: by 2002:a05:6a20:549e:b0:100:4369:164a with SMTP id
+ i30-20020a056a20549e00b001004369164amr37714251pzk.46.1684142843875; 
+ Mon, 15 May 2023 02:27:23 -0700 (PDT)
 Received: from wheely.local0.net ([202.168.30.146])
  by smtp.gmail.com with ESMTPSA id
- n20-20020aa79054000000b006466f0be263sm11387818pfo.73.2023.05.15.02.27.17
+ n20-20020aa79054000000b006466f0be263sm11387818pfo.73.2023.05.15.02.27.21
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 15 May 2023 02:27:20 -0700 (PDT)
+ Mon, 15 May 2023 02:27:23 -0700 (PDT)
 From: Nicholas Piggin <npiggin@gmail.com>
 To: qemu-ppc@nongnu.org
 Cc: Nicholas Piggin <npiggin@gmail.com>, qemu-devel@nongnu.org,
- Daniel Henrique Barboza <dbarboza@ventanamicro.com>,
- Fabiano Rosas <farosas@suse.de>
-Subject: [PATCH v3 4/9] target/ppc: Alignment faults do not set DSISR in ISA
- v3.0 onward
-Date: Mon, 15 May 2023 19:26:50 +1000
-Message-Id: <20230515092655.171206-5-npiggin@gmail.com>
+ Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+Subject: [PATCH v3 5/9] target/ppc: Change partition-scope translate interface
+Date: Mon, 15 May 2023 19:26:51 +1000
+Message-Id: <20230515092655.171206-6-npiggin@gmail.com>
 X-Mailer: git-send-email 2.40.1
 In-Reply-To: <20230515092655.171206-1-npiggin@gmail.com>
 References: <20230515092655.171206-1-npiggin@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::430;
- envelope-from=npiggin@gmail.com; helo=mail-pf1-x430.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::533;
+ envelope-from=npiggin@gmail.com; helo=mail-pg1-x533.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -92,50 +90,72 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-This optional behavior was removed from the ISA in v3.0, see
-Summary of Changes preface:
+Rather than always performing partition scope page table translation
+with access type of 0 (MMU_DATA_LOAD), pass through the processor
+access type which first initiated the translation sequence. Process-
+scoped page table loads are then set to MMU_DATA_LOAD access type in
+the xlate function.
 
-  Data Storage Interrupt Status Register for Alignment Interrupt:
-  Simplifies the Alignment interrupt by remov- ing the Data Storage
-  Interrupt Status Register (DSISR) from the set of registers modified
-  by the Alignment interrupt.
+This will allow more information to be passed to the exception
+handler in the next patch.
 
-Reviewed-by: Fabiano Rosas <farosas@suse.de>
 Signed-off-by: Nicholas Piggin <npiggin@gmail.com>
 ---
-Since v2: no change.
+Since v2: new patch to deal with bug in patch 6.
 
- target/ppc/excp_helper.c | 17 ++++++++++-------
- 1 file changed, 10 insertions(+), 7 deletions(-)
+ target/ppc/mmu-radix64.c | 24 ++++++++++++++++--------
+ 1 file changed, 16 insertions(+), 8 deletions(-)
 
-diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
-index bc2be4a726..453750a9d6 100644
---- a/target/ppc/excp_helper.c
-+++ b/target/ppc/excp_helper.c
-@@ -1449,13 +1449,16 @@ static void powerpc_excp_books(PowerPCCPU *cpu, int excp)
-         break;
-     }
-     case POWERPC_EXCP_ALIGN:     /* Alignment exception                      */
--        /* Get rS/rD and rA from faulting opcode */
--        /*
--         * Note: the opcode fields will not be set properly for a
--         * direct store load/store, but nobody cares as nobody
--         * actually uses direct store segments.
--         */
--        env->spr[SPR_DSISR] |= (env->error_code & 0x03FF0000) >> 16;
-+        /* Optional DSISR update was removed from ISA v3.0 */
-+        if (!(env->insns_flags2 & PPC2_ISA300)) {
-+            /* Get rS/rD and rA from faulting opcode */
-+            /*
-+             * Note: the opcode fields will not be set properly for a
-+             * direct store load/store, but nobody cares as nobody
-+             * actually uses direct store segments.
-+             */
-+            env->spr[SPR_DSISR] |= (env->error_code & 0x03FF0000) >> 16;
-+        }
-         break;
-     case POWERPC_EXCP_PROGRAM:   /* Program exception                        */
-         switch (env->error_code & ~0xF) {
+diff --git a/target/ppc/mmu-radix64.c b/target/ppc/mmu-radix64.c
+index 031efda0df..1fc1ba3ecf 100644
+--- a/target/ppc/mmu-radix64.c
++++ b/target/ppc/mmu-radix64.c
+@@ -380,6 +380,14 @@ static int ppc_radix64_partition_scoped_xlate(PowerPCCPU *cpu,
+     hwaddr pte_addr;
+     uint64_t pte;
+ 
++    if (pde_addr) {
++        /*
++         * Translation of process-scoped tables/directories is performed as
++         * a read-access.
++         */
++        access_type = MMU_DATA_LOAD;
++    }
++
+     qemu_log_mask(CPU_LOG_MMU, "%s for %s @0x%"VADDR_PRIx
+                   " mmu_idx %u 0x%"HWADDR_PRIx"\n",
+                   __func__, access_str(access_type),
+@@ -477,10 +485,10 @@ static int ppc_radix64_process_scoped_xlate(PowerPCCPU *cpu,
+          * is only used to translate the effective addresses of the
+          * process table entries.
+          */
+-        ret = ppc_radix64_partition_scoped_xlate(cpu, 0, eaddr, prtbe_addr,
+-                                                 pate, &h_raddr, &h_prot,
+-                                                 &h_page_size, true,
+-            /* mmu_idx is 5 because we're translating from hypervisor scope */
++        /* mmu_idx is 5 because we're translating from hypervisor scope */
++        ret = ppc_radix64_partition_scoped_xlate(cpu, access_type, eaddr,
++                                                 prtbe_addr, pate, &h_raddr,
++                                                 &h_prot, &h_page_size, true,
+                                                  5, guest_visible);
+         if (ret) {
+             return ret;
+@@ -519,11 +527,11 @@ static int ppc_radix64_process_scoped_xlate(PowerPCCPU *cpu,
+          * translation
+          */
+         do {
+-            ret = ppc_radix64_partition_scoped_xlate(cpu, 0, eaddr, pte_addr,
+-                                                     pate, &h_raddr, &h_prot,
+-                                                     &h_page_size, true,
+             /* mmu_idx is 5 because we're translating from hypervisor scope */
+-                                                     5, guest_visible);
++            ret = ppc_radix64_partition_scoped_xlate(cpu, access_type, eaddr,
++                                                     pte_addr, pate, &h_raddr,
++                                                     &h_prot, &h_page_size,
++                                                     true, 5, guest_visible);
+             if (ret) {
+                 return ret;
+             }
 -- 
 2.40.1
 
