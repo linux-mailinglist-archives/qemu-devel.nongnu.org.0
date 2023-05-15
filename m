@@ -2,93 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2517C70260D
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 May 2023 09:28:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5648B702630
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 May 2023 09:38:39 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pySd2-0008VV-Md; Mon, 15 May 2023 03:28:20 -0400
+	id 1pySll-0002Th-LN; Mon, 15 May 2023 03:37:21 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pyScu-0008V2-Jt
- for qemu-devel@nongnu.org; Mon, 15 May 2023 03:28:13 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <jean-louis@dupond.be>)
+ id 1pySlh-0002T4-Cp
+ for qemu-devel@nongnu.org; Mon, 15 May 2023 03:37:18 -0400
+Received: from apollo.dupie.be ([51.159.20.238])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pyScp-0003or-KK
- for qemu-devel@nongnu.org; Mon, 15 May 2023 03:28:12 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1684135682;
+ (Exim 4.90_1) (envelope-from <jean-louis@dupond.be>)
+ id 1pySle-0005Hx-Js
+ for qemu-devel@nongnu.org; Mon, 15 May 2023 03:37:17 -0400
+Received: from localhost.localdomain (unknown
+ [IPv6:2a02:a03f:eaf7:ff01:cc6b:6666:e19c:b63f])
+ by apollo.dupie.be (Postfix) with ESMTPSA id CAF961520C8C;
+ Mon, 15 May 2023 09:37:01 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=dupond.be; s=dkim;
+ t=1684136223;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=G5x8G+nGX7XKAgCviN9B/Gho8UJKXqt4cqLgsdwb/Ok=;
- b=B1V7dG7IoQ+GMPupyD70flsrmRwPmVvVgOQOJAaRaVDIDuoOd8WXf/m3S91VBIpnxZ3LPf
- sY8KPLOV9OUUG1EpY97AWq3Sc8prm/VDensF/5cEVxG8dixKfulWyGjD3h7blpWqaeLKAz
- sc2J0hHihAmK1AQ9PKNyacy5kIt0UxE=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-519-9IUEngJ5P7WKsKomXuThjg-1; Mon, 15 May 2023 03:28:00 -0400
-X-MC-Unique: 9IUEngJ5P7WKsKomXuThjg-1
-Received: by mail-wm1-f71.google.com with SMTP id
- 5b1f17b1804b1-3f4221cd284so30448245e9.0
- for <qemu-devel@nongnu.org>; Mon, 15 May 2023 00:28:00 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1684135679; x=1686727679;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=G5x8G+nGX7XKAgCviN9B/Gho8UJKXqt4cqLgsdwb/Ok=;
- b=P7LSYMC4DV/ABauKgj8CCwZJAtdmeFlh+EjWidMzkqGzH1VcQLnvPnr4EovqO3yAHe
- cxJDJQGbH+YNZzNMy3UHe35Ve2CeMvmFT4W9Kjxs+P5qNeNvczp7UIysV8TekxoSZ7QQ
- vvL8Qlp+FS1ydtu6Vh25xvlQ5WrnAuVvyCiBk5bgLms9LhdJrVdpGhwUxKSOVlqYnboy
- Aw/E6d7GER47snAK66jR6JdGECvOJ3ltocOpxHhrhMkg4Czrs4t8h7uFS3JkTBYQ9HAk
- w3kX0pKf4YpNPMv+eYzgooq9jcFmVrXK184JKPcfzjdRUek3pjy6IMwcrZfuzCXD2PB3
- dMEw==
-X-Gm-Message-State: AC+VfDyLI0ktdtu+AMNcjb+4hzFUdV1NdSawpcOgUEvUNP1T5e9dEnoL
- xKjbBKk5lork4J7Xa5vD/kDFi0aKY5wgZNP8VTHPbKQPdmgY9szG7SDCtVu3ykg8CfCkVZ1y9BC
- GpnHUdc7GH30djNU=
-X-Received: by 2002:a7b:c3d9:0:b0:3f4:2d31:11b2 with SMTP id
- t25-20020a7bc3d9000000b003f42d3111b2mr14373720wmj.13.1684135679346; 
- Mon, 15 May 2023 00:27:59 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ6oD2cIH7JOMDoWqCMXV2zFsNpEGt8gyvKQGuO9HOqqrwXGcb97FN4KzNizuP8lwULkO7TtLg==
-X-Received: by 2002:a7b:c3d9:0:b0:3f4:2d31:11b2 with SMTP id
- t25-20020a7bc3d9000000b003f42d3111b2mr14373697wmj.13.1684135679017; 
- Mon, 15 May 2023 00:27:59 -0700 (PDT)
-Received: from [192.168.0.3] (ip-109-43-176-139.web.vodafone.de.
- [109.43.176.139]) by smtp.gmail.com with ESMTPSA id
- l19-20020a1c7913000000b003f42ceb3bf4sm17493278wme.32.2023.05.15.00.27.57
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 15 May 2023 00:27:58 -0700 (PDT)
-Message-ID: <158a4dd5-80df-b235-fcdc-5ba4433f2c89@redhat.com>
-Date: Mon, 15 May 2023 09:27:56 +0200
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=t0xGd8Alz+xFlVUCopJRPLV61/CrbHDc2ZrMF42btDM=;
+ b=Z8JzAddjzgN5R6wqcq2sioN48g8HoFhjAlpm4Bk+93T/U0GjqvS5IpACB6qGABMWE47Tko
+ oC+XLhZcqgOHVhTpwFGQncp5p0kQGvnbJfY0YxJ+xI+/vuIBhQKF8TyGkGnJ54weUmdHcv
+ uCgJ2J3pfnMFYNsOeH3j2b9f91G7hHniy3eDRULRl5ysNFqP7H7vCtJQ1nl4dho4u7CjSQ
+ J+SedL6sYpdfSszD3V+/VZ5xEole6E3WH9XvyvMp48opnVj1rL7fd3V5DKNb+3F7QARXD5
+ WHSfC31sKXPLAsEo9T5H6hsRuBQgnOqJccZ02Ph2pEjpRgD7im+V5VzmTD7INw==
+From: Jean-Louis Dupond <jean-louis@dupond.be>
+To: qemu-devel@nongnu.org,
+	kwolf@redhat.com,
+	hreitz@redhat.com
+Cc: Jean-Louis Dupond <jean-louis@dupond.be>
+Subject: [PATCH] qcow2: add discard-no-unref option
+Date: Mon, 15 May 2023 09:36:44 +0200
+Message-Id: <20230515073644.166677-1-jean-louis@dupond.be>
+X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH v7 1/1] util/async-teardown: wire up
- query-command-line-options
-To: Claudio Imbrenda <imbrenda@linux.ibm.com>, pbonzini@redhat.com
-Cc: qemu-devel@nongnu.org, david@redhat.com, borntraeger@de.ibm.com,
- frankja@linux.ibm.com, fiuczy@linux.ibm.com, pasic@linux.ibm.com,
- nsg@linux.ibm.com, berrange@redhat.com, alex.bennee@linaro.org,
- armbru@redhat.com
-References: <20230505120051.36605-1-imbrenda@linux.ibm.com>
- <20230505120051.36605-2-imbrenda@linux.ibm.com>
-Content-Language: en-US
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <20230505120051.36605-2-imbrenda@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -25
-X-Spam_score: -2.6
+Received-SPF: pass client-ip=51.159.20.238; envelope-from=jean-louis@dupond.be;
+ helo=apollo.dupie.be
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
- DKIM_SIGNED=0.1, NICE_REPLY_A=-0.93, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -104,77 +67,346 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 05/05/2023 14.00, Claudio Imbrenda wrote:
-> Add new -run-with option with an async-teardown=on|off parameter. It is
-> visible in the output of query-command-line-options QMP command, so it
-> can be discovered and used by libvirt.
-> 
-> The option -async-teardown is now redundant, deprecate it.
-...
-> diff --git a/os-posix.c b/os-posix.c
-> index 5adc69f560..ef910aaf94 100644
-> --- a/os-posix.c
-> +++ b/os-posix.c
-> @@ -36,6 +36,8 @@
->   #include "qemu/log.h"
->   #include "sysemu/runstate.h"
->   #include "qemu/cutils.h"
-> +#include "qemu/config-file.h"
-> +#include "qemu/option.h"
->   
->   #ifdef CONFIG_LINUX
->   #include <sys/prctl.h>
-> @@ -152,9 +154,20 @@ int os_parse_cmd_args(int index, const char *optarg)
->           daemonize = 1;
->           break;
->   #if defined(CONFIG_LINUX)
-> +    /* deprecated */
->       case QEMU_OPTION_asyncteardown:
->           init_async_teardown();
->           break;
-> +    case QEMU_OPTION_run_with:
-> +        QemuOpts *opts = qemu_opts_parse_noisily(qemu_find_opts("run-with"),
-> +                                                 optarg, false);
-> +        if (!opts) {
-> +            exit(1);
-> +        }
-> +        if (qemu_opt_get_bool(opts, "async-teardown", false)) {
-> +            init_async_teardown();
-> +        }
-> +        break;
->   #endif
+When we for example have a sparse qcow2 image and discard: unmap is enabled,
+there can be a lot of fragmentation in the image after some time. Surely on VM's
+that do a lot of writes/deletes.
+This causes the qcow2 image to grow even over 110% of its virtual size,
+because the free gaps in the image get to small to allocate new
+continuous clusters. So it allocates new space as the end of the image.
 
-This is causing now a compiler error with GCC 8.5 here:
+Disabling discard is not an option, as discard is needed to keep the
+incremental backup size as low as possible. Without discard, the
+incremental backups would become large, as qemu thinks it's just dirty
+blocks but it doesn't know the blocks are empty/useless.
+So we need to avoid fragmentation but also 'empty' the useless blocks in
+the image to have a small incremental backup.
 
-../../devel/qemu/os-posix.c: In function ‘os_parse_cmd_args’:
-../../devel/qemu/os-posix.c:162:9: error: a label can only be part
-  of a statement and a declaration is not a statement
-          QemuOpts *opts = qemu_opts_parse_noisily(qemu_find_opts("run-with"),
-          ^~~~~~~~
+Next to that we also want to send the discards futher down the stack, so
+the underlying blocks are still discarded.
 
-I'll fix it up by adding some curly braces on top, no need to resend:
+Therefor we introduce a new qcow2 option "discard-no-unref". When
+setting this option to true (defaults to false), the discard requests
+will still be executed, but it will keep the offset of the cluster. And
+it will also pass the discard request further down the stack (if
+discard:unmap is enabled).
+This will avoid fragmentation and for example on a fully preallocated
+qcow2 image, this will make sure the image is perfectly continuous.
 
-diff --git a/os-posix.c b/os-posix.c
---- a/os-posix.c
-+++ b/os-posix.c
-@@ -158,7 +158,7 @@ int os_parse_cmd_args(int index, const char *optarg)
-      case QEMU_OPTION_asyncteardown:
-          init_async_teardown();
-          break;
--    case QEMU_OPTION_run_with:
-+    case QEMU_OPTION_run_with: {
-          QemuOpts *opts = qemu_opts_parse_noisily(qemu_find_opts("run-with"),
-                                                   optarg, false);
-          if (!opts) {
-@@ -168,6 +168,7 @@ int os_parse_cmd_args(int index, const char *optarg)
-              init_async_teardown();
-          }
-          break;
-+    }
-  #endif
-      default:
-          return -1;
+Fixes: https://gitlab.com/qemu-project/qemu/-/issues/1621
+Signed-off-by: Jean-Louis Dupond <jean-louis@dupond.be>
+---
+ block/qcow2-cluster.c  |  16 ++++-
+ block/qcow2-refcount.c | 136 ++++++++++++++++++++++++-----------------
+ block/qcow2.c          |  12 ++++
+ block/qcow2.h          |   3 +
+ qapi/block-core.json   |   4 ++
+ qemu-options.hx        |   6 ++
+ 6 files changed, 120 insertions(+), 57 deletions(-)
 
-Thomas
+diff --git a/block/qcow2-cluster.c b/block/qcow2-cluster.c
+index 39cda7f907..88da70db5e 100644
+--- a/block/qcow2-cluster.c
++++ b/block/qcow2-cluster.c
+@@ -1943,10 +1943,22 @@ static int discard_in_l2_slice(BlockDriverState *bs, uint64_t offset,
+             new_l2_entry = new_l2_bitmap = 0;
+         } else if (bs->backing || qcow2_cluster_is_allocated(cluster_type)) {
+             if (has_subclusters(s)) {
+-                new_l2_entry = 0;
++                if (s->discard_no_unref && (type & QCOW2_DISCARD_REQUEST)) {
++                    new_l2_entry = old_l2_entry;
++                } else {
++                    new_l2_entry = 0;
++                }
+                 new_l2_bitmap = QCOW_L2_BITMAP_ALL_ZEROES;
+             } else {
+-                new_l2_entry = s->qcow_version >= 3 ? QCOW_OFLAG_ZERO : 0;
++                if (s->qcow_version >= 3) {
++                    if (s->discard_no_unref && (type & QCOW2_DISCARD_REQUEST)) {
++                        new_l2_entry |= QCOW_OFLAG_ZERO;
++                    } else {
++                        new_l2_entry = QCOW_OFLAG_ZERO;
++                    }
++                } else {
++                    new_l2_entry = 0;
++                }
+             }
+         }
+ 
+diff --git a/block/qcow2-refcount.c b/block/qcow2-refcount.c
+index 4cf91bd955..a81685ed72 100644
+--- a/block/qcow2-refcount.c
++++ b/block/qcow2-refcount.c
+@@ -830,7 +830,10 @@ static int update_refcount(BlockDriverState *bs,
+         return 0;
+     }
+ 
+-    if (decrease) {
++    bool discard_no_unref = (s->discard_no_unref &&
++                             (type & QCOW2_DISCARD_REQUEST));
++
++    if (decrease && (!discard_no_unref)) {
+         qcow2_cache_set_dependency(bs, s->refcount_block_cache,
+             s->l2_table_cache);
+     }
+@@ -840,69 +843,92 @@ static int update_refcount(BlockDriverState *bs,
+     for(cluster_offset = start; cluster_offset <= last;
+         cluster_offset += s->cluster_size)
+     {
+-        int block_index;
+-        uint64_t refcount;
+-        int64_t cluster_index = cluster_offset >> s->cluster_bits;
+-        int64_t table_index = cluster_index >> s->refcount_block_bits;
+-
+-        /* Load the refcount block and allocate it if needed */
+-        if (table_index != old_table_index) {
+-            if (refcount_block) {
+-                qcow2_cache_put(s->refcount_block_cache, &refcount_block);
+-            }
+-            ret = alloc_refcount_block(bs, cluster_index, &refcount_block);
+-            /* If the caller needs to restart the search for free clusters,
+-             * try the same ones first to see if they're still free. */
+-            if (ret == -EAGAIN) {
+-                if (s->free_cluster_index > (start >> s->cluster_bits)) {
+-                    s->free_cluster_index = (start >> s->cluster_bits);
++        /*
++         * If discard-no-unref is enabled and this is a DISCARD request
++         * then we can skip the reference update, as we want to keep
++         * the reference in place.
++         */
++        if (!discard_no_unref) {
++            int block_index;
++            uint64_t refcount;
++            int64_t cluster_index = cluster_offset >> s->cluster_bits;
++            int64_t table_index = cluster_index >> s->refcount_block_bits;
++
++            /*
++             * Load the refcount block and allocate it if needed
++             */
++            if (table_index != old_table_index) {
++                if (refcount_block) {
++                    qcow2_cache_put(s->refcount_block_cache, &refcount_block);
++                }
++                ret = alloc_refcount_block(bs, cluster_index, &refcount_block);
++                /*
++                 * If the caller needs to restart the search for free clusters,
++                 * try the same ones first to see if they're still free.
++                 */
++                if (ret == -EAGAIN) {
++                    if (s->free_cluster_index > (start >> s->cluster_bits)) {
++                        s->free_cluster_index = (start >> s->cluster_bits);
++                    }
++                }
++                if (ret < 0) {
++                    goto fail;
+                 }
+             }
+-            if (ret < 0) {
+-                goto fail;
+-            }
+-        }
+-        old_table_index = table_index;
++            old_table_index = table_index;
+ 
+-        qcow2_cache_entry_mark_dirty(s->refcount_block_cache, refcount_block);
++            qcow2_cache_entry_mark_dirty(s->refcount_block_cache,
++                                         refcount_block);
++
++            /*
++             * we can update the count and save it
++             */
++            block_index = cluster_index & (s->refcount_block_size - 1);
+ 
+-        /* we can update the count and save it */
+-        block_index = cluster_index & (s->refcount_block_size - 1);
++            refcount = s->get_refcount(refcount_block, block_index);
++            if (decrease ? (refcount - addend > refcount)
++                        : (refcount + addend < refcount ||
++                            refcount + addend > s->refcount_max))
++            {
++                ret = -EINVAL;
++                goto fail;
++            }
++            if (decrease) {
++                refcount -= addend;
++            } else {
++                refcount += addend;
++            }
++            if (refcount == 0 && cluster_index < s->free_cluster_index) {
++                s->free_cluster_index = cluster_index;
++            }
++            s->set_refcount(refcount_block, block_index, refcount);
+ 
+-        refcount = s->get_refcount(refcount_block, block_index);
+-        if (decrease ? (refcount - addend > refcount)
+-                     : (refcount + addend < refcount ||
+-                        refcount + addend > s->refcount_max))
+-        {
+-            ret = -EINVAL;
+-            goto fail;
+-        }
+-        if (decrease) {
+-            refcount -= addend;
+-        } else {
+-            refcount += addend;
+-        }
+-        if (refcount == 0 && cluster_index < s->free_cluster_index) {
+-            s->free_cluster_index = cluster_index;
+-        }
+-        s->set_refcount(refcount_block, block_index, refcount);
++            if (refcount == 0) {
++                void *table;
+ 
+-        if (refcount == 0) {
+-            void *table;
++                table = qcow2_cache_is_table_offset(s->refcount_block_cache,
++                                                    offset);
++                if (table != NULL) {
++                    qcow2_cache_put(s->refcount_block_cache, &refcount_block);
++                    old_table_index = -1;
++                    qcow2_cache_discard(s->refcount_block_cache, table);
++                }
+ 
+-            table = qcow2_cache_is_table_offset(s->refcount_block_cache,
+-                                                offset);
+-            if (table != NULL) {
+-                qcow2_cache_put(s->refcount_block_cache, &refcount_block);
+-                old_table_index = -1;
+-                qcow2_cache_discard(s->refcount_block_cache, table);
+-            }
++                table = qcow2_cache_is_table_offset(s->l2_table_cache, offset);
++                if (table != NULL) {
++                    qcow2_cache_discard(s->l2_table_cache, table);
++                }
+ 
+-            table = qcow2_cache_is_table_offset(s->l2_table_cache, offset);
+-            if (table != NULL) {
+-                qcow2_cache_discard(s->l2_table_cache, table);
++                if (s->discard_passthrough[type]) {
++                    update_refcount_discard(bs, cluster_offset,
++                                            s->cluster_size);
++                }
+             }
+-
++        } else {
++            /*
++             * We had a discard request with discard-no-ref enabled, but we
++             * want to pass the discard to the backend to free the data there.
++             */
+             if (s->discard_passthrough[type]) {
+                 update_refcount_discard(bs, cluster_offset, s->cluster_size);
+             }
+diff --git a/block/qcow2.c b/block/qcow2.c
+index 5bde3b8401..9dde2ac1a5 100644
+--- a/block/qcow2.c
++++ b/block/qcow2.c
+@@ -681,6 +681,7 @@ static const char *const mutable_opts[] = {
+     QCOW2_OPT_DISCARD_REQUEST,
+     QCOW2_OPT_DISCARD_SNAPSHOT,
+     QCOW2_OPT_DISCARD_OTHER,
++    QCOW2_OPT_DISCARD_NO_UNREF,
+     QCOW2_OPT_OVERLAP,
+     QCOW2_OPT_OVERLAP_TEMPLATE,
+     QCOW2_OPT_OVERLAP_MAIN_HEADER,
+@@ -725,6 +726,11 @@ static QemuOptsList qcow2_runtime_opts = {
+             .type = QEMU_OPT_BOOL,
+             .help = "Generate discard requests when other clusters are freed",
+         },
++        {
++            .name = QCOW2_OPT_DISCARD_NO_UNREF,
++            .type = QEMU_OPT_BOOL,
++            .help = "Do not dereference discarded clusters",
++        },
+         {
+             .name = QCOW2_OPT_OVERLAP,
+             .type = QEMU_OPT_STRING,
+@@ -968,6 +974,7 @@ typedef struct Qcow2ReopenState {
+     bool use_lazy_refcounts;
+     int overlap_check;
+     bool discard_passthrough[QCOW2_DISCARD_MAX];
++    bool discard_no_unref;
+     uint64_t cache_clean_interval;
+     QCryptoBlockOpenOptions *crypto_opts; /* Disk encryption runtime options */
+ } Qcow2ReopenState;
+@@ -1139,6 +1146,9 @@ static int qcow2_update_options_prepare(BlockDriverState *bs,
+     r->discard_passthrough[QCOW2_DISCARD_OTHER] =
+         qemu_opt_get_bool(opts, QCOW2_OPT_DISCARD_OTHER, false);
+ 
++    r->discard_no_unref = qemu_opt_get_bool(opts, QCOW2_OPT_DISCARD_NO_UNREF,
++                                            false);
++
+     switch (s->crypt_method_header) {
+     case QCOW_CRYPT_NONE:
+         if (encryptfmt) {
+@@ -1219,6 +1229,8 @@ static void qcow2_update_options_commit(BlockDriverState *bs,
+         s->discard_passthrough[i] = r->discard_passthrough[i];
+     }
+ 
++    s->discard_no_unref = r->discard_no_unref;
++
+     if (s->cache_clean_interval != r->cache_clean_interval) {
+         cache_clean_timer_del(bs);
+         s->cache_clean_interval = r->cache_clean_interval;
+diff --git a/block/qcow2.h b/block/qcow2.h
+index 4f67eb912a..ea9adb5706 100644
+--- a/block/qcow2.h
++++ b/block/qcow2.h
+@@ -133,6 +133,7 @@
+ #define QCOW2_OPT_DISCARD_REQUEST "pass-discard-request"
+ #define QCOW2_OPT_DISCARD_SNAPSHOT "pass-discard-snapshot"
+ #define QCOW2_OPT_DISCARD_OTHER "pass-discard-other"
++#define QCOW2_OPT_DISCARD_NO_UNREF "discard-no-unref"
+ #define QCOW2_OPT_OVERLAP "overlap-check"
+ #define QCOW2_OPT_OVERLAP_TEMPLATE "overlap-check.template"
+ #define QCOW2_OPT_OVERLAP_MAIN_HEADER "overlap-check.main-header"
+@@ -385,6 +386,8 @@ typedef struct BDRVQcow2State {
+ 
+     bool discard_passthrough[QCOW2_DISCARD_MAX];
+ 
++    bool discard_no_unref;
++
+     int overlap_check; /* bitmask of Qcow2MetadataOverlap values */
+     bool signaled_corruption;
+ 
+diff --git a/qapi/block-core.json b/qapi/block-core.json
+index 187e35d473..63aa792e9c 100644
+--- a/qapi/block-core.json
++++ b/qapi/block-core.json
+@@ -3432,6 +3432,9 @@
+ # @pass-discard-other: whether discard requests for the data source
+ #     should be issued on other occasions where a cluster gets freed
+ #
++# @discard-no-unref: don't dereference the cluster when we do a discard
++#     this to avoid fragmentation of the qcow2 image (since 8.1)
++#
+ # @overlap-check: which overlap checks to perform for writes to the
+ #     image, defaults to 'cached' (since 2.2)
+ #
+@@ -3470,6 +3473,7 @@
+             '*pass-discard-request': 'bool',
+             '*pass-discard-snapshot': 'bool',
+             '*pass-discard-other': 'bool',
++            '*discard-no-unref': 'bool',
+             '*overlap-check': 'Qcow2OverlapChecks',
+             '*cache-size': 'int',
+             '*l2-cache-size': 'int',
+diff --git a/qemu-options.hx b/qemu-options.hx
+index 42b9094c10..17ac701d0d 100644
+--- a/qemu-options.hx
++++ b/qemu-options.hx
+@@ -1431,6 +1431,12 @@ SRST
+             issued on other occasions where a cluster gets freed
+             (on/off; default: off)
+ 
++        ``discard-no-unref``
++            When enabled, a discard in the guest does not cause the
++            cluster inside the qcow2 image to be dereferenced. This
++            was added to avoid qcow2 fragmentation whithin the image.
++            (on/off; default: off)
++
+         ``overlap-check``
+             Which overlap checks to perform for writes to the image
+             (none/constant/cached/all; default: cached). For details or
+-- 
+2.40.1
 
 
