@@ -2,75 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA0D3703020
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 May 2023 16:39:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B218F703018
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 May 2023 16:38:35 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pyZI8-0007Vl-EG; Mon, 15 May 2023 10:35:12 -0400
+	id 1pyZIa-00084j-6N; Mon, 15 May 2023 10:35:40 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pyZHQ-0006wr-Oo
- for qemu-devel@nongnu.org; Mon, 15 May 2023 10:34:33 -0400
-Received: from mail-pl1-x633.google.com ([2607:f8b0:4864:20::633])
+ id 1pyZHK-0006vn-UA
+ for qemu-devel@nongnu.org; Mon, 15 May 2023 10:34:28 -0400
+Received: from mail-pl1-x634.google.com ([2607:f8b0:4864:20::634])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pyZGP-0004q9-SC
- for qemu-devel@nongnu.org; Mon, 15 May 2023 10:33:36 -0400
-Received: by mail-pl1-x633.google.com with SMTP id
- d9443c01a7336-1ab13da70a3so124359735ad.1
- for <qemu-devel@nongnu.org>; Mon, 15 May 2023 07:33:25 -0700 (PDT)
+ id 1pyZGR-0004uA-59
+ for qemu-devel@nongnu.org; Mon, 15 May 2023 10:33:37 -0400
+Received: by mail-pl1-x634.google.com with SMTP id
+ d9443c01a7336-1aafa41116fso87159795ad.1
+ for <qemu-devel@nongnu.org>; Mon, 15 May 2023 07:33:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=linaro.org; s=google; t=1684161205; x=1686753205;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=vwB32Lu8jReXcA/wvC/qx9nAhkYXsChfxxD2grqRfag=;
- b=BvisT1N3QcyJn+HIcURGy7vgTVeVGmWfGpUbBahF7IYPxhfkg2FVuq5+hi3EsMLJB2
- Lswr1bhQT90XOdsuO9YtoEwXnES88HJW547919/UvgVKKrGn7MK8uzsgDz/wH7o6EQo9
- k1HuIS0v9dHuktoHpkVC9Ba+mXlO/2sX7aYzuC3aGjYLmMg2pMf/KNj1cdQhZrwoMu6Y
- w2Ft0Dxf6WZ57SxpjAA3snn+YD8UBU3gOYxsBRyMt8gdM2GpxyCTgIE2Xo8tlFfoPsBm
- J1IPEYypC+Gdi72T+fBqBB4IHdb2ISLA1FrbxH55fOLdY7wldvFy9c2D9WnYoGL5yWMD
- SuAw==
+ bh=WjHj7SEbww3DXTRNkJQIziiBJKKRW1RlTjQnuos+9yc=;
+ b=ahEt4rWQeXhEzDbAU6Ui5eLXYz1GIjQ7FlyH69ElqkXdM0GhYfGVf+eevcN8PfxAjj
+ hNbNHcBCHjhNUvqJ/cSllWZd/vCxteA21LGj9hAKlbbeLqC3BvY6XOUAxn5vKM87yv8Z
+ MxCd+mPeM56HV0n5P8DY+ugBXoQPjxezx4hpcMC1vmQmJW5L8U59mKx7qF0ZD0wtH7h6
+ noI7l94N3Lg4T2pwezIfPSAV/io8kCD2yckQhuT6qFTvSuXbDIOFSEzUNcvv7rEtj8za
+ g/tQssgcVipSDaUzyNuNAkg6Uv/80Xc8x+Au+SUbK3wbrljomqx0ACyoTl1TJXHIMDMf
+ sHwA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20221208; t=1684161205; x=1686753205;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=vwB32Lu8jReXcA/wvC/qx9nAhkYXsChfxxD2grqRfag=;
- b=f2efdyJoVEVyeSat1QeOOvegMAqBHd0EESKqweL3bxL5cgkih0Gs1WQdPUP86BhaEy
- 9MIKPzXnCzRhyRsnZFt85Zx4ruaKgvwBwNjSzMWVApZQVI75+CcFc+luKAICkMfA+H9b
- ntmWYCYHP/6OxQx3/9qmHXRSGowUVhMfDEhOv9h81hxzGO87LsFpNR+XOkILz4uW1S5q
- HDFDzrQFm1oTqh1ixAWw0yak/7v8EeRA3CPvWuROjJsFNJRwCdhullxHJvtk6k1WZo3A
- FP2+8c4mS8deDQBlD+c1CpK5H4zpr3tix10m+96FwAYCipc5DgwNhQdy+uwN7TouMiSy
- 4D/A==
-X-Gm-Message-State: AC+VfDz0VHVa6jbD9Vi/hKLKh8ZK+uQ66WPo4+JnTLwN3I55iO7GOQNT
- 61PW14tk/lB748LLYzQjLEJXeZuvtlJMOQzwvEI=
-X-Google-Smtp-Source: ACHHUZ6rtnqFqeMIlAW8AUd6/hRP0IZUDH7U3MyyH5UxZmt6aRIOBo0ud5KtbfJTID3hk2tgyQ/pmg==
-X-Received: by 2002:a17:902:ee8a:b0:1ac:6c26:c32f with SMTP id
- a10-20020a170902ee8a00b001ac6c26c32fmr29497439pld.46.1684161204522; 
- Mon, 15 May 2023 07:33:24 -0700 (PDT)
+ bh=WjHj7SEbww3DXTRNkJQIziiBJKKRW1RlTjQnuos+9yc=;
+ b=KJTAMSzqhlVYrN3VvLQDgfHefOZajnhvDl0vSx7h/KVWiRiB4ia2CHakymyNNmbjtf
+ 2Le88ioX1v+Babm5hRG6dwG8sNh3l4oc1CINTO7OGxVwIfaDl0WDRBc93DOngF4lxxSc
+ JE1IqmxNTPw8/x1XCKvdF7ET2jka1VMODkecV80BaP1A7oCs7ZsEXdbCjGkxxNUWkLKa
+ LXuY89Pp48jHchW9vseT0dNfVnJsFlImx8/4m5aiKBODM0vsl5eOXkwdkWnWak7LjKQD
+ TVS72fNDkis5k2+tnbtzbtZI7nZvSIdzOxUUKhX8OsQY01r1y/yGF6rt12oDxj4S6pMN
+ 2C8Q==
+X-Gm-Message-State: AC+VfDxOhxxysqbzmBCwMKPFXnBmbP9TYqCmM5aCSaQOiGlWzVLcNOPJ
+ 7hEN5fG2kJRdBsxgkW7l5IFv0Fe3tlAFBYH4pWw=
+X-Google-Smtp-Source: ACHHUZ6TFsDtSqfPcxEpnHMgLzh1pl0yefAkv/PvpuDB1MfR+1l02/SmcletsEwfDLzR+XCo2W1ORQ==
+X-Received: by 2002:a17:902:c085:b0:1ab:d16:3c8a with SMTP id
+ j5-20020a170902c08500b001ab0d163c8amr30257003pld.6.1684161205301; 
+ Mon, 15 May 2023 07:33:25 -0700 (PDT)
 Received: from stoup.. ([2602:ae:1598:4c01:9902:96ac:8d8c:4366])
  by smtp.gmail.com with ESMTPSA id
- ik9-20020a170902ab0900b001ab0aec388bsm13694335plb.135.2023.05.15.07.33.23
+ ik9-20020a170902ab0900b001ab0aec388bsm13694335plb.135.2023.05.15.07.33.24
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Mon, 15 May 2023 07:33:24 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Cc: qemu-arm@nongnu.org,
-	qemu-s390x@nongnu.org
-Subject: [PATCH v5 11/54] accel/tcg: Add aarch64 specific support in
- ldst_atomicity
-Date: Mon, 15 May 2023 07:32:30 -0700
-Message-Id: <20230515143313.734053-12-richard.henderson@linaro.org>
+Cc: qemu-arm@nongnu.org, qemu-s390x@nongnu.org,
+ Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+Subject: [PATCH v5 12/54] tcg/aarch64: Detect have_lse, have_lse2 for linux
+Date: Mon, 15 May 2023 07:32:31 -0700
+Message-Id: <20230515143313.734053-13-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230515143313.734053-1-richard.henderson@linaro.org>
 References: <20230515143313.734053-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::633;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x633.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::634;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x634.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -93,101 +94,68 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-We have code in atomic128.h noting that through GCC 8, there
-was no support for atomic operations on __uint128.  This has
-been fixed in GCC 10.  But we can still improve over any
-basic compare-and-swap loop using the ldxp/stxp instructions.
+Notice when the host has additional atomic instructions.
+The new variables will also be used in generated code.
 
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- accel/tcg/ldst_atomicity.c.inc | 60 ++++++++++++++++++++++++++++++++--
- 1 file changed, 57 insertions(+), 3 deletions(-)
+ tcg/aarch64/tcg-target.h     |  3 +++
+ tcg/aarch64/tcg-target.c.inc | 12 ++++++++++++
+ 2 files changed, 15 insertions(+)
 
-diff --git a/accel/tcg/ldst_atomicity.c.inc b/accel/tcg/ldst_atomicity.c.inc
-index 69c1c61997..c3b2b35823 100644
---- a/accel/tcg/ldst_atomicity.c.inc
-+++ b/accel/tcg/ldst_atomicity.c.inc
-@@ -263,7 +263,22 @@ static Int128 load_atomic16_or_exit(CPUArchState *env, uintptr_t ra, void *pv)
-      * In system mode all guest pages are writable, and for user-only
-      * we have just checked writability.  Try cmpxchg.
-      */
--#if defined(CONFIG_CMPXCHG128)
-+#if defined(__aarch64__)
-+    /* We can do better than cmpxchg for AArch64.  */
-+    {
-+        uint64_t l, h;
-+        uint32_t fail;
-+
-+        /* The load must be paired with the store to guarantee not tearing. */
-+        asm("0: ldxp %0, %1, %3\n\t"
-+            "stxp %w2, %0, %1, %3\n\t"
-+            "cbnz %w2, 0b"
-+            : "=&r"(l), "=&r"(h), "=&r"(fail) : "Q"(*p));
-+
-+        qemu_build_assert(!HOST_BIG_ENDIAN);
-+        return int128_make128(l, h);
-+    }
-+#elif defined(CONFIG_CMPXCHG128)
-     /* Swap 0 with 0, with the side-effect of returning the old value. */
-     {
-         Int128Alias r;
-@@ -759,7 +774,22 @@ store_atomic16(void *pv, Int128Alias val)
-         return;
-     }
- #endif
--#if defined(CONFIG_CMPXCHG128)
-+#if defined(__aarch64__)
-+    /* We can do better than cmpxchg for AArch64.  */
-+    {
-+        uint64_t l, h, t;
-+
-+        qemu_build_assert(!HOST_BIG_ENDIAN);
-+        l = int128_getlo(val.s);
-+        h = int128_gethi(val.s);
-+
-+        asm("0: ldxp %0, xzr, %1\n\t"
-+            "stxp %w0, %2, %3, %1\n\t"
-+            "cbnz %w0, 0b"
-+            : "=&r"(t), "=Q"(*(__uint128_t *)pv) : "r"(l), "r"(h));
-+        return;
-+    }
-+#elif defined(CONFIG_CMPXCHG128)
-     {
-         __uint128_t *pu = __builtin_assume_aligned(pv, 16);
-         __uint128_t o;
-@@ -857,7 +887,31 @@ static void store_atom_insert_al8(uint64_t *p, uint64_t val, uint64_t msk)
- static void ATTRIBUTE_ATOMIC128_OPT
- store_atom_insert_al16(Int128 *ps, Int128Alias val, Int128Alias msk)
- {
--#if defined(CONFIG_ATOMIC128)
-+#if defined(__aarch64__)
-+    /*
-+     * GCC only implements __sync* primitives for int128 on aarch64.
-+     * We can do better without the barriers, and integrating the
-+     * arithmetic into the load-exclusive/store-conditional pair.
-+     */
-+    uint64_t tl, th, vl, vh, ml, mh;
-+    uint32_t fail;
-+
-+    qemu_build_assert(!HOST_BIG_ENDIAN);
-+    vl = int128_getlo(val.s);
-+    vh = int128_gethi(val.s);
-+    ml = int128_getlo(msk.s);
-+    mh = int128_gethi(msk.s);
-+
-+    asm("0: ldxp %[l], %[h], %[mem]\n\t"
-+        "bic %[l], %[l], %[ml]\n\t"
-+        "bic %[h], %[h], %[mh]\n\t"
-+        "orr %[l], %[l], %[vl]\n\t"
-+        "orr %[h], %[h], %[vh]\n\t"
-+        "stxp %w[f], %[l], %[h], %[mem]\n\t"
-+        "cbnz %w[f], 0b\n"
-+        : [mem] "+Q"(*ps), [f] "=&r"(fail), [l] "=&r"(tl), [h] "=&r"(th)
-+        : [vl] "r"(vl), [vh] "r"(vh), [ml] "r"(ml), [mh] "r"(mh));
-+#elif defined(CONFIG_ATOMIC128)
-     __uint128_t *pu, old, new;
+diff --git a/tcg/aarch64/tcg-target.h b/tcg/aarch64/tcg-target.h
+index c0b0f614ba..3c0b0d312d 100644
+--- a/tcg/aarch64/tcg-target.h
++++ b/tcg/aarch64/tcg-target.h
+@@ -57,6 +57,9 @@ typedef enum {
+ #define TCG_TARGET_CALL_ARG_I128        TCG_CALL_ARG_EVEN
+ #define TCG_TARGET_CALL_RET_I128        TCG_CALL_RET_NORMAL
  
-     /* With CONFIG_ATOMIC128, we can avoid the memory barriers. */
++extern bool have_lse;
++extern bool have_lse2;
++
+ /* optional instructions */
+ #define TCG_TARGET_HAS_div_i32          1
+ #define TCG_TARGET_HAS_rem_i32          1
+diff --git a/tcg/aarch64/tcg-target.c.inc b/tcg/aarch64/tcg-target.c.inc
+index e6636c1f8b..fc551a3d10 100644
+--- a/tcg/aarch64/tcg-target.c.inc
++++ b/tcg/aarch64/tcg-target.c.inc
+@@ -13,6 +13,9 @@
+ #include "../tcg-ldst.c.inc"
+ #include "../tcg-pool.c.inc"
+ #include "qemu/bitops.h"
++#ifdef __linux__
++#include <asm/hwcap.h>
++#endif
+ 
+ /* We're going to re-use TCGType in setting of the SF bit, which controls
+    the size of the operation performed.  If we know the values match, it
+@@ -71,6 +74,9 @@ static TCGReg tcg_target_call_oarg_reg(TCGCallReturnKind kind, int slot)
+     return TCG_REG_X0 + slot;
+ }
+ 
++bool have_lse;
++bool have_lse2;
++
+ #define TCG_REG_TMP TCG_REG_X30
+ #define TCG_VEC_TMP TCG_REG_V31
+ 
+@@ -2899,6 +2905,12 @@ static TCGConstraintSetIndex tcg_target_op_def(TCGOpcode op)
+ 
+ static void tcg_target_init(TCGContext *s)
+ {
++#ifdef __linux__
++    unsigned long hwcap = qemu_getauxval(AT_HWCAP);
++    have_lse = hwcap & HWCAP_ATOMICS;
++    have_lse2 = hwcap & HWCAP_USCAT;
++#endif
++
+     tcg_target_available_regs[TCG_TYPE_I32] = 0xffffffffu;
+     tcg_target_available_regs[TCG_TYPE_I64] = 0xffffffffu;
+     tcg_target_available_regs[TCG_TYPE_V64] = 0xffffffff00000000ull;
 -- 
 2.34.1
 
