@@ -2,81 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34199702EDC
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 May 2023 15:56:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 15617702EDF
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 May 2023 15:57:35 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pyYfd-0003UG-Er; Mon, 15 May 2023 09:55:25 -0400
+	id 1pyYhU-0004re-HK; Mon, 15 May 2023 09:57:20 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pyYfa-0003Tr-NT
- for qemu-devel@nongnu.org; Mon, 15 May 2023 09:55:23 -0400
-Received: from mail-pl1-x632.google.com ([2607:f8b0:4864:20::632])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pyYfX-0005sS-Fw
- for qemu-devel@nongnu.org; Mon, 15 May 2023 09:55:22 -0400
-Received: by mail-pl1-x632.google.com with SMTP id
- d9443c01a7336-1aae46e62e9so91050165ad.2
- for <qemu-devel@nongnu.org>; Mon, 15 May 2023 06:55:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1684158918; x=1686750918;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=s2NnFN+RdS7Y5fSyCKVgAStf2E30uqZlDjlmyVdH9Ak=;
- b=YRFpusQBYrpneV2qUkN3eV8jx+7PdkJpQRmj3O9nDA4jUNautIylVQ6r/DFwMO+SKD
- X6+Ec/NR4lzsUt3VP/RWF/Ox9Jop7WrplC9WJWuH88jaPeGr4bo9jWzCblj9I5kbOFaO
- k5ArYLPzl/3spqbcdK87V/bvrhWyoMRiYuXxblea1ECkHecSLaKRS+ZWZOMxDQsWJDPC
- s964jeFgeNLkX6zux1N8r7gX10GW3FaoS3GdpY7ZgLHGd/gYB9SMfN32Lkub4cU+P21I
- JtM7L1bwrdUBUF41hOsUKUEGxYhZIDsdaZ8C0PBdT1VpHJk2X9CqFi9AE2CcYISIhiEl
- SSKw==
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1pyYhP-0004rQ-Sg
+ for qemu-devel@nongnu.org; Mon, 15 May 2023 09:57:16 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1pyYhO-0006IA-3u
+ for qemu-devel@nongnu.org; Mon, 15 May 2023 09:57:15 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1684159032;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=JDzky7tH8pWfEVbI7PK8fdHZ49kS8Hcvy3LXt8kcxx8=;
+ b=VLAZzFEmuyc4m9IcJpstbR9gvyXicOqKE0odbcZPk8TS2WWt8QPdM746VSElxgcTcNeNNB
+ oCxbXA27JfbhERhEUE1PNIBkgkflA4IcHPrdkncsZuvY0tvg2h8yVGo1tBcRcvZUN/NHnE
+ KVnk9aw3k9wvM9NzAYlYnYdC0rFuiSg=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-99-_962eAc0PxCtD9mNlRupPQ-1; Mon, 15 May 2023 09:57:10 -0400
+X-MC-Unique: _962eAc0PxCtD9mNlRupPQ-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ 5b1f17b1804b1-3f4231d7893so56516025e9.2
+ for <qemu-devel@nongnu.org>; Mon, 15 May 2023 06:57:09 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1684158918; x=1686750918;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=s2NnFN+RdS7Y5fSyCKVgAStf2E30uqZlDjlmyVdH9Ak=;
- b=SYQOMrVwXXxkOlwhbhV5dT0hCDM+iOR0IiH6DdYOTJ7KVIlK5sbdyyk+D0anjLognb
- MudqiGvmiV0JCXc3AgaFiEM7IwXNkICHbX7i7J6RLrXKES+A83bIe9WcR2dhtZHNV4Tc
- wwwdi23+u+CfEQTD6TCX0lG16xo9OQ2wAJUFWFL/cPYfdOS4mHQCe7KEBLGGqa77lY9q
- aZEMI+UkZFc7x6KNYl6M7v3zx0C07x16qk/sioAlGbBeRSNjxO527Fy/4cDkiCVNwCfW
- VFE11eNaOODnR6JFDtoFND9gpomvMrVjbOkKwVBaWgxDW1hEbdf0AXPaWbxPg8Ihu5um
- Y5ow==
-X-Gm-Message-State: AC+VfDzfzRMJi3+kxzoI9WuI6d02gl+tC7sClaJflu/XpW6fKjVR926A
- vopmsS7s1BuyvS1XiQ/AmRiiHaLCtfyd/sZhSrE=
-X-Google-Smtp-Source: ACHHUZ7FmkD8HT4cVd8GVEZPpL4miwANZBdgvz3ut6DXVOJ1DW80QOgdpRFOkZ6UZxnOFUYMuzTDkg==
-X-Received: by 2002:a17:902:e5c3:b0:1ad:fa2e:17fc with SMTP id
- u3-20020a170902e5c300b001adfa2e17fcmr11271520plf.2.1684158917885; 
- Mon, 15 May 2023 06:55:17 -0700 (PDT)
-Received: from ?IPV6:2602:ae:1598:4c01:9902:96ac:8d8c:4366?
- ([2602:ae:1598:4c01:9902:96ac:8d8c:4366])
- by smtp.gmail.com with ESMTPSA id
- j6-20020a170902690600b001a072aedec7sm13493777plk.75.2023.05.15.06.55.17
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 15 May 2023 06:55:17 -0700 (PDT)
-Message-ID: <4a37146d-b3b7-206d-cc75-617dc2a3674a@linaro.org>
-Date: Mon, 15 May 2023 06:55:15 -0700
+ d=1e100.net; s=20221208; t=1684159029; x=1686751029;
+ h=mime-version:message-id:date:reply-to:user-agent:references
+ :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=JDzky7tH8pWfEVbI7PK8fdHZ49kS8Hcvy3LXt8kcxx8=;
+ b=KSTEtz7Elp7RX6tMhaDT34eli+Qz0r8ZHW+KavML36EPuxNQgczQcRonsBoNlmD5Yg
+ F56K7Mw1B9f6GLHnwhYVuLG5qTwkVpiSNyr6sNR7AjKlp2yAxv9E+2OcU09fzpORqY4j
+ vel4qb6VKCvMpAjn/8kjKjl97ErPKmBT0grQiH5LHxXHT93SrM5A7IaoyndNxA8Wzfi0
+ ev80XQbH0/OCP2CTxsdzBEBb7HLB9dUoRZrZXRkB3myU8Or6gy6oK06vQnBj7BcfUM+j
+ Md0Dudn3i95QF8XqaUmoNNrVtTD9enW5boI9ZmfXo207CiSH+XeEuruuSC55QSlF0Yw2
+ JdEg==
+X-Gm-Message-State: AC+VfDzMCrG1pDHe0hmUHBFJ6J1Ps20cf9ZM2AaJNJtivYvJ1cMDllUS
+ yNbI58E6pFLbW0jxKeMRllscqmB8pZ6omdw8xoGgmle2115P/5KDicLItvPxxTMIpRZ9iggty4m
+ uiOjB4QuyIILA4jw=
+X-Received: by 2002:a1c:f202:0:b0:3f1:75b0:dc47 with SMTP id
+ s2-20020a1cf202000000b003f175b0dc47mr24466698wmc.15.1684159029019; 
+ Mon, 15 May 2023 06:57:09 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ7sABpvgRHHFznhyED886iL2+b3yvxMV7Fr3XcYRSHXCxDpMLik/X5K9rg6rzLzKXkuv1cNKQ==
+X-Received: by 2002:a1c:f202:0:b0:3f1:75b0:dc47 with SMTP id
+ s2-20020a1cf202000000b003f175b0dc47mr24466679wmc.15.1684159028669; 
+ Mon, 15 May 2023 06:57:08 -0700 (PDT)
+Received: from redhat.com (static-92-120-85-188.ipcom.comunitel.net.
+ [188.85.120.92]) by smtp.gmail.com with ESMTPSA id
+ y17-20020a1c4b11000000b003f4fbd9cdb3sm8098830wma.34.2023.05.15.06.57.07
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 15 May 2023 06:57:08 -0700 (PDT)
+From: Juan Quintela <quintela@redhat.com>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+Cc: qemu-devel@nongnu.org,  jasowang@redhat.com,  philmd@linaro.org,
+ thuth@redhat.com,  berrange@redhat.com,  marcandre.lureau@redhat.com,
+ pbonzini@redhat.com,  leobras@redhat.com,  peterx@redhat.com,
+ zhanghailiang@xfusion.com,  chen.zhang@intel.com,  lukasstraub2@web.de
+Subject: Re: [PATCH v5 2/3] migration: split migration_incoming_co
+In-Reply-To: <20230515130640.46035-3-vsementsov@yandex-team.ru> (Vladimir
+ Sementsov-Ogievskiy's message of "Mon, 15 May 2023 16:06:39 +0300")
+References: <20230515130640.46035-1-vsementsov@yandex-team.ru>
+ <20230515130640.46035-3-vsementsov@yandex-team.ru>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
+Date: Mon, 15 May 2023 15:57:07 +0200
+Message-ID: <871qjhzoi4.fsf@secure.mitica>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PULL 0/9] Linux user for 8.1 patches
-Content-Language: en-US
-To: Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org
-References: <20230515083113.107056-1-laurent@vivier.eu>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20230515083113.107056-1-laurent@vivier.eu>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::632;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x632.google.com
-X-Spam_score_int: -58
-X-Spam_score: -5.9
-X-Spam_bar: -----
-X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-3.811,
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -91,43 +99,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 5/15/23 01:31, Laurent Vivier wrote:
-> The following changes since commit 7c18f2d663521f1b31b821a13358ce38075eaf7d:
-> 
->    Merge tag 'for-upstream' of https://gitlab.com/bonzini/qemu into staging (2023-04-29 23:07:17 +0100)
-> 
-> are available in the Git repository at:
-> 
->    https://github.com/vivier/qemu.git tags/linux-user-for-8.1-pull-request
-> 
-> for you to fetch changes up to 015ebc4aaa47612514a5c846b9db0d76b653b75f:
-> 
->    linux-user: fix getgroups/setgroups allocations (2023-05-14 18:08:04 +0200)
-> 
-> ----------------------------------------------------------------
-> linux-user pull request 20230512-v2
-> 
-> add open_tree(), move_mount()
-> add /proc/cpuinfo for riscv
-> fixes and cleanup
+Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru> wrote:
+> Originally, migration_incoming_co was introduced by
+> 25d0c16f625feb3b6
+>    "migration: Switch to COLO process after finishing loadvm"
+> to be able to enter from COLO code to one specific yield point, added
+> by 25d0c16f625feb3b6.
+>
+> Later in 923709896b1b0
+>  "migration: poll the cm event for destination qemu"
+> we reused this variable to wake the migration incoming coroutine from
+> RDMA code.
+>
+> That was doubtful idea. Entering coroutines is a very fragile thing:
+> you should be absolutely sure which yield point you are going to enter.
+>
+> I don't know how much is it safe to enter during qemu_loadvm_state()
+> which I think what RDMA want to do. But for sure RDMA shouldn't enter
+> the special COLO-related yield-point. As well, COLO code doesn't want
+> to enter during qemu_loadvm_state(), it want to enter it's own specific
+> yield-point.
+>
+> As well, when in 8e48ac95865ac97d
+>  "COLO: Add block replication into colo process" we added
+> bdrv_invalidate_cache_all() call (now it's called activate_all())
+> it became possible to enter the migration incoming coroutine during
+> that call which is wrong too.
+>
+> So, let't make these things separate and disjoint: loadvm_co for RDMA,
+> non-NULL during qemu_loadvm_state(), and colo_incoming_co for COLO,
+> non-NULL only around specific yield.
+>
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
 
-The new test in patch 1 fails:
+Reviewed-by: Juan Quintela <quintela@redhat.com>
 
-https://gitlab.com/qemu-project/qemu/-/jobs/4285710689#L4825
-
-   TEST    cpuinfo on riscv64
-cpuinfo: /builds/qemu-project/qemu/tests/tcg/riscv64/cpuinfo.c:20: main: Assertion 
-`strcmp(buffer, "isa\t\t: rv64imafdc_zicsr_zifencei\n") == 0' failed.
-timeout: the monitored command dumped core
-Aborted
-make[1]: *** [Makefile:174: run-cpuinfo] Error 134
-make: *** [/builds/qemu-project/qemu/tests/Makefile.include:56: 
-run-tcg-tests-riscv64-linux-user] Error 2
-make: *** Waiting for unfinished jobs....
-
-
-r~
 
