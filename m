@@ -2,105 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC3B6702D17
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 May 2023 14:50:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E73E702D1A
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 May 2023 14:52:17 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pyXdQ-00025U-LY; Mon, 15 May 2023 08:49:04 -0400
+	id 1pyXg0-0003qF-Nw; Mon, 15 May 2023 08:51:44 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fbarrat@linux.ibm.com>)
- id 1pyXdN-00024p-TZ; Mon, 15 May 2023 08:49:01 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fbarrat@linux.ibm.com>)
- id 1pyXdM-0006AH-12; Mon, 15 May 2023 08:49:01 -0400
-Received: from pps.filterd (m0353729.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 34FCbwfX024647; Mon, 15 May 2023 12:48:53 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=CEzcWTrWJ572ZT0WPFaL3oVFrcfOQR3tXODjk3fSRag=;
- b=HSw4kjKcKHLKGPyRxK/SngOIjvM0HkZbS8Q8JpHaNSwb0flozSaNS3wrjFfBqzBjhYmR
- Zxsq3ud8MPgHD1n5f8mQ87mtPbdfFTRHo1lR39UpdnhL1B4C2SIjcwCk5LGSOLJ3zcUy
- v6RX7zuo/Cn9ciyhmJyG1UeyHb1/njRRL3RS9YSe52DqOugboDdE19/JlhYTwMdY1iPF
- r/qFxdjaLgjsf+mtu3qt+U8Bi6rDRo8QGLHv95UyI7zPM5xA4a6L+9gg5NlCPxG2uzC4
- oD+q90fO/VKSHKk/J3ehU7Rjcq9KkQjvoxdDyJ3lDhfPD56ifyAb4uWhp1MMaynX/3nO bw== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3qkktqtnwd-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 15 May 2023 12:48:53 +0000
-Received: from m0353729.ppops.net (m0353729.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 34FCc0Ci024762;
- Mon, 15 May 2023 12:48:52 GMT
-Received: from ppma03fra.de.ibm.com (6b.4a.5195.ip4.static.sl-reverse.com
- [149.81.74.107])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3qkktqtnvm-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 15 May 2023 12:48:52 +0000
-Received: from pps.filterd (ppma03fra.de.ibm.com [127.0.0.1])
- by ppma03fra.de.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 34F9cE1B031944;
- Mon, 15 May 2023 12:48:50 GMT
-Received: from smtprelay04.fra02v.mail.ibm.com ([9.218.2.228])
- by ppma03fra.de.ibm.com (PPS) with ESMTPS id 3qj2650w9j-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 15 May 2023 12:48:50 +0000
-Received: from smtpav03.fra02v.mail.ibm.com (smtpav03.fra02v.mail.ibm.com
- [10.20.54.102])
- by smtprelay04.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 34FCmm3545613584
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 15 May 2023 12:48:48 GMT
-Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 18D1820040;
- Mon, 15 May 2023 12:48:48 +0000 (GMT)
-Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 7A29B2004B;
- Mon, 15 May 2023 12:48:47 +0000 (GMT)
-Received: from [9.171.42.147] (unknown [9.171.42.147])
- by smtpav03.fra02v.mail.ibm.com (Postfix) with ESMTP;
- Mon, 15 May 2023 12:48:47 +0000 (GMT)
-Message-ID: <71f07442-f4be-4efe-db1a-49f59b7bdbcb@linux.ibm.com>
-Date: Mon, 15 May 2023 14:48:47 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH] pnv_lpc: disable reentrancy detection for lpc-hc
-To: Alexander Bulekov <alxndr@bu.edu>, =?UTF-8?Q?C=c3=a9dric_Le_Goater?=
- <clg@kaod.org>
-Cc: qemu-devel@nongnu.org, Thomas Huth <thuth@redhat.com>,
- "open list:PowerNV Non-Virtu..." <qemu-ppc@nongnu.org>
-References: <20230511085337.3688527-1-alxndr@bu.edu>
- <3102db7a-bbaa-f394-b739-23950fe81be0@kaod.org>
- <20230511091509.nypeyd5fhzxlvo47@mozz.bu.edu>
-Content-Language: en-US
-From: Frederic Barrat <fbarrat@linux.ibm.com>
-In-Reply-To: <20230511091509.nypeyd5fhzxlvo47@mozz.bu.edu>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: DeyX6_yak_1P4J9W6hk5MY8cOLH1gAC4
-X-Proofpoint-GUID: 0pnxNuIrzhwmlToe5sMrUmDrbnlrO3_8
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-05-15_09,2023-05-05_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 spamscore=0
- priorityscore=1501 malwarescore=0 mlxlogscore=583 phishscore=0
- clxscore=1011 impostorscore=0 suspectscore=0 mlxscore=0 lowpriorityscore=0
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2304280000 definitions=main-2305150108
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=fbarrat@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -57
-X-Spam_score: -5.8
-X-Spam_bar: -----
-X-Spam_report: (-5.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-3.811,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ (Exim 4.90_1) (envelope-from <npiggin@gmail.com>)
+ id 1pyXfw-0003pB-UB; Mon, 15 May 2023 08:51:41 -0400
+Received: from mail-pf1-x430.google.com ([2607:f8b0:4864:20::430])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <npiggin@gmail.com>)
+ id 1pyXfu-0006ls-Ts; Mon, 15 May 2023 08:51:40 -0400
+Received: by mail-pf1-x430.google.com with SMTP id
+ d2e1a72fcca58-643b7b8f8ceso7235184b3a.1; 
+ Mon, 15 May 2023 05:51:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1684155097; x=1686747097;
+ h=in-reply-to:references:subject:cc:to:from:message-id:date
+ :content-transfer-encoding:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=4dJvlKPgfzQjHUrYJPjOgqkfytetscxPnVXaPnEPFsM=;
+ b=oqvpCSwwwCadCpNibSq8Lfg8dj6qU2arnGcZKnn4LWtfG3gur4ydHdZVPyaInAb8uh
+ 83ChuTmSfxHUspY9iwd0GYJdRHRooUl8wyB4jZSZC4bA2xZvY5OEKNEACRkhD8M9CkVw
+ E8RtAwXvO3TBLq+oghckNCxrkJ43yLRzI04uTm3ESoFTEoxQzlUIhVu3ZbG+HYXJCfrT
+ C+ZD5lgpxuapycqtnsRiVJZUH82wNyc8sfYKpFSox0esZf3S4drQLsFK8mtMEEKX5Mob
+ KxiyGQSQQp+7x3DTAQQDBwA2t5m5dULVGOZKsj9eBQDKXrndIeT8erXY9CvOx3FdST/2
+ NuaA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1684155097; x=1686747097;
+ h=in-reply-to:references:subject:cc:to:from:message-id:date
+ :content-transfer-encoding:mime-version:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=4dJvlKPgfzQjHUrYJPjOgqkfytetscxPnVXaPnEPFsM=;
+ b=E5CKs6OaY/tY3teDGIf5i8j6PgcIWO/nbMQomen6jNdCvArE1Sjj7g7kGAft6ti4VP
+ kkFnUO10rQqDtJQ1TImJg8GheouMbHvhtZwsADx0tycGKqRuECC656c+XHp2v2SEeDXa
+ 2zOEJNI+7Ofa5q1zV2S9107L3bF3sk1leSPDleUGnSiNKROXWosOlNyBOjQT0fxrcONj
+ Eb1hdY/rZTrRgaTs9TpSvlPRlf5okHt1ojXSMGTGBN0ONBFLgchgO74/2GqXEi6nYy69
+ ko9P5nVHeihHLMzN9NgJpTYnFiPRX42XXufrMcoBItRqme1cr6lJ1v5D/YELR/6MLmBm
+ l2Nw==
+X-Gm-Message-State: AC+VfDyq8QaOYMXbVfRFj23Kc4MJvIdmf7IuOWTrV0PhYabT8fi9pNwI
+ UqBTXd/d3pXr3mAWECbPHrzHIzkMRjo=
+X-Google-Smtp-Source: ACHHUZ5XyvEohLgQ1F2m6w2saIsJ0tgaDRtUeD7cvr28FP8FjlSYdy/N6YpRN+Zf80+6LmAZjL5DKw==
+X-Received: by 2002:a05:6a00:248c:b0:647:e6d9:88c2 with SMTP id
+ c12-20020a056a00248c00b00647e6d988c2mr28742712pfv.0.1684155097021; 
+ Mon, 15 May 2023 05:51:37 -0700 (PDT)
+Received: from localhost ([202.168.30.146]) by smtp.gmail.com with ESMTPSA id
+ i14-20020aa787ce000000b0064cb464e08fsm837441pfo.15.2023.05.15.05.51.34
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 15 May 2023 05:51:36 -0700 (PDT)
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Mon, 15 May 2023 22:51:31 +1000
+Message-Id: <CSMV5K680ACK.176PL0NI6UC3V@wheely>
+From: "Nicholas Piggin" <npiggin@gmail.com>
+To: "Mark Cave-Ayland" <mark.cave-ayland@ilande.co.uk>, <qemu-ppc@nongnu.org>
+Cc: <qemu-devel@nongnu.org>, "Daniel Henrique Barboza"
+ <dbarboza@ventanamicro.com>
+Subject: Re: [PATCH v3 1/9] target/ppc: Fix width of some 32-bit SPRs
+X-Mailer: aerc 0.14.0
+References: <20230515092655.171206-1-npiggin@gmail.com>
+ <20230515092655.171206-2-npiggin@gmail.com>
+ <4cefbbd6-6ab2-cd55-4468-4066b464c99c@ilande.co.uk>
+In-Reply-To: <4cefbbd6-6ab2-cd55-4468-4066b464c99c@ilande.co.uk>
+Received-SPF: pass client-ip=2607:f8b0:4864:20::430;
+ envelope-from=npiggin@gmail.com; helo=mail-pf1-x430.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -117,55 +92,195 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On Mon May 15, 2023 at 10:03 PM AEST, Mark Cave-Ayland wrote:
+> On 15/05/2023 10:26, Nicholas Piggin wrote:
+>
+> > Some 32-bit SPRs are incorrectly implemented as 64-bits on 64-bit
+> > targets.
+> >=20
+> > This changes VRSAVE, DSISR, HDSISR, DAWRX0, PIDR, LPIDR, DEXCR,
+> > HDEXCR, CTRL, TSCR, MMCRH, and PMC[1-6] from to be 32-bit registers.
+> >=20
+> > This only goes by the 32/64 classification in the architecture, it
+> > does not try to implement finer details of SPR implementation (e.g.,
+> > not all bits implemented as simple read/write storage).
+> >=20
+> > Signed-off-by: Nicholas Piggin <npiggin@gmail.com>
+> > ---
+> > Since v2: no change.
+> >=20
+> >   target/ppc/cpu_init.c    | 18 +++++++++---------
+> >   target/ppc/helper_regs.c |  2 +-
+> >   target/ppc/misc_helper.c |  4 ++--
+> >   target/ppc/power8-pmu.c  |  2 +-
+> >   target/ppc/translate.c   |  2 +-
+> >   5 files changed, 14 insertions(+), 14 deletions(-)
+> >=20
+> > diff --git a/target/ppc/cpu_init.c b/target/ppc/cpu_init.c
+> > index 0ce2e3c91d..5aa0b3f0f1 100644
+> > --- a/target/ppc/cpu_init.c
+> > +++ b/target/ppc/cpu_init.c
+> > @@ -5085,8 +5085,8 @@ static void register_book3s_altivec_sprs(CPUPPCSt=
+ate *env)
+> >       }
+> >  =20
+> >       spr_register_kvm(env, SPR_VRSAVE, "VRSAVE",
+> > -                     &spr_read_generic, &spr_write_generic,
+> > -                     &spr_read_generic, &spr_write_generic,
+> > +                     &spr_read_generic, &spr_write_generic32,
+> > +                     &spr_read_generic, &spr_write_generic32,
+> >                        KVM_REG_PPC_VRSAVE, 0x00000000);
+> >  =20
+> >   }
+> > @@ -5120,7 +5120,7 @@ static void register_book3s_207_dbg_sprs(CPUPPCSt=
+ate *env)
+> >       spr_register_kvm_hv(env, SPR_DAWRX0, "DAWRX0",
+> >                           SPR_NOACCESS, SPR_NOACCESS,
+> >                           SPR_NOACCESS, SPR_NOACCESS,
+> > -                        &spr_read_generic, &spr_write_generic,
+> > +                        &spr_read_generic, &spr_write_generic32,
+> >                           KVM_REG_PPC_DAWRX, 0x00000000);
+> >       spr_register_kvm_hv(env, SPR_CIABR, "CIABR",
+> >                           SPR_NOACCESS, SPR_NOACCESS,
+> > @@ -5376,7 +5376,7 @@ static void register_book3s_ids_sprs(CPUPPCState =
+*env)
+> >       spr_register_hv(env, SPR_TSCR, "TSCR",
+> >                    SPR_NOACCESS, SPR_NOACCESS,
+> >                    SPR_NOACCESS, SPR_NOACCESS,
+> > -                 &spr_read_generic, &spr_write_generic,
+> > +                 &spr_read_generic, &spr_write_generic32,
+> >                    0x00000000);
+> >       spr_register_hv(env, SPR_HMER, "HMER",
+> >                    SPR_NOACCESS, SPR_NOACCESS,
+> > @@ -5406,7 +5406,7 @@ static void register_book3s_ids_sprs(CPUPPCState =
+*env)
+> >       spr_register_hv(env, SPR_MMCRC, "MMCRC",
+> >                    SPR_NOACCESS, SPR_NOACCESS,
+> >                    SPR_NOACCESS, SPR_NOACCESS,
+> > -                 &spr_read_generic, &spr_write_generic,
+> > +                 &spr_read_generic, &spr_write_generic32,
+> >                    0x00000000);
+> >       spr_register_hv(env, SPR_MMCRH, "MMCRH",
+> >                    SPR_NOACCESS, SPR_NOACCESS,
+> > @@ -5441,7 +5441,7 @@ static void register_book3s_ids_sprs(CPUPPCState =
+*env)
+> >       spr_register_hv(env, SPR_HDSISR, "HDSISR",
+> >                    SPR_NOACCESS, SPR_NOACCESS,
+> >                    SPR_NOACCESS, SPR_NOACCESS,
+> > -                 &spr_read_generic, &spr_write_generic,
+> > +                 &spr_read_generic, &spr_write_generic32,
+> >                    0x00000000);
+> >       spr_register_hv(env, SPR_HRMOR, "HRMOR",
+> >                    SPR_NOACCESS, SPR_NOACCESS,
+> > @@ -5665,7 +5665,7 @@ static void register_power7_book4_sprs(CPUPPCStat=
+e *env)
+> >                        KVM_REG_PPC_ACOP, 0);
+> >       spr_register_kvm(env, SPR_BOOKS_PID, "PID",
+> >                        SPR_NOACCESS, SPR_NOACCESS,
+> > -                     &spr_read_generic, &spr_write_generic,
+> > +                     &spr_read_generic, &spr_write_generic32,
+> >                        KVM_REG_PPC_PID, 0);
+> >   #endif
+> >   }
+> > @@ -5730,7 +5730,7 @@ static void register_power10_dexcr_sprs(CPUPPCSta=
+te *env)
+> >   {
+> >       spr_register(env, SPR_DEXCR, "DEXCR",
+> >               SPR_NOACCESS, SPR_NOACCESS,
+> > -            &spr_read_generic, &spr_write_generic,
+> > +            &spr_read_generic, &spr_write_generic32,
+> >               0);
+> >  =20
+> >       spr_register(env, SPR_UDEXCR, "DEXCR",
+> > @@ -5741,7 +5741,7 @@ static void register_power10_dexcr_sprs(CPUPPCSta=
+te *env)
+> >       spr_register_hv(env, SPR_HDEXCR, "HDEXCR",
+> >               SPR_NOACCESS, SPR_NOACCESS,
+> >               SPR_NOACCESS, SPR_NOACCESS,
+> > -            &spr_read_generic, &spr_write_generic,
+> > +            &spr_read_generic, &spr_write_generic32,
+> >               0);
+> >  =20
+> >       spr_register(env, SPR_UHDEXCR, "HDEXCR",
+> > diff --git a/target/ppc/helper_regs.c b/target/ppc/helper_regs.c
+> > index 779e7db513..fb351c303f 100644
+> > --- a/target/ppc/helper_regs.c
+> > +++ b/target/ppc/helper_regs.c
+> > @@ -448,7 +448,7 @@ void register_non_embedded_sprs(CPUPPCState *env)
+> >       /* Exception processing */
+> >       spr_register_kvm(env, SPR_DSISR, "DSISR",
+> >                        SPR_NOACCESS, SPR_NOACCESS,
+> > -                     &spr_read_generic, &spr_write_generic,
+> > +                     &spr_read_generic, &spr_write_generic32,
+> >                        KVM_REG_PPC_DSISR, 0x00000000);
+> >       spr_register_kvm(env, SPR_DAR, "DAR",
+> >                        SPR_NOACCESS, SPR_NOACCESS,
+> > diff --git a/target/ppc/misc_helper.c b/target/ppc/misc_helper.c
+> > index a9bc1522e2..40ddc5c08c 100644
+> > --- a/target/ppc/misc_helper.c
+> > +++ b/target/ppc/misc_helper.c
+> > @@ -190,13 +190,13 @@ void helper_store_dpdes(CPUPPCState *env, target_=
+ulong val)
+> >  =20
+> >   void helper_store_pidr(CPUPPCState *env, target_ulong val)
+> >   {
+> > -    env->spr[SPR_BOOKS_PID] =3D val;
+> > +    env->spr[SPR_BOOKS_PID] =3D (uint32_t)val;
+> >       tlb_flush(env_cpu(env));
+> >   }
+> >  =20
+> >   void helper_store_lpidr(CPUPPCState *env, target_ulong val)
+> >   {
+> > -    env->spr[SPR_LPIDR] =3D val;
+> > +    env->spr[SPR_LPIDR] =3D (uint32_t)val;
+> >  =20
+> >       /*
+> >        * We need to flush the TLB on LPID changes as we only tag HV vs
+> > diff --git a/target/ppc/power8-pmu.c b/target/ppc/power8-pmu.c
+> > index 1381072b9e..64a64865d7 100644
+> > --- a/target/ppc/power8-pmu.c
+> > +++ b/target/ppc/power8-pmu.c
+> > @@ -272,7 +272,7 @@ void helper_store_pmc(CPUPPCState *env, uint32_t sp=
+rn, uint64_t value)
+> >   {
+> >       pmu_update_cycles(env);
+> >  =20
+> > -    env->spr[sprn] =3D value;
+> > +    env->spr[sprn] =3D (uint32_t)value;
+> >  =20
+> >       pmc_update_overflow_timer(env, sprn);
+> >   }
+> > diff --git a/target/ppc/translate.c b/target/ppc/translate.c
+> > index f603f1a939..c03a6bdc9a 100644
+> > --- a/target/ppc/translate.c
+> > +++ b/target/ppc/translate.c
+> > @@ -413,7 +413,7 @@ void spr_write_generic(DisasContext *ctx, int sprn,=
+ int gprn)
+> >  =20
+> >   void spr_write_CTRL(DisasContext *ctx, int sprn, int gprn)
+> >   {
+> > -    spr_write_generic(ctx, sprn, gprn);
+> > +    spr_write_generic32(ctx, sprn, gprn);
+> >  =20
+> >       /*
+> >        * SPR_CTRL writes must force a new translation block,
+>
+> Just out of curiosity, is this the same as the problem described at [1] f=
+or DECAR?
+>
+>
+> ATB,
+>
+> Mark.
+>
+> [1] https://lists.nongnu.org/archive/html/qemu-ppc/2023-03/msg00451.html
 
+Hmm, good thinking. But I'm not sure. DECAR is 32-bits so it should
+probably use spr_write_generic32 (I didn't convert any BookE specific
+regs). But the test sets 32-bit value for DECAR so I'm not sure if
+that would be the issue. That said I don't see where the value is
+getting sign extended.
 
-On 11/05/2023 11:15, Alexander Bulekov wrote:
-> On 230511 1104, Cédric Le Goater wrote:
->> Hello Alexander
->>
->> On 5/11/23 10:53, Alexander Bulekov wrote:
->>> As lpc-hc is designed for re-entrant calls from xscom, mark it
->>> re-entrancy safe.
->>>
->>> Reported-by: Thomas Huth <thuth@redhat.com>
->>> Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
->>> ---
->>>    hw/ppc/pnv_lpc.c | 2 ++
->>>    1 file changed, 2 insertions(+)
->>>
->>> diff --git a/hw/ppc/pnv_lpc.c b/hw/ppc/pnv_lpc.c
->>> index 01f44c19eb..67fd049a7f 100644
->>> --- a/hw/ppc/pnv_lpc.c
->>> +++ b/hw/ppc/pnv_lpc.c
->>> @@ -738,6 +738,8 @@ static void pnv_lpc_realize(DeviceState *dev, Error **errp)
->>>                                    &lpc->opb_master_regs);
->>>        memory_region_init_io(&lpc->lpc_hc_regs, OBJECT(dev), &lpc_hc_ops, lpc,
->>>                              "lpc-hc", LPC_HC_REGS_OPB_SIZE);
->>> +    /* xscom writes to lpc-hc. As such mark lpc-hc re-entrancy safe */
->>> +    lpc->lpc_hc_regs.disable_reentrancy_guard = true;
->>>        memory_region_add_subregion(&lpc->opb_mr, LPC_HC_REGS_OPB_ADDR,
->>>                                    &lpc->lpc_hc_regs);
->>
->> The warning changed :
->>
->>    qemu-system-ppc64: warning: Blocked re-entrant IO on MemoryRegion: lpc-opb-master at addr: 0x8
->>
->> I will take a look unless you know exactly what to do.
->>
-> 
-> That does not show up for me with "./qemu-system-ppc64 -M powernv8"
-> Do I need to boot a kernel to see the message?
-> 
-> I was worried that there might be other re-entrant IO in this device.
-> Maybe there should be a way to just mark the whole device re-entrancy
-> safe.
-
-Hello,
-
-I was also started hitting it, with machine powernv10. And indeed, 
-disabling the check on both lpc_hc_regs and opb_master_regs should be 
-all we need (and it's working fine for me).
-
-   Fred
-
+Thanks,
+Nick
 
