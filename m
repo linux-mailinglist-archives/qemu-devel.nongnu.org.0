@@ -2,75 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09F55703001
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 May 2023 16:36:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E1F2703019
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 May 2023 16:38:36 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pyZIC-0007Wv-4p; Mon, 15 May 2023 10:35:16 -0400
+	id 1pyZI6-0007VP-2F; Mon, 15 May 2023 10:35:10 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pyZGZ-0006n5-5q
- for qemu-devel@nongnu.org; Mon, 15 May 2023 10:34:10 -0400
-Received: from mail-pf1-x42b.google.com ([2607:f8b0:4864:20::42b])
+ id 1pyZH5-0006qp-1w
+ for qemu-devel@nongnu.org; Mon, 15 May 2023 10:34:15 -0400
+Received: from mail-pl1-x632.google.com ([2607:f8b0:4864:20::632])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pyZGO-0004ss-BR
- for qemu-devel@nongnu.org; Mon, 15 May 2023 10:33:33 -0400
-Received: by mail-pf1-x42b.google.com with SMTP id
- d2e1a72fcca58-64a9335a8e7so21247276b3a.0
- for <qemu-devel@nongnu.org>; Mon, 15 May 2023 07:33:23 -0700 (PDT)
+ id 1pyZGP-0004td-4p
+ for qemu-devel@nongnu.org; Mon, 15 May 2023 10:33:35 -0400
+Received: by mail-pl1-x632.google.com with SMTP id
+ d9443c01a7336-1adc913094aso45799925ad.0
+ for <qemu-devel@nongnu.org>; Mon, 15 May 2023 07:33:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1684161202; x=1686753202;
+ d=linaro.org; s=google; t=1684161203; x=1686753203;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=433Q0BDA2EvHaZur3cVyCHd6hqrDDnFwM+Ls6LBVsKw=;
- b=LVnjoRBdBbFvh1iQjJDeNvT4j+ThvKpwxT85Kr5VQGH+uwQdjwmo7C9q/dsTyQTBlv
- EcHwRenQCgeNMxW3NfvdjHm10PRvhRfunreQX+i6D98F2R3yHITdppnHaIkO2tXf5qcI
- RF3RbNT0fGy2I2u7gXzUcmLEfIjjUL2nYByPsl8HNV629qLOmk/V1V9ac+KaN04ZOjw8
- dqEXa4o+4kgdgn0Qdd4wXnDcCOt6Yx0RdmuoihmraKJ3UgmXZ/CWqz9LsUTOc78MHGcO
- MFdWYrT3SXkLYi3uw7AIB7jNNtOUpk/M16+eyj339OQHVQzaJ2UXuTsmgXB5IZorHb2i
- vmfw==
+ bh=qq/bfx/cnVfgddia2Z24C2Fe0/LSiH7rE9uM4DdN6u4=;
+ b=DePA+PM+BOtrodLW+PFFvwWQ3nNBMcmf5p9EyBz8Zq+xK+VlTZ3UK1mYbU8XW6+D5L
+ a4ncrrydjYt+iYtVOTRXAsn4jTIvx0kU52BAyZasInblt11bg5zjyniNSdJQbESxS89l
+ B7ZI8Coro054XOok1JWAomt/OL/y8Z6FGPtoIdJFzawBRmoGrqNW3yCU9wijOEcfUpO1
+ Ctp56jdc5xi6Trvne3PxLi22YbQmG4GhqNpqV3v+hwXGfAMbosiS6JeY73GxYgYOOE85
+ o29VMq8s48zsJBjTcfFwRj0xvR0dwbDt9hdRuTl3SowZxblpEOUdop/L4kN07YzaYBPF
+ m4ew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1684161202; x=1686753202;
+ d=1e100.net; s=20221208; t=1684161203; x=1686753203;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=433Q0BDA2EvHaZur3cVyCHd6hqrDDnFwM+Ls6LBVsKw=;
- b=b3UJ0DrHgpq83BPm+UozRnxmt0ZqGpqae4JF1F9SDn8g4M56cedECrHDHwl2CvtFGX
- WNYtH1TnRrl785KhVQTJW4lJOj1h0cvSVBz1W3PGvMJgBe9Sp3lpswQexQfYH/UJebKz
- ROVtzg3ebJwAn+Q3QTwdS33FK5HFYz9/0Y8N7L5+cGJPb8sgp4TfVieOdIr80rob2JEx
- XuAiwoe0KhidaPBlX+OrZcM0FR5lqti7+9QYwSHLtK/sZTs3AskmzODWujrzo0vV25Uf
- 3XNBA/M6t7JBpswIsYsWhl2DRtINizuWA+UWdWiU6urQbVKZkjBtVcLQn8iyTZka5qMf
- TxzQ==
-X-Gm-Message-State: AC+VfDxnmeW9r9c0I6CUutWRnJszO9VXHfMi6R9cq+Z4FOn7t0DSwLd7
- 2KEgBoCwotaoRqFl3Y6HRLYV0W53OQkDvTAS+MI=
-X-Google-Smtp-Source: ACHHUZ6IHst6RpV6JFhZi6B4TXOS3AOYP9+w2f8KWzreL9ixHzB4M6DnB+qrtySWKxlirx/xRqfmnQ==
-X-Received: by 2002:a17:903:1252:b0:1ae:10a5:8349 with SMTP id
- u18-20020a170903125200b001ae10a58349mr5144291plh.23.1684161202697; 
- Mon, 15 May 2023 07:33:22 -0700 (PDT)
+ bh=qq/bfx/cnVfgddia2Z24C2Fe0/LSiH7rE9uM4DdN6u4=;
+ b=CeoJQgdQ8Ia0ZHOMLGd3e8R5n7kQJ3dJsZNuYq/M6z1oBuqZLVIEe4Iyj9XHoRLqH6
+ /abkTfJFCGh+qOukljc5TfpqwxUj/Wyu96o3h2xHdUUYivufPc5z81xdnPcPFODITInD
+ YlGAwzc4087xYng4InmHBJTlNiATx9z0EG8qdeBukFgsd7hKlWxN49XOVoaR8AAujrd3
+ FOpTNPy/ZROrJwSGjuZSMKkYZGjeCxtSiVbESwGMQdjX+xjgtoHEntBaCPJfxxbu0b2W
+ YNKvOtSu3iyTPDMD1EnaY8YWqkJjCpISovfP1NvJEE23w7Al7TzJRvnhHEKpmdlIxYUl
+ t10w==
+X-Gm-Message-State: AC+VfDxyonFPNR3sLRIlZYksN0qsgglr2xZj+IJsnEVAbPJMt2T4RQiJ
+ v8ZAu6x//KltJPne1FurEJV4Ye8Av77uJwJmy1E=
+X-Google-Smtp-Source: ACHHUZ63IOVB9eJ637EgFvgej1oi1033qRuxRt+dYe7V6FX3ykF0CA/PDoxvED6sjKIWHlfOwcqVxA==
+X-Received: by 2002:a17:902:b707:b0:1ac:aaf6:ee3a with SMTP id
+ d7-20020a170902b70700b001acaaf6ee3amr19980240pls.32.1684161203683; 
+ Mon, 15 May 2023 07:33:23 -0700 (PDT)
 Received: from stoup.. ([2602:ae:1598:4c01:9902:96ac:8d8c:4366])
  by smtp.gmail.com with ESMTPSA id
- ik9-20020a170902ab0900b001ab0aec388bsm13694335plb.135.2023.05.15.07.33.22
+ ik9-20020a170902ab0900b001ab0aec388bsm13694335plb.135.2023.05.15.07.33.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 15 May 2023 07:33:22 -0700 (PDT)
+ Mon, 15 May 2023 07:33:23 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: qemu-arm@nongnu.org,
 	qemu-s390x@nongnu.org
-Subject: [PATCH v5 09/54] tcg/i386: Add have_atomic16
-Date: Mon, 15 May 2023 07:32:28 -0700
-Message-Id: <20230515143313.734053-10-richard.henderson@linaro.org>
+Subject: [PATCH v5 10/54] accel/tcg: Use have_atomic16 in ldst_atomicity.c.inc
+Date: Mon, 15 May 2023 07:32:29 -0700
+Message-Id: <20230515143313.734053-11-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230515143313.734053-1-richard.henderson@linaro.org>
 References: <20230515143313.734053-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42b;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::632;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x632.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -93,102 +92,126 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Notice when Intel or AMD have guaranteed that vmovdqa is atomic.
-The new variable will also be used in generated code.
+Hosts using Intel and AMD AVX cpus are quite common.
+Add fast paths through ldst_atomicity using this.
+
+Only enable with CONFIG_INT128; some older clang versions do not
+support __int128_t, and the inline assembly won't work on structures.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- include/qemu/cpuid.h      | 18 ++++++++++++++++++
- tcg/i386/tcg-target.h     |  1 +
- tcg/i386/tcg-target.c.inc | 27 +++++++++++++++++++++++++++
- 3 files changed, 46 insertions(+)
+ accel/tcg/ldst_atomicity.c.inc | 76 +++++++++++++++++++++++++++-------
+ 1 file changed, 60 insertions(+), 16 deletions(-)
 
-diff --git a/include/qemu/cpuid.h b/include/qemu/cpuid.h
-index 1451e8ef2f..35325f1995 100644
---- a/include/qemu/cpuid.h
-+++ b/include/qemu/cpuid.h
-@@ -71,6 +71,24 @@
- #define bit_LZCNT       (1 << 5)
- #endif
+diff --git a/accel/tcg/ldst_atomicity.c.inc b/accel/tcg/ldst_atomicity.c.inc
+index dd387c9bdd..69c1c61997 100644
+--- a/accel/tcg/ldst_atomicity.c.inc
++++ b/accel/tcg/ldst_atomicity.c.inc
+@@ -35,6 +35,14 @@
  
+ #if defined(CONFIG_ATOMIC128)
+ # define HAVE_al16_fast    true
++#elif defined(CONFIG_TCG_INTERPRETER)
 +/*
-+ * Signatures for different CPU implementations as returned from Leaf 0.
++ * FIXME: host specific detection for this is in tcg/$host/,
++ * but we're using tcg/tci/ instead.
 + */
-+
-+#ifndef signature_INTEL_ecx
-+/* "Genu" "ineI" "ntel" */
-+#define signature_INTEL_ebx     0x756e6547
-+#define signature_INTEL_edx     0x49656e69
-+#define signature_INTEL_ecx     0x6c65746e
-+#endif
-+
-+#ifndef signature_AMD_ecx
-+/* "Auth" "enti" "cAMD" */
-+#define signature_AMD_ebx       0x68747541
-+#define signature_AMD_edx       0x69746e65
-+#define signature_AMD_ecx       0x444d4163
-+#endif
-+
- static inline unsigned xgetbv_low(unsigned c)
- {
-     unsigned a, d;
-diff --git a/tcg/i386/tcg-target.h b/tcg/i386/tcg-target.h
-index d4f2a6f8c2..0421776cb8 100644
---- a/tcg/i386/tcg-target.h
-+++ b/tcg/i386/tcg-target.h
-@@ -120,6 +120,7 @@ extern bool have_avx512dq;
- extern bool have_avx512vbmi2;
- extern bool have_avx512vl;
- extern bool have_movbe;
-+extern bool have_atomic16;
++# define HAVE_al16_fast    false
++#elif defined(__x86_64__) && defined(CONFIG_INT128)
++# define HAVE_al16_fast    likely(have_atomic16)
+ #else
+ # define HAVE_al16_fast    false
+ #endif
+@@ -178,6 +186,12 @@ load_atomic16(void *pv)
  
- /* optional instructions */
- #define TCG_TARGET_HAS_div2_i32         1
-diff --git a/tcg/i386/tcg-target.c.inc b/tcg/i386/tcg-target.c.inc
-index 826f7764c9..911123cfa8 100644
---- a/tcg/i386/tcg-target.c.inc
-+++ b/tcg/i386/tcg-target.c.inc
-@@ -185,6 +185,7 @@ bool have_avx512dq;
- bool have_avx512vbmi2;
- bool have_avx512vl;
- bool have_movbe;
-+bool have_atomic16;
- 
- #ifdef CONFIG_CPUID_H
- static bool have_bmi2;
-@@ -4026,6 +4027,32 @@ static void tcg_target_init(TCGContext *s)
-                     have_avx512dq = (b7 & bit_AVX512DQ) != 0;
-                     have_avx512vbmi2 = (c7 & bit_AVX512VBMI2) != 0;
-                 }
+     r.u = qatomic_read__nocheck(p);
+     return r.s;
++#elif defined(__x86_64__) && defined(CONFIG_INT128)
++    Int128Alias r;
 +
-+                /*
-+                 * The Intel SDM has added:
-+                 *   Processors that enumerate support for Intel® AVX
-+                 *   (by setting the feature flag CPUID.01H:ECX.AVX[bit 28])
-+                 *   guarantee that the 16-byte memory operations performed
-+                 *   by the following instructions will always be carried
-+                 *   out atomically:
-+                 *   - MOVAPD, MOVAPS, and MOVDQA.
-+                 *   - VMOVAPD, VMOVAPS, and VMOVDQA when encoded with VEX.128.
-+                 *   - VMOVAPD, VMOVAPS, VMOVDQA32, and VMOVDQA64 when encoded
-+                 *     with EVEX.128 and k0 (masking disabled).
-+                 * Note that these instructions require the linear addresses
-+                 * of their memory operands to be 16-byte aligned.
-+                 *
-+                 * AMD has provided an even stronger guarantee that processors
-+                 * with AVX provide 16-byte atomicity for all cachable,
-+                 * naturally aligned single loads and stores, e.g. MOVDQU.
-+                 *
-+                 * See https://gcc.gnu.org/bugzilla/show_bug.cgi?id=104688
-+                 */
-+                if (have_avx1) {
-+                    __cpuid(0, a, b, c, d);
-+                    have_atomic16 = (c == signature_INTEL_ecx ||
-+                                     c == signature_AMD_ecx);
-+                }
-             }
-         }
++    /* Via HAVE_al16_fast, have_atomic16 is true. */
++    asm("vmovdqa %1, %0" : "=x" (r.u) : "m" (*(Int128 *)pv));
++    return r.s;
+ #else
+     qemu_build_not_reached();
+ #endif
+@@ -399,6 +413,24 @@ load_atom_extract_al16_or_al8(void *pv, int s)
+         r = qatomic_read__nocheck(p16);
      }
+     return r >> shr;
++#elif defined(__x86_64__) && defined(CONFIG_INT128)
++    uintptr_t pi = (uintptr_t)pv;
++    int shr = (pi & 7) * 8;
++    uint64_t a, b;
++
++    /* Via HAVE_al16_fast, have_atomic16 is true. */
++    pv = (void *)(pi & ~7);
++    if (pi & 8) {
++        uint64_t *p8 = __builtin_assume_aligned(pv, 16, 8);
++        a = qatomic_read__nocheck(p8);
++        b = qatomic_read__nocheck(p8 + 1);
++    } else {
++        asm("vmovdqa %2, %0\n\tvpextrq $1, %0, %1"
++            : "=x"(a), "=r"(b) : "m" (*(__uint128_t *)pv));
++    }
++    asm("shrd %b2, %1, %0" : "+r"(a) : "r"(b), "c"(shr));
++
++    return a;
+ #else
+     qemu_build_not_reached();
+ #endif
+@@ -715,23 +747,35 @@ static inline void ATTRIBUTE_ATOMIC128_OPT
+ store_atomic16(void *pv, Int128Alias val)
+ {
+ #if defined(CONFIG_ATOMIC128)
+-    __uint128_t *pu = __builtin_assume_aligned(pv, 16);
+-    qatomic_set__nocheck(pu, val.u);
+-#elif defined(CONFIG_CMPXCHG128)
+-    __uint128_t *pu = __builtin_assume_aligned(pv, 16);
+-    __uint128_t o;
+-
+-    /*
+-     * Without CONFIG_ATOMIC128, __atomic_compare_exchange_n will always
+-     * defer to libatomic, so we must use __sync_*_compare_and_swap_16
+-     * and accept the sequential consistency that comes with it.
+-     */
+-    do {
+-        o = *pu;
+-    } while (!__sync_bool_compare_and_swap_16(pu, o, val.u));
+-#else
+-    qemu_build_not_reached();
++    {
++        __uint128_t *pu = __builtin_assume_aligned(pv, 16);
++        qatomic_set__nocheck(pu, val.u);
++        return;
++    }
+ #endif
++#if defined(__x86_64__) && defined(CONFIG_INT128)
++    if (HAVE_al16_fast) {
++        asm("vmovdqa %1, %0" : "=m"(*(__uint128_t *)pv) : "x" (val.u));
++        return;
++    }
++#endif
++#if defined(CONFIG_CMPXCHG128)
++    {
++        __uint128_t *pu = __builtin_assume_aligned(pv, 16);
++        __uint128_t o;
++
++        /*
++         * Without CONFIG_ATOMIC128, __atomic_compare_exchange_n will always
++         * defer to libatomic, so we must use __sync_*_compare_and_swap_16
++         * and accept the sequential consistency that comes with it.
++         */
++        do {
++            o = *pu;
++        } while (!__sync_bool_compare_and_swap_16(pu, o, val.u));
++        return;
++    }
++#endif
++    qemu_build_not_reached();
+ }
+ 
+ /**
 -- 
 2.34.1
 
