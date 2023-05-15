@@ -2,45 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B681F702B49
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 May 2023 13:19:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FA21702B5A
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 May 2023 13:22:09 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pyWEg-0002Bh-8J; Mon, 15 May 2023 07:19:26 -0400
+	id 1pyWEh-0002Fs-Nc; Mon, 15 May 2023 07:19:27 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
- id 1pyWEc-00027C-Pj
- for qemu-devel@nongnu.org; Mon, 15 May 2023 07:19:22 -0400
+ id 1pyWEd-00027v-1O
+ for qemu-devel@nongnu.org; Mon, 15 May 2023 07:19:23 -0400
 Received: from mail.loongson.cn ([114.242.206.163] helo=loongson.cn)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <gaosong@loongson.cn>) id 1pyWEZ-0001Ve-4x
+ (envelope-from <gaosong@loongson.cn>) id 1pyWEZ-0001Vg-Dq
  for qemu-devel@nongnu.org; Mon, 15 May 2023 07:19:22 -0400
 Received: from loongson.cn (unknown [10.2.5.185])
- by gateway (Coremail) with SMTP id _____8BxqOkwFWJkycsIAA--.15255S3;
+ by gateway (Coremail) with SMTP id _____8DxZPAwFWJky8sIAA--.15178S3;
  Mon, 15 May 2023 19:19:12 +0800 (CST)
 Received: from localhost.localdomain (unknown [10.2.5.185])
  by localhost.localdomain (Coremail) with SMTP id
- AQAAf8Bx8a8tFWJkkOZfAA--.35452S3; 
- Mon, 15 May 2023 19:19:11 +0800 (CST)
+ AQAAf8Bx8a8tFWJkkOZfAA--.35452S4; 
+ Mon, 15 May 2023 19:19:12 +0800 (CST)
 From: Song Gao <gaosong@loongson.cn>
 To: qemu-devel@nongnu.org
-Cc: richard.henderson@linaro.org,
-	Alexander Bulekov <alxndr@bu.edu>
-Subject: [PULL 1/5] loongarch: mark loongarch_ipi_iocsr re-entrnacy safe
-Date: Mon, 15 May 2023 19:19:04 +0800
-Message-Id: <20230515111908.2606580-2-gaosong@loongson.cn>
+Cc: richard.henderson@linaro.org, Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@redhat.com>
+Subject: [PULL 2/5] tests/avocado: Add LoongArch machine start test
+Date: Mon, 15 May 2023 19:19:05 +0800
+Message-Id: <20230515111908.2606580-3-gaosong@loongson.cn>
 X-Mailer: git-send-email 2.39.1
 In-Reply-To: <20230515111908.2606580-1-gaosong@loongson.cn>
 References: <20230515111908.2606580-1-gaosong@loongson.cn>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf8Bx8a8tFWJkkOZfAA--.35452S3
+X-CM-TRANSID: AQAAf8Bx8a8tFWJkkOZfAA--.35452S4
 X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
-X-Coremail-Antispam: 1Uk129KBjvJXoW7Jr4UKw48Gr1rGF1fKrW7urg_yoW8JryDpF
- y3uFyFgrW8AFnrJa4DWa48X3WDW3W8WFy7ZFWakFZ5GrnxXr1j9FySkrnIqFy7C345CFya
- vr18AFyjq3WDAw7anT9S1TB71UUUUUDqnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
+X-Coremail-Antispam: 1Uk129KBjvJXoWxAF4rXryfuFy8JrW3tw1kZrb_yoW5ZF45pr
+ 4jkr15Grn7AFsaqrsagasY9FyrXa1kGa47XF42yrnY9F4DAr48WF1Yyw1IvFWDXa1UWa4a
+ 9rykZw4fW3WxJFJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
  qI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUIcSsGvfJTRUUU
  b0kFc2x0x2IEx4CE42xK8VAvwI8IcIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4
  AK67xGY2AK021l84ACjcxK6xIIjxv20xvE14v26r4j6ryUM28EF7xvwVC0I7IYx2IY6xkF
@@ -49,8 +50,8 @@ X-Coremail-Antispam: 1Uk129KBjvJXoW7Jr4UKw48Gr1rGF1fKrW7urg_yoW8JryDpF
  44I27wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E74AGY7Cv6cx26rWlOx8S6xCaFVCjc4
  AY6r1j6r4UM4x0Y48IcxkI7VAKI48JMxAIw28IcxkI7VAKI48JMxAIw28IcVCjz48v1sIE
  Y20_WwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E74
- 80Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jrv_JF1lIxkGc2Ij64vIr41lIxAIcVC0
- I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04
+ 80Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_JF0_Jw1lIxkGc2Ij64vIr41lIxAIcVC0
+ I7IYx2IY67AKxVWUCVW8JwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04
  k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7Cj
  xVAFwI0_Jr0_GrUvcSsGvfC2KfnxnUUI43ZEXa7xRE6wZ7UUUUU==
 Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
@@ -75,35 +76,94 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Alexander Bulekov <alxndr@bu.edu>
+Add a new test in tests/avocado to check LoongArch virt machine start.
 
-loongarch_ipi_iocsr MRs rely on re-entrant IO through the ipi_send
-function. As such, mark these MRs re-entrancy-safe.
-
-Fixes: a2e1753b80 ("memory: prevent dma-reentracy issues")
-Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
-Reviewed-by: Song Gao <gaosong@loongson.cn>
-Message-Id: <20230506112145.3563708-1-alxndr@bu.edu>
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 Signed-off-by: Song Gao <gaosong@loongson.cn>
+Reviewed-by: Cédric Le Goater <clg@redhat.com>
+Message-Id: <20230513012744.1885728-1-gaosong@loongson.cn>
 ---
- hw/intc/loongarch_ipi.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ MAINTAINERS                        |  1 +
+ tests/avocado/machine_loongarch.py | 58 ++++++++++++++++++++++++++++++
+ 2 files changed, 59 insertions(+)
+ create mode 100644 tests/avocado/machine_loongarch.py
 
-diff --git a/hw/intc/loongarch_ipi.c b/hw/intc/loongarch_ipi.c
-index bdba0f8107..9de7c01e11 100644
---- a/hw/intc/loongarch_ipi.c
-+++ b/hw/intc/loongarch_ipi.c
-@@ -215,6 +215,10 @@ static void loongarch_ipi_init(Object *obj)
-     for (cpu = 0; cpu < MAX_IPI_CORE_NUM; cpu++) {
-         memory_region_init_io(&s->ipi_iocsr_mem[cpu], obj, &loongarch_ipi_ops,
-                             &lams->ipi_core[cpu], "loongarch_ipi_iocsr", 0x48);
-+
-+        /* loongarch_ipi_iocsr performs re-entrant IO through ipi_send */
-+        s->ipi_iocsr_mem[cpu].disable_reentrancy_guard = true;
-+
-         sysbus_init_mmio(sbd, &s->ipi_iocsr_mem[cpu]);
+diff --git a/MAINTAINERS b/MAINTAINERS
+index ff2aa53bb9..50585117a0 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -245,6 +245,7 @@ M: Xiaojuan Yang <yangxiaojuan@loongson.cn>
+ S: Maintained
+ F: target/loongarch/
+ F: tests/tcg/loongarch64/
++F: tests/avocado/machine_loongarch.py
  
-         memory_region_init_io(&s->ipi64_iocsr_mem[cpu], obj, &loongarch_ipi64_ops,
+ M68K TCG CPUs
+ M: Laurent Vivier <laurent@vivier.eu>
+diff --git a/tests/avocado/machine_loongarch.py b/tests/avocado/machine_loongarch.py
+new file mode 100644
+index 0000000000..7d8a3c1fa5
+--- /dev/null
++++ b/tests/avocado/machine_loongarch.py
+@@ -0,0 +1,58 @@
++# SPDX-License-Identifier: GPL-2.0-or-later
++#
++# LoongArch virt test.
++#
++# Copyright (c) 2023 Loongson Technology Corporation Limited
++#
++
++from avocado_qemu import QemuSystemTest
++from avocado_qemu import exec_command_and_wait_for_pattern
++from avocado_qemu import wait_for_console_pattern
++
++class LoongArchMachine(QemuSystemTest):
++    KERNEL_COMMON_COMMAND_LINE = 'printk.time=0 '
++
++    timeout = 120
++
++    def wait_for_console_pattern(self, success_message, vm=None):
++        wait_for_console_pattern(self, success_message,
++                                 failure_message='Kernel panic - not syncing',
++                                 vm=vm)
++
++    def test_loongarch64_devices(self):
++
++        """
++        :avocado: tags=arch:loongarch64
++        :avocado: tags=machine:virt
++        """
++
++        kernel_url = ('https://github.com/yangxiaojuan-loongson/qemu-binary/'
++                      'releases/download/binary-files/vmlinuz.efi')
++        kernel_hash = '951b485b16e3788b6db03a3e1793c067009e31a2'
++        kernel_path = self.fetch_asset(kernel_url, asset_hash=kernel_hash)
++
++        initrd_url = ('https://github.com/yangxiaojuan-loongson/qemu-binary/'
++                      'releases/download/binary-files/ramdisk')
++        initrd_hash = 'c67658d9b2a447ce7db2f73ba3d373c9b2b90ab2'
++        initrd_path = self.fetch_asset(initrd_url, asset_hash=initrd_hash)
++
++        bios_url = ('https://github.com/yangxiaojuan-loongson/qemu-binary/'
++                    'releases/download/binary-files/QEMU_EFI.fd')
++        bios_hash = ('dfc1bfba4853cd763b9d392d0031827e8addbca8')
++        bios_path = self.fetch_asset(bios_url, asset_hash=bios_hash)
++
++        self.vm.set_console()
++        kernel_command_line = (self.KERNEL_COMMON_COMMAND_LINE +
++                               'root=/dev/ram rdinit=/sbin/init console=ttyS0,115200')
++        self.vm.add_args('-nographic',
++                         '-smp', '4',
++                         '-m', '1024',
++                         '-cpu', 'la464',
++                         '-kernel', kernel_path,
++                         '-initrd', initrd_path,
++                         '-bios', bios_path,
++                         '-append', kernel_command_line)
++        self.vm.launch()
++        self.wait_for_console_pattern('Run /sbin/init as init process')
++        exec_command_and_wait_for_pattern(self, 'cat /proc/cpuinfo',
++                                          'processor		: 3')
 -- 
 2.39.1
 
