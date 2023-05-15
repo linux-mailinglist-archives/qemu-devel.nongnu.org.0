@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C94AD70287F
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 May 2023 11:28:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 697C3702890
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 May 2023 11:29:15 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pyUUU-0004n0-7M; Mon, 15 May 2023 05:27:38 -0400
+	id 1pyUUn-0004pi-Oh; Mon, 15 May 2023 05:27:57 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <npiggin@gmail.com>)
- id 1pyUUQ-0004it-Nx; Mon, 15 May 2023 05:27:34 -0400
-Received: from mail-pf1-x434.google.com ([2607:f8b0:4864:20::434])
+ id 1pyUUT-0004n4-Js; Mon, 15 May 2023 05:27:37 -0400
+Received: from mail-pg1-x534.google.com ([2607:f8b0:4864:20::534])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <npiggin@gmail.com>)
- id 1pyUUP-0002uw-1M; Mon, 15 May 2023 05:27:34 -0400
-Received: by mail-pf1-x434.google.com with SMTP id
- d2e1a72fcca58-64ac461af60so3714082b3a.3; 
- Mon, 15 May 2023 02:27:32 -0700 (PDT)
+ id 1pyUUS-0002vN-5L; Mon, 15 May 2023 05:27:37 -0400
+Received: by mail-pg1-x534.google.com with SMTP id
+ 41be03b00d2f7-51b0f9d7d70so11484004a12.1; 
+ Mon, 15 May 2023 02:27:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1684142851; x=1686734851;
+ d=gmail.com; s=20221208; t=1684142854; x=1686734854;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=+NbL0Ik4ps0LTyNiuqnemtkETX8V8tJp2mM1329chhs=;
- b=MEMMmooPupLitljCyBz8zPOAqYZ377JXKiRNE+YxKQUU+jig2oSxY8QYi1N6ZmSHJ4
- SzGpfDRid0QdTt+0qhLD+FNjXb8Wr9EPf1/I0BMttNsi4gAzFWIxVmCAcy+GvW6Er4uR
- 90gF7QNqR6fm7pny7jIY2Oxat1+IxO/3qEnRToF1n6iSuUufC3oPB05b6MXFbbNZC9KI
- w13YLiyHxTYGxM37mnko1gzvWYB6iDDuMtxJaD89RJOVrcp5QQM9acviDhaWeSlghLxe
- 8msBAvE3XA6xoEeknj1nn3jvJ5QJWFf/N4w2Emg4MOGb/8+UFiH+rntWlPHwwilSM9EK
- vy3g==
+ bh=wDS8H8TgM41kNb4ppQTLDBtazoazirTT+YfL2ECPnfQ=;
+ b=mV4BDDTbkbiQRaK3B+fG7N3NcxO5J+OIHeJPsEEMmk9WP7qQIai5QuzyDTztNMO7F3
+ jFcq94A754tpzdxoDaQ9KUDMKCHbI/IsrSmrq+8rw3SACsh/yWDpIAL8jll53ZjZO1eH
+ MVzqcU8JYqM2bcKFwUke0ejg70zTqTo8KDrfMhwr3JwrZLAQj0C2kwk33hERUXS2Aftw
+ ByzYzBiwbZknALfqu01u3oxIdTJVh3vufxTE1VLlhLcZz1vBJvSRzl6lnk56lr0as5ZC
+ b87D3vou7rcA7bK3L4ktQmGk/heb/zFlVL+u09dNR+ESf29J0FmiWgmOWZ9owMElWHio
+ IwGw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1684142851; x=1686734851;
+ d=1e100.net; s=20221208; t=1684142854; x=1686734854;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=+NbL0Ik4ps0LTyNiuqnemtkETX8V8tJp2mM1329chhs=;
- b=AOgmyN/Kj2z1Q/bdodM9UtIMVLtUPE/pdowYnvZX0SCioFjxFdC8NqLyIe56AgZeFK
- +IZoZbau3umcOHRb0Cs+3RIUOsIajfH/Lt2H8eyjlhkSQpVcttycsYHU+wVZAAZj+lLj
- kf76RYMesBVSeBwdexaDPL99aBhHxPE+cS0XgV2F0IdsK7y9XDXeykhteFc7qH6q5vrr
- +19WLiMDAi6um6kWd9ycyCewT5+Il7B7Ufk8NOH7z3ue4nm2k7YFGw5keJ5z+68tCtU3
- BMubn+eAnV9FbNdQCTsKofe7IpGwPu6IXN2AwwZS3WYsjtzhpd0WkVbOez69zeiJwKzl
- dAcg==
-X-Gm-Message-State: AC+VfDyNS2P4oS8raxu+sfrabfUR+cMAVdv0QS+n+tf5HY82G2T6R8Jf
- btBNfk3uvm6o2Z0IQRCT6Y+jRiEr1EM=
-X-Google-Smtp-Source: ACHHUZ7q5I7RHbVgn+AXTI4aG9JCG0epYE2fgdxuIB4nL7nv+8ABXjVSB1vgvUMI7KGnNxJY6ZoeWw==
-X-Received: by 2002:a05:6a20:2588:b0:103:377e:439e with SMTP id
- k8-20020a056a20258800b00103377e439emr23671176pzd.60.1684142850823; 
- Mon, 15 May 2023 02:27:30 -0700 (PDT)
+ bh=wDS8H8TgM41kNb4ppQTLDBtazoazirTT+YfL2ECPnfQ=;
+ b=K6VREyzxPaJhX0fn4EWrCikk1dLNZF51gwrY/18L+8Cgr6oIl6veRXOdTniIrambpV
+ Dx65jvysKd33Ni7H1x10I5bbsZO2VWJIvXH2EGcTSq6pZz7TNwpdO/nJEl0xGQvjKBOS
+ +cIgexAGiufukyrohco7T/BcKQ2bEClwn8j+hQQL3/8zFCKYXJ1f845TiWJrMJFvy3Cg
+ fq6AXRL3vDEPA0n9KuZRyvEr8wsoQ3/e8raiuWW6OvOX2V0t73XVCuc18Z7EQCDohTfy
+ /ko4FZW5dsbL+jEmGMwztTNHqDNXGchJnp8JQTosxGkTxJD/rTLJVkxRRWQZOu1MxLhZ
+ 25QQ==
+X-Gm-Message-State: AC+VfDwmEHUGgRXX2Cb1s0OJqUKF2AngM2OjfvDMt2z9J3Yaidu2eAtF
+ Q65W7EdWqYDCOn+AIdks/3GZSIIy0ho=
+X-Google-Smtp-Source: ACHHUZ5dHIiZnwbuQMy+PsFvBPopnqbEfAXfgWOcy9xEoSmdNAXNFEIfe8z1nqk4t413EpJXxJW7hQ==
+X-Received: by 2002:a05:6a20:8f13:b0:101:2160:ff89 with SMTP id
+ b19-20020a056a208f1300b001012160ff89mr29678783pzk.38.1684142853842; 
+ Mon, 15 May 2023 02:27:33 -0700 (PDT)
 Received: from wheely.local0.net ([202.168.30.146])
  by smtp.gmail.com with ESMTPSA id
- n20-20020aa79054000000b006466f0be263sm11387818pfo.73.2023.05.15.02.27.27
+ n20-20020aa79054000000b006466f0be263sm11387818pfo.73.2023.05.15.02.27.31
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 15 May 2023 02:27:30 -0700 (PDT)
+ Mon, 15 May 2023 02:27:33 -0700 (PDT)
 From: Nicholas Piggin <npiggin@gmail.com>
 To: qemu-ppc@nongnu.org
 Cc: Nicholas Piggin <npiggin@gmail.com>, qemu-devel@nongnu.org,
- Daniel Henrique Barboza <dbarboza@ventanamicro.com>,
- Michael Neuling <mikey@neuling.org>
-Subject: [PATCH v3 7/9] target/ppc: Implement HEIR SPR
-Date: Mon, 15 May 2023 19:26:53 +1000
-Message-Id: <20230515092655.171206-8-npiggin@gmail.com>
+ Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+Subject: [PATCH v3 8/9] target/ppc: Add ISA v3.1 LEV indication in SRR1 for
+ system call interrupts
+Date: Mon, 15 May 2023 19:26:54 +1000
+Message-Id: <20230515092655.171206-9-npiggin@gmail.com>
 X-Mailer: git-send-email 2.40.1
 In-Reply-To: <20230515092655.171206-1-npiggin@gmail.com>
 References: <20230515092655.171206-1-npiggin@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::434;
- envelope-from=npiggin@gmail.com; helo=mail-pf1-x434.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::534;
+ envelope-from=npiggin@gmail.com; helo=mail-pg1-x534.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -91,131 +91,32 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The hypervisor emulation assistance interrupt modifies HEIR to
-contain the value of the instruction which caused the exception.
+System call interrupts in ISA v3.1 CPUs add a LEV indication in SRR1
+that corresponds with the LEV field of the instruction that caused the
+interrupt.
 
 Signed-off-by: Nicholas Piggin <npiggin@gmail.com>
 ---
-Since v2:
-- Fix ordering of prefix/suffix words in the register, as pointed
-  out by Mikey.
+Since v2: new patch.
 
- target/ppc/cpu.h         |  1 +
- target/ppc/cpu_init.c    | 23 +++++++++++++++++++++++
- target/ppc/excp_helper.c | 13 ++++++++++++-
- 3 files changed, 36 insertions(+), 1 deletion(-)
+ target/ppc/excp_helper.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
-index 1c02596d9f..73851aa7a3 100644
---- a/target/ppc/cpu.h
-+++ b/target/ppc/cpu.h
-@@ -1653,6 +1653,7 @@ void ppc_compat_add_property(Object *obj, const char *name,
- #define SPR_HMER              (0x150)
- #define SPR_HMEER             (0x151)
- #define SPR_PCR               (0x152)
-+#define SPR_HEIR              (0x153)
- #define SPR_BOOKE_LPIDR       (0x152)
- #define SPR_BOOKE_TCR         (0x154)
- #define SPR_BOOKE_TLB0PS      (0x158)
-diff --git a/target/ppc/cpu_init.c b/target/ppc/cpu_init.c
-index 5aa0b3f0f1..ff73be1812 100644
---- a/target/ppc/cpu_init.c
-+++ b/target/ppc/cpu_init.c
-@@ -1629,6 +1629,7 @@ static void register_8xx_sprs(CPUPPCState *env)
-  * HSRR0   => SPR 314 (Power 2.04 hypv)
-  * HSRR1   => SPR 315 (Power 2.04 hypv)
-  * LPIDR   => SPR 317 (970)
-+ * HEIR    => SPR 339 (Power 2.05 hypv) (64-bit reg from 3.1)
-  * EPR     => SPR 702 (Power 2.04 emb)
-  * perf    => 768-783 (Power 2.04)
-  * perf    => 784-799 (Power 2.04)
-@@ -5522,6 +5523,24 @@ static void register_power6_common_sprs(CPUPPCState *env)
-                  0x00000000);
- }
- 
-+static void register_HEIR32_spr(CPUPPCState *env)
-+{
-+    spr_register_hv(env, SPR_HEIR, "HEIR",
-+                 SPR_NOACCESS, SPR_NOACCESS,
-+                 SPR_NOACCESS, SPR_NOACCESS,
-+                 &spr_read_generic, &spr_write_generic32,
-+                 0x00000000);
-+}
-+
-+static void register_HEIR64_spr(CPUPPCState *env)
-+{
-+    spr_register_hv(env, SPR_HEIR, "HEIR",
-+                 SPR_NOACCESS, SPR_NOACCESS,
-+                 SPR_NOACCESS, SPR_NOACCESS,
-+                 &spr_read_generic, &spr_write_generic,
-+                 0x00000000);
-+}
-+
- static void register_power8_tce_address_control_sprs(CPUPPCState *env)
- {
-     spr_register_kvm(env, SPR_TAR, "TAR",
-@@ -5950,6 +5969,7 @@ static void init_proc_POWER7(CPUPPCState *env)
-     register_power5p_ear_sprs(env);
-     register_power5p_tb_sprs(env);
-     register_power6_common_sprs(env);
-+    register_HEIR32_spr(env);
-     register_power6_dbg_sprs(env);
-     register_power7_book4_sprs(env);
- 
-@@ -6072,6 +6092,7 @@ static void init_proc_POWER8(CPUPPCState *env)
-     register_power5p_ear_sprs(env);
-     register_power5p_tb_sprs(env);
-     register_power6_common_sprs(env);
-+    register_HEIR32_spr(env);
-     register_power6_dbg_sprs(env);
-     register_power8_tce_address_control_sprs(env);
-     register_power8_ids_sprs(env);
-@@ -6234,6 +6255,7 @@ static void init_proc_POWER9(CPUPPCState *env)
-     register_power5p_ear_sprs(env);
-     register_power5p_tb_sprs(env);
-     register_power6_common_sprs(env);
-+    register_HEIR32_spr(env);
-     register_power6_dbg_sprs(env);
-     register_power8_tce_address_control_sprs(env);
-     register_power8_ids_sprs(env);
-@@ -6409,6 +6431,7 @@ static void init_proc_POWER10(CPUPPCState *env)
-     register_power5p_ear_sprs(env);
-     register_power5p_tb_sprs(env);
-     register_power6_common_sprs(env);
-+    register_HEIR64_spr(env);
-     register_power6_dbg_sprs(env);
-     register_power8_tce_address_control_sprs(env);
-     register_power8_ids_sprs(env);
 diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
-index 27d321c15f..529a4513a3 100644
+index 529a4513a3..25f9fa9d3f 100644
 --- a/target/ppc/excp_helper.c
 +++ b/target/ppc/excp_helper.c
-@@ -1608,13 +1608,24 @@ static void powerpc_excp_books(PowerPCCPU *cpu, int excp)
-     case POWERPC_EXCP_HDECR:     /* Hypervisor decrementer exception         */
-     case POWERPC_EXCP_HDSI:      /* Hypervisor data storage exception        */
-     case POWERPC_EXCP_SDOOR_HV:  /* Hypervisor Doorbell interrupt            */
--    case POWERPC_EXCP_HV_EMU:
-     case POWERPC_EXCP_HVIRT:     /* Hypervisor virtualization                */
-         srr0 = SPR_HSRR0;
-         srr1 = SPR_HSRR1;
-         new_msr |= (target_ulong)MSR_HVB;
-         new_msr |= env->msr & ((target_ulong)1 << MSR_RI);
-         break;
-+    case POWERPC_EXCP_HV_EMU:
-+        env->spr[SPR_HEIR] = insn;
-+        if (is_prefix_excp(env, insn)) {
-+            uint32_t insn2 = ppc_ldl_code(env, env->nip + 4);
-+            env->spr[SPR_HEIR] <<= 32;
-+            env->spr[SPR_HEIR] |= insn2;
+@@ -1559,6 +1559,10 @@ static void powerpc_excp_books(PowerPCCPU *cpu, int excp)
+             vhc->hypercall(cpu->vhyp, cpu);
+             return;
+         }
++        if (env->insns_flags2 & PPC2_ISA310) {
++            /* ISAv3.1 puts LEV into SRR1 */
++            msr |= lev << 20;
 +        }
-+        srr0 = SPR_HSRR0;
-+        srr1 = SPR_HSRR1;
-+        new_msr |= (target_ulong)MSR_HVB;
-+        new_msr |= env->msr & ((target_ulong)1 << MSR_RI);
-+        break;
-     case POWERPC_EXCP_VPU:       /* Vector unavailable exception             */
-     case POWERPC_EXCP_VSXU:       /* VSX unavailable exception               */
-     case POWERPC_EXCP_FU:         /* Facility unavailable exception          */
+         if (lev == 1) {
+             new_msr |= (target_ulong)MSR_HVB;
+         }
 -- 
 2.40.1
 
