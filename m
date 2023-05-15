@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1A37702CD9
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 May 2023 14:38:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E6156702CD6
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 May 2023 14:37:50 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pyXPK-0006Wo-RS; Mon, 15 May 2023 08:34:30 -0400
+	id 1pyXPg-0006jC-B7; Mon, 15 May 2023 08:34:52 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pyXOg-0006QK-Ph
- for qemu-devel@nongnu.org; Mon, 15 May 2023 08:33:50 -0400
+ id 1pyXOk-0006RD-Bp
+ for qemu-devel@nongnu.org; Mon, 15 May 2023 08:33:56 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pyXOf-0003Jb-1T
- for qemu-devel@nongnu.org; Mon, 15 May 2023 08:33:50 -0400
+ id 1pyXOg-0003K1-HU
+ for qemu-devel@nongnu.org; Mon, 15 May 2023 08:33:52 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1684154028;
+ s=mimecast20190719; t=1684154029;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=zHITF7fqKh3KwcWERjg4I/zSMoPKNfMkQAlqeVndp6I=;
- b=Do3d1GdtnekQ6sTAtWFZqV1t0V5ZDdDksjkfZCy+6DtYraawXMaPzhgHguzzoJz3LWqDiv
- 23LcTOdRHS1cf9McamuJsBUEy6+3YkDriTI+7MVtesoNvTDXFjsisyOwx135T8I4yByscH
- y8lV7K0K2VlcL6QGy78lfIXkbhEn4rE=
+ bh=tN/SR4Ju+jfq6SzQNNQ4u1IOrbHLiPvooaqy1t3mEOA=;
+ b=UGHklDInXZ2Eb7WTWirlkjCrRI1OJqNDHu/3ftC1f+yNNgZ8I34Yl5nu26dfYeLKOl6lYO
+ B2Kh+xy+74lDve+3OITNRoVXUAxE0fnVwklQ+QSMsonax6qqrkBCAC7y1MoTNQP7Vgm65O
+ TcfqcERBI2ri+mQ8XaG3wXYJT5qNwd8=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-18-bkyUVAwMNxeYukTeV25OXQ-1; Mon, 15 May 2023 08:33:44 -0400
-X-MC-Unique: bkyUVAwMNxeYukTeV25OXQ-1
+ us-mta-516-2lbDfOc8NJO0U5JhmsYsWg-1; Mon, 15 May 2023 08:33:46 -0400
+X-MC-Unique: 2lbDfOc8NJO0U5JhmsYsWg-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
  [10.11.54.5])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D4A7286C60B;
- Mon, 15 May 2023 12:33:43 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0C4841854CA0;
+ Mon, 15 May 2023 12:33:46 +0000 (UTC)
 Received: from secure.mitica (unknown [10.39.194.171])
- by smtp.corp.redhat.com (Postfix) with ESMTP id F3A5E35453;
- Mon, 15 May 2023 12:33:41 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2A02C63F8F;
+ Mon, 15 May 2023 12:33:44 +0000 (UTC)
 From: Juan Quintela <quintela@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: David Hildenbrand <david@redhat.com>, qemu-block@nongnu.org,
@@ -50,12 +50,13 @@ Cc: David Hildenbrand <david@redhat.com>, qemu-block@nongnu.org,
  Leonardo Bras <leobras@redhat.com>, Peter Xu <peterx@redhat.com>,
  Stefan Hajnoczi <stefanha@redhat.com>, Fam Zheng <fam@euphon.net>,
  Richard Henderson <richard.henderson@linaro.org>
-Subject: [PULL 03/11] Use new created qemu_target_pages_to_MiB()
-Date: Mon, 15 May 2023 14:33:26 +0200
-Message-Id: <20230515123334.58995-4-quintela@redhat.com>
+Subject: [PULL 04/11] migration: Teach dirtyrate about qemu_target_page_size()
+Date: Mon, 15 May 2023 14:33:27 +0200
+Message-Id: <20230515123334.58995-5-quintela@redhat.com>
 In-Reply-To: <20230515123334.58995-1-quintela@redhat.com>
 References: <20230515123334.58995-1-quintela@redhat.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
@@ -66,8 +67,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -85,79 +85,51 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 Signed-off-by: Juan Quintela <quintela@redhat.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20230511141208.17779-3-quintela@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Message-Id: <20230511141208.17779-4-quintela@redhat.com>
 ---
- migration/dirtyrate.c | 11 +++++------
- softmmu/dirtylimit.c  | 11 +++--------
- 2 files changed, 8 insertions(+), 14 deletions(-)
+ migration/dirtyrate.c | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
 
 diff --git a/migration/dirtyrate.c b/migration/dirtyrate.c
-index 5bac984fa5..ae52c42c4c 100644
+index ae52c42c4c..9383e91cd6 100644
 --- a/migration/dirtyrate.c
 +++ b/migration/dirtyrate.c
-@@ -16,6 +16,7 @@
- #include "qapi/error.h"
- #include "cpu.h"
- #include "exec/ramblock.h"
-+#include "exec/target_page.h"
- #include "exec/ram_addr.h"
- #include "qemu/rcu_queue.h"
- #include "qemu/main-loop.h"
-@@ -75,13 +76,11 @@ static inline void record_dirtypages(DirtyPageRecord *dirty_pages,
- static int64_t do_calculate_dirtyrate(DirtyPageRecord dirty_pages,
-                                       int64_t calc_time_ms)
+@@ -313,6 +313,7 @@ static void update_dirtyrate(uint64_t msec)
+  */
+ static uint32_t compute_page_hash(void *ptr)
  {
--    uint64_t memory_size_MB;
-     uint64_t increased_dirty_pages =
-         dirty_pages.end_pages - dirty_pages.start_pages;
-+    uint64_t memory_size_MiB = qemu_target_pages_to_MiB(increased_dirty_pages);
- 
--    memory_size_MB = (increased_dirty_pages * TARGET_PAGE_SIZE) >> 20;
--
--    return memory_size_MB * 1000 / calc_time_ms;
-+    return memory_size_MiB * 1000 / calc_time_ms;
- }
- 
- void global_dirty_log_change(unsigned int flag, bool start)
-@@ -292,8 +291,8 @@ static void update_dirtyrate_stat(struct RamblockDirtyInfo *info)
-     DirtyStat.page_sampling.total_dirty_samples += info->sample_dirty_count;
-     DirtyStat.page_sampling.total_sample_count += info->sample_pages_count;
-     /* size of total pages in MB */
--    DirtyStat.page_sampling.total_block_mem_MB += (info->ramblock_pages *
--                                                   TARGET_PAGE_SIZE) >> 20;
-+    DirtyStat.page_sampling.total_block_mem_MB +=
-+        qemu_target_pages_to_MiB(info->ramblock_pages);
- }
- 
- static void update_dirtyrate(uint64_t msec)
-diff --git a/softmmu/dirtylimit.c b/softmmu/dirtylimit.c
-index 71bf6dc7a4..015a9038d1 100644
---- a/softmmu/dirtylimit.c
-+++ b/softmmu/dirtylimit.c
-@@ -235,20 +235,15 @@ bool dirtylimit_vcpu_index_valid(int cpu_index)
- static uint64_t dirtylimit_dirty_ring_full_time(uint64_t dirtyrate)
- {
-     static uint64_t max_dirtyrate;
--    unsigned target_page_bits = qemu_target_page_bits();
--    uint64_t dirty_ring_size_MB;
-+    uint64_t dirty_ring_size_MiB;
- 
--    /* So far, the largest (non-huge) page size is 64k, i.e. 16 bits. */
--    assert(target_page_bits < 20);
--
--    /* Convert ring size (pages) to MiB (2**20). */
--    dirty_ring_size_MB = kvm_dirty_ring_size() >> (20 - target_page_bits);
-+    dirty_ring_size_MiB = qemu_target_pages_to_MiB(kvm_dirty_ring_size());
- 
-     if (max_dirtyrate < dirtyrate) {
-         max_dirtyrate = dirtyrate;
++    size_t page_size = qemu_target_page_size();
+     uint32_t i;
+     uint64_t v1, v2, v3, v4;
+     uint64_t res;
+@@ -322,14 +323,14 @@ static uint32_t compute_page_hash(void *ptr)
+     v2 = QEMU_XXHASH_SEED + XXH_PRIME64_2;
+     v3 = QEMU_XXHASH_SEED + 0;
+     v4 = QEMU_XXHASH_SEED - XXH_PRIME64_1;
+-    for (i = 0; i < TARGET_PAGE_SIZE / 8; i += 4) {
++    for (i = 0; i < page_size / 8; i += 4) {
+         v1 = XXH64_round(v1, p[i + 0]);
+         v2 = XXH64_round(v2, p[i + 1]);
+         v3 = XXH64_round(v3, p[i + 2]);
+         v4 = XXH64_round(v4, p[i + 3]);
      }
- 
--    return dirty_ring_size_MB * 1000000 / max_dirtyrate;
-+    return dirty_ring_size_MiB * 1000000 / max_dirtyrate;
+     res = XXH64_mergerounds(v1, v2, v3, v4);
+-    res += TARGET_PAGE_SIZE;
++    res += page_size;
+     res = XXH64_avalanche(res);
+     return (uint32_t)(res & UINT32_MAX);
  }
+@@ -344,7 +345,8 @@ static uint32_t get_ramblock_vfn_hash(struct RamblockDirtyInfo *info,
+ {
+     uint32_t hash;
  
- static inline bool dirtylimit_done(uint64_t quota,
+-    hash = compute_page_hash(info->ramblock_addr + vfn * TARGET_PAGE_SIZE);
++    hash = compute_page_hash(info->ramblock_addr +
++                             vfn * qemu_target_page_size());
+ 
+     trace_get_ramblock_vfn_hash(info->idstr, vfn, hash);
+     return hash;
 -- 
 2.40.1
 
