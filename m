@@ -2,73 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2372B702AB0
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 May 2023 12:37:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FFFB702AB6
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 May 2023 12:39:08 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pyVZc-0001nF-Dh; Mon, 15 May 2023 06:37:00 -0400
+	id 1pyVbF-0002ov-25; Mon, 15 May 2023 06:38:41 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pyVZQ-0001jx-4K
- for qemu-devel@nongnu.org; Mon, 15 May 2023 06:36:49 -0400
+ id 1pyVbD-0002ol-Ka
+ for qemu-devel@nongnu.org; Mon, 15 May 2023 06:38:39 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pyVZN-0008Ui-Kw
- for qemu-devel@nongnu.org; Mon, 15 May 2023 06:36:47 -0400
+ id 1pyVbB-0000Nh-Kn
+ for qemu-devel@nongnu.org; Mon, 15 May 2023 06:38:39 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1684147004;
+ s=mimecast20190719; t=1684147117;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=TX+RFSgJQjfAPvi2yHDvZwhzgm8wkpP1USNRc3w18A4=;
- b=OFHZ+pShIhQLRGSF5M/qve3+vtN4DpSZPPaJMy/ZFI2BKA7v7dweIPS2zYF2+QsU005S3v
- ry/Rrc43rm6Lv6cy+6Yr6yDX12zMus2Eg3ghr914M0YI+/RNq0457afXVNCmD7qKobDEZI
- C2RN7JXtOmChiyDfxqZ2v3IWU59MWBo=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=H3y7ZyeoSbHXMoh+5YppzhdMjstSeWg9YLC+pbrhhrI=;
+ b=SswMepLXlOUDsCNids3+81d0hk6DU1FhdKn6GQbliC2tPw9NZr8HmHSRGLZUIJLscbn+CM
+ p+HtMMhuchkE3FWy3hoG3DE3jfJ2KRGQHIJf0Go3rrLF63aGooYvrgB8vs2VKc82h3OdP8
+ Lhqk691LH9ntmQ9B1cOWIjSpGoe9nok=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-668-x_XlTggVOQiP6AfTrvEfTA-1; Mon, 15 May 2023 06:36:41 -0400
-X-MC-Unique: x_XlTggVOQiP6AfTrvEfTA-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
- [10.11.54.7])
+ us-mta-642-AMhmluzUPweyXvihBoD9EA-1; Mon, 15 May 2023 06:38:34 -0400
+X-MC-Unique: AMhmluzUPweyXvihBoD9EA-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2BFF3381D4C0;
- Mon, 15 May 2023 10:36:41 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 915B788D013;
+ Mon, 15 May 2023 10:38:33 +0000 (UTC)
 Received: from redhat.com (unknown [10.42.28.48])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 7817B140E917;
- Mon, 15 May 2023 10:36:39 +0000 (UTC)
-Date: Mon, 15 May 2023 11:36:37 +0100
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id EC4F540C2063;
+ Mon, 15 May 2023 10:38:31 +0000 (UTC)
+Date: Mon, 15 May 2023 11:38:26 +0100
 From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 To: Het Gala <het.gala@nutanix.com>
 Cc: qemu-devel@nongnu.org, prerna.saxena@nutanix.com, quintela@redhat.com,
  dgilbert@redhat.com, pbonzini@redhat.com, armbru@redhat.com,
  eblake@redhat.com, manish.mishra@nutanix.com,
  aravind.retnakaran@nutanix.com
-Subject: Re: [PATCH v4 6/8] migration: modified 'migrate' QAPI to accept
- 'channels' argument for migration
-Message-ID: <ZGILNQxb6VD0CwSR@redhat.com>
+Subject: Re: [PATCH v4 7/8] migration: modified 'migrate-incoming' QAPI to
+ accept 'channels' argument for migration.
+Message-ID: <ZGILotNY4HvlnAWg@redhat.com>
 References: <20230512143240.192504-1-het.gala@nutanix.com>
- <20230512143240.192504-7-het.gala@nutanix.com>
+ <20230512143240.192504-8-het.gala@nutanix.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20230512143240.192504-7-het.gala@nutanix.com>
+In-Reply-To: <20230512143240.192504-8-het.gala@nutanix.com>
 User-Agent: Mutt/2.2.9 (2022-11-12)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01,
- URIBL_SBL_A=0.1 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -85,16 +84,17 @@ Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, May 12, 2023 at 02:32:38PM +0000, Het Gala wrote:
-> MigrateChannelList ideally allows to connect accross multiple interfaces.
+On Fri, May 12, 2023 at 02:32:39PM +0000, Het Gala wrote:
+> MigrateChannelList ideally allows to have multiple listener interfaces up for
+> connection.
 > 
-> Added MigrateChannelList struct as argument to 'migrate' qapi. Introduced
-> MigrateChannelList in hmp_migrate() and qmp_migrate() functions.
+> Added MigrateChannelList struct as argument to 'migrate-incoming' qapi. Introduced
+> MigrateChannelList in hmp_migrate_incoming() and qmp_migrate_incoming() functions.
 > 
-> Future patchset series plans to include multiple MigrateChannels
-> for multiple interfaces to be connected. That is the reason, 'MigrateChannelList'
-> is the preferred choice of argument over 'MigrateChannel' and making 'migrate'
-> QAPI future proof.
+> Future patchset series plans to include multiple MigrateChannels to have multiple
+> listening interfaces up. That is the reason, 'MigrateChannelList' is the preferred
+> choice of argument over 'MigrateChannel' and making 'migrate-incoming' QAPI future
+> proof.
 > 
 > For current patch, have just limit size of MigrateChannelList to 1 element as
 > a runtime check.
@@ -102,129 +102,20 @@ On Fri, May 12, 2023 at 02:32:38PM +0000, Het Gala wrote:
 > Suggested-by: Aravind Retnakaran <aravind.retnakaran@nutanix.com>
 > Signed-off-by: Het Gala <het.gala@nutanix.com>
 > ---
->  migration/migration-hmp-cmds.c | 113 ++++++++++++++++++++++++++++++++-
->  migration/migration.c          |  17 ++++-
->  qapi/migration.json            |  69 +++++++++++++++++++-
->  3 files changed, 192 insertions(+), 7 deletions(-)
+>  migration/migration-hmp-cmds.c | 14 +++++++++++++-
+>  migration/migration.c          | 21 ++++++++++++++++----
+>  qapi/migration.json            | 35 +++++++++++++++++++++++++++++++++-
+>  softmmu/vl.c                   |  2 +-
+>  4 files changed, 65 insertions(+), 7 deletions(-)
 > 
 > diff --git a/migration/migration-hmp-cmds.c b/migration/migration-hmp-cmds.c
-> index 4e9f00e7dc..f098d04542 100644
+> index f098d04542..8c11a8c83b 100644
 > --- a/migration/migration-hmp-cmds.c
 > +++ b/migration/migration-hmp-cmds.c
-> @@ -51,6 +51,101 @@ static void migration_global_dump(Monitor *mon)
->                     ms->clear_bitmap_shift);
->  }
->  
-> +static bool
-> +migrate_channel_from_qdict(MigrateChannel **channel,
-> +                           const QDict *qdict, Error **errp)
-> +{
-> +    Error *err = NULL;
-> +    const char *channeltype  = qdict_get_try_str(qdict, "channeltype");
-> +    const char *transport_str = qdict_get_try_str(qdict, "transport");
-> +    const char *socketaddr_type = qdict_get_try_str(qdict, "type");
-> +    const char *inet_host = qdict_get_try_str(qdict, "host");
-> +    const char *inet_port = qdict_get_try_str(qdict, "port");
-> +    const char *unix_path = qdict_get_try_str(qdict, "path");
-> +    const char *vsock_cid = qdict_get_try_str(qdict, "cid");
-> +    const char *vsock_port = qdict_get_try_str(qdict, "port");
-> +    const char *fd = qdict_get_try_str(qdict, "str");
-> +    QList *exec = qdict_get_qlist(qdict, "exec");
-
-THis seems to be implicitly defining a huge set of extra parameters
-for the migrate 'HMP' command, but none of it is actually defined
-at the hmp-commands.hx
-
-Do we even need todo this ?  For HMP it is not unreasonable to just
-keep using the URI syntax forever?
-
-> +    MigrateChannel *val = g_new0(MigrateChannel, 1);
-> +    MigrateChannelType channel_type;
-> +    MigrateTransport transport;
-> +    MigrateAddress *addr = g_new0(MigrateAddress, 1);
-> +    SocketAddress *saddr = g_new(SocketAddress, 1);
-> +    SocketAddressType type;
-> +
-> +    channel_type = qapi_enum_parse(&MigrateChannelType_lookup,
-> +                                   channeltype, -1, &err);
-> +    if (channel_type < 0) {
-> +        goto end;
-> +    }
-> +
-> +    transport = qapi_enum_parse(&MigrateTransport_lookup,
-> +                                transport_str, -1, &err);
-> +    if (transport < 0) {
-> +        goto end;
-> +    }
-> +
-> +    type = qapi_enum_parse(&SocketAddressType_lookup,
-> +                           socketaddr_type, -1, &err);
-> +    if (type < 0) {
-> +        goto end;
-> +    }
-> +
-> +    addr->transport = transport;
-> +
-> +    switch (transport) {
-> +    case MIGRATE_TRANSPORT_SOCKET:
-> +        saddr->type = type;
-> +
-> +        switch (type) {
-> +        case SOCKET_ADDRESS_TYPE_INET:
-> +            saddr->u.inet.host = (char *)inet_host;
-> +            saddr->u.inet.port = (char *)inet_port;
-> +            break;
-> +        case SOCKET_ADDRESS_TYPE_UNIX:
-> +            saddr->u.q_unix.path = (char *)unix_path;
-> +            break;
-> +        case SOCKET_ADDRESS_TYPE_VSOCK:
-> +            saddr->u.vsock.cid = (char *)vsock_cid;
-> +            saddr->u.vsock.port = (char *)vsock_port;
-> +            break;
-> +        case SOCKET_ADDRESS_TYPE_FD:
-> +            saddr->u.fd.str = (char *)fd;
-> +            break;
-> +        default:
-> +            error_setg(errp, "%s: Unknown socket type %d",
-> +                       __func__, saddr->type);
-> +            goto end;
-> +        }
-> +
-> +        addr->u.socket = *saddr;
-> +        break;
-> +    case MIGRATE_TRANSPORT_EXEC:
-> +        addr->u.exec.args = (strList *)exec;
-> +         break;
-> +    case MIGRATE_TRANSPORT_RDMA:
-> +        addr->u.rdma.host = (char *)inet_host;
-> +        addr->u.rdma.port = (char *)inet_port;
-> +        break;
-> +    default:
-> +        error_setg(errp, "%s: Unknown migrate transport type %d",
-> +                   __func__, addr->transport);
-> +        goto end;
-> +    }
-> +
-> +    val->channeltype = channel_type;
-> +    val->addr = addr;
-> +    *channel = val;
-> +    return true;
-> +
-> +end:
-> +    error_propagate(errp, err);
-> +    qapi_free_MigrateChannel(val);
-> +    qapi_free_MigrateAddress(addr);
-> +    qapi_free_SocketAddress(saddr);
-> +    return false;
-> +}
-> +
->  void hmp_info_migrate(Monitor *mon, const QDict *qdict)
+> @@ -518,10 +518,22 @@ void hmp_migrate_incoming(Monitor *mon, const QDict *qdict)
 >  {
->      MigrationInfo *info;
-> @@ -702,9 +797,18 @@ void hmp_migrate(Monitor *mon, const QDict *qdict)
->      bool resume = qdict_get_try_bool(qdict, "resume", false);
->      const char *uri = qdict_get_str(qdict, "uri");
 >      Error *err = NULL;
+>      const char *uri = qdict_get_str(qdict, "uri");
 > +    MigrateChannel *channel = g_new0(MigrateChannel, 1);
 > +    MigrateChannelList *caps = NULL;
 > +
@@ -232,46 +123,36 @@ keep using the URI syntax forever?
 > +        error_setg(&err, "error in retrieving channel from qdict");
 > +        goto end;
 > +    }
+
+Again adding a bunch more parameters to HMP but nothing is documented.
+
 >  
-> -    qmp_migrate(uri, !!blk, blk, !!inc, inc,
-> -                false, false, true, resume, &err);
+> -    qmp_migrate_incoming(uri, &err);
 > +    QAPI_LIST_PREPEND(caps, channel);
-> +    qmp_migrate(uri, !!caps, caps, !!blk, blk, !!inc, inc,
-> +                 false, false, true, resume, &err);
+> +    qmp_migrate_incoming(uri, !!caps, caps, &err);
 > +    qapi_free_MigrateChannelList(caps);
->      if (hmp_handle_error(mon, err)) {
->          return;
->      }
-> @@ -725,6 +829,11 @@ void hmp_migrate(Monitor *mon, const QDict *qdict)
->                                            status);
->          timer_mod(status->timer, qemu_clock_get_ms(QEMU_CLOCK_REALTIME));
->      }
-> +
+>  
 > +end:
 > +    qapi_free_MigrateChannel(channel);
-> +    hmp_handle_error(mon, err);
+>      hmp_handle_error(mon, err);
 > +    return;
 >  }
 >  
->  void migrate_set_capability_completion(ReadLineState *rs, int nb_args,
+>  void hmp_migrate_recover(Monitor *mon, const QDict *qdict)
 > diff --git a/migration/migration.c b/migration/migration.c
-> index 6abd69df8d..78f16e5041 100644
+> index 78f16e5041..de058643a6 100644
 > --- a/migration/migration.c
 > +++ b/migration/migration.c
-> @@ -1694,15 +1694,26 @@ static bool migrate_prepare(MigrationState *s, bool blk, bool blk_inc,
+> @@ -452,12 +452,24 @@ static bool migrate_uri_parse(const char *uri,
 >      return true;
 >  }
 >  
-> -void qmp_migrate(const char *uri, bool has_blk, bool blk,
-> -                 bool has_inc, bool inc, bool has_detach, bool detach,
-> -                 bool has_resume, bool resume, Error **errp)
-> +void qmp_migrate(const char *uri, bool has_channels,
-> +                 MigrateChannelList *channels, bool has_blk, bool blk,
-> +                 bool has_inc, bool inc, bool has_detach,
-> +                 bool detach, bool has_resume, bool resume, Error **errp)
+> -static void qemu_start_incoming_migration(const char *uri, Error **errp)
+> +static void qemu_start_incoming_migration(const char *uri, bool has_channels,
+> +                                          MigrateChannelList *channels,
+> +                                          Error **errp)
 >  {
 >      Error *local_err = NULL;
->      MigrationState *s = migrate_get_current();
 >      MigrateAddress *channel = g_new0(MigrateAddress, 1);
 >      SocketAddress *saddr;
 >  
@@ -281,81 +162,67 @@ keep using the URI syntax forever?
 > +    if (uri && has_channels) {
 > +        error_setg(errp, "'uri' and 'channels' arguments are mutually "
 > +                   "exclusive; exactly one of the two should be present in "
-> +                   "'migrate' qmp command ");
+> +                   "'migrate-incoming' qmp command ");
 > +        return;
 > +    }
 > +
-
-
-
 >      /* URI is not suitable for migration? */
 >      if (!migration_channels_and_uri_compatible(uri, errp)) {
 >          goto out;
+> @@ -1507,7 +1519,8 @@ void migrate_del_blocker(Error *reason)
+>      migration_blockers = g_slist_remove(migration_blockers, reason);
+>  }
+>  
+> -void qmp_migrate_incoming(const char *uri, Error **errp)
+> +void qmp_migrate_incoming(const char *uri, bool has_channels,
+> +                          MigrateChannelList *channels, Error **errp)
+>  {
+>      Error *local_err = NULL;
+>      static bool once = true;
+> @@ -1525,7 +1538,7 @@ void qmp_migrate_incoming(const char *uri, Error **errp)
+>          return;
+>      }
+>  
+> -    qemu_start_incoming_migration(uri, &local_err);
+> +    qemu_start_incoming_migration(uri, has_channels, channels, &local_err);
+>  
+>      if (local_err) {
+>          yank_unregister_instance(MIGRATION_YANK_INSTANCE);
+> @@ -1561,7 +1574,7 @@ void qmp_migrate_recover(const char *uri, Error **errp)
+>       * only re-setup the migration stream and poke existing migration
+>       * to continue using that newly established channel.
+>       */
+> -    qemu_start_incoming_migration(uri, errp);
+> +    qemu_start_incoming_migration(uri, false, NULL, errp);
+>  }
+>  
+>  void qmp_migrate_pause(Error **errp)
 > diff --git a/qapi/migration.json b/qapi/migration.json
-> index bf90bd8fe2..a71af87ffe 100644
+> index a71af87ffe..9faecdd048 100644
 > --- a/qapi/migration.json
 > +++ b/qapi/migration.json
-> @@ -1464,12 +1464,47 @@
->      'exec': 'MigrateExecCommand',
->      'rdma': 'InetSocketAddress' } }
->  
-> +##
-> +# @MigrateChannelType:
-> +#
-> +# The supported options for migration channel type requests
-> +#
-> +# @main: Support request for main outbound migration control channel
-> +#
-> +# Since 8.0
-> +##
-> +{ 'enum': 'MigrateChannelType',
-> +  'data': [ 'main' ] }
-> +
-> +##
-> +# @MigrateChannel:
-> +#
-> +# Information regarding migration Channel-type for transferring packets,
-> +# source and corresponding destination interface for socket connection
-> +# and number of multifd channels over the interface.
-> +#
-> +# @channeltype: Name of Channel type for transfering packet information
-> +#
-> +# @addr: Information regarding migration parameters of destination interface
-> +#
-> +# Since 8.0
-> +##
-> +{ 'struct': 'MigrateChannel',
-> +  'data': {
-> +       'channeltype': 'MigrateChannelType',
-> +       'addr': 'MigrateAddress' } }
-> +
->  ##
->  # @migrate:
+> @@ -1578,6 +1578,10 @@
+>  # @uri: The Uniform Resource Identifier identifying the source or
+>  #       address to listen on
 >  #
->  # Migrates the current running guest to another Virtual Machine.
->  #
->  # @uri: the Uniform Resource Identifier of the destination VM
-> +#       for migration thread
-> +#
 > +# @channels: Struct containing list of migration channel types, with all
 > +#            the information regarding destination interfaces required for
 > +#            initiating a migration stream.
->  #
->  # @blk: do block migration (full disk copy)
->  #
-> @@ -1494,15 +1529,45 @@
->  # 3. The user Monitor's "detach" argument is invalid in QMP and should not
->  #    be used
->  #
-> +# 4. The uri argument should have the Uniform Resource Identifier of default
-> +#    destination VM. This connection will be bound to default network
 > +#
-> +# 5. The 'uri' and 'channel' arguments are mutually exclusive; exactly one
+>  # Returns: nothing on success
+>  #
+>  # Since: 2.3
+> @@ -1593,14 +1597,43 @@
+>  #
+>  # 3. The uri format is the same as for -incoming
+>  #
+> +# 4. The 'uri' and 'channel' arguments are mutually exclusive; exactly one
 > +#    of the two should be present.
 > +#
 >  # Example:
 >  #
->  # -> { "execute": "migrate", "arguments": { "uri": "tcp:0:4446" } }
+>  # -> { "execute": "migrate-incoming",
+>  #      "arguments": { "uri": "tcp::4446" } }
 >  # <- { "return": {} }
 >  #
 > +# -> { "execute": "migrate",
@@ -383,14 +250,26 @@ keep using the URI syntax forever?
 > +# <- { "return": {} }
 > +#
 >  ##
->  { 'command': 'migrate',
-> -  'data': {'uri': 'str', '*blk': 'bool', '*inc': 'bool',
-> -           '*detach': 'bool', '*resume': 'bool' } }
-> +  'data': {'*uri': 'str', '*channels': [ 'MigrateChannel' ], '*blk': 'bool',
-> +           '*inc': 'bool', '*detach': 'bool', '*resume': 'bool' } }
+> -{ 'command': 'migrate-incoming', 'data': {'uri': 'str' } }
+> +{ 'command': 'migrate-incoming',
+> +             'data': {'*uri': 'str',
+> +                      '*channels': [ 'MigrateChannel' ] } }
 >  
 >  ##
->  # @migrate-incoming:
+>  # @xen-save-devices-state:
+> diff --git a/softmmu/vl.c b/softmmu/vl.c
+> index 6c2427262b..ade411eb4f 100644
+> --- a/softmmu/vl.c
+> +++ b/softmmu/vl.c
+> @@ -2633,7 +2633,7 @@ void qmp_x_exit_preconfig(Error **errp)
+>      if (incoming) {
+>          Error *local_err = NULL;
+>          if (strcmp(incoming, "defer") != 0) {
+> -            qmp_migrate_incoming(incoming, &local_err);
+> +            qmp_migrate_incoming(incoming, false, NULL, &local_err);
+>              if (local_err) {
+>                  error_reportf_err(local_err, "-incoming %s: ", incoming);
+>                  exit(1);
 > -- 
 > 2.22.3
 > 
